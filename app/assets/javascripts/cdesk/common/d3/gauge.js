@@ -13,7 +13,15 @@
     var greyColor = "#C0C7D0" ;
 
     function updateGauge(key, value) {
-      readings[key] = value;
+        var result = {
+            onTrackPct : value.onTrackPct,
+            onTrack : value.onTrack,
+            underPerforming : value.underPerforming ,
+            others : value.others,
+            totalCampaigns : value.totalCampaigns
+        };
+
+      readings[key] = result;
       gauges[key].redraw(key);
     };
     function setMessage(key, msg) {
@@ -24,22 +32,24 @@
     this.updateGauge = updateGauge;
 
     function getReadingValue (name, max) {
-      return readings[name] * max / 100;
+      return readings[name].onTrackPct * max / 100;
     };
 
     var currentGauge = this;
 
     this.setLeftArcClickHandler = function(value) {
       currentGauge.leftArcClickHandler = value;
-    }
+    };
 
     this.setRightArcClickHandler = function(value) {
       currentGauge.rightArcClickHandler = value;
-    }
+    };
+
+//     this.setGreyArcClickHandler = function(value) {
+//          currentGauge.greyArcClickHandler = value;
+//      }
 
     this.createGauge = function() {
-
-      cleanExistingGauge();
 
       createDashboard();
 
@@ -48,10 +58,6 @@
         createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 175,125);
       };
 
-      function cleanExistingGauge(){
-          //d3.select("#dashboardContainer").remove();
-         // d3.select("#dashContainer").remove();
-      }
 
       function createDash()
       {
@@ -116,7 +122,14 @@
         };
 
         gauges[name] = new Gauge(myContainer, name, config);
-        readings[name] = 0;
+        readings[name]  = {
+              onTrackPct : 0,
+              underPerforming : 0,
+              others : 0,
+              onTrack : 0,
+              totalCampaigns : 0
+          };
+
         gauges[name].render();
       }
 
@@ -160,6 +173,7 @@
 
           this.leftArc = createArc(currentGauge.leftArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, this.config.greenColor);
           this.rightArc = createArc(currentGauge.rightArcClickHandler, this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, this.config.faceColor);
+        //  this.greyArc = createArc(currentGauge.greyArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2,  -this.config.max + this.config.min + 5 , this.config.greyColor);
           this.outerArc = createArc(undefined, this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
           var leftDotPt = {x: self.config.cx - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
@@ -244,7 +258,7 @@
 
         this.animateArcs = function() {
           var readingValue = getReadingValue(name, this.config.max);
-          if(readingValue === 0) readingValue = 1;
+          if(readingValue === 0) readingValue = 0;
           this.leftArc.transition()
             .duration(this.config.animeDuration)
             .call(arcTween, this.valueToRadians(readingValue));
@@ -263,7 +277,7 @@
             .duration(this.config.animeDuration)
             .tween("text", function() {
               return function(t) {
-                var i = d3.interpolate(this.textContent, readings[name]);
+                var i = d3.interpolate(this.textContent, readings[name].onTrackPct);
                 this.textContent = Math.round(i(t));
                 if(this.textContent === '100') {
                   self.pctTxt.attr("x", self.pctX + 25)
@@ -283,8 +297,8 @@
           this.animateArcs();
           this.animateText();
           //hardcoding widget message right now, later move it to config to generalize for gauge
-          this.leftDotText.text(readings[name].toString() + '% On Track');
-          this.rightDotText.text((100 - readings[name]).toString() + '% Underperforming');
+          this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
+          this.rightDotText.text( readings[name].underPerforming.toString() + ' Underperforming');
         };
 
       }
