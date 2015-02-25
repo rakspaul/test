@@ -8,7 +8,8 @@
                 listColumns: "="
             },
             //controller : 'strategyDirectiveController',
-            template: '<div class="dropdown dropdown_type2">'+
+            template: '<div class="clearfix"><span class="report_heading_dropdown_txt">Strategy</span>'+
+                      '<div class="dropdown dropdown_type2 pull-left">' +
                 '   <span class="dropdown_ul_text " data-toggle="dropdown">'+
                 '   <span class="dd_txt" title="{{selectedObj.name}}">{{selectedObj.name | formatUrl:26}}</span>'+
                 '       <span class="arrrow_img"></span>'+
@@ -16,7 +17,7 @@
                 '   <ul id="strategies_list" class="dropdown_ul dropdown-menu">'+
                 '       <li ng-repeat="strategy in listColumns" start_date="{{strategy.startDate}}" end_date="{{strategy.endDate}}" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>'+
                 '   </ul>'+
-                '</div>',
+                '</div></div>',
             link: function ($scope, element, attrs) {
 
                 //Function called when the user clicks on the strategy dropdown
