@@ -8,8 +8,10 @@
 
     var greenColor = "#3BD400";
     var lightColor = "#EEEEEE";
-    var orangeColor = "#F5B200";
+    var orangeColor = "#F1661F";
     var lightBlue = "#CFE2F0";
+    var greyColor = "#C0C7D0" ;
+
     function updateGauge(key, value) {
       readings[key] = value;
       gauges[key].redraw(key);
@@ -17,11 +19,7 @@
     function setMessage(key, msg) {
       configs[key].msg = msg;
     };
-    function getMessage(key) {
-      var value = Math.round(readings[key]);
-      var msg = (configs[key].msg === undefined) ? '' : configs[key].msg;
-      return value.toString() + msg;
-    };
+
     this.setMessage = setMessage;
     this.updateGauge = updateGauge;
 
@@ -30,6 +28,7 @@
     };
 
     var currentGauge = this;
+
     this.setLeftArcClickHandler = function(value) {
       currentGauge.leftArcClickHandler = value;
     }
@@ -40,6 +39,8 @@
 
     this.createGauge = function() {
 
+      cleanExistingGauge();
+
       createDashboard();
 
       function createDashboard() {
@@ -47,21 +48,56 @@
         createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 175,125);
       };
 
+      function cleanExistingGauge(){
+          //d3.select("#dashboardContainer").remove();
+         // d3.select("#dashContainer").remove();
+      }
+
       function createDash()
       {
         var body = d3.select("#dashboardContainer") //chartContainer
+            .attr("id", "dashboardContainer")
           .append("svg:svg")
           .attr("class", "dash")
           .attr("width", 350)
           .attr("height", 280);
         dashContainer =  body.append("svg:g").attr("class", "dashContainer")
+            .attr("id","dashContainer")
           .attr("width",500)
           .attr("height",300);
       };
 
       function createGauge(myContainer, name, label, sizebias, containerOffsetx, containerOffsety) {
         var minSize = 120;
-        var config = {
+
+        var getGradient = function(container,id, lightColor,offsetLight, darkColor, offsetDartk){
+              var id = container.append("svg:defs")
+                  .append("svg:linearGradient")
+                  .attr("id", id)
+                  .attr("x1", "0%")
+                  .attr("y1", "0%")
+                  .attr("x2", "0%")
+                  .attr("y2", "100%")
+                  .attr("spreadMethod", "pad");
+
+              id.append("svg:stop")
+                  .attr("offset", offsetLight)
+                  .attr("stop-color", lightColor)
+                  .attr("stop-opacity", 1);
+
+              id.append("svg:stop")
+                  .attr("offset", offsetDartk)
+                  .attr("stop-color",  darkColor)
+                  .attr("stop-opacity", 1);
+
+              return id ;
+          };
+
+          var greenGrad =  getGradient(myContainer,"greenGrad",  "#56D431" , "25%","#4FFC20" , "75%" );
+          var orangeGrad =  getGradient(myContainer,"orangeGrad",  "#F1661F" , "30%","#F17C2A" , "70%" );
+          var greyGrad =  getGradient(myContainer,"greyGrad",   "#A1ABB9", "30%","#CBD0D6" , "70%" ); //
+
+          var config = {
           size: minSize + sizebias,
           innerRadius: (minSize + sizebias)/3.5,
           outerRadius: (minSize + sizebias)*0.55,
@@ -73,7 +109,10 @@
           label: label,
           min: 0,
           max: 280,
-          ticks: 24
+          ticks: 24,
+          greenColor : "url(#greenGrad)"  ,
+          faceColor : "url(#orangeGrad)",
+          greyColor : "url(#greyGrad)"
         };
 
         gauges[name] = new Gauge(myContainer, name, config);
@@ -85,6 +124,7 @@
         this.name = name;
         this.myContainer = myContainer;
         var self = this;
+
         this.configure = function (configuration) {
           this.config = configuration;
 
@@ -100,6 +140,7 @@
           this.config.ticks = configuration.ticks || 23
           this.config.greenColor = configuration.greenColor || greenColor;
           this.config.faceColor = configuration.faceColor || lightColor;
+          this.config.greyColor = configuration.greyColor || greyColor;
           configs[name] = this.config;
         };
         this.configure(configuration);
@@ -115,10 +156,10 @@
             .attr("x", this.myContainer.x)
             .attr("y", this.myContainer.y)
             .attr("width", this.myContainer.width)
-            .attr("height", this.myContainer.height)
+            .attr("height", this.myContainer.height);
 
-          this.leftArc = createArc(currentGauge.leftArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, greenColor);
-          this.rightArc = createArc(currentGauge.rightArcClickHandler, this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, orangeColor);
+          this.leftArc = createArc(currentGauge.leftArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, this.config.greenColor);
+          this.rightArc = createArc(currentGauge.rightArcClickHandler, this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, this.config.faceColor);
           this.outerArc = createArc(undefined, this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
           var leftDotPt = {x: self.config.cx - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
