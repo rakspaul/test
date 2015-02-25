@@ -89,6 +89,7 @@
 
             $scope.$parent.selectedCampaign.id = selectedCampaign.id;
             $scope.$parent.selectedCampaign.name = selectedCampaign.name;
+            $scope.$parent.selectedCampaign.primary_kpi = selectedCampaign.kpi;
             if($scope.$parent.selected_filters !== undefined) {
                 $scope.$parent.selected_filters.kpi_type = selectedCampaign.kpi;
                 $scope.$parent.selected_filters.kpi_type_text = selectedCampaign.kpi_text
@@ -96,6 +97,7 @@
             dataTransferService.updateExistingStorageObjects({
                 'campaignId': selectedCampaign.id ,
                 'campaignName': selectedCampaign.name,
+                'primary_kpi': selectedCampaign.kpi,
                 'previousCampaignId': dataTransferService.getDomainReportsValue('campaignId')
             });
             if($scope.$parent.selected_filters !== undefined) {
@@ -106,6 +108,7 @@
             }
             $scope.$apply();
             $(this).hide();
+            $scope.$parent.selected_filters = domainReports.getDurationKpi();
             $scope.$parent.callBackCampaignChange();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
 
