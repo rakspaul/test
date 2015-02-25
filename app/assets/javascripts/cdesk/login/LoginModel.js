@@ -48,7 +48,8 @@ return {
             filterDurationType:null,
             filterDurationValue:null,
             filterKpiType:null,
-            filterKpiValue:null
+            filterKpiValue:null,
+            primary_kpi:null
         }));
     },
     // this.getUser = function(){
