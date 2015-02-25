@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('ganttChartController', function ($scope, $location, ganttChart, ganttChartModel, constants, brandsModel) {
+    commonModule.controller('ganttChartController', function ($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
 
     	
     	$scope.init = function(update){
@@ -106,22 +106,26 @@
         }
 
         $scope.month = function(){
-             $scope.selected = "month";
+            $scope.selected = "month";
+            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_month_selected', loginModel.getLoginName());
             ganttChart.month();
         }
 
         $scope.today = function(){
             $scope.selected = "today";
+            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_week_selected', loginModel.getLoginName());
             ganttChart.today();
         }
 
         $scope.quarter = function(){
-             $scope.selected = "quarter";
+            $scope.selected = "quarter";
+            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_quarter_selected', loginModel.getLoginName());
             ganttChart.quarter();
         }
 
         $scope.year = function(){
-             $scope.selected = "year";
+            $scope.selected = "year";
+            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_year_selected', loginModel.getLoginName());
             ganttChart.year();
         }
 

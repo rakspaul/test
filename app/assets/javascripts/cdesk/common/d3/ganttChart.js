@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", function() {
+    commonModule.service("ganttChart", function(loginModel, analytics) {
         this.createGanttChart = function() {
 
 		};
@@ -267,8 +267,10 @@ svg.append('rect').attr("class","marker_body");
 		        var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var rect = rectData.enter();
 		        var rectGroup = rect.append("g").attr("class", "node").on("click", function(d) {
-		           if(d.type!="brand")
-		            	document.location ='#/campaigns/'+d.id;
+		           if(d.type != "brand") {
+                       analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
+                       document.location = '#/campaigns/' + d.id;
+                   }
 		        })
 
 		        //on mouseover tanstitions for campaigns 

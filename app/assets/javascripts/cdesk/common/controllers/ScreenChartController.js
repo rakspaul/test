@@ -2,7 +2,7 @@
  * Created by richa on 11/02/15.
  */(function () {
     'use strict';
-    commonModule.controller('screenChartController', function ($scope, loginModel, $cookieStore, $location, loginService, screenChart, screenChartModel, constants) {
+    commonModule.controller('screenChartController', function ($scope, loginModel, $cookieStore, $location, loginService, screenChart, screenChartModel, constants, analytics) {
 
         $scope.init = function(){
             $scope.screenBusy = true;
@@ -47,13 +47,15 @@
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData']={};
+            analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
             getScreenAndFormatData();
         };
 
         $scope.metricDropdownChange = function(obj){
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
-
+            console.log(obj);
+            analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
             screenChart.updateScreenChartData();
         };
 
