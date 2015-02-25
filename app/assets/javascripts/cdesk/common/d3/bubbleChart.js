@@ -426,11 +426,11 @@
                     var size ;
                     if(d.r > 50 )
 
-                        size = "14px" ;
-                    else if (d.r > 40)
                         size = "12px" ;
+                    else if (d.r > 40)
+                        size = "10px" ;
                     else
-                       size = "10px"
+                       size = "8px";
 
                     return size ;
                 })
@@ -438,10 +438,12 @@
                 .attr("fill", "white")
                 .text(function(d) {
                     var text ;
-                    if(d.r > 50){
-                        text = d.className.substring(0, 6) + '...' ;
+                    if(d.r > 60)
+                        text = d.className.substring(0, 12) + '...' ;
+                    else if(d.r > 50){
+                        text = d.className.substring(0, 9) + '...' ;
                     } else if (d.r > 40){
-                        text = d.className.substring(0, 3) + '...' ;
+                        text = d.className.substring(0, 6) + '...' ;
                     }
                     return text ;
                 });
@@ -471,7 +473,7 @@
                     }
                     return text_size ;
                 })
-                .attr("font-weight","900")
+                .attr("font-weight","500")
                 .attr("fill", "white")
                 .style("text-anchor", "middle")
                 .text(function(d) {
