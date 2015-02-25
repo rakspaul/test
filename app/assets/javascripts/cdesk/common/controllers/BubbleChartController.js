@@ -64,7 +64,10 @@
             });
         }
 
-        getSpendDataForBrands();
+        if(brandsModel.getSelectedBrand().id == -1)
+             getSpendDataForBrands();
+        else
+             getSpendDataForCampaigns();
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
             bubbleChart.cleaningBubbleChart("brands");
