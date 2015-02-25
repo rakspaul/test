@@ -186,6 +186,7 @@
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
 svg.append('rect').attr("class","marker");
+svg.append('rect').attr("class","marker_body");
 		        gantt.draw(tasks);		          
 		        return gantt;
 
@@ -404,13 +405,13 @@ svg.append('rect').attr("class","marker");
 		            .attr("x", 0)
 		            .attr("y", 0)
 		            .attr("class", "marker")
-		            .attr("style", "cursor:pointer")
+		            //.attr("style", "cursor:pointer")
 		            .attr("fill", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
-		            		return "blue"
+		            		return "#74AFDD" //BLUE - LINE COLOR
 		            	} else {
-		            		return "#ccc"
+		            		return "#e7edf1"
 		            	}
 		            })
 		            .attr("width", function(){
@@ -425,7 +426,33 @@ svg.append('rect').attr("class","marker");
 		            	if(width<=40) {
 		            		 return CALENDAR_HEIGHT;
 		            	} else {
-		            		return 3;
+		            		return 4;
+		            	}
+
+		            })
+		           .transition()
+		           .attr("transform", markerTransform);
+
+		           //body
+		           ganttChartGroup.select("rect.marker_body")
+		            .attr("x", 0)
+		            .attr("y", 4)
+		            .attr("class", "marker_body")
+		            //.attr("style", "cursor:pointer")
+		            .attr("fill", '#f5f9fd')
+		            .attr("width", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		width =0;
+		            	}
+		            	return width;
+		            })
+		            .attr("height", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		 return 0;
+		            	} else {
+		            		return CALENDAR_HEIGHT;
 		            	}
 
 		            })
@@ -513,9 +540,9 @@ svg.append('rect').attr("class","marker");
 
 		        rectData.exit().remove();
 //today marker transition
-		         ganttChartGroup.append("g")
-		           .transition()
-		           .attr("transform", markerTransform)
+		         // ganttChartGroup.select("rect.marker")
+		         //   .transition()
+		         //   .attr("transform", markerTransform)
 		           // .attr("width", function(){
 		           //  	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		           //  	if(width<=40) {
