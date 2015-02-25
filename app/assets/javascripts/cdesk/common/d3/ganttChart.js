@@ -33,6 +33,9 @@
 		    var height = CALENDAR_HEIGHT - margin.top - margin.bottom - 5;
 		    var width = CALENDAR_WIDTH - margin.right - margin.left - 5;
 
+		    //for drag and panning
+		    var selection = selection || d3.select("body");
+
 		    var tickFormat = "%d"; //%b
 
 
@@ -54,6 +57,8 @@
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 450]);
+		    //TO DO - add scroll
+		    //d3.scale.ordinal().domain(taskTypes).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -194,7 +199,68 @@ svg.append('rect').attr("class","marker_body");
 
 		    gantt.draw = function(tasks, timeDomainString) {
 
+		    	var prevScale=0;
+
 		        var svg = d3.select("#calendar_widget").select("svg");
+
+//-------
+
+
+        // svg.call(d3.behavior.zoom().on("zoom", function(){
+        //         var td = gantt.timeDomain();
+        //         //var scale = (td[1]-td[0])/10;
+        //         var scale = (td[1]-td[0]);
+
+        //         // if (td[1]-td[0] > scale) {
+        //             if (d3.event.scale < prevScale)
+        //                 gantt.timeDomain([td[0]-scale, td[1]+scale]);
+        //             else
+        //                 gantt.timeDomain([td[0]+scale, td[1]-scale]);
+        //             gantt.redraw(tasks);
+        //             prevScale = d3.event.scale;
+        //             d3.event.sourceEvent.stopPropagation();
+        //         // }
+        //         // else {
+        //         //     // just dont re-draw
+        //         //     if (d3.event.scale < prevScale)
+        //         //         gantt.timeDomain([td[0]-scale, td[1]+scale]);
+        //         //     else
+        //         //         gantt.timeDomain([td[0]+scale, td[1]-scale]);
+        //         //     prevScale = d3.event.scale;
+        //         //     d3.event.sourceEvent.stopPropagation();
+        //         // }
+        //     }))
+        // ;
+
+        svg
+            .on("mousedown.zoom", null)
+            .on("touchstart.zoom", null)
+            .on("touchmove.zoom", null)
+            .on("touchend.zoom", null);
+
+        svg.call(d3.behavior.drag()
+            .on('dragstart', function() {
+                d3.event.sourceEvent.stopPropagation();
+            })
+            .on('drag', function() {
+                var td = gantt.timeDomain();
+                //var scale = (td[1]-td[0])/1000;
+                var scale = (td[1]-td[0])/1000;
+
+                d3.event.sourceEvent.stopPropagation();
+                var td = gantt.timeDomain();
+                gantt.timeDomain([td[0]-scale*d3.event.dx, td[1]-scale*d3.event.dx]);
+                //console.log(td[0]-scale*d3.event.dx);
+                gantt.redraw(tasks);
+            })
+            .on('dragend', function() {
+                d3.event.sourceEvent.stopPropagation();
+            }))
+        ;
+
+
+//------
+
 
 		        var ganttChartGroup = svg.select(".gantt-chart");
 
