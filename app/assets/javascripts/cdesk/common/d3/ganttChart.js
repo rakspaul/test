@@ -44,6 +44,14 @@
 		        return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
 		    };
 
+		    var markerTransform = function() {
+		    	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            if(width<=40) {
+		            	return "translate(" + x(moment()) + ",-20)";
+		            }
+		        return "translate(" + x(moment().startOf('day')) + ",-20)";
+		    };
+
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 450]);
 
@@ -177,6 +185,7 @@
 
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
+svg.append('rect').attr("class","marker");
 		        gantt.draw(tasks);		          
 		        return gantt;
 
@@ -390,7 +399,39 @@
 		            })
 		            .transition()
 		            .attr("transform", rectTransform);
+//today marker
+		        ganttChartGroup.select("rect.marker")
+		            .attr("x", 0)
+		            .attr("y", 0)
+		            .attr("class", "marker")
+		            .attr("style", "cursor:pointer")
+		            .attr("fill", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		return "blue"
+		            	} else {
+		            		return "#ccc"
+		            	}
+		            })
+		            .attr("width", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		width =2;
+		            	}
+		            	return width;
+		            })
+		            .attr("height", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		 return CALENDAR_HEIGHT;
+		            	} else {
+		            		return 3;
+		            	}
 
+		            })
+		           .transition()
+		           .attr("transform", markerTransform);
+//today marker ends
 
 		        var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var campaignBody = ganttChartGroup.selectAll(".campaigns").data(tasks, keyFunction);
@@ -471,6 +512,19 @@
 		        translateGraphicElements(campaignsStatusIcon);
 
 		        rectData.exit().remove();
+//today marker transition
+		         ganttChartGroup.append("g")
+		           .transition()
+		           .attr("transform", markerTransform)
+		           // .attr("width", function(){
+		           //  	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		           //  	if(width<=40) {
+		           //  		width =2;
+		           //  	}
+
+		           //  	return width;
+		           //  });
+//today marker transition
 
 		        svg.select(".x").transition().call(xAxis)
 		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
