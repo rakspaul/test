@@ -85,8 +85,21 @@
                 };
 
                 $scope.showTactics = function(strategyId, tacticsCount) {
+                    var myContainer = $('#tactics-accordion-' + strategyId);
+                    //var x = myContainer.offset().left;
+                    var y = myContainer.offset().top;
+                    var getTacticsCount = 1;
+                    var maxTacticsCount = 2;
+                    var maxTacticsHeight = 275;
+                    if(tacticsCount > maxTacticsCount){
+                        getTacticsCount = maxTacticsCount;
+                    }
+                    var scrollTo = getTacticsCount * maxTacticsHeight;
                     if($('#tactics-accordion-' + strategyId).css('display') === 'none') {
                         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
+                        $("html, body").animate({ scrollTop: y + scrollTo }, "slow");  
+                    }else{
+                        $("html, body").animate({ scrollTop: y - scrollTo }, "slow"); 
                     }
                     $('#tactics-accordion-' + strategyId).toggle();
                 };
