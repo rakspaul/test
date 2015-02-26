@@ -1,73 +1,73 @@
 /* font- face declarations */
 @font-face {
   font-family: "TradeGothicLTStd-BdCn20";
-  src: url(asset-path("TradeGothicLTStd-BdCn20.eot"));
-  src: url(asset-path("TradeGothicLTStd-BdCn20.eot?#iefix")) format("embedded-opentype"), url(asset-path("TradeGothicLTStd-BdCn20.woff")) format("woff"), url(asset-path("TradeGothicLTStd-BdCn20.ttf")) format("truetype"), url(asset-path("TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20")) format("svg");
+  src: url("assets/fonts/TradeGothicLTStd-BdCn20.eot");
+  src: url("assets/fonts/TradeGothicLTStd-BdCn20.eot?#iefix") format("embedded-opentype"), url("assets/fonts/TradeGothicLTStd-BdCn20.woff") format("woff"), url("assets/fonts/TradeGothicLTStd-BdCn20.ttf") format("truetype"), url("assets/fonts/TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20") format("svg");
 }
 
 @font-face {
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  src: url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.eot"));
-  src: url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix")) format("embedded-opentype"), url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.woff")) format("woff"), url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.ttf")) format("truetype"), url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20")) format("svg");
+  src: url("assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot");
+  src: url("assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix") format("embedded-opentype"), url("assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.woff") format("woff"), url("assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.ttf") format("truetype"), url("assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20") format("svg");
 }
 
 @font-face {
   font-family: "trade-gothic-no-2-bold";
-  src: url(asset-path("trade-gothic-no-2-bold.eot"));
-  src: url(asset-path("trade-gothic-no-2-bold.eot?#iefix")) format("embedded-opentype"), url(asset-path("trade-gothic-no-2-bold.woff")) format("woff"), url(asset-path("trade-gothic-no-2-bold.ttf")) format("truetype"), url(asset-path("trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold")) format("svg");
+  src: url("assets/fonts/trade-gothic-no-2-bold.eot");
+  src: url("assets/fonts/trade-gothic-no-2-bold.eot?#iefix") format("embedded-opentype"), url("assets/fonts/trade-gothic-no-2-bold.woff") format("woff"), url("assets/fonts/trade-gothic-no-2-bold.ttf") format("truetype"), url("assets/fonts/trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold") format("svg");
 }
 
 @font-face {
   font-family: "TradeGothicLTStd";
-  src: url(asset-path("TradeGothicLTStd.eot"));
-  src: url(asset-path("TradeGothicLTStd.eot?#iefix")) format("embedded-opentype"), url(asset-path("TradeGothicLTStd.woff")) format("woff"), url(asset-path("TradeGothicLTStd.ttf")) format("truetype"), url(asset-path("TradeGothicLTStd.svg#TradeGothicLTStd")) format("svg");
+  src: url("assets/fonts/TradeGothicLTStd.eot");
+  src: url("assets/fonts/TradeGothicLTStd.eot?#iefix") format("embedded-opentype"), url("assets/fonts/TradeGothicLTStd.woff") format("woff"), url("assets/fonts/TradeGothicLTStd.ttf") format("truetype"), url("assets/fonts/TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
 }
 
 /* base variables */
-$primaryFont: "TradeGothicLTStd-BdCn20";
-$secondaryFont: "Trade-Gothic-LT-Bold-Condensed-N-2";
-$tertiaryFont: "TradeGothicLTStd";
-$quaternaryFont: "trade-gothic-no-2-bold";
+@primaryFont: "TradeGothicLTStd-BdCn20";
+@secondaryFont: "Trade-Gothic-LT-Bold-Condensed-N-2";
+@tertiaryFont: "TradeGothicLTStd";
+@quaternaryFont: "trade-gothic-no-2-bold";
 
-$textColorWhite: #fff;
-$textGreyColor: #bebebe;
-$textDarkGreyColor: #999;
-$textHelloColor: #a6c7e6;
-$textHeadingColor: #177ac6;
+@textColorWhite: #fff;
+@textGreyColor: #bebebe;
+@textDarkGreyColor: #999;
+@textHelloColor: #a6c7e6;
+@textHeadingColor: #177ac6;
 
-$borderColor: #81bee5;
+@borderColor: #81bee5;
 
 /* mixins */
-@mixin FontColor($textColor, $fontSize, $fontFamily) {
-  color: $textColor;
-  font-size: $fontSize;
-  font-family: $fontFamily;
+.FontColor(@textColor, @fontSize, @fontFamily) {
+  color: @textColor;
+  font-size: @fontSize;
+  font-family: @fontFamily;
 }
 
-@mixin BackgroundLinearGradient($startColor, $endColor) {
-  background: $startColor;
-  background: linear-gradient($startColor, $endColor);
-  background: -moz-linear-gradient($startColor, $endColor);
-  background: -webkit-gradient(linear, center top, center bottom, from($startColor), to($endColor));
+.BackgroundLinearGradient(@startColor, @endColor) {
+  background: @startColor;
+  background: linear-gradient(@startColor, @endColor);
+  background: -moz-linear-gradient(@startColor, @endColor);
+  background: -webkit-gradient(linear, center top, center bottom, from(@startColor), to(@endColor));
 }
 
-@mixin BackgroundLinearGradientLeftToRight($startColor, $endColor) {
-  background: linear-gradient(to right, $startColor , $endColor);
-  background: -o-linear-gradient(left, $startColor, $endColor);
-  background: -moz-linear-gradient(left,$startColor, $endColor);
-  background: -webkit-linear-gradient(left,$startColor, $endColor);
+.BackgroundLinearGradientLeftToRight(@startColor, @endColor) {
+  background: linear-gradient(to right, @startColor , @endColor);
+  background: -o-linear-gradient(left, @startColor, @endColor);
+  background: -moz-linear-gradient(left,@startColor, @endColor);
+  background: -webkit-linear-gradient(left,@startColor, @endColor);
 }
-@mixin ValStyle() {
+.ValStyle() {
   font-size: 20px;
   color: #262626;
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
 }
-@mixin blueVal() {
+.blueVal() {
   color: #0978c9 ;
   font-size: 20px ;
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
 }
-@mixin graphHeadingFont() {
+.graphHeadingFont() {
   font-size: 16px ;
   color: #2d2f31 ;
 }
@@ -106,16 +106,16 @@ button, i, input[type="submit"] {
 
 .kpi-text-container {
   text-align: left;
-  @include FontColor($textGreyColor, 11pt, $primaryFont);
+  .FontColor(@textGreyColor, 11pt, @primaryFont);
 }
 
 .kpi-num {
-  font-family: $secondaryFont;
+  font-family: @secondaryFont;
 }
 
 .cpa-color {
   text-transform: uppercase;
-  @include FontColor($textDarkGreyColor, 14px, $tertiaryFont);
+  .FontColor(@textDarkGreyColor, 14px, @tertiaryFont);
 }
 
 .lowerCase {
@@ -136,35 +136,35 @@ button, i, input[type="submit"] {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_delivering.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .paused {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_paused.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .pushed {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_paused.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .completed {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_complete.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .draft {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_draft.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 /* strategies status */
@@ -172,33 +172,33 @@ button, i, input[type="submit"] {
   width: 17px;
   height: 17px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_delivering_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_delivering_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #collapseOne .Pushed {
   width: 17px;
   height: 17px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_paused_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_paused_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #collapseOne .Completed {
   width: 17px;
   height: 17px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_complete_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_complete_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #collapseOne .Draft {
   width: 17px;
   height: 17px;
   display: inline-block;
-  background: url(asset-path("cdesk/status_draft_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/status_draft_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 /* ajax-spinner-loader */
 .loading-spinner-holder {
-  background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  background: url("assets/images/cdesk/ajax-loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   height: 100%;
   text-align: center;
   width: 100%;
@@ -220,7 +220,7 @@ button, i, input[type="submit"] {
   .row-fluid .col-md-12 {
     h1 {
       margin-bottom: 15px;
-      @include FontColor($textHeadingColor, 20pt, $primaryFont);
+      .FontColor(@textHeadingColor, 20pt, @primaryFont);
     }
     .search-cum-navbar {
       height: 40px;
@@ -238,7 +238,7 @@ button, i, input[type="submit"] {
             height: 12px;
             display: inline-block;
             vertical-align: baseline;
-            background: url(asset-path("cdesk/static-caret.png")) no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+            background: url("assets/images/cdesk/static-caret.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
           }
           .dropdown-menu {
             padding: 0;
@@ -252,12 +252,12 @@ button, i, input[type="submit"] {
               cursor: pointer;
               a {
                 padding: 12px 15px 5px;
-                @include FontColor($textDarkGreyColor, 11pt, $secondaryFont);
+                .FontColor(@textDarkGreyColor, 11pt, @secondaryFont);
               }
               &:first-child a {
                 margin: 15px 15px 0;
                 padding: 0 15px 10px 0;
-                border-bottom: 1px solid $textGreyColor;
+                border-bottom: 1px solid @textGreyColor;
               }
               a span.tick {
                 width: 20px;
@@ -265,10 +265,10 @@ button, i, input[type="submit"] {
                 display: inline-block;
               }
               &:hover a span.tick {
-                background: url(asset-path("cdesk/green-ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/green-ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
               &.active a span.tick {
-                background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
             }
           }
@@ -279,11 +279,11 @@ button, i, input[type="submit"] {
         li a {
           padding: 5px 15px;
           background: transparent;
-          @include FontColor(#c68f2a, 11pt, $secondaryFont);
+          .FontColor(#c68f2a, 11pt, @secondaryFont);
           &:hover, &:focus {
             padding: 5px 15px;
             background: transparent;
-            @include FontColor(#c68f2a, 11pt, $secondaryFont);
+            .FontColor(#c68f2a, 11pt, @secondaryFont);
           }
           .caret {
             color: #ae7e26;
@@ -291,15 +291,15 @@ button, i, input[type="submit"] {
             margin-bottom: 3px;
           }
           &.active {
-            color: $textColorWhite;
+            color: @textColorWhite;
             text-shadow: 0px -1px 1px #bbbbbb;
             &:hover, &:focus {
-              color: $textColorWhite;
+              color: @textColorWhite;
               text-shadow: 0px -1px 1px #bbbbbb;
             }
             .caret {
-              color: $textColorWhite;
-              box-shadow: 0px -1px 0px $textDarkGreyColor;
+              color: @textColorWhite;
+              box-shadow: 0px -1px 0px @textDarkGreyColor;
             }
           }
         }
@@ -309,10 +309,10 @@ button, i, input[type="submit"] {
         > input {
           width: 80px;
         }
-        > input::-webkit-input-placeholder { color: $textColorWhite; opacity: 1 ;}
-        > input::-moz-placeholder { color: $textColorWhite;opacity: 1 ; }
-        > input:-moz-placeholder { color: $textColorWhite; opacity: 1 ;}
-        > input:-ms-input-placeholder { color: $textColorWhite;opacity: 1 ; }
+        > input::-webkit-input-placeholder { color: @textColorWhite; opacity: 1 ;}
+        > input::-moz-placeholder { color: @textColorWhite;opacity: 1 ; }
+        > input:-moz-placeholder { color: @textColorWhite; opacity: 1 ;}
+        > input:-ms-input-placeholder { color: @textColorWhite;opacity: 1 ; }
       }
     }
     .campaign-title-head {
@@ -333,29 +333,29 @@ button, i, input[type="submit"] {
             width: 100%;
             padding-bottom: 2px;
             display: inline-block;
-            border-bottom: 1px solid $textGreyColor;
+            border-bottom: 1px solid @textGreyColor;
             width: 96%;
             font-weight: bold;
             margin-right: 15px;
             display: inline-block;
             text-transform: uppercase;
-            @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+            .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
           }
           a {
             width: 100%;
             cursor: pointer;
             padding-bottom: 2px;
             display: inline-block;
-            border-bottom: 1px solid $textGreyColor;
+            border-bottom: 1px solid @textGreyColor;
             span {
               width: 96%;
               font-weight: bold;
               margin-right: 15px;
               display: inline-block;
               text-transform: uppercase;
-              @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+              .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
               &.active {
-                color: $textHeadingColor;
+                color: @textHeadingColor;
               }
 
               > span.default-sort, > span.ascending, > span.descending {
@@ -366,7 +366,7 @@ button, i, input[type="submit"] {
                 vertical-align: top;
                 border-bottom: none;
                 display: inline;
-                background: url(asset-path("cdesk/sort-blue.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/sort-blue.png") no-repeat 0 0px rgba(0, 0, 0, 0);
               }
             }
             &:hover {
@@ -380,7 +380,7 @@ button, i, input[type="submit"] {
               vertical-align: bottom;
               border-bottom: none;
               display: inline-block;
-              background: url(asset-path("cdesk/ascending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+              background: url("assets/images/cdesk/ascending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
             }
             > span > span.descending {
               margin: 0;
@@ -390,7 +390,7 @@ button, i, input[type="submit"] {
               vertical-align: bottom;
               border-bottom: none;
               display: inline-block;
-              background: url(asset-path("cdesk/descending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+              background: url("assets/images/cdesk/descending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
             }
           }
           &:nth-child(2) {
@@ -410,7 +410,7 @@ button, i, input[type="submit"] {
             ul {
               padding: 0;
               width: 95%;
-              border-bottom: 1px solid $textGreyColor;
+              border-bottom: 1px solid @textGreyColor;
               li {
                 display: inline-block;
                 border-bottom: none;
@@ -434,7 +434,7 @@ button, i, input[type="submit"] {
     .campaign {
       min-height: 220px;
       overflow: hidden;
-      background: $textColorWhite;
+      background: @textColorWhite;
       position: relative;
       border-radius: 5px;
       margin-bottom: 20px;
@@ -445,7 +445,7 @@ button, i, input[type="submit"] {
         text-align: center;
       }
       div {
-        @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
+        .FontColor(@textDarkGreyColor, 10pt, @tertiaryFont);
         &.edit-stats-icons {
           margin-top: 60px;
           .action_bubble {
@@ -467,7 +467,7 @@ button, i, input[type="submit"] {
             display: inline-block;
           }
           #icon-campaign-edit.icons-bckground {
-            background: url(asset-path("icn_action.png")) no-repeat scroll center 6px  #EBAB34;
+            background: url("assets/images/icn_action.png") no-repeat scroll center 6px  #EBAB34;
             border-radius: 20px;
             display: inline-block;
             height: 30px;
@@ -478,7 +478,7 @@ button, i, input[type="submit"] {
             }
           }
           #icon-campaign-report.icons-bckground {
-            background: url(asset-path("icn_act_reports.png")) no-repeat scroll 0 0 #EBAB34;
+            background: url("assets/images/icn_act_reports.png") no-repeat scroll 0 0 #EBAB34;
             border-radius: 20px;
             display: inline-block;
             height: 30px;
@@ -499,20 +499,20 @@ button, i, input[type="submit"] {
           min-height: 60px;
           font-weight: bold;
           margin-bottom: 0;
-          @include FontColor(#f9b537, 16pt, $primaryFont);
+          .FontColor(#f9b537, 16pt, @primaryFont);
         }
         .brand {
           margin-bottom: 20px;
-          @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
+          .FontColor(@textDarkGreyColor, 10pt, @tertiaryFont);
           .brand-type {
-            color: $textGreyColor;
+            color: @textGreyColor;
           }
         }
         .duration {
           margin-bottom: 10px;
           .date {
             margin-bottom: 10px;
-            color: $textDarkGreyColor;
+            color: @textDarkGreyColor;
           }
           .duration-bar {
             width: 170px;
@@ -521,13 +521,13 @@ button, i, input[type="submit"] {
               border-radius: 0;
               margin-bottom: 7px;
               .progress-bar {
-                @include BackgroundLinearGradient(#8dc9eb, #7ac3ed);
+                .BackgroundLinearGradient(#8dc9eb, #7ac3ed);
               }
             }
             .days-left {
               text-align: right;
               .day-count {
-                font-family: $primaryFont;
+                font-family: @primaryFont;
               }
             }
           }
@@ -545,7 +545,7 @@ button, i, input[type="submit"] {
           }
           .strat-text {
             font-weight: bold;
-            color: $textGreyColor;
+            color: @textGreyColor;
           }
         }
       }
@@ -564,33 +564,33 @@ button, i, input[type="submit"] {
         .kpi-text-container {
           padding-left: 5px;
           text-align: left;
-          @include FontColor($textGreyColor, 11pt, $primaryFont);
+          .FontColor(@textGreyColor, 11pt, @primaryFont);
         }
         .kpi-values {
           text-align: right;
-          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
           .cumulative-text {
-            @include FontColor($textDarkGreyColor, 13px, $tertiaryFont);
+            .FontColor(@textDarkGreyColor, 13px, @tertiaryFont);
           }
           div span {
             text-align: right;
-            @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+            .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
           }
           div > span:last-child {
-            @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+            .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
           }
           div > span.avg-text {
             font-size: 10pt;
           }
           .kpi-num {
-            font-family: $secondaryFont;
+            font-family: @secondaryFont;
           }
           .kpi-goal {
             width: 17px;
             height: 18px;
             display: inline-block;
             vertical-align: sub;
-            background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+            background: url("assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
           }
         }
       }
@@ -603,7 +603,7 @@ button, i, input[type="submit"] {
         }
         .imps-count {
           text-align: right;
-          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
       }
       .col-md-3.marg-10 .row-fluid .col-md-12 {
@@ -616,7 +616,7 @@ button, i, input[type="submit"] {
         .ctr-container {
           .blue {
             height: 20px;
-            @include FontColor($textHeadingColor, 12pt, $primaryFont);
+            .FontColor(@textHeadingColor, 12pt, @primaryFont);
           }
           .blue.margin-twenty {
             margin-top: -20px;
@@ -627,14 +627,14 @@ button, i, input[type="submit"] {
             border-radius: 0;
             .progress-bar {
               border: 1px solid #5EA9D8;
-              @include BackgroundLinearGradientLeftToRight(#6EBFF0, #1D7FC9);
+              .BackgroundLinearGradientLeftToRight(#6EBFF0, #1D7FC9);
             }
           }
         }
         .ctr-container.red {
           .blue {
             height: 20px;
-            @include FontColor(#E4696C, 12pt, $primaryFont);
+            .FontColor(#E4696C, 12pt, @primaryFont);
           }
           .blue.margin-twenty {
             margin-top: -20px;
@@ -645,14 +645,14 @@ button, i, input[type="submit"] {
             border-radius: 0;
             .progress-bar {
               border: 1px solid #E4696C;
-              @include BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
+              .BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
             }
           }
         }
         .ctr-container.amber {
           .blue {
             height: 20px;
-            @include FontColor(#FB8917, 12pt, $primaryFont);
+            .FontColor(#FB8917, 12pt, @primaryFont);
             .margin-twenty {
               margin-top: -20px;
             }
@@ -663,22 +663,22 @@ button, i, input[type="submit"] {
             border-radius: 0;
             .progress-bar {
               border: 1px solid #FB8917;
-              @include BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
+              .BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
             }
           }
         }
         .ctr-value {
-          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
         .goal-image {
           width: 17px;
           height: 18px;
           display: inline-block;
           vertical-align: sub;
-          background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+          background: url("assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
         }
         .action-data {
-          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
       }
     }
@@ -704,7 +704,7 @@ button, i, input[type="submit"] {
     }
     .inner-accordion {
       margin-top: -2px;
-      background: url(asset-path("cdesk/accordion-line.png")) no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
+      background: url("assets/images/cdesk/accordion-line.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
       &.first {
         margin-top: 0;
       }
@@ -714,7 +714,7 @@ button, i, input[type="submit"] {
         min-height: 240px;
         border-radius: 5px;
         background: #e9e6e0;
-        @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
+        .FontColor(@textDarkGreyColor, 10pt, @tertiaryFont);
         .panel-body.row-fluid {
           padding-right: 0;
           .col-md-12 {
@@ -725,15 +725,15 @@ button, i, input[type="submit"] {
                 text-align: center;
               }
               .col-md-4 .campaign-name {
-                font-family: $primaryFont;
-                @include FontColor(#f9b537, 13pt, $primaryFont);
+                font-family: @primaryFont;
+                .FontColor(#f9b537, 13pt, @primaryFont);
               }
             }
           }
         }
       }
       &:last-child {
-        background: url(asset-path("cdesk/accordion-line-end.png")) no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
+        background: url("assets/images/cdesk/accordion-line-end.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
       }
       .tactics_outer_container  {
         display: none;
@@ -742,7 +742,7 @@ button, i, input[type="submit"] {
           background: #D1CFCA ;
         }
         .each_tactics_holder {
-          background: url(asset-path("cdesk/accordion-line.png")) no-repeat scroll -26px 0px;
+          background: url("assets/images/cdesk/accordion-line.png") no-repeat scroll -26px 0px;
 
           .panel-body.row-fluid {
             .col-md-12 {
@@ -768,7 +768,7 @@ button, i, input[type="submit"] {
             }
           }
           &:last-child {
-            background: url(asset-path("cdesk/accordion-line-end.png")) no-repeat scroll -27px 0px ;
+            background: url("assets/images/cdesk/accordion-line-end.png") no-repeat scroll -27px 0px ;
           }
         }
       }
@@ -805,28 +805,28 @@ button, i, input[type="submit"] {
                 width: 16px;
                 height: 16px;
                 display: inline-block;
-                background: url(asset-path("cdesk/icn_audience.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/icn_audience.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
               }
               .globe-icon {
                 width: 16px;
                 height: 16px;
                 vertical-align: sub;
                 display: inline-block;
-                background: url(asset-path("cdesk/icn_globe.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
               }
               .location-icon {
                 width: 17px;
                 height: 17px;
                 vertical-align: sub;
                 display: inline-block;
-                background: url(asset-path("cdesk/icn_location.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
               }
               .device-icon {
                 width: 17px;
                 height: 17px;
                 vertical-align: sub;
                 display: inline-block;
-                background: url(asset-path("cdesk/icn_size.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/icn_size.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
               }
             }
           }
@@ -834,7 +834,7 @@ button, i, input[type="submit"] {
             .duration {
               .date {
                 margin-bottom: 10px;
-                color: $textDarkGreyColor;
+                color: @textDarkGreyColor;
               }
               .duration-bar {
                 width: 170px;
@@ -843,13 +843,13 @@ button, i, input[type="submit"] {
                   border-radius: 0;
                   margin-bottom: 7px;
                   .progress-bar {
-                    @include BackgroundLinearGradient(#8dc9eb, #7ac3ed);
+                    .BackgroundLinearGradient(#8dc9eb, #7ac3ed);
                   }
                 }
                 .days-left {
                   text-align: right;
                   .day-count {
-                    font-family: $primaryFont;
+                    font-family: @primaryFont;
                   }
                 }
               }
@@ -862,7 +862,7 @@ button, i, input[type="submit"] {
           height: 185px;
           margin-top: 3px;
           overflow: hidden;
-          background: $textColorWhite;
+          background: @textColorWhite;
           border-radius: 5px;
           margin-right: 18px;
           float: right;
@@ -876,12 +876,12 @@ button, i, input[type="submit"] {
               }
               .imps-count {
                 text-align: right;
-                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
               .ctr-container {
                 .blue{
                   height: 20px;
-                  @include FontColor($textHeadingColor, 12pt, $primaryFont);
+                  .FontColor(@textHeadingColor, 12pt, @primaryFont);
                 }
                 .blue.margin-twenty {
                   margin-top: -20px;
@@ -892,14 +892,14 @@ button, i, input[type="submit"] {
                   border-radius: 0;
                   .progress-bar {
                     border: 1px solid #5ea9d8;
-                    @include BackgroundLinearGradientLeftToRight(#6ebff0 , #1d7fc9);
+                    .BackgroundLinearGradientLeftToRight(#6ebff0 , #1d7fc9);
                   }
                 }
               }
               .ctr-container.red {
                 .blue {
                   height: 20px;
-                  @include FontColor(#E4696C, 12pt, $primaryFont);
+                  .FontColor(#E4696C, 12pt, @primaryFont);
                 }
                 .blue.margin-twenty {
                   margin-top: -20px;
@@ -910,14 +910,14 @@ button, i, input[type="submit"] {
                   border-radius: 0;
                   .progress-bar {
                     border: 1px solid #E4696C;
-                    @include BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
+                    .BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
                   }
                 }
               }
               .ctr-container.amber {
                 .blue {
                   height: 20px;
-                  @include FontColor(#FB8917, 12pt, $primaryFont);
+                  .FontColor(#FB8917, 12pt, @primaryFont);
                   .margin-twenty {
                     margin-top: -20px;
                   }
@@ -928,22 +928,22 @@ button, i, input[type="submit"] {
                   border-radius: 0;
                   .progress-bar {
                     border: 1px solid #FB8917;
-                    @include BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
+                    .BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
                   }
                 }
               }
               .ctr-value {
-                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
               .goal-image {
                 width: 17px;
                 height: 18px;
                 display: inline-block;
                 vertical-align: sub;
-                background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
               }
               .action-data {
-                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
             }
             .col-md-6.text_left {
@@ -951,33 +951,33 @@ button, i, input[type="submit"] {
             }
             .kpi-text-container {
               text-align: left;
-              @include FontColor($textGreyColor, 11pt, $primaryFont);
+              .FontColor(@textGreyColor, 11pt, @primaryFont);
             }
             .kpi-values {
               text-align: right;
-              @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+              .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               .cumulative-text {
-                @include FontColor($textDarkGreyColor, 13px, $tertiaryFont);
+                .FontColor(@textDarkGreyColor, 13px, @tertiaryFont);
               }
               div span {
                 text-align: right;
-                @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+                .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
               }
               div > span:last-child {
-                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
               div > span.avg-text {
                 font-size: 10pt;
               }
               .kpi-num {
-                font-family: $secondaryFont;
+                font-family: @secondaryFont;
               }
               .kpi-goal {
                 width: 17px;
                 height: 18px;
                 display: inline-block;
                 vertical-align: sub;
-                background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+                background: url("assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
               }
             }
           }
@@ -997,22 +997,22 @@ button, i, input[type="submit"] {
       border-radius: 20px;
       padding: 8px 25px 6px;
       border: 1px solid #ddd;
-      @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+      .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
       &:hover {
         text-decoration: none;
-        @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+        .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
       }
     }
   }
   .row-fluid .col-md-6.campaign-count {
     margin-bottom: 0;
-    @include FontColor(#f9b537, 12pt, $secondaryFont);
+    .FontColor(#f9b537, 12pt, @secondaryFont);
   }
   .load-more {
     margin: 20px;
     text-align: center;
     text-indent: -99999;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
 }
 #brandsDropdown:focus {
@@ -1059,7 +1059,7 @@ button, i, input[type="submit"] {
       .detailed-campaign-bar.clearfix {
         .col-md-10 {
           h1 {
-            @include FontColor(#f9b537, 20pt, $primaryFont);
+            .FontColor(#f9b537, 20pt, @primaryFont);
           }
         }
         .col-md-1 {
@@ -1070,7 +1070,7 @@ button, i, input[type="submit"] {
             margin-top: 10px;
             border-radius: 20px;
             display: inline-block;
-            height: 40px;background: url(asset-path("icn_act_edit.png")) no-repeat scroll 5px 5px #EBAB34;
+            height: 40px;background: url("assets/images/icn_act_edit.png") no-repeat scroll 5px 5px #EBAB34;
             &:hover{
               cursor: pointer;
             }
@@ -1081,7 +1081,7 @@ button, i, input[type="submit"] {
             margin-top: 10px;
             border-radius: 20px;
             display: inline-block;
-            background: url(asset-path("icn_act_reports.png")) no-repeat scroll 5px 5px #EBAB34;
+            background: url("assets/images/icn_act_reports.png") no-repeat scroll 5px 5px #EBAB34;
             &:hover{
               cursor: pointer;
             }
@@ -1093,7 +1093,7 @@ button, i, input[type="submit"] {
         }
         .col-md-12 {
           .brand {
-            @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+            .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
             .brand-type {
               color: #ccc;
             }
@@ -1107,8 +1107,8 @@ button, i, input[type="submit"] {
 /*
 @font-face {
     font-family: "Avenir";
-    src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
-    url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
+    src: url("assets/fonts/Avenir/Avenir_LT_55_Roman.woff") format("woff"),
+    url("assets/fonts/Avenir/Avenir_LT_55_Roman.ttf") format("truetype");
 }*/
 
 .external_chkbox {
@@ -1194,7 +1194,7 @@ button, i, input[type="submit"] {
     border-radius : 5px ;
     -moz-border-radius : 5px ;
     -webkit-border-radius : 5px ;
-    background: url(asset-path("cdesk/arrow.png")) no-repeat right center;
+    background: url("assets/images/cdesk/arrow.png") no-repeat right center;
     select {
       padding: 5px 20px 5px 10px ;
       -webkit-appearance: none;
@@ -1264,7 +1264,7 @@ button, i, input[type="submit"] {
     float: right;
     height: 30px ;
     width: 65px ;
-    @include FontColor($textColorWhite, 14pt, $primaryFont);
+    .FontColor(@textColorWhite, 14pt, @primaryFont);
     background: #f5b236 ;
     border: 0px ;
     outline: 0px ;
@@ -1343,19 +1343,19 @@ button, i, input[type="submit"] {
     }
   }
   .placeholder_grey::-webkit-input-placeholder {
-    color: $textGreyColor;
+    color: @textGreyColor;
     opacity: 1 ;
   }
   .placeholder_grey::-moz-placeholder {
-    color: $textGreyColor;
+    color: @textGreyColor;
     opacity: 1 ;
   }
   .placeholder_grey:-ms-input-placeholder {
-    color: $textGreyColor;
+    color: @textGreyColor;
     opacity: 1 ;
   }
   .placeholder_grey:-moz-placeholder {
-    color: $textGreyColor;
+    color: @textGreyColor;
     opacity: 1 ;
   }
 }
@@ -1451,13 +1451,13 @@ button, i, input[type="submit"] {
           border-color: #249ef7;
           color: #249ef7 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/ready_icon.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/ready_icon.png") no-repeat 7px 1px ;
           }
         }
         .status_section_bar.active {
           background: #249ef7 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/ready_icon_active.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/ready_icon_active.png") no-repeat 7px 1px ;
           }
         }
       }
@@ -1467,13 +1467,13 @@ button, i, input[type="submit"] {
           border-color : #5fbafc ;
           color: #5fbafc ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/draft_icon.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/draft_icon.png") no-repeat 7px 1px ;
           }
         }
         .status_section_bar.active {
           background: #5fbafc ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/draft_icon_active.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/draft_icon_active.png") no-repeat 7px 1px ;
           }
         }
       }
@@ -1484,13 +1484,13 @@ button, i, input[type="submit"] {
           border-color : #64d841 ;
           color: #64d841  ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/active_icon.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/active_icon.png") no-repeat 7px 1px ;
           }
         }
         .status_section_bar.active {
           background: #64d841 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/active_icon_active.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/active_icon_active.png") no-repeat 7px 1px ;
           }
         }
       }
@@ -1504,13 +1504,13 @@ button, i, input[type="submit"] {
           height: 28px;
           padding-top: 4px;
           .section_bar_title {
-            background: url(asset-path("statusWidget/on_track_icon.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/on_track_icon.png") no-repeat 7px 1px ;
           }
         }
         .status_section_bar.active {
           background: #38af14 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/on_track_icon_active.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/on_track_icon_active.png") no-repeat 7px 1px ;
           }
         }
       }
@@ -1522,10 +1522,10 @@ button, i, input[type="submit"] {
         display: block;
         height: 8px;
         width: 16px;
-        background: url(asset-path("statusWidget/upper_arrow_KPI_normal.png")) no-repeat ;
+        background: url("assets/images/statusWidget/upper_arrow_KPI_normal.png") no-repeat ;
       }
       .onTrack_section_bar.status_section_active:after {
-        background: url(asset-path("statusWidget/upper_arrow_KPI_active.png")) no-repeat ;
+        background: url("assets/images/statusWidget/upper_arrow_KPI_active.png") no-repeat ;
       }
       .notOnTrack_section_bar {
         width: 50%;
@@ -1537,13 +1537,13 @@ button, i, input[type="submit"] {
           height: 28px;
           padding-top: 4px;
           .section_bar_title {
-            background: url(asset-path("statusWidget/underperforming_icon.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/underperforming_icon.png") no-repeat 7px 1px ;
           }
         }
         .status_section_bar.active {
           background: #f67c29 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/underperforming_icon_active.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/underperforming_icon_active.png") no-repeat 7px 1px ;
           }
         }
 
@@ -1556,10 +1556,10 @@ button, i, input[type="submit"] {
         display: block;
         height: 8px;
         width: 16px;
-        background: url(asset-path("statusWidget/upper_arrow_underperforming_normal.png")) no-repeat ;
+        background: url("assets/images/statusWidget/upper_arrow_underperforming_normal.png") no-repeat ;
       }
       .notOnTrack_section_bar.status_section_active:after {
-        background: url(asset-path("statusWidget/upper_arrow_underperforming_active.png")) no-repeat ;
+        background: url("assets/images/statusWidget/upper_arrow_underperforming_active.png") no-repeat ;
       }
       .achieved_goal_section_bar {
         width: 100%;
@@ -1567,13 +1567,13 @@ button, i, input[type="submit"] {
           border-color : #97b5c8 ;
           color: #97b5c8 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/paused_icon.png")) no-repeat 10px 1px ;
+            background: url("assets/images/statusWidget/paused_icon.png") no-repeat 10px 1px ;
           }
         }
         .status_section_bar.active {
           background: #97b5c8 ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/paused_icon_active.png")) no-repeat 10px 1px ;
+            background: url("assets/images/statusWidget/paused_icon_active.png") no-repeat 10px 1px ;
           }
         }
       }
@@ -1583,13 +1583,13 @@ button, i, input[type="submit"] {
           border-color : #7575ea ;
           color: #7575ea ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/completed_icon.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/completed_icon.png") no-repeat 7px 1px ;
           }
         }
         .status_section_bar.active {
           background: #7575ea ;
           .section_bar_title {
-            background: url(asset-path("statusWidget/completed_icon_active.png")) no-repeat 7px 1px ;
+            background: url("assets/images/statusWidget/completed_icon_active.png") no-repeat 7px 1px ;
           }
         }
       }
@@ -1609,7 +1609,7 @@ button, i, input[type="submit"] {
         height: 12px ;
         top : -3px ;
         text-align: center;
-        background: url(asset-path("statusBar/dropdown_1.png")) no-repeat center 0px ;
+        background: url("assets/images/statusBar/dropdown_1.png") no-repeat center 0px ;
         span {
           height : 20px ;
           width : 20px ;
@@ -1662,19 +1662,19 @@ button, i, input[type="submit"] {
   background-position: top left;
 }
 .completed_campaign_status_icon {
-  background-image : url(asset-path("status_icons/complete_icon.png")) ;
+  background-image : url("assets/images/status_icons/complete_icon.png") ;
 }
 .draft_campaign_status_icon {
-  background-image : url(asset-path("status_icons/draft_icon.png"))  ;
+  background-image : url("assets/images/status_icons/draft_icon.png")  ;
 }
 .ready_campaign_status_icon {
-  background-image : url(asset-path("status_icons/ready_icon.png"))  ;
+  background-image : url("assets/images/status_icons/ready_icon.png")  ;
 }
 .active_campaign_status_icon {
-  background-image : url(asset-path("status_icons/active_icon.png"))  ;
+  background-image : url("assets/images/status_icons/active_icon.png")  ;
 }
 .paused_campaign_status_icon {
-  background-image : url(asset-path("status_icons/paused_icon.png"))  ;
+  background-image : url("assets/images/status_icons/paused_icon.png")  ;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -1686,16 +1686,16 @@ button, i, input[type="submit"] {
   margin-right: 0;
 }
 .sortable {
-  background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+  background: url("assets/images/cdesk/sorting_indicator.png") no-repeat right center;
   display: inline-block;
   height: 10px;
   width: 10px;
 }
 .sortable.ascending {
-  background-image: url(asset-path("cdesk/sorting_ascending.png"));
+  background-image: url("assets/images/cdesk/sorting_ascending.png");
 }
 .sortable.descending {
-  background-image : url(asset-path("cdesk/sorting_descending.png"));
+  background-image : url("assets/images/cdesk/sorting_descending.png");
 }
 .dashboard_outer_container {
   width: 1115px;
@@ -1704,7 +1704,7 @@ button, i, input[type="submit"] {
     margin: 20px;
     text-align: center;
     text-indent: -99999;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
   .isFixed {
     position: fixed;
@@ -1766,16 +1766,16 @@ button, i, input[type="submit"] {
       a {
         color: #0978c9 ;
         span span {
-          background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+          background: url("assets/images/cdesk/sorting_indicator.png") no-repeat right center;
           display: inline-block;
           height: 10px;
           width: 10px;
         }
         span span.descending {
-          background-image : url(asset-path("cdesk/sorting_descending.png"));
+          background-image : url("assets/images/cdesk/sorting_descending.png");
         }
         span span.ascending {
-          background-image : url(asset-path("cdesk/sorting_ascending.png"));
+          background-image : url("assets/images/cdesk/sorting_ascending.png");
         }
       }
     }
@@ -1830,7 +1830,7 @@ button, i, input[type="submit"] {
             }
             span.icon_KPI  {
               display: inline-block;
-              background: url(asset-path("cdesk/icn_goal.png")) no-repeat center top;
+              background: url("assets/images/cdesk/icn_goal.png") no-repeat center top;
               height: 20px;
               width: 22px;
             }
@@ -1856,7 +1856,7 @@ button, i, input[type="submit"] {
           }
           .metric_val {
             float: right;
-            @include blueVal() ;
+            .blueVal() ;
           }
         }
         .metric_graph_details {
@@ -1873,7 +1873,7 @@ button, i, input[type="submit"] {
               display: block;
             }
             span.detail_val {
-              @include ValStyle();
+              .ValStyle();
             }
           }
         }
@@ -1995,7 +1995,7 @@ button, i, input[type="submit"] {
         .status_icon {
           width: 16px;
           height: 18px;
-          background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
+          background: url("assets/images/statusBar/KPI_onTrack.png") no-repeat center center;
         }
       }
       .other_details {
@@ -2109,7 +2109,7 @@ button, i, input[type="submit"] {
           left: -25px ;
         }
         .end_point_val span.icon_KPI {
-          background: url(asset-path("cdesk/icn_goal_white.png")) no-repeat  #c1ccd4 5px 2px ;
+          background: url("assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;
           padding-left: 24px;
         }
         .end_point_val:after {
@@ -2346,7 +2346,7 @@ button, i, input[type="submit"] {
     cursor: pointer;
   }
   .arrrow_img {
-    background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
+    background: url("assets/images/cdesk/dropdown_down.png") no-repeat center center;
     display: inline-block;
     height: 10px;
     width: 10px;
@@ -2451,7 +2451,7 @@ button, i, input[type="submit"] {
       .status_icon {
         width: 16px;
         height: 18px;
-        background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
+        background: url("assets/images/statusBar/KPI_onTrack.png") no-repeat center center;
       }
     }
     .other_details {
@@ -2516,7 +2516,7 @@ button, i, input[type="submit"] {
       }
     }
     &:before {
-      background: url(asset-path("cdesk/dropdown_up_arrow.png")) no-repeat center bottom  ;
+      background: url("assets/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom  ;
       content: "";
       display: block;
       height: 10px;
@@ -2532,7 +2532,7 @@ button, i, input[type="submit"] {
     color: #fff ;
     .main_logo {
       display: block;
-      background: url(asset-path("collective-media-logo.png")) no-repeat center center ;
+      background: url("assets/images/collective-media-logo.png") no-repeat center center ;
       height: 44px;
       width: 170px;
       background-size: contain;
@@ -2543,7 +2543,7 @@ button, i, input[type="submit"] {
       margin : 8px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
-        background: url(asset-path("cdesk/account_icon.png")) no-repeat 2px 2px  ;
+        background: url("assets/images/cdesk/account_icon.png") no-repeat 2px 2px  ;
         height: 30px ;
         width: 30px ;
         &:hover {
@@ -2566,7 +2566,7 @@ button, i, input[type="submit"] {
           }
           .logout_link {
             color: #fff ;
-            background: url(asset-path("cdesk/logout_icon.png")) no-repeat  7px 1px;
+            background: url("assets/images/cdesk/logout_icon.png") no-repeat  7px 1px;
             padding-left: 26px;
             padding-top: 0;
             cursor: pointer;
@@ -2611,13 +2611,13 @@ button, i, input[type="submit"] {
         .brands_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url(asset-path("cdesk/brand_icon.png")) no-repeat 8px 9px  ;
+          background: url("assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;
         }
 
         .timeline_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url(asset-path("cdesk/lifetime_filter_icon.png")) no-repeat 8px 9px  ;
+          background: url("assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;
         }
         .timeline_dd {
           margin-top: 5px ;
@@ -2625,7 +2625,7 @@ button, i, input[type="submit"] {
         li.each_filter {
           margin-top: 0px ;
           .header_filter_arrow_dropdown  {
-            background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat no-repeat 65px 8px;
+            background: url("assets/images/cdesk/down_arrow_filter.png") no-repeat no-repeat 65px 8px;
             display: inline-block;
             height: 18px;
             width: 75px;
@@ -2650,7 +2650,7 @@ button, i, input[type="submit"] {
               color: #fff ;
             }
             li.active {
-              background: url(asset-path("cdesk/side_arrow.png")) no-repeat 10px 8px  ;
+              background: url("assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;
             }
             a {
               white-space: normal;
@@ -2666,7 +2666,7 @@ button, i, input[type="submit"] {
           #brandsDropdownDiv {
             input {
               font-family: "Avenir" ;
-              background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat no-repeat  80px 14px ;
+              background: url("assets/images/cdesk/down_arrow_filter.png") no-repeat no-repeat  80px 14px ;
               padding-right: 20px;
             }
             input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ;opacity: 1 ; }
@@ -2791,12 +2791,12 @@ button, i, input[type="submit"] {
         }
         li.filter_dropdown_open {
             .header_filter_arrow_dropdown {
-              background-image : url(asset-path("cdesk/up_arrow_filter.png")) ;
+              background-image : url("assets/images/cdesk/up_arrow_filter.png") ;
             }
             #brandsDropdownDiv {
               input {
                 font-family: "Avenir" ;
-                background : url(asset-path("cdesk/up_arrow_filter.png")) no-repeat  ;
+                background : url("assets/images/cdesk/up_arrow_filter.png") no-repeat  ;
                 width: 154px ;
                 background-position: 145px 12px; 
               }

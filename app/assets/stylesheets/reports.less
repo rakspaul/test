@@ -1,27 +1,27 @@
-$reportHighlight: #f5f9fd ;
-$reportTabSelectColor  : #0978c9 ;
-$reportTabDefaultColor : #57606d ;
-$reportBorder : #ccd9e3 ;
+@reportHighlight: #f5f9fd ;
+@reportTabSelectColor  : #0978c9 ;
+@reportTabDefaultColor : #57606d ;
+@reportBorder : #ccd9e3 ;
 
 
-@mixin ColHeadingFontColor() {
+.ColHeadingFontColor() {
   color: #21252b ;
   font-size: 14px ;
   font-weight: 500 ;
 }
 
-@mixin StrategyHeadingFontColor() {
+.StrategyHeadingFontColor() {
   color: #21252b ;
   font-size: 18px;
   font-weight: 500 ;
 }
 
-@mixin ReportDataFontColor() {
+.ReportDataFontColor() {
   color: #57606d;
   font-size: 14px;
 }
 
-@mixin ReportRowFontColor() {
+.ReportRowFontColor() {
   color:  #21252b;
   font-size: 14px; 
   font-weight: 900;
@@ -91,7 +91,7 @@ $reportBorder : #ccd9e3 ;
     font-size: 16px;
     margin: 0px 0 20px;
     text-transform: uppercase;
-    background: url(asset-path("assets/cdesk/icn_back.png")) no-repeat left top;
+    background: url("assets/images/assets/cdesk/icn_back.png") no-repeat left top;
     padding: 1px 0 0 14px;
   }
   .load_more_rows {
@@ -129,7 +129,7 @@ $reportBorder : #ccd9e3 ;
     .load-more {
       text-align: center;
       text-indent: -99999;
-      background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+      background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
       margin: 100px auto;
       display: block;
     }
@@ -170,7 +170,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     color: #2d2f31;;
     cursor: pointer;
     font-family: "Avenir";
-    @include ReportRowFontColor() ;
+    .ReportRowFontColor() ;
     margin: 2px 0 15px 0;
     padding-top: 20px;
     .green_color {
@@ -184,7 +184,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     position: relative;
     background: #fff;
     min-height: 200px;
-    border: solid 1px $reportBorder ;
+    border: solid 1px @reportBorder ;
     margin-bottom: 20px;
     max-height: 431px;
     overflow-y: auto;
@@ -192,13 +192,13 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       font-family: "Avenir";
      .each_rep_col_holder {
         padding: 20px 16px;
-        background: $reportHighlight ;
-        border: solid 1px $reportBorder ;
+        background: @reportHighlight ;
+        border: solid 1px @reportBorder ;
       }
     }
     .each_reports_row_details {
-      border-bottom: solid 1px $reportBorder;
-      @include ReportDataFontColor() ;
+      border-bottom: solid 1px @reportBorder;
+      .ReportDataFontColor() ;
     }
     .each_reports_row_details:hover  {
       background: #f8faff ;
@@ -209,7 +209,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     .default-kpi-header-icon {
       height: 17px;
       width: 17px;
-      background: url(asset-path("icn_goal.png")) no-repeat scroll left bottom ;
+      background: url("assets/images/icn_goal.png") no-repeat scroll left bottom ;
       background-size: 70% ;
       display: inline-block;
     }
@@ -292,20 +292,20 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-family: "Avenir";
   text-transform: uppercase;
   padding: 90px 0 0 0;
-  @include ColHeadingFontColor() ;
+  .ColHeadingFontColor() ;
   .each_rep_col_holder {
-    border-bottom: solid 2px $reportBorder ;
+    border-bottom: solid 2px @reportBorder ;
     padding: 15px 16px ;
     border-left: solid 5px transparent;
-    background: $reportHighlight ;
-    border: solid 1px $reportBorder ;
+    background: @reportHighlight ;
+    border: solid 1px @reportBorder ;
   }
 }
 .each_reports_row_heading.optimization_heading {
   
   text-transform: none;
   .after_before_title {
-    @include ColHeadingFontColor();
+    .ColHeadingFontColor();
     font-size: 12px ;
   }
 }
@@ -343,10 +343,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .each_rep_col_holder {
   .each_rep_col.negative_td .arrow_img {
-    background: url(asset-path("cdesk/red_arrow_img.png")) no-repeat right bottom;
+    background: url("assets/images/cdesk/red_arrow_img.png") no-repeat right bottom;
   }
   .each_rep_col.positive_td .arrow_img {
-    background: url(asset-path("cdesk/green_arrow_img.png")) no-repeat;
+    background: url("assets/images/cdesk/green_arrow_img.png") no-repeat;
   }
 }
 .reports_section_details_container .action_selected {
@@ -356,12 +356,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   float: right;
   width: 24px;
   height: 26px;
-  background: url(asset-path("cdesk/graphIcon.png")) no-repeat left center;
+  background: url("assets/images/cdesk/graphIcon.png") no-repeat left center;
   background-size: 100%;
 }
 .campaigns_sel_list_header {
-  border-left: solid 1px $reportBorder ;
-  border-right: solid 1px $reportBorder;
+  border-left: solid 1px @reportBorder ;
+  border-right: solid 1px @reportBorder;
   padding: 0 30px;
   height: 24px;
 }
@@ -399,7 +399,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     margin: 80px auto 0;
     display: block;
     width: 30px;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
 
   .no-chart {
@@ -413,7 +413,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     position: absolute;
     top: 0;
     left: 0;
-    background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat center center rgba(180, 174, 174, 0.8);
+    background: url("assets/images/cdesk/ajax-loading.gif") no-repeat center center rgba(180, 174, 174, 0.8);
     z-index: 1;
   }
   .highcharts div.inventory-tool-tip {
@@ -424,7 +424,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .default-kpi-header-icon , .default-kpi-dropdown-icon {
     height: 17px;
     width: 17px;
-    background: url(asset-path("icn_goal.png")) no-repeat scroll left bottom ;
+    background: url("assets/images/icn_goal.png") no-repeat scroll left bottom ;
     background-size: 70% ;
     display: inline-block;
   }
@@ -446,7 +446,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .dropdown_ul_text {
     cursor: pointer;
     .arrrow_img {
-      background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
+      background: url("assets/images/cdesk/dropdown_down.png") no-repeat center center;
       display: inline-block;
       height: 10px;
       width: 10px;
@@ -455,7 +455,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .dropdown_type1 , .dropdown_type2  {
     .arrrow_img {
-      background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat center center;
+      background: url("assets/images/cdesk/blue_dropdown.png") no-repeat center center;
     }
   }
   .dropdown-menu li {
@@ -483,7 +483,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     .dropdown {
       width: 100%;
       height: 100%;
-      background : url( asset-path( "cdesk/download_report_arrow.png")) no-repeat 155px 12px ;
+      background : url( asset-path( "cdesk/download_report_arrow.png") no-repeat 155px 12px ;
       ul.dropdown-menu {
         width: 193px;
         left: 0px;
@@ -538,7 +538,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .dropdown_type3 {
     margin: 8px 40px 0 0;
-    background: url(asset-path("cdesk/lifetime_icon.png")) no-repeat 2px 3px;
+    background: url("assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
     padding-left: 20px;
     .dropdown-menu {
       min-width: 120px;
@@ -601,24 +601,24 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     cursor: pointer;
     .performance_symbol {
       display: inline-block;
-      background: url(asset-path("cdesk/top_performance_btn_down.png")) no-repeat center center;
+      background: url("assets/images/cdesk/top_performance_btn_down.png") no-repeat center center;
       height: 30px;
       width: 30px;
       float: left;
       margin: 0px 10px 0px 0px;
     }
     .top_perf_symbol {
-      background: url(asset-path("cdesk/top_performance_btn_top.png")) no-repeat center center;
+      background: url("assets/images/cdesk/top_performance_btn_top.png") no-repeat center center;
     }
     .performance_text {
       float: left;
       margin-top: 5px;
-      @include ColHeadingFontColor();
+      .ColHeadingFontColor();
     }
   }
   .inventory_strategy_chart {
     background: #fff;
-    border: solid 1px $reportBorder ;
+    border: solid 1px @reportBorder ;
     min-height: 200px;
     padding: 20px 10px;
     .inventory_chart {
@@ -645,7 +645,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         text-shadow: 0px 1px 0px #e5ecef;
       }
       .cpa_data, .imps_del_data {
-        @include ReportDataFontColor() ;
+        .ReportDataFontColor() ;
       }
       .url_val {
         padding: 8px 10px;
@@ -655,7 +655,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         height: 36px;
         overflow: hidden;
         white-space: nowrap;
-        @include ReportDataFontColor() ;
+        .ReportDataFontColor() ;
       }
     }
   }
@@ -668,7 +668,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .inventory_chart_details_list {
     width: 540px;
     float: right;
-    @include ColHeadingFontColor();
+    .ColHeadingFontColor();
   }
   .cpa_col {
     width: 120px;
@@ -696,14 +696,14 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .each_chart_accordion_holder {
     .chart_accordion_heading {
-      background: $reportHighlight;
+      background: @reportHighlight;
       height: 70px;
       padding-top: 25px;
       margin-top: 10px;
-      border: solid 1px $reportBorder ;
+      border: solid 1px @reportBorder ;
       padding-left: 20px;
       cursor: pointer;
-      @include ReportRowFontColor() ;
+      .ReportRowFontColor() ;
     }
     .inventory_strategy_chart {
       border-top: 0px;
@@ -718,25 +718,25 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .inventory_tabs {
     text-transform: uppercase;
     margin-right: 28px;
-    border: solid 1px $reportBorder ;
+    border: solid 1px @reportBorder ;
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
     -moz-border-radius: 5px 5px 0px 0px;
     -webkit-border-radius: 5px 5px 0px 0px;
     span {
       display: inline-block;
-      border-right: solid 1px $reportBorder ;
+      border-right: solid 1px @reportBorder ;
       float: left;
-      border-bottom: solid 1px $reportBorder ;
+      border-bottom: solid 1px @reportBorder ;
       position: relative;
       width: 155px;
       height: 35px;
       a {
-        color: $reportTabDefaultColor ;
+        color: @reportTabDefaultColor ;
         font-size: 13px;
         text-decoration: none;
         position: absolute;
-        background: $reportHighlight;
+        background: @reportHighlight;
         width: 100%;
         text-align: center;
         padding-top: 8px;
@@ -744,7 +744,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       }
       &:hover {
         a {
-          color: $reportTabSelectColor ;
+          color: @reportTabSelectColor ;
         }
       }
     }
@@ -753,7 +753,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       a {
         background: #fff;
         height: 37px;
-        color: $reportTabSelectColor ;
+        color: @reportTabSelectColor ;
       }
     }
     span:last-child {
@@ -778,7 +778,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     text-indent: -99999;
     height: 40px;
     width: 140px;
-    background: url(asset-path("loading.gif")) no-repeat scroll 70% 9% rgba(0, 0, 0, 0);
+    background: url("assets/images/loading.gif") no-repeat scroll 70% 9% rgba(0, 0, 0, 0);
     margin: 20px auto 0 ;
     display: inline-block;
   }
@@ -794,12 +794,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 div.strategy_total_container {
   div.strategy_total_container_header {
-    background: $reportHighlight  ;
-    border: solid 1px $reportBorder ;
+    background: @reportHighlight  ;
+    border: solid 1px @reportBorder ;
     border-top-width: 2px ; 
     padding: 20px;
     div.each_col.first_col {
-      @include StrategyHeadingFontColor();
+      .StrategyHeadingFontColor();
     }
   }
   .all_strategies_holder {
@@ -808,13 +808,13 @@ div.strategy_total_container {
       float: left;
       width: 10px;
       height: 104px ;
-      border-left: solid 1px $reportBorder ;
+      border-left: solid 1px @reportBorder ;
     }
     .linkage_lines:after {
       content: "";
       height: 1px;
       width: 10px;
-      background: $reportBorder ;
+      background: @reportBorder ;
       display: block;
       position: absolute;
       top: 50%;
@@ -825,7 +825,7 @@ div.strategy_total_container {
       width: 1104px;
       padding: 20px 20px 20px 10px;
       margin: 10px 0 0 0px;
-      border: solid 1px $reportBorder ;
+      border: solid 1px @reportBorder ;
       background: #fff;
     }
     .each_strategy_holder:last-child {
@@ -844,13 +844,13 @@ div.strategy_total_container {
     .each_col.first_col {
      float: none;   
      width: 100% ;
-     @include ReportRowFontColor() ;
+     .ReportRowFontColor() ;
     }
     .strategy_total_container_header {
       padding-top : 10px ;
     }
     .each_strategy_holder {
-      border-left: solid 1px $reportBorder ;
+      border-left: solid 1px @reportBorder ;
       padding-left: 10px ;
       position: relative;
       .each_strategy {
@@ -880,7 +880,7 @@ div.strategy_total_container {
     width: 185px;
     margin: 0 30px;
     padding-top: 20px;
-    @include ReportDataFontColor() ;
+    .ReportDataFontColor() ;
     > span {
       text-align: center;
       display: block;
@@ -995,11 +995,11 @@ div.strategy_total_container {
     }
   .viewability_header {
     background: #fff;
-    border: solid 1px $reportBorder ;
+    border: solid 1px @reportBorder ;
     padding: 10px 20px;
     .each_col {
       padding-top: 0px;
-      @include ColHeadingFontColor() ;
+      .ColHeadingFontColor() ;
     }
     .sec_col {
       .sub_col {
@@ -1031,7 +1031,7 @@ div.strategy_total_container {
         font-size: 12px;
       }
       .arrrow_img {
-        background: url(asset-path("cdesk/dropdown_down.png")) no-repeat left bottom;
+        background: url("assets/images/cdesk/dropdown_down.png") no-repeat left bottom;
       }
     }
     .sub_col {
@@ -1061,12 +1061,12 @@ div.strategy_total_container {
     text-indent: -99999;
     height: 40px;
     width: 40px;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
     margin: 20px auto 0 ;
     display: block;
   }
   .each_strategy_holder {
-    border-left: solid 1px $reportBorder ;
+    border-left: solid 1px @reportBorder ;
     padding-left: 10px ;
     position: relative;
   }
@@ -1076,7 +1076,7 @@ div.strategy_total_container {
     height: 1px;
     top: 50%;
     left: 0;
-    background: $reportBorder ;
+    background: @reportBorder ;
   }
   .each_strategy_holder:last-child {
     .linkage_bar {
@@ -1099,7 +1099,7 @@ div.strategy_total_container {
       float: left;
       text-transform: uppercase;
       font-size: 13px;
-      color: $reportTabDefaultColor ;
+      color: @reportTabDefaultColor ;
       height: 36px;
       width: 170px;
       text-align: center;
@@ -1107,12 +1107,12 @@ div.strategy_total_container {
       border-right: solid 1px #d2dee7 ;
       cursor: pointer;
       .each_tab_text {
-        background: $reportHighlight ;
+        background: @reportHighlight ;
         padding: 8px 0px;
         border-radius: 4px 0 0 0 ;
       }
       &:hover {
-        color: $reportTabSelectColor ;
+        color: @reportTabSelectColor ;
       }
     }
     .cost_tab {
@@ -1130,7 +1130,7 @@ div.strategy_total_container {
         position: absolute;
         z-index: 1;
         width: 100%;
-        color: $reportTabSelectColor;
+        color: @reportTabSelectColor;
       }
     }
   }
@@ -1159,14 +1159,14 @@ div.strategy_total_container {
         }
         .linkage_lines:after {
           top : 100% ;
-          background: $reportBorder ;
+          background: @reportBorder ;
         }
       }
     }
     .first_col {
       text-align: left;
       width: 200px;
-      @include ReportRowFontColor() ;
+      .ReportRowFontColor() ;
       margin-top: 10px;
       .sub_title {
         font-weight: normal;
@@ -1175,16 +1175,16 @@ div.strategy_total_container {
     }
     .row_list_holder {
       .each_row_list {
-        @include ReportDataFontColor() ;
+        .ReportDataFontColor() ;
       }
     }
     .reports_performance_header {
       background: #fff;
-      border: solid 1px $reportBorder ;
+      border: solid 1px @reportBorder ;
       padding: 10px 20px;
       border-bottom: 0px ;
       .each_col {
-        @include ColHeadingFontColor();
+        .ColHeadingFontColor();
       }
       .first_col {
         margin-top: 10px ;
@@ -1218,7 +1218,7 @@ div.strategy_total_container {
     text-indent: -99999;
     height: 40px;
     width: 40px;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
     margin: 20px auto 0 ;
     display: block;
   }
@@ -1231,13 +1231,13 @@ div.strategy_total_container {
       }
     }
     .each_cost_col {
-      @include ColHeadingFontColor();
+      .ColHeadingFontColor();
     }
     .more_options {
       .dropdown-menu  {
         li {
           a {
-            @include ColHeadingFontColor() ;
+            .ColHeadingFontColor() ;
           }
         }
       }
@@ -1256,7 +1256,7 @@ div.strategy_total_container {
   }
   .each_cost_col {
     font-family: "Avenir" ;
-    @include ReportDataFontColor();
+    .ReportDataFontColor();
   }
   .each_cost_heading {
     font-weight: bold;
@@ -1279,10 +1279,10 @@ div.strategy_total_container {
   .cost_transparency_container {
     .strategy_total_row {
       position: relative;
-      background: $reportHighlight ;
+      background: @reportHighlight ;
       .each_cost_heading {
         font-size: 18px ;
-        @include StrategyHeadingFontColor();
+        .StrategyHeadingFontColor();
       }
       .common-load-icon {
         position: absolute;
@@ -1451,7 +1451,7 @@ div.strategy_total_container {
     a {
       display: block;
       text-decoration: none;
-      background: url(asset-path("cdesk/breadcrumb_back_btn.png")) no-repeat left center ;
+      background: url("assets/images/cdesk/breadcrumb_back_btn.png") no-repeat left center ;
       padding-left: 34px;
       &:hover {
         color: #0978c9;
@@ -1470,7 +1470,7 @@ div.strategy_total_container {
   top: 0;
   left: 0;
   height: 100% ;
-  background-image :  url(asset-path("reports_login/login_bg_image.jpg")) ; 
+  background-image :  url("assets/images/reports_login/login_bg_image.jpg") ; 
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -1528,7 +1528,7 @@ div.strategy_total_container {
         border: solid 2px #C32A2A ;
     }
     .external_chkbox .squaredFour label {
-      background-image : url(asset-path("reports_login/check_box.png")) ; 
+      background-image : url("assets/images/reports_login/check_box.png") ; 
       opacity: 1;
       border: 0;
       border-radius: 0px;
@@ -1539,15 +1539,15 @@ div.strategy_total_container {
     }
     .external_chkbox {
       input[type=checkbox]:checked + label {
-       background-image : url(asset-path("reports_login/check_box_chkd.png")) ; 
+       background-image : url("assets/images/reports_login/check_box_chkd.png") ; 
        opacity: 1 ;
       }
     }
     .username_login_txtbox {
-      background-image : url(asset-path("reports_login/user_icon.png")) ; 
+      background-image : url("assets/images/reports_login/user_icon.png") ; 
     }
     .pass_login_txtbox {
-      background-image: url(asset-path("reports_login/password_icon.png")) ; 
+      background-image: url("assets/images/reports_login/password_icon.png") ; 
     }
     .keep_signed_in {
       color: #939eae ;
@@ -1592,7 +1592,7 @@ div.strategy_total_container {
       width: 100% ;
       height: 68px ;
       margin-bottom: 60px ;
-      background: url(asset-path("reports_login/collective_reporting_logo.png")) no-repeat center top ; 
+      background: url("assets/images/reports_login/collective_reporting_logo.png") no-repeat center top ; 
     }
     .login_btn {
       outline: none;
@@ -1614,7 +1614,7 @@ div.strategy_total_container {
     }
     .login_btn.loading {
       font-size: 0px ;
-      background-image : url(asset-path("reports_login/loading_submit.gif")) ; 
+      background-image : url("assets/images/reports_login/loading_submit.gif") ; 
       background-repeat: no-repeat;
       background-position: center center ;
     }
@@ -1641,7 +1641,7 @@ div.strategy_total_container {
   text-indent: -99999;
   height: 40px;
   width: 40px;
-  background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  background: url("assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   margin: 20px auto 0 ;
   display: block;
 }
