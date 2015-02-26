@@ -1,15 +1,49 @@
-@(title: String)(content: Html)
+!!!
+%html{'ng-app' => "cdeskApp"}
+  %head
+    %meta{:charset => "utf-8"}
+    %title= content_for?(:title) ? yield(:title) : "Reporting"
+    %meta{:content => "Collective Desk UI", :name => "description"}
+    %meta{:content => "Collective", :name => "author"}
+    %link{:rel => "shortcut icon", :href => "#{image_path('collective.png')}", :type => "image/x-icon"}
 
-<!DOCTYPE html>
+    :javascript
+      window.scala_api                = "#{scala_api_url}";
+      window.workflow_api             = "#{workflow_api_url}";
 
-<html>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
-    </head>
-    <body>
-        @content
-    </body>
-</html>
+    = stylesheet_link_tag    "cdesk_application", :media => "all"
+    = stylesheet_link_tag    "//fonts.googleapis.com/css?family=Armata"
+    = javascript_include_tag "cdesk_application"
+    = csrf_meta_tags
+
+    != render :partial => 'layouts/ga'
+    = yield(:head)
+
+  %body
+    - if cookies[:cdesk_session]
+      %header
+
+
+
+
+
+  = content_for?(:content) ? yield(:content) : yield
+  
+  :javascript
+    window.assets                   = {};
+    window.assets.target_marker     = "#{image_path('cdesk/icn_goal.png')}";
+    window.assets.platform_icon     = "#{image_path('tag_icon.png')}";
+    window.assets.ontrack           = "#{image_path('statusWidget/on_track_icon.png')}";
+    window.assets.underperforming   = "#{image_path('statusWidget/underperforming_icon.png')}";
+    window.assets.paused            = "#{image_path('statusWidget/paused_icon.png')}";
+    window.assets.ready             = "#{image_path('statusWidget/ready_icon.png')}";
+    window.assets.completed         = "#{image_path('statusWidget/completed_icon.png')}";
+    window.assets.draft             = "#{image_path('statusWidget/draft_icon.png')}";
+    window.assets.active            = "#{image_path('statusWidget/active_icon.png')}";
+    window.assets.display           = "#{image_path('cdesk/desktop_screen_icon.png')}" ;
+    window.assets.video             = "#{image_path('cdesk/video_screen_icon.png')}" ;
+    window.assets.social            = "#{image_path('cdesk/social_screen_icon.png')}" ;
+    window.assets.mobile            = "#{image_path('cdesk/smartphone_screen_icon.png')}" ;
+    window.assets.desktop           = "#{image_path('cdesk/desktop_screen_icon.png')}" ;
+    window.assets.smartphone        = "#{image_path('cdesk/smartphone_screen_icon.png')}" ;
+    window.assets.tablet            = "#{image_path('cdesk/tablet_screen_icon.png')}" ;
