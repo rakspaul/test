@@ -251,7 +251,8 @@ svg.append('rect').attr("class","marker_body");
                 var td = gantt.timeDomain();
                 gantt.timeDomain([td[0]-scale*d3.event.dx, td[1]-scale*d3.event.dx]);
                 //console.log(td[0]-scale*d3.event.dx);
-                gantt.redraw(tasks);
+                
+                gantt.redraw(tasks, timeDomainString);
             })
             .on('dragend', function() {
                 d3.event.sourceEvent.stopPropagation();
