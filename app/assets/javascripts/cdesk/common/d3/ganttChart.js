@@ -1005,7 +1005,7 @@ svg.append('rect').attr("class","marker_body");
     commonModule.directive("ganttChart", function () {
         return {
             restrict: 'EAC',
-            templateUrl: '/assets/html/orders/_gantt_chart.html'
+            templateUrl: '/assets/html/gantt_chart.html'
         }
     })
 }());

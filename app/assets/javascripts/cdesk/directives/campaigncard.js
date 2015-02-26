@@ -9,7 +9,7 @@
                 campaigns: '='
             },
 
-            templateUrl: '/assets/html/orders/_campaign_card.html',
+            templateUrl: '/assets/html/campaign_card.html',
 
             link: function ($scope, element, attrs) {
 

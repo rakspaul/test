@@ -290,7 +290,7 @@
     commonModule.directive("screenChart", function () {
         return {
             restrict: 'EAC',
-            templateUrl: '/assets/html/orders/_screen_chart.html'
+            templateUrl: '/assets/html/screen_chart.html'
         }
     })
 }());

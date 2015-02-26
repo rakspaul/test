@@ -596,7 +596,7 @@
     commonModule.directive("bubbleChart", function () {
         return {
             restrict: 'EAC',
-            templateUrl: '/assets/html/orders/_bubble_chart.html'
+            templateUrl: '/assets/html/bubble_chart.html'
         }
     })
 }());

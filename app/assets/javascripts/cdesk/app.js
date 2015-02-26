@@ -27,28 +27,28 @@ var angObj = '';
        }
         $routeProvider
             .when('/campaigns/:campaignId', {
-                templateUrl: '/assets/html/orders/_campaign_details.html',
+                templateUrl: '/assets/html/campaign_details.html',
                 controller: 'CampaignDetailsController'
             })
             .when('/optimization', {
-              templateUrl: '/assets/html/orders/_optimization.html',
+              templateUrl: '/assets/html/optimization.html',
               controller: 'OptimizationController'
             })
             .when('/inventory', {
-              templateUrl: '/assets/html/orders/_inventory.html' ,
+              templateUrl: '/assets/html/inventory.html' ,
               controller: 'InventoryController'
               
             })
             .when('/viewability', {
-                templateUrl: '/assets/html/orders/_viewability.html',
+                templateUrl: '/assets/html/viewability.html',
                 controller: 'viewabilityController'
             })
             .when('/cost', {
-                templateUrl: '/assets/html/orders/_cost.html',
+                templateUrl: '/assets/html/cost.html',
                 controller: 'costController'
             })
             .when('/performance', {
-                templateUrl: '/assets/html/orders/_performance.html',
+                templateUrl: '/assets/html/performance.html',
                 controller: 'performanceController'
             })
             .otherwise({redirectTo: setDefaultPage});

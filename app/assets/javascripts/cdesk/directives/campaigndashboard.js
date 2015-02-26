@@ -8,7 +8,7 @@
                 campaigns: '='
             },
 
-            templateUrl: '/assets/html/orders/_campaign_dashboard.html',
+            templateUrl: '/assets/html/campaign_dashboard.html',
 
             link: function ($scope, element, attrs) {
 
