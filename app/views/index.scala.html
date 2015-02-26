@@ -1,29 +1,30 @@
-.campaign-list-container{"ng-view" => ""}
-.loading-spinner-holder.loader
-
-= render_view_js_template "header"
-= render_view_js_template "brands_drop_down"
-= render_view_js_template "timeperiod_drop_down"
-= render_view_js_template "dashboard"
-= render_view_js_template "gauge"
-= render_view_js_template "bubble_chart"
-= render_view_js_template "screen_chart"
-= render_view_js_template "gantt_chart"
-= render_view_js_template "campaign_list"
-= render_view_js_template "campaign_details"
-= render_view_js_template "campaign_filters"
-= render_view_js_template "campaign_list_filters"
-= render_view_js_template "campaign_cost_filters"
-= render_view_js_template "campaign_dashboard"
-= render_view_js_template "campaign_card"
-= render_view_js_template "campaign_cost_card"
-= render_view_js_template "campaign_strategy_card"
-= render_view_js_template "campaign_tactics_card"
-= render_view_js_template "optimization"
-= render_view_js_template "inventory"
-= render_view_js_template "viewability"
-= render_view_js_template "cost"
-= render_view_js_template "performance"
-= render_view_js_template "multi_select"
-= render_view_js_template "reports_login"
-= render_view_js_template "main_dashboard"
+@main {
+<div class='campaign-list-container' ng-view=''></div>
+<div class='loading-spinner-holder loader'></div>
+@header()
+@brands_drop_down()
+@timeperiod_drop_down()
+@dashboard()
+@gauge()
+@bubble_chart()
+@screen_chart()
+@gantt_chart()
+@campaign_list()
+@campaign_details()
+@campaign_filters()
+@campaign_list_filters()
+@campaign_cost_filters()
+@campaign_dashboard()
+@campaign_card()
+@campaign_cost_card()
+@campaign_strategy_card()
+@campaign_tactics_card()
+@optimization()
+@inventory()
+@viewability()
+@cost()
+@performance()
+@multi_select()
+@reports_login()
+@main_dashboard()
+}
