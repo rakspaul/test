@@ -20,7 +20,7 @@
           filterDurationValue:'Life Time',
           filterKpiType:param.selectedCampaign.kpi_type,
           filterKpiValue:param.selectedCampaign.kpi_type.toUpperCase(),
-          primary_kpi: param.selectedCampaign.primary_kpi,
+          primary_kpi: param.selectedCampaign.kpi_type,
           previousCampaignId:null
         }));
       },
@@ -36,7 +36,7 @@
           filterDurationValue:'Life Time',
           filterKpiType:param.selectedCampaign.kpi_type,
           filterKpiValue:(param.selectedCampaign.kpi_type === 'action_rate' || param.selectedCampaign.kpi_type === 'action rate' ) ? 'Action rate' : param.selectedCampaign.kpi_type.toUpperCase(),
-          primary_kpi: param.selectedCampaign.primary_kpi
+          primary_kpi: param.selectedCampaign.kpi_type
         }));
       },
 
