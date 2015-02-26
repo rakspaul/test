@@ -311,7 +311,7 @@
   commonModule.directive("gauge", function () {
     return {
       restrict: 'EAC',
-      templateUrl: 'gauge'
+      templateUrl: '/assets/html/orders/_gauge.html'
     }
   })
 }());
