@@ -1,2 +1,2 @@
 
-var brandsModule = angular.module('brandsModule', ['commonModule'])
+var brandsModule = angular.module('brandsModule', ['commonModule','lrInfiniteScroll'])

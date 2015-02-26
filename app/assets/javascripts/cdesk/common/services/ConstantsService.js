@@ -69,11 +69,12 @@
     this.CPA = "CPA";
     this.ACTION_RATE = "Action rate";
     this.SCREENS = "Screens";
-    this.FORMATS = "Formats"
+    this.FORMATS = "Formats";
 
+    this.DEFAULT_LIMIT_COUNT = 100;
+    this.DEFAULT_OFFSET_START = 0;
 
-
-  }
+  };
 
   commonModule.service("constants", constants);
 
