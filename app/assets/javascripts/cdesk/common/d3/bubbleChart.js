@@ -26,7 +26,7 @@
                 onTrack : {
                     circleFill :   "#56D431",
                     spendFillLight :  "url(#greenGradient)",
-                    spendPathOutline :   "#379B1C",
+                    spendPathOutline :   "#379B1C"
                 },
                 underPerforming : {
                     circleFill : "#F1661F" ,

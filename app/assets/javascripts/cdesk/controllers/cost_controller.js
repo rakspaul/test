@@ -19,20 +19,20 @@ var angObj = angObj || {};
         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
-            class: '',
+            'class': '',
             sortDirection: '',
             ascendingDir: true
 
         }, {
             display: 'Imps',
             key: 'impressions',
-            class: '',
+            'class': '',
             sortDirection: '',
             ascendingDir : false
         }, {
             display: 'Total Spend',
             key: 'total',
-            class: '',
+            'class': '',
             sortDirection: '',
             ascendingDir : false
 
@@ -64,7 +64,7 @@ var angObj = angObj || {};
 
                 for(var i in $scope.sort_field){
                     if($scope.sort_field[i].key ===   $scope.filter.sortByColumn){
-                        $scope.sort_field[i].class = 'active';
+                        $scope.sort_field[i]['class'] = 'active';
                         $scope.sort_field[i].ascendingDir = $scope.filter.ascendingDir ;
                         //( $scope.sort_field[i].ascendingDir === true)?($scope.sort_field[i].sortDirection = 'descending'):($scope.sort_field[i].sortDirection = 'ascending');
                         ( $scope.sort_field[i].ascendingDir === true)?($scope.sort_field[i].sortDirection = 'ascending'):($scope.sort_field[i].sortDirection = 'descending');
@@ -251,7 +251,7 @@ var angObj = angObj || {};
             $scope.filter.sortByColumn = sortby;
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
-                    $scope.sort_field[i].class = 'active';
+                    $scope.sort_field[i]['class'] = 'active';
                     $scope.sort_field[i].ascendingDir =   !$scope.sort_field[i].ascendingDir ;
                     $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
 
@@ -260,7 +260,7 @@ var angObj = angObj || {};
                     localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.filter.sortByColumn );
                 }
                 else{
-                    $scope.sort_field[i].class = '';
+                    $scope.sort_field[i]['class'] = '';
                     $scope.sort_field[i].sortDirection = '';
                 }
 

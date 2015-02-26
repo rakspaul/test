@@ -317,7 +317,7 @@
                   return this.series.name + ':' + ' <b>' + symbol + this.point.y + suffix + '<br>' + this.point.options.note.text + '</b><br/>';
                 }
               }
-            },
+            }
           },
           series: [{
             id: 'series-1',

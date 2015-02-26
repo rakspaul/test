@@ -46,14 +46,14 @@
   padding-top: 0;
 }
 
-@mixin form_selects() {
+.form_selects() {
   min-width: 120px;
   width: 80%;
   max-width: 150px;
 }
 
 .bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-  @include form_selects;
+  .form_selects();
 }
 
 .bootstrap-select {
@@ -79,7 +79,7 @@
 .selectize-control {
   display: inline-block;
   font-size: 12px;
-  @include form_selects;
+  .form_selects();
 
   .selectize-dropdown,
   .selectize-input,
