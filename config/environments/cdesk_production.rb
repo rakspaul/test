@@ -57,7 +57,7 @@ Reachui::Application.configure do
 
   config.scala_api    = 'https://beta.collective.com/dataapi'
   config.workflow_api = 'https://beta.collective.com/wapi'
-  config.ga_id = 'UA-59003232-1'
+  config.ga_id = 'UA-58701829-1'
 
   # audience group segment search
   # comma separated string of network ids
