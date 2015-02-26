@@ -8,12 +8,17 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
   brand.showAll = true;
   brand.enable = true;
   brand.cssClass = "";
+  var brands = [brand.allBrandObject];
   return {
-    getBrands: function (success) {
-      brandsService.fetchBrands().then(function (response) {
-        var brands = [
-          {'name': constants.ALL_BRANDS, 'id': -1, 'className': 'active'}
-        ].concat(response.data.data);
+    getBrands: function (success,limit,offset,key,search) {
+      brandsService.fetchBrands(limit,offset,key).then(function (response) {
+        //Note: Here search represents, only matching entries list.
+        var resData = response.data.data;
+        if(search){
+          brands = [];
+          brands.push(brand.allBrandObject);
+        }
+        brands = brands.concat(resData);
         brand.totalBrands = brands.length;
         success.call(this, brands);
       })
