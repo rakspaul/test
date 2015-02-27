@@ -480,23 +480,28 @@ svg.append('rect').attr("class","marker_body");
 		            //.attr("style", "cursor:pointer")
 		            .attr("fill", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
+		            	if(width <= 0){
+		            		return "none"
+		            	} else if(width<=40) {
+		            		if(timeDomainString == "today") { return "none"; }
 		            		return "#74AFDD" //BLUE - LINE COLOR
-		            	} else {
+		            	} else  {
 		            		return "#e7edf1"
 		            	}
 		            })
 		            .attr("width", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
+		            	if(width <= 0){
+		            		width = 0;
+		            	} else if(width<=40) {
 		            		width =2;
-		            	}
+		            	}  
 		            	return width;
 		            })
 		            .attr("height", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
-		            		 return height - margin.top - 5;
+		            		 return height - margin.top;
 		            	} else {
 		            		return 4;
 		            	}
@@ -524,7 +529,7 @@ svg.append('rect').attr("class","marker_body");
 		            	if(width<=40) {
 		            		 return 0;
 		            	} else {
-		            		return height - margin.top - 5;
+		            		return height - margin.top;
 		            	}
 
 		            })
@@ -946,7 +951,6 @@ svg.append('rect').attr("class","marker_body");
 		    format = "%d";
 		    timeDomainString = "today";
 
-console.log(tasks.length);
 		    var calendar_height = tasks.length * 37;
 		    calendar_height= (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
