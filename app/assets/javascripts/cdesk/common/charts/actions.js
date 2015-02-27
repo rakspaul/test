@@ -26,7 +26,7 @@
         if(activityCount.toString().length > 1){
           var place_circle_x = 5.5; 
         }else{
-          var place_circle_x= 3;
+          var place_circle_x= 2.5;
         }
         var numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities';
         marker = chart.renderer.text(display_activityCount,xPos-2 ,yPos+2).attr({
@@ -36,10 +36,11 @@
           zIndex: 9,
           applyColor:applyColor
         }).css({
-          fontWeight: 'bold',
-          fontSize: '8px',
-          textAlign: 'left',
+          fontSize: '9px',
+          textAlign: 'center',
           leftMargin:'2px',
+          fontFamily: 'Avenir',
+          fontWeight:'bold',
           color:display_color,
           cursor: 'pointer'
         }).on('click', function (markerObj) {
@@ -53,7 +54,7 @@
         chart.renderer.circle(container.x+place_circle_x , container.y+5,10).attr({
           fill: '#fff',
           stroke: (defaultGrey == false|| isActionExternal==false ) ? '#777':'#0072bc',
-          'stroke-width': 1.5,
+          'stroke-width': 2.5,
           id: actionId || 'NA',
           kpiType: kpiType || 'NA',
           kpiValue: kpiValue || 'NA',
