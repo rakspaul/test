@@ -14,7 +14,7 @@
 
 		    var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
 		    
-		    var CALENDAR_WIDTH = 1050;
+		    var CALENDAR_WIDTH = 1090;
 
 		    var isSingleBrand = false;
 
@@ -134,7 +134,7 @@
 				            .tickFormat(function(d){
 				            	
 								count++;
-								if(timeDomainString == "1month" || timeDomainString == "today" || timeDomainString == "week"){
+								if(timeDomainString == "month" || timeDomainString == "today" || timeDomainString == "week"){
 					            	if(count == 1 || moment(d).format("D") == 1){
 					            		return formatMonth(d);
 					            	} else {
@@ -633,7 +633,7 @@ svg.append('rect').attr("class","marker_body");
 		        svg.select(".x").transition().call(xAxis)
 		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
 		        		//formatting for ticks
-		            	if(timeDomainString == "1month") {
+		            	if(timeDomainString == "month") {
 		      				if(i == 0) {return -30; }else {return 5;}
 		            	} else {
 		                	return 20;
@@ -737,11 +737,6 @@ svg.append('rect').attr("class","marker_body");
 		var format;
 		var timeDomainString;
 
-		function prev() {
-		     changeTimeDomain('prev');
-
-		}
-
 		function addTask() {
 		    var lastEndDate = getEndDate();
 		    var taskStatusKeys = Object.keys(taskStatus);
@@ -772,15 +767,23 @@ svg.append('rect').attr("class","marker_body");
 		    return lastEndDate;
 		}
 
-		function next() {
-		   
-		    changeTimeDomain('next');
+		function prev(timeDomainString) {
+		    var td = gantt.timeDomain();
+            var scale = (td[1]-td[0])/10;
+            gantt.timeDomain([td[0]-scale, td[1]-scale]);
+           	gantt.redraw(tasks, timeDomainString);
 
+		}
+		function next(timeDomainString) {
+			var td = gantt.timeDomain();
+            var scale = (td[1]-td[0])/10;
+            gantt.timeDomain([td[0]+scale, td[1]+scale]);
+           	gantt.redraw(tasks, timeDomainString);
 		}
 
 		function month() {
 
-		    changeTimeDomain('1month');
+		    changeTimeDomain('month');
 
 		}
 
@@ -804,34 +807,13 @@ svg.append('rect').attr("class","marker_body");
 
 		function changeTimeDomain(timeDomainString) {
 
-		    // this.timeDomainString = timeDomainString;
-
 		    //calculating timedomain based on present day 
 		    var todayIs = moment();
 		    var thisMonth = moment().format("MM");
 		    var presentYear = moment().format("YYYY");
 
-		    //this quarter
-		    //this year
-		    //this month
-
-		  
-		    
-
 		    switch (timeDomainString) {
-		        case "1hr":
-		            format = "%H:%M:%S";
-		            gantt.timeDomain([d3.time.hour.offset(getEndDate(), -1), getEndDate()]);
-		            break;
-		        case "3hr":
-		            format = "%H:%M";
-		            gantt.timeDomain([d3.time.hour.offset(getEndDate(), -3), getEndDate()]);
-		            break;
-
-		        case "6hr":
-		            format = "%H:%M";
-		            gantt.timeDomain([d3.time.hour.offset(getEndDate(), -6), getEndDate()]);
-		            break;
+		        
 
 		        case "1day":
 		            format = "%H:%M";
@@ -843,7 +825,7 @@ svg.append('rect').attr("class","marker_body");
 		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -15), getEndDate()]);
 		            break;
 
-		        case "1month":
+		        case "month":
 		            format = "%d";
 
 		            gantt.timeDomain([moment().startOf('month'), moment().endOf('month')]);
@@ -879,14 +861,14 @@ svg.append('rect').attr("class","marker_body");
 		            gantt.timeDomain([moment().startOf('year'), moment().endOf('year')]);
 		            break;
 
-		        case "next":
-		            format = "%d";
-		            gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
-		            break;
-		         case "prev":
-		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
-		            break;
+		        // case "next":
+		        //     format = "%d";
+		        //     gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
+		        //     break;
+		        //  case "prev":
+		        //     format = "%d";
+		        //     gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
+		        //     break;
 		        default:
 		            format = "%H:%M"
 

@@ -97,11 +97,11 @@
         	ganttChart.addTask();
         }
          $scope.prev = function(){
-        	ganttChart.prev();
+        	ganttChart.prev($scope.selected);
         }
 
         $scope.next = function(){
-        	ganttChart.next();
+        	ganttChart.next($scope.selected);
         }
 
         $scope.month = function(){
