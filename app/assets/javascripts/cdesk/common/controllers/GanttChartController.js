@@ -16,8 +16,7 @@
                 //TODO: move this into a service
                 if(result != undefined && result.brands != undefined &&  result.brands.length >0){
                     $scope.noData = false;
-                    _.each(_.first(result.brands,5), function(datum) {
-
+                    _.each(result.brands, function(datum) {
                         //placeholder - empty value to add spacing
                         count++;
                         var c = {};
@@ -60,13 +59,13 @@
                             campaigns.push(c);
                             brands.push(count);
 
-                            _.each(_.first(datum.campaigns, limit), function(tasks) {
+                            _.each(datum.campaigns, function(tasks) {
                                 count++;
                                 var c = {};
                                 c.id = tasks.id;
                                 c.name = tasks.name;
-                                c.startDate = new Date(tasks.start_date);
-                                c.endDate = new Date(tasks.end_date);
+                                c.startDate = moment(tasks.start_date).startOf('day');
+                                c.endDate = moment(tasks.end_date).endOf('day');
                                 c.state = tasks.state;
                                 c.kpiStatus = tasks.kpi_status;
                                 c.taskName =  count;

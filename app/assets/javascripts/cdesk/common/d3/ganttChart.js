@@ -5,12 +5,15 @@
 
 		};
 
-		d3.gantt = function() {
+		var MIN_CALENDAR_HEIGHT = 100;
+
+		d3.gantt = function(cal_height) {
 		    var FIT_TIME_DOMAIN_MODE = "fit";
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
 		    var CAMPAIGN_HEIGHT = 25;
 
-		    var CALENDAR_HEIGHT = 1100;
+		    var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
+		    
 		    var CALENDAR_WIDTH = 1050;
 
 		    var isSingleBrand = false;
@@ -104,10 +107,10 @@
 		    };
 
 		    var initAxis = function(timeDomainString) {
-		    	var range = 450;
-		    	if(isSingleBrand) {
-		    		range = 115;
-		    	}
+		    	var range = tasks.length * 15;
+		    	//if(isSingleBrand) {
+		    		//range = tasks.length * 25;
+		    	//}
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, range]);
 			
@@ -251,7 +254,8 @@ svg.append('rect').attr("class","marker_body");
                 var td = gantt.timeDomain();
                 gantt.timeDomain([td[0]-scale*d3.event.dx, td[1]-scale*d3.event.dx]);
                 //console.log(td[0]-scale*d3.event.dx);
-                gantt.redraw(tasks);
+                
+                gantt.redraw(tasks, timeDomainString);
             })
             .on('dragend', function() {
                 d3.event.sourceEvent.stopPropagation();
@@ -476,23 +480,28 @@ svg.append('rect').attr("class","marker_body");
 		            //.attr("style", "cursor:pointer")
 		            .attr("fill", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
+		            	if(width <= 0){
+		            		return "none"
+		            	} else if(width<=40) {
+		            		if(timeDomainString == "today") { return "none"; }
 		            		return "#74AFDD" //BLUE - LINE COLOR
-		            	} else {
+		            	} else  {
 		            		return "#e7edf1"
 		            	}
 		            })
 		            .attr("width", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
+		            	if(width <= 0){
+		            		width = 0;
+		            	} else if(width<=40) {
 		            		width =2;
-		            	}
+		            	}  
 		            	return width;
 		            })
 		            .attr("height", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
-		            		 return CALENDAR_HEIGHT;
+		            		 return height - margin.top;
 		            	} else {
 		            		return 4;
 		            	}
@@ -520,7 +529,7 @@ svg.append('rect').attr("class","marker_body");
 		            	if(width<=40) {
 		            		 return 0;
 		            	} else {
-		            		return CALENDAR_HEIGHT;
+		            		return height - margin.top;
 		            	}
 
 		            })
@@ -942,9 +951,10 @@ svg.append('rect').attr("class","marker_body");
 		    format = "%d";
 		    timeDomainString = "today";
 
+		    var calendar_height = tasks.length * 37;
+		    calendar_height= (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
-
-		    gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+		    gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
 
 		    var margin = {
 		        top: 20,
