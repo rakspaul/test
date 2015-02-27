@@ -496,7 +496,7 @@ svg.append('rect').attr("class","marker_body");
 		            .attr("height", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
-		            		 return CALENDAR_HEIGHT;
+		            		 return height - margin.top - 5;
 		            	} else {
 		            		return 4;
 		            	}
@@ -524,7 +524,7 @@ svg.append('rect').attr("class","marker_body");
 		            	if(width<=40) {
 		            		 return 0;
 		            	} else {
-		            		return CALENDAR_HEIGHT;
+		            		return height - margin.top - 5;
 		            	}
 
 		            })
