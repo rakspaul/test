@@ -5,12 +5,15 @@
 
 		};
 
-		d3.gantt = function() {
+		var MIN_CALENDAR_HEIGHT = 100;
+
+		d3.gantt = function(cal_height) {
 		    var FIT_TIME_DOMAIN_MODE = "fit";
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
 		    var CAMPAIGN_HEIGHT = 25;
 
-		    var CALENDAR_HEIGHT = 1100;
+		    var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
+		    
 		    var CALENDAR_WIDTH = 1050;
 
 		    var isSingleBrand = false;
@@ -104,10 +107,10 @@
 		    };
 
 		    var initAxis = function(timeDomainString) {
-		    	var range = 450;
-		    	if(isSingleBrand) {
-		    		range = 115;
-		    	}
+		    	var range = tasks.length * 15;
+		    	//if(isSingleBrand) {
+		    		//range = tasks.length * 25;
+		    	//}
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, range]);
 			
@@ -943,9 +946,11 @@ svg.append('rect').attr("class","marker_body");
 		    format = "%d";
 		    timeDomainString = "today";
 
+console.log(tasks.length);
+		    var calendar_height = tasks.length * 37;
+		    calendar_height= (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
-
-		    gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+		    gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
 
 		    var margin = {
 		        top: 20,
