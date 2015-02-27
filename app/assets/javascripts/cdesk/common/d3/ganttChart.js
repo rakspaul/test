@@ -366,9 +366,9 @@ svg.append('rect').attr("class","marker_body");
 		            .attr("width", function(d) {
 		            	if(d.type=="brand")
 		                		return 0;
-		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
+		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
 		                	return (x(d.endDate) - x(d.startDate));
-		            	}else {
+		            	} else {
 		            		return 0;
 		            	}
 		            })
@@ -552,7 +552,7 @@ svg.append('rect').attr("class","marker_body");
 		                	if(d.type=="brand")
 		                		return 0;
 		                    else if(type == "top"){
-		                		if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
+		                		if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
 		                			return (x(d.endDate) - x(d.startDate));
 		            			}else {
 		            				return 0;
