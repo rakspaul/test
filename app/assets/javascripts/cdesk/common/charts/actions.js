@@ -22,25 +22,28 @@
         }else{
             applyColor = 0;
         }
-        display_activityCount = ' '+activityCount+'  ';
+        var place_circle_x = 7.0;
         if(activityCount.toString().length > 1){
-          var place_circle_x = 5.5; 
+          display_activityCount = ' '+activityCount+' '; 
         }else{
-          var place_circle_x= 2.5;
+          display_activityCount = '    <span style="color:transparent">-</span>'+ activityCount+' ';
         }
         var numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities';
-        marker = chart.renderer.text(display_activityCount,xPos-2 ,yPos+2).attr({
+        marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2).attr({
           id: 't'+actionId || 'NA',
           removeX:16,
           flagId:flagId,
           zIndex: 9,
           applyColor:applyColor
         }).css({
-          fontSize: '9px',
+          fontSize: '12px',
           textAlign: 'center',
-          leftMargin:'2px',
+          leftMargin:'20px',
+          rightMargin:'40px',
+          position:'absolute',
+          padding:5,
           fontFamily: 'Avenir',
-          fontWeight:'bold',
+          fontWeight:'600',
           color:display_color,
           cursor: 'pointer'
         }).on('click', function (markerObj) {
@@ -51,7 +54,9 @@
           //$('#'+actionId).trigger('mouseout',this);
         }).add(),
         container = marker.getBBox();
-        chart.renderer.circle(container.x+place_circle_x , container.y+5,10).attr({
+        //$( "text[id='"+txtBoxId+"']" ).val( "news here!" );
+        
+        chart.renderer.circle(container.x+place_circle_x , container.y+8,10).attr({
           fill: '#fff',
           stroke: (defaultGrey == false|| isActionExternal==false ) ? '#777':'#0072bc',
           'stroke-width': 2.5,
