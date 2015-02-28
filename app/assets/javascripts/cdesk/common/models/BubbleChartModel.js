@@ -50,6 +50,13 @@
                     bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
                     bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
 
+                    var allCampaignsHaveZeroBudget = true ;
+                    for ( var i in campaigns){
+                        if( campaigns[i].budget > 0)
+                          allCampaignsHaveZeroBudget = false ;
+                    }
+                    bubbleWidgetData['dataNotAvailable'] = allCampaignsHaveZeroBudget ;
+
                 } else {
                     bubbleWidgetData['dataNotAvailable'] = true ;
                 }
