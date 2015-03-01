@@ -286,8 +286,6 @@
                   }
 
                   else if(readings[name].onTrackPct >10){
-                      console.log(readings[name].onTrackPct);
-                      console.log(self.pctX);
                       return self.pctX -23 ;
                   }
                   else if(readings[name].onTrackPct <10){
