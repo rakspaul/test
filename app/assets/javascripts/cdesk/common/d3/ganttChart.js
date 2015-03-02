@@ -118,7 +118,7 @@
 				var formatDay = d3.time.format("%d");
 				var formatMonth = d3.time.format("%b %d");
 
-				var formatQuarter = d3.time.format("%b ' %y");
+				var formatQuarter = d3.time.format("%b '%y");
 				var formatMonthOnly = d3.time.format("%b");
 
 				var count =0;
@@ -631,12 +631,12 @@
 		           //  	return width;
 		           //  });
 //today marker transition
-
-		        svg.select(".x").transition().call(xAxis)
-		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
+				svg.select(".x").transition().call(xAxis)
+		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt")
+		            .attr("x", function(d, i) {
 		        		//formatting for ticks
 		            	if(timeDomainString == "month") {
-		      				if(i == 0) {return -30; }else {return 5;}
+		      				if(i == 0) {return 10; }else {return 10;}
 		            	} else if(timeDomainString == "today") {
 		      				if(i == 0) {return 30; }else {return 60;}
 		            	} else if(timeDomainString == "year") {
@@ -644,7 +644,42 @@
 		           		} else {
 		                	if(i == 0) {return 128; }else {return 145;}
 		            	} 
-		            });
+		            })
+		            .attr("y", function(d, i) {
+		        		//formatting for ticks
+		            	if(timeDomainString == "month") {
+		      				if(i == 0) {return (height-10)*-1; }else {return (height-70)*-1;}
+		            	} else { return (height-50)*-1; }
+		            })
+      				.call(wrap, 10, timeDomainString, function(d, i) {
+		        		//formatting for ticks
+		            	if(timeDomainString == "month") {
+		      				if(i == 0) {return 5; }else {return 10;}
+		            	} else if(timeDomainString == "today") {
+		      				if(i == 0) {return 60; }else {return 60;}
+		            	} else if(timeDomainString == "year") {
+		      				if(i == 0) {return 26; }else {return 26;}
+		           		} else {
+		                	if(i == 0) {return 145; }else {return 145;}
+		            	} 
+		            }, height );
+
+		        // svg.select(".x").transition().call(xAxis)
+		        //     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
+		        // 		//formatting for ticks
+		        // 		var spacing;
+		        //     	if(timeDomainString == "month") {
+		      		// 		if(i == 0) {return -30; }else {return 5;}
+		        //     	} else if(timeDomainString == "today") {
+		      		// 		if(i == 0) {return 30; }else {return 60;}
+		        //     	} else if(timeDomainString == "year") {
+		      		// 		if(i == 0) {return 16; }else {return 26;}
+		        //    		} else {
+		        //         	if(i == 0) {return 128; }else {return 145;}
+		        //     	} 
+		        //     });
+
+		         
 
 		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-family:Avenir;font-size:13pt");
 
@@ -742,6 +777,40 @@
 		var minDate;
 		var format;
 		var timeDomainString;
+
+		function wrap(text, width, timeDomainString, x, height) {
+			if(timeDomainString=='month') {
+				text.each(function() {
+				var text = d3.select(this),
+				    words = text.text().split(/\s+/).reverse(),
+				    word,
+				    line = [],
+				    lineNumber = 0,
+				    lineHeight = 1.1, // ems
+				    y = -1*(height-60),//text.attr("y"),
+				    dy = parseFloat(text.attr("dy")), i = 0,
+				    tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+				    dy= -1.2;
+				while (word = words.pop()) {
+				  if(word == "Jan" || word == "Feb" || word == "Mar" || word == "Apr" || word == "May" || word == "Jun" || word == "Jul" || word == "Aug" || word == "Sep" || word == "Oct" || word == "Nov" || word == "Dec") { 
+				  	y = y-17; 
+				  	x= 3; 
+				  } else {
+				  	x = 9;
+				  }
+				  	
+				  line.push(word);
+				  tspan.text(line.join(" "));
+				  if (tspan.node().getComputedTextLength() > width) {
+				    line.pop();
+				    tspan.text(line.join(" "));
+				    line = [word];
+				    tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+				  }
+				}
+				});
+			}
+			}
 
 		function addTask() {
 		    var lastEndDate = getEndDate();
