@@ -158,7 +158,7 @@
 				            })
 				            .ticks(tickType, 1)
 				            .tickSize(height - margin.top, height - margin.top)
-				            .tickPadding(-15); //modified from 8
+				            .tickPadding(-20); //modified from 8
 
 		        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat("").tickSize(0); //.tickFormat("")
 
@@ -181,6 +181,9 @@
 		            .attr("height", height + margin.top + margin.bottom)
 		            .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
+		   		//changing rendering order to fix day marker under tick text
+				svg.append('rect').attr("class","marker");
+				svg.append('rect').attr("class","marker_body");
 
 		        svg.append("g")
 		            .attr("class", "x axis")
@@ -193,8 +196,7 @@
 
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
-svg.append('rect').attr("class","marker");
-svg.append('rect').attr("class","marker_body");
+
 		        gantt.draw(tasks);		          
 		        return gantt;
 
@@ -635,9 +637,13 @@ svg.append('rect').attr("class","marker_body");
 		        		//formatting for ticks
 		            	if(timeDomainString == "month") {
 		      				if(i == 0) {return -30; }else {return 5;}
-		            	} else {
-		                	return 20;
-		            	}
+		            	} else if(timeDomainString == "today") {
+		      				if(i == 0) {return 30; }else {return 60;}
+		            	} else if(timeDomainString == "year") {
+		      				if(i == 0) {return 16; }else {return 26;}
+		           		} else {
+		                	if(i == 0) {return 128; }else {return 145;}
+		            	} 
 		            });
 
 		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-family:Avenir;font-size:13pt");
