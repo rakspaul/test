@@ -272,7 +272,8 @@
 
 		        var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var rect = rectData.enter();
-		        var rectGroup = rect.append("g").attr("class", "node").on("click", function(d) {
+		        var rectGroup = rect.append("g").attr("class", "node")
+		        .on("click", function(d) {
 		           if(d.type != "brand") {
                        analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
                        document.location = '#/campaigns/' + d.id;
@@ -375,7 +376,7 @@
 		            	}
 		            })
 		            .attr("height", CAMPAIGN_HEIGHT + 1)
-		            .transition()
+		            .transition().delay(0)
 		            .attr("transform", rectTransform);
 
 		        rectGroup.append("rect")
@@ -409,7 +410,7 @@
 		            .attr("height", function(d) {
 		                return CAMPAIGN_HEIGHT-2
 		            })
-		            .transition()
+		            .transition().delay(0)
 		            .attr("transform", rectTransform);
 
 		        rectGroup.append("text")
@@ -547,33 +548,38 @@
 
 
 		        var translateVisualElements = function(a , type) {
-		            a.transition()
-		                .delay(0)
-		                .attr("transform", rectTransform)
-		                .attr("width", function(d) {
-		                	if(d.type=="brand")
-		                		return 0;
-		                    else if(type == "top"){
-		                		if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
-		                			return (x(d.endDate) - x(d.startDate));
-		            			}else {
-		            				return 0;
-		            			}
-		                	}else{
-		                		var width = (x(d.endDate) - x(d.startDate)) -4;
-		                		if(width>=0)
-		                			return (width);
-		                		else 
-		                			return 0;
-		                	}
-		                    
-		                });
-		        };
+		        	if(type == "node"){
+		        		a .transition()
+		                .delay(0).attr("transform", rectTransform);
+
+		        	} else if(type == "body") {
+		        		a.attr("width", function(d) {
+			            	if(d.type=="brand")
+			                	return 0;
+			                else {
+			                	var width = (x(d.endDate) - x(d.startDate)) -4;
+			                		if(width>=0)
+			                			return (width);
+			                		else 
+			                			return 0;
+			                }
+			            })
+		        	} else if(type == "top"){
+		        		a .attr("width", function(d) {
+			            	if(d.type=="brand")
+			                		return 0;
+			                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
+			                	return (x(d.endDate) - x(d.startDate));
+			            	} else {
+			            		return 0;
+			            	}
+			            })
+
+		        	}
+		        };  
 
 		        var translateGraphicElements = function(a, type) {
-		            a.transition().delay(0)
-		                .attr("transform", rectTransform)
-		                .attr("width", function(d) {
+		            a.attr("width", function(d) {
 		                    if ((x(d.endDate) - x(d.startDate)) != 0) {
 		                        return 15;
 		                    } else {
@@ -611,8 +617,8 @@
 				        })
 		        };
 
-		        translateVisualElements(node);
-		        translateVisualElements(campaignBody);
+		        translateVisualElements(node, "node");
+		        translateVisualElements(campaignBody, "body");
 		        translateVisualElements(campaignTopStroke, "top");
 		        translateGraphicElements(campaignText,  "text");
 		        translateGraphicElements(campaignsStatusIcon);
