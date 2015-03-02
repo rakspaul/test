@@ -290,8 +290,8 @@ svg.append('rect').attr("class","marker_body");
 		        	//calculate the width of container and  re populate the text
 		        	if(d.type!="brand"){
 		        		if(newWidth > width){
-		        			var rect = d3.select(this);
-           					rect.select("rect.campaigns").attr("width", newWidth-4);
+		        			//var rect = d3.select(this);
+           					//rect.select("rect.campaigns").attr("width", newWidth-4);
            					d3.select(this).select("text.campaigns_name")
            					//console.log(rect.select("text","#campaigns_name"));
            					.text(function(d){
@@ -305,8 +305,8 @@ svg.append('rect').attr("class","marker_body");
       				var width=(x(d.endDate) - x(d.startDate));
       				var stringLength = d.name.length;
       				if(d.type!="brand"){
-      					var rect = d3.select(this);
-           				rect.select("rect.campaigns").attr("width", width-4);
+      					//var rect = d3.select(this);
+           				//rect.select("rect.campaigns").attr("width", width-4);
 
 		            	if( width > 25 ){
 		            		//minimum width to fit in the icon
