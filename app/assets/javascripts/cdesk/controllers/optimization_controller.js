@@ -178,7 +178,8 @@ var angObj = angObj || {};
                 // call getCampaingn details to
 
                 $scope.loadTableData();
-                $scope.loadCdbDataForStrategy();
+               // console.log("loadCdbDataForStrategy from init()");
+              //  $scope.loadCdbDataForStrategy();
             }
         };
 
@@ -274,20 +275,6 @@ var angObj = angObj || {};
         };
 
 
-//        $scope.formatMetric = function (val1, type) {
-//
-//
-//            if (type === "CPC" || type === "CPA" || type === "CPM")
-//                return '$' + val1.toFixed(2);
-//            else if( type == 'CTR' || type == 'action_rate' || type == 'vtc')
-//                return (val*100).toFixed(2)+'%' ;
-//            else if (type === "Delivery (Impressions)") {
-//                return (val1.toFixed(2)).toLocaleString();
-//            }
-//
-//            else
-//                return val1.toFixed(2);
-//        };
 
         $scope.chartForStrategy = true;
         $scope.loadCdbDataForStrategy = function () {
@@ -311,7 +298,7 @@ var angObj = angObj || {};
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if(param.orderId == $scope.selectedCampaign.id){
-                        var kpiType = dataTransferService.getClickedKpiType() ? dataTransferService.getClickedKpiType() : $scope.campaign.kpi_type;
+                        var kpiType = (dataTransferService.getClickedKpiType()== 'null' || dataTransferService.getClickedKpiType() == null)? $scope.campaign.kpi_type : dataTransferService.getClickedKpiType() ;
                         var kpiValue = dataTransferService.getClickedKpiValue() ? dataTransferService.getClickedKpiValue() : $scope.campaign.kpi_value;
                         var actionItems = dataTransferService.getClickedActionItems() ? dataTransferService.getClickedActionItems() : $scope.actionItems;
                         if (!angular.isUndefined(kpiType)) {
@@ -325,6 +312,7 @@ var angObj = angObj || {};
                                     for (var i = 0; i < maxDays.length; i++) {
                                         maxDays[i]['ctr'] *= 100;
                                         var kpiTypeLower = angular.lowercase(kpiType);
+                                        kpiTypeLower =  ((kpiTypeLower == 'null' || kpiTypeLower == undefined)? 'ctr' : kpiTypeLower );
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }
 
