@@ -266,10 +266,21 @@ var angObj = angObj || {};
         };
 
         $scope.showSelected = function (id,isActionExternal) {
+            var circleId = 0;
+            var getActivityCount =0 ;
+            $( "circle[id_list*="+id+"]" ).each(function(index, element) {
+                circleId=parseInt(this['id']);
+                getActivityCount = this.getAttribute('activityCount');
+            });
+            var newId = circleId > 0 ? circleId : id;
             $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
             $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
-            $('circle').attr({fill: '#ffffff'});
-            $('circle#' + id).attr({ fill:(isActionExternal==false ) ? '#777':'#0072bc'});
+            $('circle').attr({fill: '#fff'});
+            $('text').attr({fill:'#000'});
+            $('circle#'+ newId).attr({ fill:(isActionExternal==false ) ? '#777':'#0072bc'});
+            if(getActivityCount > 1){
+                $('text#t' + newId).css({fill:'#fff'});
+            }
             localStorage.setItem('actionSel', 'actionItem_' + id);
             analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
         };
