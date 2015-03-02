@@ -548,9 +548,9 @@ var angObj = angObj || {};
 
         $scope.downloadPerformanceReport = function(report_url, report_name) {
             $scope.perfReportDownloadBusy = true;
-            var report_url1 = report_url
+            var report_url1 = report_url ;
             if (report_name==='by_platforms')
-                report_url1=report_url+'&start_date='+$scope.selectedStrategy.startDate+'&end_date='+$scope.selectedStrategy.endDate
+                report_url1=report_url+'&start_date='+$scope.selectedStrategy.startDate+'&end_date='+$scope.selectedStrategy.endDate ;
             dataService.downloadFile(report_url1).then(function(response) {
                 if(response.status === "success"){
                     $scope.perfReportDownloadBusy = false;
