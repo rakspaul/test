@@ -17,6 +17,8 @@
                 if(result != undefined && result.brands != undefined &&  result.brands.length >0){
                     $scope.noData = false;
                     _.each(result.brands, function(datum) {
+                        var space=0;
+                        for(space=0; space<=1; space ++) {
                         //placeholder - empty value to add spacing
                         count++;
                         var c = {};
@@ -37,6 +39,7 @@
 
                             campaigns.push(c);
                             brands.push(count);
+                        }
 
                         //brand injected
                         count++;
