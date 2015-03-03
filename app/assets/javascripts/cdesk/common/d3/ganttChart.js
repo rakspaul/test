@@ -158,7 +158,7 @@
 				            })
 				            .ticks(tickType, 1)
 				            .tickSize(height - margin.top, height - margin.top)
-				            .tickPadding(-20); //modified from 8
+				            .tickPadding(-30); //modified from 8
 
 		        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat("").tickSize(0); //.tickFormat("")
 
@@ -1012,7 +1012,7 @@
 		    minDate = tasks[0].startDate;
 
 		    format = "%d";
-		    timeDomainString = "today";
+		    timeDomainString = "quarter";
 
 		    var calendar_height = tasks.length * 37;
 		    calendar_height= (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
