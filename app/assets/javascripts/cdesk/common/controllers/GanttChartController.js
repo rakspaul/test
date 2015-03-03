@@ -5,7 +5,7 @@
     	
     	$scope.init = function(update){
             $scope.calendarBusy = true;
-            $scope.selected = "today";
+            $scope.selected = "quarter";
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
                 $scope.noData = false;

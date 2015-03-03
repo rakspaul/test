@@ -1012,7 +1012,7 @@
 		    minDate = tasks[0].startDate;
 
 		    format = "%d";
-		    timeDomainString = "today";
+		    timeDomainString = "quarter";
 
 		    var calendar_height = tasks.length * 37;
 		    calendar_height= (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
