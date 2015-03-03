@@ -137,7 +137,7 @@
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
             //removing chart to update and redraw
             $('.chart').remove()
-            $scope.selected = "today";
+            $scope.selected = "quarter";
             if(brandsModel.getSelectedBrand().id == -1){
                 $scope.init();
             }else{
