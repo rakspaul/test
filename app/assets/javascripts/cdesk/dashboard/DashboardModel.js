@@ -28,9 +28,9 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
 
            var selectedBrand = brandsModel.getSelectedBrand().name;
            if(brandsModel.getSelectedBrand().id == -1 ){
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns across '+ dashboardData.totalBrands + ' brands for ' + selectedBrand  + ' for ' + timePeriodModel.timeData.selectedTimePeriod.display ;
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns across '+ dashboardData.totalBrands + ' brands';
            } else //"Displaying data for 15 campaigns"
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns for ' + selectedBrand + ' for '+  timePeriodModel.timeData.selectedTimePeriod.display ;
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns' ;
 
        })
     };
