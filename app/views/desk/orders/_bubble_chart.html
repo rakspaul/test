@@ -2,6 +2,34 @@
   <div class="dashboard_heading dashboard_heading_bold" >
   	Budget
   	<span id = "top_text" class="top_budget_subtitle">{{budget_top_title}}</span>
+    <span class="tootip_holder">
+      <span class="tooltip_show_icon">!</span>
+      <span class="clearfix common_tooltip">
+        <div class="pull-left">
+          <div>Budget</div>
+          <div></div>
+          <div>Spend</div>
+        </div>
+        <div class="pull-right legend_container">
+          <div class="clearfix legend_holder blue">
+            <div class="pull-left legend_color"></div>
+            <div class="pull-left legend_text">Brand</div>
+          </div>
+          <div class="clearfix legend_holder green">
+            <div class="pull-left legend_color"></div>
+            <div class="pull-left legend_text">Campaign On Track</div>
+          </div>
+          <div class="clearfix legend_holder orange">
+            <div class="pull-left legend_color"></div>
+            <div class="pull-left legend_text">Underperforming Campaign</div>
+          </div>
+          <div class="clearfix legend_holder grey">
+            <div class="pull-left legend_color"></div>
+            <div class="pull-left legend_text">Neutral (no status)</div>
+          </div>
+        </div>
+      </span>
+    </span>
   </div>
   <div class="common_loading_icon" ng-if="spendBusy "></div>
   <div class="dashboard_perf_graph">
