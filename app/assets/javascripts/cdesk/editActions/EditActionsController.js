@@ -79,6 +79,7 @@
                 $scope.commentError = false;
                 editActionsService.editAction(data).then( function (response){
                if(response) {
+                    $rootScope.$broadcast("callRefreshGraphData",$scope.activityLogFilterByStatus);
                     _.each(activityList.data.data, function(activity) {
                         if(activity.id == data.ad_id){
                             activity.make_external = data.make_external;
