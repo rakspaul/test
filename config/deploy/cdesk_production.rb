@@ -1,4 +1,4 @@
-set :branch, 'cdesk_master'
+set :branch, 'master'
 
 set :rails_env, "cdesk_production" # set for capistrano asset pipeline precompilation
 
