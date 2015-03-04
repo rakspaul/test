@@ -87,7 +87,7 @@
   	}
   	.tootip_holder {
   		margin-left: 15px;
-  		margin-top: 3px;
+  		margin-top: 5px;
   		.common_tooltip {
 	  		font-size: 12px ;
 	  		font-weight: normal;
@@ -100,19 +100,15 @@
   			left: 44% ;
   		}
 	  	.tooltip_show_icon {
-  			border-radius: 20px;
-  			-moz-border-radius: 20px;
-  			-webkit-border-radius: 20px;
   			height: 20px;
   			width: 20px;
-  			background: #B3B9C3;
-  			color: #656B74;
-  			text-align: center;
-  			line-height: 21px;
-  			font-size: 14px;
-  			transform: rotate(180deg);
-  			-moz-transform: rotate(180deg);
-  			-webkit-transform: rotate(180deg);
+        background: url(asset-path("cdesk/information_icon.png")) no-repeat ;
+        -webkit-transition-duration: 1ms; 
+        transition-duration: 1ms;
+        -moz-transition-duration: 1ms;
+        &:hover {
+          background-position : 0px -68px ;
+        }
   		}
   		&:hover {
   			.common_tooltip {
