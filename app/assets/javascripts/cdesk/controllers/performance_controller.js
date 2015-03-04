@@ -472,7 +472,7 @@ var angObj = angObj || {};
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
-            $scope.strategyPerfDataPlatform = [];
+            $scope.strategyPerfDataByPlatform = [];
 
 
             $scope.tacticsPerfDataListByScreen = [];
