@@ -112,7 +112,7 @@
     font-size: 14px;
     padding: 22px 36px;
     background: #fff;
-    border: solid 1px #ebf0f5 ;
+    border: solid 1px #d2dee7 ;
     .rep_graph_holder {
       margin: 20px;
       min-height: 200px;
@@ -137,6 +137,8 @@
       text-align: center;
       margin-top: 100px;
       display: block;
+      font-family: "Avenir";
+      color: #313233;
     }
     .col-md-12 {
       padding-left: 0px;
@@ -183,8 +185,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .reports_section_details_container {
     position: relative;
     background: #fff;
-    min-height: 200px;
-    border: solid 1px @reportBorder ;
+    /*min-height: 200px;*/
+    border: solid 1px $reportBorder ;
     margin-bottom: 20px;
     max-height: 431px;
     overflow-y: auto;
@@ -621,6 +623,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     border: solid 1px @reportBorder ;
     min-height: 200px;
     padding: 20px 10px;
+    position: relative;
+    .no-chart {
+      margin: 120px auto 0;
+      display: block;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
     .inventory_chart {
       height: 240px;
       width: 335px;
@@ -741,6 +753,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         text-align: center;
         padding-top: 8px;
         height: 35px;
+        z-index: 4 ;
       }
       &:hover {
         a {
@@ -837,6 +850,14 @@ div.strategy_total_container {
 }
 .viewability_details_outer_container {
   margin-top: 50px;
+  .no_data_found {
+    text-align: center;
+    background: #fff;
+    padding: 100px 0px;
+    border: solid 1px #d2dee7;
+    border-top: 0px ;
+    margin-top: 0px ;
+  }
   .strategy_total_container {
     .strategy_total_container_header {
       border-top: 0px ;
@@ -1050,6 +1071,7 @@ div.strategy_total_container {
       height: 132px ;
     }
   }
+
 }
 
 /**************** reports performance table styling ***********/
@@ -1064,6 +1086,13 @@ div.strategy_total_container {
     background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
     margin: 20px auto 0 ;
     display: block;
+  }
+  .no_data_found {
+    text-align: center;
+    background: #fff;
+    padding: 120px 0px;
+    border: solid 1px #d2dee7;
+    margin-top: 0px ;
   }
   .each_strategy_holder {
     border-left: solid 1px @reportBorder ;
@@ -1142,9 +1171,9 @@ div.strategy_total_container {
     color: #313233 ;
     .each_col {
       float: left;
-      width: 150px;
+      width: 130px;
       text-align: right;
-      margin: 10px 0 ;
+      margin: 10px 0 10px 20px ;
     }
     .all_strategies_holder  {
       .linkage_lines{
@@ -1193,6 +1222,22 @@ div.strategy_total_container {
       .sec_col {
         margin-left: 5px ;
         width: 115px ;
+      }
+    }
+  }
+  #reports_platform_block  {
+    .each_col {
+      width: 110px ;
+    }
+    .each_col.first_col {
+      width: 100% ;
+    }
+    .sec_col {
+      width: 220px ;
+    }
+    .reports_performance_header {
+      .sec_col {
+        width: 235px ;
       }
     }
   }

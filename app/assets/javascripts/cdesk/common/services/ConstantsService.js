@@ -47,6 +47,7 @@
     this.GA_PERF_DAYS_OF_WEEK = 'performance_days_of_week_selected';
     this.GA_PERF_SCREENS = 'performance_screens_selected';
     this.GA_PERF_FORMATS = 'performance_formats_selected';
+    this.GA_PERF_PLATFORMS = 'performance_platforms_selected';
     this.GA_COST_METRIC_SELECTED = 'cost_metric_selected';
     this.GA_COST_TAB_SORTING = 'cost_tab_sorting';
     this.GA_INVENTORY_TAB_USER_SELECTION = 'inventory_tab_user_selection';

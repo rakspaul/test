@@ -5,13 +5,16 @@
 
 		};
 
-		d3.gantt = function() {
+		var MIN_CALENDAR_HEIGHT = 100;
+
+		d3.gantt = function(cal_height) {
 		    var FIT_TIME_DOMAIN_MODE = "fit";
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
 		    var CAMPAIGN_HEIGHT = 25;
 
-		    var CALENDAR_HEIGHT = 1100;
-		    var CALENDAR_WIDTH = 1050;
+		    var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
+		    
+		    var CALENDAR_WIDTH = 1090;
 
 		    var isSingleBrand = false;
 
@@ -104,10 +107,10 @@
 		    };
 
 		    var initAxis = function(timeDomainString) {
-		    	var range = 450;
-		    	if(isSingleBrand) {
-		    		range = 115;
-		    	}
+		    	var range = tasks.length * 15;
+		    	//if(isSingleBrand) {
+		    		//range = tasks.length * 25;
+		    	//}
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, range]);
 			
@@ -115,7 +118,7 @@
 				var formatDay = d3.time.format("%d");
 				var formatMonth = d3.time.format("%b %d");
 
-				var formatQuarter = d3.time.format("%b ' %y");
+				var formatQuarter = d3.time.format("%b '%y");
 				var formatMonthOnly = d3.time.format("%b");
 
 				var count =0;
@@ -131,7 +134,7 @@
 				            .tickFormat(function(d){
 				            	
 								count++;
-								if(timeDomainString == "1month" || timeDomainString == "today" || timeDomainString == "week"){
+								if(timeDomainString == "month" || timeDomainString == "today" || timeDomainString == "week"){
 					            	if(count == 1 || moment(d).format("D") == 1){
 					            		return formatMonth(d);
 					            	} else {
@@ -155,7 +158,7 @@
 				            })
 				            .ticks(tickType, 1)
 				            .tickSize(height - margin.top, height - margin.top)
-				            .tickPadding(-15); //modified from 8
+				            .tickPadding(-30); //modified from 8
 
 		        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat("").tickSize(0); //.tickFormat("")
 
@@ -178,6 +181,9 @@
 		            .attr("height", height + margin.top + margin.bottom)
 		            .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
+		   		//changing rendering order to fix day marker under tick text
+				svg.append('rect').attr("class","marker");
+				svg.append('rect').attr("class","marker_body");
 
 		        svg.append("g")
 		            .attr("class", "x axis")
@@ -190,8 +196,7 @@
 
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
-svg.append('rect').attr("class","marker");
-svg.append('rect').attr("class","marker_body");
+
 		        gantt.draw(tasks);		          
 		        return gantt;
 
@@ -251,7 +256,8 @@ svg.append('rect').attr("class","marker_body");
                 var td = gantt.timeDomain();
                 gantt.timeDomain([td[0]-scale*d3.event.dx, td[1]-scale*d3.event.dx]);
                 //console.log(td[0]-scale*d3.event.dx);
-                gantt.redraw(tasks);
+                
+                gantt.redraw(tasks, timeDomainString);
             })
             .on('dragend', function() {
                 d3.event.sourceEvent.stopPropagation();
@@ -266,7 +272,8 @@ svg.append('rect').attr("class","marker_body");
 
 		        var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var rect = rectData.enter();
-		        var rectGroup = rect.append("g").attr("class", "node").on("click", function(d) {
+		        var rectGroup = rect.append("g").attr("class", "node")
+		        .on("click", function(d) {
 		           if(d.type != "brand") {
                        analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
                        document.location = '#/campaigns/' + d.id;
@@ -286,8 +293,8 @@ svg.append('rect').attr("class","marker_body");
 		        	//calculate the width of container and  re populate the text
 		        	if(d.type!="brand"){
 		        		if(newWidth > width){
-		        			var rect = d3.select(this);
-           					rect.select("rect.campaigns").attr("width", newWidth-4);
+		        			//var rect = d3.select(this);
+           					//rect.select("rect.campaigns").attr("width", newWidth-4);
            					d3.select(this).select("text.campaigns_name")
            					//console.log(rect.select("text","#campaigns_name"));
            					.text(function(d){
@@ -301,8 +308,8 @@ svg.append('rect').attr("class","marker_body");
       				var width=(x(d.endDate) - x(d.startDate));
       				var stringLength = d.name.length;
       				if(d.type!="brand"){
-      					var rect = d3.select(this);
-           				rect.select("rect.campaigns").attr("width", width-4);
+      					//var rect = d3.select(this);
+           				//rect.select("rect.campaigns").attr("width", width-4);
 
 		            	if( width > 25 ){
 		            		//minimum width to fit in the icon
@@ -362,14 +369,14 @@ svg.append('rect').attr("class","marker_body");
 		            .attr("width", function(d) {
 		            	if(d.type=="brand")
 		                		return 0;
-		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
+		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
 		                	return (x(d.endDate) - x(d.startDate));
-		            	}else {
+		            	} else {
 		            		return 0;
 		            	}
 		            })
 		            .attr("height", CAMPAIGN_HEIGHT + 1)
-		            .transition()
+		            .transition().delay(0)
 		            .attr("transform", rectTransform);
 
 		        rectGroup.append("rect")
@@ -403,7 +410,7 @@ svg.append('rect').attr("class","marker_body");
 		            .attr("height", function(d) {
 		                return CAMPAIGN_HEIGHT-2
 		            })
-		            .transition()
+		            .transition().delay(0)
 		            .attr("transform", rectTransform);
 
 		        rectGroup.append("text")
@@ -476,23 +483,28 @@ svg.append('rect').attr("class","marker_body");
 		            //.attr("style", "cursor:pointer")
 		            .attr("fill", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
+		            	if(width <= 0){
+		            		return "none"
+		            	} else if(width<=40) {
+		            		if(timeDomainString == "today") { return "none"; }
 		            		return "#74AFDD" //BLUE - LINE COLOR
-		            	} else {
+		            	} else  {
 		            		return "#e7edf1"
 		            	}
 		            })
 		            .attr("width", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
+		            	if(width <= 0){
+		            		width = 0;
+		            	} else if(width<=40) {
 		            		width =2;
-		            	}
+		            	}  
 		            	return width;
 		            })
 		            .attr("height", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
-		            		 return CALENDAR_HEIGHT;
+		            		 return height - margin.top;
 		            	} else {
 		            		return 4;
 		            	}
@@ -520,7 +532,7 @@ svg.append('rect').attr("class","marker_body");
 		            	if(width<=40) {
 		            		 return 0;
 		            	} else {
-		            		return CALENDAR_HEIGHT;
+		            		return height - margin.top;
 		            	}
 
 		            })
@@ -536,33 +548,38 @@ svg.append('rect').attr("class","marker_body");
 
 
 		        var translateVisualElements = function(a , type) {
-		            a.transition()
-		                .delay(0)
-		                .attr("transform", rectTransform)
-		                .attr("width", function(d) {
-		                	if(d.type=="brand")
-		                		return 0;
-		                    else if(type == "top"){
-		                		if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
-		                			return (x(d.endDate) - x(d.startDate));
-		            			}else {
-		            				return 0;
-		            			}
-		                	}else{
-		                		var width = (x(d.endDate) - x(d.startDate)) -4;
-		                		if(width>=0)
-		                			return (width);
-		                		else 
-		                			return 0;
-		                	}
-		                    
-		                });
-		        };
+		        	if(type == "node"){
+		        		a .transition()
+		                .delay(0).attr("transform", rectTransform);
+
+		        	} else if(type == "body") {
+		        		a.attr("width", function(d) {
+			            	if(d.type=="brand")
+			                	return 0;
+			                else {
+			                	var width = (x(d.endDate) - x(d.startDate)) -4;
+			                		if(width>=0)
+			                			return (width);
+			                		else 
+			                			return 0;
+			                }
+			            })
+		        	} else if(type == "top"){
+		        		a .attr("width", function(d) {
+			            	if(d.type=="brand")
+			                		return 0;
+			                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
+			                	return (x(d.endDate) - x(d.startDate));
+			            	} else {
+			            		return 0;
+			            	}
+			            })
+
+		        	}
+		        };  
 
 		        var translateGraphicElements = function(a, type) {
-		            a.transition().delay(0)
-		                .attr("transform", rectTransform)
-		                .attr("width", function(d) {
+		            a.attr("width", function(d) {
 		                    if ((x(d.endDate) - x(d.startDate)) != 0) {
 		                        return 15;
 		                    } else {
@@ -600,8 +617,8 @@ svg.append('rect').attr("class","marker_body");
 				        })
 		        };
 
-		        translateVisualElements(node);
-		        translateVisualElements(campaignBody);
+		        translateVisualElements(node, "node");
+		        translateVisualElements(campaignBody, "body");
 		        translateVisualElements(campaignTopStroke, "top");
 		        translateGraphicElements(campaignText,  "text");
 		        translateGraphicElements(campaignsStatusIcon);
@@ -620,16 +637,55 @@ svg.append('rect').attr("class","marker_body");
 		           //  	return width;
 		           //  });
 //today marker transition
-
-		        svg.select(".x").transition().call(xAxis)
-		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
+				svg.select(".x").transition().call(xAxis)
+		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt")
+		            .attr("x", function(d, i) {
 		        		//formatting for ticks
-		            	if(timeDomainString == "1month") {
-		      				if(i == 0) {return -30; }else {return 5;}
-		            	} else {
-		                	return 20;
-		            	}
-		            });
+		            	if(timeDomainString == "month") {
+		      				if(i == 0) {return 10; }else {return 10;}
+		            	} else if(timeDomainString == "today") {
+		      				if(i == 0) {return 30; }else {return 60;}
+		            	} else if(timeDomainString == "year") {
+		      				if(i == 0) {return 16; }else {return 26;}
+		           		} else {
+		                	if(i == 0) {return 128; }else {return 145;}
+		            	} 
+		            })
+		            .attr("y", function(d, i) {
+		        		//formatting for ticks
+		            	if(timeDomainString == "month") {
+		      				if(i == 0) {return (height-10)*-1; }else {return (height-70)*-1;}
+		            	} else { return (height-50)*-1; }
+		            })
+      				.call(wrap, 10, timeDomainString, function(d, i) {
+		        		//formatting for ticks
+		            	if(timeDomainString == "month") {
+		      				if(i == 0) {return 5; }else {return 10;}
+		            	} else if(timeDomainString == "today") {
+		      				if(i == 0) {return 60; }else {return 60;}
+		            	} else if(timeDomainString == "year") {
+		      				if(i == 0) {return 26; }else {return 26;}
+		           		} else {
+		                	if(i == 0) {return 145; }else {return 145;}
+		            	} 
+		            }, height );
+
+		        // svg.select(".x").transition().call(xAxis)
+		        //     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
+		        // 		//formatting for ticks
+		        // 		var spacing;
+		        //     	if(timeDomainString == "month") {
+		      		// 		if(i == 0) {return -30; }else {return 5;}
+		        //     	} else if(timeDomainString == "today") {
+		      		// 		if(i == 0) {return 30; }else {return 60;}
+		        //     	} else if(timeDomainString == "year") {
+		      		// 		if(i == 0) {return 16; }else {return 26;}
+		        //    		} else {
+		        //         	if(i == 0) {return 128; }else {return 145;}
+		        //     	} 
+		        //     });
+
+		         
 
 		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-family:Avenir;font-size:13pt");
 
@@ -728,10 +784,39 @@ svg.append('rect').attr("class","marker_body");
 		var format;
 		var timeDomainString;
 
-		function prev() {
-		     changeTimeDomain('prev');
-
-		}
+		function wrap(text, width, timeDomainString, x, height) {
+			if(timeDomainString=='month') {
+				text.each(function() {
+				var text = d3.select(this),
+				    words = text.text().split(/\s+/).reverse(),
+				    word,
+				    line = [],
+				    lineNumber = 0,
+				    lineHeight = 1.1, // ems
+				    y = -1*(height-60),//text.attr("y"),
+				    dy = parseFloat(text.attr("dy")), i = 0,
+				    tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+				    dy= -1.2;
+				while (word = words.pop()) {
+				  if(word == "Jan" || word == "Feb" || word == "Mar" || word == "Apr" || word == "May" || word == "Jun" || word == "Jul" || word == "Aug" || word == "Sep" || word == "Oct" || word == "Nov" || word == "Dec") { 
+				  	y = y-17; 
+				  	x= 3; 
+				  } else {
+				  	x = 9;
+				  }
+				  	
+				  line.push(word);
+				  tspan.text(line.join(" "));
+				  if (tspan.node().getComputedTextLength() > width) {
+				    line.pop();
+				    tspan.text(line.join(" "));
+				    line = [word];
+				    tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+				  }
+				}
+				});
+			}
+			}
 
 		function addTask() {
 		    var lastEndDate = getEndDate();
@@ -763,15 +848,23 @@ svg.append('rect').attr("class","marker_body");
 		    return lastEndDate;
 		}
 
-		function next() {
-		   
-		    changeTimeDomain('next');
+		function prev(timeDomainString) {
+		    var td = gantt.timeDomain();
+            var scale = (td[1]-td[0])/10;
+            gantt.timeDomain([td[0]-scale, td[1]-scale]);
+           	gantt.redraw(tasks, timeDomainString);
 
+		}
+		function next(timeDomainString) {
+			var td = gantt.timeDomain();
+            var scale = (td[1]-td[0])/10;
+            gantt.timeDomain([td[0]+scale, td[1]+scale]);
+           	gantt.redraw(tasks, timeDomainString);
 		}
 
 		function month() {
 
-		    changeTimeDomain('1month');
+		    changeTimeDomain('month');
 
 		}
 
@@ -795,34 +888,13 @@ svg.append('rect').attr("class","marker_body");
 
 		function changeTimeDomain(timeDomainString) {
 
-		    // this.timeDomainString = timeDomainString;
-
 		    //calculating timedomain based on present day 
 		    var todayIs = moment();
 		    var thisMonth = moment().format("MM");
 		    var presentYear = moment().format("YYYY");
 
-		    //this quarter
-		    //this year
-		    //this month
-
-		  
-		    
-
 		    switch (timeDomainString) {
-		        case "1hr":
-		            format = "%H:%M:%S";
-		            gantt.timeDomain([d3.time.hour.offset(getEndDate(), -1), getEndDate()]);
-		            break;
-		        case "3hr":
-		            format = "%H:%M";
-		            gantt.timeDomain([d3.time.hour.offset(getEndDate(), -3), getEndDate()]);
-		            break;
-
-		        case "6hr":
-		            format = "%H:%M";
-		            gantt.timeDomain([d3.time.hour.offset(getEndDate(), -6), getEndDate()]);
-		            break;
+		        
 
 		        case "1day":
 		            format = "%H:%M";
@@ -834,7 +906,7 @@ svg.append('rect').attr("class","marker_body");
 		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -15), getEndDate()]);
 		            break;
 
-		        case "1month":
+		        case "month":
 		            format = "%d";
 
 		            gantt.timeDomain([moment().startOf('month'), moment().endOf('month')]);
@@ -870,14 +942,14 @@ svg.append('rect').attr("class","marker_body");
 		            gantt.timeDomain([moment().startOf('year'), moment().endOf('year')]);
 		            break;
 
-		        case "next":
-		            format = "%d";
-		            gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
-		            break;
-		         case "prev":
-		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
-		            break;
+		        // case "next":
+		        //     format = "%d";
+		        //     gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
+		        //     break;
+		        //  case "prev":
+		        //     format = "%d";
+		        //     gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
+		        //     break;
 		        default:
 		            format = "%H:%M"
 
@@ -940,11 +1012,12 @@ svg.append('rect').attr("class","marker_body");
 		    minDate = tasks[0].startDate;
 
 		    format = "%d";
-		    timeDomainString = "today";
+		    timeDomainString = "quarter";
 
+		    var calendar_height = tasks.length * 37;
+		    calendar_height= (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
-
-		    gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+		    gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
 
 		    var margin = {
 		        top: 20,

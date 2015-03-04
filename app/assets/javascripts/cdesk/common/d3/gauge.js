@@ -32,7 +32,7 @@
     this.updateGauge = updateGauge;
 
     function getReadingValue (name, max) {
-      return readings[name].onTrackPct * max / 100;
+      return ( readings[name].onTrackPct !== undefined) ? readings[name].onTrackPct * max / 100 : 0 ;
     };
 
     var currentGauge = this;
@@ -181,7 +181,7 @@
           this.leftDot = createCircle(this.body, leftDotPt.x, leftDotPt.y, greenColor, 5);
           this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
 //          this.rightDot =
-          this.svgText = createText(this.myContainer, this.config.cx-10, this.config.cy, "0", "sans-serif", 30, "bold", "black");
+          this.svgText = createText(this.myContainer, this.config.cx-15, this.config.cy, "0", "sans-serif", 30, "bold", "black");
           this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
           this.leftDotText = createText(this.myContainer, leftDotPt.x + 10, leftDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
 
@@ -221,7 +221,13 @@
         }
         function createText(container, x, y, text, fontFamily, fontSize, fontWeight, fill) {
           return container.append("text")
-            .attr("x", x)
+            .attr("x", function(){
+                  if (text == 0){
+                      return x+5;
+                  } else{
+                      return x;
+                  }
+              })
             .attr("y", y)
             .text('0')
             .attr("font-family", fontFamily)
@@ -274,19 +280,31 @@
           var self = this;
           this.svgText
             .transition()
+              .attr("x",function(){
+                  if(readings[name].onTrackPct == 100){
+                      return (self.pctX -35 );
+                  }
+
+                  else if(readings[name].onTrackPct >10){
+                      return self.pctX -23 ;
+                  }
+                  else if(readings[name].onTrackPct <10){
+                      return self.pctX -17 ;
+                  }
+              })
             .duration(this.config.animeDuration)
             .tween("text", function() {
               return function(t) {
                 var i = d3.interpolate(this.textContent, readings[name].onTrackPct);
                 this.textContent = Math.round(i(t));
                 if(this.textContent === '100') {
-                  self.pctTxt.attr("x", self.pctX + 25)
+                  self.pctTxt.attr("x", self.pctX + 15)
                 } else if(parseInt(this.textContent) < 10)
                 {
                   self.pctTxt.attr("x", self.pctX );
                 } else
                 {
-                  self.pctTxt.attr("x", self.pctX+15);
+                  self.pctTxt.attr("x", self.pctX+12);
                 }
 //                self.pctTxt.attr("x", this.x.baseVal["0"].value + 33);
               };
@@ -294,11 +312,13 @@
         };
 
         this.redraw = function () {
-          this.animateArcs();
-          this.animateText();
-          //hardcoding widget message right now, later move it to config to generalize for gauge
-          this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
-          this.rightDotText.text( readings[name].underPerforming.toString() + ' Underperforming');
+            if(readings[name].onTrackPct !== undefined){
+                this.animateArcs();
+                this.animateText();
+                //hardcoding widget message right now, later move it to config to generalize for gauge
+                this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
+                this.rightDotText.text( readings[name].underPerforming.toString() + ' Underperforming');
+            }
         };
 
       }

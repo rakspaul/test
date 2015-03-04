@@ -54,7 +54,6 @@
         $scope.metricDropdownChange = function(obj){
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
-            console.log(obj);
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
             screenChart.updateScreenChartData();
         };

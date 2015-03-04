@@ -29,6 +29,9 @@
                 <li value="daysOfWeek"><a ng-if="download_urls.daysOfWeek" class="download_anchor"
                                           ng-click="downloadPerformanceReport(download_urls.daysOfWeek, 'by_days_of_week')">Performance
                     by Days Of Week</a></li>
+                <li value="platforms"><a ng-if="download_urls.platforms" class="download_anchor"
+                                          ng-click="downloadPerformanceReport(download_urls.platforms, 'by_platforms')">Performance
+                    by Platforms</a></li>
             </ul>
         </div>
         <span class="download-report-load-icon" ng-if="perfReportDownloadBusy">Downloading </span>
@@ -68,6 +71,11 @@
                 Formats
             </div>
         </div>
+        <div class="each_tab cost_tab " id="byplatforms">
+           <div class="each_tab_text">
+               Platform
+           </div>
+       </div>
 
     </div>
 </div>
@@ -416,6 +424,123 @@
         </div>
     </div>
 </div>
+
+<div class="reports_block" id="reports_byplatforms_block" style="display:none;">
+
+    <div class="no_data_found" ng-if="dataNotFoundForPlatform">
+        Data Not Available
+    </div>
+    <div class="reports_details_outer_container"  ng-show="!dataNotFoundForPlatform">
+       <div class="clearfix reports_performance_header">
+           <!-- <div class="each_col first_col">
+               <span>Name</span>
+           </div> -->
+           <div class="each_col sec_col">
+               <span>Platform</span>
+           </div>
+           <div class="each_col third_col">
+               <span>Imps.</span>
+           </div>
+           <div class="each_col forth_col">
+               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type == 'ctr'"></span>CTR</span>
+           </div>
+           <div class="each_col fifth_col">
+               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type == 'action_rate'"></span>Action Rate</span>
+           </div>
+           <div class="each_col sixth_col">
+               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type == 'cpa'"></span>CPA</span>
+           </div>
+           <div class="each_col seventh_col">
+               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type == 'cpc'"></span>CPC</span>
+           </div>
+           <div class="each_col seventh_col">
+               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type == 'cpm'"></span>CPM</span>
+           </div>
+
+       </div>
+
+       <div class="strategy_total_container ">
+
+           <div class="strategy_total_container_header clearfix">
+
+               <div class="each_col first_col">
+                   Strategy total:
+               </div>
+               <div class="row_list_holder">
+                   <div class="common-load-icon" ng-show="platformBusy"></div>
+                   <!--{{platformBusy}}-->
+                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform">
+                       <div class="each_col sec_col">
+                           {{strategy.dimension}}
+                       </div>
+                       <div class="each_col third_col">
+                           {{strategy.impressions | number:0}}
+                       </div>
+                       <div class="each_col forth_col">
+                           {{strategy.ctr*100 | number:2}}%
+                       </div>
+                       <div class="each_col fifth_col">
+                           {{strategy.action_rate*100 | number:2}}%
+                       </div>
+                       <div class="each_col sixth_col">
+                           ${{strategy.cpa | number:2}}
+                       </div>
+                       <div class="each_col seventh_col">
+                           ${{strategy.cpc | number:2}}
+                       </div>
+                       <div class="each_col eight_col">
+                           ${{strategy.cpm | number:2}}
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="all_strategies_holder">
+
+               <div class="common-load-icon" ng-show="tacticPlatformBusy"></div>
+               <!--{{tacticPlatformBusy}}-->
+               <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByPlatform">
+                   <div class="linkage_bar">
+                   </div>
+                   <div class="each_strategy clearfix">
+                       <div class="each_col first_col">
+                           {{tactic[0].description}}
+                       </div>
+                       <div class="row_list_holder">
+                           <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                               <div class="each_col sec_col">
+                                   {{data.dimension}}
+                               </div>
+                               <div class="each_col third_col">
+                                   {{data.impressions | number:0}}
+                               </div>
+                               <div class="each_col forth_col">
+                                   {{data.ctr*100 | number:2}}%
+                               </div>
+                               <div class="each_col fifth_col">
+                                   {{data.action_rate*100 | number:2}}%
+                               </div>
+                               <div class="each_col sixth_col">
+                                   ${{data.cpa | number:2}}
+                               </div>
+                               <div class="each_col seventh_col">
+                                   ${{data.cpc | number:2}}
+                               </div>
+                               <div class="each_col eight_col">
+                                   ${{data.cpm | number:2}}
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+           </div>
+
+       </div>
+   </div>
+</div>
+
+
 </div>
 
 </div>

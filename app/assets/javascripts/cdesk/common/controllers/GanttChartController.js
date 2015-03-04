@@ -5,7 +5,7 @@
     	
     	$scope.init = function(update){
             $scope.calendarBusy = true;
-            $scope.selected = "today";
+            $scope.selected = "quarter";
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
                 $scope.noData = false;
@@ -16,8 +16,9 @@
                 //TODO: move this into a service
                 if(result != undefined && result.brands != undefined &&  result.brands.length >0){
                     $scope.noData = false;
-                    _.each(_.first(result.brands,5), function(datum) {
-
+                    _.each(result.brands, function(datum) {
+                        var space=0;
+                        for(space=0; space<=1; space ++) {
                         //placeholder - empty value to add spacing
                         count++;
                         var c = {};
@@ -38,6 +39,7 @@
 
                             campaigns.push(c);
                             brands.push(count);
+                        }
 
                         //brand injected
                         count++;
@@ -60,13 +62,13 @@
                             campaigns.push(c);
                             brands.push(count);
 
-                            _.each(_.first(datum.campaigns, limit), function(tasks) {
+                            _.each(datum.campaigns, function(tasks) {
                                 count++;
                                 var c = {};
                                 c.id = tasks.id;
                                 c.name = tasks.name;
-                                c.startDate = new Date(tasks.start_date);
-                                c.endDate = new Date(tasks.end_date);
+                                c.startDate = moment(tasks.start_date).startOf('day');
+                                c.endDate = moment(tasks.end_date).endOf('day');
                                 c.state = tasks.state;
                                 c.kpiStatus = tasks.kpi_status;
                                 c.taskName =  count;
@@ -98,11 +100,11 @@
         	ganttChart.addTask();
         }
          $scope.prev = function(){
-        	ganttChart.prev();
+        	ganttChart.prev($scope.selected);
         }
 
         $scope.next = function(){
-        	ganttChart.next();
+        	ganttChart.next($scope.selected);
         }
 
         $scope.month = function(){
@@ -135,7 +137,7 @@
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
             //removing chart to update and redraw
             $('.chart').remove()
-            $scope.selected = "today";
+            $scope.selected = "quarter";
             if(brandsModel.getSelectedBrand().id == -1){
                 $scope.init();
             }else{

@@ -58,13 +58,11 @@
 
 
             if (data !== undefined && data.length > 0) {
-                // max selected metric value will be first non zero value of the selected metric out of all nodes
-                var max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_key] == 0 ? (data[3] !== undefined && data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
 
-                    ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value,
-                    totalAllocation = 0;
-
-                var index_to_remove = -1;
+                var max_selected_metric_value,
+                    totalAllocation = 0,
+                    ratio = 0 ,
+                    index_to_remove = -1;
 
                 for (var i in data) {
                     totalAllocation += data[i][selected_metric_key];
@@ -77,6 +75,20 @@
 
                 if(index_to_remove !== -1)
                   data.splice(index_to_remove,1);
+
+                if (selected_metric_key == 'ctr' || selected_metric_key == 'vtc' || selected_metric_key == 'impressions'
+                    || selected_metric_key == 'action_rate' || selected_metric_key == 'action rate' || selected_metric_key == 'gross_rev'){
+                    // max selected metric value will be first non zero value of the selected metric out of all nodes
+                     max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_key] == 0 ? (data[3] !== undefined && data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
+                     ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
+
+                } else {
+                    max_selected_metric_value =
+                   ( ( data[2] !== undefined && data[2][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? (data[0] !== undefined ?  data[0][selected_metric_key] : 0 ): data[1][selected_metric_key] ): data[2][selected_metric_key] ) ;
+                    ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
+
+                }
+
 
 
                 for (var index in data) {
@@ -96,7 +108,7 @@
                         bar_length = node[selected_metric_key] * ratio ;
                         percAllocationString = percAllocation.toFixed(2) + "%";
                     } else if (selected_metric_key == 'cpa' || selected_metric_key == 'cpm' || selected_metric_key == 'cpc') {
-                        bar_length = (node[selected_metric_key] == 0)? 0: (length * max_selected_metric_value)/ node[selected_metric_key]  ;
+                        bar_length = (node[selected_metric_key] == 0)? 0: (length * node[selected_metric_key] / max_selected_metric_value)  ;
                         percAllocation = node[selected_metric_key] ;
                         percAllocationString = "$" + percAllocation.toFixed(2);
                     }

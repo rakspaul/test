@@ -178,7 +178,8 @@ var angObj = angObj || {};
                 // call getCampaingn details to
 
                 $scope.loadTableData();
-                $scope.loadCdbDataForStrategy();
+               // console.log("loadCdbDataForStrategy from init()");
+              //  $scope.loadCdbDataForStrategy();
             }
         };
 
@@ -265,29 +266,26 @@ var angObj = angObj || {};
         };
 
         $scope.showSelected = function (id,isActionExternal) {
+            var circleId = 0;
+            var getActivityCount =0 ;
+            $( "circle[id_list*="+id+"]" ).each(function(index, element) {
+                circleId=parseInt(this['id']);
+                getActivityCount = this.getAttribute('activityCount');
+            });
+            var newId = circleId > 0 ? circleId : id;
             $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
             $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
-            $('circle').attr({fill: '#ffffff'});
-            $('circle#' + id).attr({ fill:(isActionExternal==false ) ? '#777':'#0072bc'});
+            $('circle').attr({fill: '#fff'});
+            $('text').attr({fill:'#000'});
+            $('circle#'+ newId).attr({ fill:(isActionExternal==false ) ? '#777':'#0072bc'});
+            if(getActivityCount > 1){
+                $('text#t' + newId).css({fill:'#fff'});
+            }
             localStorage.setItem('actionSel', 'actionItem_' + id);
             analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
         };
 
 
-//        $scope.formatMetric = function (val1, type) {
-//
-//
-//            if (type === "CPC" || type === "CPA" || type === "CPM")
-//                return '$' + val1.toFixed(2);
-//            else if( type == 'CTR' || type == 'action_rate' || type == 'vtc')
-//                return (val*100).toFixed(2)+'%' ;
-//            else if (type === "Delivery (Impressions)") {
-//                return (val1.toFixed(2)).toLocaleString();
-//            }
-//
-//            else
-//                return val1.toFixed(2);
-//        };
 
         $scope.chartForStrategy = true;
         $scope.loadCdbDataForStrategy = function () {
@@ -311,7 +309,7 @@ var angObj = angObj || {};
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if(param.orderId == $scope.selectedCampaign.id){
-                        var kpiType = dataTransferService.getClickedKpiType() ? dataTransferService.getClickedKpiType() : $scope.campaign.kpi_type;
+                        var kpiType = (dataTransferService.getClickedKpiType()== 'null' || dataTransferService.getClickedKpiType() == null)? $scope.campaign.kpi_type : dataTransferService.getClickedKpiType() ;
                         var kpiValue = dataTransferService.getClickedKpiValue() ? dataTransferService.getClickedKpiValue() : $scope.campaign.kpi_value;
                         var actionItems = dataTransferService.getClickedActionItems() ? dataTransferService.getClickedActionItems() : $scope.actionItems;
                         if (!angular.isUndefined(kpiType)) {
@@ -325,6 +323,7 @@ var angObj = angObj || {};
                                     for (var i = 0; i < maxDays.length; i++) {
                                         maxDays[i]['ctr'] *= 100;
                                         var kpiTypeLower = angular.lowercase(kpiType);
+                                        kpiTypeLower =  ((kpiTypeLower == 'null' || kpiTypeLower == undefined)? 'ctr' : kpiTypeLower );
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }
 

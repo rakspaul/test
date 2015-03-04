@@ -11,10 +11,10 @@
 
             if(brandsModel.getSelectedBrand().id !== -1){
                 //brand selected
-                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), 'end_date',  'active', brandsModel.getSelectedBrand().id);
+                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), 'end_date',  'all', brandsModel.getSelectedBrand().id);
                // console.log('calendar url = '+url);
             }else{
-                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), 'end_date',  'active');
+                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), 'end_date',  'all');
             }
 
            // var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
