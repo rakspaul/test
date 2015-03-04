@@ -32,7 +32,7 @@
     this.updateGauge = updateGauge;
 
     function getReadingValue (name, max) {
-      return readings[name].onTrackPct * max / 100;
+      return ( readings[name].onTrackPct !== undefined) ? readings[name].onTrackPct * max / 100 : 0 ;
     };
 
     var currentGauge = this;
@@ -312,11 +312,13 @@
         };
 
         this.redraw = function () {
-          this.animateArcs();
-          this.animateText();
-          //hardcoding widget message right now, later move it to config to generalize for gauge
-          this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
-          this.rightDotText.text( readings[name].underPerforming.toString() + ' Underperforming');
+            if(readings[name].onTrackPct !== undefined){
+                this.animateArcs();
+                this.animateText();
+                //hardcoding widget message right now, later move it to config to generalize for gauge
+                this.leftDotText.text(readings[name].onTrack.toString() + ' On Track');
+                this.rightDotText.text( readings[name].underPerforming.toString() + ' Underperforming');
+            }
         };
 
       }
