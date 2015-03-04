@@ -19,7 +19,8 @@
     });
     function getGaugeData () {
       gaugeModel.getGaugeData().then(function(result) {
-        gauge.updateGauge(constants.GAUGE_PERFORMANCE, result);
+          if(result.onTrackPct !== undefined)
+             gauge.updateGauge(constants.GAUGE_PERFORMANCE, result);
       });
     }
     getGaugeData();
