@@ -240,18 +240,30 @@
       margin-top: 2px ;
       .common_tooltip {
         font-weight: normal;
-        background: rgba(0, 0, 0, 1 );
+        background: #323133;
         color: #fff ;
         padding: 15px;
-        width: 210px;
+        width: 255px;
         bottom : auto ;
         top: -8px;
         left: 26px;
         border-radius: 6px;
-        z-index: 2;
-        font-size: 13px ;
+        z-index: 200;
+        font-size: 12px ;
+        .bubble_graph_legend {
+          width: 80px ;
+          text-align: center;
+          span {
+            display: inline-block;
+          }
+          .bubble_graph_legend_img {
+            background: url(asset-path("cdesk/bubble_img.png")) no-repeat center center;
+            height: 70px;
+            width: 50px;
+          }
+        }
         .legend_container {
-          width: 125px ;
+          width: 135px ;
           .legend_holder {
             margin-bottom: 10px ;
             .legend_color {
@@ -265,7 +277,7 @@
             }
 
             .legend_text {
-              width: 110px;
+              width: 120px;
             }
           }
           .legend_holder.blue {
@@ -292,8 +304,57 @@
           border-top: solid 6px transparent;
           display: block;
           border-bottom: solid 6px transparent;
-          border-right: solid 6px #000;
+          border-right: solid 6px #323133 ;
           left: -12px;
+        }
+      }
+    }
+  }
+  .dashboard_calendar_graph_holder {
+    .tootip_holder {
+      .common_tooltip {
+        width: 300px ;
+        .tooltip_heading {
+          font-size: 14px ;
+        }
+        .status_legend {
+          padding-left: 25px ;
+          margin-top: 8px ;
+          background: url(asset-path("cdesk/legend_active.png")) no-repeat left center ;
+        }
+        .status_legend.completed_status {
+          background-image : url(asset-path("cdesk/legend_ready.png")) ;
+        }
+        .status_legend.draft_status {
+          background-image : url(asset-path("cdesk/legend_draft.png")) ;
+        }
+        .status_legend.active_status {
+          background-image : url(asset-path("cdesk/legend_active.png")) ;
+        }
+        .status_legend.paused_status {
+          background-image : url(asset-path("cdesk/legend_paused.png")) ;
+        }
+        .status_legend.ready_status {
+          background-image : url(asset-path("cdesk/legend_ready.png")) ;
+        }
+        .calendar_legend_holder {
+          margin-top: 12px ;
+          .legend_color {
+            background :  #939eae;
+            width: 101px;
+            height: 2px;
+            margin-bottom: 2px;
+          }
+        }
+        .calendar_legend_holder.green {
+          .legend_color{
+            background :  #47ab1d;
+          }
+        }
+        .calendar_legend_holder.amber {
+          .legend_color{
+            background :  #ee9455;
+          }
         }
       }
     }
@@ -423,17 +484,11 @@
       .top_budget_subtitle {
       	font-weight: normal;
       	color: #555 ;
+        margin-left: 5px ;
       }
     }
     .dashboard_heading_bold {
       font-weight: 900;
-    }
-    .calendar_heading {
-      span {
-        font-weight: normal;
-        color: #555555;
-      }
-
     }
     .dashboard_graph_legends {
       padding: 20px;
