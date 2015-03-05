@@ -1,9 +1,9 @@
 <div class="dashboard_section dashboard_budget_graph_holder" ng-controller="bubbleChartController" >
-  <div class="dashboard_heading dashboard_heading_bold" >
-  	Budget
-  	<span id = "top_text" class="top_budget_subtitle">{{budget_top_title}}</span>
-    <span class="tootip_holder">
-      <span class="tooltip_show_icon">!</span>
+  <div class="clearfix dashboard_heading dashboard_heading_bold" >
+  	<div class="pull-left">Budget</div>
+  	<div id="top_text" class="pull-left top_budget_subtitle">{{budget_top_title}}</div>
+    <div class="pull-left tootip_holder">
+      <span class="tooltip_show_icon"></span>
       <span class="clearfix common_tooltip">
         <div class="pull-left">
           <div>Budget</div>
@@ -19,7 +19,7 @@
             <div class="pull-left legend_color"></div>
             <div class="pull-left legend_text">Campaign On Track</div>
           </div>
-          <div class="clearfix legend_holder orange">
+          <div class="clearfix legend_holder amber">
             <div class="pull-left legend_color"></div>
             <div class="pull-left legend_text">Underperforming Campaign</div>
           </div>

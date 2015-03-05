@@ -39,7 +39,39 @@
       }
     }
   }
+  .tootip_holder {
+      margin-left: 15px;
+      margin-top: 5px;
+      .common_tooltip {
+        font-size: 12px ;
+        font-weight: normal;
+        width: 200px ;
+        bottom: 34px;
+        left: -88px;
+        display: none;
+      }
+      .common_tooltip:after {
+        left: 44% ;
+      }
+      .tooltip_show_icon {
+        height: 20px;
+        width: 20px;
+        display: inline-block;
+        background: url(asset-path("cdesk/information_icon.png")) no-repeat ;
+        -webkit-transition-duration: 1ms; 
+        transition-duration: 1ms;
+        -moz-transition-duration: 1ms;
+        &:hover {
+          background-position : 0px -68px ;
+        }
+      }
+      &:hover {
+        .common_tooltip {
+          display: block;
+        }
 
+      }
+    }
   .status_filter {
     color: #333;
     font-size: 14px;
@@ -85,38 +117,7 @@
   		-moz-transform: rotate(45deg);
   		-webkit-transform: rotate(45deg);
   	}
-  	.tootip_holder {
-  		margin-left: 15px;
-  		margin-top: 5px;
-  		.common_tooltip {
-	  		font-size: 12px ;
-	  		font-weight: normal;
-	  		width: 200px ;
-	  		bottom: 34px;
-  			left: -88px;
-  			display: none;
-	  	}
-	  	.common_tooltip:after {
-  			left: 44% ;
-  		}
-	  	.tooltip_show_icon {
-  			height: 20px;
-  			width: 20px;
-        background: url(asset-path("cdesk/information_icon.png")) no-repeat ;
-        -webkit-transition-duration: 1ms; 
-        transition-duration: 1ms;
-        -moz-transition-duration: 1ms;
-        &:hover {
-          background-position : 0px -68px ;
-        }
-  		}
-  		&:hover {
-  			.common_tooltip {
-  				display: block;
-  			}
 
-  		}
-  	}
 
   	
     span {
@@ -235,24 +236,54 @@
     border : solid 1px #dde6eb ;
     background: #fff;
     .tootip_holder {
+      margin-left: 10px ;
+      margin-top: 2px ;
       .common_tooltip {
         font-weight: normal;
-        display: block;
         background: rgba(0, 0, 0, 1 );
-        color: rgb(239, 236, 236);
+        color: #fff ;
         padding: 15px;
         width: 210px;
         bottom : auto ;
         top: -8px;
-        left: 22px;
+        left: 26px;
         border-radius: 6px;
         z-index: 2;
-        font-size: 12px ;
+        font-size: 13px ;
         .legend_container {
-          width: 60% ;
+          width: 125px ;
           .legend_holder {
             margin-bottom: 10px ;
+            .legend_color {
+              height: 8px ;
+              width: 8px ;
+              border-radius: 8px ;
+              -moz-border-radius: 8px ;
+              -webkit-border-radius: 8px ;
+              background: #aaa ;
+              margin: 5px 5px 0 0;
+            }
+
+            .legend_text {
+              width: 110px;
+            }
           }
+          .legend_holder.blue {
+           .legend_color {
+            background: #1F9FF4 ;
+           }   
+          }
+          .legend_holder.green {
+           .legend_color {
+            background: #6abc52 ;
+           }   
+          }
+          .legend_holder.amber {
+           .legend_color {
+            background: #F17828  ;
+           }   
+          }
+          
         }
         &:after {
           bottom : auto ;
