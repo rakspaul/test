@@ -22,11 +22,8 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
            var totalCampaigns =  response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total ;
            dashboardData.totalCampaigns = totalCampaigns ;
 
-           //TODO : when data api will be modified we will get brands count from that api. Currently its hard coded
-           var totalBrands =  44; // response.data.data.brands.total;
-           dashboardData.totalBrands = totalBrands;
+           dashboardData.totalBrands = response.data.data.brands.total;
 
-           var selectedBrand = brandsModel.getSelectedBrand().name;
            if(brandsModel.getSelectedBrand().id == -1 ){
                dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns across '+ dashboardData.totalBrands + ' brands';
            } else //"Displaying data for 15 campaigns"
