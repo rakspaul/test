@@ -13,29 +13,23 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-        $scope.filter = { sortByColumn : 'name', ascendingDir : true };
-
+        $scope.sortByColumn = 'name';
 
         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
             class: '',
-            sortDirection: '',
-            ascendingDir: true
-
+            sortDirection: ''
         }, {
             display: 'Imps',
             key: 'impressions',
             class: '',
-            sortDirection: '',
-            ascendingDir : false
+            sortDirection: ''
         }, {
             display: 'Total Spend',
             key: 'total',
             class: '',
-            sortDirection: '',
-            ascendingDir : false
-
+            sortDirection: ''
         }] ;
 
         $scope.download_urls = {
@@ -54,22 +48,16 @@ var angObj = angObj || {};
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
 
-            if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null){
-                $scope.filter.sortByColumn = 'name';
-                $scope.filter.ascendingDir = true ;
-            } else {
-                $scope.filter.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
-                $scope.filter.ascendingDir = localStorage.getItem(loginModel.getUserId() + '_cost_sort_desc');
-            }
+            if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null)
+                $scope.sortByColumn = 'name';
+            else
+                $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
             for(var i in $scope.sort_field){
-                if($scope.filter.sortByColumn.indexOf($scope.sort_field[i].key)>=0){
+                if($scope.sortByColumn.indexOf($scope.sort_field[i].key)>=0){
                     $scope.sort_field[i].class = 'active';
-                    $scope.sort_field[i].ascendingDir = $scope.filter.ascendingDir;
-                    $scope.filter.ascendingDir? $scope.sort_field[i].sortDirection = 'ascending' : $scope.sort_field[i].sortDirection = 'descending';
-                    if (!$scope.filter.ascendingDir) $scope.filter.sortByColumn = '-'+$scope.filter.sortByColumn;
+                    $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
                 }
             }
-
         };
 
        $scope.init();
@@ -248,16 +236,13 @@ var angObj = angObj || {};
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
                     if ($scope.sort_field[i].class==='active') //simply toggle previous state if the same sortby was previously active
-                        $scope.sort_field[i].ascendingDir = !$scope.sort_field[i].ascendingDir;
+                        $scope.sortByColumn=($scope.sortByColumn.indexOf('-')>=0)?sortby:'-'+sortby;
                     else
-                        $scope.sort_field[i].ascendingDir = (sortby==='name');//if name then it needs to be ascending, if imps or spend, it should be descending
+                        $scope.sortByColumn = (sortby==='name')?sortby : '-'+sortby;
 
                     $scope.sort_field[i].class = 'active';
-                    $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
-                    $scope.filter.ascendingDir ? $scope.sort_field[i].sortDirection = 'ascending' : $scope.sort_field[i].sortDirection = 'descending';
-                    $scope.filter.ascendingDir ? $scope.filter.sortByColumn = sortby : $scope.filter.sortByColumn = '-'+sortby;
-                   localStorage.setItem(loginModel.getUserId()+'_cost_sort_desc' ,  $scope.filter.ascendingDir );
-                   localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.filter.sortByColumn );
+                    $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
+                   localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.sortByColumn );
                 }
                 else{
                     $scope.sort_field[i].class = '';
@@ -266,7 +251,7 @@ var angObj = angObj || {};
 
             }
             // The sort direction is derived from the code above to match the UI desc/asc icons
-            analytics.track(loginModel.getUserRole(), constants.GA_COST_TAB_SORTING, (sortby + ($scope.filter.ascendingDir === true ? '_desc' : '_asc')), loginModel.getLoginName());
+            analytics.track(loginModel.getUserRole(), constants.GA_COST_TAB_SORTING, (sortby + ($scope.sortByColumn.indexOf('-')>=0 ? '_desc' : '_asc')), loginModel.getLoginName());
         };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
