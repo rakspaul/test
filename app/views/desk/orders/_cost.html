@@ -127,7 +127,7 @@
                         <div class="all_startegy_cost">
                             <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
                             <!--{{filter.sortByColumn}}-->
-                            <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData| orderBy: filter.sortByColumn:filter.ascendingDir">
+                            <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData|orderBy: filter.sortByColumn">
                                 <div class="each_cost_row">
                                     <div class="each_cost_heading" >
                                         {{tactic.name}}
