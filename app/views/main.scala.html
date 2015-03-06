@@ -1,4 +1,5 @@
 @(content: Html)
+@import play.api.Play
 <!DOCTYPE html>
 <html ng-app='cdeskApp'>
   <head>
@@ -16,8 +17,9 @@
     <link href="/assets/stylesheets/cdesk_application.css" media="all" rel="stylesheet" />
 
     <script>
-      window.scala_api                = "http://dev-desk.collective-media.net/dataapi";
-      window.workflow_api             = "http://dev-desk.collective-media.net/wapi";
+      window.scala_api                = "@Play.current.configuration.getString("application.scala_api")"
+      window.workflow_api             = "@Play.current.configuration.getString("application.workflow_api")" 
+      
     </script>
      
        
