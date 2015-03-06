@@ -329,9 +329,10 @@
                              if(screen.dimension.toLowerCase() == 'smartphone' || screen.dimension.toLowerCase() == 'tablet' || screen.dimension.toLowerCase() =='desktop'){
                                 if(screen[campaign.kpiType.toLowerCase()] > 0){
                                     $scope.screenTotal +=screen[campaign.kpiType.toLowerCase()];
+                                     orderByscreens[inc]=screen[campaign.kpiType.toLowerCase()];
+                                     inc++;  
                                 }
-                                orderByscreens[inc]=screen[campaign.kpiType.toLowerCase()];
-                                inc++;       
+                                    
                             }
                              switch(screen.dimension){
                                 case 'Smartphone': screen.icon = "mobile_graph";
