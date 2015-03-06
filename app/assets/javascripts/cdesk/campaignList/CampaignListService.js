@@ -364,10 +364,15 @@
           campaign.fromSuffix = utils.formatDate(this.start_date);
           campaign.toSuffix = utils.formatDate(this.end_date);
           campaign.setVariables();
+          if (campaign.kpi_type == 'null') {
+            campaign.kpi_type = 'CTR';
+            campaign.kpiType = 'CTR';
+            campaign.kpi_value = 0;
+            campaign.kpiValue = 0;
+          }
           campaignList.push(campaign);
 
           getCdbLineChart(obj, campaignList, timePeriod);
-
         }
         return campaignList;
       },
