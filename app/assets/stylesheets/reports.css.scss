@@ -180,7 +180,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     }
   }
   .each_reports_row {
-    padding: 15px 16px;
+    padding: 15px 16px 25px ;
   }
   .reports_section_details_container {
     position: relative;
@@ -209,9 +209,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       background: #CFDAF4 ;
     }
     .default-kpi-header-icon {
-      height: 17px;
+      height: 11px;
       width: 17px;
-      background: url(asset-path("icn_goal.png")) no-repeat scroll left bottom ;
+      background: url(asset-path("icn_goal.png")) no-repeat scroll center bottom ;
       background-size: 70% ;
       display: inline-block;
     }
@@ -237,7 +237,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     width: 100px;
     text-align: center;
     overflow: hidden;
-    padding: 10px 0;
+    padding: 15px 0 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
