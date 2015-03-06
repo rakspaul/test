@@ -27,11 +27,11 @@ if [ $CDESK_ENV == "qa" ]
 then
   echo "Its QA environment !!!"
   echo "Changing copying application_qa.conf to application.conf"
-  cp ${CONF_QA_FILE} ${CONF_DIR} 
+  cp ${CONF_QA_FILE} ${CONF_FILE} 
 else
   echo "Its prod !!!"
   echo "Copying application_prod.conf to application.conf"
-  cp ${CONF_PROD_FILE} ${CONF_DIR} 
+  cp ${CONF_PROD_FILE} ${CONF_FILE} 
 
 fi
 
