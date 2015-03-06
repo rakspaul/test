@@ -1,4 +1,4 @@
-set :branch, 'sprint-#{ENV['SPRINT']}'
+set :branch, "sprint-#{ENV['SPRINT']}"
 
 set :rails_env, "newqa" # set for capistrano asset pipeline precompilation
 
