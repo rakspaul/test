@@ -265,6 +265,21 @@
 
 
                 //------
+                var tdEdges = gantt.timeDomain(); 
+                var isPast = function (timeDomainEdge, date) {
+            		if(moment(timeDomainEdge).toDate() < moment(date).toDate()){
+            			return true;
+            		} else {
+            			return false;
+            		}
+                };
+                var isFuture = function (timeDomainEdge, date) {
+            		if(moment(timeDomainEdge).toDate() > moment(date).toDate()){
+            			return true;
+            		} else {
+            			return false;
+            		}
+                };
 
 
                 var ganttChartGroup = svg.select(".gantt-chart");
@@ -354,6 +369,7 @@
 
                 //top bar 
                 rectGroup.append("rect")
+                	.attr("x", 0)
                     .attr("class", "header")
                     .attr("style", "cursor:pointer")
                     .attr("fill", function(d) {
@@ -379,7 +395,7 @@
                     .attr("transform", rectTransform);
 
                 rectGroup.append("rect")
-                    .attr("x", 2)
+                    .attr("x", 0)
                     .attr("y", 2)
                     .attr("title", function(d) {
                         return "campaign";
@@ -399,7 +415,11 @@
                         if (d.type == "brand")
                             return 0;
                         else {
-                            var width = (x(d.endDate) - x(d.startDate)) - 4;
+                            var width = (x(d.endDate) - x(d.startDate));// - 4;
+                            //check if in past ; cut edge
+                    		// if(!isPast(tdEdges[0], d.startDate)) {
+                    		// 	width = width + 2;
+                    		// }
                             if (width >= 0)
                                 return (width);
                             else
@@ -567,6 +587,14 @@
                                     return 0;
                                 else {
                                     var width = (x(d.endDate) - x(d.startDate)) - 4;
+	                                    if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
+			                    			width = width + 4;
+			                    		} else if(isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
+			                    			width = width + 2;
+			                    		}else if(!isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
+			                    			width = width + 4;
+			                    		}
+
                                     if (width >= 0)
                                         return (width);
                                     else
@@ -582,10 +610,21 @@
                                 if (d.type == "brand")
                                     return 0;
                                 else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
-                                    return (x(d.endDate) - x(d.startDate));
+                                  	if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
+                                  		return (x(d.endDate) - x(d.startDate)) + 2;
+                                  	}
+
+                                  	return (x(d.endDate) - x(d.startDate));
                                 } else {
                                     return 0;
                                 }
+                            })
+                            .attr("x", function(d){
+                            	if(isPast(tdEdges[0], d.startDate)) {
+		                    			return -2;
+		                    	} else {
+		                    		return 0;
+		                    	}
                             })
                             .attr("y", function(d) {
                                 return y(d.taskName);
