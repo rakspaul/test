@@ -15,7 +15,7 @@
                            '<span class="arrrow_img"></span>'+
                            '</span>'+
                            '<ul  class="dropdown_ul dropdown-menu kpi_indicator_ul">'+
-                           '    <li ng-repeat="list in listObject" value="{{list.value}}"><span class="default-kpi-dropdown-icon"  tooltip="Primary KPI" ng-class="{ kpiIndicator : (list.value.toLowerCase() === selectedFilter.campaign_default_kpi_type)} " ></span>{{list.text}}</li>'+
+                           '    <li ng-repeat="list in listObject" value="{{list.value}}"><span class="default-kpi-dropdown-icon"  ng-class="{ kpiIndicator : (list.value.toLowerCase() === selectedFilter.campaign_default_kpi_type)} " ></span>{{list.text}}</li>'+
                             '</ul>',
             link: function ($scope, element, attrs) {
 
