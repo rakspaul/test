@@ -5,7 +5,7 @@
         var brands_svg = {},
             campaigns_svg = {} ,
             chartData = {},
-            node = {} , blueGradient = {}, orangeGradient = {}, greenGradient = {} ;
+            node = {} , blueGradient = {}, orangeGradient = {}, greenGradient = {} ,  greyGradient = {};
 
 
 
@@ -32,6 +32,11 @@
                     circleFill : "#F1661F" ,
                     spendFillLight :    "url(#orangeGradient)",
                     spendPathOutline :  "#DB530F"
+                },
+                others : {
+                    circleFill :   "#808B9C",
+                    spendFillLight :  "url(#greyGradient)",
+                    spendPathOutline :   "#555D6B"
                 }
             }
         };
@@ -160,6 +165,30 @@
             } ;
         };
 
+
+        var getGradient = function(container, id, lightColor,offsetLight, darkColor, offsetDartk){
+            var id = container.append("svg:defs")
+                .append("svg:linearGradient")
+                .attr("id", id)
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "0%")
+                .attr("y2", "100%")
+                .attr("spreadMethod", "pad");
+
+            id.append("svg:stop")
+                .attr("offset", offsetLight)
+                .attr("stop-color", lightColor)
+                .attr("stop-opacity", 1);
+
+            id.append("svg:stop")
+                .attr("offset", offsetDartk)
+                .attr("stop-color",  darkColor)
+                .attr("stop-opacity", 1);
+
+            return id ;
+        };
+
         function dataFormatting (root , spanId){
 
             var positions =  [[72,80],[240,60],[165,160],[290,220] ,[60,220],[165,240]];
@@ -193,7 +222,7 @@
                     campaigns : node.campaigns,
                     cx : positions[i][0],
                     cy : positions[i][1],
-                    r : radius,
+                    r : (radius == 0) ? 30 : radius,
                     status : (spanId == 'brands') ? 'brands' :  node.kpi_status ,
                     pathData : pathData['lineData'],
                     toolTipX : pathData['curveEndX'],
@@ -248,25 +277,7 @@
                     .append("g")
                     .attr("class" , "node") ;
 
-                  blueGradient = node.append("svg:defs")
-                    .append("svg:linearGradient")
-                    .attr("id", "blueGradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "0%")
-                    .attr("x2", "0%")
-                    .attr("y2", "100%")
-                    .attr("spreadMethod", "pad");
-
-// Define the gradient colors
-                blueGradient.append("svg:stop")
-                    .attr("offset", "25%")
-                    .attr("stop-color", "#1F9FF4")
-                    .attr("stop-opacity", 1);
-
-                blueGradient.append("svg:stop")
-                    .attr("offset", "75%")
-                    .attr("stop-color",  "#1B7FE2")
-                    .attr("stop-opacity", 1);
+                blueGradient = getGradient(brands_svg, "blueGradient", "#1F9FF4" , "25%", "#1B7FE2" , "75%");
 
                 var tooltip = d3.select(".dashboard_budget_graph_holder .dashboard_perf_graph")
                     .append("div")
@@ -310,46 +321,9 @@
                     .append("g")
                     .attr("class" , "node");
 
-              greenGradient = node.append("svg:defs")
-                    .append("svg:linearGradient")
-                    .attr("id", "greenGradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "0%")
-                    .attr("x2", "0%")
-                    .attr("y2", "100%")
-                    .attr("spreadMethod", "pad");
-
-// Define the gradient colors
-                greenGradient.append("svg:stop")
-                    .attr("offset", "25%")
-                    .attr("stop-color", "#59F42D")
-                    .attr("stop-opacity", 1);
-
-                greenGradient.append("svg:stop")
-                    .attr("offset", "75%")
-                    .attr("stop-color", "#45D11F")
-                    .attr("stop-opacity", 1);
-
-                 orangeGradient = node.append("svg:defs")
-                    .append("svg:linearGradient")
-                    .attr("id", "orangeGradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "0%")
-                    .attr("x2", "0%")
-                    .attr("y2", "100%")
-                    .attr("spreadMethod", "pad");
-
-// Define the gradient colors
-                orangeGradient.append("svg:stop")
-                    .attr("offset", "30%")
-                    .attr("stop-color", "#FC8732")
-                    .attr("stop-opacity", 1);
-
-
-                orangeGradient.append("svg:stop")
-                    .attr("offset", "70%")
-                    .attr("stop-color", "#FC782A")
-                    .attr("stop-opacity", 1);
+                greenGradient = getGradient(campaigns_svg, "greenGradient", "#59F42D" , "25%", "#45D11F" , "75%");
+                orangeGradient =  getGradient(campaigns_svg, "orangeGradient", "#FC8732" , "30%", "#FC782A" , "70%");
+                greyGradient =  getGradient(campaigns_svg, "greyGradient", "#A7ACB2" , "30%", "#94989E" , "70%");
 
                 var tooltip = d3.select(".dashboard_budget_graph_holder .dashboard_perf_graph")
                     .append("div")
@@ -389,7 +363,7 @@
                   return (d.objectType == 'brands' ? "brands_" + d.id + "_circle" : "campaigns_" + d.id + "_circle" ) ;
                 })
                 .style("fill", function(d){
-                  return  (d.objectType == 'brands') ? colors.brands.circleFill : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.circleFill : colors.campaigns.underPerforming.circleFill );
+                  return  (d.objectType == 'brands') ? colors.brands.circleFill : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.circleFill : ( d.status.toLowerCase() == 'underperforming') ? colors.campaigns.underPerforming.circleFill : colors.campaigns.others.circleFill );
                 })
                 .attr("r" , function(d){
                     return d.r ;
@@ -406,7 +380,7 @@
                     return lineFunction(d.pathData);
                 })
                 .attr("fill",  function(d){
-                    return  (d.objectType == 'brands') ? colors.brands.spendFillLight : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight );
+                    return  (d.objectType == 'brands') ? colors.brands.spendFillLight : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.spendFillLight : (( d.status.toLowerCase() == 'underperforming') ? colors.campaigns.underPerforming.spendFillLight : colors.campaigns.others.spendFillLight)); //colors.campaigns.underPerforming.spendFillLight );
                 });
 
 
@@ -497,8 +471,8 @@
                     r : obj.r,
                     objectType : obj.objectType,
                     status : obj.status ,
-                    toolTipX : obj.toolTipX,
-                    toolTipY : obj.toolTipY
+                    toolTipX : (obj.toolTipX == undefined) ?( obj.cx + obj.r): obj.toolTipX ,
+                    toolTipY : (obj.toolTipY == undefined) ? (obj.cy+ obj.r) : obj.toolTipY
                 };
 
 
@@ -515,9 +489,9 @@
                 d3.select( "#"+ focusedObjId + "_path")
                     .attr('id', focusedObjId + "_path")
                     .attr('opacity', 1)
-                   .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : colors.campaigns.underPerforming.spendPathOutline ))
+                   .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendPathOutline  : colors.campaigns.others.spendPathOutline  ))) // colors.campaigns.underPerforming.spendPathOutline ))
                      .attr("stroke-width", 3)
-                   .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
+                   .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  )) ; //colors.campaigns.underPerforming.spendFillLight ));
                 
 
 
@@ -564,9 +538,9 @@
 
                 d3.select("#"+ id_to_remove)
                     .attr('opacity', 1)
-                    .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ))
+                    .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )   )) //colors.campaigns.underPerforming.spendFillLight ))
                     .attr("stroke-width", 0.2)
-                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
+                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight :  (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  ));//colors.campaigns.underPerforming.spendFillLight ));
 
               return  tooltip.style("display", "none");
 
