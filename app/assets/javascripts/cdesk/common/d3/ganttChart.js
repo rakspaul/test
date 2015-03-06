@@ -5,7 +5,7 @@
 
 		};
 
-		var MIN_CALENDAR_HEIGHT = 100;
+		var MIN_CALENDAR_HEIGHT = 500;
 
 		d3.gantt = function(cal_height) {
 		    var FIT_TIME_DOMAIN_MODE = "fit";
@@ -543,6 +543,8 @@
 		        var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var campaignBody = ganttChartGroup.selectAll(".campaigns").data(tasks, keyFunction);
 		        var campaignText = ganttChartGroup.selectAll(".campaigns_name").data(tasks, keyFunction);
+
+		        var brandNameText = ganttChartGroup.selectAll(".brand_name").data(tasks, keyFunction);
 		        var campaignTopStroke = ganttChartGroup.selectAll(".header").data(tasks, keyFunction);
 		        var campaignsStatusIcon = ganttChartGroup.selectAll(".icon").data(tasks, keyFunction);
 
@@ -553,33 +555,46 @@
 		                .delay(0).attr("transform", rectTransform);
 
 		        	} else if(type == "body") {
-		        		a.attr("width", function(d) {
-			            	if(d.type=="brand")
-			                	return 0;
-			                else {
-			                	var width = (x(d.endDate) - x(d.startDate)) -4;
-			                		if(width>=0)
-			                			return (width);
-			                		else 
-			                			return 0;
-			                }
-			            })
+		        		a.transition()
+			                .delay(0).attr("width", function(d) {
+				            	if(d.type=="brand")
+				                	return 0;
+				                else {
+				                	var width = (x(d.endDate) - x(d.startDate)) -4;
+				                		if(width>=0)
+				                			return (width);
+				                		else 
+				                			return 0;
+				                }
+				            })
+				            .attr("y", function(d) {
+				            	return y(d.taskName)+2;
+				            })
 		        	} else if(type == "top"){
-		        		a .attr("width", function(d) {
-			            	if(d.type=="brand")
-			                		return 0;
-			                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
-			                	return (x(d.endDate) - x(d.startDate));
-			            	} else {
-			            		return 0;
-			            	}
-			            })
-
+		        		a .transition()
+			                .delay(0).attr("width", function(d) {
+				            	if(d.type=="brand")
+				                		return 0;
+				                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined){
+				                	return (x(d.endDate) - x(d.startDate));
+				            	} else {
+				            		return 0;
+				            	}
+				            })
+				            .attr("y", function(d) {
+				            	return y(d.taskName);
+				            })
 		        	}
 		        };  
 
 		        var translateGraphicElements = function(a, type) {
-		            a.attr("width", function(d) {
+		        	if(type == "brand_name") {
+		        		 a.transition()
+		                	.delay(0) .attr("transform", rectTransform);
+
+		        	} else if (type == "text") {
+		        		a.transition()
+		                .delay(0).attr("width", function(d) {
 		                    if ((x(d.endDate) - x(d.startDate)) != 0) {
 		                        return 15;
 		                    } else {
@@ -595,9 +610,11 @@
 		                        return "display:none";
 		                    }
 		                })
+		                .attr("y", function(d) {
+			            	return y(d.taskName)+13;
+			            })
 		                .text(function(d) {
-		                	if(type == "text") {
-				            	//widht of the container
+		                		//widht of the container
 				            	var width=(x(d.endDate) - x(d.startDate));
 				            	//character count of the camapaign name
 				            	var stringLength = d.name.length;
@@ -613,14 +630,39 @@
 				            	} else {
 				            		return d.name.substr(0, fitCount) + "...";
 				            	} 
-				            }
-				        })
+				    	})
+		        	} else {
+		        		a.transition()
+			                .delay(0).attr("style", function(d) {
+			                	if(d.type=="brand")
+			                		return "display:none";
+			                    else if ((x(d.endDate) - x(d.startDate)) >= 40) {
+			                        return "cursor:pointer";
+			                    } else {
+			                        return "display:none";
+			                    }
+			                })
+			                .attr("width", function(d) {
+				            	if(d.type=="brand")
+				                	return 0;
+				                else if ((x(d.endDate) - x(d.startDate)) != 0) {
+				                    return 15;
+				                } else {
+				                    return 0;
+				                }
+				            })
+			                .attr("y", function(d) {
+				            	return y(d.taskName) + 6;
+				            })
+		        	}
 		        };
 
 		        translateVisualElements(node, "node");
 		        translateVisualElements(campaignBody, "body");
 		        translateVisualElements(campaignTopStroke, "top");
+
 		        translateGraphicElements(campaignText,  "text");
+		        translateGraphicElements(brandNameText,  "brand_name");
 		        translateGraphicElements(campaignsStatusIcon);
 
 		        rectData.exit().remove();

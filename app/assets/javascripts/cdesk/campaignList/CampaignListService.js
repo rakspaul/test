@@ -63,7 +63,7 @@
             break;
             case 'mobilevideo':   media_type_icon = "video_graph";
             break;
-            case 'passback':   media_type_icon = "display_graph";
+            case 'passback':   media_type_icon = "passback_graph";
             break;
             default: media_type_icon = "display_graph";
           }

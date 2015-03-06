@@ -55,12 +55,18 @@
                         margin: [20, 80, 30, 85] // [marginTop, marginRight, marginBottom and marginLeft]
                     },
 
+                    plotOptions: {
+                        column: {
+                            colorByPoint: true
+                        }
+                    },
+
                     colors: [
-                        '#2e8ed3',
-                        '#45a1e3',
-                        '#76bef2',
-                        '#8ccdfc',
-                        '#d2dee7'
+                     '#0D6DCC',
+                     '#2078CB',
+                     '#348DDF',
+                     '#62AFF1',
+                     '#79C1FD'        
                     ],
                     credits: {
                         enabled: false
@@ -105,11 +111,17 @@
                         lineWidth: 1,
                         minorGridLineWidth: 0,
                         gridLineWidth: 0,
-                        lineColor: 'grey',
+                        lineColor: '#0D6DCC',
                         tickWidth: 0,
                         labels: {
 
                             enabled: true,
+                            distance :10,
+                            style :{
+                                color : '#FEFFFE',
+                                fontWeight:'bold'
+                            },
+                            y : -10,
                             formatter: function() {
                                 if (this) {
                                     return parseInt(this.value.custom + 1);
@@ -132,7 +144,9 @@
                     yAxis: [{ // Primary yAxis
                         labels: {
                             enabled: true,
-
+                            style :{
+                                color: '#181B20'
+                            },
 
                             formatter: function() {
 
@@ -144,15 +158,19 @@
                             }
                         },
                         tickWidth: 1,
+                        tickColor : '#181B20',
                         lineWidth: 1,
                         gridLineWidth: 0,
-                        //lineColor: 'grey',
+                        lineColor: '#181B20',
                         minorGridLineWidth: 0,
                         opposite: true,
 
                         title: {
                             align: 'high',
                             offset: 5,
+                            style :{
+                                color : '#181B20'
+                            },
                             text: 'Imps',
                             rotation: 0,
                             y: -10,
@@ -163,12 +181,18 @@
                             align: 'high',
                             offset: 5,
                             text:kpIType,
+                            style :{
+                                color : "#0D6DCC"
+                            },
                             rotation: 0,
                             y: -10,
                             x: -10
                         },
                         labels: {
                             enabled: true,
+                            style : {
+                                color : '#0D6DCC'
+                            },
                             formatter: function() {
                                // if (!isNaN(this.value)) {
                                     var currency =(kpIType === 'CTR')? '' : '$';
@@ -181,8 +205,9 @@
                         },
                         lineWidth: 1,
                         tickWidth: 1,
+                        tickColor : '#0D6DCC',
+                        lineColor: '#0D6DCC',
                         gridLineWidth: 0,
-                        //lineColor: 'grey',
                         minorGridLineWidth: 0,
                         opposite: false
 
@@ -220,12 +245,12 @@
                     data: impLine,
                     events: {
                         mouseOut: function() {
-                            $('#inventory_tooltip').hide();
+                          //  $('#inventory_tooltip').hide();
                             $('.highcharts-tooltip').hide();
                         },
                         mouseOver: function() {
 
-                            $('#inventory_tooltip').show();
+                         //   $('#inventory_tooltip').show();
                             $('.highcharts-tooltip').show();
                         }
                     },
@@ -233,10 +258,10 @@
                         enabled: false
 
                     },
-                    color: '#00bff0',
+                    color: '#181B20',
                     marker: {
                         enabled: true,
-                        fillColor: '#0978c9'
+                        fillColor: '#181B20'
                     },
                     states: {
                         hover: {

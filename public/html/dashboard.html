@@ -5,7 +5,7 @@
       <span>{{data.title}}</span>
       <span class="more_txt_heading">{{data.titleSecondPart}}</span>
       <span  id="brandButton" ng-if="data.brandSelected" class="bubble_heading" data-ng-click="clickOnBrandButton()" >{{data.selectedBrand}} <span class="brand_close_btn">+</span> </span>
-      <span class="tootip_holder"><span class="tooltip_show_icon">!</span><span class="common_tooltip">{{data.toolTip}}</span></span>
+      <span class="tootip_holder"><span class="tooltip_show_icon"></span><span class="common_tooltip">{{data.toolTip}}</span></span>
 
     </div>
     <div class="clearfix col-md-2 status_filter">
@@ -55,7 +55,48 @@
      <!--  <div class="dashboard_section"> -->
         <div class="dashboard_section dashboard_calendar_graph_holder" ng-controller="ganttChartController">
           <div class="clearfix dashboard_heading">
-            <div class="pull-left calendar_heading dashboard_heading_bold">Calendar <span><!-- (Top 5 Brands) --></span></div>
+            <div class="pull-left calendar_heading dashboard_heading_bold">
+              <div class="pull-left">Calendar </div>
+              <!-- <div class="pull-left top_budget_subtitle">(Top 5 Brands)</div> -->
+              <div class="pull-left tootip_holder">
+                    <span class="tooltip_show_icon"></span>
+                    <span class="clearfix common_tooltip">
+                      <div class="pull-left">
+                        <div class="tooltip_heading">Campaign Status</div>
+                        <div class="status_legend draft_status">
+                          Draft
+                        </div>
+                        <div class="status_legend ready_status">
+                          Ready
+                        </div>
+                        <div class="status_legend active_status">
+                          Active
+                        </div>
+                        <div class="status_legend paused_status">
+                          Paused
+                        </div>
+                        <div class="status_legend completed_status">
+                          Completed
+                        </div>
+                      </div>
+                      <div class="pull-right legend_container">
+                          <div class="tooltip_heading">Performance Status</div>
+                          <div class="calendar_legend_holder green">
+                            <div class="legend_color"></div>
+                            <div class="legend_text">On Track</div>
+                          </div>
+                          <div class="calendar_legend_holder amber">
+                            <div class="legend_color"></div>
+                            <div class="legend_text">Underperforming</div>
+                          </div>
+                          <div class="calendar_legend_holder grey">
+                            <div class="legend_color"></div>
+                            <div class="legend_text">Neutral</div>
+                          </div>
+                      </div>
+                    </span>
+            </div>
+            </div>
             <div class="pull-right clearfix">
               <!-- <div class="pull-right calendar_holder">
                 <span class="end_dates">End Dates</span>
