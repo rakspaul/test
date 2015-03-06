@@ -309,8 +309,9 @@
         };
          $scope.getScreenGraphData  = function(campaign){
             var screens;
-            var orderByscreens;
             $scope.screenTotal = 0;
+            var orderByscreens = new Array();
+            var inc = 0;
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -320,25 +321,17 @@
                     }
                     if(result.data.data.length>0){
                         if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
-                            screens=_.chain(result.data.data)
-                                .sortBy(function(screen){ return screen[campaign.kpiType.toLowerCase()]; })
-                                .reverse()
-                                .value();
+                            screens = orderBy(result.data.data, "-"+campaign.kpiType.toLowerCase(), false);
                          }else{
-                            screens=_.chain(result.data.data)
-                                .sortBy(function(format){ return screen[campaign.kpiType.toLowerCase()]; })
-                                .value();
-
+                            screens = orderBy(result.data.data, "-"+campaign.kpiType.toLowerCase(), true);
                          }
-                         orderByscreens=_.chain(result.data.data)
-                                .sortBy(function(screen){ return screen[campaign.kpiType.toLowerCase()]; })
-                                .reverse()
-                                .value();
                         _.each(screens, function(screen) {
                              if(screen.dimension.toLowerCase() == 'smartphone' || screen.dimension.toLowerCase() == 'tablet' || screen.dimension.toLowerCase() =='desktop'){
                                 if(screen[campaign.kpiType.toLowerCase()] > 0){
                                     $scope.screenTotal +=screen[campaign.kpiType.toLowerCase()];
-                                }       
+                                }
+                                orderByscreens[inc]=screen[campaign.kpiType.toLowerCase()];
+                                inc++;       
                             }
                              switch(screen.dimension){
                                 case 'Smartphone': screen.icon = "mobile_graph";
@@ -350,10 +343,14 @@
                                 case 'Desktop':   screen.icon = "display_graph";
                                 break;
                             }
+                            
                         });
+                        var maximumValue = 0 ;
+                        if(orderByscreens.length > 0 ){
+                            maximumValue =Math.max.apply(Math,orderByscreens);
+                        }
                         $scope.details.screens = screens; 
-                        $scope.details.screenTop = _.first(orderByscreens); 
-                        $scope.details.screenTop = $scope.details.screenTop[campaign.kpiType.toLowerCase()];
+                        $scope.details.screenTop = maximumValue;
                         $scope.details.kpiType = campaign.kpiType.toLowerCase();
                     }
                 }
