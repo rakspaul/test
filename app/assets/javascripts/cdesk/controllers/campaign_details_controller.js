@@ -112,8 +112,8 @@
       function updateActionItems() {
         var actionUrl = urlService.APIActionData($routeParams.campaignId);
         dataService.getActionItems(actionUrl).then(function(result) {
+          $scope.activityLogFlag = true;
           if(result.status === 'success') {
-            $scope.activityLogFlag = true;
             var actionItemsArray = [] , counter = 0;
             var actionItems = result.data.data;
             var strategyByActionId = {};
