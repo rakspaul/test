@@ -41,14 +41,14 @@
                         endAngle: 360,
                         background: { 
                             outerRadius: '101%',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: '#ffffff'
                         }
                     },
                     plotOptions: {
                         animation: true,
                         solidgauge: {
                             dataLabels: {
-                                enabled: false,
+                                enabled: false
                             }
                         }
                     },
@@ -66,8 +66,8 @@
                         tickColor: '#000000',
                         tickPosition: 'outside',
                         tickLength: 4,
-                        tickWidth: 1,
-                    },
+                        tickWidth: 1
+                    }
                 },
                  series: [{
                     innerRadius: '70%',
@@ -80,7 +80,7 @@
                 }, {
                     innerRadius: '100%',
                     radius: '85%',
-                    data: [{y:viewabilityData.pct_1s, color:'#008ED5'}],
+                    data: [{y:viewabilityData.pct_1s, color:'#008ED5'}]
                 }, {
                     innerRadius: '101',
                     data: [{y:viewabilityData.pct_total, color:'#000000'}]

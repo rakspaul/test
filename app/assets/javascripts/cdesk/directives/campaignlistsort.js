@@ -8,7 +8,7 @@
                 campaigns: '='
             },
 
-            templateUrl: 'campaign_list_filters',
+            templateUrl: '/assets/html/campaign_list_filters.html',
 
             link: function ($scope, element, attrs) {
 

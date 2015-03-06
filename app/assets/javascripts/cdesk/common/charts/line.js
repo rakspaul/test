@@ -122,7 +122,7 @@
                         value: threshold, 
                         dashStyle: 'longdashdot'
                     }]
-                },
+                }
             },
                 series: [{
                     name: kpiType,

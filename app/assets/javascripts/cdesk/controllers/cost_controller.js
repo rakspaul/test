@@ -18,17 +18,17 @@ var angObj = angObj || {};
         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
-            class: '',
+            'class': '',
             sortDirection: ''
         }, {
             display: 'Imps',
             key: 'impressions',
-            class: '',
+            'class': '',
             sortDirection: ''
         }, {
             display: 'Total Spend',
             key: 'total',
-            class: '',
+            'class': '',
             sortDirection: ''
         }] ;
 
@@ -48,13 +48,14 @@ var angObj = angObj || {};
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
 
+
             if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null)
                 $scope.sortByColumn = 'name';
             else
                 $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
             for(var i in $scope.sort_field){
                 if($scope.sortByColumn.indexOf($scope.sort_field[i].key)>=0){
-                    $scope.sort_field[i].class = 'active';
+                    $scope.sort_field[i]['class']= 'active';
                     $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
                 }
             }
@@ -235,17 +236,17 @@ var angObj = angObj || {};
         $scope.sortFunction = function (sortby) {
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
-                    if ($scope.sort_field[i].class==='active') //simply toggle previous state if the same sortby was previously active
+                    if ($scope.sort_field[i]['class']==='active') //simply toggle previous state if the same sortby was previously active
                         $scope.sortByColumn=($scope.sortByColumn.indexOf('-')>=0)?sortby:'-'+sortby;
                     else
                         $scope.sortByColumn = (sortby==='name')?sortby : '-'+sortby;
 
-                    $scope.sort_field[i].class = 'active';
+                    $scope.sort_field[i]['class'] = 'active';
                     $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
                    localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.sortByColumn );
                 }
                 else{
-                    $scope.sort_field[i].class = '';
+                    $scope.sort_field[i]['class'] = '';
                     $scope.sort_field[i].sortDirection = '';
                 }
 

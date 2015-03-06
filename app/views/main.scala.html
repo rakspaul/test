@@ -1,0 +1,53 @@
+@(content: Html)
+<!DOCTYPE html>
+<html ng-app='cdeskApp'>
+  <head>
+    <meta charset='utf-8'>
+    <title>Reporting</title>
+    <meta content='Collective Desk UI' name='description'>
+    <meta content='Collective' name='author'>
+    <link href='/assets/images/collective.png' rel='shortcut icon' type='image/x-icon'>
+    <link href="/assets/stylesheets/jquery-ui-1.10.3.custom.min.css?body=1" media="all" rel="stylesheet" />
+    <link href="/assets/stylesheets/bootstrap.min.css?body=1" media="all" rel="stylesheet" />
+    <link href="/assets/stylesheets/bootstrap-theme.min.css?body=1" media="all" rel="stylesheet" />
+    <link href="/assets/stylesheets/bootstrap-responsive.min.css?body=1" media="all" rel="stylesheet" />
+    <link href="/assets/stylesheets/highcharts.css?body=1" media="all" rel="stylesheet" /> 
+    <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet" />
+    <link href="/assets/stylesheets/cdesk_application.css" media="all" rel="stylesheet" />
+
+    <script>
+      window.scala_api                = "http://dev-desk.collective-media.net/dataapi";
+      window.workflow_api             = "http://dev-desk.collective-media.net/wapi";
+    </script>
+     
+       
+ 
+@ga() 
+@javascript()    
+
+ <script> 
+    window.assets                   = {};
+    window.assets.target_marker     = "assets/images/cdesk/icn_goal.png";
+    window.assets.platform_icon     = "assets/images/tag_icon.png";
+    window.assets.ontrack           = "assets/images/statusWidget/on_track_icon.png";
+    window.assets.underperforming   = "assets/images/statusWidget/underperforming_icon.png";
+    window.assets.paused            = "assets/images/statusWidget/paused_icon.png";
+    window.assets.ready             = "assets/images/statusWidget/ready_icon.png";
+    window.assets.completed         = "assets/images/statusWidget/completed_icon.png";
+    window.assets.draft             = "assets/images/statusWidget/draft_icon.png";
+    window.assets.active            = "assets/images/statusWidget/active_icon.png";
+    window.assets.display           = "assets/images/cdesk/desktop_screen_icon.png" ;
+    window.assets.video             = "assets/images/cdesk/video_screen_icon.png" ;
+    window.assets.social            = "assets/images/cdesk/social_screen_icon.png" ;
+    window.assets.mobile            = "assets/images/cdesk/smartphone_screen_icon.png" ;
+    window.assets.desktop           = "assets/images/cdesk/desktop_screen_icon.png" ;
+    window.assets.smartphone        = "assets/images/cdesk/smartphone_screen_icon.png" ;
+    window.assets.tablet            = "assets/images/cdesk/tablet_screen_icon.png" ;
+</script>
+</head>
+<body>
+<header></header>
+</body>
+@content
+</html>
+

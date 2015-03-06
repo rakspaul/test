@@ -302,7 +302,7 @@
     commonModule.directive("screenChart", function () {
         return {
             restrict: 'EAC',
-            templateUrl: 'screen_chart'
+            templateUrl: '/assets/html/screen_chart.html'
         }
     })
 }());

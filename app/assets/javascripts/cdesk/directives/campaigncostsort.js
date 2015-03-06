@@ -8,7 +8,7 @@
                 campaigns: '='
             },
 
-            templateUrl: 'campaign_cost_filters',
+            templateUrl: '/assets/html/campaign_cost_filters.html',
 
             link: function ($scope, element, attrs) {
 

@@ -3,7 +3,7 @@
   timePeriodModule.directive('timeperiodDropDown', function () {
     return {
       restrict: 'EAC',
-      templateUrl: 'timeperiod_drop_down'
+      templateUrl: '/assets/html/timeperiod_drop_down.html'
     };
   });
 
