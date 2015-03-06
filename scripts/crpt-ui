@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#   /etc/init.d/reports-api
+#   /etc/init.d/crpt-ui
 #   chkconfig: 2345 90 60
 #
 #   This Starts CRPT UI. Scala REST Application.
@@ -17,7 +17,7 @@ CRPT_UI_HOME="/home/amp/crpt-ui"
 CRPT_UI_PID=${CRPT_UI_HOME}/crpt-ui.pid
 CRPT_UI_LOCK=/var/lock/subsys/crpt-ui
 ADDRESS=`/sbin/ifconfig eth0|grep -i 'inet addr'|cut -d ':' -f 2|cut -d ' ' -f1`
-PORT=8081
+PORT=8080
 CRPT_UI_CONFIG=${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/conf/application.conf
 CRPT_UI_LOG_DIR=$CRPT_UI_HOME/log
 
@@ -28,7 +28,7 @@ start() {
 		exit -1
 	fi
 	echo -n "Starting crpt-ui on port $ADDRESS:$PORT : "
-	su $CRPT_UI_USER -c  "${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/bin/reports-api -J-Xmx8192m -Dpidfile.path=$CRPT_UI_PID  -Dhttp.port=$PORT -Dhttp.address=$ADDRESS -Dlogger.resource=${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/conf/application-logger.xml -Dconfig.file=$CRPT_UI_CONFIG 2>&1 >> $CRPT_UI_LOG_DIR/production.log & echo$!" 
+	su $CRPT_UI_USER -c  "${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/bin/crpt-ui -J-Xmx8192m -Dpidfile.path=$CRPT_UI_PID  -Dhttp.port=$PORT -Dhttp.address=$ADDRESS -Dlogger.resource=${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/conf/application-logger.xml -Dconfig.file=$CRPT_UI_CONFIG 2>&1 >> $CRPT_UI_LOG_DIR/production.log & echo$!" 
         retval=$?
         if [ $retval == 0 ] ; then
 	  touch $CRPT_UI_LOCK
@@ -69,7 +69,7 @@ case "$1" in
 	    start
 	    ;;
     *)
-	    echo "Usage: reports-api {start|stop|restart}"
+	    echo "Usage: crpt-ui {start|stop|restart}"
 	    exit 1
 	    ;;
 
