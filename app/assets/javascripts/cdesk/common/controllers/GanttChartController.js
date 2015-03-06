@@ -26,15 +26,8 @@
                             c.name = " ";
                             c.type = "brand";
                             c.status = "";
-                            //push a brand into campaign list as type=brand and min and max date
                             c.taskName = count;
-                            // var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
-                            // var data= _.first(temp); //getting lowest start date
-                            // c.startDate = new Date(data.start_date);
                             c.startDate = moment().subtract(2, 'years').startOf('year');
-                            // temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
-                            // data= _.last(temp); //getting highest start date
-                            // c.endDate = new Date(data.end_date);
                             c.endDate = moment().add(2, 'years').endOf('year');
 
                             campaigns.push(c);
@@ -48,15 +41,8 @@
                         c.name = datum.name;
                         c.type = "brand";
                         c.status = "";
-                        //push a brand into campaign list as type=brand and min and max date
                         c.taskName = count;
-                        // var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
-                        // var data= _.first(temp); //getting lowest start date
-                        // c.startDate = new Date(data.start_date);
                         c.startDate = moment().subtract(2, 'years').startOf('year');
-                        // temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
-                        // data= _.last(temp); //getting highest start date
-                        // c.endDate = new Date(data.end_date);
                         c.endDate = moment().add(2, 'years').endOf('year');
 
                         campaigns.push(c);
@@ -83,11 +69,9 @@
                         ganttChart.newCalendar(campaigns, brands);
                     } else if (update || brandsModel.getSelectedBrand().id) {
                         ganttChart.newCalendar(campaigns, brands, true);
-                        // ganttChart.updateCalendar(campaigns, brands);
                     }
 
                 } else {
-                    //   console.log('no calendar data');
                     $scope.noData = true;
                 }
 
