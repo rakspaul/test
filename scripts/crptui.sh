@@ -34,7 +34,6 @@ else
   cp ${CONF_PROD_FILE} ${CONF_FILE} 
 
 fi
-sudo rm -Rf  /home/amp/crpt-ui/public/assets*
 sudo cp /home/amp/crpt-ui/crpt-ui /etc/init.d/crpt-ui
 sudo chmod 755 /etc/init.d/crpt-ui
 sudo chkconfig --add crpt-ui
