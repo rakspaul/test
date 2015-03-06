@@ -55,7 +55,7 @@ var angObj = angObj || {};
                 $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
             for(var i in $scope.sort_field){
                 if($scope.sortByColumn.indexOf($scope.sort_field[i].key)>=0){
-                    $scope.sort_field[i].class = 'active';
+                    $scope.sort_field[i]['class']= 'active';
                     $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
                 }
             }
@@ -241,7 +241,7 @@ var angObj = angObj || {};
                     else
                         $scope.sortByColumn = (sortby==='name')?sortby : '-'+sortby;
 
-                    $scope.sort_field[i].class = 'active';
+                    $scope.sort_field[i]['class'] = 'active';
                     $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
                    localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.sortByColumn );
                 }
