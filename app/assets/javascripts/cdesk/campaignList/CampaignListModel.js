@@ -180,6 +180,10 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           this.push(campaign);
           self.costIds += campaign.orderId + ',';
           Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
+	  if (campaign.kpi_type == 'null') {
+            campaign.kpi_type = 'CTR';
+            campaign.kpi_value = 0;
+	  }
           dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
             if(response.status == 'success') {
               self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, campaignCDBData);
