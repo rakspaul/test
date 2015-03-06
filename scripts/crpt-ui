@@ -28,7 +28,7 @@ start() {
 		exit -1
 	fi
 	echo -n "Starting crpt-ui on port $ADDRESS:$PORT : "
-	su $CRPT_UI_USER -c  "${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/bin/crpt-ui -J-Xmx8192m -Dpidfile.path=$CRPT_UI_PID  -Dhttp.port=$PORT -Dhttp.address=$ADDRESS -Dlogger.resource=${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/conf/application-logger.xml -Dconfig.file=$CRPT_UI_CONFIG 2>&1 >> $CRPT_UI_LOG_DIR/production.log & echo$!" 
+	su $CRPT_UI_USER -c  "${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/bin/crpt-ui -J-Xmx8192m -Dpidfile.path=$CRPT_UI_PID  -Dhttp.port=$PORT -Dhttp.address=$ADDRESS -Dlogger.resource=${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/conf/application-logger.xml -Dconfig.file=$CRPT_UI_CONFIG 2>&1 >> $CRPT_UI_LOG_DIR/application.log & echo$!" 
         retval=$?
         if [ $retval == 0 ] ; then
 	  touch $CRPT_UI_LOCK
