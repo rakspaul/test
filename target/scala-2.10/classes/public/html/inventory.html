@@ -1,0 +1,170 @@
+<div class="reports_main_page_holder">
+    <div class="reports_header_tabs_holder clearfix">
+	    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
+        <div class="pull-left">
+            <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="inventory_tab_{{tab.href}}"> {{tab.title}}</a></span>
+        </div>
+    </div>
+    <div class="inventory_reports_container" >
+
+        <div class="clearfix inventory_header">
+            <div class="pull-left dropdown dropdown_type1" id="inventory_camp_list_dd">
+                <large-list-search selected-obj=selectedCampaign></large-list-search>
+            </div>  <!-- end of inventory_camp_list_dd -->
+
+            <div class="pull-right download_report">
+
+                <div class="dropdown" >
+                    <span class="dropdown_ul_text " data-toggle="dropdown">
+                        <a class="download_anchor" id="inventory_download_btn" href="" >Download Report</a>
+                    </span>
+
+                    <ul class="dropdown_ul_inv dropdown-menu" id="inventory_download">
+
+                        <li value="categories"><a ng-if="download_urls.category" class="download_anchor"
+                                               ng-click="downloadInventoryReport(download_urls.category, 'transparency_by_site_category')">Inventory Transparency by Site Category</a></li>
+                        <li value="domains"><a ng-if="download_urls.domain" class="download_anchor"
+                                               ng-click="downloadInventoryReport(download_urls.domain, 'transparency_by_domain')">Inventory Transparency by Domain</a></li>
+                        <li value="urls"><a ng-if="download_urls.fullURL" class="download_anchor"
+                                               ng-click="downloadInventoryReport(download_urls.fullURL, 'transparency_by_url')">Inventory Transparency by URL</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!--<div class="pull-right dropdown dropdown_type3" id="inventory_lifetime_dd" >-->
+
+               <!--<report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>-->
+
+            <!--</div>-->
+        </div>
+        <div id="inventory_strategies_dd">
+            <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+        </div>
+        <!--<div class="dropdown dropdown_type2">
+	        <span class="dropdown_ul_text " data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl:26}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
+
+            <ul id="strategies_list" class="dropdown_ul dropdown-menu">
+                <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>
+            </ul>
+        </div>-->
+
+        <div class="inventory_charts_details_holder">
+
+            <div class="clearfix chart_inventory_header">
+                <div class="pull-left clearfix inventory_tabs" id="category_change">
+                    <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories" id="inventory_category_tab">Categories</a></span>
+                    <span><a href="javascript:void(0);" _key="parentdomains" id="inventory_domains_tab">Domains</a></span>
+                    <span><a href="javascript:void(0);" _key="fulldomains" id="inventory_urls_tab">URLs</a></span>
+                </div>
+                <div class="chart_details_cols_row inventory_chart_details_list clearfix">
+                    <div class="pull-left performance_selection clearfix"
+                         data-ng-click="showPerformance(strategyTable.show)">
+                        <span class="performance_symbol {{strategyTable.cssClass}}"></span>
+                        <span class="performance_text">{{strategyTable.show}} Performance</span>
+                    </div>
+                    <div class="pull-right imps_del_col">
+                        Imps. Delivered
+                    </div>
+                    <div class="pull-right cpa_dropdown cpa_col">
+                        <div class="dropdown">
+
+                            <report-filters  selected-filter="selected_filters" list-object="filters.kpiTypes" flag="kpitypes"></report-filters>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <!--strategyBusy :  {{strategyBusy}}-->
+          <span class="no-chart load-more" ng-if="strategyBusy">&nbsp;</span>
+            <div ng-if="strategyFound && !strategyBusy" class="inventory_strategy_chart clearfix">
+
+                <div class="pull-left inventory_chart">
+                      <span ng-switch="inventoryChart">
+                            <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                            <span ng-switch-default>
+                                <div class="highcharts" ng-if="inventoryChart">
+                                    <highchart config="inventoryChart" chartTitle=""></highchart>
+                                </div>
+                                <div class="highcharts" ng-if="!inventoryChart">
+                                    <span class="no-chart">Data Not Available<!-- (PARTIAL CHART)-->.</span>
+                                </div>
+                            </span>
+                        </span>
+                </div>
+                <div class="inventory_chart_details_list"
+                     data-ng-repeat="stable in strategyTableData ">
+
+                    <div class="chart_details_cols_row inventory_each_chart_details clearfix">
+                        <span class="row_index">{{$index + 1}}</span>
+                        <span class="url_val" title="{{stable.domain_data}}"
+                              ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
+
+                        <span class="url_val" title="{{stable.domain_data}}"
+                              ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
+                            <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :20 }}</a>
+                         </span>
+
+                        <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
+                        <span class="cpa_col cpa_data pull-right">{{stable.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="no_data_found && !strategyBusy" ng-if="!strategyFound">
+                Data Not Available
+            </div>
+        </div>
+       <!--tacticBusy : {{tacticBusy}}-->
+      <span class="no-chart load-more" ng-if="tacticBusy">&nbsp;</span>
+        <div ng-if="strategyFound && !tacticBusy " class="each_chart_accordion_holder"
+             ng-repeat="tactic in tacticList[tacticList.show]" ng-if="tactic.data">
+
+            <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
+                {{tactic.name}}
+            </div>
+
+            <div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} "
+                 id="tactic_{{$index}}_body">
+                <div class="pull-left inventory_chart">
+                    <span ng-switch="tactic.chart">
+                            <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                            <span ng-switch-default>
+                                <div class="highcharts" ng-if="tactic.chart">
+                                    <!--<div class="clearfix highcharts_kpi_titles">
+                                        <span class="pull-left">{{selected_filters.kpi_type}}</span>
+                                        <span class="pull-right">Imps</span>
+                                    </div>-->
+                                    <highchart config="tactic.chart" chartTitle=""></highchart>
+                                </div>
+                                <div class="highcharts" ng-if="!tactic.chart">
+                                    <span class="no-chart">Data Not Available<!-- (PARTIAL CHART)-->.</span>
+                                </div>
+                            </span>
+                        </span>
+
+                </div>
+                <div class="inventory_chart_details_list">
+                    <div class="chart_details_cols_row inventory_each_chart_details clearfix"
+                         ng-repeat="tableData in tactic.data">
+                        <span class="row_index">{{$index + 1}}</span>
+                        <span class="url_val" title="{{tableData.domain_data}}"
+                              ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>
+                        <span class="url_val" title="{{tableData.domain_data}}"
+                              ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
+                            <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:20}}</a>
+                         </span>
+                        <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
+                        <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
