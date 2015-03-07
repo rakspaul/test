@@ -1,0 +1,148 @@
+ <div class="main_dashboard" ng-if="!dashboard.isNetworkUser">
+  <div class="row dashboard_main_heading_row">
+
+    <div class="clearfix col-md-10 dashboard_main_heading">
+      <span>{{data.title}}</span>
+      <span class="more_txt_heading">{{data.titleSecondPart}}</span>
+      <span  id="brandButton" ng-if="data.brandSelected" class="bubble_heading" data-ng-click="clickOnBrandButton()" >{{data.selectedBrand}} <span class="brand_close_btn">+</span> </span>
+      <span class="tootip_holder"><span class="tooltip_show_icon"></span><span class="common_tooltip">{{data.toolTip}}</span></span>
+
+    </div>
+    <div class="clearfix col-md-2 status_filter">
+      <div class="dropdown pull-right status_filter_dd" >
+            <span class="dropdown_ul_text " data-toggle="dropdown">
+                <span>{{data.selectedStatus}}</span>
+                <span class="arrow_img"></span>
+            </span>
+            <ul class="dropdown_ul dropdown-menu ">
+                <li ng-repeat="elem in data.statusDropdownValues">{{elem}}</li>
+                <div class="dd_options_disabled"></div>
+            </ul>
+      </div>
+      <span class="pull-right dd_heading">Status</span>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="dashboard_section dashboard_perf_graph_holder">
+        <div class="dashboard_heading dashboard_heading_bold">Campaign Performance</div>
+        <div class="dashboard_perf_graph">
+          <gauge></gauge>
+        </div>
+        <!--<div class="dashboard_graph_legends">-->
+
+        <!--<span class="legend_details onTrack_legend">-->
+        <!--<span class="graph_legend"></span>-->
+        <!--<span class="graph_legend_txt">80% on track</span>-->
+        <!--</span>-->
+        <!--<span class="legend_details underperf_legend">-->
+        <!--<span class="graph_legend"></span>-->
+        <!--<span class="graph_legend_txt">20% underperforming</span>-->
+        <!--</span>-->
+        <!--</div>-->
+      </div>
+    </div>
+    <div class="col-md-4">
+     <bubble-chart></bubble-chart>
+    </div>
+    <div class="col-md-4">
+      <screen-chart></screen-chart>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+     <!--  <div class="dashboard_section"> -->
+        <div class="dashboard_section dashboard_calendar_graph_holder" ng-controller="ganttChartController">
+          <div class="clearfix dashboard_heading">
+            <div class="pull-left calendar_heading dashboard_heading_bold">
+              <div class="pull-left">Calendar </div>
+              <!-- <div class="pull-left top_budget_subtitle">(Top 5 Brands)</div> -->
+              <div class="pull-left tootip_holder">
+                    <span class="tooltip_show_icon"></span>
+                    <span class="clearfix common_tooltip">
+                      <div class="pull-left">
+                        <div class="tooltip_heading">Campaign Status</div>
+                        <div class="status_legend draft_status">
+                          Draft
+                        </div>
+                        <div class="status_legend ready_status">
+                          Ready
+                        </div>
+                        <div class="status_legend active_status">
+                          Active
+                        </div>
+                        <div class="status_legend paused_status">
+                          Paused
+                        </div>
+                        <div class="status_legend completed_status">
+                          Completed
+                        </div>
+                      </div>
+                      <div class="pull-right legend_container">
+                          <div class="tooltip_heading">Performance Status</div>
+                          <div class="calendar_legend_holder green">
+                            <div class="legend_color"></div>
+                            <div class="legend_text">On Track</div>
+                          </div>
+                          <div class="calendar_legend_holder amber">
+                            <div class="legend_color"></div>
+                            <div class="legend_text">Underperforming</div>
+                          </div>
+                          <div class="calendar_legend_holder grey">
+                            <div class="legend_color"></div>
+                            <div class="legend_text">Neutral</div>
+                          </div>
+                      </div>
+                    </span>
+            </div>
+            </div>
+            <div class="pull-right clearfix">
+              <!-- <div class="pull-right calendar_holder">
+                <span class="end_dates">End Dates</span>
+              </div> -->
+              <div class="pull-right dropdown" id="dashboard_metric_dd">
+                <span class="dropdown_ul_text" data-toggle="dropdown">
+                  <span>End Dates</span>
+                  <span class="arrow_img"></span>
+                </span>
+                <ul class="dropdown_ul dropdown-menu">
+                  <!-- <li>Budget</li> -->
+                  <li>End Dates</li>
+                </ul>
+              </div>
+              <div class="pull-right show_link">
+                Sort by:
+              </div>
+              <div class="pull-left cal_nav_btns_holder">
+                <div class="cal_nav_btn" ng-click="prev()"><span class="arrow_left"></span></div>
+                <div class="cal_nav_btn" ng-click="next()"><span class="arrow_right"></span></div>
+              </div>
+              <div class="pull-right calendar_holder_period" >
+               <!--  <span ng-click="prev()"> [<] </span>
+                <span ng-click="next()" > [>] </span> --> 
+                <span ng-click="today()" class="{{(selected=='today')?'active':''}}">Week</span>
+                <span ng-click="month()" class="{{(selected=='month')?'active':''}}">Month</span>
+                <span ng-click="quarter()" class="{{(selected=='quarter')?'active':''}}">Quarter</span><!-- add active whenever it is selected -->
+                <span ng-click="year()" class="{{(selected=='year')?'active':''}}">Year</span>
+              </div>
+              
+
+
+            </div>
+          </div>
+          <div class="dashboard_perf_graph" >
+          <gantt-chart></gantt-chart>
+          </div>
+        </div>
+     <!--  </div> -->
+    </div>
+<!--=======-->
+<!--<div ng-if="!dashboard.isNetworkUser">-->
+  <!--<div id="gauge" class="pull-left">-->
+    <!--<gauge></gauge>-->
+  <!--</div>-->
+  <!--<div id="spend">-->
+    <!--<bubble-chart></bubble-chart>-->
+  </div>
+</div>

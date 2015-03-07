@@ -1,0 +1,1 @@
+var editActionsModule = angular.module('editActionsModule', ['commonModule'])
