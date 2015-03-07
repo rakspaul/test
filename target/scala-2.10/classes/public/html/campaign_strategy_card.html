@@ -1,0 +1,293 @@
+<div  ng-init="$parent.$parent.details.sortStrategies('startDate')" ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder">        
+    <div class="clearfix each_campaign_list_container only_strategy_container">
+	    <div class="each_campaign_section">
+	       <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_campaign_status_icon" data-toggle="tooltip" data-placement="left" data-original-title="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
+
+        </div>
+        <div class="each_campaign_section campaign_list_details">
+            <div class="strategy_heading">Strategy</div>
+            <div class="main_heading">
+                {{strategy.name | truncateString : 78}}
+            </div>
+            <div class="heading">
+                {{campaign.brandName}}
+            </div>
+            <div class="days_left_holder">
+                <div class="total_days_holder">
+                    
+                    <div class="clearfix days_end_points">
+                            <span class="start_end">{{strategy.startDate | date :'d MMM y' }}</span>
+                            <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}</span>
+                    </div>
+                    <div class="days_over" style="width: {{(campaigns.durationLeft(strategy)!=0)?campaigns.durationCompletion(strategy):'3'}}%;" ng-switch on="campaigns.durationLeft(strategy)">
+                            <!-- <div class="days_over_text">10 Days Left</div> -->
+                            <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
+                            <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
+                            <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(strategy)}} Days Left</span>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix campaigns_list_buttons_holder">
+                <div class="pull-left clearfix tactics_open_btn" ng-click="showTactics(strategy.id, strategy.tactics_count)">
+                    <div class="pull-left open_icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="pull-left">{{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Tactics" : "Tactic" }}</div>
+                </div>
+                <a ><!--  href="/#/performance" -->
+                    <div class="campaign_btn reports_btn" ng-click="$parent.$parent.viewReports(campaign, strategy)">
+                        View Report
+                    </div>
+                </a> 
+                <a  ng-click="$parent.$parent.setActivityButtonData(campaign, strategy)" href="/#/optimization" >
+                    <div class="campaign_btn actions_btn" >
+                        <span>Activity</span>
+                        <!--<span class="actions_done">10</span> -->
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="each_campaign_section metric_campaign_section">
+            <div class="clearfix metric_graph_header">
+                <span class="metric_title">Spend</span>
+                <span class="metric_val">${{strategy.grossRev | number : 2}}</span>
+            </div>
+            <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
+                  <div class="full_metric_graph">
+                      <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}} " style="width: {{getSpendWidthForStrategy(strategy)}}%;"> <!-- put completely_filled when 100% -->
+                      </div>
+                      <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 100) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidthForStrategy(strategy)}}%;"><!-- put start_beginning when at start -->
+                          <div class="end_point_val">
+                              <span class="icon_KPI"> ${{strategy.expectedMediaCost | number:2}}</span>
+                              <div class="end_point_line"></div>
+                          </div>
+                      </div>
+		      <div class="graph_end_point completed_end_point " ng-hide="strategy.expectedMediaCost == strategy.totalMediaCost">
+			  <!-- put completed_end_point when at end -->
+                          <div class="end_point_val">
+                              <div class="end_point_line"></div>
+                              <span>${{strategy.totalMediaCost | number:2}}</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            <div class="clearfix metric_graph_details">
+                <div class="each_metric_graph_details">
+                    <span class="detail_val">{{strategy.totalImpressions | number}}</span>
+                    <span>Imps.</span>
+                </div>
+                <div class="each_metric_graph_details">
+                    <span class="detail_val">{{strategy.ctr | roundThisOff : 2}}% </span>
+                    <span>CTR</span>
+                </div>
+                <div class="each_metric_graph_details">
+                    <span class="detail_val">{{strategy.actionRate | roundThisOff : 2}}%</span>
+                    <span>Action Rate</span>
+                </div>
+            </div>
+        </div>
+        <div class="each_campaign_section campaign_section_KPI">
+            <div class="graph_details_KPI">
+                <div class="clearfix details_KPI_row1">
+                    <span class="details_KPI_title">{{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | toUpperCase}}</span>
+                    <span class="cumulative_val">
+                        Cumulative Value <span>{{strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
+                    </span>
+                </div>
+                <div class="clearfix details_KPI_row2" ng-if="campaign.kpiValue">
+                    <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                    <span class="icon_KPI"></span>
+                </div>
+                <div class="clearfix details_KPI_row2" ng-if="!campaign.kpiValue">
+                    </br>
+                </div>
+            </div>
+            <!-- <div class="graph_KPI_holder">
+
+            </div> -->
+            <!-- <div class="graph_KPI_holder" ng-if="!campaign.chart || !campaign.kpiType || !campaign.kpiValue">
+                <span class="strategies-no-chart">Data Not Available</span>
+            </div>
+            <div class="graph_KPI_holder" ng-if="campaign.chart && campaign.kpiType && campaign.kpiValue">
+                <highchart id="highcharts-strategies" config="campaign.chart" chartTitle=""></highchart>
+            </div> -->
+            <div class="graph_KPI_outer_holder">
+              <span ng-switch="strategy.chart">
+                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                <span ng-switch-default>
+                    <div ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
+                        <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart>
+                    </div>
+                    <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
+                        No Data Available
+                    </div>
+
+                </span>
+              </span>
+          </div>
+        </div>
+    </div>
+
+    <!-- tactics section started  -reusing the campaign and tactics partial view -->
+    <div campaign-tactics-card campaign="campaign" campaigns="campaigns" strategy="strategy"></div> 
+     <!-- end of tactics -->
+
+</div>
+<div ng-if='campaign.campaignStrategiesLoadMore.length' class="load-more-strategies"><a ng-click="loadMoreStrategies(campaign.orderId)"> Load More Strategies</a></div>
+
+
+
+
+
+<!-- OLD
+<div id="strategies-accordion-{{campaign.orderId}}" class="col-md-12 inner-accordion-wrapper">
+        <div ng-show='!campaign.campaignStrategies' class="load-more">&nbsp;</div>        
+        <div id="collapseOne" class="clearfix inner-accordion  first"  ng-repeat="strategy in campaign.campaignStrategies">
+            <div  class="panel-collapse collapse in pull-right">
+                <div class="panel-body row-fluid">
+                    <div class="col-md-12">
+                        <div class="col-md-1">
+                            <span class="{{strategy.li_status}}"></span>
+                            <div><span class="marg-10"> {{strategy.li_status}} </span></div>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="campaign-name"> {{strategy.name | truncateString : 78}}</span>
+                            <div class="inner-accordion-details">
+                                <div>
+                                    <span class="audience-icon"></span>
+                                    <span>{{(strategy.selected_key_values ? (strategy.selected_key_values | truncateString : 78) :'[...]')}}</span>
+                                </div>
+                                <div>
+                                    <span class="globe-icon"></span>
+                                    <span>{{(strategy.selected_geos ? (strategy.selected_geos | truncateString : 50) :'[...]')}}</span>
+                                </div>
+                                <div>
+                                    <span class="location-icon"></span>
+                                    <span>[...]</span>
+                                </div>
+                                <div class="duration">
+                                    <span class="device-icon"></span>
+                                    <span>{{(strategy.ad_size ? (strategy.ad_size | truncateString : 50) :'[...]')}}</span>
+                                </div>
+                            </div>
+                            <div class="inner-accordion-duration">
+                                <div class="duration">
+                                    <span class="date">
+                                    {{strategy.startDate | date :'d MMM y' }}
+                                        -
+                                    {{strategy.endDate | date :'d MMM y' }}
+                                    </span>
+                                    <div class="duration-bar">
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{campaigns.durationCompletion(strategy)}}%;">
+                                            </div>
+                                        </div>
+                                        <div class="days-left" ng-switch on="campaigns.durationLeft(strategy)">
+                                            <span ng-switch-when="0">Yet to start</span>
+                                            <span ng-switch-when="-1">Ended</span>
+                                        <span ng-switch-default>
+                                          <span class="day-count bold">{{campaigns.durationLeft(strategy)}}</span> Days Left
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-group" id="tactics_accordion">
+                                <div>
+                                    <div class="tactics">
+                                        <div class="panel-title" ng-click="showTactics(strategy.id, strategy.tactics_count)">
+                                            <span class="bold">{{strategy.tactics_count}}</span> <span class="tactics-text"> {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Tactics" : "Tactic" }} </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-7">
+                            <div class="col-md-6">
+                                <div class="row-fluid">
+                                    <div class="col-md-6 text_left">
+                                        Spend
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="imps">Imps.</div>
+                                        <div class="imps-count">{{strategy.totalImpressions | number}}</div>
+                                    </div>
+
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="col-md-6">
+                                        <div class="ctr-container {{$parent.getSpendClassForStrategy(strategy)}}">
+                                            <div class="blue margin-twenty">
+                                                ${{strategy.grossRev | number : 2}}
+                                            </div>
+                                            <div class="blue">
+                                                {{$parent.getSpendDiffForStrategy(strategy)}}%
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{$parent.getSpendWidthForStrategy(strategy)}}%;">
+                                                    <span class="sr-only">100% Complete</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="marg-10">CTR</div>
+                                        <div class="ctr-value"> {{strategy.ctr | roundThisOff : 2}}% </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="col-md-12">
+                                        <div class="pull-right">
+                                            Action Rate
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="goal-image"></span>
+                                        <span class="action-data">${{strategy.expectedMediaCost | number}}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="action-data">{{strategy.actionRate | roundThisOff : 2}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row-fluid">
+                                    <div class="col-md-2 kpi-text-container">
+                                        <span class="cpa-color">{{campaign.kpiType ? campaign.kpiType : 'NA'}}</span>
+                                    </div>
+                                    <div class="col-md-10 kpi-values">
+                                        <span class="cumulative-text"> Cumulative Value </span>
+                                        <span class="bold"> {{strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType}}</span>
+                                        <div>
+                                            <span class="kpi-goal"></span>
+                                            <span class="bold">{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="col-md-12" style="padding: 0;">
+                                        <div class="highcharts" ng-if="!strategy.chart || !campaign.kpiType || !campaign.kpiValue">
+                                            <span class="strategies-no-chart">Data Not Available</span>
+                                        </div>
+                                        <div class="highcharts" ng-if="strategy.chart && campaign.kpiType && campaign.kpiValue">
+                                            <highchart id="highcharts-strategies" config="strategy.chart" chartTitle=""></highchart>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- tactics section started  -reusing the campaign and tactics partial view -->
+            <!-- <div campaign-tactics-card campaign="campaign" campaigns="campaigns" strategy="strategy"></div>  -->
+            <!-- end of tactics -->
+
+<!--         </div>
+        <div ng-if='campaign.campaignStrategiesLoadMore.length' class="load-more-strategies"><a ng-click="loadMoreStrategies(campaign.orderId)"> Load More Strategies</a></div> -->
