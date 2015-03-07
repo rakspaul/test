@@ -1,27 +1,30 @@
 //Data Manipulation in model
 campaignModule.factory("campaignModel", ['urlService','dataService' ,'constants', function (urlService,dataService, constants) {
+
+    console.log("campaign model");
     var campaign = {};
     campaign.allCampaigns = {};
-    campaign.campaigns = {};
     campaign.selectedCampaign = {
         id: -1,
-        name : 'Loading...',
+        name : 'No Campaign',
+
         kpi : 'NA',
         startDate : '-1',
         endDate : '-1'
     };
 
     return {
-        getCampaigns: function (brand, searchCriteria) {
 
-            var url = urlService.APICampaignDropDownList(brand, searchCriteria);
-            return dataService.fetch(dataService.append(url , searchCriteria)).then(function(response) {
+        getCampaigns: function (brand) {
+
+            var url = urlService.APICampaignList(brand);
+            return dataService.fetch(url).then(function(response) {
 
                 campaign.allCampaigns  = (response.data.data !== undefined) ? response.data.data : {} ;
-                campaign.campaigns =  (response.data.data !== undefined) ? response.data.data.slice(0,200) : {} ;
 
                 if( campaign.allCampaigns.length >0 && campaign.selectedCampaign.id == -1){
-                  var _selectedCamp = campaign.campaigns[0];
+                  var _selectedCamp = campaign.allCampaigns[0];
+
 
                    campaign.selectedCampaign.id = _selectedCamp.id;
                    campaign.selectedCampaign.name = _selectedCamp.name;
@@ -29,23 +32,18 @@ campaignModule.factory("campaignModel", ['urlService','dataService' ,'constants'
                    campaign.selectedCampaign.startDate = _selectedCamp.start_date;
                    campaign.selectedCampaign.endDate = _selectedCamp.end_date ;
                 }
+
                 return campaign.campaigns ;
+
             });
 
         },
         setSelectedCampaign: function (_campaign) {
-            console.log("Campaing model.campaing to set");
-            console.log(_campaign);
-            campaign.selectedCampaign.id = (_campaign.id == undefined)? _campaign.campaign_id : _campaign.id;
-            campaign.selectedCampaign.name = _campaign.name ;
-            campaign.selectedCampaign.kpi = (_campaign.kpi == undefined)? _campaign.kpi_type : _campaign.kpi ;
-            campaign.selectedCampaign.startDate = (_campaign.startDate == undefined) ? _campaign.start_date : _campaign.startDate ;
-            campaign.selectedCampaign.endDate = (_campaign.endDate == undefined) ? _campaign.end_date :  _campaign.endDate ;
-            console.log(campaign.selectedCampaign) ;
-
+            campaign.selectedCampaign = _campaign;
         },
         getSelectedCampaign: function() {
-            return campaign.selectedCampaign ;
+            return campaign.selectedCampaign;
+
         },
         getCampaignObj: function() {
             return campaign;
