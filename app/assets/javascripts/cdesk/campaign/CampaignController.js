@@ -42,11 +42,9 @@
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
 
-            console.log("Set Campaing called ");
-            console.log(selectedCampaign);
             if(selectedCampaign == undefined || selectedCampaign.id == -1) {
 
-                var selectedCampaign = {
+                selectedCampaign = {
                     id: -1,
                     name: 'No Campaign Found',
                     kpi: 'NA',
@@ -85,7 +83,7 @@
 
              //   $scope.$parent.selectedCampaign = domainReports.getNotFound()['campaign'];
              //   $scope.$parent.callBackCampaignsFailure();
-                console.log(campaignModel.getSelectedCampaign());
+          //      console.log(campaignModel.getSelectedCampaign());
                 console.log("Broad casing campaing change event ");
 
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED, selectedCampaign);
@@ -154,9 +152,9 @@
         };
 
         $scope.init = function(){
-            console.log("Campaing controller init method ");
+          //  console.log("Campaing controller init method ");
             if(campaignModel.getSelectedCampaign().id == -1){
-                console.log(" selected campaing id is -1 so fetching more ");
+           //     console.log(" selected campaing id is -1 so fetching more ");
                 $scope.fetchCampaigns(true,true);
             }
             else {
