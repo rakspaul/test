@@ -44,7 +44,9 @@
     <!--</div>-->
 </div>
 <div id="performance_strategies_dd">
-    <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+    <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+
+    <!--<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>-->
 </div>
 <span class="no-chart load-more" ng-if="performanceBusy || first_time_activity_loader">&nbsp;</span>
 
