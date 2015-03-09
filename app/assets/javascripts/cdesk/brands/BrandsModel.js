@@ -10,8 +10,8 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
   brand.cssClass = "";
   var brands = [brand.allBrandObject];
   return {
-    getBrands: function (success,limit,offset,key,search) {
-      brandsService.fetchBrands(limit,offset,key).then(function (response) {
+    getBrands: function (success,searchCritera,search) {
+      brandsService.fetchBrands(searchCritera).then(function (response) {
         //Note: Here search represents, only matching entries list.
         var resData = response.data.data;
         if(search){
