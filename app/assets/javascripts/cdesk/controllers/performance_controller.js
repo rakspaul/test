@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $window, performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($scope, $window, campaignModel, performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -11,7 +11,17 @@ var angObj = angObj || {};
 
       //  $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
      // intValues
-     $scope.selectedCampaign = domainReports.intValues()['campaign'];
+    // $scope.selectedCampaign = domainReports.intValues()['campaign'];
+        console.log("perf page init");
+        $scope.selectedCampaign = campaignModel.getCampaignObj().selectedCampaign ;
+        console.log($scope.selectedCampaign);
+
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+            console.log("perfController : EVENt campaign change is caught");
+            $scope.selectedCampaign = campaignModel.getCampaignObj().selectedCampaign ;
+            console.log(       $scope.selectedCampaign);
+        });
+
      $scope.selectedStrategy = domainReports.intValues()['strategy'];
 
 
