@@ -14,7 +14,8 @@ var angObj = '';
       'angulartics.google.analytics',
       'dashboardModule',
       'ngSanitize',
-      'ui.bootstrap']
+      'ui.bootstrap',
+      'lrInfiniteScroll']
   );
 
 
