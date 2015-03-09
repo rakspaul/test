@@ -8,6 +8,7 @@ var angObj = '';
       'campaignListModule',
       'editActionsModule',
       'brandsModule',
+       'campaignModule',
       'timePeriodModule',
       'loginModule',
       'angulartics',
