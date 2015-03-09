@@ -74,7 +74,13 @@
 
     this.APIActionData = function(campaignId) {
       return apiPaths.workflow_apiServicesUrl + "/campaigns/" + campaignId + "/actions"
-    }
+    };
+
+      this.APICampaignDropDownList = function(brandId){
+          var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?brand_id='+brandId ;
+          return url ;
+      };
+
 
   }
 

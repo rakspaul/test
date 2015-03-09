@@ -24,6 +24,7 @@
     this.DASHBOARD_STATUS_ALL = "All";
     this.ALL_BRANDS = 'All Brands';
     this.EVENT_BRAND_CHANGED = "brandChanged";
+    this.EVENT_CAMPAIGN_CHANGED = "campaignChanged";
     this.EVENT_BRAND_CHANGED_FROM_DASHBOARD = "brandChangedFromDashboard";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
     this.EVENT_ACTION_CREATED = "actionCreated";
