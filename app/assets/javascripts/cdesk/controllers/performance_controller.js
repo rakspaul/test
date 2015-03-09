@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $window, campaignModel, performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($scope, $window, campaignModel, strategyModel,performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -12,17 +12,24 @@ var angObj = angObj || {};
       //  $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
      // intValues
     // $scope.selectedCampaign = domainReports.intValues()['campaign'];
-        console.log("perf page init");
+      //  console.log("perf page init");
         $scope.selectedCampaign = campaignModel.getCampaignObj().selectedCampaign ;
-        console.log($scope.selectedCampaign);
+     //   console.log($scope.selectedCampaign);
+
+        $scope.selectedStrategy = strategyModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
+        console.log($scope.selectedStrategy);
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             console.log("perfController : EVENt campaign change is caught");
-            $scope.selectedCampaign = campaignModel.getCampaignObj().selectedCampaign ;
-            console.log(       $scope.selectedCampaign);
+            //update the selected Campaign
+            $scope.selectedCampaign = campaignModel.getSelectedCampaign() ;
+
+            // update the list of Strategy
+            $scope.selectedStrategy = strategyModel.getSelectedStrategy() ;
+            console.log($scope.selectedStrategy);
         });
 
-     $scope.selectedStrategy = domainReports.intValues()['strategy'];
+
 
 
       //  $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];

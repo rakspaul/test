@@ -1,0 +1,1 @@
+var strategyModule = angular.module('strategyModule', ['commonModule']);

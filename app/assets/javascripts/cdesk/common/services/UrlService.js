@@ -81,6 +81,11 @@
           return url ;
       };
 
+      this.APIStrategiesForCampaign = function (campaingId) {
+          var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaingId + '/strategies/meta';
+          return url ;
+      };
+
 
   }
 
