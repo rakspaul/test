@@ -99,7 +99,7 @@
             getFound : function(obj) {
                 return {
                     campaign : {
-                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : obj.campaign_id,
+                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : obj.campaign_id||obj.id,
                         name: datatransferservice.getDomainReportsValue('campaignName') ? datatransferservice.getDomainReportsValue('campaignName') :  obj.name
                     },
                     strategy : {
@@ -127,13 +127,8 @@
                     campaign_default_kpi_type: datatransferservice.getDomainReportsValue('primary_kpi') ? datatransferservice.getDomainReportsValue('primary_kpi').toLowerCase() : 'ctr'
                 };
             },
-            getAllCampaignListForUser : function(brand_id) {
-
-                if(datatransferservice.getAllCampaignList(brand_id)) {
-                    return datatransferservice.getAllCampaignList(brand_id);
-                }else {
-                    return performanceService.getCampaingsForUser(brand_id);
-                }
+            getAllCampaignListForUser : function(brand_id,searchCriteria) {
+              return performanceService.getCampaingsForUser(brand_id,searchCriteria);
             },
             //TODO: Remove getCampaignStrategyList method. Better have a seprate service which has api call for campaing and strategy drop down.
             // directly call that service method from each controller instead of calling following ( to get list of strategy for a campaign)

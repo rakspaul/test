@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics,_) {
     $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
     var errorObject = {status:"error", data: {message:"Error"}};
     return {
@@ -131,6 +131,15 @@
             dataStore.deleteAllCachedCampaignListUrls();
           }
         })
+      },
+
+      append: function(url,paramsObj){
+        for(var property in paramsObj){
+          if(paramsObj.hasOwnProperty(property)&&paramsObj[property]!==''){
+             url += '&'+property+"="+paramsObj[property];
+          }
+        }
+        return url;
       },
 
       fetch: function (url) {

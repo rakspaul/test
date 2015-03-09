@@ -446,7 +446,9 @@ var angObj = angObj || {};
         //Called from directive_controller.js,  this is required, do not remove;
         $scope.callBackCampaignsFailure = function () {
             console.log('This function is required : callBackCampaignsFailure');
+            $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             $scope.strategyFound = false ;
+            $scope.strategies = {} ; // if No Strategy then clear the strategy list.
         };
 
         //Called from directive_controller.js,  when the user selects the campaign dropdown option
