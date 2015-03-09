@@ -33,15 +33,18 @@
                         <div class="total_days_holder">
                             
                             <div class="clearfix days_end_points">
-                                    <span class="start_end">{{tactic.startDate | date :'d MMM y' }}</span>
-                                    <span class="finish_end">{{tactic.endDate | date :'d MMM y' }}</span>
+                                <span class="start_end">{{tactic.startDate | date :'d MMM y' }}</span>
+                                <span class="finish_end">{{tactic.endDate | date :'d MMM y' }}</span>
                             </div>
-                            <div class="days_over" style="width: {{(campaigns.durationLeft(tactic)!=0)?campaigns.durationCompletion(tactic):'3'}}%;" ng-switch on="campaigns.durationLeft(tactic)">
-                                <!-- <div class="days_over_text">10 Days Left</div> -->
-                                <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
-                                <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
-                                <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(tactic)}} {{campaigns.durationLeft(tactic) > 1 ? 'Days':'Day'}} Left</span>
+                            <div ng-init="duration_t = tactic.durationLeft()"></div>
+                            <div class="days_over" style="width: {{tactic.durationCompletion()}}%;">
+                              <span ng-if="duration_t == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
+                              <span ng-if="duration_t == 'Ended'" class="days_over_text ended_text" >Ended</span>
+                              <span ng-if="duration_t > 0"   class="days_over_text">{{duration_t}} Days Left</span>
                             </div>
+                            <div ng-if="duration_t == 'Started today'" class="days_not_over_text start_text">Started today</div>
+                            <div ng-if="duration_t == 'Ending today'" class="days_not_over_text ended_text" >Ending today</div>
+
                         </div>
                     </div>
                     <div  class="channel_details">

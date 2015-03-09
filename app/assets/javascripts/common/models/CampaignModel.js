@@ -16,6 +16,7 @@
     this.lineitems_count = '';
     this.actions_count = '';
     this.kpi_status = -1;
+    this.momentInNetworkTZ;
 
     //following variables are used by campaignListModel
     this.setVariables = function() {
@@ -45,7 +46,53 @@
     this.periodEndDate = '';
     this.constructor = function() {
       return this;
+    },
+
+    this.setMomentInNetworkTz = function(momentInNetworkTZ) {
+      this.momentInNetworkTZ = momentInNetworkTZ;
     }
+
+    this.durationLeft = function() {
+//      console.log('durationLeft called: ' + this.startDate + " : " + this.endDate);
+      var today = this.momentInNetworkTZ.today(),
+        endDate = this.momentInNetworkTZ.newMoment(this.endDate),
+        startDate = this.momentInNetworkTZ.newMoment(this.startDate);
+      if (today.isBefore(startDate)) {
+        //campaign yet to start
+        return "Yet to start";
+      }
+      if (endDate.isBefore(today)) {
+        //campaign ended
+        return "Ended";
+      }
+      if (endDate.isSame(today)) {
+        //campaign ending today
+        return "Ending today";
+      }
+      if (startDate.isSame(today)) {
+        //campaign starting today
+        return "Started today";
+      }
+      return Math.round(endDate.diff(today, 'days', true)) + 1;
+    },
+
+    this.durationCompletion = function() {
+      var today = this.momentInNetworkTZ.today(),
+        endDate = this.momentInNetworkTZ.newMoment(this.endDate),
+        startDate = this.momentInNetworkTZ.newMoment(this.startDate);
+      if (today.isBefore(startDate)) {
+        return 0;
+      }
+      if (endDate.isBefore(today)) {
+        return 100;
+      }
+      var totalDays = endDate.diff(startDate, 'days') + 1,
+        daysOver = Math.round(today.diff(startDate, 'days', true));
+
+      return Math.round((daysOver / totalDays) * 100);
+    };
+
+
   }
   commonModule.value('campaignModel',CampaignModel);
 }());

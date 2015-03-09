@@ -1,5 +1,12 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'analytics', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants, brandsModel, loginModel, analytics) {
+campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths',
+                                                  'modelTransformer', 'campaignCDBData', 'campaignCost',
+                                                  'dataStore', 'requestCanceller', 'constants',
+                                                  'brandsModel', 'loginModel', 'analytics', 'momentInNetworkTZ',
+                                                  function($http, dataService, campaignListService, apiPaths,
+                                                           modelTransformer, campaignCDBData, campaignCost,
+                                                           dataStore, requestCanceller, constants,
+                                                           brandsModel, loginModel, analytics, momentInNetworkTZ) {
   var scrollFlag = 1;
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();
@@ -477,29 +484,6 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         }
       });
     }
-
-  Campaigns.prototype.durationLeft = function(campaign) {
-    if(campaign !== undefined) {
-      if (moment() < moment(campaign.startDate)) {
-        //campaign yet to start
-        return 0;
-      }
-      if (moment(campaign.endDate) < moment()) {
-        //campaign ended
-        return -1;
-      }
-      return moment(campaign.endDate).diff(moment(), 'days');
-    }
-  },
-
-    Campaigns.prototype.durationCompletion = function(campaign) {
-      if(campaign !== undefined) {
-        var totalDays = moment(campaign.endDate).diff(moment(campaign.startDate), 'days'),
-          daysOver = moment().diff(moment(campaign.startDate), 'days');
-
-        return Math.round((daysOver / totalDays) * 100);
-      }
-    },
 
     Campaigns.prototype._applyFilters = function(filters) {
    //   console.log('filter campaigns: ' + JSON.stringify(filters));

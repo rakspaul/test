@@ -9,33 +9,32 @@
       data.expiry_secs = undefined;
       data.login_name = undefined;
       data.agency_id = undefined;
-  var updateRedirectUrl = function(value) {
-    $cookieStore.put(constants.COOKIE_REDIRECT, value);
-  }
-return {
 
-    deleteData: function () {
+    var updateRedirectUrl = function(value) {
+      $cookieStore.put(constants.COOKIE_REDIRECT, value);
+    };
+
+    return {
+
+    deleteData : function () {
       data = {};
       data.is_network_user = false;
     },
 
-    getUserRole :function() {
+    getUserRole : function() {
       if(data.is_network_user === true) {
         return constants.ROLE_NETWORK
       }
       return constants.ROLE_MARKETER;
     },
 
-    setUser : function(user){
+    setUser : function(user) {
         data = user;
 
-        var time= moment(new Date());  
-        var store ="";
-        time.add(user.expiry_secs,'seconds');
-        console.log('cookie expires on '+time.format('YYYY-MM-DD HH:mm:ss'));
-        var now = new Date(time);
-        //user.expiry_time=time.format('YYYY-MM-DD HH:mm:ss');
-        document.cookie = 'cdesk_session='+ JSON.stringify(user) +';expires='+now.toGMTString()+';path=/';
+        var time = moment().add(user.expiry_secs, 'seconds'),
+            expiryTime = new Date(time);
+        console.log('cookie expires on ' + time.format('YYYY-MM-DD HH:mm:ss'));
+        document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires=' + expiryTime.toGMTString() + ';path=/';
 
         // campaignDetails object is required for reports tab.
         localStorage.setItem( 'campaignDetails', JSON.stringify({
@@ -52,9 +51,6 @@ return {
             primary_kpi:null
         }));
     },
-    // this.getUser = function(){
-    //   return this.data;
-    // };
 
     getLoginName : function() {
         if(data.login_name) {
@@ -121,6 +117,14 @@ return {
         return ($cookieStore.get('cdesk_session'))?true:false;
     },
 
+    networkTimezone : function() {
+      if($cookieStore.get('cdesk_session')) {
+        data.network_tz = $cookieStore.get('cdesk_session').network_tz;
+        return $cookieStore.get('cdesk_session').network_tz
+      }
+      return "America/New_York";
+    },
+
     checkCookieExpiry : function(){
       if(!$cookieStore.get('cdesk_session')){
         localStorage.clear();
@@ -142,9 +146,10 @@ return {
     forbidden : function() {
       $location.url('/campaigns');
     }
-}
+
+    } //return
    
-  }
+  }; //loginModel
   angObj.service('loginModel', ['$cookieStore', '$location', 'constants', loginModel]);
 
 }());

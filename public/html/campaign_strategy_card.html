@@ -20,12 +20,14 @@
                             <span class="start_end">{{strategy.startDate | date :'d MMM y' }}</span>
                             <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}</span>
                     </div>
-                    <div class="days_over" style="width: {{(campaigns.durationLeft(strategy)!=0)?campaigns.durationCompletion(strategy):'3'}}%;" ng-switch on="campaigns.durationLeft(strategy)">
-                            <!-- <div class="days_over_text">10 Days Left</div> -->
-                            <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
-                            <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
-                            <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(strategy)}} {{campaigns.durationLeft(strategy) > 1 ? 'Days':'Day'}} Left</span>
+                    <div ng-init="duration_s = strategy.durationLeft()"></div>
+                    <div class="days_over" style="width: {{strategy.durationCompletion()}}%;">
+                        <span ng-if="duration_s == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
+                        <span ng-if="duration_s == 'Ended'" class="days_over_text ended_text" >Ended</span>
+                        <span ng-if="duration_s > 0"   class="days_over_text">{{duration_s}} Days Left</span>
                     </div>
+                    <div ng-if="duration_s == 'Started today'" class="days_not_over_text start_text">Started today</div>
+                    <div ng-if="duration_s == 'Ending today'" class="days_not_over_text ended_text" >Ending today</div>
                 </div>
             </div>
             <div class="clearfix campaigns_list_buttons_holder">

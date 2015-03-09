@@ -2,7 +2,12 @@
 (function () {
   "use strict";
   //originally in models/campaign.js
-  campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'constants', function (dataService,  utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, constants) {
+  campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
+                                                      'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
+                                                      'constants', 'momentInNetworkTZ',
+                                                      function (dataService,  utils, common, line, $q, modelTransformer,
+                                                                campaignModel, dataStore, apiPaths, requestCanceller,
+                                                                constants, momentInNetworkTZ) {
 
     var appendStrategyData = function(obj, key) {
       var str = '';
@@ -68,12 +73,12 @@
             default: media_type_icon = "display_graph";
           }
         }
-        tacticObj.push({
+        var tactic_1 = {
           id: tactic.id,
-          media_type_icon:media_type_icon,
+          media_type_icon: media_type_icon,
           name: tactic.name,
-          startDate:  campaign.start_date , // tactic.start_date,
-          endDate: campaign.end_date, //    tactic.end_date,
+          startDate: moment(campaign.start_date).format('YYYY-MM-DD'), // tactic.start_date,
+          endDate: moment(campaign.end_date).format('YYYY-MM-DD'), //    tactic.end_date,
           ad_size: tactic.ad_size,
           platform_name: tactic.platform_name,
           platform_icon: tactic.platform_icon_url,
@@ -88,9 +93,13 @@
           ctr: 0,
           vtc: 0,
           actionRate: 0,
-          chart: null
-        });
+          chart: null,
+          momentInNetworkTZ: momentInNetworkTZ
+        };
+        tactic_1.durationCompletion = campaign.durationCompletion.bind(tactic_1);
+        tactic_1.durationLeft = campaign.durationLeft.bind(tactic_1);
 
+        tacticObj.push(tactic_1);
         //based on time period use period dates or flight dates
         switch(timePeriod) {
           case 'last_7_days':
@@ -201,7 +210,7 @@
         }else{
           status = strategy.general.li_status;
         }
-        strategyObj.push({
+        var strategy_1 = {
           id: strategy.general.id,
           brandName: campaign.brandName,
           name: strategy.general.name,
@@ -217,12 +226,17 @@
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-	      totalMediaCost: utils.roundOff(strategy.general.value, 2),
+	        totalMediaCost: utils.roundOff(strategy.general.value, 2),
           expectedMediaCost: utils.roundOff(strategy.general.expected_media_cost, 2),
           ctr: 0,
           actionRate: 0,
-          chart: null
-        });
+          chart: null,
+          momentInNetworkTZ: momentInNetworkTZ
+        };
+        strategy_1.durationCompletion = campaign.durationCompletion.bind(strategy_1);
+        strategy_1.durationLeft = campaign.durationLeft.bind(strategy_1);
+
+        strategyObj.push(strategy_1);
         getStrategyCdbLineChart(index, strategyObj, timePeriod, campaign, kpiType, kpiValue);
         getStrategyMetrics(index, strategyObj, timePeriod, campaign);
         getTacticList(index, strategyObj, timePeriod, campaign, strategyObj[index].id, kpiType, kpiValue);
@@ -366,6 +380,7 @@
           campaign.fromSuffix = utils.formatDate(this.start_date);
           campaign.toSuffix = utils.formatDate(this.end_date);
           campaign.setVariables();
+          campaign.setMomentInNetworkTz(momentInNetworkTZ);
           if (campaign.kpi_type == 'null') {
             campaign.kpi_type = 'CTR';
             campaign.kpiType = 'CTR';
