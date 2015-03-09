@@ -13,10 +13,9 @@
                 return dataService.fetch(url);
             },
 
-            getCampaingsForUser: function (brand_id) {
+            getCampaingsForUser: function (brand_id,searchCriteria) {
                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?brand_id='+brand_id ;
-                return dataService.fetch(url);
-
+                return dataService.fetch(dataService.append(url,searchCriteria));
             },
 
             getStrategyPerfData: function (param) {

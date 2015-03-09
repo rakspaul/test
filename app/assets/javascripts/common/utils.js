@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  commonModule.factory('utils', ["$location", "$sce", function ($location, $sce) {
+  commonModule.factory('utils', ["$location", "$sce", "constants", function ($location, $sce,constants) {
     var formatDate = function (input) {
       var date = new Date(input);
       var dayOfMonth = date.getDate();
@@ -51,6 +51,38 @@
       }
       return temp;
     };
+
+    var SEARCH_OBJECT = {
+      key : "",
+      limit: constants.DEFAULT_LIMIT_COUNT,
+      offset: constants.DEFAULT_OFFSET_START
+    };
+    /**
+     * Note: You can provide limit, offset and key as arguments for initializing.
+     * Please follow the above order for initialization.
+     * Will consider first three parameters only.
+     */
+     function getTypeaheadParams(){
+      var search = clone(SEARCH_OBJECT);
+      if(arguments.length === 0)
+        return search;
+      var size = 3;
+      if(arguments.length<3)
+        size = arguments.length;
+      for(var i=0; i<size; i++){
+        switch(i) {
+          case 0: if(!isNaN(arguments[i]))search.limit = arguments[i];
+                  break;
+          case 1: if(!isNaN(arguments[i]))search.offset = arguments[i];
+                  break;
+          case 2: search.key = arguments[i];
+                  break;
+        }
+      }
+      return search;
+    };
+
+
     return {
       formatDate: formatDate,
       makeTitle: makeTitle,
@@ -58,8 +90,8 @@
       goToLocation: goToLocation,
       allValuesSame: allValuesSame,
       clone: clone,
-      highlightSearch: highlightSearch
-
+      highlightSearch: highlightSearch,
+      typeaheadParams: getTypeaheadParams()
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -488,5 +520,4 @@ angObj.directive('truncateTextWithHover', function () {
     });
     return this;
   };
-
 }());

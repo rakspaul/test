@@ -182,8 +182,9 @@ var angObj = angObj || {};
         };
 
         $scope.callBackCampaignsFailure= function(){
-            //TODO, logic needs to be done
-          //  console.log('This function is required');
+          $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+          $scope.strategyFound = false ;
+          $scope.strategies = {} ; // if No Strategy then clear the strategy list.
         };
 
 

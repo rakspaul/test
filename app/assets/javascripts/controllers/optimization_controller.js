@@ -373,6 +373,9 @@ var angObj = angObj || {};
         };
 
         $scope.callBackCampaignsFailure = function () {
+          $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+          $scope.strategyFound = false ;
+          $scope.strategies = {} ; // if No Strategy then clear the strategy list.
         };
 
 
