@@ -53,37 +53,7 @@
                 };
             }
 
-//                $scope.campaignData.selectedCampaign.id = selectedCampaign.id;
-//                $scope.campaignData.selectedCampaign.name = selectedCampaign.name ;
-//                $scope.campaignData.selectedCampaign.kpi = selectedCampaign.kpi ;
-//                $scope.campaignData.selectedCampaign.startDate = selectedCampaign.startDate ;
-//                $scope.campaignData.selectedCampaign.endDate = selectedCampaign.endDate ;
-
-
-          //      campaignModel.setSelectedCampaign(selectedCampaign);
-          //      $scope.$parent.callBackCampaignChange();
-//                if(dataTransferService.getDomainReportsValue('campaignId')== false){ // Means No campaing selected in localStorage.
-//                    $scope.$parent.selectedCampaign = domainReports.getFound(selectedCampaign)['campaign'];
-//                }
-//                else{
-//                    $scope.$parent.selectedCampaign.id = dataTransferService.getDomainReportsValue('campaignId');
-//                    $scope.$parent.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName');
-//                }
-//                if($scope.$parent.selected_filters !== undefined) {
-//                    $scope.$parent.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaigns[0].kpi_type;
-//                    $scope.$parent.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaigns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaigns[0].kpi_type,
-//                        dataTransferService.updateExistingStorageObjects({
-//                            filterKpiType: $scope.$parent.selected_filters.kpi_type,
-//                            filterKpiValue: $scope.$parent.selected_filters.kpi_type_text
-//                        });
-//                }
-                //  $scope.$parent.callBackCampaignsSuccess();
-
                 campaignModel.setSelectedCampaign(selectedCampaign);
-
-             //   $scope.$parent.selectedCampaign = domainReports.getNotFound()['campaign'];
-             //   $scope.$parent.callBackCampaignsFailure();
-          //      console.log(campaignModel.getSelectedCampaign());
                 console.log("Broad casing campaing change event ");
 
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED, selectedCampaign);
@@ -173,25 +143,6 @@
 
         $scope.init();
 
-
-//        if($scope.$parent.selectedCampaign.id === "-1")
-//            $scope.fetchCampaigns(true,true);
-//        else {
-//            //TODO: Remove this hack: assigning campaign_id with id.
-//            //Note : the following assignment is required as list of campaigns from backend will have campaign_id
-//            //whereas scope selected campaign is referring it with id.
-//            $scope.$parent.selectedCampaign.campaign_id = $scope.$parent.selectedCampaign.id;
-//            $scope.campaigns = [$scope.$parent.selectedCampaign];
-//            $scope.setCampaign($scope.$parent.selectedCampaign);
-//        }
-
-
-//            var selectedCampaign = {
-//                id : $(e.target).attr('value'),
-//                name :  $(e.target).text(),
-//                kpi : $(e.target).attr('_kpi')
-//               // kpi_text : ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi')
-//            };
 
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
