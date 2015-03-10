@@ -41,7 +41,8 @@
                 options: {
                   chart: {
                     width :chart_width,
-                    height:chart_height
+                    height:chart_height,
+                    spacingLeft: 14
                   },
                 credits: {
                     enabled: false
@@ -66,6 +67,9 @@
                     enabled: false
                 },
                 xAxis: [{
+                    maxPadding:0,
+                    minPadding:0,
+                    tickWidth: 0,
                     type: 'datetime',
                     labels: {
                         formatter: function() {
@@ -182,7 +186,9 @@
                                 width: 1,
                                 id: 'plot-line-1'
                             });
-
+                            if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
+                                chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2, 11, 11).add();
+                            }
                         }
                     }, 500);
                 },
