@@ -3,7 +3,7 @@ var angObj = '';
 (function () {
     'use strict'; //This strict context prevents certain actions from being taken and throws more exceptions.
 
-  angObj = angular.module('cdeskApp',
+  angObj = angular.module('app',
     [ 'commonModule',
       'campaignListModule',
       'editActionsModule',

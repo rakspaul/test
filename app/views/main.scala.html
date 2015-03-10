@@ -1,7 +1,7 @@
 @(content: Html)
 @import play.api.Play
 <!DOCTYPE html>
-<html ng-app='cdeskApp'>
+<html ng-app='app'>
   <head>
     <meta charset='utf-8'>
     <title>Reporting</title>
@@ -9,12 +9,16 @@
     <meta content='Collective' name='author'>
     <link href='/assets/images/collective.png' rel='shortcut icon' type='image/x-icon'>
     <link href="/assets/stylesheets/jquery-ui-1.10.3.custom.min.css?body=1" media="all" rel="stylesheet" />
-    <link href="/assets/stylesheets/bootstrap.min.css?body=1" media="all" rel="stylesheet" />
-    <link href="/assets/stylesheets/bootstrap-theme.min.css?body=1" media="all" rel="stylesheet" />
-    <link href="/assets/stylesheets/bootstrap-responsive.min.css?body=1" media="all" rel="stylesheet" />
+    <link href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")" media="all" rel="stylesheet" />
+    <link href="@routes.Assets.versioned("stylesheets/bootstrap-theme.min.css")" media="all" rel="stylesheet" />
+    <link href="@routes.Assets.versioned("stylesheets/bootstrap-responsive.min.css")" media="all" rel="stylesheet" />
     <link href="/assets/stylesheets/highcharts.css?body=1" media="all" rel="stylesheet" /> 
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet" />
-    <link href="/assets/stylesheets/cdesk_application.css" media="all" rel="stylesheet" />
+    <link rel="stylesheet" media="all" href="@routes.Assets.versioned("stylesheets/cdesk_application.css")">
+
+
+
+    <script data-main="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript" src="@routes.Assets.versioned("javascripts/vendor/require.min.js")"></script>
 
     <script>
       window.scala_api                = "@Play.current.configuration.getString("application.scala_api")"
@@ -25,8 +29,6 @@
        
  
 @ga() 
-@javascript()    
-
  <script> 
     window.assets                   = {};
     window.assets.target_marker     = "assets/images/cdesk/icn_goal.png";
