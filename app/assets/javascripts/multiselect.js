@@ -259,7 +259,7 @@ angular.module('ui.multiselect', [])
       restrict: 'E',
       scope: false,
       replace: true,
-      templateUrl: 'multi_select',
+      templateUrl: '/assets/html/multi_select.html',
       link: function (scope, element, attrs) {
 
         scope.isVisible = false;
