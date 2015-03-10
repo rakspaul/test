@@ -5,7 +5,7 @@
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['brands', 'campaignList', 'common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
+    packages: ['brands', 'campaignList', 'campaign', 'strategy', 'common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
    
     shim: {
       'jsRoutes': {
@@ -92,6 +92,16 @@
       'brands-BrandsDirective':{deps: ['brands-BrandsListController']},
       'brands-BrandsService':{deps: ['brands-BrandsDirective']},
       'brands-BrandsModel':{deps: ['brands-BrandsService']},
+
+      'campaign-CampaignModule':{deps: ['brands-BrandsModel']},
+      'campaign-CampaignDirective':{deps: ['campaign-CampaignModule']},
+      'campaign-CampaignModel':{deps: ['campaign-CampaignDirective']},
+      'campaign-CampaignController':{deps: ['campaign-CampaignModel']},
+
+      'strategy-StrategyModule':{deps: ['campaign-CampaignController']},
+      'strategy-StrategyDirective':{deps: ['strategy-StrategyModule']},
+      'strategy-StrategyModel':{deps: ['strategy-StrategyDirective']},
+      'strategy-StrategyController':{deps: ['strategy-StrategyModel']},
 
       'timePeriod-TimePeriodModule':{deps: ['brands-BrandsModel']},
       'timePeriod-TimePeriodModel':{deps: ['timePeriod-TimePeriodModule']},
@@ -216,6 +226,16 @@
       'brands-BrandsDirective':'brands/BrandsDirective',
       'brands-BrandsService':'brands/BrandsService',
       'brands-BrandsModel':'brands/BrandsModel',
+
+      'campaign-CampaignModule':'campaign/CampaignModule',
+      'campaign-CampaignController':'campaign/CampaignController',
+      'campaign-CampaignDirective':'campaign/CampaignDirective',
+      'campaign-CampaignModel':'campaign/CampaignModel',
+
+      'strategy-StrategyModule':'strategy/StrategyModule',
+      'strategy-StrategyController':'strategy/StrategyController',
+      'strategy-StrategyDirective':'strategy/StrategyDirective',
+      'strategy-StrategyModel':'strategy/StrategyModel',
 
       'timePeriod-TimePeriodModule':'timePeriod/TimePeriodModule',
       'timePeriod-TimePeriodModel':'timePeriod/TimePeriodModel',
@@ -346,6 +366,16 @@
            'brands-BrandsDirective',
            'brands-BrandsService',
            'brands-BrandsModel',
+
+          'campaign-CampaignModule',
+          'campaign-CampaignController',
+          'campaign-CampaignDirective',
+          'campaign-CampaignModel',
+
+          'strategy-StrategyModule',
+          'strategy-StrategyController',
+          'strategy-StrategyDirective',
+          'strategy-StrategyModel',
 
            'timePeriod-TimePeriodModule',
            'timePeriod-TimePeriodModel',
