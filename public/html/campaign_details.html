@@ -106,7 +106,7 @@
                         </div>
                         <div class="clearfix each_section_graph format_section_graph"  ng-if="(details.screens.length > 0 &&  campaign.kpiType !='null' && screenTotal > 0 )">
                             <div ng-repeat="screen in details.screens" class="each_bar_section_holder {{screen.icon}}">
-                              <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')">{{screen.dimension}}: {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? (screen[details.kpiType] | kpiFormatter : campaign.kpiType):'' }}</div>
+                              <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')">{{screen.dimension}}{{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? ':':'' }} {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? (screen[details.kpiType] | kpiFormatter : campaign.kpiType):'' }}</div>
                               <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " style="width:{{100-((details.screenTop-screen[details.kpiType])*100/details.screenTop)}}%"> 
                               </div>
                             </div>
