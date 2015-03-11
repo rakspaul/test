@@ -26,16 +26,6 @@
             $scope.strategyData.strategies = strategyModel.getStrategyObj().strategies ;
             $scope.strategyData.selectedStrategy = strategyModel.getStrategyObj().selectedStrategy ;
 
-//            strategyModel.getStrategyObj().strategies = {};
-//            strategyModel.getStrategyObj().selectedStrategy.id = -1;
-//            strategyModel.getStrategyObj().selectedStrategy.name = 'Loading...';
-
-            //clean up controller variables
-//            $scope.strategyData.strategies = {} ;
-//            $scope.strategyData.selectedStrategy = {
-//                    id: -1,
-//                    name : 'Loading...'
-//                };
         };
 
 
