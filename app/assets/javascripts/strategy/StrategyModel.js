@@ -40,8 +40,8 @@ strategyModule.factory("strategyModel", ['urlService','dataService' , 'requestCa
         },
         reset : function(){
             strategyObj.strategies = {};
-            strategyObj.selectedStrategy.id = -1,
-            strategyObj.selectedStrategy.name = 'Loading...'
+            strategyObj.selectedStrategy.id = -1;
+            strategyObj.selectedStrategy.name = 'Loading...' ;
 
         }
 

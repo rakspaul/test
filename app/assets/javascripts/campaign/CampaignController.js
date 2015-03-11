@@ -10,7 +10,7 @@
             selectedCampaign :  {
                 id: -1,
                 name : 'Loading...',
-                kpi : 'NA',
+                kpi : 'ctr',
                 startDate : '-1',
                 endDate : '-1'
             }
@@ -47,33 +47,25 @@
                 selectedCampaign = {
                     id: -1,
                     name: 'No Campaign Found',
-                    kpi: 'NA',
+                    kpi: 'ctr',
                     startDate: '-1',
                     endDate: '-1'
                 };
             }
 
                 campaignModel.setSelectedCampaign(selectedCampaign);
-                console.log("Broad casing campaing change event ");
-
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED, selectedCampaign);
 
 
         };
 
         $scope.fetchCampaigns = function(search,set_campaign){
-            //if ($scope.selectedCampaign == undefined) {
-        //    domainReports.getAllCampaignListForUser(brandsModel.getSelectedBrand().id, searchCriteria).then(function (result) {
-
             campaignModel.getCampaigns(brandsModel.getSelectedBrand().id,searchCriteria).then(function(){
 
                console.log(" fetchCampaing success ");
                //TODO : rewrite what to do in search condiiton
 
                 var campObj = campaignModel.getCampaignObj();
-
-//                $scope.campaignData.campaigns = campObj.allCampaigns ;
-//                $scope.campaignData.selectedCampaign = campObj.selectedCampaign ;
 
                 if( $scope.campaignData.campaigns.length < searchCriteria.limit ){
                     $scope.exhausted = true;
@@ -87,22 +79,8 @@
 
                 if(set_campaign)
                     $scope.setCampaign(campObj.campaigns[0]);
-
-
-//                var campaigns = result.data.data;
-//                if(campaigns.length < searchCriteria.limit)
-//                    $scope.exhausted = true;
-//                $scope.fetching = false;
-//
-//                if(search)
-//                    $scope.campaigns = campaigns;
-//                else
-//                    $scope.campaigns = $scope.campaigns.concat(campaigns);
-//
-//                if(set_campaign)
-//                    $scope.setCampaign($scope.campaigns[0]);
             });
-            //}
+
         };
 
         $scope.search = function(){
@@ -128,14 +106,6 @@
                 $scope.fetchCampaigns(true,true);
             }
             else {
-                //TODO: Remove this hack: assigning campaign_id with id.
-                //Note : the following assignment is required as list of campaigns from backend will have campaign_id
-                //whereas scope selected campaign is referring it with id.TODO: Remove this line
-                //    $scope.$parent.selectedCampaign.campaign_id = $scope.$parent.selectedCampaign.id;
-
-                //   $scope.campaigns = [$scope.$parent.selectedCampaign];
-                //  $scope.setCampaign($scope.$parent.selectedCampaign);
-                console.log("Selected campaing id is "+ campaignModel.getSelectedCampaign().id);
                 $scope.setCampaign(campaignModel.getCampaignObj().selectedCampaign);
             }
 
@@ -153,38 +123,13 @@
                 startDate : $(e.target).attr('_startDate'),
                 endDate :  $(e.target).attr('_endDate')
 
-                // kpi_text : ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi')
             };
-            // clear the strategy data in localStorage
-//            dataTransferService.updateExistingStorageObjects({'strategyId' : '', 'strategyName' :  ''});
-            campaignModel.setSelectedCampaign(selectedCampaign);
+            console.log("*******************");
             $scope.setCampaign(selectedCampaign );
-           // $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, brand);
 
-//            $scope.$parent.selectedCampaign.id = selectedCampaign.id;
-//            $scope.$parent.selectedCampaign.name = selectedCampaign.name;
-//            $scope.$parent.selectedCampaign.primary_kpi = selectedCampaign.kpi;
-
-//            if($scope.$parent.selected_filters !== undefined) {
-//                $scope.$parent.selected_filters.kpi_type = selectedCampaign.kpi;
-//                $scope.$parent.selected_filters.kpi_type_text = selectedCampaign.kpi_text;
-//                dataTransferService.updateExistingStorageObjects({
-//                    'filterKpiValue': $scope.$parent.selected_filters.kpi_type_text,
-//                    'filterKpiType': $scope.$parent.selected_filters.kpi_type
-//                });
-//            }
-//            dataTransferService.updateExistingStorageObjects({
-//                'campaignId': selectedCampaign.id ,
-//                'campaignName': selectedCampaign.name,
-//                'primary_kpi': selectedCampaign.kpi,
-//                'previousCampaignId': dataTransferService.getDomainReportsValue('campaignId')
-//            });
 
             $scope.$apply();
             $(this).hide();
- //           $scope.$parent.selected_filters = domainReports.getDurationKpi();
-
-  //          $scope.$parent.callBackCampaignChange();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
         });
 
