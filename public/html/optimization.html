@@ -140,21 +140,21 @@
                     <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at':true" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id,action.make_external)">
                         <div class="each_rep_col_holder clearfix" >
                             <div id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id"  class="graph_icon"></div>
-                            <div title="{{action.action_sub_type}}" class="each_rep_col first_col">{{action.action_sub_type}}</div>
+                            <div  class="each_rep_col first_col"><span title="{{action.action_sub_type}}">{{action.action_sub_type}}</span></div>
                             <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                            <div title="{{action.metric_impacted}}" class="each_rep_col third_col"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type === action.metric_impacted.toLowerCase().split(' ').join('_')"></span>{{action.metric_impacted}}</div>
+                            <div class="each_rep_col third_col"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type === action.metric_impacted.toLowerCase().split(' ').join('_')"></span><span title="{{action.metric_impacted}}">{{action.metric_impacted}}</span></div>
 
                             <div class="each_rep_col forth_col dates_hide">{{action.from_date_before | date:'dd MMM yyyy'}}</div>
                             <div class="each_rep_col fifth_col dates_hide">{{action.to_date_before | date:'dd MMM yyyy'}}</div>
 
-                            <div class="each_rep_col sixth_col dates_hide" title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</div>
-                            <div class="each_rep_col sixth_col dates_show" title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</div>
+                            <div class="each_rep_col sixth_col dates_hide" ><span title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</span></div>
+                            <div class="each_rep_col sixth_col dates_show" ><span title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</span></div>
                             <div class="each_rep_col sev_col dates_hide" >{{action.from_date_after | date:'dd MMM yyyy'}}</div>
                             <div class="each_rep_col eight_col dates_hide">{{action.to_date_after | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col nine_col dates_hide" title="{{action.metric_value_after  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
-                            <div class="each_rep_col nine_col dates_show" title ="{{action.metric_value_after | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
-                            <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)"  title="{{action.metric_percent_change  | number}}">
-                                <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
+                            <div class="each_rep_col nine_col dates_hide" ><span title="{{action.metric_value_after  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</span></div>
+                            <div class="each_rep_col nine_col dates_show" ><span title ="{{action.metric_value_after | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</span></div>
+                            <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)"  >
+                                <span class="positive_sign">+</span><span class="negative_sign">-</span><span title="{{action.metric_percent_change  | number}}">{{roundOff(action.metric_percent_change,0)}}%</span>
                                 <span class="arrow_img"></span>
                             </div>
                         </div>
