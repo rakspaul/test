@@ -26,7 +26,6 @@ var angObj = angObj || {};
 
         $scope.init= function(){
 
-         //   $scope.firstTime = true;
 
             $scope.strategyFound = false ;
 
@@ -161,9 +160,7 @@ var angObj = angObj || {};
                                 }
 
                             } else if ($scope.selected_tab === 'byscreens') {
-                                 //console.log("tactic by screens ");
-                                // console.log($scope.tacticsPerfDataListByScreen);
-                                // console.log($scope.tacticsPerfDataListByScreen ==='undefined' || $scope.tacticsPerfDataListByScreen.length === 0 );
+
                                 if ($scope.tacticsPerfDataListByScreen === 'undefined' || $scope.tacticsPerfDataListByScreen.length === 0) {
                                     $scope.tacticScreenBusy = true;
                                     for (var index in $scope.tacticList) {
@@ -440,7 +437,7 @@ var angObj = angObj || {};
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $("#reports_" + tab_id[0] + "_block").show();
-                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
+                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
             });
         });
 
@@ -448,7 +445,7 @@ var angObj = angObj || {};
         //TODO: This function is called from the directive, onchange of the dropdown.It will be done when dropdown is implemented.
         $scope.callBackKpiDurationChange = function (kpiType) {
             if (kpiType == 'duration') {
-                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
+                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
 
                 var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
@@ -484,7 +481,7 @@ var angObj = angObj || {};
             $scope.perfReportDownloadBusy = true;
             var report_url1 = report_url ;
             if (report_name==='by_platforms')
-                report_url1=report_url+'&start_date='+$scope.selectedStrategy.startDate+'&end_date='+$scope.selectedStrategy.endDate ;
+                report_url1=report_url+'&start_date='+$scope.selectedCampaign.startDate+'&end_date='+$scope.selectedCampaign.endDate ;
             dataService.downloadFile(report_url1).then(function(response) {
                 if(response.status === "success"){
                     $scope.perfReportDownloadBusy = false;

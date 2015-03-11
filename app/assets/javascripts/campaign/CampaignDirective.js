@@ -10,7 +10,6 @@
             templateUrl: '/assets/html/campaign_drop_down.html',
             link: function ($scope, element, attrs) {
 
-                console.log("Campaing directive initialize ");
                 $('#campaigns_list').scrollWithInDiv();
 
                 //Function called when the user clicks on the down arrow icon

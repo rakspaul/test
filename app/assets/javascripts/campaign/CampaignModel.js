@@ -1,7 +1,6 @@
 //Data Manipulation in model
 campaignModule.factory("campaignModel", ['urlService','dataService' ,'constants', function (urlService,dataService, constants) {
     var campaign = {};
-    campaign.allCampaigns = {};
     campaign.campaigns = {};
     campaign.selectedCampaign = {
         id: -1,
@@ -11,29 +10,7 @@ campaignModule.factory("campaignModel", ['urlService','dataService' ,'constants'
         endDate : '-1'
     };
 
-    return {
-        getCampaigns: function (brand, searchCriteria) {
-
-            var url = urlService.APICampaignDropDownList(brand, searchCriteria);
-            return dataService.fetch(dataService.append(url , searchCriteria)).then(function(response) {
-
-                campaign.allCampaigns  = (response.data.data !== undefined) ? response.data.data : {} ;
-                campaign.campaigns =  (response.data.data !== undefined) ? response.data.data.slice(0,200) : {} ;
-
-                if( campaign.allCampaigns.length >0 && campaign.selectedCampaign.id == -1){
-                  var _selectedCamp = campaign.campaigns[0];
-
-                   campaign.selectedCampaign.id = _selectedCamp.id;
-                   campaign.selectedCampaign.name = _selectedCamp.name;
-                   campaign.selectedCampaign.kpi = _selectedCamp.kpi_type ;
-                   campaign.selectedCampaign.startDate = _selectedCamp.start_date;
-                   campaign.selectedCampaign.endDate = _selectedCamp.end_date ;
-                }
-                return campaign.campaigns ;
-            });
-
-        },
-        setSelectedCampaign: function (_campaign) {
+        campaign.setSelectedCampaign = function (_campaign) {
             campaign.selectedCampaign.id = (_campaign.id == undefined)? _campaign.campaign_id : _campaign.id;
             campaign.selectedCampaign.name = _campaign.name ;
             campaign.selectedCampaign.kpi = (_campaign.kpi == undefined)? (_campaign.kpi_type)  : _campaign.kpi ;
@@ -44,17 +21,32 @@ campaignModule.factory("campaignModel", ['urlService','dataService' ,'constants'
                 campaign.selectedCampaign.kpi = 'ctr' ; // set default kpi as ctr if it is coming as null or NA from backend.
             }
 
-        },
-        getSelectedCampaign: function() {
-            console.log("GET SELECTED CAMPAING ");
-            console.log( campaign.selectedCampaign);
+        };
+
+    campaign.getCampaigns = function (brand, searchCriteria) {
+
+            var url = urlService.APICampaignDropDownList(brand, searchCriteria);
+            return dataService.fetch(dataService.append(url , searchCriteria)).then(function(response) {
+
+                campaign.campaigns =  (response.data.data !== undefined) ? response.data.data : {} ;
+
+                if( campaign.campaigns.length >0 && campaign.selectedCampaign.id == -1){
+                  var _selectedCamp = campaign.campaigns[0];
+                    campaign.setSelectedCampaign(_selectedCamp);
+                }
+                return campaign.campaigns ;
+            });
+
+        };
+
+    campaign.getSelectedCampaign = function() {
             return campaign.selectedCampaign ;
-        },
-        getCampaignObj: function() {
+        } ;
+
+    campaign.getCampaignObj = function() {
             return campaign;
-        }
+        };
 
+   return campaign ;
 
-    };
-}])
-;
+    }]);

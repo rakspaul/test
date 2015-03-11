@@ -32,7 +32,7 @@
         $scope.setStrategy = function(strategy){
             strategyModel.setSelectedStrategy(strategy);
             $scope.strategyData.selectedStrategy.id =(strategy.id == undefined) ? (strategy.lineitemId == undefined ? strategy.strategyId : strategy.lineitemId): strategy.id ;
-            $scope.strategyData.selectedStrategy.name = (strategy.name== undefined) ? strategy.strategy_name  : strategy.name ;
+            $scope.strategyData.selectedStrategy.name = (strategy.name == undefined) ? strategy.strategy_name  : strategy.name ;
 
             $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
 
@@ -41,11 +41,9 @@
 
         $scope.fetchStrategies = function(){
             if(campaignModel.getSelectedCampaign().id != -1){
-                console.log("fetch Strategies is called ");
                 strategyModel.getStrategies(campaignModel.getSelectedCampaign().id).then(function(result){
 
                     var strategyObj = strategyModel.getStrategyObj();
-                   // console.log(strategyObj);
                     $scope.strategyData.strategies = (strategyObj.strategies == undefined)? {} : strategyObj.strategies ;
                     $scope.setStrategy(strategyObj.selectedStrategy);
 
@@ -70,7 +68,7 @@
                     name:  $(e.target).text()
                 };
 
-                strategyModel.setSelectedStrategy(selectedStrategy);
+               // strategyModel.setSelectedStrategy(selectedStrategy);
                 $scope.setStrategy(selectedStrategy);
 
         });

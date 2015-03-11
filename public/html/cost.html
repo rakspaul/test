@@ -1,4 +1,4 @@
-<div class="campaign-list-container" data-ng-init="init()">
+<div class="campaign-list-container">
     <div id="detailedPage" class="container"></div>
     <div class="total_reports_page  ">
         <div class="reports_header_section">
@@ -10,10 +10,11 @@
             </div>
         <!-- campaign dropdown -->
         </div>
-        <div class="inventory_reports_container" data-ng-init="init()">
+        <div class="inventory_reports_container">
             <div class="clearfix inventory_header">
                 <div id="report_cost_camp_list_dd">
-                    <large-list-search selected-obj=selectedCampaign></large-list-search>
+                    <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
+                    <!--<large-list-search selected-obj=selectedCampaign></large-list-search>-->
                 </div>
                 <div class="pull-right download_report">
 
@@ -40,19 +41,18 @@
             <div class="clearfix">
 
             </div>
-            <!--campaign dropdown-->
-            <!--strategy dropdown-->
             
             <div id="cost_strategies_dd" >
-                <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+                <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+                <!--<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>-->
             </div>
+            <span class="common-load-icon_viewability class" ng-if="costBusy ">&nbsp;</span>
+            <!--<div class="common-load-icon" ng-show="costBusy">&nbsp;</div>-->
 
-            <!--strategy dropdown-->
-
-            <div class="no_data_found" ng-if="!strategyFound">
+            <div class="no_data_found" ng-if="!strategyFound && !costBusy ">
                 Data not Available
             </div>
-            <div class="reports_main_page_holder" ng-show="strategyFound">
+            <div class="reports_main_page_holder" ng-show="strategyFound && !costBusy">
                 <div class="reports_cost_header_holder">
                     <!--cost filter -->
                     <div class="clearfix cost_header_holder">
@@ -103,7 +103,7 @@
                     <div class="cost_transparency_container">
                         <div class="each_cost_row_holder strategy_total_row">
                             <div class="each_cost_row">
-                                <div class="common-load-icon" ng-show="strategyCostBusy"></div>
+                                <div class="common-load-icon" ng-show="strategyCostBusy "></div>
                                 <div class="each_cost_heading" >
                                     Strategy Total
                                 </div>

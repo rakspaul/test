@@ -59,7 +59,6 @@
         $scope.fetchCampaigns = function(search,set_campaign){
             campaignModel.getCampaigns(brandsModel.getSelectedBrand().id,searchCriteria).then(function(){
 
-               console.log(" fetchCampaing success ");
                //TODO : rewrite what to do in search condiiton
 
                 var campObj = campaignModel.getCampaignObj();
@@ -121,7 +120,6 @@
                 endDate :  $(e.target).attr('_endDate')
 
             };
-            console.log("*******************");
             $scope.setCampaign(selectedCampaign );
 
 
