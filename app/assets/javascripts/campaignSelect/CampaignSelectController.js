@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    campaignModule.controller('campaignController', function ($scope, $rootScope , domainReports, campaignModel ,apiPaths, dataTransferService, constants , brandsModel, loginModel, analytics,utils ) {
+    campaignSelectModule.controller('campaignSelectController', function ($scope, $rootScope , domainReports, campaignSelectModel ,apiPaths, dataTransferService, constants , brandsModel, loginModel, analytics,utils ) {
 
         $scope.campaignData = {
             campaigns : {},
@@ -50,18 +50,18 @@
                 };
             }
 
-                campaignModel.setSelectedCampaign(selectedCampaign);
-                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED, selectedCampaign);
+            campaignSelectModel.setSelectedCampaign(selectedCampaign);
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED, selectedCampaign);
 
 
         };
 
         $scope.fetchCampaigns = function(search,set_campaign){
-            campaignModel.getCampaigns(brandsModel.getSelectedBrand().id,searchCriteria).then(function(){
+            campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id,searchCriteria).then(function(){
 
-               //TODO : rewrite what to do in search condiiton
+                //TODO : rewrite what to do in search condiiton
 
-                var campObj = campaignModel.getCampaignObj();
+                var campObj = campaignSelectModel.getCampaignObj();
 
                 if( $scope.campaignData.campaigns.length < searchCriteria.limit ){
                     $scope.exhausted = true;
@@ -96,13 +96,13 @@
         };
 
         $scope.init = function(){
-          //  console.log("Campaing controller init method ");
-            if(campaignModel.getSelectedCampaign().id == -1){
-           //     console.log(" selected campaing id is -1 so fetching more ");
+            //  console.log("Campaing controller init method ");
+            if(campaignSelectModel.getSelectedCampaign().id == -1){
+                //     console.log(" selected campaing id is -1 so fetching more ");
                 $scope.fetchCampaigns(true,true);
             }
             else {
-                $scope.setCampaign(campaignModel.getCampaignObj().selectedCampaign);
+                $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
             }
 
         };

@@ -1,15 +1,15 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $window, campaignModel, strategyModel,performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($scope, $window, campaignSelectModel, strategySelectModel,performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
 
-        $scope.selectedCampaign = campaignModel.getSelectedCampaign() ;
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
-        $scope.selectedStrategy = strategyModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
         $scope.filters = domainReports.getReportsDropDowns();
 
@@ -371,15 +371,15 @@ var angObj = angObj || {};
             $scope.init();
 
             //update the selected Campaign
-            $scope.selectedCampaign = campaignModel.getSelectedCampaign() ;
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
             $scope.callBackCampaignsSuccess();
 
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.performanceBusy = true ;
-            $scope.selectedStrategy.id =  strategyModel.getSelectedStrategy().id ;
-            $scope.selectedStrategy.name = strategyModel.getSelectedStrategy().name ;
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();
         });
 

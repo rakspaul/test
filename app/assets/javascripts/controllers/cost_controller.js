@@ -1,13 +1,13 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window,campaignModel, strategyModel, costService, dataService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window,campaignSelectModel, strategySelectModel, costService, dataService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = campaignModel.getSelectedCampaign() ;
-        $scope.selectedStrategy = strategyModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
 //        $scope.selected_filters = domainReports.getDurationKpi();
 
@@ -140,15 +140,15 @@ var angObj = angObj || {};
             $scope.init();
 
             //update the selected Campaign
-            $scope.selectedCampaign = campaignModel.getSelectedCampaign() ;
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
             $scope.callBackCampaignsSuccess();
 
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.costBusy = true ;
-            $scope.selectedStrategy.id =  strategyModel.getSelectedStrategy().id ;
-            $scope.selectedStrategy.name = strategyModel.getSelectedStrategy().name ;
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();
         });
 
