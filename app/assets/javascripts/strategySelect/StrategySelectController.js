@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    strategyModule.controller('strategyController', function ($scope, $rootScope , campaignModel ,strategyModel ,apiPaths, constants , loginModel, analytics,utils ) {
+    strategySelectModule.controller('strategySelectController', function ($scope, $rootScope , campaignSelectModel ,strategySelectModel ,apiPaths, constants , loginModel, analytics,utils ) {
 
         $scope.strategyData = {
             strategies : {},
@@ -12,7 +12,7 @@
 
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(event,brand) {
-           // reset all data
+            // reset all data
             $scope.reset();
             // fetch strategies
             $scope.fetchStrategies();
@@ -21,16 +21,16 @@
 
         $scope.reset= function(){
             // clean up models
-            strategyModel.reset();
+            strategySelectModel.reset();
 
-            $scope.strategyData.strategies = strategyModel.getStrategyObj().strategies ;
-            $scope.strategyData.selectedStrategy = strategyModel.getStrategyObj().selectedStrategy ;
+            $scope.strategyData.strategies = strategySelectModel.getStrategyObj().strategies ;
+            $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
 
         };
 
 
         $scope.setStrategy = function(strategy){
-            strategyModel.setSelectedStrategy(strategy);
+            strategySelectModel.setSelectedStrategy(strategy);
             $scope.strategyData.selectedStrategy.id =(strategy.id == undefined) ? (strategy.lineitemId == undefined ? strategy.strategyId : strategy.lineitemId): strategy.id ;
             $scope.strategyData.selectedStrategy.name = (strategy.name == undefined) ? strategy.strategy_name  : strategy.name ;
 
@@ -40,10 +40,10 @@
 
 
         $scope.fetchStrategies = function(){
-            if(campaignModel.getSelectedCampaign().id != -1){
-                strategyModel.getStrategies(campaignModel.getSelectedCampaign().id).then(function(result){
+            if(campaignSelectModel.getSelectedCampaign().id != -1){
+                strategySelectModel.getStrategies(campaignSelectModel.getSelectedCampaign().id).then(function(result){
 
-                    var strategyObj = strategyModel.getStrategyObj();
+                    var strategyObj = strategySelectModel.getStrategyObj();
                     $scope.strategyData.strategies = (strategyObj.strategies == undefined)? {} : strategyObj.strategies ;
                     $scope.setStrategy(strategyObj.selectedStrategy);
 
@@ -63,13 +63,13 @@
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
 
-                var selectedStrategy = {
-                    id: $(e.target).attr('value'),
-                    name:  $(e.target).text()
-                };
+            var selectedStrategy = {
+                id: $(e.target).attr('value'),
+                name:  $(e.target).text()
+            };
 
-               // strategyModel.setSelectedStrategy(selectedStrategy);
-                $scope.setStrategy(selectedStrategy);
+            // strategyModel.setSelectedStrategy(selectedStrategy);
+            $scope.setStrategy(selectedStrategy);
 
         });
 

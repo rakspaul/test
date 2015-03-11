@@ -1,12 +1,12 @@
 (function () {
     'use strict';
-    campaignModule.directive('campaignDropDown', ['utils', function (utils) {
+    campaignSelectModule.directive('campaignDropDown', ['utils', function (utils) {
         return {
             restrict: 'AE',
             scope: {
                 selectedObj: "="
             },
-            controller: 'campaignController',
+            controller: 'campaignSelectController',
             templateUrl: '/assets/html/campaign_drop_down.html',
             link: function ($scope, element, attrs) {
 
