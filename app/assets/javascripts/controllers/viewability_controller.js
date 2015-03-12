@@ -1,16 +1,16 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel, strategySelectModel, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
 
-        $scope.selectedCampaign = domainReports.intValues()['campaign'];
-        $scope.selectedStrategy = domainReports.intValues()['strategy'];
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
 
-        $scope.selected_filters = domainReports.getDurationKpi();
+     //   $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsDropDowns();
 
         $scope.download_urls = {
@@ -22,11 +22,16 @@ var angObj = angObj || {};
 
         $scope.init = function (){
 
-            $scope.strategies = {} ;
             $scope.viewData = {};
+            $scope.viewabilityBusy = true ;
             $scope.strategyBusy = false;
             $scope.tacticBusy = false ;
             $scope.strategyFound = false;
+
+            $scope.selected_filters = {};
+            $scope.selected_filters.time_filter = 'life_time'; //
+            $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
+            $scope.selected_filters.kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
 
         }
 
@@ -111,71 +116,38 @@ var angObj = angObj || {};
             };
         };
 
-        //Called from directive_controller.js,  this is required, do not remove;
-        $scope.callBackCampaignsFailure = function () {
-          $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-          $scope.strategyFound = false ;
-          $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-        };
-
-        //Called from directive_controller.js,  when the user selects the campaign dropdown option
-        $scope.callBackCampaignChange = function () {
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+            $scope.viewabilityBusy = true ;
             $scope.init();
-            $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.callBackCampaignsSuccess();
-                $scope.strategylist($scope.selectedCampaign.id);
-            } else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-            }
-           // $scope.$apply();
-        };
 
-        $scope.updateStrategyObjects = function (strategy) {
-            $scope.strategies = strategy;
-            if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                //If a different campaign is selected, then load the first strategy data
-                var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
-                $scope.selectedStrategy.id = strategyObj.id;
-                $scope.selectedStrategy.name = strategyObj.name;
-                if ($scope.selectedStrategy.id == -1) {
-                    $scope.strategyFound = false;
-                  //  $scope.dataNotFound = true;
-                }else {
-                    //Call the chart to load with the changed campaign id and strategyid
-                    $scope.strategyFound = true;
-                    $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+            //update the selected Campaign
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+            $scope.callBackCampaignsSuccess();
 
-                }
-            } else { //  means empty strategy list
-              //  $scope.dataNotFound = true;
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-            }
-        };
+        });
 
+        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+            $scope.viewabilityBusy = true ;
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.callBackStrategyChange();
+        });
 
-        //Calling the Strategy object based on the campaignId
-        $scope.strategylist = function (campaignId) {
-            $scope.selectedStrategy.name = "Loading...";
-                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    if (result.status == 'success') {
-                        var strategy = result.data.data;
-                        $scope.updateStrategyObjects(strategy);
-                    } else {
-                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                    }
-                });
-        };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
+
+            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+                $scope.strategyFound = false ;
+
+            } else {
+                $scope.strategyFound = true ;
+                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+            }
             //Call the chart to load with the changed campaign id and strategyid
-            $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
-            analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+           $scope.viewabilityBusy = false ;
         };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
@@ -192,7 +164,7 @@ var angObj = angObj || {};
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false ;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+
 
             }
 
