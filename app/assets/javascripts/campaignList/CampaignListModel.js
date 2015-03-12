@@ -279,7 +279,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
             if(self.dashboard.total > 0 ){
               self.dashboard.filterSelectAll=false;
               self.dashboardSelectedAll();
-              Campaigns.prototype.fetchCampaigns.call(this);
+              Campaigns.prototype.fetchCampaigns.call(self);
             }
           }
           self.totalCount = result.data.data.total;
