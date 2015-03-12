@@ -719,7 +719,7 @@ button, i, input[type="submit"] {
           padding-right: 0;
           .col-md-12 {
             padding-right: 0;
-           /* > {
+          
               .col-md-1 {
                 padding: 0;
                 text-align: center;
@@ -728,7 +728,7 @@ button, i, input[type="submit"] {
                 font-family: @primaryFont;
                 .FontColor(#f9b537, 13pt, @primaryFont);
               }
-            }*/
+           
           }
         }
       }
@@ -746,7 +746,7 @@ button, i, input[type="submit"] {
 
           .panel-body.row-fluid {
             .col-md-12 {
-             /* > {
+             
                 .col-md-7 {
                   padding-top: 50px !important;
                   height: 232px !important;
@@ -764,7 +764,7 @@ button, i, input[type="submit"] {
                     color: #666 !important;
                   }
                 }
-              }*/
+             
             }
           }
           &:last-child {
@@ -2416,6 +2416,9 @@ button, i, input[type="submit"] {
 .total_campaign_cost_holder {
   background: #fff;
   margin-bottom: 20px ;
+  height : 500px ;
+  overflow: auto ;
+  border-bottom: solid 1px #d2dee7 ;
   .each_campaign_cost_container {
     border: solid 1px #d2dee7;
     padding: 20px 10px 10px;
@@ -2484,6 +2487,10 @@ button, i, input[type="submit"] {
     }
   }
 
+}
+#performance_block {
+  height: 500px;
+  overflow: auto;
 }
 /*  end of cost breakdown */
 
