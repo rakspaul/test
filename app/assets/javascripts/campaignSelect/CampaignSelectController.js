@@ -3,7 +3,6 @@
 
     campaignSelectModule.controller('campaignSelectController', function ($scope, $rootScope , domainReports, campaignSelectModel ,apiPaths, dataTransferService, constants , brandsModel, loginModel, analytics,utils ) {
 
-
         $scope.campaignData = {
             campaigns : {},
             selectedCampaign :  {

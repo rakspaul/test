@@ -45,9 +45,7 @@
                     $(".campaigns_list_li").click( function() {
                         $(".campaign_name_length").text($(this).text()) ;
 
-
-                        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
-
+                        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14  ) ;
 
                     });
                     $("#campaigns_list").click( function() {
