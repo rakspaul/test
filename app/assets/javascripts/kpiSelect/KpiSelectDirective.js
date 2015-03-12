@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('kpiDropDown', function () {
+    kpiSelectModule.directive('kpiDropDown', function () {
         return {
             restrict:'EAC',
             controller: 'kpiSelectController',
