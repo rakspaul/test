@@ -7,11 +7,12 @@
     </div>
 </div>
 
-<div class="inventory_reports_container" data-ng-init="init()">
+<div class="inventory_reports_container">
 
     <div class="clearfix inventory_header">
         <div class="pull-left dropdown dropdown_type1" id="viewability_camp_list_dd">
-            <large-list-search selected-obj=selectedCampaign></large-list-search>
+            <!--<large-list-search selected-obj=selectedCampaign></large-list-search>-->
+            <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
         </div>
 
         <div class="pull-right download_report">
@@ -42,7 +43,8 @@
         <!--</div>-->
     </div>
     <div id="viewability_strategies_dd">
-        <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+        <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+        <!--<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>-->
     </div>
 
 
@@ -94,19 +96,20 @@
             <div class="each_col seventh_col">
 
                 <div class="dropdown">
-                    <report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"
-                                    flag="kpitypes"></report-filters>
+                    <kpi-drop-down selected-obj=selected_filters> </kpi-drop-down>
+                    <!--<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"-->
+                                    <!--flag="kpitypes"></report-filters>-->
                 </div>
 
 
             </div>
         </div>
         <div >
-          <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy   ">
+          <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy && !viewabilityBusy  ">
             Data Not Available
           </div>
         <div class="strategy_total_container " >
-          <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
+          <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy || viewabilityBusy"></div>
 
           <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
 

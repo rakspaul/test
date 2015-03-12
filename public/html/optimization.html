@@ -1,4 +1,4 @@
-<div class="campaign-list-container" data-ng-init="init()">
+<div class="campaign-list-container">
     <div id="detailedPage" class="container">
     </div>
 
@@ -24,7 +24,8 @@
             <div class="clearfix inventory_header">
 
                 <div class="pull-left dropdown dropdown_type1" id="optimization_camp_list_dd">
-                    <large-list-search selected-obj=selectedCampaign></large-list-search>
+                    <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
+                    <!--<large-list-search selected-obj=selectedCampaign></large-list-search>-->
                 </div>
                 <div class="pull-right download_report">
                     <div class=" dropdown" id="optimization_filter_dd">
@@ -49,7 +50,8 @@
 
                 <!--strategy dropdown-->
                 <div class="pull-left" id="optimization_strategies_dd">
-                    <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+                    <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+                    <!--<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>-->
                 </div>
                 <!--strategy dropdown-->
                 <div class="pull-right">

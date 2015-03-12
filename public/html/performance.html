@@ -7,11 +7,12 @@
     </div>
 </div>
 
-<div class="inventory_reports_container" data-ng-init="init()">
+<div class="inventory_reports_container" >
 
 <div class="clearfix inventory_header">
     <div class="pull-left dropdown dropdown_type1"  id="performance_camp_list_dd" >
-        <large-list-search selected-obj=selectedCampaign></large-list-search>
+        <!--<large-list-search selected-obj=selectedCampaign></large-list-search>-->
+        <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
     </div>
 
     <div class="pull-right download_report">
@@ -43,11 +44,13 @@
     <!--</div>-->
 </div>
 <div id="performance_strategies_dd">
-    <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
-</div>
-<span class="no-chart load-more" ng-if="performanceBusy || first_time_activity_loader">&nbsp;</span>
+    <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
 
-<div class="no_data_found" ng-if="!strategyFound && !performanceBusy && !first_time_activity_loader">
+    <!--<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>-->
+</div>
+<span class="no-chart load-more" ng-if="performanceBusy ">&nbsp;</span>
+
+<div class="no_data_found" ng-if="!strategyFound && !performanceBusy">
     Data Not Available
 </div>
 

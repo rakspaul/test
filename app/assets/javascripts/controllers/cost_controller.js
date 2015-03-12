@@ -1,19 +1,20 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window, costService, dataService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window,campaignSelectModel, kpiSelectModel,strategySelectModel, costService, dataService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = domainReports.intValues()['campaign'];
-        $scope.selectedStrategy = domainReports.intValues()['strategy'];
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
-        $scope.selected_filters = domainReports.getDurationKpi();
+//        $scope.selected_filters = domainReports.getDurationKpi();
 
         $scope.filters = domainReports.getReportsDropDowns();
 
         $scope.sortByColumn = 'name';
+        $scope.costBusy = true;
 
         $scope.sort_field = [{
             display: 'Tactic Name',
@@ -40,14 +41,18 @@ var angObj = angObj || {};
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
-            $scope.strategies = {};
+
             $scope.dataNotFound = false;
             $scope.strategyFound = false;
-            $scope.selectedKpi = 'cpa';
+
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
 
+            $scope.selected_filters = {};
+            $scope.selected_filters.time_filter = 'life_time'; //
+            $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
 
             if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null)
                 $scope.sortByColumn = 'name';
@@ -131,45 +136,22 @@ var angObj = angObj || {};
 
         };
 
-        $scope.updateStrategyObjects = function(strategy) {
-            $scope.strategies = strategy;
-            if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                //If a different campaign is selected, then load the first strategy data
-                var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name, $scope.strategies[0].startDate, $scope.strategies[0].endDate);
-                $scope.selectedStrategy.id = strategyObj.id;
-                $scope.selectedStrategy.name = strategyObj.name;
-                $scope.selectedStrategy.startDate = strategyObj.startDate;
-                $scope.selectedStrategy.endDate = strategyObj.endDate;
-                $scope.strategyFound = true;
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+            $scope.costBusy = true ;
+            $scope.init();
 
-                if ($scope.selectedStrategy.id == -1) {
-                    $scope.strategyFound = false;
-                    $scope.strategies = {} ; // clear the strategy list if no strategy found
-                }
-                else {
-                    $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
-                }
-            } else { //  means empty strategy list
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-                // $scope.dataNotFound = true;
-            }
-        };
+            //update the selected Campaign
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+            $scope.callBackCampaignsSuccess();
 
+        });
 
-        $scope.strategylist = function (campaignId) {
-            $scope.selectedStrategy.name = "Loading...";
-                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    if (result.status == 'success') {
-                        var strategy = result.data.data;
-                        $scope.updateStrategyObjects(strategy);
-                    } else {
-                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                    }
-                });
-        };
-
+        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+            $scope.costBusy = true ;
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.callBackStrategyChange();
+        });
 
         $scope.callBackCampaignsSuccess= function(){
             //TODO, logic needs to be done
@@ -181,56 +163,46 @@ var angObj = angObj || {};
 
         };
 
-        $scope.callBackCampaignsFailure= function(){
-          $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-          $scope.strategyFound = false ;
-          $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-        };
-
-
-        $scope.callBackCampaignChange = function(){
-            $scope.init();
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.callBackCampaignsSuccess();
-                $scope.strategylist($scope.selectedCampaign.id);
-            } else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-            }
-          //  $scope.$apply();
-        };
-
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
-            $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
-            analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
 
-        };
+            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+                $scope.strategyFound = false ;
 
-        $scope.callBackKpiDurationChange = function (kpiType) {
-          //  $scope.init();
-
-            if (kpiType == 'duration') {
-                $scope.strategyCostData = {};
-                $scope.tacticsCostData = {} ;
-
-                $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
-                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-
-                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
-
-                $scope.download_urls = {
-                    cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
-                };
             } else {
-                $scope.$apply();
-                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-                analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
+                $scope.strategyFound = true ;
+                $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedCampaign.startDate, endDate: $scope.selectedCampaign.endDate, timeFilter: $scope.selected_filters.time_filter });
+                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
+            $scope.costBusy = false ;
         };
+
+//        $scope.callBackKpiDurationChange = function (kpiType) {
+//          //  $scope.init();
+//
+//            if (kpiType == 'duration') {
+//                $scope.strategyCostData = {};
+//                $scope.tacticsCostData = {} ;
+//
+//                $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedCampaign.startDate, endDate: $scope.selectedCampaign.endDate, timeFilter: $scope.selected_filters.time_filter });
+//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+//
+//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+//
+//                $scope.download_urls = {
+//                    cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
+//                };
+//            } else {
+//
+//
+////                $scope.$apply();
+////                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+//                analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
+//            }
+//        };
 
 
 
@@ -260,19 +232,27 @@ var angObj = angObj || {};
           $scope.callBackKpiDurationChange('duration');
         });
 
-        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
-                $scope.callBackCampaignsSuccess();
-            } else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false ;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-
-            }
+        $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.$apply();
 
         });
+
+        //TODO : rewrite it
+//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+//            console.log("Navigation from Campaing event");
+//
+//            if ($scope.selectedCampaign.id !== -1) {
+//              //  $scope.strategylist($scope.selectedCampaign.id);
+//                $scope.callBackCampaignsSuccess();
+//            } else {
+//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+//                $scope.strategyFound = false ;
+//             //   $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+//
+//            }
+//
+//        });
 
         $scope.downloadCostReport = function(report_url) {
             $scope.costReportDownloadBusy = true;

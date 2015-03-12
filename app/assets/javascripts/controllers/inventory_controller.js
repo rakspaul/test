@@ -1,17 +1,17 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths, inventoryService, columnline, utils, domainReports, dataTransferService, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, domainReports, dataTransferService, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         //Default Values
 
-        $scope.selectedCampaign = domainReports.intValues()['campaign'];
-        $scope.selectedStrategy = domainReports.intValues()['strategy'];
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
 
-        $scope.selected_filters = domainReports.getDurationKpi();
+      //  $scope.selected_filters = domainReports.getDurationKpi();
 
         $scope.filters = domainReports.getReportsDropDowns();
 
@@ -40,7 +40,6 @@ var angObj = angObj || {};
         };
 
         $scope.init = function () {
-            $scope.strategies = {};
             $scope.strategyFound = false;
             $scope.strategyTableData = [];
             $scope.strategyTable.topPerformance = [];
@@ -51,45 +50,15 @@ var angObj = angObj || {};
 
             $scope.strategyBusy = false;
             $scope.tacticBusy = false;
+            $scope.inventoryBusy = true ;
+
+            $scope.selected_filters = {};
+            $scope.selected_filters.time_filter = 'life_time'; //
+            $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
 
         };
         $scope.init();
-
-        /*Strategy List Functions*/
-        $scope.updateStrategyObjects = function (strategy) {
-            $scope.strategies = strategy;
-            if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                //If a different campaign is selected, then load the first strategy data
-                var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
-                $scope.selectedStrategy.id = strategyObj.id;
-                $scope.selectedStrategy.name = strategyObj.name;
-                $scope.strategyFound = true;
-                //Call the Apis to load the Strategy Chart and the Tactics chart
-                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
-                // $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter});
-            } else { //  means empty strategy list
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false;
-                $scope.inventoryChart = false;
-                $scope.strategies = {}; // if No Strategy then clear the strategy list.
-
-            }
-        };
-
-        //Calling the Strategy object based on the campaignId
-        $scope.strategylist = function (campaignId) {
-            $scope.selectedStrategy.name = "Loading...";
-            domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                if (result.status == 'success') {
-                    var strategy = result.data.data;
-                    $scope.updateStrategyObjects(strategy);
-                } else {
-                    $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                    $scope.strategies = {}; // clear the old strategy list
-                }
-            });
-        };
-
 
         //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
@@ -118,18 +87,17 @@ var angObj = angObj || {};
                                         bottomPerformance.push(resultTableData[data]);
                                     }
                                 }
-//                        topPerformance = topPerformance.slice(0, 5);
-//                        bottomPerformance = bottomPerformance.slice(0, 5);
+
                                 var topChartObj = true, bottomChartObj = true;
                                 if (topPerformance.length > 4) {
-                                    topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type_text);
+                                    topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
                                 }
                                 if (topChartObj === undefined || topPerformance.length == 0) {
                                     var topChartObj = false;
                                 }
                                 //For Bottom Chart
                                 if (bottomPerformance.length > 4) {
-                                    bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type_text);
+                                    bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type);
                                 }
                                 if (topChartObj === undefined || bottomPerformance.length == 0) {
                                     var bottomChartObj = false;
@@ -151,6 +119,32 @@ var angObj = angObj || {};
                 }
             });
         };
+
+
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+            $scope.inventoryBusy = true ;
+            $scope.init();
+
+            //update the selected Campaign
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+            $scope.callBackCampaignsSuccess();
+
+            //TODO : NOt sure what is following check. Check if we can remove it
+
+            $scope.inventoryChart = true;
+            if ($scope.tacticList[$scope.tacticList.show][0]) {
+                $scope.tacticList[$scope.tacticList.show][0].chart = true;
+            }
+
+        });
+
+        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+            $scope.inventoryBusy = true ;
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.callBackStrategyChange();
+        });
+
 
 
         $scope.inventoryChart = true;
@@ -192,7 +186,7 @@ var angObj = angObj || {};
                                 }
 
                                 if ($scope.strategyTableData.length > 0) {
-                                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type_text);
+                                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                                 } else {
                                     $scope.inventoryChart = false;
                                 }
@@ -253,7 +247,7 @@ var angObj = angObj || {};
                     $scope.tacticList.show = 'topPerformance';
                 }
                 if ($scope.strategyTableData.length > 0) {
-                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type_text);
+                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                 } else {
                     $scope.inventoryChart = false;
                 }
@@ -269,8 +263,25 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
-            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
-            analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+
+            $scope.strategyTableData = [];
+            $scope.strategyTable.topPerformance = [];
+            $scope.strategyTable.bottomPerformance = [];
+            $scope.tacticList.tacticList = [];
+            $scope.tacticList.topPerformance = [];
+            $scope.tacticList.bottomPerformance = [];
+
+            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+                $scope.strategyFound = false ;
+                $scope.inventoryChart = false;
+
+            } else {
+                $scope.strategyFound = true ;
+                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
+                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+            }
+            $scope.inventoryBusy = false ;
+
         };
 
         $scope.callBackCampaignsSuccess = function () {
@@ -282,56 +293,46 @@ var angObj = angObj || {};
             };
         };
 
-        $scope.callBackCampaignsFailure = function () {
-          $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-          $scope.strategyFound = false ;
-          $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-        };
-        $scope.callBackCampaignChange = function () {
-            $scope.init();
-            $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
-                $scope.callBackCampaignsSuccess();
-            }
-            else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false;
-                $scope.strategies = {}; // if No Strategy then clear the strategy list.
-            }
-            $scope.inventoryChart = true;
-            if ($scope.tacticList[$scope.tacticList.show][0]) {
-                $scope.tacticList[$scope.tacticList.show][0].chart = true;
-            }
-        };
+        $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
 
-        //This function is called from the directive, onchange of the dropdown
-        $scope.callBackKpiDurationChange = function (kpiType) {
-            if (kpiType == 'duration') {
-                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
-                $scope.download_urls = {
-                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
-                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
-                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
-                };
-                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-            } else {
-                //cleaning up the old data
+            $scope.strategyTable.topPerformance = [];
+            $scope.strategyTable.bottomPerformance = [];
+            $scope.strategyTableData = [];
 
-                $scope.strategyTable.topPerformance = [];
-                $scope.strategyTable.bottomPerformance = [];
-                $scope.strategyTableData = [];
+            $scope.tacticList.tacticList = [];
+            $scope.tacticList.topPerformance = [];
+            $scope.tacticList.bottomPerformance = [];
 
-                $scope.tacticList.tacticList = [];
-                $scope.tacticList.topPerformance = [];
-                $scope.tacticList.bottomPerformance = [];
-                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-            }
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.$apply();
+
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
 
-            $scope.$apply();
-            analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
-        };
+        });
+
+
+
+
+        //This function is called from the directive, onchange of the dropdown
+//        $scope.callBackKpiDurationChange = function (kpiType) {
+//            if (kpiType == 'duration') {
+//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
+//                $scope.download_urls = {
+//                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
+//                };
+//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+//            } else {
+//                //cleaning up the old data
+//
+//
+//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+//            }
+//
+//            $scope.$apply();
+//            analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
+//        };
 
         //Function called when the user clicks on the category tabs
         $('#category_change').click(function (e) {
@@ -351,20 +352,20 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
             $scope.callBackKpiDurationChange('duration');
         });
-
-        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
-                $scope.callBackCampaignsSuccess();
-            } else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false ;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-
-            }
-
-        });
+//
+//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+//
+//            if ($scope.selectedCampaign.id !== -1) {
+//                $scope.strategylist($scope.selectedCampaign.id);
+//                $scope.callBackCampaignsSuccess();
+//            } else {
+//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+//                $scope.strategyFound = false ;
+//
+//
+//            }
+//
+//        });
 
         $scope.downloadInventoryReport = function(report_url, report_name) {
             $window.location.href = report_url;

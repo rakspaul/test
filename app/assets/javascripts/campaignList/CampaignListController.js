@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope,  $rootScope, campaignListModel, utils, $location, _, constants, brandsModel, dataTransferService, loginModel, analytics, gaugeModel) {
+  campaignListModule.controller('campaignListController', function($scope,  $rootScope, campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, dataTransferService, loginModel, analytics, gaugeModel) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
@@ -20,19 +20,15 @@
     });
 
     $scope.viewReports = function(campaign) {
-       var param = {
-                selectedCampaign :campaign,
-                selectedStrategy : null,
-                strategyId : null,
-                strategyName : null,
-                strategyStartDate : null,
-                strategyEndDate : null
-            };
-
-      //dataTransferService.initOptimizationData(param);
-      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_VIEW_REPORT, campaign.name, loginModel.getLoginName());
-      dataTransferService.initReportingData(param);
-      $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+        var selectedCampaign = {
+            id : campaign.id,
+            name : campaign.name,
+            startDate : campaign.startDate,
+            endDate : campaign.endDate
+        };
+        campaignSelectModel.setSelectedCampaign(selectedCampaign);
+        $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+     // $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
       document.location = '#/performance';
     };
 

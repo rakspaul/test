@@ -1,18 +1,23 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, campaignSelectModel, strategySelectModel,  dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
-        var campaign = campaignListService;
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
 
-        $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
-        $scope.selected_filters = domainReports.getDurationKpi();
-         $scope.is_network_user = loginModel.getIsNetworkUser();
+        $scope.selected_filters = {};
+        $scope.selected_filters.time_filter = 'life_time'; //
+        $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
+        $scope.selected_filters.kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
+
+       // $scope.selected_filters = domainReports.getDurationKpi();
+
+        $scope.is_network_user = loginModel.getIsNetworkUser();
 
         $scope.download_urls = {
             optimization: null

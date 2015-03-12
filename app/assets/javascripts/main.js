@@ -5,7 +5,7 @@
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['brands', 'campaignList', 'common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
+    packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
    
     shim: {
       'jsRoutes': {
@@ -97,6 +97,21 @@
       'brands-BrandsDirective':{deps: ['brands-BrandsListController']},
       'brands-BrandsService':{deps: ['brands-BrandsDirective']},
       'brands-BrandsModel':{deps: ['brands-BrandsService']},
+
+      'campaignSelect-CampaignSelectModule':{deps: ['brands-BrandsModel']},
+      'campaignSelect-CampaignSelectDirective':{deps: ['campaignSelect-CampaignSelectModule']},
+      'campaignSelect-CampaignSelectModel':{deps: ['campaignSelect-CampaignSelectDirective']},
+      'campaignSelect-CampaignSelectController':{deps: ['campaignSelect-CampaignSelectModel']},
+
+      'strategySelect-StrategySelectModule':{deps: ['campaignSelect-CampaignSelectController']},
+      'strategySelect-StrategySelectDirective':{deps: ['strategySelect-StrategySelectModule']},
+      'strategySelect-StrategySelectModel':{deps: ['strategySelect-StrategySelectDirective']},
+      'strategySelect-StrategySelectController':{deps: ['strategySelect-StrategySelectModel']},
+
+      'kpiSelect-KpiSelectModule':{deps: ['campaignSelect-CampaignSelectController']},
+      'kpiSelect-KpiSelectDirective':{deps: ['kpiSelect-KpiSelectModule']},
+      'kpiSelect-KpiSelectModel':{deps: ['kpiSelect-KpiSelectDirective']},
+      'kpiSelect-KpiSelectController':{deps: ['kpiSelect-KpiSelectModel']},
 
       'timePeriod-TimePeriodModule':{deps: ['brands-BrandsModel']},
       'timePeriod-TimePeriodModel':{deps: ['timePeriod-TimePeriodModule']},
@@ -226,6 +241,21 @@
       'brands-BrandsDirective':'brands/BrandsDirective',
       'brands-BrandsService':'brands/BrandsService',
       'brands-BrandsModel':'brands/BrandsModel',
+
+      'campaignSelect-CampaignSelectModule':'campaignSelect/CampaignSelectModule',
+      'campaignSelect-CampaignSelectController':'campaignSelect/CampaignSelectController',
+      'campaignSelect-CampaignSelectDirective':'campaignSelect/CampaignSelectDirective',
+      'campaignSelect-CampaignSelectModel':'campaignSelect/CampaignSelectModel',
+
+      'strategySelect-StrategySelectModule':'strategySelect/StrategySelectModule',
+      'strategySelect-StrategySelectController':'strategySelect/StrategySelectController',
+      'strategySelect-StrategySelectDirective':'strategySelect/StrategySelectDirective',
+      'strategySelect-StrategySelectModel':'strategySelect/StrategySelectModel',
+
+      'kpiSelect-KpiSelectModule':'kpiSelect/KpiSelectModule',
+      'kpiSelect-KpiSelectController':'kpiSelect/KpiSelectController',
+      'kpiSelect-KpiSelectDirective':'kpiSelect/KpiSelectDirective',
+      'kpiSelect-KpiSelectModel':'kpiSelect/KpiSelectModel',
 
       'timePeriod-TimePeriodModule':'timePeriod/TimePeriodModule',
       'timePeriod-TimePeriodModel':'timePeriod/TimePeriodModel',
@@ -357,6 +387,21 @@
            'brands-BrandsDirective',
            'brands-BrandsService',
            'brands-BrandsModel',
+
+          'campaignSelect-CampaignSelectModule',
+          'campaignSelect-CampaignSelectController',
+          'campaignSelect-CampaignSelectDirective',
+          'campaignSelect-CampaignSelectModel',
+
+          'strategySelect-StrategySelectModule',
+          'strategySelect-StrategySelectController',
+          'strategySelect-StrategySelectDirective',
+          'strategySelect-StrategySelectModel',
+
+          'kpiSelect-KpiSelectModule',
+          'kpiSelect-KpiSelectController',
+          'kpiSelect-KpiSelectDirective',
+          'kpiSelect-KpiSelectModel',
 
            'timePeriod-TimePeriodModule',
            'timePeriod-TimePeriodModel',

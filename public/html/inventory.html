@@ -9,7 +9,7 @@
 
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1" id="inventory_camp_list_dd">
-                <large-list-search selected-obj=selectedCampaign></large-list-search>
+                <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
             </div>  <!-- end of inventory_camp_list_dd -->
 
             <div class="pull-right download_report">
@@ -38,7 +38,7 @@
             <!--</div>-->
         </div>
         <div id="inventory_strategies_dd">
-            <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+            <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
         <!--<div class="dropdown dropdown_type2">
 	        <span class="dropdown_ul_text " data-toggle="dropdown">
@@ -70,16 +70,16 @@
                     </div>
                     <div class="pull-right cpa_dropdown cpa_col">
                         <div class="dropdown">
-
-                            <report-filters  selected-filter="selected_filters" list-object="filters.kpiTypes" flag="kpitypes"></report-filters>
+                            <kpi-drop-down selected-obj=selected_filters> </kpi-drop-down>
+                            <!--<report-filters  selected-filter="selected_filters" list-object="filters.kpiTypes" flag="kpitypes"></report-filters>-->
 
                         </div>
                     </div>
                 </div>
             </div>
           <!--strategyBusy :  {{strategyBusy}}-->
-          <span class="no-chart load-more" ng-if="strategyBusy">&nbsp;</span>
-            <div ng-if="strategyFound && !strategyBusy" class="inventory_strategy_chart clearfix">
+          <span class="no-chart load-more" ng-if="strategyBusy || inventoryBusy">&nbsp;</span>
+            <div ng-if="strategyFound && !strategyBusy && !inventoryBusy" class="inventory_strategy_chart clearfix">
 
                 <div class="pull-left inventory_chart">
                       <span ng-switch="inventoryChart">
@@ -114,13 +114,14 @@
                     </div>
                 </div>
             </div>
-            <div class="no_data_found && !strategyBusy" ng-if="!strategyFound">
+            <div class="no_data_found" ng-if="!strategyFound && !inventoryBusy && !strategyBusy ">
                 Data Not Available
             </div>
         </div>
        <!--tacticBusy : {{tacticBusy}}-->
-      <span class="no-chart load-more" ng-if="tacticBusy">&nbsp;</span>
-        <div ng-if="strategyFound && !tacticBusy " class="each_chart_accordion_holder"
+      <span class="no-chart load-more" ng-if="tacticBusy || inventoryBusy">&nbsp;</span>
+
+        <div ng-if="strategyFound && !tacticBusy && !inventoryBusy " class="each_chart_accordion_holder"
              ng-repeat="tactic in tacticList[tacticList.show]" ng-if="tactic.data">
 
             <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
