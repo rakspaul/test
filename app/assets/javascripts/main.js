@@ -148,7 +148,7 @@
       'requirejs': 'vendor/require.min',
       'jquery': 'vendor/jquery.min',
       'jquery-ui': 'vendor/jquery-ui.min',
-      'angular': 'vendor/angular',
+      'angular': 'vendor/angular.min',
       'angular-resource': 'vendor/angular-resource.min',
       'angular-route': 'vendor/angular-route.min',
       'angular-cookies': 'vendor/angular-cookies',
