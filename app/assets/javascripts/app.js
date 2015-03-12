@@ -12,6 +12,7 @@ var angObj = '';
       'strategySelectModule',
       'timePeriodModule',
       'loginModule',
+      'kpiSelectModule',
       'angulartics',
       'angulartics.google.analytics',
       'dashboardModule',

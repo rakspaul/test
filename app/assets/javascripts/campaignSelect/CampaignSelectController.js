@@ -122,6 +122,7 @@
                 endDate :  $(e.target).attr('_endDate')
 
             };
+            console.log("Campaign Name is changed ");
             $scope.setCampaign(selectedCampaign );
 
 

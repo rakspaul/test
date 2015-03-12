@@ -474,7 +474,6 @@ var angObj = angObj || {};
 //
 //            }
 
-        //       });
 
         $scope.downloadPerformanceReport = function(report_url, report_name) {
             $scope.perfReportDownloadBusy = true;

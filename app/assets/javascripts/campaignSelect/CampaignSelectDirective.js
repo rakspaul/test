@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    campaignSelectModule.directive('campaignDropDown', ['utils', function (utils) {
+    campaignSelectModule.directive('campaignDropDown', ['utils','campaignSelectModel', function (utils, campaignSelectModel) {
         return {
             restrict: 'AE',
             scope: {
