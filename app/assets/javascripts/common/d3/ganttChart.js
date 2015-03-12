@@ -196,6 +196,9 @@
 
                 svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
+                svg.append("line").attr("class", "axis_top");
+                svg.append("line").attr("class", "axis_bottom");
+
 
                 gantt.draw(tasks);
                 return gantt;
@@ -283,6 +286,30 @@
 
 
                 var ganttChartGroup = svg.select(".gantt-chart");
+
+                //axis top line
+                ganttChartGroup.selectAll('line.axis_top')
+                    .style("stroke", "#ccd2da")
+                    .attr("x1", 0)
+                    .attr("y1", -20)
+                    .attr("x2", width)
+                    .attr("y2", -20)
+                    .style("fill", "none")
+                    .style("shape-rendering", "crispEdges");
+
+                //axis second line
+                //TODO: add Vertical gradient from #939ead to #e9ebee. Opacity 0.3
+                ganttChartGroup.selectAll('line.axis_bottom')
+                    .style("stroke", "#939ead")
+                    .attr("x1", 0)
+                    .attr("y1", 26)
+                    .attr("x2", width)
+                    .attr("y2", 26)
+                    .style("fill", "none")
+                    .style("stroke-width", "3")
+                    .style("opacity","0.3")
+                    .style("shape-rendering", "crispEdges");
+  
 
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
@@ -517,7 +544,7 @@
                 //today marker
                 ganttChartGroup.select("rect.marker")
                     .attr("x", 0)
-                    .attr("y", 0)
+                    .attr("y", 1)
                     .attr("class", "marker")
                     //.attr("style", "cursor:pointer")
                     .attr("fill", function() {
