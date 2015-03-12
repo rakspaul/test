@@ -16,8 +16,6 @@ var angObj = angObj || {};
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
         $scope.selected_tab = 'byscreens';
 
-        $scope.performanceBusy = true;
-
         $scope.download_urls = {
             screens: null,
             daysOfWeek: null,
@@ -38,7 +36,7 @@ var angObj = angObj || {};
             $scope.dowBusy = false;
             $scope.tacticDowBusy = false ;
 
-            $scope.platformBusy = false;
+            $scope.platformBusy = true;
             $scope.tacticPlatformBusy = false;
 
             $scope.strategies = {};
