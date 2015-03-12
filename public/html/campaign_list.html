@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="cost_margin" style="display:none;">
-                    Margin: {{(campaigns.costMargin > -1? (campaigns.costMargin | number :0) + '%' : 'NA' )}}
+                    <span ng-if="(campaigns.totalCount > 0 )"  >Margin: {{(campaigns.costMargin > -1? (campaigns.costMargin | number :0) + '%' : 'NA' )}}</span>
                 </div>
             </div>
             
