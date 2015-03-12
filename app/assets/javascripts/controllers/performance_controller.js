@@ -461,19 +461,20 @@ var angObj = angObj || {};
           $scope.callBackKpiDurationChange('duration');
         });
 
-        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
 
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
-                $scope.callBackCampaignsSuccess();
-            } else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false ;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
 
-            }
+//            if ($scope.selectedCampaign.id !== -1) {
+//                $scope.strategylist($scope.selectedCampaign.id);
+//                $scope.callBackCampaignsSuccess();
+//            } else {
+//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+//                $scope.strategyFound = false ;
+//                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+//
+//            }
 
-        });
+ //       });
 
         $scope.downloadPerformanceReport = function(report_url, report_name) {
             $scope.perfReportDownloadBusy = true;

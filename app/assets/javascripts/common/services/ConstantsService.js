@@ -28,6 +28,8 @@
     this.EVENT_CAMPAIGN_CHANGED = "campaignChanged";
     this.EVENT_STRATEGY_CHANGED = "strategyChanged" ;
     this.EVENT_BRAND_CHANGED_FROM_DASHBOARD = "brandChangedFromDashboard";
+    this.EVENT_KPI_CHANGED = "EVENT_KPI_CHANGED" ;
+    this.NAVIGATION_TO_OPTIMIZATION_TAB = "navigationToOptimizationTab" ;
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
     this.EVENT_ACTION_CREATED = "actionCreated";
     this.NAVIGATION_FROM_CAMPAIGNS = "navigationFromCampaigns";

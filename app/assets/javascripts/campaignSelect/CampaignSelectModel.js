@@ -21,6 +21,8 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
             campaign.selectedCampaign.kpi = 'ctr' ; // set default kpi as ctr if it is coming as null or NA from backend.
         }
 
+        $(".campaign_name_length").text(campaign.selectedCampaign.name) ;
+        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
     };
 
     campaign.getCampaigns = function (brand, searchCriteria) {

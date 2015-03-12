@@ -1,0 +1,11 @@
+<span class="dropdown_ul_text" data-toggle="dropdown">
+                <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selectedObj.kpi_type.trim().toLowerCase() === selectedObj.campaign_default_kpi_type.trim()"></span>
+                <span class="dd_txt">{{selectedObj.kpi_type == 'action_rate' ? 'Action Rate' : selectedObj.kpi_type.toUpperCase()}}</span>
+                <span class="arrrow_img"></span>
+                </span>
+<ul class="dropdown_ul dropdown-menu kpi_indicator_ul" id="kpi_drop_down">
+        <li ng-repeat="kpi in kpiData.kpiDropDown" value="{{kpi}}">
+            <span class="default-kpi-dropdown-icon"  ng-class="{ kpiIndicator : (kpi.toLowerCase() === selectedObj.campaign_default_kpi_type)} " ></span>
+            {{(kpi == 'action_rate') ? 'Action Rate' : kpi.toUpperCase()}}
+        </li>
+</ul>

@@ -5,7 +5,7 @@
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
+    packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
    
     shim: {
       'jsRoutes': {
@@ -102,6 +102,11 @@
       'strategySelect-StrategySelectDirective':{deps: ['strategySelect-StrategySelectModule']},
       'strategySelect-StrategySelectModel':{deps: ['strategySelect-StrategySelectDirective']},
       'strategySelect-StrategySelectController':{deps: ['strategySelect-StrategySelectModel']},
+
+      'kpiSelect-KpiSelectModule':{deps: ['campaignSelect-CampaignSelectController']},
+      'kpiSelect-KpiSelectDirective':{deps: ['kpiSelect-KpiSelectModule']},
+      'kpiSelect-KpiSelectModel':{deps: ['kpiSelect-KpiSelectDirective']},
+      'kpiSelect-KpiSelectController':{deps: ['kpiSelect-KpiSelectModel']},
 
       'timePeriod-TimePeriodModule':{deps: ['brands-BrandsModel']},
       'timePeriod-TimePeriodModel':{deps: ['timePeriod-TimePeriodModule']},
@@ -236,6 +241,11 @@
       'strategySelect-StrategySelectController':'strategySelect/StrategySelectController',
       'strategySelect-StrategySelectDirective':'strategySelect/StrategySelectDirective',
       'strategySelect-StrategySelectModel':'strategySelect/StrategySelectModel',
+
+      'kpiSelect-KpiSelectModule':'kpiSelect/KpiSelectModule',
+      'kpiSelect-KpiSelectController':'kpiSelect/KpiSelectController',
+      'kpiSelect-KpiSelectDirective':'kpiSelect/KpiSelectDirective',
+      'kpiSelect-KpiSelectModel':'kpiSelect/KpiSelectModel',
 
       'timePeriod-TimePeriodModule':'timePeriod/TimePeriodModule',
       'timePeriod-TimePeriodModel':'timePeriod/TimePeriodModel',
@@ -376,6 +386,11 @@
           'strategySelect-StrategySelectController',
           'strategySelect-StrategySelectDirective',
           'strategySelect-StrategySelectModel',
+
+          'kpiSelect-KpiSelectModule',
+          'kpiSelect-KpiSelectController',
+          'kpiSelect-KpiSelectDirective',
+          'kpiSelect-KpiSelectModel',
 
            'timePeriod-TimePeriodModule',
            'timePeriod-TimePeriodModel',

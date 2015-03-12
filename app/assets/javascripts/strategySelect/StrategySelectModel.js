@@ -28,7 +28,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
         },
         setSelectedStrategy: function (_strategy) {
 
-            strategyObj.selectedStrategy.id = (_strategy.id == undefined)? _strategy.strategy_id : _strategy.id;
+            strategyObj.selectedStrategy.id = _strategy.id ;
             strategyObj.selectedStrategy.name = _strategy.name ;
 
         },

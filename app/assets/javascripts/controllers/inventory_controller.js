@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, domainReports, dataTransferService, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, domainReports, dataTransferService, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -40,7 +40,6 @@ var angObj = angObj || {};
         };
 
         $scope.init = function () {
-            $scope.strategies = {};
             $scope.strategyFound = false;
             $scope.strategyTableData = [];
             $scope.strategyTable.topPerformance = [];
@@ -52,13 +51,11 @@ var angObj = angObj || {};
             $scope.strategyBusy = false;
             $scope.tacticBusy = false;
             $scope.inventoryBusy = true ;
+
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
-
-            // TODO : Take this value from local storage.
-            $scope.selected_filters.kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
-            $scope.selected_filters.kpi_type_text =  ($scope.selectedCampaign.kpi == 'action_rate')? 'Action Rate' : $scope.selectedCampaign.kpi.toUpperCase() ;
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
 
         };
         $scope.init();
@@ -93,14 +90,14 @@ var angObj = angObj || {};
 
                                 var topChartObj = true, bottomChartObj = true;
                                 if (topPerformance.length > 4) {
-                                    topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type_text);
+                                    topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
                                 }
                                 if (topChartObj === undefined || topPerformance.length == 0) {
                                     var topChartObj = false;
                                 }
                                 //For Bottom Chart
                                 if (bottomPerformance.length > 4) {
-                                    bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type_text);
+                                    bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type);
                                 }
                                 if (topChartObj === undefined || bottomPerformance.length == 0) {
                                     var bottomChartObj = false;
@@ -189,7 +186,7 @@ var angObj = angObj || {};
                                 }
 
                                 if ($scope.strategyTableData.length > 0) {
-                                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type_text);
+                                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                                 } else {
                                     $scope.inventoryChart = false;
                                 }
@@ -250,7 +247,7 @@ var angObj = angObj || {};
                     $scope.tacticList.show = 'topPerformance';
                 }
                 if ($scope.strategyTableData.length > 0) {
-                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type_text);
+                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                 } else {
                     $scope.inventoryChart = false;
                 }
@@ -296,35 +293,46 @@ var angObj = angObj || {};
             };
         };
 
+        $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+
+            $scope.strategyTable.topPerformance = [];
+            $scope.strategyTable.bottomPerformance = [];
+            $scope.strategyTableData = [];
+
+            $scope.tacticList.tacticList = [];
+            $scope.tacticList.topPerformance = [];
+            $scope.tacticList.bottomPerformance = [];
+
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.$apply();
+
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
+
+        });
+
+
 
 
         //This function is called from the directive, onchange of the dropdown
-        $scope.callBackKpiDurationChange = function (kpiType) {
-            if (kpiType == 'duration') {
-                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
-                $scope.download_urls = {
-                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
-                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
-                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
-                };
-                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-            } else {
-                //cleaning up the old data
-
-                $scope.strategyTable.topPerformance = [];
-                $scope.strategyTable.bottomPerformance = [];
-                $scope.strategyTableData = [];
-
-                $scope.tacticList.tacticList = [];
-                $scope.tacticList.topPerformance = [];
-                $scope.tacticList.bottomPerformance = [];
-                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-            }
-            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
-
-            $scope.$apply();
-            analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
-        };
+//        $scope.callBackKpiDurationChange = function (kpiType) {
+//            if (kpiType == 'duration') {
+//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
+//                $scope.download_urls = {
+//                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
+//                };
+//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+//            } else {
+//                //cleaning up the old data
+//
+//
+//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+//            }
+//
+//            $scope.$apply();
+//            analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
+//        };
 
         //Function called when the user clicks on the category tabs
         $('#category_change').click(function (e) {
@@ -344,20 +352,20 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
             $scope.callBackKpiDurationChange('duration');
         });
-
-        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
-                $scope.callBackCampaignsSuccess();
-            } else {
-                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.strategyFound = false ;
-                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-
-            }
-
-        });
+//
+//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+//
+//            if ($scope.selectedCampaign.id !== -1) {
+//                $scope.strategylist($scope.selectedCampaign.id);
+//                $scope.callBackCampaignsSuccess();
+//            } else {
+//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+//                $scope.strategyFound = false ;
+//
+//
+//            }
+//
+//        });
 
         $scope.downloadInventoryReport = function(report_url, report_name) {
             $window.location.href = report_url;
