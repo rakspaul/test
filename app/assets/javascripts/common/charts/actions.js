@@ -206,6 +206,15 @@
             lineData[i]['y']
           ]);
         }
+       /* var findAndPlaceTwoDecimal = function(v){
+          var str= v.toString();
+          var extractWithDot = str.split('.');
+          if(extractWithDot.length > 1){
+             return v.toFixed(2);
+          }else{
+             return v;
+          }
+        }*/
         var dataLength = data.length;
         var timeInterval = dataLength/7;
         var minVal = Math.min.apply(Math,dataArr);
@@ -413,7 +422,7 @@
                 //rendering threshold marker image in y-axis
                 var renderPos;
                 if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
-                  chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2, 17, 17).add();
+                  chart.renderer.image(assets.target_marker, 0, (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 17, 17).add();
                 }
 
                 //rendering action markers after red zone manipulation
