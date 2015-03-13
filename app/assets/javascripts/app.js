@@ -62,8 +62,9 @@ var angObj = '';
     });
 
     angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
-
+        //$rootScope.bodyclass=''; 
         $rootScope.$on('$locationChangeStart', function () {
+          $rootScope.bodyclass=''; 
           if($location.path() !== '/login') {
             brandsModel.enable();
           }
@@ -82,6 +83,12 @@ var angObj = '';
         $rootScope.$on('$routeChangeSuccess', function () {
             if(loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
+            }
+            
+            if($location.path() == '/dashboard'){
+               $rootScope.bodyclass='dashboard_body';
+            }else{
+                $rootScope.bodyclass='';
             }
         });
 
