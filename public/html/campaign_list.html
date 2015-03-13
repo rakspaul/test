@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="cost_margin" style="display:none;">
-                    <span ng-if="(campaigns.totalCount > 0 )"  >Margin: {{(campaigns.costMargin > -1? (campaigns.costMargin | number :0) + '%' : 'NA' )}}</span>
+                    <span ng-if="(campaigns.dashboard.filterTotal > 0 )"  >Margin: {{(campaigns.costMargin > -1? (campaigns.costMargin | number :0) + '%' : 'NA' )}}</span>
                 </div>
             </div>
             
@@ -90,7 +90,7 @@
         <!-- COST DIV -->
         <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
             <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
-                <div  class="no-campaign-available" ng-if="(campaigns.totalCount == 0 )" >No Relevant Campaigns</div>
+                <div  class="no-campaign-available" ng-if="(campaigns.dashboard.filterTotal == 0 )" >No Relevant Campaigns</div>
                 <div class="each_campaign_cost_container" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign cost card -->
                     <div campaign-cost-card campaign="campaign" campaigns="campaigns"></div>
@@ -104,7 +104,7 @@
         <!-- PERFORMANCE DIV -->
         <div class="each_section_block total_campaign_list_holder"  id="performance_block" >
             <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
-                <div  class="no-campaign-available" ng-if="(campaigns.totalCount == 0 )" >No Relevant Campaigns</div>
+                <div  class="no-campaign-available" ng-if="(campaigns.dashboard.filterTotal == 0 )" >No Relevant Campaigns</div>
                 <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
                     <div campaign-card campaign="campaign" campaigns="campaigns"></div>

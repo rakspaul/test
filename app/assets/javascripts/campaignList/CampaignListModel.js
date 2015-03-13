@@ -27,6 +27,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     this.totalCount;
     this.brandId = brandsModel.getSelectedBrand().id;
     this.dashboard = {
+      filterTotal:1,
       filterSelectAll: false,
       displayFilterSection: false,
       busy: false,
@@ -154,56 +155,57 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
   };
 
   Campaigns.prototype.fetchCampaigns = function() {
-    if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
-      return;
-    }
-
-    this.busy = true;
-    var self = this,
-    url = Campaigns.prototype._campaignServiceUrl.call(this);
-
-//    console.log('fetching campaign list for url: '+url);
-    campaignListService.getCampaigns(url, function(result) {
-      requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
-      var data = result.data.data;
-      self.nextPage += 1;
-      self.marketerName = data.marketer_name;
-      self.totalPages = data.total_pages;
-//      self.totalCount = data.total_count;
-      self.periodStartDate = data.period_start_date;
-      self.periodEndDate = data.period_end_date;
-
-      self.busy = false;
-      if (data.orders.length > 0) {
-        var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-        angular.forEach(campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate), function(campaign) {
-          this.push(campaign);
-          self.costIds += campaign.orderId + ',';
-          Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
-	  if (campaign.kpi_type == 'null') {
-            campaign.kpi_type = 'CTR';
-            campaign.kpi_value = 0;
-	  }
-          dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
-            if(response.status == 'success') {
-              self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, campaignCDBData);
-              self.cdbDataMap[campaign.orderId].vtc = response.data.data.video_metrics.vtc_rate * 100;
-            }
-          })
-        }, self.campaignList);
-        self.costIds = self.costIds.substring(0, self.costIds.length-1);
-
-        if(self.costIds !== '') {
-          Campaigns.prototype.fetchCostData.call(self);
-          self.costIds='';
-        }
+    if(this.dashboard.filterTotal > 0 ){
+      if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
+        return;
       }
-    }, function(result) {
-      //failure
-      self.busy = false;
-//      self.totalCount = 0;
-    });
 
+      this.busy = true;
+      var self = this,
+      url = Campaigns.prototype._campaignServiceUrl.call(this);
+
+  //    console.log('fetching campaign list for url: '+url);
+      campaignListService.getCampaigns(url, function(result) {
+        requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
+        var data = result.data.data;
+        self.nextPage += 1;
+        self.marketerName = data.marketer_name;
+        self.totalPages = data.total_pages;
+  //      self.totalCount = data.total_count;
+        self.periodStartDate = data.period_start_date;
+        self.periodEndDate = data.period_end_date;
+
+        self.busy = false;
+        if (data.orders.length > 0) {
+          var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
+          angular.forEach(campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate), function(campaign) {
+            this.push(campaign);
+            self.costIds += campaign.orderId + ',';
+            Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
+  	  if (campaign.kpi_type == 'null') {
+              campaign.kpi_type = 'CTR';
+              campaign.kpi_value = 0;
+  	  }
+            dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
+              if(response.status == 'success') {
+                self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, campaignCDBData);
+                self.cdbDataMap[campaign.orderId].vtc = response.data.data.video_metrics.vtc_rate * 100;
+              }
+            })
+          }, self.campaignList);
+          self.costIds = self.costIds.substring(0, self.costIds.length-1);
+
+          if(self.costIds !== '') {
+            Campaigns.prototype.fetchCostData.call(self);
+            self.costIds='';
+          }
+        }
+      }, function(result) {
+        //failure
+        self.busy = false;
+  //      self.totalCount = 0;
+      });
+    }
   },
     Campaigns.prototype.compareCostDates = function(startDate, endDate) {
       if(this.costDate.startDate === undefined) {
@@ -252,7 +254,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.completed = result.data.data.completed.total;
           self.dashboard.paused =  result.data.data.paused;
           self.dashboard.allOtherTotal = result.data.data.na.total!= undefined ? result.data.data.na.total : 0;
-	  self.dashboard.total = result.data.data.total;
+	        self.dashboard.total = result.data.data.total;
           self.dashboard.displayStatus.draft  = self.dashboard.draft  > 0 ? true:false;
           self.dashboard.displayStatus.ready  = self.dashboard.ready  > 0 ? true:false;
           self.dashboard.displayStatus.paused  = self.dashboard.paused  > 0 ? true:false;
@@ -276,6 +278,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
             }
           } else {
             self.dashboard.displayFilterSection = false;
+            self.dashboard.filterTotal = result.data.data.total;
             if(self.dashboard.total > 0 ){
               self.dashboard.filterSelectAll=false;
               self.dashboardSelectedAll();
@@ -329,28 +332,35 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       }else if (type == 'paused' && state == "") {
           this.dashboard.filterPaused= '(paused)';
           this.dashboard.status.paused = 'active';
+          this.dashboard.filterTotal = this.dashboard.paused;
       }else if(type == 'completed' && state == ""){
           this.dashboard.filterCompleted= '(completed)';
           this.dashboard.status.completed = 'active';
+          this.dashboard.filterTotal = this.dashboard.completed;
       }else if(type == 'draft' && state == ""){
           this.dashboard.filterDraft= '(draft)';
           this.dashboard.status.draft = 'active';
+          this.dashboard.filterTotal = this.dashboard.draft;
       }else if(type == 'ready' && state == ""){
           this.dashboard.filterReady= '(ready)';
           this.dashboard.status.ready = 'active';
+          this.dashboard.filterTotal = this.dashboard.ready;
       }else if(type == 'active' && state == "ontrack"){
           this.dashboard.filterActive= '(active,ontrack)';
           this.dashboard.status.active.ontrack = 'active';
           this.dashboard.status.active.underperforming = '';
+          this.dashboard.filterTotal = this.dashboard.active.ontrack;
       }else if(type == 'active' && state == "underperforming"){
           this.dashboard.filterActive= '(active,underperforming)';
           this.dashboard.status.active.underperforming = 'active';
           this.dashboard.status.active.ontrack = '';
+          this.dashboard.filterTotal = this.dashboard.active.underperforming;
       }else if(type == 'activeAll'){
           this.dashboard.filterActive= '(active)';
           this.dashboard.status.active.bothItem = 'active';
           this.dashboard.status.active.underperforming = 'active';
           this.dashboard.status.active.ontrack = 'active';
+          this.dashboard.filterTotal = this.dashboard.active.total;
       }
       //get the campaign list
       this.campaignList = [];
@@ -578,6 +588,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         this.dashboard.filterDraft= undefined;
         this.dashboard.filterActive= undefined;
         this.dashboard.filterReady= undefined;
+        this.dashboard.filterTotal = this.dashboard.total;
       }else{
         this.dashboard.status.paused = undefined;
         this.dashboard.status.completed = undefined
@@ -593,11 +604,13 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
             this.dashboard.filterActive = '(active,ontrack)';
             this.dashboard.status.active.ontrack ='active';
             this.dashboard.status.active.underperforming = undefined;
+            this.dashboard.filterTotal = this.dashboard.active.ontrack;
         }else
         {   
             this.dashboard.filterActive = '(active,underperforming)';
             this.dashboard.status.active.underperforming = 'active';
             this.dashboard.status.active.ontrack =undefined;
+            this.dashboard.filterTotal = this.dashboard.active.underperforming;
         }
       }
       this.campaignList = [];
