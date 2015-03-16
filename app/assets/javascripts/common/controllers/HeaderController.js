@@ -2,6 +2,7 @@
   'use strict';
   commonModule.controller('headerController', function ($scope, $rootScope, loginModel, $cookieStore, $location, loginService) {
     $scope.user_name = loginModel.getUserName();
+    $scope.version = version;
     $scope.showProfileMenu = function() {
       $("#profileDropdown").toggle();
       $("#brandsList").hide();
