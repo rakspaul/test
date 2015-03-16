@@ -362,7 +362,7 @@
               if(chart != 'undefined') {
                 // console.log(chart);
                 // console.log(chart.xAxis);
-                var extremesX = chart.xAxis[0].getExtremes();
+                var extremesX = ( chart.xAxis !== undefined && chart.xAxis.length >0)?chart.xAxis[0].getExtremes() : '';
                 chart.xAxis[1].setExtremes(extremesX.min - 0.5, extremesX.max + 0.5);
                 var extremes = chart.yAxis[0].getExtremes();
 

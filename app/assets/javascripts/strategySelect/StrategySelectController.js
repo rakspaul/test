@@ -11,9 +11,18 @@
         };
 
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(event,brand) {
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
             // reset all data
             $scope.reset();
+            // fetch strategies and set selected Strategy as First Strategy
+            $scope.fetchStrategies();
+
+        });
+
+        // On this event, only fetch list of strategyies and retain selectedStrategy (done from outside).
+        $scope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function() {
+            // reset strategy list
+           strategySelectModel.getStrategyObj().strategies = {} ;
             // fetch strategies
             $scope.fetchStrategies();
 

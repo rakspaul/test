@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -423,59 +423,65 @@
         };
 
         $scope.viewReports = function(campaign, strategy){
-            var param = {
-                selectedCampaign :campaign,
-                selectedStrategy : strategy,
-                strategyId : strategy.id,
-                strategyName : strategy.name,
-                strategyStartDate : strategy.startDate,
-                strategyEndDate : strategy.endDate
-            };
-            dataTransferService.initReportingData(param);
-            $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+
+            campaignSelectModel.selectedCampaign.id = campaign.id ;
+            campaignSelectModel.selectedCampaign.name = campaign.name ;
+            campaignSelectModel.selectedCampaign.startDate = campaign.startDate ;
+            campaignSelectModel.selectedCampaign.endDate = campaign.endDate ;
+
+            strategySelectModel.selectedStrategy.id = strategy.id ;
+            strategySelectModel.selectedStrategy.name = strategy.name ;
+
+            // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
             document.location = '#/performance';
         };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
-            var param = {
-                selectedCampaign :campaign,
-                selectedStrategy : strategyByActionId[action.id],
-                selectedAction : action,
-                selectedActionItems : activityList.data.data ,
-                navigationFromReports : false
+            campaignSelectModel.setSelectedCampaign(campaign);
+
+            var _selectedStrategy = {
+                id : strategyByActionId[action.id].lineitemId ,
+                name :  strategyByActionId[action.id].lineItemName
             };
 
-            dataTransferService.initOptimizationData(param);
+            strategySelectModel.setSelectedStrategy(_selectedStrategy);
+
+            var actionData ={
+                selectedAction : action ,
+                selectedActionItems : activityList.data.data
+            };
+            // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, actionData );
+
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             document.location = '#/optimization';
         };
 
         $scope.setActivityButtonData = function( campaign, strategy){
-            var param = {
-                selectedCampaign :campaign,
-                selectedStrategy : strategy,
-                selectedAction : undefined,
-                selectedActionItems : activityList.data.data 
-            };
 
-            dataTransferService.initOptimizationData(param);
+            campaignSelectModel.setSelectedCampaign(campaign);
+            strategySelectModel.setSelectedStrategy(strategy);
+
+            var actionData ={
+                selectedAction : undefined ,
+                selectedActionItems : activityList.data.data
+            };
+        // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, actionData );
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
             document.location = '#/optimization';
         };
 
         $scope.setGraphData = function(campaign, type){
-            var param = {
-                selectedCampaign :campaign,
-                selectedStrategy : null,
-                strategyId : null,
-                strategyName : null,
-                strategyStartDate : null,
-                strategyEndDate : null
-            };
 
-            dataTransferService.initReportingData(param);
-            $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+            campaignSelectModel.selectedCampaign.id = campaign.id ;
+            campaignSelectModel.selectedCampaign.name = campaign.name ;
+            campaignSelectModel.selectedCampaign.startDate = campaign.startDate ;
+            campaignSelectModel.selectedCampaign.endDate = campaign.endDate ;
+
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
 
             if(type === 'cost'){

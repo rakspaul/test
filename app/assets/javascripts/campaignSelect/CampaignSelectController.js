@@ -52,7 +52,7 @@
             }
 
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED, selectedCampaign);
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
 
 
         };
@@ -104,6 +104,7 @@
             }
             else {
                 $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+                $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
 
         };
@@ -121,7 +122,6 @@
                 endDate :  $(e.target).attr('_endDate')
 
             };
-            console.log("Campaign Name is changed ");
             $scope.setCampaign(selectedCampaign );
 
 
