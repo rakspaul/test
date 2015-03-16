@@ -47,18 +47,7 @@
       'common-charts-piechart':{deps: ['common-charts-columnline']},
       'common-charts-solidgauge':{deps: ['common-charts-piechart']},
 
-//        'campaignSelect-CampaignSelectModule':{deps: ['common-charts-solidgauge']},
-//        'campaignSelect-CampaignSelectDirective':{deps: ['campaignSelect-CampaignSelectModule']},
-//        'campaignSelect-CampaignSelectModel':{deps: ['campaignSelect-CampaignSelectDirective']},
-//        'campaignSelect-CampaignSelectController':{deps: ['campaignSelect-CampaignSelectModel']},
-//
-//        'strategySelect-StrategySelectModule':{deps: ['campaignSelect-CampaignSelectController']},
-//        'strategySelect-StrategySelectDirective':{deps: ['strategySelect-StrategySelectModule']},
-//        'strategySelect-StrategySelectModel':{deps: ['strategySelect-StrategySelectDirective']},
-//        'strategySelect-StrategySelectController':{deps: ['strategySelect-StrategySelectModel']},
-
-
-        'common-services-DataService':{deps: ['common-charts-solidgauge']},
+      'common-services-DataService':{deps: ['common-charts-solidgauge']},
       'common-services-TransformerService':{deps: ['common-services-DataService']},
       'common-services-ConstantsService':{deps: ['common-services-TransformerService']},
       'common-services-RequestCancelService':{deps: ['common-services-ConstantsService']},
