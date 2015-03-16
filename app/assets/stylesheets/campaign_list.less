@@ -2502,11 +2502,60 @@ button, i, input[type="submit"] {
 
 
 
-
+.modal-backdrop.in{
+  opacity: .8 ;
+}
 .main_navigation_holder {
   height: 84px;
   background: #007ac9;
   padding: 20px ;
+ .about_popup {
+    background-color:  #ffffff;
+    box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
+    width : 412px ;
+    font-family: Avenir;
+    color:  #21252b;
+    font-size: 16px; 
+    line-height: 24px; 
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    margin: 0 auto ;
+    z-index: 3000 ;
+    .close {
+      margin: 10px;
+      opacity: 1;
+      color: #ccc;
+      &:hover {
+        color : #bbb ;
+      }
+    }
+    .logo {
+      background: url("/assets/images/cdesk/collective_logo_popup.png") no-repeat center top ; 
+      width: 100% ;
+      height: 70px;
+      margin: 28px auto 24px;
+    }
+    .copyright_section {
+      background :  #f5f9fd;
+      padding: 15px;
+      margin-top: 24px;
+      .rights_text {
+        font-size: 14px ;
+      }
+    }
+    .version_detail {
+      color:  #21252b;
+      font-size: 16px; 
+      font-weight: 900;
+      line-height: 28px;
+      text-align: center;
+    }
+  }
   .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
@@ -2573,7 +2622,7 @@ button, i, input[type="submit"] {
           a{
             padding-left:  6px ;
             padding-right: 0px ;
-            color: #84bce4 ;
+            /*color: #84bce4 ;*/
             word-wrap: break-word;
             font-family: "Avenir" ;
             cursor: default;
@@ -2581,8 +2630,8 @@ button, i, input[type="submit"] {
           }
           .logout_link {
             color: #fff ;
-            background: url("/assets/images/cdesk/logout_icon.png") no-repeat  7px 1px;
-            padding-left: 26px;
+            /*background: url("/assets/images/cdesk/logout_icon.png") no-repeat  7px 1px;*/
+            /*padding-left: 26px;*/
             padding-top: 0;
             cursor: pointer;
           }
