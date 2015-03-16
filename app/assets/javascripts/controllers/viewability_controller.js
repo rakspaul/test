@@ -9,6 +9,7 @@ var angObj = angObj || {};
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
+        $scope.viewabilityBusy = true ;
 
      //   $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsDropDowns();

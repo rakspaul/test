@@ -78,9 +78,8 @@
       'dashboard-DashboardModel':{deps: ['dashboard-DashboardModule']},
       'dashboard-DashboardController':{deps: ['dashboard-DashboardModel']},
 
-      'directives-largeListSearch':{deps: ['dashboard-DashboardController']},
-      'controllers-directive_controller':{deps: ['directives-largeListSearch']},
-      'campaignList-CampaignListModule':{deps: ['controllers-directive_controller']},
+
+      'campaignList-CampaignListModule':{deps: ['dashboard-DashboardController']},
       'campaignList-CampaignListModel':{deps: ['campaignList-CampaignListModule']},
       'campaignList-CampaignListService':{deps: ['campaignList-CampaignListModel']},
       'campaignList-CampaignListController':{deps: ['campaignList-CampaignListService']},
@@ -138,9 +137,9 @@
       'directives-campaignlistsort':{deps: ['directives-campaignsort']},
       'directives-campaigncostsort':{deps: ['directives-campaignlistsort']},
       'directives-campaigndashboard':{deps: ['directives-campaigncostsort']},
-      'directives-reportfilters':{deps: ['directives-campaigndashboard']},
-      'directives-strategylist':{deps: ['directives-reportfilters']},
-      'multiselect':{deps: ['directives-strategylist']},
+     // 'directives-reportfilters':{deps: ['directives-campaigndashboard']},
+  //     'directives-strategylist':{deps: ['directives-reportfilters']},
+      'multiselect':{deps: ['directives-campaigndashboard']},
       'models-domain_reports':{deps: ['multiselect']},
       'models-action_type':{deps: ['models-domain_reports']},
       'models-activity_list':{deps: ['models-action_type']},
@@ -222,8 +221,6 @@
       'dashboard-DashboardModel':'dashboard/DashboardModel',
       'dashboard-DashboardController':'dashboard/DashboardController',
 
-      'directives-largeListSearch':'directives/largeListSearch',
-      'controllers-directive_controller':'controllers/directive_controller',
       'campaignList-CampaignListModule':'campaignList/CampaignListModule',
       'campaignList-CampaignListModel':'campaignList/CampaignListModel',
       'campaignList-CampaignListService':'campaignList/CampaignListService',
@@ -282,8 +279,7 @@
       'directives-campaignlistsort':'directives/campaignlistsort',
       'directives-campaigncostsort':'directives/campaigncostsort',
       'directives-campaigndashboard':'directives/campaigndashboard',
-      'directives-reportfilters':'directives/reportfilters',
-      'directives-strategylist':'directives/strategylist',
+
       'multiselect':'multiselect',
       'models-domain_reports':'models/domain_reports',
       'models-action_type':'models/action_type',
@@ -368,8 +364,7 @@
            'dashboard-DashboardModel',
            'dashboard-DashboardController',
 
-           'directives-largeListSearch',
-           'controllers-directive_controller',
+
            'campaignList-CampaignListModule',
            'campaignList-CampaignListModel',
            'campaignList-CampaignListService',
@@ -428,8 +423,6 @@
            'directives-campaignlistsort',
            'directives-campaigncostsort',
            'directives-campaigndashboard',
-           'directives-reportfilters',
-           'directives-strategylist',
            'multiselect',
            'models-domain_reports',
            'models-action_type',
