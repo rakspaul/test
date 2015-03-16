@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -429,8 +429,12 @@
             campaignSelectModel.selectedCampaign.startDate = campaign.startDate ;
             campaignSelectModel.selectedCampaign.endDate = campaign.endDate ;
 
-            strategySelectModel.selectedStrategy.id = strategy.id ;
-            strategySelectModel.selectedStrategy.name = strategy.name ;
+            console.log(strategy);
+
+            strategySelectModel.setSelectedStrategy(strategy);
+
+//            strategySelectModel.selectedStrategy.id = strategy.id ;
+//            strategySelectModel.selectedStrategy.name = strategy.name ;
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
@@ -439,6 +443,7 @@
         };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
+
             campaignSelectModel.setSelectedCampaign(campaign);
 
             var _selectedStrategy = {

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window,campaignSelectModel, kpiSelectModel,strategySelectModel, costService, dataService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window,campaignSelectModel, kpiSelectModel,strategySelectModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -180,31 +180,6 @@ var angObj = angObj || {};
             $scope.costBusy = false ;
         };
 
-//        $scope.callBackKpiDurationChange = function (kpiType) {
-//          //  $scope.init();
-//
-//            if (kpiType == 'duration') {
-//                $scope.strategyCostData = {};
-//                $scope.tacticsCostData = {} ;
-//
-//                $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedCampaign.startDate, endDate: $scope.selectedCampaign.endDate, timeFilter: $scope.selected_filters.time_filter });
-//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-//
-//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
-//
-//                $scope.download_urls = {
-//                    cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
-//                };
-//            } else {
-//
-//
-////                $scope.$apply();
-////                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-//                analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
-//            }
-//        };
-
-
 
         $scope.sortFunction = function (sortby) {
             for(var i in $scope.sort_field){
@@ -237,22 +212,6 @@ var angObj = angObj || {};
             $scope.$apply();
 
         });
-
-        //TODO : rewrite it
-//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-//            console.log("Navigation from Campaing event");
-//
-//            if ($scope.selectedCampaign.id !== -1) {
-//              //  $scope.strategylist($scope.selectedCampaign.id);
-//                $scope.callBackCampaignsSuccess();
-//            } else {
-//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-//                $scope.strategyFound = false ;
-//             //   $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-//
-//            }
-//
-//        });
 
         $scope.downloadCostReport = function(report_url) {
             $scope.costReportDownloadBusy = true;
