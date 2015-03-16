@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -93,26 +93,6 @@ var angObj = angObj || {};
         });
 
 
-//        //This function is called from the directive, onchange of the dropdown
-//        $scope.callBackKpiDurationChange = function (kpiType) {
-//            if (kpiType == 'duration') {
-//                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
-//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
-//                $scope.download_urls = {
-//                    tactics: urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    domains: urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    publishers: urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    exchanges: urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter
-//                };
-//            } else {
-//                $scope.$apply();
-//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-//                analytics.track(loginModel.getUserRole(), constants.GA_VIEWABILITY_TAB_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
-//            }
-//        };
-
-
         //This will be called from directive_controller.js
         $scope.callBackCampaignsSuccess = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
@@ -162,21 +142,6 @@ var angObj = angObj || {};
           $scope.callBackKpiDurationChange('duration');
         });
 
-//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-//
-//            console.log("navigation from campaing handled in listening function: viewability");
-//
-//            if ($scope.selectedCampaign.id !== -1) {
-//                $scope.strategylist($scope.selectedCampaign.id);
-//                $scope.callBackCampaignsSuccess();
-//            } else {
-//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-//                $scope.strategyFound = false ;
-//
-//
-//            }
-//
-//        });
 
         $scope.downloadViewabilityReport = function(report_url, report_name) {
             $window.location.href = report_url;

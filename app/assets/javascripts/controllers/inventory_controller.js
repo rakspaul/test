@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, domainReports, dataTransferService, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, domainReports, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -312,29 +312,6 @@ var angObj = angObj || {};
         });
 
 
-
-
-        //This function is called from the directive, onchange of the dropdown
-//        $scope.callBackKpiDurationChange = function (kpiType) {
-//            if (kpiType == 'duration') {
-//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
-//                $scope.download_urls = {
-//                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
-//                };
-//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-//            } else {
-//                //cleaning up the old data
-//
-//
-//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-//            }
-//
-//            $scope.$apply();
-//            analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
-//        };
-
         //Function called when the user clicks on the category tabs
         $('#category_change').click(function (e) {
             $scope.inventoryChart = true;
@@ -353,20 +330,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
             $scope.callBackKpiDurationChange('duration');
         });
-//
-//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-//
-//            if ($scope.selectedCampaign.id !== -1) {
-//                $scope.strategylist($scope.selectedCampaign.id);
-//                $scope.callBackCampaignsSuccess();
-//            } else {
-//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-//                $scope.strategyFound = false ;
-//
-//
-//            }
-//
-//        });
+
 
         $scope.downloadInventoryReport = function(report_url, report_name) {
             $window.location.href = report_url;

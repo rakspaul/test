@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics,_) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics,_) {
     $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
     var errorObject = {status:"error", data: {message:"Error"}};
     return {
@@ -30,14 +30,17 @@
 
       getCdbChartData: function (campaign, timePeriod, type, strategyId) {
         var urlPath;
-        var campaignId= campaign.orderId ? campaign.orderId : dataTransferService.getClickedCampaignId();
+        var campaignId= campaign.orderId ;// dataTransferService.getClickedCampaignId();
         var  durationQuery= 'period=' + timePeriod;
         if(timePeriod === 'life_time') {
           if(campaign.startDate != undefined && campaign.endDate != undefined) {
             durationQuery = 'start_date=' + campaign.startDate + '&end_date=' + campaign.endDate
           } else {
-            var sd = dataTransferService.getClickedCampaignStartDate() ? dataTransferService.getClickedCampaignStartDate() : campaign.startDate;
-            var ed = dataTransferService.getClickedCampaignEndDate() ? dataTransferService.getClickedCampaignEndDate() : campaign.endDate;
+              var sd =  campaign.startDate;
+              var ed =  campaign.endDate;
+
+           // var sd = dataTransferService.getClickedCampaignStartDate() ? dataTransferService.getClickedCampaignStartDate() : campaign.startDate;
+            //var ed = dataTransferService.getClickedCampaignEndDate() ? dataTransferService.getClickedCampaignEndDate() : campaign.endDate;
             durationQuery = 'start_date=' +sd  + '&end_date=' + ed;
           }
         }

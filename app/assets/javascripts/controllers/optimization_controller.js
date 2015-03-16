@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, campaignSelectModel, strategySelectModel,  dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, campaignSelectModel, strategySelectModel,  dataService, optimizationService, utils, $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -252,8 +252,6 @@ var angObj = angObj || {};
         $scope.chartForStrategy = true;
 
         $scope.loadCdbDataForStrategy = function () {
-
-
 
             var param = {
                 orderId : parseInt($scope.selectedCampaign.id),

@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ["performanceService", "dataTransferService", function (performanceService,  datatransferservice) {
+    angObj.factory("domainReports", [ function () {
 
         return {
             getReportsDropDowns : function() {
@@ -29,121 +29,9 @@
                         }
 
                     ],
-                    'duration' : [
-//                        {value: 'weekly', text: 'Last 7 days'},
-//                        {value: 'monthly', text: 'Last month'},
-                        {value: 'life_time', text: 'Life Time'}
-                    ],
-                    'kpiTypes' : [
-                        {value: 'CTR', text: 'CTR'},
-                        {value: 'action_rate', text: 'Action Rate'},
-                        {value: 'CPA', text: 'CPA'},
-                        {value: 'CPC', text: 'CPC'},
-                        {value: 'CPM', text: 'CPM'},
-                        {value: 'VTC', text: 'VTC'}
-                    ],
+
                     activeTab : document.location.hash.substring(2)
                 }
-            },
-            getDefaultValues : function() {
-                return {
-                    campaign : {
-                        id: '-1',
-                        name: 'Loading...',
-                        startDate: '-1',
-                        endDate: '-1'
-
-                    },
-                    strategy : {
-                        id:-1,
-                        name:'Loading...',
-                        startDate: '-1',
-                        endDate: '-1'
-                    }
-                }
-            },
-            intValues : function() {
-                return {
-                    campaign : {
-                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : '-1',
-                        name: datatransferservice.getDomainReportsValue('campaignName') ? datatransferservice.getDomainReportsValue('campaignName') : 'Loading...',
-                        startDate: '-1',
-                        endDate: '-1'
-
-                    },
-                    strategy : {
-                        id:  datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : '-1',
-                        name: datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : 'Loading...',
-                        startDate: '-1',
-                        endDate: '-1'
-                    }
-                }
-            },
-            // datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
-            getNotFound : function() {
-                return {
-                    campaign : {
-                        id:-1,
-                        name:'No Campaign Found',
-                        startDate: '-1',
-                        endDate: '-1'
-                    },
-                    strategy : {
-                        id:-1,
-                        name:'No Strategy Found',
-                        startDate: '-1',
-                        endDate: '-1'
-                    }
-                };
-            },
-            getFound : function(obj) {
-                return {
-                    campaign : {
-                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : obj.campaign_id||obj.id,
-                        name: datatransferservice.getDomainReportsValue('campaignName') ? datatransferservice.getDomainReportsValue('campaignName') :  obj.name
-                    },
-                    strategy : {
-                        id:-1,
-                        name:'No Strategy Found'
-                    }
-                };
-            },
-            checkStatus : function (campaignname, strategyname) {
-                if (campaignname == 'Loading...' ||
-                    strategyname == 'Loading...' ||
-                    campaignname == 'No Campaign Found' ||
-                    strategyname == 'No Strategy Found') {
-                    return false;
-                }
-                return true;
-            },
-
-            getDurationKpi : function () {
-                return {
-                    time_filter :  datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType')  : 'life_time',
-                    time_filter_text: datatransferservice.getDomainReportsValue('filterDurationValue') ? datatransferservice.getDomainReportsValue('filterDurationValue')  : 'Life Time',
-                    kpi_type: datatransferservice.getDomainReportsValue('filterKpiType') ? datatransferservice.getDomainReportsValue('filterKpiType') : 'ctr',
-                    kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiType') : 'CTR',
-                    campaign_default_kpi_type: datatransferservice.getDomainReportsValue('primary_kpi') ? datatransferservice.getDomainReportsValue('primary_kpi').toLowerCase() : 'ctr'
-                };
-            },
-            getAllCampaignListForUser : function(brand_id,searchCriteria) {
-              return performanceService.getCampaingsForUser(brand_id,searchCriteria);
-            },
-            //TODO: Remove getCampaignStrategyList method. Better have a seprate service which has api call for campaing and strategy drop down.
-            // directly call that service method from each controller instead of calling following ( to get list of strategy for a campaign)
-            getCampaignStrategyList : function(campaignId) {
-                 return performanceService.getStrategiesForCampaign(campaignId);
-
-            },
-            loadFirstStrategy : function(id, name, startDate, endDate) {
-                var strategyObj = {id:null, name:null, startDate: null, endDate: null};
-                strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
-                strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
-                strategyObj.startDate = datatransferservice.getDomainReportsValue('strategyStartDate') ? datatransferservice.getDomainReportsValue('strategyStartDate') : startDate;
-                strategyObj.endDate = datatransferservice.getDomainReportsValue('strategyEndDate') ? datatransferservice.getDomainReportsValue('strategyEndDate') : endDate;
-                return strategyObj;
-
             }
         };
     }]);
