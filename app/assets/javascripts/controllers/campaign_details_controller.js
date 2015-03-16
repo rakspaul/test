@@ -429,12 +429,10 @@
             campaignSelectModel.selectedCampaign.startDate = campaign.startDate ;
             campaignSelectModel.selectedCampaign.endDate = campaign.endDate ;
 
-            console.log(strategy);
 
             strategySelectModel.setSelectedStrategy(strategy);
 
-//            strategySelectModel.selectedStrategy.id = strategy.id ;
-//            strategySelectModel.selectedStrategy.name = strategy.name ;
+
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
