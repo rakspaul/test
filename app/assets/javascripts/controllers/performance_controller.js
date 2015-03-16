@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $window, campaignSelectModel, strategySelectModel,performanceService, utils, dataTransferService, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($scope, $window, campaignSelectModel, strategySelectModel,performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -446,39 +446,25 @@ var angObj = angObj || {};
 
         //TODO: This function is called from the directive, onchange of the dropdown.It will be done when dropdown is implemented.
         $scope.callBackKpiDurationChange = function (kpiType) {
-            if (kpiType == 'duration') {
-                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
-                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-
-                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
-                $scope.download_urls = {
-                    screens: urlPath + 'screensandformats/download?date_filter=' + $scope.selected_filters.time_filter,
-                    daysOfWeek: urlPath + 'daysofweek/download?date_filter=' + $scope.selected_filters.time_filter
-                };
-            } else {
-                $scope.$apply();
-                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-            }
+//            if (kpiType == 'duration') {
+//                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
+//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+//
+//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
+//                $scope.download_urls = {
+//                    screens: urlPath + 'screensandformats/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    daysOfWeek: urlPath + 'daysofweek/download?date_filter=' + $scope.selected_filters.time_filter
+//                };
+//            } else {
+//                $scope.$apply();
+//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+//            }
         };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
             $scope.callBackKpiDurationChange('duration');
         });
 
-//        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
-
-
-//            if ($scope.selectedCampaign.id !== -1) {
-//                $scope.strategylist($scope.selectedCampaign.id);
-//                $scope.callBackCampaignsSuccess();
-//            } else {
-//                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-//                $scope.strategyFound = false ;
-//                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-//
-//            }
-
-        //       });
 
         $scope.downloadPerformanceReport = function(report_url, report_name) {
             $scope.perfReportDownloadBusy = true;
