@@ -190,7 +190,7 @@
                     .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
                     .transition()
                     .call(xAxis)
-                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt;").attr("x", function(d) {
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
                         return 10
                     });
 
@@ -201,6 +201,9 @@
 
 
                 gantt.draw(tasks);
+
+                svg.append('rect').attr("class", "date_marker");
+
                 return gantt;
 
             };
@@ -300,14 +303,14 @@
                 //axis second line
                 //TODO: add Vertical gradient from #939ead to #e9ebee. Opacity 0.3
                 ganttChartGroup.selectAll('line.axis_bottom')
-                    .style("stroke", "#939ead")
+                    .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", 26)
                     .attr("x2", width)
                     .attr("y2", 26)
                     .style("fill", "none")
-                    .style("stroke-width", "3")
-                    .style("opacity","0.3")
+                    .style("stroke-width", "1")
+                    //.style("opacity","0.3")
                     .style("shape-rendering", "crispEdges");
   
 
@@ -565,14 +568,14 @@
                         if (width <= 0) {
                             width = 0;
                         } else if (width <= 40) {
-                            width = 2;
+                            width = 0; //2
                         }
                         return width;
                     })
                     .attr("height", function() {
                         var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
                         if (width <= 40) {
-                            return height - margin.top;
+                            return 0; //height - margin.top
                         } else {
                             return 4;
                         }
@@ -606,6 +609,48 @@
                     })
                     .transition()
                     .attr("transform", markerTransform);
+
+                    //for year, quarter, month - marker 
+                    ganttChartGroup.select("rect.date_marker")
+                     .attr("x", 0)
+                    .attr("y", 47)
+                    .attr("class", "date_marker")
+                    .style("shape-rendering", "crispEdges")
+                    .attr("fill", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 0) {
+                            return "none"
+                        } else if (width <= 40) {
+                            if (timeDomainString == "today") {
+                                return "none";
+                            }
+                            return "#74AFDD" //BLUE - LINE COLOR
+                        } else {
+                            return "none"
+                        }
+                    })
+                    .attr("width", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 0) {
+                            width = 0;
+                        } else if (width <= 40) {
+                            width = 2;
+                        }
+                        return width;
+                    })
+                    .attr("height", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 40) {
+                            return height - margin.top - 47;
+                        } else {
+                            return 0;
+                        }
+
+                    })
+                    .transition()
+                    .attr("transform", markerTransform);
+
+                    
                 //today marker ends
 
                 var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
@@ -767,7 +812,7 @@
                 //  });
                 //today marker transition
                 svg.select(".x").transition().call(xAxis)
-                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt")
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
                     .attr("x", function(d, i) {
                         //formatting for ticks
                         if (timeDomainString == "month") {
