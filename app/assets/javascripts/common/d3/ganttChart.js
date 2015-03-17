@@ -767,7 +767,7 @@
                 //  });
                 //today marker transition
                 svg.select(".x").transition().call(xAxis)
-                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt")
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
                     .attr("x", function(d, i) {
                         //formatting for ticks
                         if (timeDomainString == "month") {
