@@ -2,8 +2,9 @@
     'use strict';
     commonModule.controller('ganttChartController', function($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
 
-
+        
         $scope.init = function(update) {
+            $scope.brandNotSelected = true;
             $scope.calendarBusy = true;
             $scope.selected = "quarter";
             ganttChartModel.getGanttChartData().then(function(result) {
@@ -69,6 +70,7 @@
                         ganttChart.newCalendar(campaigns, brands);
                     } else if (update || brandsModel.getSelectedBrand().id) {
                         ganttChart.newCalendar(campaigns, brands, true);
+                        $scope.brandNotSelected = false;
                     }
 
                 } else {

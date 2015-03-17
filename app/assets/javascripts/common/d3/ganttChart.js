@@ -190,7 +190,7 @@
                     .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
                     .transition()
                     .call(xAxis)
-                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt;").attr("x", function(d) {
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
                         return 10
                     });
 
@@ -300,14 +300,14 @@
                 //axis second line
                 //TODO: add Vertical gradient from #939ead to #e9ebee. Opacity 0.3
                 ganttChartGroup.selectAll('line.axis_bottom')
-                    .style("stroke", "#939ead")
+                    .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", 26)
                     .attr("x2", width)
                     .attr("y2", 26)
                     .style("fill", "none")
-                    .style("stroke-width", "3")
-                    .style("opacity","0.3")
+                    .style("stroke-width", "1")
+                    //.style("opacity","0.3")
                     .style("shape-rendering", "crispEdges");
   
 
@@ -767,7 +767,7 @@
                 //  });
                 //today marker transition
                 svg.select(".x").transition().call(xAxis)
-                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt")
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
                     .attr("x", function(d, i) {
                         //formatting for ticks
                         if (timeDomainString == "month") {
