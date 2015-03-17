@@ -300,14 +300,14 @@
                 //axis second line
                 //TODO: add Vertical gradient from #939ead to #e9ebee. Opacity 0.3
                 ganttChartGroup.selectAll('line.axis_bottom')
-                    .style("stroke", "#939ead")
+                    .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", 26)
                     .attr("x2", width)
                     .attr("y2", 26)
                     .style("fill", "none")
-                    .style("stroke-width", "3")
-                    .style("opacity","0.3")
+                    .style("stroke-width", "1")
+                    //.style("opacity","0.3")
                     .style("shape-rendering", "crispEdges");
   
 
