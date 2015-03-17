@@ -201,6 +201,9 @@
 
 
                 gantt.draw(tasks);
+
+                svg.append('rect').attr("class", "date_marker");
+
                 return gantt;
 
             };
@@ -565,14 +568,14 @@
                         if (width <= 0) {
                             width = 0;
                         } else if (width <= 40) {
-                            width = 2;
+                            width = 0; //2
                         }
                         return width;
                     })
                     .attr("height", function() {
                         var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
                         if (width <= 40) {
-                            return height - margin.top;
+                            return 0; //height - margin.top
                         } else {
                             return 4;
                         }
@@ -606,6 +609,48 @@
                     })
                     .transition()
                     .attr("transform", markerTransform);
+
+                    //for year, quarter, month - marker 
+                    ganttChartGroup.select("rect.date_marker")
+                     .attr("x", 0)
+                    .attr("y", 47)
+                    .attr("class", "date_marker")
+                    .style("shape-rendering", "crispEdges")
+                    .attr("fill", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 0) {
+                            return "none"
+                        } else if (width <= 40) {
+                            if (timeDomainString == "today") {
+                                return "none";
+                            }
+                            return "#74AFDD" //BLUE - LINE COLOR
+                        } else {
+                            return "none"
+                        }
+                    })
+                    .attr("width", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 0) {
+                            width = 0;
+                        } else if (width <= 40) {
+                            width = 2;
+                        }
+                        return width;
+                    })
+                    .attr("height", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 40) {
+                            return height - margin.top - 47;
+                        } else {
+                            return 0;
+                        }
+
+                    })
+                    .transition()
+                    .attr("transform", markerTransform);
+
+                    
                 //today marker ends
 
                 var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
