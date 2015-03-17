@@ -190,7 +190,7 @@
                     .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
                     .transition()
                     .call(xAxis)
-                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt;").attr("x", function(d) {
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
                         return 10
                     });
 
