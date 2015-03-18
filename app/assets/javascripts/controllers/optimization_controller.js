@@ -412,9 +412,14 @@ var angObj = angObj || {};
         });
 
         $scope.downloadOptimizationReport = function(report_url) {
-            $window.location.href = report_url;
-            analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'optimization_report', loginModel.getLoginName());
-        }
+
+            if (loginModel.hasCookieExpired()) {
+                loginModel.checkCookieExpiry();
+            } else {
+                $window.location.href = report_url;
+                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'optimization_report', loginModel.getLoginName());
+            }
+         }
 
     });
 }());

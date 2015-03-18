@@ -144,8 +144,12 @@ var angObj = angObj || {};
 
 
         $scope.downloadViewabilityReport = function(report_url, report_name) {
-            $window.location.href = report_url;
-            analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'viewability_' + report_name + '_report', loginModel.getLoginName());
+            if (loginModel.hasCookieExpired()) {
+                loginModel.checkCookieExpiry();
+            } else {
+                $window.location.href = report_url;
+                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'viewability_' + report_name + '_report', loginModel.getLoginName());
+            }
         }
 
     });
