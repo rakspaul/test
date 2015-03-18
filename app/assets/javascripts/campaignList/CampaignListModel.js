@@ -1,6 +1,6 @@
 //originally part of controllers/campaign_controller.js
 campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'analytics', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants, brandsModel, loginModel, analytics) {
-
+  var scrollFlag = 1;
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();
     this.selectedTimePeriod = this.timePeriodList[2];
@@ -155,7 +155,11 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
   };
 
   Campaigns.prototype.fetchCampaigns = function() {
-    if(this.dashboard.filterTotal > 0 ){
+    $( "#cost_block,#performance_block" ).scroll(function(){
+      scrollFlag = 1;
+    });
+    if((this.dashboard.filterTotal > 0) && (scrollFlag == 1) ){
+      scrollFlag = 0; //Reseting scrollFlag
       if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
         return;
       }
@@ -282,6 +286,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
             if(self.dashboard.total > 0 ){
               self.dashboard.filterSelectAll=false;
               self.dashboardSelectedAll();
+              scrollFlag = 1;
               Campaigns.prototype.fetchCampaigns.call(self);
             }
           }
@@ -364,6 +369,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       }
       //get the campaign list
       this.campaignList = [];
+      scrollFlag = 1;
       Campaigns.prototype.fetchCampaigns.call(this);
       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (state ? state : type), loginModel.getLoginName());
     },
@@ -419,7 +425,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           field.className = '';
         }
       });
-
+      scrollFlag = 1;
       Campaigns.prototype.fetchCampaigns.call(this);
       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_LIST_SORTING, (fieldName + '_' + (sortDirection ? sortDirection : 'asc')), loginModel.getLoginName());
     },
@@ -614,6 +620,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         }
       }
       this.campaignList = [];
+      scrollFlag = 1;
       Campaigns.prototype.fetchCampaigns.call(this);
 
     } ,
