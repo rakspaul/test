@@ -27,7 +27,8 @@
       },searchCriteria,search);
     }
 
-    fetchBrands(searchCriteria,search);
+    if(loginModel.getUserId() != undefined)
+      fetchBrands(searchCriteria,search);
 
     $scope.loadMoreBrands = function() {
       searchCriteria.offset += searchCriteria.limit + 1;
