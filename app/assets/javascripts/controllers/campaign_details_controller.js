@@ -110,7 +110,7 @@
       }
       function updateActionItems() {
         $scope.activityLogFlag = false;
-        activityList.data.data = undefined;
+        //activityList.data.data = undefined;
         var actionUrl = urlService.APIActionData($routeParams.campaignId);
         dataService.getActionItems(actionUrl).then(function(result) {
           $scope.activityLogFlag = true;
