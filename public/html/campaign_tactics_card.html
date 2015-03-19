@@ -9,7 +9,7 @@
                 </div>
                 <div class="each_campaign_section campaign_list_details">
                     <div class="main_heading">
-                        {{tactic.name | truncateString : 78}}
+                         <truncate-text-with-hover txt="{{tactic.name}}" txtlength="75"></truncate-text-with-hover>
                     </div>
                     <div class="tactic_accordion_details">
                         <div ng-if="(tactic.audience_targeting!='null' && tactic.audience_targeting!='' && tactic.audience_targeting.length > 0  )">
