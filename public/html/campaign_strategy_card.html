@@ -24,7 +24,7 @@
                             <!-- <div class="days_over_text">10 Days Left</div> -->
                             <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
                             <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
-                            <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(strategy)}} Days Left</span>
+                            <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(strategy)}} {{campaigns.durationLeft(strategy) > 1 ? 'Days':'Day'}} Left</span>
                     </div>
                 </div>
             </div>
