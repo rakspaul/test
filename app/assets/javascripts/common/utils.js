@@ -284,8 +284,11 @@ angObj.directive('truncateTextWithHover', function () {
         txt: "@txt",
         txtLength: "@txtlength"
       },
-      template: '<span data-toggle="tooltip" data-placement="top" data-original-title="{{txt}}" ng-show="(txt.length > txtLength)">' +
+      /*template: '<span data-toggle="tooltip" data-placement="top" data-original-title="{{txt}}" ng-show="(txt.length > txtLength)">' +
       '{{txt |limitTo:txtLength}} ...</span>'+
+      '<span  ng-show="(txt.length <= txtLength)">' +
+      '{{txt}}</span>'*/
+        template:'<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" >{{txt|limitTo:txtLength}} ...</span>' +
       '<span  ng-show="(txt.length <= txtLength)">' +
       '{{txt}}</span>'
     };

@@ -7,7 +7,8 @@
         <div class="each_campaign_section campaign_list_details">
             <div class="strategy_heading">Strategy</div>
             <div class="main_heading">
-                {{strategy.name | truncateString : 78}}
+                <truncate-text-with-hover txt="{{strategy.name}}" txtlength="75"></truncate-text-with-hover>
+                <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement" txt="{{strategy.name}}" txtLength="75"></span>-->
             </div>
             <div class="heading">
                 {{campaign.brandName}}
