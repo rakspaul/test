@@ -427,9 +427,9 @@
                 rectGroup.append("rect")
                     .attr("x", 0)
                     .attr("y", 2)
-                    .attr("title", function(d) {
-                        return "campaign";
-                    })
+                    // .attr("title", function(d) {
+                    //     return "campaign";
+                    // })
                     .attr("id", function(d, i) {
                         return "campaign-" + i;
                     })
