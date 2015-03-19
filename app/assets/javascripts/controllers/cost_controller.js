@@ -214,16 +214,20 @@ var angObj = angObj || {};
         });
 
         $scope.downloadCostReport = function(report_url) {
-            $scope.costReportDownloadBusy = true;
-            dataService.downloadFile(report_url).then(function(response) {
-                if(response.status === "success"){
-                    $scope.costReportDownloadBusy = false;
-                    saveAs(response.file, response.fileName);
-                } else if (response.status === "error") {
-                    $scope.costReportDownloadBusy = false;
-                }
-            });
-            analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
+            if (loginModel.hasCookieExpired()) {
+                loginModel.checkCookieExpiry();
+            } else {
+                $scope.costReportDownloadBusy = true;
+                dataService.downloadFile(report_url).then(function (response) {
+                    if (response.status === "success") {
+                        $scope.costReportDownloadBusy = false;
+                        saveAs(response.file, response.fileName);
+                    } else if (response.status === "error") {
+                        $scope.costReportDownloadBusy = false;
+                    }
+                });
+                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
+            }
         }
 
 

@@ -117,7 +117,11 @@ return {
       }
     },
 
-    checkCookieExpiry : function(){ 
+    hasCookieExpired : function() {
+        return (!$cookieStore.get('cdesk_session'))?true:false;
+    },
+
+    checkCookieExpiry : function(){
       if(!$cookieStore.get('cdesk_session')){
         localStorage.clear();
         if($location.$$path !== '/login') {
