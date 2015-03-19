@@ -17,7 +17,6 @@
         $scope.activityLogFilterByStatus = true;
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
-
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = loginModel.getIsNetworkUser();
         var campaignList = [];
@@ -110,6 +109,8 @@
         updateActionItems();
       }
       function updateActionItems() {
+        $scope.activityLogFlag = false;
+        //activityList.data.data = undefined;
         var actionUrl = urlService.APIActionData($routeParams.campaignId);
         dataService.getActionItems(actionUrl).then(function(result) {
           $scope.activityLogFlag = true;
@@ -135,6 +136,8 @@
               //preventing the model from sharing old data when no activity is present for other campaigns
               activityList.data.data = undefined;
             }
+          }else{ //if error 
+            activityList.data.data = undefined;
           }
         }, function(result) {
           console.log('call failed');
@@ -634,6 +637,10 @@
         $rootScope.$on("callRefreshGraphData",function(event,args){ 
             $scope.refreshGraph(args);
         });
+        $scope.refreshCampaignDetailsPage = function(){
+            $rootScope.$broadcast("closeEditActivityScreen");
+        }
+        $scope.refreshCampaignDetailsPage();
     });
 
 }());
