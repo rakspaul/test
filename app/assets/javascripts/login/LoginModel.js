@@ -117,8 +117,8 @@ return {
       }
     },
 
-    hasCookieExpired : function() {
-        return (!$cookieStore.get('cdesk_session'))?true:false;
+    cookieExists : function() {
+        return ($cookieStore.get('cdesk_session'))?true:false;
     },
 
     checkCookieExpiry : function(){

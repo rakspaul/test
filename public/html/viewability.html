@@ -35,7 +35,7 @@
                                              ng-click="downloadViewabilityReport(download_urls.exchanges, 'by_exchange')">Viewability by Exchange</a></li>
                 </ul>
             </div>
-
+            <span class="download-report-load-icon" ng-if="viewReportDownloadBusy">Downloading </span>
         </div>
         <!--<div class="pull-right dropdown dropdown_type3" id="viewability_lifetime_dd">-->
             <!--<report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"-->

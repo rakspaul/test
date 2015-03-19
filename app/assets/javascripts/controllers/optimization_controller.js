@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, campaignSelectModel, strategySelectModel,  dataService, optimizationService, utils, $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, campaignSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -412,14 +412,21 @@ var angObj = angObj || {};
         });
 
         $scope.downloadOptimizationReport = function(report_url) {
-
-            if (loginModel.hasCookieExpired()) {
+            if (!loginModel.cookieExists())
                 loginModel.checkCookieExpiry();
-            } else {
-                $window.location.href = report_url;
+            else {
+                $scope.optReportDownloadBusy = true;
+                dataService.downloadFile(report_url).then(function (response) {
+                    if (response.status === "success") {
+                        $scope.optReportDownloadBusy = false;
+                        saveAs(response.file, response.fileName);
+                    } else if (response.status === "error") {
+                        $scope.optReportDownloadBusy = false;
+                    }
+                });
                 analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'optimization_report', loginModel.getLoginName());
             }
-         }
+        }
 
     });
 }());

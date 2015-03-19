@@ -467,9 +467,9 @@ var angObj = angObj || {};
 
 
         $scope.downloadPerformanceReport = function(report_url, report_name) {
-            if (loginModel.hasCookieExpired()) {
+            if (!loginModel.cookieExists())
                 loginModel.checkCookieExpiry();
-            } else {
+            else {
                 $scope.perfReportDownloadBusy = true;
                 var report_url1 = report_url;
                 if (report_name === 'by_platforms')
