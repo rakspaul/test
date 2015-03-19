@@ -214,9 +214,9 @@ var angObj = angObj || {};
         });
 
         $scope.downloadCostReport = function(report_url) {
-            if (loginModel.hasCookieExpired()) {
+            if (!loginModel.cookieExists())
                 loginModel.checkCookieExpiry();
-            } else {
+            else {
                 $scope.costReportDownloadBusy = true;
                 dataService.downloadFile(report_url).then(function (response) {
                     if (response.status === "success") {
@@ -229,7 +229,5 @@ var angObj = angObj || {};
                 analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
             }
         }
-
-
     });
 }());

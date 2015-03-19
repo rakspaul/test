@@ -190,13 +190,13 @@
       },
 
         downloadFile: function (url) {
-            loginModel.checkCookieExpiry();
+            $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
             return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
                 function (response) {
-                    if(response.status === 401) {
+                    if (response.status === 401) {
                         loginModel.unauthorized();
                         return errorObject;
-                    } else if(response.status === 403) {
+                    } else if (response.status === 403) {
                         loginModel.forbidden();
                         return errorObject;
                     }
@@ -210,10 +210,10 @@
                     return objOnSuccess;
                 },
                 function (error) {
-                    if(error.status == 401) {
+                    if (error.status == 401) {
                         loginModel.unauthorized();
                         return errorObject;
-                    } else if(error.status === 403) {
+                    } else if (error.status === 403) {
                         loginModel.forbidden();
                         return errorObject;
                     }

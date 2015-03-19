@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -144,10 +144,18 @@ var angObj = angObj || {};
 
 
         $scope.downloadViewabilityReport = function(report_url, report_name) {
-            if (loginModel.hasCookieExpired()) {
+            if (!loginModel.cookieExists())
                 loginModel.checkCookieExpiry();
-            } else {
-                $window.location.href = report_url;
+            else {
+                $scope.viewReportDownloadBusy = true;
+                dataService.downloadFile(report_url).then(function (response) {
+                    if (response.status === "success") {
+                        $scope.viewReportDownloadBusy = false;
+                        saveAs(response.file, response.fileName);
+                    } else if (response.status === "error") {
+                        $scope.viewReportDownloadBusy = false;
+                    }
+                });
                 analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'viewability_' + report_name + '_report', loginModel.getLoginName());
             }
         }
