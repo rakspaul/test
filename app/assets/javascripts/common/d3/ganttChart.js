@@ -260,10 +260,22 @@
 
                         d3.event.sourceEvent.stopPropagation();
                         var td = gantt.timeDomain();
-                        gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                        //console.log(td[0]-scale*d3.event.dx);
 
-                        gantt.redraw(tasks, timeDomainString);
+
+                        var data = _.sortBy(tasks, function(o) { return o.start_date; });
+                        //force stop scroll on edge
+                        console.log(d3.event.dx);
+                        if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
+                            //check
+                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                            gantt.redraw(tasks, timeDomainString);
+                        } else if (d3.event.dx < 0) {
+                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                            gantt.redraw(tasks, timeDomainString);
+                        }
+
+
+                        
                     })
                     .on('dragend', function() {
                         d3.event.sourceEvent.stopPropagation();
@@ -1064,8 +1076,14 @@
         function prev(timeDomainString) {
             var td = gantt.timeDomain();
             var scale = (td[1] - td[0]) / 10;
-            gantt.timeDomain([td[0] - scale, td[1] - scale]);
-            gantt.redraw(tasks, timeDomainString);
+
+            var data = _.sortBy(tasks, function(o) { return o.start_date; });
+            //force stop scroll on edge
+            if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
+                gantt.timeDomain([td[0] - scale, td[1] - scale]);
+                gantt.redraw(tasks, timeDomainString);
+            }
+   
 
         }
 
