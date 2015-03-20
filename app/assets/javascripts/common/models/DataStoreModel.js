@@ -46,7 +46,7 @@
     };
     this.deleteAllCachedCampaignListUrls = function () {
       for (var url in this.responseByUrl) {
-        if(url.indexOf('/dataapi/campaigns/bystate') > -1) {
+        if(url.indexOf('/campaigns/bystate') > -1) {
           this.deleteFromCache(url);
         }
       }
