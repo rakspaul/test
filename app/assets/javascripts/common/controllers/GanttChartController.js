@@ -17,6 +17,29 @@
                 //TODO: move this into a service
                 if (result != undefined && result.brands != undefined && result.brands.length > 0) {
                     $scope.noData = false;
+
+                    //getting endpoint dates for calendar. 
+                    var startDate, endDate, loop=0 ;
+                    _.each(result.brands, function(datum) {
+                        _.each(datum.campaigns, function(tasks) {
+                            if(loop == 0) {
+                                startDate = moment(tasks.start_date).startOf('day');
+                                endDate = moment(tasks.end_date).endOf('day');
+                            }
+                            loop++;
+
+                            if(moment(startDate).toDate() > moment(tasks.start_date).toDate()) {
+                                startDate = moment(tasks.start_date).startOf('day');
+                            }
+
+                            if (moment(endDate).toDate() < moment(tasks.end_date).toDate()) {
+                                endDate = endDate = moment(tasks.end_date).endOf('day');
+                            }
+
+                        });
+                    });
+                    
+
                     _.each(result.brands, function(datum) {
                         var space = 0;
                         for (space = 0; space <= 1; space++) {
@@ -28,8 +51,10 @@
                             c.type = "brand";
                             c.status = "";
                             c.taskName = count;
-                            c.startDate = moment().subtract(2, 'years').startOf('year');
-                            c.endDate = moment().add(2, 'years').endOf('year');
+                            c.startDate =  startDate;
+                            c.endDate = endDate;
+                            // c.startDate = moment().subtract(2, 'years').startOf('year');
+                            // c.endDate = moment().add(2, 'years').endOf('year');
 
                             campaigns.push(c);
                             brands.push(count);
@@ -43,8 +68,10 @@
                         c.type = "brand";
                         c.status = "";
                         c.taskName = count;
-                        c.startDate = moment().subtract(2, 'years').startOf('year');
-                        c.endDate = moment().add(2, 'years').endOf('year');
+                        c.startDate =  startDate;
+                        c.endDate = endDate;
+                        // c.startDate = moment().subtract(2, 'years').startOf('year');
+                        // c.endDate = moment().add(2, 'years').endOf('year');
 
                         campaigns.push(c);
                         brands.push(count);
