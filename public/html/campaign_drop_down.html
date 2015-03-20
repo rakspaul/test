@@ -15,8 +15,8 @@
                         </div>
 
                     <ul class="dropdown-menu" role="menu"  id="campaigns_list" lr-infinite-scroll="loadMore" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">
-                        <li ng-repeat="campaign in campaignData.campaigns" class="campaigns_list_li" value="{{campaign.campaign_id}}" _kpi="{{campaign.kpi_type}}" title="{{campaign.name}}"
-                            _startDate="{{campaign.start_date}}" _endDate="{{campaign.end_date}}">{{campaign.name }}</li>
+                        <li ng-repeat="campaign in campaignData.campaigns" class="campaigns_list_li" value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}" _kpi="{{(campaign.kpi_type == undefined )? campaign.kpi : campaign.kpi_type}}" title="{{campaign.name}}"
+                            _startDate="{{(campaign.start_date == undefined) ? campaign.startDate : campaign.start_date}}" _endDate="{{(campaign.end_date == undefined) ? campaign.endDate : campaign.end_date}}">{{campaign.name }}</li>
                     </ul>
                     </li>
                 </ul>
