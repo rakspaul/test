@@ -66,7 +66,7 @@ var angObj = angObj || {};
             $scope.tacticBusy = true;
 
             var url = inventoryService.getAllTacticDomainData(param);
-            var canceller =  requestCanceller.initCanceller(constants.INVENTORY_STRATEGY_CANCELLER);
+            var canceller =  requestCanceller.initCanceller(constants.INVENTORY_TACTC_CANCELLER );
             return dataService.fetchCancelable(url, canceller, function(result){
             //inventoryService.getAllTacticDomainData(param).then(function (result) {
 
