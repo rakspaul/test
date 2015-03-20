@@ -5,7 +5,7 @@
       <span>{{data.title}}</span>
       <span class="more_txt_heading">{{data.titleSecondPart}}</span>
       <span  id="brandButton" ng-if="data.brandSelected" class="bubble_heading"  >{{data.selectedBrand}} <span class="brand_close_btn" data-ng-click="clickOnBrandButton()">+</span> </span>
-      <span class="tootip_holder"><span class="tooltip_show_icon"></span><span class="common_tooltip">{{data.toolTip}}</span></span>
+      <span class="tooltip_holder"><span class="tooltip_show_icon"></span><span class="common_tooltip">{{data.toolTip}}</span></span>
 
     </div>
     <div class="clearfix col-md-2 status_filter">
@@ -26,7 +26,13 @@
   <div class="row">
     <div class="col-md-4">
       <div class="dashboard_section dashboard_perf_graph_holder">
-        <div class="dashboard_heading dashboard_heading_bold">Campaign Performance</div>
+        <div class="clearfix dashboard_heading dashboard_heading_bold">
+          <div class="pull-left">Campaign Performance</div>
+          <div class="pull-left tooltip_holder">
+              <span class="tooltip_show_icon"></span>
+              <div class="common_tooltip">Graph represents campaigns which have set KPI values only</div>
+          </div>
+        </div>
         <div class="dashboard_perf_graph">
           <gauge></gauge>
         </div>
@@ -58,7 +64,7 @@
             <div class="pull-left calendar_heading dashboard_heading_bold">
               <div class="pull-left">Calendar </div>
               <div class="pull-left top_budget_subtitle" ng-show="brandNotSelected ">(Most Relevant Campaigns)</div>
-              <div class="pull-left tootip_holder">
+              <div class="pull-left tooltip_holder">
                     <span class="tooltip_show_icon"></span>
                     <span class="clearfix common_tooltip">
                       <div class="pull-left">
