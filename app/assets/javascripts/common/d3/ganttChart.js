@@ -264,7 +264,6 @@
 
                         var data = _.sortBy(tasks, function(o) { return o.start_date; });
                         //force stop scroll on edge
-                        console.log(d3.event.dx);
                         if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
                             //check
                             gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
@@ -285,14 +284,14 @@
                 //------
                 var tdEdges = gantt.timeDomain(); 
                 var isPast = function (timeDomainEdge, date) {
-            		if(moment(timeDomainEdge).toDate() < moment(date).toDate()){
+            		if(moment(timeDomainEdge).toDate() <= moment(date).toDate()){
             			return true;
             		} else {
             			return false;
             		}
                 };
                 var isFuture = function (timeDomainEdge, date) {
-            		if(moment(timeDomainEdge).toDate() > moment(date).toDate()){
+            		if(moment(timeDomainEdge).toDate() >= moment(date).toDate()){
             			return true;
             		} else {
             			return false;
