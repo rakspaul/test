@@ -38,23 +38,15 @@ return {
         document.cookie = 'cdesk_session='+ JSON.stringify(user) +';expires='+now.toGMTString()+';path=/';
 
         // campaignDetails object is required for reports tab.
-        localStorage.setItem( 'campaignDetails', JSON.stringify({
-            campaignId : null,
-            campaignName:null,
-            strategyId : null,
-            strategyName : null,
-            strategyStartDate : null,
-            strategyEndDate : null,
-            filterDurationType:null,
-            filterDurationValue:null,
-            filterKpiType:null,
-            filterKpiValue:null,
-            primary_kpi:null
-        }));
+        localStorage.setItem( 'selectedCampaign', JSON.stringify({
+            id : '-1',
+            name :'Loading ...',
+            startDate  : '-1',
+            endDate : '-1',
+            kpi : 'ctr'
+        })
+        );
     },
-    // this.getUser = function(){
-    //   return this.data;
-    // };
 
     getLoginName : function() {
         if(data.login_name) {
