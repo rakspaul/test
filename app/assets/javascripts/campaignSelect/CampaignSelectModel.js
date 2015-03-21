@@ -2,24 +2,21 @@
 campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' ,'constants', function (urlService,dataService, constants) {
     var campaign = {};
     campaign.campaigns = {};
-    campaign.selectedCampaign = {
-        id: -1,
-        name : 'Loading...',
-        kpi : 'ctr',
-        startDate : '-1',
-        endDate : '-1'
-    };
+    campaign.selectedCampaign = (localStorage.getItem('selectedCampaign') == undefined) ? { id: -1,name : 'Loading...', kpi : 'ctr', startDate : '-1', endDate : '-1' } : (JSON.parse( localStorage.getItem('selectedCampaign') )) ;
 
     campaign.setSelectedCampaign = function (_campaign) {
         campaign.selectedCampaign.id = (_campaign.id == undefined)? _campaign.campaign_id : _campaign.id;
         campaign.selectedCampaign.name = _campaign.name ;
-        campaign.selectedCampaign.kpi = (_campaign.kpi == undefined)? (_campaign.kpi_type)  : _campaign.kpi ;
+        campaign.selectedCampaign.kpi = (_campaign.kpi == undefined)? (_campaign.kpi_type.toLowerCase())  : _campaign.kpi.toLowerCase() ;
         campaign.selectedCampaign.startDate = (_campaign.startDate == undefined) ? _campaign.start_date : _campaign.startDate ;
         campaign.selectedCampaign.endDate = (_campaign.endDate == undefined) ? _campaign.end_date :  _campaign.endDate ;
 
         if(campaign.selectedCampaign !== undefined && (campaign.selectedCampaign.kpi == 'null' || campaign.selectedCampaign.kpi == null || campaign.selectedCampaign.kpi == undefined || campaign.selectedCampaign.kpi == 'NA')){
             campaign.selectedCampaign.kpi = 'ctr' ; // set default kpi as ctr if it is coming as null or NA from backend.
         }
+
+
+        localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign) ) ;
 
         $(".campaign_name_length").text(campaign.selectedCampaign.name) ;
         $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
@@ -42,7 +39,7 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
     };
 
     campaign.getSelectedCampaign = function() {
-        return campaign.selectedCampaign ;
+        return (localStorage.getItem('selectedCampaign') == undefined)? campaign.selectedCampaign : JSON.parse(localStorage.getItem('selectedCampaign')) ;
     } ;
 
     campaign.getCampaignObj = function() {
