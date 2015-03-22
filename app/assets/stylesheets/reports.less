@@ -13,7 +13,7 @@
 .StrategyHeadingFontColor() {
   color: #21252b ;
   font-size: 18px;
-  font-weight: 500 ;
+  font-family: "Avenir" ;
 }
 
 .ReportDataFontColor() {
@@ -24,9 +24,14 @@
 .ReportRowFontColor() {
   color:  #21252b;
   font-size: 14px; 
-  font-weight: 900;
+  font-family: "Avenir-bold" ;
 }
-
+.AvenirBold() {
+  font-family: "Avenir-bold" ;
+}
+.AvenirFont() {
+  font-family: "Avenir" ;
+}
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
   background: transparent;
 }
@@ -86,6 +91,7 @@
   float: left;
   margin-right: 5px;
   font-weight: normal;
+  .AvenirFont() ;
   margin-top: 16px;
   width: 70px;
 }
@@ -580,7 +586,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       white-space: nowrap;
       font-size: 26px;
       color: #313233;
-      font-weight: bold;
+      .AvenirBold() ;
       clear: both;
       display: none;
     }
@@ -607,6 +613,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     margin-top: 15px;
     max-width: 90%;
     word-wrap: break-word;
+  }
+  .dropdown.dropdown_type2 , .dropdown.dropdown_type1 {
+    .AvenirBold() ;
+    font-weight: normal;
   }
   .dropdown-menu {
     padding: 0px;
@@ -710,7 +720,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .data_not_found {
     .span {
-      font-weight: bold;
+      .AvenirBold() ;
       font-size: 18px;
       color: #313233;
     }
@@ -801,7 +811,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .download-report-load-icon {
     text-align: left;
-    font-weight: bold;
+    .AvenirBold() ;
     text-indent: -99999;
     height: 40px;
     width: 140px;
@@ -1046,7 +1056,7 @@ div.strategy_total_container {
       }
     }
     .first_col {
-      font-weight: bold;
+      .AvenirBold() ;
       span {
         text-transform: capitalize;
         text-align: left;
@@ -1123,7 +1133,7 @@ div.strategy_total_container {
   }
   .each_strategy_holder:last-child {
     .linkage_bar {
-        background: #f8f8f8;
+        background: #fff;
         border-top: solid 1px #ccd9e3;
         height: 50%;
         bottom: 0;
@@ -1235,7 +1245,7 @@ div.strategy_total_container {
       }
       .sec_col {
         margin-left: 5px ;
-        width: 115px ;
+        width: 147px ;
       }
     }
   }
@@ -1258,7 +1268,7 @@ div.strategy_total_container {
   .reports_details_outer_container {
     div.sec_col {
       min-width: 70px ;
-      width: 100px ;
+      width: 132px ;
       text-align: left ;
       margin-left: 20px ;
     }
@@ -1318,7 +1328,7 @@ div.strategy_total_container {
     .ReportDataFontColor();
   }
   .each_cost_heading {
-    font-weight: bold;
+    .AvenirBold() ;
     padding: 0 20px 15px 0;
     span {
       font-size: 12px ;
@@ -1331,7 +1341,7 @@ div.strategy_total_container {
       border: solid 1px #d2dee7;
       border-top: 0;
       .total_cost {
-        font-weight: bold;
+        .AvenirBold() ;
       }
     }
   }
@@ -1373,7 +1383,7 @@ div.strategy_total_container {
       }
       .each_cost_row_holder:last-child {
         .each_cost_row:before {
-          background: #f8f8f8;
+          background: #fff;
           border-top: solid 1px #ccd9e3;
           height: 50%;
           bottom: 0;
@@ -1505,8 +1515,7 @@ div.strategy_total_container {
     line-height: 26px;
     margin: 0 80px 10px 0;
     font-size: 12px ;
-    font-family: "Avenir" ;
-    font-weight: bold ; 
+    .AvenirBold() ;
     a {
       display: block;
       text-decoration: none;

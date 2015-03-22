@@ -22,7 +22,15 @@
   src: url("/assets/fonts/TradeGothicLTStd.eot");
   src: url("/assets/fonts/TradeGothicLTStd.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
 }
-
+@font-face {
+    font-family: "Avenir";
+    src: url("/assets/fonts/Avenir/Avenir.eot");
+    src: url("/assets/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/Avenir/Avenir.woff") format("woff"), url("/assets/fonts/Avenir/Avenir.ttf") format("truetype") ;
+}
+@font-face {
+    font-family: "Avenir-bold";
+    src: url("/assets/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/assets/fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("/assets/fonts/Avenir/Avenir.ttf") format("truetype") ;
+}
 /* base variables */
 @primaryFont: "TradeGothicLTStd-BdCn20";
 @secondaryFont: "Trade-Gothic-LT-Bold-Condensed-N-2";
@@ -71,7 +79,12 @@
   font-size: 16px ;
   color: #2d2f31 ;
 }
-
+.AvenirBold() {
+  font-family: "Avenir-bold" ;
+}
+.AvenirFont() {
+  font-family: "Avenir" ;
+}
 /* generic style */
 body {
   height: auto;
@@ -1112,12 +1125,6 @@ button, i, input[type="submit"] {
   }
 }
 
-/*
-@font-face {
-    font-family: "Avenir";
-    src: url("/assets/fonts/Avenir/Avenir_LT_55_Roman.woff") format("woff"),
-    url("/assets/fonts/Avenir/Avenir_LT_55_Roman.ttf") format("truetype");
-}*/
 
 .external_chkbox {
   float: left;
@@ -1228,7 +1235,7 @@ button, i, input[type="submit"] {
     }
   }
   .action_filter_heading {
-    font-weight: bold ;
+    .AvenirBold();
     text-transform: uppercase;
     float: left;
     margin: 5px 0px 0 0;
@@ -1450,7 +1457,7 @@ button, i, input[type="submit"] {
           display: inline-block;
         }
         span.section_bar_val {
-          font-weight: bold;
+          .AvenirBold() ;
         }
       }
       .ready_section_bar {
@@ -1730,11 +1737,11 @@ button, i, input[type="submit"] {
     z-index: 1 ;
   }
   .page_header_container {
-    margin: 20px 10px 20px 0px ;
+    margin: 20px 10px 0px 0px ;
     .campaign_name_holder {
       .campaign_name {
         color: #333 ;
-        font-weight: bold;
+        .AvenirBold() ;
         font-size: 28px ;
         display: inline-block;
         float: left;
@@ -1957,7 +1964,7 @@ button, i, input[type="submit"] {
           font-size: 16px ;
           color: #000 ;
           line-height: 24px ;
-          font-weight: bold ;
+          .AvenirBold() ;
           word-wrap: break-word;
           a {
             color: #000;
@@ -1994,7 +2001,7 @@ button, i, input[type="submit"] {
           font-size: 14px;
           .main_heading {
             color: #000;
-            font-weight: bold;
+            .AvenirBold();
           }
           a {
             color: #000;
@@ -2381,7 +2388,7 @@ button, i, input[type="submit"] {
   }
 }
 .cost_col_header_tabs_holder {
-  margin-top: 40px ;
+  margin-top: 30px ;
   .cost_tabs_margin {
     font-size: 14px ;
     font-family:"Avenir";
@@ -2451,7 +2458,7 @@ button, i, input[type="submit"] {
         font-size: 14px;
         .main_heading {
           color: #000;
-          font-weight: bold;
+          .AvenirBold() ;
           margin-bottom: 4px;
         }
         .heading {
@@ -2563,7 +2570,7 @@ button, i, input[type="submit"] {
     .version_detail {
       color:  #21252b;
       font-size: 16px; 
-      font-weight: 900;
+      .AvenirBold() ;
       line-height: 28px;
       text-align: center;
     }

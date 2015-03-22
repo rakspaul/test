@@ -2,10 +2,10 @@
   <div class="row dashboard_main_heading_row">
 
     <div class="clearfix col-md-10 dashboard_main_heading">
-      <span>{{data.title}}</span>
-      <span class="more_txt_heading">{{data.titleSecondPart}}</span>
-      <span  id="brandButton" ng-if="data.brandSelected" class="bubble_heading"  >{{data.selectedBrand}} <span class="brand_close_btn" data-ng-click="clickOnBrandButton()">+</span> </span>
-      <span class="tooltip_holder"><span class="tooltip_show_icon"></span><span class="common_tooltip">{{data.toolTip}}</span></span>
+      <div class="dashboard_main_heading_sub">{{data.title}}</div>
+      <div class="more_txt_heading dashboard_main_heading_sub">{{data.titleSecondPart}}</div>
+      <div  id="brandButton" ng-if="data.brandSelected" class="bubble_heading dashboard_main_heading_sub"  >{{data.selectedBrand}} <span class="brand_close_btn" data-ng-click="clickOnBrandButton()">+</span> </div>
+      <div class="tooltip_holder"><span class="tooltip_show_icon"></span><span class="common_tooltip">{{data.toolTip}}</span></div>
 
     </div>
     <div class="clearfix col-md-2 status_filter">
