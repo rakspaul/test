@@ -53,7 +53,7 @@
             var markerTransform = function() {
                 var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
                 if (width <= 40) {
-                    return "translate(" + x(moment()) + ",-20)";
+                    return "translate(" + x(moment().endOf('day')) + ",-20)";
                 }
                 return "translate(" + x(moment().startOf('day')) + ",-20)";
             };
