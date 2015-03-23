@@ -54,7 +54,6 @@
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
 
-
         };
 
         $scope.fetchCampaigns = function(search,set_campaign){
@@ -97,9 +96,7 @@
         };
 
         $scope.init = function(){
-            //  console.log("Campaing controller init method ");
             if(campaignSelectModel.getSelectedCampaign().id == -1){
-                //     console.log(" selected campaing id is -1 so fetching more ");
                 $scope.fetchCampaigns(true,true);
             }
             else {
