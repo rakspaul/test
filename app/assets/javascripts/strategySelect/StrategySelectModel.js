@@ -1,4 +1,4 @@
-strategySelectModule.factory("strategySelectModel", ['urlService','dataService' , 'requestCanceller','constants', function (urlService,dataService) {
+strategySelectModule.factory("strategySelectModel", ['urlService','dataService' , 'requestCanceller','constants', function (urlService,dataService,requestCanceller,constants) {
     var strategyObj = {};
     strategyObj.strategies = {};
     strategyObj.selectedStrategy = {
@@ -9,14 +9,17 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
     return {
         getStrategies: function (campaignId) {
             var url = urlService.APIStrategiesForCampaign(campaignId) ;
-            //    var canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER);
-            return dataService.fetch(url).then(function(response){
+                var canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER);
+            return dataService.fetchCancelable(url , canceller , function(response) {
                 if(response.status == 'OK' || response.status == 'success'){
                     strategyObj.strategies =  (response.data.data !== undefined) ? response.data.data : {} ;
 
-                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && strategyObj.selectedStrategy.id == -1 ) {
+                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0) {
                         strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
                         strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
+                    } else {
+                        strategyObj.selectedStrategy.id = -99 ;
+                        strategyObj.selectedStrategy.name = "No Strategy Found" ;
                     }
                 }
                 else  {

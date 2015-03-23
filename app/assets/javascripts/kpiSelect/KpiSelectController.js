@@ -13,10 +13,13 @@
           $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
         };
 
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(){
+            $scope.setSelectedKpi(campaignSelectModel.getSelectedCampaign().kpi);
+        });
+
         $('#kpi_drop_down').click(function (e) {
 
             var _selectedKpi =  $(e.target).attr("value") ;
-
             $scope.setSelectedKpi(_selectedKpi);
             analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _selectedKpi, loginModel.getLoginName());
         });
