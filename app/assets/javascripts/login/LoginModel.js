@@ -46,6 +46,7 @@ return {
             kpi : 'ctr'
         })
         );
+        localStorage.setItem( 'selectedKpi', 'ctr');
     },
 
     getLoginName : function() {

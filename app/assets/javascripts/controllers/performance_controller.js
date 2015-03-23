@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $window, campaignSelectModel, strategySelectModel,performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -64,7 +64,7 @@ var angObj = angObj || {};
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
-            $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
+            $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
         };
 
         $scope.init();
@@ -463,6 +463,17 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
             $scope.callBackKpiDurationChange('duration');
+        });
+
+
+        $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+
+            if($scope.selected_filters == undefined)
+                $scope.selected_filters = {} ;
+
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+           // $scope.$apply();
+
         });
 
 

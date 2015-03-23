@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, campaignSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -16,7 +16,7 @@ var angObj = angObj || {};
         $scope.selected_filters = {};
         $scope.selected_filters.time_filter = 'life_time'; //
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
-        $scope.selected_filters.kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
+        $scope.selected_filters.kpi_type =  kpiSelectModel.getSelectedKpi();;
 
 
         // $scope.selected_filters = domainReports.getDurationKpi();
@@ -350,6 +350,12 @@ var angObj = angObj || {};
             $scope.callBackCampaignsSuccess();
 
         });
+
+        $rootScope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+
+        });
+
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(){
             $scope.optimiationBusy = true ;
