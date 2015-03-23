@@ -427,14 +427,9 @@
 
         $scope.viewReports = function(campaign, strategy){
 
-            campaignSelectModel.selectedCampaign.id = campaign.id ;
-            campaignSelectModel.selectedCampaign.name = campaign.name ;
-            campaignSelectModel.selectedCampaign.startDate = campaign.startDate ;
-            campaignSelectModel.selectedCampaign.endDate = campaign.endDate ;
 
-
+            campaignSelectModel.setSelectedCampaign(campaign);
             strategySelectModel.setSelectedStrategy(strategy);
-
 
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
@@ -482,10 +477,7 @@
 
         $scope.setGraphData = function(campaign, type){
 
-            campaignSelectModel.selectedCampaign.id = campaign.id ;
-            campaignSelectModel.selectedCampaign.name = campaign.name ;
-            campaignSelectModel.selectedCampaign.startDate = campaign.startDate ;
-            campaignSelectModel.selectedCampaign.endDate = campaign.endDate ;
+            campaignSelectModel.setSelectedCampaign(campaign);
 
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());

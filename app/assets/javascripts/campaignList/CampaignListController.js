@@ -24,11 +24,11 @@
             id : campaign.id,
             name : campaign.name,
             startDate : campaign.startDate,
-            endDate : campaign.endDate
+            endDate : campaign.endDate,
+            kpi : campaign.kpiType
         };
         campaignSelectModel.setSelectedCampaign(selectedCampaign);
         $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-     // $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
       document.location = '#/performance';
     };
 
