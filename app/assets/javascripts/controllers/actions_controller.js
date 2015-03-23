@@ -199,6 +199,7 @@
       $scope.enableSubTypePopup =false;
       $scope.action.selectedSubTypeError = false;
       $scope.action.selectedTypeError = false;
+      $scope.metrics.selected = undefined;
     }
      $scope.getActionType = function(){
       var flag = "removeOptions";
