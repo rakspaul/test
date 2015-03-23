@@ -3,7 +3,8 @@
     var ganttChart = function (utils, urlService, timePeriodModel, dataService, brandsModel, requestCanceller, constants, loginModel) {
         this.dashboard = {
         	tasks: {},
-        	brands: {}
+        	brands: {}, 
+            filter : "end_date"
         };
 
         this.getGanttChartData = function () {
@@ -11,10 +12,10 @@
 
             if(brandsModel.getSelectedBrand().id !== -1){
                 //brand selected
-                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), 'end_date',  'all', brandsModel.getSelectedBrand().id);
+                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), this.filter,  'all', brandsModel.getSelectedBrand().id);
                // console.log('calendar url = '+url);
             }else{
-                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), 'end_date',  'all');
+                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), this.filter,  'all');
             }
 
            // var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
