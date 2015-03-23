@@ -1,5 +1,11 @@
-.campaign_details_page {
+.AvenirBold() {
+  font-family: "Avenir-bold" ;
+}
+.AvenirFont() {
   font-family: "Avenir" ;
+}
+.campaign_details_page {
+  .AvenirFont() ;
   color: #2d2f31 ;
   padding-top: 20px;
   .disabled_dd {
@@ -34,10 +40,10 @@
       font-size: 26px;
       color: #313233;
       max-width: 950px;
-      font-weight: bold;
+      .AvenirBold() ;
       word-wrap : break-word;
       .sub_title {
-        font-weight: normal;
+        .AvenirFont() ;
         font-size: 14px ;
       }
     }
@@ -464,7 +470,7 @@
         font-size: 12px ;
         span {
           color: #2d2f31 ;
-          font-weight: bold;
+          .AvenirBold() ;
         }
         .graph_val {
           
@@ -775,10 +781,9 @@
         -webkit-border-radius: 4px;
         background-color:  #0978c9;
         height: 40px;
-        font-family: "Avenir";
         color:  #ffffff;
         font-size: 12px;
-        font-weight: 900;
+        .AvenirBold() ;
         &:hover {
           background-color:  #2298ef;
         }
@@ -796,7 +801,6 @@
         text-transform: uppercase;
         margin-right: 15px;
         cursor: pointer;
-        font-family: "Avenir";
         border-radius: 4px;
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
@@ -805,7 +809,7 @@
         height: 40px;
         color: #0978c9;
         font-size: 12px;
-        font-weight: 900;
+        .AvenirBold() ;
         width: 130px;
         padding: 12px;
         text-align: center;
@@ -934,7 +938,7 @@
             }
           }
           .activity_main {
-            font-weight: bold;
+            .AvenirBold() ;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
