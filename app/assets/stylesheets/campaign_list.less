@@ -2285,8 +2285,8 @@ button, i, input[type="submit"] {
   padding: 20px 10px 0;
   div.more_options {
     position: absolute;
-    right: 10px;
-    top: 6px;
+    right: 8px;
+    top: 3px;
     width: 40px;
     height: 20px;
     font-size: 13px;
@@ -2304,27 +2304,34 @@ button, i, input[type="submit"] {
       border: solid 1px transparent;
       z-index: 2;
       border-radius: 4px 4px 0 0;
-      height: 21px;
       background: #fff;
       border-bottom: 0;
-      width: 34px;
+      padding: 2px 6px;
+      width: 28px;
+      height: 21px;
+      margin-right: 10px ;
       .dots {
-        border-radius: 4px ;
-        -moz-border-radius: 4px ;
-        -webkit-border-radius: 4px ;
-        height: 4px ;
-        width: 4px ;
-        background: #b8c8d4 ;
-        margin-left: 5px ;
+        height: 15px;
+        width: 7px;
         display: block;
+        cursor: pointer;
         float: left;
-        margin-top: 8px;
+        background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;
+        &:first-child {
+          background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;
+        }
+      }
+      &:hover {
+        .dots {
+          background-position : -4px -66px ;
+        }
       }
     }
     .dropdown.open {
       .dd_txt {
         border: solid 1px #ccc;
         border-bottom: 0;
+        cursor: pointer;
       }
     }
     .dropdown-menu {
