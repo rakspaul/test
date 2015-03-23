@@ -2,11 +2,41 @@
     'use strict';
     commonModule.controller('ganttChartController', function($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
 
+        $scope.calendar = function(filter) {
+
+            $('.chart').remove();
+            $scope.selected = "quarter";
+            if (brandsModel.getSelectedBrand().id == -1) {
+                $scope.init(null, filter);
+            } else {
+                //single brand
+                $scope.init('single_brand', filter);
+            }
+
+        };
+
+        $scope.selectedFilter = function() {
+            var text;
+            switch(ganttChartModel.filter) {
+                case 'budget': 
+                        text = "Budget";
+                        break;
+                case 'end_date': 
+                default: 
+                        text = "End Dates";
+            }
+            return text;
+        };
         
-        $scope.init = function(update) {
+        $scope.init = function(update, filter) {
             $scope.brandNotSelected = true;
             $scope.calendarBusy = true;
             $scope.selected = "quarter";
+            if(filter === undefined) {
+                ganttChartModel.filter = 'end_date';
+            } else {
+                ganttChartModel.filter = filter;
+            }
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
                 $scope.noData = false;
@@ -152,10 +182,10 @@
             $('.chart').remove();
             $scope.selected = "quarter";
             if (brandsModel.getSelectedBrand().id == -1) {
-                $scope.init();
+                $scope.init(null, ganttChartModel.filter);
             } else {
                 //single brand
-                $scope.init('single_brand');
+                $scope.init('single_brand', ganttChartModel.filter);
             }
 
         });

@@ -109,12 +109,13 @@
               </div> -->
               <div class="pull-right dropdown" id="dashboard_metric_dd">
                 <span class="dropdown_ul_text" data-toggle="dropdown">
-                  <span>End Dates</span>
+                  <span>{{selectedFilter()}}</span>
                   <span class="arrow_img"></span>
                 </span>
                 <ul class="dropdown_ul dropdown-menu">
                   <!-- <li>Budget</li> -->
-                  <li>End Dates</li>
+                  <li ng-click="calendar('end_date')">End Dates</li>
+                  <li ng-click="calendar('budget')">Budget</li>
                 </ul>
               </div>
               <div class="pull-right show_link">
