@@ -100,7 +100,7 @@
                 </div>
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
-                    <div ng-click="setGraphData(campaign,'screens')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
+                    <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
                             Screens ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
@@ -115,7 +115,7 @@
                          <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
                          <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" >Data Not Available</div>
                     </div>
-                    <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
+                    <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
@@ -141,7 +141,7 @@
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
-                    <div ng-click="setGraphData(campaign,'inventory')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
+                    <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
                         <div class="graph_heading">
                             Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
@@ -158,7 +158,7 @@
                         </div>
                         
                     </div>
-                    <div ng-click="setGraphData(campaign,'viewability')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder" >
+                    <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                         <div class="graph_heading">
                             Viewability 
                         </div>
