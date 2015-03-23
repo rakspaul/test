@@ -53,7 +53,7 @@
             var markerTransform = function() {
                 var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
                 if (width <= 40) {
-                    return "translate(" + x(moment()) + ",-20)";
+                    return "translate(" + x(moment().endOf('day')) + ",-20)";
                 }
                 return "translate(" + x(moment().startOf('day')) + ",-20)";
             };
@@ -371,7 +371,7 @@
                                 width = Math.abs(25 - width);
                             }
                             //considering approx. of 10px for a character
-                            var fitCount = width / 10;
+                            var fitCount = width / 7;
                             d3.select(this).select("text.campaigns_name")
                                 .text(function(d) {
                                     if (fitCount >= stringLength) {
@@ -498,7 +498,7 @@
                             width = Math.abs(25 - width);
                         }
                         //considering approx. of 10px for a character
-                        var fitCount = width / 10;
+                        var fitCount = width / 7;
                         if (fitCount >= stringLength) {
                             //texts fits :)
                             return d.name;
@@ -766,7 +766,7 @@
                                     width = Math.abs(25 - width);
                                 }
                                 //considering approx. of 10px for a character
-                                var fitCount = width / 10;
+                                var fitCount = width / 7;
                                 if (fitCount >= stringLength) {
                                     //texts fits :)
                                     return d.name;
