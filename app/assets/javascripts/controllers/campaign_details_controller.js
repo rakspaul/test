@@ -27,7 +27,8 @@
             };
 
         $scope.details.sortParam = 'startDate';
-        $scope.details.sortDirection = 'asc';
+        //by default is desc...  most recent strategies should display first.
+        $scope.details.sortDirection = 'desc';
         $scope.details.toggleSortDirection = function(dir) {
             if (dir == 'asc') {
                 return 'desc';
