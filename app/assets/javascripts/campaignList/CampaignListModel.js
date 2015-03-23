@@ -2,11 +2,11 @@
 campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths',
                                                   'modelTransformer', 'campaignCDBData', 'campaignCost',
                                                   'dataStore', 'requestCanceller', 'constants',
-                                                  'brandsModel', 'loginModel', 'analytics', 'momentInNetworkTZ',
+                                                  'brandsModel', 'loginModel', 'analytics',
                                                   function($http, dataService, campaignListService, apiPaths,
                                                            modelTransformer, campaignCDBData, campaignCost,
                                                            dataStore, requestCanceller, constants,
-                                                           brandsModel, loginModel, analytics, momentInNetworkTZ) {
+                                                           brandsModel, loginModel, analytics) {
   var scrollFlag = 1;
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();

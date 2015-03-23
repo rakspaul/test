@@ -4,7 +4,7 @@
   //originally in models/campaign.js
   campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
                                                       'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-                                                      'constants', 'momentInNetworkTZ',
+                                                      'constants', 'momentService',
                                                       function (dataService,  utils, common, line, $q, modelTransformer,
                                                                 campaignModel, dataStore, apiPaths, requestCanceller,
                                                                 constants, momentInNetworkTZ) {

@@ -30,9 +30,8 @@
       'highcharts': {deps: ['highcharts-ng']},
       'highcharts-more': {deps: ['highcharts']},
       'solid-gauge': {deps: ['highcharts-more']},
-      'moment': {deps: ['solid-gauge']},
-      'underscore': {deps: ['moment']},
-      'angulartics': {deps: ['underscore']},
+      'underscore': {deps: []},
+      'angulartics': {deps: ['angular']},
       'angulartics-ga': {deps: ['angulartics']},
       'd3': {deps: ['angulartics-ga']},
       'angular-sanitize': {deps: ['d3']},
@@ -149,8 +148,10 @@
       'services-viewablityservice':{deps: ['services-inventoryservice']},
       'services-performanceservice':{deps: ['services-viewablityservice']},
       'services-costservice':{deps: ['services-performanceservice']},
-      'services-optimizationservice':{deps: ['services-costservice']}
- 
+      'services-optimizationservice':{deps: ['services-costservice']},
+
+      'services-momentService': {deps: ['login-LoginModel']}
+
     },
     optimize: 'uglify2',
     uglify2: {
@@ -175,7 +176,8 @@
       'highcharts-ng': 'vendor/highcharts-ng',
       'highcharts-more': 'vendor/highcharts-more',
       'solid-gauge': 'vendor/solid-gauge',
-      'moment': 'vendor/moment.min',
+      'moment': 'vendor/moment.min.2.8.3',
+      'moment-tz': 'vendor/moment-timezone-with-data-2010-2020',
       'underscore': 'vendor/underscore-min',
       'ng-infinite-scroll': 'vendor/ng-infinite-scroll.min',
       'lrInfiniteScroll': 'vendor/lrInfiniteScroll',
@@ -290,6 +292,7 @@
       'services-performanceservice':'services/performanceservice',
       'services-costservice':'services/costservice',
       'services-optimizationservice':'services/optimizationservice',
+      'services-momentService': 'common/MomentUtils',
  
       'jsRoutes': '/jsroutes'
     } 
@@ -316,6 +319,7 @@
            'highcharts-more',
            'solid-gauge',
            'moment',
+           'moment-tz',
            'underscore',
            'angulartics', 
            'angulartics-ga', 
@@ -431,7 +435,8 @@
            'services-viewablityservice',
            'services-performanceservice',
            'services-costservice',
-           'services-optimizationservice'
+           'services-optimizationservice',
+           'services-momentService'
            ],
    
     function (angular) {
