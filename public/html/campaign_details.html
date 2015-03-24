@@ -48,10 +48,10 @@
 
                 <div ng-show="is_network_user">
                     <!-- action filter -->
-                    <form  ng-controller="ActionsController" >
+                    <form  ng-controller="ActionsController" id="crActivityForm" >
                         <div class="action_filter_holder">
                             <div class="heading">
-                                Create Activity 
+                                Create Activity
                             </div>
                             <div class="clearfix filter_holder">
                                 <div class="filter_dropdown">
@@ -629,8 +629,17 @@
        $('#edit_action_comment').bind("blur", function() {
           //$("#error_edit_action_more_comment").hide();
        });
-      
-      
+       //Anywhere click close the error message tooltip while create activity
+        $('body').click(function(evt){    
+             if(evt.target.id == "crActivityForm")
+                return;
+             if($(evt.target).closest('#crActivityForm').length)
+                return;
+              $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment").hide();
+        });
+        $("#action_submit_btn").click(function(){
+           $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment").show();
+        });
   });
     var updateSaveBtnStatus = function(){
     var txt = (jQuery("#edit_action_comment").val()).replace(/\n/g, '').replace('\\n', '');
