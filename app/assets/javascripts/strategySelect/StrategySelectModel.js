@@ -15,9 +15,12 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
                 if(response.status == 'OK' || response.status == 'success'){
                     strategyObj.strategies =  (response.data.data !== undefined) ? response.data.data : {} ;
 
-                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0) {
-                        strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
-                        strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
+                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 ) {
+                        if(strategyObj.selectedStrategy.id == -1){
+                            strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
+                            strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
+                        }
+
                     } else {
                         errorHandler();
                     }
