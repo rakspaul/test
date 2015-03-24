@@ -12,11 +12,11 @@ unzip crpt-ui-1.0-SNAPSHOT.zip
 echo "CRPT UI SnapShot unzipped."
 
 
-CONF_FILE=/home/amp/crpt-ui/crpt-ui-1.0-SNAPSHOT/conf/application.conf
-CONF_QA_FILE=/home/amp/crpt-ui/crpt-ui-1.0-SNAPSHOT/conf/application_qa.conf
-CONF_EWR_STG_FILE=/home/amp/crpt-ui/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_stg.conf
-CONF_EWR_PROD_FILE=/home/amp/crpt-ui/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_prod.conf
-CONF_PROD_FILE=/home/amp/crpt-ui/crpt-ui-1.0-SNAPSHOT/conf/application_prod.conf
+CONF_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.conf
+CONF_QA_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application_qa.conf
+CONF_EWR_STG_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_stg.conf
+CONF_EWR_PROD_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_prod.conf
+CONF_PROD_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application_prod.conf
 
 if [ $CDESK_ENV == "qa" ]
 then
