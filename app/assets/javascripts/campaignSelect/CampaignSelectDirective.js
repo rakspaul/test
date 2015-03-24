@@ -7,7 +7,7 @@
                 selectedObj: "="
             },
             controller: 'campaignSelectController',
-            templateUrl: '/assets/html/campaign_drop_down.html',
+            templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
 
                 $('#campaigns_list').scrollWithInDiv();

@@ -3,7 +3,7 @@ var campaignListModule = angular.module('campaignListModule', ['commonModule','u
 
 .config(function($routeProvider) {
     $routeProvider.when('/campaigns', {
-      templateUrl: '/assets/html/campaign_list.html',
+      templateUrl: assets.html_campaign_list,
       controller: 'campaignListController'
     })
   })

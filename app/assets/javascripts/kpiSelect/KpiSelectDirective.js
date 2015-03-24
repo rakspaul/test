@@ -7,7 +7,7 @@
             scope: {
                 selectedObj : '='
             },
-            templateUrl: '/assets/html/kpi_drop_down.html'
+            templateUrl: assets.html_kpi_drop_down
         };
     });
 

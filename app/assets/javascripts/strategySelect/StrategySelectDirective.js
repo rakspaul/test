@@ -8,7 +8,7 @@
                 listColumns: "="
             },
             controller: 'strategySelectController',
-            templateUrl: '/assets/html/strategy_drop_down.html'
+            templateUrl: assets.html_strategy_drop_down
         }
     })
 }());

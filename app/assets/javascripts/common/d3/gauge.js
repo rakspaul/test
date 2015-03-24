@@ -331,7 +331,7 @@
   commonModule.directive("gauge", function () {
     return {
       restrict: 'EAC',
-      templateUrl: '/assets/html/gauge.html'
+      templateUrl: assets.html_gauge
     }
   })
 }());
