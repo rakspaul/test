@@ -160,48 +160,47 @@
     }
   }
   .cal_nav_btns_holder {
-    border: solid 1px #e7edf1 ;
+    border: solid 1px #dee6eb ;
     border-radius : 4px ;
     -moz-border-radius : 4px ;
     -webkit-border-radius : 4px ;
     margin-left: 32px ;
-    margin-top: 3px ;
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
     .cal_nav_btn {
       float: left;
-      padding: 6px 18px;
+      padding: 8px;
+      width: 30px ;
+      height: 30px ;
       cursor: pointer;
-      &:hover  {
-        span.arrow_left {
-          border-right-color : #AEC9DD ;
-        }
-        span.arrow_right  {
-          border-left-color : #AEC9DD ;
-        }
-      }
+      border-left : solid 1px #dee6eb  ;
       span {
-        height: 0px;
-        width: 0px;
-        border: solid 6px transparent;
+        height: 100% ;
+        width: 100% ;
+        background: url("/assets/images/cdesk/right_arrow.png") no-repeat 0 0 ;
         display: block;
-        border-right: solid 6px #CFE2F0;
-        border-left: 0px;
       }
       span.arrow_left {
-        border-right: solid 6px #CFE2F0;
-        border-left: 0px;
-      }
-      span.arrow_right {
-        border-left: solid 6px #CFE2F0;
-        border-right: 0px;
+        background-image : url("/assets/images/cdesk/left_arrow.png") ;
       }
       &:first-child {
-        border-right : solid 1px #e7edf1  ;
+        border-right : solid 1px #dee6eb  ;
+        border-left: 0px ;
+      }
+      &:hover  {
+          background-color:  #dee6eb;
       }
     }
+    .cal_nav_btn.disabled {
+       opacity: 0.2 ;
+       cursor: default;
+       &:hover {
+         background-color : #fff ;
+       }
+     }
+
   }
   .calendar_holder_period {
     margin: 0 10px 0 0;
@@ -218,11 +217,11 @@
       -moz-border-radius: 4px;
       -webkit-border-radius: 4px;
       &:hover {
-        border: solid 1px #e7edf1;
+        border: solid 1px #dee6eb;
       }
     }
     span.active {
-      border: solid 1px #e7edf1;
+      border: solid 1px #dee6eb;
     }
   }
   .dashboard_section {
