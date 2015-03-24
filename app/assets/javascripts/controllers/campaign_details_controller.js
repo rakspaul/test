@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -431,6 +431,7 @@
 
             campaignSelectModel.setSelectedCampaign(campaign);
             strategySelectModel.setSelectedStrategy(strategy);
+            kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
@@ -442,6 +443,7 @@
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
 
             campaignSelectModel.setSelectedCampaign(campaign);
+            kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
             var _selectedStrategy = {
                 id : strategyByActionId[action.id].lineitemId ,
@@ -464,6 +466,7 @@
         $scope.setActivityButtonData = function( campaign, strategy){
 
             campaignSelectModel.setSelectedCampaign(campaign);
+            kpiSelectModel.setSelectedKpi(campaign.kpiType);
             strategySelectModel.setSelectedStrategy(strategy);
 
             var actionData ={
@@ -479,6 +482,7 @@
         $scope.setGraphData = function(campaign, type){
 
             campaignSelectModel.setSelectedCampaign(campaign);
+            kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
