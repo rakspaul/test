@@ -1,39 +1,47 @@
 <div class="reports_login_outer_container">
     <div class="reports_login_box">
         <a class="collective_logo" href=".myModal" data-toggle="modal" ></a>
-        <form name="form" ng-submit="login()">
+        <div class="clearfix">
+          <div class="pull-left">
+             <!-- <script language="JavaScript" src="http://a.collective-media.net/adj/mk.collective/ron_collective_marketingpurposes;unit=ron_collective_marketingpurposes;sz=720x300;cmn=cm;ord=[timestamp]?" type="text/javascript"></script> -->
+          </div>
+          <div class="pull-left">
+            <form name="form" ng-submit="login()">
 
-            <div class="login_box_form_holder">
-                    <div class="validation_error_msg" ng-if="(showLoginError() == true)" ><!-- style="display:block;"  when error is there -->
-                        {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
-                    </div>
-                    <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                        <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>
-                    </div>
-                    <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                        <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" required>
-                    </div>
-                    <div class="signin_options_holder clearfix">
-                        <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
-                              <div class="squaredFour">
-                                <input type="checkbox" id="remember_me_squaredFour" class="squaredFourChkbox" checked="">
-                                <label for="remember_me_squaredFour"></label>
-                              </div>       
-                              <span class="squaredFourTxt">Keep me Signed In</span>
-                        </div> -->
-                        <div class="pull-right forgot_pass_holder">
-                            <a href="#" >Forgot Password</a>
-                            <span class="forgot_pass_tooltip">Contact your Account Manager<br> to reset your password </span>
+                <div class="login_box_form_holder">
+                        <div class="validation_error_msg" ng-if="(showLoginError() == true)" ><!-- style="display:block;"  when error is there -->
+                            {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
                         </div>
-                        
-                   </div>
-                   <input ng-disabled="form.$invalid || dataLoading" type="submit" class="login_btn {{getLoadingClass()}}" value="Sign In"><!-- loading -->
-                  <!--  <div class="email_anchor">
-                    <a href="#" >Email Collective</a>
-                   </div> -->
-                
-            </div>
-        </form>
+                        <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
+                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>
+                        </div>
+                        <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
+                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" required>
+                        </div>
+                        <div class="signin_options_holder clearfix">
+                            <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
+                                  <div class="squaredFour">
+                                    <input type="checkbox" id="remember_me_squaredFour" class="squaredFourChkbox" checked="">
+                                    <label for="remember_me_squaredFour"></label>
+                                  </div>       
+                                  <span class="squaredFourTxt">Keep me Signed In</span>
+                            </div> -->
+                            <div class="pull-right forgot_pass_holder">
+                                <a href="#" >Forgot Password</a>
+                                <span class="forgot_pass_tooltip">Contact your Account Manager<br> to reset your password </span>
+                            </div>
+                            
+                       </div>
+                       <input ng-disabled="form.$invalid || dataLoading" type="submit" class="login_btn {{getLoadingClass()}}" value="Sign In"><!-- loading -->
+                      <!--  <div class="email_anchor">
+                        <a href="#" >Email Collective</a>
+                       </div> -->
+                    
+                </div>
+            </form>
+          </div>
+        </div>
+        
     </div>
     <div class="login_copyright_holder">
       <span class="login_copyright_span">Copyright &copy; 2015 Collective, Inc. All Rights Reserved</span>
@@ -42,4 +50,17 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+
+
+var iframe = document.createElement('iframe');
+$(".reports_login_box").append(iframe);
+var doc = iframe.contentWindow.document;
+
+// do this whenever you want (f.ex after ajax is made):
+doc.open();
+doc.write('<script src="http://a.collective-media.net/adj/mk.collective/ron_collective_marketingpurposes;unit=ron_collective_marketingpurposes;sz=720x300;cmn=cm;ord=[timestamp]?">\x3C/script>');
+doc.close();
+</script>
 
