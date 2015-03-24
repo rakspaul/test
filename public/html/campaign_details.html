@@ -213,7 +213,7 @@
                       <div class="graph_activity">
                           <span ng-switch="details.actionChart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                            <span ng-switch-when="false" class="no-data-available no-chart">Data Not Available</span>
                             <span ng-switch-default>
                                 <div ng-if="details.actionChart && campaign.kpiType" class="highcharts" id="details_chart">
                                     <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
@@ -337,6 +337,7 @@
                       
                   </div>
               </div>
+            </div>
               <!--activity log ends-->
 
     <br><!--TODO - remove break and add spacing-->

@@ -411,7 +411,7 @@
                             }
                             $scope.details.lineData = lineData;
                             $timeout(function() {
-                                $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 480, 330, null, undefined, showExternal);
+                                $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
                             },3000);
                             if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
@@ -507,7 +507,7 @@
 
         $scope.watchActionFilter = function(filter, showExternal) {
             $scope.activityLogFilterByStatus = showExternal;
-            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 480, 330 , null, undefined, showExternal);
+            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 450, 330 , null, undefined, showExternal);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_' + (showExternal ? 'external' : 'all'), loginModel.getLoginName());
             return filter;
         };
@@ -629,7 +629,7 @@
         /*Single Campaign UI Support elements - sta */ 
         /*Refresh Graph Data */
         $scope.refreshGraph = function(showExternal){
-            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 480, 330 , null, undefined, showExternal);
+            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 450, 330 , null, undefined, showExternal);
         }
         $rootScope.$on("callRefreshGraphData",function(event,args){ 
             $scope.refreshGraph(args);
