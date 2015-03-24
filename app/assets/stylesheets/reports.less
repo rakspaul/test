@@ -102,7 +102,7 @@
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1115px;
+  width: 1040px;
   .back_link {
     color: #177ac6;
     font-family: "TradeGothicLTStd-BdCn20";
@@ -128,7 +128,7 @@
     margin: 20px auto;
     color: #999;
     font-size: 14px;
-    padding: 22px 36px;
+    padding: 22px 36px 22px 20px ;
     background: #fff;
     border: solid 1px #d2dee7 ;
     .rep_graph_holder {
@@ -240,12 +240,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .after_before_title {
     position: absolute;
     top: 6px;
-    right: 140px;
+    right: 131px;
     font-size: 10px;
     color: #6c6c6c;
     text-transform: none;
     div {
-      width: 300px;
+      width: 270px;
       float: left;
       text-align: center;
     }
@@ -414,7 +414,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1115px;
+  width: 1040px;
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -646,7 +646,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     background: #fff;
     border: solid 1px @reportBorder ;
     min-height: 200px;
-    padding: 20px 10px;
+    padding: 20px 20px 20px 5px  ;
     position: relative;
     .no-chart {
       margin: 120px auto 0;
@@ -659,9 +659,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     }
     .inventory_chart {
       height: 240px;
-      width: 335px;
-      margin-right: 70px;
-      margin-left: 40px;
+      width: 450px ;
       .highcharts_kpi_titles {
         margin-left: 56px;
         color: #666;
@@ -695,14 +693,22 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       }
     }
   }
+  .inventory_strategy_chart.no_data_found {
+    padding-top: 150px ;
+    min-height: 280px;
+    margin-top: 0px ;
+  }
   .inventory_charts_details_holder , .reports_chart_details_holder {
     .chart_inventory_header {
       margin-top: 32px;
-      margin-right: 10px;
+      margin-right: 20px;
+      .inventory_chart_details_list {
+        width : 530px ;
+      }
     }
   }
   .inventory_chart_details_list {
-    width: 540px;
+    width: 520px;
     float: right;
     .ColHeadingFontColor();
   }
@@ -753,7 +759,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .inventory_tabs {
     text-transform: uppercase;
-    margin-right: 28px;
     border: solid 1px @reportBorder ;
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
@@ -859,7 +864,7 @@ div.strategy_total_container {
     }
     .each_strategy {
       float: left;
-      width: 1104px;
+      width: 100% ;
       padding: 20px 20px 20px 10px;
       margin: 10px 0 0 0px;
       border: solid 1px @reportBorder ;
@@ -923,7 +928,7 @@ div.strategy_total_container {
   .each_col {
     float: left;
     width: 185px;
-    margin: 0 30px;
+    margin: 0 25px;
     padding-top: 20px;
     .ReportDataFontColor() ;
     > span {
@@ -963,7 +968,7 @@ div.strategy_total_container {
   div.sec_col {
     width: 90px;
     padding-top: 20px;
-    margin-right: 60px ;
+    margin-right: 40px ;
     div.sub_col {
       span {
         float: none !important;
@@ -1029,7 +1034,7 @@ div.strategy_total_container {
     color: #313233;
   }
   .third_col {
-    margin-left: 45px ;
+    margin-left: 30px ;
   }
   .third_col , .forth_col {
     width: 130px ;
@@ -1195,9 +1200,9 @@ div.strategy_total_container {
     color: #313233 ;
     .each_col {
       float: left;
-      width: 130px;
+      width: 125px;
       text-align: right;
-      margin: 10px 0 10px 20px ;
+      margin: 10px 0 10px 15px ;
     }
     .all_strategies_holder  {
       .linkage_lines{
@@ -1318,7 +1323,7 @@ div.strategy_total_container {
     width: 80px;
   }
   .total_cost {
-    width: 125px;
+    width: 110px;
   }
   .more_options .dd_txt , .dropdown-menu  {
     background: #fff ;
@@ -1477,7 +1482,7 @@ div.strategy_total_container {
       border-left: solid 1px transparent ;
     }
     .each_rep_col_holder .each_rep_col {
-      width: 160px ;
+      width: 152px ;
     }
     .each_rep_col_holder .first_col {
       width: 210px ;
@@ -1491,8 +1496,11 @@ div.strategy_total_container {
       display: block;
     }
     .each_rep_col_holder .each_rep_col {
-      width: 100px ;
+      width: 90px ;
     }
+    .each_rep_col_holder .each_rep_col.sec_col {
+      width: 105px ;
+     }
     .each_rep_col_holder .first_col {
       width: 155px ;
     }
@@ -1513,7 +1521,7 @@ div.strategy_total_container {
     color: #0978c9;
     height: 26px;
     line-height: 26px;
-    margin: 0 80px 10px 0;
+    margin: 0 93px 10px 0;
     font-size: 12px ;
     .AvenirBold() ;
     a {
