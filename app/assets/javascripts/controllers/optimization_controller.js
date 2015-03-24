@@ -119,6 +119,7 @@ var angObj = angObj || {};
                         $scope.tacticNotFound = true;
 
                     }
+                    $scope.callBackStrategyChange();
                 })
 
             }
@@ -254,7 +255,7 @@ var angObj = angObj || {};
         $scope.loadCdbDataForStrategy = function () {
 
             var param = {
-                orderId : parseInt($scope.selectedCampaign.id),
+                orderId : Number($scope.selectedCampaign.id),
                 startDate : $scope.selectedCampaign.startDate ,
                 endDate : $scope.selectedCampaign.endDate
             };
@@ -264,7 +265,7 @@ var angObj = angObj || {};
             dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    if(param.orderId == $scope.selectedCampaign.id){
+                    if(param.orderId === Number($scope.selectedCampaign.id)){
 
                         var kpiType = $scope.selectedCampaign.kpi ;
                         var actionItems = $scope.actionItems ;
@@ -322,12 +323,8 @@ var angObj = angObj || {};
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $scope.callBackCampaignsSuccess = function () {
-
-
             // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
-
             $scope.getCampaignDetails();
-
             $scope.actionDataForSelectedCampaign();
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
             $scope.download_urls = {
@@ -340,13 +337,10 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
             $scope.optimiationBusy = true ;
-          //  $scope.init();
             $scope.dataInit();
-
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
             // populate campaign kpi value by calling getCampaignDetails()
-
             $scope.callBackCampaignsSuccess();
 
         });
@@ -369,28 +363,18 @@ var angObj = angObj || {};
             $scope.dataInit();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
             $scope.selectedStrategy = strategySelectModel.getSelectedStrategy() ;
-
             $scope.callBackCampaignsSuccess();
-            //Need to call call Back Strategy change seprately because EVENT_CAMPAIGN_STRATEGY_CHANGED will just fetch list of strategy for selected
-            //campaing but will not call setStrategy() so EVENT_STRATEY_CHANGED is not fired.
-            $scope.callBackStrategyChange();
-
-
-
         });
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.chartForStrategy = true;
-            if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
-               // $scope.actionDataForSelectedCampaign();
-                $scope.actionDataForSelectedStrategy() ;
+            if ($scope.selectedStrategy.id !== -1 && $scope.campaignActionList.length >0) { // Means selected campaing has valid strategy
+                $scope.actionDataForSelectedStrategy();
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
             else {
-                // means selected strategy id is not valid
-                $scope.chartForStrategy = false;
-                //    $scope.noTacticsFound = true;
+                $scope.chartForStrategy = false;// means selected strategy id is not valid
                 $scope.tacticNotFound = true;
             }
             $scope.optimiationBusy = false ;
