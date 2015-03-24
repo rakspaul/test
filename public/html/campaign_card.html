@@ -15,16 +15,17 @@
             <div class="total_days_holder">
 
                 <div class="clearfix days_end_points">
-                        <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
-                        <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
+                    <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
+                    <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
                 </div>
-                <div class="days_over" style="width: {{(campaigns.durationLeft(campaign)!=0)?campaigns.durationCompletion(campaign):'3'}}%;" ng-switch on="campaigns.durationLeft(campaign)">
-                    <!-- <div class="days_over_text">10 Days Left</div> -->
-                    <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
-                    <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
-                    <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(campaign)}} {{campaigns.durationLeft(campaign) > 1 ? 'Days':'Day'}} Left</span>
-
+                <div ng-init="duration=campaign.durationLeft()"></div>
+                <div class="days_over" style="width: {{campaign.durationCompletion()}}%;">
+                    <span ng-if="duration == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
+                    <span ng-if="duration == 'Ended'" class="days_over_text ended_text" >Ended</span>
+                    <span ng-if="duration > 0"   class="days_over_text">{{duration}} Days Left</span>
                 </div>
+                <div ng-if="duration == 'Started today'" class="days_not_over_text start_text">Started today</div>
+                <div ng-if="duration == 'Ending today'" class="days_not_over_text ended_text" >Ending today</div>
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
