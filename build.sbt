@@ -40,7 +40,7 @@ pipelineStages := Seq(rjs, digest, gzip)
 // RequireJS with sbt-rjs (https://github.com/sbt/sbt-rjs#sbt-rjs)
 // ~~~
 RjsKeys.paths += ("jsRoutes" -> ("/jsroutes" -> "empty:"))
-
+RjsKeys.generateSourceMaps := false
 includeFilter in (Assets, LessKeys.less) := "*.less"
 excludeFilter in (Assets, LessKeys.less) := "_*.less"
 
