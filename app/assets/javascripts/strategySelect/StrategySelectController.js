@@ -10,7 +10,6 @@
             }
         };
 
-
         $rootScope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
             // reset all data
             $scope.reset();
@@ -31,10 +30,9 @@
         $scope.reset= function(){
             // clean up models
             strategySelectModel.reset();
-
             $scope.strategyData.strategies = strategySelectModel.getStrategyObj().strategies ;
             $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
-
+            $scope.$watch(function(scope) { return $scope.strategyData.selectedStrategy });
         };
 
 
