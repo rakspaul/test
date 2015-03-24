@@ -149,9 +149,8 @@
       'services-performanceservice':{deps: ['services-viewablityservice']},
       'services-costservice':{deps: ['services-performanceservice']},
       'services-optimizationservice':{deps: ['services-costservice']},
-
-      'services-momentService': {deps: ['login-LoginModel']}
-
+      'services-momentService': {deps: ['login-LoginModel']},
+      'common-directive-DataNotFound':{deps:['CommonModule']}
     },
     optimize: 'uglify2',
     uglify2: {
@@ -293,7 +292,8 @@
       'services-costservice':'services/costservice',
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
- 
+      'common-directive-DataNotFound':'common/directives/DataNotFound',
+
       'jsRoutes': '/jsroutes'
     } 
  
@@ -436,7 +436,8 @@
            'services-performanceservice',
            'services-costservice',
            'services-optimizationservice',
-           'services-momentService'
+           'services-momentService',
+           'common-directive-DataNotFound'
            ],
    
     function (angular) {
