@@ -108,7 +108,7 @@ var angObj = angObj || {};
             var param = {
                 campaignId: $scope.selectedCampaign.id
             };
-            if ($scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
+            if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
                 // get action data for the selected campaign.
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
