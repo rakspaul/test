@@ -102,11 +102,11 @@
                     <div class="cost_transparency_container">
                         <div class="each_cost_row_holder strategy_total_row">
                             <div class="each_cost_row">
-                                <div class="common-load-icon" ng-show="strategyCostBusy "></div>
+                                <div class="common-load-icon" ng-show="strategyCostBusy || costBusy  "></div>
                                 <div class="each_cost_heading" >
                                     Strategy Total
                                 </div>
-                                <div class="no_data_found_cost_strategy" ng-if="dataNotFound">
+                                <div class="no_data_found_cost_strategy" ng-if="dataNotFound && !costBusy">
                                     Data Not Available
                                 </div>
                                 <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData" ng-if="!dataNotFound">
