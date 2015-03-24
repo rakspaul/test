@@ -249,7 +249,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
         if(result.status == "success" && !angular.isString(result.data)){
           self.dashboard.active = {
-            total : result.data.data.active.ontrack + result.data.data.active.underperforming,
+            total : result.data.data.active.total,
             ontrack : result.data.data.active.ontrack,
             underperforming :  result.data.data.active.underperforming
           };
