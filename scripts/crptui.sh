@@ -24,7 +24,8 @@ then
   echo "Its QA environment !!!"
   echo "Changing copying application_qa.conf to application.conf"
   cp ${CONF_QA_FILE} ${CONF_FILE} 
-  sudo cp /home/amp/crpt-ui/crpt-ui /etc/init.d/crpt-ui
+  cp -r /tmp/crpt-ui-1.0-SNAPSHOT /home/amp/crpt-ui/
+  sudo cp /tmp/crpt-ui /etc/init.d/crpt-ui
   sudo chmod 755 /etc/init.d/crpt-ui
   sudo chkconfig --add crpt-ui
   sudo /etc/init.d/crpt-ui start
@@ -49,7 +50,8 @@ else
   echo "Its prod !!!"
   echo "Copying application_prod.conf to application.conf"
   cp ${CONF_PROD_FILE} ${CONF_FILE} 
-  sudo cp /home/amp/crpt-ui/crpt-ui /etc/init.d/crpt-ui
+  cp -r /tmp/crpt-ui-1.0-SNAPSHOT /home/amp/crpt-ui/
+  sudo cp /tmp/crpt-ui /etc/init.d/crpt-ui
   sudo chmod 755 /etc/init.d/crpt-ui
   sudo chkconfig --add crpt-ui
   sudo /etc/init.d/crpt-ui start
