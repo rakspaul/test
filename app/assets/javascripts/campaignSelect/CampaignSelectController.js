@@ -122,7 +122,7 @@
             };
             $scope.setCampaign(selectedCampaign );
             $(this).hide();
-            $scope.$apply();
+            //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
         });
 

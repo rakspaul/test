@@ -303,20 +303,9 @@ var angObj = angObj || {};
         };
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
-
-            $scope.strategyTable.topPerformance = [];
-            $scope.strategyTable.bottomPerformance = [];
-            $scope.strategyTableData = [];
-
-            $scope.tacticList.tacticList = [];
-            $scope.tacticList.topPerformance = [];
-            $scope.tacticList.bottomPerformance = [];
-
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.$apply();
-
-            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
-
+            $scope.callBackStrategyChange();
         });
 
 
@@ -330,9 +319,8 @@ var angObj = angObj || {};
                 $(".inventory_tab_active").removeClass("inventory_tab_active");
                 $(e.target).parent().addClass("inventory_tab_active");
                 $scope.$apply();
-                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
+                $scope.callBackStrategyChange();
                 analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
-
         });
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
