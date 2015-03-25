@@ -101,6 +101,7 @@
             }
             else {
                 $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+                $scope.fetchCampaigns(true,false);
                 $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
 
@@ -120,10 +121,8 @@
 
             };
             $scope.setCampaign(selectedCampaign );
-
-
-            $scope.$apply();
             $(this).hide();
+            $scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
         });
 
