@@ -82,8 +82,8 @@
             cursor: 'pointer'
           }).on('mouseover', function (event) {
             chart.tooltip.hide();
-            var x = event.offsetX;
-            var y = event.offsetY;
+            var x = event.offsetX ==undefined ? event.layerX : event.offsetX;
+            var y = event.offsetY ==undefined ? event.layerY : event.offsetY;
             var correctionX = 0;
             var symbol = '', suffix = '';
             if ((chart.plotWidth - x) < 0) {
