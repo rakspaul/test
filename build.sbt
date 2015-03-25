@@ -13,13 +13,7 @@ libraryDependencies ++= Seq(
   filters,
   anorm,
   cache,
-  "org.webjars" % "requirejs" % "2.1.14-1",
-  "org.webjars" % "underscorejs" % "1.6.0-3",
-  "org.webjars" % "jquery" % "1.11.1",
-  "org.webjars" % "bootstrap" % "3.1.1-2" exclude("org.webjars", "jquery"),
-  "org.webjars" % "angularjs" % "1.2.18" exclude("org.webjars", "jquery"), 
-  "org.webjars" % "angular-cache" % "3.2.4" exclude("org.webjars", "jquery"), 
-  "org.webjars" % "angular-sanitize" % "1.3.11" exclude("org.webjars", "jquery") 
+  "org.webjars" % "requirejs" % "2.1.14-1"
 )     
 
 //scalacOptions in ThisBuild ++= Seq(
@@ -40,7 +34,7 @@ pipelineStages := Seq(rjs, digest, gzip)
 // RequireJS with sbt-rjs (https://github.com/sbt/sbt-rjs#sbt-rjs)
 // ~~~
 RjsKeys.paths += ("jsRoutes" -> ("/jsroutes" -> "empty:"))
-
+RjsKeys.generateSourceMaps := false
 includeFilter in (Assets, LessKeys.less) := "*.less"
 excludeFilter in (Assets, LessKeys.less) := "_*.less"
 
