@@ -294,8 +294,11 @@
               loginModel.unauthorized();
               return errorObject;
             } else if(error.status === 403) {
-              loginModel.forbidden();
-              return errorObject;
+                loginModel.forbidden();
+                return errorObject;
+            } else if(error.status === 404) {
+                errorObject.data.message = 'Network error.  Please contact support.'
+                return errorObject;
             }
             return {
               status: "error",

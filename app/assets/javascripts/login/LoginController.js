@@ -24,6 +24,7 @@
 			 } else { 
 			 	$scope.error = response.data.message;
                 $scope.loginErrorMsg = response.data.message;
+                $scope.password=''
 			 	switch($scope.error){
 			 		case "Password invalid":
 			 		case "User does not exist":
