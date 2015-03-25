@@ -66,7 +66,7 @@
                      '#2078CB',
                      '#348DDF',
                      '#62AFF1',
-                     '#79C1FD'        
+                     '#79C1FD'
                     ],
                     credits: {
                         enabled: false
@@ -224,13 +224,15 @@
                     yAxis: 1,
                     data: kpiColumn,
                     events: {
-                        mouseOut: function() {
-                            $('#inventory_tooltip').hide();
-                            $('.highcharts-tooltip').hide();
+                        mouseOut: function(ev) {
+                            var $elem = $(ev.target.markerGroup.element).parents('.highcharts-container');
+                            $elem.find('.inventory-tool-tip').hide();
+                            $elem.find('.highcharts-tooltip').hide();
                         },
-                        mouseOver: function() {
-                            $('#inventory_tooltip').show();
-                            $('.highcharts-tooltip').show();
+                        mouseOver: function(ev) {
+                            var $elem = $(ev.target.markerGroup.element).parents('.highcharts-container');
+                            $elem.find('.inventory-tool-tip').show();
+                            $elem.find('.highcharts-tooltip').show();
                         }
                     },
                     tooltip: {
@@ -244,14 +246,13 @@
                     type: 'line',
                     data: impLine,
                     events: {
-                        mouseOut: function() {
-                          //  $('#inventory_tooltip').hide();
-                            $('.highcharts-tooltip').hide();
+                        mouseOut: function(ev) {
+                            var $elem = $(ev.target.markerGroup.element).parents('.highcharts-container');
+                            $elem.find('.highcharts-tooltip').hide();
                         },
-                        mouseOver: function() {
-
-                         //   $('#inventory_tooltip').show();
-                            $('.highcharts-tooltip').show();
+                        mouseOver: function(ev) {
+                            var $elem = $(ev.target.markerGroup.element).parents('.highcharts-container');
+                            $elem.find('.highcharts-tooltip').show();
                         }
                     },
                     tooltip: {
@@ -293,7 +294,7 @@
                 }
 
             };
-            
+
         };
         return {
             highChart: columnChart
