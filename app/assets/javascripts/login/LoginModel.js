@@ -33,7 +33,6 @@
 
         var time = moment().add(user.expiry_secs, 'seconds'),
             expiryTime = new Date(time);
-        console.log('cookie expires on ' + time.format('YYYY-MM-DD HH:mm:ss'));
         document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires=' + expiryTime.toGMTString() + ';path=/';
 
         // campaignDetails object is required for reports tab.
