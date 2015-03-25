@@ -1360,7 +1360,7 @@
     commonModule.directive("ganttChart", function() {
         return {
             restrict: 'EAC',
-            templateUrl: '/assets/html/gantt_chart.html'
+            templateUrl: assets.html_gantt_chart
         }
     })
 }());

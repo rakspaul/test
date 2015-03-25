@@ -3,7 +3,7 @@
   commonModule.directive('header', function () {
     return {
       restrict:'EAC',
-      templateUrl: '/assets/html/header.html'
+      templateUrl: assets.html_header
     };
   });
 
