@@ -22,9 +22,8 @@
 			 	}
 			 	document.location = '/';
 			 } else { 
-			 	console.log('login failed');
-			 	$scope.error = response.data.data.message; 
-			 	console.log($scope.error);
+			 	$scope.error = response.data.message;
+                $scope.loginErrorMsg = response.data.message;
 			 	switch($scope.error){
 			 		case "Password invalid":
 			 		case "User does not exist":

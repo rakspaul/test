@@ -290,6 +290,7 @@
           },
           function (error) {
             if(error.status === 401) {
+              errorObject.data.message = error.data.message
               loginModel.unauthorized();
               return errorObject;
             } else if(error.status === 403) {
