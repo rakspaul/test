@@ -254,25 +254,30 @@
                         d3.event.sourceEvent.stopPropagation();
                     })
                     .on('drag', function() {
-                        var td = gantt.timeDomain();
+                        //var td = gantt.timeDomain();
                         //var scale = (td[1]-td[0])/1000;
-                        var scale = (td[1] - td[0]) / 1000;
+                        //var scale = (td[1] - td[0]) / 1000;
 
                         d3.event.sourceEvent.stopPropagation();
-                        var td = gantt.timeDomain();
+                        //var td = gantt.timeDomain();
 
 
-                        var data = _.sortBy(tasks, function(o) { return o.start_date; });
+                        //var data = _.sortBy(tasks, function(o) { return o.start_date; });
                         //force stop scroll on edge
-                        if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
-                            //check
-                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                            gantt.redraw(tasks, timeDomainString);
-                        } else if (d3.event.dx < 0) {
-                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                            gantt.redraw(tasks, timeDomainString);
+                        // if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
+                        //     //check
+                        //     gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                        //     gantt.redraw(tasks, timeDomainString);
+                        // } else if (d3.event.dx < 0) {
+                        //     gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                        //     gantt.redraw(tasks, timeDomainString);
+                        // }
+                        if (d3.event.dx < 0) {
+                            next(timeDomainString);
+                        } else {
+                            prev(timeDomainString);
                         }
-
+                        
 
                         
                     })
@@ -1074,12 +1079,33 @@
 
         function prev(timeDomainString) {
             var td = gantt.timeDomain();
-            var scale = (td[1] - td[0]) / 10;
-
+            //var scale = (td[1] - td[0]);
+            
             var data = _.sortBy(tasks, function(o) { return o.start_date; });
             //force stop scroll on edge
             if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
-                gantt.timeDomain([td[0] - scale, td[1] - scale]);
+
+                var edge1, edge2;
+                switch(timeDomainString) {
+                    case 'quarter': 
+                        edge1 = moment(td[0]).subtract(3,'months').startOf('month').unix()*1000;
+                        edge2 = moment(td[1]).subtract(3, 'months').endOf('month').unix()*1000;
+                        break;
+                    case 'year': 
+                        edge1 = moment(td[0]).subtract(1,'years').startOf('year').unix()*1000;
+                        edge2 = moment(td[1]).subtract(1, 'years').endOf('year').unix()*1000;
+                        break;
+                    case 'month': 
+                        edge1 = moment(td[0]).subtract(1,'months').startOf('month').unix()*1000;
+                        edge2 = moment(td[1]).subtract(1, 'months').endOf('month').unix()*1000;
+                        break;
+                    case 'today': 
+                        edge1 = moment(td[0]).subtract(1,'weeks').startOf('week').unix()*1000;
+                        edge2 = moment(td[1]).subtract(1, 'weeks').endOf('week').unix()*1000;
+                        break;
+                }
+
+                gantt.timeDomain([edge1, edge2]);
                 gantt.redraw(tasks, timeDomainString);
             }
    
@@ -1088,8 +1114,28 @@
 
         function next(timeDomainString) {
             var td = gantt.timeDomain();
-            var scale = (td[1] - td[0]) / 10;
-            gantt.timeDomain([td[0] + scale, td[1] + scale]);
+            //var scale = (td[1] - td[0]);
+             var edge1, edge2;
+                switch(timeDomainString) {
+                    case 'quarter': 
+                        edge1 = moment(td[0]).add(3,'months').startOf('month').unix()*1000;
+                        edge2 = moment(td[1]).add(3, 'months').endOf('month').unix()*1000;
+                        break;
+                    case 'year': 
+                        edge1 = moment(td[0]).add(1,'years').startOf('year').unix()*1000;
+                        edge2 = moment(td[1]).add(1, 'years').endOf('year').unix()*1000;
+                        break;
+                    case 'month': 
+                        edge1 = moment(td[0]).add(1,'months').startOf('month').unix()*1000;
+                        edge2 = moment(td[1]).add(1, 'months').endOf('month').unix()*1000;
+                        break;
+                    case 'today': 
+                        edge1 = moment(td[0]).add(1,'weeks').startOf('week').unix()*1000;
+                        edge2 = moment(td[1]).add(1, 'weeks').endOf('week').unix()*1000;
+                        break;
+                }
+
+            gantt.timeDomain([edge1, edge2]);
             gantt.redraw(tasks, timeDomainString);
         }
 
