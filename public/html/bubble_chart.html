@@ -32,9 +32,15 @@
         </div>
   </div>
   <div class="common_loading_icon" ng-if="spendBusy "></div>
-  <div class="dashboard_perf_graph">
-    <div class="data_not_available" id="data_not_available" style="display: none"> Data not available</div>
-    <span id="brands"></span>
-    <span id="campaigns"></span>
+  <div class="dashboard_perf_graph" >
+    <!--<div class="data_not_available" id="data_not_available" style="display: none"> Data not available</div> -->
+    <div ng-show="campaignsFound&&!spendBusy">
+        <span id="brands"></span>
+        <span id="campaigns"></span>
+    </div>
+      <not-found style-class="style" message="message" ng-show="!campaignsFound&&!spendBusy">
+      </not-found>
   </div>
+
+
 </div>

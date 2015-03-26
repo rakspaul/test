@@ -1,7 +1,7 @@
 <div ng-controller="gaugeController">
     <div class="common_loading_icon" ng-if="perfBusy "></div>
-    <div  class="gaugeContainer" ng-show="campaignsFoundForSetKPI&&!perfBusy">
-      <span id="dashboardContainer"></span>
+    <div  class="gaugeContainer">
+      <span id="dashboardContainer" ng-show="campaignsFoundForSetKPI&&!perfBusy"></span>
       <span id="memoryGaugeContainer"></span>
       <span id="cpuGaugeContainer"></span>
       <span id="networkGaugeContainer"></span>

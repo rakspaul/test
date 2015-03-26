@@ -10,6 +10,10 @@
 
         };
 
+      $scope.campaignsFound = true;
+      $scope.message = "Data not available";
+      $scope.style="campaigns_not_found";
+
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
 
         function getScreenAndFormatData () {
@@ -19,10 +23,12 @@
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
                 if(screenChartModel.getScreenWidgetData()['dataNotAvailable'] == true){
-                    $("#data_not_available_screen").show();
+                    //$("#data_not_available_screen").show();
+                  //$scope.campaignsFound = false;
                     $scope.cleanScreenWidget();
                 }else{
-                    $("#data_not_available_screen").hide();
+                  $scope.campaignsFound = true;
+                    //$("#data_not_available_screen").hide();
                     screenChart.updateScreenChartData();
                 }
 
@@ -31,10 +37,14 @@
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
             d3.select("#screen_svg").remove();
-            $("#data_not_available_screen").hide();
+            //$("#data_not_available_screen").hide();
             screenChartModel.getScreenWidgetData()['chartData']={};
             getScreenAndFormatData();
         });
+
+      $scope.$on('SCREEN_DATA_NOT_AVAILABLE', function() {
+        $scope.campaignsFound = false;
+      });
 
 
 
@@ -43,6 +53,8 @@
         };
 
         $scope.formatDropdownChange = function(obj){
+          if(!$scope.campaignsFound)
+            return;
             $("#screens").hide();
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
@@ -52,6 +64,8 @@
         };
 
         $scope.metricDropdownChange = function(obj){
+          if(!$scope.campaignsFound)
+            return;
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
