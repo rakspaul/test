@@ -9,7 +9,7 @@ var angObj = angObj || {};
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
-        $scope.viewabilityBusy = true ;
+        $scope.strategyLoading =  true;
 
      //   $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsDropDowns();
@@ -24,7 +24,6 @@ var angObj = angObj || {};
         $scope.init = function (){
 
             $scope.viewData = {};
-            $scope.viewabilityBusy = true ;
             $scope.strategyBusy = false;
             $scope.tacticBusy = false ;
             $scope.strategyFound = false;
@@ -107,7 +106,6 @@ var angObj = angObj || {};
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.viewabilityBusy = true ;
             $scope.init();
 
             //update the selected Campaign
@@ -117,7 +115,6 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.viewabilityBusy = true ;
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();

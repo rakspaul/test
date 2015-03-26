@@ -18,7 +18,7 @@ var angObj = angObj || {};
 
         $scope.sortByColumn = 'description';
 
-        $scope.performanceBusy = true;
+        $scope.strategyLoading =  true;
 
         $scope.download_urls = {
             screens: null,
@@ -374,17 +374,12 @@ var angObj = angObj || {};
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.performanceBusy = true ;
             $scope.init();
-
-            //update the selected Campaign
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
             $scope.callBackCampaignsSuccess();
-
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.performanceBusy = true ;
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();
@@ -393,7 +388,6 @@ var angObj = angObj || {};
         //This will be called from directive_controller.js
         $scope.callBackCampaignsSuccess = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
-
             $scope.download_urls = {
                 screens: urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                 daysOfWeek: urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
@@ -433,7 +427,6 @@ var angObj = angObj || {};
                 $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
-            $scope.performanceBusy = false ;
         };
 
         $(document).ready(function () {
