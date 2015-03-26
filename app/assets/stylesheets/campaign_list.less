@@ -1713,16 +1713,16 @@ button, i, input[type="submit"] {
   margin-right: 0;
 }
 .sortable {
-  background: url("/assets/images/cdesk/sorting_indicator.png") no-repeat right center;
+  background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;
   display: inline-block;
-  height: 10px;
+  height: 15px;
   width: 10px;
 }
 .sortable.ascending {
-  background-image: url("/assets/images/cdesk/sorting_ascending.png");
+  background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
 }
 .sortable.descending {
-  background-image : url("/assets/images/cdesk/sorting_descending.png");
+  background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
 }
 .dashboard_outer_container {
   width: 1040px;
@@ -1802,16 +1802,16 @@ button, i, input[type="submit"] {
       a {
         color: #0978c9 ;
         span span {
-          background: url("/assets/images/cdesk/sorting_indicator.png") no-repeat right center;
+          background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;
           display: inline-block;
-          height: 10px;
+          height: 13px;
           width: 10px;
         }
         span span.descending {
-          background-image : url("/assets/images/cdesk/sorting_descending.png");
+          background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
         }
         span span.ascending {
-          background-image : url("/assets/images/cdesk/sorting_ascending.png");
+          background-image : url("/assets/images/cdesk/sorting_arrows_up.png");
         }
       }
     }
@@ -2391,6 +2391,9 @@ button, i, input[type="submit"] {
       }
       li.active a {
         color: #0978C9 ;
+        .sortable {
+          background-position: -4px -64px ;
+        }
       }
       li:hover {
         background: #d2dee7 ;
