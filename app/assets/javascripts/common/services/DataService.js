@@ -174,17 +174,19 @@
             return utils.clone(objOnSuccess);
           },
           function (error) {
-            if(error.status == 401) {
-              loginModel.unauthorized();
-              return errorObject;
-            } else if(error.status === 403) {
-              loginModel.forbidden();
-              return errorObject;
-            }
-            return {
-              status: "error",
-              data: error
-            };
+              if(error.status !== 0) {
+                  if(error.status == 401) {
+                      loginModel.unauthorized();
+                      return errorObject;
+                  } else if(error.status === 403) {
+                      loginModel.forbidden();
+                      return errorObject;
+                  }
+                  return {
+                      status: "error",
+                      data: error
+                  };
+              }
           }
         );
       },
@@ -210,17 +212,19 @@
                     return objOnSuccess;
                 },
                 function (error) {
-                    if (error.status == 401) {
-                        loginModel.unauthorized();
-                        return errorObject;
-                    } else if (error.status === 403) {
-                        loginModel.forbidden();
-                        return errorObject;
+                    if(error.status !== 0) {
+                        if (error.status == 401) {
+                            loginModel.unauthorized();
+                            return errorObject;
+                        } else if (error.status === 403) {
+                            loginModel.forbidden();
+                            return errorObject;
+                        }
+                        return {
+                            status: "error",
+                            data: error
+                        };
                     }
-                    return {
-                        status: "error",
-                        data: error
-                    };
                 }
             );
         },
@@ -253,20 +257,22 @@
             return success.call(this, utils.clone(objOnSuccess));
           },
           function (error) {
-              if (error.status === 401) {
-                  loginModel.unauthorized();
-                  return errorObject;
-              } else if (error.status === 403) {
-                  loginModel.forbidden();
-                  return errorObject;
+              if(error.status !== 0) {
+                  if (error.status === 401) {
+                      loginModel.unauthorized();
+                      return errorObject;
+                  } else if (error.status === 403) {
+                      loginModel.forbidden();
+                      return errorObject;
+                  }
+                  var objOnError = {
+                      status: "error",
+                      data: error
+                  }
+                  if (failure != undefined) {
+                      return failure.call(this, objOnError);
+                  } else return objOnError
               }
-              var objOnError = {
-                  status: "error",
-                  data: error
-              }
-              if (failure != undefined) {
-                  return failure.call(this, objOnError);
-              } else return objOnError
           }
         );
       },
