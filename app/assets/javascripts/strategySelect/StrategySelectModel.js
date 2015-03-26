@@ -1,8 +1,8 @@
 strategySelectModule.factory("strategySelectModel", ['urlService','dataService' , 'requestCanceller','constants', function (urlService,dataService,requestCanceller,constants) {
     var strategyObj = {};
     strategyObj.strategies = {};
-    strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
-
+    //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
+    strategyObj.selectedStrategy = { id: -1, name : 'Loading...'};
     return {
         getStrategies: function (campaignId) {
             var url = urlService.APIStrategiesForCampaign(campaignId);
@@ -36,11 +36,11 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
             strategyObj.selectedStrategy.id = _strategy.id ;
             strategyObj.selectedStrategy.name = _strategy.name ;
 
-            localStorage.setItem('selectedStrategy', JSON.stringify(strategyObj.selectedStrategy) ) ;
+            //localStorage.setItem('selectedStrategy', JSON.stringify(strategyObj.selectedStrategy) ) ;
 
         },
         getSelectedStrategy: function() {
-            return (localStorage.getItem('selectedStrategy') == undefined)? strategyObj.selectedStrategy : JSON.parse(localStorage.getItem('selectedStrategy')) ;
+            return strategyObj.selectedStrategy; //(localStorage.getItem('selectedStrategy') == undefined)? strategyObj.selectedStrategy : JSON.parse(localStorage.getItem('selectedStrategy')) ;
         },
         getStrategyObj: function() {
             return strategyObj;

@@ -55,7 +55,6 @@
 
             if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true )
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
-
             else
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
 
@@ -128,6 +127,7 @@
 
             };
             $scope.setCampaign(selectedCampaign );
+
             $(this).hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
