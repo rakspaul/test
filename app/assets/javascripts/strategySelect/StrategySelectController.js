@@ -65,7 +65,7 @@
         };
 
 
-        $scope.fetchStrategies();
+     //   $scope.fetchStrategies();
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
