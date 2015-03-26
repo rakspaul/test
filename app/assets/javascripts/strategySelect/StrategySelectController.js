@@ -51,6 +51,7 @@
                 $scope.strategyData.selectedStrategy.name = 'Loading...' ;
             }
         };
+
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
             $scope.$parent.strategyLoading = true;
