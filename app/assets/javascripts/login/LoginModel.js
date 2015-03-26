@@ -46,11 +46,11 @@
         );
         localStorage.setItem( 'selectedKpi', 'ctr');
         localStorage.setItem('isNavigationFromCampaigns','false');
-        localStorage.setItem('selectedStrategy',JSON.stringify({
+        /*localStorage.setItem('selectedStrategy',JSON.stringify({
             id: '-1',
             name : 'Loading...'
         })
-        );
+        );*/
     },
 
     getLoginName : function() {
