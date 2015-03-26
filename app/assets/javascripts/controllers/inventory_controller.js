@@ -67,7 +67,13 @@ var angObj = angObj || {};
 
             var url = inventoryService.getAllTacticDomainData(param);
             var canceller =  requestCanceller.initCanceller(constants.INVENTORY_TACTC_CANCELLER );
-            return dataService.fetchCancelable(url, canceller, function(result){
+            var errorHandler =  function() {
+                var bottomChartObj = false;
+                var topChartObj = false;
+                $scope.tacticBusy = false;
+                $scope.inventoryChart = false;
+            };
+            return dataService.fetchCancelable(url, canceller, function(result) {
             //inventoryService.getAllTacticDomainData(param).then(function (result) {
 
                 if (result.status === "OK" || result.status === "success") {
@@ -113,16 +119,12 @@ var angObj = angObj || {};
                             }
                         }
                     } else { // We get empty data response.
-                        $scope.tacticBusy = false;
-                        $scope.inventoryChart = false;
+                        errorHandler();
                     }
                 } else { // Call is failed.
-                    var bottomChartObj = false;
-                    var topChartObj = false;
-                    $scope.tacticBusy = false;
-                    $scope.inventoryChart = false;
+                    errorHandler();
                 }
-            });
+            }, errorHandler);
         };
 
 
@@ -161,6 +163,17 @@ var angObj = angObj || {};
 
             var url = inventoryService.getStrategyDomainData(param);
             var canceller =  requestCanceller.initCanceller(constants.INVENTORY_STRATEGY_CANCELLER);
+            var errorHandler =  function() {
+                $scope.inventoryChart = false;
+                $scope.strategyBusy = false;
+                $scope.tacticBusy = false;
+                $scope.strategyTableData = [];
+                $scope.strategyTable.topPerformance = [];
+                $scope.strategyTable.bottomPerformance = [];
+                $scope.tacticList.tacticList = [];
+                $scope.tacticList.topPerformance = [];
+                $scope.tacticList.bottomPerformance = [];
+            };
             return dataService.fetchCancelable(url, canceller, function(result){
 
                 if (result.status === "OK" || result.status === "success") {
@@ -212,30 +225,14 @@ var angObj = angObj || {};
                         }
                     }
                     else { //api call doesn't return result data or returns empty invetory metrics data.
-                        $scope.inventoryChart = false;
-                        $scope.strategyBusy = false;
-                        $scope.tacticBusy = false;
-                        $scope.strategyTableData = [];
-                        $scope.strategyTable.topPerformance = [];
-                        $scope.strategyTable.bottomPerformance = [];
-                        $scope.tacticList.tacticList = [];
-                        $scope.tacticList.topPerformance = [];
-                        $scope.tacticList.bottomPerformance = [];
+                        errorHandler();
 
                     }
                 } // Means no strategy data found with API response 404
                 else {
-                    $scope.inventoryChart = false;
-                    $scope.strategyBusy = false;
-                    $scope.tacticBusy = false;
-                    $scope.strategyTableData = [];
-                    $scope.strategyTable.topPerformance = [];
-                    $scope.strategyTable.bottomPerformance = [];
-                    $scope.tacticList.tacticList = [];
-                    $scope.tacticList.topPerformance = [];
-                    $scope.tacticList.bottomPerformance = [];
+                    errorHandler();
                 }
-            });
+            }, errorHandler);
         };
 
         //Function called when the user clicks on the 'Top performance' button

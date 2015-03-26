@@ -270,10 +270,6 @@ var angObj = angObj || {};
                         var kpiType = $scope.selectedCampaign.kpi ;
                         var actionItems = $scope.actionItems ;
                         var kpiValue = $scope.selectedCampaign.kpiValue ;
-
-
-
-
                         if (!angular.isUndefined(kpiType)) {
                             if (result.data.data.measures_by_days.length > 0) {
                                 // $scope.chartForStrategy = true;
@@ -296,17 +292,16 @@ var angObj = angObj || {};
                                     // CDB data obtained is not for currently selected campaing and strategy id
                                     $scope.chartForStrategy = false;
                                 }
-
                             }
                         } else {
                             $scope.chartForStrategy = false;
                         }
                     }
-
                 } else {
                     $scope.chartForStrategy = false;
-
                 }
+            }, function() {
+                $scope.chartForStrategy = false;
             });
         };
 
@@ -410,9 +405,11 @@ var angObj = angObj || {};
                     if (response.status === "success") {
                         $scope.optReportDownloadBusy = false;
                         saveAs(response.file, response.fileName);
-                    } else if (response.status === "error") {
+                    } else {
                         $scope.optReportDownloadBusy = false;
                     }
+                }, function() {
+                    $scope.optReportDownloadBusy = false;
                 });
                 analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'optimization_report', loginModel.getLoginName());
             }

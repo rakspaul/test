@@ -71,6 +71,11 @@ var angObj = angObj || {};
         $scope.strategiesCostData = function (param) {
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = true;
+            var errorHandler =  function() {
+                $scope.dataNotFound = true;
+                $scope.strategyCostBusy = false;
+                $scope.tacticCostBusy = false;
+            }
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data.costData ;
@@ -81,31 +86,28 @@ var angObj = angObj || {};
                             $scope.tacticListCostData(param);
                         }
                         else{
-                            $scope.dataNotFound = true;
-                            $scope.strategyCostBusy = false;
-                            $scope.tacticCostBusy = false;
+                            errorHandler();
                         }
                     }
                     else {
-                        $scope.dataNotFound = true;
-                        $scope.strategyCostBusy = false;
-                        $scope.tacticCostBusy = false;
-
+                        errorHandler();
                     }
-                });
+                }, errorHandler);
 
         };
 
         $scope.tacticListCostData = function(param) {
             $scope.tacticCostBusy = true;
-
             costService.getTacticsForStrategy(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.tacticList = result.data.data;
                     $scope.noTacticsFound = false;
 
                     if ($scope.tacticList !== 'undefined') {
-
+                        var errorTacticCostHandler =  function() {
+                            $scope.dataNotFound = true;
+                            $scope.tacticCostBusy = false;
+                        }
                         costService.getTacticCostData(param).then(function (result){
                             if(result.status === "OK" || result.status === "success"){
 
@@ -124,13 +126,10 @@ var angObj = angObj || {};
                                 $scope.tacticCostBusy = false;
                             }
                             else{
-                                $scope.dataNotFound = true;
-                                $scope.tacticCostBusy = false;
+                                errorTacticCostHandler();
                             }
-                        });
-
+                        }, errorTacticCostHandler);
                      }
-
                 }
             });
 

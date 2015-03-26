@@ -40,6 +40,9 @@ var angObj = angObj || {};
 
         $scope.tacticViewData = function (param, strategiesList) {
             $scope.tacticBusy = true;
+            var errorHandler = function() {
+                $scope.tacticBusy =false;
+            }
             viewablityService.getTacticsViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
@@ -49,9 +52,9 @@ var angObj = angObj || {};
 
                 } // Means no strategy data found
                 else {
-                    $scope.tacticBusy =false;
+                    errorHandler();
                 }
-            });
+            }, errorHandler);
         };
 
 
@@ -60,6 +63,11 @@ var angObj = angObj || {};
             var strategiesList = {};
             $scope.strategyBusy = true;
             $scope.tacticBusy = true;
+            var errorHandler = function() {
+                $scope.dataNotFound = true;
+                $scope.strategyBusy = false;
+                $scope.tacticBusy = false;
+            }
             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                    // console.log("in view metric page");
@@ -71,19 +79,13 @@ var angObj = angObj || {};
                         $scope.tacticViewData(param, strategiesList);
 
                     } else {
-                        $scope.dataNotFound = true;
-                        $scope.strategyBusy = false;
-                        $scope.tacticBusy = false ;
-
+                        errorHandler();
                     }
-
                 } // Means no strategy data found
                 else {
-                    $scope.dataNotFound = true;
-                    $scope.strategyBusy = false;
-                    $scope.tacticBusy = false;
+                    errorHandler();
                 }
-            });
+            }, errorHandler);
         };
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
@@ -125,7 +127,6 @@ var angObj = angObj || {};
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
-
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
 
@@ -148,14 +149,17 @@ var angObj = angObj || {};
                 loginModel.checkCookieExpiry();
             else {
                 $scope.viewReportDownloadBusy = true;
+                var errorHandler = function() {
+                    $scope.viewReportDownloadBusy = false;
+                }
                 dataService.downloadFile(report_url).then(function (response) {
                     if (response.status === "success") {
                         $scope.viewReportDownloadBusy = false;
                         saveAs(response.file, response.fileName);
-                    } else if (response.status === "error") {
-                        $scope.viewReportDownloadBusy = false;
+                    } else {
+                        errorHandler();
                     }
-                });
+                }, errorHandler);
                 analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'viewability_' + report_name + '_report', loginModel.getLoginName());
             }
         }
