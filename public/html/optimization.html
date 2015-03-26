@@ -71,8 +71,9 @@
           </div>
 
         </div>
+        <div class="common-load-icon_viewability" id="optimization_loading" ng-show="optimiationBusy"></div>
 
-        <div class="reports_graph_top_section" id="graph" >
+        <div class="reports_graph_top_section" id="graph" ng-if="!optimiationBusy">
 
             <div class="rep_graph_heading">
                <!-- <span class="graph_rep_stl"> {{clicked.strategy.lineItemName}}</span> -->
@@ -106,7 +107,7 @@
              </div>
         </div>
         <!--tacticNotFound :  {{tacticNotFound | json}}-->
-        <div class="details_with_heading_total {{seeDate.className}}">
+        <div class="details_with_heading_total {{seeDate.className}}" ng-if="!optimiationBusy">
 
             <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
                             Strategy yet to be optimized.

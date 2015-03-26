@@ -52,7 +52,12 @@
             }
 
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+
+            if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true )
+                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
+
+            else
+                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
 
         };
 
@@ -104,6 +109,8 @@
                 $scope.fetchCampaigns(true,false);
                 $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
+
+            localStorage.setItem('isNavigationFromCampaigns', false);
 
         };
 
