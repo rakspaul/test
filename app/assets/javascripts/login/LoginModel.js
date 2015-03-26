@@ -45,6 +45,7 @@
         })
         );
         localStorage.setItem( 'selectedKpi', 'ctr');
+        localStorage.setItem('isNavigationFromCampaigns','false');
     },
 
     getLoginName : function() {
