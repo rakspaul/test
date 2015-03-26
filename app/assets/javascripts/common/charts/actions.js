@@ -93,10 +93,38 @@
             symbol = kpiPrefix(kpiType);
             suffix = kpiSuffix(kpiType);
             var html_comment= (this.getAttribute('comment')).toString();
+            html_comment = wordwrap(html_comment, 20, '<br/>');
             html_comment = html_comment.replace(/(?:\\r\\n|\r|\\n| \\n)/g, '<br />');
             if(activityCount > 1){
               $('.highcharts-tooltip').hide();
               html_comment = numberOfActivityHeader;        
+            }
+                    //this local function does the word wrap for proper display
+            function wordwrap(str, int_width, str_break, cut) {
+                        var m = ((arguments.length >= 2) ? arguments[1] : 75);
+                        var b = ((arguments.length >= 3) ? arguments[2] : '\n');
+                        var c = ((arguments.length >= 4) ? arguments[3] : false);
+
+                        var i, j, l, s, r;
+
+                        str += '';
+
+                        if (m < 1) {
+                            return str;
+                        }
+
+                        for (i = -1, l = (r = str.split(/\r\n|\n|\r/))
+                            .length; ++i < l; r[i] += s) {
+                            for (s = r[i], r[i] = ''; s.length > m; r[i] += s.slice(0, j) + ((s = s.slice(j))
+                                    .length ? b : '')) {
+                                j = c == 2 || (j = s.slice(0, m + 1)
+                                    .match(/\S*(\s)?$/))[1] ? m : j.input.length - j[0].length || c == 1 && m || j.input.length + (j = s.slice(
+                                        m)
+                                    .match(/^\S*/))[0].length;
+                            }
+                        }
+
+                        return r.join('\n');
             }
             text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + suffix + "</b><br>" + html_comment  , x + 10 + correctionX, y + 10 * 2)
               .attr({
