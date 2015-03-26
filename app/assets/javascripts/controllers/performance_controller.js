@@ -120,6 +120,8 @@ var angObj = angObj || {};
                                         else {
                                             $scope.tacticDowBusy = false;
                                         }
+                                    }, function() {
+                                        $scope.tacticDowBusy = false;
                                     });
                                 }
 
@@ -151,12 +153,12 @@ var angObj = angObj || {};
 
                                             _tacticsPerfList.push(_tacticPerfData);
                                             $scope.tacticsPerfDataListByFormat = _tacticsPerfList;
-
                                         }
                                         else {
-
                                             $scope.tacticFormatBusy = false;
                                         }
+                                    }, function() {
+                                        $scope.tacticFormatBusy = false;
                                     });
                                 }
                             }
@@ -186,11 +188,11 @@ var angObj = angObj || {};
                                             _tacticsPerfList.push(_tacticPerfData);
                                             $scope.tacticsPerfDataListByScreen = _tacticsPerfList;
                                         }
-
                                         else {
-
                                             $scope.tacticScreenBusy = false;
                                         }
+                                    }, function() {
+                                        $scope.tacticScreenBusy = false;
                                     });
                                 }
 
@@ -220,11 +222,11 @@ var angObj = angObj || {};
                                             _tacticsPerfList.push(_tacticPerfData);
                                             $scope.tacticsPerfDataListByPlatform = _tacticsPerfList;
                                         }
-
                                         else {
-
                                             $scope.tacticPlatformBusy = false;
                                         }
+                                    }, function() {
+                                        $scope.tacticPlatformBusy = false;
                                     });
                                 }
 
@@ -233,10 +235,7 @@ var angObj = angObj || {};
 
                     }
                 }
-
-
             });
-
         };
 
         $scope.strategyPerformanceData = function (param) {
@@ -249,6 +248,11 @@ var angObj = angObj || {};
 
                     $scope.dowBusy = true;
                     $scope.tacticDowBusy = true;
+                    var bydaysofweekError= function() {
+                        $scope.dataNotFoundForDOW = true;
+                        $scope.dowBusy = false ;
+                        $scope.tacticDowBusy = false ;
+                    }
                     performanceService.getStrategyPerfData(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.strategyPerfDataByDOW = result.data.data;
@@ -256,11 +260,9 @@ var angObj = angObj || {};
                             $scope.tacticPerfData(param);
                         }
                         else {
-                            $scope.dataNotFoundForDOW = true;
-                            $scope.dowBusy = false ;
-                            $scope.tacticDowBusy = false ;
+                            bydaysofweekError();
                         }
-                    });
+                    }, bydaysofweekError);
 
                     // **********************************************************************
                     // load other screen tabs strategy data.
@@ -301,6 +303,11 @@ var angObj = angObj || {};
                 if($scope.strategyPerfDataByFormat ==='undefined' || $scope.strategyPerfDataByFormat.length === 0){
                     $scope.formatBusy = true;
                     $scope.tacticFormatBusy = true;
+                    var byformatsError =  function() {
+                        $scope.dataNotFoundForFormat = true;
+                        $scope.formatBusy = false ;
+                        $scope.tacticFormatBusy = false;
+                    }
                     performanceService.getStrategyPerfData(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.strategyPerfDataByFormat = result.data.data;
@@ -309,12 +316,9 @@ var angObj = angObj || {};
                             $scope.tacticPerfData(param);
                         }
                         else {
-                            $scope.dataNotFoundForFormat = true;
-                            $scope.formatBusy = false ;
-                            $scope.tacticFormatBusy = false;
-
+                            byformatsError();
                         }
-                    });
+                    }, byformatsError);
 
                 }
 
@@ -325,7 +329,11 @@ var angObj = angObj || {};
                 if($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0) {
                     $scope.screenBusy = true;
                     $scope.tacticScreenBusy = true ;
-
+                    var byscreensError = function() {
+                        $scope.dataNotFoundForScreen = true;
+                        $scope.screenBusy = false;
+                        $scope.tacticScreenBusy = false;
+                    }
                     performanceService.getStrategyPerfData(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.strategyPerfDataByScreen = result.data.data;
@@ -334,12 +342,9 @@ var angObj = angObj || {};
                             $scope.tacticPerfData(param);
                         }
                         else {
-                            $scope.dataNotFoundForScreen = true;
-                            $scope.screenBusy = false;
-                            $scope.tacticScreenBusy = false;
-
+                            byscreensError();
                         }
-                    });
+                    }, byscreensError);
 
                 }
             }  else if ($scope.selected_tab === 'byplatforms' ){
@@ -348,7 +353,11 @@ var angObj = angObj || {};
                 if($scope.strategyPerfDataByPlatform ==='undefined' || $scope.strategyPerfDataByPlatform.length === 0) {
                     $scope.platformBusy = true;
                     $scope.tacticPlatformBusy = true ;
-
+                    var byplatformsError = function() {
+                        $scope.dataNotFoundForPlatform = true;
+                        $scope.platformBusy = false;
+                        $scope.tacticPlatformBusy = false;
+                    }
                     performanceService.getStrategyPerfData(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.strategyPerfDataByPlatform = result.data.data;
@@ -357,13 +366,9 @@ var angObj = angObj || {};
                             $scope.tacticPerfData(param);
                         }
                         else {
-                            $scope.dataNotFoundForPlatform = true;
-                            $scope.platformBusy = false;
-                            $scope.tacticPlatformBusy = false;
-
+                            byplatformsError();
                         }
-                    });
-
+                    }, byplatformsError);
                 }
             }
         };
@@ -489,9 +494,13 @@ var angObj = angObj || {};
                     if (response.status === "success") {
                         $scope.perfReportDownloadBusy = false;
                         saveAs(response.file, response.fileName);
-                    } else if (response.status === "error") {
+                    } else {
                         $scope.perfReportDownloadBusy = false;
                     }
+                }, function() {
+                    $scope.perfReportDownloadBusy = false;
+                }, function() {
+                    $scope.perfReportDownloadBusy = false;
                 });
                 analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report_name + '_report', loginModel.getLoginName());
             }

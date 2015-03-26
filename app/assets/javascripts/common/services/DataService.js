@@ -253,22 +253,20 @@
             return success.call(this, utils.clone(objOnSuccess));
           },
           function (error) {
-              if (error.status !== 0) {
-                  if (error.status === 401) {
-                      loginModel.unauthorized();
-                      return errorObject;
-                  } else if (error.status === 403) {
-                      loginModel.forbidden();
-                      return errorObject;
-                  }
-                  var objOnError = {
-                      status: "error",
-                      data: error
-                  }
-                  if (failure != undefined) {
-                      return failure.call(this, objOnError);
-                  } else return objOnError
+              if (error.status === 401) {
+                  loginModel.unauthorized();
+                  return errorObject;
+              } else if (error.status === 403) {
+                  loginModel.forbidden();
+                  return errorObject;
               }
+              var objOnError = {
+                  status: "error",
+                  data: error
+              }
+              if (failure != undefined) {
+                  return failure.call(this, objOnError);
+              } else return objOnError
           }
         );
       },
