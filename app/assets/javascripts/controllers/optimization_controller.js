@@ -11,8 +11,7 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
-
-
+        $scope.strategyLoading =  true;
         $scope.selected_filters = {};
         $scope.selected_filters.time_filter = 'life_time'; //
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
@@ -331,7 +330,6 @@ var angObj = angObj || {};
 
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
-            $scope.optimiationBusy = true ;
             $scope.dataInit();
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
@@ -347,14 +345,12 @@ var angObj = angObj || {};
 
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(){
-            $scope.optimiationBusy = true ;
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();
         });
 
         $scope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED , function(obj){
-            $scope.optimiationBusy = true ;
             $scope.dataInit();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
             $scope.selectedStrategy = strategySelectModel.getSelectedStrategy() ;
@@ -372,7 +368,6 @@ var angObj = angObj || {};
                 $scope.chartForStrategy = false;// means selected strategy id is not valid
                 $scope.tacticNotFound = true;
             }
-            $scope.optimiationBusy = false ;
         };
 
         $("#optimization_squaredFour").click( function() {

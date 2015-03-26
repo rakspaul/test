@@ -17,7 +17,7 @@ var angObj = angObj || {};
 
         $scope.selected_filters_tb = '0';
         $scope.selected_filters_tab = 'categories';
-        $scope.inventoryBusy = true ;
+        $scope.strategyLoading =  true;
 
         $scope.strategyTable = {
             topPerformance: [],
@@ -51,7 +51,6 @@ var angObj = angObj || {};
 
             $scope.strategyBusy = false;
             $scope.tacticBusy = false;
-            $scope.inventoryBusy = true ;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -129,7 +128,6 @@ var angObj = angObj || {};
 
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.inventoryBusy = true ;
             $scope.init();
 
             //update the selected Campaign
@@ -146,7 +144,6 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.inventoryBusy = true ;
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();

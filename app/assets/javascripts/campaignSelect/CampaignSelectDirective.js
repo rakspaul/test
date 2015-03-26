@@ -48,8 +48,8 @@
                         $("#campaignDropdown").width( $(".campaign_name_length").width() + 14  ) ;
 
                     });
-                    $("#campaigns_list").click( function() {
-                        var inpVal =  $("#campaignDropdown").attr("placeholder");
+                    $("#campaigns_list").click( function(e) {
+                        var inpVal =  $(event.target).text();
                         $(".campaign_name_length").text(inpVal) ;
                         $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 );
                         $("#campaignDropdown").val(inpVal);

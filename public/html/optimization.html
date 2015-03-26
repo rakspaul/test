@@ -1,25 +1,15 @@
 <div class="campaign-list-container">
-    <div id="detailedPage" class="container">
-    </div>
-
-
     <div class="total_reports_page  ">
-
         <div class="reports_header_section">
-            <!--<div class="back_link" href="{{reach}}">< Back to campaign</div>-->
-
-
-            <!--div class="reports_top_heading">{{clicked.campaignName}}
-            </div-->
             <div class="reports_header_tabs_holder clearfix">
 		        <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
                 <div class="pull-left">
                     <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="optimization_tab_{{tab.href}}"> {{tab.title}}</a></span>
                 </div>
             </div>
-
         <!--campaign dropdown-->
         </div>
+
         <div class="inventory_reports_container optimization_header">
             <div class="clearfix inventory_header">
 
@@ -40,10 +30,6 @@
                     </div>
                     <span class="download-report-load-icon" ng-if="optReportDownloadBusy">Downloading </span>
                 </div>
-                <!--<div class="pull-right dropdown duration_filters" id="optimization_duration_dd">-->
-                        <!--<report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>-->
-                <!--</div>-->
-                
             </div>
             
             <!--campaign dropdown-->
@@ -52,7 +38,6 @@
                 <!--strategy dropdown-->
                 <div class="pull-left" id="optimization_strategies_dd">
                     <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
-                    <!--<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>-->
                 </div>
                 <!--strategy dropdown-->
                 <div class="pull-right">
@@ -66,112 +51,114 @@
                             <span class="squaredFourTxt">See Dates</span>
                         </div>
                     </div>
-      
                 </div>
           </div>
-
         </div>
-        <div class="common-load-icon_viewability" id="optimization_loading" ng-show="optimiationBusy"></div>
 
-        <div class="reports_graph_top_section" id="graph" ng-if="!optimiationBusy">
+        <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
 
-            <div class="rep_graph_heading">
-               <!-- <span class="graph_rep_stl"> {{clicked.strategy.lineItemName}}</span> -->
 
-                <!-- gaurav -->
-                <div class="col-md-12">
+        <div class="optimization_container" ng-hide="strategyLoading">
+            <div class="reports_graph_top_section" id="graph">
+                <div class="rep_graph_heading">
+                   <!-- <span class="graph_rep_stl"> {{clicked.strategy.lineItemName}}</span> -->
 
-                     <span ng-switch="chartForStrategy">
-                            <span ng-switch-when="true" class="load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
-                            <span ng-switch-default>
-                                <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
-                                    <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart>
-                                </div>
+                    <!-- gaurav -->
+                    <div class="col-md-12">
+
+                         <span ng-switch="chartForStrategy">
+                                <span ng-switch-when="true" class="load-more">&nbsp;</span>
+                                <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                                <span ng-switch-default>
+                                    <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
+                                        <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart>
+                                    </div>
+                                </span>
                             </span>
-                        </span>
-                </div>
-                <!-- gaurav -->
-            </div>
-            <div class="rep_graph_holder">
-            </div>
-            <div class="clearfix common_graph_legend" ng-show="is_network_user">
-               <div class="clearfix graph_legends internal_legend">
-                 <span class="legend"></span>
-                 <span class="legend_text">Internal</span>
-               </div>
-               <div class="clearfix graph_legends">
-                 <span class="legend"></span>
-                 <span class="legend_text">External</span>
-               </div>
-             </div>
-        </div>
-        <!--tacticNotFound :  {{tacticNotFound | json}}-->
-        <div class="details_with_heading_total {{seeDate.className}}" ng-if="!optimiationBusy">
-
-            <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
-                            Strategy yet to be optimized.
-            </div>
-
-            <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound">
-                
-                <div class="each_rep_col_holder clearfix">
-                    <div class="clearfix after_before_title">
-                        <div>Before</div>
-                        <div>After</div>
                     </div>
-                    <div class="each_rep_col first_col" title="Optimization Type" >Optimization Type</div>
-                    <div class="each_rep_col sec_col" title="Date Optimized" >Date Optimized</div>
-                    <div class="each_rep_col third_col">Metric</div>
-                    <div class="each_rep_col forth_col left_border dates_hide">Date from</div>
-                    <div class="each_rep_col fifth_col dates_hide">Date to</div>
-                    <div class="each_rep_col sixth_col dates_hide">Value</div>
-                    <div class="each_rep_col sixth_col dates_show">Before Value</div>
-                    <div class="each_rep_col sev_col left_border dates_hide">Date from</div>
-                    <div class="each_rep_col eight_col dates_hide">Date to</div>
-                    <div class="each_rep_col nine_col dates_hide">Value</div>
-                    <div class="each_rep_col nine_col dates_show">After Value</div>
-                    <div class="each_rep_col ten_col left_border" >Change %</div>
+                    <!-- gaurav -->
                 </div>
-                <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>
-
+                <div class="rep_graph_holder">
+                </div>
+                <div class="clearfix common_graph_legend" ng-show="is_network_user">
+                   <div class="clearfix graph_legends internal_legend">
+                     <span class="legend"></span>
+                     <span class="legend_text">Internal</span>
+                   </div>
+                   <div class="clearfix graph_legends">
+                     <span class="legend"></span>
+                     <span class="legend_text">External</span>
+                   </div>
+                 </div>
             </div>
+            <!--tacticNotFound :  {{tacticNotFound | json}}-->
+            <div class="details_with_heading_total {{seeDate.className}}">
 
-            <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" ng-if="!tacticNotFound">
-                <div class="one_section_report_heading">
-                    {{tactic.ad_name}}
+                <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
+                                Strategy yet to be optimized.
                 </div>
-                <div class="reports_section_details_container reports_section_details_more" id="action-container">
-                    <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at':true" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id,action.make_external)">
-                        <div class="each_rep_col_holder clearfix" >
-                            <div id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id"  class="graph_icon"></div>
-                            <div  class="each_rep_col first_col"><span title="{{action.action_sub_type}}">{{action.action_sub_type}}</span></div>
-                            <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col third_col"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === action.metric_impacted.toLowerCase().split(' ').join('_')"></span><span title="{{action.metric_impacted}}">{{action.metric_impacted}}</span></div>
 
-                            <div class="each_rep_col forth_col dates_hide">{{action.from_date_before | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col fifth_col dates_hide">{{action.to_date_before | date:'dd MMM yyyy'}}</div>
+                <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound">
 
-                            <div class="each_rep_col sixth_col dates_hide" ><span title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</span></div>
-                            <div class="each_rep_col sixth_col dates_show" ><span title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</span></div>
-                            <div class="each_rep_col sev_col dates_hide" >{{action.from_date_after | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col eight_col dates_hide">{{action.to_date_after | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col nine_col dates_hide" ><span title="{{action.metric_value_after  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</span></div>
-                            <div class="each_rep_col nine_col dates_show" ><span title ="{{action.metric_value_after | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</span></div>
-                            <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)"  >
-                                <span class="positive_sign">+</span><span class="negative_sign">-</span><span title="{{action.metric_percent_change  | number}}">{{roundOff(action.metric_percent_change,0)}}%</span>
-                                <span class="arrow_img"></span>
+                    <div class="each_rep_col_holder clearfix">
+                        <div class="clearfix after_before_title">
+                            <div>Before</div>
+                            <div>After</div>
+                        </div>
+                        <div class="each_rep_col first_col" title="Optimization Type" >Optimization Type</div>
+                        <div class="each_rep_col sec_col" title="Date Optimized" >Date Optimized</div>
+                        <div class="each_rep_col third_col">Metric</div>
+                        <div class="each_rep_col forth_col left_border dates_hide">Date from</div>
+                        <div class="each_rep_col fifth_col dates_hide">Date to</div>
+                        <div class="each_rep_col sixth_col dates_hide">Value</div>
+                        <div class="each_rep_col sixth_col dates_show">Before Value</div>
+                        <div class="each_rep_col sev_col left_border dates_hide">Date from</div>
+                        <div class="each_rep_col eight_col dates_hide">Date to</div>
+                        <div class="each_rep_col nine_col dates_hide">Value</div>
+                        <div class="each_rep_col nine_col dates_show">After Value</div>
+                        <div class="each_rep_col ten_col left_border" >Change %</div>
+                    </div>
+                    <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>
+
+                </div>
+
+                <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" ng-if="!tacticNotFound">
+                    <div class="one_section_report_heading">
+                        {{tactic.ad_name}}
+                    </div>
+                    <div class="reports_section_details_container reports_section_details_more" id="action-container">
+                        <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at':true" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id,action.make_external)">
+                            <div class="each_rep_col_holder clearfix" >
+                                <div id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id"  class="graph_icon"></div>
+                                <div  class="each_rep_col first_col"><span title="{{action.action_sub_type}}">{{action.action_sub_type}}</span></div>
+                                <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                                <div class="each_rep_col third_col"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === action.metric_impacted.toLowerCase().split(' ').join('_')"></span><span title="{{action.metric_impacted}}">{{action.metric_impacted}}</span></div>
+
+                                <div class="each_rep_col forth_col dates_hide">{{action.from_date_before | date:'dd MMM yyyy'}}</div>
+                                <div class="each_rep_col fifth_col dates_hide">{{action.to_date_before | date:'dd MMM yyyy'}}</div>
+
+                                <div class="each_rep_col sixth_col dates_hide" ><span title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</span></div>
+                                <div class="each_rep_col sixth_col dates_show" ><span title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</span></div>
+                                <div class="each_rep_col sev_col dates_hide" >{{action.from_date_after | date:'dd MMM yyyy'}}</div>
+                                <div class="each_rep_col eight_col dates_hide">{{action.to_date_after | date:'dd MMM yyyy'}}</div>
+                                <div class="each_rep_col nine_col dates_hide" ><span title="{{action.metric_value_after  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</span></div>
+                                <div class="each_rep_col nine_col dates_show" ><span title ="{{action.metric_value_after | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</span></div>
+                                <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)"  >
+                                    <span class="positive_sign">+</span><span class="negative_sign">-</span><span title="{{action.metric_percent_change  | number}}">{{roundOff(action.metric_percent_change,0)}}%</span>
+                                    <span class="arrow_img"></span>
+                                </div>
+                            </div>
+                            <div class="each_report_text_row clearfix">
+                                <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
+                                <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
+                                <div title="{{action.comment}}" class="each_report_text_col report_text" ng-bind-html="action.comment|morelines|newlines"></div>
                             </div>
                         </div>
-                        <div class="each_report_text_row clearfix">
-                            <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
-                            <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
-                            <div title="{{action.comment}}" class="each_report_text_col report_text" ng-bind-html="action.comment|morelines|newlines"></div>
-                        </div>
-                    </div>
 
-                    <div class="load_more_rows">&#9660;</div>
+                        <div class="load_more_rows">&#9660;</div>
+                    </div>
                 </div>
             </div>
-        </div>
+         </div>
     </div>
+</div>
