@@ -35,7 +35,7 @@
                 </span>
             </span>
             <ul class="dropdown-menu">
-              <li class="{{sortField.className}}" ng-repeat="sortField in campaigns.sortFieldList" data-ng-click="campaigns.sortCampaigns(sortField.key)">
+              <li class="{{sortField.className}} {{(sortField.key == 'start_date')?'flight_date_li':''}}" ng-repeat="sortField in campaigns.sortFieldList" data-ng-click="campaigns.sortCampaigns(sortField.key)">
                 <a id="campaign_cost_sort_{{sortField.key}}">
                 {{sortField.display}}&nbsp;<span class="sortable {{campaigns.sortIcon(sortField.key)}}"></span> 
               </a>
