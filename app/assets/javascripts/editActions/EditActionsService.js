@@ -5,10 +5,8 @@
     var editAction = function (data) {
       return dataService.put(urlService.APIeditAction(data.ad_id), data).then(function(response) {
         if(response.status === "success") {
-          console.log('Edit successful ' + data.ad_id);
           return 1;
         } else {
-          console.log('Edit Action Failed!');
           return 0;
         }
       })
