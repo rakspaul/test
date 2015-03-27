@@ -148,9 +148,10 @@ var angObj = angObj || {};
             var scrollTo = $('#actionItem_' + id);
             if (scrollTo.length) {
                 myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + this.id).addClass('action_selected');
-                myContainer.animate({
-                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                });
+               if ( scrollTo != undefined && scrollTo.offset() != undefined )
+                    myContainer.animate({
+                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                    });
             }
             localStorage.removeItem('actionSel');
         };
