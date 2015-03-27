@@ -19,6 +19,8 @@
         //This prevents from making too many calls during rapid scroll down.
         $scope.fetching = false;
 
+       $scope.$parent.strategyLoading = true;
+       $scope.$parent.isFetchStrategiesCalled = false;
 
         //TODO: can make a general improvement
         // Don't make calls to server, if previous selected campaign is same as presently selected campaign.
@@ -40,7 +42,7 @@
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
 
-            if(selectedCampaign == undefined || selectedCampaign.id == -1) {
+            if (selectedCampaign == undefined || selectedCampaign.id == -1) {
 
                 selectedCampaign = {
                     id: -1,
@@ -52,7 +54,13 @@
             }
 
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+
+            if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true) {
+                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
+            } else {
+
+                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+             }
 
         };
 
@@ -105,6 +113,8 @@
                 $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
 
+            localStorage.setItem('isNavigationFromCampaigns', false);
+
         };
 
         $scope.init();
@@ -112,6 +122,8 @@
 
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
+            $scope.$parent.strategyLoading = true ;
+            $scope.$parent.isFetchStrategiesCalled = false;
             var selectedCampaign = {
                 id : $(e.target).attr('value'),
                 name :  $(e.target).text(),
@@ -121,6 +133,7 @@
 
             };
             $scope.setCampaign(selectedCampaign );
+
             $(this).hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());

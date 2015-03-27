@@ -435,7 +435,8 @@
 
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
+
+            localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
             document.location = '#/performance';
         };
@@ -457,7 +458,8 @@
                 selectedActionItems : activityList.data.data
             };
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, actionData );
+
+            localStorage.setItem('isNavigationFromCampaigns', true);
 
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             document.location = '#/optimization';
@@ -474,7 +476,8 @@
                 selectedActionItems : activityList.data.data
             };
         // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
-            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, actionData );
+            localStorage.setItem('isNavigationFromCampaigns', true);
+
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
             document.location = '#/optimization';
         };

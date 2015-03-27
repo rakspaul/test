@@ -387,14 +387,13 @@
               //threshold = 100;
 
               //red zone calculations
-              if(chart != 'undefined') {
+              if( chart != undefined && chart.xAxis != undefined && chart.yAxis != undefined) {
                 // console.log(chart);
                 // console.log(chart.xAxis);
-                var extremesX = ( chart.xAxis !== undefined && chart.xAxis.length >0)?chart.xAxis[0].getExtremes() : {};
-                  if(chart.xAxis !== undefined && chart.xAxis.length >0 ){
-                      chart.xAxis[1].setExtremes(extremesX.min - 0.5, extremesX.max + 0.5);
-                  }
-                var extremes = ( chart.yAxis !== undefined && chart.yAxis.length >0)? chart.yAxis[0].getExtremes() : {};
+                var extremesX = chart.xAxis[0].getExtremes();
+                chart.xAxis[1].setExtremes(extremesX.min - 0.5, extremesX.max + 0.5);
+
+                var extremes =  chart.yAxis[0].getExtremes() ;
 
                 if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
                   if (extremes.max <= threshold) {
@@ -410,56 +409,62 @@
                 }
 
                 //plotting red zone
-                extremes =  ( chart.yAxis !== undefined && chart.yAxis.length >0)? chart.yAxis[0].getExtremes(): {};
-                chart.yAxis[0].addPlotBand({ // Light air
-                  from: threshold,
-                  to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
-                  color: '#fbdbd1',
-                  label: {
-                    enabled: false,
-                    text: '',
-                    style: {
-                      color: 'red'
+                extremes =   chart.yAxis[0].getExtremes() ;
+
+                    chart.yAxis[0].addPlotBand({ // Light air
+                        from: threshold,
+                        to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
+                        color: '#fbdbd1',
+                        label: {
+                            enabled: false,
+                            text: '',
+                            style: {
+                                color: 'red'
+                            }
+                        }
+                    });
+
+                    chart.yAxis[0].addPlotLine({
+                        value: extremes.max,
+                        color: '#D2DEE7',
+                        width: 1,
+                        id: 'plot-line-1'
+                    });
+
+
+                    //draw plotlines
+
+                    chart.xAxis[0].addPlotLine({
+                        value: extremesX.max,
+                        color: '#D2DEE7',
+                        width: 1,
+                        id: 'plot-line-1'
+                    });
+                    chart.xAxis[0].addPlotLine({
+                        value: extremesX.min,
+                        color: '#D2DEE7',
+                        width: 1,
+                        id: 'plot-line-1'
+                    });
+                    chart.yAxis[0].addPlotLine({
+                        value: threshold,
+                        color: '#FABD82',
+                        width: 1,
+                        id: 'plot-line-1'
+                    });
+
+                    //rendering threshold marker image in y-axis
+                    var renderPos;
+                    if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
+                        chart.renderer.image(assets.target_marker, 0, (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 17, 17).add();
                     }
-                  }
-                });
-               //draw plotlines
-                chart.yAxis[0].addPlotLine({
-                    value: extremes.max,
-                    color: '#D2DEE7',
-                    width: 1,
-                    id: 'plot-line-1'
-                });
-                chart.xAxis[0].addPlotLine({
-                    value: extremesX.max,
-                    color: '#D2DEE7',
-                    width: 1,
-                    id: 'plot-line-1'
-                });
-                chart.xAxis[0].addPlotLine({
-                    value: extremesX.min,
-                    color: '#D2DEE7',
-                    width: 1,
-                    id: 'plot-line-1'
-                });
-                chart.yAxis[0].addPlotLine({
-                    value: threshold,
-                    color: '#FABD82',
-                    width: 1,
-                    id: 'plot-line-1'
-                });
 
-                //rendering threshold marker image in y-axis
-                var renderPos;
-                if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
-                  chart.renderer.image(assets.target_marker, 0, (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 17, 17).add();
-                }
+                    //rendering action markers after red zone manipulation
+                    if (external != undefined && external == true) {
+                        //filter applied
+                        showExternal = true;
+                    }
 
-                //rendering action markers after red zone manipulation
-                if (external != undefined && external == true) {
-                  //filter applied
-                  showExternal = true;
-                }
                 var countActivityItem = new Array();
                 var findPlacedActivity = new Array();
                 var eFlag =0;;

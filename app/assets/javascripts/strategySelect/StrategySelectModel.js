@@ -1,6 +1,7 @@
 strategySelectModule.factory("strategySelectModel", ['urlService','dataService' , 'requestCanceller','constants', function (urlService,dataService,requestCanceller,constants) {
     var strategyObj = {};
     strategyObj.strategies = {};
+    //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
     strategyObj.selectedStrategy = { id: -1, name : 'Loading...'};
     return {
         getStrategies: function (campaignId) {
@@ -9,15 +10,18 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
             var errorHandler =  function() {
                 strategyObj.selectedStrategy.id = -99 ;
                 strategyObj.selectedStrategy.name = "No Strategy Found" ;
-            }
+            };
 
             return dataService.fetchCancelable(url , canceller , function(response) {
                 if(response.status == 'OK' || response.status == 'success'){
                     strategyObj.strategies =  (response.data.data !== undefined) ? response.data.data : {} ;
 
-                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0) {
-                        strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
-                        strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
+                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 ) {
+                        if(strategyObj.selectedStrategy.id == -1){
+                            strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
+                            strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
+                        }
+
                     } else {
                         errorHandler();
                     }
@@ -32,9 +36,11 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
             strategyObj.selectedStrategy.id = _strategy.id ;
             strategyObj.selectedStrategy.name = _strategy.name ;
 
+            //localStorage.setItem('selectedStrategy', JSON.stringify(strategyObj.selectedStrategy) ) ;
+
         },
         getSelectedStrategy: function() {
-            return strategyObj.selectedStrategy ;
+            return strategyObj.selectedStrategy; //(localStorage.getItem('selectedStrategy') == undefined)? strategyObj.selectedStrategy : JSON.parse(localStorage.getItem('selectedStrategy')) ;
         },
         getStrategyObj: function() {
             return strategyObj;

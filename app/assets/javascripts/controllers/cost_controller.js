@@ -14,7 +14,7 @@ var angObj = angObj || {};
         $scope.filters = domainReports.getReportsDropDowns();
 
         $scope.sortByColumn = 'name';
-        $scope.costBusy = true;
+        $scope.strategyLoading =  true;
 
         $scope.sort_field = [{
             display: 'Tactic Name',
@@ -136,7 +136,6 @@ var angObj = angObj || {};
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            $scope.costBusy = true ;
             $scope.init();
 
             //update the selected Campaign
@@ -146,7 +145,6 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.costBusy = true ;
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.callBackStrategyChange();
@@ -177,7 +175,6 @@ var angObj = angObj || {};
                 $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedCampaign.startDate, endDate: $scope.selectedCampaign.endDate, timeFilter: $scope.selected_filters.time_filter });
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
-            $scope.costBusy = false ;
         };
 
 

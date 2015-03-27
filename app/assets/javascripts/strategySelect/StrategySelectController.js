@@ -9,27 +9,24 @@
                 name : 'Loading...'
             }
         };
+        $scope.$parent.strategyLoading =  true;
+        $scope.$parent.isFetchStrategiesCalled = false;
 
         $rootScope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
-            // reset all data
-            $scope.reset();
-            // fetch strategies and set selected Strategy as First Strategy
-            $scope.fetchStrategies();
-
+            if(!$scope.$parent.isFetchStrategiesCalled) {
+                $scope.reset();// reset all data
+                $scope.fetchStrategies();// fetch strategies and set selected Strategy as First Strategy
+            }
         });
 
         // On this event, only fetch list of strategyies and retain selectedStrategy (done from outside).
         $rootScope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function() {
-            // reset strategy list
-           strategySelectModel.getStrategyObj().strategies = {} ;
-            // fetch strategies
-            $scope.fetchStrategies();
-
+           strategySelectModel.getStrategyObj().strategies = {} ;// reset strategy list
+            $scope.fetchStrategies();// fetch strategies
         });
 
         $scope.reset= function(){
-            // clean up models
-            strategySelectModel.reset();
+            strategySelectModel.reset();// clean up models
             $scope.strategyData.strategies = strategySelectModel.getStrategyObj().strategies ;
             $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
             $scope.$watch(function(scope) { return $scope.strategyData.selectedStrategy });
@@ -40,42 +37,40 @@
             strategySelectModel.setSelectedStrategy(strategy);
             $scope.strategyData.selectedStrategy.id =(strategy.id == undefined) ? (strategy.lineitemId == undefined ? strategy.strategyId : strategy.lineitemId): strategy.id ;
             $scope.strategyData.selectedStrategy.name = (strategy.name == undefined) ? strategy.strategy_name  : strategy.name ;
-
             $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
-
+            $scope.$parent.strategyLoading = false;
         };
 
 
         $scope.fetchStrategies = function(){
             if(campaignSelectModel.getSelectedCampaign().id != -1){
                 strategySelectModel.getStrategies(campaignSelectModel.getSelectedCampaign().id).then(function(result){
-
                     var strategyObj = strategySelectModel.getStrategyObj();
+                    $scope.$parent.isFetchStrategiesCalled =  true;
                     $scope.strategyData.strategies = (strategyObj.strategies == undefined)? {} : strategyObj.strategies ;
                     $scope.setStrategy(strategyObj.selectedStrategy);
-
                 });
             } else {
+                $scope.$parent.isFetchStrategiesCalled =  false;
+                $scope.$parent.strategyLoading = true;
                 $scope.strategyData.strategies = {};
-
                 $scope.strategyData.selectedStrategy.id = -1 ;
                 $scope.strategyData.selectedStrategy.name = 'Loading...' ;
-            }
 
+            }
         };
 
-
-        $scope.fetchStrategies();
+        if(!$scope.$parent.isFetchStrategiesCalled) {
+            $scope.fetchStrategies();
+        }
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
-
+            $scope.$parent.strategyLoading = true;
             var selectedStrategy = {
                 id: $(e.target).attr('value'),
                 name:  $(e.target).text()
             };
-
-            // strategyModel.setSelectedStrategy(selectedStrategy);
             $scope.setStrategy(selectedStrategy);
 
         });
