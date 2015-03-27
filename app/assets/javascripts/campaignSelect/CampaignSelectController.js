@@ -19,6 +19,7 @@
         //This prevents from making too many calls during rapid scroll down.
         $scope.fetching = false;
 
+       $scope.$parent.strategyLoading = true;
 
         //TODO: can make a general improvement
         // Don't make calls to server, if previous selected campaign is same as presently selected campaign.
@@ -118,6 +119,7 @@
 
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
+            $scope.$parent.strategyLoading = true ;
             var selectedCampaign = {
                 id : $(e.target).attr('value'),
                 name :  $(e.target).text(),
