@@ -111,10 +111,8 @@ var angObj = angObj || {};
                 // get action data for the selected campaign.
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        if($scope.selectedStrategy && $scope.selectedStrategy.id) {
                             $scope.tacticNotFound = false;
                             $scope.campaignActionList = result.data.data;
-                        }
                     }
                     else {
                         $scope.tacticNotFound = true;
