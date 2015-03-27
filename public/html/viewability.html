@@ -102,9 +102,8 @@
                         </div>
                     </div>
                     <div >
-                      <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy">
-                        Data Not Available
-                      </div>
+                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy">
+                          {{ias_data_not_available_msg}}</div>
                     <div class="strategy_total_container " >
                       <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
 

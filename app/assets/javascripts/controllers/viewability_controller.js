@@ -10,6 +10,7 @@ var angObj = angObj || {};
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
+        $scope.ias_data_not_available_msg = constants.MSG_METRICS_NOT_TRACKED;
 
      //   $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsDropDowns();

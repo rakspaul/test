@@ -8,6 +8,8 @@
         var Campaigns = campaignListModel;
         $scope.activityLogFlag = false;
         brandsModel.disable();
+        $scope.ias_data_not_available_msg = constants.MSG_METRICS_NOT_TRACKED;
+
         $scope.actionItems = activityList.data;
         $scope.loadingViewabilityFlag = true;
         $scope.loadingCostBreakdownFlag = true;

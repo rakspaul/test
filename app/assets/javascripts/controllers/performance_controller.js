@@ -358,12 +358,11 @@ var angObj = angObj || {};
                         $scope.platformBusy = false;
                         $scope.tacticPlatformBusy = false;
                     }
-                    performanceService.getStrategyPerfData(param).then(function (result) {
+                    performanceService.getStrategyPlatformData(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.strategyPerfDataByPlatform = result.data.data;
                             $scope.dataNotFoundForPlatform = false;
                             $scope.platformBusy = false;
-                            $scope.tacticPerfData(param);
                         }
                         else {
                             byplatformsError();
