@@ -51,9 +51,12 @@
                     $scope.setStrategy(strategyObj.selectedStrategy);
                 });
             } else {
+                $scope.$parent.isFetchStrategiesCalled =  false;
+                $scope.$parent.strategyLoading = true;
                 $scope.strategyData.strategies = {};
                 $scope.strategyData.selectedStrategy.id = -1 ;
                 $scope.strategyData.selectedStrategy.name = 'Loading...' ;
+
             }
         };
 
