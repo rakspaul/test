@@ -81,7 +81,7 @@ var angObj = angObj || {};
                         if(param.strategyId) {
                             $scope.tacticBusy = true;
                             $scope.tacticViewData(param, strategiesList);
-                        }$scope.strategyHeading = $scope.selectedStrategy.id === 0 ? 'Campaign total' : 'Strategy total';
+                        }$scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
 
                     } else {
                         errorHandler();
