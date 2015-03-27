@@ -254,29 +254,28 @@
                         d3.event.sourceEvent.stopPropagation();
                     })
                     .on('drag', function() {
-                        //var td = gantt.timeDomain();
-                        //var scale = (td[1]-td[0])/1000;
+                        var td = gantt.timeDomain();
+                        var scale = (td[1]-td[0])/1000;
                         //var scale = (td[1] - td[0]) / 1000;
 
                         d3.event.sourceEvent.stopPropagation();
                         //var td = gantt.timeDomain();
 
 
-                        //var data = _.sortBy(tasks, function(o) { return o.start_date; });
-                        //force stop scroll on edge
-                        // if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
-                        //     //check
-                        //     gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                        //     gantt.redraw(tasks, timeDomainString);
-                        // } else if (d3.event.dx < 0) {
-                        //     gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                        //     gantt.redraw(tasks, timeDomainString);
-                        // }
-                        if (d3.event.dx < 0) {
-                            next(timeDomainString);
-                        } else {
-                            prev(timeDomainString);
+                        var data = _.sortBy(tasks, function(o) { return o.start_date; });
+                        if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
+                            //check
+                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                            gantt.redraw(tasks, timeDomainString);
+                        } else if (d3.event.dx < 0) {
+                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                            gantt.redraw(tasks, timeDomainString);
                         }
+                        // if (d3.event.dx < 0) {
+                        //     next(timeDomainString);
+                        // } else {
+                        //     prev(timeDomainString);
+                        // }
                         
 
                         
@@ -1080,60 +1079,152 @@
         function prev(timeDomainString) {
             var td = gantt.timeDomain();
             //var scale = (td[1] - td[0]);
-            
-            var data = _.sortBy(tasks, function(o) { return o.start_date; });
+            var edge1, edge2;
+            var tdMonth = moment(td[0]).format('MM');
+            var tdDay = moment(td[0]).format('DD');
+            var qStart, qEnd;
+
+            var data = _.sortBy(tasks, function(o) {
+                return o.start_date;
+            });
             //force stop scroll on edge
-            if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
+            if (moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
 
                 var edge1, edge2;
-                switch(timeDomainString) {
-                    case 'quarter': 
-                        edge1 = moment(td[0]).subtract(3,'months').startOf('month').unix()*1000;
-                        edge2 = moment(td[1]).subtract(3, 'months').endOf('month').unix()*1000;
+                switch (timeDomainString) {
+                    case 'quarter':
+                        if (tdMonth == 1 || tdMonth == 4 || tdMonth == 7 || tdMonth == 10) {
+                            edge1 = moment(td[0]).subtract(3, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
+                        } else {
+                            if (tdMonth >= 1 && tdMonth <= 3) {
+                                //find prev quarter
+                                qStart = 0;
+                                qEnd = 2;
+                            } else if (tdMonth >= 4 && tdMonth <= 6) {
+                                qStart = 3;
+                                qEnd = 5;
+                            } else if (tdMonth >= 7 && tdMonth <= 9) {
+                                qStart = 6;
+                                qEnd = 8;
+                            } else if (tdMonth >= 10 && tdMonth <= 12) {
+                                qStart = 9;
+                                qEnd = 11;
+                            }
+
+                            var fix = (tdMonth) - (qStart + 1);
+                            edge1 = moment(td[0]).subtract(fix, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
+                        }
                         break;
-                    case 'year': 
-                        edge1 = moment(td[0]).subtract(1,'years').startOf('year').unix()*1000;
-                        edge2 = moment(td[1]).subtract(1, 'years').endOf('year').unix()*1000;
+                    case 'year':
+                        if (tdMonth != 1) {
+                            var fix = tdMonth - 1;
+                            edge1 = moment(td[0]).subtract(fix, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
+
+                        } else {
+                            edge1 = moment(td[0]).subtract(12, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
+                        }
                         break;
-                    case 'month': 
-                        edge1 = moment(td[0]).subtract(1,'months').startOf('month').unix()*1000;
-                        edge2 = moment(td[1]).subtract(1, 'months').endOf('month').unix()*1000;
+                    case 'month':
+                        if (tdDay != 1) {
+                            var firstDay = moment(td[0]).startOf('month').format('DD');
+                            var fix = (tdDay - firstDay) - 1;
+
+                            edge1 = moment(td[0]).subtract(fix + 1, 'days').startOf('day').unix() * 1000;
+                            edge2 = moment(edge1).add(30, 'days').endOf('day').unix() * 1000;
+                        } else {
+                            edge1 = moment(td[0]).subtract(1, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(30, 'days').endOf('day').unix() * 1000;
+                        }
                         break;
-                    case 'today': 
-                        edge1 = moment(td[0]).subtract(1,'weeks').startOf('week').unix()*1000;
-                        edge2 = moment(td[1]).subtract(1, 'weeks').endOf('week').unix()*1000;
+                    case 'today':
+                        edge1 = moment(td[0]).subtract(7, 'days').startOf('day').unix() * 1000;
+                        edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
                         break;
                 }
 
                 gantt.timeDomain([edge1, edge2]);
                 gantt.redraw(tasks, timeDomainString);
             }
-   
+
 
         }
 
         function next(timeDomainString) {
             var td = gantt.timeDomain();
             //var scale = (td[1] - td[0]);
-             var edge1, edge2;
-                switch(timeDomainString) {
-                    case 'quarter': 
-                        edge1 = moment(td[0]).add(3,'months').startOf('month').unix()*1000;
-                        edge2 = moment(td[1]).add(3, 'months').endOf('month').unix()*1000;
-                        break;
-                    case 'year': 
-                        edge1 = moment(td[0]).add(1,'years').startOf('year').unix()*1000;
-                        edge2 = moment(td[1]).add(1, 'years').endOf('year').unix()*1000;
-                        break;
-                    case 'month': 
-                        edge1 = moment(td[0]).add(1,'months').startOf('month').unix()*1000;
-                        edge2 = moment(td[1]).add(1, 'months').endOf('month').unix()*1000;
-                        break;
-                    case 'today': 
-                        edge1 = moment(td[0]).add(1,'weeks').startOf('week').unix()*1000;
-                        edge2 = moment(td[1]).add(1, 'weeks').endOf('week').unix()*1000;
-                        break;
-                }
+            var edge1, edge2;
+            var tdMonth = moment(td[0]).format('MM');
+            var tdDay = moment(td[0]).format('DD');
+            var qStart, qEnd;
+
+
+
+            switch (timeDomainString) {
+                case 'quarter':
+                    if (tdMonth == 1 || tdMonth == 4 || tdMonth == 7 || tdMonth == 10) {
+                        edge1 = moment(td[0]).add(3, 'months').startOf('month').unix() * 1000;
+                        edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
+                    } else {
+
+                        if (tdMonth >= 1 && tdMonth <= 3) {
+                            //find next quarter
+                            qStart = 3;
+                            qEnd = 5;
+                        } else if (tdMonth >= 4 && tdMonth <= 6) {
+                            qStart = 6;
+                            qEnd = 8;
+                        } else if (tdMonth >= 7 && tdMonth <= 9) {
+                            qStart = 9;
+                            qEnd = 11;
+                        } else if (tdMonth >= 10 && tdMonth <= 12) {
+                            qStart = 0;
+                            qEnd = 2;
+                        }
+                        //number of months to next quarter
+                        var fix = (qStart + 1) - (tdMonth);
+                        if (qStart == 0) {
+                            fix = 13 - tdMonth;
+                        }
+                        edge1 = moment(td[0]).add(fix, 'months').startOf('month').unix() * 1000;
+                        edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
+
+                    }
+                    break;
+                case 'year':
+                    if (tdMonth != 1) {
+                        var fix = 13 - tdMonth;
+
+                        edge1 = moment(td[0]).add(fix, 'months').startOf('month').unix() * 1000;
+                        edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
+
+                    } else {
+                        edge1 = moment(td[0]).add(12, 'months').startOf('month').unix() * 1000;
+                        edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
+                    }
+
+                    break;
+                case 'month':
+                    var lastDay = moment(td[0]).endOf('month').format('DD');
+                    var fix = lastDay - tdDay;
+                    edge1 = moment(td[0]).add(fix + 1, 'days').startOf('day').unix() * 1000;
+                    edge2 = moment(edge1).add(30, 'days').endOf('day').unix() * 1000;
+                    break;
+                case 'today':
+
+                    //get day for weekend
+                    //commented some code for future requirement
+                    //edge1 = moment(td[0]).weekday(7).startOf('week').unix()*1000;
+                    //edge2 = moment(edge1).weekday(6).endOf('week').unix()*1000;
+                    edge1 = moment(td[0]).add(7, 'days').startOf('day').unix() * 1000;
+                    edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
+                    break;
+            }
+
+
 
             gantt.timeDomain([edge1, edge2]);
             gantt.redraw(tasks, timeDomainString);
