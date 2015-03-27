@@ -48,6 +48,7 @@ var angObj = angObj || {};
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
+            $scope.isStrategyDropDownShow = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -70,7 +71,7 @@ var angObj = angObj || {};
 
         $scope.strategiesCostData = function (param) {
             $scope.strategyCostBusy = true;
-            $scope.tacticCostBusy = true;
+            $scope.tacticCostBusy = false;
             var errorHandler =  function() {
                 $scope.dataNotFound = true;
                 $scope.strategyCostBusy = false;
@@ -79,11 +80,13 @@ var angObj = angObj || {};
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data.costData ;
-
-                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0 ){
+                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0){
                             $scope.dataNotFound = false;
-                            $scope.strategyCostBusy = false ;
-                            $scope.tacticListCostData(param);
+                            $scope.strategyCostBusy = false;
+                            if(param.strategyId) {
+                                $scope.tacticCostBusy = true;
+                                $scope.tacticListCostData(param);
+                            }
                         }
                         else{
                             errorHandler();
@@ -147,6 +150,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
             $scope.callBackStrategyChange();
         });
 
@@ -169,10 +173,16 @@ var angObj = angObj || {};
 
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
-
             } else {
-                $scope.strategyFound = true ;
-                $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedCampaign.startDate, endDate: $scope.selectedCampaign.endDate, timeFilter: $scope.selected_filters.time_filter });
+                $scope.strategyFound = true;
+                if (strategySelectModel.getStrategyCount() === 1)  $scope.isStrategyDropDownShow = false;
+                $scope.strategiesCostData({
+                    campaignId: $scope.selectedCampaign.id,
+                    strategyId: Number($scope.selectedStrategy.id),
+                    startDate: $scope.selectedCampaign.startDate,
+                    endDate: $scope.selectedCampaign.endDate,
+                    timeFilter: $scope.selected_filters.time_filter
+                });
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
         };

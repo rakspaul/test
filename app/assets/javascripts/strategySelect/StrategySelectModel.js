@@ -12,35 +12,31 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
                 strategyObj.selectedStrategy.name = "No Strategy Found" ;
             };
 
+            var modifyStrategiesData =  function(resp) {
+                var strategyData = (resp && resp.data) ? resp.data : [];
+                strategyData.unshift({'name': 'All Strategies', id : 0, type : 'all'});
+                strategyObj.strategies =  (strategyData !== undefined) ? strategyData : {} ;
+                if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && strategyObj.selectedStrategy.id == -1 ) {
+                    strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
+                    strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
+                }
+            }
+
             return dataService.fetchCancelable(url , canceller , function(response) {
-                if(response.status == 'OK' || response.status == 'success'){
-                    strategyObj.strategies =  (response.data.data !== undefined) ? response.data.data : {} ;
-
-                    if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 ) {
-                        if(strategyObj.selectedStrategy.id == -1){
-                            strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
-                            strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
-                        }
-
-                    } else {
-                        errorHandler();
-                    }
-                }
-                else  {
-                    errorHandler();
-                }
+                modifyStrategiesData((response.status == 'OK' || response.status == 'success') ? response.data : errorHandler);
                 return strategyObj ;
             }, errorHandler);
         },
         setSelectedStrategy: function (_strategy) {
             strategyObj.selectedStrategy.id = _strategy.id ;
             strategyObj.selectedStrategy.name = _strategy.name ;
-
             //localStorage.setItem('selectedStrategy', JSON.stringify(strategyObj.selectedStrategy) ) ;
-
         },
         getSelectedStrategy: function() {
             return strategyObj.selectedStrategy; //(localStorage.getItem('selectedStrategy') == undefined)? strategyObj.selectedStrategy : JSON.parse(localStorage.getItem('selectedStrategy')) ;
+        },
+        getStrategyCount : function() {
+            return strategyObj.strategies.length;
         },
         getStrategyObj: function() {
             return strategyObj;

@@ -28,6 +28,7 @@ var angObj = angObj || {};
             $scope.strategyBusy = false;
             $scope.tacticBusy = false ;
             $scope.strategyFound = false;
+            $scope.isStrategyDropDownShow = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -62,7 +63,7 @@ var angObj = angObj || {};
         $scope.strategyViewData = function (param) {
             var strategiesList = {};
             $scope.strategyBusy = true;
-            $scope.tacticBusy = true;
+            $scope.tacticBusy = false;
             var errorHandler = function() {
                 $scope.dataNotFound = true;
                 $scope.strategyBusy = false;
@@ -73,10 +74,14 @@ var angObj = angObj || {};
                    // console.log("in view metric page");
                    // console.log(result.data.data);
                     strategiesList = result.data.data;
+                    $scope.viewData = strategiesList;
                     $scope.strategyBusy = false;
                     if (strategiesList) {
                         $scope.dataNotFound = false;
-                        $scope.tacticViewData(param, strategiesList);
+                        if(param.strategyId) {
+                            $scope.tacticBusy = true;
+                            $scope.tacticViewData(param, strategiesList);
+                        }$scope.strategyHeading = $scope.selectedStrategy.id === 0 ? 'Campaign total' : 'Strategy total';
 
                     } else {
                         errorHandler();
@@ -118,23 +123,28 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Compaign total' : 'Strategy total';
             $scope.callBackStrategyChange();
         });
-
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
-
             } else {
-                $scope.strategyFound = true ;
-                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+                $scope.strategyFound = true;
+                if(strategySelectModel.getStrategyCount() === 1)  $scope.isStrategyDropDownShow = false;
+                $scope.strategyViewData({
+                    campaign_id: $scope.selectedCampaign.id,
+                    strategyId: Number($scope.selectedStrategy.id),
+                    kpi_type: $scope.selected_filters.kpi_type,
+                    time_filter: $scope.selected_filters.time_filter
+                });
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
-            //Call the chart to load with the changed campaign id and strategyid
-           $scope.viewabilityBusy = false ;
+                //Call the chart to load with the changed campaign id and strategyid
+            $scope.viewabilityBusy = false ;
         };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {

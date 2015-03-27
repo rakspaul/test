@@ -4,7 +4,12 @@
         return {
 
             getStrategyViewData : function (param) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/viewReport?date_filter=' + param.time_filter;
+                var params= '?date_filter=' + param.time_filter;
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id;
+                if(param.strategyId) {
+                    url += '/strategies/'+ param.strategyId;
+                }
+                url += '/viewReport' + params;
                 return dataService.fetch(url);
             },
 

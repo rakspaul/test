@@ -194,7 +194,7 @@
             var costData, other = 0, sum;
              //get cost break down data
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
-                 $scope.loadingCostBreakdownFlag = false;
+                $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                      if(result.data.data.costData.length>0){
                         costData = result.data.data.costData[0];
