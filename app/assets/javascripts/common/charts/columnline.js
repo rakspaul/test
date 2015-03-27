@@ -164,6 +164,7 @@
                         lineColor: '#181B20',
                         minorGridLineWidth: 0,
                         opposite: true,
+                        min :0,
 
                         title: {
                             align: 'high',
@@ -180,7 +181,7 @@
                         title: {
                             align: 'high',
                             offset: 5,
-                            text:kpIType,
+                            text: kpIType.toUpperCase(),
                             style :{
                                 color : "#0D6DCC"
                             },
@@ -209,7 +210,8 @@
                         lineColor: '#0D6DCC',
                         gridLineWidth: 0,
                         minorGridLineWidth: 0,
-                        opposite: false
+                        opposite: false,
+                        min :0
 
                     }],
                     //Title configuration (optional)
@@ -280,17 +282,14 @@
 
                 //function (optional)
                 func: function(chart) {
-
-
-                    $timeout(function() {
+                    /*$timeout(function() {
                         if(utils.allValuesSame(impLine)) {
                             if(chart !== undefined && chart.xAxis !== undefined){
                                 var extremesX = chart.yAxis[0].getExtremes();
                                 chart.yAxis[0].setExtremes(0, extremesX.max * 2);
                             }
                         }
-                    //setup some logic for the chart
-                }, 1000);
+                    }, 1000);*/
                 }
 
             };
