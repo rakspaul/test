@@ -2,6 +2,9 @@
     'use strict';
     commonModule.controller('ganttChartController', function($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
 
+        $scope.dataFound = true;
+        $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
+        $scope.message = constants.DATA_NOT_AVAILABLE_MSG;
         $scope.calendar = function(filter) {
 
             $('.chart').remove();
@@ -46,6 +49,7 @@
                 //TODO: move this into a service
                 if (result != undefined && result.brands != undefined && result.brands.length > 0) {
                     $scope.calendarData = result.brands.length;
+                    $scope.dataFound = true;
 
                     //getting endpoint dates for calendar. 
                     var startDate, endDate, loop=0 ;
@@ -131,6 +135,7 @@
 
                 } else {
                     $scope.calendarBusy = false;
+                    $scope.dataFound = false;
                 }
 
 

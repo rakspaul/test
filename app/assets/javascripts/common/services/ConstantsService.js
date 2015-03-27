@@ -87,6 +87,10 @@
 
     this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
 
+    this.DATA_NOT_AVAILABLE_MSG = "Data not available";
+    this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
+
+    this.NO_CAMPAIGNS_WITH_SET_KPI = 'No Campaigns with set KPI value';
   };
 
   commonModule.service("constants", constants);

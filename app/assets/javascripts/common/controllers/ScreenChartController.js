@@ -10,9 +10,9 @@
 
         };
 
-      $scope.campaignsFound = true;
-      $scope.message = "Data not available";
-      $scope.style="campaigns_not_found";
+      $scope.dataFound = true;
+      $scope.message = constants.DATA_NOT_AVAILABLE_MSG;
+      $scope.style= constants.DATA_NOT_AVAILABLE_STYLE;
 
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
 
@@ -24,10 +24,10 @@
                 $scope.screenBusy = false ;
                 if(screenChartModel.getScreenWidgetData()['dataNotAvailable'] == true){
                     //$("#data_not_available_screen").show();
-                  //$scope.campaignsFound = false;
+                    $scope.dataFound = false;
                     $scope.cleanScreenWidget();
                 }else{
-                  $scope.campaignsFound = true;
+                  $scope.dataFound = true;
                     //$("#data_not_available_screen").hide();
                     screenChart.updateScreenChartData();
                 }
@@ -43,7 +43,7 @@
         });
 
       $scope.$on('SCREEN_DATA_NOT_AVAILABLE', function() {
-        $scope.campaignsFound = false;
+        $scope.dataFound = false;
       });
 
 
@@ -53,7 +53,7 @@
         };
 
         $scope.formatDropdownChange = function(obj){
-          if(!$scope.campaignsFound)
+          if(!$scope.dataFound)
             return;
             $("#screens").hide();
             d3.select("#screen_svg").remove();
@@ -64,7 +64,7 @@
         };
 
         $scope.metricDropdownChange = function(obj){
-          if(!$scope.campaignsFound)
+          if(!$scope.dataFound)
             return;
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
