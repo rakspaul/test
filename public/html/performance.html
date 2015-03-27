@@ -464,9 +464,9 @@
                                <div class="row_list_holder">
                                    <div class="common-load-icon" ng-show="platformBusy"></div>
                                    <!--{{platformBusy}}-->
-                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform">
+                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform.platform_metrics">
                                        <div class="each_col sec_col">
-                                           {{strategy.dimension}}
+                                           {{strategy.platform}}
                                        </div>
                                        <div class="each_col third_col">
                                            {{strategy.impressions | number:0}}
@@ -492,19 +492,17 @@
 
                            <div class="all_strategies_holder">
 
-                               <div class="common-load-icon" ng-show="tacticPlatformBusy"></div>
-                               <!--{{tacticPlatformBusy}}-->
-                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByPlatform|orderBy: sortByColumn">
+                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByPlatform.tactics|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
                                    <div class="linkage_bar">
                                    </div>
                                    <div class="each_strategy clearfix">
                                        <div class="each_col first_col">
-                                           {{tactic[0].description}}
+                                           {{tactic.name}}
                                        </div>
                                        <div class="row_list_holder">
-                                           <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                           <div class="clearfix each_row_list" ng-repeat="data in tactic.platform_metrics">
                                                <div class="each_col sec_col">
-                                                   {{data.dimension}}
+                                                   {{data.platform}}
                                                </div>
                                                <div class="each_col third_col">
                                                    {{data.impressions | number:0}}

@@ -22,7 +22,10 @@
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/'+ param.tab + '/perf?start_date='+ param.strategyStartDate +'&end_date='+ param.strategyEndDate ;
                 return dataService.fetch(url);
             },
-
+            getStrategyPlatformData: function (param) {
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/'+ param.tab;
+                return dataService.fetch(url);
+            },
             getTacticPerfData: function (param) {
                  var url =  apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/tactics/'+  param.tacticId +'/' + param.tab +'/perf?start_date=' + param.startDate + '&end_date=' + param.endDate ;
                 return dataService.fetch(url);

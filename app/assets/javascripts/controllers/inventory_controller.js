@@ -18,6 +18,7 @@ var angObj = angObj || {};
         $scope.selected_filters_tb = '0';
         $scope.selected_filters_tab = 'categories';
         $scope.strategyLoading =  true;
+        $scope.ias_data_not_available_msg = constants.MSG_METRICS_NOT_TRACKED;
 
         $scope.strategyTable = {
             topPerformance: [],
@@ -156,8 +157,6 @@ var angObj = angObj || {};
         //Function called to draw the Strategy chart
         $scope.getStrategyChart = function (param) {
             $scope.strategyBusy = true;
-
-
             var url = inventoryService.getStrategyDomainData(param);
             var canceller =  requestCanceller.initCanceller(constants.INVENTORY_STRATEGY_CANCELLER);
             var errorHandler =  function() {

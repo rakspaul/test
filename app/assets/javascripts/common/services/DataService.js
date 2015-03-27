@@ -159,17 +159,20 @@
         }
         return $http({url: url, method: 'GET'}).then(
           function (response) {
-            if(response.status === 401) {
+              var objOnSuccess = {
+                  status: "success",
+                  data: response.data
+              };
+
+              if(response.status === 401) {
               loginModel.unauthorized();
               return errorObject;
             } else if(response.status === 403) {
               loginModel.forbidden();
               return errorObject;
-            }
-            var objOnSuccess = {
-              status: "success",
-              data: response.data
-            };
+            } else if(response.status === 204) {
+              objOnSuccess.status=constants.DATA_NOT_AVAILABLE;
+           }
             dataStore.cacheByUrl(url, objOnSuccess)
             return utils.clone(objOnSuccess);
           },
@@ -242,17 +245,20 @@
         }
         return $http.get(url, {timeout: canceller.promise}).then(
           function (response) {
-            if(response.status === 401) {
+              var objOnSuccess = {
+                  status: "success",
+                  data: response.data
+              };
+
+              if(response.status === 401) {
               loginModel.unauthorized();
               return errorObject;
             } else if(response.status === 403) {
               loginModel.forbidden();
               return errorObject;
+            } else if(response.status === 204) {
+              objOnSuccess.status=constants.DATA_NOT_AVAILABLE;
             }
-            var objOnSuccess = {
-              status: "success",
-              data: response.data
-            };
             dataStore.cacheByUrl(url, objOnSuccess)
             return success.call(this, utils.clone(objOnSuccess));
           },

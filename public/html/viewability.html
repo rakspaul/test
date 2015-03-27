@@ -90,7 +90,7 @@
                             <span> Suspicious Activity</span>
                             <span>(%)</span>
                         </div>
-                        <div class="each_col seventh_col">
+                        <div class="each_col s  eventh_col">
 
                             <div class="dropdown">
                                 <kpi-drop-down selected-obj=selected_filters> </kpi-drop-down>
@@ -102,9 +102,8 @@
                         </div>
                     </div>
                     <div >
-                      <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy">
-                        Data Not Available
-                      </div>
+                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy">
+                          {{ias_data_not_available_msg}}</div>
                     <div class="strategy_total_container " >
                       <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
 

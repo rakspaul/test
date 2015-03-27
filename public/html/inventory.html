@@ -72,13 +72,13 @@
                     <div class="pull-left inventory_chart">
                           <span ng-switch="inventoryChart">
                                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                                <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                                <span ng-switch-when="false" class="no-chart">{{ias_data_not_available_msg}}</span>
                                 <span ng-switch-default>
                                     <div class="highcharts" ng-if="inventoryChart">
                                         <highchart config="inventoryChart" chartTitle=""></highchart>
                                     </div>
                                     <div class="highcharts" ng-if="!inventoryChart">
-                                        <span class="no-chart">Data Not Available<!-- (PARTIAL CHART)-->.</span>
+                                        <span class="no-chart">{{ias_data_not_available_msg}}<!-- (PARTIAL CHART)-->.</span>
                                     </div>
                                 </span>
                             </span>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="inventory_strategy_chart no_data_found" ng-if="!strategyFound  && !strategyBusy ">
-                    Data Not Available
+                    {{ias_data_not_available_msg}}
                 </div>
             </div>
             <!--tacticBusy : {{tacticBusy}}-->
@@ -121,7 +121,7 @@
                     <div class="pull-left inventory_chart">
                         <span ng-switch="tactic.chart">
                                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                                <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                                <span ng-switch-when="false" class="no-chart">{{ias_data_not_available_msg}}</span>
                                 <span ng-switch-default>
                                     <div class="highcharts" ng-if="tactic.chart">
                                         <!--<div class="clearfix highcharts_kpi_titles">
@@ -131,7 +131,7 @@
                                         <highchart config="tactic.chart" chartTitle=""></highchart>
                                     </div>
                                     <div class="highcharts" ng-if="!tactic.chart">
-                                        <span class="no-chart">Data Not Available<!-- (PARTIAL CHART)-->.</span>
+                                        <span class="no-chart">{{ias_data_not_available_msg}}<!-- (PARTIAL CHART)-->.</span>
                                     </div>
                                 </span>
                             </span>
