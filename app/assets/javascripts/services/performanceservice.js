@@ -19,11 +19,16 @@
             },
 
             getStrategyPerfData: function (param) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/'+ param.tab + '/perf?start_date='+ param.strategyStartDate +'&end_date='+ param.strategyEndDate ;
+                var params= '?start_date='+ param.strategyStartDate +'&end_date='+ param.strategyEndDate;
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId;
+                if(param.strategyId) {
+                    url += '/strategies/'+ param.strategyId;
+                }
+                url += '/'+ param.tab+ '/perf'+ params;
                 return dataService.fetch(url);
             },
             getStrategyPlatformData: function (param) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/'+ param.tab;
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ (param.strategyId ? ('/strategies/'+ param.strategyId) : '') + '/'+ param.tab;
                 return dataService.fetch(url);
             },
             getTacticPerfData: function (param) {

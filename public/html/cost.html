@@ -36,7 +36,7 @@
             </div>
             <div class="clearfix"></div>
             
-            <div id="cost_strategies_dd" >
+            <div id="cost_strategies_dd" ng-show="isStrategyDropDownShow">
                 <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
             </div>
 
@@ -98,7 +98,7 @@
                                 <div class="each_cost_row">
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
                                     <div class="each_cost_heading" >
-                                        Strategy Total
+                                        {{strategyHeading}}
                                     </div>
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound">
                                         Data Not Available

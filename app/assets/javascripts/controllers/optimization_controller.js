@@ -83,7 +83,7 @@ var angObj = angObj || {};
 
                 $scope.reachUrl = '/campaigns#/campaigns/' +  $scope.selectedCampaign.id ;  //$scope.clicked.orderId;
 
-                if (actionItemsArray.length > 0) {
+                if (actionItemsArray.length > 0 && Number($scope.selectedStrategy.id) >0) {
                     $scope.tacticNotFound = false;
                     $scope.loadTableData();
                 } else {
@@ -111,8 +111,10 @@ var angObj = angObj || {};
                 // get action data for the selected campaign.
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.tacticNotFound = false;
-                        $scope.campaignActionList = result.data.data;
+                        if($scope.selectedStrategy && $scope.selectedStrategy.id) {
+                            $scope.tacticNotFound = false;
+                            $scope.campaignActionList = result.data.data;
+                        }
                     }
                     else {
                         $scope.tacticNotFound = true;
@@ -260,7 +262,7 @@ var angObj = angObj || {};
                 endDate : $scope.selectedCampaign.endDate
             };
 
-            var strategyId = $scope.selectedStrategy.id;
+            var strategyId = Number($scope.selectedStrategy.id);
 
             dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
@@ -348,6 +350,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
             $scope.callBackStrategyChange();
         });
 
@@ -360,8 +363,9 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
+            $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
             $scope.chartForStrategy = true;
-            if ($scope.selectedStrategy.id !== -1 && $scope.campaignActionList.length >0) { // Means selected campaing has valid strategy
+            if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
                 $scope.actionDataForSelectedStrategy();
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
@@ -386,6 +390,7 @@ var angObj = angObj || {};
             }
             $scope.$apply();
         });
+
 
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
