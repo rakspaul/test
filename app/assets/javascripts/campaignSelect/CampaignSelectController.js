@@ -20,6 +20,7 @@
         $scope.fetching = false;
 
        $scope.$parent.strategyLoading = true;
+       $scope.$parent.isFetchStrategiesCalled = false;
 
         //TODO: can make a general improvement
         // Don't make calls to server, if previous selected campaign is same as presently selected campaign.
@@ -41,7 +42,7 @@
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
 
-            if(selectedCampaign == undefined || selectedCampaign.id == -1) {
+            if (selectedCampaign == undefined || selectedCampaign.id == -1) {
 
                 selectedCampaign = {
                     id: -1,
@@ -54,10 +55,12 @@
 
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
-            if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true )
+            if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true) {
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
-            else
+            } else {
+
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+             }
 
         };
 
@@ -120,6 +123,7 @@
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             $scope.$parent.strategyLoading = true ;
+            $scope.$parent.isFetchStrategiesCalled = false;
             var selectedCampaign = {
                 id : $(e.target).attr('value'),
                 name :  $(e.target).text(),

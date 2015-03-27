@@ -10,9 +10,13 @@
             }
         };
         $scope.$parent.strategyLoading =  true;
+        $scope.$parent.isFetchStrategiesCalled = false;
+
         $rootScope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
-            $scope.reset();// reset all data
-            $scope.fetchStrategies();// fetch strategies and set selected Strategy as First Strategy
+            if(!$scope.$parent.isFetchStrategiesCalled) {
+                $scope.reset();// reset all data
+                $scope.fetchStrategies();// fetch strategies and set selected Strategy as First Strategy
+            }
         });
 
         // On this event, only fetch list of strategyies and retain selectedStrategy (done from outside).
@@ -42,6 +46,7 @@
             if(campaignSelectModel.getSelectedCampaign().id != -1){
                 strategySelectModel.getStrategies(campaignSelectModel.getSelectedCampaign().id).then(function(result){
                     var strategyObj = strategySelectModel.getStrategyObj();
+                    $scope.$parent.isFetchStrategiesCalled =  true;
                     $scope.strategyData.strategies = (strategyObj.strategies == undefined)? {} : strategyObj.strategies ;
                     $scope.setStrategy(strategyObj.selectedStrategy);
                 });
@@ -51,6 +56,10 @@
                 $scope.strategyData.selectedStrategy.name = 'Loading...' ;
             }
         };
+
+        if(!$scope.$parent.isFetchStrategiesCalled) {
+            $scope.fetchStrategies();
+        }
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
