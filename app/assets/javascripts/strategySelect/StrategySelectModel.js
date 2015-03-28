@@ -14,7 +14,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
 
             var modifyStrategiesData =  function(resp) {
                 var strategyData = (resp && resp.data) ? resp.data : [];
-                strategyData.unshift({'name': 'All Strategies', id : 0, type : 'all'});
+                strategyData.unshift(constants.ALL_STRATEGIES_OBJECT);
                 strategyObj.strategies =  (strategyData !== undefined) ? strategyData : {} ;
                 if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && strategyObj.selectedStrategy.id == -1 ) {
                     strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;

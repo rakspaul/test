@@ -85,6 +85,7 @@
     this.DATA_NOT_AVAILABLE= 204;
     this.MSG_METRICS_NOT_TRACKED= 'Metric not tracked.  Please contact your Account Manager.';
 
+    this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
 
   };
 
