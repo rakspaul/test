@@ -65,15 +65,15 @@
   background: -moz-linear-gradient(left,@startColor, @endColor);
   background: -webkit-linear-gradient(left,@startColor, @endColor);
 }
-.ValStyle() {
-  font-size: 20px;
-  color: #262626;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+.valStyle() {
+  font-family: "Avenir-bold" ;
+color:  #57606d;
+font-size: 14px;
 }
-.blueVal() {
-  color: #0978c9 ;
-  font-size: 20px ;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+.darkBoldVal() {
+  font-family: "Avenir-bold" ;
+  color:  #21252b;
+  font-size: 14px; 
 }
 .graphHeadingFont() {
   font-size: 16px ;
@@ -1828,7 +1828,7 @@ button, i, input[type="submit"] {
     .each_campaign_list_container {
       border: solid 1px #d2dee7 ;
       background: #fff ;
-      padding: 20px 20px 20px 12px;
+      padding: 20px 20px 0px 12px;
       margin: 0px 0 10px ;
       .each_campaign_section {
         float: left;
@@ -1843,15 +1843,16 @@ button, i, input[type="submit"] {
             color: black;
             .details_KPI_title {
               float: left;
+              .darkBoldVal();
             }
             .cumulative_val {
               float: right;
               color: #acacac;
               font-size: 14px;
               span {
-                color: #0978c9;
-                font-size: 20px;
-                font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+                font-family: "Avenir-bold" ;
+                color:  #57606d;
+                font-size: 14px;
               }
             }
           }
@@ -1863,6 +1864,9 @@ button, i, input[type="submit"] {
             margin-top: 0px ;
             span {
               float: right ;
+              font-family: "Avenir-bold" ;
+              color:  #57606d;
+              font-size: 14px;
             }
             span.icon_KPI  {
               display: inline-block;
@@ -1885,14 +1889,12 @@ button, i, input[type="submit"] {
         font-family: "Avenir" ;
         width: 300px;
         .metric_graph_header {
+          .darkBoldVal();
           .metric_title {
-            color: #000 ;
-            font-size: 16px ;
             float: left;
           }
           .metric_val {
             float: right;
-            .blueVal();
           }
         }
         .metric_graph_details {
@@ -1909,7 +1911,7 @@ button, i, input[type="submit"] {
               display: block;
             }
             span.detail_val {
-              .ValStyle();
+              .valStyle();
             }
           }
         }
@@ -2483,6 +2485,14 @@ button, i, input[type="submit"] {
     border-top: 0;
     .cost_cols_holder {
       margin-top: 10px ;
+      .each_cost_col {
+        font-family: "Avenir" ;
+        font-weight: normal;
+        color: #57606d ;
+      }
+      .total_cost {
+        font-family: "Avenir-bold" ;
+      }
     }
     .each_cost_section {
       float: left;
