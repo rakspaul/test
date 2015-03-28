@@ -326,10 +326,9 @@
                                   </div>
                                   <div class="more_details" ng-bind-html="action.comment|morelines|newlines"> 
                                   </div>
-                              </div>
-
-                           <div ng-if="(activityLogFlag == false)" class="load-more" style="">&nbsp;</div>
+                              </div>          
                       </div>
+                          <div ng-if="(activityLogFlag == false)" class="load-more" style="">&nbsp;</div>
                           <div class="no_activity_class" ng-if="((!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)) && activityLogFlag == true">
                               Campaign yet to be optimized.
                           </div>
