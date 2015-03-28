@@ -77,13 +77,18 @@ var angObj = angObj || {};
                             actionItemsArray.push(actionItems[i].action[j]);
                             counter++;
                         }
+                    } else if ($scope.selectedStrategy.id==0) {
+                        for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
+                            actionItems[i].action[j].action_color = actionColors[counter % 9];
+                            $scope.selectedStrategy.action = actionItems[i].action;
+                            actionItemsArray.push(actionItems[i].action[j]);
+                            counter++;
+                        }
                     }
                 }
                 $scope.actionItems = actionItemsArray;
 
-                $scope.reachUrl = '/campaigns#/campaigns/' +  $scope.selectedCampaign.id ;  //$scope.clicked.orderId;
-
-                if (actionItemsArray.length > 0 && Number($scope.selectedStrategy.id) >0) {
+                if (actionItemsArray.length > 0 && Number($scope.selectedStrategy.id) >= 0) {
                     $scope.tacticNotFound = false;
                     $scope.loadTableData();
                 } else {
