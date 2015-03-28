@@ -447,13 +447,7 @@
 
             campaignSelectModel.setSelectedCampaign(campaign);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
-
-            var _selectedStrategy = {
-                id : strategyByActionId[action.id].lineitemId ,
-                name :  strategyByActionId[action.id].lineItemName
-            };
-
-            strategySelectModel.setSelectedStrategy(_selectedStrategy);
+            strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
 
             var actionData ={
                 selectedAction : action ,
@@ -487,6 +481,7 @@
         $scope.setGraphData = function(campaign, type){
 
             campaignSelectModel.setSelectedCampaign(campaign);
+            strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);

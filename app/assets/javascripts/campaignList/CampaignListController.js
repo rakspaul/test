@@ -29,6 +29,8 @@
         };
         campaignSelectModel.setSelectedCampaign(selectedCampaign);
         kpiSelectModel.setSelectedKpi(selectedCampaign.kpi);
+        strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
+
         $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
       document.location = '#/performance';
     };
