@@ -383,10 +383,10 @@ var angObj = angObj || {};
                             $scope.dataNotFoundForPlatform = false;
                             $scope.platformBusy = false;
                             //$scope.checkForSelectedTabData($scope.strategyPerfDataByPlatform, 'Platform');
-                            if(param.strategyId) {
-                                $scope.tacticPlatformBusy = true ;
-                                $scope.tacticPerfData(param);
-                            }
+//                            if(param.strategyId) {
+//                                $scope.tacticPlatformBusy = true ;
+//                                $scope.tacticPerfData(param);
+//                            }
                         }
                         else {
                             byplatformsError();
