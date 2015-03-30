@@ -55,7 +55,7 @@
 
       function createDashboard() {
         createDash();
-        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 175,125);
+        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 165,125);
       };
 
 
