@@ -263,14 +263,22 @@
 
 
                         var data = _.sortBy(tasks, function(o) { return o.start_date; });
-                        if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()){
-                            //check
+
+                        if (d3.event.dx < 0) {
+                            //if user requests next duration data -  scroll the view 
                             gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
                             gantt.redraw(tasks, timeDomainString);
-                        } else if (d3.event.dx < 0) {
-                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                        } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
+                            //if user asks for previous period data - check if available
+                            if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
+                                //second line of defence to limit scroll to previous duration based on the amount of drag :)
+                                gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                            } else {
+                                //do a partial scroll to reach dead edge
+                                gantt.timeDomain([td[0] - scale , td[1] - scale]);
+                            }
                             gantt.redraw(tasks, timeDomainString);
-                        }
+                        } 
                         // if (d3.event.dx < 0) {
                         //     next(timeDomainString);
                         // } else {
@@ -778,8 +786,8 @@
 
                 var translateGraphicElements = function(a, type) {
                     if (type == "brand_name") {
-                        a.transition()
-                            .delay(0).attr("transform", rectTransform);
+                        //a.transition()
+                           // .delay(0).attr("transform", rectTransform);
 
                     } else if (type == "text") {
                         a.transition()
