@@ -52,6 +52,7 @@ var angObj = angObj || {};
 
             $scope.strategyBusy = false;
             $scope.tacticBusy = false;
+            $scope.isStrategyDropDownShow = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -78,7 +79,7 @@ var angObj = angObj || {};
 
                 if (result.status === "OK" || result.status === "success") {
 
-                    if (result.data.data[0] !== 'undefined') {
+                    if (result.data.data[0] !== 'undefined' ) {
 
                         if (param.domain.toLowerCase() === $scope.selected_filters_tab.toLowerCase()) {
 
@@ -147,6 +148,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
             $scope.callBackStrategyChange();
         });
 
@@ -184,8 +186,23 @@ var angObj = angObj || {};
                             $scope.strategyBusy = false;
                             // if we get valid inventroy data for strategy then only we need to make call to get tactic data
 
-                            // As we got strategy data ,first do the call for tactics data
-                            $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
+                                // As we got strategy data ,first do the call for tactics data
+                                if(Number($scope.selectedStrategy.id)) {
+                                    $scope.getTacticList({
+                                        campaign_id: $scope.selectedCampaign.id,
+                                        strategyId: Number($scope.selectedStrategy.id),
+                                        kpi_type: $scope.selected_filters.kpi_type,
+                                        domain: $scope.selected_filters_tab,
+                                        time_filter: $scope.selected_filters.time_filter
+                                    });
+
+                                }
+                                //Default show the top performance strategies
+                                if ($scope.strategyTable.show == 'Top') {
+                                    $scope.strategyTableData = $scope.strategyTable.topPerformance; //.slice(0, 5);
+                                } else {
+                                    $scope.strategyTableData = $scope.strategyTable.bottomPerformance; //.slice(0, 5);
+                                }
 
                             // Now process obtained straregy data for graph and table showing.
                             for (var data in resultTableData) {
@@ -208,7 +225,6 @@ var angObj = angObj || {};
                             } else {
                                 $scope.inventoryChart = false;
                             }
-
                         }
 
                         // draw tactic graph only when strategy section got valid data.
@@ -220,6 +236,7 @@ var angObj = angObj || {};
                             // data is not found but tactic loader was still true.
                         }
                     }
+
                     else { //api call doesn't return result data or returns empty invetory metrics data.
                         errorHandler();
 
@@ -275,15 +292,19 @@ var angObj = angObj || {};
 
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
-                $scope.inventoryChart = false;
-
             } else {
-                $scope.strategyFound = true ;
-                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters_tab, time_filter: $scope.selected_filters.time_filter });
+                $scope.strategyFound = true;
+                if (strategySelectModel.getStrategyCount() === 1)  $scope.isStrategyDropDownShow = false;
+                $scope.getStrategyChart({
+                    campaign_id: $scope.selectedCampaign.id,
+                    strategyId: Number($scope.selectedStrategy.id),
+                    kpi_type: $scope.selected_filters.kpi_type,
+                    domain: $scope.selected_filters_tab,
+                    time_filter: $scope.selected_filters.time_filter
+                });
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
             $scope.inventoryBusy = false ;
-
         };
 
         $scope.callBackCampaignsSuccess = function () {
@@ -306,14 +327,13 @@ var angObj = angObj || {};
         $('#category_change').click(function (e) {
             $scope.inventoryChart = true;
             $scope.strategyBusy = true;
-            $scope.tacticBusy = true;
-
-                $scope.selected_filters_tab = $(e.target).attr('_key');
-                $(".inventory_tab_active").removeClass("inventory_tab_active");
-                $(e.target).parent().addClass("inventory_tab_active");
-                $scope.$apply();
-                $scope.callBackStrategyChange();
-                analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
+            $scope.tacticBusy = false;
+            $scope.selected_filters_tab = $(e.target).attr('_key');
+            $(".inventory_tab_active").removeClass("inventory_tab_active");
+            $(e.target).parent().addClass("inventory_tab_active");
+            $scope.$apply();
+            $scope.callBackStrategyChange();
+            analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
         });
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {

@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div id="viewability_strategies_dd">
+        <div id="viewability_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
@@ -110,7 +110,7 @@
                       <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
 
                             <div class="each_col first_col">
-                                Strategy total:
+                                {{strategyHeading}}:
                             </div>
 
                             <div class="each_col sec_col">

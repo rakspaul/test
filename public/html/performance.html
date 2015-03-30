@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div id="performance_strategies_dd">
+        <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
         <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
@@ -112,7 +112,7 @@
                             <div class="strategy_total_container_header clearfix">
 
                                 <div class="each_col first_col">
-                                    Strategy total:
+                                    {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
@@ -226,7 +226,7 @@
                             <div class="strategy_total_container_header clearfix">
 
                                 <div class="each_col first_col">
-                                    Strategy total:
+                                    {{strategyHeading}}:
                                 </div>
 
                                 <div class="row_list_holder">
@@ -345,7 +345,7 @@
                             <div class="strategy_total_container_header clearfix">
 
                                 <div class="each_col first_col">
-                                    Strategy total:
+                                    {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
@@ -459,7 +459,7 @@
                            <div class="strategy_total_container_header clearfix">
 
                                <div class="each_col first_col">
-                                   Strategy total:
+                                   {{strategyHeading}}:
                                </div>
                                <div class="row_list_holder">
                                    <div class="common-load-icon" ng-show="platformBusy"></div>

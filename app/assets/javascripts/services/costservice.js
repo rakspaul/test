@@ -10,7 +10,14 @@
             },
 
             getStrategyCostData: function (param) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/costs/perf?start_date='+ param.startDate +'&end_date='+ param.endDate ;
+                var params= 'start_date='+ param.startDate +'&end_date='+ param.endDate;
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/';
+                if(param.strategyId) {
+                    url += param.campaignId + '/strategies/'+ param.strategyId + '/costs/perf?';
+                } else {
+                    url += 'costs?ids='+ param.campaignId+'&';
+                }
+                url += params;
                 return dataService.fetch(url);
             },
 

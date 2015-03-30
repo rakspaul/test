@@ -194,7 +194,7 @@
             var costData, other = 0, sum;
              //get cost break down data
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
-                 $scope.loadingCostBreakdownFlag = false;
+                $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                      if(result.data.data.costData.length>0){
                         costData = result.data.data.costData[0];
@@ -447,13 +447,7 @@
 
             campaignSelectModel.setSelectedCampaign(campaign);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
-
-            var _selectedStrategy = {
-                id : strategyByActionId[action.id].lineitemId ,
-                name :  strategyByActionId[action.id].lineItemName
-            };
-
-            strategySelectModel.setSelectedStrategy(_selectedStrategy);
+            strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
 
             var actionData ={
                 selectedAction : action ,
@@ -487,6 +481,7 @@
         $scope.setGraphData = function(campaign, type){
 
             campaignSelectModel.setSelectedCampaign(campaign);
+            strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
