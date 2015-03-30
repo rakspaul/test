@@ -427,13 +427,14 @@ angObj.directive('truncateTextWithHover', function () {
         icon = input;
       if (input === undefined || input == "") {
         icon = defaultIcon || assets.platform_icon;
-      }
-      _style = "background:url('" + icon + "') no-repeat scroll 0 0 rgba(0, 0, 0, 0);"
+        _style = "background:url('" + icon + "') no-repeat scroll 0 0 rgba(0, 0, 0, 0);"
         + "width: 17px;"
         + "height: 17px;"
         + "display: inline-block;"
         + 'background-size:17px;"';
-      return _style;
+        return _style;
+      }
+
     }
   });
 //Used in _inventory.html file
