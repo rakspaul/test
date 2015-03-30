@@ -191,7 +191,7 @@
 
         function dataFormatting (root , spanId){
 
-            var positions =  [[72,80],[240,60],[165,160],[290,220] ,[60,220],[165,240]];
+            var positions =  [[72,80],[240,60],[165,160],[280,200] ,[60,220],[165,240]];
             var formattedData = [];
             var array = root;
             var maxRadius = (spanId == 'brands') ? 70 : 60 ;

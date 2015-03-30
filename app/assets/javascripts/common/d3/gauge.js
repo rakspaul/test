@@ -176,19 +176,19 @@
         //  this.greyArc = createArc(currentGauge.greyArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2,  -this.config.max + this.config.min + 5 , this.config.greyColor);
           this.outerArc = createArc(undefined, this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
-          var leftDotPt = {x: self.config.cx - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
+          var leftDotPt = {x: self.config.cx -10 - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
           var rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y};
           this.leftDot = createCircle(this.body, leftDotPt.x, leftDotPt.y, greenColor, 5);
           this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
 //          this.rightDot =
-          this.svgText = createText(this.myContainer, this.config.cx-15, this.config.cy, "0", "sans-serif", 30, "bold", "black");
+          this.svgText = createText(this.myContainer, this.config.cx-12, this.config.cy +10, "0", "sans-serif", 30, "bold", "black");
           this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
           this.leftDotText = createText(this.myContainer, leftDotPt.x + 10, leftDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
 
-          this.pctX = this.config.cx + 8;
+          this.pctX = this.config.cx + 10;
           this.pctTxt = this.myContainer.append("text")
             .attr("x", this.pctX)
-            .attr("y", this.config.cy-6)
+            .attr("y", this.config.cy+5)
             .text('%')
             .attr("font-family", "sans-serif")
             .attr("font-size", "14px")
