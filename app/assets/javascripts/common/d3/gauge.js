@@ -181,11 +181,11 @@
           this.leftDot = createCircle(this.body, leftDotPt.x, leftDotPt.y, greenColor, 5);
           this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
 //          this.rightDot =
-          this.svgText = createText(this.myContainer, this.config.cx-15, this.config.cy +10, "0", "sans-serif", 30, "bold", "black");
+          this.svgText = createText(this.myContainer, this.config.cx-12, this.config.cy +10, "0", "sans-serif", 30, "bold", "black");
           this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
           this.leftDotText = createText(this.myContainer, leftDotPt.x + 10, leftDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
 
-          this.pctX = this.config.cx + 8;
+          this.pctX = this.config.cx + 10;
           this.pctTxt = this.myContainer.append("text")
             .attr("x", this.pctX)
             .attr("y", this.config.cy+5)
