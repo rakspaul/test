@@ -1191,8 +1191,23 @@
                         }
                         break;
                     case 'today':
-                        edge1 = moment(td[0]).subtract(7, 'days').startOf('day').unix() * 1000;
-                        edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
+
+                        if(moment(_.first(data).startDate).toDate() < moment(td[0]).subtract(7, 'days').startOf('day').toDate()) {
+                            edge1 = moment(td[0]).subtract(7, 'days').startOf('day').unix() * 1000;
+                            edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
+                        } else {
+                            //fix for week view - scroll lock on edges
+                            var a = moment(td[0]);
+                            var b = moment(_.first(data).startDate);
+                            var diff = a.diff(b, 'days');
+
+                            //set to the minimum date - if less than a week
+                            edge1 = moment(td[0]).subtract(diff, 'days').startOf('day').unix() * 1000;
+                            edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
+
+                        }
+
+                        
                         break;
                 }
 
