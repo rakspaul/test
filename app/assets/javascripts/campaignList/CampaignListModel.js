@@ -452,7 +452,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       if (this.sortParam == fieldName) {
         return this.sortDirection == 'asc' ? 'ascending' : 'descending';
       } else {
-        return '';
+        return 'ascending';
       }
     },
     Campaigns.prototype.findShortCutKey = function(campaign,ev) {
