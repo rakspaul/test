@@ -36,6 +36,7 @@
             //Get Campaign for the selected brand
             resetSearchCriteria();
             $scope.exhausted = false;
+            $scope.$parent.isFetchStrategiesCalled = false;
             $scope.fetchCampaigns(true,true);
 
         });
