@@ -354,11 +354,30 @@
                             if (newWidth > width) {
                                 //var rect = d3.select(this);
                                 //rect.select("rect.campaigns").attr("width", newWidth-4);
-                                d3.select(this).select("text.campaigns_name")
-                                    //console.log(rect.select("text","#campaigns_name"));
-                                    .text(function(d) {
-                                        return d.name;
-                                    });
+
+                                //icon - check if it fits the display criteria
+                                var icon = d3.select(this).select("image.icon");
+                                icon.style('display', function(d){
+                                    if ((x(d.endDate) - x(d.startDate)) > 0){
+                                        return "block";
+                                    } else {
+                                        return "none";
+                                    }
+                                });
+                                //check if text fits the display criteria
+                                var container = d3.select(this).select("text.campaigns_name");
+                                container.style('display', function(d){
+                                    if ((x(d.endDate) - x(d.startDate)) > 0){
+                                        return "block";
+                                    } else {
+                                        return "none";
+                                    }
+                                });
+                               
+                                container.text(function(d) {
+                                    return d.name;
+                                });
+                                    
                             }
                         }
 
@@ -376,15 +395,38 @@
                             }
                             //considering approx. of 10px for a character
                             var fitCount = width / 7;
-                            d3.select(this).select("text.campaigns_name")
-                                .text(function(d) {
-                                    if (fitCount >= stringLength) {
-                                        //texts fits :)
-                                        return d.name;
-                                    } else {
-                                        return d.name.substr(0, fitCount) + "...";
-                                    }
-                                });
+
+                            //check if there is space to render icon - if not hide it
+                            var icon = d3.select(this).select("image.icon");
+                            icon.style('display', function(d) {
+                                if ((x(d.endDate) - x(d.startDate)) <= 40){
+                                    return "none";
+                                } else {
+                                    return "block";
+                                }
+
+                            });
+
+                            //check if text is supposed to be visible - if not hide
+                            var container = d3.select(this).select("text.campaigns_name");
+                            container.style('display', function(d) {
+                                if ((x(d.endDate) - x(d.startDate)) <= 40){
+                                    return "none";
+                                } else {
+                                    return "block";
+                                }
+
+                            });
+
+                            container.text(function(d) {
+                                if (fitCount >= stringLength) {
+                                    //texts fits :)
+                                    return d.name;
+                                } else {
+                                    return d.name.substr(0, fitCount) + "...";
+                                }
+                            });
+
                         }
                     });
 
