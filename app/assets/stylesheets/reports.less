@@ -198,7 +198,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     }
   }
   .each_reports_row {
-    padding: 15px 16px 25px ;
+    padding: 5px 16px 16px ;
   }
   .reports_section_details_container {
     position: relative;
@@ -224,7 +224,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       background: #f8faff ;
     }
     .each_reports_row_details.action_selected {
-      background: #CFDAF4 ;
+      background: #dde6eb ;
     }
     .default-kpi-header-icon {
       height: 11px;
@@ -378,6 +378,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   height: 26px;
   background: url("/assets/images/cdesk/graphIcon.png") no-repeat left center;
   background-size: 100%;
+  margin-top: 10px ;
 }
 .campaigns_sel_list_header {
   border-left: solid 1px @reportBorder ;
@@ -839,7 +840,7 @@ div.strategy_total_container {
     background: @reportHighlight  ;
     border: solid 1px @reportBorder ;
     border-top-width: 2px ; 
-    padding: 20px;
+    padding: 15px 20px 5px 20px ;
     div.each_col.first_col {
       .StrategyHeadingFontColor();
     }
@@ -865,7 +866,7 @@ div.strategy_total_container {
     .each_strategy {
       float: left;
       width: 100% ;
-      padding: 20px 20px 20px 10px;
+      padding: 15px 20px 5px 6px;
       margin: 10px 0 0 0px;
       border: solid 1px @reportBorder ;
       background: #fff;
@@ -895,9 +896,11 @@ div.strategy_total_container {
      float: none;   
      width: 100% ;
      .ReportRowFontColor() ;
+     padding-bottom: 0px ;
     }
     .strategy_total_container_header {
       padding-top : 10px ;
+      padding-bottom: 4px ;
     }
     .each_strategy_holder {
       border-left: solid 1px @reportBorder ;
@@ -929,7 +932,8 @@ div.strategy_total_container {
     float: left;
     width: 185px;
     margin: 0 25px;
-    padding-top: 20px;
+    padding-top: 15px;
+    padding-bottom: 10px ;
     .ReportDataFontColor() ;
     > span {
       text-align: center;
@@ -959,7 +963,8 @@ div.strategy_total_container {
     width: 160px;
     color: #313233;
     font-size: 14px;
-    padding-top: 10px;
+    padding-top: 5px;
+    margin-left: 4px ;
     .campaign_spec {
       font-size: 12px;
       font-family: "Avenir";
@@ -967,7 +972,7 @@ div.strategy_total_container {
   }
   div.sec_col {
     width: 90px;
-    padding-top: 20px;
+    padding-top: 15px;
     margin-right: 40px ;
     div.sub_col {
       span {
@@ -1202,7 +1207,7 @@ div.strategy_total_container {
       float: left;
       width: 125px;
       text-align: right;
-      margin: 10px 0 10px 15px ;
+      margin: 5px 0 10px 15px ;
     }
     .all_strategies_holder  {
       .linkage_lines{
@@ -1225,7 +1230,8 @@ div.strategy_total_container {
       text-align: left;
       width: 200px;
       .ReportRowFontColor() ;
-      margin-top: 10px;
+      margin-top: 0px;
+      margin-bottom: 10px ;
       .sub_title {
         font-weight: normal;
         font-size: 12px ;
@@ -1243,6 +1249,7 @@ div.strategy_total_container {
       border-bottom: 0px ;
       .each_col {
         .ColHeadingFontColor();
+        margin: 6px 0 2px 15px;
       }
       .first_col {
         margin-top: 10px ;
@@ -1280,7 +1287,7 @@ div.strategy_total_container {
     .each_col.first_col {
       float: none;
       width: 100% ;
-      margin-left: 5px;
+      margin-left: 3px;
     }
   }
 }
@@ -1342,7 +1349,7 @@ div.strategy_total_container {
   }
   .each_cost_row_holder {
     .each_cost_row {
-      padding: 20px 0 20px 20px  ;
+      padding: 15px 0 15px 20px  ;
       border: solid 1px #d2dee7;
       border-top: 0;
       .total_cost {
