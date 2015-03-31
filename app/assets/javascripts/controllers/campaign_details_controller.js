@@ -461,7 +461,7 @@
                 return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             else if (dataSetType == 'activities' && campaign.durationLeft() !== 'Ended')
                 return constants.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED;
-            else if (dataSetType == 'inventory' || dataSetType == 'viewability')
+            else if ((dataSetType == 'inventory' || dataSetType == 'viewability') && campaign.durationLeft() !== 'Ended')
                 return constants.MSG_METRICS_NOT_TRACKED;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
