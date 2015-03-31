@@ -559,12 +559,12 @@
                     .attr("class", "icon")
                     .attr("x", CAMPAIGN_HEIGHT / 3)
                     .attr("y", CAMPAIGN_HEIGHT / 5)
-                    .attr("height", CAMPAIGN_HEIGHT - 10)
+                    .attr("height", CAMPAIGN_HEIGHT - 11)
                     .attr("width", function(d) {
                         if (d.type == "brand")
                             return 0;
                         else if ((x(d.endDate) - x(d.startDate)) != 0) {
-                            return 15;
+                            return 13;
                         } else {
                             return 0;
                         }
@@ -835,7 +835,7 @@
                                 if (d.type == "brand")
                                     return 0;
                                 else if ((x(d.endDate) - x(d.startDate)) != 0) {
-                                    return 15;
+                                    return 13;
                                 } else {
                                     return 0;
                                 }
