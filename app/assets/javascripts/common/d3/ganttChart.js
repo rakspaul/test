@@ -527,6 +527,41 @@
                     .transition().delay(0)
                     .attr("transform", rectTransform);
 
+                //Stroke - Bottom for the campaign (1px #ccd2da)
+                rectGroup.append("line")
+                    .attr('class', 'campaign_stroke')
+                    .attr("x1", function(d){
+                        if (d.type == "brand") {
+                            return 0;
+                        } else {
+                            return 0;
+                        }
+                    })
+                    .attr("y1", function(d){
+                        if (d.type == "brand") {
+                            return 0;
+                        } else {
+                            return y(d.taskName) + CAMPAIGN_HEIGHT;
+                        }
+                    })
+                    .attr("y2", function(d){
+                        if (d.type == "brand") {
+                            return 0;
+                        } else {
+                            return y(d.taskName) + CAMPAIGN_HEIGHT;
+                        }
+                    })
+                    .attr("x2", function(d) {
+                        if (d.type == "brand") {
+                            return 0;
+                        } else {
+                            return x(d.endDate) - x(d.startDate);
+                        }
+                    })
+                    .style('stroke', '#ccd2da')
+                    .style('stroke-width', '1px')
+                    .style('shape-rendering', 'crispEdges')
+     
                 rectGroup.append("text")
                     .attr("class", "campaigns_name")
                     .attr("x", 30)
@@ -726,7 +761,33 @@
                 var campaignTopStroke = ganttChartGroup.selectAll(".header").data(tasks, keyFunction);
                 var campaignsStatusIcon = ganttChartGroup.selectAll(".icon").data(tasks, keyFunction);
 
-
+                var campaignsBottomStroke = ganttChartGroup.selectAll(".campaign_stroke").data(tasks, keyFunction);
+                
+                //Stroke - Bottom for the campaign (1px #ccd2da)
+                campaignsBottomStroke
+                    .transition()
+                        .delay(0)
+                        .attr("y2", function(d){
+                            if (d.type == "brand") {
+                                return 0;
+                            } else {
+                                return y(d.taskName) + CAMPAIGN_HEIGHT;
+                            }
+                        })
+                        .attr("x2", function(d) {
+                            if (d.type == "brand") {
+                                return 0;
+                            } else {
+                                var width = x(d.endDate) - x(d.startDate);
+                                if(width > 0) {
+                                    return width - 2;
+                                } else {
+                                    return 0;
+                                }
+                            }
+                        })
+                      
+                
                 var translateVisualElements = function(a, type) {
                     if (type == "node") {
                         a.transition()
