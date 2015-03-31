@@ -39,14 +39,13 @@
             }
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
-                $scope.noData = false;
                 var brands = [],
                     campaigns = [],
                     count = 0,
                     limit = 5;
                 //TODO: move this into a service
                 if (result != undefined && result.brands != undefined && result.brands.length > 0) {
-                    $scope.noData = false;
+                    $scope.calendarData = result.brands.length;
 
                     //getting endpoint dates for calendar. 
                     var startDate, endDate, loop=0 ;
@@ -131,7 +130,7 @@
                     }
 
                 } else {
-                    $scope.noData = true;
+                    $scope.calendarBusy = false;
                 }
 
 
