@@ -89,7 +89,7 @@ var angObj = angObj || {};
             }
 
             var selectedAction = (typeof localStorage.getItem('selectedAction') == 'undefined') ? {} : JSON.parse(localStorage.getItem('selectedAction')) ;
-            if( typeof $scope.actionItems != 'undefined' && typeof  selectedAction != 'undefined' && selectedAction.id !== undefined ){
+            if( typeof $scope.actionItems != 'undefined' && !$.isEmptyObject(selectedAction) && selectedAction.id !== undefined ){
                 $scope.actionId =  selectedAction.id ;  //action.ad_id + '' + action.id;
 
                 $scope.showSelected(selectedAction.ad_id+''+selectedAction.id,selectedAction.make_external);
