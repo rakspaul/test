@@ -501,6 +501,11 @@ angObj.directive('truncateTextWithHover', function () {
         return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
      }
   });
+   angObj.filter('removeSpecialCharacter', function(){
+     return function (input) {
+        return input.replace(/(?:<)/g, '&lt;');
+     }
+  });
   angObj.filter('morelines', function(){
      return function (input) {
         return input.replace('\\n', '<br />');
