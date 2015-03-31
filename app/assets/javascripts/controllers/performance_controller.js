@@ -283,10 +283,13 @@ var angObj = angObj || {};
 
         $scope.strategyPerformanceData = function (param) {
 
+            $scope.screenBusy = true;
+            $scope.platformBusy = true;
+            $scope.formatBusy = true;
+            $scope.dowBusy = true;
             $scope.getStrategyDataForOtherTabs =  function() { //for days of week, Formats, Platforms
                 if ($scope.selected_tab === 'bydaysofweek'){
                     if($scope.strategyPerfDataByDOW ==='undefined' || $scope.strategyPerfDataByDOW.length === 0 ){
-                        $scope.dowBusy = true;
                         $scope.tacticDowBusy = false;
                         var bydaysofweekError= function() {
                             $scope.dataNotFoundForDOW = true;
@@ -311,7 +314,6 @@ var angObj = angObj || {};
 
                 } else if ($scope.selected_tab === 'byformats' ){
                     if($scope.strategyPerfDataByFormat ==='undefined' || $scope.strategyPerfDataByFormat.length === 0){
-                        $scope.formatBusy = true;
                         $scope.tacticFormatBusy = false;
                         var byformatsError =  function() {
                             $scope.dataNotFoundForFormat = true;
@@ -338,7 +340,6 @@ var angObj = angObj || {};
                     analytics.track(loginModel.getUserRole(), constants.GA_PERF_FORMATS, 'formats', loginModel.getLoginName());
                 }   else if ($scope.selected_tab === 'byplatforms' ){
                     if(typeof $scope.strategyPerfDataByPlatform === 'undefined' || $scope.strategyPerfDataByPlatform.length === 0) {
-                        $scope.platformBusy = true;
                         $scope.tacticPlatformBusy = false ;
                         var byplatformsError = function() {
                             $scope.dataNotFoundForPlatform = true;
@@ -386,7 +387,6 @@ var angObj = angObj || {};
             $scope.getStrategyScreenData = function(param) {
                 var queryData = $.extend({},param);
                 if($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0) {
-                    $scope.screenBusy = true;
                     $scope.tacticScreenBusy = false ;
                     var byscreensError = function() {
                         $scope.dataNotFoundForScreen = true;
