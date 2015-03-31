@@ -11,10 +11,12 @@
         };
         $scope.$parent.strategyLoading =  true;
         $scope.$parent.isFetchStrategiesCalled = false;
+        $scope.isStrategyDropDownShow = true;
 
         $rootScope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
             if(!$scope.$parent.isFetchStrategiesCalled) {
                 $scope.reset();// reset all data
+                $scope.isStrategyDropDownShow = true;
                 $scope.fetchStrategies();// fetch strategies and set selected Strategy as First Strategy
             }
         });
@@ -35,6 +37,11 @@
 
         $scope.setStrategy = function(strategy){
             strategySelectModel.setSelectedStrategy(strategy);
+            if (strategySelectModel.getStrategyCount() === 1)  {
+                $scope.$parent.isStrategyDropDownShow = false;
+            } else {
+                $scope.$parent.isStrategyDropDownShow = true;
+            }
             $scope.strategyData.selectedStrategy.id =(strategy.id == undefined) ? (strategy.lineitemId == undefined ? strategy.strategyId : strategy.lineitemId): strategy.id ;
             $scope.strategyData.selectedStrategy.name = (strategy.name == undefined) ? strategy.strategy_name  : strategy.name ;
             $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
@@ -43,6 +50,7 @@
 
 
         $scope.fetchStrategies = function(){
+            $scope.isStrategyDropDownShow = false;
             if(campaignSelectModel.getSelectedCampaign().id != -1){
                 strategySelectModel.getStrategies(campaignSelectModel.getSelectedCampaign().id).then(function(result){
                     var strategyObj = strategySelectModel.getStrategyObj();
