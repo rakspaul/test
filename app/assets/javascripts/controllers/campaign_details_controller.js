@@ -480,6 +480,7 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
 
             localStorage.setItem('isNavigationFromCampaigns', true);
+            localStorage.setItem('selectedAction',JSON.stringify(action) );
 
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             document.location = '#/optimization';

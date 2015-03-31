@@ -87,10 +87,17 @@ var angObj = angObj || {};
                 }
                 $scope.actionItems = actionItemsArray;
             }
-            var action = ($scope.selectedStrategy.action.id === -1 )? $scope.selectedStrategy.action : (actionItems !== undefined ?  actionItems[0]: undefined) ;
-            if (action != undefined ) {
-                $scope.actionId = action.ad_id + '' + action.id;
+
+            var selectedAction = (typeof localStorage.getItem('selectedAction') == 'undefined') ? {} : JSON.parse(localStorage.getItem('selectedAction')) ;
+            if( typeof $scope.actionItems != 'undefined' && typeof  selectedAction != 'undefined' && selectedAction.id !== undefined ){
+                $scope.actionId =  selectedAction.id ;  //action.ad_id + '' + action.id;
+
+                $scope.showSelected(selectedAction.ad_id+''+selectedAction.id,selectedAction.make_external);
             }
+        };
+
+        $scope.actionDataError = function(){
+            $scope.tacticNotFound = true;
         };
 
         $scope.actiobDataForTactic = function() {
@@ -100,13 +107,16 @@ var angObj = angObj || {};
                 $scope.loadTableData();
             } else {
                 $scope.tacticNotFound = true;
+                $scope.actionDataError();
             }
-        }
+        };
 
         $scope.actionDataForSelectedStrategy = function () {
             $scope.createActionItems();
             if($scope.actionItems && $scope.actionItems.length > 0 && !$scope.isActiobDataForTacticNotCalled) {
                 $scope.actiobDataForTactic();
+            }else{
+                $scope.actionDataError();
             }
             // It is possible that the selected strategy has no action still it can have cdb data
             if ($scope.selectedStrategy.id != -1) {
@@ -170,8 +180,14 @@ var angObj = angObj || {};
         };
 
         $scope.loadTableData = function () {
-            var tacticList = [];
-            var actionItems =  $scope.selectedStrategy.action ; //$scope.clicked.strategy.action;
+            var tacticList = [],  actionItems  ;
+            if( $scope.selectedStrategy.id == 0){
+                actionItems = $scope.actionItems ; // for all strategies
+            } else if( $scope.selectedStrategy.id == -1 ||  $scope.selectedStrategy.id == -99 ){
+               console.log("Selected strategy id is -1 or -99");
+            } else {
+                actionItems = $scope.selectedStrategy.action ; //$scope.clicked.strategy.action;
+            }
 
             for (var index in actionItems) {
                 var tactic_id = actionItems[index].ad_id;
@@ -363,6 +379,12 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callStrategyChange = function () {
+
+            $scope.tacticList = [];
+            $scope.actionItems= {}; // action item for selected Strategy.
+
+            $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
+
             $scope.chartForStrategy = true;
             if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
                 $scope.actionDataForSelectedStrategy();
