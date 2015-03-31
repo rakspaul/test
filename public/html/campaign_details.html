@@ -82,14 +82,14 @@
                         </div>
                         
                          <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
-                         <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" >Data Not Available</div>
+                         <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" >{{getMessageForDataNotAvailable(campaign,'screens')}}</div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
                          <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
-                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" >Data Not Available</div>
+                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" >{{getMessageForDataNotAvailable(campaign,'costs')}}</div>
                         <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
                             <div class="pull-left section_graph">
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
@@ -115,7 +115,7 @@
                             Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
                         <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
-                        <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" >{{ias_data_not_available_msg}}</div>
+                        <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" >{{getMessageForDataNotAvailable(campaign,'inventory')}}</div>
                         <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
                             <div class="inventory_number">
                               Top {{details.inventory.length}}
@@ -132,7 +132,7 @@
                             Viewability 
                         </div>
                         <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
-                        <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  >{{ias_data_not_available_msg}}</div>
+                        <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  >{{getMessageForDataNotAvailable(campaign,'viewability')}}</div>
                         <div class="clearfix each_section_graph graph_holding_section">
                             <div class="pull-left section_graph">
                                 <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
@@ -213,15 +213,14 @@
                       <div class="graph_activity">
                           <span ng-switch="details.actionChart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-data-available no-chart">Data Not Available</span>
+                            <span ng-switch-when="false" class="no-data-available no-chart">{{getMessageForDataNotAvailable(campaign,'activities')}}</span>
                             <span ng-switch-default>
                                 <div ng-if="details.actionChart && campaign.kpiType" class="highcharts" id="details_chart">
                                     <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
                                 </div>
                                 <div ng-if="!(details.actionChart && campaign.kpiType)" class="highcharts" id="details_chart">
-                                    No Data Available
+                                    {{getMessageForDataNotAvailable(campaign,'activities')}}
                                 </div>
-
                             </span>
                           </span>
                       </div> 
@@ -330,7 +329,7 @@
                       </div>
                           <div ng-if="(activityLogFlag == false)" class="load-more" style="">&nbsp;</div>
                           <div class="no_activity_class" ng-if="((!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)) && activityLogFlag == true">
-                              Campaign yet to be optimized.
+                              {{getMessageForDataNotAvailable(campaign,'activities')}}
                           </div>
 
                   </div>
