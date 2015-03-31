@@ -28,7 +28,9 @@
             onTrack : onTrack,
             underPerforming : underPerforming,
             others : others,
-            totalCampaigns : totalCampaigns
+            totalCampaigns : totalCampaigns,
+            campaignsFoundForSetKPI: (onTrack + underPerforming) > 0?true:false
+            //campaignsFound:totalCampaigns>0?true:false
         };
       })
     }

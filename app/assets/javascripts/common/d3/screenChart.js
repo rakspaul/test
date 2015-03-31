@@ -163,11 +163,37 @@
 
         function createScreenChart(data) {
 
-            if (data !== undefined && data.total_brands == 1 && data['brands'][0].budget == 0) {
-                $("#data_not_available").show();
-            }
+          if (data !== undefined && data.total_brands == 1 && data['brands'][0].budget == 0) {
+            $("#data_not_available").show();
+            //$rootScope.$broadcast('SCREEN_DATA_NOT_AVAILABLE');
+          }
+          if(data instanceof  Array && data.length>0){
+              var not_found = false;
+              for(var i=0; i<data.length; i++){
+                var obj = data[i];
+                if(obj.action_rate === 0
+                  && obj.clicks === 0
+                  && obj.cpa === 0
+                  && obj.cpa === 0
+                  && obj.cpm === 0
+                  && obj.ctr === 0
+                  && obj.gross_rev === 0
+                  && obj.impressions === 0) {
+                  not_found = true;
+                } else {
+                  not_found = false;
+                  break;
+                }
+              }
+              if (not_found) {
+                $rootScope.$broadcast('SCREEN_DATA_NOT_AVAILABLE');
+                return;
+              }
+          }
 
-            d3.select("#screen_svg").remove();
+          var widgetData = dataFormatting(data);
+
+          d3.select("#screen_svg").remove();
             var screen_svg = d3.select("#screens").append("svg")
                 .attr("width", 400)
                 .attr("height", 280)
@@ -193,7 +219,6 @@
                 .attr("stop-color", "#2298ef")
                 .attr("stop-opacity", 1);
 
-            var widgetData = dataFormatting(data);
 
 
             var node = screen_svg.selectAll(".node")

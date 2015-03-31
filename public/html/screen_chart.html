@@ -1,5 +1,6 @@
 <div class="dashboard_section dashboard_screens_graph_holder" ng-controller="screenChartController"  >
-  <div class="data_not_available_common" id="data_not_available_screen" style="display: none"> Data not available</div>
+  <!--<div class="data_not_available_common" id="data_not_available_screen" style="display: none"> Data not available</div>-->
+
 
   <div class="clearfix">
     <div class="dashboard_heading dashboard_heading_bold clearfix">
@@ -25,7 +26,10 @@
     </div>
     <div class="common_loading_icon" ng-if="screenBusy "></div>
     <span id="screens" ></span>
+    <not-found style-class="style" message="message" ng-show="!dataFound&&!screenBusy">
+    </not-found>
   </div>
+
 </div>
 
 

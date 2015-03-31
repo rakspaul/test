@@ -7,6 +7,9 @@
              campaignDataForSelectedBrand : {},
              campaignDataForAllBrands : []
          };
+         $scope.message = constants.DATA_NOT_AVAILABLE_MSG;
+         $scope.dataFound = true;
+        $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
         function getSpendDataForCampaigns() {
             $scope.spendBusy = true;
 
@@ -16,10 +19,9 @@
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
                     d3.select("#brands_svg").remove();
                     d3.select("#campaigns_svg").remove();
-                    $("#data_not_available").show();
-
+                  $scope.dataFound = false;
                 } else {
-                    $("#data_not_available").hide();
+                  $scope.dataFound = true;
                     $scope.data.campaignDataForSelectedBrand = bubbleChartModel.getbubbleWidgetData()['campaignDataForSelectedBrand'] ;
                     $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'] ;
 
@@ -39,10 +41,11 @@
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
                     d3.select("#brands_svg").remove();
                     d3.select("#campaigns_svg").remove();
-                    $("#data_not_available").show();
+                  $scope.dataFound = false;
 
                 } else {
-                    $("#data_not_available").hide();
+                  $scope.dataFound = true;
+                   // $("#data_not_available").hide();
                     $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'] ;
                     $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'] ;
 

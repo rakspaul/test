@@ -4,12 +4,29 @@
 .AvenirFont() {
   font-family: "Avenir" ;
 }
+
+
 .main_dashboard {
   width: 1052px;
   margin: 10px auto 20px;
   font-family: "Avenir";
   font-size: 12px;
   color: #21252b;
+  .data_not_found {
+      font-family: "Avenir-bold";
+      font-size: 26px;
+      color: #ccd2da;
+      line-height: 36px;
+      text-align: center;
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0  ;
+      transform: translate(0%, -50%);
+      -ms-transform: translate(0%, -50%);
+      -webkit-transform: translate(0%, -50%);
+  }
+
   .row {
     margin: 0 ;
   }
@@ -228,6 +245,7 @@
     min-height: 360px;
     border : solid 1px #dde6eb ;
     background: #fff;
+    position: relative;
     #calendar_widget {
       position: relative;
       .calendar_tooltip {
@@ -333,11 +351,7 @@
       }
     }
   }
-  .dashboard_budget_graph_holder , .dashboard_perf_graph_holder , .dashboard_screens_graph_holder  {
-    .dashboard_perf_graph {
-      max-height: 280px;
-    }
-  }
+
   .dashboard_calendar_graph_holder {
     .dashboard_heading {
       .tooltip_holder {
@@ -389,6 +403,12 @@
       }
     }
   }
+  .dashboard_budget_graph_holder , .dashboard_perf_graph_holder , .dashboard_screens_graph_holder  {
+    .dashboard_perf_graph {
+      max-height: 280px;
+      position: static;
+    }
+  }
   #dashboard_metric_dd {
     margin-left: 10px;
     font-size: 14px;
@@ -401,9 +421,9 @@
     }
   }
   #dashboard_screen_dd {
-	.dropdown_ul {
-		left: -6px ;
-	}
+  	.dropdown_ul {
+  		left: -6px ;
+  	}
   }
   #dashboard_allocation_dd {
 		color: #555;
@@ -466,6 +486,9 @@
     min-height: 545px;
     .dashboard_heading {
       padding: 20px 24px 15px ;
+    }
+    .dashboard_perf_graph {
+      position: relative;
     }
     #calendar_widget {
       margin-left: -56px; 
