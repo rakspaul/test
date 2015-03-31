@@ -5,9 +5,21 @@ var angObj = angObj || {};
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
-
-
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+
+        $scope.getMessageForPerfDataNotAvailable = function (dataSetType) {
+            if ( campaignSelectModel.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaignSelectModel.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if ( $scope.selectedCampaign.kpi =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+//            else if (campaign.status == 'active')
+//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
+        };
+
 
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
@@ -239,6 +251,7 @@ var angObj = angObj || {};
                 }
             });
         };
+
 
         $scope.strategyPerformanceData = function (param) {
             $scope.checkForSelectedTabData =  function(data, tab) {
