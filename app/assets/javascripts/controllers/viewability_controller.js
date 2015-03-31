@@ -134,7 +134,6 @@ var angObj = angObj || {};
                 $scope.strategyFound = false ;
             } else {
                 $scope.strategyFound = true;
-                if(strategySelectModel.getStrategyCount() === 1)  $scope.isStrategyDropDownShow = false;
                 $scope.strategyViewData({
                     campaign_id: $scope.selectedCampaign.id,
                     strategyId: Number($scope.selectedStrategy.id),

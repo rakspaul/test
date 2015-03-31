@@ -363,7 +363,6 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callStrategyChange = function () {
-            $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
             $scope.chartForStrategy = true;
             if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
                 $scope.actionDataForSelectedStrategy();
