@@ -92,6 +92,11 @@
       return Math.round((daysOver / totalDays) * 100);
     };
 
+      this.daysSinceEnded = function () {
+          var today = this.momentInNetworkTZ.today(),
+              endDate = this.momentInNetworkTZ.newMoment(this.endDate);
+          return !endDate.isBefore(today)?0 : Math.round(today.diff(endDate, 'days', true)) + 1;
+      };
 
   }
   commonModule.value('campaignModel',CampaignModel);
