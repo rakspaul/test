@@ -44,8 +44,8 @@ var angObj = angObj || {};
             'Facebook':'http://erickmotta.com/wp-content/uploads/2014/09/facebook-icon.png',
             'Everyscreen Media':'http://www.mmaglobal.com/files/styles/member_logo_large/public/epsfield_images/logos/dstillery.png?itok=ZGn3AUo7',
             'ATT Network':'http://www.att.com/favicon.ico',
-            'DoubleClick Bid Manager':'assets/images/platform_logos/double_logo.png',
-            'AppNexus':'http://adap.tv/favicon.ico',
+            'DoubleClick':'assets/images/platform_logos/double_logo.png',
+            'AppNexus':'http://www.appnexus.com/favicon.ico',
             'Telemetry':'assets/images/platform_logos/telemetry_logo.png',
             'Collective Bidder':'assets/images/platform_logos/collective_logo.png',
             'Collective Publishers':'assets/images/platform_logos/collective_logo.png',
@@ -59,10 +59,12 @@ var angObj = angObj || {};
             'LiveRail':'assets/images/platform_logos/liverail_logo.png',
             'OpenX':'http://openx.com/favicon.ico',
             'Pubmatic':'http://www.pubmatic.com/favicon.ico',
-            'Rubicon':'',
+            'Rubicon':'assets/images/platform_logos/platform_logo.png',
             'Miscellaneous':'assets/images/platform_logos/platform_logo.png',
+            'Collective Test Media':'assets/images/platform_logos/collective_logo.png',
             'Microsoft':'http://www.msn.com/favicon.ico'
-            }
+            };
+
         $scope.getPlatformIcon=function(platformName) {
             var pIcon=platform_icon_map[platformName];
             return (pIcon!== undefined && pIcon!=='')  ? pIcon:platform_icon_map['Miscellaneous'];

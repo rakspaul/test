@@ -84,13 +84,13 @@
     this.DEFAULT_OFFSET_START = 0;
     this.DATA_NOT_AVAILABLE= 204;
 
-    this.MSG_METRICS_NOT_TRACKED= 'Metric not tracked.  Please contact your Account Manager.';
-    this.MSG_DATA_NOT_AVAILABLE= 'Data not available.';
-    this.MSG_CAMPAIGN_YET_TO_START= 'Campaign yet to start.';
-    this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = 'Campaign is active, data not yet available.';
-    this.MSG_CAMPAIGN_VERY_OLD = 'Campaign ended 3+ years ago. Data not available.';
-    this.MSG_CAMPAIGN_KPI_NOT_SET = 'Campaign KPI is not set.';
-    this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = 'Campaign yet to be optimized.';
+    this.MSG_METRICS_NOT_TRACKED= "Metric not tracked <span class='contact_note'>Please contact your Account Manager</span>";
+    this.MSG_DATA_NOT_AVAILABLE= 'Data not available';
+    this.MSG_CAMPAIGN_YET_TO_START= 'Campaign yet to start';
+    this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = 'Campaign is active, data not yet available';
+    this.MSG_CAMPAIGN_VERY_OLD = 'Campaign ended 3+ years ago, data not available';
+    this.MSG_CAMPAIGN_KPI_NOT_SET = 'Campaign KPI is not set';
+    this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = 'Campaign yet to be optimized';
     this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
 
     this.DATA_NOT_AVAILABLE_MSG = "Data not available";
