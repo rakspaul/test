@@ -68,7 +68,7 @@
 
                          <span ng-switch="chartForStrategy">
                                 <span ng-switch-when="true" class="load-more">&nbsp;</span>
-                                <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable('activities')"></span>
                                 <span ng-switch-default>
                                     <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
                                         <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart>
@@ -94,8 +94,7 @@
             <!--tacticNotFound :  {{tacticNotFound | json}}-->
             <div class="details_with_heading_total {{seeDate.className}}">
 
-                <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
-                                Strategy yet to be optimized.
+                <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound"  ng-bind-html="getMessageForDataNotAvailable('activities')">
                 </div>
 
                 <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound">

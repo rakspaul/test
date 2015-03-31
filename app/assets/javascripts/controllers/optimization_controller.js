@@ -7,8 +7,27 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-        $scope.selectedStrategy = {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
+        $scope.api_return_code=200;
+
+        $scope.getMessageForDataNotAvailable = function (dataSetType) {
+            if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
+                return constants.MSG_UNKNOWN_ERROR_OCCURED;
+            }
+
+            else if ( campaignSelectModel.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaignSelectModel.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if ( $scope.selectedCampaign.kpi =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+            else if (dataSetType == 'activities' && campaignSelectModel.durationLeft() !== 'Ended')
+                return Number($scope.selectedStrategy.id) === 0 ?
+                    constants.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED :
+                    constants.MSG_STRATEGY_YET_TO_BE_OPTIMIZED;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
+        };
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
         $scope.strategyLoading =  true;
@@ -159,6 +178,8 @@ var angObj = angObj || {};
 
                     $scope.selectedCampaign.kpiValue = res.kpi_value ;
                     $scope.selectedCampaign.kpi = res.kpi_type ;
+                    if ($scope.selectedCampaign.kpi=='null')
+                        $scope.selectedCampaign.kpi = 'ctr';
                 }
             }, function (result) {
                 console.log('call failed');
@@ -282,7 +303,7 @@ var angObj = angObj || {};
             };
 
             var strategyId = Number($scope.selectedStrategy.id);
-
+            $scope.api_return_code=200;
             dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -319,6 +340,8 @@ var angObj = angObj || {};
                         }
                     }
                 } else {
+                    if (result.status ==='error')
+                        $scope.api_return_code= result.data.status;
                     $scope.chartForStrategy = false;
                 }
             }, function() {

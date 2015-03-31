@@ -10,8 +10,26 @@ var angObj = angObj || {};
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
-        $scope.ias_data_not_available_msg = constants.MSG_METRICS_NOT_TRACKED;
+        $scope.api_return_code = 200;
 
+        $scope.getMessageForDataNotAvailable = function (dataSetType) {
+            if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
+                return constants.MSG_UNKNOWN_ERROR_OCCURED;
+            }
+
+            if ( campaignSelectModel.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaignSelectModel.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if ( $scope.selectedCampaign.kpi =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+//            else if (campaign.status == 'active')
+//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+            else if (dataSetType == 'viewability' && campaignSelectModel.durationLeft() !== 'Ended')
+                return constants.MSG_METRICS_NOT_TRACKED;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
+        };
      //   $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsDropDowns();
 
@@ -69,6 +87,7 @@ var angObj = angObj || {};
                 $scope.strategyBusy = false;
                 $scope.tacticBusy = false;
             }
+            $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                    // console.log("in view metric page");
@@ -88,6 +107,9 @@ var angObj = angObj || {};
                     }
                 } // Means no strategy data found
                 else {
+
+                    if (result.status ==='error')
+                        $scope.api_return_code= result.data.status;
                     errorHandler();
                 }
             }, errorHandler);

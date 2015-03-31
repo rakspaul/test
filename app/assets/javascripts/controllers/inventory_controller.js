@@ -11,6 +11,24 @@ var angObj = angObj || {};
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
 
+        $scope.api_return_code = 200;
+
+        $scope.getMessageForDataNotAvailable = function (dataSetType) {
+
+            if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
+                return constants.MSG_UNKNOWN_ERROR_OCCURED;
+            }
+            if ( campaignSelectModel.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaignSelectModel.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if ( $scope.selectedCampaign.kpi =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+            else if (dataSetType == 'inventory' && campaignSelectModel.durationLeft() !== 'Ended')
+                return constants.MSG_METRICS_NOT_TRACKED;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
+        };
       //  $scope.selected_filters = domainReports.getDurationKpi();
 
         $scope.filters = domainReports.getReportsDropDowns();
@@ -18,7 +36,6 @@ var angObj = angObj || {};
         $scope.selected_filters_tb = '0';
         $scope.selected_filters_tab = 'categories';
         $scope.strategyLoading =  true;
-        $scope.ias_data_not_available_msg = constants.MSG_METRICS_NOT_TRACKED;
 
         $scope.strategyTable = {
             topPerformance: [],
@@ -161,7 +178,9 @@ var angObj = angObj || {};
             $scope.strategyBusy = true;
             var url = inventoryService.getStrategyDomainData(param);
             var canceller =  requestCanceller.initCanceller(constants.INVENTORY_STRATEGY_CANCELLER);
-            var errorHandler =  function() {
+            var errorHandler =  function(result) {
+                $scope.api_return_code = result.data.status;
+
                 $scope.inventoryChart = false;
                 $scope.strategyBusy = false;
                 $scope.tacticBusy = false;
@@ -172,8 +191,8 @@ var angObj = angObj || {};
                 $scope.tacticList.topPerformance = [];
                 $scope.tacticList.bottomPerformance = [];
             };
+            $scope.api_return_code = 200;
             return dataService.fetchCancelable(url, canceller, function(result){
-
                 if (result.status === "OK" || result.status === "success") {
                     $scope.strategyTable.topPerformance = [], $scope.strategyTable.bottomPerformance = [];
 

@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div >
-                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy" ng-bind-html="ias_data_not_available_msg">
+                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
                       <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>

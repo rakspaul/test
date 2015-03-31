@@ -44,7 +44,7 @@
         <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
 
         <div class="performance_container" ng-hide="strategyLoading">
-            <div class="no_data_found" ng-if="!strategyFound">{{getMessageForPerfDataNotAvailable('strategy')}}
+            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')">
             </div>
 
             <div class="reports_tabs_content_container" ng-show="strategyFound" >
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="reports_block" id="reports_bydaysofweek_block" style="display:none;" >
-                    <div class="no_data_found" ng-if="dataNotFoundForDOW">{{getMessageForPerfDataNotAvailable('daysofweek')}}
+                    <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable('daysofweek')">
                     </div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
                         <div class="clearfix reports_performance_header">
@@ -187,7 +187,7 @@
                 </div>
 
                 <div class="reports_block" id="reports_byscreens_block" style="display:block;">
-                    <div class="no_data_found" ng-if="dataNotFoundForScreen">{{getMessageForPerfDataNotAvailable('screens')}}
+                    <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')">
                     </div>
                     <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
                         <div class="clearfix reports_performance_header">
@@ -304,7 +304,7 @@
                 </div>
                 <div class="reports_block" id="reports_byformats_block" style="display:none;">
 
-                    <div class="no_data_found" ng-if="dataNotFoundForFormat">{{getMessageForPerfDataNotAvailable('formats')}}
+                    <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable('formats')">
                     </div>
 
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
@@ -418,7 +418,7 @@
 
                 <div class="reports_block" id="reports_byplatforms_block" style="display:none;">
 
-                    <div class="no_data_found" ng-if="dataNotFoundForPlatform">{{getMessageForPerfDataNotAvailable('platforms')}}
+                    <div class="no_data_found" ng-if="dataNotFoundForPlatform" ng-bind-html="getMessageForDataNotAvailable('platforms')">
                     </div>
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForPlatform">
                        <div class="clearfix reports_performance_header">
