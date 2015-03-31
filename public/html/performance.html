@@ -44,8 +44,7 @@
         <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
 
         <div class="performance_container" ng-hide="strategyLoading">
-            <div class="no_data_found" ng-if="!strategyFound">
-                Data Not Available
+            <div class="no_data_found" ng-if="!strategyFound">{{getMessageForPerfDataNotAvailable('strategy')}}
             </div>
 
             <div class="reports_tabs_content_container" ng-show="strategyFound" >
@@ -76,8 +75,7 @@
                 </div>
 
                 <div class="reports_block" id="reports_bydaysofweek_block" style="display:none;" >
-                    <div class="no_data_found" ng-if="dataNotFoundForDOW">
-                        Data Not Available
+                    <div class="no_data_found" ng-if="dataNotFoundForDOW">{{getMessageForPerfDataNotAvailable('daysofweek')}}
                     </div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
                         <div class="clearfix reports_performance_header">
@@ -189,8 +187,7 @@
                 </div>
 
                 <div class="reports_block" id="reports_byscreens_block" style="display:block;">
-                    <div class="no_data_found" ng-if="dataNotFoundForScreen">
-                        Data Not Available
+                    <div class="no_data_found" ng-if="dataNotFoundForScreen">{{getMessageForPerfDataNotAvailable('screens')}}
                     </div>
                     <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
                         <div class="clearfix reports_performance_header">
@@ -307,8 +304,7 @@
                 </div>
                 <div class="reports_block" id="reports_byformats_block" style="display:none;">
 
-                    <div class="no_data_found" ng-if="dataNotFoundForFormat">
-                        Data Not Available
+                    <div class="no_data_found" ng-if="dataNotFoundForFormat">{{getMessageForPerfDataNotAvailable('formats')}}
                     </div>
 
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
@@ -422,8 +418,7 @@
 
                 <div class="reports_block" id="reports_byplatforms_block" style="display:none;">
 
-                    <div class="no_data_found" ng-if="dataNotFoundForPlatform">
-                        Data Not Available
+                    <div class="no_data_found" ng-if="dataNotFoundForPlatform">{{getMessageForPerfDataNotAvailable('platforms')}}
                     </div>
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForPlatform">
                        <div class="clearfix reports_performance_header">
@@ -465,12 +460,16 @@
                                <div class="row_list_holder">
                                    <div class="common-load-icon" ng-show="platformBusy"></div>
                                    <!--{{platformBusy}}-->
-                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform.platform_metrics">
+                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform">
+
+<!--                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform.platform_metrics">-->
                                        <div class="each_col platform_logo" >
-                                           <img ng-src="{{strategy.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':strategy.icon_url}}" width="16px">
+<!--                                           <img ng-src="{{strategy.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':strategy.icon_url}}" width="16px">-->
+                                           <img ng-src="{{getPlatformIcon(strategy.dimension)}}" width="16px">
                                        </div>
                                        <div class="each_col sec_col">
-                                           {{strategy.platform}}
+<!--                                           {{strategy.platform}}-->
+                                           {{strategy.dimension}}
                                        </div>
                                        <div class="each_col third_col">
                                            {{strategy.impressions | number:0}}
@@ -495,21 +494,26 @@
                            </div>
 
                            <div class="all_strategies_holder">
+                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByPlatform|orderBy: sortByColumn">
 
-                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByPlatform.tactics|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
+<!--                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByPlatform.tactics|orderBy: sortByColumn" ng-if="tactic.platform_metrics">-->
                                    <div class="linkage_bar">
                                    </div>
                                    <div class="each_strategy clearfix">
                                        <div class="each_col first_col">
-                                           {{tactic.name}}
+                                           {{tactic[0].description}}
+<!--                                           {{tactic.name}}-->
                                        </div>
                                        <div class="row_list_holder">
-                                           <div class="clearfix each_row_list" ng-repeat="data in tactic.platform_metrics">
+                                           <div class="clearfix each_row_list" ng-repeat="data in tactic">
+<!--                                           <div class="clearfix each_row_list" ng-repeat="data in tactic.platform_metrics">-->
                                                <div class="each_col platform_logo" id="" >
-                                                   <img ng-src="{{data.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':data.icon_url}}" width="16px">
+                                                   <img ng-src="{{getPlatformIcon(data.dimension)}}" width="16px">
+<!--                                                   <img ng-src="{{data.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':data.icon_url}}" width="16px">-->
                                                </div>
                                                <div class="each_col sec_col">
-                                                   {{data.platform}}
+<!--                                                   {{data.platform}}-->
+                                                   {{data.dimension}}
                                                </div>
                                                <div class="each_col third_col">
                                                    {{data.impressions | number:0}}

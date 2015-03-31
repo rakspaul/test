@@ -43,6 +43,35 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
         return (localStorage.getItem('selectedCampaign') == undefined)? campaign.selectedCampaign : JSON.parse(localStorage.getItem('selectedCampaign')) ;
     } ;
 
+    campaign.durationLeft = function(campaign) {
+        var cmp=this.getSelectedCampaign();
+        var today = new Date(),
+            endDate = new Date (cmp.endDate),
+            startDate = new Date(cmp.startDate);
+
+        if (today < startDate) {
+            //campaign yet to start
+            return "Yet to start";
+        }
+        if (endDate < today) {
+            //campaign ended
+            return "Ended";
+        }
+        return "unknown";
+    };
+
+    campaign.daysSinceEnded = function () {
+        var cmp=this.getSelectedCampaign();
+        var today = new Date(),
+            endDate = new Date (cmp.endDate);
+        if (endDate > today)
+            return 0;
+
+        var timeDiff = Math.abs(today.getTime() - endDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        return diffDays;
+    };
+
     campaign.getCampaignObj = function() {
         return campaign;
     };

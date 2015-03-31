@@ -8,7 +8,6 @@
         var Campaigns = campaignListModel;
         $scope.activityLogFlag = false;
         brandsModel.disable();
-        $scope.ias_data_not_available_msg = constants.MSG_METRICS_NOT_TRACKED;
 
         $scope.actionItems = activityList.data;
         $scope.loadingViewabilityFlag = true;
@@ -441,6 +440,31 @@
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
             document.location = '#/performance';
+        };
+
+        $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
+//            if (campaign)  {
+//                console.log('Duration left: '+ campaign.durationLeft());
+//                console.log('Days since ended: '+ campaign.daysSinceEnded());
+//                console.log('Status : '+ campaign.status);
+//                console.log('Kpi_type: '+ campaign.kpiType);
+//            }
+            if (!campaign)
+                return constants.MSG_DATA_NOT_AVAILABLE;
+            else  if ( campaign.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaign.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if (campaign.kpiType =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+            else if (campaign.status == 'active')
+                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+            else if (dataSetType == 'activities' && campaign.durationLeft() !== 'Ended')
+                return constants.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED;
+            else if (dataSetType == 'inventory' || dataSetType == 'viewability')
+                return constants.MSG_METRICS_NOT_TRACKED;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
         };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){

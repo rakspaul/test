@@ -5,9 +5,21 @@ var angObj = angObj || {};
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
-
-
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+
+        $scope.getMessageForPerfDataNotAvailable = function (dataSetType) {
+            if ( campaignSelectModel.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaignSelectModel.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if ( $scope.selectedCampaign.kpi =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+//            else if (campaign.status == 'active')
+//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
+        };
+
 
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
@@ -28,8 +40,34 @@ var angObj = angObj || {};
             platforms: null
         };
 
+        var platform_icon_map= {
+            'Facebook':'http://erickmotta.com/wp-content/uploads/2014/09/facebook-icon.png',
+            'Everyscreen Media':'http://www.mmaglobal.com/files/styles/member_logo_large/public/epsfield_images/logos/dstillery.png?itok=ZGn3AUo7',
+            'ATT Network':'http://www.att.com/favicon.ico',
+            'DoubleClick Bid Manager':'assets/images/platform_logos/double_logo.png',
+            'AppNexus':'http://adap.tv/favicon.ico',
+            'Telemetry':'assets/images/platform_logos/telemetry_logo.png',
+            'Collective Bidder':'assets/images/platform_logos/collective_logo.png',
+            'Collective Publishers':'assets/images/platform_logos/collective_logo.png',
+            'Adap.tv':'http://adap.tv/favicon.ico',
+            'Google Ad Exchange':'http://marketingland.com/wp-content/ml-loads/2013/06/doubleclick-icon.jpg',
+            'Prog_Mechanics':'',
+            'Yahoo Ad Exchange':'http://www.yahoo.com/favicon.ico',
+            'TriVu Media - YouTube':'assets/images/platform_logos/trivumedia_logo.png',
+            'Admeld':'http://marketingland.com/wp-content/ml-loads/2013/06/doubleclick-icon.jpg',
+            'Beanstock':'assets/images/platform_logos/beanstock_logo.png',
+            'LiveRail':'assets/images/platform_logos/liverail_logo.png',
+            'OpenX':'http://openx.com/favicon.ico',
+            'Pubmatic':'http://www.pubmatic.com/favicon.ico',
+            'Rubicon':'',
+            'Miscellaneous':'assets/images/platform_logos/platform_logo.png',
+            'Microsoft':'http://www.msn.com/favicon.ico'
+            }
+        $scope.getPlatformIcon=function(platformName) {
+            var pIcon=platform_icon_map[platformName];
+            return (pIcon!== undefined && pIcon!=='')  ? pIcon:platform_icon_map['Miscellaneous'];
+        }
         $scope.init= function(){
-
 
             $scope.strategyFound = false ;
 
@@ -243,7 +281,6 @@ var angObj = angObj || {};
         };
 
 
-
         $scope.strategyPerformanceData = function (param) {
 
             $scope.getStrategyDataForOtherTabs =  function() { //for days of week, Formats, Platforms
@@ -308,7 +345,7 @@ var angObj = angObj || {};
                             $scope.platformBusy = false;
                             $scope.tacticPlatformBusy = false;
                         }
-                        performanceService.getStrategyPlatformData(param).then(function (result) {
+                        performanceService.getStrategyPerfData(param).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 $scope.strategyPerfDataByPlatform = result.data.data;
                                 $scope.dataNotFoundForPlatform = false;
