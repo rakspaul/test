@@ -115,7 +115,7 @@
                             Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
                         <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
-                        <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" >{{getMessageForDataNotAvailable(campaign,'inventory')}}</div>
+                        <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'inventory')"></div>
                         <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
                             <div class="inventory_number">
                               Top {{details.inventory.length}}
@@ -132,7 +132,7 @@
                             Viewability 
                         </div>
                         <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
-                        <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  >{{getMessageForDataNotAvailable(campaign,'viewability')}}</div>
+                        <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  ng-bind-html="getMessageForDataNotAvailable(campaign,'viewability')"></div>
                         <div class="clearfix each_section_graph graph_holding_section">
                             <div class="pull-left section_graph">
                                 <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
