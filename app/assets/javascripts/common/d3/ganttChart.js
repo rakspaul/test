@@ -762,11 +762,17 @@
                                 if (d.type == "brand")
                                     return 0;
                                 else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
-                                  	if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
-                                  		return (x(d.endDate) - x(d.startDate)) + 2;
+                                  	
+                                    //fix for removing the  rectangle that was sticking on the axis even after campaigns were scrolled out of the view
+                                    if(x(d.endDate) - x(d.startDate) == 0) {
+                                        return 0;
+                                    }
+
+                                    if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
+                                        return (x(d.endDate) - x(d.startDate)) + 2;
                                   	}
 
-                                  	return (x(d.endDate) - x(d.startDate));
+                                    return (x(d.endDate) - x(d.startDate));
                                 } else {
                                     return 0;
                                 }
