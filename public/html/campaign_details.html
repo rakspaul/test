@@ -189,7 +189,7 @@
                           </div>
                           <div class="clearfix submit_activity_holder">
                               <div class="pull-left comment_area">
-                                  <textarea  ng-model="showList.name"  ng-bind-html="showList.name"   placeHolder="Leave a Comment" id="edit_action_comment" maxChar="160" maxLine="2" ng-focus="resetEditActionValidation()"> </textarea>
+                                  <textarea  ng-model="showList.name"  ng-bind-html="showList.name|removeSpecialCharacter"   placeHolder="Leave a Comment" id="edit_action_comment" maxChar="160" maxLine="2" ng-focus="resetEditActionValidation()"> </textarea>
                                   <div ng-show="commentError" id="error_comment" class="error_message">Please fill out this field.</div>
                                   <div  id="error_edit_action_more_comment" class="error_message"></div>
                               </div>
@@ -283,7 +283,7 @@
 					  {{action.action_type_name}}: {{action.action_sub_type}}
                                       </span>
                                   </div>
-                                  <div class="more_details" ng-bind-html="action.comment|morelines|newlines">
+                                 <div class="more_details" ng-bind-html="action.comment|removeSpecialCharacter|morelines|newlines">
                                   </div>
                               </div>
 
@@ -324,7 +324,7 @@
             {{action.action_type_name}}: {{action.action_sub_type}}
                                       </span>
                                   </div>
-                                  <div class="more_details" ng-bind-html="action.comment|morelines|newlines"> 
+                                 <div class="more_details" ng-bind-html="action.comment|removeSpecialCharacter|morelines|newlines"> 
                                   </div>
                               </div>          
                       </div>

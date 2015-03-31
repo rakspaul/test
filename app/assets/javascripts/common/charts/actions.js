@@ -92,7 +92,7 @@
             }
             symbol = kpiPrefix(kpiType);
             suffix = kpiSuffix(kpiType);
-            var html_comment= (this.getAttribute('comment')).toString();
+            var html_comment= (this.getAttribute('comment')).toString().replace(/(?:<)/g, '&lt;');
             html_comment = wordwrap(html_comment, 20, '<br/>');
             html_comment = html_comment.replace(/(?:\\r\\n|\r|\\n| \\n)/g, '<br />');
             if(activityCount > 1){
