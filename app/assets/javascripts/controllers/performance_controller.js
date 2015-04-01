@@ -247,7 +247,8 @@ var angObj = angObj || {};
 
                             }
                         } else if ($scope.selected_tab === 'byplatforms') {
-                            if ($scope.tacticsPerfDataListByPlatform === 'undefined' || $scope.tacticsPerfDataListByPlatform.length === 0) {
+                            console.log('DO NOTHING.  THIS SECTION SHOULD NOT EXECUTE FOR PLATFORMS');
+                        /*    if ($scope.tacticsPerfDataListByPlatform === 'undefined' || $scope.tacticsPerfDataListByPlatform.length === 0) {
                                 $scope.tacticPlatformBusy = true;
                                 for (var index in $scope.tacticList) {
                                     tacticParams.tacticId = $scope.tacticList[index].id;
@@ -279,9 +280,8 @@ var angObj = angObj || {};
                                     });
                                 }
 
-                            }
+                            }*/
                         }
-
                     }
                 }  else {
                     if (result.status ==='error') {
@@ -360,16 +360,16 @@ var angObj = angObj || {};
                     if(typeof $scope.strategyPerfDataByPlatform === 'undefined' || $scope.strategyPerfDataByPlatform.length === 0) {
                         $scope.tacticPlatformBusy = false ;
                         $scope.api_return_code=200;
-                        performanceService.getStrategyPerfData(param).then(function (result) {
+                        performanceService.getStrategyPlatformData(param).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 $scope.strategyPerfDataByPlatform = result.data.data;
                                 $scope.dataNotFoundForPlatform = false;
                                 $scope.platformBusy = false;
                                 //$scope.checkForSelectedTabData($scope.strategyPerfDataByPlatform, 'Platform');
-                                if(param.strategyId) {
-                                    $scope.tacticPlatformBusy = true ;
-                                    $scope.tacticPerfData(param);
-                                }
+//                                if(param.strategyId) {
+//                                    $scope.tacticPlatformBusy = true ;
+//                                    $scope.tacticPerfData(param);
+//                                }
                             }
                             else {
                                 $scope.errorHandlerForPerformanceTab(result);
