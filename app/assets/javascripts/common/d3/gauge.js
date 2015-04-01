@@ -9,7 +9,7 @@
     var greenColor = "#3BD400";
     var lightColor = "#EEEEEE";
     var orangeColor = "#F1661F";
-    var lightBlue = "#CFE2F0";
+    var lightBlue = "#D4DFE6";
     var greyColor = "#C0C7D0" ;
 
     function updateGauge(key, value) {
@@ -55,7 +55,7 @@
 
       function createDashboard() {
         createDash();
-        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 165,125);
+        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 165,112);
       };
 
 
@@ -176,8 +176,8 @@
         //  this.greyArc = createArc(currentGauge.greyArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2,  -this.config.max + this.config.min + 5 , this.config.greyColor);
           this.outerArc = createArc(undefined, this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
-          var leftDotPt = {x: self.config.cx -10 - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
-          var rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y};
+          var leftDotPt = {x: self.config.cx -10 - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2 + 14};
+          var rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y };
           this.leftDot = createCircle(this.body, leftDotPt.x, leftDotPt.y, greenColor, 5);
           this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
 //          this.rightDot =
