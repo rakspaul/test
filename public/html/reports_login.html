@@ -13,10 +13,10 @@
                             {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
                         </div>
                         <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>
+                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username">
                         </div>
                         <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" required>
+                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password">
                         </div>
                         <div class="signin_options_holder clearfix">
                             <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
