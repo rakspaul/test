@@ -4,7 +4,8 @@
 
   <div class="clearfix">
     <div class="dashboard_heading dashboard_heading_bold clearfix">
-      <div class="pull-left dropdown" id="dashboard_screen_dd">
+      <div class="pull-left">
+        <div class="pull-left dropdown" id="dashboard_screen_dd">
               <span class="dropdown_ul_text" data-toggle="dropdown">
                 <span>{{screenWidgetData.selectedFormat}}</span>
                 <span class="arrow_img"></span>
@@ -12,7 +13,15 @@
               <ul class="dropdown_ul dropdown-menu">
                 <li ng-repeat="data in screenWidgetData.formatDropDown " data-ng-click="formatDropdownChange(data)">{{data}}</li>
               </ul>
+        </div>
+        <div class="pull-left tooltip_holder" >
+                <span class="tooltip_show_icon"></span>
+                <span class="clearfix common_tooltip">
+                  % computed from categorized data only. Screen categorization of media started in March 2014, hence data prior to that is uncategorized
+                </span>
+        </div>
       </div>
+      
       <div class="pull-right dropdown" id="dashboard_allocation_dd">
               <span class="metrics_text">Metrics</span>
               <span class="dropdown_ul_text" data-toggle="dropdown">
