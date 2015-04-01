@@ -50,7 +50,7 @@ else
   echo "Its prod !!!"
   echo "Copying application_prod.conf to application.conf"
   cp ${CONF_PROD_FILE} ${CONF_FILE} 
-  cp -r /tmp/crpt-ui-1.0-SNAPSHOT /home/amp/crpt-ui/
+  cp -r /tmp/crpt-ui-1.0-SNAPSHOT /home/amp/crpt-ui_new/
   sudo cp /tmp/crpt-ui /etc/init.d/crpt-ui
   sudo chmod 755 /etc/init.d/crpt-ui
   sudo chkconfig --add crpt-ui
