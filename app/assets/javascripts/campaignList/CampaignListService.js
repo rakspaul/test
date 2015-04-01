@@ -77,8 +77,10 @@
           id: tactic.id,
           media_type_icon: media_type_icon,
           name: tactic.name,
-          startDate: moment(campaign.start_date).format('YYYY-MM-DD'), // tactic.start_date,
-          endDate: moment(campaign.end_date).format('YYYY-MM-DD'), //    tactic.end_date,
+        //  startDate: moment(campaign.start_date).format('YYYY-MM-DD'), // tactic.start_date,
+       //   endDate: moment(campaign.end_date).format('YYYY-MM-DD'), //    tactic.end_date,
+          startDate: moment(tactic.start_date).format('YYYY-MM-DD'),
+          endDate: moment(tactic.end_date).format('YYYY-MM-DD'),
           ad_size: tactic.ad_size,
           platform_name: tactic.platform_name,
           platform_icon: tactic.platform_icon_url,
@@ -214,10 +216,10 @@
           id: strategy.general.id,
           brandName: campaign.brandName,
           name: strategy.general.name,
-          startDate : campaign.start_date,
-          endDate : campaign.end_date,
-//          startDate: strategy.general.start_date,
-//          endDate: strategy.general.end_date,
+          //startDate : campaign.start_date,
+         // endDate : campaign.end_date,
+          startDate: strategy.general.start_date,
+          endDate: strategy.general.end_date,
           order_id: strategy.general.order_id,
           li_status: status,
           ad_size: adSize,
@@ -247,7 +249,8 @@
     var getStrategyMetrics = function(index, strategyObj, timePeriod, campaign) {
       var  durationQuery= 'period=' + timePeriod;
       if(timePeriod === 'life_time') {
-        durationQuery = 'start_date=' + strategyObj[index].startDate + '&end_date=' + strategyObj[index].endDate;
+       // durationQuery = 'start_date=' + strategyObj[index].startDate + '&end_date=' + strategyObj[index].endDate;
+          durationQuery = 'start_date=' + campaign.startDate + '&end_date=' + campaign.endDate;
       }
       var url = '/campaigns/' + campaign.orderId + '/strategies/' + strategyObj[index].id + '/perf?' + durationQuery;
       dataService.getCampaignStrategies(url, 'metrics').then(function (result) {
