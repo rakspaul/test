@@ -8,7 +8,22 @@ var angObj = angObj || {};
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
+        $scope.api_return_code = 200;
 
+        $scope.getMessageForDataNotAvailable = function (dataSetType) {
+            if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
+                return constants.MSG_UNKNOWN_ERROR_OCCURED;
+            else if ( campaignSelectModel.durationLeft() == 'Yet to start')
+                return constants.MSG_CAMPAIGN_YET_TO_START;
+            else if (campaignSelectModel.daysSinceEnded() > 1000)
+                return constants.MSG_CAMPAIGN_VERY_OLD;
+            else if ( $scope.selectedCampaign.kpi =='null')
+                return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+//            else if (campaign.status == 'active')
+//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+            else
+                return constants.MSG_DATA_NOT_AVAILABLE;
+        };
 //        $scope.selected_filters = domainReports.getDurationKpi();
 
         $scope.filters = domainReports.getReportsDropDowns();
@@ -77,6 +92,7 @@ var angObj = angObj || {};
                 $scope.strategyCostBusy = false;
                 $scope.tacticCostBusy = false;
             }
+            $scope.api_return_code=200;
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data.costData ;
@@ -93,6 +109,7 @@ var angObj = angObj || {};
                         }
                     }
                     else {
+                        $scope.api_return_code=result.data.status;
                         errorHandler();
                     }
                 }, errorHandler);

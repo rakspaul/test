@@ -6,8 +6,15 @@ var angObj = angObj || {};
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
-        $scope.getMessageForPerfDataNotAvailable = function (dataSetType) {
+        $scope.api_return_code = 200;
+
+        $scope.getMessageForDataNotAvailable = function (dataSetType) {
+            if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
+                return constants.MSG_UNKNOWN_ERROR_OCCURED;
+            }
+
             if ( campaignSelectModel.durationLeft() == 'Yet to start')
                 return constants.MSG_CAMPAIGN_YET_TO_START;
             else if (campaignSelectModel.daysSinceEnded() > 1000)
@@ -19,10 +26,6 @@ var angObj = angObj || {};
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-
-
-        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
-
 
         $scope.filters = domainReports.getReportsDropDowns();
 
@@ -86,6 +89,7 @@ var angObj = angObj || {};
             $scope.tacticPlatformBusy = false;
             $scope.isStrategyDataEmpty = false;
             $scope.hidePerformanceReportTab = false;
+            $scope.api_return_code = 200;
 
             $scope.strategies = {};
 
@@ -113,6 +117,7 @@ var angObj = angObj || {};
 
         $scope.init();
         $scope.tacticPerfData = function (param) {
+            $scope.api_return_code=200;
             performanceService.getTacticsForStrategy(param).then(function (result) {
 
                 if (result.status === "OK" || result.status === "success") {
@@ -278,6 +283,10 @@ var angObj = angObj || {};
                         }
 
                     }
+                }  else {
+                    if (result.status ==='error') {
+                        $scope.api_return_code = result.data.status;
+                    }
                 }
             });
         };
@@ -291,7 +300,9 @@ var angObj = angObj || {};
             $scope.dowBusy = true;
 
 
-            $scope.errorHandlerForPerformanceTab = function() {
+            $scope.errorHandlerForPerformanceTab = function(result) {
+                if (result && result.data && result.status ==='error')
+                    $scope.api_return_code = result.data.status;
                 $.each(['Screen', 'Platform', 'Format', 'DOW'], function(idx, tab) {
                     $scope['dataNotFoundFor'+tab] = true;
                     $scope[tab.toLowerCase() + 'Busy'] = false;
@@ -305,6 +316,7 @@ var angObj = angObj || {};
                 if ($scope.selected_tab === 'bydaysofweek'){
                     if($scope.strategyPerfDataByDOW ==='undefined' || $scope.strategyPerfDataByDOW.length === 0 ){
                         $scope.tacticDowBusy = false;
+                        $scope.api_return_code=200;
                         performanceService.getStrategyPerfData(param).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 $scope.strategyPerfDataByDOW = result.data.data;
@@ -315,7 +327,8 @@ var angObj = angObj || {};
                                 }
                             }
                             else {
-                                $scope.errorHandlerForPerformanceTab();
+                                $scope.errorHandlerForPerformanceTab(result);
+
                             }
                         }, $scope.errorHandlerForPerformanceTab);
                     }
@@ -324,6 +337,7 @@ var angObj = angObj || {};
                 } else if ($scope.selected_tab === 'byformats' ){
                     if($scope.strategyPerfDataByFormat ==='undefined' || $scope.strategyPerfDataByFormat.length === 0){
                         $scope.tacticFormatBusy = false;
+                        $scope.api_return_code=200;
                         performanceService.getStrategyPerfData(param).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 $scope.strategyPerfDataByFormat = result.data.data;
@@ -336,7 +350,7 @@ var angObj = angObj || {};
                                 }
                             }
                             else {
-                                $scope.errorHandlerForPerformanceTab();
+                                $scope.errorHandlerForPerformanceTab(result);
                             }
                         }, $scope.errorHandlerForPerformanceTab);
 
@@ -345,6 +359,7 @@ var angObj = angObj || {};
                 }   else if ($scope.selected_tab === 'byplatforms' ){
                     if(typeof $scope.strategyPerfDataByPlatform === 'undefined' || $scope.strategyPerfDataByPlatform.length === 0) {
                         $scope.tacticPlatformBusy = false ;
+                        $scope.api_return_code=200;
                         performanceService.getStrategyPerfData(param).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 $scope.strategyPerfDataByPlatform = result.data.data;
@@ -357,7 +372,7 @@ var angObj = angObj || {};
                                 }
                             }
                             else {
-                                $scope.errorHandlerForPerformanceTab();
+                                $scope.errorHandlerForPerformanceTab(result);
                             }
                         }, $scope.errorHandlerForPerformanceTab);
                     }
@@ -389,6 +404,8 @@ var angObj = angObj || {};
                 if($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0) {
                     $scope.tacticScreenBusy = false ;
                     queryData['tab'] = 'byscreens';
+                    $scope.api_return_code=200;
+
                     performanceService.getStrategyPerfData(queryData).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.strategyPerfDataByScreen = result.data.data;
@@ -408,7 +425,7 @@ var angObj = angObj || {};
                             }
                         }
                         else {
-                            $scope.errorHandlerForPerformanceTab();
+                            $scope.errorHandlerForPerformanceTab(result);
                         }
                     }, $scope.errorHandlerForPerformanceTab);
                 }

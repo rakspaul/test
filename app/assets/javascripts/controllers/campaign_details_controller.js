@@ -8,6 +8,7 @@
         var Campaigns = campaignListModel;
         $scope.activityLogFlag = false;
         brandsModel.disable();
+        $scope.api_return_code = 200;
 
         $scope.actionItems = activityList.data;
         $scope.loadingViewabilityFlag = true;
@@ -85,7 +86,7 @@
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
 
         dataService.getSingleCampaign(url).then(function(result) {
-            if (result.data.data) {
+            if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
@@ -99,6 +100,20 @@
                 $scope.getInventoryGraphData($scope.campaign);
                 //$scope.getFormatsGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
+            } else {
+                if (result.status ==='error')
+                    $scope.api_return_code= result.data.status;
+                else
+                    $scope.api_return_code= result.status;
+                $scope.loadingScreenFlag = false;
+                $scope.screenTotal = 0;
+                $scope.loadingCostBreakdownFlag=false;
+                $scope.details.totalCostBreakdown=0;
+                $scope.loadingInventoryFlag=false;
+                $scope.loadingViewabilityFlag = false;
+                $scope.details.getCostViewability=undefined;
+                $scope.getCostViewabilityFlag=1;
+                $scope.details.actionChart=false;
             }
         }, function(result) {
             console.log('call failed');
@@ -504,31 +519,29 @@
         };
 
         $scope.setGraphData = function(campaign, type){
-
-            campaignSelectModel.setSelectedCampaign(campaign);
-            strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
-            kpiSelectModel.setSelectedKpi(campaign.kpiType);
-
+            if (campaign) {
+                campaignSelectModel.setSelectedCampaign(campaign);
+                strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
+                kpiSelectModel.setSelectedKpi(campaign.kpiType);
+            }
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
 
-            if(type === 'cost'){
+            if (type === 'cost') {
                 utils.goToLocation('/cost');
-            } else if(type === 'viewability'){
+            } else if (type === 'viewability') {
                 utils.goToLocation('/viewability');
-	        } else if(type === 'inventory') {
-		        utils.goToLocation('/inventory');
-            } else if(type === 'view_report' || type === 'format' || type == 'screens') {
-		        utils.goToLocation('/performance');
-	        }else{
+            } else if (type === 'inventory') {
+                utils.goToLocation('/inventory');
+            } else if (type === 'view_report' || type === 'format' || type == 'screens') {
+                utils.goToLocation('/performance');
+            } else {
                 utils.goToLocation('/#/optimization');
             }
-
         };
 
         var filterObject = new Campaigns();
         $scope.campaigns = filterObject;
-
 
         $scope.watchActionFilter = function(filter, showExternal) {
             $scope.activityLogFilterByStatus = showExternal;
