@@ -44,28 +44,28 @@ var angObj = angObj || {};
         };
 
         var platform_icon_map= {
-            'Facebook':'http://erickmotta.com/wp-content/uploads/2014/09/facebook-icon.png',
-            'Everyscreen Media':'http://www.mmaglobal.com/files/styles/member_logo_large/public/epsfield_images/logos/dstillery.png?itok=ZGn3AUo7',
-            'ATT Network':'http://www.att.com/favicon.ico',
+            'Facebook':'',
+            'Everyscreen Media':'assets/images/platform_logos/dstillery_logo.png',
+            'ATT Network':'https://www.att.com/favicon.ico',
             'DoubleClick':'assets/images/platform_logos/double_logo.png',
-            'AppNexus':'http://www.appnexus.com/favicon.ico',
+            'AppNexus':'assets/images/platform_logos/appnexus_logo.png',
             'Telemetry':'assets/images/platform_logos/telemetry_logo.png',
             'Collective Bidder':'assets/images/platform_logos/collective_logo.png',
             'Collective Publishers':'assets/images/platform_logos/collective_logo.png',
-            'Adap.tv':'http://adap.tv/favicon.ico',
-            'Google Ad Exchange':'http://marketingland.com/wp-content/ml-loads/2013/06/doubleclick-icon.jpg',
+            'Adap.tv':'https://adap.tv/favicon.ico',
+            'Google Ad Exchange':'',
             'Prog_Mechanics':'',
-            'Yahoo Ad Exchange':'http://www.yahoo.com/favicon.ico',
+            'Yahoo Ad Exchange':'https://www.yahoo.com/favicon.ico',
             'TriVu Media - YouTube':'assets/images/platform_logos/trivumedia_logo.png',
-            'Admeld':'http://marketingland.com/wp-content/ml-loads/2013/06/doubleclick-icon.jpg',
+            'Admeld':'',
             'Beanstock':'assets/images/platform_logos/beanstock_logo.png',
             'LiveRail':'assets/images/platform_logos/liverail_logo.png',
-            'OpenX':'http://openx.com/favicon.ico',
-            'Pubmatic':'http://www.pubmatic.com/favicon.ico',
-            'Rubicon':'assets/images/platform_logos/platform_logo.png',
+            'OpenX':'assets/images/platform_logos/openx_logo.png',
+            'Pubmatic':'',
+            'Rubicon':'assets/images/platform_logos/rubicon_logo.png',
             'Miscellaneous':'assets/images/platform_logos/platform_logo.png',
             'Collective Test Media':'assets/images/platform_logos/collective_logo.png',
-            'Microsoft':'http://www.msn.com/favicon.ico'
+            'Microsoft':'https://www.msn.com/favicon.ico'
             };
 
         $scope.getPlatformIcon=function(platformName) {
