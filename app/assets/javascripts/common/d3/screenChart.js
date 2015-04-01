@@ -21,9 +21,9 @@
         function dataFormatting(data) {
 
             var positions = [
-                [70, 70],
+                [70, 75],
                 [70, 150],
-                [70, 230],
+                [70, 225],
                 [70, 300]
             ];
             var formattedData = [];
@@ -283,7 +283,7 @@
                     return d.x;
                 })
                 .attr("y", function (d) {
-                    return d.y - (2 * w);
+                    return d.y - (2 * w) + 6;
                 })
                 .attr("font-family", "Avenir")
                 .style("fill", "#57606d")
@@ -306,7 +306,7 @@
                 })
                 .attr("y", function (d) {
 
-                    return d.y - (2 * w);
+                    return d.y - (2 * w) + 7;
                 })
                 .attr("font-family", "Avenir")
                 .style("font-weight", "900")
