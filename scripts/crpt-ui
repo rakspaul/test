@@ -13,7 +13,7 @@
 JAVA_HOME='/usr/java/default'
 
 CRPT_UI_USER=amp
-CRPT_UI_HOME="/home/amp/crpt-ui"
+CRPT_UI_HOME="/home/amp/crpt-ui_new"
 CRPT_UI_PID=${CRPT_UI_HOME}/crpt-ui.pid
 CRPT_UI_LOCK=/var/lock/subsys/crpt-ui
 ADDRESS=`/sbin/ifconfig eth0|grep -i 'inet addr'|cut -d ':' -f 2|cut -d ' ' -f1`
