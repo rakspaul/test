@@ -605,7 +605,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       }
       this.campaignList = [];
       scrollFlag = 1;
-      Campaigns.prototype.fetchCampaigns.call(this);
+      //This call is not required as call already initiated by fetchDashboardData method.
+      //Campaigns.prototype.fetchCampaigns.call(this);
 
     } ,
     Campaigns.prototype._campaignServiceUrl = function() {
