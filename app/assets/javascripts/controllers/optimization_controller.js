@@ -170,20 +170,22 @@ var angObj = angObj || {};
 
 
         $scope.getCampaignDetails = function () {
-            //API call for campaign details
-            var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $scope.selectedCampaign.id;
-            dataService.getSingleCampaign(url).then(function (result) {
-                if (result.data.data !== undefined) {
-                    var res = result.data.data;
+            if ($scope.selectedCampaign) {
+                //API call for campaign details
+                var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $scope.selectedCampaign.id;
+                dataService.getSingleCampaign(url).then(function (result) {
+                    if (result.data.data !== undefined) {
+                        var res = result.data.data;
 
-                    $scope.selectedCampaign.kpiValue = res.kpi_value ;
-                    $scope.selectedCampaign.kpi = res.kpi_type ;
-                    if ($scope.selectedCampaign.kpi=='null')
-                        $scope.selectedCampaign.kpi = 'ctr';
-                }
-            }, function (result) {
-                console.log('call failed');
-            });
+                        $scope.selectedCampaign.kpiValue = res.kpi_value;
+                        $scope.selectedCampaign.kpi = res.kpi_type;
+                        if ($scope.selectedCampaign.kpi == 'null')
+                            $scope.selectedCampaign.kpi = 'ctr';
+                    }
+                }, function (result) {
+                    console.log('call failed');
+                });
+            }
         };
 
 
@@ -201,7 +203,7 @@ var angObj = angObj || {};
         };
 
         $scope.loadTableData = function () {
-            var tacticList = [],  actionItems  ;
+            var tacticList = [],  actionItems;
             if( $scope.selectedStrategy.id == 0){
                 actionItems = $scope.actionItems ; // for all strategies
             } else if( $scope.selectedStrategy.id == -1 ||  $scope.selectedStrategy.id == -99 ){

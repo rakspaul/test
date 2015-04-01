@@ -179,7 +179,8 @@ var angObj = angObj || {};
             var url = inventoryService.getStrategyDomainData(param);
             var canceller =  requestCanceller.initCanceller(constants.INVENTORY_STRATEGY_CANCELLER);
             var errorHandler =  function(result) {
-                $scope.api_return_code = result.data.status;
+                if (result && result.data)
+                    $scope.api_return_code = result.data.status;
 
                 $scope.inventoryChart = false;
                 $scope.strategyBusy = false;
