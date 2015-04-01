@@ -373,7 +373,6 @@ var angObj = angObj || {};
                             }
                             else {
                                 $scope.errorHandlerForPerformanceTab(result);
-                                byplatformsError();
                             }
                         }, $scope.errorHandlerForPerformanceTab);
                     }
