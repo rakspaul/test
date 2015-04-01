@@ -17,7 +17,7 @@ CRPT_UI_HOME="/home/amp/crpt-ui_new"
 CRPT_UI_PID=${CRPT_UI_HOME}/crpt-ui.pid
 CRPT_UI_LOCK=/var/lock/subsys/crpt-ui
 ADDRESS=`/sbin/ifconfig eth0|grep -i 'inet addr'|cut -d ':' -f 2|cut -d ' ' -f1`
-PORT=8080
+PORT=4040
 CRPT_UI_CONFIG=${CRPT_UI_HOME}/crpt-ui-1.0-SNAPSHOT/conf/application.conf
 CRPT_UI_LOG_DIR=$CRPT_UI_HOME/log
 
