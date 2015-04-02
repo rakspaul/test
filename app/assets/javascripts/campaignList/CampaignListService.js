@@ -77,10 +77,8 @@
           id: tactic.id,
           media_type_icon: media_type_icon,
           name: tactic.name,
-
           startDate: momentInNetworkTZ.newMoment(tactic.start_date).format('YYYY-MM-DD'),
           endDate: momentInNetworkTZ.newMoment(tactic.end_date).format('YYYY-MM-DD'),
-
           ad_size: tactic.ad_size,
           platform_name: tactic.platform_name,
           platform_icon: tactic.platform_icon_url,
