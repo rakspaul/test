@@ -76,7 +76,7 @@
                         <div class="clearfix each_section_graph format_section_graph"  ng-if="(details.screens.length > 0 &&  campaign.kpiType !='null' && screenTotal > 0 )">
                             <div ng-repeat="screen in details.screens" class="each_bar_section_holder {{screen.icon}}">
                               <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')">{{screen.dimension}}{{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? ':':'' }} {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? (screen[details.kpiType] | kpiFormatter : campaign.kpiType):'' }}</div>
-                              <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " style="width:{{100-((details.screenTop-screen[details.kpiType])*100/details.screenTop)}}%"> 
+                              <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " ng-style="{'width':100-((details.screenTop-screen[details.kpiType])*100/details.screenTop) +'%'};"> 
                               </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                             </div>
                             <div ng-repeat="data in details.inventory" class="each_bar_section_holder">
                               <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
-                              <div class="each_bar_graph" style="width:{{100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value)}}%"></div>
+                              <div class="each_bar_graph" ng-style="{'width':100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value) +'%'};"></div>
                             </div>
                         </div>
                         
@@ -351,7 +351,7 @@
                                 <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
                                 <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
                             </div>
-                            <div class="days_over" style="width: {{campaign.durationCompletion()}}%;">
+                            <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
                               <span ng-if="campaign.durationLeft() == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
                               <span ng-if="campaign.durationLeft() == 'Ended'" class="days_over_text ended_text" >Ended</span>
                               <span ng-if="campaign.durationLeft() > 0"   class="days_over_text">{{campaign.durationLeft()}} Days Left</span>
@@ -391,9 +391,9 @@
                     </div>
                     <div class="metric_graph {{getSpendClass(campaign)}}">
                             <div class="full_metric_graph">
-                                <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " style="width: {{getSpendWidth(campaign)}}%;"> <!-- put completely_filled when 100% -->
+                                <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " ng-style="{'width': getSpendWidth(campaign) +'%'};"> <!-- put completely_filled when 100% -->
                                 </div>
-                                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidth(campaign)}}%;"><!-- put start_beginning when at start -->
+                                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}" ng-style="{'left': getSpendTickWidth(campaign) +'%'};"><!-- put start_beginning when at start -->
                                     <div class="end_point_val">
                                         <span class="icon_KPI"> ${{campaign.expectedMediaCost | number:2}}</span>
                                         <div class="end_point_line"></div>
