@@ -299,11 +299,14 @@ var angObj = angObj || {};
             $scope.formatBusy = true;
             $scope.dowBusy = true;
 
+            var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}];
 
-            $scope.errorHandlerForPerformanceTab = function(result) {
-                if (result && result.data && result.status ==='error')
+            this.errorHandlerForPerformanceTab = function(result, listOfTabs) {
+                var listOfTabArr = listOfTabs.split(',');
+                if (result && result.data && result.status ==='error') {
                     $scope.api_return_code = result.data.status;
-                $.each(['Screen', 'Platform', 'Format', 'DOW'], function(idx, tab) {
+                }
+                $.each(listOfTabArr , function(idx, tab) {
                     $scope['dataNotFoundFor'+tab] = true;
                     $scope[tab.toLowerCase() + 'Busy'] = false;
                     $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1))+'Busy'] = false;
@@ -311,135 +314,47 @@ var angObj = angObj || {};
                 })
             }
 
-
-            $scope.getStrategyDataForOtherTabs =  function() { //for days of week, Formats, Platforms
-                if ($scope.selected_tab === 'bydaysofweek'){
-                    if($scope.strategyPerfDataByDOW ==='undefined' || $scope.strategyPerfDataByDOW.length === 0 ){
-                        $scope.tacticDowBusy = false;
-                        $scope.api_return_code=200;
-                        performanceService.getStrategyPerfData(param).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                $scope.strategyPerfDataByDOW = result.data.data;
-                                $scope.dowBusy = false ;
-                                if(param.strategyId) {
-                                    $scope.tacticDowBusy = true ;
-                                    $scope.tacticPerfData(param);
-                                }
-                            }
-                            else {
-                                $scope.errorHandlerForPerformanceTab(result);
-
-                            }
-                        }, $scope.errorHandlerForPerformanceTab);
-                    }
-                    analytics.track(loginModel.getUserRole(), constants.GA_PERF_DAYS_OF_WEEK, 'days_of_week', loginModel.getLoginName());
-
-                } else if ($scope.selected_tab === 'byformats' ){
-                    if($scope.strategyPerfDataByFormat ==='undefined' || $scope.strategyPerfDataByFormat.length === 0){
-                        $scope.tacticFormatBusy = false;
-                        $scope.api_return_code=200;
-                        performanceService.getStrategyPerfData(param).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                $scope.strategyPerfDataByFormat = result.data.data;
-                                $scope.dataNotFoundForFormat = false;
-                                $scope.formatBusy = false ;
-                                //$scope.checkForSelectedTabData($scope.strategyPerfDataByFormat, 'Format');
-                                if(param.strategyId) {
-                                    $scope.tacticFormatBusy = true ;
-                                    $scope.tacticPerfData(param);
-                                }
-                            }
-                            else {
-                                $scope.errorHandlerForPerformanceTab(result);
-                            }
-                        }, $scope.errorHandlerForPerformanceTab);
-
-                    }
-                    analytics.track(loginModel.getUserRole(), constants.GA_PERF_FORMATS, 'formats', loginModel.getLoginName());
-                }   else if ($scope.selected_tab === 'byplatforms' ){
-                    if(typeof $scope.strategyPerfDataByPlatform === 'undefined' || $scope.strategyPerfDataByPlatform.length === 0) {
-                        $scope.tacticPlatformBusy = false ;
-                        $scope.api_return_code=200;
-                        performanceService.getStrategyPlatformData(param).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                $scope.strategyPerfDataByPlatform = result.data.data;
-                                $scope.dataNotFoundForPlatform = false;
-                                $scope.platformBusy = false;
-                                //$scope.checkForSelectedTabData($scope.strategyPerfDataByPlatform, 'Platform');
-//                                if(param.strategyId) {
-//                                    $scope.tacticPlatformBusy = true ;
-//                                    $scope.tacticPerfData(param);
-//                                }
-                            }
-                            else {
-                                $scope.errorHandlerForPerformanceTab(result);
-                            }
-                        }, $scope.errorHandlerForPerformanceTab);
-                    }
-                    analytics.track(loginModel.getUserRole(), constants.GA_PERF_PLATFORMS, 'platforms', loginModel.getLoginName());
-                }
+            this.checkForSelectedTabData =  function(data, tab) {
+                var totalImpression = _.reduce(data, function(sum, d) { return sum + d.impressions  }, 0);
+                return totalImpression === 0 ?  true : false;
             };
 
-            $scope.checkForSelectedTabData =  function(data, tab) {
-                if($scope.selectedCampaign.kpi && !$scope.isStrategyDataEmpty) {
-                    var screenTotal = 0;
-                    _.each(data, function (screen) {
-                        if (screen.dimension.toLowerCase() == 'smartphone' || screen.dimension.toLowerCase() == 'tablet' || screen.dimension.toLowerCase() == 'desktop') {
-                            if (screen[$scope.selectedCampaign.kpi.toLowerCase()] > 0) {
-                                screenTotal += screen[$scope.selectedCampaign.kpi.toLowerCase()];
-                            }
-                        }
-                    });
-                    if(screenTotal === 0) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-
-            $scope.getStrategyScreenData = function(param) {
-
-                var queryData = $.extend({},param);
-                if($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0) {
-                    $scope.tacticScreenBusy = false ;
-                    queryData['tab'] = 'byscreens';
+            this.getPerformanceData = function(tab, listOfTabs) {
+                var strategyPerfData = $scope['strategyPerfDataBy'+tab];
+                if(strategyPerfData ==='undefined' || strategyPerfData.length === 0 ) {
+                    $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1))+'Busy'] = false;
                     $scope.api_return_code=200;
-
-                    performanceService.getStrategyPerfData(queryData).then(function (result) {
+                    var StrategyFunc = performanceService[tab !== 'Platform' ? 'getStrategyPerfData' : 'getStrategyPlatformData'];
+                    StrategyFunc(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
-                            $scope.strategyPerfDataByScreen = result.data.data;
-                            $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData($scope.strategyPerfDataByScreen, 'Screen');
-                            $scope.screenBusy = false;
-                            $scope.isStrategyDataEmpty = true;
-                            if(queryData.strategyId) {
-                                $scope.tacticScreenBusy = true ;
-                                $scope.tacticPerfData(queryData);
-                            }
+                            $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
                             if($scope.hidePerformanceReportTab) {
-                                $scope.errorHandlerForPerformanceTab();
+                                $scope.errorHandlerForPerformanceTab(result, listOfTabs);
                             } else {
-                                if($scope.selected_tab !== 'byscreens') {
-                                    $scope.getStrategyDataForOtherTabs();
+                                $scope['strategyPerfDataBy' + tab] = result.data.data;
+                                $scope['dataNotFoundFor' + tab] = false;
+                                $scope[tab.toLowerCase() + 'Busy'] = false;
+                                if (param.strategyId && tab !== 'Platform') {
+                                    $scope['tactic' + (tab.substr(0, 1).toUpperCase() + tab.substr(1)) + 'Busy'] = true;
+                                    $scope.tacticPerfData(param);
                                 }
                             }
                         }
                         else {
-                            $scope.errorHandlerForPerformanceTab(result);
+                            $scope.errorHandlerForPerformanceTab(result, listOfTabs);
+
                         }
-                    }, $scope.errorHandlerForPerformanceTab);
+                    }, $scope.errorHandlerForPerformanceTab, listOfTabs);
                 }
             }
 
-            //default calling screen strategy
-            if($scope.hidePerformanceReportTab) {
-                $scope.errorHandlerForPerformanceTab();
+            var selectedtab = $scope.selected_tab;
+            var shorttabName = _.filter(performaceTabMap, function(obj) { return obj[selectedtab]})[0][selectedtab];
+            var listOfTabsWithShortName = _.map(performaceTabMap, function(obj) { return _.values(obj) }).join(',');
+            if(!$scope.hidePerformanceReportTab) {
+                this.getPerformanceData(shorttabName, listOfTabsWithShortName);
             } else {
-                if(!$scope.isStrategyDataEmpty || $scope.selected_tab === 'byscreens') {
-                    $scope.getStrategyScreenData(param);
-                } else {
-                    $scope.getStrategyDataForOtherTabs();
-                }
+                $scope.errorHandlerForPerformanceTab('', listOfTabsWithShortName);
             }
         };
 
