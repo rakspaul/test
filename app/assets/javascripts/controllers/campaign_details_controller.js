@@ -428,7 +428,7 @@
                             $scope.details.lineData = lineData;
                             $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
-                            },3000);
+                            },10000);
                             if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
                             }
