@@ -194,13 +194,30 @@
         };
 
         $scope.makeCampaignSelected = function(id) {
+            var splitIdList =  id.split(",");
             var myContainer = $('#action-container:first');
-            var scrollTo = $('#actionItem_' + id);
-            if(scrollTo.length) {
-            scrollTo.siblings().removeClass('active').end().addClass('active');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
+            if(splitIdList.length > 1 ){
+                var scrollTo = $('#actionItem_' + splitIdList[0]);
+                scrollTo.siblings().removeClass('active').end().addClass('active');
+                //Mulitple Activity List
+                for(var i=0;i < splitIdList.length;i++){
+                      var targetId =splitIdList[i];
+                      //$('circle#' + targetId).attr({ fill: '#777'});
+                       myContainer.find('#actionItem_'+targetId).addClass('active');
+                       if(scrollTo.length) {
+                           myContainer.animate({
+                            scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                          });
+                       }
+                 }
+            }else{//Day wise single Activity  
+                 var scrollTo = $('#actionItem_' + id);
+                if(scrollTo.length) {
+                scrollTo.siblings().removeClass('active').end().addClass('active');
+                myContainer.animate({
+                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                });
+                }
             }
         };
 

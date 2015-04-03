@@ -166,6 +166,9 @@
               $('text#t' + circleObj.target.id).css({fill:'#fff'});
             }
             //End 
+            localStorage.setItem('actionSelStatusFlag' , isActionExternal);
+            localStorage.setItem('actionSelActivityCount' , getactivityCount);
+            localStorage.setItem('actionSel' , getIdList);
             if(defaultGrey) {
 
               //$('circle').attr({stroke: '#0070CE', fill:'#ffffff'});
@@ -173,7 +176,6 @@
               myContainer = $('.reports_section_details_container');
               //highlight activity in reports page
               var scrollTo = $('#actionItem_' + this.id);
-              localStorage.setItem('actionSel' , this.id);
               if(scrollTo.length) {
                 scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
                 //Mulitple Activity List
@@ -198,7 +200,6 @@
             } else {
               //click to scroll and highlight activity 
               var scrollTo = $('#actionItem_' + this.id);
-              localStorage.setItem('actionSel' , this.id);
               if(scrollTo.length) {
                 scrollTo.siblings().removeClass('active').end().addClass('active');
                 if(splitIdList.length > 1 ){
@@ -559,6 +560,48 @@
                   $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+actionId).addClass('action_selected');
                   $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+actionId).addClass('action_selected');
                 }
+                //Action Selection Activity
+                //AFter loaded default select
+               if(localStorage.getItem('actionSel') )
+               {
+                  var isActionExternal = localStorage.getItem('actionSelStatusFlag');
+                  var getactivityCount =  localStorage.getItem('actionSelActivityCount');
+                  var splitIdList =  localStorage.getItem('actionSel').split(",");
+                  $('circle#' + splitIdList[0]).attr({ fill:   isActionExternal =='false'  ? '#777':'#0072bc'});
+                  if(getactivityCount > 1){
+                     $('text#t' + splitIdList[0]).css({fill:'#fff'});
+                  }
+
+                  //Select Activity
+                    var myContainer = $('#action-container:first');
+                    if(splitIdList.length > 1 ){
+                      var scrollTo = $('#actionItem_' + splitIdList[0]);
+                      scrollTo.siblings().removeClass('active').end().addClass('active');
+                      //Mulitple Activity List
+                      for(var i=0;i < splitIdList.length;i++){
+                            var targetId =splitIdList[i];
+                            //$('circle#' + targetId).attr({ fill: '#777'});
+                             myContainer.find('#actionItem_'+targetId).addClass('active');
+                             if(scrollTo.length) {
+                                 myContainer.animate({
+                                  scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });
+                             }
+                       }
+                  }else{//Day wise single Activity  
+                       var scrollTo = $('#actionItem_' + splitIdList[0]);
+                      if(scrollTo.length) {
+                      scrollTo.siblings().removeClass('active').end().addClass('active');
+                      myContainer.animate({
+                          scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                      });
+                      }
+                  }//end activity Selection
+               }
+
+                 //End Action selection 
+
+
               }
 
             }, 1000);
