@@ -89,6 +89,14 @@
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                var selectedCampaign = {
+                    id : $scope.campaign.id,
+                    name : $scope.campaign.name,
+                    startDate : $scope.campaign.start_date,
+                    endDate : $scope.campaign.end_date,
+                    kpi : $scope.campaign.kpi_type.toLowerCase()
+                };
+                campaignSelectModel.setSelectedCampaign(selectedCampaign);
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 $scope.getCdbChartData($scope.campaign);
