@@ -7,7 +7,7 @@
   </div>
   <ul class="dropdown-menu" role="menu" id="brandsList">
     <div class="brandsList_ul" lr-infinite-scroll="loadMoreBrands" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">
-      <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter" class="{{brand.className}}" ng-controller="brandsListController">
+      <li ng-repeat="brand in brands track by $index" ng-hide="isExcludedByBrandFilter" class="{{brand.className}}" ng-controller="brandsListController">
         <a data-ng-click="selectBrand(brand)">
           <span class="tick"></span>
             <span class="menuItemText"

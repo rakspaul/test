@@ -11,7 +11,7 @@
                 <span class="arrow_img"></span>
               </span>
               <ul class="dropdown_ul dropdown-menu">
-                <li ng-repeat="data in screenWidgetData.formatDropDown " data-ng-click="formatDropdownChange(data)">{{data}}</li>
+                <li ng-repeat="data in screenWidgetData.formatDropDown track by $index" data-ng-click="formatDropdownChange(data)">{{data}}</li>
               </ul>
         </div>
         <div class="pull-left tooltip_holder" >
@@ -29,7 +29,7 @@
                 <span class="arrow_img"></span>
               </span>
               <ul class="dropdown_ul dropdown-menu">
-                <li  ng-repeat="data in screenWidgetData.metricDropDown" data-ng-click="metricDropdownChange(data)" >{{data }}</li>
+                <li  ng-repeat="data in screenWidgetData.metricDropDown track by $index" data-ng-click="metricDropdownChange(data)" >{{data }}</li>
               </ul>
       </div>
     </div>
