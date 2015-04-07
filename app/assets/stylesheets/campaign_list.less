@@ -1687,21 +1687,22 @@ button, i, input[type="submit"] {
   margin-top: 5px;
   background-repeat: no-repeat;
   background-position: top left;
+  background-size: contain ;
 }
 .completed_campaign_status_icon {
-  background-image : url("/assets/images/status_icons/complete_icon.png") ;
+  background-image : url("/assets/images/statusWidget/completed_icon.png") ;
 }
 .draft_campaign_status_icon {
-  background-image : url("/assets/images/status_icons/draft_icon.png")  ;
+  background-image : url("/assets/images/statusWidget/draft_icon.png")  ;
 }
 .ready_campaign_status_icon {
-  background-image : url("/assets/images/status_icons/ready_icon.png")  ;
+  background-image : url("/assets/images/statusWidget/ready_icon.png")  ;
 }
 .active_campaign_status_icon {
-  background-image : url("/assets/images/status_icons/active_icon.png")  ;
+  background-image : url("/assets/images/statusWidget/active_icon.png")  ;
 }
 .paused_campaign_status_icon {
-  background-image : url("/assets/images/status_icons/paused_icon.png")  ;
+  background-image : url("/assets/images/statusWidget/paused_icon.png")  ;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -2504,6 +2505,10 @@ button, i, input[type="submit"] {
     }
     .each_cost_section {
       float: left;
+      .campaign_status_icon {
+        margin-top: 4px ;
+        margin-right: 5px ;
+      }
       .each_cost_details {
         font-family: "Avenir";
         font-size: 14px;
