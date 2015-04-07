@@ -2580,18 +2580,15 @@ button, i, input[type="submit"] {
 .modal-backdrop.in{
   opacity: .8 ;
 }
-.main_navigation_holder {
-  height: 84px;
-  background: #007ac9;
-  padding: 20px ;
- .about_popup {
+.modal-open {
+  .about_popup {
     background-color:  #ffffff;
     box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
     width : 412px ;
     font-family: Avenir;
     color:  #21252b;
-    font-size: 16px; 
-    line-height: 24px; 
+    font-size: 16px;
+    line-height: 24px;
     text-align: center;
     position: fixed;
     top: 50%;
@@ -2610,7 +2607,7 @@ button, i, input[type="submit"] {
       }
     }
     .logo {
-      background: url("/assets/images/cdesk/collective_logo_popup.png") no-repeat center top ; 
+      background: url("/assets/images/cdesk/collective_logo_popup.png") no-repeat center top ;
       width: 100% ;
       height: 70px;
       margin: 28px auto 24px;
@@ -2625,13 +2622,18 @@ button, i, input[type="submit"] {
     }
     .version_detail {
       color:  #21252b;
-      font-size: 16px; 
+      font-size: 16px;
       .AvenirBold() ;
       line-height: 28px;
       text-align: center;
     }
   }
-  .dropdown-menu {
+}
+.main_navigation_holder {
+  height: 84px;
+  background: #007ac9;
+  padding: 20px ;
+   .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
     border-radius: 0px;
