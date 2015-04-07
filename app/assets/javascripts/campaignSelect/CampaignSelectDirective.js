@@ -23,7 +23,7 @@
                 });
 
                 $(document).click(function(event) {
-                    if(!$("#campaignDropdown").is(':focus')) {
+                    if(!$("#campaignDropdown").is(':focus') && $('#campaigns_list').css('display') == "block" ) {
 
                         $("#campaigns_list").hide();
                         $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);

@@ -38,20 +38,24 @@
       fetchBrands(search);
     };
 
-    $scope.selectBrand = function (brand) {
-      $('#brandsDropdown').attr('placeholder', brand.name);
-      $('#brandsDropdown').val('');
-      $scope.brandData.showAll = true;
-      if(brandsModel.getSelectedBrand().id === brand.id) {
-        return;
-      }
-      $scope.brands.forEach(function (entry) {
-        if (brand.id == entry.id) {
-          entry.className = 'active';
-        } else {
-          entry.className = '';
-        }
+      $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
+          $scope.selectBrand(brandsModel.getSelectedBrand());
       });
+
+    $scope.selectBrand = function (brand) {
+      $('#brandsDropdown').attr('placeholder', brand.name).val('');
+      $scope.brandData.showAll = true;
+
+        $scope.brands.forEach(function (entry) {
+            if (brand.id == entry.id) {
+                entry.className = 'active';
+            } else {
+                entry.className = '';
+            }
+        });
+      if(brandsModel.getSelectedBrand().id === brand.id) {
+          return;
+      }
       brandsModel.setSelectedBrand(brand);
       $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, brand);
       analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
