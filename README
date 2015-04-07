@@ -1,0 +1,28 @@
+This is your new Play application
+=====================================
+
+This file will be packaged with your application, when using `play dist`.
+
+Since we have moved away from rails . So to install new scala compiler and updated play jar, do following
+1. switch to branch sprint-1510
+2. sbt ~run // it will download all jars
+
+To compile the code (always before commiting ) do 
+sbt dist
+
+To run your projet on specific port
+sbt "~run <port_no>"
+
+To run the project on default part
+
+sbt ~run
+
+If the application doesn't get loaded in dev mode, Comment out following lines form main.js file -
+
+ vi app/assets/javascripts/main.js 
+   
+    /**optimize: 'uglify2',
+    uglify2: {
+    warnings: false,
+      mangle: false
+    },**/

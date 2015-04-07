@@ -1,1 +1,0 @@
-REST_AUTH_SITE_KEY         = '6e4eb4cb403130bd97c6a548c84238ae9db98fe4'

@@ -1,3 +1,0 @@
-<%= params[:callback]%>(
-  <%= (render partial: 'desk/orders/order_list.json', locals: {:orders => @orders}).html_safe %>
-);

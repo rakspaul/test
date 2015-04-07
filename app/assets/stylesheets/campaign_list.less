@@ -1,0 +1,2969 @@
+/* font- face declarations */
+@font-face {
+  font-family: "TradeGothicLTStd-BdCn20";
+  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot");
+  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd-BdCn20.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd-BdCn20.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20") format("svg");
+}
+
+@font-face {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot");
+  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.woff") format("woff"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.ttf") format("truetype"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20") format("svg");
+}
+
+@font-face {
+  font-family: "trade-gothic-no-2-bold";
+  src: url("/assets/fonts/trade-gothic-no-2-bold.eot");
+  src: url("/assets/fonts/trade-gothic-no-2-bold.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/trade-gothic-no-2-bold.woff") format("woff"), url("/assets/fonts/trade-gothic-no-2-bold.ttf") format("truetype"), url("/assets/fonts/trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold") format("svg");
+}
+
+@font-face {
+  font-family: "TradeGothicLTStd";
+  src: url("/assets/fonts/TradeGothicLTStd.eot");
+  src: url("/assets/fonts/TradeGothicLTStd.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
+}
+@font-face {
+    font-family: "Avenir";
+    src: url("/assets/fonts/Avenir/Avenir.eot");
+    src: url("/assets/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/Avenir/Avenir.woff") format("woff"), url("/assets/fonts/Avenir/Avenir.ttf") format("truetype") ;
+}
+@font-face {
+    font-family: "Avenir-bold";
+    src: url("/assets/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/assets/fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("/assets/fonts/Avenir/Avenir.ttf") format("truetype") ;
+}
+/* base variables */
+@primaryFont: "TradeGothicLTStd-BdCn20";
+@secondaryFont: "Trade-Gothic-LT-Bold-Condensed-N-2";
+@tertiaryFont: "TradeGothicLTStd";
+@quaternaryFont: "trade-gothic-no-2-bold";
+
+@textColorWhite: #fff;
+@textGreyColor: #bebebe;
+@textDarkGreyColor: #999;
+@textHelloColor: #a6c7e6;
+@textHeadingColor: #177ac6;
+
+@borderColor: #81bee5;
+
+/* mixins */
+.FontColor(@textColor, @fontSize, @fontFamily) {
+  color: @textColor;
+  font-size: @fontSize;
+  font-family: @fontFamily;
+}
+
+.BackgroundLinearGradient(@startColor, @endColor) {
+  background: @startColor;
+  background: linear-gradient(@startColor, @endColor);
+  background: -moz-linear-gradient(@startColor, @endColor);
+  background: -webkit-gradient(linear, center top, center bottom, from(@startColor), to(@endColor));
+}
+
+.BackgroundLinearGradientLeftToRight(@startColor, @endColor) {
+  background: linear-gradient(to right, @startColor , @endColor);
+  background: -o-linear-gradient(left, @startColor, @endColor);
+  background: -moz-linear-gradient(left,@startColor, @endColor);
+  background: -webkit-linear-gradient(left,@startColor, @endColor);
+}
+.valStyle() {
+  font-family: "Avenir-bold" ;
+color:  #57606d;
+font-size: 14px;
+}
+.darkBoldVal() {
+  font-family: "Avenir-bold" ;
+  color:  #21252b;
+  font-size: 14px; 
+}
+.graphHeadingFont() {
+  font-size: 16px ;
+  color: #2d2f31 ;
+}
+.AvenirBold() {
+  font-family: "Avenir-bold" ;
+}
+.AvenirFont() {
+  font-family: "Avenir" ;
+}
+/* generic style */
+body {
+  height: auto;
+  background: #fff;
+  background-repeat: repeat;
+}
+.dashboard_body {
+  background: #fff ;
+  #dashboard_nav_link {
+    a {
+      color: #fff; 
+    }
+  }
+}
+
+.btn:focus, input:focus, textarea:focus, select:focus, input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
+  outline: none;
+}
+
+a {
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
+button, i, input[type="submit"] {
+  outline: none;
+}
+
+/* classes defined */
+.bold {
+  font-weight: bold;
+}
+.main_container {
+  background: #fff;
+}
+.seperator {
+  font-size: 12pt;
+}
+
+.kpi-text-container {
+  text-align: left;
+  .FontColor(@textGreyColor, 11pt, @primaryFont);
+}
+
+.kpi-num {
+  font-family: @secondaryFont;
+}
+
+.cpa-color {
+  text-transform: uppercase;
+  .FontColor(@textDarkGreyColor, 14px, @tertiaryFont);
+}
+
+.lowerCase {
+  text-transform: lowercase;
+}
+
+.top-margin {
+  margin-top: -10px;
+}
+
+.marg-10 {
+  margin-top: 5px;
+  display: inline-block;
+}
+
+/* status classes */
+.delivering {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.paused {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.pushed {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.completed {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.draft {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* strategies status */
+#collapseOne .Delivering {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_delivering_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+#collapseOne .Pushed {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_paused_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+#collapseOne .Completed {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_complete_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+#collapseOne .Draft {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/status_draft_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* ajax-spinner-loader */
+.loading-spinner-holder {
+  background: url("/assets/images/cdesk/ajax-loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  height: 100%;
+  text-align: center;
+  width: 100%;
+  font-size: xx-large;
+  z-index: 98999;
+}
+.unselectable{
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+}
+
+/* detailed page style */
+
+#campaignDetail.container, #detailedPage.container {
+  width: 1040px;
+  margin: 0 auto;
+  .row-fluid .col-md-12 {
+    h1 {
+      margin-bottom: 15px;
+      .FontColor(@textHeadingColor, 20pt, @primaryFont);
+    }
+    .search-cum-navbar {
+      height: 40px;
+      padding: 5px 20px;
+      border-radius: 5px;
+      background: #f9b537;
+      margin-bottom: 5px;
+      ul {
+        width: 100%;
+        li {
+          cursor: pointer;
+          border-right: 1px solid #e0a331;
+          .sort-image-inactive {
+            width: 10px;
+            height: 12px;
+            display: inline-block;
+            vertical-align: baseline;
+            background: url("/assets/images/cdesk/static-caret.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+          }
+          .dropdown-menu {
+            padding: 0;
+            width: 200px;
+            border: none;
+            margin-top: 5px;
+            margin-left: -20px;
+            border-radius: 5px;
+            li {
+              border-right: none;
+              cursor: pointer;
+              a {
+                padding: 12px 15px 5px;
+                .FontColor(@textDarkGreyColor, 11pt, @secondaryFont);
+              }
+              &:first-child a {
+                margin: 15px 15px 0;
+                padding: 0 15px 10px 0;
+                border-bottom: 1px solid @textGreyColor;
+              }
+              a span.tick {
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+              }
+              &:hover a span.tick {
+                background: url("/assets/images/cdesk/green-ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+              }
+              &.active a span.tick {
+                background: url("/assets/images/cdesk/ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+              }
+            }
+          }
+        }
+        .dwopdown-two {
+          padding-left: 20px;
+        }
+        li a {
+          padding: 5px 15px;
+          background: transparent;
+          .FontColor(#c68f2a, 11pt, @secondaryFont);
+          &:hover, &:focus {
+            padding: 5px 15px;
+            background: transparent;
+            .FontColor(#c68f2a, 11pt, @secondaryFont);
+          }
+          .caret {
+            color: #ae7e26;
+            margin-left: 10px;
+            margin-bottom: 3px;
+          }
+          &.active {
+            color: @textColorWhite;
+            text-shadow: 0px -1px 1px #bbbbbb;
+            &:hover, &:focus {
+              color: @textColorWhite;
+              text-shadow: 0px -1px 1px #bbbbbb;
+            }
+            .caret {
+              color: @textColorWhite;
+              box-shadow: 0px -1px 0px @textDarkGreyColor;
+            }
+          }
+        }
+      }
+      ul:first-child > li:first-child {
+        padding-right: 20px;
+        > input {
+          width: 80px;
+        }
+        > input::-webkit-input-placeholder { color: @textColorWhite; opacity: 1 ;}
+        > input::-moz-placeholder { color: @textColorWhite;opacity: 1 ; }
+        > input:-moz-placeholder { color: @textColorWhite; opacity: 1 ;}
+        > input:-ms-input-placeholder { color: @textColorWhite;opacity: 1 ; }
+      }
+    }
+    .campaign-title-head {
+      margin-bottom: 20px;
+      .clearfix.top-margin {
+        margin-bottom: 0;
+      }
+      ul {
+        padding: 0 20px 0 30px;
+        overflow: hidden;
+        li {
+          padding-left: 15px;
+          list-style: none;
+          &:first-child {
+            padding-left: 0;
+          }
+          span {
+            width: 100%;
+            padding-bottom: 2px;
+            display: inline-block;
+            border-bottom: 1px solid @textGreyColor;
+            width: 96%;
+            font-weight: bold;
+            margin-right: 15px;
+            display: inline-block;
+            text-transform: uppercase;
+            .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
+          }
+          a {
+            width: 100%;
+            cursor: pointer;
+            padding-bottom: 2px;
+            display: inline-block;
+            border-bottom: 1px solid @textGreyColor;
+            span {
+              width: 96%;
+              font-weight: bold;
+              margin-right: 15px;
+              display: inline-block;
+              text-transform: uppercase;
+              .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
+              &.active {
+                color: @textHeadingColor;
+              }
+
+              > span.default-sort, > span.ascending, > span.descending {
+                margin: 0;
+                width: 8px;
+                padding: 0;
+                height: 13px;
+                vertical-align: top;
+                border-bottom: none;
+                display: inline;
+                background: url("/assets/images/cdesk/sort-blue.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+              }
+            }
+            &:hover {
+              text-decoration: none;
+            }
+            > span > span.ascending {
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: bottom;
+              border-bottom: none;
+              display: inline-block;
+              background: url("/assets/images/cdesk/ascending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+            }
+            > span > span.descending {
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: bottom;
+              border-bottom: none;
+              display: inline-block;
+              background: url("/assets/images/cdesk/descending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+            }
+          }
+          &:nth-child(2) {
+            li a {
+              width: auto;
+              margin-bottom: 0;
+              border-bottom: none;
+              > span {
+                display: inline-block;
+                > span {
+                  top: 7px;
+                  position: absolute;
+                  display: inline-block;
+                }
+              }
+            }
+            ul {
+              padding: 0;
+              width: 95%;
+              border-bottom: 1px solid @textGreyColor;
+              li {
+                display: inline-block;
+                border-bottom: none;
+                padding-left: 5px;
+                &:first-child {
+                  padding-left: 0;
+                }
+              }
+            }
+            > ul li span {
+              border-bottom: none;
+            }
+          }
+        }
+        li.col-md-6.pull-right {
+          text-align: center;
+          padding: 0 5px 15px 15px;
+        }
+      }
+    }
+    .campaign {
+      min-height: 220px;
+      overflow: hidden;
+      background: @textColorWhite;
+      position: relative;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 17px 30px 15px;
+      box-shadow: 0 1px 1px #aaaaaa;
+      .col-md-1 {
+        padding: 0;
+        text-align: center;
+      }
+      div {
+        .FontColor(@textDarkGreyColor, 10pt, @tertiaryFont);
+        &.edit-stats-icons {
+          margin-top: 60px;
+          .action_bubble {
+            position: absolute;
+            top: -16px;
+            right: -2px;
+            height: 15px;
+            width: 15px;
+            color: #fff;
+            background: #007ac9;
+            border-radius: 15px;
+            font-size: 8px;
+            text-align: center;
+            padding: 3px 0px 0 0px;
+
+          }
+          .action_bubble_holder {
+            position: relative;
+            display: inline-block;
+          }
+          #icon-campaign-edit.icons-bckground {
+            background: url("/assets/images/icn_action.png") no-repeat scroll center 6px  #EBAB34;
+            border-radius: 20px;
+            display: inline-block;
+            height: 30px;
+            margin-top: -8px;
+            width: 30px;
+            &:hover{
+              cursor: pointer;
+            }
+          }
+          #icon-campaign-report.icons-bckground {
+            background: url("/assets/images/icn_act_reports.png") no-repeat scroll 0 0 #EBAB34;
+            border-radius: 20px;
+            display: inline-block;
+            height: 30px;
+            margin-top: -5px;
+            width: 30px;
+            &:hover{
+              cursor: pointer;
+            }
+          }
+          > div:nth-child(2) {
+            margin-top: 20px;
+          }
+        }
+      }
+      .col-md-5 {
+        .campaign-name {
+          display: block;
+          min-height: 60px;
+          font-weight: bold;
+          margin-bottom: 0;
+          .FontColor(#f9b537, 16pt, @primaryFont);
+        }
+        .brand {
+          margin-bottom: 20px;
+          .FontColor(@textDarkGreyColor, 10pt, @tertiaryFont);
+          .brand-type {
+            color: @textGreyColor;
+          }
+        }
+        .duration {
+          margin-bottom: 10px;
+          .date {
+            margin-bottom: 10px;
+            color: @textDarkGreyColor;
+          }
+          .duration-bar {
+            width: 170px;
+            .progress {
+              height: 5px;
+              border-radius: 0;
+              margin-bottom: 7px;
+              .progress-bar {
+                .BackgroundLinearGradient(#8dc9eb, #7ac3ed);
+              }
+            }
+            .days-left {
+              text-align: right;
+              .day-count {
+                font-family: @primaryFont;
+              }
+            }
+          }
+        }
+        #accordion .strategies {
+          width: 130px;
+          padding: 7px 5px 5px;
+          cursor: pointer;
+          text-align: center;
+          border-radius: 15px;
+          background: #e9e6e0;
+          border-top: 1px solid #cccccc;
+          a:hover {
+            text-decoration: none;
+          }
+          .strat-text {
+            font-weight: bold;
+            color: @textGreyColor;
+          }
+        }
+      }
+      .col-md-3 .row-fluid {
+        .col-md-10 {
+          padding: 0;
+          font-size: 9pt;
+        }
+        .col-md-2 {
+          padding: 0;
+          text-align: right;
+          .suffix {
+            font-size: 9pt;
+          }
+        }
+        .kpi-text-container {
+          padding-left: 5px;
+          text-align: left;
+          .FontColor(@textGreyColor, 11pt, @primaryFont);
+        }
+        .kpi-values {
+          text-align: right;
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+          .cumulative-text {
+            .FontColor(@textDarkGreyColor, 13px, @tertiaryFont);
+          }
+          div span {
+            text-align: right;
+            .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
+          }
+          div > span:last-child {
+            .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+          }
+          div > span.avg-text {
+            font-size: 10pt;
+          }
+          .kpi-num {
+            font-family: @secondaryFont;
+          }
+          .kpi-goal {
+            width: 17px;
+            height: 18px;
+            display: inline-block;
+            vertical-align: sub;
+            background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+          }
+        }
+      }
+      .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
+        padding: 0 0 0 5px;
+        margin-bottom: 10px;
+        text-align: left;
+        .imps {
+          text-align: right;
+        }
+        .imps-count {
+          text-align: right;
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+        }
+      }
+      .col-md-3.marg-10 .row-fluid .col-md-12 {
+        padding: 0;
+      }
+      .col-md-3.marg-10 .row-fluid .col-md-6 {
+        padding: 0 5px;
+        text-align: right;
+        margin-bottom: 10px;
+        .ctr-container {
+          .blue {
+            height: 20px;
+            .FontColor(@textHeadingColor, 12pt, @primaryFont);
+          }
+          .blue.margin-twenty {
+            margin-top: -20px;
+          }
+          .progress {
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 0;
+            .progress-bar {
+              border: 1px solid #5EA9D8;
+              .BackgroundLinearGradientLeftToRight(#6EBFF0, #1D7FC9);
+            }
+          }
+        }
+        .ctr-container.red {
+          .blue {
+            height: 20px;
+            .FontColor(#E4696C, 12pt, @primaryFont);
+          }
+          .blue.margin-twenty {
+            margin-top: -20px;
+          }
+          .progress {
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 0;
+            .progress-bar {
+              border: 1px solid #E4696C;
+              .BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
+            }
+          }
+        }
+        .ctr-container.amber {
+          .blue {
+            height: 20px;
+            .FontColor(#FB8917, 12pt, @primaryFont);
+            .margin-twenty {
+              margin-top: -20px;
+            }
+          }
+          .progress {
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 0;
+            .progress-bar {
+              border: 1px solid #FB8917;
+              .BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
+            }
+          }
+        }
+        .ctr-value {
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+        }
+        .goal-image {
+          width: 17px;
+          height: 18px;
+          display: inline-block;
+          vertical-align: sub;
+          background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+        }
+        .action-data {
+          .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+        }
+      }
+    }
+    .highcharts span.no-chart {
+      padding: 50px;
+      color: #a2a2a2;
+      display: block;
+      text-align: center;
+    }
+    .highcharts span.strategies-no-chart {
+      padding: 15px;
+      display: block;
+      text-align: center;
+    }
+    .highcharts div.chart-tool-tip {
+      padding:5px;
+      background:#fff;
+      border: 1px solid #ccc;
+    }
+    &.inner-accordion-wrapper {
+      margin-top: -20px;
+      margin-bottom: 20px;
+    }
+    .inner-accordion {
+      margin-top: -2px;
+      background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
+      &.first {
+        margin-top: 0;
+      }
+      .panel-collapse.collapse.in {
+        width: 1037px;
+        margin-top: 20px;
+        min-height: 240px;
+        border-radius: 5px;
+        background: #e9e6e0;
+        .FontColor(@textDarkGreyColor, 10pt, @tertiaryFont);
+        .panel-body.row-fluid {
+          padding-right: 0;
+          .col-md-12 {
+            padding-right: 0;
+          
+              .col-md-1 {
+                padding: 0;
+                text-align: center;
+              }
+              .col-md-4 .campaign-name {
+                font-family: @primaryFont;
+                .FontColor(#f9b537, 13pt, @primaryFont);
+              }
+           
+          }
+        }
+      }
+      &:last-child {
+        background: url("/assets/images/cdesk/accordion-line-end.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
+      }
+      .tactics_outer_container  {
+        display: none;
+        .panel-collapse.collapse.in {
+          width : 1015px ;
+          background: #D1CFCA ;
+        }
+        .each_tactics_holder {
+          background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -26px 0px;
+
+          .panel-body.row-fluid {
+            .col-md-12 {
+             
+                .col-md-7 {
+                  padding-top: 50px !important;
+                  height: 232px !important;
+                  margin-bottom: 3px;
+                }
+                .col-md-1 {
+                  margin-top: 5px ;
+                  .marg-top-style {
+                    margin-top : 30px ;
+                  }
+                }
+                .col-md-4 {
+                  margin-top : 5px ;
+                  .campaign-name {
+                    color: #666 !important;
+                  }
+                }
+             
+            }
+          }
+          &:last-child {
+            background: url("/assets/images/cdesk/accordion-line-end.png") no-repeat scroll -27px 0px ;
+          }
+        }
+      }
+      .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
+        .col-md-4 {
+          #tactics_accordion .tactics {
+            width: 110px;
+            padding: 7px 5px 5px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 15px;
+            background: #C5C4C0;
+            border-top: 1px solid #cccccc;
+            .panel-title {
+              color: #817C7C;
+              font-size: 10pt;
+            }
+            a:hover {
+              text-decoration: none;
+            }
+            .tactics-text {
+              font-weight: bold;
+              color: #817C7C;
+            }
+          }
+          .inner-accordion-details {
+            margin-bottom: 10px;
+            > div {
+              span {
+                margin-right: 5px;
+                vertical-align: baseline;
+              }
+              .audience-icon {
+                width: 16px;
+                height: 16px;
+                display: inline-block;
+                background: url("/assets/images/cdesk/icn_audience.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+              .globe-icon {
+                width: 16px;
+                height: 16px;
+                vertical-align: sub;
+                display: inline-block;
+                background: url("/assets/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+              .location-icon {
+                width: 17px;
+                height: 17px;
+                vertical-align: sub;
+                display: inline-block;
+                background: url("/assets/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+              .device-icon {
+                width: 17px;
+                height: 17px;
+                vertical-align: sub;
+                display: inline-block;
+                background: url("/assets/images/cdesk/icn_size.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+            }
+          }
+          .inner-accordion-duration {
+            .duration {
+              .date {
+                margin-bottom: 10px;
+                color: @textDarkGreyColor;
+              }
+              .duration-bar {
+                width: 170px;
+                .progress {
+                  height: 5px;
+                  border-radius: 0;
+                  margin-bottom: 7px;
+                  .progress-bar {
+                    .BackgroundLinearGradient(#8dc9eb, #7ac3ed);
+                  }
+                }
+                .days-left {
+                  text-align: right;
+                  .day-count {
+                    font-family: @primaryFont;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .col-md-7 {
+          width: 540px;
+          padding: 15px;
+          height: 185px;
+          margin-top: 3px;
+          overflow: hidden;
+          background: @textColorWhite;
+          border-radius: 5px;
+          margin-right: 18px;
+          float: right;
+          .col-md-6 .row-fluid {
+            margin-bottom: 10px;
+            .col-md-6 {
+              padding: 0;
+              text-align: right;
+              .imps {
+                text-align: right;
+              }
+              .imps-count {
+                text-align: right;
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+              }
+              .ctr-container {
+                .blue{
+                  height: 20px;
+                  .FontColor(@textHeadingColor, 12pt, @primaryFont);
+                }
+                .blue.margin-twenty {
+                  margin-top: -20px;
+                }
+                .progress {
+                  height: 28px;
+                  margin-bottom: 0;
+                  border-radius: 0;
+                  .progress-bar {
+                    border: 1px solid #5ea9d8;
+                    .BackgroundLinearGradientLeftToRight(#6ebff0 , #1d7fc9);
+                  }
+                }
+              }
+              .ctr-container.red {
+                .blue {
+                  height: 20px;
+                  .FontColor(#E4696C, 12pt, @primaryFont);
+                }
+                .blue.margin-twenty {
+                  margin-top: -20px;
+                }
+                .progress {
+                  height: 28px;
+                  margin-bottom: 0;
+                  border-radius: 0;
+                  .progress-bar {
+                    border: 1px solid #E4696C;
+                    .BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
+                  }
+                }
+              }
+              .ctr-container.amber {
+                .blue {
+                  height: 20px;
+                  .FontColor(#FB8917, 12pt, @primaryFont);
+                  .margin-twenty {
+                    margin-top: -20px;
+                  }
+                }
+                .progress {
+                  height: 28px;
+                  margin-bottom: 0;
+                  border-radius: 0;
+                  .progress-bar {
+                    border: 1px solid #FB8917;
+                    .BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
+                  }
+                }
+              }
+              .ctr-value {
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+              }
+              .goal-image {
+                width: 17px;
+                height: 18px;
+                display: inline-block;
+                vertical-align: sub;
+                background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+              }
+              .action-data {
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+              }
+            }
+            .col-md-6.text_left {
+              text-align: left;
+            }
+            .kpi-text-container {
+              text-align: left;
+              .FontColor(@textGreyColor, 11pt, @primaryFont);
+            }
+            .kpi-values {
+              text-align: right;
+              .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+              .cumulative-text {
+                .FontColor(@textDarkGreyColor, 13px, @tertiaryFont);
+              }
+              div span {
+                text-align: right;
+                .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
+              }
+              div > span:last-child {
+                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+              }
+              div > span.avg-text {
+                font-size: 10pt;
+              }
+              .kpi-num {
+                font-family: @secondaryFont;
+              }
+              .kpi-goal {
+                width: 17px;
+                height: 18px;
+                display: inline-block;
+                vertical-align: sub;
+                background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+              }
+            }
+          }
+          .col-md-6 .row-fluid:first-child {
+            text-align: left;
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+  .load-more-strategies {
+    cursor: pointer;
+    margin: 30px auto;
+    text-align: center;
+    a {
+      border-radius: 20px;
+      padding: 8px 25px 6px;
+      border: 1px solid #ddd;
+      .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+      &:hover {
+        text-decoration: none;
+        .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
+      }
+    }
+  }
+  .row-fluid .col-md-6.campaign-count {
+    margin-bottom: 0;
+    .FontColor(#f9b537, 12pt, @secondaryFont);
+  }
+  .load-more {
+    margin: 20px;
+    text-align: center;
+    text-indent: -99999;
+    background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  }
+}
+#brandsDropdown:focus {
+  background: white;
+}
+#brandsDropdown {
+  background: #F9B537;
+  border: none;
+  height:30px;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-size: 11pt;
+  cursor: pointer;
+}
+#brandsDropdown::-webkit-input-placeholder {
+  color: white;
+  opacity: 1 ;
+}
+#brandsDropdown:-moz-placeholder { 
+  color: white;
+  opacity: 1 ;
+}
+#brandsDropdown::-moz-placeholder { 
+  color: white;
+  opacity: 1 ;
+}
+#brandsDropdown:-ms-input-placeholder {
+  color: white;
+  opacity: 1 ;
+}
+.highcharts-container .highcharts-tooltip {
+  visibility: visible !important;
+}
+.highcharts-container svg{
+  overflow: visible !important;
+}
+
+.highcharts-container{
+  overflow: visible !important;
+  z-index: 1 !important;
+}
+
+.highcharts-tooltip {
+  z-index: 9998;
+}
+#highcharts {
+  width: 219px;
+  height: 140px;
+}
+#highcharts-strategies {
+  width: 219px;
+  height: 140px;
+}
+#campaignDetail.container {
+  .row-fluid {
+    .col-md-12 {
+      .detailed-campaign-bar.clearfix {
+        .col-md-10 {
+          h1 {
+            .FontColor(#f9b537, 20pt, @primaryFont);
+          }
+        }
+        .col-md-1 {
+          padding: 0;
+          text-align: right;
+          #icon-campaign-edit.icons-bckground {
+            width: 40px;
+            margin-top: 10px;
+            border-radius: 20px;
+            display: inline-block;
+            height: 40px;background: url("/assets/images/icn_act_edit.png") no-repeat scroll 5px 5px #EBAB34;
+            &:hover{
+              cursor: pointer;
+            }
+          }
+          #icon-campaign-report.icons-bckground {
+            width: 40px;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 20px;
+            display: inline-block;
+            background: url("/assets/images/icn_act_reports.png") no-repeat scroll 5px 5px #EBAB34;
+            &:hover{
+              cursor: pointer;
+            }
+          }
+        }
+        .report_title.col-md-12 {
+          float: none;
+          clear: both;
+        }
+        .col-md-12 {
+          .brand {
+            .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
+            .brand-type {
+              color: #ccc;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.external_chkbox {
+  float: left;
+  margin-top: 4px;
+  .squaredFour {
+    width: 20px;
+    margin: 0px 5px 0 0;
+    position: relative;
+    float: left;
+    input[type="checkbox"] {
+      visibility: hidden;
+    }
+    input[type="checkbox"]:focus {
+      outline: 0px ;
+    }
+    label {
+      cursor: pointer;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      left: 0px;
+      border-radius: 4px;
+      border: solid 1px #d9d9d9;
+    }
+    label:after {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      opacity: 0;
+      content: '';
+      position: absolute;
+      width: 9px;
+      height: 5px;
+      background: transparent;
+      top: 5px;
+      left: 5px;
+      border: 3px solid #333;
+      border-top: none;
+      border-right: none;
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+    label:hover::after {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+      filter: alpha(opacity=30);
+      opacity: 0.5;
+    }
+    input[type=checkbox]:checked + label:after {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+      filter: alpha(opacity=100);
+      opacity: 1;
+    }
+  }
+  .squaredFourTxt {
+    float: left;
+    font-family: "Avenir" ;
+  }
+}
+.actions_holder {
+  width: 920px ;
+  margin:  30px auto 20px ;
+  color: #999 ;
+  font-size: 14px ;
+  .row {
+    margin : 0px ;
+  }
+  label {
+    font-weight: normal;
+  }
+  .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
+    padding: 0px ;
+  }
+  .action_dd {
+    float: left;
+    margin-right: 35px ;
+    overflow:hidden;
+    max-width:172px;
+    border: solid 1px #d9d9d9 ;
+    border-radius : 5px ;
+    -moz-border-radius : 5px ;
+    -webkit-border-radius : 5px ;
+    background: url("/assets/images/cdesk/arrow.png") no-repeat right center;
+    select {
+      padding: 5px 20px 5px 10px ;
+      -webkit-appearance: none;
+      max-width:198px;
+      -moz-appearance: none;
+      text-indent: 0.01px;
+      text-overflow: "";
+      background: transparent;
+      width: 100%;
+      -webkit-appearance: none;
+      border: 0px ;
+      font-family: "Avenir" ;
+    }
+    select:focus {
+      outline: 0px ;
+    }
+  }
+  .action_dd_third {
+    margin-right: 0px ;
+    max-width: 235px ;
+    select  {
+      max-width: 268px ;
+    }
+  }
+  .action_filter_heading {
+    .AvenirBold();
+    text-transform: uppercase;
+    float: left;
+    margin: 5px 0px 0 0;
+    text-align: left !important;
+    font-family: "trade-gothic-no-2-bold" ;
+  }
+  .action_dd_last {
+    text-align: right;
+    float: none;
+    margin-bottom: 20px ;
+    width: 100% ;
+  }
+  .note_area {
+    position: relative;
+    margin-top: 15px ;
+    padding : 0px 0px 2px 5px ;
+    width: 94%;
+    .note_area_border {
+      position: absolute;
+      bottom: 0px ;
+      border : solid 2px #bebebe ;
+      border-top: 0px ;
+      height: 12px ;
+      width: 100% ;
+      left: 0px ;
+    }
+    .action_textarea {
+      border: 0px;
+      background: transparent;
+      overflow-y: auto;
+      width: 100%;
+      resize: none;
+      height: 50px;
+      height: 40px;
+      padding-bottom: 0;
+      padding-top: 0px;
+      font-family: "Avenir" ;
+    }
+  }
+  .action_submit {
+    float: right;
+    height: 30px ;
+    width: 65px ;
+    .FontColor(@textColorWhite, 14pt, @primaryFont);
+    background: #f5b236 ;
+    border: 0px ;
+    outline: 0px ;
+    border-radius: 5px ;
+    -moz-border-radius: 5px ;
+    -webkit-border-radius: 5px ;
+    text-align: center;
+    padding: 3px ;
+    background: #f9b537;
+    background: -moz-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9b537), color-stop(0%,#f9b537), color-stop(98%,#ebab34), color-stop(98%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9b537', endColorstr='#ebab34',GradientType=0 ); /* IE6-9 */
+  }
+  .external_chkbox {
+    float: left;
+    margin-top: 4px;
+    .squaredFour {
+      width: 20px;
+      margin: 0px 5px 0 0;
+      position: relative;
+      float: left;
+      input[type="checkbox"] {
+        visibility: hidden;
+      }
+      input[type="checkbox"]:focus {
+        outline: 0px ;
+      }
+      label {
+        cursor: pointer;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 0;
+        left: 0px;
+        border-radius: 4px;
+        border: solid 1px #d9d9d9;
+      }
+      label:after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        content: '';
+        position: absolute;
+        width: 9px;
+        height: 5px;
+        background: transparent;
+        top: 5px;
+        left: 5px;
+        border: 3px solid #333;
+        border-top: none;
+        border-right: none;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+      label:hover::after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+        filter: alpha(opacity=30);
+        opacity: 0.5;
+      }
+      input[type=checkbox]:checked + label:after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+        filter: alpha(opacity=100);
+        opacity: 1;
+      }
+    }
+    .squaredFourTxt {
+      float: left;
+      font-family: "Avenir" ;
+    }
+  }
+  .placeholder_grey::-webkit-input-placeholder {
+    color: @textGreyColor;
+    opacity: 1 ;
+  }
+  .placeholder_grey::-moz-placeholder {
+    color: @textGreyColor;
+    opacity: 1 ;
+  }
+  .placeholder_grey:-ms-input-placeholder {
+    color: @textGreyColor;
+    opacity: 1 ;
+  }
+  .placeholder_grey:-moz-placeholder {
+    color: @textGreyColor;
+    opacity: 1 ;
+  }
+}
+#campaignDetail.container {
+  .camp-perf-graph {
+    .load-more {
+      margin: 60px auto 0;
+      display: block;
+    }
+    .no-chart {
+      text-align: center;
+      margin-top: 40px;
+      display: block;
+      font-weight: normal;
+      color: #bebebe;
+      text-transform: capitalize;
+      font-family: "Avenir";
+      font-size: 14px;
+    }
+  }
+}
+.status_bar_holder {
+  margin: 10px 0 10px ;
+  padding-top: 10px ;
+  .checkbox_holder {
+    margin: 0 6px 6px 0;
+    font-size: 12px;
+    color: #8fa3b1;
+    line-height: 20px;
+  }
+  .external_chkbox {
+    .squaredFour label {
+      border-radius: 2px ;
+      -moz-border-radius: 2px ;
+      -webkit-border-radius: 2px ;
+    }
+  }
+  .status_bar_section {
+    float: left;
+    width: 16% ;
+    text-align: center;
+    .no_partition {
+      display: none;
+    }
+    .status_partition_section {
+      margin: 0 2px 8px 0;
+      .full_partition {
+        .left_status_section_bar {
+          margin-right: 0px;
+        }
+      }
+      .status_section_each_partition {
+        float: left;
+        height: 40px ;
+        border-radius: 2px ;
+        -moz-border-radius: 2px ;
+        -webkit-border-radius: 2px ;
+        font-size: 12px;
+        text-align: left;
+        color: #fff;
+        font-family: "Avenir";
+        .left_status_section_bar {
+          margin-right: 2px ;
+        }
+        .status_section_bar {
+          height: 40px;
+          text-transform: uppercase;
+          padding-top: 8px;
+          border : solid 2px #ccc ;
+          border-radius: 2px ;
+          -moz-border-radius: 2px ;
+          -webkit-border-radius: 2px ;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          cursor: pointer;
+        }
+        .status_section_bar.active {
+          color: #fff ;
+        }
+        span.section_bar_title {
+          padding: 0px 0 0 30px;
+          height: 20px;
+          display: inline-block;
+        }
+        span.section_bar_val {
+          .AvenirBold() ;
+        }
+      }
+      .ready_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color: #249ef7;
+          color: #249ef7 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/ready_icon.png") no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #249ef7 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/ready_icon_active.png") no-repeat 7px 1px ;
+          }
+        }
+      }
+      .draft_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color : #5fbafc ;
+          color: #5fbafc ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/draft_icon.png") no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #5fbafc ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/draft_icon_active.png") no-repeat 7px 1px ;
+          }
+        }
+      }
+      .active_section_bar {
+        width: 100%;
+        margin-bottom: 6px ;
+        .status_section_bar {
+          border-color : #64d841 ;
+          color: #64d841  ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/active_icon.png") no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #64d841 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/active_icon_active.png") no-repeat 7px 1px ;
+          }
+        }
+      }
+      .onTrack_section_bar {
+        width: 50%;
+        position: relative;
+        .status_section_bar {
+          border-color : #38af14 ;
+          color: #38af14  ;
+          text-transform: none;
+          height: 28px;
+          padding-top: 4px;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/on_track_icon.png") no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #38af14 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/on_track_icon_active.png") no-repeat 7px 1px ;
+          }
+        }
+      }
+      .onTrack_section_bar:after {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        content: "";
+        display: block;
+        height: 8px;
+        width: 16px;
+        background: url("/assets/images/statusWidget/upper_arrow_KPI_normal.png") no-repeat ;
+      }
+      .onTrack_section_bar.status_section_active:after {
+        background: url("/assets/images/statusWidget/upper_arrow_KPI_active.png") no-repeat ;
+      }
+      .notOnTrack_section_bar {
+        width: 50%;
+        position: relative;
+        .status_section_bar {
+          border-color :  #f67c29  ;
+          text-transform: none;
+          color: #f67c29 ;
+          height: 28px;
+          padding-top: 4px;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/underperforming_icon.png") no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #f67c29 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/underperforming_icon_active.png") no-repeat 7px 1px ;
+          }
+        }
+
+      }
+      .notOnTrack_section_bar:after {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        content: "";
+        display: block;
+        height: 8px;
+        width: 16px;
+        background: url("/assets/images/statusWidget/upper_arrow_underperforming_normal.png") no-repeat ;
+      }
+      .notOnTrack_section_bar.status_section_active:after {
+        background: url("/assets/images/statusWidget/upper_arrow_underperforming_active.png") no-repeat ;
+      }
+      .achieved_goal_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color : #97b5c8 ;
+          color: #97b5c8 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/paused_icon.png") no-repeat 10px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #97b5c8 ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/paused_icon_active.png") no-repeat 10px 1px ;
+          }
+        }
+      }
+      .unachieved_goal_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color : #7575ea ;
+          color: #7575ea ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/completed_icon.png") no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #7575ea ;
+          .section_bar_title {
+            background: url("/assets/images/statusWidget/completed_icon_active.png") no-repeat 7px 1px ;
+          }
+        }
+      }
+      .status_section_each_partition:last-child {
+        float: right;
+      }
+    }
+    .status_bar_section_details {
+      position: relative;
+      border-top: solid 3px #d2dde5;
+      margin-right: 10px;
+      padding-top: 12px ;
+      display: none;
+      .arrow_down_middle {
+        position: absolute;
+        width: 100% ;
+        height: 12px ;
+        top : -3px ;
+        text-align: center;
+        background: url("/assets/images/statusBar/dropdown_1.png") no-repeat center 0px ;
+        span {
+          height : 20px ;
+          width : 20px ;
+          border : solid 2px #ebebeb ;
+        }
+      }
+      .status_bar_section_value {
+        font-size: 14pt;
+        font-family: "TradeGothicLTStd-BdCn20";
+        color: #3b3c3c;
+      }
+      .status_bar_section_name {
+        font-family: "Avenir" ;
+        color: #959da2 ;
+        font-size: 14px ;
+      }
+    }
+  }
+  .active_section {
+    .status_section_bar {
+      text-transform: none;
+    }
+  }
+  .active_section {
+    width: 36% ;
+  }
+  .no_status_bar_section {
+    display: none;
+  }
+}
+
+/************* NEW DASHBOARD STYLING *******************************************/
+.each_cost_col {
+  float: left;
+  width: 95px;
+  min-width: 86px;
+  min-height : 10px;
+  font-size: 14px;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  color: #27292a;
+  margin-right: 5px;
+  text-align: center;
+  word-wrap: break-word;
+}
+.campaign_status_icon {  
+  height: 14px;
+  width: 14px;
+  margin-top: 5px;
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+.completed_campaign_status_icon {
+  background-image : url("/assets/images/status_icons/complete_icon.png") ;
+}
+.draft_campaign_status_icon {
+  background-image : url("/assets/images/status_icons/draft_icon.png")  ;
+}
+.ready_campaign_status_icon {
+  background-image : url("/assets/images/status_icons/ready_icon.png")  ;
+}
+.active_campaign_status_icon {
+  background-image : url("/assets/images/status_icons/active_icon.png")  ;
+}
+.paused_campaign_status_icon {
+  background-image : url("/assets/images/status_icons/paused_icon.png")  ;
+}
+.cost_cols_holder {
+  .first_col , .second_col {
+    color: #0978c9 ;
+  }
+}
+.total_cost {
+  width: 85px;
+  margin-right: 0;
+}
+.sortable {
+  background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;
+  display: inline-block;
+  height: 15px;
+  width: 10px;
+}
+.flight_date_li {
+  .sortable {
+    background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+  }
+}
+.sortable.ascending {
+  background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+}
+.sortable.descending {
+  background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+}
+.dashboard_outer_container {
+  width: 1040px;
+  margin: 0 auto;
+  .no-campaign-available {
+    border: solid 1px #d2dee7;
+    background: #fff;
+    padding: 80px 0;
+    margin: 0 0 10px;
+    border-top: 0;
+    text-align: center;
+  }
+  .load-more {
+    margin: 20px;
+    text-align: center;
+    text-indent: -99999;
+    background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  }
+  .isFixed {
+    position: fixed;
+    top: 0px ;
+    background: #fff ;
+    width: 1040px ;
+    z-index: 1 ;
+  }
+  .page_header_container {
+    margin: 20px 10px 0px 0px ;
+    .campaign_name_holder {
+      .campaign_name {
+        color: #333 ;
+        .AvenirBold() ;
+        font-size: 28px ;
+        display: inline-block;
+        float: left;
+      }
+      .campaign_name_details {
+        color: #0978c9 ;
+        font-size: 16px ;
+        font-family: "Avenir" ;
+        margin-left: 10px ;
+        float: left;
+        margin-top: 10px;
+        display: inline-block;
+      }
+    }
+  }
+  .summary_title {
+    color: #333 ;
+    .heading {
+      color: #666 ;
+    }
+  }
+  .campaign_list_header_holder {
+    background: #fff ;
+    border: solid 1px #d2dee7 ;
+    border-bottom-width: 2px ;
+    color: #333 ;
+    text-transform: uppercase;
+    height: 60px;
+    padding-top: 20px;
+    margin: 0px ;
+    padding-left: 15px ;  
+    .each_header_title {
+      float: left;
+      min-width: 96px;
+      text-align: center;
+      font-size: 14px ;
+      font-family: "Avenir" ;
+      cursor: pointer;
+      margin: 0 10px;
+      a {
+        color: #313233 ;
+        text-decoration: none;
+      }
+    }
+    .active {
+      a {
+        color: #0978c9 ;
+        span span {
+          background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;
+          display: inline-block;
+          height: 13px;
+          width: 10px;
+        }
+        span span.descending {
+          background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+        }
+        span span.ascending {
+          background-image : url("/assets/images/cdesk/sorting_arrows_up.png");
+        }
+      }
+    }
+    .metrics_title {
+      width: 320px ;
+      cursor: default;
+    }
+    .kpi_title {
+      width: 245px;
+      cursor: default;
+    }
+  }
+  .total_campaign_list_holder {
+    .each_campaign_list_container {
+      border: solid 1px #d2dee7 ;
+      background: #fff ;
+      padding: 20px 20px 0px 12px;
+      margin: 0px 0 10px ;
+      .each_campaign_section {
+        float: left;
+      }
+      .campaign_section_KPI {
+        width : 300px ;
+        float: right;
+        .graph_details_KPI {
+          .details_KPI_row1 {
+            font-size: 16px;
+            font-family: "Avenir";
+            color: black;
+            .details_KPI_title {
+              float: left;
+              .darkBoldVal();
+            }
+            .cumulative_val {
+              float: right;
+              color: #acacac;
+              font-size: 14px;
+              span {
+                font-family: "Avenir-bold" ;
+                color:  #57606d;
+                font-size: 14px;
+              }
+            }
+          }
+          .details_KPI_row2 {
+            color: #242424 ;
+            font-size: 16px ;
+            font-family: "Avenir" ;
+            text-align: right;
+            margin-top: 0px ;
+            span {
+              float: right ;
+              font-family: "Avenir-bold" ;
+              color:  #57606d;
+              font-size: 14px;
+            }
+            span.icon_KPI  {
+              display: inline-block;
+              background: url("/assets/images/cdesk/icn_goal.png") no-repeat center top;
+              height: 20px;
+              width: 22px;
+            }
+          }
+        }
+        .graph_KPI_outer_holder {
+          height:  150px ;
+          margin-top : 10px ;
+          overflow: hidden;
+          .graph_KPI_holder {
+            height: 120px ;
+          }
+        }
+      }
+      .metric_campaign_section {
+        font-family: "Avenir" ;
+        width: 300px;
+        .metric_graph_header {
+          .darkBoldVal();
+          .metric_title {
+            float: left;
+          }
+          .metric_val {
+            float: right;
+          }
+        }
+        .metric_graph_details {
+          color: #acacac ;
+          font-size: 14px ;
+          border-top: solid 1px #e5ecef;
+          padding-top: 12px;
+          .each_metric_graph_details {
+            float: left;
+            min-width: 30% ;
+            margin-right: 10px;
+            word-wrap: break-word;
+            span {
+              display: block;
+            }
+            span.detail_val {
+              .valStyle();
+            }
+          }
+        }
+      }
+      .campaign_list_details {
+        font-family: "Avenir" ;
+        width: 310px;
+        margin: 0 40px 0 5px;
+        .heading_holder {
+          min-height: 80px ;
+          word-wrap: break-word;
+        }
+        .campaigns_list_buttons_holder {
+          .strategies_btn {
+            float: left;
+            background: #fff;
+            padding: 5px 10px 5px 30px;
+            border: solid 1px #ccc;
+            border-bottom: 0px;
+            border-radius: 5px 5px 0 0;
+            margin-top: 10px;
+          }
+          .actions_btn {
+            float: right;
+          }
+          .reports_btn {
+            float: right;
+          }
+          .campaign_btn {
+            border: solid 1px #bfd0dc;
+            padding: 6px 8px 0;
+            text-align: center;
+            margin-left: 10px;
+            border-radius: 14px;
+            -moz-border-radius: 14px;
+            -webkit-border-radius: 14px;
+            font-family: "Avenir";
+            color: #bfd0dc;
+            text-transform: uppercase;
+            font-size: 12px;
+            height: 28px;
+            cursor: pointer;
+          }
+          .actions_btn {
+            position: relative;
+            .actions_done {
+              height: 15px ;
+              width : 15px ;
+              background: #fd5a2f ;
+              border-radius: 15px ;
+              -moz-border-radius: 15px ;
+              -webkit-border-radius: 15px ;
+              text-align: center;
+              color: #fff ;
+              position: absolute;
+              top : -5px ;
+              right : 0px ;
+              font-size: 8px;
+              padding : 3px 1px 0 0 ;
+              display: block;
+            }
+          }
+        }
+        .main_heading {
+          font-size: 16px ;
+          color: #000 ;
+          line-height: 24px ;
+          .AvenirBold() ;
+          word-wrap: break-word;
+          a {
+            color: #000;
+            text-decoration: none;
+          }
+        }
+        .heading {
+          color: #727272 ;
+          font-size: 14px ;
+          margin-top: 10px ;
+        }
+      }
+      .first_section {
+        height: 8px ;
+        width: 8px ;
+        margin-top: 5px;
+        border-radius: 8px ;
+        -moz-border-radius: 8px ;
+        -webkit-border-radius: 8px ;
+        background: #6abc52 ;
+      }
+    }
+    .each_campaign_holder:first-child .each_campaign_list_container {
+      border-top : 0px ;
+    }
+  }
+  .total_campaign_cost_holder {
+    .each_campaign_cost_container {
+      padding: 10px;
+      .each_cost_section {
+        float: left;
+        .each_cost_details {
+          font-family: "Avenir";
+          font-size: 14px;
+          .main_heading {
+            color: #000;
+            .AvenirBold();
+          }
+          a {
+            color: #000;
+            text-decoration: none;
+          }
+          .heading {
+            color: #727272 ;
+          }
+          .dates_details {
+            font-size: 12px ;
+            color: #b8c1c8 ;
+          }
+        }
+      }
+      .status_section {
+        .status_icon {
+          width: 16px;
+          height: 18px;
+          background: url("/assets/images/statusBar/KPI_onTrack.png") no-repeat center center;
+        }
+      }
+      .other_details {
+        width: 97% ;
+      }
+      .each_cost_details {
+        float: left;
+      }
+      .cost_metric_graph {
+        float: right;
+        width: 375px ;
+      }
+    }
+  }
+  .days_left_holder {
+    .total_days_holder {
+      position: relative;
+      height : 4px ;
+      max-width : 360px  ;
+      background: #cdeaff ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
+      margin: 40px 0 25px ;
+      font-family: "Avenir";
+    }
+    .days_end_points {
+      position: absolute;
+      top: 6px;
+      width: 100%;
+      margin-top: 4px ;
+      span {
+        float: right ;
+        color: #acacac ;
+        font-size: 10px ;
+      }
+      span:first-child {
+        float: left ;
+      }
+    }
+    .days_over {
+      position: relative;
+      height: 100% ;
+      max-width : 100% ;
+      background: #0978c9 ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
+      .days_over_text {
+        position: absolute;
+        top: -26px;
+        color: #44aefc;
+        font-size: 12px;
+        right: -35px;
+        white-space: nowrap;
+      }
+      .ended_text {
+        right : 0px ;
+      }
+      .start_text {
+        right: auto ;
+        left: 0px ;
+        width: 95px;
+      }
+    }
+
+    .days_not_over_text {
+      color: #44aefc;
+      font-size: 12px;
+      position: absolute;
+      top: -26px;
+      right: 0px ;
+    }
+    .days_not_over_text.start_text {
+      right : auto ;
+      left : 0px ;
+    }
+
+    .days_over:after {
+      height: 12px;
+      width: 12px;
+      background: #44aefc;
+      content: "";
+      display: block;
+      border-radius: 12px;
+      position: absolute;
+      top: -4px;
+      right: 0;
+    }
+  }
+  .metric_graph {
+    .full_metric_graph {
+      position: relative;
+      height: 8px;
+      width: 100%;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      background: #f0f6ee;
+      margin: 42px 0;
+      .selected_graph {
+        width: 0px;
+        height: 100% ;
+        border-radius: 4px 0 0 4px ;
+        -moz-border-radius: 4px 0 0 4px ;
+        -webkit-border-radius: 4px 0 0 4px ;
+      }
+      .completely_filled {
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+      }
+      .graph_start_point {
+        position: absolute;
+        top: -32px;
+        left: 80px;
+        .end_point_line {
+          position: absolute;
+          bottom: 0;
+        }
+        .end_point_val span {
+          position: absolute;
+          top: 0px ;
+          left: -25px ;
+          line-height: 18px ;
+        }
+        .end_point_val span.icon_KPI {
+          background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;
+          padding-left: 24px;
+        }
+        .end_point_val:after {
+          top: 21px;
+          left: -4px;
+          border-right: solid 5px transparent;
+          border-bottom: solid 5px transparent;
+          border-top: solid 5px #c1ccd4;
+          border-left: solid 5px transparent;
+        }
+      }
+      .start_end_point {
+        .end_point_line {
+          right: 0;
+        }
+        .end_point_val span {
+          left: auto;
+          right: 0px;
+        }
+        .end_point_val:after {
+          border-top: solid 5px rgba(0, 0, 0, 0);
+          border-right: solid 5px #C1CCD4;
+          border-bottom: solid 5px rgba(0, 0, 0, 0);
+          top: 16px;
+          left: -10px;
+        }
+      }
+      .start_beginning {
+        left: 0px;
+        .end_point_val span {
+          left: 0px ;
+          border-radius: 4px 4px 4px 0px;
+          -moz-border-radius: 4px 4px 4px 0px;
+          -webkit-border-radius: 4px 4px 4px 0px;
+        }
+        .end_point_val:after {
+          top: 16px;
+          left: 0px;
+          border-right: solid 5px transparent;
+          border-top: solid 5px transparent;
+          border-left: solid 5px #c1ccd4;
+          border-bottom: solid 5px transparent;
+        }
+      }
+      .graph_end_point {
+        position: absolute;
+        left: 220px;
+        top: 0px;
+        .end_point_val span {
+          margin-top: 8px;
+          position: absolute;
+          left: -25px;
+        }
+        .end_point_val:after {
+          top: 10px;
+          left: -5px;
+          border: solid 5px transparent;
+          border-bottom: solid 5px #c1ccd4;
+        }
+      }
+      .completed_end_point {
+        left: auto;
+        right: 0;
+        left: 100%;
+        .end_point_line {
+          float: right;
+        }
+        .end_point_val span {
+          margin-top: 0px;
+          top: 18px;
+          position: absolute;
+          right: -1px ;
+          left : auto ;
+          border-radius: 4px 0px 4px 4px;
+          -moz-border-radius: 4px 0px 4px 4px;
+          -webkit-border-radius: 4px 0px 4px 4px;
+        }
+        .end_point_val:after {
+          top: 13px;
+          left: -9px;
+          border-top: solid 5px transparent;
+          border-right: solid 5px #c1ccd4;
+          border-bottom: solid 5px transparent;
+        }
+      }
+      .end_point_line {
+        height: 12px;
+        width: 1px;
+        background: #2f6c1d;
+      }
+      .end_point_val {
+        position: relative;
+        height: 40px;
+        span {
+          display: block;
+          background: #c1ccd4 ;
+          height: 21px;
+          color: #fff ;
+          font-size: 12px ;
+          font-family: "TradeGothicLTStd";
+          padding: 2px 10px;
+          border-radius: 4px;
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
+          line-height: 20px ;
+        }
+      }
+      .end_point_val:after {
+        height: 0;
+        width: 0;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 16px;
+        left: 0;
+        border: solid 5px transparent;
+        border-top: solid 5px #c1ccd4;
+      }
+    }
+  }
+  .metric_graph.blue {
+    .selected_graph {
+      background: #6abc52;
+    }
+  }
+  .metric_graph.red {
+    .selected_graph {
+      background: #fd361c;
+    }
+  }
+  .metric_graph.amber {
+    .selected_graph {
+      background: #fbc216;
+    }
+  }
+}
+
+/* cost breakdown */
+
+.campaign_cost_header_holder , .cost_header_holder  {
+  position: relative;
+  background: #fff;
+  border: solid 1px #d2dee7;
+  border-bottom-width: 2px ; 
+  text-transform: uppercase;
+  height: 60px;
+  padding: 20px 10px 0;
+  div.more_options {
+    position: absolute;
+    right: 8px;
+    top: 3px;
+    width: 40px;
+    height: 20px;
+    font-size: 13px;
+    color: #b8c8d4;
+    text-align: right;
+    cursor: default;
+    .dropdown {
+      height: 35px;
+      width: 50px;
+    }
+    .dd_txt {
+      position: absolute;
+      top: 15px;
+      right: 2px;
+      border: solid 1px transparent;
+      z-index: 2;
+      border-radius: 4px 4px 0 0;
+      background: #fff;
+      border-bottom: 0;
+      padding: 2px 6px;
+      width: 28px;
+      height: 21px;
+      margin-right: 10px ;
+      .dots {
+        height: 15px;
+        width: 7px;
+        display: block;
+        cursor: pointer;
+        float: left;
+        background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;
+        &:first-child {
+          background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;
+        }
+      }
+      &:hover {
+        .dots {
+          background-position : -4px -66px ;
+        }
+      }
+    }
+    .dropdown.open {
+      .dd_txt {
+        border: solid 1px #ccc;
+        border-bottom: 0;
+        cursor: pointer;
+      }
+    }
+    .dropdown-menu {
+      min-width: 100px;
+      left: auto;
+      right: 2px;
+      position: absolute;
+      z-index: 1;
+      border-radius: 4px 0 4px 4px;
+      -moz-border-radius: 4px 0 4px 4px;
+      -webkit-border-radius: 4px 0 4px 4px;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      text-transform: none;
+      width: 140px;
+      color: #313233;
+      font-family: "Avenir";
+      li {
+        padding-top : 1px ;
+        padding-bottom: 1px ;
+        cursor: pointer;
+        a {
+          padding: 4px 10px;
+          background: rgba(0, 0, 0, 0);
+          height: 100%;
+          width: 100%;
+        }
+      }
+      li.active a {
+        color: #0978C9 ;
+        .sortable {
+          background-position: -4px -64px ;
+        }
+      }
+      li:hover {
+        background: #d2dee7 ;
+      }
+    }
+  }
+  .each_cost_col {
+    cursor: default;
+    text-transform: none;
+    font-size: 14px;
+    font-family: "Avenir";
+    color: #313233;
+  }
+  .second_col {
+    cursor: pointer;
+  }
+  .arrrow_img {
+    background: url("/assets/images/cdesk/dropdown_down.png") no-repeat center center;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin-left: 6px;
+  }
+  .second_col .dropdown_ul {
+    min-width: 75px;
+    left: 4px;
+    li:hover {
+      background : #d2dee7 ;
+    }
+  }
+}
+.cost_col_header_tabs_holder {
+  margin-top: 30px ;
+  .cost_tabs_margin {
+    font-size: 14px ;
+    font-family:"Avenir";
+    color: #6a6d70 ;
+    .cost_tabs_holder {
+      float: left;
+      border: solid 1px #d2dee7;
+      border-bottom: 0px;
+      border-radius: 4px 4px 0 0;
+      .each_tab {
+        position: relative;
+        float: left;
+        text-transform: uppercase;
+        color: #313233 ;
+        height: 36px;
+        width: 170px;
+        text-align: center;
+        border-bottom: 0px ;
+        cursor: pointer;
+        .each_tab_text {
+          background: #f5f9fd ;
+          padding: 8px 0px;
+          border-radius: 4px 0 0 0 ;
+        }
+      }
+      .cost_tab {
+        .each_tab_text {
+          border-radius: 0 4px 0 0 ;
+        }
+      }
+      .each_tab:first-child {
+        border-right: solid 1px #d2dee7 ;
+      }
+      .each_tab.active {
+        .each_tab_text {
+          background: #fff;
+          height: 38px;
+          position: absolute;
+          z-index: 1;
+          width: 100%;
+        }
+      }
+    }
+    .cost_margin {
+      margin-top: 10px;
+      float: right;
+    }
+  }
+}
+.total_campaign_cost_holder {
+  background: #fff;
+  margin-bottom: 20px ;
+  height : 500px ;
+  overflow: auto ;
+  border-bottom: solid 1px #d2dee7 ;
+  .each_campaign_cost_container {
+    border: solid 1px #d2dee7;
+    padding: 20px 10px 10px;
+    border-top: 0;
+    .cost_cols_holder {
+      margin-top: 10px ;
+      .each_cost_col {
+        font-family: "Avenir" ;
+        font-weight: normal;
+        color: #57606d ;
+      }
+      .total_cost {
+        font-family: "Avenir-bold" ;
+      }
+    }
+    .each_cost_section {
+      float: left;
+      .each_cost_details {
+        font-family: "Avenir";
+        font-size: 14px;
+        .main_heading {
+          color: #000;
+          .AvenirBold() ;
+          margin-bottom: 4px;
+        }
+        .heading {
+          color: #727272 ;
+        }
+        .dates_details {
+          font-size: 12px ;
+          color: #b8c1c8 ;
+        }
+      }
+      .full_metric_graph {
+        margin : 28px 0px 0px ;
+      }
+      .cost_cols_holder {
+        margin: 15px 0 3px 0;
+        padding: 0 ;
+      }
+    }
+    .status_section {
+      .status_icon {
+        width: 16px;
+        height: 18px;
+        background: url("/assets/images/statusBar/KPI_onTrack.png") no-repeat center center;
+      }
+    }
+    .other_details {
+      width: 97% ;
+    }
+    .each_cost_details {
+      float: left;
+    }
+    .cost_metric_graph {
+      float: right;
+      width: 340px ;
+      .metric_graph_left_val {
+        float: left;
+      }
+      .metric_graph_details_val {
+        float: left;
+        font-family: "Avenir" ;
+        font-size: 10px ;
+        color: #717274 ;
+        margin: 12px 12px 0 12px ;
+        width: 60px;
+        word-wrap: break-word;
+      }
+      .metric_graph {
+        float: left;
+        width: 200px ;
+      }
+    }
+  }
+
+}
+#performance_block {
+  height: 500px;
+  overflow: auto;
+}
+/*  end of cost breakdown */
+
+
+
+.modal-backdrop.in{
+  opacity: .8 ;
+}
+.main_navigation_holder {
+  height: 84px;
+  background: #007ac9;
+  padding: 20px ;
+ .about_popup {
+    background-color:  #ffffff;
+    box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
+    width : 412px ;
+    font-family: Avenir;
+    color:  #21252b;
+    font-size: 16px; 
+    line-height: 24px; 
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    margin: 0 auto ;
+    z-index: 3000 ;
+    .close {
+      margin: 10px;
+      opacity: 1;
+      color: #ccc;
+      &:hover {
+        color : #bbb ;
+      }
+    }
+    .logo {
+      background: url("/assets/images/cdesk/collective_logo_popup.png") no-repeat center top ; 
+      width: 100% ;
+      height: 70px;
+      margin: 28px auto 24px;
+    }
+    .copyright_section {
+      background :  #f5f9fd;
+      padding: 15px;
+      margin-top: 24px;
+      .rights_text {
+        font-size: 14px ;
+      }
+    }
+    .version_detail {
+      color:  #21252b;
+      font-size: 16px; 
+      .AvenirBold() ;
+      line-height: 28px;
+      text-align: center;
+    }
+  }
+  .dropdown-menu {
+    padding: 10px 0px ;
+    background: #026DB3;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border: 0;
+    top: 52px;
+    left: -100px ;
+    font-size: 12px ;
+    li {
+      padding: 5px 10px;
+      a {
+        color: #fff ;
+      }
+      &:hover {
+        color: #fff ;
+        background: rgba(255,255,255,0.1) ;
+        a {
+          color: #fff ;
+        }
+      }
+    }
+    &:before {
+      background: url("/assets/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom  ;
+      content: "";
+      display: block;
+      height: 10px;
+      width: 20px;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+    }
+  }
+  .main_nav {
+    width: 1040px;
+    margin: 0 auto;
+    color: #fff ;
+    .main_logo {
+      display: block;
+      background: url("/assets/images/collective-media-logo.png") no-repeat center center ;
+      height: 44px;
+      width: 170px;
+      background-size: contain;
+    }
+    .profile_menu {
+      height: 30px ;
+      width: 30px ;
+      margin : 8px 0 0 40px ; 
+      cursor: default;
+      .profile_account_icon {
+        background: url("/assets/images/cdesk/account_icon.png") no-repeat 2px 2px  ;
+        height: 30px ;
+        width: 30px ;
+        &:hover {
+          background-position : 2px -74px ;
+        }
+      }
+      .dropdown-menu {
+        z-index: 1001 ;
+        top: 54px ;
+        max-width: 150px;
+        li {
+          a{
+            padding-left:  6px ;
+            padding-right: 0px ;
+            /*color: #84bce4 ;*/
+            word-wrap: break-word;
+            font-family: "Avenir" ;
+            cursor: default;
+            white-space: normal;
+          }
+          .logout_link {
+            color: #fff ;
+            /*background: url("/assets/images/cdesk/logout_icon.png") no-repeat  7px 1px;*/
+            /*padding-left: 26px;*/
+            padding-top: 0;
+            cursor: pointer;
+          }
+        }
+        .about_link {
+          a {
+            cursor: pointer;
+          }
+        }
+      }
+      .dropdown-menu:before {
+          left : 65% ;
+      }
+    }
+    .main_navigation {
+      text-transform: uppercase;
+      margin: 15px 0 0 25px;
+      font-family: "Avenir";
+      font-size: 14px;
+      .dropdown-menu  {
+        top : 54px ;
+      }
+      .each_nav_link {
+        margin: 0 30px  ;
+        a {
+          text-decoration: none;
+          color: #84bce4 ;
+        }
+        a:hover  {
+          color: #fff ;
+        }
+      }
+      .active {
+        a {
+          color: #fff ;
+        }
+      }
+    }
+    a {
+      color: #fff ;
+    }
+    .main_filters {
+      margin-top: 10px ;
+      .page_filters {
+        color: #fff ;
+        .brands_dd_icon {
+          height: 30px ;
+          width: 30px ;
+          background: url("/assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;
+        }
+
+        .timeline_dd_icon {
+          height: 30px ;
+          width: 30px ;
+          background: url("/assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;
+        }
+        .timeline_dd {
+          margin-top: 5px ;
+        }
+        li.each_filter {
+          margin-top: 0px ;
+          .header_filter_arrow_dropdown  {
+            background: url("/assets/images/cdesk/down_arrow_filter.png") no-repeat no-repeat 65px 8px;
+            display: inline-block;
+            height: 18px;
+            width: 75px;
+          }
+          #brandsList {
+            width: 280px;
+            left : -60px ;
+            padding: 0 ;
+            .brandsList_ul {
+              padding: 10px 0 ;
+              max-height: 300px;
+              overflow: auto ;
+            }
+            .brand_search_highlight {
+              border-bottom: solid 1px #fff ;
+            }
+            li {
+              padding: 0;
+            }
+            li:hover {
+              background: rgba(255,255,255,0.1) ;
+              color: #fff ;
+            }
+            li.active {
+              background: url("/assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;
+            }
+            a {
+              white-space: normal;
+              word-wrap : break-word;
+              padding: 5px 20px ;
+              display: block;
+            }
+          }
+          a {
+            font-family: "Avenir" ;
+            text-decoration: none; 
+          }
+          #brandsDropdownDiv {
+            input {
+              font-family: "Avenir" ;
+              background: url("/assets/images/cdesk/down_arrow_filter.png") no-repeat no-repeat  80px 14px ;
+              padding-right: 20px;
+            }
+            input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ;opacity: 1 ; }
+            input::-moz-placeholder { color: #FFF ;font-family: "Avenir" ; opacity: 1 ; }
+            input:-moz-placeholder { color: #FFF ;  font-family: "Avenir" ;opacity: 1 ;}
+            input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; opacity: 1 ;}
+          }
+        }
+        .disabled_brand_list {
+          display: none;
+          position: absolute;
+          top: -15px;
+          left: -15px;
+          height: 64px;
+          width: 155px;
+          cursor: default;
+          z-index: 1;
+        }
+        li.brands_filter.brands_filter_disabled {
+          .disabled_brand_list {
+            display: block;
+          }
+          #brandsDropdownDiv {
+            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
+            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ; opacity: 1 ; }
+            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;opacity: 1 ;}
+            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
+          }
+        }
+        li.brands_filter  {
+          &:hover {
+            .brands_dd_icon {
+              background-position : 8px -52px ;
+            }
+            #brandsDropdownDiv {
+              input {
+                background-position: 80px -40px ;
+              }
+            }
+          }
+        }
+        li.brands_filter.brands_filter_disabled  {
+          &:hover {
+            .brands_dd_icon {
+              background-position : 8px 9px ;
+            }
+            #brandsDropdownDiv {
+              input {
+                background-position: 80px 14px ;
+              }
+            }
+          }
+        }
+        li.lifetime_filter {
+          &:hover {
+            .timeline_dd_icon {
+              background-position : 8px -53px ;
+            }
+            .header_filter_arrow_dropdown {
+              background-position: 65px -46px ;
+            }
+          }
+          .dropdown-menu {
+            left: -35px ;
+            padding: 10px 0 ;
+            .time_dropdown_disabled {
+              height: 55px;
+              width: 160px;
+              position: absolute;
+              top: 10px;
+              left: 0px;
+              cursor: default;
+            }
+          }
+          #cdbMenu:hover , #cdbMenu:focus {
+            color: #fff ;
+          }
+          .cdbMenu_options {
+            li:first-child , li:nth-child(2) {
+              a {
+                color: #817F7F;
+                font-style: italic;
+              }
+            }
+          }
+          div.timeline_dd.open {
+            #cdbMenu {
+              color: #fff ;
+            }
+          }
+        }
+        .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
+          color: #fff ;
+          background:  transparent;
+          padding: 0;
+          cursor: pointer;
+        }
+        #brandsDropdown {
+          background: #007ac9;
+          min-width: 50px ;
+          width: 88px ;
+          color: #84bce4 ;
+          text-overflow: ellipsis;
+          font-size: 14px;
+          font-family: "Avenir" ;
+        }
+        #brandsDropdown::-webkit-input-placeholder {
+          color: white;
+          opacity: 1 ;
+        }
+        #brandsDropdown:-moz-placeholder { 
+          color: white;
+          opacity: 1 ;
+        }
+        #brandsDropdown::-moz-placeholder { 
+          color: white;
+          opacity: 1 ;
+        }
+        #brandsDropdown:-ms-input-placeholder {
+          color: white;
+          opacity: 1 ;
+        }
+        li.filter_dropdown_open {
+            .header_filter_arrow_dropdown {
+              background-image : url("/assets/images/cdesk/up_arrow_filter.png") ;
+            }
+            #brandsDropdownDiv {
+              input {
+                font-family: "Avenir" ;
+                background : url("/assets/images/cdesk/up_arrow_filter.png") no-repeat  ;
+                width: 154px ;
+                background-position: 145px 12px; 
+              }
+              input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ; }
+              input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ; opacity: 1 ; }
+              input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ; opacity: 1 ;}
+              input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
+            }
+            &:hover {
+              #brandsDropdownDiv {
+                input {
+                  background-position: 145px -42px ;
+                }
+              }
+            }
+        }
+        #brandsDropdown:focus {
+          color: #fff ; 
+        }
+        li.lifetime_filter {
+          margin-right : 40px;
+          
+        }
+      }
+    }
+  }
+}
+
+
+
+
