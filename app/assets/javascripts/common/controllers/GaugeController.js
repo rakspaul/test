@@ -26,7 +26,7 @@
           $scope.dataFound = true;
           gauge.updateGauge(constants.GAUGE_PERFORMANCE, result);
         } else {
-          $scope.message = constants.NO_CAMPAIGNS_WITH_SET_KPI;
+          $scope.message = constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
            $scope.dataFound = false;
         }
       });
