@@ -6,6 +6,6 @@
                        <span class="arrrow_img"></span>
                    </span>
            <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-                   <li ng-repeat="strategy in strategyData.strategies" value="{{strategy.id}}" title="{{strategy.name}}">{{strategy.name | formatUrl:26}}</li>
+                   <li ng-repeat="strategy in strategyData.strategies track by $index" value="{{strategy.id}}" title="{{strategy.name}}">{{strategy.name | formatUrl:26}}</li>
                </ul>
         </div></div>

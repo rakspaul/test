@@ -18,7 +18,7 @@
     </li>
   </div>
  
-    <li ng-repeat="i in items" data-attr="{{datashow}}" >
+    <li ng-repeat="i in items track by $index" data-attr="{{datashow}}" >
       
         <span ng-if="acceptmultiple == 1">
         <a ng-click="select(i); focus()" style="text-decoration: none;color:#000"><i ng-class="{'icon-ok': i.checked, 'icon-empty': !i.checked}" ></i>{{i.label}}</a>
