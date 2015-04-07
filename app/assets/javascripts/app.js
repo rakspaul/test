@@ -56,6 +56,7 @@ var angObj = '';
     });
 
     angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
+        $rootScope.version = version;
         $rootScope.$on('$locationChangeStart', function () {
             $rootScope.bodyclass='';
             var locationPath = $location.path();
