@@ -5,7 +5,7 @@
             <div class="reports_header_tabs_holder clearfix">
 		    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
                 <div class="pull-left">
-                    <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="reports_cost_tab_{{tab.href}}"> {{tab.title}}</a></span>
+                    <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="reports_cost_tab_{{tab.href}}"> {{tab.title}}</a></span>
                 </div>
             </div>
         <!-- campaign dropdown -->
@@ -76,7 +76,7 @@
                                     </span>
                                     <ul class="dropdown-menu" id="sorting_dropdown">
 
-                                        <li class="{{sortField.class}}" ng-repeat="sortField in sort_field" data-ng-click="sortFunction(sortField.key)">
+                                        <li class="{{sortField.class}}" ng-repeat="sortField in sort_field track by $index" data-ng-click="sortFunction(sortField.key)">
                                             <a id="cost_sort_{{sortField.key}}">
                                                 {{sortField.display}}&nbsp; <span class="sortable {{sortField.sortDirection}}"></span>
                                             </a>
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')">
                                     </div>
-                                    <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData" ng-if="!dataNotFound">
+                                    <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
                                         <div class="each_cost_col first_col">{{strategy.impressions | number:0}}</div>
                                         <div class="each_cost_col second_col">{{strategy.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
                                         <div class="each_cost_col three_col">${{strategy.inventory_cost | number:0}}</div>
@@ -118,7 +118,7 @@
                             <div class="all_startegy_cost">
                                 <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
                                 <!--{{filter.sortByColumn}}-->
-                                <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData|orderBy: sortByColumn">
+                                <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData track by $index|orderBy: sortByColumn">
                                     <div class="each_cost_row">
                                         <div class="each_cost_heading" >
                                             {{tactic.name}}

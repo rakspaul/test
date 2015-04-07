@@ -2,7 +2,7 @@
     <div class="reports_header_tabs_holder clearfix">
 	    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
         <div class="pull-left">
-            <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="inventory_tab_{{tab.href}}"> {{tab.title}}</a></span>
+            <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="inventory_tab_{{tab.href}}"> {{tab.title}}</a></span>
         </div>
     </div>
     <div class="inventory_reports_container" >
@@ -83,7 +83,7 @@
                             </span>
                     </div>
                     <div class="inventory_chart_details_list"
-                         data-ng-repeat="stable in strategyTableData ">
+                         data-ng-repeat="stable in strategyTableData track by $index">
 
                         <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                             <span class="row_index">{{$index + 1}}</span>
@@ -108,7 +108,7 @@
             <span class="no-chart load-more" ng-if="tacticBusy">&nbsp;</span>
 
             <div ng-if="strategyFound && !tacticBusy" class="each_chart_accordion_holder"
-                 ng-repeat="tactic in tacticList[tacticList.show]" ng-if="tactic.data">
+                 ng-repeat="tactic in tacticList[tacticList.show] track by $index" ng-if="tactic.data">
 
                 <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
                     {{tactic.name}}
@@ -137,7 +137,7 @@
                     </div>
                     <div class="inventory_chart_details_list">
                         <div class="chart_details_cols_row inventory_each_chart_details clearfix"
-                             ng-repeat="tableData in tactic.data">
+                             ng-repeat="tableData in tactic.data track by $index">
                             <span class="row_index">{{$index + 1}}</span>
                             <span class="url_val" title="{{tableData.domain_data}}"
                                   ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>

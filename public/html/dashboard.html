@@ -15,7 +15,7 @@
                 <span class="arrow_img"></span>
             </span>
             <ul class="dropdown_ul dropdown-menu ">
-                <li ng-repeat="elem in data.statusDropdownValues">{{elem}}</li>
+                <li ng-repeat="elem in data.statusDropdownValues track by $index">{{elem}}</li>
                 <div class="dd_options_disabled"></div>
             </ul>
       </div>
