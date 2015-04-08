@@ -148,10 +148,11 @@
             dataService.getActionItems(actionUrl).then(function(result) {
                 $scope.activityLogFlag = true;
                 if(result.status === 'success') {
-                    var actionItemsArray = [] , counter = 0;
-                    var actionItems = result.data.data;
-                    var strategyByActionId = {};
-                    var  actionItemsLen = actionItems.length;
+                    var actionItemsArray = [] ,
+                        counter = 0,
+                        actionItems = result.data.data,
+                        strategyByActionId = {},
+                        actionItemsLen = actionItems.length;
                     if (actionItemsLen > 0) {
                         for (var i = actionItemsLen - 1; i >= 0; i--) {
                             for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
@@ -181,27 +182,32 @@
             var campaignArray = $scope.campaign,
                 pageSize = 3,
                 loadMoreData = campaignArray.campaignStrategiesLoadMore;
-            if (loadMoreData.length) {
+            if (loadMoreData.length > 0) {
                 var moreData = loadMoreData.splice(0, pageSize),
                     morDataLen = moreData.length;
+                var tmpCampaignStrategiesArr = [];
                 for (var len = 0; len < morDataLen; len++) {
-                    $scope.campaign.campaignStrategies.push(moreData[len]);
+                    tmpCampaignStrategiesArr.push(moreData[len]);
                 }
+                $scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
             }
         };
 
         $scope.loadMoreTactics = function(strategyId, campaignId) {
             var campaignArray = $scope.campaign,
-                pageSize = 3;
-            for(var i in campaignArray.campaignStrategies){
-                if(campaignArray.campaignStrategies[i].id === parseInt(strategyId)){
-                    var loadMoreData = campaignArray.campaignStrategies[i].strategyTacticsLoadMore;
-                    if (loadMoreData.length) {
+                pageSize = 3,
+                campaignStrategies = campaignArray.campaignStrategies;
+            for(var i in campaignStrategies){
+                if(campaignStrategies[i].id === Number(strategyId)){
+                    var loadMoreData = campaignStrategies[i].strategyTacticsLoadMore;
+                    if (loadMoreData.length > 0) {
                         var moreData = loadMoreData.splice(0, pageSize)
                         var moreDataLen = moreData.length;
+                        var tmpstrategyTacticsArr = [];
                         for (var len = 0; len < moreDataLen; len++) {
-                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
+                            tmpstrategyTacticsArr.push(moreData[len]);
                         }
+                        $scope.campaign.campaignStrategies[i].strategyTactics =  tmpstrategyTacticsArr;
                     }
                 }
             }    
@@ -218,7 +224,7 @@
                 for(var i=0;i < splitIdListLen;i++){
                       var targetId =splitIdList[i];
                        myContainer.find('#actionItem_'+targetId).addClass('active');
-                       if(scrollTo.length) {
+                       if(scrollTo.length >0) {
                            myContainer.animate({
                             scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                           });
@@ -226,7 +232,7 @@
                  }
             } else { //Day wise single Activity
                 var scrollTo = $('#actionItem_' + id);
-                if(scrollTo && scrollTo.length) {
+                if(scrollTo && scrollTo.length >0) {
                     scrollTo.siblings().removeClass('active').end().addClass('active');
                     myContainer.animate({
                         scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
@@ -279,30 +285,29 @@
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
                     if(result.data.data.length>0){
                         var result = result.data.data[0].inv_metrics ;
                         var top =[];
                         for (var i in result) {
-
                             if (result[i].tb === 0) {
                                 top.push(result[i]);
                             }
                         }
-                          if(top.length > 0){
-                              if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc' || campaign.kpiType.toLowerCase() == 'action_rate' || campaign.kpiType.toLowerCase()  == 'action rate' ){
-
-                                  for(var i in top){
-                                      top[i].kpi_value *= 100;
-                                  }
-                                  inventory = top.slice(0,3);
-                                  $scope.details.inventoryTop = inventory[0];
-                              } else {
-                                  inventory = top.slice(0,3);
-                                  $scope.details.inventoryTop = inventory[2];
+                        if(top.length > 0){
+                            if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc' || campaignKpiType == 'action_rate' || campaignKpiType  == 'action rate' ){
+                              for(var i in top){
+                                  top[i].kpi_value *= 100;
                               }
-                          }
-                    $scope.details.inventory = inventory;
-		          }
+                              inventory = top.slice(0,3);
+                              $scope.details.inventoryTop = inventory[0];
+                            } else {
+                              inventory = top.slice(0,3);
+                              $scope.details.inventoryTop = inventory[2];
+                            }
+                        }
+                        $scope.details.inventory = inventory;
+		            }
                 }
             },function(result){
                 console.log('inventory data call failed');
@@ -337,12 +342,8 @@
                             format.icon = format.dimension.toLowerCase() + "_graph";
                         });
 
-                        $scope.details.formats = formats; 
-                        if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc') {
-                            $scope.details.formatTop = _.first(formats); 
-                        }else{
-                            $scope.details.formatTop = _.last(formats); 
-                        }
+                        $scope.details.formats = formats;
+                        $scope.details.formatTop = (campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ? _.first(formats) : _.last(formats);
                         $scope.details.formatTop = $scope.details.formatTop[campaignKpiType];
                         $scope.details.kpiType = campaignKpiType;
                     }
@@ -366,13 +367,10 @@
                       result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
                     }
                     if(resultDataLen>0){
-                        if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc') {
-                            screens = orderBy(result.data.data, "-" + campaignKpiType, false);
-                         }else{
-                            screens = orderBy(result.data.data, "-" + campaignKpiType, true);
-                         }
+                        screens = orderBy(result.data.data, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
                         _.each(screens, function(screen) {
-                             if(screen.dimension.toLowerCase() == 'smartphone' || screen.dimension.toLowerCase() == 'tablet' || screen.dimension.toLowerCase() =='desktop'){
+                             var screenType = screen.dimension.toLowerCase();
+                             if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
                                 if(screen[campaign.kpiType.toLowerCase()] > 0){
                                     $scope.screenTotal +=screen[campaignKpiType];
                                      orderByscreens[inc]=screen[campaignKpiType];
@@ -380,16 +378,16 @@
                                 }
                                     
                             }
-                             switch(screen.dimension){
-                                case 'Smartphone': screen.icon = "mobile_graph"; break;
-                                case 'TV':   screen.icon = "display_graph"; break;
-                                case 'Tablet':   screen.icon = "tablet_graph"; break;
-                                case 'Desktop':   screen.icon = "display_graph"; break;
+                             switch(screenType){
+                                case 'smartphone': screen.icon = "mobile_graph"; break;
+                                case 'tv':   screen.icon = "display_graph"; break;
+                                case 'tablet':   screen.icon = "tablet_graph"; break;
+                                case 'desktop':   screen.icon = "display_graph"; break;
                             }
                         });
                         var maximumValue = 0 ;
                         if(orderByscreens.length > 0 ){
-                            maximumValue =Math.max.apply(Math,orderByscreens);
+                            maximumValue = Math.max.apply(Math,orderByscreens);
                         }
                         $scope.details.screens = screens; 
                         $scope.details.screenTop = maximumValue;
@@ -415,11 +413,6 @@
                             pct_15s: viewData.viewable_imps_15s_pct,
                             pct_total: viewData.viewable_pct
                         };
-                        var costViewabilitynColors =[];
-                            costViewabilitynColors["inventory"] = "#F8810E";
-                            costViewabilitynColors["data"] = "#0072BC";
-                            costViewabilitynColors["adServing"] = "#45CB41";
-                            costViewabilitynColors["other"] = "#BFC3D1";
                         $scope.details.getCostViewability.total = viewData.viewable_imps;
                         $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
@@ -437,7 +430,7 @@
                     if (!angular.isUndefined($scope.campaign.kpiType)) {
                         if (result.data.data.measures_by_days.length > 0) {
                             var maxDays = result.data.data.measures_by_days;
-                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = angular.lowercase(kpiType);
+                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
                             for (var i = 0; i < maxDays.length; i++) {
                                 maxDays[i]['ctr'] *= 100;
 				                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
@@ -472,22 +465,23 @@
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
-            if (!campaign)
+            if (!campaign) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
-            else  if ( campaign.durationLeft() == 'Yet to start')
+            } else if (campaign.durationLeft() == 'Yet to start') {
                 return constants.MSG_CAMPAIGN_YET_TO_START;
-            else if (campaign.daysSinceEnded() > 1000)
+            } else if (campaign.daysSinceEnded() > 1000) {
                 return constants.MSG_CAMPAIGN_VERY_OLD;
-            else if (campaign.kpiType =='null')
+            } else if (campaign.kpiType == 'null') {
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-            else if (campaign.status == 'active')
+            } else if (campaign.status == 'active') {
                 return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
-            else if (dataSetType == 'activities' && campaign.durationLeft() !== 'Ended')
+            } else if (dataSetType == 'activities' && campaign.durationLeft() !== 'Ended') {
                 return constants.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED;
-            else if ((dataSetType == 'inventory' || dataSetType == 'viewability') && campaign.durationLeft() !== 'Ended')
+            } else if ((dataSetType == 'inventory' || dataSetType == 'viewability') && campaign.durationLeft() !== 'Ended') {
                 return constants.MSG_METRICS_NOT_TRACKED;
-            else
+            } else {
                 return constants.MSG_DATA_NOT_AVAILABLE;
+            }
         };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
