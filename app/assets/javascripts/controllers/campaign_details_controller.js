@@ -71,7 +71,11 @@
         $scope.details.getSortDirection= function(){
             return ($scope.details.sortDirection == "desc")? "true" : "false";
         };
-
+        $scope.details.callStrategiesSorting = function(fieldName,count){
+            if(count > 1){
+                $scope.details.sortStrategies(fieldName);
+            }
+        }
         //API call for campaign details
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
