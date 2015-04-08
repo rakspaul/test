@@ -1740,12 +1740,16 @@ div.strategy_total_container {
         display: block;
       }
     }
-    .collective_logo {
-      width: 330px ;
+    .collective_logo_holder {
+      width: 1120px ;
       height: 68px ;
-      margin : 0px auto 90px ;
-      display: block;
-      background: url("/assets/images/visto_logos/visto.png") no-repeat center top ; 
+      margin : 0px auto 60px ;
+      .collective_logo {
+        height: 100%;
+        width: 330px;
+        display: block;
+        background: url("/assets/images/visto_logos/visto.png") no-repeat left top ; 
+      }
     }
     .login_btn {
       outline: none;
@@ -1809,41 +1813,27 @@ div.strategy_total_container {
   only screen and (min-device-pixel-ratio: 2) {
 
     .collective_logo {
-      background     : url("/assets/images/visto_logos/visto@2x.png") no-repeat !important;
+      background : url("/assets/images/visto_logos/visto@2x.png") left top no-repeat !important;
       -webkit-background-size: 324px 52px !important;
-       -moz-background-size: 324px 52px !important;
-        background-size: 324px 52px !important;
+      -moz-background-size: 324px 52px !important;
+      background-size: 324px 52px !important;
     }
-    #retina .ui-header h1{
-      background:url(img/logo@2x.png) no-repeat center center;
-      -webkit-background-size: auto 33px ;
-       -moz-background-size: auto 33px ;
-        background-size: auto 33px ;
+    .about_popup {
+      .logo {
+        background: url("/assets/images/visto_logos/visto_blue@2x.png") no-repeat center top !important;
+        -webkit-background-size: 310px 48px !important;
+        -moz-background-size: 310px 48px !important;
+        background-size: 310px 48px !important;
+      }      
     }
-    #retina .delete:before{
-    background:url(img/delete@2x.png) no-repeat;
-    -webkit-background-size: 100%  100% ;
-       -moz-background-size: 100%  100% ;
-        background-size: 100%  100% ;
+    .main_navigation_holder {
+      .main_nav {
+        .main_logo {
+          background: url("/assets/images/visto_logos/visto_logo@2x.png") no-repeat center center  !important;
+           -webkit-background-size: 91px 34px !important;
+          -moz-background-size: 91px 34px !important;
+          background-size: 91px 34px !important;
+        }
+      }
     }
-    #retina .download {
-    background:rgb(222, 227, 232) url(img/nuage@2x.png) no-repeat 8px 6px;
-    -webkit-background-size: 70px 68px ;
-       -moz-background-size: 70px 68px ;
-        background-size: 70px 68px ;
-    }
-    #retina .bubble{
-    background-image:url(img/bubble@2x.png);
-    } 
-    #retina .loupe{
-    background-image:url(img/loupe@2x.png);
-    }
-    #retina .folder{
-    background-image:url(img/folder@2x.png);
-    }
-    #retina .ui-footer .button{
-    -webkit-background-size: 40px auto ;    
-       -moz-background-size: 40px auto ;
-        background-size: 40px auto ;
-    } 
 }
