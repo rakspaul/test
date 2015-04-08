@@ -56,7 +56,7 @@
                         day: '%e of %b'
                     },
                     formatter: function () {
-                      return '<div class="chart-tool-tip" >' + Highcharts.dateFormat('%A , %b %d , %Y', this.x) +  '<br/> ' +this.series.name +':' + '<b> '+this.y + '</b></div>';
+                      return '<div class="chart-tool-tip" >' + Highcharts.dateFormat('%A, %b %d, %Y', this.x) +  '<br/> ' +this.series.name +':' + '<b> '+this.y + '</b></div>';
 
                     }
                 },
