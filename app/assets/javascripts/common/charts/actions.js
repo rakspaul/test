@@ -59,7 +59,7 @@
         chart.renderer.circle(container.x+place_circle_x , container.y+8,10).attr({
           fill: '#fff',
           stroke: (defaultGrey == false|| isActionExternal==false ) ? '#777':'#0072bc',
-          'stroke-width': 2.5,
+          'stroke-width': 3,
           id: actionId || 'NA',
           kpiType: kpiType || 'NA',
           kpiValue: kpiValue || 'NA',
