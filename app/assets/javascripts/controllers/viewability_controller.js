@@ -116,9 +116,9 @@ var angObj = angObj || {};
         };
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
-
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             //$scope.$apply();
+            $scope.callBackStrategyChange();
         });
 
 
