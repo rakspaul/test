@@ -5,9 +5,8 @@
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;
    $scope.loginError = false;
-
-	$scope.login = function () {
-
+   $scope.version = version;
+   $scope.login = function () {
         if ($scope.username === undefined || $scope.username.trim() === '' || $scope.password === undefined || $scope.password.trim() === '') {
             $scope.loginErrorMsg = 'The Username/Password is incorrect';
             $scope.loginError=true;
