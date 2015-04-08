@@ -1741,11 +1741,11 @@ div.strategy_total_container {
       }
     }
     .collective_logo {
-      width: 210px ;
+      width: 330px ;
       height: 68px ;
       margin : 0px auto 90px ;
       display: block;
-      background: url("/assets/images/reports_login/collective_reporting_logo.png") no-repeat center top ; 
+      background: url("/assets/images/visto_logos/visto.png") no-repeat center top ; 
     }
     .login_btn {
       outline: none;
@@ -1800,3 +1800,50 @@ div.strategy_total_container {
 }
 
 /*  end of reports login page */
+
+
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min--moz-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2) {
+
+    .collective_logo {
+      background     : url("/assets/images/visto_logos/visto@2x.png") no-repeat !important;
+      -webkit-background-size: 324px 52px !important;
+       -moz-background-size: 324px 52px !important;
+        background-size: 324px 52px !important;
+    }
+    #retina .ui-header h1{
+      background:url(img/logo@2x.png) no-repeat center center;
+      -webkit-background-size: auto 33px ;
+       -moz-background-size: auto 33px ;
+        background-size: auto 33px ;
+    }
+    #retina .delete:before{
+    background:url(img/delete@2x.png) no-repeat;
+    -webkit-background-size: 100%  100% ;
+       -moz-background-size: 100%  100% ;
+        background-size: 100%  100% ;
+    }
+    #retina .download {
+    background:rgb(222, 227, 232) url(img/nuage@2x.png) no-repeat 8px 6px;
+    -webkit-background-size: 70px 68px ;
+       -moz-background-size: 70px 68px ;
+        background-size: 70px 68px ;
+    }
+    #retina .bubble{
+    background-image:url(img/bubble@2x.png);
+    } 
+    #retina .loupe{
+    background-image:url(img/loupe@2x.png);
+    }
+    #retina .folder{
+    background-image:url(img/folder@2x.png);
+    }
+    #retina .ui-footer .button{
+    -webkit-background-size: 40px auto ;    
+       -moz-background-size: 40px auto ;
+        background-size: 40px auto ;
+    } 
+}

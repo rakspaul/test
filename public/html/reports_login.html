@@ -58,6 +58,21 @@
 </div>
 
 
+<script type="text/javascript">
+
+$(document).ready( function() {
+  if (window.devicePixelRatio >= 2) {
+    alert("retina");
+    $(".reports_login_outer_container").addClass("retina") ;
+  } else {
+    alert("no retina") ;
+    $(".reports_login_outer_container").addClass("no_retina") ;
+  }
+
+}) ;
+
+</script>
+
 
 
 
