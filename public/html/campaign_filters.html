@@ -33,11 +33,11 @@
     <!-- <div class="each_header_title campaign_title" style="display:none;">
         Campaign<span class="sortable"></span>
     </div> --> 
-    <div class="unselectable each_header_title brand_title active_title {{$parent.details.sortClass('brandName')}}" ng-click="$parent.details.sortStrategies('brandName')">
-        Brand<span class="sortable {{$parent.details.sortIcon('brandName')}}"></span>
+    <div class="unselectable each_header_title brand_title active_title {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
+        Brand
     </div>
-    <div class=" unselectable each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}" ng-click="$parent.details.sortStrategies('startDate')" id="details_dates_sort">
-        Flight Dates<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
+    <div class=" unselectable each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-click="$parent.details.callStrategiesSorting('startDate',$parent.campaign.campaignStrategies.length )"  ng-style="{'cursor':($parent.campaign.campaignStrategies.length > 1 ? 'pointer':'default')}" >
+        Flight Dates<span class="sortable {{$parent.details.sortIcon('startDate')}}"   ng-show="($parent.campaign.campaignStrategies.length > 1 ? true:false)"></span>
     </div>
     <div class=" unselectable each_header_title metrics_title">
         METRICS (LIFETIME)
