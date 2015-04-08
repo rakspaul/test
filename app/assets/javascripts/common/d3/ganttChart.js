@@ -1288,7 +1288,7 @@
                 gantt.redraw(tasks, timeDomainString);
 
                 //eager check - navigation lock
-                var td = gantt.timeDomain();
+                td = gantt.timeDomain();
                 if(!(moment(_.first(data).startDate).toDate() < moment((td[0] - 1000)).toDate()) ) {
                     //disable 'previous' navigation button
                     navigationButtonControl("#cal_prev", "disabled");
