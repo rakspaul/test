@@ -404,20 +404,25 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callStrategyChange = function () {
+          //Note: The following hack is by intentional, we need to wait for get campaign details to come back with kpi value.
+          //Optimization chart requires kpi value of the selected campaign to plot the chart.
+          //This resolves the following issue:  CRPT-2016.
+          //TODO: Ideally, we have to get rid off this hack while refactoring the UI code.
+          setTimeout(function(){
+                $scope.tacticList = [];
+              $scope.actionItems= {}; // action item for selected Strategy.
 
-            $scope.tacticList = [];
-            $scope.actionItems= {}; // action item for selected Strategy.
+              $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
 
-            $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
-
-            $scope.chartForStrategy = true;
-            if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
+              $scope.chartForStrategy = true;
+              if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
                 $scope.actionDataForSelectedStrategy();
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
-            } else {
+              } else {
                 $scope.chartForStrategy = false;// means selected strategy id is not valid
                 $scope.tacticNotFound = true;
-            }
+              }
+            },1000);
         };
 
         $("#optimization_squaredFour").click( function() {
