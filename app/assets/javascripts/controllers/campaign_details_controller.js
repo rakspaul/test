@@ -139,12 +139,10 @@
 
         updateActionItems();
 
-        $rootScope.$on(constants.EVENT_ACTION_CREATED, newActionCreated);
-
-        function newActionCreated() {
+        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function() {
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
             updateActionItems();
-        }
+        });
 
         function updateActionItems() {
             $scope.activityLogFlag = false;
@@ -659,9 +657,16 @@
         $scope.refreshGraph = function(showExternal){ /*Single Campaign UI Support elements - sta */ /*Refresh Graph Data */
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 450, 330 , null, undefined, showExternal);
         };
-        $rootScope.$on("callRefreshGraphData",function(event,args){ 
+
+        var callRefreshGraphData = $rootScope.$on("callRefreshGraphData",function(event,args){
             $scope.refreshGraph(args);
         });
+
+        $scope.$on('$destroy', function() {
+            eventActionCreatedFunc();
+            callRefreshGraphData();
+        });
+
         $scope.refreshCampaignDetailsPage = function(){
             $rootScope.$broadcast("closeEditActivityScreen");
         };

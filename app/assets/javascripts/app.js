@@ -57,7 +57,7 @@ var angObj = '';
 
     angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
         $rootScope.version = version;
-        $rootScope.$on('$locationChangeStart', function () {
+        var locationChangeStartFunc  = $rootScope.$on('$locationChangeStart', function () {
             $rootScope.bodyclass='';
             var locationPath = $location.path();
             if(locationPath !== '/login') {
@@ -75,7 +75,7 @@ var angObj = '';
             }
         });
 
-        $rootScope.$on('$routeChangeSuccess', function () {
+        var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function () {
             var locationPath = $location.path();
             if(loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
@@ -86,6 +86,11 @@ var angObj = '';
             } else{
                 $rootScope.bodyclass='';
             }
+        });
+
+        $rootScope.$on('$destroy', function() {
+            locationChangeStartFunc();
+            routeChangeSuccessFunc();
         });
 
         if($cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
