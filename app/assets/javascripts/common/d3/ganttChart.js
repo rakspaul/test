@@ -818,6 +818,13 @@
                                         return 0;
                                 }
                             })
+                             .attr("x", function(d){
+                                if(isPast(tdEdges[0], d.startDate)) {
+                                        return 2;
+                                } else {
+                                    return 0;
+                                }
+                            })
                             .attr("y", function(d) {
                                 return y(d.taskName) + 2;
                             })
@@ -844,7 +851,7 @@
                             })
                             .attr("x", function(d){
                             	if(isPast(tdEdges[0], d.startDate)) {
-		                    			return -2;
+		                    			return 0;
 		                    	} else {
 		                    		return 0;
 		                    	}
