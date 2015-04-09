@@ -2580,8 +2580,9 @@ button, i, input[type="submit"] {
 .modal-backdrop.in{
   opacity: .8 ;
 }
-.modal-open {
-  .about_popup {
+
+/*.modal-open {*/
+ .about_popup {
     background-color:  #ffffff;
     box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
     width : 412px ;
@@ -2607,9 +2608,9 @@ button, i, input[type="submit"] {
       }
     }
     .logo {
-      background: url("/assets/images/cdesk/collective_logo_popup.png") no-repeat center top ;
+      background: url("/assets/images/visto_logos/visto_blue.png") no-repeat center top ;
       width: 100% ;
-      height: 70px;
+      height: 50px;
       margin: 28px auto 24px;
     }
     .copyright_section {
@@ -2628,19 +2629,21 @@ button, i, input[type="submit"] {
       text-align: center;
     }
   }
-}
+/*
+}*/
+
 .main_navigation_holder {
-  height: 84px;
+  height: 66px;
   background: #007ac9;
-  padding: 20px ;
-   .dropdown-menu {
+  padding: 12px ;
+  .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
     border-radius: 0px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
     border: 0;
-    top: 52px;
+    top: 48px;
     left: -100px ;
     font-size: 12px ;
     li {
@@ -2673,15 +2676,15 @@ button, i, input[type="submit"] {
     color: #fff ;
     .main_logo {
       display: block;
-      background: url("/assets/images/collective-media-logo.png") no-repeat center center ;
-      height: 44px;
-      width: 170px;
-      background-size: contain;
+      background: url("/assets/images/visto_logos/visto_logo.png") no-repeat top center ;
+      width: 91px;
+      height: 40px;
+      margin-right: 70px;
     }
     .profile_menu {
       height: 30px ;
       width: 30px ;
-      margin : 8px 0 0 40px ; 
+      margin : 5px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
         background: url("/assets/images/cdesk/account_icon.png") no-repeat 2px 2px  ;
@@ -2693,7 +2696,7 @@ button, i, input[type="submit"] {
       }
       .dropdown-menu {
         z-index: 1001 ;
-        top: 54px ;
+        top: 47px ;
         max-width: 150px;
         li {
           a{
@@ -2725,7 +2728,7 @@ button, i, input[type="submit"] {
     }
     .main_navigation {
       text-transform: uppercase;
-      margin: 15px 0 0 25px;
+      margin: 11px 0 0 25px;
       font-family: "Avenir";
       font-size: 14px;
       .dropdown-menu  {
@@ -2751,7 +2754,7 @@ button, i, input[type="submit"] {
       color: #fff ;
     }
     .main_filters {
-      margin-top: 10px ;
+      margin-top: 4px ;
       .page_filters {
         color: #fff ;
         .brands_dd_icon {
@@ -2814,6 +2817,7 @@ button, i, input[type="submit"] {
               font-family: "Avenir" ;
               background: url("/assets/images/cdesk/down_arrow_filter.png") no-repeat no-repeat  80px 14px ;
               padding-right: 20px;
+              padding-top: 4px ;
             }
             input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ;opacity: 1 ; }
             input::-moz-placeholder { color: #FFF ;font-family: "Avenir" ; opacity: 1 ; }

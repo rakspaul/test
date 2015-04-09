@@ -1549,7 +1549,7 @@ div.strategy_total_container {
     color: #0978c9;
     height: 26px;
     line-height: 26px;
-    margin: 0 93px 10px 0;
+    margin: 0 82px 10px 0;
     font-size: 12px ;
     .AvenirBold() ;
     a {
@@ -1740,12 +1740,16 @@ div.strategy_total_container {
         display: block;
       }
     }
-    .collective_logo {
-      width: 210px ;
+    .collective_logo_holder {
+      width: 1120px ;
       height: 68px ;
-      margin : 0px auto 90px ;
-      display: block;
-      background: url("/assets/images/reports_login/collective_reporting_logo.png") no-repeat center top ; 
+      margin : 0px auto 60px ;
+      .collective_logo {
+        height: 100%;
+        width: 330px;
+        display: block;
+        background: url("/assets/images/visto_logos/visto.png") no-repeat left top ; 
+      }
     }
     .login_btn {
       outline: none;
@@ -1800,3 +1804,36 @@ div.strategy_total_container {
 }
 
 /*  end of reports login page */
+
+
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min--moz-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2) {
+
+    .collective_logo {
+      background : url("/assets/images/visto_logos/visto@2x.png") left top no-repeat !important;
+      -webkit-background-size: 324px 52px !important;
+      -moz-background-size: 324px 52px !important;
+      background-size: 324px 52px !important;
+    }
+    .about_popup {
+      .logo {
+        background: url("/assets/images/visto_logos/visto_blue@2x.png") no-repeat center top !important;
+        -webkit-background-size: 310px 48px !important;
+        -moz-background-size: 310px 48px !important;
+        background-size: 310px 48px !important;
+      }      
+    }
+    .main_navigation_holder {
+      .main_nav {
+        .main_logo {
+          background: url("/assets/images/visto_logos/visto_logo@2x.png") no-repeat top center  !important;
+           -webkit-background-size: 91px 34px !important;
+          -moz-background-size: 91px 34px !important;
+          background-size: 91px 34px !important;
+        }
+      }
+    }
+}
