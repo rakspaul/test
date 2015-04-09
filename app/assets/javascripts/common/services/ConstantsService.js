@@ -92,6 +92,7 @@
     this.MSG_CAMPAIGN_VERY_OLD = 'Campaign ended 3+ years ago, data not available';
     this.MSG_CAMPAIGN_KPI_NOT_SET = 'Campaign KPI is not set';
     this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = 'Campaign yet to be optimized';
+    this.MSG_CAMPAIGN_NOT_OPTIMIZED = 'Campaign is not optimized';
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = 'Strategy yet to be optimized';
     this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = 'No Campaigns with set KPI value';
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
