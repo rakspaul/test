@@ -95,6 +95,7 @@
     this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Campaign is not optimized</span>";
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Strategy yet to be optimized</span>";
     this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "No Campaigns with set KPI value";
+
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
     this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
 
