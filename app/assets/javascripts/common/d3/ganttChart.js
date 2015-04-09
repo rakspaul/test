@@ -268,6 +268,7 @@
                             //if user requests next duration data -  scroll the view 
                             gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
                             gantt.redraw(tasks, timeDomainString);
+                            navigationButtonControl("#cal_prev", "enabled");
                         } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
                             //if user asks for previous period data - check if available
                             if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
@@ -278,7 +279,10 @@
                                 gantt.timeDomain([td[0] - scale , td[1] - scale]);
                             }
                             gantt.redraw(tasks, timeDomainString);
-                        } 
+                        } else {
+                            //disable 'previous' navigation button
+                            navigationButtonControl("#cal_prev", "disabled");
+                        }
                         // if (d3.event.dx < 0) {
                         //     next(timeDomainString);
                         // } else {
@@ -1272,6 +1276,8 @@
                             edge1 = moment(td[0]).subtract(diff, 'days').startOf('day').unix() * 1000;
                             edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
 
+                            //disable 'previous' navigation button
+                            navigationButtonControl("#cal_prev", "disabled");
                         }
 
                         
@@ -1280,6 +1286,17 @@
 
                 gantt.timeDomain([edge1, edge2]);
                 gantt.redraw(tasks, timeDomainString);
+
+                //eager check - navigation lock
+                td = gantt.timeDomain();
+                if(!(moment(_.first(data).startDate).toDate() < moment((td[0] - 1000)).toDate()) ) {
+                    //disable 'previous' navigation button
+                    navigationButtonControl("#cal_prev", "disabled");
+                }
+
+            } else {
+                //disable 'previous' navigation button
+                navigationButtonControl("#cal_prev", "disabled");
             }
 
 
@@ -1357,9 +1374,22 @@
             }
 
 
-
+            navigationButtonControl("#cal_prev", "enabled");
             gantt.timeDomain([edge1, edge2]);
             gantt.redraw(tasks, timeDomainString);
+        }
+
+        function navigationButtonControl(id, action) {
+            if(typeof id !== 'undefined' || typeof action !== 'undefined') {
+                switch(action.toLowerCase()) {
+                    case "disabled" :
+                        $(id).addClass('disabled');
+                        break;
+                    case "enabled" :
+                        $(id).removeClass('disabled');
+                        break;
+                }
+            }
         }
 
         function month() {
@@ -1459,6 +1489,9 @@
                     format = "%H:%M"
 
             }
+            //reset navigation
+            navigationButtonControl("#cal_prev", "enabled");
+
             gantt.tickFormat(format);
             gantt.redraw(tasks, timeDomainString);
         }
