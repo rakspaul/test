@@ -181,13 +181,13 @@
                         title: {
                             align: 'high',
                             offset: 5,
-                            text: kpIType.toUpperCase(),
+                            text: (kpIType.toLowerCase() === 'action_rate' ? 'Action Rate' : kpIType.toUpperCase()),
                             style :{
                                 color : "#0D6DCC"
                             },
                             rotation: 0,
                             y: -10,
-                            x: -10
+                            x: -8
                         },
                         labels: {
                             enabled: true,
