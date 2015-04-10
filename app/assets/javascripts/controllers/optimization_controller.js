@@ -43,6 +43,7 @@ var angObj = angObj || {};
             $scope.actionItems= {}; // action item for selected Strategy.
 
             $scope.campaignActionList = [];
+            $scope.chartForStrategy = true;
 
             $scope.tacticNotFound = false;
             $scope.tacticLoading = true;
@@ -171,8 +172,6 @@ var angObj = angObj || {};
 
 
 
-        $scope.chartForStrategy = true;
-
         $scope.loadCdbDataForStrategy = function () {
 
             var param = {
@@ -194,7 +193,6 @@ var angObj = angObj || {};
                         if (!angular.isUndefined(kpiType)) {
                             if (result.data.data.measures_by_days.length > 0) {
                                 if ($scope.selectedCampaign.id == param.orderId && $scope.selectedStrategy.id == strategyId) {
-                                    //  $scope.chartForStrategy = true ;
                                     var maxDays = result.data.data.measures_by_days;
                                     for (var i = 0; i < maxDays.length; i++) {
                                         maxDays[i]['ctr'] *= 100;
@@ -234,6 +232,7 @@ var angObj = angObj || {};
 
         $scope.actionDataError = function(){
             $scope.tacticNotFound = true;
+            $scope.tacticLoading = false;
         };
 
         $scope.createActionItems = function() {
@@ -279,7 +278,6 @@ var angObj = angObj || {};
                 $scope.strategyBusy = false;
                 $scope.loadTableData();
             } else {
-                $scope.tacticNotFound = true;
                 $scope.actionDataError();
             }
         };
@@ -303,7 +301,7 @@ var angObj = angObj || {};
                             $scope.campaignActionList = result.data.data;
                     }
                     else {
-                        $scope.tacticNotFound = true;
+                        $scope.actionDataError();
                     }
                     callback && callback();
                 })
