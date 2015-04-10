@@ -14,13 +14,14 @@
       $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, brand);
     };
 
-    $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
+    var bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
       var brand = {id: args.brandId, name: args.className};
       selectBrand(brand);
     });
+
     updateTitle();
 
-    $rootScope.$on(constants.EVENT_BRAND_CHANGED, function() {
+    var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function() {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
       updateTitle();
     });
@@ -29,5 +30,9 @@
       dashboardModel.setTitle();
     }
 
+    $scope.$on('$destroy', function() {
+      bubbleBrandClickedFunc();
+      eventBrandChangedFunc();
+    });
   })
 }());

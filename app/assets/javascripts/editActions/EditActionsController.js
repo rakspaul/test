@@ -112,8 +112,12 @@
         $scope.resetEditActionValidation = function(){
             $scope.commentError = false;
         }
-        $rootScope.$on("closeEditActivityScreen",function(event){ 
+        var closeEditActivityScreenFunc = $rootScope.$on("closeEditActivityScreen",function(event){
             $scope.closeEdit();
+        });
+
+        $scope.$on('$destroy', function() {
+            closeEditActivityScreenFunc();
         });
 
   });

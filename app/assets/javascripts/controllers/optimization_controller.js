@@ -119,7 +119,7 @@ var angObj = angObj || {};
             $scope.tacticNotFound = true;
         };
 
-        $scope.actiobDataForTactic = function() {
+        $scope.actionDataForTactic = function() {
             $scope.createActionItems();
             if ($scope.actionItems && $scope.actionItems.length > 0) {
                 $scope.tacticNotFound = false;
@@ -132,8 +132,8 @@ var angObj = angObj || {};
 
         $scope.actionDataForSelectedStrategy = function () {
             $scope.createActionItems();
-            if($scope.actionItems && $scope.actionItems.length > 0 && !$scope.isActiobDataForTacticNotCalled) {
-                $scope.actiobDataForTactic();
+            if($scope.actionItems && $scope.actionItems.length > 0 && !$scope.isActionDataForTacticNotCalled) {
+                $scope.actionDataForTactic();
             }else{
                 $scope.actionDataError();
             }
@@ -151,15 +151,15 @@ var angObj = angObj || {};
             var param = {
                 campaignId: $scope.selectedCampaign.id
             };
-            $scope.isActiobDataForTacticNotCalled = true;
+            $scope.isActionDataForTacticNotCalled = true;
             if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
                 // get action data for the selected campaign.
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                             $scope.tacticNotFound = false;
                             $scope.campaignActionList = result.data.data;
-                            $scope.actiobDataForTactic();
-                            $scope.isActiobDataForTacticNotCalled = false;
+                            $scope.actionDataForTactic();
+                            $scope.isActionDataForTacticNotCalled = false;
                     }
                     else {
                         $scope.tacticNotFound = true;
@@ -382,9 +382,13 @@ var angObj = angObj || {};
             $scope.callBackCampaignsSuccess();
         });
 
-        $rootScope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+        var eventKpiChanged = $rootScope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
 
+        });
+
+        $scope.$on('$destroy', function() {
+            eventKpiChanged();
         });
 
 
