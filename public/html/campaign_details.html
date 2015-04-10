@@ -258,7 +258,7 @@
                      
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
-                          <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data track by $index | orderBy:'created_at':true | filter:actionsFilter">
+                          <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index">
 
 
                               <div class="pull-left activity_points">
@@ -297,7 +297,7 @@
                           </div>
 
 
-                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data track by $index | orderBy:'created_at':true | filter:actionsFilter" style="cursor:pointer">
+                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
                               
                               <div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >Click for detailed reports</div>
                               <div class="pull-left activity_points">
