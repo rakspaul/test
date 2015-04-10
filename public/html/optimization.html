@@ -94,10 +94,12 @@
             <!--tacticNotFound :  {{tacticNotFound | json}}-->
             <div class="details_with_heading_total {{seeDate.className}}">
 
+                <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="tacticLoading"></div>
+
                 <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound"  ng-bind-html="getMessageForDataNotAvailable('activities')">
                 </div>
 
-                <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound">
+                <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound && !tacticLoading">
 
                     <div class="each_rep_col_holder clearfix">
                         <div class="clearfix after_before_title">

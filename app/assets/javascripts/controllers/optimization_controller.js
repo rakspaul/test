@@ -44,8 +44,8 @@ var angObj = angObj || {};
 
             $scope.campaignActionList = [];
 
-            $scope.tacticNotFound = true;
-
+            $scope.tacticNotFound = false;
+            $scope.tacticLoading = true;
             $scope.filters = domainReports.getReportsDropDowns();
             $scope.orderByField = 'created_at';
             $scope.reverseSort = true;
@@ -276,6 +276,7 @@ var angObj = angObj || {};
             $scope.createActionItems();
             if ($scope.actionItems && $scope.actionItems.length > 0) {
                 $scope.tacticNotFound = false;
+                $scope.strategyBusy = false;
                 $scope.loadTableData();
             } else {
                 $scope.tacticNotFound = true;
@@ -298,6 +299,7 @@ var angObj = angObj || {};
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) { // get action data for the selected campaign.
                     if (result.status === "OK" || result.status === "success") {
                             $scope.tacticNotFound = false;
+                            $scope.tacticLoading = false;
                             $scope.campaignActionList = result.data.data;
                     }
                     else {
