@@ -9,6 +9,45 @@
   color:  #21252b;
   font-size: 14px; 
 }
+body {
+  font-family: "Avenir" ;
+}
+.no-chart , .no_data_found {
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+}
+.no-data-common {
+  display: block;
+  width: 180px;
+  text-align: center;
+  margin: 0 auto;
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+}
+.reload-img {
+  content: " ";
+  background: url("/assets/images/cdesk/reload.png") no-repeat 6px 2px ;
+  height: 24px;
+  width: 24px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border : solid 1px #dde6eb ;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.each_campaign_list_container {
+  .no-chart {
+    display: block;
+    width: 180px;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
 .campaign_details_page {
   .AvenirFont() ;
   color: #2d2f31 ;
@@ -407,8 +446,10 @@
     font-size: 12px;
     color: #70787e ;
     .no-data-available{
-      margin-top: 20px;
-      text-align: left;
+      margin : 40px auto 0 ;
+      text-align: center ;
+      width: 180px ;
+      color: #939ead ;
     }
     .each_section_graph_holder {
       float: left;
@@ -522,9 +563,6 @@
           background: #CCC ;
           width: 100% !important;
         }
-        .graph_heading {
-          margin-bottom: 2px ;
-        }
         .inventory_number {
           color : #494646 ;
           margin-bottom: 4px ;
@@ -533,6 +571,11 @@
           margin-top: 12px ;
         }
       }
+    .bar_section_graph_holder_inventory {
+      .graph_heading {
+        margin-bottom: 2px ;
+      }
+    }
     .each_section_graph_holder {
       .section_graph_details {
         margin-top: 10px ;
@@ -761,11 +804,13 @@
         }
       }
       .no-data-available {
-           color: #70787e;
-           font-size: 12px;
-           margin-top: 100px ;
-           text-align: center;
-           display: block;
+          color: #939ead ;
+          font-size: 12px;
+          padding-top: 180px;
+          text-align: center;
+          display: block;
+          width: 180px;
+          margin: 0 auto;
        }
     }
     .edit_activity_log_holder {
@@ -979,7 +1024,12 @@
         }
         .no_activity_class {
           text-align: center;
-          margin-top : 160px ;
+          margin  : 154px auto 0 ;
+          color: #939ead;
+          line-height: 20px;
+          font-size: 12px;
+          width: 180px ;
+
         }
       }
     }

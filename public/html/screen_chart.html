@@ -35,8 +35,7 @@
     </div>
     <div class="common_loading_icon" ng-if="screenBusy "></div>
     <span id="screens" ></span>
-    <not-found style-class="style" message="message" ng-show="!dataFound&&!screenBusy">
-    </not-found>
+    <div ng-if="!dataFound&&!screenBusy" ng-bind-html="getMessageForDataNotAvailable()" class="data_not_found"/>
   </div>
 
 </div>

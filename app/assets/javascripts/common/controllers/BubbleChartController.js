@@ -7,7 +7,6 @@
              campaignDataForSelectedBrand : {},
              campaignDataForAllBrands : []
          };
-         $scope.message = constants.DATA_NOT_AVAILABLE_MSG;
          $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
         function getSpendDataForCampaigns() {
@@ -80,6 +79,10 @@
             else
                getSpendDataForCampaigns();
         });
+
+        $scope.getMessageForDataNotAvailable = function () {
+            return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
+        };
 
     });
 }());

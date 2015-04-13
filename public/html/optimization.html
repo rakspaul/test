@@ -94,8 +94,8 @@
             <div class="details_with_heading_total {{seeDate.className}}">
 
                 <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="tacticLoading"></div>
-
-                <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound"  ng-bind-html="getMessageForDataNotAvailable('activities')">
+                <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound"  >
+                    <span class="no-data-common" ng-bind-html="getMessageForDataNotAvailable('activities')"></span>
                 </div>
 
                 <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound && !tacticLoading">

@@ -24,7 +24,7 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             else if ( $scope.selectedCampaign.kpi =='null')
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-            else if (dataSetType == 'inventory' && campaignSelectModel.durationLeft() !== 'Ended')
+            else if (dataSetType == 'inventory')
                 return constants.MSG_METRICS_NOT_TRACKED;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;

@@ -4,7 +4,7 @@
 
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
-        $scope.message = constants.DATA_NOT_AVAILABLE_MSG;
+        $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
         $scope.calendar = function(filter) {
 
             $('.chart').remove();
@@ -193,6 +193,10 @@
             }
 
         });
+
+        $scope.getMessageForDataNotAvailable = function () {
+            return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
+        };
 
 
     });

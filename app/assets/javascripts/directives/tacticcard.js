@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignTacticsCard', function (utils) {
+    angObj.directive('campaignTacticsCard', function (utils,constants) {
         return {
             restrict:'EAC',
 
@@ -109,6 +109,20 @@
                 $scope.goToLocation = function(url){
                     utils.goToLocation(url);
                 };
+              $scope.getMessageForDataNotAvailable = function (strategy) {
+                if (!strategy)
+                  return constants.MSG_DATA_NOT_AVAILABLE;
+                else  if ( strategy.durationLeft() == 'Yet to start')
+                  return constants.MSG_CAMPAIGN_YET_TO_START;
+                else if (strategy.daysSinceEnded() > 1000)
+                  return constants.MSG_CAMPAIGN_VERY_OLD;
+                else if (strategy.kpiType =='null')
+                  return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+                else if (strategy.status == 'active')
+                  return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+                else
+                  return constants.MSG_DATA_NOT_AVAILABLE;
+              };
             } 
         };
     });
