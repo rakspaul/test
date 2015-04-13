@@ -22,9 +22,9 @@
         });
 
         // On this event, only fetch list of strategyies and retain selectedStrategy (done from outside).
-        $rootScope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function() {
+        var eventCampaignStrategyChangedFunc =  $rootScope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function() {
            strategySelectModel.getStrategyObj().strategies = {} ;// reset strategy list
-            $scope.fetchStrategies();// fetch strategies
+           $scope.fetchStrategies();// fetch strategies
         });
 
         $scope.reset= function(){
@@ -81,6 +81,10 @@
             };
             $scope.setStrategy(selectedStrategy);
 
+        });
+
+        $scope.$on('$destroy', function() {
+            eventCampaignStrategyChangedFunc();
         });
 
     });
