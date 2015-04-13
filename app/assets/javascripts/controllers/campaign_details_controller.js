@@ -483,8 +483,7 @@
                 return constants.MSG_CAMPAIGN_NOT_OPTIMIZED;
               else
                 return constants.MSG_METRICS_NOT_TRACKED;
-            } else if ((dataSetType == 'inventory' || dataSetType == 'viewability')
-              &&(campaignSelectModel.durationLeft() == 'Ended'||campaignSelectModel.durationLeft() !== 'Ended')){
+            } else if (dataSetType == 'inventory' || dataSetType == 'viewability'){
                 return constants.MSG_METRICS_NOT_TRACKED;
             } else {
                 return constants.MSG_DATA_NOT_AVAILABLE;
