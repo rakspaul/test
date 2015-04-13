@@ -58,7 +58,28 @@
 </div>
 
 
+<script type="text/javascript">
 
+  $(document).ready( function() {
+    reports_login_position() ;
+  });
+
+  $( window ).resize(function() {
+    reports_login_position() ;
+  });
+
+  function reports_login_position() {
+    var win_height = $(window).height() ;
+    var min_height = $(".collective_ad_form_holder").height() + $(".collective_ad_form_holder").offset().top + 100 ;
+    $( ".reports_login_box_holder" ).css( "height" , win_height );
+    if( win_height <= min_height ) {
+      $(".login_copyright_holder").css("position","static") ;
+    } else {
+      $(".login_copyright_holder").css("position","absolute") ;
+    }
+  }
+
+</script>
 
 
 
