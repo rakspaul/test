@@ -221,6 +221,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         border: solid 1px @reportBorder ;
       }
     }
+    .each_reports_row:first-child {
+      padding-top: 12px ;
+    }
     .each_reports_row_details {
       border-bottom: solid 1px @reportBorder;
       .ReportDataFontColor() ;
@@ -449,8 +452,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .default-kpi-header-icon , .default-kpi-dropdown-icon {
     height: 17px;
     width: 17px;
-    background: url("/assets/images/cdesk/icn_goal.png") no-repeat scroll left bottom ;
-    background-size: 70% ;
+    background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat scroll left center ;
     display: inline-block;
   }
   .default-kpi-dropdown-icon {
@@ -460,10 +462,46 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     visibility: visible;
   }
   .dropdown-menu.kpi_indicator_ul {
-    width: 125px ;
+    width: 120px ;
     li {
-      padding-left: 15px ;
+      padding-left: 10px ;
     }
+  }
+}
+.icon_text_holder {
+  display: inline-block;
+  .default-kpi-header-icon {
+    float: left;
+  }
+}
+#kpi_dropdown , .cpa_dropdown {
+  ul.dropdown_ul {
+    li {
+      .default-kpi-dropdown-icon {
+        float: left;
+        background-position:  left top ;
+      }
+    }
+  }
+  .dropdown_ul_text {
+    display: inline-block;
+    .default-kpi-header-icon  {
+      float: left;
+    }
+  }
+}
+.kpi-dd-holder {
+  .dropdown_ul_text {
+    display: inline-block;
+  }
+  .default-kpi-dropdown-icon {
+    display: inline-block;
+    float: left;
+    background-position: left top;
+  }
+  .default-kpi-header-icon  {
+      float: left;
+      background-position: left top;
   }
 }
 .inventory_reports_container , .common_reports_container{
@@ -478,7 +516,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       display: inline-block;
       height: 10px;
       width: 10px;
-      margin-left: 6px;
+      margin-left: 2px;
     }
   }
   .dropdown_type1 , .dropdown_type2  {
@@ -687,16 +725,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         /*color: #1C1D1D;*/
         color: #57606d;
         font-size: 13px;
-        margin-top: 10px;
+        margin-top: 1px;
         text-shadow: 0px 1px 0px #e5ecef;
       }
       .cpa_data, .imps_del_data {
         .ReportDataFontColor() ;
       }
       .url_val {
-        padding: 8px 10px;
+        padding: 0px 10px;
         margin: 0px 0px 0px 10px;
-        line-height: 18px;
+        /*line-height: 18px;*/
         width: 260px;
         height: 36px;
         overflow: hidden;
@@ -732,7 +770,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       left: 20px;
       text-align: left;
       li {
-        padding-left: 16px;
+        padding-left: 10px;
       }
     }
   }
@@ -1101,6 +1139,7 @@ div.strategy_total_container {
       }
       .arrrow_img {
         background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 0px 0px ;
+        margin-left: 2px ;
       }
     }
     .sub_col {
