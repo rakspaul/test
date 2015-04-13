@@ -2,6 +2,6 @@
 	<div class="calendar_tooltip" style="display:none" ng-show="!calendarBusy">Active</div>
     <div class="common_loading_icon" ng-show="calendarBusy"></div>
 
-    <not-found style-class="style" message="message" ng-show="!calendarData&&!calendarBusy">
-    </not-found>
+    <div  ng-if="!calendarData&&!calendarBusy" ng-bind-html="getMessageForDataNotAvailable()">
+    </div>
 </div>

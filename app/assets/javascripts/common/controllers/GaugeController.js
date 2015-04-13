@@ -2,7 +2,6 @@
   'use strict';
   commonModule.controller('gaugeController', function ($scope, gauge, gaugeModel, constants, $window, loginModel, analytics) {
     var campaigns = '/#/campaigns';
-    $scope.style= constants.DATA_NOT_AVAILABLE_STYLE;
     gauge.setLeftArcClickHandler(function() {
       gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
       analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_on_track_clicked', loginModel.getLoginName());
@@ -32,5 +31,8 @@
       });
     }
     getGaugeData();
+    $scope.getMessageForDataNotAvailable = function () {
+        return constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
+    };
   });
 }());

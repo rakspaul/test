@@ -87,6 +87,7 @@
     this.MSG_METRICS_NOT_TRACKED= "<span class='no-data-common'>Metric not tracked <span class='contact_note'>Please contact your Account Manager</span></span>";
     this.MSG_UNKNOWN_ERROR_OCCURED="<div class='no-data-common'>Data not available <div>Please retry later</div><span class='reload-img'></span></div>";
     this.MSG_DATA_NOT_AVAILABLE= "<span class='no-data-common'>Data not available</span>";
+    this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD= "<span class='data_not_found'>Data not available</span>";
     this.MSG_CAMPAIGN_YET_TO_START= "<span class='no-data-common'>Campaign yet to start</span>";
     this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Campaign is active, data not yet available</span>";
     this.MSG_CAMPAIGN_VERY_OLD = "<span class='no-data-common'>Campaign ended 3+ years ago, data not available</span>";
@@ -94,7 +95,7 @@
     this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Campaign yet to be optimized</span>";
     this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Campaign is not optimized</span>";
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Strategy yet to be optimized</span>";
-    this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "No Campaigns with set KPI value";
+    this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Campaigns with set KPI value</span>";
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
     this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
 

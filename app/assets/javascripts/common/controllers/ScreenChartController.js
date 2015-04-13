@@ -11,9 +11,6 @@
         };
 
       $scope.dataFound = true;
-      $scope.message = constants.DATA_NOT_AVAILABLE_MSG;
-      $scope.style= constants.DATA_NOT_AVAILABLE_STYLE;
-
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
 
         function getScreenAndFormatData () {
@@ -33,6 +30,10 @@
                 }
 
             });
+        };
+
+        $scope.getMessageForDataNotAvailable = function () {
+            return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {

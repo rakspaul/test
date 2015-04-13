@@ -38,8 +38,8 @@
         <span id="brands"></span>
         <span id="campaigns"></span>
     </div>
-      <not-found style-class="style" message="message" ng-show="!dataFound&&!spendBusy">
-      </not-found>
+      <div  ng-if="!dataFound&&!spendBusy" ng-bind-html="getMessageForDataNotAvailable()">
+      </div>
   </div>
 
 
