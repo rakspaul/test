@@ -1,7 +1,11 @@
 <div id="calendar_widget">
-	<div class="calendar_tooltip" style="display:none" ng-show="!calendarBusy">Active</div>
+	<!-- <div class="calendar_tooltip" style="display:none" ng-show="!calendarBusy">Active</div> -->
     <div class="common_loading_icon" ng-show="calendarBusy"></div>
 
+    <div class="div-chart">
+    	<div class="calendar_tooltip" style="display:none" ng-show="!calendarBusy">Active</div>
+
+    </div>
     <div  ng-if="!calendarData&&!calendarBusy" ng-bind-html="getMessageForDataNotAvailable()">
     </div>
 </div>

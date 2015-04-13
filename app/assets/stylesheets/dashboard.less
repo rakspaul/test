@@ -246,9 +246,10 @@
     border : solid 1px #dde6eb ;
     background: #fff;
     position: relative;
-    #calendar_widget {
+    .div-chart {
       position: relative;
-      .calendar_tooltip {
+    }
+    .calendar_tooltip {
         position: absolute;
         z-index: 2000;
         top: 0;
@@ -273,7 +274,10 @@
           border-top-color: rgba(0,0,0,0.8);
           left: 45%;
         }
-      }
+    }
+    #calendar_widget {
+      /*position: relative;*/
+
     }
     .dashboard_heading {
       .tooltip_holder {

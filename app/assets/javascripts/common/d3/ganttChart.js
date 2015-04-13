@@ -170,7 +170,21 @@
                 initTimeDomain(tasks);
                 initAxis();
 
-                var svg = d3.select("#calendar_widget")
+                 var svgHeader = d3.select("#calendar_widget")
+                    .append("svg")
+                    .attr("class", "header-chart")
+                    .style("position","absolute")
+                    .style("top","0")
+                    .style("left","-6px")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", 50)
+                    .append("g")
+                    .attr("class", "gantt-chart-head")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", 50)
+                    .attr("transform", "translate(0, " + margin.top + ")");
+
+                var svg = d3.select("#calendar_widget").select(".div-chart")
                     .append("svg")
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
@@ -185,6 +199,22 @@
                 svg.append('rect').attr("class", "marker");
                 svg.append('rect').attr("class", "marker_body");
 
+                
+                svgHeader.append("rect").attr("class", "header_background");
+                svgHeader.append('rect').attr("class", "marker");
+                svgHeader.append('rect').attr("class", "marker_body");
+
+                svgHeader.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
+                    .transition()
+                    .call(xAxis)
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
+                        return 10
+                    });
+
+                svgHeader.append("g").attr("class", "y axis").transition().call(yAxis);
+
                 svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
@@ -196,8 +226,8 @@
 
                 svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
-                svg.append("line").attr("class", "axis_top");
-                svg.append("line").attr("class", "axis_bottom");
+                svgHeader.append("line").attr("class", "axis_top");
+                svgHeader.append("line").attr("class", "axis_bottom");
 
 
                 gantt.draw(tasks);
@@ -212,8 +242,8 @@
 
                 var prevScale = 0;
 
-                var svg = d3.select("#calendar_widget").select("svg");
-
+                var svg = d3.select("#calendar_widget").select("svg.chart");
+                var svgHeader = d3.select("#calendar_widget").select("svg.header-chart");
                 //-------
 
 
@@ -316,9 +346,9 @@
 
 
                 var ganttChartGroup = svg.select(".gantt-chart");
-
+                var ganttChartHeaderGroup = svgHeader.select(".gantt-chart-head");
                 //axis top line
-                ganttChartGroup.selectAll('line.axis_top')
+                ganttChartHeaderGroup.selectAll('line.axis_top')
                     .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", -20)
@@ -327,9 +357,19 @@
                     .style("fill", "none")
                     .style("shape-rendering", "crispEdges");
 
+                //HEADER BACKGROUND
+                ganttChartHeaderGroup.selectAll('rect.header_background')
+                    .style("stroke", "#fff")
+                    .attr("x", 0)
+                    .attr("y", -20)
+                    .attr("width", width)
+                    .attr("height", 46)
+                    .style("fill", "#fff")
+                    .style("shape-rendering", "crispEdges");
+
                 //axis second line
                 //TODO: add Vertical gradient from #939ead to #e9ebee. Opacity 0.3
-                ganttChartGroup.selectAll('line.axis_bottom')
+                ganttChartHeaderGroup.selectAll('line.axis_bottom')
                     .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", 26)
@@ -634,7 +674,7 @@
                     .on('mouseover', function(d) {
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) + 25,
-                        yPosition = (y(d.taskName)*2 ) - 15;
+                        yPosition = (y(d.taskName) * 2) - 15;
                         d3.select(".calendar_tooltip")
                             .style("display", "block")
                             .style("left", xPosition + "px")
@@ -649,7 +689,7 @@
                     .transition()
                     .attr("transform", rectTransform);
                 //today marker
-                ganttChartGroup.select("rect.marker")
+                ganttChartHeaderGroup.select("rect.marker")
                     .attr("x", 0)
                     .attr("y", 1)
                     .attr("class", "marker")
@@ -682,6 +722,32 @@
                             return 0; //height - margin.top
                         } else {
                             return 4;
+                        }
+
+                    })
+                    .transition()
+                    .attr("transform", markerTransform);
+
+                    //body-header
+                ganttChartHeaderGroup.select("rect.marker_body")
+                    .attr("x", 0)
+                    .attr("y", 4)
+                    .attr("class", "marker_body")
+                    //.attr("style", "cursor:pointer")
+                    .attr("fill", '#f5f9fd')
+                    .attr("width", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 40) {
+                            width = 0;
+                        }
+                        return width;
+                    })
+                    .attr("height", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 40) {
+                            return 0;
+                        } else {
+                            return height - margin.top;
                         }
 
                     })
@@ -954,6 +1020,78 @@
                 //  	return width;
                 //  });
                 //today marker transition
+
+                svgHeader.select(".x").transition().call(xAxis)
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
+                    .attr("x", function(d, i) {
+                        //formatting for ticks
+                        if (timeDomainString == "month") {
+                            if (i == 0) {
+                                return 10;
+                            } else {
+                                return 10;
+                            }
+                        } else if (timeDomainString == "today") {
+                            if (i == 0) {
+                                return 30;
+                            } else {
+                                return 60;
+                            }
+                        } else if (timeDomainString == "year") {
+                            if (i == 0) {
+                                return 16;
+                            } else {
+                                return 26;
+                            }
+                        } else {
+                            if (i == 0) {
+                                return 128;
+                            } else {
+                                return 145;
+                            }
+                        }
+                    })
+                    .attr("y", function(d, i) {
+                        //formatting for ticks
+                        if (timeDomainString == "month") {
+                            if (i == 0) {
+                                return (height - 10) * -1;
+                            } else {
+                                return (height - 70) * -1;
+                            }
+                        } else {
+                            return (height - 50) * -1;
+                        }
+                    })
+                    .call(wrap, 10, timeDomainString, function(d, i) {
+                        //formatting for ticks
+                        if (timeDomainString == "month") {
+                            if (i == 0) {
+                                return 5;
+                            } else {
+                                return 10;
+                            }
+                        } else if (timeDomainString == "today") {
+                            if (i == 0) {
+                                return 60;
+                            } else {
+                                return 60;
+                            }
+                        } else if (timeDomainString == "year") {
+                            if (i == 0) {
+                                return 26;
+                            } else {
+                                return 26;
+                            }
+                        } else {
+                            if (i == 0) {
+                                return 145;
+                            } else {
+                                return 145;
+                            }
+                        }
+                    }, height);
+
                 svg.select(".x").transition().call(xAxis)
                     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
                     .attr("x", function(d, i) {
@@ -1025,6 +1163,8 @@
                         }
                     }, height);
 
+                
+
                 // svg.select(".x").transition().call(xAxis)
                 //     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
                 // 		//formatting for ticks
@@ -1041,11 +1181,12 @@
                 //     });
 
 
-
                 svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style", "font-weight:bold;font-family:Avenir;font-size:13pt");
 
+                svgHeader.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style", "font-weight:bold;font-family:Avenir;font-size:13pt");
+
                 return gantt;
-            };
+            };//END OF DRAW
 
             gantt.redraw = function(tasks, timeDomainString) {
                 //console.log('redraw');
