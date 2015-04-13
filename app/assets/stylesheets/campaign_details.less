@@ -27,7 +27,6 @@ body {
   font-size: 12px;
 }
 .reload-img {
-  content: " ";
   background: url("/assets/images/cdesk/reload.png") no-repeat 6px 2px ;
   height: 24px;
   width: 24px;
@@ -800,7 +799,7 @@ body {
       }
       .internal_legend {
         .legend {
-          background: #777 ;
+          border : solid 3px #777 ;
         }
       }
       .no-data-available {
@@ -1130,19 +1129,20 @@ multiselect .dropdown-menu > li > a {
 
 
 .common_graph_legend {
-  margin: 0px auto 0 185px ; 
-  width: 220px ;
+  margin: 0px auto 0 165px ; 
+  width: 240px ;
   .graph_legends {
       float: left;
       margin-right: 30px ;
+      line-height: 25px;
       .legend {
         display: inline-block;
-        height: 17px ;
-        width: 17px ;
-        border-radius: 17px ;
-        -webkit-border-radius : 17px ;
-        -moz-border-radius : 17px ;
-        background: #0072bc;
+        height: 22px ;
+        width: 22px ;
+        border-radius: 22px ;
+        -webkit-border-radius : 22px ;
+        -moz-border-radius : 22px ;
+        border : solid 3px #0072bc;
         float: left;
         margin-right: 10px ;
       }
@@ -1153,7 +1153,7 @@ multiselect .dropdown-menu > li > a {
     }
     .internal_legend {
         .legend {
-          background: #777 ;
+          border : solid 3px #777 ;
         }
       }
   }
