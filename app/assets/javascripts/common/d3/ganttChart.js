@@ -184,7 +184,7 @@
                     .attr("height", 50)
                     .attr("transform", "translate(0, " + margin.top + ")");
 
-                var svg = d3.select("#calendar_widget")
+                var svg = d3.select("#calendar_widget").select(".div-chart")
                     .append("svg")
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
@@ -674,7 +674,7 @@
                     .on('mouseover', function(d) {
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) + 25,
-                        yPosition = (y(d.taskName)*2) - 15;
+                        yPosition = (y(d.taskName) * 2) - 15;
                         d3.select(".calendar_tooltip")
                             .style("display", "block")
                             .style("left", xPosition + "px")
