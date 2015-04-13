@@ -191,7 +191,8 @@
                 for (var len = 0; len < morDataLen; len++) {
                     tmpCampaignStrategiesArr.push(moreData[len]);
                 }
-                $scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
+                //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
+                $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
             }
         };
 
