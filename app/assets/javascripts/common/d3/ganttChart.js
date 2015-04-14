@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", function(loginModel, analytics) {
+    commonModule.service("ganttChart", function(loginModel, analytics, $location) {
         this.createGanttChart = function() {
 
         };
@@ -388,7 +388,7 @@
                     .on("click", function(d) {
                         if (d.type != "brand") {
                             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
-                            document.location = '#/campaigns/' + d.id;
+                            $location.path('/campaigns/' + d.id);
                         }
                     })
 

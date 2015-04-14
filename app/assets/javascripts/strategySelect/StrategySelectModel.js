@@ -35,6 +35,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
         getSelectedStrategy: function() {
             return strategyObj.selectedStrategy; //(localStorage.getItem('selectedStrategy') == undefined)? strategyObj.selectedStrategy : JSON.parse(localStorage.getItem('selectedStrategy')) ;
         },
+
         getStrategyCount : function() {
             return strategyObj.strategies.length;
         },

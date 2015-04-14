@@ -5,7 +5,7 @@
     <div class="each_campaign_section campaign_list_details">
         <div class="heading_holder">
             <div class="main_heading">
-                <a ng-href="#/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75"></truncate-text-with-hover></a>
+                <a ng-href="/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75"></truncate-text-with-hover></a>
             </div>
             <div class="heading">
                 {{campaign.brandName }}
@@ -34,7 +34,7 @@
                     View Report
                 </div>
             </a>
-            <a href="/#/campaigns/{{campaign.orderId}}" ng-click="campaigns.findShortCutKey(campaign,$event)" class="action_bubble_holder" id="campaigns_activity_btn">
+            <a href="/campaigns/{{campaign.orderId}}" ng-click="campaigns.findShortCutKey(campaign,$event)" class="action_bubble_holder" id="campaigns_activity_btn">
                 <div class="campaign_btn actions_btn">
                     <span>Activity</span>
                     <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
