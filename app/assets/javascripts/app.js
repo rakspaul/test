@@ -28,27 +28,33 @@ var angObj = '';
         $routeProvider
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
+                title : 'Campaign Details',
                 controller: 'CampaignDetailsController'
             })
             .when('/optimization', {
-              templateUrl: assets.html_optimization,
-              controller: 'OptimizationController'
+                templateUrl: assets.html_optimization,
+                title :  'Reports - Optimization',
+                controller: 'OptimizationController'
             })
             .when('/inventory', {
-              templateUrl: assets.html_inventory ,
-              controller: 'InventoryController'
+                templateUrl: assets.html_inventory ,
+                title :  'Reports - Inventory',
+                controller: 'InventoryController'
               
             })
             .when('/viewability', {
                 templateUrl: assets.html_viewability,
+                title :  'Reports - Viewability',
                 controller: 'viewabilityController'
             })
             .when('/cost', {
                 templateUrl: assets.html_cost,
+                title :  'Reports - Cost',
                 controller: 'costController'
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,
+                title :  'Reports - Performance',
                 controller: 'performanceController'
             })
             .otherwise({redirectTo: setDefaultPage});
@@ -75,16 +81,29 @@ var angObj = '';
             }
         });
 
-        var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function () {
+        var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
             var locationPath = $location.path();
-            if(loginModel.getLoginName()) {
+            if (loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
             }
-            
-            if(locationPath == '/dashboard'){
-                $rootScope.bodyclass='dashboard_body';
-            } else{
-                $rootScope.bodyclass='';
+
+            if (locationPath == '/dashboard') {
+                current.$$route.title = 'Dashboard'
+                $rootScope.bodyclass = 'dashboard_body';
+            } else {
+                $rootScope.bodyclass = '';
+            }
+
+            if ($location.path() == '/campaigns'){
+                current.$$route.title = 'Campaign List';
+            }
+
+            if($location.path() == '/login'){
+                current.$$route.title = 'Login'
+            }
+
+            if (current.hasOwnProperty('$$route')) {
+                $rootScope.title = current.$$route.title;
             }
         });
 

@@ -374,16 +374,18 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
             $scope.dataInit();
-            $scope.paramObj = {isActionItemsSet : false};
+            $scope.paramObj = {isActionItemsSet : false, isCampaignChanged: true};
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ; //update the selected Campaign
             $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {
             $scope.paramObj = $scope.paramObj || {};
-            if($scope.paramObj.isActionItemsSet) { //if action Items is not set
+            if($scope.paramObj.isActionItemsSet && !$scope.paramObj.isCampaignChanged) { //if action Items is not set
                 $scope.setStrategyInScope();
                 $scope.cbStrategyChange();
+            } else {
+                $scope.paramObj.isCampaignChanged = false;
             }
         });
 
