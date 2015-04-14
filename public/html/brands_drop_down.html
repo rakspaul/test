@@ -17,3 +17,12 @@
     </div>
   </ul>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#brandsDropdownDiv").click(function(){
+    $('.brandsList_ul').animate({
+            scrollTop: $(this).offset().top -20+'px'
+        },"fast");
+    }); 
+  });
+</script>
