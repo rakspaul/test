@@ -14,7 +14,7 @@
 
             var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
 
-            var CALENDAR_WIDTH = 1084;
+            var CALENDAR_WIDTH = 1082;
 
             var isSingleBrand = false;
 
@@ -173,8 +173,8 @@
                  var svgHeader = d3.select("#calendar_widget")
                     .select(".div-header-chart")
                         .style("position","absolute")
-                        .style("top","0")
-                        .style("left","-6px")
+                        .style("top","0px")
+                        .style("left","24px")
                     .append("svg")
                     .attr("class", "header-chart")
                     .attr("width", width + margin.left + margin.right)
@@ -194,7 +194,7 @@
                     .attr("class", "gantt-chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
-                    .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+                    .attr("transform", "translate(0, " + margin.top + ")");
 
                 //changing rendering order to fix day marker under tick text
                 svg.append('rect').attr("class", "marker");
@@ -674,7 +674,7 @@
                     })
                     .on('mouseover', function(d) {
                         //mouseover on icon - display tooltip
-                        var xPosition = x(d.startDate) + 25,
+                        var xPosition = x(d.startDate) - 15,
                         yPosition = (y(d.taskName) * 2) - 15;
                         d3.select(".calendar_tooltip")
                             .style("display", "block")
