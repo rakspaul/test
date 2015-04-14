@@ -171,11 +171,12 @@
                 initAxis();
 
                  var svgHeader = d3.select("#calendar_widget")
+                    .select(".div-header-chart")
+                        .style("position","absolute")
+                        .style("top","0")
+                        .style("left","-6px")
                     .append("svg")
                     .attr("class", "header-chart")
-                    .style("position","absolute")
-                    .style("top","0")
-                    .style("left","-6px")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
                     .append("g")
