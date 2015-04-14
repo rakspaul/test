@@ -111,7 +111,7 @@
                 //if(isSingleBrand) {
                 //range = tasks.length * 25;
                 //}
-                x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
+                x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true).nice(d3.time.day);
                 y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, range]);
 
                 //TO DO - better names
@@ -171,17 +171,18 @@
                 initAxis();
 
                  var svgHeader = d3.select("#calendar_widget")
+                    .select(".div-header-chart")
+                        .style("position","absolute")
+                        .style("top","0")
+                        .style("left","-6px")
                     .append("svg")
                     .attr("class", "header-chart")
-                    .style("position","absolute")
-                    .style("top","0")
-                    .style("left","-6px")
                     .attr("width", width + margin.left + margin.right)
-                    .attr("height", 50)
+                    .attr("height", 47)
                     .append("g")
                     .attr("class", "gantt-chart-head")
                     .attr("width", width + margin.left + margin.right)
-                    .attr("height", 50)
+                    .attr("height", 47)
                     .attr("transform", "translate(0, " + margin.top + ")");
 
                 var svg = d3.select("#calendar_widget").select(".div-chart")
