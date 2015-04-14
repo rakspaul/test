@@ -35,7 +35,7 @@
         strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
 
         $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-      document.location = '#/performance';
+        $location.path('/performance');
     };
 
     $scope.loadMoreStrategies = function(campaignId) {

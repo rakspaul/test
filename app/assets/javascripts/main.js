@@ -152,12 +152,11 @@
       'services-momentService': {deps: ['login-LoginModel']},
       'common-directive-DataNotFound':{deps:['CommonModule']}
     },
-    optimize: 'uglify2',
+    /*optimize: 'uglify2',
     uglify2: {
     warnings: false,
-    /* Mangling defeats Angular injection by function argument names. */
       mangle: false
-    },
+    },*/
     paths: {
       'requirejs': 'vendor/require.min',
       'jquery': 'vendor/jquery.min',
