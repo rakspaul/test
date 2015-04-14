@@ -156,66 +156,39 @@ button, i, input[type="submit"] {
 .delivering {
   width: 24px;
   height: 24px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  display: inline-block;/*
+  background: url("/assets/images/cdesk/status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);*/
 }
 
 .paused {
   width: 24px;
   height: 24px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  display: inline-block;/*
+  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);*/
 }
 
 .pushed {
   width: 24px;
   height: 24px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  display: inline-block;/*
+  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);*/
 }
 
 .completed {
   width: 24px;
   height: 24px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  display: inline-block;/*
+  background: url("/assets/images/cdesk/status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);*/
 }
 
 .draft {
   width: 24px;
   height: 24px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  display: inline-block;/*
+  background: url("/assets/images/cdesk/status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);*/
 }
 
-/* strategies status */
-#collapseOne .Delivering {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_delivering_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
 
-#collapseOne .Pushed {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_paused_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
-
-#collapseOne .Completed {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_complete_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
-
-#collapseOne .Draft {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_draft_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
 
 /* ajax-spinner-loader */
 .loading-spinner-holder {
@@ -258,8 +231,8 @@ button, i, input[type="submit"] {
             width: 10px;
             height: 12px;
             display: inline-block;
-            vertical-align: baseline;
-            background: url("/assets/images/cdesk/static-caret.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+            vertical-align: baseline;/*
+            background: url("/assets/images/cdesk/static-caret.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);*/
           }
           .dropdown-menu {
             padding: 0;
@@ -334,122 +307,6 @@ button, i, input[type="submit"] {
         > input::-moz-placeholder { color: @textColorWhite;opacity: 1 ; }
         > input:-moz-placeholder { color: @textColorWhite; opacity: 1 ;}
         > input:-ms-input-placeholder { color: @textColorWhite;opacity: 1 ; }
-      }
-    }
-    .campaign-title-head {
-      margin-bottom: 20px;
-      .clearfix.top-margin {
-        margin-bottom: 0;
-      }
-      ul {
-        padding: 0 20px 0 30px;
-        overflow: hidden;
-        li {
-          padding-left: 15px;
-          list-style: none;
-          &:first-child {
-            padding-left: 0;
-          }
-          span {
-            width: 100%;
-            padding-bottom: 2px;
-            display: inline-block;
-            border-bottom: 1px solid @textGreyColor;
-            width: 96%;
-            font-weight: bold;
-            margin-right: 15px;
-            display: inline-block;
-            text-transform: uppercase;
-            .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
-          }
-          a {
-            width: 100%;
-            cursor: pointer;
-            padding-bottom: 2px;
-            display: inline-block;
-            border-bottom: 1px solid @textGreyColor;
-            span {
-              width: 96%;
-              font-weight: bold;
-              margin-right: 15px;
-              display: inline-block;
-              text-transform: uppercase;
-              .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
-              &.active {
-                color: @textHeadingColor;
-              }
-
-              > span.default-sort, > span.ascending, > span.descending {
-                margin: 0;
-                width: 8px;
-                padding: 0;
-                height: 13px;
-                vertical-align: top;
-                border-bottom: none;
-                display: inline;
-                background: url("/assets/images/cdesk/sort-blue.png") no-repeat 0 0px rgba(0, 0, 0, 0);
-              }
-            }
-            &:hover {
-              text-decoration: none;
-            }
-            > span > span.ascending {
-              margin: 0;
-              width: 8px;
-              padding: 0;
-              height: 13px;
-              vertical-align: bottom;
-              border-bottom: none;
-              display: inline-block;
-              background: url("/assets/images/cdesk/ascending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
-            }
-            > span > span.descending {
-              margin: 0;
-              width: 8px;
-              padding: 0;
-              height: 13px;
-              vertical-align: bottom;
-              border-bottom: none;
-              display: inline-block;
-              background: url("/assets/images/cdesk/descending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
-            }
-          }
-          &:nth-child(2) {
-            li a {
-              width: auto;
-              margin-bottom: 0;
-              border-bottom: none;
-              > span {
-                display: inline-block;
-                > span {
-                  top: 7px;
-                  position: absolute;
-                  display: inline-block;
-                }
-              }
-            }
-            ul {
-              padding: 0;
-              width: 95%;
-              border-bottom: 1px solid @textGreyColor;
-              li {
-                display: inline-block;
-                border-bottom: none;
-                padding-left: 5px;
-                &:first-child {
-                  padding-left: 0;
-                }
-              }
-            }
-            > ul li span {
-              border-bottom: none;
-            }
-          }
-        }
-        li.col-md-6.pull-right {
-          text-align: center;
-          padding: 0 5px 15px 15px;
-        }
       }
     }
     .campaign {
@@ -606,13 +463,6 @@ button, i, input[type="submit"] {
           .kpi-num {
             font-family: @secondaryFont;
           }
-          .kpi-goal {
-            width: 17px;
-            height: 18px;
-            display: inline-block;
-            vertical-align: sub;
-            background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-          }
         }
       }
       .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
@@ -691,13 +541,6 @@ button, i, input[type="submit"] {
         .ctr-value {
           .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
-        .goal-image {
-          width: 17px;
-          height: 18px;
-          display: inline-block;
-          vertical-align: sub;
-          background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-        }
         .action-data {
           .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
@@ -724,8 +567,8 @@ button, i, input[type="submit"] {
       margin-bottom: 20px;
     }
     .inner-accordion {
-      margin-top: -2px;
-      background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
+      margin-top: -2px;/*
+      background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);*/
       &.first {
         margin-top: 0;
       }
@@ -753,9 +596,9 @@ button, i, input[type="submit"] {
           }
         }
       }
-      &:last-child {
+      /*&:last-child {
         background: url("/assets/images/cdesk/accordion-line-end.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
-      }
+      }*/
       .tactics_outer_container  {
         display: none;
         .panel-collapse.collapse.in {
@@ -763,7 +606,7 @@ button, i, input[type="submit"] {
           background: #D1CFCA ;
         }
         .each_tactics_holder {
-          background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -26px 0px;
+          /*background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -26px 0px;*/
 
           .panel-body.row-fluid {
             .col-md-12 {
@@ -788,9 +631,9 @@ button, i, input[type="submit"] {
              
             }
           }
-          &:last-child {
+          /*&:last-child {
             background: url("/assets/images/cdesk/accordion-line-end.png") no-repeat scroll -27px 0px ;
-          }
+          }*/
         }
       }
       .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
@@ -956,13 +799,6 @@ button, i, input[type="submit"] {
               .ctr-value {
                 .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
-              .goal-image {
-                width: 17px;
-                height: 18px;
-                display: inline-block;
-                vertical-align: sub;
-                background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-              }
               .action-data {
                 .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
@@ -992,13 +828,6 @@ button, i, input[type="submit"] {
               }
               .kpi-num {
                 font-family: @secondaryFont;
-              }
-              .kpi-goal {
-                width: 17px;
-                height: 18px;
-                display: inline-block;
-                vertical-align: sub;
-                background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
               }
             }
           }
@@ -1622,36 +1451,6 @@ button, i, input[type="submit"] {
       }
       .status_section_each_partition:last-child {
         float: right;
-      }
-    }
-    .status_bar_section_details {
-      position: relative;
-      border-top: solid 3px #d2dde5;
-      margin-right: 10px;
-      padding-top: 12px ;
-      display: none;
-      .arrow_down_middle {
-        position: absolute;
-        width: 100% ;
-        height: 12px ;
-        top : -3px ;
-        text-align: center;
-        background: url("/assets/images/statusBar/dropdown_1.png") no-repeat center 0px ;
-        span {
-          height : 20px ;
-          width : 20px ;
-          border : solid 2px #ebebeb ;
-        }
-      }
-      .status_bar_section_value {
-        font-size: 14pt;
-        font-family: "TradeGothicLTStd-BdCn20";
-        color: #3b3c3c;
-      }
-      .status_bar_section_name {
-        font-family: "Avenir" ;
-        color: #959da2 ;
-        font-size: 14px ;
       }
     }
   }
