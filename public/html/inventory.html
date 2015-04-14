@@ -82,22 +82,24 @@
                                 </span>
                             </span>
                     </div>
-                    <div class="inventory_chart_details_list"
-                         data-ng-repeat="stable in strategyTableData track by $index">
+                    <div class="pull-right inventory_chart_details_list_holder">
+                        <div class="inventory_chart_details_list"
+                             data-ng-repeat="stable in strategyTableData track by $index">
 
-                        <div class="chart_details_cols_row inventory_each_chart_details clearfix">
-                            <span class="row_index">{{$index + 1}}</span>
-                            <span class="url_val" title="{{stable.domain_data}}"
-                                  ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
+                            <div class="chart_details_cols_row inventory_each_chart_details clearfix">
+                                <span class="row_index">{{$index + 1}}</span>
+                                <span class="url_val" title="{{stable.domain_data}}"
+                                      ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
 
-                            <span class="url_val" title="{{stable.domain_data}}"
-                                  ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
-                                <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :20 }}</a>
-                             </span>
+                                <span class="url_val" title="{{stable.domain_data}}"
+                                      ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
+                                    <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :20 }}</a>
+                                 </span>
 
-                            <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
-                            <span class="cpa_col cpa_data pull-right">{{stable.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
+                                <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
+                                <span class="cpa_col cpa_data pull-right">{{stable.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
 
+                            </div>
                         </div>
                     </div>
                 </div>
