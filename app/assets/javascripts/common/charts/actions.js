@@ -278,7 +278,7 @@
                         title: {
                             align: 'high',
                             offset: 13,
-                            text: kpiType,
+                            text: (kpiType === kpiType.toUpperCase()) ? kpiType : kpiType.toUpperCase(),
                             rotation: 0,
                             y: -5
                         },
