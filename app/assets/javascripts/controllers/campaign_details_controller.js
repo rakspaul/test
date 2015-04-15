@@ -108,7 +108,8 @@
 
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                $scope.getCdbChartData($scope.campaign);
+                //$scope.getCdbChartData($scope.campaign);
+                updateActionItems($scope.getCdbChartData,1);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
@@ -136,15 +137,42 @@
         }, function(result) {
             console.log('call failed');
         });
-
-        updateActionItems();
+         $scope.getCdbChartData = function(campaign) {
+            //API call for campaign chart
+            dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
+                var lineData = [], showExternal = true;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    if (!angular.isUndefined($scope.campaign.kpiType)) {
+                        if (result.data.data.measures_by_days.length > 0) {
+                            var maxDays = result.data.data.measures_by_days;
+                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
+                            for (var i = 0; i < maxDays.length; i++) {
+                                maxDays[i]['ctr'] *= 100;
+                                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
+                                lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
+                            }
+                            $scope.details.lineData = lineData;
+                           // $timeout(function() {
+                                $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
+                            //},10000);
+                            if ((localStorage.getItem('actionSel') !== null)) {
+                                $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
+                            }
+                        }
+                    } else {
+                        $scope.details.actionChart = false;
+                    }
+                } else {
+                    $scope.details.actionChart = false;
+                }
+            });
+        };
 
         var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function() {
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-            updateActionItems();
+            updateActionItems($scope.getCdbChartData,0);
         });
-
-        function updateActionItems() {
+        function updateActionItems(callbackCDBGraph,loadingFlag) {
             $scope.activityLogFlag = false;
             var actionUrl = urlService.APIActionData($routeParams.campaignId);
             dataService.getActionItems(actionUrl).then(function(result) {
@@ -173,6 +201,10 @@
                 } else { //if error
                     activityList.data.data = undefined;
                 }
+                if(loadingFlag == 1){
+                    callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                }
+               
             }, function(result) {
                 console.log('call failed');
             });
@@ -425,37 +457,7 @@
                 console.log('cost viewability call failed');
             });
         };
-        $scope.getCdbChartData = function(campaign) {
-            //API call for campaign chart
-            dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
-                var lineData = [], showExternal = true;
-                if (result.status == "success" && !angular.isString(result.data)) {
-                    if (!angular.isUndefined($scope.campaign.kpiType)) {
-                        if (result.data.data.measures_by_days.length > 0) {
-                            var maxDays = result.data.data.measures_by_days;
-                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
-                            for (var i = 0; i < maxDays.length; i++) {
-                                maxDays[i]['ctr'] *= 100;
-				                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
-                                lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
-                            }
-                            $scope.details.lineData = lineData;
-                           // $timeout(function() {
-                                $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
-                            //},10000);
-                            if ((localStorage.getItem('actionSel') !== null)) {
-                                $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
-                            }
-                        }
-                    } else {
-                        $scope.details.actionChart = false;
-                    }
-                } else {
-                    $scope.details.actionChart = false;
-                }
-            });
-        };
-
+        
         $scope.viewReports = function(campaign, strategy){
             campaignSelectModel.setSelectedCampaign(campaign);
             strategySelectModel.setSelectedStrategy(strategy);
