@@ -13,7 +13,7 @@ echo "CRPT UI SnapShot unzipped."
 
 
 CONF_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.conf
-CONF_EWR_PROD_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_prod.conf
+CONF_EWR_PROD_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_prod_beta.conf
 
 echo "Its EWR Production environment !!!"
 cp ${CONF_EWR_PROD_FILE} ${CONF_FILE}
