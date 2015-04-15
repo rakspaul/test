@@ -89,11 +89,11 @@
                             <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                                 <span class="row_index">{{$index + 1}}</span>
                                 <span class="url_val" title="{{stable.domain_data}}"
-                                      ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
+                                      ng-if="(selected_filters_tab !== 'fulldomains' && selected_filters_tab !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
 
                                 <span class="url_val" title="{{stable.domain_data}}"
-                                      ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
-                                    <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :20 }}</a>
+                                      ng-if="(selected_filters_tab == 'fulldomains' || selected_filters_tab == 'parentdomains' )">
+                                    <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :15 }}</a>
                                  </span>
 
                                 <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
@@ -137,21 +137,24 @@
                             </span>
 
                     </div>
-                    <div class="inventory_chart_details_list">
-                        <div class="chart_details_cols_row inventory_each_chart_details clearfix"
-                             ng-repeat="tableData in tactic.data track by $index">
-                            <span class="row_index">{{$index + 1}}</span>
-                            <span class="url_val" title="{{tableData.domain_data}}"
-                                  ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>
-                            <span class="url_val" title="{{tableData.domain_data}}"
-                                  ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
-                                <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:20}}</a>
-                             </span>
-                            <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
-                            <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
+                    <div class="pull-right inventory_chart_details_list_holder">
+                        <div class="inventory_chart_details_list">
+                            <div class="chart_details_cols_row inventory_each_chart_details clearfix"
+                                 ng-repeat="tableData in tactic.data track by $index">
+                                <span class="row_index">{{$index + 1}}</span>
+                                <span class="url_val" title="{{tableData.domain_data}}"
+                                      ng-if="(selected_filters_tab !== 'fulldomains' && selected_filters_tab !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>
+                                <span class="url_val" title="{{tableData.domain_data}}"
+                                      ng-if="(selected_filters_tab == 'fulldomains' || selected_filters_tab == 'parentdomains' )">
+                                    <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:15}}</a>
+                                 </span>
+                                <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
+                                <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
