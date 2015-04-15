@@ -266,7 +266,6 @@ var angObj = angObj || {};
             var selectedAction = (typeof localStorage.getItem('selectedAction') == 'undefined') ? {} : JSON.parse(localStorage.getItem('selectedAction')) ;
             if( typeof $scope.actionItems != 'undefined' && !$.isEmptyObject(selectedAction) && selectedAction.id !== undefined ){
                 $scope.actionId =  selectedAction.id ;  //action.ad_id + '' + action.id;
-
                 $scope.showSelected(selectedAction.ad_id+''+selectedAction.id,selectedAction.make_external);
             }
         };
@@ -370,6 +369,7 @@ var angObj = angObj || {};
 
         $scope.callBackCampaignsSuccess = function () {
             $scope.getCampaignDetails($scope.callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
+            $scope.setDownloadUrls();
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
