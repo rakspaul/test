@@ -139,6 +139,11 @@
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
         });
+        $(function() {
+          $("#campaignsDropdownDiv").on('click',  function(){
+                $('#campaigns_list').scrollTop(0)  
+            }); 
+        });
 
 
 

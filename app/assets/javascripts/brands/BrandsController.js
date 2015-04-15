@@ -100,5 +100,10 @@
       return utils.highlightSearch(text, search);
     };
     $scope.brandData = brandsModel.getBrand();
+    $(function() {
+      $("header").on('click',  '#brandsDropdownDiv',  function(){
+        $('.brandsList_ul').scrollTop($(this).offset().top -20+'px')
+      });
+    });
   });
 }());
