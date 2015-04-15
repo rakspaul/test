@@ -5,9 +5,7 @@
 # Home page
 GET      /                      controllers.Application.index(any = "none")
 
-# Play routes serving HTML to AngularJS start with /views
-GET      /views/*any            controllers.Application.loadPublicHTML(any)
-
+GET     /jsroutes.js            controllers.Application.jsRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
