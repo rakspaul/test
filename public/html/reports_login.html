@@ -1,11 +1,15 @@
 <div class="reports_login_outer_container">
+  <div class="reports_login_box_holder">
     <div class="reports_login_box">
-        <a class="collective_logo" href=".myModal" data-toggle="modal" ></a>
-        <div class="clearfix">
-          <div class="pull-left collective_ads" >
-             <!-- <script language="JavaScript" src="http://a.collective-media.net/adj/mk.collective/ron_collective_marketingpurposes;unit=ron_collective_marketingpurposes;sz=720x300;cmn=cm;ord=[timestamp]?" type="text/javascript"></script> -->
+        <div class="collective_logo_holder"><a class="collective_logo" href="javascript:void(0);" data-toggle="modal" data-target=".myModal"></a></div>
+        <div class="clearfix collective_ad_form_holder">
+          <div class="pull-right collective_ads" >
+             <iframe src="https://a.collective-media.net/adi/mk.collective/ron_collective_marketingpurposes;unit=ron_collective_marketingpurposes;env=ifr;sz=720x300;ord=[timestamp]?" width="720" height="300" marginwidth="0" marginheight="0" frameborder="0" scrolling="no">
+                <script type="text/javascript" src="https://a.collective-media.net/adj/mk.collective/ron_collective_marketingpurposes;unit=ron_collective_marketingpurposes;env=ifr;sz=720x300;abr=!ie;ord=[timestamp]?"></script>
+              </iframe>
+              <script type="text/javascript">var bap_skip_next = "r=0;";</script>
           </div>
-          <div class="pull-right collective_login">
+          <div class="pull-left collective_login">
             <form name="form" ng-submit="login()">
 
                 <div class="login_box_form_holder">
@@ -13,10 +17,10 @@
                             {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
                         </div>
                         <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>
+                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username">
                         </div>
                         <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" required>
+                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password">
                         </div>
                         <div class="signin_options_holder clearfix">
                             <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
@@ -41,26 +45,41 @@
             </form>
           </div>
         </div>
-        
-    </div>
-    <div class="login_copyright_holder">
-      <span class="login_copyright_span">Copyright &copy; 2015 Collective, Inc. All Rights Reserved</span>
-      <span class="login_copyright_span copyright_dot_separator"><span class="dot_separator">.</span></span> 
-      <span class="login_copyright_span"><a href="http://www.collective.com/about.html" target="_blank" >About Us</a></span>
-    </div>
 
+
+    
+      <div class="login_copyright_holder">
+        <span class="login_copyright_span">Copyright &copy; 2015 Collective, Inc. All Rights Reserved</span>
+        <span class="login_copyright_span copyright_dot_separator"><span class="dot_separator">.</span></span> 
+        <span class="login_copyright_span"><a href="http://www.collective.com/about.html" target="_blank" >About Us</a></span>
+      </div>
+   </div>
+ </div>
 </div>
+
 
 <script type="text/javascript">
 
+  $(document).ready( function() {
+    reports_login_position() ;
+  });
 
-var iframe = document.createElement('iframe');
-$(".collective_ads").append(iframe);
-var doc = iframe.contentWindow.document;
+  $( window ).resize(function() {
+    reports_login_position() ;
+  });
 
-// do this whenever you want (f.ex after ajax is made):
-doc.open();
-doc.write('<script src="https://a.collective-media.net/adj/mk.collective/ron_collective_marketingpurposes;unit=ron_collective_marketingpurposes;sz=720x300;cmn=cm;ord=[timestamp]?">\x3C/script>');
-doc.close();
+  function reports_login_position() {
+    var win_height = $(window).height() ;
+    var min_height = $(".collective_ad_form_holder").height() + $(".collective_ad_form_holder").offset().top + 100 ;
+    $( ".reports_login_box_holder" ).css( "height" , win_height );
+    if( win_height <= min_height ) {
+      $(".login_copyright_holder").css("position","static") ;
+    } else {
+      $(".login_copyright_holder").css("position","absolute") ;
+    }
+  }
+
 </script>
+
+
 

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCard', function (utils) {
+    angObj.directive('campaignCard', function (utils,constants) {
         return {
             restrict:'EAC',
 
@@ -122,6 +122,21 @@
                 $scope.goToLocation = function(url){
                     utils.goToLocation(url);
                 };
+
+              $scope.getMessageForDataNotAvailable = function (campaign) {
+                if (!campaign)
+                  return constants.MSG_DATA_NOT_AVAILABLE;
+                else  if ( campaign.durationLeft() == 'Yet to start')
+                  return constants.MSG_CAMPAIGN_YET_TO_START;
+                else if (campaign.daysSinceEnded() > 1000)
+                  return constants.MSG_CAMPAIGN_VERY_OLD;
+                else if (campaign.kpiType =='null')
+                  return constants.MSG_CAMPAIGN_KPI_NOT_SET;
+                else if (campaign.status == 'active')
+                  return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+                else
+                  return constants.MSG_DATA_NOT_AVAILABLE;
+              };
             } 
         };
     });

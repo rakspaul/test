@@ -74,32 +74,32 @@
                             Screens ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
                         <div class="clearfix each_section_graph format_section_graph"  ng-if="(details.screens.length > 0 &&  campaign.kpiType !='null' && screenTotal > 0 )">
-                            <div ng-repeat="screen in details.screens" class="each_bar_section_holder {{screen.icon}}">
+                            <div ng-repeat="screen in details.screens track by $index" class="each_bar_section_holder {{screen.icon}}">
                               <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')">{{screen.dimension}}{{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? ':':'' }} {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? (screen[details.kpiType] | kpiFormatter : campaign.kpiType):'' }}</div>
-                              <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " style="width:{{100-((details.screenTop-screen[details.kpiType])*100/details.screenTop)}}%"> 
+                              <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " ng-style="{'width':100-((details.screenTop-screen[details.kpiType])*100/details.screenTop) +'%'};"> 
                               </div>
                             </div>
                         </div>
                         
                          <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
-                         <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" >{{getMessageForDataNotAvailable(campaign,'screens')}}</div>
+                         <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
                          <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
-                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" >{{getMessageForDataNotAvailable(campaign,'costs')}}</div>
+                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'costs')"></div>
                         <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
                             <div class="pull-left section_graph">
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
                             </div> 
                             <div class="pull-right section_graph_details"  >
-                                <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
+                                <div class="each_detail" ng-repeat="data in getCostBreakdownInfo track by $index |orderBy:'-value':reverse" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
                                     <span class="graph_color {{data.className}}"></span>
                                     {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                 </div>
-                                 <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 && data.name =='Other')">
+                                 <div class="each_detail" ng-repeat="data in getCostBreakdownInfo track by $index |orderBy:'-value':reverse" ng-if="(data.value >= 0.5 && data.name =='Other')">
                                     <span class="graph_color {{data.className}}"></span>
                                     {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                 </div>
@@ -110,7 +110,7 @@
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
-                    <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
+                    <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_inventory" >
                         <div class="graph_heading">
                             Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
@@ -120,9 +120,9 @@
                             <div class="inventory_number">
                               Top {{details.inventory.length}}
                             </div>
-                            <div ng-repeat="data in details.inventory" class="each_bar_section_holder">
+                            <div ng-repeat="data in details.inventory track by $index" class="each_bar_section_holder">
                               <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
-                              <div class="each_bar_graph" style="width:{{100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value)}}%"></div>
+                              <div class="each_bar_graph" ng-style="{'width':100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value) +'%'};"></div>
                             </div>
                         </div>
                         
@@ -213,13 +213,12 @@
                       <div class="graph_activity">
                           <span ng-switch="details.actionChart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-data-available no-chart">{{getMessageForDataNotAvailable(campaign,'activities')}}</span>
+                            <span ng-switch-when="false" class="no-data-available no-chart" ng-bind-html="getMessageForDataNotAvailable(campaign,'activities')"></span>
                             <span ng-switch-default>
                                 <div ng-if="details.actionChart && campaign.kpiType" class="highcharts" id="details_chart">
                                     <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
                                 </div>
-                                <div ng-if="!(details.actionChart && campaign.kpiType)" class="highcharts" id="details_chart">
-                                    {{getMessageForDataNotAvailable(campaign,'activities')}}
+                                <div ng-if="!(details.actionChart && campaign.kpiType)" class="highcharts" id="details_chart" ng-bind-html="getMessageForDataNotAvailable(campaign,'activities')">
                                 </div>
                             </span>
                           </span>
@@ -258,7 +257,7 @@
                      
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
-                          <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
+                          <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index">
 
 
                               <div class="pull-left activity_points">
@@ -297,7 +296,7 @@
                           </div>
 
 
-                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter" style="cursor:pointer">
+                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
                               
                               <div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >Click for detailed reports</div>
                               <div class="pull-left activity_points">
@@ -328,8 +327,7 @@
                               </div>          
                       </div>
                           <div ng-if="(activityLogFlag == false)" class="load-more" style="">&nbsp;</div>
-                          <div class="no_activity_class" ng-if="((!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)) && activityLogFlag == true">
-                              {{getMessageForDataNotAvailable(campaign,'activities')}}
+                          <div class="no_activity_class" ng-if="((!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)) && activityLogFlag == true" ng-bind-html="getMessageForDataNotAvailable(campaign,'activities')">
                           </div>
 
                   </div>
@@ -351,7 +349,7 @@
                                 <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
                                 <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
                             </div>
-                            <div class="days_over" style="width: {{campaign.durationCompletion()}}%;">
+                            <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
                               <span ng-if="campaign.durationLeft() == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
                               <span ng-if="campaign.durationLeft() == 'Ended'" class="days_over_text ended_text" >Ended</span>
                               <span ng-if="campaign.durationLeft() > 0"   class="days_over_text">{{campaign.durationLeft()}} Days Left</span>
@@ -391,9 +389,9 @@
                     </div>
                     <div class="metric_graph {{getSpendClass(campaign)}}">
                             <div class="full_metric_graph">
-                                <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " style="width: {{getSpendWidth(campaign)}}%;"> <!-- put completely_filled when 100% -->
+                                <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " ng-style="{'width': getSpendWidth(campaign) +'%'};"> <!-- put completely_filled when 100% -->
                                 </div>
-                                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidth(campaign)}}%;"><!-- put start_beginning when at start -->
+                                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}" ng-style="{'left': getSpendTickWidth(campaign) +'%'};"><!-- put start_beginning when at start -->
                                     <div class="end_point_val">
                                         <span class="icon_KPI"> ${{campaign.expectedMediaCost | number:2}}</span>
                                         <div class="end_point_line"></div>
@@ -419,6 +417,7 @@
                     <div campaign-strategy-card campaign="campaign" campaigns="campaigns"></div>
                 </div>
         </div>
+        <campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"> </campaign-drop-down>
     </div>
   </div>
 </div>

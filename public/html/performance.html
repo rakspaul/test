@@ -2,7 +2,7 @@
     <div class="reports_header_tabs_holder clearfix">
         <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
         <div class="pull-left">
-            <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
+            <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
                     ng-href="#/{{tab.href}}" id="performance_tab_{{tab.href}}" > {{tab.title}}</a></span>
         </div>
     </div>
@@ -89,19 +89,19 @@
                                 <span>Imps.</span>
                             </div>
                             <div class="each_col forth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
                             </div>
                             <div class="each_col fifth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
                             </div>
                             <div class="each_col sixth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
                             </div>
                             <div class="each_col seventh_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>CPC</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>CPC</span>
                             </div>
                             <div class="each_col seventh_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>CPM</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>CPM</span>
                             </div>
                         </div>
 
@@ -115,7 +115,7 @@
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
                                     <!--{{dowBusy}}-->
-                                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
+                                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW track by $index">
 
                                         <div class="each_col sec_col">
                                             {{strategy.dimension}}
@@ -145,7 +145,7 @@
                             <div class="common-load-icon" ng-show="tacticDowBusy"></div>
 
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByDOW|orderBy: sortByColumn">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByDOW track by $index |orderBy: sortByColumn">
                                     <div class="linkage_bar">
                                     </div>
                                     <div class="each_strategy clearfix">
@@ -153,7 +153,7 @@
                                             {{tactic[0].description}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                            <div class="clearfix each_row_list" ng-repeat="data in tactic track by $index">
                                                 <div class="each_col sec_col">
                                                     {{data.dimension}}
                                                 </div>
@@ -201,19 +201,19 @@
                                 <span>Imps.</span>
                             </div>
                             <div class="each_col forth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
                             </div>
                             <div class="each_col fifth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
                             </div>
                             <div class="each_col sixth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
                             </div>
                             <div class="each_col seventh_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>CPC</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>CPC</span>
                             </div>
                             <div class="each_col seventh_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>CPM</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>CPM</span>
                             </div>
                         </div>
 
@@ -228,7 +228,7 @@
 
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-repeat="strategy in strategyPerfDataByScreen">
+                                    <div class="clearfix each_row_list " ng-repeat="strategy in strategyPerfDataByScreen track by $index">
 
                                         <div class="each_col sec_col">
                                             {{strategy.dimension}}
@@ -260,7 +260,7 @@
                             <div class="all_strategies_holder">
                                 <!--<div class="common-load-icon"></div>-->
 
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByScreen|orderBy: sortByColumn">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByScreen track by $index |orderBy: sortByColumn">
                                     <div class="linkage_bar">
                                     </div>
                                     <div class="each_strategy clearfix">
@@ -270,7 +270,7 @@
                                             {{tactic[0].description}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                            <div class="clearfix each_row_list" ng-repeat="data in tactic track by $index">
                                                 <div class="each_col sec_col">
                                                     {{data.dimension}}
                                                 </div>
@@ -319,19 +319,19 @@
                                 <span>Imps.</span>
                             </div>
                             <div class="each_col forth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
                             </div>
                             <div class="each_col fifth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
                             </div>
                             <div class="each_col sixth_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
                             </div>
                             <div class="each_col seventh_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>CPC</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>CPC</span>
                             </div>
                             <div class="each_col seventh_col">
-                                <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>CPM</span>
+                                <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>CPM</span>
                             </div>
                         </div>
 
@@ -346,7 +346,7 @@
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
                                     <!--{{formatBusy}}-->
-                                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat">
+                                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat track by $index">
                                         <div class="each_col sec_col">
                                             {{strategy.dimension}}
                                         </div>
@@ -375,7 +375,7 @@
 
                                 <div class="common-load-icon" ng-show="tacticFormatBusy"></div>
                              <!--{{tacticFormatBusy}}-->
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByFormat|orderBy: sortByColumn">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByFormat track by $index |orderBy: sortByColumn">
                                     <div class="linkage_bar">
                                     </div>
                                     <div class="each_strategy clearfix">
@@ -383,7 +383,7 @@
                                             {{tactic[0].description}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                            <div class="clearfix each_row_list" ng-repeat="data in tactic track by $index">
                                                 <div class="each_col sec_col">
                                                     {{data.dimension}}
                                                 </div>
@@ -433,19 +433,19 @@
                                <span>Imps.</span>
                            </div>
                            <div class="each_col forth_col">
-                               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>CTR</span>
+                               <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>CTR</span>
                            </div>
                            <div class="each_col fifth_col">
-                               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'action_rate'"></span>Action Rate</span>
+                               <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'action_rate'"></span>Action Rate</span>
                            </div>
                            <div class="each_col sixth_col">
-                               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpa'"></span>CPA</span>
+                               <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpa'"></span>CPA</span>
                            </div>
                            <div class="each_col seventh_col">
-                               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpc'"></span>CPC</span>
+                               <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpc'"></span>CPC</span>
                            </div>
                            <div class="each_col seventh_col">
-                               <span><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpm'"></span>CPM</span>
+                               <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpm'"></span>CPM</span>
                            </div>
 
                        </div>
@@ -459,17 +459,16 @@
                                </div>
                                <div class="row_list_holder">
                                    <div class="common-load-icon" ng-show="platformBusy"></div>
-                                   <!--{{platformBusy}}-->
-                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform">
+                                   <!--<div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform">-->
 
-<!--                                   <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform.platform_metrics">-->
+                                      <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByPlatform.platform_metrics track by $index">
                                        <div class="each_col platform_logo" >
-<!--                                           <img ng-src="{{strategy.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':strategy.icon_url}}" width="16px">-->
-                                           <img ng-src="{{getPlatformIcon(strategy.dimension)}}" width="16px" height="16px">
+                                           <img ng-src="{{strategy.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':strategy.icon_url}}" >
+                                           <!--<img ng-src="{{getPlatformIcon(strategy.dimension)}}" width="16px" height="16px">-->
                                        </div>
                                        <div class="each_col sec_col">
-<!--                                           {{strategy.platform}}-->
-                                           {{strategy.dimension}}
+                                           {{strategy.platform}}
+                                           <!--{{strategy.dimension}}-->
                                        </div>
                                        <div class="each_col third_col">
                                            {{strategy.impressions | number:0}}
@@ -494,26 +493,26 @@
                            </div>
 
                            <div class="all_strategies_holder">
-                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByPlatform|orderBy: sortByColumn">
+                               <!--<div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByPlatform|orderBy: sortByColumn">-->
 
-<!--                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByPlatform.tactics|orderBy: sortByColumn" ng-if="tactic.platform_metrics">-->
+                               <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByPlatform.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
                                    <div class="linkage_bar">
                                    </div>
                                    <div class="each_strategy clearfix">
                                        <div class="each_col first_col">
-                                           {{tactic[0].description}}
-<!--                                           {{tactic.name}}-->
+<!--                                           {{tactic[0].description}}-->
+                                           {{tactic.name}}
                                        </div>
                                        <div class="row_list_holder">
-                                           <div class="clearfix each_row_list" ng-repeat="data in tactic">
-<!--                                           <div class="clearfix each_row_list" ng-repeat="data in tactic.platform_metrics">-->
+                                           <!--<div class="clearfix each_row_list" ng-repeat="data in tactic">-->
+                                           <div class="clearfix each_row_list" ng-repeat="data in tactic.platform_metrics track by $index">
                                                <div class="each_col platform_logo"  >
-                                                   <img ng-src="{{getPlatformIcon(data.dimension)}}" width="16px" height="16px">
-<!--                                                   <img ng-src="{{data.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':data.icon_url}}" width="16px">-->
+                                                   <!--<img ng-src="{{getPlatformIcon(data.dimension)}}" width="16px" height="16px">-->
+                                                   <img ng-src="{{data.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':data.icon_url}}" >
                                                </div>
                                                <div class="each_col sec_col">
-<!--                                                   {{data.platform}}-->
-                                                   {{data.dimension}}
+                                                   {{data.platform}}
+                                                   <!--{{data.dimension}}-->
                                                </div>
                                                <div class="each_col third_col">
                                                    {{data.impressions | number:0}}

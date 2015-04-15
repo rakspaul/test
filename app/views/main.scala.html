@@ -4,7 +4,7 @@
 <html ng-app='app'>
   <head>
     <meta charset='utf-8'>
-    <title>Reporting</title>
+    <title ng-bind="'Visto | '+ title"></title>
     <meta content='Collective Desk UI' name='description'>
     <meta content='Collective' name='author'>
     <link href='/assets/images/collective.png' rel='shortcut icon' type='image/x-icon'>
@@ -27,7 +27,7 @@
 @content
 <script>
     window.assets                   = {};
-    window.assets.target_marker     = "assets/images/cdesk/icn_goal.png";
+    window.assets.target_marker     = "assets/images/cdesk/target_indicator_dark.png";
     window.assets.platform_icon     = "assets/images/tag_icon.png";
     window.assets.ontrack           = "assets/images/statusWidget/on_track_icon.png";
     window.assets.underperforming   = "assets/images/statusWidget/underperforming_icon.png";
@@ -75,6 +75,7 @@
 
 </script>
 <script data-main='@routes.Assets.versioned("javascripts/main.js")' type='text/javascript' src='@routes.Assets.versioned("javascripts/vendor/require.min.js")'></script>
+@about()
 @ga()
 </body>
 </html>

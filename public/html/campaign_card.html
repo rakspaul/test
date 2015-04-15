@@ -19,7 +19,7 @@
                     <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
                 </div>
                 <div ng-init="duration=campaign.durationLeft()"></div>
-                <div class="days_over" style="width: {{campaign.durationCompletion()}}%;">
+                <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
                     <span ng-if="duration == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
                     <span ng-if="duration == 'Ended'" class="days_over_text ended_text" >Ended</span>
                     <span ng-if="duration > 0"   class="days_over_text">{{duration}} Days Left</span>
@@ -49,9 +49,9 @@
         </div>
         <div class="metric_graph {{getSpendClass(campaign)}}">
             <div class="full_metric_graph">
-                <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " style="width: {{getSpendWidth(campaign)}}%;"> <!-- put completely_filled when 100% -->
+                <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " ng-style="{'width': getSpendWidth(campaign) +'%'};"> <!-- put completely_filled when 100% -->
                 </div>
-                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 100) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidth(campaign)}}%;" ng-hide="(campaigns.durationLeft(campaign) == 0)"><!-- put start_beginning when at start -->
+                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 100) ? 'start_end_point' : ''}}" ng-style="{'left': getSpendTickWidth(campaign) +'%'};" ng-hide="(campaigns.durationLeft(campaign) == 0)"><!-- put start_beginning when at start -->
                     <div class="end_point_val">
                         <span class="icon_KPI"> ${{campaign.expectedMediaCost | number:2}}</span>
                         <div class="end_point_line"></div>
@@ -99,13 +99,12 @@
         <div class="graph_KPI_outer_holder">
             <span ng-switch="campaign.chart">
                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                <span ng-switch-when="false" class="no-chart">Data Not Available.</span>
+                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(campaign)"></span>
                 <span ng-switch-default>
                     <div class="graph_KPI_holder" ng-if="campaign.chart && campaign.kpiType">
                         <highchart id="" class="graph_KPI_holder" config="campaign.chart" chartTitle=""></highchart>
                     </div>
-                    <div class="graph_KPI_holder" ng-if="!(campaign.chart && campaign.kpiType)">
-                        <span class="no-chart">Data Not Available</span>
+                    <div class="graph_KPI_holder" ng-if="!(campaign.chart && campaign.kpiType)" ng-bind-html="getMessageForDataNotAvailable(campaign)">
                     </div>
                 </span>
             </span> 

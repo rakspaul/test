@@ -15,7 +15,7 @@
                 <span class="arrow_img"></span>
             </span>
             <ul class="dropdown_ul dropdown-menu ">
-                <li ng-repeat="elem in data.statusDropdownValues">{{elem}}</li>
+                <li ng-repeat="elem in data.statusDropdownValues track by $index">{{elem}}</li>
                 <div class="dd_options_disabled"></div>
             </ul>
       </div>
@@ -123,8 +123,8 @@
               </div>
               <div class="pull-right cal_nav_btns_holder">
                 <!-- add "disabled" to "cal_nav_btn" whenever you want to disable the buttons -->
-                <div class="cal_nav_btn" ng-click="prev()"><span class="arrow_left"></span></div>
-                <div class="cal_nav_btn" ng-click="next()"><span class="arrow_right"></span></div>
+                <div class="cal_nav_btn" id= "cal_prev" ng-click="prev()"><span class="arrow_left"></span></div>
+                <div class="cal_nav_btn" id="cal_next" ng-click="next()"><span class="arrow_right"></span></div>
               </div>
               <div class="pull-right calendar_holder_period" >
                <!--  <span ng-click="prev()"> [<] </span>
@@ -139,11 +139,12 @@
 
             </div>
           </div>
-          <div class="dashboard_perf_graph" >
+          <div class="dashboard_perf_graph" id="calendarHolder">
           <gantt-chart></gantt-chart>
           </div>
         </div>
-     <!--  </div> -->
+        <campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"> </campaign-drop-down>
+
     </div>
 <!--=======-->
 <!--<div ng-if="!dashboard.isNetworkUser">-->

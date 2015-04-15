@@ -23,72 +23,89 @@
         $scope.is_network_user = loginModel.getIsNetworkUser();
         var campaignList = [];
         $scope.details = {
-                campaign: null,
-                details: null,
-                actionChart :true
-            };
+            campaign: null,
+            details: null,
+            actionChart :true
+        };
 
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
         $scope.details.sortDirection = 'desc';
         $scope.details.toggleSortDirection = function(dir) {
-            if (dir == 'asc') {
-                return 'desc';
-            }
-            return 'asc';
+            return (dir == 'asc' ? 'desc' : 'asc');
         };
         
         $scope.details.resetSortParams = function() {
             $scope.details.sortParam = undefined;
             $scope.details.sortDirection = undefined;
         };
+
         $scope.details.sortIcon = function(fieldName) {
-            if ($scope.details.sortParam == fieldName) {localStorage
+            if ($scope.details.sortParam == fieldName) {
                 return $scope.details.sortDirection == 'asc' ? 'ascending' : 'descending';
-            } else {
-                return '';
             }
+            return '';
         };
     
         $scope.details.sortClass = function(fieldName) {
-            if ($scope.details.sortParam == fieldName) {
-                return 'active';
-            } else {
-                return '';
-            }
+            return $scope.details.sortParam == fieldName ? 'active' : '';
         };
+
         $scope.details.sortStrategies=function(fieldName){
             if ($scope.details.sortParam) {
-                    if ($scope.details.sortParam == fieldName) {
-                        var sortDirection = $scope.details.toggleSortDirection($scope.details.sortDirection);
-                        $scope.details.resetSortParams();
-                        $scope.details.sortDirection = sortDirection;
-                    } else {
-                        $scope.details.resetSortParams();
-                    }
+                if ($scope.details.sortParam == fieldName) {
+                    var sortDirection = $scope.details.toggleSortDirection($scope.details.sortDirection);
+                    $scope.details.resetSortParams();
+                    $scope.details.sortDirection = sortDirection;
                 } else {
                     $scope.details.resetSortParams();
-                }!$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
-                $scope.details.sortParam = fieldName;
-
-            //filter
+                }
+            } else {
+                $scope.details.resetSortParams();
+            }
+            !$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
+            $scope.details.sortParam = fieldName;
             $scope.campaign.campaignStrategies=$filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
- 
         };
         $scope.details.getSortDirection= function(){
             return ($scope.details.sortDirection == "desc")? "true" : "false";
         };
-
-
+        $scope.details.callStrategiesSorting = function(fieldName,count){
+            if(count > 1){
+                $scope.details.sortStrategies(fieldName);
+            }
+        }
         //API call for campaign details
-//        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
-
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                var selectedCampaign = {
+                    id : $scope.campaign.id,
+                    name : $scope.campaign.name,
+                    startDate : $scope.campaign.start_date,
+                    endDate : $scope.campaign.end_date,
+                    kpi : $scope.campaign.kpi_type.toLowerCase()
+                };
+                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+                campaignSelectModel.setSelectedCampaign(selectedCampaign);
+
+                var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
+
+                if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
+                   var _brand ={
+                       className: "active",
+                       id: -1,
+                       name: "All Brands"
+                   };
+
+                    brandsModel.setSelectedBrand(_brand);
+
+                    $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
+                }
+
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 $scope.getCdbChartData($scope.campaign);
@@ -101,106 +118,129 @@
                 //$scope.getFormatsGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
             } else {
-                if (result.status ==='error')
-                    $scope.api_return_code= result.data.status;
-                else
-                    $scope.api_return_code= result.status;
+                if (result.status ==='error') {
+                    $scope.api_return_code = result.data.status;
+                } else {
+                    $scope.api_return_code = result.status;
+                }
                 $scope.loadingScreenFlag = false;
                 $scope.screenTotal = 0;
-                $scope.loadingCostBreakdownFlag=false;
-                $scope.details.totalCostBreakdown=0;
-                $scope.loadingInventoryFlag=false;
+                $scope.loadingCostBreakdownFlag = false;
+                $scope.details.totalCostBreakdown = 0;
+                $scope.loadingInventoryFlag = false;
                 $scope.loadingViewabilityFlag = false;
-                $scope.details.getCostViewability=undefined;
-                $scope.getCostViewabilityFlag=1;
-                $scope.details.actionChart=false;
+                $scope.details.getCostViewability = undefined;
+                $scope.getCostViewabilityFlag = 1;
+                $scope.details.actionChart = false;
             }
         }, function(result) {
             console.log('call failed');
         });
+
         updateActionItems();
 
-      $rootScope.$on(constants.EVENT_ACTION_CREATED, newActionCreated);
-      function newActionCreated() {
-        dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-        updateActionItems();
-      }
-      function updateActionItems() {
-        $scope.activityLogFlag = false;
-        //activityList.data.data = undefined;
-        var actionUrl = urlService.APIActionData($routeParams.campaignId);
-        dataService.getActionItems(actionUrl).then(function(result) {
-          $scope.activityLogFlag = true;
-          if(result.status === 'success') {
-            var actionItemsArray = [] , counter = 0;
-            var actionItems = result.data.data;
-            var strategyByActionId = {};
-            if (actionItems.length > 0) {
-              for (var i = actionItems.length - 1; i >= 0; i--) {
-                for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
-                  actionItems[i].action[j].action_color = actionColors[counter % 9];
-                  //actionItems[i].action[j].ad_name = actionItems[i].ad_name;
-                  //actionItems[i].action[j].ad_id = actionItems[i].ad_id;
-                  actionItemsArray.push(actionItems[i].action[j]);
-                  strategyByActionId[actionItems[i].action[j].id] = actionItems[i];
-                  counter++;
-                }
-              }
-              $scope.strategyByActionId = strategyByActionId;
-              activityList.data.data = actionItemsArray;
-              dataService.updateLastViewedAction($routeParams.campaignId);
-            } else {
-              //preventing the model from sharing old data when no activity is present for other campaigns
-              activityList.data.data = undefined;
-            }
-          }else{ //if error 
-            activityList.data.data = undefined;
-          }
-        }, function(result) {
-          console.log('call failed');
+        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function() {
+            dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
+            updateActionItems();
         });
-      }
 
-       
+        function updateActionItems() {
+            $scope.activityLogFlag = false;
+            var actionUrl = urlService.APIActionData($routeParams.campaignId);
+            dataService.getActionItems(actionUrl).then(function(result) {
+                $scope.activityLogFlag = true;
+                if(result.status === 'success') {
+                    var actionItemsArray = [] ,
+                        counter = 0,
+                        actionItems = result.data.data,
+                        strategyByActionId = {},
+                        actionItemsLen = actionItems.length;
+                    if (actionItemsLen > 0) {
+                        for (var i = actionItemsLen - 1; i >= 0; i--) {
+                            for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
+                                actionItems[i].action[j].action_color = actionColors[counter % 9];
+                                actionItemsArray.push(actionItems[i].action[j]);
+                                strategyByActionId[actionItems[i].action[j].id] = actionItems[i];
+                                counter++;
+                            }
+                        }
+                        $scope.strategyByActionId = strategyByActionId;
+                        activityList.data.data = actionItemsArray;
+                        dataService.updateLastViewedAction($routeParams.campaignId);
+                    } else { //preventing the model from sharing old data when no activity is present for other campaigns
+                        activityList.data.data = undefined;
+                    }
+                } else { //if error
+                    activityList.data.data = undefined;
+                }
+            }, function(result) {
+                console.log('call failed');
+            });
+        }
 
         //$scope.details.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
         $scope.loadMoreStrategies = function(campaignId) {
             var campaignArray = $scope.campaign,
-                pageSize = 3;
-            var loadMoreData = campaignArray.campaignStrategiesLoadMore;
-            if (loadMoreData.length) {
-                var moreData = loadMoreData.splice(0, pageSize)
-                for (var len = 0; len < moreData.length; len++) {
-                    $scope.campaign.campaignStrategies.push(moreData[len]);
+                pageSize = 3,
+                loadMoreData = campaignArray.campaignStrategiesLoadMore;
+            if (loadMoreData.length > 0) {
+                var moreData = loadMoreData.splice(0, pageSize),
+                    morDataLen = moreData.length;
+                var tmpCampaignStrategiesArr = [];
+                for (var len = 0; len < morDataLen; len++) {
+                    tmpCampaignStrategiesArr.push(moreData[len]);
                 }
+                //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
+                $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
             }
         };
 
         $scope.loadMoreTactics = function(strategyId, campaignId) {
             var campaignArray = $scope.campaign,
-                pageSize = 3;
-            for(var i in campaignArray.campaignStrategies){
-                if(campaignArray.campaignStrategies[i].id === parseInt(strategyId)){
-                    var loadMoreData = campaignArray.campaignStrategies[i].strategyTacticsLoadMore;
-                    if (loadMoreData.length) {
+                pageSize = 3,
+                campaignStrategies = campaignArray.campaignStrategies;
+            for(var i in campaignStrategies){
+                if(campaignStrategies[i].id === Number(strategyId)){
+                    var loadMoreData = campaignStrategies[i].strategyTacticsLoadMore;
+                    if (loadMoreData.length > 0) {
                         var moreData = loadMoreData.splice(0, pageSize)
-                        for (var len = 0; len < moreData.length; len++) {
-                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
+                        var moreDataLen = moreData.length;
+                        var tmpstrategyTacticsArr = [];
+                        for (var len = 0; len < moreDataLen; len++) {
+                            tmpstrategyTacticsArr.push(moreData[len]);
                         }
+                        $scope.campaign.campaignStrategies[i].strategyTactics =  tmpstrategyTacticsArr;
                     }
                 }
             }    
         };
 
         $scope.makeCampaignSelected = function(id) {
+            var splitIdList =  id.split(",");
             var myContainer = $('#action-container:first');
-            var scrollTo = $('#actionItem_' + id);
-            if(scrollTo.length) {
-            scrollTo.siblings().removeClass('active').end().addClass('active');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
+            if(splitIdList && splitIdList.length > 1 ){
+                var scrollTo = $('#actionItem_' + splitIdList[0]);
+                scrollTo.siblings().removeClass('active').end().addClass('active');
+                //Mulitple Activity List
+                var splitIdListLen = splitIdList.length;
+                for(var i=0;i < splitIdListLen;i++){
+                      var targetId =splitIdList[i];
+                       myContainer.find('#actionItem_'+targetId).addClass('active');
+                       if(scrollTo.length >0) {
+                           myContainer.animate({
+                            scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                          });
+                       }
+                 }
+            } else { //Day wise single Activity
+                var scrollTo = $('#actionItem_' + id);
+                if(scrollTo && scrollTo.length >0) {
+                    scrollTo.siblings().removeClass('active').end().addClass('active');
+                    myContainer.animate({
+                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                    });
+                }
             }
         };
 
@@ -248,30 +288,29 @@
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
                     if(result.data.data.length>0){
                         var result = result.data.data[0].inv_metrics ;
                         var top =[];
                         for (var i in result) {
-
                             if (result[i].tb === 0) {
                                 top.push(result[i]);
                             }
                         }
-                          if(top.length > 0){
-                              if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc' || campaign.kpiType.toLowerCase() == 'action_rate' || campaign.kpiType.toLowerCase()  == 'action rate' ){
-
-                                  for(var i in top){
-                                      top[i].kpi_value *= 100;
-                                  }
-                                  inventory = top.slice(0,3);
-                                  $scope.details.inventoryTop = inventory[0];
-                              } else {
-                                  inventory = top.slice(0,3);
-                                  $scope.details.inventoryTop = inventory[2];
+                        if(top.length > 0){
+                            if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc' || campaignKpiType == 'action_rate' || campaignKpiType  == 'action rate' ){
+                              for(var i in top){
+                                  top[i].kpi_value *= 100;
                               }
-                          }
-                    $scope.details.inventory = inventory;
-		          }
+                              inventory = top.slice(0,3);
+                              $scope.details.inventoryTop = inventory[0];
+                            } else {
+                              inventory = top.slice(0,3);
+                              $scope.details.inventoryTop = inventory[2];
+                            }
+                        }
+                        $scope.details.inventory = inventory;
+		            }
                 }
             },function(result){
                 console.log('inventory data call failed');
@@ -287,40 +326,29 @@
             		  result.data.data[i].ctr *= 100;
             		  result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
             	    }
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
                     if(result.data.data.length>0){
 
-                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc' || campaign.kpiType.toLowerCase() == 'action_rate' || campaign.kpiType.toLowerCase() == 'action rate') {
+                        if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc' || campaignKpiType == 'action_rate' || campaignKpiType == 'action rate') {
                             formats=_.chain(result.data.data)
-                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .sortBy(function(format){ return format[campaignKpiType]; })
                                 .reverse()
                                 .value();
                          }else{
                             formats=_.chain(result.data.data)
-                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .sortBy(function(format){ return format[campaignKpiType]; })
                                 .value();
 
                          }
 
                         _.each(formats, function(format) {
-                            switch(format.dimension){
-                                case 'Display': format.icon = "display_graph";
-                                break;
-                                case 'Video':   format.icon = "video_graph";
-                                break;
-                                case 'Mobile':   format.icon = "mobile_graph";
-                                break;
-                                case 'Social':   format.icon = "social_graph";
-                                break;
-                            }
+                            format.icon = format.dimension.toLowerCase() + "_graph";
                         });
-                        $scope.details.formats = formats; 
-                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
-                            $scope.details.formatTop = _.first(formats); 
-                        }else{
-                            $scope.details.formatTop = _.last(formats); 
-                        }
-                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
-                        $scope.details.kpiType = campaign.kpiType.toLowerCase();
+
+                        $scope.details.formats = formats;
+                        $scope.details.formatTop = (campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ? _.first(formats) : _.last(formats);
+                        $scope.details.formatTop = $scope.details.formatTop[campaignKpiType];
+                        $scope.details.kpiType = campaignKpiType;
                     }
                 }
             },function(result){
@@ -328,51 +356,45 @@
             });
         };
          $scope.getScreenGraphData  = function(campaign){
-            var screens;
+            var screens,
+                orderByscreens = new Array(),
+                inc = 0;
             $scope.screenTotal = 0;
-            var orderByscreens = new Array();
-            var inc = 0;
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    for (var i = 0; i < result.data.data.length; i++) {
+                    var resultDataLen = result.data.data.length,
+                        campaignKpiType = campaign.kpiType.toLowerCase();
+                    for (var i = 0; i < resultDataLen; i++) {
                       result.data.data[i].ctr *= 100;
                       result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
                     }
-                    if(result.data.data.length>0){
-                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
-                            screens = orderBy(result.data.data, "-"+campaign.kpiType.toLowerCase(), false);
-                         }else{
-                            screens = orderBy(result.data.data, "-"+campaign.kpiType.toLowerCase(), true);
-                         }
+                    if(resultDataLen>0){
+                        screens = orderBy(result.data.data, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
                         _.each(screens, function(screen) {
-                             if(screen.dimension.toLowerCase() == 'smartphone' || screen.dimension.toLowerCase() == 'tablet' || screen.dimension.toLowerCase() =='desktop'){
+                             var screenType = screen.dimension.toLowerCase();
+                             if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
                                 if(screen[campaign.kpiType.toLowerCase()] > 0){
-                                    $scope.screenTotal +=screen[campaign.kpiType.toLowerCase()];
-                                     orderByscreens[inc]=screen[campaign.kpiType.toLowerCase()];
+                                    $scope.screenTotal +=screen[campaignKpiType];
+                                     orderByscreens[inc]=screen[campaignKpiType];
                                      inc++;  
                                 }
                                     
                             }
-                             switch(screen.dimension){
-                                case 'Smartphone': screen.icon = "mobile_graph";
-                                break;
-                                case 'TV':   screen.icon = "display_graph";
-                                break;
-                                case 'Tablet':   screen.icon = "tablet_graph";
-                                break;
-                                case 'Desktop':   screen.icon = "display_graph";
-                                break;
+                             switch(screenType){
+                                case 'smartphone': screen.icon = "mobile_graph"; break;
+                                case 'tv':   screen.icon = "display_graph"; break;
+                                case 'tablet':   screen.icon = "tablet_graph"; break;
+                                case 'desktop':   screen.icon = "display_graph"; break;
                             }
-                            
                         });
                         var maximumValue = 0 ;
                         if(orderByscreens.length > 0 ){
-                            maximumValue =Math.max.apply(Math,orderByscreens);
+                            maximumValue = Math.max.apply(Math,orderByscreens);
                         }
                         $scope.details.screens = screens; 
                         $scope.details.screenTop = maximumValue;
-                        $scope.details.kpiType = campaign.kpiType.toLowerCase();
+                        $scope.details.kpiType = campaignKpiType;
                     }
                 }
             },function(result){
@@ -387,7 +409,6 @@
                  $scope.getCostViewabilityFlag = 1;
                  $scope.loadingViewabilityFlag = false;
                 if (result.status == "success" && !angular.isString(result.data.data)) {
-
                         viewData = result.data.data;
                         $scope.details.getCostViewability = {
                             pct_1s: viewData.viewable_imps_1s_pct,
@@ -395,23 +416,16 @@
                             pct_15s: viewData.viewable_imps_15s_pct,
                             pct_total: viewData.viewable_pct
                         };
-                        var costViewabilitynColors =[];
-                            costViewabilitynColors["inventory"] = "#F8810E";
-                            costViewabilitynColors["data"] = "#0072BC";
-                            costViewabilitynColors["adServing"] = "#45CB41";
-                            costViewabilitynColors["other"] = "#BFC3D1";
                         $scope.details.getCostViewability.total = viewData.viewable_imps;
                         $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
-                         });
+                        });
                 }
             },function(result){
                 console.log('cost viewability call failed');
             });
         };
         $scope.getCdbChartData = function(campaign) {
-            //$scope.details.pieChart = pieChart.highChart();
-            //$scope.details.solidGaugeChart = solidGaugeChart.highChart();
             //API call for campaign chart
             dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
                 var lineData = [], showExternal = true;
@@ -419,16 +433,16 @@
                     if (!angular.isUndefined($scope.campaign.kpiType)) {
                         if (result.data.data.measures_by_days.length > 0) {
                             var maxDays = result.data.data.measures_by_days;
-                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = angular.lowercase(kpiType);
+                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
                             for (var i = 0; i < maxDays.length; i++) {
                                 maxDays[i]['ctr'] *= 100;
-				maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
+				                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
-                            $timeout(function() {
+                           // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
-                            },3000);
+                            //},10000);
                             if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
                             }
@@ -443,52 +457,45 @@
         };
 
         $scope.viewReports = function(campaign, strategy){
-
-
             campaignSelectModel.setSelectedCampaign(campaign);
             strategySelectModel.setSelectedStrategy(strategy);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
 
-
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
-
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
             document.location = '#/performance';
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
-//            if (campaign)  {
-//                console.log('Duration left: '+ campaign.durationLeft());
-//                console.log('Days since ended: '+ campaign.daysSinceEnded());
-//                console.log('Status : '+ campaign.status);
-//                console.log('Kpi_type: '+ campaign.kpiType);
-//            }
-            if (!campaign)
+            if (!campaign) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
-            else  if ( campaign.durationLeft() == 'Yet to start')
+            } else if (campaign.durationLeft() == 'Yet to start') {
                 return constants.MSG_CAMPAIGN_YET_TO_START;
-            else if (campaign.daysSinceEnded() > 1000)
+            } else if (campaign.daysSinceEnded() > 1000) {
                 return constants.MSG_CAMPAIGN_VERY_OLD;
-            else if (campaign.kpiType =='null')
+            } else if (campaign.kpiType == 'null') {
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-            else if (campaign.status == 'active')
-                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
-            else if (dataSetType == 'activities' && campaign.durationLeft() !== 'Ended')
-                return constants.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED;
-            else if ((dataSetType == 'inventory' || dataSetType == 'viewability') && campaign.durationLeft() !== 'Ended')
+            } else if (campaign.status == 'active') {
+              return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
+            } else if (dataSetType == 'activities') {
+              if(campaignSelectModel.durationLeft() == 'Ended')
+                return constants.MSG_CAMPAIGN_NOT_OPTIMIZED;
+              else
                 return constants.MSG_METRICS_NOT_TRACKED;
-            else
+            } else if (dataSetType == 'inventory' || dataSetType == 'viewability'){
+                return constants.MSG_METRICS_NOT_TRACKED;
+            } else {
                 return constants.MSG_DATA_NOT_AVAILABLE;
+            }
         };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
-
             campaignSelectModel.setSelectedCampaign(campaign);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
             strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
 
-            var actionData ={
+            var actionData = {
                 selectedAction : action ,
                 selectedActionItems : activityList.data.data
             };
@@ -496,13 +503,11 @@
 
             localStorage.setItem('isNavigationFromCampaigns', true);
             localStorage.setItem('selectedAction',JSON.stringify(action) );
-
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             document.location = '#/optimization';
         };
 
         $scope.setActivityButtonData = function( campaign, strategy){
-
             campaignSelectModel.setSelectedCampaign(campaign);
             kpiSelectModel.setSelectedKpi(campaign.kpiType);
             strategySelectModel.setSelectedStrategy(strategy);
@@ -511,9 +516,8 @@
                 selectedAction : undefined ,
                 selectedActionItems : activityList.data.data
             };
-        // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
+            // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
-
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
             document.location = '#/optimization';
         };
@@ -550,10 +554,9 @@
             return filter;
         };
 
-        /*Single Campaign UI Support elements - starts */ 
-
-         $scope.getSpendDifference = function(campaign) {
-            if(campaign !== undefined) {
+        /*Single Campaign UI Support elements - starts */
+        $scope.getSpendDifference = function(campaign) {
+            if(typeof campaign !== 'undefined') {
                 var spendDifference = -999; //fix for initial loading
                 var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                 if (campaignCDBObj == undefined) {
@@ -566,7 +569,7 @@
         };
 
         $scope.getSpendTotalDifference = function(campaign) {
-            if(campaign !== undefined) {
+            if(typeof campaign !== 'undefined') {
                 var spendDifference = 0;
                 var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                 if (campaignCDBObj == undefined) {
@@ -579,7 +582,7 @@
         };
 
         $scope.getSpendTickDifference = function(campaign) {
-            if(campaign !== undefined) {
+            if(typeof campaign !== 'undefined') {
                 var spendDifference = 0;
                 var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                 if (campaignCDBObj == undefined) {
@@ -591,32 +594,25 @@
             }
         };
         $scope.getPercentDiff = function(expected, actual) {
-            var spendDifference = 0;
-            if (expected == 0) {
-                spendDifference = 0;
-            } else {
-                spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
-            }
-            return spendDifference;
+            return (expected > 0) ? utils.roundOff((actual - expected) * 100 / expected, 2) : 0;
         }
         $scope.getSpendDiffForStrategy = function(strategy) {
-            if (strategy == undefined) {
+            if (typeof strategy == 'undefined') {
                 return 0;
             }
             var expectedSpend = strategy.expectedMediaCost;
             return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
         }
         $scope.getSpendTotalDifferenceForStrategy = function(strategy) {
-            if(campaign !== undefined) {
-                var spendDifference = 0;
-                
-                var spend = strategy.grossRev;
-                var totalSpend = strategy.totalMediaCost;
+            if(typeof campaign !== 'undefined') {
+                var spendDifference = 0,
+                    spend = strategy.grossRev,
+                    totalSpend = strategy.totalMediaCost;
                 return $scope.getSpendDiffForStrategy(totalSpend, spend);
             }
         };
         $scope.getSpendClass = function(campaign) {
-            if(campaign !== undefined) {
+            if(typeof campaign !== 'undefined') {
                 var spendDifference = $scope.getSpendDifference(campaign);
                 return $scope.getClassFromDiff(spendDifference);
             }
@@ -624,7 +620,7 @@
         $scope.getSpendClassForStrategy = function(strategy) {
             var spendDifference = $scope.getSpendDiffForStrategy(strategy);
             return $scope.getClassFromDiff(spendDifference);
-        }
+        };
         $scope.getClassFromDiff = function(spendDifference) {
             if (spendDifference > -1) {
                 return 'blue';
@@ -636,46 +632,48 @@
                 return ' ';
             }
             return 'red';
-        }
+        };
         $scope.getSpendWidth = function(campaign) {
-            if(campaign !== undefined) {
+            if(typeof campaign !== 'undefined') {
                 var actualWidth = 100 + $scope.getSpendTotalDifference(campaign);
                 if (actualWidth > 100) {
                     actualWidth = 100;
                 }
                 return actualWidth;
             }
-        }
-
+        };
         $scope.getSpendTickWidth = function(campaign) {
-            if(campaign !== undefined) {
+            if(typeof campaign !== 'undefined') {
                 var actualWidth = 100 + $scope.getSpendTickDifference(campaign);
                 if (actualWidth > 100) {
                     actualWidth = 100;
                 }
                 return actualWidth;
             }
-        }
-
-         $scope.getSpendWidthForStrategy = function(strategy) {
-                    var actualWidth = 100 + $scope.getSpendTotalDifferenceForStrategy(strategy);
-                    if (actualWidth > 100) {
-                        actualWidth = 100;
-                    }
-                    return actualWidth;
-                }
-        /*Single Campaign UI Support elements - sta */ 
-        /*Refresh Graph Data */
-        $scope.refreshGraph = function(showExternal){
+        };
+        $scope.getSpendWidthForStrategy = function(strategy) {
+            var actualWidth = 100 + $scope.getSpendTotalDifferenceForStrategy(strategy);
+            if (actualWidth > 100) {
+                actualWidth = 100;
+            }
+            return actualWidth;
+        };
+        $scope.refreshGraph = function(showExternal){ /*Single Campaign UI Support elements - sta */ /*Refresh Graph Data */
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 450, 330 , null, undefined, showExternal);
-        }
-        $rootScope.$on("callRefreshGraphData",function(event,args){ 
+        };
+
+        var callRefreshGraphData = $rootScope.$on("callRefreshGraphData",function(event,args){
             $scope.refreshGraph(args);
         });
+
+        $scope.$on('$destroy', function() {
+            eventActionCreatedFunc();
+            callRefreshGraphData();
+        });
+
         $scope.refreshCampaignDetailsPage = function(){
             $rootScope.$broadcast("closeEditActivityScreen");
-        }
+        };
         $scope.refreshCampaignDetailsPage();
     });
-
 }());

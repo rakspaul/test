@@ -56,12 +56,12 @@
 
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
-            if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true) {
+            /*if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true) {
                 $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
-            } else {
+            } else {*/
 
-                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-             }
+            $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+             //}
 
         };
 
@@ -138,6 +138,11 @@
             $(this).hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
+        });
+        $(function() {
+          $("#campaignsDropdownDiv").on('click',  function(){
+                $('#campaigns_list').scrollTop(0)  
+            }); 
         });
 
 

@@ -8,6 +8,6 @@
       <span id="lineContainer"></span>
       <br/>
     </div>
-    <not-found style-class="style" message="message" ng-show="!dataFound&&!perfBusy">
-    </not-found>
+    <div ng-if="!dataFound&&!perfBusy" ng-bind-html="getMessageForDataNotAvailable()">
+    </div>
 </div>

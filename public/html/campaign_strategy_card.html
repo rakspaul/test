@@ -1,4 +1,4 @@
-<div ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder">
+<div ng-repeat="strategy in campaign.campaignStrategies track by $index"  class="strategy_tactic_holder">
     <div class="clearfix each_campaign_list_container only_strategy_container">
 	    <div class="each_campaign_section">
 	       <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
@@ -21,7 +21,7 @@
                             <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}</span>
                     </div>
                     <div ng-init="duration_s = strategy.durationLeft()"></div>
-                    <div class="days_over" style="width: {{strategy.durationCompletion()}}%;">
+                    <div class="days_over" ng-style="{'width':strategy.durationCompletion() +'%'};">
                         <span ng-if="duration_s == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
                         <span ng-if="duration_s == 'Ended'" class="days_over_text ended_text" >Ended</span>
                         <span ng-if="duration_s > 0"   class="days_over_text">{{duration_s}} Days Left</span>
@@ -59,9 +59,9 @@
             </div>
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                   <div class="full_metric_graph">
-                      <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}} " style="width: {{getSpendWidthForStrategy(strategy)}}%;"> <!-- put completely_filled when 100% -->
+                      <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}} " ng-style="{'width':getSpendWidthForStrategy(strategy) +'%'};"> <!-- put completely_filled when 100% -->
                       </div>
-                      <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 100) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidthForStrategy(strategy)}}%;"><!-- put start_beginning when at start -->
+                      <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 100) ? 'start_end_point' : ''}}" ng-style="{'left':getSpendTickWidthForStrategy(strategy) +'%'};"><!-- put start_beginning when at start -->
                           <div class="end_point_val">
                               <span class="icon_KPI"> ${{strategy.expectedMediaCost | number:2}}</span>
                               <div class="end_point_line"></div>
@@ -110,15 +110,13 @@
             <div class="graph_KPI_outer_holder">
               <span ng-switch="strategy.chart">
                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(campaign)"></span>
                 <span ng-switch-default>
                     <div ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
                         <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart>
                     </div>
-                    <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
-                        No Data Available
+                    <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" ng-bind-html="getMessageForDataNotAvailable(campaign)">
                     </div>
-
                 </span>
               </span>
           </div>

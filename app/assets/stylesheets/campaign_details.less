@@ -9,6 +9,44 @@
   color:  #21252b;
   font-size: 14px; 
 }
+body {
+  font-family: "Avenir" ;
+}
+.no-chart , .no_data_found {
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+}
+.no-data-common {
+  display: block;
+  width: 180px;
+  text-align: center;
+  margin: 0 auto;
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+}
+.reload-img {
+  background: url("/assets/images/cdesk/reload.png") no-repeat 6px 2px ;
+  height: 24px;
+  width: 24px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border : solid 1px #dde6eb ;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.each_campaign_list_container {
+  .no-chart {
+    display: block;
+    width: 180px;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
 .campaign_details_page {
   .AvenirFont() ;
   color: #2d2f31 ;
@@ -87,7 +125,7 @@
       .dropdown_ul_text {
         cursor: pointer;
         .arrow_img {
-          background: url("/assets/images/cdesk/dropdown_down.png") no-repeat center center;
+          background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center; 
           display: inline-block;
           height: 10px;
           width: 10px;
@@ -266,7 +304,7 @@
               z-index: 1;
               padding-right: 0px ;
               padding-top: 4px ;
-              background: url("/assets/images/cdesk/blue_dropdown.png") no-repeat 95% 12px #fff ;
+              background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #fff ;
               border: solid 1px transparent;
               border-bottom: 0;
               padding-bottom: 1px;
@@ -407,8 +445,10 @@
     font-size: 12px;
     color: #70787e ;
     .no-data-available{
-      margin-top: 20px;
-      text-align: left;
+      margin : 40px auto 0 ;
+      text-align: center ;
+      width: 180px ;
+      color: #939ead ;
     }
     .each_section_graph_holder {
       float: left;
@@ -417,7 +457,7 @@
       padding: 15px;
       margin: 20px 0px ;
       width: 260px;
-      min-height: 210px;
+      height: 210px;
       .graph_heading {
           font-size: 16px ;
           color: #2d2f31 ;
@@ -437,7 +477,7 @@
         .section_graph_details {
           width: 115px;
           .each_detail {
-            padding: 8px 5px 0;
+            padding: 8px 0px 0 5px ;
           }
           .graph_color {
             height: 8px ;
@@ -447,7 +487,7 @@
             -webkit-border-radius: 8px ;
             background: #BFC3D1 ;
             display: inline-block;
-            margin-right: 5px;
+            margin-right: 2px;
           }
           .color1 {
             background: #f8810e ;
@@ -522,9 +562,6 @@
           background: #CCC ;
           width: 100% !important;
         }
-        .graph_heading {
-          margin-bottom: 2px ;
-        }
         .inventory_number {
           color : #494646 ;
           margin-bottom: 4px ;
@@ -533,6 +570,11 @@
           margin-top: 12px ;
         }
       }
+    .bar_section_graph_holder_inventory {
+      .graph_heading {
+        margin-bottom: 2px ;
+      }
+    }
     .each_section_graph_holder {
       .section_graph_details {
         margin-top: 10px ;
@@ -633,6 +675,9 @@
           padding-left: 18px ;
           .first_section {
             margin-top: 30px ;
+          }
+          .campaign_status_icon {
+            margin-top: 0px ;
           }
         }
         .tactics_container {
@@ -754,15 +799,17 @@
       }
       .internal_legend {
         .legend {
-          background: #777 ;
+          border : solid 3px #777 ;
         }
       }
       .no-data-available {
-           color: #70787e;
-           font-size: 12px;
-           margin-top: 100px ;
-           text-align: center;
-           display: block;
+          color: #939ead ;
+          font-size: 12px;
+          padding-top: 180px;
+          text-align: center;
+          display: block;
+          width: 180px;
+          margin: 0 auto;
        }
     }
     .edit_activity_log_holder {
@@ -888,7 +935,7 @@
             border-bottom: solid 8px #323133;
           }
           .activity_points {
-            padding-top: 12px;
+            padding-top: 8px;
           }
           .activity_main_details {
             margin: 0 20px ;
@@ -898,7 +945,7 @@
             color: #a7a8a8 ;
             font-size: 12px ;
             margin-top: 3px;
-            width: 335px;
+            width: 328px;
             .more_details {
               font-size: 14px ;
               color: #2d2f31 ;
@@ -976,16 +1023,21 @@
         }
         .no_activity_class {
           text-align: center;
-          margin-top : 160px ;
+          margin  : 154px auto 0 ;
+          color: #939ead;
+          line-height: 20px;
+          font-size: 12px;
+          width: 180px ;
+
         }
       }
     }
     .activity_point , .activity_point_ext , .activity_point_int  , .activity_point_int_sel {
-      height: 17px ;
-      width: 17px ;
-      border-radius : 17px ;
-      -moz-border-radius : 17px ;
-      -webkit-border-radius : 17px ;
+      height: 22px;
+      width: 22px;
+      border-radius: 22px;
+      -moz-border-radius: 22px;
+      -webkit-border-radius: 22px;
       color: #fff ;
       background: #0072bc ;
       font-size: 10px;
@@ -1023,7 +1075,7 @@
       .activity_external_dd {
         cursor: default;
         .arrow_img {
-          background: url("/assets/images/cdesk/blue_dropdown.png") no-repeat center center ;
+          background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center ;
           height: 10px;
           width: 10px;
           display: inline-block;
@@ -1077,19 +1129,20 @@ multiselect .dropdown-menu > li > a {
 
 
 .common_graph_legend {
-  margin: 0px auto 0 185px ; 
-  width: 220px ;
+  margin: 0px auto 0 165px ; 
+  width: 240px ;
   .graph_legends {
       float: left;
       margin-right: 30px ;
+      line-height: 25px;
       .legend {
         display: inline-block;
-        height: 17px ;
-        width: 17px ;
-        border-radius: 17px ;
-        -webkit-border-radius : 17px ;
-        -moz-border-radius : 17px ;
-        background: #0072bc;
+        height: 22px ;
+        width: 22px ;
+        border-radius: 22px ;
+        -webkit-border-radius : 22px ;
+        -moz-border-radius : 22px ;
+        border : solid 3px #0072bc;
         float: left;
         margin-right: 10px ;
       }
@@ -1100,7 +1153,7 @@ multiselect .dropdown-menu > li > a {
     }
     .internal_legend {
         .legend {
-          background: #777 ;
+          border : solid 3px #777 ;
         }
       }
   }

@@ -25,7 +25,7 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
 //            else if (campaign.status == 'active')
 //                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
-            else if (dataSetType == 'viewability' && campaignSelectModel.durationLeft() !== 'Ended')
+            else if (dataSetType == 'viewability')
                 return constants.MSG_METRICS_NOT_TRACKED;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
@@ -116,9 +116,7 @@ var angObj = angObj || {};
         };
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
-
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-            $scope.$apply();
         });
 
 

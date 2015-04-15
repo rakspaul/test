@@ -23,7 +23,7 @@
                 });
 
                 $(document).click(function(event) {
-                    if(!$("#campaignDropdown").is(':focus')) {
+                    if(!$("#campaignDropdown").is(':focus') && $('#campaigns_list').css('display') == "block" ) {
 
                         $("#campaigns_list").hide();
                         $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
@@ -49,7 +49,7 @@
 
                     });
                     $("#campaigns_list").click( function(e) {
-                        var inpVal =  $(event.target).text();
+                        var inpVal =  $(e.target).text();
                         $(".campaign_name_length").text(inpVal) ;
                         $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 );
                         $("#campaignDropdown").val(inpVal);

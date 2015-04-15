@@ -294,7 +294,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
               self.dashboard.filterSelectAll=false;
               self.dashboardSelectedAll();
               scrollFlag = 1;
-              Campaigns.prototype.fetchCampaigns.call(self);
+              //Note: This call is not required as call already initiated by dashboardSelectedAll method.
+              //Campaigns.prototype.fetchCampaigns.call(self);
             }
           }
           self.totalCount = result.data.data.total;
@@ -606,7 +607,6 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.campaignList = [];
       scrollFlag = 1;
       Campaigns.prototype.fetchCampaigns.call(this);
-
     } ,
     Campaigns.prototype._campaignServiceUrl = function() {
       var params = [

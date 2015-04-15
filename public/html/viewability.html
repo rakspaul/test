@@ -2,7 +2,7 @@
     <div class="reports_header_tabs_holder clearfix">
         <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
         <div class="pull-left">
-            <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
+            <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
                     ng-href="#/{{tab.href}}" id="viewability_title_tab_{{tab.href}}" > {{tab.title}}</a></span>
         </div>
     </div>
@@ -92,8 +92,8 @@
                         </div>
                         <div class="each_col seventh_col">
 
-                            <div class="dropdown">
-                                <kpi-drop-down selected-obj=selected_filters> </kpi-drop-down>
+                            <div class="dropdown kpi-dd-holder">
+                                <kpi-drop-down> </kpi-drop-down>
                                 <!--<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"-->
                                                 <!--flag="kpitypes"></report-filters>-->
                             </div>
@@ -147,11 +147,11 @@
                         </div>
                       <div class="common-load-icon_viewability" id="tactics_activityLoader" ng-show="tacticBusy"></div>
                         <div class="all_strategies_holder">
-                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tacticsList">
+                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tacticsList track by $index">
                                 <!-- <div class="linkage_lines">
                                 </div> -->
                                 <div class="each_strategy clearfix">
-                                    <div class="each_col first_col" title="{{tactic.tactic_name}}">
+                                    <div class="each_col first_col">
                                         {{tactic.tactic_name}}
                                         <!--<div class="campaign_spec">(18-23 y.o.)</div>-->
                                     </div>

@@ -14,7 +14,7 @@
 
             var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
 
-            var CALENDAR_WIDTH = 1084;
+            var CALENDAR_WIDTH = 1082;
 
             var isSingleBrand = false;
 
@@ -111,7 +111,7 @@
                 //if(isSingleBrand) {
                 //range = tasks.length * 25;
                 //}
-                x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
+                x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true).nice(d3.time.day);
                 y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, range]);
 
                 //TO DO - better names
@@ -170,7 +170,22 @@
                 initTimeDomain(tasks);
                 initAxis();
 
-                var svg = d3.select("#calendar_widget")
+                 var svgHeader = d3.select("#calendar_widget")
+                    .select(".div-header-chart")
+                        .style("position","absolute")
+                        .style("top","0px")
+                        .style("left","24px")
+                    .append("svg")
+                    .attr("class", "header-chart")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", 47)
+                    .append("g")
+                    .attr("class", "gantt-chart-head")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", 47)
+                    .attr("transform", "translate(0, " + margin.top + ")");
+
+                var svg = d3.select("#calendar_widget").select(".div-chart")
                     .append("svg")
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
@@ -179,11 +194,27 @@
                     .attr("class", "gantt-chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
-                    .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+                    .attr("transform", "translate(0, " + margin.top + ")");
 
                 //changing rendering order to fix day marker under tick text
                 svg.append('rect').attr("class", "marker");
                 svg.append('rect').attr("class", "marker_body");
+
+                
+                svgHeader.append("rect").attr("class", "header_background");
+                svgHeader.append('rect').attr("class", "marker");
+                svgHeader.append('rect').attr("class", "marker_body");
+
+                svgHeader.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
+                    .transition()
+                    .call(xAxis)
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px;").attr("x", function(d) {
+                        return 10
+                    });
+
+                svgHeader.append("g").attr("class", "y axis").transition().call(yAxis);
 
                 svg.append("g")
                     .attr("class", "x axis")
@@ -196,8 +227,8 @@
 
                 svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
-                svg.append("line").attr("class", "axis_top");
-                svg.append("line").attr("class", "axis_bottom");
+                svgHeader.append("line").attr("class", "axis_top");
+                svgHeader.append("line").attr("class", "axis_bottom");
 
 
                 gantt.draw(tasks);
@@ -212,8 +243,8 @@
 
                 var prevScale = 0;
 
-                var svg = d3.select("#calendar_widget").select("svg");
-
+                var svg = d3.select("#calendar_widget").select("svg.chart");
+                var svgHeader = d3.select("#calendar_widget").select("svg.header-chart");
                 //-------
 
 
@@ -268,6 +299,7 @@
                             //if user requests next duration data -  scroll the view 
                             gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
                             gantt.redraw(tasks, timeDomainString);
+                            navigationButtonControl("#cal_prev", "enabled");
                         } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
                             //if user asks for previous period data - check if available
                             if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
@@ -278,7 +310,10 @@
                                 gantt.timeDomain([td[0] - scale , td[1] - scale]);
                             }
                             gantt.redraw(tasks, timeDomainString);
-                        } 
+                        } else {
+                            //disable 'previous' navigation button
+                            navigationButtonControl("#cal_prev", "disabled");
+                        }
                         // if (d3.event.dx < 0) {
                         //     next(timeDomainString);
                         // } else {
@@ -312,9 +347,9 @@
 
 
                 var ganttChartGroup = svg.select(".gantt-chart");
-
+                var ganttChartHeaderGroup = svgHeader.select(".gantt-chart-head");
                 //axis top line
-                ganttChartGroup.selectAll('line.axis_top')
+                ganttChartHeaderGroup.selectAll('line.axis_top')
                     .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", -20)
@@ -323,9 +358,19 @@
                     .style("fill", "none")
                     .style("shape-rendering", "crispEdges");
 
+                //HEADER BACKGROUND
+                ganttChartHeaderGroup.selectAll('rect.header_background')
+                    .style("stroke", "#fff")
+                    .attr("x", 0)
+                    .attr("y", -20)
+                    .attr("width", width)
+                    .attr("height", 46)
+                    .style("fill", "#fff")
+                    .style("shape-rendering", "crispEdges");
+
                 //axis second line
                 //TODO: add Vertical gradient from #939ead to #e9ebee. Opacity 0.3
-                ganttChartGroup.selectAll('line.axis_bottom')
+                ganttChartHeaderGroup.selectAll('line.axis_bottom')
                     .style("stroke", "#ccd2da")
                     .attr("x1", 0)
                     .attr("y1", 26)
@@ -629,8 +674,8 @@
                     })
                     .on('mouseover', function(d) {
                         //mouseover on icon - display tooltip
-                        var xPosition = x(d.startDate) + 25,
-                        yPosition = (y(d.taskName)*2 ) - 15;
+                        var xPosition = x(d.startDate) - 15,
+                        yPosition = (y(d.taskName) * 2) - 15;
                         d3.select(".calendar_tooltip")
                             .style("display", "block")
                             .style("left", xPosition + "px")
@@ -645,7 +690,7 @@
                     .transition()
                     .attr("transform", rectTransform);
                 //today marker
-                ganttChartGroup.select("rect.marker")
+                ganttChartHeaderGroup.select("rect.marker")
                     .attr("x", 0)
                     .attr("y", 1)
                     .attr("class", "marker")
@@ -678,6 +723,32 @@
                             return 0; //height - margin.top
                         } else {
                             return 4;
+                        }
+
+                    })
+                    .transition()
+                    .attr("transform", markerTransform);
+
+                    //body-header
+                ganttChartHeaderGroup.select("rect.marker_body")
+                    .attr("x", 0)
+                    .attr("y", 4)
+                    .attr("class", "marker_body")
+                    //.attr("style", "cursor:pointer")
+                    .attr("fill", '#f5f9fd')
+                    .attr("width", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 40) {
+                            width = 0;
+                        }
+                        return width;
+                    })
+                    .attr("height", function() {
+                        var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                        if (width <= 40) {
+                            return 0;
+                        } else {
+                            return height - margin.top;
                         }
 
                     })
@@ -814,6 +885,13 @@
                                         return 0;
                                 }
                             })
+                             .attr("x", function(d){
+                                if(isPast(tdEdges[0], d.startDate)) {
+                                        return 2;
+                                } else {
+                                    return 0;
+                                }
+                            })
                             .attr("y", function(d) {
                                 return y(d.taskName) + 2;
                             })
@@ -840,7 +918,7 @@
                             })
                             .attr("x", function(d){
                             	if(isPast(tdEdges[0], d.startDate)) {
-		                    			return -2;
+		                    			return 0;
 		                    	} else {
 		                    		return 0;
 		                    	}
@@ -943,6 +1021,78 @@
                 //  	return width;
                 //  });
                 //today marker transition
+
+                svgHeader.select(".x").transition().call(xAxis)
+                    .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
+                    .attr("x", function(d, i) {
+                        //formatting for ticks
+                        if (timeDomainString == "month") {
+                            if (i == 0) {
+                                return 10;
+                            } else {
+                                return 10;
+                            }
+                        } else if (timeDomainString == "today") {
+                            if (i == 0) {
+                                return 30;
+                            } else {
+                                return 60;
+                            }
+                        } else if (timeDomainString == "year") {
+                            if (i == 0) {
+                                return 16;
+                            } else {
+                                return 26;
+                            }
+                        } else {
+                            if (i == 0) {
+                                return 128;
+                            } else {
+                                return 145;
+                            }
+                        }
+                    })
+                    .attr("y", function(d, i) {
+                        //formatting for ticks
+                        if (timeDomainString == "month") {
+                            if (i == 0) {
+                                return (height - 10) * -1;
+                            } else {
+                                return (height - 70) * -1;
+                            }
+                        } else {
+                            return (height - 50) * -1;
+                        }
+                    })
+                    .call(wrap, 10, timeDomainString, function(d, i) {
+                        //formatting for ticks
+                        if (timeDomainString == "month") {
+                            if (i == 0) {
+                                return 5;
+                            } else {
+                                return 10;
+                            }
+                        } else if (timeDomainString == "today") {
+                            if (i == 0) {
+                                return 60;
+                            } else {
+                                return 60;
+                            }
+                        } else if (timeDomainString == "year") {
+                            if (i == 0) {
+                                return 26;
+                            } else {
+                                return 26;
+                            }
+                        } else {
+                            if (i == 0) {
+                                return 145;
+                            } else {
+                                return 145;
+                            }
+                        }
+                    }, height);
+
                 svg.select(".x").transition().call(xAxis)
                     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:14px")
                     .attr("x", function(d, i) {
@@ -1014,6 +1164,8 @@
                         }
                     }, height);
 
+                
+
                 // svg.select(".x").transition().call(xAxis)
                 //     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
                 // 		//formatting for ticks
@@ -1030,11 +1182,12 @@
                 //     });
 
 
-
                 svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style", "font-weight:bold;font-family:Avenir;font-size:13pt");
 
+                svgHeader.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style", "font-weight:bold;font-family:Avenir;font-size:13pt");
+
                 return gantt;
-            };
+            };//END OF DRAW
 
             gantt.redraw = function(tasks, timeDomainString) {
                 //console.log('redraw');
@@ -1272,6 +1425,8 @@
                             edge1 = moment(td[0]).subtract(diff, 'days').startOf('day').unix() * 1000;
                             edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
 
+                            //disable 'previous' navigation button
+                            navigationButtonControl("#cal_prev", "disabled");
                         }
 
                         
@@ -1280,6 +1435,17 @@
 
                 gantt.timeDomain([edge1, edge2]);
                 gantt.redraw(tasks, timeDomainString);
+
+                //eager check - navigation lock
+                td = gantt.timeDomain();
+                if(!(moment(_.first(data).startDate).toDate() < moment((td[0] - 1000)).toDate()) ) {
+                    //disable 'previous' navigation button
+                    navigationButtonControl("#cal_prev", "disabled");
+                }
+
+            } else {
+                //disable 'previous' navigation button
+                navigationButtonControl("#cal_prev", "disabled");
             }
 
 
@@ -1357,9 +1523,22 @@
             }
 
 
-
+            navigationButtonControl("#cal_prev", "enabled");
             gantt.timeDomain([edge1, edge2]);
             gantt.redraw(tasks, timeDomainString);
+        }
+
+        function navigationButtonControl(id, action) {
+            if(typeof id !== 'undefined' || typeof action !== 'undefined') {
+                switch(action.toLowerCase()) {
+                    case "disabled" :
+                        $(id).addClass('disabled');
+                        break;
+                    case "enabled" :
+                        $(id).removeClass('disabled');
+                        break;
+                }
+            }
         }
 
         function month() {
@@ -1459,6 +1638,9 @@
                     format = "%H:%M"
 
             }
+            //reset navigation
+            navigationButtonControl("#cal_prev", "enabled");
+
             gantt.tickFormat(format);
             gantt.redraw(tasks, timeDomainString);
         }
