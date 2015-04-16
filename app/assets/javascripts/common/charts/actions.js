@@ -218,7 +218,10 @@
                 percentage = ((parseFloat(maxVal) - parseFloat(minVal))/100)*15,
                 chartMinimum = parseFloat(parseFloat(minVal) - parseFloat(percentage)),
                 chartMaximum = parseFloat(parseFloat(maxVal) + parseFloat(percentage));
-
+                var setMinVal = minVal;
+                if(threshold >= 0){
+                    var setMinVal = minVal <= threshold ? minVal : threshold;
+                }
             return {
                 options: {
                     chart: {
@@ -275,6 +278,7 @@
                         maxPadding:0,
                         minPadding:0,
                         max:chartMaximum,
+                        min:setMinVal,
                         title: {
                             align: 'high',
                             offset: 13,
