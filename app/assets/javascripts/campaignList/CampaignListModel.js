@@ -333,6 +333,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
 
     Campaigns.prototype.dashboardFilter = function(type, state) {
 
+      requestCanceller.cancelLastRequest(constants.CAMPAIGN_LIST_CANCELLER);
       this.resetDasboard();
       this.resetDasboardFilter(type,state);
       this.dashboardRemoveSelectedAll(type,state);
