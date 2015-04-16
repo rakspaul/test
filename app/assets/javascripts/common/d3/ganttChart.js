@@ -5,7 +5,7 @@
 
         };
 
-        var MIN_CALENDAR_HEIGHT = 500;
+        var MIN_CALENDAR_HEIGHT = 580;
 
         d3.gantt = function(cal_height) {
             var FIT_TIME_DOMAIN_MODE = "fit";
