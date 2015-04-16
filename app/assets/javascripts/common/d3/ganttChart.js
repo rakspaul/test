@@ -512,6 +512,7 @@
                 	.attr("x", 0)
                     .attr("class", "header")
                     .attr("style", "cursor:pointer")
+                    .style("shape-rendering", "crispEdges")
                     .attr("fill", function(d) {
                         if (d.kpiStatus == "ontrack") {
                             return onTrackColor;
@@ -530,7 +531,7 @@
                             return 0;
                         }
                     })
-                    .attr("height", CAMPAIGN_HEIGHT + 1)
+                    .attr("height", CAMPAIGN_HEIGHT)
                     .transition().delay(0)
                     .attr("transform", rectTransform);
 
