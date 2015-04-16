@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -466,7 +466,7 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
-            document.location = '#/performance';
+            utils.goToLocation('/performance');
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
@@ -506,7 +506,7 @@
             localStorage.setItem('isNavigationFromCampaigns', true);
             localStorage.setItem('selectedAction',JSON.stringify(action) );
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
-            document.location = '#/optimization';
+            utils.goToLocation('/optimization');
         };
 
         $scope.setActivityButtonData = function( campaign, strategy){
@@ -521,7 +521,7 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
-            document.location = '#/optimization';
+            utils.goToLocation('/optimization');
         };
 
         $scope.setGraphData = function(campaign, type){
@@ -542,7 +542,7 @@
             } else if (type === 'view_report' || type === 'format' || type == 'screens') {
                 utils.goToLocation('/performance');
             } else {
-                utils.goToLocation('/#/optimization');
+                utils.goToLocation('/optimization');
             }
         };
 

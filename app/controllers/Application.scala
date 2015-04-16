@@ -1,5 +1,8 @@
 package controllers
+import java.io.File
 
+import play.Play
+import play.api.mvc.Action
 import play.api._
 import play.api.mvc._
 import play.api.cache._
@@ -7,9 +10,24 @@ import play.api.Play.current
 
 object Application extends Controller {
 
-  def index = Action {
-    Ok(views.html.index())
+  def index(any: String) = Action {
+      Ok(views.html.index())
   }
+
+    /** resolve "any" into the corresponding HTML page URI */
+    def getURI(any: String): String = any match {
+      case _ => "error"
+    }
+
+    /** load an HTML page from public/html */
+    def loadPublicHTML(any: String) = Action {
+      val projectRoot = Play.application().path()
+      val file = new File(projectRoot + getURI(any))
+      if (file.exists())
+        Ok(scala.io.Source.fromFile(file.getCanonicalPath()).mkString).as("text/html");
+      else
+        NotFound
+    }
 
   val routeCache = {
     val jsRoutesClass = classOf[routes.javascript]
