@@ -65,11 +65,11 @@
             }
             !$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
             $scope.details.sortParam = fieldName;
-            $scope.campaign.campaignStrategies=$filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
+            $scope.campaign.campaignStrategies = $filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
         };
         $scope.details.getSortDirection= function(){
-            return ($scope.details.sortDirection == "desc")? "true" : "false";
+            return ($scope.details.sortDirection == "desc")? "false" : "true";
         };
         $scope.details.callStrategiesSorting = function(fieldName,count){
             if(count > 1){
