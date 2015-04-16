@@ -84,36 +84,33 @@ var angObj = '';
             if (($cookies.cdesk_session) && (locationPath === '/login')) {
                 $location.url('campaigns');
             }
-            if (($cookies.cdesk_session === undefined) && (locationPath !== '/login')) {
-                $cookieStore.put(constants.COOKIE_REDIRECT, locationPath);
-                $location.url('login');
-            }
         });
 
         var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
             var locationPath = $location.path();
+            $rootScope.bodyclass = '';
+            var setPageTitle =  function() {
+                var currentRoute = current.$$route;
+                if(currentRoute) {
+                    switch (locationPath) {
+                        case '/login' :
+                            currentRoute.title = 'Login';
+                        break;
+                        case '/campaigns' :
+                            currentRoute.title = 'Campaign List';
+                        break;
+                        case '/dashboard' :
+                            currentRoute.title = 'Dashboard';
+                            $rootScope.bodyclass = 'dashboard_body';
+                        break;
+                    }
+                    $rootScope.title = currentRoute.title;
+                }
+            }
+
+            setPageTitle();
             if (loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
-            }
-
-            if (locationPath == '/dashboard') {
-                if(current.$$route )
-                    current.$$route.title = 'Dashboard'
-                $rootScope.bodyclass = 'dashboard_body';
-            } else {
-                $rootScope.bodyclass = '';
-            }
-
-            if ($location.path() == '/campaigns' && current.$$route ){
-                    current.$$route.title = 'Campaign List';
-            }
-
-            if($location.path() == '/login' && current.$$route){
-                current.$$route.title = 'Login'
-            }
-
-            if (current.hasOwnProperty('$$route')) {
-                $rootScope.title = current.$$route.title;
             }
         });
 
