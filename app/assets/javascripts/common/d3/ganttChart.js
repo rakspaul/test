@@ -189,7 +189,7 @@
                     .append("svg")
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("height", height - margin.top - margin.bottom)
                     .append("g")
                     .attr("class", "gantt-chart")
                     .attr("width", width + margin.left + margin.right)
@@ -1702,7 +1702,7 @@
             format = "%d";
             timeDomainString = "quarter";
 
-            var calendar_height = tasks.length * 37;
+            var calendar_height = tasks.length * 30.75;
             calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
             gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
