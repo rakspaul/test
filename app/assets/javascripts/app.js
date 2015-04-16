@@ -111,6 +111,7 @@ var angObj = '';
             setPageTitle();
             if (loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
+
             }
         });
 
