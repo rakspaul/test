@@ -89,9 +89,17 @@
     this.MSG_DATA_NOT_AVAILABLE= "<span class='no-data-common'>Data not available</span>";
     this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD= "<span class='data_not_found'>Data not available</span>";
     this.MSG_CAMPAIGN_YET_TO_START= "<span class='no-data-common'>Campaign yet to start</span>";
+    this.MSG_STRATEGY_YET_TO_START= "<span class='no-data-common'>Strategy yet to start</span>";
+    this.MSG_TACTIC_YET_TO_START= "<span class='no-data-common'>Tactic yet to start</span>";
     this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Campaign is active, data not yet available</span>";
+    this.MSG_STRATEGY_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Strategy is active, data not yet available</span>";
+    this.MSG_TACTIC_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Tactic is active, data not yet available</span>";
     this.MSG_CAMPAIGN_VERY_OLD = "<span class='no-data-common'>Campaign ended 3+ years ago, data not available</span>";
+    this.MSG_STRATEGY_VERY_OLD = "<span class='no-data-common'>Strategy ended 3+ years ago, data not available</span>";
+    this.MSG_TACTIC_VERY_OLD = "<span class='no-data-common'>Tactic ended 3+ years ago, data not available</span>";
     this.MSG_CAMPAIGN_KPI_NOT_SET = "<span class='no-data-common'>Campaign KPI is not set</span>";
+    this.MSG_STRATEGY_KPI_NOT_SET = "<span class='no-data-common'>Strategy KPI is not set</span>";
+    this.MSG_TACTIC_KPI_NOT_SET = "<span class='no-data-common'>Tactic KPI is not set</span>";
     this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Campaign yet to be optimized</span>";
     this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Campaign is not optimized</span>";
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Strategy yet to be optimized</span>";

@@ -98,6 +98,7 @@
         };
         tactic_1.durationCompletion = campaign.durationCompletion.bind(tactic_1);
         tactic_1.durationLeft = campaign.durationLeft.bind(tactic_1);
+        tactic_1.daysSinceEnded = campaign.daysSinceEnded.bind(tactic_1);
 
         tacticObj.push(tactic_1);
         //based on time period use period dates or flight dates
@@ -235,6 +236,7 @@
         };
         strategy_1.durationCompletion = campaign.durationCompletion.bind(strategy_1);
         strategy_1.durationLeft = campaign.durationLeft.bind(strategy_1);
+        strategy_1.daysSinceEnded = campaign.daysSinceEnded.bind(strategy_1);
 
         strategyObj.push(strategy_1);
         getStrategyCdbLineChart(index, strategyObj, timePeriod, campaign, kpiType, kpiValue);
