@@ -411,7 +411,7 @@
 
         <div class="row-fluid">
             <!--Directive for Campaign sort -->
-            <div campaign-sort campaigns="campaigns"></div>
+            <div campaign-sort campaigns="campaigns" ng-show="campaign.campaignStrategies.length>0"></div>
                 <div class="total_campaign_list_holder">
                     <!--reusing the campaign and strategy partial view -->
                     <div campaign-strategy-card campaign="campaign" campaigns="campaigns"></div>
