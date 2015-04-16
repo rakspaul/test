@@ -22,6 +22,7 @@
                             <div class="heading">
                                 Create Activity
                             </div>
+                            <span id="activityMessage" ng-style="action.disableTagButton">Activity created successfully. Please see activity log below!</span>
                             <div class="clearfix filter_holder">
                                 <div class="filter_dropdown">
                                      <multiselect class="input-xlarge" multiple="false"  class="myerror" multipleoption="false" acceptmultiple="0" defaultoption='- Action Type -'  ng-model="action.selectedType" options="type.name for type in action.types | orderBy:'name'" change="selected()" id="action_type_filter_dd" datashow="1" ng-click="resetValidation();" ng-change="getActionType()" ></multiselect> 
@@ -161,7 +162,7 @@
                     <div class="action_filter_holder" ng-click="$event.stopPropagation()">
                           <div class="heading">
                               Edit Activity <span style="color:red">{{editError}}</span>
-                          </div> 
+                          </div>
                           <div class="clearfix filter_holder">
                               <div class="pull-left filter_dropdown_sel_list">
                                   <span class="filter_dropdown_sel_txt">
