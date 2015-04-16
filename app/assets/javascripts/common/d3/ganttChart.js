@@ -601,7 +601,7 @@
                         if (d.type == "brand") {
                             return 0;
                         } else {
-                            return x(d.endDate) - x(d.startDate);
+                            return x(d.endDate) - x(d.startDate) + 2;
                         }
                     })
                     .style('stroke', '#ccd2da')
@@ -852,7 +852,7 @@
                             } else {
                                 var width = x(d.endDate) - x(d.startDate);
                                 if(width > 0) {
-                                    return width - 2;
+                                    return width ;
                                 } else {
                                     return 0;
                                 }
