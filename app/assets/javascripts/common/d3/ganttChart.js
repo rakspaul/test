@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", function(loginModel, analytics, $location) {
+    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope',function(loginModel, analytics, $location, $rootScope) {
         this.createGanttChart = function() {
 
         };
@@ -388,7 +388,8 @@
                     .on("click", function(d) {
                         if (d.type != "brand") {
                             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
-                            $location.path('/campaigns/' + d.id);
+                            $location.url('/campaigns/' + d.id);
+                            $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag
                         }
                     })
 
@@ -1758,7 +1759,7 @@
 
 
 
-    })
+    }])
 }());
 
 (function() {

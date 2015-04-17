@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic, constants) {
+    angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic, constants, $timeout) {
         dataService.getActions().then(function (response) {
             if(response.status === 'success') {
                 var action = { types : [], external : false, name : ''},
@@ -90,9 +90,14 @@
                 for(var i in data.action_tactic_ids){
                     data.ad_id = data.action_tactic_ids[i];
                     dataService.createAction(data).then( function (response){
+                        $scope.action.disableTagButton = {'visibility': 'visible'};
+                        $timeout(function() {
+                            $scope.action.disableTagButton = {'visibility': 'hidden'};
+                        }, 250000);
                         resetActionFormData();
                         $rootScope.$broadcast(constants.EVENT_ACTION_CREATED);
                     }, function (response) {
+                        $scope.action.disableTagButton = {'visibility': 'hidden'};
                         resetActionFormData();
                     });
                 }
