@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics, $timeout) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -310,7 +310,6 @@ var angObj = angObj || {};
                     $scope['dataNotFoundFor'+tab] = true;
                     $scope[tab.toLowerCase() + 'Busy'] = false;
                     $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1))+'Busy'] = false;
-
                 })
             }
 
@@ -354,7 +353,9 @@ var angObj = angObj || {};
             if(!$scope.hidePerformanceReportTab) {
                 this.getPerformanceData(shorttabName, listOfTabsWithShortName);
             } else {
-                $scope.errorHandlerForPerformanceTab('', listOfTabsWithShortName);
+                $timeout(function() { // if campaign don't have data for performance tab, to handle strategy drop down selection we need to put some delay.
+                    $scope.errorHandlerForPerformanceTab('', listOfTabsWithShortName);
+                }, 300)
             }
         };
 
