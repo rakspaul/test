@@ -119,11 +119,12 @@
                 <div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} "
                      id="tactic_{{$index}}_body">
                     <div class="pull-left inventory_chart">
-                        <span ng-switch="tactic.chart">
+                            <span ng-if="!tactic.graphRender" class="no-chart-data">Insufficient data points to render graph</span>
+                            <span ng-switch="tactic.chart">
                                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                                <span ng-switch-when="false" class="no-chart"  ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>
+                                <span ng-switch-when="false" ng-show="tactic.graphRender" class="no-chart"  ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>
                                 <span ng-switch-default>
-                                    <div class="highcharts" ng-if="tactic.chart">
+                                    <div class="highcharts" ng-if="tactic.graphRender && tactic.chart">
                                         <!--<div class="clearfix highcharts_kpi_titles">
                                             <span class="pull-left">{{selected_filters.kpi_type}}</span>
                                             <span class="pull-right">Imps</span>
