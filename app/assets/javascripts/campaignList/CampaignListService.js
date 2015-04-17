@@ -304,11 +304,12 @@
 
         if(result.status == "success" && !angular.isString(result.data.data)) {
           if(result.data.data.length >= 0) {
+            var campaignStrategies = _.sortBy(createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue), 'startDate').reverse();
             if(result.data.data.length <= 3) {
-              campaign.campaignStrategies = createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = campaignStrategies;
             } else {
-              campaign.campaignStrategies = createStrategyObject(result.data.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
-              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = campaignStrategies.slice(0,3);
+              campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
             }
           }
         }
