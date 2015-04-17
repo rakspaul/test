@@ -386,10 +386,14 @@
 
             node.append("text") //For brand name
                 .attr("transform", function(d) {
-                    if(d.r > 50)
+                    if(d.r > 60)
                         return "translate(" + d.cx + "," + (d.cy+35) + ")";
+                    else if(d.r > 50)
+                        return "translate(" + d.cx + "," + (d.cy+30) + ")";
                     else if(d.r >40)
-                        return "translate(" + d.cx + "," + (d.cy+25) + ")";
+                        return "translate(" + d.cx + "," + (d.cy+20) + ")";
+                    else if (d.r >35)
+                        return "translate(" + d.cx + "," + (d.cy+15) + ")";
                     else
                         return  "translate(" + d.cx + "," + (d.cy) + ")";
                 })
@@ -399,7 +403,6 @@
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 50 )
-
                         size = "12px" ;
                     else if (d.r > 40)
                         size = "10px" ;
@@ -414,11 +417,13 @@
                     var text ;
                     if(d.r > 60)
                         text = d.className.substring(0, 12) + '...' ;
-                    else if(d.r > 50){
-                        text = d.className.substring(0, 9) + '...' ;
-                    } else if (d.r > 40){
+                    else if(d.r >55)
+                        text = d.className.substring(0, 10) + '...' ;
+                    else if(d.r > 50)
+                        text = d.className.substring(0, 8) + '...' ;
+                     else if (d.r > 40)
                         text = d.className.substring(0, 6) + '...' ;
-                    }
+
                     return text ;
                 });
 
@@ -438,12 +443,12 @@
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 55){
-                        text_size = "26px"
-                    }
-                    else if( d.r > 45){
-                        text_size = "22px"
-                    }
-                    else if(d.r > 30){
+                        text_size = "26px" ;
+                    } else if( d.r > 45){
+                        text_size = "22px" ;
+                    } else if(d.r > 35 ){
+                        text_size = "20px"  ;
+                    } else if(d.r > 30){
                         text_size = "18px";
                     } else {
                         text_size="14px" ;
