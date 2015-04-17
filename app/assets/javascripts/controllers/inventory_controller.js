@@ -88,6 +88,7 @@ var angObj = angObj || {};
             var errorHandler =  function() {
                 var bottomChartObj = false;
                 var topChartObj = false;
+                var isGraphPlot = true;
                 $scope.tacticBusy = false;
                 $scope.inventoryChart = false;
             };
@@ -118,21 +119,30 @@ var angObj = angObj || {};
                                 }
 
                                 var topChartObj = true, bottomChartObj = true;
+                                var isGraphPlot = true;
+                                //For Top Chart
                                 if (topPerformance.length > 4) {
                                     topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
                                 }
                                 if (topChartObj === undefined || topPerformance.length == 0) {
-                                    var topChartObj = false;
+                                    topChartObj = false;
                                 }
                                 //For Bottom Chart
                                 if (bottomPerformance.length > 4) {
                                     bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type);
                                 }
                                 if (topChartObj === undefined || bottomPerformance.length == 0) {
-                                    var bottomChartObj = false;
+                                    bottomChartObj = false;
                                 }
-                                $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj });
-                                $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: bottomPerformance, chart: bottomChartObj });
+
+                                if(topPerformance.length === 1 || bottomPerformance.length == 1) {
+                                    topChartObj = false;
+                                    bottomChartObj = false;
+                                    isGraphPlot = false;
+                                }
+
+                                $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj, graphRender : isGraphPlot });
+                                $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: bottomPerformance, chart: bottomChartObj, graphRender : isGraphPlot });
 
                             }
                         }
