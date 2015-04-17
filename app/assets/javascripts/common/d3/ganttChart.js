@@ -1477,17 +1477,10 @@
                 return o.start_date;
             });
 
-        if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
-            // if(moment(_.first(data).endDate).toDate() > moment(td[1] - scale * d3.event.dx).toDate()) {
-                                    //     gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                                    // } else if(moment(_.first(data).endDate).toDate() < moment(td[1] - scale/10)) {
-                                    //     gantt.timeDomain([td[0] - scale/10 , td[1] - scale/10]);
-                                    // } else {
-                                    //     navigationButtonControl("#cal_next", "disabled");
-                                    // }
+            if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
+
                 if((moment(_.first(data).endDate).toDate() < moment((td[1] + 1000)).toDate()) ) {
                     return;
-
                 }
 
                 switch (timeDomainString) {
@@ -1559,15 +1552,15 @@
                 //eager check - navigation lock
                 td = gantt.timeDomain();
                 if(!(moment(_.first(data).endDate).toDate() > moment((td[1] + 1000)).toDate()) ) {
-                    //disable 'previous' navigation button
+                    //disable 'next' navigation button
                     navigationButtonControl("#cal_next", "disabled");
                 }
 
                 
-        } else {
-                    //disable 'previous' navigation button
-                    navigationButtonControl("#cal_next", "disabled");
-        }
+            } else {
+                        //disable 'next' navigation button
+                        navigationButtonControl("#cal_next", "disabled");
+            }
 
 
 
