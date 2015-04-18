@@ -51,6 +51,11 @@
             return $scope.details.sortParam == fieldName ? 'active' : '';
         };
 
+        $scope.applySortStrategies =  function() {
+            var campaignStrategiesData = _.sortBy($scope.campaign.campaignStrategies, $scope.details.sortParam);
+            $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'asc') ? campaignStrategiesData : campaignStrategiesData.reverse();
+        };
+
         $scope.details.sortStrategies=function(fieldName){
             if ($scope.details.sortParam) {
                 if ($scope.details.sortParam == fieldName) {
@@ -65,7 +70,7 @@
             }
             !$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
             $scope.details.sortParam = fieldName;
-            $scope.campaign.campaignStrategies = $filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
+            $scope.applySortStrategies();
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
         };
         $scope.details.getSortDirection= function(){
@@ -226,6 +231,7 @@
                 //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
             }
+            $scope.applySortStrategies();
         };
 
         $scope.loadMoreTactics = function(strategyId, campaignId) {
@@ -245,7 +251,8 @@
                         $scope.campaign.campaignStrategies[i].strategyTactics =  tmpstrategyTacticsArr;
                     }
                 }
-            }    
+
+            }
         };
 
         $scope.makeCampaignSelected = function(id) {
