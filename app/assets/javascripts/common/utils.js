@@ -511,6 +511,17 @@ angObj.directive('truncateTextWithHover', function () {
         return input.replace('\\n', '<br />');
      }
   });
+  angObj.filter("zeroToBeLast", function () {
+    return function (array, key) {
+        var present = array.filter(function (item) {
+            return item[key];
+        });
+        var empty = array.filter(function (item) {
+            return !item[key]
+        });
+        return present.concat(empty);
+    };
+});
   $.fn.scrollWithInDiv = function() {
     this.bind('mousewheel DOMMouseScroll', function (e) {
       var scrollTo = null;
@@ -529,4 +540,5 @@ angObj.directive('truncateTextWithHover', function () {
     });
     return this;
   };
+
 }());
