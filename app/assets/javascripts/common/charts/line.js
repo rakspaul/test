@@ -186,8 +186,8 @@
                                 width: 1,
                                 id: 'plot-line-1'
                             });
-                            if (threshold > 0 && threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
-                                chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2, 11, 11).add();
+                            if ((threshold > 0 && threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) && threshold > 0)  {
+                                chart.renderer.image("/"+assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2, 11, 11).add();
                             }
                         }
                     }, 500);
