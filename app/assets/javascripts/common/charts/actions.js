@@ -416,7 +416,7 @@
 
                             //rendering threshold marker image in y-axis
                             var renderPos;
-                            if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
+                            if ((threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) && threshold > 0)  {
                                 chart.renderer.image("/"+assets.target_marker, 0, (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 13, 13).add();
                             }
 
