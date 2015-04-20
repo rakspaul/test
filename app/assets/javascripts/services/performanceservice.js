@@ -32,7 +32,7 @@
                 return dataService.fetch(url);
             },
             getTacticPerfData: function (param) {
-                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/tactics/'+  param.tacticId +'/' + param.tab +'/perf?start_date=' + param.startDate + '&end_date=' + param.endDate ;
+                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/tactics/'+  param.tacticId +'/' + param.tab +'/perf?start_date=' + param.startDate + '&end_date=' + param.endDate + (param.urlIndex ? ('&urlIndex='+ param.urlIndex) : '') ;
                 return dataService.fetch(url);
             }
 
