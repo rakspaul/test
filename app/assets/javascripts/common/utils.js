@@ -540,5 +540,4 @@ angObj.directive('truncateTextWithHover', function () {
     });
     return this;
   };
-
 }());
