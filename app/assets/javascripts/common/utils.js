@@ -21,7 +21,7 @@
       if (!search) {
           return $sce.trustAsHtml(text);
       }
-      return $sce.trustAsHtml(unescape(escape(text).replace(new RegExp(escape(search), 'gi'), '<span class="brand_search_highlight" >$&</span>')));
+      return $sce.trustAsHtml(unescape(text.replace(new RegExp(escape(search), 'gi'), '<span class="brand_search_highlight" >$&</span>')));
     };
     var roundOff = function (value, places) {
       var factor = Math.pow(10, places);
