@@ -50,6 +50,10 @@
                 return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
             };
 
+            var brandTransform = function(d) {
+                return "translate(0," + y(d.taskName) + ")";
+            };
+
             var markerTransform = function() {
                 var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
                 if (width <= 40) {
@@ -516,7 +520,7 @@
                         return d.name;
                     })
                     .transition()
-                    .attr("transform", rectTransform);
+                    .attr("transform",brandTransform);
                 //brand grouping ends
 
                 //top bar 
@@ -875,7 +879,13 @@
                 var translateVisualElements = function(a, type) {
                     if (type == "node") {
                         a.transition()
-                            .delay(0).attr("transform", rectTransform);
+                            .delay(0).attr("transform", function(d){
+                                if(d.type == "brand") {
+                                    return "translate(0," + y(d.taskName) + ")";
+                                } else {
+                                    return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
+                                }
+                            });
 
                     } else if (type == "body") {
                         a.transition()

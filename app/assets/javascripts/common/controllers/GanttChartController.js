@@ -63,11 +63,11 @@
                             loop++;
 
                             if(moment(startDate).toDate() > moment(tasks.start_date).toDate()) {
-                                startDate = moment(tasks.start_date).startOf('year');
+                                startDate = moment(tasks.start_date).startOf('month');
                             }
 
                             if (moment(endDate).toDate() < moment(tasks.end_date).toDate()) {
-                                endDate  = moment(tasks.end_date).endOf('year');
+                                endDate  = moment(tasks.end_date).endOf('month');
                             }
 
                         });
