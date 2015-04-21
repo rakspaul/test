@@ -1015,7 +1015,7 @@ button, i, input[type="submit"] {
   .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
     padding: 0px ;
   }
-  .action_dd {
+/*  .action_dd {
     float: left;
     margin-right: 35px ;
     overflow:hidden;
@@ -1048,7 +1048,7 @@ button, i, input[type="submit"] {
     select  {
       max-width: 268px ;
     }
-  }
+  }*/
   .action_filter_heading {
     .AvenirBold();
     text-transform: uppercase;
@@ -1057,13 +1057,14 @@ button, i, input[type="submit"] {
     text-align: left !important;
     font-family: "trade-gothic-no-2-bold" ;
   }
-  .action_dd_last {
+/*  .action_dd_last {
     text-align: right;
     float: none;
     margin-bottom: 20px ;
     width: 100% ;
   }
-  .note_area {
+*/ 
+ .note_area {
     position: relative;
     margin-top: 15px ;
     padding : 0px 0px 2px 5px ;
@@ -1942,7 +1943,8 @@ button, i, input[type="submit"] {
           line-height: 18px ;
         }
         .end_point_val span.icon_KPI {
-          background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;
+          /*background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  #c1ccd4 -162px -135px ;
           padding-left: 24px;
         }
         .end_point_val:after {
@@ -2460,11 +2462,13 @@ button, i, input[type="submit"] {
       margin : 5px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
-        background: url("/assets/images/cdesk/account_icon.png") no-repeat 2px 2px  ;
+        /*background: url("/assets/images/cdesk/sprites.png") no-repeat 2px 2px  ;*/
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px  ;
         height: 30px ;
         width: 30px ;
         &:hover {
-          background-position : 2px -74px ;
+          background-position : -345px -266px ;
+          /*background-position : 2px -74px ;*/
         }
       }
       .dropdown-menu {
@@ -2530,13 +2534,15 @@ button, i, input[type="submit"] {
         .brands_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url("/assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;
+          /*background: url("/assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -200px -150px ;
         }
 
         .timeline_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url("/assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;
+          /*background: url("/assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  -108px -224px ;
         }
         .timeline_dd {
           margin-top: 5px ;
@@ -2619,7 +2625,7 @@ button, i, input[type="submit"] {
         li.brands_filter  {
           &:hover {
             .brands_dd_icon {
-              background-position : 8px -52px ;
+              background-position : -200px -211px ;
             }
             #brandsDropdownDiv {
               input {
@@ -2631,7 +2637,7 @@ button, i, input[type="submit"] {
         li.brands_filter.brands_filter_disabled  {
           &:hover {
             .brands_dd_icon {
-              background-position : 8px 9px ;
+              background-position : -200px -150px ;
             }
             #brandsDropdownDiv {
               input {
@@ -2643,7 +2649,8 @@ button, i, input[type="submit"] {
         li.lifetime_filter {
           &:hover {
             .timeline_dd_icon {
-              background-position : 8px -53px ;
+              background-position : -108px -286px ;
+              /*background-position : 8px -53px ;*/
             }
             .header_filter_arrow_dropdown {
               background-position: 65px -46px ;
