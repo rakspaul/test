@@ -488,10 +488,7 @@
             } else if (campaign.status == 'active') {
               return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             } else if (dataSetType == 'activities') {
-              if(campaignSelectModel.durationLeft() == 'Ended')
                 return constants.MSG_CAMPAIGN_NOT_OPTIMIZED;
-              else
-                return constants.MSG_METRICS_NOT_TRACKED;
             } else if (dataSetType == 'inventory' || dataSetType == 'viewability'){
                 return constants.MSG_METRICS_NOT_TRACKED;
             } else {
