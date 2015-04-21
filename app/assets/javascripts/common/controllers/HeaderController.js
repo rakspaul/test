@@ -19,8 +19,11 @@
             loginService.logoutAction(function(response) {
                 if(response.status == "success"){
                     $scope.removeUserData();
-                    var locationPath =  $location.path();
-                    $cookieStore.put(constants.COOKIE_REDIRECT, locationPath);
+                    /*
+                        //CRPT-2111
+                        var locationPath =  $location.path();
+                        $cookieStore.put(constants.COOKIE_REDIRECT, locationPath);
+                    */
                     $location.url('/login');
                 }
             });

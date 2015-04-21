@@ -120,7 +120,9 @@ var angObj = '';
             routeChangeSuccessFunc();
         });
 
-        if($cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
+        var networkUser = localStorage.getItem('networkUser');
+        var isNetworkUser = (networkUser === 'true' || networkUser === true);
+        if(isNetworkUser && $cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
             $location.url($cookieStore.get(constants.COOKIE_REDIRECT));
             $cookieStore.remove(constants.COOKIE_REDIRECT);
         }
