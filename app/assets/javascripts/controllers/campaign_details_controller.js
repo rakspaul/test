@@ -246,9 +246,8 @@
                         var moreDataLen = moreData.length;
                         var tmpstrategyTacticsArr = [];
                         for (var len = 0; len < moreDataLen; len++) {
-                            tmpstrategyTacticsArr.push(moreData[len]);
+                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
                         }
-                        $scope.campaign.campaignStrategies[i].strategyTactics =  tmpstrategyTacticsArr;
                     }
                 }
 
