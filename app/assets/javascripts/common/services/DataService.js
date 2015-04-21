@@ -159,15 +159,10 @@
         }
         return $http({url: url, method: 'GET'}).then(
           function (response) {
-              var urlIndex = utils.getParameterByName(url, 'urlIndex');
               var objOnSuccess = {
                   status: "success",
                   data: response.data
               };
-
-              if(urlIndex) {
-                  objOnSuccess['urlIndex'] = Number(urlIndex[1]);
-              }
 
               if(response.status === 401) {
               loginModel.unauthorized();
