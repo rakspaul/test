@@ -82,18 +82,6 @@
       return search;
     };
 
-    function getParameterByName(url, name) {
-      var results = '';
-      if (name) {
-          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-              results = regex.exec(url);
-          results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-      }
-      return results;
-    };
-
-
 
     return {
       formatDate: formatDate,
@@ -103,8 +91,7 @@
       allValuesSame: allValuesSame,
       clone: clone,
       highlightSearch: highlightSearch,
-      typeaheadParams: getTypeaheadParams,
-      getParameterByName : getParameterByName
+      typeaheadParams: getTypeaheadParams()
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
