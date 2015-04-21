@@ -44,6 +44,7 @@
                 selectedTactics = $scope.tactics.selected,
                 selectedTacticIds=[];
 
+            $scope.action.disableTagButton = {'visibility': 'hidden'};
             $scope.action.submitBtnDisabled = false;
 
             for(var i in selectedTypes){
