@@ -1488,21 +1488,25 @@ button, i, input[type="submit"] {
   margin-right: 0;
 }
 .sortable {
-  background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;
+  /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -346px;
   display: inline-block;
   height: 15px;
   width: 10px;
 }
 .flight_date_li {
   .sortable {
-    background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+    /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
   }
 }
 .sortable.ascending {
-  background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+  /*background-image: url("/assets/images/cdesk/sorting_arrows_up.png");*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat  -196px -346px ;
 }
 .sortable.descending {
-  background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+  /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
 }
 .dashboard_outer_container {
   width: 1040px;
@@ -1582,16 +1586,19 @@ button, i, input[type="submit"] {
       a {
         color: #0978c9 ;
         span span {
-          background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;
+          /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px ;
           display: inline-block;
           height: 13px;
           width: 10px;
         }
         span span.descending {
-          background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+          /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px  ;
         }
         span span.ascending {
-          background-image : url("/assets/images/cdesk/sorting_arrows_up.png");
+          /*background-image : url("/assets/images/cdesk/sorting_arrows_up.png");*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  -197px -414px ;
         }
       }
     }
@@ -2125,14 +2132,20 @@ button, i, input[type="submit"] {
         display: block;
         cursor: pointer;
         float: left;
-        background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;
+        /*background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;*/
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
         &:first-child {
-          background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px ;
+          /*background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;*/
         }
       }
       &:hover {
         .dots {
-          background-position : -4px -66px ;
+          background-position : -433px -416px ;
+          /*background-position  : -4px -66px ;*/
+          &:first-child {
+            background-position : -197px -414px ;
+          }
         }
       }
     }
@@ -2172,8 +2185,11 @@ button, i, input[type="submit"] {
       }
       li.active a {
         color: #0978C9 ;
-        .sortable {
-          background-position: -4px -64px ;
+        .sortable.ascending {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -195px -412px ;
+        }
+        .sortable.descending {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -431px -415px  ;
         }
       }
       li:hover {
@@ -2575,7 +2591,8 @@ button, i, input[type="submit"] {
               color: #fff ;
             }
             li.active {
-              background: url("/assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;
+              /*background: url("/assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;*/
+              background: url("/assets/images/cdesk/sprites-2.png") no-repeat  -535px 9px ;
             }
             a {
               white-space: normal;
