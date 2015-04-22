@@ -411,7 +411,7 @@
 
         <div class="row-fluid">
             <!--Directive for Campaign sort -->
-            <span ng-if="campaign.campaignStrategies.length===0">No Linked Strategies</span>
+            <span ng-if="campaign.campaignStrategies.length===0" class="no-data-common">No Linked Strategies</span>
             <div campaign-sort campaigns="campaigns" ng-show="campaign.campaignStrategies.length>0"></div>
                 <div class="total_campaign_list_holder">
                     <!--reusing the campaign and strategy partial view -->
