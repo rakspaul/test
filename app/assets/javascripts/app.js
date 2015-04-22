@@ -25,7 +25,13 @@ var angObj = '';
 
     angObj.config(function ($routeProvider, $httpProvider) {
         var networkUser =  localStorage.getItem('networkUser');
-        var setDefaultPage = (networkUser === 'true' || networkUser === true) ? 'campaigns' : 'dashboard';
+        var setDefaultPage;
+        if(networkUser) {
+            setDefaultPage = (networkUser === 'true' || networkUser === true) ? 'campaigns' : 'dashboard';
+        } else {
+            setDefaultPage = 'login';
+        }
+
         $routeProvider
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
