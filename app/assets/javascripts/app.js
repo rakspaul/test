@@ -24,14 +24,6 @@ var angObj = '';
 
 
     angObj.config(function ($routeProvider, $httpProvider) {
-        var networkUser =  localStorage.getItem('networkUser');
-        var setDefaultPage;
-        if(networkUser) {
-            setDefaultPage = (networkUser === 'true' || networkUser === true) ? 'campaigns' : 'dashboard';
-        } else {
-            setDefaultPage = 'login';
-        }
-
         $routeProvider
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
@@ -64,7 +56,7 @@ var angObj = '';
                 title :  'Reports - Performance',
                 controller: 'performanceController'
             })
-            .otherwise({redirectTo: setDefaultPage});
+            .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }).config([
         "$locationProvider", function($locationProvider) {
@@ -78,6 +70,7 @@ var angObj = '';
 
    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
         $rootScope.version = version;
+
         var locationChangeStartFunc  = $rootScope.$on('$locationChangeStart', function () {
             $rootScope.bodyclass='';
             var locationPath = $location.path();
@@ -126,11 +119,20 @@ var angObj = '';
             routeChangeSuccessFunc();
         });
 
-        var networkUser = localStorage.getItem('networkUser');
-        var isNetworkUser = (networkUser === 'true' || networkUser === true);
-        if(isNetworkUser && $cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
-            $location.url($cookieStore.get(constants.COOKIE_REDIRECT));
-            $cookieStore.remove(constants.COOKIE_REDIRECT);
-        }
+       if($cookieStore.get(constants.COOKIE_SESSION)) {
+           var networkUser =  localStorage.getItem('networkUser');
+           var isNetworkUser = (networkUser === 'true' || networkUser === true);
+           var setDefaultPage;
+           var cookieRedirect =  $cookieStore.get(constants.COOKIE_REDIRECT).replace("/", '');
+           if(isNetworkUser && cookieRedirect && cookieRedirect !== 'dashboard')  {
+               $location.url(cookieRedirect);
+               $cookieStore.remove(constants.COOKIE_REDIRECT);
+           } else {
+               setDefaultPage = isNetworkUser ? 'campaigns' : 'dashboard';
+               $location.url(setDefaultPage);
+           }
+       } else {
+           $location.url('login');
+       }
     });
 }());
