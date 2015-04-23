@@ -71,7 +71,7 @@ var angObj = '';
    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
         $rootScope.version = version;
 
-        var networkUser =  $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
+        var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
         var isNetworkUser = (networkUser === 'true' || networkUser === true);
         var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
 
