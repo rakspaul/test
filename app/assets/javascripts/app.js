@@ -123,7 +123,10 @@ var angObj = '';
            var networkUser =  localStorage.getItem('networkUser');
            var isNetworkUser = (networkUser === 'true' || networkUser === true);
            var setDefaultPage;
-           var cookieRedirect =  $cookieStore.get(constants.COOKIE_REDIRECT).replace("/", '');
+           var cookieRedirect = null;
+           if($cookieStore.get(constants.COOKIE_REDIRECT)) {
+               cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT).replace("/", '');
+           }
            if(isNetworkUser && cookieRedirect && cookieRedirect !== 'dashboard')  {
                $location.url(cookieRedirect);
                $cookieStore.remove(constants.COOKIE_REDIRECT);
