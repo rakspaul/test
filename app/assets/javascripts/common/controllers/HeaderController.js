@@ -16,9 +16,9 @@
         };
 
         $scope.logout = function() {
+            $scope.removeUserData();
             loginService.logoutAction(function(response) {
                 if(response.status == "success"){
-                    $scope.removeUserData();
                     /*
                         //CRPT-2111
                         var locationPath =  $location.path();
