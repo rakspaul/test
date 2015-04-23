@@ -26,6 +26,8 @@ var angObj = angObj || {};
         };
 //        $scope.selected_filters = domainReports.getDurationKpi();
 
+
+
         $scope.filters = domainReports.getReportsDropDowns();
 
         $scope.sortByColumn = 'name';
@@ -70,15 +72,9 @@ var angObj = angObj || {};
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
 
-            if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null)
-                $scope.sortByColumn = 'name';
-            else
-                $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
-            for(var i in $scope.sort_field){
-                if($scope.sortByColumn.indexOf($scope.sort_field[i].key)>=0){
-                    $scope.sort_field[i]['class']= 'active';
-                    $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
-                }
+
+            if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
+                $scope.sortFunction($scope.sortByColumn);
             }
         };
 
@@ -143,6 +139,14 @@ var angObj = angObj || {};
                                         }
                                     }
                                 }
+
+                                if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
+                                    $scope.sortFunction($scope.sortByColumn);
+                                } else {
+                                    $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
+                                    var sortCoulumName = $scope.sortByColumn.replace('-', '');
+                                    $scope.sortFunction(sortCoulumName);
+                                }
                                 $scope.tacticCostBusy = false;
                             }
                             else{
@@ -153,6 +157,27 @@ var angObj = angObj || {};
                 }
             });
 
+        };
+
+        $scope.sortFunction = function (sortby) {
+            for(var i in $scope.sort_field){
+                if($scope.sort_field[i].key === sortby){
+                    if($scope.sort_field[i]['class']==='active') //simply toggle previous state if the same sortby was previously active
+                        $scope.sortByColumn=($scope.sortByColumn.indexOf('-')>=0)?sortby:'-'+sortby;
+                    else
+                        $scope.sortByColumn = (sortby==='name')?sortby : '-'+sortby;
+                    $scope.sort_field[i]['class'] = 'active';
+                    $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
+                    var tacticsData = _.chain($scope.tacticsCostData).sortBy(sortby).value();
+                    $scope.tacticsCostData = ($scope.sort_field[i].sortDirection === 'ascending') ?  tacticsData : tacticsData.reverse();
+                    localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.sortByColumn );
+                }
+                else{
+                    $scope.sort_field[i]['class'] = '';
+                    $scope.sort_field[i].sortDirection = '';
+                }
+
+            }
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
@@ -168,6 +193,7 @@ var angObj = angObj || {};
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.more_options = Number($scope.selectedStrategy.id) === 0 ?  false : true;
             $scope.callBackStrategyChange();
         });
 
@@ -204,27 +230,7 @@ var angObj = angObj || {};
         };
 
 
-        $scope.sortFunction = function (sortby) {
-            for(var i in $scope.sort_field){
-                if($scope.sort_field[i].key === sortby){
-                    if ($scope.sort_field[i]['class']==='active') //simply toggle previous state if the same sortby was previously active
-                        $scope.sortByColumn=($scope.sortByColumn.indexOf('-')>=0)?sortby:'-'+sortby;
-                    else
-                        $scope.sortByColumn = (sortby==='name')?sortby : '-'+sortby;
 
-                    $scope.sort_field[i]['class'] = 'active';
-                    $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
-                   localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.sortByColumn );
-                }
-                else{
-                    $scope.sort_field[i]['class'] = '';
-                    $scope.sort_field[i].sortDirection = '';
-                }
-
-            }
-            // The sort direction is derived from the code above to match the UI desc/asc icons
-            analytics.track(loginModel.getUserRole(), constants.GA_COST_TAB_SORTING, (sortby + ($scope.sortByColumn.indexOf('-')>=0 ? '_desc' : '_asc')), loginModel.getLoginName());
-        };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
