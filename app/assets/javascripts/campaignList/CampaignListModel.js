@@ -1,9 +1,9 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths',
+campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataService', 'campaignListService', 'apiPaths',
                                                   'modelTransformer', 'campaignCDBData', 'campaignCost',
                                                   'dataStore', 'requestCanceller', 'constants',
                                                   'brandsModel', 'loginModel', 'analytics',
-                                                  function($http, dataService, campaignListService, apiPaths,
+                                                  function($http, $location, dataService, campaignListService, apiPaths,
                                                            modelTransformer, campaignCDBData, campaignCost,
                                                            dataStore, requestCanceller, constants,
                                                            brandsModel, loginModel, analytics) {
@@ -333,6 +333,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
 
     Campaigns.prototype.dashboardFilter = function(type, state) {
 
+      requestCanceller.cancelLastRequest(constants.CAMPAIGN_LIST_CANCELLER);
       this.resetDasboard();
       this.resetDasboardFilter(type,state);
       this.dashboardRemoveSelectedAll(type,state);
@@ -474,14 +475,14 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       */
       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
       if(status == false){
-        document.location = "/#/campaigns/" + campaign.orderId;
+        $location.path("/campaigns/" + campaign.orderId);
       }
     },
 
     Campaigns.prototype.campaignReports = function(campaign) {
       ga('send', 'event', 'campaign-report', 'click', campaign.campaignTitle, {
         'hitCallback': function() {
-          document.location = "reports/reports/" + campaign.orderId;
+          $location.path("reports/reports/" + campaign.orderId);
         }
       });
     }

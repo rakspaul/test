@@ -82,6 +82,17 @@
       return search;
     };
 
+    function getParameterByName(url, name) {
+      var results = '';
+      if (name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+              results = regex.exec(url);
+          results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+      return results;
+    };
+
 
     return {
       formatDate: formatDate,
@@ -91,7 +102,8 @@
       allValuesSame: allValuesSame,
       clone: clone,
       highlightSearch: highlightSearch,
-      typeaheadParams: getTypeaheadParams()
+      typeaheadParams: getTypeaheadParams(),
+      getParameterByName : getParameterByName
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -511,6 +523,17 @@ angObj.directive('truncateTextWithHover', function () {
         return input.replace('\\n', '<br />');
      }
   });
+  angObj.filter("zeroToBeLast", function () {
+    return function (array, key) {
+        var present = array.filter(function (item) {
+            return item[key];
+        });
+        var empty = array.filter(function (item) {
+            return !item[key]
+        });
+        return present.concat(empty);
+    };
+});
   $.fn.scrollWithInDiv = function() {
     this.bind('mousewheel DOMMouseScroll', function (e) {
       var scrollTo = null;

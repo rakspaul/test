@@ -1,11 +1,11 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", function(loginModel, analytics) {
+    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope',function(loginModel, analytics, $location, $rootScope) {
         this.createGanttChart = function() {
 
         };
 
-        var MIN_CALENDAR_HEIGHT = 500;
+        var MIN_CALENDAR_HEIGHT = 580;
 
         d3.gantt = function(cal_height) {
             var FIT_TIME_DOMAIN_MODE = "fit";
@@ -48,6 +48,10 @@
 
             var rectTransform = function(d) {
                 return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
+            };
+
+            var brandTransform = function(d) {
+                return "translate(0," + y(d.taskName) + ")";
             };
 
             var markerTransform = function() {
@@ -189,7 +193,7 @@
                     .append("svg")
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("height", height - margin.top - margin.bottom)
                     .append("g")
                     .attr("class", "gantt-chart")
                     .attr("width", width + margin.left + margin.right)
@@ -296,8 +300,18 @@
                         var data = _.sortBy(tasks, function(o) { return o.start_date; });
 
                         if (d3.event.dx < 0) {
+                            if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
+                                if(moment(_.first(data).endDate).toDate() > moment(td[1] - scale * d3.event.dx).toDate()) {
+                                    gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                                } else if(moment(_.first(data).endDate).toDate() < moment(td[1] - scale/10)) {
+                                    gantt.timeDomain([td[0] - scale/10 , td[1] - scale/10]);
+                                } else {
+                                    navigationButtonControl("#cal_next", "disabled");
+                                }
+                            } else {
+                                navigationButtonControl("#cal_next", "disabled");
+                            }
                             //if user requests next duration data -  scroll the view 
-                            gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
                             gantt.redraw(tasks, timeDomainString);
                             navigationButtonControl("#cal_prev", "enabled");
                         } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
@@ -310,6 +324,7 @@
                                 gantt.timeDomain([td[0] - scale , td[1] - scale]);
                             }
                             gantt.redraw(tasks, timeDomainString);
+                            navigationButtonControl("#cal_next", "enabled");
                         } else {
                             //disable 'previous' navigation button
                             navigationButtonControl("#cal_prev", "disabled");
@@ -388,7 +403,8 @@
                     .on("click", function(d) {
                         if (d.type != "brand") {
                             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
-                            document.location = '#/campaigns/' + d.id;
+                            $location.url('/campaigns/' + d.id);
+                            $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag
                         }
                     })
 
@@ -504,7 +520,7 @@
                         return d.name;
                     })
                     .transition()
-                    .attr("transform", rectTransform);
+                    .attr("transform",brandTransform);
                 //brand grouping ends
 
                 //top bar 
@@ -512,6 +528,7 @@
                 	.attr("x", 0)
                     .attr("class", "header")
                     .attr("style", "cursor:pointer")
+                    .style("shape-rendering", "crispEdges")
                     .attr("fill", function(d) {
                         if (d.kpiStatus == "ontrack") {
                             return onTrackColor;
@@ -530,7 +547,7 @@
                             return 0;
                         }
                     })
-                    .attr("height", CAMPAIGN_HEIGHT + 1)
+                    .attr("height", CAMPAIGN_HEIGHT)
                     .transition().delay(0)
                     .attr("transform", rectTransform);
 
@@ -600,7 +617,7 @@
                         if (d.type == "brand") {
                             return 0;
                         } else {
-                            return x(d.endDate) - x(d.startDate);
+                            return x(d.endDate) - x(d.startDate) + 2;
                         }
                     })
                     .style('stroke', '#ccd2da')
@@ -851,7 +868,7 @@
                             } else {
                                 var width = x(d.endDate) - x(d.startDate);
                                 if(width > 0) {
-                                    return width - 2;
+                                    return width ;
                                 } else {
                                     return 0;
                                 }
@@ -862,7 +879,13 @@
                 var translateVisualElements = function(a, type) {
                     if (type == "node") {
                         a.transition()
-                            .delay(0).attr("transform", rectTransform);
+                            .delay(0).attr("transform", function(d){
+                                if(d.type == "brand") {
+                                    return "translate(0," + y(d.taskName) + ")";
+                                } else {
+                                    return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
+                                }
+                            });
 
                     } else if (type == "body") {
                         a.transition()
@@ -1433,6 +1456,7 @@
                         break;
                 }
 
+                navigationButtonControl("#cal_next", "enabled");
                 gantt.timeDomain([edge1, edge2]);
                 gantt.redraw(tasks, timeDomainString);
 
@@ -1459,73 +1483,99 @@
             var tdDay = moment(td[0]).format('DD');
             var qStart, qEnd;
 
+            var data = _.sortBy(tasks, function(o) {
+                return o.start_date;
+            });
 
+            if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
 
-            switch (timeDomainString) {
-                case 'quarter':
-                    if (tdMonth == 1 || tdMonth == 4 || tdMonth == 7 || tdMonth == 10) {
-                        edge1 = moment(td[0]).add(3, 'months').startOf('month').unix() * 1000;
-                        edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
-                    } else {
+                if((moment(_.first(data).endDate).toDate() < moment((td[1] + 1000)).toDate()) ) {
+                    return;
+                }
 
-                        if (tdMonth >= 1 && tdMonth <= 3) {
-                            //find next quarter
-                            qStart = 3;
-                            qEnd = 5;
-                        } else if (tdMonth >= 4 && tdMonth <= 6) {
-                            qStart = 6;
-                            qEnd = 8;
-                        } else if (tdMonth >= 7 && tdMonth <= 9) {
-                            qStart = 9;
-                            qEnd = 11;
-                        } else if (tdMonth >= 10 && tdMonth <= 12) {
-                            qStart = 0;
-                            qEnd = 2;
+                switch (timeDomainString) {
+                    case 'quarter':
+                        if (tdMonth == 1 || tdMonth == 4 || tdMonth == 7 || tdMonth == 10) {
+                            edge1 = moment(td[0]).add(3, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
+                        } else {
+
+                            if (tdMonth >= 1 && tdMonth <= 3) {
+                                //find next quarter
+                                qStart = 3;
+                                qEnd = 5;
+                            } else if (tdMonth >= 4 && tdMonth <= 6) {
+                                qStart = 6;
+                                qEnd = 8;
+                            } else if (tdMonth >= 7 && tdMonth <= 9) {
+                                qStart = 9;
+                                qEnd = 11;
+                            } else if (tdMonth >= 10 && tdMonth <= 12) {
+                                qStart = 0;
+                                qEnd = 2;
+                            }
+                            //number of months to next quarter
+                            var fix = (qStart + 1) - (tdMonth);
+                            if (qStart == 0) {
+                                fix = 13 - tdMonth;
+                            }
+                            edge1 = moment(td[0]).add(fix, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
+
                         }
-                        //number of months to next quarter
-                        var fix = (qStart + 1) - (tdMonth);
-                        if (qStart == 0) {
-                            fix = 13 - tdMonth;
+                        break;
+                    case 'year':
+                        if (tdMonth != 1) {
+                            var fix = 13 - tdMonth;
+
+                            edge1 = moment(td[0]).add(fix, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
+
+                        } else {
+                            edge1 = moment(td[0]).add(12, 'months').startOf('month').unix() * 1000;
+                            edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
                         }
-                        edge1 = moment(td[0]).add(fix, 'months').startOf('month').unix() * 1000;
-                        edge2 = moment(edge1).add(2, 'months').endOf('month').unix() * 1000;
 
-                    }
-                    break;
-                case 'year':
-                    if (tdMonth != 1) {
-                        var fix = 13 - tdMonth;
+                        break;
+                    case 'month':
+                        var lastDay = moment(td[0]).endOf('month').format('DD');
+                        var fix = lastDay - tdDay;
+                        edge1 = moment(td[0]).add(fix + 1, 'days').startOf('day').unix() * 1000;
+                        edge2 = moment(edge1).add(30, 'days').endOf('day').unix() * 1000;
+                        break;
+                    case 'today':
 
-                        edge1 = moment(td[0]).add(fix, 'months').startOf('month').unix() * 1000;
-                        edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
+                        //get day for weekend
+                        //commented some code for future requirement
+                        //edge1 = moment(td[0]).weekday(7).startOf('week').unix()*1000;
+                        //edge2 = moment(edge1).weekday(6).endOf('week').unix()*1000;
+                        edge1 = moment(td[0]).add(7, 'days').startOf('day').unix() * 1000;
+                        edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
+                        break;
+                }
 
-                    } else {
-                        edge1 = moment(td[0]).add(12, 'months').startOf('month').unix() * 1000;
-                        edge2 = moment(edge1).add(11, 'months').endOf('month').unix() * 1000;
-                    }
 
-                    break;
-                case 'month':
-                    var lastDay = moment(td[0]).endOf('month').format('DD');
-                    var fix = lastDay - tdDay;
-                    edge1 = moment(td[0]).add(fix + 1, 'days').startOf('day').unix() * 1000;
-                    edge2 = moment(edge1).add(30, 'days').endOf('day').unix() * 1000;
-                    break;
-                case 'today':
+                navigationButtonControl("#cal_prev", "enabled");
+                gantt.timeDomain([edge1, edge2]);
+                gantt.redraw(tasks, timeDomainString);
 
-                    //get day for weekend
-                    //commented some code for future requirement
-                    //edge1 = moment(td[0]).weekday(7).startOf('week').unix()*1000;
-                    //edge2 = moment(edge1).weekday(6).endOf('week').unix()*1000;
-                    edge1 = moment(td[0]).add(7, 'days').startOf('day').unix() * 1000;
-                    edge2 = moment(edge1).add(6, 'days').endOf('day').unix() * 1000;
-                    break;
+                //eager check - navigation lock
+                td = gantt.timeDomain();
+                if(!(moment(_.first(data).endDate).toDate() > moment((td[1] + 1000)).toDate()) ) {
+                    //disable 'next' navigation button
+                    navigationButtonControl("#cal_next", "disabled");
+                }
+
+                
+            } else {
+                        //disable 'next' navigation button
+                        navigationButtonControl("#cal_next", "disabled");
             }
 
 
-            navigationButtonControl("#cal_prev", "enabled");
-            gantt.timeDomain([edge1, edge2]);
-            gantt.redraw(tasks, timeDomainString);
+
+
+
         }
 
         function navigationButtonControl(id, action) {
@@ -1640,6 +1690,7 @@
             }
             //reset navigation
             navigationButtonControl("#cal_prev", "enabled");
+            navigationButtonControl("#cal_next", "enabled");
 
             gantt.tickFormat(format);
             gantt.redraw(tasks, timeDomainString);
@@ -1701,7 +1752,7 @@
             format = "%d";
             timeDomainString = "quarter";
 
-            var calendar_height = tasks.length * 37;
+            var calendar_height = tasks.length * 30.75;
             calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
             gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
@@ -1757,7 +1808,7 @@
 
 
 
-    })
+    }])
 }());
 
 (function() {

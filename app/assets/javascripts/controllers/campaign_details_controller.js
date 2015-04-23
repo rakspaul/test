@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -51,6 +51,11 @@
             return $scope.details.sortParam == fieldName ? 'active' : '';
         };
 
+        $scope.applySortStrategies =  function() {
+            var campaignStrategiesData = _.chain($scope.campaign.campaignStrategies).sortBy($scope.details.sortParam).sortBy('name').value();
+            $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'asc') ? campaignStrategiesData : campaignStrategiesData.reverse();
+        };
+
         $scope.details.sortStrategies=function(fieldName){
             if ($scope.details.sortParam) {
                 if ($scope.details.sortParam == fieldName) {
@@ -65,11 +70,11 @@
             }
             !$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
             $scope.details.sortParam = fieldName;
-            $scope.campaign.campaignStrategies=$filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
+            $scope.applySortStrategies();
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
         };
         $scope.details.getSortDirection= function(){
-            return ($scope.details.sortDirection == "desc")? "true" : "false";
+            return ($scope.details.sortDirection == "desc")? "false" : "true";
         };
         $scope.details.callStrategiesSorting = function(fieldName,count){
             if(count > 1){
@@ -108,7 +113,8 @@
 
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                $scope.getCdbChartData($scope.campaign);
+                //$scope.getCdbChartData($scope.campaign);
+                updateActionItems($scope.getCdbChartData,1);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
@@ -136,15 +142,42 @@
         }, function(result) {
             console.log('call failed');
         });
-
-        updateActionItems();
+         $scope.getCdbChartData = function(campaign) {
+            //API call for campaign chart
+            dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
+                var lineData = [], showExternal = true;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    if (!angular.isUndefined($scope.campaign.kpiType)) {
+                        if (result.data.data.measures_by_days.length > 0) {
+                            var maxDays = result.data.data.measures_by_days;
+                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
+                            for (var i = 0; i < maxDays.length; i++) {
+                                maxDays[i]['ctr'] *= 100;
+                                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
+                                lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
+                            }
+                            $scope.details.lineData = lineData;
+                           // $timeout(function() {
+                                $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
+                            //},10000);
+                            if ((localStorage.getItem('actionSel') !== null)) {
+                                $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
+                            }
+                        }
+                    } else {
+                        $scope.details.actionChart = false;
+                    }
+                } else {
+                    $scope.details.actionChart = false;
+                }
+            });
+        };
 
         var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function() {
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-            updateActionItems();
+            updateActionItems($scope.getCdbChartData,0);
         });
-
-        function updateActionItems() {
+        function updateActionItems(callbackCDBGraph,loadingFlag) {
             $scope.activityLogFlag = false;
             var actionUrl = urlService.APIActionData($routeParams.campaignId);
             dataService.getActionItems(actionUrl).then(function(result) {
@@ -173,6 +206,10 @@
                 } else { //if error
                     activityList.data.data = undefined;
                 }
+                if(loadingFlag == 1){
+                    callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                }
+               
             }, function(result) {
                 console.log('call failed');
             });
@@ -194,6 +231,7 @@
                 //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
             }
+            $scope.applySortStrategies();
         };
 
         $scope.loadMoreTactics = function(strategyId, campaignId) {
@@ -208,12 +246,12 @@
                         var moreDataLen = moreData.length;
                         var tmpstrategyTacticsArr = [];
                         for (var len = 0; len < moreDataLen; len++) {
-                            tmpstrategyTacticsArr.push(moreData[len]);
+                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
                         }
-                        $scope.campaign.campaignStrategies[i].strategyTactics =  tmpstrategyTacticsArr;
                     }
                 }
-            }    
+
+            }
         };
 
         $scope.makeCampaignSelected = function(id) {
@@ -425,37 +463,7 @@
                 console.log('cost viewability call failed');
             });
         };
-        $scope.getCdbChartData = function(campaign) {
-            //API call for campaign chart
-            dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
-                var lineData = [], showExternal = true;
-                if (result.status == "success" && !angular.isString(result.data)) {
-                    if (!angular.isUndefined($scope.campaign.kpiType)) {
-                        if (result.data.data.measures_by_days.length > 0) {
-                            var maxDays = result.data.data.measures_by_days;
-                            var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
-                            for (var i = 0; i < maxDays.length; i++) {
-                                maxDays[i]['ctr'] *= 100;
-				                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
-                                lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
-                            }
-                            $scope.details.lineData = lineData;
-                           // $timeout(function() {
-                                $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
-                            //},10000);
-                            if ((localStorage.getItem('actionSel') !== null)) {
-                                $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
-                            }
-                        }
-                    } else {
-                        $scope.details.actionChart = false;
-                    }
-                } else {
-                    $scope.details.actionChart = false;
-                }
-            });
-        };
-
+        
         $scope.viewReports = function(campaign, strategy){
             campaignSelectModel.setSelectedCampaign(campaign);
             strategySelectModel.setSelectedStrategy(strategy);
@@ -464,7 +472,7 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
-            document.location = '#/performance';
+            utils.goToLocation('/performance');
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
@@ -479,10 +487,7 @@
             } else if (campaign.status == 'active') {
               return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             } else if (dataSetType == 'activities') {
-              if(campaignSelectModel.durationLeft() == 'Ended')
                 return constants.MSG_CAMPAIGN_NOT_OPTIMIZED;
-              else
-                return constants.MSG_METRICS_NOT_TRACKED;
             } else if (dataSetType == 'inventory' || dataSetType == 'viewability'){
                 return constants.MSG_METRICS_NOT_TRACKED;
             } else {
@@ -504,7 +509,7 @@
             localStorage.setItem('isNavigationFromCampaigns', true);
             localStorage.setItem('selectedAction',JSON.stringify(action) );
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
-            document.location = '#/optimization';
+            utils.goToLocation('/optimization');
         };
 
         $scope.setActivityButtonData = function( campaign, strategy){
@@ -519,7 +524,7 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
-            document.location = '#/optimization';
+            utils.goToLocation('/optimization');
         };
 
         $scope.setGraphData = function(campaign, type){
@@ -540,7 +545,7 @@
             } else if (type === 'view_report' || type === 'format' || type == 'screens') {
                 utils.goToLocation('/performance');
             } else {
-                utils.goToLocation('/#/optimization');
+                utils.goToLocation('/optimization');
             }
         };
 

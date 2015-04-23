@@ -218,7 +218,10 @@
                 percentage = ((parseFloat(maxVal) - parseFloat(minVal))/100)*15,
                 chartMinimum = parseFloat(parseFloat(minVal) - parseFloat(percentage)),
                 chartMaximum = parseFloat(parseFloat(maxVal) + parseFloat(percentage));
-
+                var setMinVal = minVal;
+                if(threshold >= 0){
+                    var setMinVal = minVal <= threshold ? minVal : threshold;
+                }
             return {
                 options: {
                     chart: {
@@ -275,10 +278,11 @@
                         maxPadding:0,
                         minPadding:0,
                         max:chartMaximum,
+                        min:setMinVal,
                         title: {
                             align: 'high',
                             offset: 13,
-                            text: kpiType,
+                            text: (kpiType === kpiType.toUpperCase()) ? kpiType : kpiType.toUpperCase(),
                             rotation: 0,
                             y: -5
                         },
@@ -412,8 +416,8 @@
 
                             //rendering threshold marker image in y-axis
                             var renderPos;
-                            if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
-                                chart.renderer.image(assets.target_marker, 0, (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 13, 13).add();
+                            if ((threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) && threshold > 0)  {
+                                chart.renderer.image("/"+assets.target_marker, 0, (chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2) + 5.7, 13, 13).add();
                             }
 
                             //rendering action markers after red zone manipulation

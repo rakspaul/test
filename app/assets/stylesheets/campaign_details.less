@@ -176,6 +176,11 @@ body {
       border-bottom : solid 1px #ebf0f5 ;
       background: #fbfcff ;
     }
+    #activityMessage{
+      visibility: hidden;
+      margin-left: 18px;
+      color:#5cb85c;
+    }
     .comment_area {
       width: 85%;
       position: relative;
@@ -635,6 +640,24 @@ body {
       .metrics_title {
         margin-left: 120px ;
         text-transform: none;
+      }
+      .each_header_title {
+        .sortable {
+          margin-left: 5px ;
+        }
+      }
+      .each_header_title.active {
+        color: #0978c9 ;
+        .sortable {
+          background-position: -2px -64px ;
+        }
+      }
+      .each_header_title.deactive {
+        color: #333 ;
+        cursor: default;
+        .sortable {
+          display: none;
+        }
       }
     }
     .total_campaign_list_holder {

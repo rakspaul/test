@@ -9,54 +9,57 @@
             controller: 'campaignSelectController',
             templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
-
                 $('#campaigns_list').scrollWithInDiv();
-
-                //Function called when the user clicks on the down arrow icon
-                $('#campaign_arrow_img,#campaignDropdown').click(function ($event) {
-                    if ($('#campaigns_list').css('display') === 'block')
-                        $('#campaigns_list').hide();
-                    else
-                        $('#campaigns_list').show();
-                    if($event.target.id === 'campaignDropdown')
-                        $('#campaignDropdown').val('');
+                var campaignName = '';
+                var localStorageCampaignData;
+                $scope.$watch('selectedObj.name', function(v) {
+                    localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    $("#campaignDropdown").width($(".campaign_name_length").width() + 14 );
                 });
 
-                $(document).click(function(event) {
-                    if(!$("#campaignDropdown").is(':focus') && $('#campaigns_list').css('display') == "block" ) {
+                $('#campaign_arrow_img,#campaignDropdown').click(function (event) {
+                    if ($('#campaigns_list').css('display') === 'block') {
+                        $('#campaigns_list').hide();
+                    } else {
+                        $('#campaigns_list').show();
+                    }
+                    var inputValue = $('#campaignDropdown').val();
+                    if(inputValue) {
+                        $('#campaignDropdown').attr('placeholder', inputValue);
+                        $('#campaignDropdown').val('');
 
-                        $("#campaigns_list").hide();
-                        $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
-
-                        $(".campaign_name_length").text($("#campaignDropdown").attr("placeholder")) ;
-                        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
                     }
                 });
 
-                $(document).ready(function(){
+                $(document).click(function(event) {
+                    localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    if(event.target.id !== 'campaignDropdown' && $('#campaigns_list').css('display') == "block" ) {
+                        $("#campaigns_list").hide();
+                        var inputValue;
+                        if(localStorageCampaignData.id || (localStorageCampaignData.id === $scope.$parent.selectedCampaign.id)) {
+                            inputValue = localStorageCampaignData.name;
+                            if(inputValue) {
+                                $('#campaignDropdown').attr('placeholder', '');
+                                $(".campaign_name_length").text(inputValue) ;
+                                $('#campaignDropdown').val(inputValue);
+                            }
+                        } else {
+                            inputValue  = $('#campaignDropdown').attr('placeholder');
+                            if(inputValue) {
+                                $('#campaignDropdown').attr('placeholder', '');
+                                $(".campaign_name_length").text(inputValue) ;
+                                $('#campaignDropdown').val(inputValue);
+                            }
+                        }
 
-                    $('#campaignDropdown').keydown(function() {
-                        $(".campaign_name_length").text($(this).val()) ;
-                        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
-                    });
-                    setTimeout(function(){
-                        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
-                    }, 100);
-                    $(".campaigns_list_li").click( function() {
-                        $(".campaign_name_length").text($(this).text()) ;
-
-                        $("#campaignDropdown").width( $(".campaign_name_length").width() + 14  ) ;
-
-                    });
-                    $("#campaigns_list").click( function(e) {
-                        var inpVal =  $(e.target).text();
-                        $(".campaign_name_length").text(inpVal) ;
                         $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 );
-                        $("#campaignDropdown").val(inpVal);
 
-                    });
+                    }
                 });
 
+                $('#campaignDropdown').keydown(function(event) {
+                    $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 );
+                });
             }
         };
     }]);
