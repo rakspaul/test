@@ -4,7 +4,8 @@ var angObj = '';
     'use strict'; //This strict context prevents certain actions from being taken and throws more exceptions.
 
   angObj = angular.module('app',
-    [ 'commonModule',
+    [
+      'commonModule',
       'campaignListModule',
       'editActionsModule',
       'brandsModule',
@@ -23,8 +24,6 @@ var angObj = '';
 
 
     angObj.config(function ($routeProvider, $httpProvider) {
-        var networkUser =  localStorage.getItem('networkUser');
-        var setDefaultPage = (networkUser === 'true' || networkUser === true) ? 'campaigns' : 'dashboard';
         $routeProvider
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
@@ -57,12 +56,43 @@ var angObj = '';
                 title :  'Reports - Performance',
                 controller: 'performanceController'
             })
-            .otherwise({redirectTo: setDefaultPage});
+            .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    });
+    }).config([
+        "$locationProvider", function($locationProvider) {
+            return $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false
+            }).hashPrefix("!"); // enable the new HTML5 routing and history API
+            // return $locationProvider.html5Mode(true).hashPrefix("!"); // enable the new HTML5 routing and history API
+        }
+    ]);
 
-    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
+   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
         $rootScope.version = version;
+
+        var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
+        var isNetworkUser = (networkUser === 'true' || networkUser === true);
+        var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
+
+        var handleLoginRedirection = function() {
+            if($cookieStore.get(constants.COOKIE_SESSION)) {
+                var setDefaultPage;
+                if(cookieRedirect) {
+                    cookieRedirect = cookieRedirect.replace("/", '');
+                }
+                if(isNetworkUser && cookieRedirect && cookieRedirect !== 'dashboard')  {
+                    $location.url(cookieRedirect);
+                    $cookieStore.remove(constants.COOKIE_REDIRECT);
+                } else {
+                    setDefaultPage = isNetworkUser ? 'campaigns' : 'dashboard';
+                    $location.url(setDefaultPage);
+                }
+            } else {
+                $location.url('login');
+            }
+        }
+
         var locationChangeStartFunc  = $rootScope.$on('$locationChangeStart', function () {
             $rootScope.bodyclass='';
             var locationPath = $location.path();
@@ -71,39 +101,53 @@ var angObj = '';
             }
             dataService.updateRequestHeader();
 
-            //if logged in - go to campaigns
-            if (($cookies.cdesk_session) && (locationPath === '/login')) {
+            /*
+                this function will execute when location path is either login or /,
+                case- submit login button, cookie expire aur unauthorize
+            */
+            if (locationPath === '/login' || locationPath === '/') {
+                handleLoginRedirection();
+            }
+
+            /*
+                if some one manually try to change the url when logged in as network user
+                will check from cookie if its a network user then will redirect to deafult page which in this is campaign;
+             */
+
+            if(isNetworkUser && locationPath === '/dashboard') {
                 $location.url('campaigns');
             }
-            if (($cookies.cdesk_session === undefined) && (locationPath !== '/login')) {
-                $cookieStore.put(constants.COOKIE_REDIRECT, locationPath);
-                $location.url('login');
-            }
+
+
+
         });
 
         var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
             var locationPath = $location.path();
+            $rootScope.bodyclass = '';
+            var setPageTitle =  function() {
+                var currentRoute = current.$$route;
+                if(currentRoute) {
+                    switch (locationPath) {
+                        case '/login' :
+                            currentRoute.title = 'Login';
+                        break;
+                        case '/campaigns' :
+                            currentRoute.title = 'Campaign List';
+                        break;
+                        case '/dashboard' :
+                            currentRoute.title = 'Dashboard';
+                            $rootScope.bodyclass = 'dashboard_body';
+                        break;
+                    }
+                    $rootScope.title = currentRoute.title;
+                }
+            }
+
+            setPageTitle();
             if (loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
-            }
 
-            if (locationPath == '/dashboard') {
-                current.$$route.title = 'Dashboard'
-                $rootScope.bodyclass = 'dashboard_body';
-            } else {
-                $rootScope.bodyclass = '';
-            }
-
-            if ($location.path() == '/campaigns'){
-                current.$$route.title = 'Campaign List';
-            }
-
-            if($location.path() == '/login'){
-                current.$$route.title = 'Login'
-            }
-
-            if (current.hasOwnProperty('$$route')) {
-                $rootScope.title = current.$$route.title;
             }
         });
 
@@ -112,9 +156,6 @@ var angObj = '';
             routeChangeSuccessFunc();
         });
 
-        if($cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
-            $location.url($cookieStore.get(constants.COOKIE_REDIRECT));
-            $cookieStore.remove(constants.COOKIE_REDIRECT);
-        }
+
     });
 }());

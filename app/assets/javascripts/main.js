@@ -155,7 +155,6 @@
     optimize: 'uglify2',
     uglify2: {
     warnings: false,
-    /* Mangling defeats Angular injection by function argument names. */
       mangle: false
     },
     paths: {

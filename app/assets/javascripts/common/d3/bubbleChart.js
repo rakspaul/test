@@ -48,34 +48,34 @@
             var y = Math.abs(x);
 
             if(y < 999) {
-                return  "$" + ((r > 40) ? x.toFixed(2) : x.toFixed(0));
+                return  "$" + ((r > 55) ? x.toFixed(2) : x.toFixed(0));
             }
             if(y < 9999) {
                 var  x = x/1000 ;
 
-                return  "$" + ((r >40) ? x.toFixed(2)  : x.toFixed(0))+ "k";
+                return  "$" + ((r >55) ? x.toFixed(2)  : x.toFixed(0))+ "k";
             }
 
             if(y < 1000000) {
                 var x = x/1000;
 
-                return "$" + ((r >40) ? x.toFixed(2) : x.toFixed(0)) + "k";
+                return "$" + ((r >55) ? x.toFixed(2) : x.toFixed(0)) + "k";
             }
             if( y < 10000000) {
                 var x = x/1000000 ;
 
-                return "$"+ ((r >40) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return "$"+ ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000) {
                 var x = x/1000000 ;
 
-                return "$" +  ((r >40) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return "$" +  ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000000) {
                 var x= x/1000000000 ;
-                return "$"+  ((r >40) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
+                return "$"+  ((r >55) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
             }
 
             return "1T+";
@@ -191,10 +191,10 @@
 
         function dataFormatting (root , spanId){
 
-            var positions =  [[75,71],[240,60],[165,160],[280,200] ,[60,220],[165,240]];
+            var positions =  [[75,71,70],[240,65,65],[165,165,55],[273,200,55] ,[60,220,55],[165,240,50]];
             var formattedData = [];
             var array = root;
-            var maxRadius = (spanId == 'brands') ? 70 : 60 ;
+            var maxRadius =  70 ;
 
             var maxBudget = (array == undefined || array[0] == undefined) ? 0 : array[0].budget ;
             var ratio = (maxBudget == 0)? 0 : maxRadius / maxBudget ;
@@ -208,8 +208,8 @@
 
                     radius = ((node.budget)*ratio < 30 )? 30 : ( (node.budget)*ratio < 40 ?  ( node.budget*ratio + 5 ): (node.budget)*ratio  );
                 }
-                var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
-                
+                var computedRadius = (radius == 0) ? 30 : (positions[i][2] < radius ? positions[i][2] : radius ) ;
+                var pathData =  dataGenerator(positions[i][0], positions[i][1], computedRadius, percFill );
 
                 var object = {
                     id:  i ,
@@ -222,7 +222,7 @@
                     campaigns : node.campaigns,
                     cx : positions[i][0],
                     cy : positions[i][1],
-                    r : (radius == 0) ? 30 : radius,
+                    r : computedRadius,
                     status : (spanId == 'brands') ? 'brands' :  node.kpi_status ,
                     pathData : pathData['lineData'],
                     toolTipX : pathData['curveEndX'],
@@ -386,10 +386,14 @@
 
             node.append("text") //For brand name
                 .attr("transform", function(d) {
-                    if(d.r > 50)
+                    if(d.r > 60)
                         return "translate(" + d.cx + "," + (d.cy+35) + ")";
+                    else if(d.r > 50)
+                        return "translate(" + d.cx + "," + (d.cy+30) + ")";
                     else if(d.r >40)
-                        return "translate(" + d.cx + "," + (d.cy+25) + ")";
+                        return "translate(" + d.cx + "," + (d.cy+20) + ")";
+                    else if (d.r >35)
+                        return "translate(" + d.cx + "," + (d.cy+15) + ")";
                     else
                         return  "translate(" + d.cx + "," + (d.cy) + ")";
                 })
@@ -399,7 +403,6 @@
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 50 )
-
                         size = "12px" ;
                     else if (d.r > 40)
                         size = "10px" ;
@@ -414,11 +417,13 @@
                     var text ;
                     if(d.r > 60)
                         text = d.className.substring(0, 12) + '...' ;
-                    else if(d.r > 50){
-                        text = d.className.substring(0, 9) + '...' ;
-                    } else if (d.r > 40){
+                    else if(d.r >55)
+                        text = d.className.substring(0, 10) + '...' ;
+                    else if(d.r > 50)
+                        text = d.className.substring(0, 8) + '...' ;
+                     else if (d.r > 40)
                         text = d.className.substring(0, 6) + '...' ;
-                    }
+
                     return text ;
                 });
 
@@ -437,11 +442,14 @@
                 .style("z-index", "10")
                 .attr("font-size",function(d){
                     var text_size ;
-                    if(d.r > 50){
-                        text_size = "26px"
-                    }
-                    else if(d.r > 30){
-                        text_size = "20px";
+                    if(d.r > 55){
+                        text_size = "26px" ;
+                    } else if( d.r > 45){
+                        text_size = "22px" ;
+                    } else if(d.r > 35 ){
+                        text_size = "20px"  ;
+                    } else if(d.r > 30){
+                        text_size = "18px";
                     } else {
                         text_size="14px" ;
                     }
@@ -495,7 +503,6 @@
                 
 
 
-
                 return tooltip
                   //  .attr("transform",  "translate(" + focused_obj.toolTipX + "," + focused_obj.toolTipY + ")" )
                   .html(focused_obj.name + " <br/>  <b style='display:inline-block;width:55px;'>Budget:</b>  $" + focused_obj.budget.toFixed(2).replace(/./g, function(c, i, a) {
@@ -505,10 +512,10 @@
                 })  ).style("display", "block")
                     .style("top", function(){
                         var tooltipHeight = $("div.bubble_tooltip:visible").height() ;
-                        var shift = (focused_obj.cy - (tooltipHeight/2))+"px";
+                        var shift = (focused_obj.cy - (tooltipHeight/2) + 50)+"px";
                        return shift ;
                     })
-                    .style("left" ,  (focused_obj.toolTipX + 10) +"px") ;
+                    .style("left" ,  (focused_obj.toolTipX + 14) +"px") ;
 
 
             });

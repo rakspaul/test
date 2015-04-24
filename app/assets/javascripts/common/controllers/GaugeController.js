@@ -1,16 +1,18 @@
 (function () {
   'use strict';
-  commonModule.controller('gaugeController', function ($scope, gauge, gaugeModel, constants, $window, loginModel, analytics) {
-    var campaigns = '/#/campaigns';
+  commonModule.controller('gaugeController', function ($scope, $rootScope, gauge, gaugeModel, constants, $window, loginModel, analytics, $location) {
+    var campaigns = '/campaigns';
     gauge.setLeftArcClickHandler(function() {
       gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
       analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_on_track_clicked', loginModel.getLoginName());
-      $window.location.href = campaigns;
+      $location.path(campaigns);
+      $scope.$apply(); //TODO we need to remove this, added because of removing the hashtag
     });
     gauge.setRightArcClickHandler(function (){
       gaugeModel.dashboard.selectedFilter = constants.ACTIVE_UNDERPERFORMING;
       analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_underperforming_clicked', loginModel.getLoginName());
-      $window.location.href = campaigns;
+      $location.path(campaigns);
+      $scope.$apply(); //TODO we need to remove this, added because of removing the hashtag
     })
     gauge.createGauge();
     gauge.setMessage(constants.GAUGE_PERFORMANCE, '%');

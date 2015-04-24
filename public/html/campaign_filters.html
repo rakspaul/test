@@ -36,8 +36,8 @@
     <div class="unselectable each_header_title brand_title active_title {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
         Brand
     </div>
-    <div class=" unselectable each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-style="{'cursor':'default'}" >
-        Flight Dates<span class="sortable {{$parent.details.sortIcon('startDate')}}"   ng-show="false"></span>
+    <div class=" unselectable each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-click="$parent.details.callStrategiesSorting('startDate',$parent.campaign.campaignStrategies.length )"  ng-class="($parent.campaign.campaignStrategies.length > 1 ? 'active':'deactive')" >
+        Flight Dates<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
     </div>
     <div class=" unselectable each_header_title metrics_title">
         METRICS (LIFETIME)

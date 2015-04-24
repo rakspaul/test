@@ -87,6 +87,20 @@
                    ( ( data[2] !== undefined && data[2][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? (data[0] !== undefined ?  data[0][selected_metric_key] : 0 ): data[1][selected_metric_key] ): data[2][selected_metric_key] ) ;
                     ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
 
+                 //swipe 0 value bars to the bottom
+                    if(data[0] !== undefined && data[0][selected_metric_key] == 0) {
+                        if(data[1] !== undefined && data[1][selected_metric_key] == 0){
+                            var data_with_zero_kpi_value = data.splice(0,2);
+                            data[1] = data_with_zero_kpi_value[1];
+                            data[2]= data_with_zero_kpi_value[0];
+
+
+                        }else {
+                          var data_with_zero_kpi_value =  data.splice(0,1);
+                            data[2] = data_with_zero_kpi_value[0];
+                        }
+                    }
+
                 }
 
 

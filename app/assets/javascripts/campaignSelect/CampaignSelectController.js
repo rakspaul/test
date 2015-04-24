@@ -72,11 +72,6 @@
 
                 var campObj = campaignSelectModel.getCampaignObj();
 
-                if( $scope.campaignData.campaigns.length < searchCriteria.limit ){
-                    $scope.exhausted = true;
-                    $scope.fetching = false;
-                }
-
                 if(search)
                     $scope.campaignData.campaigns = campObj.campaigns;
                 else
@@ -84,6 +79,11 @@
 
                 if(set_campaign)
                     $scope.setCampaign(campObj.campaigns[0]);
+
+                $scope.fetching = false;
+
+                if( $scope.campaignData.campaigns.length < searchCriteria.limit )
+                    $scope.exhausted = true;
             });
 
         };

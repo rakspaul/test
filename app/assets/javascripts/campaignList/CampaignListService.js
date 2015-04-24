@@ -98,6 +98,7 @@
         };
         tactic_1.durationCompletion = campaign.durationCompletion.bind(tactic_1);
         tactic_1.durationLeft = campaign.durationLeft.bind(tactic_1);
+        tactic_1.daysSinceEnded = campaign.daysSinceEnded.bind(tactic_1);
 
         tacticObj.push(tactic_1);
         //based on time period use period dates or flight dates
@@ -235,6 +236,7 @@
         };
         strategy_1.durationCompletion = campaign.durationCompletion.bind(strategy_1);
         strategy_1.durationLeft = campaign.durationLeft.bind(strategy_1);
+        strategy_1.daysSinceEnded = campaign.daysSinceEnded.bind(strategy_1);
 
         strategyObj.push(strategy_1);
         getStrategyCdbLineChart(index, strategyObj, timePeriod, campaign, kpiType, kpiValue);
@@ -302,11 +304,13 @@
 
         if(result.status == "success" && !angular.isString(result.data.data)) {
           if(result.data.data.length >= 0) {
+            var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
+            var campaignStrategies = _.chain(dataObj).sortBy('startDate').sortBy('name').value().reverse();
             if(result.data.data.length <= 3) {
-              campaign.campaignStrategies = createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = campaignStrategies;
             } else {
-              campaign.campaignStrategies = createStrategyObject(result.data.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
-              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = campaignStrategies.slice(0,3);
+              campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
             }
           }
         }

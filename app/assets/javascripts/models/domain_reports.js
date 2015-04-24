@@ -30,7 +30,7 @@
 
                     ],
 
-                    activeTab : document.location.hash.substring(2)
+                    activeTab : document.location.pathname.substring(1)
                 }
             }
         };
