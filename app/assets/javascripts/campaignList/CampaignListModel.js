@@ -23,7 +23,7 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
       startDate : undefined,
       endDate : undefined
     };
-    this.costMargin;
+    //this.costMargin;
     this.busy = false;
     this.timePeriod = this.selectedTimePeriod.key;
     this.marketerName;
@@ -87,7 +87,7 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
       this.sortParam = 'start_date';
       this.sortDirection = 'desc';
       this.totalPages = undefined;
-      this.costMargin = undefined;
+      //this.costMargin = undefined;
       this.setActiveSortElement(this.sortParam);
     };
     this.resetDasboardFilter = function(type,state) {
@@ -133,7 +133,7 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
       this.sortParam = undefined;
       this.sortDirection = undefined;
       this.totalPages = undefined;
-      this.costMargin = undefined;
+     // this.costMargin = undefined;
     };
 
     this.resetFilters = function() {
@@ -323,8 +323,9 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
       var self = this;
       campaignListService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD"), function(result) {
         if(result.status == "success" && !angular.isString(result.data)){
-          self.costMargin = result.data.data.margin;
-          angular.forEach(result.data.data.costData, function(cost) {
+         // self.costMargin = result.data.data;
+
+          angular.forEach(result.data.data, function(cost) {
             self.costList[cost.id]= modelTransformer.transform(cost, campaignCost);
           });
         }
