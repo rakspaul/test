@@ -71,6 +71,28 @@ var angObj = '';
    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
         $rootScope.version = version;
 
+        var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
+        var isNetworkUser = (networkUser === 'true' || networkUser === true);
+        var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
+
+        var handleLoginRedirection = function() {
+            if($cookieStore.get(constants.COOKIE_SESSION)) {
+                var setDefaultPage;
+                if(cookieRedirect) {
+                    cookieRedirect = cookieRedirect.replace("/", '');
+                }
+                if(isNetworkUser && cookieRedirect && cookieRedirect !== 'dashboard')  {
+                    $location.url(cookieRedirect);
+                    $cookieStore.remove(constants.COOKIE_REDIRECT);
+                } else {
+                    setDefaultPage = isNetworkUser ? 'campaigns' : 'dashboard';
+                    $location.url(setDefaultPage);
+                }
+            } else {
+                $location.url('login');
+            }
+        }
+
         var locationChangeStartFunc  = $rootScope.$on('$locationChangeStart', function () {
             $rootScope.bodyclass='';
             var locationPath = $location.path();
@@ -79,10 +101,25 @@ var angObj = '';
             }
             dataService.updateRequestHeader();
 
-            //if logged in - go to campaigns
-            if (($cookies.cdesk_session) && (locationPath === '/login')) {
+            /*
+                this function will execute when location path is either login or /,
+                case- submit login button, cookie expire aur unauthorize
+            */
+            if (locationPath === '/login' || locationPath === '/') {
+                handleLoginRedirection();
+            }
+
+            /*
+                if some one manually try to change the url when logged in as network user
+                will check from cookie if its a network user then will redirect to deafult page which in this is campaign;
+             */
+
+            if(isNetworkUser && locationPath === '/dashboard') {
                 $location.url('campaigns');
             }
+
+
+
         });
 
         var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
@@ -119,23 +156,6 @@ var angObj = '';
             routeChangeSuccessFunc();
         });
 
-       if($cookieStore.get(constants.COOKIE_SESSION)) {
-           var networkUser =  localStorage.getItem('networkUser');
-           var isNetworkUser = (networkUser === 'true' || networkUser === true);
-           var setDefaultPage;
-           var cookieRedirect = null;
-           if($cookieStore.get(constants.COOKIE_REDIRECT)) {
-               cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT).replace("/", '');
-           }
-           if(isNetworkUser && cookieRedirect && cookieRedirect !== 'dashboard')  {
-               $location.url(cookieRedirect);
-               $cookieStore.remove(constants.COOKIE_REDIRECT);
-           } else {
-               setDefaultPage = isNetworkUser ? 'campaigns' : 'dashboard';
-               $location.url(setDefaultPage);
-           }
-       } else {
-           $location.url('login');
-       }
+
     });
 }());
