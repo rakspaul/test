@@ -24,7 +24,6 @@
             $location.url('/login');
         };
 
-        $rootScope.logout = $scope.logout; //setting logout function on $rootscope so that i can use the same function on app.js
         $rootScope.dashboard = {};
         $rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
 
