@@ -52,7 +52,7 @@
         };
 
         $scope.applySortStrategies =  function() {
-            var campaignStrategiesData = _.chain($scope.campaign.campaignStrategies).sortBy($scope.details.sortParam).sortBy('name').value();
+            var campaignStrategiesData = _.chain($scope.campaign.campaignStrategies).sortBy('name').sortBy($scope.details.sortParam).value();
             $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'asc') ? campaignStrategiesData : campaignStrategiesData.reverse();
         };
 

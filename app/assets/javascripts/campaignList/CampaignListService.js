@@ -305,7 +305,7 @@
         if(result.status == "success" && !angular.isString(result.data.data)) {
           if(result.data.data.length >= 0) {
             var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
-            var campaignStrategies = _.chain(dataObj).sortBy('startDate').sortBy('name').value().reverse();
+            var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
             if(result.data.data.length <= 3) {
               campaign.campaignStrategies = campaignStrategies;
             } else {
