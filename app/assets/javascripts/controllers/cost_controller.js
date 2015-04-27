@@ -86,13 +86,21 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyCostData = result.data.data.costData ;
-                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0){
+                        $scope.strategyCostData = result.data.data ;
+                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
                             $scope.strategyCostBusy = false;
-                            if(param.strategyId) {
-                                $scope.tacticCostBusy = true;
-                                $scope.tacticListCostData(param);
+                            if(param.strategyId >0 ) {
+                                $scope.tacticsCostData = result.data.data[0].tactics ;
+
+                                if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
+                                    $scope.sortFunction($scope.sortByColumn);
+                                } else {
+                                    $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
+                                    var sortCoulumName = $scope.sortByColumn.replace('-', '');
+                                    $scope.sortFunction(sortCoulumName);
+                                }
+
                             }
                         }
                         else{
@@ -107,52 +115,6 @@ var angObj = angObj || {};
 
         };
 
-        $scope.tacticListCostData = function(param) {
-            $scope.tacticCostBusy = true;
-            costService.getTacticsForStrategy(param).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    $scope.tacticList = result.data.data;
-                    $scope.noTacticsFound = false;
-
-                    if ($scope.tacticList !== 'undefined') {
-                        var errorTacticCostHandler =  function() {
-                            $scope.dataNotFound = true;
-                            $scope.tacticCostBusy = false;
-                        }
-                        costService.getTacticCostData(param).then(function (result){
-                            if(result.status === "OK" || result.status === "success"){
-
-                                $scope.tacticsCostData = result.data.data.costData ;
-
-                                for( var i in $scope.tacticList){
-                                    var tacticId =  $scope.tacticList[i].id ;
-                                    var tacticName = $scope.tacticList[i].description ;
-
-                                    for( var index in $scope.tacticsCostData){
-                                        if($scope.tacticsCostData[index].id === tacticId){
-                                            $scope.tacticsCostData[index].name = tacticName
-                                        }
-                                    }
-                                }
-
-                                if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
-                                    $scope.sortFunction($scope.sortByColumn);
-                                } else {
-                                    $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
-                                    var sortCoulumName = $scope.sortByColumn.replace('-', '');
-                                    $scope.sortFunction(sortCoulumName);
-                                }
-                                $scope.tacticCostBusy = false;
-                            }
-                            else{
-                                errorTacticCostHandler();
-                            }
-                        }, errorTacticCostHandler);
-                     }
-                }
-            });
-
-        };
 
         $scope.sortFunction = function (sortby) {
             for(var i in $scope.sort_field){
