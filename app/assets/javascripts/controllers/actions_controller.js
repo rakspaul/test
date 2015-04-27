@@ -94,7 +94,7 @@
                         $scope.action.disableTagButton = {'visibility': 'visible'};
                         $timeout(function() {
                             $scope.action.disableTagButton = {'visibility': 'hidden'};
-                        }, 250000);
+                        }, 10000);
                         resetActionFormData();
                         $rootScope.$broadcast(constants.EVENT_ACTION_CREATED);
                     }, function (response) {
