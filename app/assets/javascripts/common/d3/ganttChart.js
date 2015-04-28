@@ -25,6 +25,7 @@
                 left: 50
             };
 
+            var tDomainString = "";
             var onTrackColor = "#47ab1d";
             var underperformingColor = "#ee9455";
             var noStatusColor = "#939eae";
@@ -169,10 +170,10 @@
 
             };
 
-            function gantt(tasks) {
+            function gantt(tasks, timeDomainString) {
 
                 initTimeDomain(tasks);
-                initAxis();
+                initAxis(timeDomainString);
 
                  var svgHeader = d3.select("#calendar_widget")
                     .select(".div-header-chart")
@@ -235,7 +236,7 @@
                 svgHeader.append("line").attr("class", "axis_bottom");
 
 
-                gantt.draw(tasks);
+                gantt.draw(tasks, timeDomainString);
 
                 svg.append('rect').attr("class", "date_marker");
 
@@ -244,6 +245,7 @@
             };
 
             gantt.draw = function(tasks, timeDomainString) {
+                tDomainString = timeDomainString;
 
                 var prevScale = 0;
 
@@ -396,6 +398,194 @@
                     //.style("opacity","0.3")
                     .style("shape-rendering", "crispEdges");
   
+
+                var markerData = ganttChartGroup.selectAll(".node-marker").data(tasks, keyFunction);
+                var mark = markerData.enter();
+                var markerGroup = mark.append("g").attr("class", "node-marker")
+
+                //new marker
+                markerGroup.append("image")
+                    // .attr("x", function(d){
+                    //      if(moment(tdEdges[0]).toDate() > moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                    //         return 0;
+                    //      } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.endDate).toDate()) {
+                    //         return 960;
+                    //      }
+                    // })
+                    .attr("y", function(d){
+                        return 7;
+                    })
+                    .attr("xlink:href", function(d) {
+                        var direction = "none";
+                        if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            direction = "left";
+                            if (d.kpiStatus == "ontrack") {
+                                return window.assets.green_left; 
+                            } else if (d.kpiStatus == "underperforming") {
+                                return window.assets.orange_left; 
+                            } else {
+                                return window.assets.gray_left; 
+                            }
+                        } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            direction = "right";
+                            if (d.kpiStatus == "ontrack") {
+                                return window.assets.green_right; 
+                            } else if (d.kpiStatus == "underperforming") {
+                                return window.assets.orange_right; 
+                            } else {
+                                return window.assets.gray_right; 
+                            }
+                        } 
+                    })
+                    .attr("class", "past-marker")
+                    .attr("style", "cursor:pointer")
+                    .style("shape-rendering", "crispEdges")
+                    .attr("width", function(d) {
+                        if (d.type == "brand"){
+                            return 0;
+                        } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                return 25;
+                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                return 25;
+                            } else {
+                                return 0;
+                            }
+                        } else {
+                            return 0;
+                        }
+                    }) 
+                    .on('click', function(d) {
+                        var e, f;
+                        switch(tDomainString){
+                            case "year":
+                                        e = moment(d.startDate).startOf('year').startOf('day').unix()*1000;
+                                        f = moment(e).add(1, 'year').unix()*1000;
+                                        break;
+                            case "month":
+                                        e = moment(d.startDate).startOf('month').startOf('day').unix()*1000;
+                                        f = moment(e).add(31, 'days').endOf('day').unix()*1000;
+                                        break;
+                            case "quarter":
+                                        e = moment(d.startDate).startOf('quarter').startOf('day').unix()*1000;
+                                        f = moment(e).add(1, 'quarters').unix()*1000;
+                                        break;
+                            case "today":
+                                        e = moment(d.startDate).startOf('week').startOf('day').unix()*1000;
+                                        f = moment(e).add(1, 'weeks').endOf('day').unix()*1000;
+                                        break;
+                        } 
+                        gantt.timeDomain([e, f]);
+                        gantt.redraw(tasks, tDomainString);
+
+                    })
+                    .attr("height", CAMPAIGN_HEIGHT/2)
+                    .on('mouseover', function(d) {
+                        var container = d3.select(this.parentNode).select("text.past-marker-text");
+                        container.style('display', function(d) {                   
+                                return "block";
+                        });
+                        container.style("shape-rendering", "crispEdges");
+                        container = d3.select(this.parentNode).select("text.past-marker-text-details");
+                        container.style('display', function(d) {                   
+                                return "block";
+                        });
+                        container.style("shape-rendering", "crispEdges");
+
+                        var im= d3.select(this);
+                        var tdEdges = gantt.timeDomain();
+                        im.attr("xlink:href", function(d) {
+                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_left_act; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_left_act; 
+                                } else {
+                                    return window.assets.gray_left_act; 
+                                }
+
+                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_right_act; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_right_act; 
+                                } else {
+                                    return window.assets.gray_right_act; 
+                                }
+                            } 
+                        });
+                    })
+                    .on('mouseout', function(d) {
+                        var container = d3.select(this.parentNode).select("text.past-marker-text");
+                        container.style('display', function(d) {
+                                return "none";
+                        });
+                        container = d3.select(this.parentNode).select("text.past-marker-text-details");
+                        container.style('display', function(d) {                   
+                                return "none";
+                        });
+
+                        var im= d3.select(this);
+                        var tdEdges = gantt.timeDomain();
+                        im.attr("xlink:href", function(d) {
+                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_left; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_left; 
+                                } else {
+                                    return window.assets.gray_left; 
+                                }
+
+                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_right; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_right; 
+                                } else {
+                                    return window.assets.gray_right; 
+                                }
+                            } 
+                        })
+
+                    })
+
+                markerGroup.append("text")
+                    .attr("class", "past-marker-text")
+                    .attr("x", 30)
+                    .attr("fill","#939ead")
+                    .attr("dy", ".35em")
+                    .attr("font-family", "Avenir")
+                    .attr("style", function(d) {
+                        return "display:none";
+                    })
+                    .attr("font-weight", "bold")
+                    .text(function(d) {
+                        if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                        } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                        }
+                    })
+
+                markerGroup.append("text")
+                    .attr("class", "past-marker-text-details")
+                    .attr("x", 115)
+                    .attr("fill","#21252b")
+                    .attr("dy", ".35em")
+                    .attr("font-family", "Avenir")
+                    .attr("style", function(d) {
+                        return "display:none";
+                    })
+                    .attr("font-weight", "bold")
+                    .text(function(d) {
+        
+                        if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            return  d.name;
+                        } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            return d.name;
+                        }
+                    })
 
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
@@ -849,6 +1039,13 @@
                 var campaignTopStroke = ganttChartGroup.selectAll(".header").data(tasks, keyFunction);
                 var campaignsStatusIcon = ganttChartGroup.selectAll(".icon").data(tasks, keyFunction);
 
+                //markers
+                var nodeMarker = ganttChartGroup.selectAll(".node-marker").data(tasks, keyFunction);
+                var markers = ganttChartGroup.selectAll(".past-marker").data(tasks, keyFunction);
+
+                var pastMarkerText = ganttChartGroup.selectAll(".past-marker-text").data(tasks, keyFunction);
+                var pastMarkerTextDetails = ganttChartGroup.selectAll(".past-marker-text-details").data(tasks, keyFunction);
+
                 var campaignsBottomStroke = ganttChartGroup.selectAll(".campaign_stroke").data(tasks, keyFunction);
                 
                 //Stroke - Bottom for the campaign (1px #ccd2da)
@@ -949,6 +1146,67 @@
                             .attr("y", function(d) {
                                 return y(d.taskName);
                             })
+                    } else if(type == "past-markers" ) {
+                        a.transition()
+                            .delay(0)
+                            .attr("xlink:href", function(d) {
+                                tdEdges = gantt.timeDomain();
+                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                    //left
+                                    if (d.kpiStatus == "ontrack") {
+                                        return window.assets.green_left; 
+                                    } else if (d.kpiStatus == "underperforming") {
+                                        return window.assets.orange_left; 
+                                    } else {
+                                        return window.assets.gray_left; 
+                                    }
+                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                    //right
+                                    if (d.kpiStatus == "ontrack") {
+                                        return window.assets.green_right; 
+                                    } else if (d.kpiStatus == "underperforming") {
+                                        return window.assets.orange_right; 
+                                    } else {
+                                        return window.assets.gray_right; 
+                                    }
+                                } 
+                            })
+                        .attr("width", function(d) {
+                            if (d.type == "brand") {
+                                return 0;
+                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                    return 25;
+                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                    return 25;
+                                } else {
+                                    return 0;
+                                }
+                            } else {
+                                return 0;
+                            }
+                        }) 
+                        .attr("transform", function(d) {
+                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                return  "translate(0," + y(d.taskName) + ")";
+                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                return  "translate(480," + y(d.taskName) + ")";
+                            } else {
+                                return  "translate(-100," + y(d.taskName) + ")";
+                            }
+                        });
+                    } else if(type == "node-marker") {
+                        a.transition()
+                            .delay(0)
+                            .attr("transform", function(d){
+                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                    return  "translate(0," + y(d.taskName) + ")";
+                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                    return  "translate(480," + y(d.taskName) + ")";
+                                } else {
+                                    return  "translate(-100," + y(d.taskName) + ")";
+                                }
+                            });
                     }
                 };
 
@@ -996,6 +1254,42 @@
                                     return d.name.substr(0, fitCount) + "...";
                                 }
                             })
+                    } else if(type == "past-marker-text") {
+                        a.transition()
+                            .delay(0)
+                            .attr('y', function(d){
+                                return y(d.taskName) + 13;
+                            })
+                            .attr("style", function(d) {
+                                return "display:none";
+                            })
+                            .text(function(d) {
+                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                    return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                    return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                                }
+                            })
+                    } else if(type == "past-marker-text-details") {
+                        a.transition()
+                            .delay(0)
+                            .attr('y', function(d) {
+                                return y(d.taskName) + 13;
+                            })
+                            .attr("style", function(d) {
+                                return "display:none";
+                            })
+                            .text(function(d) {
+                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                    return d.name;
+                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                    if(d.name.length > 57) {
+                                        return d.name.substr(0, 57) + '...';
+                                    } else {
+                                        return d.name;
+                                    }
+                                }
+                            })
                     } else {
                         a.transition()
                             .delay(0).attr("style", function(d) {
@@ -1026,6 +1320,11 @@
                 translateVisualElements(campaignBody, "body");
                 translateVisualElements(campaignTopStroke, "top");
 
+                translateVisualElements(nodeMarker, "node-marker");
+                translateVisualElements(markers, "past-markers");
+                translateGraphicElements(pastMarkerText, "past-marker-text");
+                translateGraphicElements(pastMarkerTextDetails, "past-marker-text-details");
+                
                 translateGraphicElements(campaignText, "text");
                 translateGraphicElements(brandNameText, "brand_name");
                 translateGraphicElements(campaignsStatusIcon);
@@ -1356,7 +1655,7 @@
             });
 
             changeTimeDomain(timeDomainString);
-            gantt.redraw(tasks);
+            gantt.redraw(tasks, timeDomainString);
         };
 
 
@@ -1768,7 +2067,7 @@
             gantt.margin(margin);
             gantt.timeDomainMode("fixed");
             changeTimeDomain(timeDomainString);
-            gantt(tasks);
+            gantt(tasks, timeDomainString);
             gantt.redraw(tasks, timeDomainString);
 
 
