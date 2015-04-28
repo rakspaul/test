@@ -24,6 +24,7 @@
                     } else {
                         localStorage.setItem('networkUser', false);
                     }
+                    localStorage.setItem('authorizationKey', user.auth_token);
                     document.location = '/';
                 } else {
                     $scope.error = response.data.message;
