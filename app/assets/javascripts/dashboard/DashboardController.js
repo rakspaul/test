@@ -26,8 +26,8 @@
     //onload
     if(brandsModel.getSelectedBrand().id !== -1) {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-      updateTitle();
     }
+    updateTitle();
 
     var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function() {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
