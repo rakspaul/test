@@ -1,9 +1,9 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataService', 'campaignListService', 'apiPaths',
+campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$location' ,'dataService', 'campaignListService', 'apiPaths',
                                                   'modelTransformer', 'campaignCDBData', 'campaignCost',
                                                   'dataStore', 'requestCanceller', 'constants',
                                                   'brandsModel', 'loginModel', 'analytics',
-                                                  function($http, $location, dataService, campaignListService, apiPaths,
+                                                  function($rootScope, $http, $location, dataService,  campaignListService, apiPaths,
                                                            modelTransformer, campaignCDBData, campaignCost,
                                                            dataStore, requestCanceller, constants,
                                                            brandsModel, loginModel, analytics) {
@@ -175,14 +175,12 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
       var self = this,
       url = Campaigns.prototype._campaignServiceUrl.call(this);
 
-  //    console.log('fetching campaign list for url: '+url);
       campaignListService.getCampaigns(url, function(result) {
         requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
         var data = result.data.data;
         self.nextPage += 1;
         self.marketerName = data.marketer_name;
         self.totalPages = data.total_pages;
-  //      self.totalCount = data.total_count;
         self.periodStartDate = data.period_start_date;
         self.periodEndDate = data.period_end_date;
 
@@ -193,10 +191,10 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
             this.push(campaign);
             self.costIds += campaign.orderId + ',';
             Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
-  	  if (campaign.kpi_type == 'null') {
-              campaign.kpi_type = 'CTR';
-              campaign.kpi_value = 0;
-  	  }
+            if (campaign.kpi_type == 'null') {
+                  campaign.kpi_type = 'CTR';
+                  campaign.kpi_value = 0;
+            }
             dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
               if(response.status == 'success') {
                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, campaignCDBData);
@@ -204,6 +202,11 @@ campaignListModule.factory("campaignListModel", ['$http', '$location' ,'dataServ
               }
             })
           }, self.campaignList);
+
+          if(brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) { //as we change the brand, we are updating the campaign model as well.
+              $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
+          }
+
           self.costIds = self.costIds.substring(0, self.costIds.length-1);
 
           if(self.costIds !== '') {

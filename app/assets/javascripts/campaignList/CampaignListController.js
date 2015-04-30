@@ -22,7 +22,12 @@
       $scope.loadMoreStrategies(args.campaignId);
     });
 
-    $scope.viewReports = function(campaign) {
+    //braodcasting from campaignListModel.js
+    $scope.$on("updateCampaignAsBrandChange", function(event, campaignData) {
+        campaignSelectModel.setSelectedCampaign(campaignData);
+    });
+
+      $scope.viewReports = function(campaign) {
         var selectedCampaign = {
             id : campaign.id,
             name : campaign.name,
