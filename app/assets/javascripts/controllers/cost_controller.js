@@ -9,6 +9,7 @@ var angObj = angObj || {};
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
         $scope.api_return_code = 200;
+        $scope.strategyMarginPercentage = -1 ;
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
@@ -24,7 +25,7 @@ var angObj = angObj || {};
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-//        $scope.selected_filters = domainReports.getDurationKpi();
+
 
 
 
@@ -90,6 +91,7 @@ var angObj = angObj || {};
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
                             $scope.strategyCostBusy = false;
+                            $scope.strategyMarginPercentage = result.data.data[0].margin ;
                             if(param.strategyId >0 ) {
                                 $scope.tacticsCostData = result.data.data[0].tactics ;
 
@@ -157,6 +159,7 @@ var angObj = angObj || {};
         $scope.callBackCampaignsSuccess= function(){
             //TODO, logic needs to be done
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+            $scope.strategyMarginPercentage = -1 ;
 
             $scope.download_urls = {
                 cost: urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter
