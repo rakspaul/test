@@ -91,9 +91,9 @@ var angObj = angObj || {};
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
                             $scope.strategyCostBusy = false;
-                            $scope.strategyMarginPercentage = result.data.data[0].margin ;
+                            $scope.strategyMarginPercentage =  $scope.strategyCostData[0].margin ;
                             if(param.strategyId >0 ) {
-                                $scope.tacticsCostData = result.data.data[0].tactics ;
+                                $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
 
                                 if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
                                     $scope.sortFunction($scope.sortByColumn);
