@@ -3,7 +3,7 @@
   var CampaignCostData = function () {
     this.id = 0;
     this.impressions = 0;
-    this.gross_ecpa = 0;
+   // this.gross_ecpa = 0;
     this.inventory_cost = 0;
     this.data_cost = 0;
     this.rich_media_cost = 0;
@@ -17,9 +17,9 @@
       return this.impressions;
     }
 
-    this.getCPA = function () {
-      return this.roundOff(this.gross_ecpa, 2);
-    }
+//    this.getCPA = function () {
+//      return this.roundOff(this.gross_ecpa, 2);
+//    }
 
     this.getInventoryCost = function () {
       return this.roundOff(this.inventory_cost, 2);

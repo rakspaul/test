@@ -288,8 +288,8 @@
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
                 $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                     if(result.data.data.costData.length>0){
-                        costData = result.data.data.costData[0];
+                     if(result.data.data.length>0){
+                        costData = result.data.data[0];
                         sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
                         if(sum < 100){
                             other = 100 - sum;
