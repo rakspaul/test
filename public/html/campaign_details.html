@@ -191,7 +191,7 @@
                           <div class="clearfix submit_activity_holder">
                               <div class="pull-left comment_area">
                                   <textarea  ng-model="showList.name"  ng-bind-html="showList.name|removeSpecialCharacter"   placeHolder="Leave a Comment" id="edit_action_comment" maxChar="160" maxLine="2" ng-focus="resetEditActionValidation()"> </textarea>
-                                  <div ng-show="commentError" id="error_comment" class="error_message">Please fill out this field.</div>
+                                  <div ng-show="commentError" id="edit_error_comment" class="error_message">Please fill out this field.</div>
                                   <div  id="error_edit_action_more_comment" class="error_message"></div>
                               </div>
                               <div class="pull-right submit_btn_holder clearfix">
@@ -469,7 +469,7 @@
          
       });
        $('#edit_action_comment').bind("blur", function() {
-          //$("#error_edit_action_more_comment").hide();
+          $("#error_edit_action_more_comment").hide();
        });
        //Anywhere click close the error message tooltip while create activity
         $('body').click(function(evt){    
@@ -477,10 +477,13 @@
                 return;
              if($(evt.target).closest('#crActivityForm').length)
                 return;
-              $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment").hide();
+              $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment,#edit_error_comment").hide();
         });
         $("#action_submit_btn").click(function(){
            $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment").show();
+        });
+        $("#action_save_btn").click(function(){
+           $("#edit_error_comment").show();
         });
   });
     var updateSaveBtnStatus = function(){
