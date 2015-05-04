@@ -50,6 +50,7 @@
                 place_circle_x = 7.0,
                 display_activityCount =  (activityCount.toString().length > 1 ?  ' '+activityCount+' ' : '    <span style="color:transparent">-</span>'+ activityCount+' '),
                 numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities',
+                circleObj = null,
                 marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2).attr({
                     id: 't'+actionId || 'NA',
                     removeX:16,
@@ -59,8 +60,6 @@
                 }).css({
                     fontSize: '12px',
                     textAlign: 'center',
-                    leftMargin:'20px',
-                    rightMargin:'40px',
                     position:'absolute',
                     padding:5,
                     fontFamily: 'Avenir',
@@ -69,20 +68,23 @@
                     cursor: 'pointer'
                 }).on('click', function (markerObj) {
                     $('#'+actionId).click();
-                }).on('mouseover', function (markerObj) {
-                        var circleObj = $(markerObj.relatedTarget);
-                        circleObj.trigger('mouseover');
+                }).on('mouseover', function (event) { // added mouseover and mouseout event on text + tspan(inside circle area) to show popup
+                    chart.tooltip.hide();
+                    var target = event.target.tagName === 'tspan' ? $(event.target).parents('text') : $(event.target);
+                    var textId = target.attr('id').substr(1);
+                    var circleList = $(event.target).parents('svg').find('circle');
+                    circleObj = $(_.filter(circleList, function(obj) {  return $(obj).attr("id") === textId}));
+                    circleObj.trigger('mouseover');
                     }).on('mouseout', function (markerObj) {
-                        text.destroy();
-                        textBG.destroy();
+                        circleObj.trigger('mouseout');
                         $('.highcharts-tooltip').show();
                     }).add(),
                 container = marker.getBBox();
 
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
-                var x = event.offsetX ==undefined ? event.layerX : event.offsetX,
-                    y = event.offsetY ==undefined ? event.layerY : event.offsetY,
+                var x = $(that).position().left + 10, //event.offsetX ==undefined ? event.layerX : event.offsetX,
+                    y = $(that).position().top + 15,//event.offsetY ==undefined ? event.layerY : event.offsetY,
                     correctionX = 0,
                     symbol = '',
                     suffix = '',
