@@ -79,14 +79,16 @@
                 $scope.commentError = false;
                 editActionsService.editAction(data).then( function (response){
                if(response) {
-                    $rootScope.$broadcast("callRefreshGraphData",$scope.activityLogFilterByStatus);
-                    _.each(activityList.data.data, function(activity) {
+                    var args = {'loadingFlag':2,'showExternal':$scope.activityLogFilterByStatus};
+                    $rootScope.$broadcast(constants.EVENT_ACTION_CREATED,args);
+                    //$rootScope.$broadcast("callRefreshGraphData",$scope.activityLogFilterByStatus);
+                   /*_.each(activityList.data.data, function(activity) {
                         if(activity.id == data.ad_id){
                             activity.make_external = data.make_external;
                             activity.comment = data.name;
 
                         }
-                    });
+                    });*/
                     $scope.editError = undefined;
                     resetEditActionFormData();
                     editAction.data.show = false;

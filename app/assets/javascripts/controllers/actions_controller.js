@@ -96,7 +96,8 @@
                             $scope.action.disableTagButton = {'visibility': 'hidden'};
                         }, 10000);
                         resetActionFormData();
-                        $rootScope.$broadcast(constants.EVENT_ACTION_CREATED);
+                        var args = {'loadingFlag':0,'showExternal': $scope.activityLogFilterByStatus };
+                        $rootScope.$broadcast(constants.EVENT_ACTION_CREATED,args);
                     }, function (response) {
                         $scope.action.disableTagButton = {'visibility': 'hidden'};
                         resetActionFormData();

@@ -114,7 +114,7 @@
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 //$scope.getCdbChartData($scope.campaign);
-                updateActionItems($scope.getCdbChartData,1);
+                updateActionItems($scope.getCdbChartData,1,true);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
@@ -173,11 +173,12 @@
             });
         };
 
-        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function() {
+        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function(event, args) {
+            var callbackFunctionName = args.loadingFlag == 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-            updateActionItems($scope.getCdbChartData,0);
+            updateActionItems(callbackFunctionName,args.loadingFlag,args.showExternal);
         });
-        function updateActionItems(callbackCDBGraph,loadingFlag) {
+        function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
             $scope.activityLogFlag = false;
             var actionUrl = urlService.APIActionData($routeParams.campaignId);
             dataService.getActionItems(actionUrl).then(function(result) {
@@ -206,8 +207,18 @@
                 } else { //if error
                     activityList.data.data = undefined;
                 }
-                if(loadingFlag == 1){
-                    callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                /* 
+                   set 0 = when Add activity no need to do anything
+                   set 1 = when page refresh initial graph loading with call back function(getCdbChartData)
+                   set 2 = when edit activity just referesh the graph with call back function(refreshGraph)   
+                */
+                switch(loadingFlag) {
+                    case 1:
+                         callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                        break;
+                    case 2:
+                        callbackCDBGraph && callbackCDBGraph(showExternal);
+                        break;        
                 }
                
             }, function(result) {
