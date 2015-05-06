@@ -31,8 +31,7 @@ var angObj = angObj || {};
 
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
         $scope.selected_tab = 'byscreens';
-
-        $scope.sortByColumn = 'description';
+        $scope.sortByColumn = 'name';
 
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
@@ -44,67 +43,24 @@ var angObj = angObj || {};
             platforms: null
         };
 
-        var platform_icon_map= {
-            'Facebook':'',
-            'Everyscreen Media':'assets/images/platform_logos/dstillery_logo.png',
-            'ATT Network':'https://www.att.com/favicon.ico',
-            'DoubleClick':'assets/images/platform_logos/double_logo.png',
-            'AppNexus':'assets/images/platform_logos/appnexus_logo.png',
-            'Telemetry':'assets/images/platform_logos/telemetry_logo.png',
-            'Collective Bidder':'assets/images/platform_logos/collective_logo.png',
-            'Collective Publishers':'assets/images/platform_logos/collective_logo.png',
-            'Adap.tv':'https://adap.tv/favicon.ico',
-            'Google Ad Exchange':'assets/images/platform_logos/double_logo.png',
-            'Prog_Mechanics':'',
-            'Yahoo Ad Exchange':'https://www.yahoo.com/favicon.ico',
-            'TriVu Media - YouTube':'assets/images/platform_logos/trivumedia_logo.png',
-            'Admeld':'assets/images/platform_logos/double_logo.png',
-            'Beanstock':'assets/images/platform_logos/beanstock_logo.png',
-            'LiveRail':'assets/images/platform_logos/liverail_logo.png',
-            'OpenX':'assets/images/platform_logos/openx_logo.png',
-            'Pubmatic':'',
-            'Rubicon':'assets/images/platform_logos/rubicon_logo.png',
-            'Miscellaneous':'assets/images/platform_logos/platform_logo.png',
-            'Collective Test Media':'assets/images/platform_logos/collective_logo.png',
-            'Microsoft':'https://www.msn.com/favicon.ico'
-            };
-
-        $scope.getPlatformIcon=function(platformName) {
-            var pIcon=platform_icon_map[platformName];
-            return (pIcon!== undefined && pIcon!=='')  ? pIcon:platform_icon_map['Miscellaneous'];
-        }
         $scope.init= function(){
 
             $scope.strategyFound = false ;
-
             $scope.screenBusy = false;
-            $scope.tacticScreenBusy = false ;
-
             $scope.formatBusy = false;
-            $scope.tacticFormatBusy = false;
-
             $scope.dowBusy = false;
-            $scope.tacticDowBusy = false ;
 
             $scope.platformBusy = true;
-            $scope.tacticPlatformBusy = false;
             $scope.isStrategyDataEmpty = false;
             $scope.hidePerformanceReportTab = false;
             $scope.api_return_code = 200;
 
             $scope.strategies = {};
 
-            $scope.tacticList = [];
-
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
             $scope.strategyPerfDataByPlatform = [];
-
-            $scope.tacticsPerfDataListByScreen = [];
-            $scope.tacticsPerfDataListByFormat = [];
-            $scope.tacticsPerfDataListByDOW = [];
-            $scope.tacticsPerfDataListByPlatform = [];
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
@@ -126,80 +82,6 @@ var angObj = angObj || {};
         };
 
         $scope.init();
-        $scope.tacticPerfData = function (param) {
-            $scope.api_return_code=200;
-            performanceService.getTacticsForStrategy(param).then(function (result) {
-
-                if (result.status === "OK" || result.status === "success") {
-                    $scope.tacticList = result.data.data;
-                    // $scope.noTacticsFound = false;
-                    var tacticParams,
-                        tabName,
-                        tabsList,
-                        _tacticsPerfList = [];
-
-                    var _cbTacticPerfData = function(resData, tab) {
-                        var _tacticPerfData = resData.data.data,
-                            _tacticsPerfList = [];
-                        var urlIndex = resData.urlIndex;
-                        var tacticName='';
-                        for (var i in _tacticPerfData) {
-                            if (tacticName === '') {
-                                var data = _tacticPerfData[i];
-                                for (var ndx in $scope.tacticList) {
-                                    if (data.id == $scope.tacticList[ndx].id) {
-                                        tacticName = $scope.tacticList[ndx].description;
-                                    }
-                                }
-                                _tacticPerfData[i].description = tacticName;
-                            }
-                        }
-
-                        _tacticsPerfList.push(_tacticPerfData);
-                        $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1).toLowerCase())+'Busy'] = false;
-                        $scope.tacticList[urlIndex]['tacticsPerfDataListBy'+tab] =  _tacticsPerfList;
-                    }
-
-                    var getTacticPerfData =  function(tab) {
-                        var tacticsPerfDataListByTab = $scope['tacticsPerfDataListBy'+tab];
-                        var tacticPerfDataList = [];
-                        if (typeof tacticsPerfDataListByTab === 'undefined' || tacticsPerfDataListByTab.length === 0) {
-                            $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1))+'Busy'] = true;
-                            for (var index in $scope.tacticList) {
-                                tacticParams.tacticId = $scope.tacticList[index].id;
-                                tacticParams.tacticName = $scope.tacticList[index].description;
-                                tacticParams.startDate = $scope.tacticList[index].startDate;
-                                tacticParams.endDate = $scope.tacticList[index].endDate;
-                                tacticParams.urlIndex = index;
-
-                                performanceService.getTacticPerfData(tacticParams).then(function (result) {
-                                    if (result.status === "OK" || result.status === "success") {
-                                        _cbTacticPerfData(result, tab)
-                                    } else {
-                                        $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1).toLowerCase())+'Busy'] = false;
-                                    }
-                                }, function() {
-                                    $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1).toLowerCase())+'Busy'] = false;
-                                });
-                            }
-                        }
-                    }
-
-                    if (typeof $scope.tacticList !== 'undefined') {
-                        tacticParams = { campaignId: param.campaignId, strategyId: param.strategyId,tacticId: '', tacticName: '', startDate: '', endDate: '', tab: $scope.selected_tab,timeFilter: param.timeFilter};
-                        tabName = $scope.shortTabName();
-                        tabsList = $scope.listOfShortTabName();
-                        getTacticPerfData(tabName);
-                    }
-                }  else {
-                    if (result.status ==='error') {
-                        $scope.api_return_code = result.data.status;
-                    }
-                }
-            });
-        };
-
-
         $scope.strategyPerformanceData = function (param) {
 
             $scope.screenBusy = true;
@@ -217,39 +99,32 @@ var angObj = angObj || {};
                 $.each(listOfTabArr , function(idx, tab) {
                     $scope['dataNotFoundFor'+tab] = true;
                     $scope[tab.toLowerCase() + 'Busy'] = false;
-                    $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1))+'Busy'] = false;
                 })
             }
 
             this.checkForSelectedTabData =  function(data, tab) {
                 var totalImpression = _.reduce(data, function(sum, d) { return sum + d.impressions  }, 0);
-                return totalImpression === 0 ?  true : false;
+                return totalImpression === 0;
             };
 
             this.getPerformanceData = function(tab, listOfTabs) {
                 var strategyPerfData = $scope['strategyPerfDataBy'+tab];
                 if(strategyPerfData ==='undefined' || strategyPerfData.length === 0 ) {
-                    $scope['tactic'+(tab.substr(0, 1).toUpperCase() + tab.substr(1))+'Busy'] = false;
                     $scope.api_return_code=200;
                     var StrategyFunc = performanceService[tab !== 'Platform' ? 'getStrategyPerfData' : 'getStrategyPlatformData'];
                     StrategyFunc(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
-                            $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
+                            $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
                             if($scope.hidePerformanceReportTab) {
                                 $scope.errorHandlerForPerformanceTab(result, listOfTabs);
                             } else {
-                                $scope['strategyPerfDataBy' + tab] = result.data.data;
+                                $scope['strategyPerfDataBy' + tab] = result.data.data[0];
                                 $scope['dataNotFoundFor' + tab] = false;
                                 $scope[tab.toLowerCase() + 'Busy'] = false;
-                                if (param.strategyId && tab !== 'Platform') {
-                                    $scope['tactic' + (tab.substr(0, 1).toUpperCase() + tab.substr(1)) + 'Busy'] = true;
-                                    $scope.tacticPerfData(param);
-                                }
                             }
                         }
                         else {
                             $scope.errorHandlerForPerformanceTab(result, listOfTabs);
-
                         }
                     }, $scope.errorHandlerForPerformanceTab, listOfTabs);
                 }
@@ -296,17 +171,10 @@ var angObj = angObj || {};
             //Call  to load with the changed campaign id and strategyid
             // $scope.init();
             //cleaning the list
-            $scope.tacticList = [];
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
             $scope.strategyPerfDataByPlatform = [];
-
-
-            $scope.tacticsPerfDataListByScreen = [];
-            $scope.tacticsPerfDataListByFormat = [];
-            $scope.tacticsPerfDataListByDOW = [];
-            $scope.tacticsPerfDataListByPlatform = [];
 
 
             $scope.dataNotFoundForScreen = false;
