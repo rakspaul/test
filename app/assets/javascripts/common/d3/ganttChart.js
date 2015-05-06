@@ -475,6 +475,9 @@
                                         f = moment(e).add(1, 'weeks').endOf('day').unix()*1000;
                                         break;
                         } 
+                        //scroll navigation reset
+                        navigationButtonControl("#cal_next", "enabled");
+                        navigationButtonControl("#cal_prev", "enabled");
                         gantt.timeDomain([e, f]);
                         gantt.redraw(tasks, tDomainString);
 
