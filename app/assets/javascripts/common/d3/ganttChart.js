@@ -559,7 +559,8 @@
                     .attr("style", function(d) {
                         return "display:none";
                     })
-                    .attr("font-weight", "bold")
+                    .attr("stroke-width", "0.3")
+                    .attr("stroke", "#939ead")
                     .text(function(d) {
                         if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
                             return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
@@ -577,7 +578,8 @@
                     .attr("style", function(d) {
                         return "display:none";
                     })
-                    .attr("font-weight", "bold")
+                    .attr("stroke-width", "0.3")
+                    .attr("stroke", "#21252b")
                     .text(function(d) {
         
                         if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
