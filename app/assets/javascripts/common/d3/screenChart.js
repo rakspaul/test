@@ -61,6 +61,8 @@
 
                 var max_selected_metric_value,
                     totalAllocation = 0,
+                    unkownAllocation = 0 ,
+                    finalAllocation = 0 ,
                     ratio = 0 ,
                     index_to_remove = -1;
 
@@ -70,9 +72,9 @@
                     // fill index_to_remove if it has dimension as unkown
                     if (data[i].dimension.toLowerCase() == 'unknown') {
                         index_to_remove = i;
+                        unkownAllocation += data[i][selected_metric_key];
                     }
                 }
-
                 if(index_to_remove !== -1)
                   data.splice(index_to_remove,1);
 
@@ -102,19 +104,21 @@
                     }
 
                 }
-
-
-
+                /* removed unknown value from total Allocation*/
+                finalAllocation = totalAllocation - unkownAllocation;
                 for (var index in data) {
                     var node = data[index];
 
                     var percAllocation , percAllocationString , showGreyProgressBar = false, bar_length;
 
                     if (selected_metric_key == 'gross_rev' || selected_metric_key == 'impressions') {
-                        percAllocation = (totalAllocation == 0 || node[selected_metric_key] == 0)? 0: (node[selected_metric_key] / totalAllocation) *100;
+                        percAllocation = (finalAllocation == 0 || node[selected_metric_key] == 0)? 0: (node[selected_metric_key] / finalAllocation) *100;
                         if(percAllocation < 0.5)
                         percAllocation = 0.00;
                         bar_length = node[selected_metric_key] * ratio ;
+                        if(percAllocation > 100){
+                            percAllocation = 100 ;
+                        }
                         percAllocationString = percAllocation.toFixed(0) + "%";
 
                     } else if (selected_metric_key == 'ctr' || selected_metric_key == 'action_rate' || selected_metric_key == 'vtc') {
