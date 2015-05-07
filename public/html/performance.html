@@ -115,7 +115,7 @@
                 <div class="row_list_holder">
                     <div class="common-load-icon" ng-show="dowBusy"></div>
                     <!--{{dowBusy}}-->
-                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW track by $index">
+                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW.perf_metrics track by $index">
 
                         <div class="each_col sec_col">
                             {{strategy.dimension}}
@@ -145,16 +145,15 @@
 
 
             <div class="all_strategies_holder">
-                <div class="each_strategy_holder clearfix" ng-repeat="value in tacticList">
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.perf_metrics">
                     <div class="linkage_bar">
                     </div>
-                    <div class="common-load-icon" ng-show="tacticDowBusy"></div>
-                    <div ng-repeat="tactic in value.tacticsPerfDataListByDOW track by $index |orderBy: sortByColumn" class="each_strategy clearfix">
+                    <div class="each_strategy clearfix">
                         <div class="each_col first_col">
-                            {{tactic[0].description}}
+                            {{tactic.name}}
                         </div>
                         <div class="row_list_holder">
-                            <div class="clearfix each_row_list" ng-repeat="data in tactic track by $index">
+                            <div class="clearfix each_row_list" ng-repeat="data in tactic.perf_metrics track by $index">
                                 <div class="each_col sec_col">
                                     {{data.dimension}}
                                 </div>
@@ -229,7 +228,7 @@
 
                 <div class="row_list_holder">
                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                    <div class="clearfix each_row_list " ng-repeat="strategy in strategyPerfDataByScreen track by $index">
+                    <div class="clearfix each_row_list " ng-repeat="strategy in strategyPerfDataByScreen.perf_metrics track by $index">
 
                         <div class="each_col sec_col">
                             {{strategy.dimension}}
@@ -258,17 +257,15 @@
 
 
             <div class="all_strategies_holder">
-                <div class="each_strategy_holder clearfix" ng-repeat="value in tacticList">
-                    <div class="linkage_bar">
+            <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByScreen.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.perf_metrics">
+                <div class="linkage_bar">
+                </div>
+                <div class="each_strategy clearfix">
+                    <div class="each_col first_col">
+                        {{tactic.name}}
                     </div>
-                    <div class="common-load-icon" ng-show="tacticScreenBusy"></div>
-                    <div ng-repeat="tactic in value.tacticsPerfDataListByScreen track by $index |orderBy: sortByColumn"  class="each_strategy clearfix">
-
-                        <div class="each_col first_col">
-                            {{tactic[0].description}}
-                        </div>
-                        <div class="row_list_holder">
-                            <div class="clearfix each_row_list" ng-repeat="data in tactic track by $index">
+                    <div class="row_list_holder">
+                        <div class="clearfix each_row_list" ng-repeat="data in tactic.perf_metrics track by $index">
                                 <div class="each_col sec_col">
                                     {{data.dimension}}
                                 </div>
@@ -345,7 +342,7 @@
                 <div class="row_list_holder">
                     <div class="common-load-icon" ng-show="formatBusy"></div>
                     <!--{{formatBusy}}-->
-                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat track by $index">
+                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat.perf_metrics track by $index">
                         <div class="each_col sec_col">
                             {{strategy.dimension}}
                         </div>
@@ -371,17 +368,16 @@
                 </div>
             </div>
             <div class="all_strategies_holder">
-                <!--{{tacticFormatBusy}}-->
-                <div class="each_strategy_holder clearfix" ng-repeat="value in tacticList">
+
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.perf_metrics">
                     <div class="linkage_bar">
                     </div>
-                    <div class="common-load-icon" ng-show="tacticFormatBusy"></div>
-                    <div ng-repeat="tactic in value.tacticsPerfDataListByFormat track by $index |orderBy: sortByColumn" class="each_strategy clearfix">
+                    <div class="each_strategy clearfix">
                         <div class="each_col first_col">
-                            {{tactic[0].description}}
+                            {{tactic.name}}
                         </div>
                         <div class="row_list_holder">
-                            <div class="clearfix each_row_list" ng-repeat="data in tactic track by $index">
+                            <div class="clearfix each_row_list" ng-repeat="data in tactic.perf_metrics track by $index">
                                 <div class="each_col sec_col">
                                     {{data.dimension}}
                                 </div>
