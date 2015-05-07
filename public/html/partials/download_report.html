@@ -1,0 +1,15 @@
+<div class="dropdown">
+    <span class="dropdown_ul_text " data-toggle="dropdown"><a class="download_anchor" id="performance_download_btn" href="">Download Report</a></span>
+    <ul class="dropdown_ul_perf dropdown-menu" id="performance_download">
+        <li value="screens">
+            <a ng-if="download_urls.screens" class="download_anchor" ng-click="downloadPerformanceReport(download_urls.screens, 'by_screens_and_formats')">Performance by Screens & Formats</a>
+        </li>
+        <li value="daysOfWeek">
+            <a ng-if="download_urls.daysOfWeek" class="download_anchor" ng-click="downloadPerformanceReport(download_urls.daysOfWeek, 'by_days_of_week')">Performance by Days Of Week</a>
+        </li>
+        <li value="platforms">
+            <a ng-if="download_urls.platforms" class="download_anchor" ng-click="downloadPerformanceReport(download_urls.platforms, 'by_platforms')">Performance by Platforms</a>
+        </li>
+    </ul>
+</div>
+<span class="download-report-load-icon" ng-if="perfReportDownloadBusy">Downloading </span>

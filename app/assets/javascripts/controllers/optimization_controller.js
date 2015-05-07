@@ -47,7 +47,7 @@ var angObj = angObj || {};
 
             $scope.tacticNotFound = false;
             $scope.tacticLoading = true;
-            $scope.filters = domainReports.getReportsDropDowns();
+            $scope.filters = domainReports.getReportsTabs();
             $scope.orderByField = 'created_at';
             $scope.reverseSort = true;
 
