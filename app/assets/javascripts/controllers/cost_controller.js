@@ -29,7 +29,7 @@ var angObj = angObj || {};
 
 
 
-        $scope.filters = domainReports.getReportsDropDowns();
+        $scope.filters = domainReports.getReportsTabs();
 
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;

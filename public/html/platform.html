@@ -1,0 +1,314 @@
+<div class="reports_main_page_holder">
+    <div class="reports_header_tabs_holder clearfix">
+        <report-tabs></report-tabs>
+    </div>
+    <div class="inventory_reports_container" >
+        <div class="clearfix inventory_header">
+            <div class="pull-left dropdown dropdown_type1"  id="performance_camp_list_dd">
+                <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
+            </div>
+            <div class="pull-right download_report">
+                <download-report></download-report>
+            </div>
+        </div>
+
+        <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
+            <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+        </div>
+
+        <div class="common-load-icon_viewability" ng-show="strategyLoading"></div>
+    </div>
+
+    <div class="platform_container" ng-hide="strategyLoading">
+            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')"></div>
+            <div class="reports_tabs_content_container" ng-show="strategyFound">
+                <!---------START :  Platform Tabs -------------------------->
+                <div class="reports_tabs_content_container">
+                    <div class="clearfix">
+                        <div class="clearfix reports_tabs_holder">
+                            <div class="each_tab cost_tab active " id="platform_performance">
+                                <div class="each_tab_text">
+                                    Performance
+                                </div>
+                            </div>
+                            <div class="each_tab " id="platform_cost">
+                                <div class="each_tab_text">
+                                    Cost
+                                </div>
+                            </div>
+                            <div class="each_tab cost_tab " id="platform_viewablity">
+                                <div class="each_tab_text">
+                                    Viewability
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------END :  Platform Tabs -------------------------->
+
+                    <!---------START :  Performance Block -------------------------->
+                    <div class="reports_block" id="reports_platform_performance_block">
+                        <div class="reports_details_outer_container">
+                            <div class="clearfix reports_platform_header">
+                                <performance-header></performance-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder">
+                                        <div class="common-load-icon" ng-show="performanceBusy"></div>
+                                        <div class="clearfix each_row_list" ng-repeat="performanceData in strategyDataByPerformance track by $index" ng-include="'performanceTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="performanceData in tactic.platform_metrics track by $index" ng-include="'performanceTpl'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------END :  Performance Block -------------------------->
+
+                    <!---------START :  Cost Block ------------------------------->
+
+                    <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
+                        <div class="reports_details_outer_container">
+                            <div class="clearfix reports_platform_header">
+                                <cost-header></cost-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col">
+                                        {{strategyHeading}}:
+                                        {{strategyDataByCost}}
+                                    </div>
+                                    <div class="row_list_holder">
+                                        <div class="common-load-icon" ng-show="costBusy"></div>
+                                        <div class="clearfix each_row_list" ng-repeat="costData in strategyDataByCost" ng-include="'costTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="costData in tactic.platform_metrics track by $index" ng-include="'costTpl'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------END :  Cost Block ------------------------------->
+
+                    <!---------START :  Viewablity Block ------------------------------->
+                    <div class="reports_block" id="reports_platform_viewablity_block" style="display:none;">
+                        <div class="reports_details_outer_container">
+                            <div class="clearfix reports_platform_header">
+                                <viewablity-header></viewablity-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col">
+                                        {{strategyHeading}}:
+                                        {{strategyDataByViewablity}}
+                                    </div>
+                                    <div class="row_list_holder">
+                                        <div class="common-load-icon" ng-show="viewablityBusy"></div>
+                                        <div class="clearfix each_row_list" ng-repeat="ViewablityData in strategyDataByViewablity" ng-include="'viewablityTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics track by $index">
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.tactic_name}}
+                                            </div>
+                                            <div class="each_col sec_col">
+                                                <div class="clearfix each_row_list" ng-repeat="ViewablityData in tactic.platform_metrics track by $index" ng-include="'viewablityTpl'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------END :  Viewablity Block ------------------------------->
+                </div>
+            </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="performanceTpl">
+    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
+        <div class="each_col">
+            {{performanceData.platformType_aggregation.platform_type}}
+        </div>
+        <div class="each_col sec_col">
+            {{performanceData.platformType_aggregation.impressions | number:0}}
+        </div>
+        <div class="each_col third_col">
+                {{performanceData.platformType_aggregation.ctr*100 | number:2}}%
+        </div>
+        <div class="each_col forth_col">
+                {{performanceData.platformType_aggregation.action_rate*100 | number:2}}%
+        </div>
+        <div class="each_col fifth_col">
+        ${{performanceData.platformType_aggregation.cpa | number:2}}
+        </div>
+        <div class="each_col sixth_col">
+        ${{performanceData.platformType_aggregation.cpc | number:2}}
+        </div>
+        <div class="each_col seventh_col">
+        ${{performanceData.platformType_aggregation.cpm | number:2}}
+        </div>
+    </div>
+
+    <div class="platform_row expand" ng-repeat="platform in performanceData.platforms track by $index">
+        <div class="each_col platform_logo" >
+            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" >
+        </div>
+        <div class="each_col sec_col">
+            {{platform.impressions | number:0}}
+        </div>
+        <div class="each_col third_col">
+            {{platform.ctr*100 | number:2}}%
+        </div>
+        <div class="each_col forth_col">
+            {{platform.action_rate*100 | number:2}}%
+        </div>
+        <div class="each_col fifth_col">
+            ${{platform.cpa | number:2}}
+        </div>
+        <div class="each_col sixth_col">
+            ${{platform.cpc | number:2}}
+        </div>
+        <div class="each_col seventh_col">
+            ${{platform.cpm | number:2}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="costTpl">
+    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
+        <div class="each_cost_col">{{costData.platformType_aggregation.platform_type}}</div>
+        <div class="each_cost_col second_col">{{costData.platformType_aggregation.impressions | number:0}}</div>
+        <div class="each_cost_col three_col">{{costData.platformType_aggregation.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col four_col">${{costData.platformType_aggregation.inventory_cost | number:0}}</div>
+        <div class="each_cost_col five_col">${{costData.platformType_aggregation.data_cost | number:0}}</div>
+        <div class="each_cost_col six_col">${{costData.platformType_aggregation.ad_serving_cost | number:0}}</div>
+        <div class="each_cost_col sev_col">${{costData.platformType_aggregation.rich_media_cost | number:0}}</div>
+        <div class="each_cost_col eight_col">${{costData.platformType_aggregation.research_cost | number:0}}</div>
+        <div class="each_cost_col ninth_col">${{costData.platformType_aggregation.ad_verification_cost | number:0}}</div>
+        <div class="each_cost_col eleveneth_col total_cost">${{costData.platformType_aggregation.total | number:0}}</div>
+    </div>
+
+    <div class="platform_row expand" ng-repeat="platform in costData.platforms track by $index">
+        <div class="each_col platform_logo" >
+            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" >
+        </div>
+        <div class="each_cost_col first_col">{{platform.impressions | number:0}}</div>
+        <div class="each_cost_col second_col">{{platform.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col three_col">${{platform.inventory_cost | number:0}}</div>
+        <div class="each_cost_col four_col">${{platform.data_cost | number:0}}</div>
+        <div class="each_cost_col five_col">${{platform.ad_serving_cost | number:0}}</div>
+        <div class="each_cost_col six_col">${{platform.rich_media_cost | number:0}}</div>
+        <div class="each_cost_col sev_col">${{platform.research_cost | number:0}}</div>
+        <div class="each_cost_col eight_col">${{platform.ad_verification_cost | number:0}}</div>
+        <div class="each_cost_col ninth_col">${{platform.platform_cost | number:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">${{platform.total | number:0}}</div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="viewabilityTpl">
+    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
+        <div class="each_col">
+            {{ViewablityData.platformType_aggregation.view_metrics.platform_type}}
+        </div>
+        <div class="each_col sec_col">
+            <div class="sub_col">
+                <span>{{ViewablityData.platformType_aggregation.view_metrics.delivered_imps | number:0}}</span>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <div class="sub_col">
+                <span> {{ViewablityData.platformType_aggregation.view_metrics.measurable_imps | number:0}}</span>
+                <span>{{ViewablityData.platformType_aggregation.view_metrics.perc_measurable | number:0}}%</span>
+            </div>
+        </div>
+        <div class="each_col forth_col">
+            <div class="sub_col">
+                <span> {{ViewablityData.platformType_aggregation.view_metrics.viewable_imps | number:0}}</span>
+                <span>{{ViewablityData.platformType_aggregation.view_metrics.perc_viewable | number:0}}%</span>
+            </div>
+        </div>
+        <div class="each_col fifth_col">
+            <div class="sub_col">
+                <span>{{ViewablityData.platformType_aggregation.view_metrics.perc_viewable_imps_1s | number:0}}%</span>
+                <span>{{ViewablityData.platformType_aggregation.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
+                <span>{{ViewablityData.platformType_aggregation.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
+            </div>
+        </div>
+        <div class="each_col suspicious_col">
+            {{ViewablityData.platformType_aggregation.view_metrics.nht | number: number:2}}%
+        </div>
+        <div class="each_col seventh_col">
+            {{ViewablityData.platformType_aggregation.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+        </div>
+
+    </div>
+
+    <div class="platform_row expand" ng-repeat="platform in ViewablityData.platforms track by $index">
+        <div class="each_col platform_logo" >
+            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" >
+        </div>
+
+        <div class="each_col">
+            {{platform.PlatformType_aggregation.platform_type}}
+        </div>
+        <div class="each_col sec_col">
+            <div class="sub_col">
+                <span>{{platform.view_metrics.delivered_imps | number:0}}</span>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <div class="sub_col">
+                <span> {{platform.view_metrics.measurable_imps | number:0}}</span>
+                <span>{{platform.view_metrics.perc_measurable | number:0}}%</span>
+            </div>
+        </div>
+        <div class="each_col forth_col">
+            <div class="sub_col">
+                <span> {{platform.view_metrics.viewable_imps | number:0}}</span>
+                <span>{{platform.view_metrics.perc_viewable | number:0}}%</span>
+            </div>
+        </div>
+        <div class="each_col fifth_col">
+            <div class="sub_col">
+                <span>{{platform.view_metrics.perc_viewable_imps_1s | number:0}}%</span>
+                <span>{{platform.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
+                <span>{{platform.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
+            </div>
+        </div>
+        <div class="each_col suspicious_col">
+            {{platform.view_metrics.nht | number: number:2}}%
+        </div>
+        <div class="each_col seventh_col">
+            {{platform.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+        </div>
+    </div>
+</script>
