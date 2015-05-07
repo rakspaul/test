@@ -90,7 +90,6 @@
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col">
                                         {{strategyHeading}}:
-                                        {{strategyDataByCost}}
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="costBusy"></div>
@@ -125,7 +124,6 @@
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col">
                                         {{strategyHeading}}:
-                                        {{strategyDataByViewablity}}
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="viewablityBusy"></div>
@@ -234,7 +232,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="viewabilityTpl">
+<script type="text/ng-template" id="viewablityTpl">
     <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
         <div class="each_col">
             {{ViewablityData.platformType_aggregation.view_metrics.platform_type}}
