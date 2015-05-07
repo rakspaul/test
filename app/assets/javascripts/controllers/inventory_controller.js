@@ -31,7 +31,7 @@ var angObj = angObj || {};
         };
       //  $scope.selected_filters = domainReports.getDurationKpi();
 
-        $scope.filters = domainReports.getReportsDropDowns();
+        $scope.filters = domainReports.getReportsTabs();
 
         $scope.selected_filters_tb = '0';
         $scope.selected_filters_tab = 'categories';
