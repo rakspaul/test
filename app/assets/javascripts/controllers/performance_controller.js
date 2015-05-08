@@ -114,11 +114,19 @@ var angObj = angObj || {};
                     var StrategyFunc = performanceService[tab !== 'Platform' ? 'getStrategyPerfData' : 'getStrategyPlatformData'];
                     StrategyFunc(param).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
-                            $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
+
+                            if (tab !== 'Platform')
+                                $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
+                            else
+                                $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
                             if($scope.hidePerformanceReportTab) {
                                 $scope.errorHandlerForPerformanceTab(result, listOfTabs);
                             } else {
-                                $scope['strategyPerfDataBy' + tab] = result.data.data[0];
+
+                                if (tab !== 'Platform')
+                                    $scope['strategyPerfDataBy' + tab] = result.data.data[0];
+                                else
+                                    $scope['strategyPerfDataBy' + tab] = result.data.data;
                                 $scope['dataNotFoundFor' + tab] = false;
                                 $scope[tab.toLowerCase() + 'Busy'] = false;
                             }
