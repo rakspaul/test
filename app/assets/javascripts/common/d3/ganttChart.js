@@ -373,7 +373,7 @@
                 */
                 var isPastView = function (calendarStart, campaignStartDate, campaignEndDate) {
 
-                    if( (moment(calendarStart).toDate() >= moment(campaignStartDate).toDate()) && (moment(calendarStart).toDate() >= moment(campaignEndDate).toDate()) ) {
+                    if( moment(calendarStart).toDate() >= moment(campaignEndDate).toDate() ) {
                         return true;
                     } else {
                         return false;
@@ -392,7 +392,7 @@
                 */
                 var isFutureView = function (calendarEnd, campaignStartDate, campaignEndDate) {
 
-                    if( (moment(calendarEnd).toDate() <= moment(campaignStartDate).toDate()) && (moment(calendarEnd).toDate() <= moment(campaignEndDate).toDate()) ) {
+                    if( moment(calendarEnd).toDate() <= moment(campaignStartDate).toDate() ) {
                         return true;
                     } else {
                         return false;
