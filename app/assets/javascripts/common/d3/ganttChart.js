@@ -362,6 +362,43 @@
             		}
                 };
 
+                /**
+                * Check if campaign is in the PAST view of the calendar timeline
+                * 
+                * @param date calendarStart The start date of calendar timeline 
+                * @param date campaignStartDate
+                * @param date campaignEndDate
+                * @return bool True if it is in the past 
+                *              False if it is not
+                */
+                var isPastView = function (calendarStart, campaignStartDate, campaignEndDate) {
+
+                    if( moment(calendarStart).toDate() >= moment(campaignEndDate).toDate() ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                };
+
+                /**
+                * Check if campaign is in the FUTURE view of the calendar timeline
+                * 
+                * @param date calendarEnd The end date of calendar timeline 
+                * @param date campaignStartDate
+                * @param date campaignEndDate
+                * @return bool True if it is in the future 
+                *              False if it is not
+                */
+                var isFutureView = function (calendarEnd, campaignStartDate, campaignEndDate) {
+
+                    if( moment(calendarEnd).toDate() <= moment(campaignStartDate).toDate() ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                };
 
                 var ganttChartGroup = svg.select(".gantt-chart");
                 var ganttChartHeaderGroup = svgHeader.select(".gantt-chart-head");
@@ -417,7 +454,7 @@
                     })
                     .attr("xlink:href", function(d) {
                         var direction = "none";
-                        if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                        if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                             direction = "left";
                             if (d.kpiStatus == "ontrack") {
                                 return window.assets.green_left; 
@@ -426,7 +463,7 @@
                             } else {
                                 return window.assets.gray_left; 
                             }
-                        } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                        } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                             direction = "right";
                             if (d.kpiStatus == "ontrack") {
                                 return window.assets.green_right; 
@@ -444,9 +481,9 @@
                         if (d.type == "brand"){
                             return 0;
                         } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
-                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 return 25;
-                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 return 25;
                             } else {
                                 return 0;
@@ -498,7 +535,7 @@
                         var im= d3.select(this);
                         var tdEdges = gantt.timeDomain();
                         im.attr("xlink:href", function(d) {
-                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
                                     return window.assets.green_left_act; 
                                 } else if (d.kpiStatus == "underperforming") {
@@ -507,7 +544,7 @@
                                     return window.assets.gray_left_act; 
                                 }
 
-                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
                                     return window.assets.green_right_act; 
                                 } else if (d.kpiStatus == "underperforming") {
@@ -531,7 +568,7 @@
                         var im= d3.select(this);
                         var tdEdges = gantt.timeDomain();
                         im.attr("xlink:href", function(d) {
-                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
                                     return window.assets.green_left; 
                                 } else if (d.kpiStatus == "underperforming") {
@@ -540,7 +577,7 @@
                                     return window.assets.gray_left; 
                                 }
 
-                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
                                     return window.assets.green_right; 
                                 } else if (d.kpiStatus == "underperforming") {
@@ -565,9 +602,9 @@
                     .attr("stroke-width", "0.3")
                     .attr("stroke", "#939ead")
                     .text(function(d) {
-                        if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                        if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                             return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
-                        } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                        } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                             return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
                         }
                     })
@@ -585,9 +622,9 @@
                     .attr("stroke", "#21252b")
                     .text(function(d) {
         
-                        if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                        if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                             return  d.name;
-                        } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                        } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                             return d.name;
                         }
                     })
@@ -1156,7 +1193,7 @@
                             .delay(0)
                             .attr("xlink:href", function(d) {
                                 tdEdges = gantt.timeDomain();
-                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     //left
                                     if (d.kpiStatus == "ontrack") {
                                         return window.assets.green_left; 
@@ -1165,7 +1202,7 @@
                                     } else {
                                         return window.assets.gray_left; 
                                     }
-                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     //right
                                     if (d.kpiStatus == "ontrack") {
                                         return window.assets.green_right; 
@@ -1180,9 +1217,9 @@
                             if (d.type == "brand") {
                                 return 0;
                             } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
-                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return 25;
-                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     return 25;
                                 } else {
                                     return 0;
@@ -1192,25 +1229,29 @@
                             }
                         }) 
                         .attr("transform", function(d) {
-                            if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 return  "translate(0," + y(d.taskName) + ")";
-                            } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 return  "translate(480," + y(d.taskName) + ")";
-                            } else {
-                                return  "translate(-100," + y(d.taskName) + ")";
-                            }
+                            } 
+                            //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
+                            // else {
+                            //     return  "translate(-100," + y(d.taskName) + ")";
+                            // }
                         });
                     } else if(type == "node-marker") {
                         a.transition()
                             .delay(0)
                             .attr("transform", function(d){
-                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return  "translate(0," + y(d.taskName) + ")";
-                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     return  "translate(480," + y(d.taskName) + ")";
-                                } else {
-                                    return  "translate(-100," + y(d.taskName) + ")";
-                                }
+                                } 
+                                //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
+                                // else {
+                                //     return  "translate(-100," + y(d.taskName) + ")";
+                                // }
                             });
                     }
                 };
@@ -1269,9 +1310,9 @@
                                 return "display:none";
                             })
                             .text(function(d) {
-                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
-                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
                                 }
                             })
@@ -1285,9 +1326,9 @@
                                 return "display:none";
                             })
                             .text(function(d) {
-                                if(moment(tdEdges[0]).toDate() > moment(d.endDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return d.name;
-                                } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.startDate).toDate()) {
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     if(d.name.length > 57) {
                                         return d.name.substr(0, 57) + '...';
                                     } else {
