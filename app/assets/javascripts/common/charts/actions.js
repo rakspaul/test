@@ -80,11 +80,15 @@
                         $('.highcharts-tooltip').show();
                     }).add(),
                 container = marker.getBBox();
-
+            var getPosition = function(that,axis){
+                return parseInt(that.getAttribute(axis));
+            };
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
-                var x = $(that).position().left + 10, //event.offsetX ==undefined ? event.layerX : event.offsetX,
-                    y = $(that).position().top + 15,//event.offsetY ==undefined ? event.layerY : event.offsetY,
+                var cX = getPosition(that,'cX') + parseInt(10);
+                var cY = getPosition(that,'cY') + parseInt(15);
+                    var x = cX,
+                    y = cY,
                     correctionX = 0,
                     symbol = '',
                     suffix = '',
@@ -207,7 +211,9 @@
                 comment: actionComment || 'NA',
                 id_list:id_list,
                 activityCount:activityCount,
-                zIndex: 4
+                zIndex: 4,
+                cX: container.x,
+                cY:container.y
             }).css({
                 cursor: 'pointer'
             }).on('mouseover', function (event) {
