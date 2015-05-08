@@ -412,14 +412,18 @@
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var resultDataLen = result.data.data.length,
-                        campaignKpiType = campaign.kpiType.toLowerCase();
+                    var resultDataLen = 0,screensData=undefined;
+                    if (result.data.data && result.data.data.length > 0 && result.data.data[0].perf_metrics) {
+                        screensData=result.data.data[0].perf_metrics;
+                        resultDataLen = screensData.length;
+                    }
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
                     for (var i = 0; i < resultDataLen; i++) {
-                      result.data.data[i].ctr *= 100;
-                      result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+                        screensData[i].ctr *= 100;
+                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
                     }
                     if(resultDataLen>0){
-                        screens = orderBy(result.data.data, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
+                        screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
                         _.each(screens, function(screen) {
                              var screenType = screen.dimension.toLowerCase();
                              if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
