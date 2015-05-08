@@ -36,7 +36,7 @@
                     activeTab : document.location.pathname.substring(1)
                 }
             },
-            setCampaignTab : function() {
+            highlightHeaderMenu : function() {
                 //Hot fix to show the campaign tab selected
                 $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
             }
@@ -63,21 +63,6 @@
             restrict:'EAC',
             templateUrl: '/assets/html/partials/download_report.html',
             link: function($scope, element, attrs) {
-                $scope.download_urls = {
-                    screens: null,
-                    daysOfWeek: null,
-                    platforms: null
-                };
-
-                $scope.createDownloadReportUrl = function () {
-                    var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
-                    $scope.download_urls = {
-                        screens: urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
-                        daysOfWeek: urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
-                        platforms: urlPath + 'platforms/reportDownload?date_filter=cdb_period'
-                    };
-                };
-
                 $scope.downloadPerformanceReport = function(report_url, report_name) {
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
