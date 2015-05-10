@@ -134,7 +134,7 @@ var angObj = angObj || {};
                         else {
                             $scope.errorHandlerForPerformanceTab(result, listOfTabs);
                         }
-                    }, $scope.errorHandlerForPerformanceTab(result, listOfTabs));
+                    }, $scope.errorHandlerForPerformanceTab('', listOfTabs));
                 }
             }
 
