@@ -67,21 +67,21 @@
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
                     else {
-                        $scope.perfReportDownloadBusy = true;
+                        $scope.reportDownloadBusy = true;
                         var report_url1 = report_url;
                         if (report_name === 'by_platforms')
                             report_url1 = report_url + '&start_date=' + $scope.selectedCampaign.startDate + '&end_date=' + $scope.selectedCampaign.endDate;
                         dataService.downloadFile(report_url1).then(function (response) {
                             if (response.status === "success") {
-                                $scope.perfReportDownloadBusy = false;
+                                $scope.reportDownloadBusy = false;
                                 saveAs(response.file, response.fileName);
                             } else {
-                                $scope.perfReportDownloadBusy = false;
+                                $scope.reportDownloadBusy = false;
                             }
                         }, function() {
-                            $scope.perfReportDownloadBusy = false;
+                            $scope.reportDownloadBusy = false;
                         }, function() {
-                            $scope.perfReportDownloadBusy = false;
+                            $scope.reportDownloadBusy = false;
                         });
                         analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report_name + '_report', loginModel.getLoginName());
                     }
