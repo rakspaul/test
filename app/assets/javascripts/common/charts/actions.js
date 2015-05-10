@@ -85,8 +85,8 @@
             };
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
-                var cX = getPosition(that,'cX') + parseInt(10);
-                var cY = getPosition(that,'cY') + parseInt(15);
+                var cX = getPosition(that,'cX') + 10;
+                var cY = getPosition(that,'cY') + 15;
                     var x = cX,
                     y = cY,
                     correctionX = 0,
