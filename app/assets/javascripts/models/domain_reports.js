@@ -68,10 +68,7 @@
                         loginModel.checkCookieExpiry();
                     else {
                         $scope.reportDownloadBusy = true;
-                        var report_url1 = report_url;
-                        if (report_name === 'by_platforms')
-                            report_url1 = report_url + '&start_date=' + $scope.selectedCampaign.startDate + '&end_date=' + $scope.selectedCampaign.endDate;
-                        dataService.downloadFile(report_url1).then(function (response) {
+                        dataService.downloadFile(report_url).then(function (response) {
                             if (response.status === "success") {
                                 $scope.reportDownloadBusy = false;
                                 saveAs(response.file, response.fileName);
