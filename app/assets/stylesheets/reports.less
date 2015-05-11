@@ -107,18 +107,26 @@
     margin-top: 10px;
   }
 }
+
 .platform_logo {
       height: 18px ;
       width: 16px ;
-      position: relative;
-      img {
-        position: absolute;
-        max-width: 16px ;
-        top: 50%;
-        left: 0%;
-        transform: translate(0%, -50%);
-        -ms-transform: translate(0%, -50%);
-        -webkit-transform: translate(0%, -50%);
+      .platform_logo_img {
+        float: left;
+        display: inline-block;
+        position: relative;
+        height: 16px;
+        width: 16px;
+        text-align: center;
+        img {
+            position: absolute;
+            max-width: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(0, -50%);
+            -webkit-transform: translate(-50%, -50%);
+        }
       }
     }
 .total_reports_page {
@@ -1334,10 +1342,10 @@ div.strategy_total_container {
   // I think the  markup should be refactored as tabular data
   #reports_platform_cost_block,#reports_platform_viewablity_block,#reports_platform_performance_block{
     .plat_name{
-      margin-left:20px;
+      margin-left:10px;
       white-space: normal;
       float: left;
-      max-width: 100%;
+      max-width: 63%;
       text-overflow: ellipsis;
       overflow: hidden;
       display: inline-block;
@@ -1353,7 +1361,7 @@ div.strategy_total_container {
     .platform_aggregation_row{
       font-weight:bold;
       font-size:15px;
-      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 10px;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 9px;
       height: 25px;
       margin-top: 1px;
 

@@ -181,7 +181,10 @@
 
     <div class="platform_row" ng-repeat="platform in performanceData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /><span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
         </div>
         <div class="each_col sec_col">
             {{platform.impressions | number:0}}
@@ -220,7 +223,10 @@
 
     <div class="platform_row" ng-repeat="platform in costData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /> <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
         </div>
         <div class="each_col second_col">{{platform.impressions | number:0}}</div>
         <div class="each_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
@@ -268,7 +274,10 @@
 
     <div class="platform_row" ng-repeat="platform in ViewablityData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /><span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
         </div>
 
         <!-- <div class="each_col">
