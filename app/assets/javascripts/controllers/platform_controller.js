@@ -186,7 +186,7 @@ var angObj = angObj || {};
             var platformRow = targetRow.closest('.each_row_list');
             var that;
             platformRow.find('.platform_row').toggle( "slow", function() {
-                that = $(this)
+                that = $(this).parents('.each_row_list');
                 if(that.hasClass('expand')) {
                     that.removeClass('expand'); that.addClass('collapse');
                 } else {
