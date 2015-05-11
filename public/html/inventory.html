@@ -12,23 +12,7 @@
             </div>  <!-- end of inventory_camp_list_dd -->
 
             <div class="pull-right download_report">
-
-                <div class="dropdown" >
-                    <span class="dropdown_ul_text " data-toggle="dropdown">
-                        <a class="download_anchor" id="inventory_download_btn" href="" >Download Report</a>
-                    </span>
-
-                    <ul class="dropdown_ul_inv dropdown-menu" id="inventory_download">
-
-                        <li value="categories"><a ng-if="download_urls.category" class="download_anchor"
-                                               ng-click="downloadInventoryReport(download_urls.category, 'transparency_by_site_category')">Inventory Transparency by Site Category</a></li>
-                        <li value="domains"><a ng-if="download_urls.domain" class="download_anchor"
-                                               ng-click="downloadInventoryReport(download_urls.domain, 'transparency_by_domain')">Inventory Transparency by Domain</a></li>
-                        <li value="urls"><a ng-if="download_urls.fullURL" class="download_anchor"
-                                               ng-click="downloadInventoryReport(download_urls.fullURL, 'transparency_by_url')">Inventory Transparency by URL</a></li>
-                    </ul>
-                </div>
-                <span class="download-report-load-icon" ng-if="invReportDownloadBusy">Downloading </span>
+                <download-report></download-report>
             </div>
         </div>
         <div id="inventory_strategies_dd" ng-show="isStrategyDropDownShow">
