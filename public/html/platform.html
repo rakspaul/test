@@ -22,7 +22,7 @@
     <div class="platform_container" ng-hide="strategyLoading">
             <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')"></div>
             <div class="reports_tabs_content_container" ng-show="strategyFound">
-                <!---------START :  Platform Tabs -------------------------->
+                <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="reports_tabs_content_container">
                     <div class="clearfix">
                         <div class="clearfix reports_tabs_holder">
@@ -43,9 +43,9 @@
                             </div>
                         </div>
                     </div>
-                    <!---------END :  Platform Tabs -------------------------->
+                    <!-- -------END :  Platform Tabs ------------------------ -->
 
-                    <!---------START :  Performance Block -------------------------->
+                    <!-- -------START :  Performance Block ------------------------ -->
                     <div class="reports_block" id="reports_platform_performance_block">
                         <div class="no_data_found" ng-if="dataNotFoundForPerformance" ng-bind-html="getMessageForDataNotAvailable('performance')"></div>
                         <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance" >
@@ -59,7 +59,7 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="performanceBusy"></div>
-                                        <div class="clearfix each_row_list" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
+                                        <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
@@ -70,7 +70,7 @@
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list" ng-repeat="performanceData in tactic.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -78,9 +78,9 @@
                             </div>
                         </div>
                     </div>
-                    <!---------END :  Performance Block -------------------------->
+                    <!-- -------END :  Performance Block ------------------------ -->
 
-                    <!---------START :  Cost Block ------------------------------->
+                    <!-- -------START :  Cost Block ----------------------------- -->
 
                     <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
                         <div class="no_data_found" ng-if="dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="costBusy"></div>
-                                        <div class="clearfix each_row_list" ng-repeat="costData in strategyDataByCost.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
+                                        <div class="clearfix each_row_list expandRow" ng-repeat="costData in strategyDataByCost.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
@@ -106,7 +106,7 @@
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list" ng-repeat="costData in tactic.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -114,9 +114,9 @@
                             </div>
                         </div>
                     </div>
-                    <!---------END :  Cost Block ------------------------------->
+                    <!-- -------END :  Cost Block ----------------------------- -->
 
-                    <!---------START :  Viewablity Block ------------------------------->
+                    <!-- -------START :  Viewablity Block ----------------------------- -->
                     <div class="reports_block" id="reports_platform_viewablity_block" style="display:none;">
                         <div class="no_data_found" ng-if="dataNotFoundForViewablity" ng-bind-html="getMessageForDataNotAvailable('viewablity')"></div>
                         <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewablity">
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="viewablityBusy"></div>
-                                        <div class="clearfix each_row_list" ng-repeat="ViewablityData in strategyDataByViewablity.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
+                                        <div class="clearfix each_row_list expandRow" ng-repeat="ViewablityData in strategyDataByViewablity.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
@@ -140,7 +140,7 @@
                                                 {{tactic.tactic_name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list" ng-repeat="ViewablityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="ViewablityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                     </div>
-                    <!---------END :  Viewablity Block ------------------------------->
+                    <!-- -------END :  Viewablity Block ----------------------------- -->
                 </div>
             </div>
     </div>
@@ -179,9 +179,12 @@
         </div>
     </div>
 
-    <div class="platform_row expand" ng-repeat="platform in performanceData.platforms track by $index">
+    <div class="platform_row" ng-repeat="platform in performanceData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /><span class="plat_name">{{platform.platform}}</span>
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
         </div>
         <div class="each_col sec_col">
             {{platform.impressions | number:0}}
@@ -218,9 +221,12 @@
         <div class="each_col tenth_col total_cost">${{costData.platformType_aggregation.total_spend | number:0}}</div>
     </div>
 
-    <div class="platform_row expand" ng-repeat="platform in costData.platforms track by $index">
+    <div class="platform_row" ng-repeat="platform in costData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /> <span class="plat_name">{{platform.platform}}</span>
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
         </div>
         <div class="each_col second_col">{{platform.impressions | number:0}}</div>
         <div class="each_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
@@ -266,14 +272,17 @@
 
     </div>
 
-    <div class="platform_row expand" ng-repeat="platform in ViewablityData.platforms track by $index">
+    <div class="platform_row" ng-repeat="platform in ViewablityData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /><span class="plat_name">{{platform.platform}}</span>
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
         </div>
 
-        <div class="each_col">
+        <!-- <div class="each_col">
             {{platform.platform_type}}
-        </div>
+        </div> -->
 
         <div class="each_col sec_col">
             <div class="sub_col">

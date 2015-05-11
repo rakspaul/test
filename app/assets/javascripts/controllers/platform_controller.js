@@ -138,7 +138,7 @@ var angObj = angObj || {};
                     'label' : 'Platform by Cost'
                 },
                 {
-                    'report_url' : urlPath + 'viewabilty/reportDownload?date_filter=cdb_period',
+                    'report_url' : urlPath + 'viewabilty/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_viewabilty',
                     'label' : 'Platform By Viewabilty'
                 }
@@ -183,15 +183,13 @@ var angObj = angObj || {};
         //event handler which toggle platform
         $scope.togglePlatformRow = function(e) {
             var targetRow = $(e.currentTarget);
-            var platformRow = targetRow.siblings('.platform_row');
-            var that;
-            platformRow.toggle( "slow", function() {
-                that = $(this)
-                if(that.hasClass('expand')) {
-                    that.removeClass('expand'); that.addClass('collapse');
-                } else {
-                    that.removeClass('collapse'); that.addClass('expand');
-                }
+            var platformRow = targetRow.closest('.each_row_list');
+            if(platformRow.hasClass('expandRow')) {
+                platformRow.removeClass('expandRow'); platformRow.addClass('collapseRow');
+            } else {
+                platformRow.removeClass('collapseRow'); platformRow.addClass('expandRow');
+            }
+            platformRow.find('.platform_row').toggle( "slow", function() {
             })
         };
 
