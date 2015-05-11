@@ -141,10 +141,8 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
-
-            //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.callBackCampaignsSuccess();
+            $scope.createDownloadReportUrl();
 
         });
 
@@ -156,15 +154,17 @@ var angObj = angObj || {};
             $scope.callBackStrategyChange();
         });
 
-        $scope.callBackCampaignsSuccess= function(){
-            //TODO, logic needs to be done
+        //creating download report url
+        $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
             $scope.strategyMarginPercentage = -1 ;
-
-            $scope.download_urls = {
-                cost: urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter
-            };
-
+            $scope.download_report = [
+                {
+                    'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : '',
+                    'label' : 'Cost Report'
+                }
+            ];
         };
 
         //Function is called from startegylist directive
@@ -189,9 +189,6 @@ var angObj = angObj || {};
             }
         };
 
-
-
-
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
         });
@@ -199,22 +196,5 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
-
-        $scope.downloadCostReport = function(report_url) {
-            if (!loginModel.cookieExists())
-                loginModel.checkCookieExpiry();
-            else {
-                $scope.costReportDownloadBusy = true;
-                dataService.downloadFile(report_url).then(function (response) {
-                    if (response.status === "success") {
-                        $scope.costReportDownloadBusy = false;
-                        saveAs(response.file, response.fileName);
-                    } else if (response.status === "error") {
-                        $scope.costReportDownloadBusy = false;
-                    }
-                });
-                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
-            }
-        }
     });
 }());
