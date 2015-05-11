@@ -125,7 +125,7 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/byplatform/';
+            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/platform/';
             $scope.download_report = [
                 {
                     'report_url': urlPath + 'performance/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
