@@ -1172,8 +1172,16 @@
                                     if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
                                         return (x(d.endDate) - x(d.startDate)) + 2;
                                   	}
+                                    
+                                    var width = (x(d.endDate) - x(d.startDate));
+                                    
+                                    //prevent passing negative width to the attribute
+                                    if( width >= 0) {
+                                        return width;
+                                    } else {
+                                        return 0;
+                                    }
 
-                                    return (x(d.endDate) - x(d.startDate));
                                 } else {
                                     return 0;
                                 }
