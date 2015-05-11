@@ -181,7 +181,7 @@
 
     <div class="platform_row expand" ng-repeat="platform in performanceData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /><span class="plat_name">{{platform.platform}}</span>
+            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" >
         </div>
         <div class="each_col sec_col">
             {{platform.impressions | number:0}}
@@ -220,7 +220,7 @@
 
     <div class="platform_row expand" ng-repeat="platform in costData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /> <span class="plat_name">{{platform.platform}}</span>
+            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" >
         </div>
         <div class="each_col second_col">{{platform.impressions | number:0}}</div>
         <div class="each_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
@@ -268,13 +268,12 @@
 
     <div class="platform_row expand" ng-repeat="platform in ViewablityData.platforms track by $index">
         <div class="each_col platform_logo" >
-            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" /><span class="plat_name">{{platform.platform}}</span>
+            <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" >
         </div>
 
-        <div class="each_col">
+        <!--<div class="each_col">
             {{platform.platform_type}}
-        </div>
-
+        </div>-->
         <div class="each_col sec_col">
             <div class="sub_col">
                 <span>{{platform.ias_imps_delivered | number:0}}</span>
