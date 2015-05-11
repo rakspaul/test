@@ -59,7 +59,7 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="performanceBusy"></div>
-                                        <div class="clearfix each_row_list expand" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
+                                        <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
@@ -70,7 +70,7 @@
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expand" ng-repeat="performanceData in tactic.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="costBusy"></div>
-                                        <div class="clearfix each_row_list expand" ng-repeat="costData in strategyDataByCost.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
+                                        <div class="clearfix each_row_list expandRow" ng-repeat="costData in strategyDataByCost.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
@@ -106,7 +106,7 @@
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expand" ng-repeat="costData in tactic.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="viewablityBusy"></div>
-                                        <div class="clearfix each_row_list expand" ng-repeat="ViewablityData in strategyDataByViewablity.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
+                                        <div class="clearfix each_row_list expandRow" ng-repeat="ViewablityData in strategyDataByViewablity.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
@@ -140,7 +140,7 @@
                                                 {{tactic.tactic_name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expand" ng-repeat="ViewablityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="ViewablityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
                                             </div>
                                         </div>
                                     </div>

@@ -184,14 +184,12 @@ var angObj = angObj || {};
         $scope.togglePlatformRow = function(e) {
             var targetRow = $(e.currentTarget);
             var platformRow = targetRow.closest('.each_row_list');
-            var that;
+            if(platformRow.hasClass('expandRow')) {
+                platformRow.removeClass('expandRow'); platformRow.addClass('collapseRow');
+            } else {
+                platformRow.removeClass('collapseRow'); platformRow.addClass('expandRow');
+            }
             platformRow.find('.platform_row').toggle( "slow", function() {
-                that = $(this).parents('.each_row_list');
-                if(that.hasClass('expand')) {
-                    that.removeClass('expand'); that.addClass('collapse');
-                } else {
-                    that.removeClass('collapse'); that.addClass('expand');
-                }
             })
         };
 
