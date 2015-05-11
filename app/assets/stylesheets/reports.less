@@ -23,7 +23,7 @@
 
 .ReportRowFontColor() {
   color:  #21252b;
-  font-size: 14px; 
+  font-size: 14px;
   font-family: "Avenir-bold" ;
 }
 .AvenirBold() {
@@ -77,7 +77,7 @@
     display: block;
     /*background: url("/assets/images/cdesk/information_icon.png") no-repeat ;*/
     background: url("/assets/images/cdesk/sprites.png") no-repeat -622px -107px ;
-    -webkit-transition-duration: 1ms; 
+    -webkit-transition-duration: 1ms;
     transition-duration: 1ms;
     -moz-transition-duration: 1ms;
     &:hover {
@@ -104,7 +104,7 @@
 }
 .dropdown_type1_holder {
   .report_heading_dropdown_txt {
-    margin-top: 10px; 
+    margin-top: 10px;
   }
 }
 .total_reports_page {
@@ -217,7 +217,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     overflow-y: auto;
     .each_reports_row_heading {
       font-family: "Avenir";
-     .each_rep_col_holder {
+      .each_rep_col_holder {
         padding: 20px 16px;
         background: @reportHighlight ;
         border: solid 1px @reportBorder ;
@@ -527,7 +527,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         li {
           padding: 0px ;
           a {
-            white-space: normal; 
+            white-space: normal;
             font-size: 12px ;
             text-transform: none;
             color: #333 ;
@@ -572,21 +572,21 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     width: 100%;
     padding: 10px 10px 10px 42px;
   }
-/*  .dropdown_type3 {
-    margin: 8px 40px 0 0;
-    background: url("/assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
-    padding-left: 20px;
-    .dropdown-menu {
-      min-width: 120px;
-      left: -6px;
-      li {
-        padding-left: 25px;
+  /*  .dropdown_type3 {
+      margin: 8px 40px 0 0;
+      background: url("/assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
+      padding-left: 20px;
+      .dropdown-menu {
+        min-width: 120px;
+        left: -6px;
+        li {
+          padding-left: 25px;
+        }
       }
-    }
-    .dd_txt {
-      color: #697075;
-    }
-  }*/
+      .dd_txt {
+        color: #697075;
+      }
+    }*/
   .dropdown_type1 {
     font-size: 26px;
     color: #313233;
@@ -640,9 +640,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     overflow-y: auto;
   }
   #strategies_list {
-    width: 450px; 
+    width: 450px;
   }
-    
+
   .performance_selection {
     cursor: pointer;
     .performance_symbol {
@@ -875,7 +875,7 @@ div.strategy_total_container {
   div.strategy_total_container_header {
     background: @reportHighlight  ;
     border: solid 1px @reportBorder ;
-    border-top-width: 2px ; 
+    border-top-width: 2px ;
     padding: 15px 20px 5px 20px ;
     div.each_col.first_col {
       .StrategyHeadingFontColor();
@@ -929,10 +929,10 @@ div.strategy_total_container {
       border-top: 0px ;
     }
     .each_col.first_col {
-     float: none;   
-     width: 100% ;
-     .ReportRowFontColor() ;
-     padding-bottom: 0px ;
+      float: none;
+      width: 100% ;
+      .ReportRowFontColor() ;
+      padding-bottom: 0px ;
     }
     .strategy_total_container_header {
       padding-top : 10px ;
@@ -1081,9 +1081,9 @@ div.strategy_total_container {
     width: 130px ;
   }
   .suspicious_col  {
-      width: 90px ;
+    width: 90px ;
     text-align: center;
-    }
+  }
   .viewability_header {
     background: #fff;
     border: solid 1px @reportBorder ;
@@ -1135,7 +1135,7 @@ div.strategy_total_container {
   .each_strategy_holder:last-child {
     .linkage_lines:after {
       top : 100% ;
-    } 
+    }
   }
   .all_strategies_holder {
     .linkage_lines {
@@ -1180,13 +1180,13 @@ div.strategy_total_container {
   }
   .each_strategy_holder:last-child {
     .linkage_bar {
-        background: #fff;
-        border-top: solid 1px #ccd9e3;
-        height: 50%;
-        bottom: 0;
-        top: auto;
-        left: -1px;
-        width: 11px;
+      background: #fff;
+      border-top: solid 1px #ccd9e3;
+      height: 50%;
+      bottom: 0;
+      top: auto;
+      left: -1px;
+      width: 11px;
     }
   }
   .reports_tabs_holder {
@@ -1295,7 +1295,133 @@ div.strategy_total_container {
         width: 147px ;
       }
     }
+
+    .reports_platform_header {
+      background: #fff;
+      border: solid 1px @reportBorder ;
+      padding: 10px 20px;
+      border-bottom: 0px ;
+      .each_col {
+        .ColHeadingFontColor();
+        margin: 6px 0 2px 15px;
+      }
+      .first_col {
+        margin-top: 10px ;
+        font-weight: normal;
+      }
+      .sec_col {
+        margin-left: 5px ;
+        width: 125px ;
+      }
+    }
   }
+
+  // Below is temporary
+  // For the purpose of aligning the tabular date in the new platforms tab
+  // I think the resulting markup should be refactored as tabular data
+
+  #reports_platform_cost_block {
+    .reports_platform_header {
+      .each_col {
+        width: 84px;
+        white-space: nowrap;
+      }
+      .sec_col {
+        margin-left: 21px;
+        /* width: 97px ;*/
+      }
+    }
+    .row_list_holder {
+      .each_col {
+        width: 84px;
+        white-space: nowrap;
+      }
+    }
+    .dropdown_ul {
+      text-align: left;
+    }
+  }
+
+  #reports_platform_viewablity_block {
+    .platform_row {
+      clear: both;
+    }
+    .strategy_total_container {
+      .sec_col, .third_col, .forth_col {
+        margin-right: 15px;
+      }
+    }
+    .reports_platform_header {
+      .third_col, .forth_col, .fifth_col {
+        margin-right: 15px;
+        text-align: center;
+      }
+      .sec_col, .suspicious_col, .seventh_col {
+        padding-top: 17px;
+      }
+      .each_col {
+        width: 153px;
+        height: 56px;
+        position: relative;
+      }
+      .sub_col {
+        margin-top: 9px;
+        position: relative;
+        text-align: left;
+      }
+      .sub_col span {
+        margin: 0;
+        text-align: left;
+        width: 50%;
+        display: inline-block;
+      }
+      .sub_col span + span {
+        right: 1px;
+        text-align: right;
+        width: 50%;
+      }
+    }
+    .sub_col span {
+      margin: 0;
+      text-align: left;
+      width: 30%;
+      display: inline-block;
+    }
+    .sub_col span + span {
+      right: 1px;
+      text-align: right;
+      width: 50%;
+    }
+    .each_col {
+      text-align: left;
+      width: 155px;
+    }
+    .each_col.seventh_col {
+      width: 73px;
+    }
+    .each_col.suspicious_col {
+      margin: 5px 28px 2px 43px;
+      padding-top: 2px;
+      width: 97px;
+    }
+    .reports_platform_header {
+      .sub_col {
+        border-top: 1px solid #ccc;
+        margin-top: 8px;
+        padding-top: 8px;
+      }
+    }
+  }
+  #reports_platform_performance_block {
+    .platform_row {
+      clear: both;
+    }
+    .each_col {
+      text-align: left;
+    }
+  }
+  // end of temporary styling
+
   #reports_byplatforms_block  {
     .each_col {
       width: 110px ;
@@ -1310,8 +1436,8 @@ div.strategy_total_container {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%); 
-        -webkit-transform: translate(-50%, -50%); 
+        -ms-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
       }
     }
     .each_col.first_col {
@@ -1358,7 +1484,7 @@ div.strategy_total_container {
     padding: 20px 0 0 20px ;
     .dropdown_ul {
       li {
-      text-align: left;
+        text-align: left;
       }
     }
     .each_cost_col {
@@ -1471,7 +1597,7 @@ div.strategy_total_container {
     color: #666;
     font-size: 12px;
     .squaredFour {
-      width: 20px;    
+      width: 20px;
       margin: 0px 5px 0 0;
       position: relative;
       float: left;
@@ -1490,7 +1616,7 @@ div.strategy_total_container {
         left: 0px;
         border-radius: 2px;
         border: solid 1px #d9d9d9;
-       }
+      }
       label:after {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
         filter: alpha(opacity=0);
@@ -1515,12 +1641,12 @@ div.strategy_total_container {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
         filter: alpha(opacity=30);
         opacity: 0.5;
-       }
-       input[type=checkbox]:checked + label:after {
+      }
+      input[type=checkbox]:checked + label:after {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
         filter: alpha(opacity=100);
         opacity: 1;
-       }
+      }
     }
     .squaredFourTxt {
       float: left;
@@ -1529,82 +1655,82 @@ div.strategy_total_container {
   }
 }
 .details_with_heading_total {
-    .dates_hide , .after_before_title {
-      display: none;
+  .dates_hide , .after_before_title {
+    display: none;
+  }
+  .dates_show {
+    display: block;
+  }
+  .left_border {
+    border-left: solid 1px transparent ;
+  }
+  .each_rep_col_holder .each_rep_col {
+    width: 152px ;
+  }
+  .each_rep_col_holder .first_col {
+    width: 210px ;
+  }
+}
+.see_dates_selected {
+  .dates_show {
+    display: none;
+  }
+  .after_before_title , .dates_hide {
+    display: block;
+  }
+  .each_rep_col_holder .each_rep_col {
+    width: 90px ;
+  }
+  .each_rep_col_holder .each_rep_col.sec_col {
+    width: 105px ;
+  }
+  .each_rep_col_holder .first_col {
+    width: 155px ;
+  }
+  .left_border {
+    border-left: solid 1px #ddedf8 ;
+  }
+  .each_reports_row_heading.optimization_heading  {
+    .each_rep_col_holder {
+      padding-top: 20px ;
     }
-   .dates_show {
-    display: block; 
-   }
-   .left_border {
-      border-left: solid 1px transparent ;
-    }
-    .each_rep_col_holder .each_rep_col {
-      width: 152px ;
-    }
-    .each_rep_col_holder .first_col {
-      width: 210px ;
+    .after_before_title {
+      margin-top: 4px;
     }
   }
-  .see_dates_selected {
-    .dates_show {
-      display: none;
-    }
-    .after_before_title , .dates_hide {
-      display: block;
-    }
-    .each_rep_col_holder .each_rep_col {
-      width: 90px ;
-    }
-    .each_rep_col_holder .each_rep_col.sec_col {
-      width: 105px ;
-     }
-    .each_rep_col_holder .first_col {
-      width: 155px ;
-    }
-    .left_border {
-      border-left: solid 1px #ddedf8 ;
-    }
-    .each_reports_row_heading.optimization_heading  {
-      .each_rep_col_holder {
-        padding-top: 20px ;
-      }
-      .after_before_title {
-        margin-top: 4px;
-      }
+}
+.breadcrumb_campaign {
+  cursor: pointer;
+  color: #0978c9;
+  height: 26px;
+  line-height: 26px;
+  margin: 0 82px 10px 0;
+  font-size: 12px ;
+  .AvenirBold() ;
+  a {
+    display: block;
+    text-decoration: none;
+    /*background: url("/assets/images/cdesk/breadcrumb_back_btn.png") no-repeat left center ;*/
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -614px -238px ;
+    padding-left: 34px;
+    &:hover {
+      color: #0978c9;
     }
   }
-  .breadcrumb_campaign {
-    cursor: pointer;
-    color: #0978c9;
-    height: 26px;
-    line-height: 26px;
-    margin: 0 82px 10px 0;
-    font-size: 12px ;
-    .AvenirBold() ;
-    a {
-      display: block;
-      text-decoration: none;
-      /*background: url("/assets/images/cdesk/breadcrumb_back_btn.png") no-repeat left center ;*/
-      background: url("/assets/images/cdesk/sprites.png") no-repeat -614px -238px ;
-      padding-left: 34px;
-      &:hover {
-        color: #0978c9;
-      }
-    }
-  }
+}
 
-  /*  reports login page */
+/*  reports login page */
 
 .reports_login_outer_container {
   min-height: 600px ;
-  width: 100% ; 
+  width: 100% ;
   color: #fff;
   font-family: "Avenir";
   position: fixed;
   top: 0;
   left: 0;
   height: 100% ;
-  background-image :  url("/assets/images/reports_login/login_bg_image.jpg") ; 
+  background-image :  url("/assets/images/reports_login/login_bg_image.jpg") ;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -1629,12 +1755,12 @@ div.strategy_total_container {
       height: 16px;
       position: relative;
       .dot_separator {
-          position: absolute;
-          top: -7px;
-          left: 6px;
-          display: block;
-          border-radius: 42px;
-          font-size: 20px;
+        position: absolute;
+        top: -7px;
+        left: 6px;
+        display: block;
+        border-radius: 42px;
+        font-size: 20px;
       }
     }
     a {
@@ -1657,7 +1783,7 @@ div.strategy_total_container {
   .reports_login_box {
     padding-top: 100px ;
     .login_box_form_holder {
-        position: relative;
+      position: relative;
     }
     .validation_error_msg {
       color: #C32A2A;
@@ -1706,13 +1832,13 @@ div.strategy_total_container {
         -webkit-box-shadow: 0px 0px 0px transparent;
         -moz-box-shadow: 0px 0px 0px transparent;
       }
-      
+
     }
     .validation_error {
-        border: solid 2px #C32A2A ;
+      border: solid 2px #C32A2A ;
     }
     .external_chkbox .squaredFour label {
-      background-image : url("/assets/images/reports_login/check_box.png") ; 
+      background-image : url("/assets/images/reports_login/check_box.png") ;
       opacity: 1;
       border: 0;
       border-radius: 0px;
@@ -1723,15 +1849,15 @@ div.strategy_total_container {
     }
     .external_chkbox {
       input[type=checkbox]:checked + label {
-       background-image : url("/assets/images/reports_login/check_box_chkd.png") ; 
-       opacity: 1 ;
+        background-image : url("/assets/images/reports_login/check_box_chkd.png") ;
+        opacity: 1 ;
       }
     }
     .username_login_txtbox {
-      background-image : url("/assets/images/reports_login/user_icon.png") ; 
+      background-image : url("/assets/images/reports_login/user_icon.png") ;
     }
     .pass_login_txtbox {
-      background-image: url("/assets/images/reports_login/password_icon.png") ; 
+      background-image: url("/assets/images/reports_login/password_icon.png") ;
     }
     .keep_signed_in {
       color: #939eae ;
@@ -1756,16 +1882,16 @@ div.strategy_total_container {
         -webkit-border-radius: 5px ;
       }
       .forgot_pass_tooltip:after {
-          content: "";
-          height: 0;
-          width: 0;
-          position: absolute;
-          bottom: -8px;
-          left: 20px;
-          border-right: solid 8px transparent;
-          border-left: solid 8px transparent;
-          border-top: solid 8px #323133 ;
-        }
+        content: "";
+        height: 0;
+        width: 0;
+        position: absolute;
+        bottom: -8px;
+        left: 20px;
+        border-right: solid 8px transparent;
+        border-left: solid 8px transparent;
+        border-top: solid 8px #323133 ;
+      }
     }
     .forgot_pass_holder:hover {
       .forgot_pass_tooltip {
@@ -1780,7 +1906,7 @@ div.strategy_total_container {
         height: 100%;
         width: 330px;
         display: block;
-        background: url("/assets/images/visto_logos/visto.png") no-repeat left top ; 
+        background: url("/assets/images/visto_logos/visto.png") no-repeat left top ;
       }
     }
     .login_btn {
@@ -1803,7 +1929,7 @@ div.strategy_total_container {
     }
     .login_btn.loading {
       font-size: 0px ;
-      background-image : url("/assets/images/reports_login/loading_submit.gif") ; 
+      background-image : url("/assets/images/reports_login/loading_submit.gif") ;
       background-repeat: no-repeat;
       background-position: center center ;
     }
@@ -1822,7 +1948,7 @@ div.strategy_total_container {
       a:hover {
         color: #359eea ;
       }
-    } 
+    }
   }
 }
 .common-load-icon_viewability {
@@ -1866,8 +1992,8 @@ div.strategy_total_container {
     background-position: left top;
   }
   .default-kpi-header-icon  {
-      float: left;
-      background-position: left top;
+    float: left;
+    background-position: left top;
   }
 }
 /*  end of reports login page */
@@ -1875,32 +2001,32 @@ div.strategy_total_container {
 
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
-  only screen and (min--moz-device-pixel-ratio: 2),
-  only screen and (-o-min-device-pixel-ratio: 2/1),
-  only screen and (min-device-pixel-ratio: 2) {
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-device-pixel-ratio: 2) {
 
-    .collective_logo {
-      background : url("/assets/images/visto_logos/visto@2x.png") left top no-repeat !important;
-      -webkit-background-size: 324px 52px !important;
-      -moz-background-size: 324px 52px !important;
-      background-size: 324px 52px !important;
+  .collective_logo {
+    background : url("/assets/images/visto_logos/visto@2x.png") left top no-repeat !important;
+    -webkit-background-size: 324px 52px !important;
+    -moz-background-size: 324px 52px !important;
+    background-size: 324px 52px !important;
+  }
+  .about_popup {
+    .logo {
+      background: url("/assets/images/visto_logos/visto_blue@2x.png") no-repeat center top !important;
+      -webkit-background-size: 310px 48px !important;
+      -moz-background-size: 310px 48px !important;
+      background-size: 310px 48px !important;
     }
-    .about_popup {
-      .logo {
-        background: url("/assets/images/visto_logos/visto_blue@2x.png") no-repeat center top !important;
-        -webkit-background-size: 310px 48px !important;
-        -moz-background-size: 310px 48px !important;
-        background-size: 310px 48px !important;
-      }      
-    }
-    .main_navigation_holder {
-      .main_nav {
-        .main_logo {
-          background: url("/assets/images/visto_logos/visto_logo@2x.png") no-repeat top center  !important;
-           -webkit-background-size: 91px 34px !important;
-          -moz-background-size: 91px 34px !important;
-          background-size: 91px 34px !important;
-        }
+  }
+  .main_navigation_holder {
+    .main_nav {
+      .main_logo {
+        background: url("/assets/images/visto_logos/visto_logo@2x.png") no-repeat top center  !important;
+        -webkit-background-size: 91px 34px !important;
+        -moz-background-size: 91px 34px !important;
+        background-size: 91px 34px !important;
       }
     }
+  }
 }
