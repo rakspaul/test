@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("platformService", function ($http,$location, api, apiPaths, common, campaign_api, dataService) {
+    angObj.factory("platformService", function ($http, $location, api, apiPaths, common, dataService) {
         //$http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token');
         return {
             getStrategyPlatformData: function (param) {
