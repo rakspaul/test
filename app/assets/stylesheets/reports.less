@@ -1315,12 +1315,10 @@ div.strategy_total_container {
       }
     }
   }
-
   // Below is temporary
-  // For the purpose of aligning the tabular date in the new platforms tab
-  // I think the resulting markup should be refactored as tabular data
-
-  #reports_platform_cost_block {
+  // For the purpose of aligning the tabular data in the new platforms page
+  // I think the  markup should be refactored as tabular data
+  #reports_platform_cost_block,#reports_platform_viewablity_block,#reports_platform_performance_block{
     .plat_name{
       margin-left:10px;
     }
@@ -1330,12 +1328,12 @@ div.strategy_total_container {
     .each_row_list div:first-child{
       text-align:left;
     }
-
-
     .platform_aggregation_row{
       font-weight:bold;
       font-size:15px;
     }
+  }
+  #reports_platform_cost_block {
     .reports_platform_header {
       .each_col {
         width: 84px;
@@ -1343,7 +1341,6 @@ div.strategy_total_container {
       }
       .sec_col {
         margin-left: 21px;
-        /* width: 97px ;*/
       }
     }
     .row_list_holder {
@@ -1356,21 +1353,7 @@ div.strategy_total_container {
       text-align: left;
     }
   }
-
   #reports_platform_viewablity_block {
-    .plat_name{
-      margin-left:10px;
-    }
-    .each_row_list div:first-child{
-      text-align:left;
-    }
-    .platform_aggregation_row{
-      font-weight:bold;
-      font-size:15px;
-    }
-    .platform_row {
-      clear: both;
-    }
     .strategy_total_container {
       .sec_col, .third_col, .forth_col {
         margin-right: 15px;
@@ -1438,19 +1421,6 @@ div.strategy_total_container {
     }
   }
   #reports_platform_performance_block {
-    .plat_name{
-      margin-left:10px;
-    }
-    .each_row_list div:first-child{
-      text-align:left;
-    }
-    .platform_aggregation_row{
-      font-weight:bold;
-      font-size:15px;
-    }
-    .platform_row {
-      clear: both;
-    }
     .each_col {
       text-align: left;
     }
