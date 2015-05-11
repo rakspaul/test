@@ -1321,6 +1321,7 @@ div.strategy_total_container {
   #reports_platform_cost_block,#reports_platform_viewablity_block,#reports_platform_performance_block{
     .plat_name{
       margin-left:10px;
+      white-space: normal;
     }
     .platform_row {
       clear: both;
@@ -1331,6 +1332,10 @@ div.strategy_total_container {
     .platform_aggregation_row{
       font-weight:bold;
       font-size:15px;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 10px;
+      height: 25px;
+      margin-top: 1px;
+
     }
   }
   #reports_platform_cost_block {
@@ -1421,7 +1426,15 @@ div.strategy_total_container {
     }
   }
   #reports_platform_performance_block {
+    .reports_platform_header{
+      .sec_col{
+        text-align: left;
+      }
+    }
     .each_col {
+      text-align: right;
+    }
+    .first_col{
       text-align: left;
     }
   }
