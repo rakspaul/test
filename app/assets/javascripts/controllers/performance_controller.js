@@ -21,14 +21,11 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             else if ( $scope.selectedCampaign.kpi =='null')
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-//            else if (campaign.status == 'active')
-//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
 
-        $scope.filters = domainReports.getReportsDropDowns();
-
+        $scope.filters = domainReports.getReportsTabs();
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
         $scope.selected_tab = 'byscreens';
         $scope.sortByColumn = 'name';
@@ -134,7 +131,7 @@ var angObj = angObj || {};
                         else {
                             $scope.errorHandlerForPerformanceTab(result, listOfTabs);
                         }
-                    }, $scope.errorHandlerForPerformanceTab, listOfTabs);
+                    }, $scope.errorHandlerForPerformanceTab('', listOfTabs));
                 }
             }
 
@@ -153,7 +150,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
-            $scope.callBackCampaignsSuccess();
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
@@ -164,26 +161,34 @@ var angObj = angObj || {};
             $scope.callBackStrategyChange();
         });
 
-        //This will be called from directive_controller.js
-        $scope.callBackCampaignsSuccess = function () {
+        //creating download report url
+        $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
-            $scope.download_urls = {
-                screens: urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
-                daysOfWeek: urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
-                platforms: urlPath + 'platforms/reportDownload?date_filter=cdb_period'
-            };
+            $scope.download_report = [
+                {
+                    'report_url': urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_screens_and_formats',
+                    'label' : 'Performance by Screens & Formats'
+                },
+                {
+                    'report_url' : urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_days_of_week',
+                    'label' : 'Performance by Days Of Week'
+                },
+                {
+                    'report_url' : urlPath + 'platforms/reportDownload?date_filter=cdb_period',
+                    'report_name' : 'by_platforms',
+                    'label' : 'Performance by Platforms'
+                }
+            ];
         };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
-            //Call  to load with the changed campaign id and strategyid
-            // $scope.init();
-            //cleaning the list
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
             $scope.strategyPerfDataByPlatform = [];
-
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
@@ -216,27 +221,8 @@ var angObj = angObj || {};
                 $(".reports_block").hide();
                 $("#reports_" + tab_id[0] + "_block").show();
                 $scope.callBackStrategyChange();
-                //$scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: Number($scope.selectedStrategy.id), strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
             });
         });
-
-
-        //TODO: This function is called from the directive, onchange of the dropdown.It will be done when dropdown is implemented.
-        $scope.callBackKpiDurationChange = function (kpiType) {
-//            if (kpiType == 'duration') {
-//                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedCampaign.startDate, strategyEndDate: $scope.selectedCampaign.endDate, tab: $scope.selected_tab, timeFilter: $scope.selected_filters.time_filter });
-//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-//
-//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
-//                $scope.download_urls = {
-//                    screens: urlPath + 'screensandformats/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    daysOfWeek: urlPath + 'daysofweek/download?date_filter=' + $scope.selected_filters.time_filter
-//                };
-//            } else {
-//                $scope.$apply();
-//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-//            }
-        };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
             $scope.callBackKpiDurationChange('duration');
@@ -244,39 +230,9 @@ var angObj = angObj || {};
 
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
-
             if($scope.selected_filters == undefined)
                 $scope.selected_filters = {} ;
-
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-           // $scope.$apply();
-
         });
-
-
-        $scope.downloadPerformanceReport = function(report_url, report_name) {
-            if (!loginModel.cookieExists())
-                loginModel.checkCookieExpiry();
-            else {
-                $scope.perfReportDownloadBusy = true;
-                var report_url1 = report_url;
-                if (report_name === 'by_platforms')
-                    report_url1 = report_url + '&start_date=' + $scope.selectedCampaign.startDate + '&end_date=' + $scope.selectedCampaign.endDate;
-                dataService.downloadFile(report_url1).then(function (response) {
-                    if (response.status === "success") {
-                        $scope.perfReportDownloadBusy = false;
-                        saveAs(response.file, response.fileName);
-                    } else {
-                        $scope.perfReportDownloadBusy = false;
-                    }
-                }, function() {
-                    $scope.perfReportDownloadBusy = false;
-                }, function() {
-                    $scope.perfReportDownloadBusy = false;
-                });
-                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report_name + '_report', loginModel.getLoginName());
-            }
-        }
-
     });
 }());
