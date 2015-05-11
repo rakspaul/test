@@ -150,7 +150,7 @@
       'services-performanceservice':{deps: ['services-viewablityservice']},
       'services-costservice':{deps: ['services-performanceservice']},
       'services-optimizationservice':{deps: ['services-costservice']},
-      'services-platformservice':{deps: ['app']},
+      'services-platformservice':{deps: ['services-optimizationservice']},
       'services-momentService': {deps: ['login-LoginModel']},
       'common-directive-DataNotFound':{deps:['CommonModule']}
     },
