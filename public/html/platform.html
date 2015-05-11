@@ -47,7 +47,8 @@
 
                     <!---------START :  Performance Block -------------------------->
                     <div class="reports_block" id="reports_platform_performance_block">
-                        <div class="reports_details_outer_container">
+                        <div class="no_data_found" ng-if="dataNotFoundForPerformance" ng-bind-html="getMessageForDataNotAvailable('performance')"></div>
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance" >
                             <div class="clearfix reports_platform_header">
                                 <performance-header></performance-header>
                             </div>
@@ -62,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics track by $index" ng-if="tactic.platform_metrics.performance">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
@@ -82,7 +83,8 @@
                     <!---------START :  Cost Block ------------------------------->
 
                     <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
-                        <div class="reports_details_outer_container">
+                        <div class="no_data_found" ng-if="dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost">
                             <div class="clearfix reports_platform_header">
                                 <cost-header></cost-header>
                             </div>
@@ -93,11 +95,11 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="costBusy"></div>
-                                        <div class="clearfix each_row_list" ng-repeat="costData in strategyDataByCost.platform_metrics.cost" ng-include="'costTpl'"></div>
+                                        <div class="clearfix each_row_list" ng-repeat="costData in strategyDataByCost.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.platform_metrics">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics track by $index" ng-if="tactic.platform_metrics.cost">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
@@ -116,7 +118,8 @@
 
                     <!---------START :  Viewablity Block ------------------------------->
                     <div class="reports_block" id="reports_platform_viewablity_block" style="display:none;">
-                        <div class="reports_details_outer_container">
+                        <div class="no_data_found" ng-if="dataNotFoundForViewablity" ng-bind-html="getMessageForDataNotAvailable('viewablity')"></div>
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewablity">
                             <div class="clearfix reports_platform_header">
                                 <viewablity-header></viewablity-header>
                             </div>
@@ -127,11 +130,11 @@
                                     </div>
                                     <div class="row_list_holder">
                                         <div class="common-load-icon" ng-show="viewablityBusy"></div>
-                                        <div class="clearfix each_row_list" ng-repeat="ViewablityData in strategyDataByViewablity.platform_metrics.viewability" ng-include="'viewablityTpl'"></div>
+                                        <div class="clearfix each_row_list" ng-repeat="ViewablityData in strategyDataByViewablity.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics track by $index">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics.viewability track by $index">
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
                                                 {{tactic.tactic_name}}
