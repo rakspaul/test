@@ -343,8 +343,8 @@ var angObj = angObj || {};
                 },
                 {
                     'report_url' : urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
-                    'report_name' : 'Inventory Transparency by Domain',
-                    'label' : 'Platform by Cost'
+                    'report_name' : 'transparency_by_domain',
+                    'label' : 'Inventory Transparency by Domain'
                 },
                 {
                     'report_url' : urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter,
