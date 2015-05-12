@@ -138,9 +138,9 @@ var angObj = angObj || {};
                     'label' : 'Platform by Cost'
                 },
                 {
-                    'report_url' : urlPath + 'viewabilty/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
-                    'report_name' : 'by_viewabilty',
-                    'label' : 'Platform By Viewabilty'
+                    'report_url' : urlPath + 'viewability/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_viewability',
+                    'label' : 'Platform By Viewability'
                 }
             ];
         };
