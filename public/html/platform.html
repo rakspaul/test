@@ -134,10 +134,10 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics.viewability track by $index">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics track by $index">
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
-                                                {{tactic.tactic_name}}
+                                                {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow" ng-repeat="ViewablityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
@@ -287,7 +287,7 @@
         <div class="each_col sec_col">
             <div class="sub_col">
                 <span>{{platform.ias_imps_delivered | nrFormat}}</span>
-                <span>{{platform.total_imps | number:0}}</span>
+                <span>{{platform.total_imps | nrFormat }}</span>
             </div>
         </div>
         <div class="each_col third_col">
