@@ -1400,6 +1400,9 @@ div.strategy_total_container {
         margin-right: 15px;
       }
     }
+    .each_col.first_col {
+      width: auto ;
+    }
     .reports_platform_header {
       .third_col, .forth_col, .fifth_col {
         margin-right: 15px;
@@ -1428,6 +1431,11 @@ div.strategy_total_container {
         right: 1px;
         text-align: right;
         width: 50%;
+      }
+      .sub_col span + span.tooltip_holder {
+        .common_tooltip {
+          text-align: center;
+        }
       }
     }
     .sub_col span {
@@ -1462,10 +1470,29 @@ div.strategy_total_container {
     }
   }
   #reports_platform_performance_block {
+    .each_col ,  .each_col.sec_col {
+      width: 110px ;/*
+      background: red!important ;*/
+      margin-left: 15px ;
+    }
+    .first_col {
+      width: auto ;
+    }
+    .platform_logo {
+      width: 180px ;
+    }
+
     .reports_platform_header{
       .sec_col{
         text-align: left;
+        width: 180px ;
       }
+    }
+    .platform_aggregation_row div:first-child {
+      width: 180px ;
+    }
+    .plat_name {
+      max-width: 88% ;
     }
     .each_col {
       text-align: right;
@@ -1493,14 +1520,14 @@ div.strategy_total_container {
       }
     }
   }
-  .reports_details_outer_container {
+  div.reports_details_outer_container {
     div.sec_col {
       min-width: 70px ;
       width: 132px ;
       text-align: left ;
       margin-left: 20px ;
     }
-    .each_col.first_col {
+    div.each_col.first_col {
       float: none;
       width: 100% ;
       margin-left: 3px;
