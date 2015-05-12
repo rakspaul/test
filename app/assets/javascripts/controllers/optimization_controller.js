@@ -380,7 +380,7 @@ var angObj = angObj || {};
             $scope.dataInit();
             $scope.paramObj = {isCampaignChanged: true};
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ; //update the selected Campaign
-            $scope.createDownloadReportUrl(); // populate campaign kpi value by calling getCampaignDetails();
+            $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {
