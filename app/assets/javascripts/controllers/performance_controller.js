@@ -57,12 +57,10 @@ var angObj = angObj || {};
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
-            $scope.strategyPerfDataByPlatform = [];
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
-            $scope.dataNotFoundForPlatform = false;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -174,11 +172,6 @@ var angObj = angObj || {};
                     'report_url' : urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_days_of_week',
                     'label' : 'Performance by Days Of Week'
-                },
-                {
-                    'report_url' : urlPath + 'platforms/reportDownload?date_filter=cdb_period',
-                    'report_name' : 'by_platforms',
-                    'label' : 'Performance by Platforms'
                 }
             ];
         };
@@ -188,12 +181,10 @@ var angObj = angObj || {};
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
-            $scope.strategyPerfDataByPlatform = [];
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
-            $scope.dataNotFoundForPlatform = false;
             $scope.perfReportDownloadBusy = false;
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
