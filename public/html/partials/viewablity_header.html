@@ -20,39 +20,7 @@
     </div>
     <div class="each_col seventh_col">
         <div class="dropdown kpi-dd-holder">
-            <kpi-drop-down class="ng-isolate-scope">
-                <span class="dropdown_ul_text" data-toggle="dropdown">
-                    <span class="default-kpi-header-icon ng-scope" tooltip="Primary KPI" ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()"></span>
-                    <span class="dd_txt ng-binding">CTR</span>
-                    <span class="arrrow_img"></span>
-                </span>
-                <ul class="dropdown_ul dropdown-menu kpi_indicator_ul" id="kpi_drop_down">
-                    <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="ctr" class="ng-scope ng-binding">
-                        <span class="default-kpi-dropdown-icon kpiIndicator" ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="ctr"></span>
-                        CTR
-                    </li>
-                    <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="action_rate" class="ng-scope ng-binding">
-                        <span class="default-kpi-dropdown-icon" ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="action_rate"></span>
-                        Action Rate
-                    </li>
-                    <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="cpa" class="ng-scope ng-binding">
-                        <span class="default-kpi-dropdown-icon" ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="cpa"></span>
-                        CPA
-                    </li>
-                    <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="cpc" class="ng-scope ng-binding">
-                        <span class="default-kpi-dropdown-icon" ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="cpc"></span>
-                        CPC
-                    </li>
-                    <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="cpm" class="ng-scope ng-binding">
-                        <span class="default-kpi-dropdown-icon" ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="cpm"></span>
-                        CPM
-                    </li>
-                    <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="vtc" class="ng-scope ng-binding">
-                        <span class="default-kpi-dropdown-icon" ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="vtc"></span>
-                        VTC
-                    </li>
-                </ul>
-            </kpi-drop-down>
+            <kpi-drop-down> </kpi-drop-down>
         </div>
     </div>
 </div>
