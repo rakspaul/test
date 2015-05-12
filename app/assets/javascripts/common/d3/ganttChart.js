@@ -641,7 +641,29 @@
 
                 markerGroup.append("text")
                     .attr("class", "past-marker-text-details")
-                    .attr("x", 115)
+                    .attr("x", function(d){
+                        var container = d3.select(this.parentNode).select("text.past-marker-text"),
+                            offset = 30,
+                            padding = 5;
+
+                        //temporarily disable element on DOM to get width
+                        container.style('display', function(d) {
+                            return "block";
+                        });
+
+                        //get width of text element using BBox
+                        var bbox = container.node().getBBox();
+                        //add offset and padding
+                        var textWidth = bbox.width + offset + padding;
+
+                        //hide the tooltip content 
+                        container.style('display', function(d) {
+                            return "none";
+                        });
+                           
+                        //return corrected rendering location
+                        return textWidth;
+                    })
                     .attr("fill","#21252b")
                     .attr("dy", ".35em")
                     .attr("font-family", "Avenir")
