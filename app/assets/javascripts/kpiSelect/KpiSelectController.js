@@ -18,7 +18,7 @@
           $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
-        $('#kpi_drop_down').click(function (e) {
+        $('.dropdown-menu').click(function (e) {
             var _selectedKpi =  $(e.target).attr("value") ;
             $scope.setSelectedKpi(_selectedKpi);
             analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _selectedKpi, loginModel.getLoginName());
