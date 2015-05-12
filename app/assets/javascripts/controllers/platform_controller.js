@@ -74,7 +74,7 @@ var angObj = angObj || {};
                 strategyStartDate: $scope.selectedCampaign.startDate,
                 strategyEndDate: $scope.selectedCampaign.endDate,
                 tab: $scope.selected_tab,
-                timeFilter: $scope.selected_filters.time_filter,
+                timeFilter: $scope.selected_filters.time_filter
             }
 
             $scope.performanceBusy = true;
@@ -203,6 +203,7 @@ var angObj = angObj || {};
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         }
 
 
@@ -220,6 +221,17 @@ var angObj = angObj || {};
                 $scope.strategyChangeHandler();
                 event.preventDefault();
             });
+        });
+
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+            $scope.callBackKpiDurationChange('duration');
+        });
+
+
+        $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+            if($scope.selected_filters == undefined)
+                $scope.selected_filters = {} ;
+            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
 
 
