@@ -137,7 +137,7 @@
                                     <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics track by $index">
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
-                                                {{tactic.tactic_name}}
+                                                {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow" ng-repeat="ViewablityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewablityTpl'"></div>
