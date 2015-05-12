@@ -521,19 +521,49 @@
                     })
                     .attr("height", CAMPAIGN_HEIGHT/2)
                     .on('mouseover', function(d) {
-                        var container = d3.select(this.parentNode).select("text.past-marker-text");
+                        //select the marker tooltip's date text and make it visible 
+                        var container_primary = d3.select(this.parentNode).select("text.past-marker-text");
+                        container_primary.style('display', function(d) {                   
+                                return "block";
+                        });
+                        container_primary.style("shape-rendering", "crispEdges");
+                        //select the marker tooltip's details text and make it visible
+                        var container = d3.select(this.parentNode).select("text.past-marker-text-details");
                         container.style('display', function(d) {                   
                                 return "block";
                         });
-                        container.style("shape-rendering", "crispEdges");
-                        container = d3.select(this.parentNode).select("text.past-marker-text-details");
-                        container.style('display', function(d) {                   
-                                return "block";
-                        });
-                        container.style("shape-rendering", "crispEdges");
+                        
+                        var tdEdges = gantt.timeDomain(); 
+                        if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                             //if right marker - calculate position 
+
+                            var bbox = 0,
+                                textWidth = 0, 
+                                offset = 0, 
+                                containerWidth = 465;
+
+                            //get width of the text by using BBox's width
+                            bbox = container.node().getBBox();
+                            textWidth = bbox.width;
+                            //width of the text container which holds date
+                            bbox = container_primary.node().getBBox();
+                            offset = bbox.width + 5; //padding after date text
+                            textWidth += bbox.width
+
+                            container_primary.attr('x', function(d){
+                                //place the tooltip to end it near the marker based on the container
+                                return containerWidth - textWidth;
+                            });
+                            container.attr('x', function(){
+                                //place the tooltip details after giving some padding 
+                                return containerWidth - textWidth + offset;
+                            });
+
+                        }
+
+
 
                         var im= d3.select(this);
-                        var tdEdges = gantt.timeDomain();
                         im.attr("xlink:href", function(d) {
                             if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
