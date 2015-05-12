@@ -534,6 +534,37 @@ angObj.directive('truncateTextWithHover', function () {
         return present.concat(empty);
     };
 });
+
+  angObj.filter("nrFormat", function () {
+    return function (value, key) {
+      console.log(value);
+
+      var y = Math.abs(value);
+
+      if(y < 9999) {
+        return value;
+      }
+
+      if(y < 1000000) {
+        return Math.round(value/1000) + "K";
+      }
+      if( y < 10000000) {
+        return (value/1000000).toFixed(2) + "M";
+      }
+
+      if(y < 1000000000) {
+        return Math.round((value/1000000)) + "M";
+      }
+
+      if(y < 1000000000000) {
+        return Math.round((value/1000000000)) + "B";
+      }
+
+      return "1T+";
+    };
+  });
+
+
   $.fn.scrollWithInDiv = function() {
     this.bind('mousewheel DOMMouseScroll', function (e) {
       var scrollTo = null;
