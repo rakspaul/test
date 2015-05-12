@@ -9,6 +9,9 @@
               </iframe>
               <script type="text/javascript">var bap_skip_next = "r=0;";</script>
           </div>
+           <div class="browser_error" ng-show="showMessage" ng-init="checkoutBrowserInfo()">
+            <span  ng-bind="browserMessage"  class="browser_error_txt" ></span>
+          </div>
           <div class="pull-left collective_login">
             <form name="form" ng-submit="login()">
 
