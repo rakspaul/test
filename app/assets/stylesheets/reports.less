@@ -1467,10 +1467,29 @@ div.strategy_total_container {
     }
   }
   #reports_platform_performance_block {
+    .each_col ,  .each_col.sec_col {
+      width: 110px ;/*
+      background: red!important ;*/
+      margin-left: 15px ;
+    }
+    .first_col {
+      width: auto ;
+    }
+    .platform_logo {
+      width: 180px ;
+    }
+
     .reports_platform_header{
       .sec_col{
         text-align: left;
+        width: 180px ;
       }
+    }
+    .platform_aggregation_row div:first-child {
+      width: 180px ;
+    }
+    .plat_name {
+      max-width: 88% ;
     }
     .each_col {
       text-align: right;
