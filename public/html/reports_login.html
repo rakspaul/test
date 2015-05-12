@@ -20,10 +20,10 @@
                             {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
                         </div>
                         <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username">
+                            <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" ng-disabled="disabledFormFields">
                         </div>
                         <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
-                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password">
+                            <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" ng-disabled="disabledFormFields">
                         </div>
                         <div class="signin_options_holder clearfix">
                             <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
@@ -39,7 +39,7 @@
                             </div>
                             
                        </div>
-                       <input ng-disabled="form.$invalid || dataLoading" type="submit" class="login_btn {{getLoadingClass()}}" value="Sign In"><!-- loading -->
+                       <input ng-disabled="form.$invalid || dataLoading || disabledFormFields" type="submit" class="login_btn {{getLoadingClass()}}" value="Sign In"><!-- loading -->
                       <!--  <div class="email_anchor">
                         <a href="javascript:void(0);" >Email Collective</a>
                        </div> -->
