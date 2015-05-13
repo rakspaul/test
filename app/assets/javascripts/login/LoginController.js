@@ -168,6 +168,9 @@
        $scope.disabledFormFields = true ;    
     }
 }
+  $scope.getSigninClass = function(){
+    return $scope.disabledFormFields == true ? 'signin_disabled':'';
+  }
 
   });
 }());
