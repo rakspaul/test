@@ -45,7 +45,8 @@
             $scope.strategyData.selectedStrategy.id =(strategy.id == undefined) ? (strategy.lineitemId == undefined ? strategy.strategyId : strategy.lineitemId): strategy.id ;
             $scope.strategyData.selectedStrategy.name = (strategy.name == undefined) ? strategy.strategy_name  : strategy.name ;
             $rootScope.$broadcast(constants.EVENT_STRATEGY_CHANGED, strategy);
-            $scope.$parent.strategyLoading = false;
+            if($scope.strategyData.selectedStrategy.id !== -1 && $scope.strategyData.selectedStrategy.id !== -99)
+                $scope.$parent.strategyLoading = false;
         };
 
 
