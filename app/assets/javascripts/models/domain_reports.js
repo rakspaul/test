@@ -87,6 +87,43 @@
         };
     });
 
+    angObj.directive('screenHeader', ['$http', '$compile', function ($http, $compile) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: '/assets/html/partials/screen_header.html',
+            link: function(scope, element, attrs) {
+
+            }
+        };
+    }]);
+
+    angObj.directive('daysofweekHeader', ['$http', '$compile', function ($http, $compile) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: '/assets/html/partials/daysofweek_header.html',
+            link: function(scope, element, attrs) {
+
+            }
+        };
+    }]);
+
+    angObj.directive('formatHeader', ['$http', '$compile', function ($http, $compile) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: '/assets/html/partials/format_header.html',
+            link: function(scope, element, attrs) {
+
+            }
+        };
+    }]);
+
+
     angObj.directive('performanceHeader', ['$http', '$compile', function ($http, $compile) {
         return {
             controller: function($scope, $cookieStore, $location){
