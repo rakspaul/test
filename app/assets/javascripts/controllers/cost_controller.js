@@ -67,6 +67,7 @@ var angObj = angObj || {};
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
             $scope.isStrategyDropDownShow = true;
+            $scope.strategyMarginPercentage = -1 ;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -173,6 +174,7 @@ var angObj = angObj || {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
             $scope.dataNotFound = false ;
+            $scope.strategyMarginPercentage = -1 ; // resetting strategy margin before each strategy call
 
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
