@@ -64,10 +64,15 @@ body {
   .load-more-strategies {
     margin: 30px;
     text-align: center;
-    cursor: pointer;
+    cursor: default;
+    display: block;
     a{
       text-decoration: none;
+      cursor: pointer;
     }
+  }
+  .load-more-tactics {
+      margin-top: 120px;
   }
   .dropdown-menu li {
     cursor: default;
@@ -741,7 +746,7 @@ body {
             top: 50%;
             left: 0;
           }
-          .each_tactic_holder:last-child {
+          .each_tactic_holder:last-of-type {
             
               height: 140px ;
               .tactics_linkage_lines_bar {
