@@ -173,6 +173,7 @@ var angObj = angObj || {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
             $scope.dataNotFound = false ;
+            $scope.strategyMarginPercentage = -1 ; // resetting strategy margin before each strategy call
 
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
