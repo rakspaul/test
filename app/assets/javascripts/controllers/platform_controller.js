@@ -113,6 +113,7 @@ var angObj = angObj || {};
             } else {
                 $scope.strategyFound = true;
                 $scope.getPlatformData();
+                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
         };
 
@@ -157,23 +158,13 @@ var angObj = angObj || {};
         //resetting the variable
         $scope.resetVariables =  function() {
             $scope.performanceBusy = false;
-            $scope.tacticPerformanceBusy = false ;
-
             $scope.costBusy = false;
-            $scope.tacticCostBusy = false;
-
             $scope.viewablityBusy = false;
-            $scope.tacticViewablityBusy = false ;
-
-            $scope.tacticList = [];
 
             $scope.strategyDataByPerformance = [];
             $scope.strategyDataByCost = [];
             $scope.strategyDataByViewablity = [];
 
-            $scope.tacticsDataListByPerformance = [];
-            $scope.tacticsPerfDataListByCost = [];
-            $scope.tacticsPerfDataListByViewablity = [];
 
             $scope.dataNotFoundForPerformance = false;
             $scope.dataNotFoundForCost = false;
