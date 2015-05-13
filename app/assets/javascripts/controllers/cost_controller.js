@@ -67,6 +67,7 @@ var angObj = angObj || {};
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
             $scope.isStrategyDropDownShow = true;
+            $scope.strategyMarginPercentage = -1 ;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
