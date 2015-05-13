@@ -544,18 +544,18 @@ angObj.directive('truncateTextWithHover', function () {
       }
 
       if(y < 1000000) {
-        return Math.round(value/1000) + "K";
+        return (value/1000).toFixed(2) + "K";
       }
       if( y < 10000000) {
         return (value/1000000).toFixed(2) + "M";
       }
 
       if(y < 1000000000) {
-        return Math.round((value/1000000)) + "M";
+        return (value/1000000).toFixed(2) + "M";
       }
 
       if(y < 1000000000000) {
-        return Math.round((value/1000000000)) + "B";
+        return (value/1000000000).toFixed(2) + "B";
       }
 
       return "1T+";
