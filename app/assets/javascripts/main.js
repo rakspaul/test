@@ -13,13 +13,14 @@
         // it's not a RequireJS module, so we have to tell it what var is returned
         exports: 'jsRoutes'
       },
-      'jquery': {exports:'jquery'},
       // Hopefully this all will not be necessary but can be fetched from WebJars in the future
-      'angular': {
-        deps: ['bootstrap'],
-        exports: 'angular'
-      },
+
+      'jquery': {exports:'jquery'},
       'jquery-ui': {deps: ['jquery']},
+       'angular': {
+           deps: ['bootstrap'],
+           exports: 'angular'
+       },
       'bootstrap': {deps: ['jquery-ui']},
       'angular-cache': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
@@ -160,10 +161,9 @@
       mangle: false
     },
     paths: {
-      'requirejs': 'vendor/require.min',
+      'angular': 'vendor/angular.min',
       'jquery': 'vendor/jquery.min',
       'jquery-ui': 'vendor/jquery-ui.min',
-      'angular': 'vendor/angular.min',
       'angular-resource': 'vendor/angular-resource.min',
       'angular-route': 'vendor/angular-route.min',
       'angular-cookies': 'vendor/angular-cookies',
@@ -308,14 +308,14 @@
 
   // Load the app. This is kept minimal so it doesn't need much updating.
   require([
-           'angular',
-           'jquery',
-           'jquery-ui', 
+          'jquery',
+          'angular',
+          'angular-resource',
+          'angular-route',
+          'angular-cookies',
+          'angular-cache',
+          'jquery-ui',
            'bootstrap',
-           'angular-resource',
-           'angular-route', 
-           'angular-cookies', 
-           'angular-cache', 
            'ng-infinite-scroll',
            'highcharts',
            'highcharts-ng',
@@ -445,8 +445,8 @@
            'common-directive-DataNotFound'
            ],
    
-    function (angular) {
-      //angular.bootstrap(document, ['app']);
+    function ($, angular) {
+            angular.bootstrap(document, ['app']);
     }
   );
 })(requirejs);
