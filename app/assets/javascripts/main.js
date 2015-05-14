@@ -14,13 +14,12 @@
         exports: 'jsRoutes'
       },
       'jquery': {exports:'jquery'},
-      // Hopefully this all will not be necessary but can be fetched from WebJars in the future
-      'angular': {
-        deps: ['bootstrap'],
-        exports: 'angular'
-      },
       'jquery-ui': {deps: ['jquery']},
       'bootstrap': {deps: ['jquery-ui']},
+        'angular': {
+            deps: ['bootstrap'],
+            exports: 'angular'
+        },
       'angular-cache': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
