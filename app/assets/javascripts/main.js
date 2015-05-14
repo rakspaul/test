@@ -307,8 +307,8 @@
 
   // Load the app. This is kept minimal so it doesn't need much updating.
   require([
-           'jquery', 
-           'jquery-ui', 
+           'jquery',
+           'jquery-ui',
            'bootstrap', 
            'angular', 
            'angular-resource', 
@@ -444,8 +444,8 @@
            'common-directive-DataNotFound'
            ],
    
-    function (angular) {
-      angular.bootstrap(document, ['app']);
+    function ($,jqueryUI,  bootstrap, angular) {
+            angular.bootstrap(document, ['app']);
     }
   );
 })(requirejs);
