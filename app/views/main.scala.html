@@ -1,7 +1,7 @@
 @(content: Html)
 @import play.api.Play
 <!DOCTYPE html>
-<html ng-app='app'>
+<html>
   <head>
     <meta charset='utf-8'>
     <title ng-bind="'Visto | '+ title"></title>
@@ -9,10 +9,7 @@
     <meta content='Collective' name='author'>
     <meta name="fragment" content="!" />
     <link href='/assets/images/collective.png' rel='shortcut icon' type='image/x-icon'>
-    <!-- <link href="/assets/stylesheets/jquery-ui-1.10.3.custom.min.css?body=1" media="all" rel="stylesheet" /> -->
     <link href='@routes.Assets.versioned("stylesheets/bootstrap.min.css")' media="all" rel="stylesheet" />
-    <!-- <link href='@routes.Assets.versioned("stylesheets/bootstrap-theme.min.css")' media="all" rel="stylesheet" />
-    <link href='@routes.Assets.versioned("stylesheets/bootstrap-responsive.min.css")' media="all" rel="stylesheet" /> -->
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet" />
     <link rel="stylesheet" media="all" href='@routes.Assets.versioned("stylesheets/cdesk_application.css")'>
 
