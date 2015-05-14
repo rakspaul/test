@@ -308,10 +308,10 @@
 
   // Load the app. This is kept minimal so it doesn't need much updating.
   require([
-           'angular',
+            'angular',
            'jquery',
            'jquery-ui', 
-           'bootstrap',
+           'bootstrap', 
            'angular-resource',
            'angular-route', 
            'angular-cookies', 
@@ -446,7 +446,7 @@
            ],
    
     function (angular) {
-      //angular.bootstrap(document, ['app']);
+      angular.bootstrap(document, ['app']);
     }
   );
 })(requirejs);
