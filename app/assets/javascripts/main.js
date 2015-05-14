@@ -13,16 +13,15 @@
         // it's not a RequireJS module, so we have to tell it what var is returned
         exports: 'jsRoutes'
       },
-        'angular': {
-            deps: ['bootstrap'],
-            exports: 'angular'
-        },
       // Hopefully this all will not be necessary but can be fetched from WebJars in the future
 
       'jquery': {exports:'jquery'},
       'jquery-ui': {deps: ['jquery']},
-
       'bootstrap': {deps: ['jquery-ui']},
+        'angular': {
+            deps: ['bootstrap'],
+            exports: 'angular'
+        },
       'angular-cache': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
