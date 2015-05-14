@@ -92,6 +92,87 @@
       }
       return results;
     };
+    var detectBrowserInfo = function() {
+    var nVer = navigator.appVersion;
+    var nAgt = navigator.userAgent;
+    var browserName = navigator.appName;
+    var fullVersion = '' + parseFloat(navigator.appVersion);
+    var majorVersion = parseInt(navigator.appVersion, 10);
+    var nameOffset, verOffset, ix;
+    var browserInfo = {};
+    switch (true) {
+        //// In Opera 15+, the true version is after "OPR/" 
+        case (nAgt.indexOf("OPR/") != -1):
+            verOffset = nAgt.indexOf("OPR/");
+            browserName = "Opera";
+            fullVersion = nAgt.substring(verOffset + 4);
+            break;
+            // In older Opera, the true version is after "Opera" or after "Version"
+        case (nAgt.indexOf("Opera") != -1):
+            verOffset = nAgt.indexOf("Opera");
+            browserName = "Opera";
+            fullVersion = nAgt.substring(verOffset + 6);
+            if ((verOffset = nAgt.indexOf("Version")) != -1)
+                fullVersion = nAgt.substring(verOffset + 8);
+            break;
+            // In MSIE, the true version is after "MSIE" in userAgent
+        case (nAgt.indexOf("MSIE") != -1):
+            verOffset = nAgt.indexOf("MSIE");
+            browserName = "Internet Explorr";
+            fullVersion = nAgt.substring(verOffset + 5);
+            break;
+            //IE 11 and Above
+        case (nAgt.indexOf("Trident/") != -1):
+            browserName = "Internet Explorer";
+            var re = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(nAgt) != null)
+                fullVersion = (RegExp.$1);
+            break;
+            // In Chrome, the true version is after "Chrome" 
+        case (nAgt.indexOf("Chrome") != -1):
+            verOffset = nAgt.indexOf("Chrome");
+            browserName = "Chrome";
+            fullVersion = nAgt.substring(verOffset + 7);
+            break;
+            // In Safari, the true version is after "Safari" or after "Version" 
+        case (nAgt.indexOf("Safari") != -1):
+            browserName = "Safari";
+            verOffset = nAgt.indexOf("Safari");
+            fullVersion = nAgt.substring(verOffset + 7);
+            if ((verOffset = nAgt.indexOf("Version")) != -1)
+                fullVersion = nAgt.substring(verOffset + 8);
+            break;
+            // In Firefox, the true version is after "Firefox" 
+        case (nAgt.indexOf("Firefox") != -1):
+            verOffset = nAgt.indexOf("Firefox");
+            browserName = "Firefox";
+            fullVersion = nAgt.substring(verOffset + 8);
+            break;
+        case ((nameOffset = nAgt.lastIndexOf(' ') + 1) <
+            (verOffset = nAgt.lastIndexOf('/'))):
+            browserName = nAgt.substring(nameOffset, verOffset);
+            fullVersion = nAgt.substring(verOffset + 1);
+            if (browserName.toLowerCase() == browserName.toUpperCase()) {
+                browserName = navigator.appName;
+            }
+            break;
+    }
+    // trim the fullVersion string at semicolon/space if present
+    if ((ix = fullVersion.indexOf(";")) != -1)
+        fullVersion = fullVersion.substring(0, ix);
+    if ((ix = fullVersion.indexOf(" ")) != -1)
+        fullVersion = fullVersion.substring(0, ix);
+    majorVersion = parseInt('' + fullVersion, 10);
+    if (isNaN(majorVersion)) {
+        fullVersion = '' + parseFloat(navigator.appVersion);
+        majorVersion = parseInt(navigator.appVersion, 10);
+    }
+    return browserInfo = {
+        "browserName": browserName,
+        "fullVersion": fullVersion,
+        "majorVersion": majorVersion
+    };
+}; 
 
 
     return {
@@ -103,7 +184,8 @@
       clone: clone,
       highlightSearch: highlightSearch,
       typeaheadParams: getTypeaheadParams(),
-      getParameterByName : getParameterByName
+      getParameterByName : getParameterByName,
+      detectBrowserInfo : detectBrowserInfo
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
