@@ -30,6 +30,7 @@
                         localStorage.setItem('networkUser', false);
                     }
                     localStorage.setItem('authorizationKey', user.auth_token);
+                    $scope.detectBrowserInfo();
                     document.location = '/';
                 } else {
                     $scope.error = response.data.message;
@@ -137,6 +138,7 @@
             fullVersion  = ''+parseFloat(navigator.appVersion); 
             majorVersion = parseInt(navigator.appVersion,10);
           }
+       localStorage.setItem('browserName', browserName);
        return browserInfo = {"browserName":browserName,"fullVersion":fullVersion,"majorVersion":majorVersion};
 };
  $scope.getBrowserNameList = function(supportedBrowser){
