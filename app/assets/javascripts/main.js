@@ -13,14 +13,15 @@
         // it's not a RequireJS module, so we have to tell it what var is returned
         exports: 'jsRoutes'
       },
+        'angular': {
+            deps: ['bootstrap'],
+            exports: 'angular'
+        },
       // Hopefully this all will not be necessary but can be fetched from WebJars in the future
 
       'jquery': {exports:'jquery'},
       'jquery-ui': {deps: ['jquery']},
-       'angular': {
-           deps: ['bootstrap'],
-           exports: 'angular'
-       },
+
       'bootstrap': {deps: ['jquery-ui']},
       'angular-cache': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
@@ -310,13 +311,13 @@
   require([
           'jquery',
           'angular',
+          'jquery-ui',
+           'bootstrap',
           'angular-resource',
           'angular-route',
           'angular-cookies',
           'angular-cache',
-          'jquery-ui',
-           'bootstrap',
-           'ng-infinite-scroll',
+          'ng-infinite-scroll',
            'highcharts',
            'highcharts-ng',
            'highcharts-more',
