@@ -308,11 +308,11 @@
 
   // Load the app. This is kept minimal so it doesn't need much updating.
   require([
-            'angular',
-           'jquery',
+           'jquery', 
            'jquery-ui', 
            'bootstrap', 
-           'angular-resource',
+           'angular', 
+           'angular-resource', 
            'angular-route', 
            'angular-cookies', 
            'angular-cache', 
