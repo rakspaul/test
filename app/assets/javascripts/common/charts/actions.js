@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function() {
     "use strict";
-    commonModule.factory("actionChart", function($timeout, loginModel, constants, analytics) {
+    commonModule.factory("actionChart", function($timeout, loginModel, constants, analytics,utils) {
 
         var kpiPrefix = function (kpiType) {
             var kpiTypeLower = kpiType.toLowerCase();
@@ -37,9 +37,10 @@
 
             return r.join('\n');
         };
-
+        var browserInfo = utils.detectBrowserInfo();
+        var adjustY = browserInfo.browserName == 'Firefox' ? 8 :7;
+        var adjustX = browserInfo.browserName == 'Firefox' ? 1 :0;
         var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list) {
-
             var text,
                 box,
                 textBG,
@@ -63,7 +64,6 @@
                     position:'absolute',
                     padding:5,
                     fontFamily: 'Avenir',
-                    fontWeight:'600',
                     color:display_color,
                     cursor: 'pointer'
                 }).on('click', function (markerObj) {
@@ -200,8 +200,7 @@
                     }
                 }
             };
-
-            chart.renderer.circle(container.x+place_circle_x , container.y+8,10).attr({
+            chart.renderer.circle(container.x+place_circle_x+adjustX , container.y+adjustY,10).attr({
                 fill: '#fff',
                 stroke: (defaultGrey == false|| isActionExternal == false ) ? '#777':'#0072bc',
                 'stroke-width': 2.5,
