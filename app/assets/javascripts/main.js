@@ -14,13 +14,12 @@
         exports: 'jsRoutes'
       },
       'jquery': {exports:'jquery'},
-      // Hopefully this all will not be necessary but can be fetched from WebJars in the future
-      'angular': {
-        deps: ['bootstrap'],
-        exports: 'angular'
-      },
       'jquery-ui': {deps: ['jquery']},
       'bootstrap': {deps: ['jquery-ui']},
+        'angular': {
+            deps: ['bootstrap'],
+            exports: 'angular'
+        },
       'angular-cache': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
@@ -308,15 +307,15 @@
 
   // Load the app. This is kept minimal so it doesn't need much updating.
   require([
-           'jquery', 
-           'jquery-ui', 
-           'bootstrap', 
-           'angular', 
-           'angular-resource', 
-           'angular-route', 
-           'angular-cookies', 
-           'angular-cache', 
-           'ng-infinite-scroll',
+          'jquery',
+          'jquery-ui',
+           'bootstrap',
+          'angular',
+          'angular-resource',
+          'angular-route',
+          'angular-cookies',
+          'angular-cache',
+          'ng-infinite-scroll',
            'highcharts',
            'highcharts-ng',
            'highcharts-more',
@@ -445,8 +444,8 @@
            'common-directive-DataNotFound'
            ],
    
-    function (angular) {
-      angular.bootstrap(document, ['app']);
+    function ($,jqueryUI,  bootstrap, angular) {
+            angular.bootstrap(document, ['app']);
     }
   );
 })(requirejs);
