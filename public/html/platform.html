@@ -90,7 +90,7 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col">
+                                    <div class="each_cost_heading">
                                         {{strategyHeading}}:
                                     </div>
                                     <div class="row_list_holder">
@@ -156,52 +156,52 @@
 
 <script type="text/ng-template" id="performanceTpl">
     <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col">
+        <div class="each_col sec_col">
             {{performanceData.platform_type}}
         </div>
-        <div class="each_col sec_col">
+        <div class="each_col third_col">
             {{performanceData.platformType_aggregation.impressions |  nrFormat}}
         </div>
-        <div class="each_col third_col">
+        <div class="each_col forth_col">
                 {{performanceData.platformType_aggregation.ctr*100 | number:2}}%
         </div>
-        <div class="each_col forth_col">
+        <div class="each_col fifth_col">
                 {{performanceData.platformType_aggregation.action_rate*100 | number:2}}%
         </div>
-        <div class="each_col fifth_col">
+        <div class="each_col sixth_col">
         ${{performanceData.platformType_aggregation.cpa | number:2}}
         </div>
-        <div class="each_col sixth_col">
+        <div class="each_col seventh_col">
         ${{performanceData.platformType_aggregation.cpc | number:2}}
         </div>
-        <div class="each_col seventh_col">
+        <div class="each_col eight_col">
         ${{performanceData.platformType_aggregation.cpm | number:2}}
         </div>
     </div>
 
     <div class="platform_row" ng-repeat="platform in performanceData.platforms track by $index">
-        <div class="each_col platform_logo" >
+        <div class="each_col sec_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
             </span>
             <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
         </div>
-        <div class="each_col sec_col">
+        <div class="each_col third_col">
             {{platform.impressions |  nrFormat}}
         </div>
-        <div class="each_col third_col">
+        <div class="each_col forth_col">
             {{platform.ctr*100 | number:2}}%
         </div>
-        <div class="each_col forth_col">
+        <div class="each_col fifth_col">
             {{platform.action_rate*100 | number:2}}%
         </div>
-        <div class="each_col fifth_col">
+        <div class="each_col sixth_col">
             ${{platform.cpa | number:2}}
         </div>
-        <div class="each_col sixth_col">
+        <div class="each_col seventh_col">
             ${{platform.cpc | number:2}}
         </div>
-        <div class="each_col seventh_col">
+        <div class="each_col eight_col">
             ${{platform.cpm | number:2}}
         </div>
     </div>
@@ -209,43 +209,43 @@
 
 <script type="text/ng-template" id="costTpl">
     <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col">{{costData.platform_type}}</div>
-        <div class="each_col second_col">{{costData.platformType_aggregation.impressions | nrFormat}}</div>
-        <div class="each_col third_col">{{costData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_col fourth_col">${{costData.platformType_aggregation.inventory_cost | number:0}}</div>
-        <div class="each_col fifth_col">${{costData.platformType_aggregation.data_cost | number:0}}</div>
-        <div class="each_col sixth_col">${{costData.platformType_aggregation.ad_serving_cost | number:0}}</div>
-        <div class="each_col seventh_col">${{costData.platformType_aggregation.rich_media_cost | number:0}}</div>
-        <div class="each_col eighth_col">${{costData.platformType_aggregation.research_cost | number:0}}</div>
-        <div class="each_col ninth_col">${{costData.platformType_aggregation.ad_verification_cost | number:0}}</div>
-        <div class="each_col tenth_col total_cost">${{costData.platformType_aggregation.total_spend | number:0}}</div>
+        <div class="each_cost_col first_col">{{costData.platform_type}}</div>
+        <div class="each_cost_col second_col">{{costData.platformType_aggregation.impressions | nrFormat}}</div>
+        <div class="each_cost_col third_col">{{costData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col fourth_col">${{costData.platformType_aggregation.inventory_cost | number:0}}</div>
+        <div class="each_cost_col fifth_col">${{costData.platformType_aggregation.data_cost | number:0}}</div>
+        <div class="each_cost_col sixth_col">${{costData.platformType_aggregation.ad_serving_cost | number:0}}</div>
+        <div class="each_cost_col seventh_col">${{costData.platformType_aggregation.rich_media_cost | number:0}}</div>
+        <div class="each_cost_col eigth_col">${{costData.platformType_aggregation.research_cost | number:0}}</div>
+        <div class="each_cost_col ninth_col">${{costData.platformType_aggregation.ad_verification_cost | number:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">${{costData.platformType_aggregation.total_spend | number:0}}</div>
     </div>
 
     <div class="platform_row" ng-repeat="platform in costData.platforms track by $index">
-        <div class="each_col platform_logo" >
+        <div class="each_cost_col first_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
             </span>
             <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
         </div>
-        <div class="each_col second_col">{{platform.impressions | nrFormat}}</div>
-        <div class="each_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_col fourth_col">${{platform.inventory_cost | number:0}}</div>
-        <div class="each_col fifth_col">${{platform.data_cost | number:0}}</div>
-        <div class="each_col sixth_col">${{platform.ad_serving_cost | number:0}}</div>
-        <div class="each_col seventh_col">${{platform.rich_media_cost | number:0}}</div>
-        <div class="each_col eighth_col">${{platform.research_cost | number:0}}</div>
-        <div class="each_col ninth_col">${{platform.ad_verification_cost | number:0}}</div>
-        <div class="each_col tenth_col total_cost">${{platform.total_spend | number:0}}</div>
+        <div class="each_cost_col second_col">{{platform.impressions | nrFormat}}</div>
+        <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col fourth_col">${{platform.inventory_cost | number:0}}</div>
+        <div class="each_cost_col fifth_col">${{platform.data_cost | number:0}}</div>
+        <div class="each_cost_col sixth_col">${{platform.ad_serving_cost | number:0}}</div>
+        <div class="each_cost_col seventh_col">${{platform.rich_media_cost | number:0}}</div>
+        <div class="each_cost_col eigth_col">${{platform.research_cost | number:0}}</div>
+        <div class="each_cost_col ninth_col">${{platform.ad_verification_cost | number:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">${{platform.total_spend | number:0}}</div>
     </div>
 </script>
 
 <script type="text/ng-template" id="viewablityTpl">
     <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col">
+        <div class="each_col platform_name_col">
             {{ViewablityData.platform_type}}
         </div>
-        <div class="each_col sec_col">
+        <div class="each_col third_col">
             <div class="sub_col">
                 <span>{{ViewablityData.platformType_aggregation.ias_imps_delivered | nrFormat}}</span>
                 <span>{{ViewablityData.platformType_aggregation.total_imps | nrFormat}}</span>
@@ -273,18 +273,18 @@
     </div>
 
     <div class="platform_row" ng-repeat="platform in ViewablityData.platforms track by $index">
-        <div class="each_col platform_logo" >
+        <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
             </span>
             <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
         </div>
 
-        <!-- <div class="each_col">
+        <!-- <div class="each_col platform_name_col">
             {{platform.platform_type}}
         </div> -->
 
-        <div class="each_col sec_col">
+        <div class="each_col third_col">
             <div class="sub_col">
                 <span>{{platform.ias_imps_delivered | nrFormat}}</span>
                 <span>{{platform.total_imps | nrFormat }}</span>
