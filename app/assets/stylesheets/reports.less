@@ -1194,6 +1194,13 @@ div.strategy_total_container {
       font-family: "Avenir";
       margin-bottom: 10px ;
     } 
+    .each_strategy_holder {
+      .first_col {
+          color: #21252b;
+          font-size: 14px;
+          font-family: "Avenir-bold";
+      }
+    }
   }
 
   .suspicious_col {
@@ -1606,16 +1613,33 @@ div.strategy_total_container {
       width: 100% ;
     }
   }
-  #reports_byscreens_block {
+  #reports_byscreens_block , #reports_byformats_block {
     .sec_col {
       width: 132px ;
       text-align: left;
     }
-    
+    .first_col {
+      width: 100% !important ;
+    }
+    .reports_performance_header {
+      .sec_col {
+        width: 136px ;
+        margin-left: 14px;
+      }
+    }
   }
   #reports_bydaysofweek_block {
     .sec_col {
       text-align: left;
+    }
+    .first_col {
+      width: 100% !important ;
+    }
+    .reports_performance_header {
+      .sec_col {
+        width: 135px ;
+        margin-left: 14px;
+      }
     }
   }
   #reports_platform_performance_block{
@@ -1665,6 +1689,11 @@ div.strategy_total_container {
     margin: 20px auto 0 ;
     display: block;
   }
+  .platform_aggregation_row {
+      .each_cost_col {
+        font-family: "Avenir-bold" ;
+      }
+    }
   .cost_header_holder{
     background: #fff ;
     padding: 20px 0 0 20px ;
@@ -1676,6 +1705,7 @@ div.strategy_total_container {
     .each_cost_col {
       .ColHeadingFontColor();
     }
+
     .more_options {
       .dropdown-menu  {
         li {
@@ -1798,8 +1828,20 @@ div.strategy_total_container {
     width: 80px ;
     margin-right: 20px ;
   }
+
   .first_col {
     text-align: left;
+    
+  }
+  .each_strategy {
+    .first_col {
+      width: 100% ;
+    }
+    .row_list_holder {
+      .first_col {
+          width: 80px;
+      }
+    }
   }
   .each_cost_heading {
       color: #21252b;
