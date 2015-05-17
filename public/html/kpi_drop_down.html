@@ -3,7 +3,7 @@
                 <span class="dd_txt">{{kpiData.selectedKpi == 'action_rate' ? 'Action Rate' : kpiData.selectedKpi.toUpperCase()}}</span>
                 <span class="arrrow_img"></span>
                 </span>
-<ul class="dropdown_ul dropdown-menu kpi_indicator_ul" id="kpi_drop_down">
+<ul class="dropdown_ul dropdown-menu kpi_indicator_ul"|>
         <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="{{kpi}}">
             <span class="default-kpi-dropdown-icon"  ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="{{kpi}}"></span>
             {{(kpi == 'action_rate') ? 'Action Rate' : kpi.toUpperCase()}}

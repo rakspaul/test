@@ -134,7 +134,8 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics track by $index">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewablity.tactics track by $index" ng-if="tactic.platform_metrics.viewability">
+                                        <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
                                                 {{tactic.name}}
