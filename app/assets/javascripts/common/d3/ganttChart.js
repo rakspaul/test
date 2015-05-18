@@ -994,11 +994,30 @@
 
                         }
                     })
-                    .on('mouseover', function(d, i) {
-                        var padding = calculateBrandAdjustment(d, counterObj.iconTooltip);
+                    .on('mouseover', function(d) {
+                        var flag = false,
+                            paddingFactor = 7,
+                            padding = 0;
+
+                        //reset counter
+                        counterObj.iconTooltip.counter = 0;
+
+                        _.each(tasks, function(t) {
+                            if( !flag && t.type == "brand") {
+                                counterObj.iconTooltip.counter++;
+                            }
+                            if(d.id === t.id) {
+                                //break flag to stop counting -adjustment multiplier
+                                flag = true;
+                            } 
+                        });
+
+                        //calculate correction for the tooltip placement
+                        padding= counterObj.iconTooltip.counter * 7;
+
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) - 15,
-                        yPosition = (y(d.taskName) * 2) - 15;
+                        yPosition = (y(d.taskName) * 2) - 15 - padding;
                         d3.select(".calendar_tooltip")
                             .style("display", "block")
                             .style("left", xPosition + "px")
