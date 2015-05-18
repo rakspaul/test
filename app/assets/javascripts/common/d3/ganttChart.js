@@ -2043,7 +2043,10 @@
                 case "month":
                     format = "%d";
 
-                    gantt.timeDomain([moment().startOf('month'), moment().endOf('month')]);
+                    var e = moment().startOf('month').startOf('day').unix()*1000,
+                        f = moment(e).add(30, 'days').endOf('day').unix()*1000;
+
+                    gantt.timeDomain([e, f]);
                     break;
 
                 case "today":
