@@ -5,7 +5,8 @@
 
         };
 
-        var MIN_CALENDAR_HEIGHT = 580;
+        var MIN_CALENDAR_HEIGHT = 580,
+            BRAND_PADDING = 7;
 
         d3.gantt = function(cal_height) {
             var FIT_TIME_DOMAIN_MODE = "fit";
@@ -70,14 +71,14 @@
             *
             * @param object campaignObj - campaign object
             * @param object counterObj - counter object
+            * @return number padding - new adjustment pixels
+            *
             */
             var calculateBrandAdjustment= function(campaignObj, counterObj) {
-                var padding = 7;
                 if(campaignObj.type == "brand") {
                     counterObj.counter++;
                 }
-                //console.log(counterObj.counter + ''+campaignObj.type+''+counterObj.counter*padding);
-                return counterObj.counter * padding;
+                return counterObj.counter * BRAND_PADDING;
             };
 
             var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
@@ -996,7 +997,6 @@
                     })
                     .on('mouseover', function(d) {
                         var flag = false,
-                            paddingFactor = 7,
                             padding = 0;
 
                         //reset counter
@@ -1013,7 +1013,7 @@
                         });
 
                         //calculate correction for the tooltip placement
-                        padding= counterObj.iconTooltip.counter * 7;
+                        padding= counterObj.iconTooltip.counter * BRAND_PADDING;
 
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) - 15,
@@ -2205,6 +2205,16 @@
             timeDomainString = "quarter";
 
             var calendar_height = tasks.length * 30.75;
+            var countBrands = 0;
+            _.each(tasks, function(t){
+                if(t.type == "brand") {
+                    countBrands++;
+                }
+            });
+            
+            //new height after changing brand placement 
+            calendar_height = calendar_height - (countBrands * BRAND_PADDING);
+
             calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
             gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
