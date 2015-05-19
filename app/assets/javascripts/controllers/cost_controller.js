@@ -13,11 +13,6 @@ var angObj = angObj || {};
         var selectedBrand = brandsModel.getSelectedBrand();
 
         var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-        if(isAgencyCostModelTransparent &&  selectedBrand.id !== -1) {
-            $scope.isCostModelTransparent = $scope.selectedBrand.cost_transparency;
-        } else {
-            $scope.isCostModelTransparent = isAgencyCostModelTransparent;
-        }
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
