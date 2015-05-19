@@ -1,4 +1,4 @@
-<div class="clearfix" >
+    <div class="clearfix" >
     <div class="each_cost_section status_section">
         <div class="campaign_status_icon  {{campaign.status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{campaign.status.toLowerCase() | toCamelCase}}"></div>
     </div>
@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="clearfix cost_col_container cost_cols_holder">
+<div class="clearfix cost_col_container cost_cols_holder" ng-if="isCostModelTransparent">
    
         <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | formatCostData: '' : 0}}</div>
         <div class="each_cost_col second_col">{{campaigns.cdbDataMap[campaign.orderId].map(campaigns.selectedCostType)  | kpiFormatter : campaigns.selectedCostType }}</div>
