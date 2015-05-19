@@ -14,12 +14,6 @@
 
     var selectedBrand = brandsModel.getSelectedBrand();
     $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-    /*if(isAgencyCostModelTransparent &&  selectedBrand.id !== -1) {
-      $scope.isCostModelTransparent = selectedBrand.cost_transparency;
-    } else {
-      $scope.isCostModelTransparent = true;
-    }*/
-
     //Based on gauge click, load the filter and reset data set after gauge click.
     var forceLoadCampaignsFilter;
     if(gaugeModel.dashboard.selectedFilter !== '') {
