@@ -75,7 +75,8 @@
 
                         <div class="cost_transparency_container">
                             <div class="each_cost_row_holder strategy_total_row">
-                                <div class="each_cost_row">
+                                <!--------  if  isCostModelTransparent =  false   ----->
+                                <div class="each_cost_row" ng-if="!isCostModelTransparent">
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
                                     <div class="each_cost_heading" ng-if="!dataNotFound">
                                         {{strategyHeading}}
@@ -95,6 +96,8 @@
                                         <div class="each_cost_col tenth_col total_cost">${{strategy.total | number:0}}</div>
                                     </div>
                                 </div>
+                                <!--------  if  isCostModelTransparent =  true   ----->
+                                <div class="cost_opaque" ng-if="isCostModelTransparent">You don't have the access to cost data for <b>{{brandName}}</b>, please contact your account manager.</div>
                             </div>
                             <div class="all_startegy_cost">
                                 <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
