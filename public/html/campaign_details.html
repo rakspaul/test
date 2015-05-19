@@ -102,7 +102,7 @@
                          <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>
                     </div>
 
-                    <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
+                    <div ng-if="isCostModelTransparent" ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
