@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window,campaignSelectModel, kpiSelectModel,strategySelectModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -10,6 +10,19 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
         $scope.api_return_code = 200;
         $scope.strategyMarginPercentage = -1 ;
+        var selectedBrand = brandsModel.getSelectedBrand();
+
+        var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+        /*
+            1- if agency cost model is opaque, No need to check for any other flag.
+            2- if agency cost model is transparent, then check for selected  brand cost model.
+
+         */
+        if(isAgencyCostModelTransparent === true &&  selectedBrand.id !== -1) {
+            $scope.isCostModelTransparent = $scope.selectedBrand.cost_transparency;
+        } else {
+            $scope.isCostModelTransparent = isAgencyCostModelTransparent;
+        }
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
@@ -20,14 +33,9 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             else if ( $scope.selectedCampaign.kpi =='null')
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-//            else if (campaign.status == 'active')
-//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-
-
-
 
         $scope.filters = domainReports.getReportsTabs();
 
