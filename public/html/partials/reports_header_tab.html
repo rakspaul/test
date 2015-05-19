@@ -1,6 +1,7 @@
 <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
 <div class="pull-left">
         <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab, 'cost_opaque': tab.href == 'cost' && isCostModelTransparent}">
+        	<span class="cost_opaque_icon"></span>
             <a ng-href="/{{tab.href}}" id="performance_tab_{{tab.href}}" > {{tab.title}}</a>
         </span>
 </div>
