@@ -9,6 +9,7 @@
       data.expiry_secs = undefined;
       data.login_name = undefined;
       data.agency_id = undefined;
+      data.cost_transparency = true;
 
     var updateRedirectUrl = function(value) {
       $cookieStore.put(constants.COOKIE_REDIRECT, value);
@@ -46,6 +47,10 @@
         );
         localStorage.setItem( 'selectedKpi', 'ctr');
         localStorage.setItem('isNavigationFromCampaigns','false');
+    },
+
+    getIsAgencyCostModelTransparent :  function() {
+        return data.cost_transparency;
     },
 
     getLoginName : function() {
