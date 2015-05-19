@@ -107,7 +107,46 @@
     margin-top: 10px;
   }
 }
+.cost_opaque_msg {
+  height: 120px;
+  text-align: center;
+  border: solid 1px #d2dee7;
+  color: #939ead;
+  font-size: 12px;
+  line-height: 20px ;
+  .cost_opaque_txt {
+    background: url("/assets/images/cdesk/lock.png") no-repeat center 20px  ;
+    padding-top: 50px;
+    display: block;
+    width: 268px;
+    margin: 0 auto;
+  }
+}
+.reports_header_tabs_holder span.cost_opaque_icon {
+  display: none;
+}
+span.cost_opaque {
+  position: relative;
+  a {
+    color: #939ead !important;
+  }
+  .cost_opaque_icon {
+    display: inline-block;
+    background: url("/assets/images/cdesk/lock_tab.png") no-repeat 0px 2px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 17px;
+    width: 12px;
+    position: absolute;
+    top: 0px;
+    left: -16px;
+  }
+}
 
+.reports_header_tabs_holder span.active_tab.cost_opaque {
+  border-color: #939ead ;
+}
 .platform_logo {
       height: 18px ;
       width: 16px ;
