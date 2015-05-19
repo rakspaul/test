@@ -75,8 +75,15 @@
                     
 
                     _.each(result.brands, function(datum) {
-                        var space = 0;
-                        for (space = 0; space <= 1; space++) {
+                        var space = 0, 
+                            tab = 0;
+
+                        if(count==0){
+                            tab =2 //space before first brand
+                        } else {
+                            tab = 1; //space before each brand
+                        }
+                        for (space = 0; space <= tab; space++) {
                             //placeholder - empty value to add spacing
                             count++;
                             var c = {};

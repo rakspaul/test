@@ -5,7 +5,8 @@
 
         };
 
-        var MIN_CALENDAR_HEIGHT = 580;
+        var MIN_CALENDAR_HEIGHT = 580,
+            BRAND_PADDING = 7;
 
         d3.gantt = function(cal_height) {
             var FIT_TIME_DOMAIN_MODE = "fit";
@@ -50,9 +51,11 @@
             var rectTransform = function(d) {
                 return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
             };
-
+            var shift = { counter: 0 };
             var brandTransform = function(d) {
-                return "translate(0," + y(d.taskName) + ")";
+
+
+                return "translate(0," + (y(d.taskName) - calculateBrandAdjustment(d, shift) ) + ")";
             };
 
             var markerTransform = function() {
@@ -61,6 +64,21 @@
                     return "translate(" + x(moment().endOf('day')) + ",-20)";
                 }
                 return "translate(" + x(moment().startOf('day')) + ",-20)";
+            };
+
+            /**
+            * calculate adjustment pixels
+            *
+            * @param object campaignObj - campaign object
+            * @param object counterObj - counter object
+            * @return number padding - new adjustment pixels
+            *
+            */
+            var calculateBrandAdjustment= function(campaignObj, counterObj) {
+                if(campaignObj.type == "brand") {
+                    counterObj.counter++;
+                }
+                return counterObj.counter * BRAND_PADDING;
             };
 
             var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
@@ -399,6 +417,9 @@
                     }
 
                 };
+
+                //recalculation for rendering - counters for elements
+                var counterObj = { body : { counter : 0 }, marker : {counter : 0 }, icon : {counter : 0 }, top : {counter : 0 }, text : {counter : 0 }, strokeY1 : {counter : 0 }, strokeY2 : {counter : 0 }, iconTooltip : {counter : 0 } };
 
                 var ganttChartGroup = svg.select(".gantt-chart");
                 var ganttChartHeaderGroup = svgHeader.select(".gantt-chart-head");
@@ -884,10 +905,11 @@
                         }
                     })
                     .attr("y1", function(d){
+                        var padding = calculateBrandAdjustment(d, counterObj.strokeY1);
                         if (d.type == "brand") {
                             return 0;
                         } else {
-                            return y(d.taskName) + CAMPAIGN_HEIGHT;
+                            return y(d.taskName) + CAMPAIGN_HEIGHT - padding;
                         }
                     })
                     .attr("y2", function(d){
@@ -974,9 +996,28 @@
                         }
                     })
                     .on('mouseover', function(d) {
+                        var flag = false,
+                            padding = 0;
+
+                        //reset counter
+                        counterObj.iconTooltip.counter = 0;
+
+                        _.each(tasks, function(t) {
+                            if( !flag && t.type == "brand") {
+                                counterObj.iconTooltip.counter++;
+                            }
+                            if(d.id === t.id) {
+                                //break flag to stop counting -adjustment multiplier
+                                flag = true;
+                            } 
+                        });
+
+                        //calculate correction for the tooltip placement
+                        padding= counterObj.iconTooltip.counter * BRAND_PADDING;
+
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) - 15,
-                        yPosition = (y(d.taskName) * 2) - 15;
+                        yPosition = (y(d.taskName) * 2) - 15 - padding;
                         d3.select(".calendar_tooltip")
                             .style("display", "block")
                             .style("left", xPosition + "px")
@@ -1141,16 +1182,17 @@
                 var pastMarkerTextDetails = ganttChartGroup.selectAll(".past-marker-text-details").data(tasks, keyFunction);
 
                 var campaignsBottomStroke = ganttChartGroup.selectAll(".campaign_stroke").data(tasks, keyFunction);
-                
+
                 //Stroke - Bottom for the campaign (1px #ccd2da)
                 campaignsBottomStroke
                     .transition()
                         .delay(0)
                         .attr("y2", function(d){
+                            var padding = calculateBrandAdjustment(d, counterObj.strokeY2);
                             if (d.type == "brand") {
                                 return 0;
                             } else {
-                                return y(d.taskName) + CAMPAIGN_HEIGHT;
+                                return y(d.taskName) + CAMPAIGN_HEIGHT - padding;
                             }
                         })
                         .attr("x2", function(d) {
@@ -1165,8 +1207,7 @@
                                 }
                             }
                         })
-                      
-                
+
                 var translateVisualElements = function(a, type) {
                     if (type == "node") {
                         a.transition()
@@ -1207,7 +1248,8 @@
                                 }
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName) + 2;
+                                var padding = calculateBrandAdjustment(d, counterObj.body);
+                                return y(d.taskName) + 2 - padding;
                             })
                     } else if (type == "top") {
                         a.transition()
@@ -1246,7 +1288,8 @@
 		                    	}
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName);
+                                var padding = calculateBrandAdjustment(d, counterObj.top);
+                                return y(d.taskName) - padding;
                             })
                     } else if(type == "past-markers" ) {
                         a.transition()
@@ -1303,10 +1346,12 @@
                         a.transition()
                             .delay(0)
                             .attr("transform", function(d){
+                                var padding = calculateBrandAdjustment(d, counterObj.marker);
+
                                 if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
-                                    return  "translate(0," + y(d.taskName) + ")";
+                                    return  "translate(0," + (y(d.taskName) - padding) + ")";
                                 } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                                    return  "translate(480," + y(d.taskName) + ")";
+                                    return  "translate(480," + (y(d.taskName) - padding) + ")";
                                 } 
                                 //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
                                 // else {
@@ -1340,7 +1385,8 @@
                                 }
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName) + 13;
+                                var padding = calculateBrandAdjustment(d, counterObj.text);
+                                return y(d.taskName) + 13 - padding;
                             })
                             .text(function(d) {
                                 //widht of the container
@@ -1417,7 +1463,8 @@
                                 }
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName) + 6;
+                                var padding = calculateBrandAdjustment(d, counterObj.icon);
+                                return y(d.taskName) + 6 - padding;
                             })
                     }
                 };
@@ -2161,6 +2208,16 @@
             timeDomainString = "quarter";
 
             var calendar_height = tasks.length * 30.75;
+            var countBrands = 0;
+            _.each(tasks, function(t){
+                if(t.type == "brand") {
+                    countBrands++;
+                }
+            });
+            
+            //new height after changing brand placement 
+            calendar_height = calendar_height - (countBrands * BRAND_PADDING);
+
             calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
             gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
