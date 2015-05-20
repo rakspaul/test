@@ -92,6 +92,8 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
+                    $scope.isCostModelTransparent = result.data.data.cost_transparency;
+                    $scope.isCostModelTransparentMsg = result.data.data.message;
                     $scope.performanceBusy = false;
                     $scope.costBusy = false;
                     $scope.viewablityBusy = false;
@@ -127,7 +129,7 @@ var angObj = angObj || {};
         //creating download report url
         $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/platforms/';
-            $scope.download_report = [
+            var download_report = [
                 {
                     'report_url': urlPath + 'performance/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_performance',
@@ -144,6 +146,13 @@ var angObj = angObj || {};
                     'label' : 'Platform By Viewability'
                 }
             ];
+
+            var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+            if(!isAgencyCostModelTransparent) { //if agency level cost model is opaque
+                download_report =  _.filter(download_report, function(obj, idx) {  return obj.report_name !== 'by_cost'});
+            }
+
+            $scope.download_report = download_report;
         };
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
@@ -195,6 +204,7 @@ var angObj = angObj || {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
         }
 
 
