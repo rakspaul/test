@@ -1219,6 +1219,12 @@ div.strategy_total_container {
 #reports_platform_viewablity_block {
   .strategy_total_container {
     border-top  : solid 2px @reportBorder ;
+    .each_strategy_holder:last-child {
+      height : auto ;
+      .each_strategy:before {
+        display : none ;
+      }
+    }
     .seventh_col {
       padding-right: 10px ;
     }
