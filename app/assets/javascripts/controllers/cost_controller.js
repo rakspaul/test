@@ -76,6 +76,7 @@ var angObj = angObj || {};
             $scope.costReportDownloadBusy = false;
             $scope.isStrategyDropDownShow = true;
             $scope.strategyMarginPercentage = -1 ;
+            $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -99,6 +100,10 @@ var angObj = angObj || {};
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
+                            if($scope.strategyCostData[0].cost_transparency) {
+                                $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
+                            }
+                            console.log($scope.strategyCostData[0].cost_transparency);
                             $scope.strategyCostBusy = false;
                             $scope.strategyMarginPercentage =  $scope.strategyCostData[0].margin ;
                             if(param.strategyId >0 ) {
