@@ -118,7 +118,7 @@
             // In MSIE, the true version is after "MSIE" in userAgent
         case (nAgt.indexOf("MSIE") != -1):
             verOffset = nAgt.indexOf("MSIE");
-            browserName = "Internet Explorr";
+            browserName = "Internet Explorer";
             fullVersion = nAgt.substring(verOffset + 5);
             break;
             //IE 11 and Above
