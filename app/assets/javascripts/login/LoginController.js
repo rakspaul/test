@@ -10,7 +10,7 @@
    $scope.browserMessage = undefined;
    $scope.disabledFormFields = undefined;
    var browserNameList ='';
-   var supportedBrowser = [{name:"Chrome","version":36},{name:"Firefox","version":35},{name:"Internet Explorer","version":8}];
+   var supportedBrowser = [{name:"Chrome","version":36},{name:"Firefox","version":35},{name:"Internet Explorer","version":10}];
    $scope.login = function () {
         if ($scope.username === undefined || $scope.username.trim() === '' || $scope.password === undefined || $scope.password.trim() === '') {
             $scope.loginErrorMsg = 'The Username/Password is incorrect';
@@ -79,9 +79,16 @@
           $scope.browserMessage ='';
           $scope.disabledFormFields = false;
       }else{
-          $scope.showMessage = true;
-          $scope.browserMessage = "Best viewed in "+findName + " version " +findVersion +" and above. Please upgrade your browser.";
-          $scope.disabledFormFields = false;
+          if(findName == 'Internet Explorer'){
+             $scope.showMessage = true;
+             $scope.browserMessage = "Unfortunately, we do not support your browser. Please upgrade to IE "+findVersion+".";
+             $scope.disabledFormFields = true;
+          }else{
+             $scope.showMessage = true;
+             $scope.browserMessage = "Best viewed in "+findName + " version " +findVersion +" and above. Please upgrade your browser.";
+             $scope.disabledFormFields = false;
+          }
+         
       }
 
     }else{
