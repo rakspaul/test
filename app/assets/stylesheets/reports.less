@@ -4,6 +4,40 @@
 @reportBorder : #ccd9e3 ;
 
 
+
+.campaign_details_graphs_holder {
+  .carousel-inner .active.left { left: -25%; }
+  .carousel-inner .next        { left:  25%; }
+  .carousel-inner .prev    { left: -25%; }
+  .carousel-control        { width:  4%; }
+  .carousel-control.left,.carousel-control.right {margin-left:15px;background-image:none;}
+  .col-md-12 {
+    padding: 0 ;
+  }
+  .carousel-inner  {
+    padding-top: 30px ;
+  }
+  .col-xs-3 {
+    padding: 0 ;
+  }
+  .glyphicon-chevron-right:before , .glyphicon-chevron-left:before {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    background-color: rgba(33, 37, 43, 0.6);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+    width: 30px;
+    height: 30px;
+    background-image : url("/assets/images/cdesk/carousel_left_arrow.png") ;
+    background-repeat: no-repeat;
+    background-position: center center ;
+  }
+  .glyphicon-chevron-right:before {
+    background-image : url("/assets/images/cdesk/carousel_right_arrow.png") ;
+    background-repeat: no-repeat;
+    background-position: center center ;
+  }
+}
 .ColHeadingFontColor() {
   color: #21252b ;
   font-size: 14px ;
