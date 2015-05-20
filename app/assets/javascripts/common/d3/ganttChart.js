@@ -712,7 +712,15 @@
 
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
-                var rectGroup = rect.append("g").attr("class", "node")
+                var rectGroup = rect.append("a")
+                                        .attr("xlink:href", function(d){
+                                            return '/campaigns/' + d.id;
+                                        })
+                                        .style("text-decoration", "none")
+                                        .on("click", function(d){
+                                            d3.event.preventDefault();
+                                        })
+                .append("g").attr("class", "node")
                     .on("click", function(d) {
                         if (d.type != "brand") {
   
