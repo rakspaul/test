@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
-
+    
         //platform icon mapping object.
         var platform_icon_map= {
             'Facebook':'',
@@ -97,13 +97,15 @@ var angObj = angObj || {};
                     $scope.viewablityBusy = false;
                     //$timeout(function() {
                         $scope['strategyDataBy'+tab]  = result.data.data;
+                        console.log(result.data.data);
                     //}, 50)
-
                 } else {
                     errorHandlerForPerformanceTab(result);
                 }
             }, errorHandlerForPerformanceTab);
         },
+        
+        
 
         //strategy change handler
         $scope.strategyChangeHandler = function () {
@@ -145,6 +147,7 @@ var angObj = angObj || {};
                 }
             ];
         };
+        
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
@@ -224,7 +227,6 @@ var angObj = angObj || {};
                 $scope.selected_filters = {} ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
-
 
     });
 }());

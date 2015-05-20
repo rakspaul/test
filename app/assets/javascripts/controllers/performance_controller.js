@@ -85,6 +85,8 @@ var angObj = angObj || {};
                     errorHandlerForPerformanceTab(result);
                 }
             }, errorHandlerForPerformanceTab);
+            
+            
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){

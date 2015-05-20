@@ -70,6 +70,7 @@
                 </div>
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
+                    <!-- Screens Widget Starts Here -->
                     <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
                             Screens ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
@@ -85,6 +86,9 @@
                          <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
                          <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>
                     </div>
+                    <!-- Screens Widget Ends Here -->
+                    
+                    <!-- Cost Widget Starts Here -->
                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
@@ -111,6 +115,9 @@
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
+                    <!-- Cost Widget Ends Here -->
+                    
+                    <!-- Inventory Widget Starts Here -->
                     <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_inventory" >
                         <div class="graph_heading">
                             Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
@@ -126,8 +133,10 @@
                               <div class="each_bar_graph" ng-style="{'width':100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value) +'%'};"></div>
                             </div>
                         </div>
-
                     </div>
+                    <!-- Inventory Widget Ends Here -->
+                    
+                    <!-- Viewability Widget Starts Here -->
                     <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                         <div class="graph_heading">
                             Viewability
@@ -149,6 +158,44 @@
                             Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}<!-- </span><span> --> ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
                         </div>
                     </div>
+                    <!-- Viewability Widget Ends Here -->
+                    
+                    <!-- Platform Widget Starts Here -->
+                    <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_platform" >
+                        <div class="graph_heading">
+                            Platform ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
+                        </div>
+                        <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
+                        <div  ng-if="((chartDataOne.length == 0 || !(chartDataOne)) && loadingPlatformFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
+                        <div class="clearfix each_section_graph">
+                            <div class="platform_number">
+                              Top 3
+                            </div>
+                            <div class="dataPlatformIconsText">
+                              <div class="widgetPlatformString">
+                                <img src="{{chartDataOneIcon}}" alt="" height='15'/>
+                                <span>{{chartDataOnePlatform}}</span>
+                                <span>{{chartDataOne}}&#37;</span>
+                              </div>
+                              <div class="widgetPlatformString">
+                                <img src="{{chartDataTwoIcon}}" alt="" height='15'/>
+                                <span>{{chartDataTwoPlatform}}</span>
+                                <span>{{chartDataTwo}}&#37;</span>
+                              </div>
+                              <div class="widgetPlatformString">
+                                <img src="{{chartDataThreeIcon}}" alt="" height='15'/>
+                                <span>{{chartDataThreePlatform}}</span>
+                                <span>{{chartDataThree}}&#37;</span>
+                              </div>
+                            </div>
+                            <div id="platformWidget"></div>
+                            <div ng-repeat="data in details.platform track by $index" class="each_bar_section_holder">
+                              <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
+                              <div class="each_bar_graph" ng-style="{'width':100-((details.platformTop.kpi_value-data.kpi_value)*100/details.platformTop.kpi_value) +'%'};"></div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Platform Widget Ends Here -->
                 </div>
 
                 <!--graph holder ends-->

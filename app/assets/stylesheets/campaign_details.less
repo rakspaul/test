@@ -578,7 +578,7 @@ body {
           background: #CCC ;
           width: 100% !important;
         }
-        .inventory_number {
+        .platform_number {
           color : #494646 ;
           margin-bottom: 4px ;
         }
@@ -591,6 +591,65 @@ body {
         margin-bottom: 2px ;
       }
     }
+    .bar_section_graph_holder_platform {
+      
+      .graph_heading {
+        margin-bottom: 2px ;
+      }
+      /* D3 Starts Here */
+      h2 {
+          font-size: .8em;
+          margin-left: 10px;
+      }
+      .each_section_graph{
+        position: relative;
+        .dataPlatformIconsText {
+          float: left;
+          position: absolute;
+          top: 31px;
+          left: 0;
+          z-index: 10;
+          width: 100%;
+          .widgetPlatformString{
+            float: left;
+            margin-top: 25px;
+            img {
+              float: left;
+            }
+            span {
+              float: left;
+              margin: 0 0 0 6px;
+            }
+          }
+          .widgetPlatformString:first-child{
+            margin-top: 0;
+          }
+        }
+        #platformWidget {
+          float: left;
+          margin-top: 28px;
+          .chart {
+              background: transparent;
+              margin: 0px;
+              width: 100%;
+              float: left;
+              rect {
+                  fill: #0072bc;
+              }
+              text {
+                  fill: #000;
+              }
+              text.name {
+                  fill: #000;
+              }
+              .rule {
+                  fill: #000;
+              }
+          }
+          /* D3 Ends Here */
+          }
+        }
+      }
     .each_section_graph_holder {
       .section_graph_details {
         margin-top: 10px ;
