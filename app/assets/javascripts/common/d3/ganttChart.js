@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope',function(loginModel, analytics, $location, $rootScope) {
+    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope', '$window' ,function(loginModel, analytics, $location, $rootScope, $window) {
         this.createGanttChart = function() {
 
         };
@@ -199,6 +199,10 @@
                         .style("top","0px")
                         .style("left","24px")
                     .append("svg")
+                    //TODO - check if needed for cross browser support
+                     // .attr({xmlns: "http://www.w3.org/2000/svg",
+                     //        xlink: "http://www.w3.org/1999/xlink",
+                     //    })
                     .attr("class", "header-chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
@@ -210,6 +214,10 @@
 
                 var svg = d3.select("#calendar_widget").select(".div-chart")
                     .append("svg")
+                    //TODO - check if needed for cross browser support
+                     // .attr({xmlns: "http://www.w3.org/2000/svg",
+                     //        xlink: "http://www.w3.org/1999/xlink",
+                     //    })
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height - margin.top - margin.bottom)
@@ -704,12 +712,31 @@
 
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
-                var rectGroup = rect.append("g").attr("class", "node")
+                var rectGroup = rect.append("a")
+                                        .attr("xlink:href", function(d){
+                                            return '/campaigns/' + d.id;
+                                        })
+                                        .style("text-decoration", "none")
+                                        .on("click", function(d){
+                                            d3.event.preventDefault();
+                                        })
+                .append("g").attr("class", "node")
                     .on("click", function(d) {
                         if (d.type != "brand") {
+  
                             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
-                            $location.url('/campaigns/' + d.id);
+                            
+                            //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
+                            if (d3.event.ctrlKey || d3.event.metaKey) {
+                                //on supported key combination and click open in new tab
+                                $window.open('/campaigns/' + d.id);
+                            } else {    
+                                //on normal click open link in current tab
+                                $location.url('/campaigns/' + d.id);  
+                            }
+
                             $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag
+
                         }
                     })
 
