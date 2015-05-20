@@ -95,9 +95,9 @@ var angObj = angObj || {};
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
-                            if($scope.strategyCostData[0].cost_transparency) {
-                               $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
-                            }
+                            // if($scope.strategyCostData[0].cost_transparency) {
+                            //    $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
+                            // }
                             $scope.strategyCostBusy = false;
                             $scope.strategyMarginPercentage =  $scope.strategyCostData[0].margin ;
                             if(param.strategyId >0 ) {
