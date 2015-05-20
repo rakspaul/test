@@ -24,6 +24,7 @@ var angObj = angObj || {};
             $scope.isCostModelTransparent = isAgencyCostModelTransparent;
         }
 
+
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
@@ -59,9 +60,6 @@ var angObj = angObj || {};
             sortDirection: ''
         }] ;
 
-        $scope.download_urls = {
-            cost: null
-        };
 
         $scope.init = function(){
             $scope.strategyCostData = {};
@@ -74,13 +72,19 @@ var angObj = angObj || {};
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
-            $scope.isStrategyDropDownShow = true;
+            $scope.isStrategyDropDownShow = false;
             $scope.strategyMarginPercentage = -1 ;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+
+            var selectedBrand = brandsModel.getSelectedBrand();
+            $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+            if($scope.isAgencyCostModelTransparent && selectedBrand.id !== -1) { // if agency cost model is transparent
+                $scope.isCostModelTransparent = selectedBrand.cost_transparency;
+            }
         };
 
        $scope.init();
@@ -96,6 +100,9 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
+                        if(result.data.cost_transparency) {
+                            $scope.isStrategyDropDownShow = $scope.isCostModelTransparent = result.data.cost_transparency;
+                        }
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
@@ -111,7 +118,6 @@ var angObj = angObj || {};
                                     var sortCoulumName = $scope.sortByColumn.replace('-', '');
                                     $scope.sortFunction(sortCoulumName);
                                 }
-
                             }
                         }
                         else{
@@ -144,7 +150,6 @@ var angObj = angObj || {};
                     $scope.sort_field[i]['class'] = '';
                     $scope.sort_field[i].sortDirection = '';
                 }
-
             }
         };
 
@@ -167,13 +172,19 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
             $scope.strategyMarginPercentage = -1 ;
-            $scope.download_report = [
+            var download_report = [
                 {
                     'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : '',
                     'label' : 'Cost Report'
                 }
             ];
+
+            var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+            if(!isAgencyCostModelTransparent) { //if agency level cost model is opaque
+                 download_report[0].report_url = '';
+            }
+            $scope.download_report = download_report;
         };
 
         //Function is called from startegylist directive
