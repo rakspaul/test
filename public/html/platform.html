@@ -31,7 +31,7 @@
                                     Performance
                                 </div>
                             </div>
-                            <div class="each_tab " id="platform_cost">
+                            <div class="each_tab " id="platform_cost" ng-show="isAgencyCostModelTransparent">
                                 <div class="each_tab_text">
                                     Cost
                                 </div>
@@ -83,11 +83,16 @@
                     <!-- -------START :  Cost Block ----------------------------- -->
 
                     <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
-                        <div class="no_data_found" ng-if="dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost">
+                        <div class="no_data_found" ng-if="isCostModelTransparent && dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
+                        <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
+                            <span class="cost_opaque_txt">You don't have the access to cost data for <b>{{brandName}}</b>, please contact your account manager.</span>
+                        </div>
+
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost && isCostModelTransparent">
                             <div class="clearfix reports_platform_header">
                                 <cost-header></cost-header>
                             </div>
+
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_cost_heading">

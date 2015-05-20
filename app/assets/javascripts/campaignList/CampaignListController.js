@@ -13,17 +13,11 @@
     });
 
     var selectedBrand = brandsModel.getSelectedBrand();
-    var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-    /*
-    1- if agency cost model is opaque, No need to check for any other flag.
-    2- if agency cost model is transparent, then check for selected  brand cost model.
-
-    */
-    if(isAgencyCostModelTransparent === true &&  selectedBrand.id !== -1) {
+    $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+    if($scope.isAgencyCostModelTransparent &&  selectedBrand.id !== -1) {
       $scope.isCostModelTransparent = $scope.selectedBrand.cost_transparency;
-    } else {
-      $scope.isCostModelTransparent = isAgencyCostModelTransparent;
     }
+
     //Based on gauge click, load the filter and reset data set after gauge click.
     var forceLoadCampaignsFilter;
     if(gaugeModel.dashboard.selectedFilter !== '') {

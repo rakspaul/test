@@ -9,7 +9,6 @@
       data.expiry_secs = undefined;
       data.login_name = undefined;
       data.agency_id = undefined;
-      data.cost_transparency = true;
 
     var updateRedirectUrl = function(value) {
       $cookieStore.put(constants.COOKIE_REDIRECT, value);
@@ -31,7 +30,7 @@
 
     setUser : function(user) {
         data = user;
-
+        console.log(data);
         var time = moment().add(user.expiry_secs, 'seconds'),
             expiryTime = new Date(time);
         document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires=' + expiryTime.toGMTString() + ';path=/';
@@ -50,7 +49,13 @@
     },
 
     getIsAgencyCostModelTransparent :  function() {
-        return data.cost_transparency;
+        console.log(data);
+        if(data.cost_transparency) {
+            return data.cost_transparency;
+        } else if($cookieStore.get('cdesk_session')) {
+            data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
+            return $cookieStore.get('cdesk_session').cost_transparency;
+        }
     },
 
     getLoginName : function() {
