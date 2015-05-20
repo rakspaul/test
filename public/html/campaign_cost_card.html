@@ -55,8 +55,8 @@
     </div>
 </div>
 
-<div class="clearfix cost_col_container cost_cols_holder" ng-if="isCostModelTransparent">
-   
+<div class="clearfix cost_col_container cost_cols_holder" ng-switch on="campaigns.costList[campaign.orderId].cost_transparency">
+    <div ng-switch-when=false>
         <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | formatCostData: '' : 0}}</div>
         <div class="each_cost_col second_col">{{campaigns.cdbDataMap[campaign.orderId].map(campaigns.selectedCostType)  | kpiFormatter : campaigns.selectedCostType }}</div>
         <div class="each_cost_col three_col">{{campaigns.costList[campaign.orderId].getInventoryCost() | formatCostData : '$' : 0}}</div>
@@ -67,4 +67,8 @@
         <div class="each_cost_col eight_col">{{campaigns.costList[campaign.orderId].getAdVerificationCost() | formatCostData : '$' : 0}}</div>
         <div class="each_cost_col ninth_col">{{campaigns.costList[campaign.orderId].getPlatformCost() | formatCostData : '$' : 0}}</div>
         <div class="each_cost_col tenth_col total_cost">{{campaigns.costList[campaign.orderId].getTotal() | formatCostData : '$' : 0}}</div>
+    </div>
+    <div ng-switch-when=true>
+        <span class="cost_opaque_txt">You don't have the access to cost data for <b>{{brandName}}</b>, please contact your account manager.</span>
+    </div>
 </div>
