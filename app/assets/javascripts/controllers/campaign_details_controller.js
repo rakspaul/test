@@ -29,18 +29,7 @@
             actionChart :true
         };
 
-        var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-        var selectedBrand = brandsModel.getSelectedBrand() ;
-        /*
-         1- if agency cost model is opaque, No need to check for any other flag.
-         2- if agency cost model is transparent, then check for selected  brand cost model.
-
-         */
-        if(isAgencyCostModelTransparent === true &&  selectedBrand.id !== -1) {
-            $scope.isCostModelTransparent = $scope.selectedBrand.cost_transparency;
-        } else {
-            $scope.isCostModelTransparent = isAgencyCostModelTransparent;
-        }
+        $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
@@ -320,30 +309,48 @@
                 if (result.status == "success" && !angular.isString(result.data)) {
                      if(result.data.data.length>0){
                         costData = result.data.data[0];
-                        sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
-                        if(sum < 100){
-                            other = 100 - sum;
-                        }
-                        $scope.details.getCostBreakdown = {
-                            inventory: costData.inventory_cost_pct,
-                            data: costData.data_cost_pct,
-                            adServing: costData.ad_serving_cost_pct,
-                            other: other
-                        };
-                        $scope.getCostBreakdownInfo = [
-                            {name:'Inventory',value:costData.inventory_cost_pct,className:'color1',colorCode:'#F8810E'},
-                            {name:'Data',value:costData.data_cost_pct,className:'color2',colorCode:'#0072BC'},
-                            {name:'Ad Serving',value:costData.ad_serving_cost_pct,className:'color3',colorCode:'#45CB41'},
-                            {name:'Other',value:other,className:'color4',colorCode:'#BFC3D1'}
-                        ];
-                        $scope.details.totalCostBreakdown = costData.total;
-                        $scope.order = function(predicate, reverse) {
-                            $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
-                        };
-                        $scope.order('-value',false);
-                        $timeout(function(){
-                             $scope.details.pieChart=pieChart.highChart($scope.costBreakdownChartInfo);
+                         sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
+                         if (sum < 100) {
+                             other = 100 - sum;
+                         }
+                         $scope.details.getCostBreakdown = {
+                             inventory: costData.inventory_cost_pct,
+                             data: costData.data_cost_pct,
+                             adServing: costData.ad_serving_cost_pct,
+                             other: other
+                         };
+                         $scope.getCostBreakdownInfo = [
+                             {
+                                 name: 'Inventory',
+                                 value: costData.inventory_cost_pct,
+                                 className: 'color1',
+                                 colorCode: '#F8810E'
+                             },
+                             {
+                                 name: 'Data',
+                                 value: costData.data_cost_pct,
+                                 className: 'color2',
+                                 colorCode: '#0072BC'
+                             },
+                             {
+                                 name: 'Ad Serving',
+                                 value: costData.ad_serving_cost_pct,
+                                 className: 'color3',
+                                 colorCode: '#45CB41'
+                             },
+                             {name: 'Other', value: other, className: 'color4', colorCode: '#BFC3D1'}
+                         ];
+                         $scope.details.totalCostBreakdown = costData.total;
+                         $scope.order = function (predicate, reverse) {
+                             $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
+                         };
+                         $scope.order('-value', false);
+                         $timeout(function () {
+                             $scope.details.pieChart = pieChart.highChart($scope.costBreakdownChartInfo);
                          });
+                         if(costData.cost_transparency === false) {
+                             $scope.isCostModelTransparent = false;
+                         }
                      }
                 }
             },function(result){

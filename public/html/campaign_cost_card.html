@@ -70,7 +70,7 @@
     </div>
     <div ng-switch-when=false>
         <span class="cost_opaque_txt_horizontal">
-            <span class="cost_opaque_icon"></span>You don't have the access to cost data for <b>{{brandName}}</b>, please contact your account manager.
+            <span class="cost_opaque_icon"></span>{{campaigns.costList[campaign.orderId].message}}
         </span>
     </div>
 </div>

@@ -110,6 +110,11 @@ var angObj = '';
             if(!$cookieStore.get(constants.COOKIE_SESSION)) {
                 $location.url('/login');
             }
+            /* if  cost modal is opaque and some one trying to access cost direclty from the url */
+            var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+            if(!isAgencyCostModelTransparent && locationPath === '/cost') {
+                $location.url(isNetworkUser ? 'campaigns' : 'dashboard');
+            }
 
             /* if some one try to change the authorization key or delete the key manually*/
             var authorizationKey  = localStorage.getItem('authorizationKey');// this is getting after successful login.

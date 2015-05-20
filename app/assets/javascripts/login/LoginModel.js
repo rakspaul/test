@@ -9,7 +9,6 @@
       data.expiry_secs = undefined;
       data.login_name = undefined;
       data.agency_id = undefined;
-      data.cost_transparency = true;
 
     var updateRedirectUrl = function(value) {
       $cookieStore.put(constants.COOKIE_REDIRECT, value);
@@ -50,7 +49,16 @@
     },
 
     getIsAgencyCostModelTransparent :  function() {
-        return data.cost_transparency;
+        if(data.is_network_user) {
+            data.cost_transparency = true;
+        }
+        console.log(data);
+        if(data.cost_transparency) {
+            return data.cost_transparency;
+        } else if($cookieStore.get('cdesk_session')) {
+            data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
+            return $cookieStore.get('cdesk_session').cost_transparency;
+        }
     },
 
     getLoginName : function() {
