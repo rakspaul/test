@@ -125,6 +125,7 @@
                 if($scope.isCostModelTransparent) {
                     $scope.getCostBreakdownData($scope.campaign);
                 }
+                $scope.getPlatformData();
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
                 //$scope.getPlatformGraphData($scope.campaign);
@@ -410,14 +411,13 @@
                     $scope.loadingPlatformFlag = false;
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
-                    function modify(obj, arr, key) { 
+                    var  modify = function(obj, arr, key) {
                         _.each(obj, function(pltformObj, index) { 
                                _.each(pltformObj.platforms, function(platform) { 
                             arr[key].push(platform);
                           
                                 })
                          })
-                    return
                     }
                     // Step 2 Data Mod Restructure of the Array on memory
                     var arr = {};
@@ -496,8 +496,8 @@
                 }
             });
         };
-        $scope.getPlatformData();
-        // Platform Ends
+
+
         
         $scope.getFormatsGraphData  = function(campaign){
             var formats;

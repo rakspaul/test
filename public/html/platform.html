@@ -85,7 +85,7 @@
                     <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
                         <div class="no_data_found" ng-if="isCostModelTransparent && dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
                         <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
-                            <span class="cost_opaque_txt">{{isCostModelTransparentMsg}}</span>
+                            <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
                         </div>
                         <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost && isCostModelTransparent">
                             <div class="clearfix reports_platform_header">

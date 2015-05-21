@@ -70,7 +70,7 @@
     </div>
     <div ng-switch-when=false>
         <span class="cost_opaque_txt_horizontal">
-            <span class="cost_opaque_icon"></span>{{campaigns.costList[campaign.orderId].message}}
+            <span class="cost_opaque_icon"></span><span ng-bind-html="campaigns.costList[campaign.orderId].message"></span>
         </span>
     </div>
 </div>

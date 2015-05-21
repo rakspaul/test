@@ -79,7 +79,10 @@ var angObj = angObj || {};
         $scope.strategiesCostData = function (param) {
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = false;
-            var errorHandler =  function() {
+            var errorHandler =  function(result) {
+                if(result && result.status == '204') {
+                    $scope.isCostModelTransparent = true;
+                }
                 $scope.dataNotFound = true;
                 $scope.strategyCostBusy = false;
                 $scope.tacticCostBusy = false;
@@ -110,12 +113,12 @@ var angObj = angObj || {};
                             }
                         }
                         else{
-                            errorHandler();
+                            errorHandler(result);
                         }
                     }
                     else {
                         $scope.api_return_code=result.data.status;
-                        errorHandler();
+                        errorHandler(result);
                     }
                 }, errorHandler);
 
