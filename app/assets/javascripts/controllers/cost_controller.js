@@ -80,7 +80,7 @@ var angObj = angObj || {};
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = false;
             var errorHandler =  function(result) {
-                if(result && result.status == '204') {
+                if(result && result.status == 204) {
                     $scope.isCostModelTransparent = true;
                 }
                 $scope.dataNotFound = true;
