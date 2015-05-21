@@ -29,6 +29,8 @@
             actionChart :true
         };
 
+        $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
         $scope.details.sortDirection = 'desc';
@@ -119,7 +121,11 @@
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
-                $scope.getCostBreakdownData($scope.campaign);
+
+                if($scope.isCostModelTransparent) {
+                    $scope.getCostBreakdownData($scope.campaign);
+                }
+                $scope.getPlatformData();
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
                 //$scope.getPlatformGraphData($scope.campaign);
@@ -304,30 +310,48 @@
                 if (result.status == "success" && !angular.isString(result.data)) {
                      if(result.data.data.length>0){
                         costData = result.data.data[0];
-                        sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
-                        if(sum < 100){
-                            other = 100 - sum;
-                        }
-                        $scope.details.getCostBreakdown = {
-                            inventory: costData.inventory_cost_pct,
-                            data: costData.data_cost_pct,
-                            adServing: costData.ad_serving_cost_pct,
-                            other: other
-                        };
-                        $scope.getCostBreakdownInfo = [
-                            {name:'Inventory',value:costData.inventory_cost_pct,className:'color1',colorCode:'#F8810E'},
-                            {name:'Data',value:costData.data_cost_pct,className:'color2',colorCode:'#0072BC'},
-                            {name:'Ad Serving',value:costData.ad_serving_cost_pct,className:'color3',colorCode:'#45CB41'},
-                            {name:'Other',value:other,className:'color4',colorCode:'#BFC3D1'}
-                        ];
-                        $scope.details.totalCostBreakdown = costData.total;
-                        $scope.order = function(predicate, reverse) {
-                            $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
-                        };
-                        $scope.order('-value',false);
-                        $timeout(function(){
-                             $scope.details.pieChart=pieChart.highChart($scope.costBreakdownChartInfo);
+                         sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
+                         if (sum < 100) {
+                             other = 100 - sum;
+                         }
+                         $scope.details.getCostBreakdown = {
+                             inventory: costData.inventory_cost_pct,
+                             data: costData.data_cost_pct,
+                             adServing: costData.ad_serving_cost_pct,
+                             other: other
+                         };
+                         $scope.getCostBreakdownInfo = [
+                             {
+                                 name: 'Inventory',
+                                 value: costData.inventory_cost_pct,
+                                 className: 'color1',
+                                 colorCode: '#F8810E'
+                             },
+                             {
+                                 name: 'Data',
+                                 value: costData.data_cost_pct,
+                                 className: 'color2',
+                                 colorCode: '#0072BC'
+                             },
+                             {
+                                 name: 'Ad Serving',
+                                 value: costData.ad_serving_cost_pct,
+                                 className: 'color3',
+                                 colorCode: '#45CB41'
+                             },
+                             {name: 'Other', value: other, className: 'color4', colorCode: '#BFC3D1'}
+                         ];
+                         $scope.details.totalCostBreakdown = costData.total;
+                         $scope.order = function (predicate, reverse) {
+                             $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
+                         };
+                         $scope.order('-value', false);
+                         $timeout(function () {
+                             $scope.details.pieChart = pieChart.highChart($scope.costBreakdownChartInfo);
                          });
+                         if(costData.cost_transparency === false) {
+                             $scope.isCostModelTransparent = false;
+                         }
                      }
                 }
             },function(result){
@@ -387,14 +411,13 @@
                     $scope.loadingPlatformFlag = false;
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
-                    function modify(obj, arr, key) { 
+                    var  modify = function(obj, arr, key) {
                         _.each(obj, function(pltformObj, index) { 
                                _.each(pltformObj.platforms, function(platform) { 
                             arr[key].push(platform);
                           
                                 })
                          })
-                    return
                     }
                     // Step 2 Data Mod Restructure of the Array on memory
                     var arr = {};
@@ -473,8 +496,8 @@
                 }
             });
         };
-        $scope.getPlatformData();
-        // Platform Ends
+
+
         
         $scope.getFormatsGraphData  = function(campaign){
             var formats;

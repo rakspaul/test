@@ -54,6 +54,11 @@
                 };
             }
 
+            var selectedBrand = brandsModel.getSelectedBrand();
+            if(selectedBrand.id !== -1) {
+                selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
+            }
+
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
             /*if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true) {

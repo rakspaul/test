@@ -11,6 +11,10 @@
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
     });
+
+    var selectedBrand = brandsModel.getSelectedBrand();
+    $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+
     //Based on gauge click, load the filter and reset data set after gauge click.
     var forceLoadCampaignsFilter;
     if(gaugeModel.dashboard.selectedFilter !== '') {

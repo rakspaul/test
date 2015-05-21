@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window,campaignSelectModel, kpiSelectModel,strategySelectModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -10,6 +10,9 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
         $scope.api_return_code = 200;
         $scope.strategyMarginPercentage = -1 ;
+        var selectedBrand = brandsModel.getSelectedBrand();
+
+        var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
@@ -20,14 +23,9 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             else if ( $scope.selectedCampaign.kpi =='null')
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-//            else if (campaign.status == 'active')
-//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-
-
-
 
         $scope.filters = domainReports.getReportsTabs();
 
@@ -68,6 +66,7 @@ var angObj = angObj || {};
             $scope.costReportDownloadBusy = false;
             $scope.isStrategyDropDownShow = true;
             $scope.strategyMarginPercentage = -1 ;
+            $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -80,7 +79,10 @@ var angObj = angObj || {};
         $scope.strategiesCostData = function (param) {
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = false;
-            var errorHandler =  function() {
+            var errorHandler =  function(result) {
+                if(result && result.status == '204') {
+                    $scope.isCostModelTransparent = true;
+                }
                 $scope.dataNotFound = true;
                 $scope.strategyCostBusy = false;
                 $scope.tacticCostBusy = false;
@@ -91,6 +93,10 @@ var angObj = angObj || {};
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
+                            $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
+                            if($scope.isCostModelTransparent ===  false) {
+                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
+                            }
                             $scope.strategyCostBusy = false;
                             $scope.strategyMarginPercentage =  $scope.strategyCostData[0].margin ;
                             if(param.strategyId >0 ) {
@@ -107,12 +113,12 @@ var angObj = angObj || {};
                             }
                         }
                         else{
-                            errorHandler();
+                            errorHandler(result);
                         }
                     }
                     else {
                         $scope.api_return_code=result.data.status;
-                        errorHandler();
+                        errorHandler(result);
                     }
                 }, errorHandler);
 
@@ -163,7 +169,8 @@ var angObj = angObj || {};
                 {
                     'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : '',
-                    'label' : 'Cost Report'
+                    'label' : 'Cost Report',
+                    'className' : 'report_cost'
                 }
             ];
         };

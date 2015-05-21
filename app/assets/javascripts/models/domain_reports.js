@@ -1,39 +1,45 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", [ function () {
+    angObj.factory("domainReports", ['loginModel', function (loginModel) {
 
         return {
             getReportsTabs : function() {
-                return {
-                    'tabs' : [
-                        {
-                            href:'performance',
-                            title: 'Performance'
-                        },
-                        {
-                            href:'cost',
-                            title: 'Cost'
-                        },
-                        {
-                            href:'platform',
-                            title: 'Platform'
-                        },
-                        {
-                            href:'inventory',
-                            title: 'Inventory'
-                        },
-                        {
-                            href:'viewability',
-                            title: 'Viewability'
-                        },
-                        {
-                            href:'optimization',
-                            title: 'Optimization Impact'
-                        }
-                    ],
+                var tabs  =  [
+                    {
+                        href:'performance',
+                        title: 'Performance'
+                    },
+                    {
+                        href:'cost',
+                        title: 'Cost'
+                    },
+                    {
+                        href:'platform',
+                        title: 'Platform'
+                    },
+                    {
+                        href:'inventory',
+                        title: 'Inventory'
+                    },
+                    {
+                        href:'viewability',
+                        title: 'Viewability'
+                    },
+                    {
+                        href:'optimization',
+                        title: 'Optimization Impact'
+                    }
+                ];
 
-                    activeTab : document.location.pathname.substring(1)
+                var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+                if(!isAgencyCostModelTransparent) { //if agency level cost model is opaque
+                    tabs =  _.filter(tabs, function(obj, idx) {  return obj.href !== 'cost'});
+                }
+
+                return {
+                    'tabs' :  tabs,
+                     activeTab : document.location.pathname.substring(1)
                 }
             },
             highlightHeaderMenu : function() {
@@ -56,14 +62,29 @@
         };
     }]);
 
-    angObj.directive('downloadReport', function ($http, loginModel, dataService, apiPaths, constants, analytics) {
+    angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
         return {
             controller: function($scope, $cookieStore, $location){
+
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/download_report.html',
             link: function($scope, element, attrs) {
+                element.bind('click', function() {
+                    var locationPath = $location.path();
+                    if(loginModel.getIsAgencyCostModelTransparent()) {
+                        if(!$scope.isCostModelTransparent) {
+                            element.find("li.report_cost").addClass("download_anchor_li_disabled");
+                        }
+                    }
+                });
                 $scope.downloadPerformanceReport = function(report_url, report_name) {
+                    if(loginModel.getIsAgencyCostModelTransparent()) {
+                        if (!$scope.isCostModelTransparent && report_url.indexOf(/cost/) > 0) {
+                            return false;
+                        }
+                    }
+
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
                     else {
