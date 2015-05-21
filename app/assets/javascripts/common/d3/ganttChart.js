@@ -1050,10 +1050,8 @@
                         if(d.state.toLowerCase() == "completed") {
                             $(".calendar_tooltip").addClass('calendar_tooltip_left');
                             classTooltip = ".calendar_tooltip_left";
-                        } else {
-                            if($(".calendar_tooltip_left")[0]) {
-                                 $(".calendar_tooltip").removeClass("calendar_tooltip_left");
-                            }
+                        } else if($(".calendar_tooltip_left")[0]) {
+                            $(".calendar_tooltip").removeClass("calendar_tooltip_left");
                         }
 
                         d3.select(classTooltip)
