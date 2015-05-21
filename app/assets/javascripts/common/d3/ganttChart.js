@@ -311,62 +311,62 @@
                     .on("touchstart.zoom", null)
                     .on("touchmove.zoom", null)
                     .on("touchend.zoom", null);
-
+                var dragInitiated = false;
                 svg.call(d3.behavior.drag()
                     .on('dragstart', function() {
+                        //prevent other initiations like right click
+                        if(d3.event.sourceEvent.which == 1) {
+                            //if source is mouse drag
+                            dragInitiated = true;
+                        }
                         d3.event.sourceEvent.stopPropagation();
                     })
                     .on('drag', function() {
-                        var td = gantt.timeDomain();
-                        var scale = (td[1]-td[0])/1000;
-                        //var scale = (td[1] - td[0]) / 1000;
+                        if(dragInitiated) {
+                            var td = gantt.timeDomain();
+                            var scale = (td[1]-td[0])/1000;
 
-                        d3.event.sourceEvent.stopPropagation();
-                        //var td = gantt.timeDomain();
+                            d3.event.sourceEvent.stopPropagation();
+                            var data = _.sortBy(tasks, function(o) { return o.start_date; });
 
-
-                        var data = _.sortBy(tasks, function(o) { return o.start_date; });
-
-                        if (d3.event.dx < 0) {
-                            if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
-                                if(moment(_.first(data).endDate).toDate() > moment(td[1] - scale * d3.event.dx).toDate()) {
-                                    gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                                } else if(moment(_.first(data).endDate).toDate() < moment(td[1] - scale/10)) {
-                                    gantt.timeDomain([td[0] - scale/10 , td[1] - scale/10]);
+                            if (d3.event.dx < 0) {
+                                if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
+                                    if(moment(_.first(data).endDate).toDate() > moment(td[1] - scale * d3.event.dx).toDate()) {
+                                        gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                                    } else if(moment(_.first(data).endDate).toDate() < moment(td[1] - scale/10)) {
+                                        gantt.timeDomain([td[0] - scale/10 , td[1] - scale/10]);
+                                    } else {
+                                        navigationButtonControl("#cal_next", "disabled");
+                                    }
                                 } else {
                                     navigationButtonControl("#cal_next", "disabled");
                                 }
+                                //if user requests next duration data -  scroll the view 
+                                gantt.redraw(tasks, timeDomainString);
+                                navigationButtonControl("#cal_prev", "enabled");
+                            } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
+                                //if user asks for previous period data - check if available
+                                if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
+                                    //second line of defence to limit scroll to previous duration based on the amount of drag :)
+                                    gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                                } else {
+                                    //do a partial scroll to reach dead edge
+                                    gantt.timeDomain([td[0] - scale , td[1] - scale]);
+                                }
+                                gantt.redraw(tasks, timeDomainString);
+                                navigationButtonControl("#cal_next", "enabled");
                             } else {
-                                navigationButtonControl("#cal_next", "disabled");
+                                //disable 'previous' navigation button
+                                navigationButtonControl("#cal_prev", "disabled");
                             }
-                            //if user requests next duration data -  scroll the view 
-                            gantt.redraw(tasks, timeDomainString);
-                            navigationButtonControl("#cal_prev", "enabled");
-                        } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
-                            //if user asks for previous period data - check if available
-                            if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
-                                //second line of defence to limit scroll to previous duration based on the amount of drag :)
-                                gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                            } else {
-                                //do a partial scroll to reach dead edge
-                                gantt.timeDomain([td[0] - scale , td[1] - scale]);
-                            }
-                            gantt.redraw(tasks, timeDomainString);
-                            navigationButtonControl("#cal_next", "enabled");
-                        } else {
-                            //disable 'previous' navigation button
-                            navigationButtonControl("#cal_prev", "disabled");
-                        }
-                        // if (d3.event.dx < 0) {
-                        //     next(timeDomainString);
-                        // } else {
-                        //     prev(timeDomainString);
-                        // }
-                        
 
-                        
+                        } //dragInitiated check ends
                     })
                     .on('dragend', function() {
+                         if(d3.event.sourceEvent.which == 1) {
+                            //end the drag check 
+                            dragInitiated = false;
+                        }
                         d3.event.sourceEvent.stopPropagation();
                     }));
 
