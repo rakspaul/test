@@ -166,7 +166,8 @@ var angObj = angObj || {};
                 {
                     'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : '',
-                    'label' : 'Cost Report'
+                    'label' : 'Cost Report',
+                    'className' : 'report_cost'
                 }
             ];
         };

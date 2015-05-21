@@ -138,7 +138,8 @@ var angObj = angObj || {};
                 {
                     'report_url' : urlPath + 'cost/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_cost',
-                    'label' : 'Platform by Cost'
+                    'label' : 'Platform by Cost',
+                    'className' : 'report_cost'
                 },
                 {
                     'report_url' : urlPath + 'viewability/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
