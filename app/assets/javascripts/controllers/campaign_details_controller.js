@@ -384,7 +384,6 @@
             $scope.api_return_code = 200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.loadingPlatformFlag = false;
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
                     function modify(obj, arr, key) { 
@@ -420,6 +419,15 @@
                         $scope.chartDataTwo = b[0][kpiModel];
                         $scope.chartDataThree = b[0][kpiModel];
                         }
+                       
+                    // if Data is not availble
+                    if ($scope.chartDataOne == 0 || $scope.chartDataTwo == 0 || $scope.chartDataThree == 0 ) {
+                        $('.platform_number, .dataPlatformIconsText').hide();
+                    } else {
+                        $('.platform_number, .dataPlatformIconsText').show();
+                    }
+                       
+                        
                     // First Data Line
                     $scope.chartDataOneGross = b[0].gross_rev;
                     $scope.chartDataOneIcon = b[0].icon_url;
@@ -468,6 +476,7 @@
                       .attr("width", x)
                       .attr("height", bar_height);
                     // d3 Ends Here
+                    $scope.loadingPlatformFlag = false;
                 } else {
                     console.log(result);
                 }
