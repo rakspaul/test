@@ -286,6 +286,32 @@
           left: 45%;
         }
     }
+    .calendar_tooltip_left {
+        position: absolute;
+        z-index: 2000;
+        top: 0;
+        left: 50px;
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-align: center;
+        &:after {
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          bottom: -6px;
+          border-left: solid 6px transparent;
+          border-right: solid 6px transparent;
+          border: solid 6px transparent;
+          display: block;
+          border-bottom: 0;
+          border-top: solid 6px #000;
+          border-top-color: rgba(0,0,0,0.8);
+          left: 25%;
+        }
+    }
     .dashboard_heading {
       .tooltip_holder {
         margin-left: 10px ;
