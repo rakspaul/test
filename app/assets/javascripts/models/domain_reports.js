@@ -1,39 +1,45 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", [ function () {
+    angObj.factory("domainReports", ['loginModel', function (loginModel) {
 
         return {
             getReportsTabs : function() {
-                return {
-                    'tabs' : [
-                        {
-                            href:'performance',
-                            title: 'Performance'
-                        },
-                        {
-                            href:'cost',
-                            title: 'Cost'
-                        },
-                        {
-                            href:'platform',
-                            title: 'Platform'
-                        },
-                        {
-                            href:'inventory',
-                            title: 'Inventory'
-                        },
-                        {
-                            href:'viewability',
-                            title: 'Viewability'
-                        },
-                        {
-                            href:'optimization',
-                            title: 'Optimization Impact'
-                        }
-                    ],
+                var tabs  =  [
+                    {
+                        href:'performance',
+                        title: 'Performance'
+                    },
+                    {
+                        href:'cost',
+                        title: 'Cost'
+                    },
+                    {
+                        href:'platform',
+                        title: 'Platform'
+                    },
+                    {
+                        href:'inventory',
+                        title: 'Inventory'
+                    },
+                    {
+                        href:'viewability',
+                        title: 'Viewability'
+                    },
+                    {
+                        href:'optimization',
+                        title: 'Optimization Impact'
+                    }
+                ];
 
-                    activeTab : document.location.pathname.substring(1)
+                var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+                if(!isAgencyCostModelTransparent) { //if agency level cost model is opaque
+                    tabs =  _.filter(tabs, function(obj, idx) {  return obj.href !== 'cost'});
+                }
+
+                return {
+                    'tabs' :  tabs,
+                     activeTab : document.location.pathname.substring(1)
                 }
             },
             highlightHeaderMenu : function() {
