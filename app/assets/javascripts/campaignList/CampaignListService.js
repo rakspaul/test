@@ -169,6 +169,7 @@
           'cpa': 'gross_ecpa',
           'cpm': 'gross_ecpm'
         };
+        
       dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
         var lineData=[];
         if(result.status == "success" && !angular.isString(result.data)) {
@@ -245,7 +246,7 @@
       }
       return strategyObj;
     };
-
+  
     var getStrategyMetrics = function(index, strategyObj, timePeriod, campaign) {
       var  durationQuery= 'period=' + timePeriod;
       if(timePeriod === 'life_time') {

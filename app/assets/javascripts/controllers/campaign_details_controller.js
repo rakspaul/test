@@ -1,8 +1,8 @@
 /*global angObj*/
 (function() {
     'use strict';
-
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+                                                            
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -16,6 +16,7 @@
         $scope.loadingFormatFlag = true;
         $scope.loadingInventoryFlag = true;
         $scope.loadingScreenFlag = true;
+        $scope.loadingPlatformFlag = true;
         $scope.activityLogFilterByStatus = true;
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
@@ -121,7 +122,7 @@
                 $scope.getCostBreakdownData($scope.campaign);
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
-                //$scope.getFormatsGraphData($scope.campaign);
+                //$scope.getPlatformGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
             } else {
                 if (result.status ==='error') {
@@ -131,6 +132,8 @@
                 }
                 $scope.loadingScreenFlag = false;
                 $scope.screenTotal = 0;
+                //$scope.loadingPlatformFlag = false;
+                //$scope.platformTotal = 0;
                 $scope.loadingCostBreakdownFlag = false;
                 $scope.details.totalCostBreakdown = 0;
                 $scope.loadingInventoryFlag = false;
@@ -172,7 +175,7 @@
                 }
             });
         };
-
+    
         var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function(event, args) {
             var callbackFunctionName = args.loadingFlag == 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
@@ -365,7 +368,114 @@
                 console.log('inventory data call failed');
             });
         };
+        
+        // Platform Widget Data Connection
+        //setting selected campaign into $scope.
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
 
+        //setting selected strategy into $scope.
+        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
+        
+        $scope.getPlatformData =  function() {
+            var param = {
+                campaignId: $scope.selectedCampaign.id
+            }
+            // Set default api return code 200
+            $scope.api_return_code = 200;
+            platformService.getStrategyPlatformData(param).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.loadingPlatformFlag = false;
+                    var kpiModel = kpiSelectModel.selectedKpi;
+                    // Step 1 Data Mod holds value on memory
+                    function modify(obj, arr, key) { 
+                        _.each(obj, function(pltformObj, index) { 
+                               _.each(pltformObj.platforms, function(platform) { 
+                            arr[key].push(platform);
+                          
+                                })
+                         })
+                    return
+                    }
+                    // Step 2 Data Mod Restructure of the Array on memory
+                    var arr = {};
+                    var a = result.data.data
+                    _.each(a.platform_metrics, function(obj, idx) {  
+                    arr[idx] = []
+                    modify(obj, arr, idx);
+                    });
+                    // This Sorts the Data order by CTR or CPA
+                    var b = _.sortBy(arr.performance, kpiModel);
+                    b.reverse();
+                    
+                    // if CTR *= 100 or CPC, CPA, CPM Normal Values
+                    if (kpiModel == 'ctr') {
+                        $scope.chartDataOne = b[0][kpiModel] *= 100;
+                        $scope.chartDataOne = Math.round($scope.chartDataOne*100)/100;
+                        $scope.chartDataTwo = b[1][kpiModel] *= 100;
+                        $scope.chartDataTwo = Math.round($scope.chartDataTwo*100)/100;
+                        $scope.chartDataThree = b[2][kpiModel] *= 100;
+                        $scope.chartDataThree = Math.round($scope.chartDataThree*100)/100;
+                    } else {
+                        $scope.chartDataOne = b[0][kpiModel];
+                        $scope.chartDataTwo = b[0][kpiModel];
+                        $scope.chartDataThree = b[0][kpiModel];
+                        }
+                    // First Data Line
+                    $scope.chartDataOneGross = b[0].gross_rev;
+                    $scope.chartDataOneIcon = b[0].icon_url;
+                    $scope.chartDataOnePlatform = b[0].platform;
+                    // Second Data Line
+                    $scope.chartDataTwoGross = b[1].gross_rev;
+                    $scope.chartDataTwoIcon = b[1].icon_url;
+                    $scope.chartDataTwoPlatform = b[1].platform;
+                    // Third Data Line
+                    $scope.chartDataThreeGross = b[2].gross_rev;
+                    $scope.chartDataThreeIcon = b[2].icon_url;
+                    $scope.chartDataThreePlatform = b[2].platform;
+                    
+                    // d3 Starts Here
+                    var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
+                    
+                    var kpiCount = [$scope.chartDataOne, $scope.chartDataTwo, $scope.chartDataThree],
+                        chart,
+                        width = containerWidth,
+                        bar_height = 4,
+                        gap = 0,
+                        height = bar_height + 50;
+                   
+                    var x, y;
+                    
+                    x = d3.scale.linear()
+                       .domain([0, d3.max(kpiCount)])
+                       .range([0, width]);
+                    
+                    y = function(i) { return bar_height * i; }
+                  
+                    var left_width = 100;
+                   
+                    chart = d3.select($("#platformWidget")[0])
+                      .append('svg')
+                      .attr('class', 'chart')
+                      .attr('width', left_width + width)
+                      .attr('height', 200);
+                      
+                    chart.selectAll("rect")
+                      .data(kpiCount)
+                      .enter().append("rect")
+                      .attr("x", 0)
+                      //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
+                      .attr("y", function(d, i) { return i * 42; })
+                      .attr("width", x)
+                      .attr("height", bar_height);
+                    // d3 Ends Here
+                } else {
+                    console.log(result);
+                }
+            });
+        };
+        $scope.getPlatformData();
+        // Platform Ends
+        
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
@@ -559,6 +669,8 @@
                 utils.goToLocation('/inventory');
             } else if (type === 'view_report' || type === 'format' || type == 'screens') {
                 utils.goToLocation('/performance');
+            } else if (type === 'view_report' || type === 'format' || type == 'platform') {
+                utils.goToLocation('/platform');
             } else {
                 utils.goToLocation('/optimization');
             }

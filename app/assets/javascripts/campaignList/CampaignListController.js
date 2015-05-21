@@ -26,7 +26,7 @@
     $scope.$on("updateCampaignAsBrandChange", function(event, campaignData) {
         campaignSelectModel.setSelectedCampaign(campaignData);
     });
-
+    
       $scope.viewReports = function(campaign) {
         var selectedCampaign = {
             id : campaign.id,
