@@ -79,31 +79,29 @@ var angObj = angObj || {};
 
             $scope.performanceBusy = true;
             $scope.costBusy = true;
-            $scope.viewablityBusy = true;
+            $scope.viewabilityBusy = true;
 
             var tab = param.tab.substr(0, 1).toUpperCase() + param.tab.substr(1);
 
             var errorHandlerForPerformanceTab = function(result) {
-                if(result && result.status == '204') {
-                    $scope.isCostModelTransparent = true;
-                }
                 $scope.dataNotFoundForPerformance = true;
                 $scope.dataNotFoundForCost = true;
-                $scope.dataNotFoundForViewablity = true;
+                $scope.dataNotFoundForViewability = true;
             }
 
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
-                    $scope.isCostModelTransparentMsg = result.data.data.message;
                     $scope.performanceBusy = false;
                     $scope.costBusy = false;
-                    $scope.viewablityBusy = false;
-                    //$timeout(function() {
-                        $scope['strategyDataBy'+tab]  = result.data.data;
-                        console.log(result.data.data);
-                    //}, 50)
+                    $scope.viewabilityBusy = false;
+                    if($scope.isCostModelTransparent === false && result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
+                        errorHandlerForPerformanceTab();
+                    } else {
+                        $scope.isCostModelTransparentMsg = result.data.data.message;
+                        $scope['strategyDataBy' + tab] = result.data.data;
+                    }
                 } else {
                     errorHandlerForPerformanceTab(result);
                 }
@@ -175,16 +173,16 @@ var angObj = angObj || {};
         $scope.resetVariables =  function() {
             $scope.performanceBusy = false;
             $scope.costBusy = false;
-            $scope.viewablityBusy = false;
+            $scope.viewabilityBusy = false;
 
             $scope.strategyDataByPerformance = [];
             $scope.strategyDataByCost = [];
-            $scope.strategyDataByViewablity = [];
+            $scope.strategyDataByViewability = [];
 
 
             $scope.dataNotFoundForPerformance = false;
             $scope.dataNotFoundForCost = false;
-            $scope.dataNotFoundForViewablity = false;
+            $scope.dataNotFoundForViewability = false;
         };
 
         //event handler which toggle platform
