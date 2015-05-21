@@ -432,16 +432,13 @@
                     
                     // if CTR *= 100 or CPC, CPA, CPM Normal Values
                     if (kpiModel == 'ctr') {
-                        $scope.chartDataOne = sortedData[0][kpiModel] *= 100;
-                        $scope.chartDataOne = Math.round($scope.chartDataOne*100)/100;
-                        $scope.chartDataTwo = sortedData[1][kpiModel] *= 100;
-                        $scope.chartDataTwo = Math.round($scope.chartDataTwo*100)/100;
-                        $scope.chartDataThree = sortedData[2][kpiModel] *= 100;
-                        $scope.chartDataThree = Math.round($scope.chartDataThree*100)/100;
+                        $scope.chartDataOne = Number((sortedData[0][kpiModel]*100).toFixed(2))
+                        $scope.chartDataTwo = Number((sortedData[1][kpiModel]*100).toFixed(2))
+                        $scope.chartDataThree = Number((sortedData[2][kpiModel]*100).toFixed(2))
                     } else {
                         $scope.chartDataOne = sortedData[0][kpiModel];
-                        $scope.chartDataTwo = sortedData[0][kpiModel];
-                        $scope.chartDataThree = sortedData[0][kpiModel];
+                        $scope.chartDataTwo = sortedData[1][kpiModel];
+                        $scope.chartDataThree = sortedData[2][kpiModel];
                     }
 
                     // if Data is 0
