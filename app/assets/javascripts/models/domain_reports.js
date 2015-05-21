@@ -56,14 +56,29 @@
         };
     }]);
 
-    angObj.directive('downloadReport', function ($http, loginModel, dataService, apiPaths, constants, analytics) {
+    angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
         return {
             controller: function($scope, $cookieStore, $location){
+
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/download_report.html',
             link: function($scope, element, attrs) {
+                element.bind('click', function() {
+                    var locationPath = $location.path();
+                    if(loginModel.getIsAgencyCostModelTransparent()) {
+                        if(!$scope.isCostModelTransparent) {
+                            element.find("li.report_cost").addClass("download_anchor_li_disabled");
+                        }
+                    }
+                });
                 $scope.downloadPerformanceReport = function(report_url, report_name) {
+                    if(loginModel.getIsAgencyCostModelTransparent()) {
+                        if (!$scope.isCostModelTransparent && report_url.indexOf(/cost/) > 0) {
+                            return false;
+                        }
+                    }
+
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
                     else {
