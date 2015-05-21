@@ -83,12 +83,12 @@
                                               Platform ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                                           </div>
                                           <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
-                                          <div  ng-if="((chartDataOne.length == 0 || !(chartDataOne)) && loadingPlatformFlag == false)" ng-if="platformDataNotFound" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
-                                          <div class="clearfix each_section_graph" ng-if="!platformDataNotFound">
-                                              <div class="platform_number">
+                                          <div  ng-if="(chartDataOne == 0 || campaign.kpiType =='null' ) && loadingPlatformFlag == false" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
+                                          <div class="clearfix each_section_graph" >
+                                              <div class="platform_number" ng-if="campaign.kpiType !='null' && chartDataOne>0">
                                                 Top 3
                                               </div>
-                                              <div class="dataPlatformIconsText">
+                                              <div class="dataPlatformIconsText" ng-if="campaign.kpiType !='null' && chartDataOne>0">
                                                 <div class="widgetPlatformString">
                                                   <img src="{{chartDataOneIcon}}" alt="" height='15'/>
                                                   <span>{{chartDataOnePlatform}}</span>

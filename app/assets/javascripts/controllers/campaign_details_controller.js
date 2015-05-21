@@ -18,6 +18,7 @@
         $scope.loadingScreenFlag = true;
         $scope.loadingPlatformFlag = true;
         $scope.activityLogFilterByStatus = true;
+
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.campaigns = new Campaigns();
@@ -406,16 +407,15 @@
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
-            $scope.platformDataFound = true;
             platformService.getStrategyPlatformData(param).then(function (result) {
+                $scope.loadingPlatformFlag = false;
                 if (result.status === "OK" || result.status === "success") {
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
                     var  modify = function(obj, arr, key) {
                         _.each(obj, function(pltformObj, index) { 
                                _.each(pltformObj.platforms, function(platform) { 
-                            arr[key].push(platform);
-                          
+                                    arr[key].push(platform);
                                 })
                          })
                     }
@@ -423,8 +423,8 @@
                     var arr = {};
                     var resultData = result.data.data
                     _.each(resultData.platform_metrics, function(obj, idx) {  
-                    arr[idx] = []
-                    modify(obj, arr, idx);
+                        arr[idx] = []
+                        modify(obj, arr, idx);
                     });
                     // This Sorts the Data order by CTR or CPA
                     var sortedData = _.sortBy(arr.performance, kpiModel);
@@ -442,32 +442,25 @@
                         $scope.chartDataOne = sortedData[0][kpiModel];
                         $scope.chartDataTwo = sortedData[0][kpiModel];
                         $scope.chartDataThree = sortedData[0][kpiModel];
-                        }
-                    // First Data Line
-                    $scope.chartDataOneGross = sortedData[0].gross_rev;
-                    $scope.chartDataOneIcon = sortedData[0].icon_url;
-                    $scope.chartDataOnePlatform = sortedData[0].platform;
-                    // Second Data Line
-                    $scope.chartDataTwoGross = sortedData[1].gross_rev;
-                    $scope.chartDataTwoIcon = sortedData[1].icon_url;
-                    $scope.chartDataTwoPlatform = sortedData[1].platform;
-                    // Third Data Line
-                    $scope.chartDataThreeGross = sortedData[2].gross_rev;
-                    $scope.chartDataThreeIcon = sortedData[2].icon_url;
-                    $scope.chartDataThreePlatform = sortedData[2].platform;
-                    
+                    }
+
                     // if Data is 0
-                    if ($scope.chartDataOne == 0 || $scope.chartDataTwo == 0 || $scope.chartDataThree == 0) {
-                        //$('.platform_number, .dataPlatformIconsText').hide();
-                        $scope.platformDataFound = true;
-                        
-                    } else {
-                        //$('.platform_number, .dataPlatformIconsText').show();
-                        
-                    
+                    if ($scope.chartDataOne >  0 || $scope.chartDataTwo > 0 || $scope.chartDataThree > 0) {
+                        // First Data Line
+                        $scope.chartDataOneGross = sortedData[0].gross_rev;
+                        $scope.chartDataOneIcon = sortedData[0].icon_url;
+                        $scope.chartDataOnePlatform = sortedData[0].platform;
+                        // Second Data Line
+                        $scope.chartDataTwoGross = sortedData[1].gross_rev;
+                        $scope.chartDataTwoIcon = sortedData[1].icon_url;
+                        $scope.chartDataTwoPlatform = sortedData[1].platform;
+                        // Third Data Line
+                        $scope.chartDataThreeGross = sortedData[2].gross_rev;
+                        $scope.chartDataThreeIcon = sortedData[2].icon_url;
+                        $scope.chartDataThreePlatform = sortedData[2].platform;
+
                         // d3 Starts Here
                         var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
-                        
                         var kpiCount = [$scope.chartDataOne, $scope.chartDataTwo, $scope.chartDataThree],
                             chart,
                             width = containerWidth,
@@ -500,14 +493,12 @@
                           .attr("width", x)
                           .attr("height", bar_height);
                         // d3 Ends Here
-                        
-                        $scope.platformDataNotFound = false;
                     }
-                    // Hides Preloader
-                    $scope.loadingPlatformFlag = false;
                 } else {
-                    console.log(result);
+                    console.log('Platform data call failed');
                 }
+            }, function() {
+                console.log('Platform data call failed');
             });
         };
 
