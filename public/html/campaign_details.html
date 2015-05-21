@@ -70,49 +70,50 @@
                 </div>
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
+
                   <div class="clearfix ">
                         <div class="col-md-12">
                               <div class="carousel slide" id="myCarousel">
                                 <div class="carousel-inner">
                                   <div class="item active">
                                     <div class="col-xs-3">
-                                  <!-- Platform Widget Starts Here -->
-                                    <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_platform" >
-                                        <div class="graph_heading">
-                                            Platform ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                        </div>
-                                        <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
-                                        <div  ng-if="((chartDataOne.length == 0 || !(chartDataOne)) && loadingPlatformFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
-                                        <div class="clearfix each_section_graph">
-                                            <div class="platform_number">
-                                              Top 3
-                                            </div>
-                                            <div class="dataPlatformIconsText">
-                                              <div class="widgetPlatformString">
-                                                <img src="{{chartDataOneIcon}}" alt="" height='15'/>
-                                                <span>{{chartDataOnePlatform}}</span>
-                                                <span>{{chartDataOne}}&#37;</span>
+                                      <!-- Platform Widget Starts Here -->
+                                      <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_platform" >
+                                          <div class="graph_heading">
+                                              Platform ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
+                                          </div>
+                                          <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
+                                          <div  ng-if="((chartDataOne.length == 0 || !(chartDataOne)) && loadingPlatformFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
+                                          <div class="clearfix each_section_graph">
+                                              <div class="platform_number">
+                                                Top 3
                                               </div>
-                                              <div class="widgetPlatformString">
-                                                <img src="{{chartDataTwoIcon}}" alt="" height='15'/>
-                                                <span>{{chartDataTwoPlatform}}</span>
-                                                <span>{{chartDataTwo}}&#37;</span>
+                                              <div class="dataPlatformIconsText">
+                                                <div class="widgetPlatformString">
+                                                  <img src="{{chartDataOneIcon}}" alt="" height='15'/>
+                                                  <span>{{chartDataOnePlatform}}</span>
+                                                  <span>{{chartDataOne}}&#37;</span>
+                                                </div>
+                                                <div class="widgetPlatformString">
+                                                  <img src="{{chartDataTwoIcon}}" alt="" height='15'/>
+                                                  <span>{{chartDataTwoPlatform}}</span>
+                                                  <span>{{chartDataTwo}}&#37;</span>
+                                                </div>
+                                                <div class="widgetPlatformString">
+                                                  <img src="{{chartDataThreeIcon}}" alt="" height='15'/>
+                                                  <span>{{chartDataThreePlatform}}</span>
+                                                  <span>{{chartDataThree}}&#37;</span>
+                                                </div>
                                               </div>
-                                              <div class="widgetPlatformString">
-                                                <img src="{{chartDataThreeIcon}}" alt="" height='15'/>
-                                                <span>{{chartDataThreePlatform}}</span>
-                                                <span>{{chartDataThree}}&#37;</span>
+                                              <div id="platformWidget"></div>
+                                              <div ng-repeat="data in details.platform track by $index" class="each_bar_section_holder">
+                                                <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
+                                                <div class="each_bar_graph" ng-style="{'width':100-((details.platformTop.kpi_value-data.kpi_value)*100/details.platformTop.kpi_value) +'%'};"></div>
                                               </div>
-                                            </div>
-                                            <div id="platformWidget"></div>
-                                            <div ng-repeat="data in details.platform track by $index" class="each_bar_section_holder">
-                                              <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
-                                              <div class="each_bar_graph" ng-style="{'width':100-((details.platformTop.kpi_value-data.kpi_value)*100/details.platformTop.kpi_value) +'%'};"></div>
-                                            </div>
-                                        </div>
+                                          </div>
+                                       <!-- Platform Widget Ends Here -->
+                                      </div>
                                     </div>
-                                    </div>
-                                     <!-- Platform Widget Ends Here -->
                                   </div>
                                   <div class="item active">
                                     <div class="col-xs-3">
@@ -215,7 +216,6 @@
                               </div>
                         </div>                  
                   </div>
-                   
                 </div>
 
                 <!--graph holder ends-->

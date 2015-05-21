@@ -419,15 +419,6 @@
                         $scope.chartDataTwo = b[0][kpiModel];
                         $scope.chartDataThree = b[0][kpiModel];
                         }
-                       
-                    // if Data is not availble
-                    if ($scope.chartDataOne == 0 || $scope.chartDataTwo == 0 || $scope.chartDataThree == 0 ) {
-                        $('.platform_number, .dataPlatformIconsText').hide();
-                    } else {
-                        $('.platform_number, .dataPlatformIconsText').show();
-                    }
-                       
-                        
                     // First Data Line
                     $scope.chartDataOneGross = b[0].gross_rev;
                     $scope.chartDataOneIcon = b[0].icon_url;
@@ -440,6 +431,13 @@
                     $scope.chartDataThreeGross = b[2].gross_rev;
                     $scope.chartDataThreeIcon = b[2].icon_url;
                     $scope.chartDataThreePlatform = b[2].platform;
+                    
+                    // if Data is 0
+                    if ($scope.chartDataOne == 0 || $scope.chartDataTwo == 0 || $scope.chartDataThree == 0) {
+                        $('.platform_number, .dataPlatformIconsText').hide();
+                    } else {
+                        $('.platform_number, .dataPlatformIconsText').show();
+                    }
                     
                     // d3 Starts Here
                     var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
@@ -472,10 +470,12 @@
                       .enter().append("rect")
                       .attr("x", 0)
                       //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
-                      .attr("y", function(d, i) { return i * 42; })
+                      .attr("y", function(d, i) { return i * 33; })
                       .attr("width", x)
                       .attr("height", bar_height);
                     // d3 Ends Here
+                    
+                    // Hides Preloader
                     $scope.loadingPlatformFlag = false;
                 } else {
                     console.log(result);
@@ -678,8 +678,6 @@
                 utils.goToLocation('/inventory');
             } else if (type === 'view_report' || type === 'format' || type == 'screens') {
                 utils.goToLocation('/performance');
-            } else if (type === 'view_report' || type === 'format' || type == 'platform') {
-                utils.goToLocation('/platform');
             } else {
                 utils.goToLocation('/optimization');
             }
