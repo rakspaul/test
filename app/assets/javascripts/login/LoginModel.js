@@ -52,7 +52,7 @@
         if(data.is_network_user) {
             data.cost_transparency = true;
         }
-        console.log(data);
+//        console.log(data);
         if(data.cost_transparency) {
             return data.cost_transparency;
         } else if($cookieStore.get('cdesk_session')) {
