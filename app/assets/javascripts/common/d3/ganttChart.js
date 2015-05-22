@@ -1044,8 +1044,17 @@
 
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) - 15,
-                        yPosition = (y(d.taskName) * 2) - 15 - padding;
-                        d3.select(".calendar_tooltip")
+                            yPosition = (y(d.taskName) * 2) - 15 - padding,
+                            classTooltip = ".calendar_tooltip";
+
+                        if(d.state.toLowerCase() == "completed") {
+                            $(".calendar_tooltip").addClass('calendar_tooltip_left');
+                            classTooltip = ".calendar_tooltip_left";
+                        } else if($(".calendar_tooltip_left")[0]) {
+                            $(".calendar_tooltip").removeClass("calendar_tooltip_left");
+                        }
+
+                        d3.select(classTooltip)
                             .style("display", "block")
                             .style("left", xPosition + "px")
                             .style("top", yPosition + "px")
