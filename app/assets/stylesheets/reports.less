@@ -24,8 +24,12 @@
     content: " ";
     display: block;
     border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
     background-color: rgba(33, 37, 43, 0.6);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
     width: 30px;
     height: 30px;
     background-image : url("/assets/images/cdesk/carousel_left_arrow.png") ;
@@ -1730,7 +1734,18 @@ div.strategy_total_container {
 .reports_cost_header_holder {
   margin-top: 40px ;
 }
-
+.text_next_margin_per {
+  display: inline-block;
+  width: 785px;
+}
+.margin_percentage {
+  text-align: center;
+  width: 95px ;
+  display: inline-block;
+  font-size: 14px ;
+  color: #a9a8a8 ;
+  font-family: "Avenir" ;
+}
 .reports_cost_header_holder , #reports_platform_cost_block {
   color: #313233 ;
   .common-load-icon {
@@ -1791,6 +1806,11 @@ div.strategy_total_container {
       font-size: 12px ;
       font-weight: normal;
     }
+    span.text_next_margin_per {
+        color: #21252b;
+        font-size: 18px;
+        font-family: "Avenir";
+    }
   }
   .each_cost_row_holder {
     .each_cost_row {
@@ -1847,6 +1867,13 @@ div.strategy_total_container {
           top: auto;
           left: -1px;
           width: 11px;
+        }
+      }
+      .each_cost_heading {
+        span.text_next_margin_per  {
+          color: #21252b;
+          font-size: 14px;
+          font-family: "Avenir-bold";
         }
       }
     }

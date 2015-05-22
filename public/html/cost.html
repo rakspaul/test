@@ -50,7 +50,7 @@
                                       <span class="tooltip_show_icon"></span>
                                       <div class="common_tooltip">Tech Fees is Collective's platform fees that is computed as a margin of the associated cost of Managed services + Ad execution as per the signed contract</div>
                                 </div>
-                                <span ng-if ="(strategyMarginPercentage >=0)">({{strategyMarginPercentage}}%)</span>
+                                
 
                             </div>
                             <div class="each_cost_col tenth_col total_cost">Total Spend
@@ -82,8 +82,9 @@
                             <div class="each_cost_row_holder strategy_total_row">
                                 <div class="each_cost_row">
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
-                                    <div class="each_cost_heading" ng-if="!dataNotFound">
-                                        {{strategyHeading}}
+                                    <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
+                                        <span class="pull-left text_next_margin_per">{{strategyHeading}}</span>
+                                        <span class="margin_percentage" ng-if ="(strategyMarginPercentage >=0)">{{strategyMarginPercentage}}%</span>
                                     </div>
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')">
                                     </div>
