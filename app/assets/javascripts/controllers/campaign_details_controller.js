@@ -692,6 +692,8 @@
                 utils.goToLocation('/viewability');
             } else if (type === 'inventory') {
                 utils.goToLocation('/inventory');
+            } else if (type === 'platform') {
+                utils.goToLocation('/platform');
             } else if (type === 'view_report' || type === 'format' || type == 'screens') {
                 utils.goToLocation('/performance');
             } else {
