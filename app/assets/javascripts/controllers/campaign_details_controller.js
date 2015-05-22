@@ -395,21 +395,17 @@
         };
         
         // Platform Widget Data Connection
-        //setting selected campaign into $scope.
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-
-        //setting selected strategy into $scope.
-        $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
-        
         $scope.getPlatformData =  function() {
             var param = {
-                campaignId: $scope.selectedCampaign.id
+                campaignId: $scope.campaign.orderId,
+                strategyId: 0
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
-                if (result.status === "OK" || result.status === "success") {
+                $scope.chartDataOne=0;
+                if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
                     var  modify = function(obj, arr, key) {
