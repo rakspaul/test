@@ -45,7 +45,12 @@
                             <div class="each_cost_col sev_col">Research</div>
                             <div class="each_cost_col eight_col">Ad Verification</div>
                             <div class="each_cost_col ninth_col">Tech Fees
-                                <span ng-if ="(strategyMarginPercentage >=0)">({{strategyMarginPercentage}}%)</span>
+                                <div class="tooltip_holder">
+                                      <span class="tooltip_show_icon"></span>
+                                      <div class="common_tooltip">Tech Fees is Collective's platform fees that is computed as a margin of the associated cost of Managed services + Ad execution as per the signed contract</div>
+                                </div>
+                                
+
                             </div>
                             <div class="each_cost_col tenth_col total_cost">Total Spend
                             </div>
@@ -81,8 +86,9 @@
                                 <div class="each_cost_row">
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')"></div>
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
-                                    <div class="each_cost_heading" ng-if="!dataNotFound">
-                                        {{strategyHeading}}
+                                    <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
+                                        <span class="pull-left text_next_margin_per">{{strategyHeading}}</span>
+                                        <span class="margin_percentage" ng-if ="(strategyMarginPercentage >=0)">{{strategyMarginPercentage}}%</span>
                                     </div>
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
                                         <div class="each_cost_col first_col">{{strategy.impressions | number:0}}</div>
