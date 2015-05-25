@@ -424,7 +424,7 @@
                     });
 
                     sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
-                    sortedData.reverse();
+                    sortedData = sortedData.reverse().slice(0, 3);
 
                     $scope.chartDataPlatform = [];
 
@@ -436,10 +436,13 @@
                     $scope.chartData = _.pluck($scope.chartDataPlatform, 'value');
                     console.log($scope.chartDataPlatform);
 
+                    if($scope.chartData.length < 3)
+                        $scope.disableLabel = {'visibility': 'hidden'};
+
                     if ($scope.chartData && $scope.chartData.length >  0) {
                         // d3 Starts Here
                         var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
-                        var kpiCount = [$scope.chartData],
+                        var kpiCount = $scope.chartData,
                             chart,
                             width = containerWidth,
                             bar_height = 4,

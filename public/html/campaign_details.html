@@ -135,11 +135,11 @@
                                         <div  ng-if="((chartData && chartData.length === 0) || campaign.kpiType =='null' ) && loadingPlatformFlag == false" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
                                         <div class="clearfix each_section_graph" >
                                             <div class="platform_number" ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
-                                                Top 3
+                                                <span ng-style="disableLabel"> Top 3</span>
                                             </div>
-                                            <div class="dataPlatformIconsText"  ng-repeat="pdata in chartDataPlatform track by $index"  ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
-                                                <div class="widgetPlatformString">
-                                                    <div class="imgContainer"><img src="{{pdata.icon_url}}" alt="" height='15'/></div>
+                                            <div class="dataPlatformIconsText">
+                                                <div class="widgetPlatformString" ng-repeat="pdata in chartDataPlatform track by $index" >
+                                                    <div class="imgContainer"><img ng-src="{{pdata.icon_url==='Unknown' ? '/assets/images/platform_logos/platform_logo.png':pdata.icon_url}}" height='15'/></div>
                                                     <span>{{pdata.platform}}</span>
                                                     <span>&nbsp;{{pdata.value}}&#37;</span>
                                                 </div>
