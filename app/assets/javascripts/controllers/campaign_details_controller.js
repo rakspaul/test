@@ -404,7 +404,8 @@
             $scope.api_return_code = 200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
-                $scope.chartDataOne=0;
+                $scope.chartDataPlatform = [];
+                $scope.chartData = [];
                 if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
@@ -426,14 +427,15 @@
                     sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
                     sortedData = sortedData.reverse().slice(0, 3);
 
-                    $scope.chartDataPlatform = [];
+
 
                     _.each(sortedData, function(data, idx) {
-                        kpiData = (data.ctr) ? Number((data[kpiModel] * 100).toFixed(2)) : data[kpiModel];
+                        kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                         $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'icon_url' : data.icon_url, 'platform' : data.platform, 'value' : kpiData});
                     });
 
-                    $scope.chartData = _.pluck($scope.chartDataPlatform, 'value');
+                    $scope.chartDataPlatform = _.filter($scope.chartDataPlatform, function(obj) { return obj.value >0});
+                    $scope.chartData = _.compact(_.pluck($scope.chartDataPlatform, 'value'));
 
                     if($scope.chartData.length < 3)
                         $scope.disableLabel = {'visibility': 'hidden'};
