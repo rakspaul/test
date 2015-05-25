@@ -434,7 +434,6 @@
                     });
 
                     $scope.chartData = _.pluck($scope.chartDataPlatform, 'value');
-                    console.log($scope.chartDataPlatform);
 
                     if($scope.chartData.length < 3)
                         $scope.disableLabel = {'visibility': 'hidden'};
