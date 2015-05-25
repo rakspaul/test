@@ -132,26 +132,16 @@
                                             Platform ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                                         </div>
                                         <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
-                                        <div  ng-if="(chartDataOne == 0 || campaign.kpiType =='null' ) && loadingPlatformFlag == false" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
+                                        <div  ng-if="((chartData && chartData.length === 0) || campaign.kpiType =='null' ) && loadingPlatformFlag == false" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
                                         <div class="clearfix each_section_graph" >
-                                            <div class="platform_number" ng-if="campaign.kpiType !='null' && chartDataOne>0">
+                                            <div class="platform_number" ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
                                                 Top 3
                                             </div>
-                                            <div class="dataPlatformIconsText" ng-if="campaign.kpiType !='null' && chartDataOne>0">
+                                            <div class="dataPlatformIconsText"  ng-repeat="pdata in chartDataPlatform track by $index"  ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
                                                 <div class="widgetPlatformString">
-                                                    <div class="imgContainer"><img src="{{chartDataOneIcon}}" alt="" height='15'/></div>
-                                                    <span>{{chartDataOnePlatform}}</span>
-                                                    <span>&nbsp;{{chartDataOne}}&#37;</span>
-                                                </div>
-                                                <div class="widgetPlatformString">
-                                                    <div class="imgContainer"><img src="{{chartDataTwoIcon}}" alt="" height='15'/></div>
-                                                    <span>{{chartDataTwoPlatform}}</span>
-                                                    <span>&nbsp;{{chartDataTwo}}&#37;</span>
-                                                </div>
-                                                <div class="widgetPlatformString">
-                                                    <div class="imgContainer"><img src="{{chartDataThreeIcon}}" alt="" height='15'/></div>
-                                                    <span>{{chartDataThreePlatform}}</span>
-                                                    <span>&nbsp;{{chartDataThree}}&#37;</span>
+                                                    <div class="imgContainer"><img src="{{pdata.icon_url}}" alt="" height='15'/></div>
+                                                    <span>{{pdata.platform}}</span>
+                                                    <span>&nbsp;{{pdata.value}}&#37;</span>
                                                 </div>
                                             </div>
                                             <div id="platformWidget"></div>
