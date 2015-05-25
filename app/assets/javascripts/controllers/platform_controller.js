@@ -84,6 +84,9 @@ var angObj = angObj || {};
             var tab = param.tab.substr(0, 1).toUpperCase() + param.tab.substr(1);
 
             var errorHandlerForPerformanceTab = function(result) {
+                if(tab === 'Cost' && result && result.status === 204) {
+                    $scope.isCostModelTransparent = true;
+                }
                 $scope.dataNotFoundForPerformance = true;
                 $scope.dataNotFoundForCost = true;
                 $scope.dataNotFoundForViewability = true;
