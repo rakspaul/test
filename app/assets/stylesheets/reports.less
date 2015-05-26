@@ -9,10 +9,19 @@
   .carousel-inner .active.left { left: -25%; }
   .carousel-inner .next        { left:  25%; }
   .carousel-inner .prev    { left: -25%; }
-  .carousel-control        { width:  4%; z-index : 2;}
-  .carousel-control:hover, .carousel-control:focus {
+  .carousel-control        { 
+    width: 4% ; 
+    z-index: 2 ; 
     opacity: 1 ;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    top: 48% ;
+    height: 30px ;
+    margin: 0px !important ;
+    width: 30px ;
   }
+  
   .carousel-control.left,.carousel-control.right {margin-left:15px;background-image:none;}
   .col-md-12 {
     padding: 0 ;
@@ -29,7 +38,7 @@
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-    background-color: rgba(33, 37, 43, 0.6);
+    background-color:  rgba(33, 37, 43, 0.6);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
@@ -43,6 +52,22 @@
     background-image : url("/assets/images/cdesk/carousel_right_arrow.png") ;
     background-repeat: no-repeat;
     background-position: center center ;
+  }
+  .carousel-control:hover, .carousel-control:focus {
+    opacity: 1 ;
+    .glyphicon-chevron-right:before , .glyphicon-chevron-left:before {
+      background-color:  rgba(33, 37, 43, 0.8);
+    }
+  }
+  .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-prev, .carousel-control .icon-next {
+    margin: 0px ;
+    top: 0px ;
+  }
+  .carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
+    right: 5px ;
+  }
+  .carousel-control .icon-prev, .carousel-control .glyphicon-chevron-left {
+    left: 5px ;
   }
 }
 .each_cost_col {
@@ -1575,7 +1600,6 @@ div.strategy_total_container {
       text-align:left;
     }*/
     .platform_aggregation_row{
-      font-weight:bold;
       font-size:15px;
       background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 9px;
       height: 25px;
