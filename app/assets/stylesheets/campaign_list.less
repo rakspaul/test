@@ -1480,6 +1480,7 @@ button, i, input[type="submit"] {
   background-repeat: no-repeat;
   background-position: top left;
   background-size: contain ;
+  margin-right: 8px ;
 }
 .completed_campaign_status_icon {
   background-image : url("/assets/images/statusWidget/completed_icon.png") ;
@@ -1495,6 +1496,7 @@ button, i, input[type="submit"] {
 }
 .paused_campaign_status_icon {
   background-image : url("/assets/images/statusWidget/paused_icon.png")  ;
+  width: 10px ;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -1638,6 +1640,23 @@ button, i, input[type="submit"] {
       .each_campaign_section {
         float: left;
       }
+      .main_heading {
+        font-size: 18px ;
+        color: #21252b ;
+        line-height: 24px ;
+        .AvenirBold() ;
+        word-wrap: break-word;
+        a {
+          color: #000;
+          text-decoration: none;
+        }
+      }
+      .heading {
+          color: #57606d ;
+          font-size: 14px ;
+          margin-top: 2px ;
+          margin-left: 20px ;
+      }
       .campaign_section_KPI {
         width : 300px ;
         float: right;
@@ -1780,22 +1799,7 @@ button, i, input[type="submit"] {
             }
           }
         }
-        .main_heading {
-          font-size: 16px ;
-          color: #000 ;
-          line-height: 24px ;
-          .AvenirBold() ;
-          word-wrap: break-word;
-          a {
-            color: #000;
-            text-decoration: none;
-          }
-        }
-        .heading {
-          color: #727272 ;
-          font-size: 14px ;
-          margin-top: 10px ;
-        }
+
       }
       .first_section {
         height: 8px ;
@@ -1934,7 +1938,7 @@ button, i, input[type="submit"] {
   .metric_graph {
     .full_metric_graph {
       position: relative;
-      height: 8px;
+      height: 4px;
       width: 100%;
       border-radius: 4px;
       -moz-border-radius: 4px;
