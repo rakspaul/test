@@ -210,7 +210,7 @@ var angObj = angObj || {};
             $scope.resetVariables();
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
-            $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
+            $scope.selected_filters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
         }
