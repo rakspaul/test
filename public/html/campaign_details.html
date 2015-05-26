@@ -77,7 +77,7 @@
                         <div class="carousel-inner">
                             <div class="item active">
                                 <div class="col-xs-3">
-                                    <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
+                                    <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder first_bar_section_graph_holder">
                                         <div class="graph_heading">
                                             Screens ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                                         </div>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="item active" ng-if="isCostModelTransparent">
                                 <div class="col-xs-3">
-                                    <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder">
+                                    <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder_cost">
                                         <div class="graph_heading">
                                             Cost Breakdown
                                         </div>
