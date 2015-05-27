@@ -15,7 +15,7 @@
                       </a>
                   </div>
 
-                <div >
+                <div ng-show="is_network_user">
                     <!-- action filter -->
                     <form  ng-controller="ActionsController" id="crActivityForm" >
                         <div class="action_filter_holder">
@@ -141,7 +141,7 @@
                             </span>
                           </span>
                       </div>
-                      <div class="clearfix common_graph_legend"  >
+                      <div class="clearfix common_graph_legend"  ng-show="is_network_user" >
                        <div class="clearfix graph_legends internal_legend">
                          <span class="legend"></span>
                          <span class="legend_text">Internal</span>
@@ -157,7 +157,7 @@
                           <div class="pull-left">
                               Activity Log
                           </div>
-                          <div class="pull-right activity_external_dd">
+                          <div ng-show="is_network_user" class="pull-right activity_external_dd">
 
                                   <div class="dropdown" ng-init="actionsFilter = {make_external: true}" id="details_activity_external_dd">
                                         <span class="dropdown_ul_text" data-toggle="dropdown">
@@ -175,7 +175,7 @@
 
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
-                          <div  class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index">
+                          <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index">
 
 
                               <div class="pull-left activity_points">
@@ -205,7 +205,7 @@
 
 
 
-                              <div class="pull-right activity_edit_holder">
+                              <div ng-show="is_network_user" class="pull-right activity_edit_holder">
                                   <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
                                   </div>
                                   <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
@@ -214,7 +214,7 @@
                           </div>
 
 
-                          <div  ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
+                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
 
                               <div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >Click for detailed reports</div>
                               <div class="pull-left activity_points">
