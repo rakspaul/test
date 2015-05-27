@@ -86,11 +86,11 @@
                     <span class="detail_val">{{strategy.totalImpressions | number}}</span>
                     <span>Imps.</span>
                 </div>
-                <div class="each_metric_graph_details">
+                <div class="each_metric_graph_details metric_graph_details_ctr">
                     <span class="detail_val">{{strategy.ctr | roundThisOff : 2}}% </span>
                     <span>CTR</span>
                 </div>
-                <div class="each_metric_graph_details">
+                <div class="each_metric_graph_details metric_graph_details_action">
                     <span class="detail_val">{{strategy.actionRate | roundThisOff : 2}}%</span>
                     <span>Action Rate</span>
                 </div>
@@ -100,17 +100,16 @@
             <div class="graph_details_KPI">
                 <div class="clearfix details_KPI_row1">
                     <span class="details_KPI_title">{{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | toUpperCase}}</span>
-                    <span class="cumulative_val">
+                    
+                    <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue">
+                        <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                        <span class="icon_KPI"></span>
+                    </span>
+                    <span class="pull-right cumulative_val">
                         Cumulative Value <span>{{strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
                     </span>
                 </div>
-                <div class="clearfix details_KPI_row2" ng-if="campaign.kpiValue">
-                    <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
-                    <span class="icon_KPI"></span>
-                </div>
-                <div class="clearfix details_KPI_row2" ng-if="!campaign.kpiValue">
-                    </br>
-                </div>
+                
             </div>
             <div class="graph_KPI_outer_holder">
               <span ng-switch="strategy.chart">

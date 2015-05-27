@@ -1582,9 +1582,7 @@ button, i, input[type="submit"] {
   .campaign_list_header_holder {
     background: #fff ;
     border: solid 1px #d2dee7 ;
-    border-bottom-width: 2px ;
     color: #333 ;
-    text-transform: uppercase;
     height: 60px;
     padding-top: 20px;
     margin: 0px ;
@@ -1635,7 +1633,7 @@ button, i, input[type="submit"] {
     .each_campaign_list_container {
       border: solid 1px #d2dee7 ;
       background: #fff ;
-      padding: 20px 20px 0px 12px;
+      padding: 18px 10px 0px 20px;
       margin: 0px 0 10px ;
       .each_campaign_section {
         float: left;
@@ -1655,11 +1653,15 @@ button, i, input[type="submit"] {
           color: #57606d ;
           font-size: 14px ;
           margin-top: 2px ;
-          margin-left: 20px ;
+          margin-left: 22px ;
       }
       .campaign_section_KPI {
-        width : 300px ;
+        width : 306px ;
         float: right;
+        height: 152px ;
+        .no-data-common {
+          margin-top: 20px ;
+        }
         .graph_details_KPI {
           .details_KPI_row1 {
             font-size: 16px;
@@ -1671,8 +1673,8 @@ button, i, input[type="submit"] {
             }
             .cumulative_val {
               float: right;
-              color: #acacac;
-              font-size: 14px;
+              color: #939eaf;
+              font-size: 12px;
               span {
                 font-family: "Avenir-bold" ;
                 color:  #57606d;
@@ -1686,6 +1688,7 @@ button, i, input[type="submit"] {
             font-family: "Avenir" ;
             text-align: right;
             margin-top: 0px ;
+            margin-left: 6px ;
             span {
               float: right ;
               font-family: "Avenir-bold" ;
@@ -1697,12 +1700,13 @@ button, i, input[type="submit"] {
               background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat center 3px ;
               height: 20px;
               width: 22px;
+              padding-right: 0px ;
             }
           }
         }
         .graph_KPI_outer_holder {
           height:  150px ;
-          margin-top : 10px ;
+          /*margin-top : 10px ;*/
           overflow: hidden;
           .graph_KPI_holder {
             height: 120px ;
@@ -1711,7 +1715,7 @@ button, i, input[type="submit"] {
       }
       .metric_campaign_section {
         font-family: "Avenir" ;
-        width: 300px;
+        width: 306px;
         .metric_graph_header {
           .darkBoldVal();
           .metric_title {
@@ -1724,31 +1728,43 @@ button, i, input[type="submit"] {
         .metric_graph_details {
           color: #acacac ;
           font-size: 14px ;
-          border-top: solid 1px #e5ecef;
           padding-top: 12px;
           .each_metric_graph_details {
             float: left;
             min-width: 30% ;
             margin-right: 10px;
             word-wrap: break-word;
+            font-size: 12px ;
+            color: #939eaf ;
             span {
               display: block;
             }
             span.detail_val {
               .valStyle();
+              color: #57606d ;
             }
+          }
+          .metric_graph_details_ctr {
+            text-align: center;
+              min-width: 33%;
+          }
+          .metric_graph_details_action {
+            text-align: right;
+            margin-right: 0px ;
+            float: right;
           }
         }
       }
       .campaign_list_details {
         font-family: "Avenir" ;
-        width: 310px;
-        margin: 0 40px 0 5px;
+        width: 306px;
+        margin: 5px 30px 0 20px;
         .heading_holder {
           min-height: 80px ;
           word-wrap: break-word;
         }
         .campaigns_list_buttons_holder {
+          margin-top : 38px ;
           .strategies_btn {
             float: left;
             background: #fff;
@@ -1775,7 +1791,7 @@ button, i, input[type="submit"] {
             font-family: "Avenir";
             color: #bfd0dc;
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 10px;
             height: 28px;
             cursor: pointer;
           }
@@ -1863,7 +1879,7 @@ button, i, input[type="submit"] {
     .total_days_holder {
       position: relative;
       height : 4px ;
-      max-width : 360px  ;
+      /*max-width : 360px  ;*/
       background: #cdeaff ;
       border-radius: 4px ;
       -moz-border-radius: 4px ;
@@ -1895,8 +1911,8 @@ button, i, input[type="submit"] {
       -webkit-border-radius: 4px ;
       .days_over_text {
         position: absolute;
-        top: -26px;
-        color: #44aefc;
+        top: -22px;
+        color: #0078cc;
         font-size: 12px;
         right: -35px;
         white-space: nowrap;
@@ -1912,7 +1928,7 @@ button, i, input[type="submit"] {
     }
 
     .days_not_over_text {
-      color: #44aefc;
+      color: #0078cc;
       font-size: 12px;
       position: absolute;
       top: -26px;
@@ -1926,7 +1942,7 @@ button, i, input[type="submit"] {
     .days_over:after {
       height: 12px;
       width: 12px;
-      background: #44aefc;
+      background: #0078cc;
       content: "";
       display: block;
       border-radius: 12px;
@@ -1944,7 +1960,7 @@ button, i, input[type="submit"] {
       -moz-border-radius: 4px;
       -webkit-border-radius: 4px;
       background: #f0f6ee;
-      margin: 42px 0;
+      margin: 26px 0 17px;
       .selected_graph {
         width: 0px;
         height: 100% ;
@@ -1967,23 +1983,26 @@ button, i, input[type="submit"] {
         }
         .end_point_val span {
           position: absolute;
-          top: 0px ;
+          top: 10px ;
           left: -25px ;
           line-height: 18px ;
         }
         .end_point_val span.icon_KPI {
           /*background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;*/
-          background: url("/assets/images/cdesk/sprites.png") no-repeat  #c1ccd4 -162px -135px ;
+          background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat 7px 3px ;
           padding-left: 24px;
+          color: #21252b;
+          font-size: 12px;
+          padding-right: 0px ;
         }
-        .end_point_val:after {
+        /*.end_point_val:after {
           top: 21px;
           left: -4px;
           border-right: solid 5px transparent;
           border-bottom: solid 5px transparent;
           border-top: solid 5px #c1ccd4;
           border-left: solid 5px transparent;
-        }
+        }*/
       }
       .start_end_point {
         .end_point_line {
@@ -1993,13 +2012,13 @@ button, i, input[type="submit"] {
           left: auto;
           right: 0px;
         }
-        .end_point_val:after {
+        /*.end_point_val:after {
           border-top: solid 5px rgba(0, 0, 0, 0);
           border-right: solid 5px #C1CCD4;
           border-bottom: solid 5px rgba(0, 0, 0, 0);
           top: 16px;
           left: -10px;
-        }
+        }*/
       }
       .start_beginning {
         left: 0px;
@@ -2009,14 +2028,14 @@ button, i, input[type="submit"] {
           -moz-border-radius: 4px 4px 4px 0px;
           -webkit-border-radius: 4px 4px 4px 0px;
         }
-        .end_point_val:after {
+        /*.end_point_val:after {
           top: 16px;
           left: 0px;
           border-right: solid 5px transparent;
           border-top: solid 5px transparent;
           border-left: solid 5px #c1ccd4;
           border-bottom: solid 5px transparent;
-        }
+        }*/
       }
       .graph_end_point {
         position: absolute;
@@ -2027,12 +2046,12 @@ button, i, input[type="submit"] {
           position: absolute;
           left: -25px;
         }
-        .end_point_val:after {
+        /*.end_point_val:after {
           top: 10px;
           left: -5px;
           border: solid 5px transparent;
           border-bottom: solid 5px #c1ccd4;
-        }
+        }*/
       }
       .completed_end_point {
         left: auto;
@@ -2051,13 +2070,13 @@ button, i, input[type="submit"] {
           -moz-border-radius: 4px 0px 4px 4px;
           -webkit-border-radius: 4px 0px 4px 4px;
         }
-        .end_point_val:after {
+        /*.end_point_val:after {
           top: 13px;
           left: -9px;
           border-top: solid 5px transparent;
           border-right: solid 5px #c1ccd4;
           border-bottom: solid 5px transparent;
-        }
+        }*/
       }
       .end_point_line {
         height: 12px;
@@ -2081,7 +2100,7 @@ button, i, input[type="submit"] {
           line-height: 20px ;
         }
       }
-      .end_point_val:after {
+      /*.end_point_val:after {
         height: 0;
         width: 0;
         content: "";
@@ -2091,7 +2110,7 @@ button, i, input[type="submit"] {
         left: 0;
         border: solid 5px transparent;
         border-top: solid 5px #c1ccd4;
-      }
+      }*/
     }
   }
   .metric_graph.blue {
