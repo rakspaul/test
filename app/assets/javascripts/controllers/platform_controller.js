@@ -84,6 +84,9 @@ var angObj = angObj || {};
             var tab = param.tab.substr(0, 1).toUpperCase() + param.tab.substr(1);
 
             var errorHandlerForPerformanceTab = function(result) {
+                if(tab === 'Cost' && result && result.status === 204) {
+                    $scope.isCostModelTransparent = true;
+                }
                 $scope.dataNotFoundForPerformance = true;
                 $scope.dataNotFoundForCost = true;
                 $scope.dataNotFoundForViewability = true;
@@ -207,7 +210,7 @@ var angObj = angObj || {};
             $scope.resetVariables();
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
-            $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
+            $scope.selected_filters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
         }

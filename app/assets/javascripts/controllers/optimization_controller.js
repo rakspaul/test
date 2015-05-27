@@ -201,7 +201,7 @@ var angObj = angObj || {};
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }
 
-                                    $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
+                                    $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType.toUpperCase(), actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
 
                                 }
                                 else {

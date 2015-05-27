@@ -404,7 +404,8 @@
             $scope.api_return_code = 200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
-                $scope.chartDataOne=0;
+                $scope.chartDataPlatform = [];
+                $scope.chartData = [];
                 if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
                     var kpiModel = kpiSelectModel.selectedKpi;
                     // Step 1 Data Mod holds value on memory
@@ -416,45 +417,33 @@
                          })
                     }
                     // Step 2 Data Mod Restructure of the Array on memory
-                    var arr = {};
-                    var resultData = result.data.data
+                    var arr = {}, kpiData, chartData, resultData, sortedData;
+                    resultData = result.data.data;
                     _.each(resultData.platform_metrics, function(obj, idx) {  
                         arr[idx] = []
                         modify(obj, arr, idx);
                     });
-                    // This Sorts the Data order by CTR or CPA
-                    var sortedData = _.sortBy(arr.performance, kpiModel);
-                    sortedData.reverse();
-                    
-                    // if CTR *= 100 or CPC, CPA, CPM Normal Values
-                    if (kpiModel == 'ctr') {
-                        $scope.chartDataOne = Number((sortedData[0][kpiModel]*100).toFixed(2))
-                        $scope.chartDataTwo = Number((sortedData[1][kpiModel]*100).toFixed(2))
-                        $scope.chartDataThree = Number((sortedData[2][kpiModel]*100).toFixed(2))
-                    } else {
-                        $scope.chartDataOne = sortedData[0][kpiModel];
-                        $scope.chartDataTwo = sortedData[1][kpiModel];
-                        $scope.chartDataThree = sortedData[2][kpiModel];
-                    }
 
-                    // if Data is 0
-                    if ($scope.chartDataOne >  0 || $scope.chartDataTwo > 0 || $scope.chartDataThree > 0) {
-                        // First Data Line
-                        $scope.chartDataOneGross = sortedData[0].gross_rev;
-                        $scope.chartDataOneIcon = sortedData[0].icon_url;
-                        $scope.chartDataOnePlatform = sortedData[0].platform;
-                        // Second Data Line
-                        $scope.chartDataTwoGross = sortedData[1].gross_rev;
-                        $scope.chartDataTwoIcon = sortedData[1].icon_url;
-                        $scope.chartDataTwoPlatform = sortedData[1].platform;
-                        // Third Data Line
-                        $scope.chartDataThreeGross = sortedData[2].gross_rev;
-                        $scope.chartDataThreeIcon = sortedData[2].icon_url;
-                        $scope.chartDataThreePlatform = sortedData[2].platform;
+                    sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
+                    sortedData = sortedData.reverse().slice(0, 3);
 
+
+
+                    _.each(sortedData, function(data, idx) {
+                        kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
+                        $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'icon_url' : data.icon_url, 'platform' : data.platform, 'value' : kpiData});
+                    });
+
+                    $scope.chartDataPlatform = _.filter($scope.chartDataPlatform, function(obj) { return obj.value >0});
+                    $scope.chartData = _.compact(_.pluck($scope.chartDataPlatform, 'value'));
+
+                    if($scope.chartData.length < 3)
+                        $scope.disableLabel = {'visibility': 'hidden'};
+
+                    if ($scope.chartData && $scope.chartData.length >  0) {
                         // d3 Starts Here
                         var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
-                        var kpiCount = [$scope.chartDataOne, $scope.chartDataTwo, $scope.chartDataThree],
+                        var kpiCount = $scope.chartData,
                             chart,
                             width = containerWidth,
                             bar_height = 4,
