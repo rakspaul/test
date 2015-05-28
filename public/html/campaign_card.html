@@ -65,10 +65,10 @@
                         <div class="end_point_line"></div>
                     </div>
                 </div>
-                <div class="graph_end_point completed_end_point " ng-hide="( (campaign.expectedMediaCost == campaign.totalMediaCost ) ||  (campaigns.durationLeft(campaign) == 0) ) "><!-- put completed_end_point when at end -->
+                <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="( (campaign.expectedMediaCost == campaign.totalMediaCost ) ||  (campaigns.durationLeft(campaign) == 0) ) "><!-- put completed_end_point when at end -->
                     <div class="end_point_val">
                         <div class="end_point_line"></div>
-                        <span>${{campaign.totalMediaCost | number:2}}</span>
+                        <span>Budget: ${{campaign.totalMediaCost | number:2}}</span>
                     </div>
                 </div>
             </div>
@@ -88,6 +88,7 @@
                 <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].getActionRate()}}%</span>
                 <span>Action Rate</span>
             </div> -->
+            <!-- end of ... FOR NOW COMMENTING IT -->
             <!--end of ... when action rate is present -->
             <!-- when VTC is present -->
             <div class="each_metric_graph_details  metric_graph_details_vtc">
@@ -96,7 +97,8 @@
                     <span>VTC</span>
                 </div>
                 <div class="quartile_details_VTC">
-                    <div>Quartile Details</div>
+                    <div class="quartile_details_title">Quartile Details</div>
+                    <div class="quartile_details_graph"></div>
                 </div>
             </div>
             <!--end of ... when VTC is present -->

@@ -720,7 +720,7 @@ body {
         width: 48% ;
         margin: 21px 0px;
       }
-      .col_six {
+      .col_six , .col_vtc {
         width: 48% ;
         float: right;
         margin: 10px 0 0 0;
@@ -764,7 +764,38 @@ body {
             float: left;
           }
         }
+        
       }
+      .campaign_overview_graphs {
+          .col_vtc {
+            display: none;
+          }
+      }
+      .campaign_overview_graphs_with_vtc {
+          .col_vtc {
+            display: block;
+            float: right;
+            .col_heading {
+              margin-bottom: 0px ;
+            }
+          }
+          .col_first {
+            width: 322px ;
+          }
+          .col_six {
+            float: left;
+            margin-left: 30px;
+            width: 324px ;
+          }
+          .col_vtc {
+            width: 340px ;
+          }
+          .vtc_graph {
+            width: 340px ;
+            height: 70px ;
+          }
+      }
+
     }
     .campaign_list_header_holder {
       /*border-bottom : 0px ;
@@ -812,6 +843,7 @@ body {
         margin-top: 30px ;
         .each_campaign_list_container {
           margin-bottom: 0px ;
+          padding-left: 10px ;
           .strategy_heading {
             text-transform: uppercase;
             font-size: 10px;
@@ -829,19 +861,36 @@ body {
               padding: 10px ;
               min-width: 86px;
               /*border-radius: 5px 5px 0 0;*/
+              
               background : #fff;
               color: #a2acbb;
               font-size: 10px;
-              margin-top: 30px ;
+              margin-top: 20px ;
               .open_icon {
-                margin: 3px 6px 0 0;
+                margin: 0px 6px 0 0;
+                background-image: url("/assets/images/cdesk/gamburger.png") ;
+                background-position: 0px -62px ;
+                background-repeat: no-repeat;
+                height: 12px;
+                width: 10px;
                 span {
-                  display: block;
+                  display: none;
                   height: 1px;
                   width: 12px;
                   margin-bottom: 2px;
                   background: #666;
                 }
+              }
+            }
+            .tactics_open_btn:hover {
+              background: #dde6eb ;
+            }
+            .tactic_open_class {
+              background: #f5f9fd ;
+              .open_icon {
+                background-image: url("/assets/images/cdesk/gamburger.png") ;
+                background-position: 0px 0px ;
+                background-repeat: no-repeat;
               }
             }
           }
@@ -898,13 +947,14 @@ body {
               margin-left: 12px ;
             }
             .channel_details {
-              padding-left: 30px ;
               color: #727272;
               margin-top: 40px;
-              font-size: 14px;
+              font-size: 12px;
+              color: #a2acba ;
               img {
                 display: inline-block;
                 margin-right: 5px ;
+                max-height: 20px;
               }
             }
             .tactic_accordion_details {
