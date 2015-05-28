@@ -34,7 +34,7 @@
             }
         });
 
-        var metrics = {all : ['CPA', 'CPC', 'CPM', 'CTR', 'Action Rate', 'Delivery (Impressions)']};
+        var metrics = {all : ['CPA', 'CPC', 'CPM', 'CTR', 'VTC', 'Action Rate', 'Delivery (Impressions)']};
         $scope.metrics = metrics;
 
         $scope.createAction = function () {
