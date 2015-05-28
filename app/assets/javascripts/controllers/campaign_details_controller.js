@@ -1,8 +1,8 @@
 /*global angObj*/
 (function() {
     'use strict';
-
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,kpiSelectModel , modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
+                                                            
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -16,7 +16,9 @@
         $scope.loadingFormatFlag = true;
         $scope.loadingInventoryFlag = true;
         $scope.loadingScreenFlag = true;
+        $scope.loadingPlatformFlag = true;
         $scope.activityLogFilterByStatus = true;
+
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.campaigns = new Campaigns();
@@ -27,6 +29,8 @@
             details: null,
             actionChart :true
         };
+
+        $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
@@ -52,7 +56,7 @@
         };
 
         $scope.applySortStrategies =  function() {
-            var campaignStrategiesData = _.chain($scope.campaign.campaignStrategies).sortBy($scope.details.sortParam).sortBy('name').value();
+            var campaignStrategiesData = _.chain($scope.campaign.campaignStrategies).sortBy('name').sortBy($scope.details.sortParam).value();
             $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'asc') ? campaignStrategiesData : campaignStrategiesData.reverse();
         };
 
@@ -114,14 +118,18 @@
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 //$scope.getCdbChartData($scope.campaign);
-                updateActionItems($scope.getCdbChartData,1);
+                updateActionItems($scope.getCdbChartData,1,true);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
-                $scope.getCostBreakdownData($scope.campaign);
+
+                if($scope.isCostModelTransparent) {
+                    $scope.getCostBreakdownData($scope.campaign);
+                }
+                $scope.getPlatformData();
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
-                //$scope.getFormatsGraphData($scope.campaign);
+                //$scope.getPlatformGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
             } else {
                 if (result.status ==='error') {
@@ -131,6 +139,8 @@
                 }
                 $scope.loadingScreenFlag = false;
                 $scope.screenTotal = 0;
+                //$scope.loadingPlatformFlag = false;
+                //$scope.platformTotal = 0;
                 $scope.loadingCostBreakdownFlag = false;
                 $scope.details.totalCostBreakdown = 0;
                 $scope.loadingInventoryFlag = false;
@@ -172,12 +182,13 @@
                 }
             });
         };
-
-        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function() {
+    
+        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function(event, args) {
+            var callbackFunctionName = args.loadingFlag == 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-            updateActionItems($scope.getCdbChartData,0);
+            updateActionItems(callbackFunctionName,args.loadingFlag,args.showExternal);
         });
-        function updateActionItems(callbackCDBGraph,loadingFlag) {
+        function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
             $scope.activityLogFlag = false;
             var actionUrl = urlService.APIActionData($routeParams.campaignId);
             dataService.getActionItems(actionUrl).then(function(result) {
@@ -206,8 +217,18 @@
                 } else { //if error
                     activityList.data.data = undefined;
                 }
-                if(loadingFlag == 1){
-                    callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                /* 
+                   set 0 = when Add activity no need to do anything
+                   set 1 = when page refresh initial graph loading with call back function(getCdbChartData)
+                   set 2 = when edit activity just referesh the graph with call back function(refreshGraph)   
+                */
+                switch(loadingFlag) {
+                    case 1:
+                         callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                        break;
+                    case 2:
+                        callbackCDBGraph && callbackCDBGraph(showExternal);
+                        break;        
                 }
                
             }, function(result) {
@@ -288,32 +309,50 @@
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
                 $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                     if(result.data.data.costData.length>0){
-                        costData = result.data.data.costData[0];
-                        sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
-                        if(sum < 100){
-                            other = 100 - sum;
-                        }
-                        $scope.details.getCostBreakdown = {
-                            inventory: costData.inventory_cost_pct,
-                            data: costData.data_cost_pct,
-                            adServing: costData.ad_serving_cost_pct,
-                            other: other
-                        };
-                        $scope.getCostBreakdownInfo = [
-                            {name:'Inventory',value:costData.inventory_cost_pct,className:'color1',colorCode:'#F8810E'},
-                            {name:'Data',value:costData.data_cost_pct,className:'color2',colorCode:'#0072BC'},
-                            {name:'Ad Serving',value:costData.ad_serving_cost_pct,className:'color3',colorCode:'#45CB41'},
-                            {name:'Other',value:other,className:'color4',colorCode:'#BFC3D1'}
-                        ];
-                        $scope.details.totalCostBreakdown = costData.total;
-                        $scope.order = function(predicate, reverse) {
-                            $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
-                        };
-                        $scope.order('-value',false);
-                        $timeout(function(){
-                             $scope.details.pieChart=pieChart.highChart($scope.costBreakdownChartInfo);
+                     if(result.data.data.length>0){
+                        costData = result.data.data[0];
+                         sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
+                         if (sum < 100) {
+                             other = 100 - sum;
+                         }
+                         $scope.details.getCostBreakdown = {
+                             inventory: costData.inventory_cost_pct,
+                             data: costData.data_cost_pct,
+                             adServing: costData.ad_serving_cost_pct,
+                             other: other
+                         };
+                         $scope.getCostBreakdownInfo = [
+                             {
+                                 name: 'Inventory',
+                                 value: costData.inventory_cost_pct,
+                                 className: 'color1',
+                                 colorCode: '#F8810E'
+                             },
+                             {
+                                 name: 'Data',
+                                 value: costData.data_cost_pct,
+                                 className: 'color2',
+                                 colorCode: '#0072BC'
+                             },
+                             {
+                                 name: 'Ad Serving',
+                                 value: costData.ad_serving_cost_pct,
+                                 className: 'color3',
+                                 colorCode: '#45CB41'
+                             },
+                             {name: 'Other', value: other, className: 'color4', colorCode: '#BFC3D1'}
+                         ];
+                         $scope.details.totalCostBreakdown = costData.total;
+                         $scope.order = function (predicate, reverse) {
+                             $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
+                         };
+                         $scope.order('-value', false);
+                         $timeout(function () {
+                             $scope.details.pieChart = pieChart.highChart($scope.costBreakdownChartInfo);
                          });
+                         if(costData.cost_transparency === false) {
+                             $scope.isCostModelTransparent = false;
+                         }
                      }
                 }
             },function(result){
@@ -354,7 +393,99 @@
                 console.log('inventory data call failed');
             });
         };
+        
+        // Platform Widget Data Connection
+        $scope.getPlatformData =  function() {
+            var param = {
+                campaignId: $scope.campaign.orderId,
+                strategyId: 0
+            }
+            // Set default api return code 200
+            $scope.api_return_code = 200;
+            platformService.getStrategyPlatformData(param).then(function (result) {
+                $scope.loadingPlatformFlag = false;
+                $scope.chartDataPlatform = [];
+                $scope.chartData = [];
+                if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
+                    var kpiModel = kpiSelectModel.selectedKpi;
+                    // Step 1 Data Mod holds value on memory
+                    var  modify = function(obj, arr, key) {
+                        _.each(obj, function(pltformObj, index) { 
+                               _.each(pltformObj.platforms, function(platform) { 
+                                    arr[key].push(platform);
+                                })
+                         })
+                    }
+                    // Step 2 Data Mod Restructure of the Array on memory
+                    var arr = {}, kpiData, chartData, resultData, sortedData;
+                    resultData = result.data.data;
+                    _.each(resultData.platform_metrics, function(obj, idx) {  
+                        arr[idx] = []
+                        modify(obj, arr, idx);
+                    });
 
+                    sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
+                    sortedData = sortedData.reverse().slice(0, 3);
+
+
+
+                    _.each(sortedData, function(data, idx) {
+                        kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
+                        $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'icon_url' : data.icon_url, 'platform' : data.platform, 'value' : kpiData});
+                    });
+
+                    $scope.chartDataPlatform = _.filter($scope.chartDataPlatform, function(obj) { return obj.value >0});
+                    $scope.chartData = _.compact(_.pluck($scope.chartDataPlatform, 'value'));
+
+                    if($scope.chartData.length < 3)
+                        $scope.disableLabel = {'visibility': 'hidden'};
+
+                    if ($scope.chartData && $scope.chartData.length >  0) {
+                        // d3 Starts Here
+                        var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
+                        var kpiCount = $scope.chartData,
+                            chart,
+                            width = containerWidth,
+                            bar_height = 4,
+                            gap = 0,
+                            height = bar_height + 50;
+                       
+                        var x, y;
+                        
+                        x = d3.scale.linear()
+                           .domain([0, d3.max(kpiCount)])
+                           .range([0, width]);
+                        
+                        y = function(i) { return bar_height * i; }
+                      
+                        var left_width = 100;
+                       
+                        chart = d3.select($("#platformWidget")[0])
+                          .append('svg')
+                          .attr('class', 'chart')
+                          .attr('width', left_width + width)
+                          .attr('height', 200);
+                          
+                        chart.selectAll("rect")
+                          .data(kpiCount)
+                          .enter().append("rect")
+                          .attr("x", 0)
+                          //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
+                          .attr("y", function(d, i) { return i * 33; })
+                          .attr("width", x)
+                          .attr("height", bar_height);
+                        // d3 Ends Here
+                    }
+                } else {
+                    console.log('Platform data call failed');
+                }
+            }, function() {
+                console.log('Platform data call failed');
+            });
+        };
+
+
+        
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
@@ -401,14 +532,18 @@
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var resultDataLen = result.data.data.length,
-                        campaignKpiType = campaign.kpiType.toLowerCase();
+                    var resultDataLen = 0,screensData=undefined;
+                    if (result.data.data && result.data.data.length > 0 && result.data.data[0].perf_metrics) {
+                        screensData=result.data.data[0].perf_metrics;
+                        resultDataLen = screensData.length;
+                    }
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
                     for (var i = 0; i < resultDataLen; i++) {
-                      result.data.data[i].ctr *= 100;
-                      result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+                        screensData[i].ctr *= 100;
+                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
                     }
                     if(resultDataLen>0){
-                        screens = orderBy(result.data.data, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
+                        screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
                         _.each(screens, function(screen) {
                              var screenType = screen.dimension.toLowerCase();
                              if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
@@ -542,6 +677,8 @@
                 utils.goToLocation('/viewability');
             } else if (type === 'inventory') {
                 utils.goToLocation('/inventory');
+            } else if (type === 'platform') {
+                utils.goToLocation('/platform');
             } else if (type === 'view_report' || type === 'format' || type == 'screens') {
                 utils.goToLocation('/performance');
             } else {

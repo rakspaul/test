@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  brandsModule.controller('brandsController', function ($scope, brandsModel, utils, $rootScope, constants, loginModel, analytics) {
+  brandsModule.controller('brandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics) {
 
     var search = false;
 
@@ -38,9 +38,6 @@
       fetchBrands(search);
     };
 
-      $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
-          $scope.selectBrand(brandsModel.getSelectedBrand());
-      });
 
     $scope.selectBrand = function (brand) {
       $('#brandsDropdown').attr('placeholder', brand.name).val('');
@@ -53,11 +50,11 @@
                 entry.className = '';
             }
         });
-      if(brandsModel.getSelectedBrand().id === brand.id) {
+      /*if(brandsModel.getSelectedBrand().id === brand.id) {
           return;
-      }
+      }*/
       brandsModel.setSelectedBrand(brand);
-      $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, brand);
+      brandsModel.callBrandBroadcast(brand);
       analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
     };
 

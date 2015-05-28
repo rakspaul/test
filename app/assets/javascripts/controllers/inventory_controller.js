@@ -3,8 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, requestCanceller, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, dataService, domainReports, constants, timePeriodModel, loginModel, analytics) {
 
-        //Hot fix to show the campaign tab selected
-        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
+        //highlight the header menu - Dashborad, Campaigns, Reports
+        domainReports.highlightHeaderMenu();
 
         //Default Values
 
@@ -31,7 +31,7 @@ var angObj = angObj || {};
         };
       //  $scope.selected_filters = domainReports.getDurationKpi();
 
-        $scope.filters = domainReports.getReportsDropDowns();
+        $scope.filters = domainReports.getReportsTabs();
 
         $scope.selected_filters_tb = '0';
         $scope.selected_filters_tab = 'categories';
@@ -158,13 +158,9 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
-
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.callBackCampaignsSuccess();
-
-            //TODO : NOt sure what is following check. Check if we can remove it
-
+            $scope.createDownloadReportUrl();
             $scope.inventoryChart = true;
             if ($scope.tacticList[$scope.tacticList.show][0]) {
                 $scope.tacticList[$scope.tacticList.show][0].chart = true;
@@ -336,13 +332,26 @@ var angObj = angObj || {};
             $scope.inventoryBusy = false ;
         };
 
-        $scope.callBackCampaignsSuccess = function () {
+        //creating download report url
+        $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
-            $scope.download_urls = {
-                category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
-                domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
-                fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
-            };
+            $scope.download_report = [
+                {
+                    'report_url': urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'transparency_by_site_category',
+                    'label' : 'Inventory Transparency by Site Category'
+                },
+                {
+                    'report_url' : urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'transparency_by_domain',
+                    'label' : 'Inventory Transparency by Domain'
+                },
+                {
+                    'report_url' : urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'transparency_by_url',
+                    'label' : 'Inventory Transparency by URL'
+                }
+            ];
         };
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
@@ -367,24 +376,6 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
             $scope.callBackKpiDurationChange('duration');
         });
-
-
-        $scope.downloadInventoryReport = function(report_url, report_name) {
-            if (!loginModel.cookieExists())
-                loginModel.checkCookieExpiry();
-            else {
-                $scope.invReportDownloadBusy = true;
-                dataService.downloadFile(report_url).then(function (response) {
-                    if (response.status === "success") {
-                        $scope.invReportDownloadBusy = false;
-                        saveAs(response.file, response.fileName);
-                    } else if (response.status === "error") {
-                        $scope.invReportDownloadBusy = false;
-                    }
-                });
-                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'inventory_' + report_name + '_report', loginModel.getLoginName());
-            }
-        }
 
     });
 }());

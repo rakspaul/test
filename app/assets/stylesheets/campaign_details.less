@@ -64,10 +64,15 @@ body {
   .load-more-strategies {
     margin: 30px;
     text-align: center;
-    cursor: pointer;
+    cursor: default;
+    display: block;
     a{
       text-decoration: none;
+      cursor: pointer;
     }
+  }
+  .load-more-tactics {
+      margin-top: 120px;
   }
   .dropdown-menu li {
     cursor: default;
@@ -101,14 +106,16 @@ body {
       -webkit-border-radius: 5px ;
       padding: 10px 10px 10px 30px;
       margin: 0px 0px 0px 50px;
-      background: url("/assets/images/cdesk/view_report_icon.png") no-repeat 10px 10px ;
+      /*background: url("/assets/images/cdesk/view_report_icon.png") no-repeat 10px 10px ;*/
+      background: url("/assets/images/cdesk/sprites.png") no-repeat -618px -297px ;
       &:hover {
         background-color :  #359eea ;
         color: #fff ;
-        background-position: 10px -52px  ;
+        /*background-position: 10px -52px  ;*/
+        background-position: -618px -359px  ;
       } 
     }
-    .time_period_filter {
+   /* .time_period_filter {
       margin: 8px 40px 0 0;
       background: url("/assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
       padding-left: 20px;
@@ -132,7 +139,7 @@ body {
           margin-left: 6px;
         }
       }
-    }
+    }*/
   }
   .action_filter_holder {
     border:  solid 1px #ebf0f5 ;
@@ -367,7 +374,8 @@ body {
             }
             &:hover {
               .icon-single {
-                background-image: url("/assets/images/cdesk/only_check_mark.png") ;
+                /*background-image: url("/assets/images/cdesk/only_check_mark.png") ;*/
+                background : url("/assets/images/cdesk/sprites-2.png") no-repeat  -534px -58px ;
                 opacity: 0.5 ;
               }
             }
@@ -377,12 +385,14 @@ body {
             width: 20px;
             height: 20px;
             vertical-align: text-top;
-            background: url("/assets/images/cdesk/list_checkbox.png") no-repeat top left ;
+            /*background: url("/assets/images/cdesk/list_checkbox.png") no-repeat top left ;*/
+            background : url("/assets/images/cdesk/sprites-2.png") no-repeat -532px -186px ;
           }
           .icon-ok {
-            background-image: url("/assets/images/cdesk/list_checkbox_checked.png") ;
+            /*background-image: url("/assets/images/cdesk/list_checkbox_checked.png") ;*/
+            background : url("/assets/images/cdesk/sprites-2.png") no-repeat -532px -120px ;
           }
-           .icon-single , .icon-ok2 {
+          .icon-single , .icon-ok2 {
             display: inline-block;
             width: 20px;
             height: 20px;
@@ -390,7 +400,8 @@ body {
             background:no-repeat center center ;
           }
           .icon-ok2 {
-            background-image: url("/assets/images/cdesk/only_check_mark.png") ;
+            /*background-image: url("/assets/images/cdesk/only_check_mark.png") ;*/
+            background : url("/assets/images/cdesk/sprites-2.png") no-repeat  -534px -58px ;
           }
         }
         select {
@@ -445,10 +456,18 @@ body {
     }
   }
   .campaign_details_graphs_holder {
-    margin: 8px 0 40px;
+    margin: 0px 0 40px;
     border-bottom:  solid 1px #ebf0f5 ;
     font-size: 12px;
     color: #70787e ;
+    overflow-y: hidden;
+    .campaign_details_graphs_scroll {
+      height: 250px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      width: 1300px;
+    }
     .no-data-available{
       margin : 40px auto 0 ;
       text-align: center ;
@@ -460,7 +479,7 @@ body {
       border: solid 1px transparent;
       border-right: solid 1px #ebf0f5 ;
       padding: 15px;
-      margin: 20px 0px ;
+      margin: 0px 0px 20px ;
       width: 260px;
       height: 210px;
       .graph_heading {
@@ -534,6 +553,10 @@ body {
     .each_section_graph_holder:last-child {
       margin-right: 0px ;
     }
+    .first_bar_section_graph_holder {
+      border-left: solid 1px #ebf0f5;
+      border-right: 0px ;
+    }
     .bar_section_graph_holder {
         color: #70787e ;
         font-size: 12px ;
@@ -567,7 +590,7 @@ body {
           background: #CCC ;
           width: 100% !important;
         }
-        .inventory_number {
+        .platform_number {
           color : #494646 ;
           margin-bottom: 4px ;
         }
@@ -580,6 +603,76 @@ body {
         margin-bottom: 2px ;
       }
     }
+    .bar_section_graph_holder_cost {
+      border-left : solid 1px #ebf0f5 ;
+    }
+    .bar_section_graph_holder_platform {
+      
+      .graph_heading {
+        margin-bottom: 2px ;
+      }
+      /* D3 Starts Here */
+      h2 {
+          font-size: .8em;
+          margin-left: 10px;
+      }
+      .each_section_graph{
+        position: relative;
+        .dataPlatformIconsText {
+          float: left;
+          position: absolute;
+          top: 30px;
+          left: 0;
+          z-index: 10;
+          width: 100%;
+          .widgetPlatformString{
+            float: left;
+            margin-top: 16px;
+            .imgContainer{
+              float: left;
+              width: 28px;
+              img {
+                float: left;
+              }
+            }
+            span {
+              float: left;
+              margin: 0;
+            }
+            span:last-child {
+              margin-left: 6px;
+            }
+          }
+          .widgetPlatformString:first-child{
+            margin-top: 0;
+          }
+        }
+        #platformWidget {
+          float: right;
+          width: 200px;
+          margin-top: 26px;
+          .chart {
+              background: transparent;
+              margin: 0px;
+              width: 100%;
+              float: left;
+              rect {
+                  fill: #0072bc;
+              }
+              text {
+                  fill: #000;
+              }
+              text.name {
+                  fill: #000;
+              }
+              .rule {
+                  fill: #000;
+              }
+          }
+          /* D3 Ends Here */
+          }
+        }
+      }
     .each_section_graph_holder {
       .section_graph_details {
         margin-top: 10px ;
@@ -630,20 +723,33 @@ body {
     .campaign_list_header_holder {
       border-bottom : 0px ;
       background: #fbfcff;
-      padding-left: 10px ;
+      padding-left: 2px ;
       .metrics_title {
-        margin-left: 120px ;
+        margin-left: 142px ;
         text-transform: none;
+        width: 316px;
+      }
+      .kpi_title {
+        width: 300px ;
       }
       .each_header_title {
         .sortable {
           margin-left: 5px ;
         }
+        .sortable.descending {
+          background-position: -433px -349px ;
+        }
+       /* .sortable.ascending {
+          background-position: -433px -349px ;
+        }*/
       }
       .each_header_title.active {
         color: #0978c9 ;
-        .sortable {
-          background-position: -2px -64px ;
+        .sortable.descending {
+          background-position: -433px -415px ;
+        }
+        .sortable.ascending {
+          background-position: -196px -412px;
         }
       }
       .each_header_title.deactive {
@@ -722,7 +828,7 @@ body {
             top: 50%;
             left: 0;
           }
-          .each_tactic_holder:last-child {
+          .each_tactic_holder:last-of-type {
             
               height: 140px ;
               .tactics_linkage_lines_bar {
@@ -1002,18 +1108,22 @@ body {
               height: 15px;
               width: 15px;
               margin-bottom: 12px ;
-              background: url("/assets/images/cdesk/edit_icon.png") no-repeat ;
+              /*background: url("/assets/images/cdesk/edit_icon.png") no-repeat ;*/
+             background: url("/assets/images/cdesk/sprites.png") no-repeat -168px -82px ;
             }
             .activity_edit:hover {
-              background-image : url("/assets/images/cdesk/edit_icon_hover.png");
+              /*background-image : url("/assets/images/cdesk/edit_icon_hover.png");*/
+              background: url("/assets/images/cdesk/sprites.png") no-repeat -241px -82px ;
             }
             .activity_report {
               height: 15px;
               width: 15px;
-              background: url("/assets/images/cdesk/view_report_icon_hover.png") no-repeat ;
+              /*background: url("/assets/images/cdesk/view_report_icon_hover.png") no-repeat ;*/
+              background: url("/assets/images/cdesk/sprites.png") no-repeat -628px -445px ;
             }
             .activity_report:hover {
-              background-image: url("/assets/images/cdesk/view_report_icon.png") ;
+              /*background-image: url("/assets/images/cdesk/view_report_icon.png") ;*/
+              background: url("/assets/images/cdesk/sprites.png") no-repeat -628px -307px ;
             }
           }
           .activity_main {

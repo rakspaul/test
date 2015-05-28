@@ -46,11 +46,19 @@
         );
         localStorage.setItem( 'selectedKpi', 'ctr');
         localStorage.setItem('isNavigationFromCampaigns','false');
-        /*localStorage.setItem('selectedStrategy',JSON.stringify({
-            id: '-1',
-            name : 'Loading...'
-        })
-        );*/
+    },
+
+    getIsAgencyCostModelTransparent :  function() {
+        if(data.is_network_user) {
+            data.cost_transparency = true;
+        }
+//        console.log(data);
+        if(data.cost_transparency) {
+            return data.cost_transparency;
+        } else if($cookieStore.get('cdesk_session')) {
+            data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
+            return $cookieStore.get('cdesk_session').cost_transparency;
+        }
     },
 
     getLoginName : function() {

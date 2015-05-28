@@ -51,6 +51,11 @@ var angObj = '';
                 title :  'Reports - Cost',
                 controller: 'costController'
             })
+            .when('/platform', {
+                templateUrl: assets.html_platform,
+                title :  'Reports - Platform',
+                controller: 'platformController'
+            })
             .when('/performance', {
                 templateUrl: assets.html_performance,
                 title :  'Reports - Performance',
@@ -71,11 +76,11 @@ var angObj = '';
    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
         $rootScope.version = version;
 
-        var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
-        var isNetworkUser = (networkUser === 'true' || networkUser === true);
-        var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
 
-        var handleLoginRedirection = function() {
+
+        var handleLoginRedirection = function(isNetworkUser) {
+            var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
+
             if($cookieStore.get(constants.COOKIE_SESSION)) {
                 var setDefaultPage;
                 if(cookieRedirect) {
@@ -88,38 +93,55 @@ var angObj = '';
                     setDefaultPage = isNetworkUser ? 'campaigns' : 'dashboard';
                     $location.url(setDefaultPage);
                 }
-            } else {
-                $location.url('login');
             }
         }
 
-        var locationChangeStartFunc  = $rootScope.$on('$locationChangeStart', function () {
-            $rootScope.bodyclass='';
+        var loginCheckFunc = function() {
+            var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
+            var isNetworkUser = (networkUser === 'true' || networkUser === true);
             var locationPath = $location.path();
+
             if(locationPath !== '/login') {
                 brandsModel.enable();
             }
             dataService.updateRequestHeader();
 
-            /*
-                this function will execute when location path is either login or /,
-                case- submit login button, cookie expire aur unauthorize
-            */
+            /**** if cookie is not set ***/
+            if(!$cookieStore.get(constants.COOKIE_SESSION)) {
+                $location.url('/login');
+            }
+            /* if  cost modal is opaque and some one trying to access cost direclty from the url */
+            var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+            if(!isAgencyCostModelTransparent && locationPath === '/cost') {
+                $location.url(isNetworkUser ? 'campaigns' : 'dashboard');
+            }
+
+            /* if some one try to change the authorization key or delete the key manually*/
+            var authorizationKey  = localStorage.getItem('authorizationKey');// this is getting after successful login.
+            if($cookieStore.get(constants.COOKIE_SESSION) && authorizationKey !== loginModel.getAuthToken()) {
+                loginModel.unauthorized();
+            }
+
+            /* this function will execute when location path is either login or /,
+             case- submit login button, cookie expire aur unauthorize */
+
             if (locationPath === '/login' || locationPath === '/') {
-                handleLoginRedirection();
+                handleLoginRedirection(isNetworkUser);
             }
 
             /*
-                if some one manually try to change the url when logged in as network user
-                will check from cookie if its a network user then will redirect to deafult page which in this is campaign;
+             if some one manually try to change the url when logged in as network user
+             will check from cookie if its a network user then will redirect to deafult page which in this is campaign;
              */
 
             if(isNetworkUser && locationPath === '/dashboard') {
                 $location.url('campaigns');
             }
+        }
 
-
-
+        var locationChangeStartFunc  = $rootScope.$on('$locationChangeStart', function () {
+            $rootScope.bodyclass='';
+            loginCheckFunc();
         });
 
         var routeChangeSuccessFunc =  $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {

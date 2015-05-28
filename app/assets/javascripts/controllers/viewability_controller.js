@@ -3,9 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
-        //Hot fix to show the campaign tab selected
-        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
-
+        //highlight the header menu - Dashborad, Campaigns, Reports
+        domainReports.highlightHeaderMenu();
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
@@ -31,7 +30,7 @@ var angObj = angObj || {};
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
      //   $scope.selected_filters = domainReports.getDurationKpi();
-        $scope.filters = domainReports.getReportsDropDowns();
+        $scope.filters = domainReports.getReportsTabs();
 
         $scope.download_urls = {
             tactics: null,
@@ -119,24 +118,38 @@ var angObj = angObj || {};
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
 
-
-        //This will be called from directive_controller.js
-        $scope.callBackCampaignsSuccess = function () {
+        //creating download report url
+        $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
-            $scope.download_urls = {
-                tactics: urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
-                domains: urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
-                publishers: urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
-                exchanges: urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter
-            };
+            $scope.download_report = [
+                {
+                    'report_url': urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_tactic',
+                    'label' : 'Viewability by Tactic'
+                },
+                {
+                    'report_url' : urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_domain',
+                    'label' : 'Viewability by Domain'
+                },
+                {
+                    'report_url' : urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_publisher',
+                    'label' : 'Viewability by Publisher'
+                },
+                {
+                    'report_url' : urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_exchange',
+                    'label' : 'Viewability by Exchange'
+                }
+            ];
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
-
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.callBackCampaignsSuccess();
+            $scope.createDownloadReportUrl();
 
         });
 
@@ -169,28 +182,6 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
         });
-
-
-        $scope.downloadViewabilityReport = function(report_url, report_name) {
-            if (!loginModel.cookieExists())
-                loginModel.checkCookieExpiry();
-            else {
-                $scope.viewReportDownloadBusy = true;
-                var errorHandler = function() {
-                    $scope.viewReportDownloadBusy = false;
-                }
-                dataService.downloadFile(report_url).then(function (response) {
-                    if (response.status === "success") {
-                        $scope.viewReportDownloadBusy = false;
-                        saveAs(response.file, response.fileName);
-                    } else {
-                        errorHandler();
-                    }
-                }, errorHandler);
-                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'viewability_' + report_name + '_report', loginModel.getLoginName());
-            }
-        }
-
     });
 
 

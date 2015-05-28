@@ -3,10 +3,7 @@
     <div class="total_reports_page  ">
         <div class="reports_header_section">
             <div class="reports_header_tabs_holder clearfix">
-		    <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
-                <div class="pull-left">
-                    <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="/{{tab.href}}" id="reports_cost_tab_{{tab.href}}"> {{tab.title}}</a></span>
-                </div>
+                <report-tabs></report-tabs>
             </div>
         <!-- campaign dropdown -->
         </div>
@@ -14,24 +11,10 @@
             <div class="clearfix inventory_header">
                 <div id="report_cost_camp_list_dd">
                     <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
-                    <!--<large-list-search selected-obj=selectedCampaign></large-list-search>-->
                 </div>
+
                 <div class="pull-right download_report">
-
-                    <div class="dropdown">
-                    <span class="dropdown_ul_text " data-toggle="dropdown">
-                        <a class="download_anchor" href="">Download Report
-                        </a>
-                    </span>
-
-                        <ul class="dropdown_ul dropdown-menu" id="reports_cost_download" >
-
-                            <li value="cost"><a ng-if="download_urls.cost" class="download_anchor"
-                                                   ng-click="downloadCostReport(download_urls.cost)">Cost Report</a></li>
-
-                        </ul>
-                    </div>
-                    <span class="download-report-load-icon" ng-if="costReportDownloadBusy">Downloading </span>
+                    <download-report></download-report>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -43,8 +26,7 @@
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
 
             <div class="cost_container" ng-hide="strategyLoading">
-                <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('costs')">
-                </div>
+                <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('costs')"></div>
                 <div class="reports_main_page_holder" ng-show="strategyFound">
                     <div class="reports_cost_header_holder">
                         <!--cost filter -->
@@ -59,12 +41,18 @@
                             <div class="each_cost_col three_col">Inventory</div>
                             <div class="each_cost_col four_col">Data</div>
                             <div class="each_cost_col five_col">Ad Serving</div>
-                            <div class="each_cost_col six_col">Rich Media</div>
+                            <div class="each_cost_col six_col">Creative</div>
                             <div class="each_cost_col sev_col">Research</div>
                             <div class="each_cost_col eight_col">Ad Verification</div>
-                            <div class="each_cost_col ninth_col">Platform</div>
-                            <div class="each_cost_col tenth_col total_cost">Total Spend
+                            <div class="each_cost_col ninth_col">Tech Fees
+                                <div class="tooltip_holder">
+                                      <span class="tooltip_show_icon"></span>
+                                      <div class="common_tooltip">Tech Fees is Collective's platform fees that is computed as a margin of the associated cost of Managed services + Ad execution as per the signed contract</div>
+                                </div>
+                                
 
+                            </div>
+                            <div class="each_cost_col tenth_col total_cost">Total Spend
                             </div>
                             <div class="more_options"  id="dot_click" ng-if="more_options">
                                 <div class="dropdown">
@@ -81,10 +69,7 @@
                                                 {{sortField.display}}&nbsp; <span class="sortable {{sortField.sortDirection}}"></span>
                                             </a>
                                         </li>
-                                        <!--{{campaigns.sortIcon(sortField.key)}}-->
-                                        <!--<li class="active"><a  ng-click="sortFunction('name');"  href="javascript:void(0);">Tactic Name<span class="sortable"></span></a></li>-->
-                                        <!--<li><a  ng-click="sortFunction('impressions');"   href="javascript:void(0);">Imps<span class="sortable"></span></a></li>-->
-                                        <!--<li><a  ng-click="sortFunction('total');"   href="javascript:void(0);">Total Spend<span class="sortable" ></span></a></li>-->
+
                                     </ul>
                                 </div>
 
@@ -93,13 +78,17 @@
                         <!--cost  filter ends-->
 
                         <div class="cost_transparency_container">
-                            <div class="each_cost_row_holder strategy_total_row">
+                            <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
+                                <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
+                            </div>
+
+                            <div class="each_cost_row_holder strategy_total_row" ng-if="isCostModelTransparent">
                                 <div class="each_cost_row">
+                                    <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')"></div>
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
-                                    <div class="each_cost_heading" ng-if="!dataNotFound">
-                                        {{strategyHeading}}
-                                    </div>
-                                    <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')">
+                                    <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
+                                        <span class="pull-left text_next_margin_per">{{strategyHeading}}</span>
+                                        <span class="margin_percentage" ng-if ="(strategyMarginPercentage >=0)">{{strategyMarginPercentage}}%</span>
                                     </div>
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
                                         <div class="each_cost_col first_col">{{strategy.impressions | number:0}}</div>
@@ -114,32 +103,30 @@
                                         <div class="each_cost_col tenth_col total_cost">${{strategy.total | number:0}}</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="all_startegy_cost">
-                                <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
-                                <!--{{filter.sortByColumn}}-->
-                                <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData track by $index|orderBy: sortByColumn">
-                                    <div class="each_cost_row">
-                                        <div class="each_cost_heading" >
-                                            {{tactic.name}}
-                                        </div>
-
-                                        <div class="clearfix cost_col_container cost_cols_holder">
-                                            <div class="each_cost_col first_col">{{tactic.impressions | number:0}}</div>
-                                            <!--<div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>-->
-                                          <div class="each_cost_col second_col">{{tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()}}</div>
-                                            <div class="each_cost_col three_col">${{tactic.inventory_cost | number:0}}</div>
-                                            <div class="each_cost_col four_col">${{tactic.data_cost | number:0}}</div>
-                                            <div class="each_cost_col five_col">${{tactic.ad_serving_cost | number:0}}</div>
-                                            <div class="each_cost_col six_col">${{tactic.rich_media_cost | number:0}}</div>
-                                            <div class="each_cost_col sev_col">${{tactic.research_cost | number:0}}</div>
-                                            <div class="each_cost_col eight_col">${{tactic.ad_verification_cost | number:0}}</div>
-                                            <div class="each_cost_col ninth_col">${{tactic.platform_cost | number:0}}</div>
-                                            <div class="each_cost_col tenth_col total_cost">${{tactic.total | number:0}}</div>
+                                <div class="all_startegy_cost">
+                                    <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
+                                    <!--{{filter.sortByColumn}}-->
+                                    <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData track by $index|orderBy: sortByColumn">
+                                        <div class="each_cost_row">
+                                            <div class="each_cost_heading" >
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="clearfix cost_col_container cost_cols_holder">
+                                                <div class="each_cost_col first_col">{{tactic.impressions | number:0}}</div>
+                                                <!--<div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>-->
+                                              <div class="each_cost_col second_col">{{tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()}}</div>
+                                                <div class="each_cost_col three_col">${{tactic.inventory_cost | number:0}}</div>
+                                                <div class="each_cost_col four_col">${{tactic.data_cost | number:0}}</div>
+                                                <div class="each_cost_col five_col">${{tactic.ad_serving_cost | number:0}}</div>
+                                                <div class="each_cost_col six_col">${{tactic.rich_media_cost | number:0}}</div>
+                                                <div class="each_cost_col sev_col">${{tactic.research_cost | number:0}}</div>
+                                                <div class="each_cost_col eight_col">${{tactic.ad_verification_cost | number:0}}</div>
+                                                <div class="each_cost_col ninth_col">${{tactic.platform_cost | number:0}}</div>
+                                                <div class="each_cost_col tenth_col total_cost">${{tactic.total | number:0}}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

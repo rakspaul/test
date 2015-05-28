@@ -1,11 +1,12 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope',function(loginModel, analytics, $location, $rootScope) {
+    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope', '$window' ,function(loginModel, analytics, $location, $rootScope, $window) {
         this.createGanttChart = function() {
 
         };
 
-        var MIN_CALENDAR_HEIGHT = 580;
+        var MIN_CALENDAR_HEIGHT = 580,
+            BRAND_PADDING = 7;
 
         d3.gantt = function(cal_height) {
             var FIT_TIME_DOMAIN_MODE = "fit";
@@ -25,6 +26,7 @@
                 left: 50
             };
 
+            var tDomainString = "";
             var onTrackColor = "#47ab1d";
             var underperformingColor = "#ee9455";
             var noStatusColor = "#939eae";
@@ -49,9 +51,11 @@
             var rectTransform = function(d) {
                 return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
             };
-
+            var shift = { counter: 0 };
             var brandTransform = function(d) {
-                return "translate(0," + y(d.taskName) + ")";
+
+
+                return "translate(0," + (y(d.taskName) - calculateBrandAdjustment(d, shift) ) + ")";
             };
 
             var markerTransform = function() {
@@ -60,6 +64,21 @@
                     return "translate(" + x(moment().endOf('day')) + ",-20)";
                 }
                 return "translate(" + x(moment().startOf('day')) + ",-20)";
+            };
+
+            /**
+            * calculate adjustment pixels
+            *
+            * @param object campaignObj - campaign object
+            * @param object counterObj - counter object
+            * @return number padding - new adjustment pixels
+            *
+            */
+            var calculateBrandAdjustment= function(campaignObj, counterObj) {
+                if(campaignObj.type == "brand") {
+                    counterObj.counter++;
+                }
+                return counterObj.counter * BRAND_PADDING;
             };
 
             var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
@@ -169,10 +188,10 @@
 
             };
 
-            function gantt(tasks) {
+            function gantt(tasks, timeDomainString) {
 
                 initTimeDomain(tasks);
-                initAxis();
+                initAxis(timeDomainString);
 
                  var svgHeader = d3.select("#calendar_widget")
                     .select(".div-header-chart")
@@ -180,6 +199,10 @@
                         .style("top","0px")
                         .style("left","24px")
                     .append("svg")
+                    //TODO - check if needed for cross browser support
+                     // .attr({xmlns: "http://www.w3.org/2000/svg",
+                     //        xlink: "http://www.w3.org/1999/xlink",
+                     //    })
                     .attr("class", "header-chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
@@ -191,6 +214,10 @@
 
                 var svg = d3.select("#calendar_widget").select(".div-chart")
                     .append("svg")
+                    //TODO - check if needed for cross browser support
+                     // .attr({xmlns: "http://www.w3.org/2000/svg",
+                     //        xlink: "http://www.w3.org/1999/xlink",
+                     //    })
                     .attr("class", "chart")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height - margin.top - margin.bottom)
@@ -235,7 +262,7 @@
                 svgHeader.append("line").attr("class", "axis_bottom");
 
 
-                gantt.draw(tasks);
+                gantt.draw(tasks, timeDomainString);
 
                 svg.append('rect').attr("class", "date_marker");
 
@@ -244,6 +271,7 @@
             };
 
             gantt.draw = function(tasks, timeDomainString) {
+                tDomainString = timeDomainString;
 
                 var prevScale = 0;
 
@@ -283,62 +311,62 @@
                     .on("touchstart.zoom", null)
                     .on("touchmove.zoom", null)
                     .on("touchend.zoom", null);
-
+                var dragInitiated = false;
                 svg.call(d3.behavior.drag()
                     .on('dragstart', function() {
+                        //prevent other initiations like right click
+                        if(d3.event.sourceEvent.which == 1) {
+                            //if source is mouse drag
+                            dragInitiated = true;
+                        }
                         d3.event.sourceEvent.stopPropagation();
                     })
                     .on('drag', function() {
-                        var td = gantt.timeDomain();
-                        var scale = (td[1]-td[0])/1000;
-                        //var scale = (td[1] - td[0]) / 1000;
+                        if(dragInitiated) {
+                            var td = gantt.timeDomain();
+                            var scale = (td[1]-td[0])/1000;
 
-                        d3.event.sourceEvent.stopPropagation();
-                        //var td = gantt.timeDomain();
+                            d3.event.sourceEvent.stopPropagation();
+                            var data = _.sortBy(tasks, function(o) { return o.start_date; });
 
-
-                        var data = _.sortBy(tasks, function(o) { return o.start_date; });
-
-                        if (d3.event.dx < 0) {
-                            if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
-                                if(moment(_.first(data).endDate).toDate() > moment(td[1] - scale * d3.event.dx).toDate()) {
-                                    gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                                } else if(moment(_.first(data).endDate).toDate() < moment(td[1] - scale/10)) {
-                                    gantt.timeDomain([td[0] - scale/10 , td[1] - scale/10]);
+                            if (d3.event.dx < 0) {
+                                if(moment(_.first(data).endDate).toDate() > moment(td[1]).toDate()) {
+                                    if(moment(_.first(data).endDate).toDate() > moment(td[1] - scale * d3.event.dx).toDate()) {
+                                        gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                                    } else if(moment(_.first(data).endDate).toDate() < moment(td[1] - scale/10)) {
+                                        gantt.timeDomain([td[0] - scale/10 , td[1] - scale/10]);
+                                    } else {
+                                        navigationButtonControl("#cal_next", "disabled");
+                                    }
                                 } else {
                                     navigationButtonControl("#cal_next", "disabled");
                                 }
+                                //if user requests next duration data -  scroll the view 
+                                gantt.redraw(tasks, timeDomainString);
+                                navigationButtonControl("#cal_prev", "enabled");
+                            } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
+                                //if user asks for previous period data - check if available
+                                if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
+                                    //second line of defence to limit scroll to previous duration based on the amount of drag :)
+                                    gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
+                                } else {
+                                    //do a partial scroll to reach dead edge
+                                    gantt.timeDomain([td[0] - scale , td[1] - scale]);
+                                }
+                                gantt.redraw(tasks, timeDomainString);
+                                navigationButtonControl("#cal_next", "enabled");
                             } else {
-                                navigationButtonControl("#cal_next", "disabled");
+                                //disable 'previous' navigation button
+                                navigationButtonControl("#cal_prev", "disabled");
                             }
-                            //if user requests next duration data -  scroll the view 
-                            gantt.redraw(tasks, timeDomainString);
-                            navigationButtonControl("#cal_prev", "enabled");
-                        } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
-                            //if user asks for previous period data - check if available
-                            if( moment(_.first(data).startDate).toDate() < moment((td[0] - scale * d3.event.dx)).toDate() ) {
-                                //second line of defence to limit scroll to previous duration based on the amount of drag :)
-                                gantt.timeDomain([td[0] - scale * d3.event.dx, td[1] - scale * d3.event.dx]);
-                            } else {
-                                //do a partial scroll to reach dead edge
-                                gantt.timeDomain([td[0] - scale , td[1] - scale]);
-                            }
-                            gantt.redraw(tasks, timeDomainString);
-                            navigationButtonControl("#cal_next", "enabled");
-                        } else {
-                            //disable 'previous' navigation button
-                            navigationButtonControl("#cal_prev", "disabled");
-                        }
-                        // if (d3.event.dx < 0) {
-                        //     next(timeDomainString);
-                        // } else {
-                        //     prev(timeDomainString);
-                        // }
-                        
 
-                        
+                        } //dragInitiated check ends
                     })
                     .on('dragend', function() {
+                         if(d3.event.sourceEvent.which == 1) {
+                            //end the drag check 
+                            dragInitiated = false;
+                        }
                         d3.event.sourceEvent.stopPropagation();
                     }));
 
@@ -360,6 +388,46 @@
             		}
                 };
 
+                /**
+                * Check if campaign is in the PAST view of the calendar timeline
+                * 
+                * @param date calendarStart The start date of calendar timeline 
+                * @param date campaignStartDate
+                * @param date campaignEndDate
+                * @return bool True if it is in the past 
+                *              False if it is not
+                */
+                var isPastView = function (calendarStart, campaignStartDate, campaignEndDate) {
+
+                    if( moment(calendarStart).toDate() >= moment(campaignEndDate).toDate() ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                };
+
+                /**
+                * Check if campaign is in the FUTURE view of the calendar timeline
+                * 
+                * @param date calendarEnd The end date of calendar timeline 
+                * @param date campaignStartDate
+                * @param date campaignEndDate
+                * @return bool True if it is in the future 
+                *              False if it is not
+                */
+                var isFutureView = function (calendarEnd, campaignStartDate, campaignEndDate) {
+
+                    if( moment(calendarEnd).toDate() <= moment(campaignStartDate).toDate() ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                };
+
+                //recalculation for rendering - counters for elements
+                var counterObj = { body : { counter : 0 }, marker : {counter : 0 }, icon : {counter : 0 }, top : {counter : 0 }, text : {counter : 0 }, strokeY1 : {counter : 0 }, strokeY2 : {counter : 0 }, iconTooltip : {counter : 0 } };
 
                 var ganttChartGroup = svg.select(".gantt-chart");
                 var ganttChartHeaderGroup = svgHeader.select(".gantt-chart-head");
@@ -397,14 +465,278 @@
                     .style("shape-rendering", "crispEdges");
   
 
+                var markerData = ganttChartGroup.selectAll(".node-marker").data(tasks, keyFunction);
+                var mark = markerData.enter();
+                var markerGroup = mark.append("g").attr("class", "node-marker")
+
+                //new marker
+                markerGroup.append("image")
+                    // .attr("x", function(d){
+                    //      if(moment(tdEdges[0]).toDate() > moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() > moment(d.endDate).toDate()) {
+                    //         return 0;
+                    //      } else if(moment(tdEdges[0]).toDate() < moment(d.startDate).toDate() && moment(tdEdges[1]).toDate() < moment(d.endDate).toDate()) {
+                    //         return 960;
+                    //      }
+                    // })
+                    .attr("y", function(d){
+                        return 7;
+                    })
+                    .attr("xlink:href", function(d) {
+                        var direction = "none";
+                        if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                            direction = "left";
+                            if (d.kpiStatus == "ontrack") {
+                                return window.assets.green_left; 
+                            } else if (d.kpiStatus == "underperforming") {
+                                return window.assets.orange_left; 
+                            } else {
+                                return window.assets.gray_left; 
+                            }
+                        } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                            direction = "right";
+                            if (d.kpiStatus == "ontrack") {
+                                return window.assets.green_right; 
+                            } else if (d.kpiStatus == "underperforming") {
+                                return window.assets.orange_right; 
+                            } else {
+                                return window.assets.gray_right; 
+                            }
+                        } 
+                    })
+                    .attr("class", "past-marker")
+                    .attr("style", "cursor:pointer")
+                    .style("shape-rendering", "crispEdges")
+                    .attr("width", function(d) {
+                        if (d.type == "brand"){
+                            return 0;
+                        } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                return 25;
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                return 25;
+                            } else {
+                                return 0;
+                            }
+                        } else {
+                            return 0;
+                        }
+                    }) 
+                    .on('click', function(d) {
+                        var e, f;
+                        switch(tDomainString){
+                            case "year":
+                                        e = moment(d.startDate).startOf('year').startOf('day').unix()*1000;
+                                        f = moment(e).add(1, 'year').unix()*1000;
+                                        break;
+                            case "month":
+                                        e = moment(d.startDate).startOf('month').startOf('day').unix()*1000;
+                                        f = moment(e).add(31, 'days').endOf('day').unix()*1000;
+                                        break;
+                            case "quarter":
+                                        e = moment(d.startDate).startOf('quarter').startOf('day').unix()*1000;
+                                        f = moment(e).add(1, 'quarters').unix()*1000;
+                                        break;
+                            case "today":
+                                        e = moment(d.startDate).startOf('week').startOf('day').unix()*1000;
+                                        f = moment(e).add(1, 'weeks').endOf('day').unix()*1000;
+                                        break;
+                        } 
+                        //scroll navigation reset
+                        navigationButtonControl("#cal_next", "enabled");
+                        navigationButtonControl("#cal_prev", "enabled");
+                        gantt.timeDomain([e, f]);
+                        gantt.redraw(tasks, tDomainString);
+
+                    })
+                    .attr("height", CAMPAIGN_HEIGHT/2)
+                    .on('mouseover', function(d) {
+                        //select the marker tooltip's date text and make it visible 
+                        var container_primary = d3.select(this.parentNode).select("text.past-marker-text");
+                        container_primary.style('display', function(d) {                   
+                                return "block";
+                        });
+                        container_primary.style("shape-rendering", "crispEdges");
+                        //select the marker tooltip's details text and make it visible
+                        var container = d3.select(this.parentNode).select("text.past-marker-text-details");
+                        container.style('display', function(d) {                   
+                                return "block";
+                        });
+                        
+                        var tdEdges = gantt.timeDomain(); 
+                        if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                             //if right marker - calculate position 
+
+                            var bbox = 0,
+                                textWidth = 0, 
+                                offset = 0, 
+                                containerWidth = 465;
+
+                            //get width of the text by using BBox's width
+                            bbox = container.node().getBBox();
+                            textWidth = bbox.width;
+                            //width of the text container which holds date
+                            bbox = container_primary.node().getBBox();
+                            offset = bbox.width + 5; //padding after date text
+                            textWidth += bbox.width
+
+                            container_primary.attr('x', function(d){
+                                //place the tooltip to end it near the marker based on the container
+                                return containerWidth - textWidth;
+                            });
+                            container.attr('x', function(){
+                                //place the tooltip details after giving some padding 
+                                return containerWidth - textWidth + offset;
+                            });
+
+                        }
+
+
+
+                        var im= d3.select(this);
+                        im.attr("xlink:href", function(d) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_left_act; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_left_act; 
+                                } else {
+                                    return window.assets.gray_left_act; 
+                                }
+
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_right_act; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_right_act; 
+                                } else {
+                                    return window.assets.gray_right_act; 
+                                }
+                            } 
+                        });
+                    })
+                    .on('mouseout', function(d) {
+                        var container = d3.select(this.parentNode).select("text.past-marker-text");
+                        container.style('display', function(d) {
+                                return "none";
+                        });
+                        container = d3.select(this.parentNode).select("text.past-marker-text-details");
+                        container.style('display', function(d) {                   
+                                return "none";
+                        });
+
+                        var im= d3.select(this);
+                        var tdEdges = gantt.timeDomain();
+                        im.attr("xlink:href", function(d) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_left; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_left; 
+                                } else {
+                                    return window.assets.gray_left; 
+                                }
+
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                if (d.kpiStatus == "ontrack") {
+                                    return window.assets.green_right; 
+                                } else if (d.kpiStatus == "underperforming") {
+                                    return window.assets.orange_right; 
+                                } else {
+                                    return window.assets.gray_right; 
+                                }
+                            } 
+                        })
+
+                    })
+
+                markerGroup.append("text")
+                    .attr("class", "past-marker-text")
+                    .attr("x", 30)
+                    .attr("fill","#939ead")
+                    .attr("dy", ".35em")
+                    .attr("font-family", "Avenir")
+                    .attr("style", function(d) {
+                        return "display:none";
+                    })
+                    .attr("stroke-width", "0.3")
+                    .attr("stroke", "#939ead")
+                    .text(function(d) {
+                        if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                            return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                        } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                            return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                        }
+                    })
+
+                markerGroup.append("text")
+                    .attr("class", "past-marker-text-details")
+                    .attr("x", function(d){
+                        var container = d3.select(this.parentNode).select("text.past-marker-text"),
+                            offset = 30,
+                            padding = 5;
+
+                        //temporarily disable element on DOM to get width
+                        container.style('display', function(d) {
+                            return "block";
+                        });
+
+                        //get width of text element using BBox
+                        var bbox = container.node().getBBox();
+                        //add offset and padding
+                        var textWidth = bbox.width + offset + padding;
+
+                        //hide the tooltip content 
+                        container.style('display', function(d) {
+                            return "none";
+                        });
+                           
+                        //return corrected rendering location
+                        return textWidth;
+                    })
+                    .attr("fill","#21252b")
+                    .attr("dy", ".35em")
+                    .attr("font-family", "Avenir")
+                    .attr("style", function(d) {
+                        return "display:none";
+                    })
+                    .attr("stroke-width", "0.3")
+                    .attr("stroke", "#21252b")
+                    .text(function(d) {
+        
+                        if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                            return  d.name;
+                        } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                            return d.name;
+                        }
+                    })
+
                 var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
                 var rect = rectData.enter();
-                var rectGroup = rect.append("g").attr("class", "node")
+                var rectGroup = rect.append("a")
+                                        .attr("xlink:href", function(d){
+                                            return '/campaigns/' + d.id;
+                                        })
+                                        .style("text-decoration", "none")
+                                        .on("click", function(d){
+                                            d3.event.preventDefault();
+                                        })
+                .append("g").attr("class", "node")
                     .on("click", function(d) {
                         if (d.type != "brand") {
+  
                             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
-                            $location.url('/campaigns/' + d.id);
+                            
+                            //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
+                            if (d3.event.ctrlKey || d3.event.metaKey) {
+                                //on supported key combination and click open in new tab
+                                $window.open('/campaigns/' + d.id);
+                            } else {    
+                                //on normal click open link in current tab
+                                $location.url('/campaigns/' + d.id);  
+                            }
+
                             $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag
+
                         }
                     })
 
@@ -600,10 +932,11 @@
                         }
                     })
                     .attr("y1", function(d){
+                        var padding = calculateBrandAdjustment(d, counterObj.strokeY1);
                         if (d.type == "brand") {
                             return 0;
                         } else {
-                            return y(d.taskName) + CAMPAIGN_HEIGHT;
+                            return y(d.taskName) + CAMPAIGN_HEIGHT - padding;
                         }
                     })
                     .attr("y2", function(d){
@@ -690,10 +1023,38 @@
                         }
                     })
                     .on('mouseover', function(d) {
+                        var flag = false,
+                            padding = 0;
+
+                        //reset counter
+                        counterObj.iconTooltip.counter = 0;
+
+                        _.each(tasks, function(t) {
+                            if( !flag && t.type == "brand") {
+                                counterObj.iconTooltip.counter++;
+                            }
+                            if(d.id === t.id) {
+                                //break flag to stop counting -adjustment multiplier
+                                flag = true;
+                            } 
+                        });
+
+                        //calculate correction for the tooltip placement
+                        padding= counterObj.iconTooltip.counter * BRAND_PADDING;
+
                         //mouseover on icon - display tooltip
                         var xPosition = x(d.startDate) - 15,
-                        yPosition = (y(d.taskName) * 2) - 15;
-                        d3.select(".calendar_tooltip")
+                            yPosition = (y(d.taskName) * 2) - 15 - padding,
+                            classTooltip = ".calendar_tooltip";
+
+                        if(d.state.toLowerCase() == "completed") {
+                            $(".calendar_tooltip").addClass('calendar_tooltip_left');
+                            classTooltip = ".calendar_tooltip_left";
+                        } else if($(".calendar_tooltip_left")[0]) {
+                            $(".calendar_tooltip").removeClass("calendar_tooltip_left");
+                        }
+
+                        d3.select(classTooltip)
                             .style("display", "block")
                             .style("left", xPosition + "px")
                             .style("top", yPosition + "px")
@@ -849,17 +1210,25 @@
                 var campaignTopStroke = ganttChartGroup.selectAll(".header").data(tasks, keyFunction);
                 var campaignsStatusIcon = ganttChartGroup.selectAll(".icon").data(tasks, keyFunction);
 
+                //markers
+                var nodeMarker = ganttChartGroup.selectAll(".node-marker").data(tasks, keyFunction);
+                var markers = ganttChartGroup.selectAll(".past-marker").data(tasks, keyFunction);
+
+                var pastMarkerText = ganttChartGroup.selectAll(".past-marker-text").data(tasks, keyFunction);
+                var pastMarkerTextDetails = ganttChartGroup.selectAll(".past-marker-text-details").data(tasks, keyFunction);
+
                 var campaignsBottomStroke = ganttChartGroup.selectAll(".campaign_stroke").data(tasks, keyFunction);
-                
+
                 //Stroke - Bottom for the campaign (1px #ccd2da)
                 campaignsBottomStroke
                     .transition()
                         .delay(0)
                         .attr("y2", function(d){
+                            var padding = calculateBrandAdjustment(d, counterObj.strokeY2);
                             if (d.type == "brand") {
                                 return 0;
                             } else {
-                                return y(d.taskName) + CAMPAIGN_HEIGHT;
+                                return y(d.taskName) + CAMPAIGN_HEIGHT - padding;
                             }
                         })
                         .attr("x2", function(d) {
@@ -874,8 +1243,7 @@
                                 }
                             }
                         })
-                      
-                
+
                 var translateVisualElements = function(a, type) {
                     if (type == "node") {
                         a.transition()
@@ -916,7 +1284,8 @@
                                 }
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName) + 2;
+                                var padding = calculateBrandAdjustment(d, counterObj.body);
+                                return y(d.taskName) + 2 - padding;
                             })
                     } else if (type == "top") {
                         a.transition()
@@ -933,8 +1302,16 @@
                                     if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
                                         return (x(d.endDate) - x(d.startDate)) + 2;
                                   	}
+                                    
+                                    var width = (x(d.endDate) - x(d.startDate));
+                                    
+                                    //prevent passing negative width to the attribute
+                                    if( width >= 0) {
+                                        return width;
+                                    } else {
+                                        return 0;
+                                    }
 
-                                    return (x(d.endDate) - x(d.startDate));
                                 } else {
                                     return 0;
                                 }
@@ -947,8 +1324,76 @@
 		                    	}
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName);
+                                var padding = calculateBrandAdjustment(d, counterObj.top);
+                                return y(d.taskName) - padding;
                             })
+                    } else if(type == "past-markers" ) {
+                        a.transition()
+                            .delay(0)
+                            .attr("xlink:href", function(d) {
+                                tdEdges = gantt.timeDomain();
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                    //left
+                                    if (d.kpiStatus == "ontrack") {
+                                        return window.assets.green_left; 
+                                    } else if (d.kpiStatus == "underperforming") {
+                                        return window.assets.orange_left; 
+                                    } else {
+                                        return window.assets.gray_left; 
+                                    }
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                    //right
+                                    if (d.kpiStatus == "ontrack") {
+                                        return window.assets.green_right; 
+                                    } else if (d.kpiStatus == "underperforming") {
+                                        return window.assets.orange_right; 
+                                    } else {
+                                        return window.assets.gray_right; 
+                                    }
+                                } 
+                            })
+                        .attr("width", function(d) {
+                            if (d.type == "brand") {
+                                return 0;
+                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                    return 25;
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                    return 25;
+                                } else {
+                                    return 0;
+                                }
+                            } else {
+                                return 0;
+                            }
+                        }) 
+                        .attr("transform", function(d) {
+                            if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                return  "translate(0," + y(d.taskName) + ")";
+                            } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                return  "translate(480," + y(d.taskName) + ")";
+                            } 
+                            //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
+                            // else {
+                            //     return  "translate(-100," + y(d.taskName) + ")";
+                            // }
+                        });
+                    } else if(type == "node-marker") {
+                        a.transition()
+                            .delay(0)
+                            .attr("transform", function(d){
+                                var padding = calculateBrandAdjustment(d, counterObj.marker);
+
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                    return  "translate(0," + (y(d.taskName) - padding) + ")";
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                    return  "translate(480," + (y(d.taskName) - padding) + ")";
+                                } 
+                                //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
+                                // else {
+                                //     return  "translate(-100," + y(d.taskName) + ")";
+                                // }
+                            });
                     }
                 };
 
@@ -976,7 +1421,8 @@
                                 }
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName) + 13;
+                                var padding = calculateBrandAdjustment(d, counterObj.text);
+                                return y(d.taskName) + 13 - padding;
                             })
                             .text(function(d) {
                                 //widht of the container
@@ -994,6 +1440,42 @@
                                     return d.name;
                                 } else {
                                     return d.name.substr(0, fitCount) + "...";
+                                }
+                            })
+                    } else if(type == "past-marker-text") {
+                        a.transition()
+                            .delay(0)
+                            .attr('y', function(d){
+                                return y(d.taskName) + 13;
+                            })
+                            .attr("style", function(d) {
+                                return "display:none";
+                            })
+                            .text(function(d) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                    return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                    return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                                }
+                            })
+                    } else if(type == "past-marker-text-details") {
+                        a.transition()
+                            .delay(0)
+                            .attr('y', function(d) {
+                                return y(d.taskName) + 13;
+                            })
+                            .attr("style", function(d) {
+                                return "display:none";
+                            })
+                            .text(function(d) {
+                                if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
+                                    return d.name;
+                                } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
+                                    if(d.name.length > 57) {
+                                        return d.name.substr(0, 57) + '...';
+                                    } else {
+                                        return d.name;
+                                    }
                                 }
                             })
                     } else {
@@ -1017,7 +1499,8 @@
                                 }
                             })
                             .attr("y", function(d) {
-                                return y(d.taskName) + 6;
+                                var padding = calculateBrandAdjustment(d, counterObj.icon);
+                                return y(d.taskName) + 6 - padding;
                             })
                     }
                 };
@@ -1026,6 +1509,11 @@
                 translateVisualElements(campaignBody, "body");
                 translateVisualElements(campaignTopStroke, "top");
 
+                translateVisualElements(nodeMarker, "node-marker");
+                translateVisualElements(markers, "past-markers");
+                translateGraphicElements(pastMarkerText, "past-marker-text");
+                translateGraphicElements(pastMarkerTextDetails, "past-marker-text-details");
+                
                 translateGraphicElements(campaignText, "text");
                 translateGraphicElements(brandNameText, "brand_name");
                 translateGraphicElements(campaignsStatusIcon);
@@ -1356,7 +1844,7 @@
             });
 
             changeTimeDomain(timeDomainString);
-            gantt.redraw(tasks);
+            gantt.redraw(tasks, timeDomainString);
         };
 
 
@@ -1638,7 +2126,10 @@
                 case "month":
                     format = "%d";
 
-                    gantt.timeDomain([moment().startOf('month'), moment().endOf('month')]);
+                    var e = moment().startOf('month').startOf('day').unix()*1000,
+                        f = moment(e).add(30, 'days').endOf('day').unix()*1000;
+
+                    gantt.timeDomain([e, f]);
                     break;
 
                 case "today":
@@ -1753,6 +2244,16 @@
             timeDomainString = "quarter";
 
             var calendar_height = tasks.length * 30.75;
+            var countBrands = 0;
+            _.each(tasks, function(t){
+                if(t.type == "brand") {
+                    countBrands++;
+                }
+            });
+            
+            //new height after changing brand placement 
+            calendar_height = calendar_height - (countBrands * BRAND_PADDING);
+
             calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
 
             gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
@@ -1768,7 +2269,7 @@
             gantt.margin(margin);
             gantt.timeDomainMode("fixed");
             changeTimeDomain(timeDomainString);
-            gantt(tasks);
+            gantt(tasks, timeDomainString);
             gantt.redraw(tasks, timeDomainString);
 
 

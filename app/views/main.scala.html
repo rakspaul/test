@@ -1,7 +1,7 @@
 @(content: Html)
 @import play.api.Play
 <!DOCTYPE html>
-<html ng-app='app'>
+<html>
   <head>
     <meta charset='utf-8'>
     <title ng-bind="'Visto | '+ title"></title>
@@ -9,10 +9,7 @@
     <meta content='Collective' name='author'>
     <meta name="fragment" content="!" />
     <link href='/assets/images/collective.png' rel='shortcut icon' type='image/x-icon'>
-    <link href="/assets/stylesheets/jquery-ui-1.10.3.custom.min.css?body=1" media="all" rel="stylesheet" />
     <link href='@routes.Assets.versioned("stylesheets/bootstrap.min.css")' media="all" rel="stylesheet" />
-    <link href='@routes.Assets.versioned("stylesheets/bootstrap-theme.min.css")' media="all" rel="stylesheet" />
-    <link href='@routes.Assets.versioned("stylesheets/bootstrap-responsive.min.css")' media="all" rel="stylesheet" />
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet" />
     <link rel="stylesheet" media="all" href='@routes.Assets.versioned("stylesheets/cdesk_application.css")'>
 
@@ -45,12 +42,26 @@
     window.assets.smartphone        = "assets/images/cdesk/smartphone_screen_icon.png" ;
     window.assets.tablet            = "assets/images/cdesk/tablet_screen_icon.png" ;
 
+    window.assets.gray_left         = "assets/images/calendar/cal_arrow_left_gray_16x16_2x.png" ;
+    window.assets.gray_left_act     = "assets/images/calendar/cal_arrow_left_gray_16x16_2x_active.png" ;
+    window.assets.gray_right        = "assets/images/calendar/cal_arrow_right_gray_16x16_2x.png" ;
+    window.assets.gray_right_act    = "assets/images/calendar/cal_arrow_right_gray_16x16_2x_active.png" ;
+    window.assets.orange_left       = "assets/images/calendar/cal_arrow_left_orange_16x16_2x.png" ;
+    window.assets.orange_left_act   = "assets/images/calendar/cal_arrow_left_orange_16x16_2x_active.png" ;
+    window.assets.orange_right      = "assets/images/calendar/cal_arrow_right_orange_16x16_2x.png" ;
+    window.assets.orange_right_act  = "assets/images/calendar/cal_arrow_right_orange_16x16_2x_active.png" ;
+    window.assets.green_left        = "assets/images/calendar/cal_arrow_left_green_16x16_2x.png" ;
+    window.assets.green_left_act    = "assets/images/calendar/cal_arrow_left_green_16x16_2x_active.png" ;
+    window.assets.green_right       = "assets/images/calendar/cal_arrow_right_green_16x16_2x.png" ;
+    window.assets.green_right_act   = "assets/images/calendar/cal_arrow_right_green_16x16_2x_active.png" ;
+
     window.assets.html_campaign_details = '@routes.Assets.versioned("html/campaign_details.html")';
     window.assets.html_optimization = '@routes.Assets.versioned("html/optimization.html")';
     window.assets.html_inventory = '@routes.Assets.versioned("html/inventory.html")';
     window.assets.html_viewability = '@routes.Assets.versioned("html/viewability.html")';
     window.assets.html_cost = '@routes.Assets.versioned("html/cost.html")';
     window.assets.html_performance = '@routes.Assets.versioned("html/performance.html")';
+    window.assets.html_platform = '@routes.Assets.versioned("html/platform.html")';
     window.assets.html_brands_drop_down = '@routes.Assets.versioned("html/brands_drop_down.html")';
     window.assets.html_campaign_list = '@routes.Assets.versioned("html/campaign_list.html")';
     window.assets.html_campaign_drop_down = '@routes.Assets.versioned("html/campaign_drop_down.html")';

@@ -3,8 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
-        //Hot fix to show the campaign tab selected
-        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
+        //highlight the header menu - Dashborad, Campaigns, Reports
+        domainReports.highlightHeaderMenu();
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
@@ -47,7 +47,7 @@ var angObj = angObj || {};
 
             $scope.tacticNotFound = false;
             $scope.tacticLoading = true;
-            $scope.filters = domainReports.getReportsDropDowns();
+            $scope.filters = domainReports.getReportsTabs();
             $scope.orderByField = 'created_at';
             $scope.reverseSort = true;
 
@@ -201,7 +201,7 @@ var angObj = angObj || {};
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }
 
-                                    $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
+                                    $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType.toUpperCase(), actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
 
                                 }
                                 else {
@@ -334,11 +334,16 @@ var angObj = angObj || {};
         //Campaign Strategy List
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        $scope.setDownloadUrls =  function() {
+        //creating download report url
+        $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
-            $scope.download_urls = {
-                optimization: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
-            };
+            $scope.download_report = [
+                {
+                    'report_url': urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : '',
+                    'label' : 'Optimization Report'
+                }
+            ];
         };
 
         $scope.cbStrategyChange = function() {
@@ -368,7 +373,7 @@ var angObj = angObj || {};
 
         $scope.callBackCampaignsSuccess = function () {
             $scope.getCampaignDetails($scope.callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
-            $scope.setDownloadUrls();
+            $scope.createDownloadReportUrl();
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
@@ -414,25 +419,6 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
             $scope.callBackKpiDurationChange('duration');
         });
-
-        $scope.downloadOptimizationReport = function(report_url) {
-            if (!loginModel.cookieExists())
-                loginModel.checkCookieExpiry();
-            else {
-                $scope.optReportDownloadBusy = true;
-                dataService.downloadFile(report_url).then(function (response) {
-                    if (response.status === "success") {
-                        $scope.optReportDownloadBusy = false;
-                        saveAs(response.file, response.fileName);
-                    } else {
-                        $scope.optReportDownloadBusy = false;
-                    }
-                }, function() {
-                    $scope.optReportDownloadBusy = false;
-                });
-                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'optimization_report', loginModel.getLoginName());
-            }
-        };
 
         $scope.$on('$destroy', function() {
             eventKpiChanged();

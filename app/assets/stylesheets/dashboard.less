@@ -46,7 +46,7 @@
     }
 
     .arrow_img {
-      background: url("/assets/images/cdesk/grey_dropdown_img.png") no-repeat center center;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
       height: 8px;
       width: 10px;
       display: inline-block;
@@ -188,7 +188,7 @@
     user-select: none;
     .cal_nav_btn {
       float: left;
-      padding: 8px;
+      padding: 7px 8px;
       width: 30px ;
       height: 30px ;
       cursor: pointer;
@@ -196,11 +196,13 @@
       span {
         height: 100% ;
         width: 100% ;
-        background: url("/assets/images/cdesk/right_arrow.png") no-repeat 0 0 ;
+        /*background: url("/assets/images/cdesk/right_arrow.png") no-repeat 0 0 ;*/
+        background: url("/assets/images/cdesk/sprites.png") no-repeat  -518px 0 ;
         display: block;
       }
       span.arrow_left {
-        background-image : url("/assets/images/cdesk/left_arrow.png") ;
+        /*background-image : url("/assets/images/cdesk/left_arrow.png") ;*/
+        background : url("/assets/images/cdesk/sprites.png") no-repeat -426px 0 ;
       }
       &:first-child {
         border-right : solid 1px #dee6eb  ;
@@ -284,6 +286,32 @@
           left: 45%;
         }
     }
+    .calendar_tooltip_left {
+        position: absolute;
+        z-index: 2000;
+        top: 0;
+        left: 50px;
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-align: center;
+        &:after {
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          bottom: -6px;
+          border-left: solid 6px transparent;
+          border-right: solid 6px transparent;
+          border: solid 6px transparent;
+          display: block;
+          border-bottom: 0;
+          border-top: solid 6px #000;
+          border-top-color: rgba(0,0,0,0.8);
+          left: 25%;
+        }
+    }
     .dashboard_heading {
       .tooltip_holder {
         margin-left: 10px ;
@@ -306,7 +334,8 @@
               display: inline-block;
             }
             .bubble_graph_legend_img {
-              background: url("/assets/images/cdesk/bubble_img.png") no-repeat center center;
+              /*background: url("/assets/images/cdesk/bubble_img.png") no-repeat center center;*/
+              background: url("/assets/images/cdesk/sprites.png") no-repeat -593px 3px ;
               height: 70px;
               width: 50px;
             }

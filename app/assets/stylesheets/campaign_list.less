@@ -157,65 +157,33 @@ button, i, input[type="submit"] {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("/assets/images/cdesk/status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .paused {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .pushed {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("/assets/images/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .completed {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("/assets/images/cdesk/status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .draft {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("/assets/images/cdesk/status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
-/* strategies status */
-#collapseOne .Delivering {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_delivering_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
 
-#collapseOne .Pushed {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_paused_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
-
-#collapseOne .Completed {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_complete_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
-
-#collapseOne .Draft {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  background: url("/assets/images/cdesk/status_draft_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
 
 /* ajax-spinner-loader */
 .loading-spinner-holder {
@@ -231,6 +199,23 @@ button, i, input[type="submit"] {
    -khtml-user-select: none;
    -webkit-user-select: none;
    user-select: none;
+}
+.browser_error {
+  position: fixed;
+  top: 30px;
+  text-align: center;
+  width: 100%;
+  left: 0;
+  .browser_error_txt {
+    border: solid 2px #fff;
+    padding: 8px 15px 8px 40px ;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    color: #c32a2a ;
+    font-size : 20px ;
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -610px -97px;;
+  }
 }
 
 /* detailed page style */
@@ -259,7 +244,6 @@ button, i, input[type="submit"] {
             height: 12px;
             display: inline-block;
             vertical-align: baseline;
-            background: url("/assets/images/cdesk/static-caret.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
           }
           .dropdown-menu {
             padding: 0;
@@ -279,17 +263,6 @@ button, i, input[type="submit"] {
                 margin: 15px 15px 0;
                 padding: 0 15px 10px 0;
                 border-bottom: 1px solid @textGreyColor;
-              }
-              a span.tick {
-                width: 20px;
-                height: 20px;
-                display: inline-block;
-              }
-              &:hover a span.tick {
-                background: url("/assets/images/cdesk/green-ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
-              }
-              &.active a span.tick {
-                background: url("/assets/images/cdesk/ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
             }
           }
@@ -334,122 +307,6 @@ button, i, input[type="submit"] {
         > input::-moz-placeholder { color: @textColorWhite;opacity: 1 ; }
         > input:-moz-placeholder { color: @textColorWhite; opacity: 1 ;}
         > input:-ms-input-placeholder { color: @textColorWhite;opacity: 1 ; }
-      }
-    }
-    .campaign-title-head {
-      margin-bottom: 20px;
-      .clearfix.top-margin {
-        margin-bottom: 0;
-      }
-      ul {
-        padding: 0 20px 0 30px;
-        overflow: hidden;
-        li {
-          padding-left: 15px;
-          list-style: none;
-          &:first-child {
-            padding-left: 0;
-          }
-          span {
-            width: 100%;
-            padding-bottom: 2px;
-            display: inline-block;
-            border-bottom: 1px solid @textGreyColor;
-            width: 96%;
-            font-weight: bold;
-            margin-right: 15px;
-            display: inline-block;
-            text-transform: uppercase;
-            .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
-          }
-          a {
-            width: 100%;
-            cursor: pointer;
-            padding-bottom: 2px;
-            display: inline-block;
-            border-bottom: 1px solid @textGreyColor;
-            span {
-              width: 96%;
-              font-weight: bold;
-              margin-right: 15px;
-              display: inline-block;
-              text-transform: uppercase;
-              .FontColor(@textDarkGreyColor, 12px, @tertiaryFont);
-              &.active {
-                color: @textHeadingColor;
-              }
-
-              > span.default-sort, > span.ascending, > span.descending {
-                margin: 0;
-                width: 8px;
-                padding: 0;
-                height: 13px;
-                vertical-align: top;
-                border-bottom: none;
-                display: inline;
-                background: url("/assets/images/cdesk/sort-blue.png") no-repeat 0 0px rgba(0, 0, 0, 0);
-              }
-            }
-            &:hover {
-              text-decoration: none;
-            }
-            > span > span.ascending {
-              margin: 0;
-              width: 8px;
-              padding: 0;
-              height: 13px;
-              vertical-align: bottom;
-              border-bottom: none;
-              display: inline-block;
-              background: url("/assets/images/cdesk/ascending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
-            }
-            > span > span.descending {
-              margin: 0;
-              width: 8px;
-              padding: 0;
-              height: 13px;
-              vertical-align: bottom;
-              border-bottom: none;
-              display: inline-block;
-              background: url("/assets/images/cdesk/descending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
-            }
-          }
-          &:nth-child(2) {
-            li a {
-              width: auto;
-              margin-bottom: 0;
-              border-bottom: none;
-              > span {
-                display: inline-block;
-                > span {
-                  top: 7px;
-                  position: absolute;
-                  display: inline-block;
-                }
-              }
-            }
-            ul {
-              padding: 0;
-              width: 95%;
-              border-bottom: 1px solid @textGreyColor;
-              li {
-                display: inline-block;
-                border-bottom: none;
-                padding-left: 5px;
-                &:first-child {
-                  padding-left: 0;
-                }
-              }
-            }
-            > ul li span {
-              border-bottom: none;
-            }
-          }
-        }
-        li.col-md-6.pull-right {
-          text-align: center;
-          padding: 0 5px 15px 15px;
-        }
       }
     }
     .campaign {
@@ -606,13 +463,6 @@ button, i, input[type="submit"] {
           .kpi-num {
             font-family: @secondaryFont;
           }
-          .kpi-goal {
-            width: 17px;
-            height: 18px;
-            display: inline-block;
-            vertical-align: sub;
-            background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-          }
         }
       }
       .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
@@ -691,13 +541,6 @@ button, i, input[type="submit"] {
         .ctr-value {
           .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
-        .goal-image {
-          width: 17px;
-          height: 18px;
-          display: inline-block;
-          vertical-align: sub;
-          background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-        }
         .action-data {
           .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
         }
@@ -725,7 +568,6 @@ button, i, input[type="submit"] {
     }
     .inner-accordion {
       margin-top: -2px;
-      background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
       &.first {
         margin-top: 0;
       }
@@ -753,9 +595,6 @@ button, i, input[type="submit"] {
           }
         }
       }
-      &:last-child {
-        background: url("/assets/images/cdesk/accordion-line-end.png") no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
-      }
       .tactics_outer_container  {
         display: none;
         .panel-collapse.collapse.in {
@@ -763,8 +602,6 @@ button, i, input[type="submit"] {
           background: #D1CFCA ;
         }
         .each_tactics_holder {
-          background: url("/assets/images/cdesk/accordion-line.png") no-repeat scroll -26px 0px;
-
           .panel-body.row-fluid {
             .col-md-12 {
              
@@ -787,9 +624,6 @@ button, i, input[type="submit"] {
                 }
              
             }
-          }
-          &:last-child {
-            background: url("/assets/images/cdesk/accordion-line-end.png") no-repeat scroll -27px 0px ;
           }
         }
       }
@@ -956,13 +790,6 @@ button, i, input[type="submit"] {
               .ctr-value {
                 .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
-              .goal-image {
-                width: 17px;
-                height: 18px;
-                display: inline-block;
-                vertical-align: sub;
-                background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-              }
               .action-data {
                 .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
               }
@@ -993,13 +820,6 @@ button, i, input[type="submit"] {
               .kpi-num {
                 font-family: @secondaryFont;
               }
-              .kpi-goal {
-                width: 17px;
-                height: 18px;
-                display: inline-block;
-                vertical-align: sub;
-                background: url("/assets/images/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
-              }
             }
           }
           .col-md-6 .row-fluid:first-child {
@@ -1011,11 +831,12 @@ button, i, input[type="submit"] {
     }
   }
   .load-more-strategies {
-    cursor: pointer;
     margin: 30px auto;
     text-align: center;
+    display: block;
     a {
       border-radius: 20px;
+      cursor: pointer;
       padding: 8px 25px 6px;
       border: 1px solid #ddd;
       .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
@@ -1212,7 +1033,7 @@ button, i, input[type="submit"] {
   .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
     padding: 0px ;
   }
-  .action_dd {
+/*  .action_dd {
     float: left;
     margin-right: 35px ;
     overflow:hidden;
@@ -1245,7 +1066,7 @@ button, i, input[type="submit"] {
     select  {
       max-width: 268px ;
     }
-  }
+  }*/
   .action_filter_heading {
     .AvenirBold();
     text-transform: uppercase;
@@ -1254,13 +1075,14 @@ button, i, input[type="submit"] {
     text-align: left !important;
     font-family: "trade-gothic-no-2-bold" ;
   }
-  .action_dd_last {
+/*  .action_dd_last {
     text-align: right;
     float: none;
     margin-bottom: 20px ;
     width: 100% ;
   }
-  .note_area {
+*/ 
+ .note_area {
     position: relative;
     margin-top: 15px ;
     padding : 0px 0px 2px 5px ;
@@ -1624,36 +1446,6 @@ button, i, input[type="submit"] {
         float: right;
       }
     }
-    .status_bar_section_details {
-      position: relative;
-      border-top: solid 3px #d2dde5;
-      margin-right: 10px;
-      padding-top: 12px ;
-      display: none;
-      .arrow_down_middle {
-        position: absolute;
-        width: 100% ;
-        height: 12px ;
-        top : -3px ;
-        text-align: center;
-        background: url("/assets/images/statusBar/dropdown_1.png") no-repeat center 0px ;
-        span {
-          height : 20px ;
-          width : 20px ;
-          border : solid 2px #ebebeb ;
-        }
-      }
-      .status_bar_section_value {
-        font-size: 14pt;
-        font-family: "TradeGothicLTStd-BdCn20";
-        color: #3b3c3c;
-      }
-      .status_bar_section_name {
-        font-family: "Avenir" ;
-        color: #959da2 ;
-        font-size: 14px ;
-      }
-    }
   }
   .active_section {
     .status_section_bar {
@@ -1714,21 +1506,25 @@ button, i, input[type="submit"] {
   margin-right: 0;
 }
 .sortable {
-  background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;
+  /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -346px;
   display: inline-block;
   height: 15px;
   width: 10px;
 }
 .flight_date_li {
   .sortable {
-    background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+    /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
   }
 }
 .sortable.ascending {
-  background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+  /*background-image: url("/assets/images/cdesk/sorting_arrows_up.png");*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat  -196px -346px ;
 }
 .sortable.descending {
-  background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+  /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
 }
 .dashboard_outer_container {
   width: 1040px;
@@ -1808,25 +1604,28 @@ button, i, input[type="submit"] {
       a {
         color: #0978c9 ;
         span span {
-          background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;
+          /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px ;
           display: inline-block;
           height: 13px;
           width: 10px;
         }
         span span.descending {
-          background-image : url("/assets/images/cdesk/sorting_arrows_down.png");
+          /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px  ;
         }
         span span.ascending {
-          background-image : url("/assets/images/cdesk/sorting_arrows_up.png");
+          /*background-image : url("/assets/images/cdesk/sorting_arrows_up.png");*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  -197px -414px ;
         }
       }
     }
     .metrics_title {
-      width: 320px ;
+      width: 296px ;
       cursor: default;
     }
     .kpi_title {
-      width: 245px;
+      width: 312px;
       cursor: default;
     }
   }
@@ -2169,7 +1968,8 @@ button, i, input[type="submit"] {
           line-height: 18px ;
         }
         .end_point_val span.icon_KPI {
-          background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;
+          /*background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  #c1ccd4 -162px -135px ;
           padding-left: 24px;
         }
         .end_point_val:after {
@@ -2350,14 +2150,20 @@ button, i, input[type="submit"] {
         display: block;
         cursor: pointer;
         float: left;
-        background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;
+        /*background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;*/
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
         &:first-child {
-          background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px ;
+          /*background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;*/
         }
       }
       &:hover {
         .dots {
-          background-position : -4px -66px ;
+          background-position : -433px -416px ;
+          /*background-position  : -4px -66px ;*/
+          &:first-child {
+            background-position : -197px -414px ;
+          }
         }
       }
     }
@@ -2397,8 +2203,11 @@ button, i, input[type="submit"] {
       }
       li.active a {
         color: #0978C9 ;
-        .sortable {
-          background-position: -4px -64px ;
+        .sortable.ascending {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -195px -412px ;
+        }
+        .sortable.descending {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -431px -415px  ;
         }
       }
       li:hover {
@@ -2428,6 +2237,30 @@ button, i, input[type="submit"] {
     left: 4px;
     li:hover {
       background : #d2dee7 ;
+    }
+  }
+}
+
+.reports_platform_header {
+  span.default-kpi-header-icon , span.default-kpi-dropdown-icon {
+    background-position: left center;
+  }
+  .arrrow_img {
+    background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center ;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin-left: 0px;
+  }
+  .dropdown-menu.kpi_indicator_ul {
+      min-width: 120px;
+  }
+  .each_col.suspicious_col ~ .each_col.seventh_col {
+    width: 105px !important;
+    .kpi-dd-holder {
+      .dropdown-menu.kpi_indicator_ul {
+        left: -28x ;
+      }
     }
   }
 }
@@ -2687,11 +2520,13 @@ button, i, input[type="submit"] {
       margin : 5px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
-        background: url("/assets/images/cdesk/account_icon.png") no-repeat 2px 2px  ;
+        /*background: url("/assets/images/cdesk/sprites.png") no-repeat 2px 2px  ;*/
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px  ;
         height: 30px ;
         width: 30px ;
         &:hover {
-          background-position : 2px -74px ;
+          background-position : -345px -266px ;
+          /*background-position : 2px -74px ;*/
         }
       }
       .dropdown-menu {
@@ -2702,7 +2537,6 @@ button, i, input[type="submit"] {
           a{
             padding-left:  6px ;
             padding-right: 0px ;
-            /*color: #84bce4 ;*/
             word-wrap: break-word;
             font-family: "Avenir" ;
             cursor: default;
@@ -2710,8 +2544,6 @@ button, i, input[type="submit"] {
           }
           .logout_link {
             color: #fff ;
-            /*background: url("/assets/images/cdesk/logout_icon.png") no-repeat  7px 1px;*/
-            /*padding-left: 26px;*/
             padding-top: 0;
             cursor: pointer;
           }
@@ -2760,13 +2592,15 @@ button, i, input[type="submit"] {
         .brands_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url("/assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;
+          /*background: url("/assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -200px -150px ;
         }
 
         .timeline_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url("/assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;
+          /*background: url("/assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  -108px -224px ;
         }
         .timeline_dd {
           margin-top: 5px ;
@@ -2799,7 +2633,8 @@ button, i, input[type="submit"] {
               color: #fff ;
             }
             li.active {
-              background: url("/assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;
+              /*background: url("/assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;*/
+              background: url("/assets/images/cdesk/sprites-2.png") no-repeat  -535px 9px ;
             }
             a {
               white-space: normal;
@@ -2849,7 +2684,7 @@ button, i, input[type="submit"] {
         li.brands_filter  {
           &:hover {
             .brands_dd_icon {
-              background-position : 8px -52px ;
+              background-position : -200px -211px ;
             }
             #brandsDropdownDiv {
               input {
@@ -2861,7 +2696,7 @@ button, i, input[type="submit"] {
         li.brands_filter.brands_filter_disabled  {
           &:hover {
             .brands_dd_icon {
-              background-position : 8px 9px ;
+              background-position : -200px -150px ;
             }
             #brandsDropdownDiv {
               input {
@@ -2873,7 +2708,8 @@ button, i, input[type="submit"] {
         li.lifetime_filter {
           &:hover {
             .timeline_dd_icon {
-              background-position : 8px -53px ;
+              background-position : -108px -286px ;
+              /*background-position : 8px -53px ;*/
             }
             .header_filter_arrow_dropdown {
               background-position: 65px -46px ;

@@ -14,13 +14,12 @@
         exports: 'jsRoutes'
       },
       'jquery': {exports:'jquery'},
-      // Hopefully this all will not be necessary but can be fetched from WebJars in the future
-      'angular': {
-        deps: ['bootstrap'],
-        exports: 'angular'
-      },
       'jquery-ui': {deps: ['jquery']},
       'bootstrap': {deps: ['jquery-ui']},
+        'angular': {
+            deps: ['bootstrap'],
+            exports: 'angular'
+        },
       'angular-cache': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
@@ -128,6 +127,7 @@
       'controllers-viewability_controller':{deps: ['controllers-inventory_controller']},
       'controllers-cost_controller':{deps: ['controllers-viewability_controller']},
       'controllers-performance_controller':{deps: ['controllers-cost_controller']},
+      'controllers-platform_controller' : {deps: ['controllers-cost_controller']},
       'directives-strategycard':{deps: ['controllers-performance_controller']},
       'directives-tacticcard':{deps: ['directives-strategycard']},
       'directives-campaigncard':{deps: ['directives-tacticcard']},
@@ -149,6 +149,7 @@
       'services-performanceservice':{deps: ['services-viewablityservice']},
       'services-costservice':{deps: ['services-performanceservice']},
       'services-optimizationservice':{deps: ['services-costservice']},
+      'services-platformservice':{deps: ['services-optimizationservice']},
       'services-momentService': {deps: ['login-LoginModel']},
       'common-directive-DataNotFound':{deps:['CommonModule']}
     },
@@ -270,6 +271,7 @@
       'controllers-viewability_controller':'controllers/viewability_controller',
       'controllers-cost_controller':'controllers/cost_controller',
       'controllers-performance_controller':'controllers/performance_controller',
+      'controllers-platform_controller':'controllers/platform_controller',
       'directives-strategycard':'directives/strategycard',
       'directives-tacticcard':'directives/tacticcard',
       'directives-campaigncard':'directives/campaigncard',
@@ -288,6 +290,7 @@
       'services-inventoryservice':'services/inventoryservice',
       'services-viewablityservice':'services/viewablityservice',
       'services-performanceservice':'services/performanceservice',
+      'services-platformservice':'services/platformservice',
       'services-costservice':'services/costservice',
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
@@ -304,15 +307,15 @@
 
   // Load the app. This is kept minimal so it doesn't need much updating.
   require([
-           'jquery', 
-           'jquery-ui', 
-           'bootstrap', 
-           'angular', 
-           'angular-resource', 
-           'angular-route', 
-           'angular-cookies', 
-           'angular-cache', 
-           'ng-infinite-scroll',
+          'jquery',
+          'jquery-ui',
+           'bootstrap',
+          'angular',
+          'angular-resource',
+          'angular-route',
+          'angular-cookies',
+          'angular-cache',
+          'ng-infinite-scroll',
            'highcharts',
            'highcharts-ng',
            'highcharts-more',
@@ -416,6 +419,7 @@
            'controllers-viewability_controller',
            'controllers-cost_controller',
            'controllers-performance_controller',
+           'controllers-platform_controller',
            'directives-strategycard',
            'directives-tacticcard',
            'directives-campaigncard',
@@ -433,14 +437,15 @@
            'services-inventoryservice',
            'services-viewablityservice',
            'services-performanceservice',
+           'services-platformservice',
            'services-costservice',
            'services-optimizationservice',
            'services-momentService',
            'common-directive-DataNotFound'
            ],
    
-    function (angular) {
-      angular.bootstrap(document, ['app']);
+    function ($,jqueryUI,  bootstrap, angular) {
+            angular.bootstrap(document, ['app']);
     }
   );
 })(requirejs);

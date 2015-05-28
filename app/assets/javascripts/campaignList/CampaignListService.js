@@ -169,6 +169,7 @@
           'cpa': 'gross_ecpa',
           'cpm': 'gross_ecpm'
         };
+        
       dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
         var lineData=[];
         if(result.status == "success" && !angular.isString(result.data)) {
@@ -245,7 +246,7 @@
       }
       return strategyObj;
     };
-
+  
     var getStrategyMetrics = function(index, strategyObj, timePeriod, campaign) {
       var  durationQuery= 'period=' + timePeriod;
       if(timePeriod === 'life_time') {
@@ -305,7 +306,7 @@
         if(result.status == "success" && !angular.isString(result.data.data)) {
           if(result.data.data.length >= 0) {
             var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
-            var campaignStrategies = _.chain(dataObj).sortBy('startDate').sortBy('name').value().reverse();
+            var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
             if(result.data.data.length <= 3) {
               campaign.campaignStrategies = campaignStrategies;
             } else {
