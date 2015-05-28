@@ -73,11 +73,7 @@
                     type: 'datetime',
                     labels: {
                         formatter: function() {
-                            if(this.isFirst) {
-                                  return Highcharts.dateFormat('%e', this.value);
-                            } else {
-                                  return Highcharts.dateFormat('%e', this.value);
-                            }
+                             return Highcharts.dateFormat('%e %b', this.value);
                         }
                     },
                     tickInterval : Math.ceil(timeInterval) * 24 * 3600 * 1000
@@ -91,7 +87,7 @@
                     type: 'datetime',
                     labels: {
                         formatter: function() {
-                            return Highcharts.dateFormat('%b', this.value);
+                           // return Highcharts.dateFormat('%b', this.value);
                         }
                     },
                     tickInterval : Math.ceil(timeInterval) * 24 * 3600 * 1000
@@ -106,26 +102,30 @@
                     },
                     gridLineWidth: 0,
                     minorGridLineWidth: 0,
-                    plotBands: [{ // Light air
-                        color: '#fbdbd1',
+                    //TODO - remove this after the date ticks are rewritten
+                    // plotBands: [{ // Light air
+                    //     color: '#fff',//fbdbd1
+                    //     label: {
+                    //         enabled: false,
+                    //         text: '',
+                    //         style: {
+                    //             color: 'red'
+                    //         }
+                    //     }
+                    // }],
+                    //threshold line ******
+                    plotLines: [{
                         label: {
                             enabled: false,
                             text: '',
-                            style: {
-                                color: 'red'
-                            }
-                        }
-                    }],
-                    plotLines: [{
-                        label: {
-                            text: 'Baseline',
                             x: 25
                         },
-                        color: 'orange',
-                        width: 0,
+                        color: '#D2DEE7',
+                        width: 2,
                         value: threshold, 
-                        dashStyle: 'longdashdot'
+                        dashStyle: 'solid'
                     }]
+                     //threshold line ends ******
                 }
             },
                 series: [{
@@ -133,8 +133,9 @@
                     data: data,
 
                     threshold: threshold,
-                    negativeColor: '#6fd0f4',
-                    color: '#6fd0f4',
+                    negativeColor: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444',
+                    color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc',
+                    lineWidth: 2,
                     marker: {
                         enabled: false
                     },
@@ -157,7 +158,7 @@
                             chart.yAxis[0].addPlotBand({ // Light air
                                 from: threshold,
                                 to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
-                                color: '#fbdbd1',
+                                color: '#fff', //fbdbd1
                                 label: {
                                     enabled: false,
                                     text: '',
