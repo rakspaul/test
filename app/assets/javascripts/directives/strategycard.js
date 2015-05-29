@@ -97,9 +97,11 @@
                     var scrollTo = getTacticsCount * maxTacticsHeight;
                     if($('#tactics-accordion-' + strategyId).css('display') === 'none') {
                         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
-                        $("html, body").animate({ scrollTop: y + scrollTo }, "slow");  
+                        $("html, body").animate({ scrollTop: y + scrollTo }, "slow"); 
+                        $(".tactics_open_btn").addClass("tactic_open_class");
                     }else{
                         $("html, body").animate({ scrollTop: y - scrollTo }, "slow"); 
+                        $(".tactics_open_btn").removeClass("tactic_open_class");
                     }
                     $('#tactics-accordion-' + strategyId).toggle();
                 };

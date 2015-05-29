@@ -4,31 +4,42 @@
         <div class="each_tactic_container">
             
             <div class="clearfix each_campaign_list_container">
-                <div class="each_campaign_section">
-			         <div class="campaign_status_icon {{tactic.status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{tactic.status.toLowerCase() | toCamelCase}}"></div>
+                <div class="clearfix">
+                    <div class="each_campaign_section">
+                        <div class="campaign_status_icon {{tactic.status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{tactic.status.toLowerCase() | toCamelCase}}"></div>
+                    </div>
+                    <div class="each_campaign_section">
+                        <div class="main_heading">
+                             <truncate-text-with-hover txt="{{tactic.name}}" txtlength="75"></truncate-text-with-hover>
+                        </div>
+
+                    </div>
+                    <div class="each_campaign_section">
+                        <div class="clearfix tactic_accordion_details">
+                            <div ng-if="(tactic.audience_targeting!='null' && tactic.audience_targeting!='' && tactic.audience_targeting.length > 0  )">
+                                <span class="audience-icon"></span>
+                                <!-- <span>{{(tactic.audience_targeting? (tactic.audience_targeting | truncateString : 78) : '[...]')}}</span> -->
+                            </div>
+                            <div ng-if="(tactic.geo_targeting!='null' && tactic.geo_targeting!='' && tactic.geo_targeting.length > 0  )">
+                                <span class="globe-icon"></span>
+                                <!-- <span>{{(tactic.geo_targeting? (tactic.geo_targeting | truncateString : 78) : '[...]')}}</span> -->
+                            </div>
+                            <div ng-if="(tactic.zip_targeting!='null' && tactic.zip_targeting!=''&& tactic.zip_targeting.length > 0  )">
+                                <span class="location-icon"></span>
+                                <!-- <span>{{(tactic.zip_targeting? (tactic.zip_targeting | truncateString : 65) : '[...]')}}</span> -->
+                            </div>
+                            <div class="duration"  ng-if="(tactic.ad_size!='null' && tactic.ad_size!='' && tactic.ad_size.length > 0  )">
+                                <span class="device-icon {{tactic.media_type_icon}}"></span>
+                                <!-- <span>{{(tactic.ad_size ? (tactic.ad_size | truncateString : 50) :'[...]')}}</span> -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                
                 <div class="each_campaign_section campaign_list_details">
-                    <div class="main_heading">
-                         <truncate-text-with-hover txt="{{tactic.name}}" txtlength="75"></truncate-text-with-hover>
-                    </div>
-                    <div class="tactic_accordion_details">
-                        <div ng-if="(tactic.audience_targeting!='null' && tactic.audience_targeting!='' && tactic.audience_targeting.length > 0  )">
-                            <span class="audience-icon"></span>
-                            <span>{{(tactic.audience_targeting? (tactic.audience_targeting | truncateString : 78) : '[...]')}}</span>
-                        </div>
-                        <div ng-if="(tactic.geo_targeting!='null' && tactic.geo_targeting!='' && tactic.geo_targeting.length > 0  )">
-                            <span class="globe-icon"></span>
-                            <span>{{(tactic.geo_targeting? (tactic.geo_targeting | truncateString : 78) : '[...]')}}</span>
-                        </div>
-                        <div ng-if="(tactic.zip_targeting!='null' && tactic.zip_targeting!=''&& tactic.zip_targeting.length > 0  )">
-                            <span class="location-icon"></span>
-                            <span>{{(tactic.zip_targeting? (tactic.zip_targeting | truncateString : 65) : '[...]')}}</span>
-                        </div>
-                        <div class="duration"  ng-if="(tactic.ad_size!='null' && tactic.ad_size!='' && tactic.ad_size.length > 0  )">
-                            <span class="device-icon {{tactic.media_type_icon}}"></span>
-                            <span>{{(tactic.ad_size ? (tactic.ad_size | truncateString : 50) :'[...]')}}</span>
-                        </div>
-                    </div>
+                    
+                    
                     <div class="days_left_holder">
                         <div class="total_days_holder">
                             
@@ -47,9 +58,9 @@
 
                         </div>
                     </div>
-                    <div  class="channel_details">
-                        <img ng-show="tactic.platform_icon" width="20px" ng-src="{{tactic.platform_icon}}" >
-                        {{tactic.platform_name}}
+                    <div  class="clearfix channel_details">
+                        <img ng-show="tactic.platform_icon"  ng-src="{{tactic.platform_icon}}" class="pull-left" >
+                        <span class="pull-left">{{tactic.platform_name}}</span>
                     </div>
                 </div>
                 <div class="each_campaign_section metric_campaign_section">
@@ -67,10 +78,10 @@
                                       <div class="end_point_line"></div>
                                   </div>
                               </div>
-                              <div class="graph_end_point completed_end_point " ng-hide="tactic.expectedMediaCost == tactic.totalMediaCost"><!-- put completed_end_point when at end -->
+                              <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="tactic.expectedMediaCost == tactic.totalMediaCost"><!-- put completed_end_point when at end -->
                                   <div class="end_point_val">
                                       <div class="end_point_line"></div>
-                                      <span>${{tactic.totalMediaCost | number:2}}</span>
+                                      <span>Budget: ${{tactic.totalMediaCost | number:2}}</span>
                                   </div>
                               </div>
                           </div>
@@ -80,31 +91,50 @@
                             <span class="detail_val">{{tactic.totalImpressions | number}}</span>
                             <span>Imps.</span>
                         </div>
-                        <div class="each_metric_graph_details">
+                        <div class="each_metric_graph_details metric_graph_details_ctr">
                             <span class="detail_val">{{tactic.ctr | roundThisOff : 2}}%</span>
                             <span>CTR</span>
                         </div>
-                        <div class="each_metric_graph_details">
+                        <!-- when action rate is present -->
+                        <div class="each_metric_graph_details metric_graph_details_action">
                             <span class="detail_val">{{tactic.actionRate | roundThisOff : 2}}%</span>
                             <span>Action Rate</span>
                         </div>
+                        
+                        <!--end of ... when action rate is present -->
+
+                        <!-- when VTC is present -->
+                        <!-- FOR NOW COMMENTING IT -->
+                        <!-- <div class="each_metric_graph_details  metric_graph_details_vtc">
+                            <div class="quartile_details_VTC_btn">
+                                <span class="detail_val">%</span>
+                                <span>VTC</span>
+                            </div>
+                            <div class="quartile_details_VTC">
+                                <div class="quartile_details_title">Quartile Details</div>
+                                <div class="quartile_details_graph"></div>
+                            </div>
+                        </div> -->
+                        <!-- end of ... FOR NOW COMMENTING IT -->
+                        <!--end of ... when VTC is present -->
+
+
                     </div>
                 </div>
                 <div class="each_campaign_section campaign_section_KPI">
                     <div class="graph_details_KPI">
                         <div class="clearfix details_KPI_row1">
                             <span class="details_KPI_title">{{campaign.kpiType !='null' ?  campaign.kpiType : 'NA' | toUpperCase}}</span>
-                            <span class="cumulative_val">
+                            <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue">
+                                <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                                <span class="icon_KPI"></span>
+                            </span>
+                            <span class="pull-right cumulative_val">
                                 Cumulative Value <span>{{tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
                             </span>
                         </div>
-                        <div class="clearfix details_KPI_row2" ng-if="campaign.kpiValue">
-                            <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
-                            <span class="icon_KPI"></span>
-                        </div>
-                        <div class="clearfix details_KPI_row2" ng-if="!campaign.kpiValue">
-                            </br>
-                        </div>
+                       
+                        
                     </div>
                      <div class="graph_KPI_outer_holder">
                           <span ng-switch="tactic.chart">
