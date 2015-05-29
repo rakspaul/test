@@ -169,7 +169,7 @@
           'cpa': 'gross_ecpa',
           'cpm': 'gross_ecpm'
         };
-        
+
       dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
         var lineData=[];
         if(result.status == "success" && !angular.isString(result.data)) {
@@ -246,7 +246,7 @@
       }
       return strategyObj;
     };
-  
+
     var getStrategyMetrics = function(index, strategyObj, timePeriod, campaign) {
       var  durationQuery= 'period=' + timePeriod;
       if(timePeriod === 'life_time') {
@@ -318,7 +318,8 @@
       });
     };
 
-    var getCdbLineChart = function(obj, campaignList, timePeriod) {
+    var getCdbLineChart = function(obj, campaignList, timePeriod, callback) {
+      //console.log(campaignList);
       var campaignObject = campaignList[obj];
 
       dataService.getCdbChartData(campaignObject, timePeriod, 'campaigns', null).then(function (result) {
@@ -328,6 +329,7 @@
           if(!angular.isUndefined(campaignObject.kpiType)) {
             if(result.data.data.measures_by_days.length > 0) {
               var maxDays = result.data.data.measures_by_days;
+              callback && callback(campaignObject, maxDays);
               for (var i = 0; i < maxDays.length; i++) {
                 maxDays[i]["ctr"] *= 100;
                 maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
@@ -357,7 +359,7 @@
         return dataService.fetchCancelable(url, canceller, success, failure)
       },
 
-      setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate) {
+      setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate, callback) {
         var status = '', campaignList = [];
 
         for (var obj in dataArr) {
@@ -394,10 +396,9 @@
             campaign.kpiValue = 0;
           }
           campaignList.push(campaign);
-
-          getCdbLineChart(obj, campaignList, timePeriod);
+          //console.log(campaignList);
+          getCdbLineChart(obj, campaignList, timePeriod, callback);
         }
-        return campaignList;
       },
 
       //should be moved to costservice inside cost module later
