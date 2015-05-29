@@ -9,18 +9,18 @@
                 datObj = [];
                 switch(chartFrom) {
                     case 'campaign':
-                        var chart_width = 300;
-                        var chart_height = 120;
+                        var chart_width = 308;
+                        var chart_height = 110;
                         var chart_margin =  [0, 0, 0, 0];
                         break;
                     case 'tactics':
-                        var chart_width = 300;//
-                        var chart_height = 120;
+                        var chart_width = 308;//
+                        var chart_height = 110;
                         var chart_margin =  [0, 0, 0, 0];
                         break;
                     case 'strategy':
-                        var chart_width = 300;
-                        var chart_height = 130;
+                        var chart_width = 308;
+                        var chart_height = 110;
                         var chart_margin =  [0, 0, 0, 0];
                         break;         
                     default:
@@ -42,6 +42,7 @@
                   chart: {
                     width :chart_width,
                     height:chart_height,
+                    maginLeft:2,
                     spacingLeft: 14
                   },
                 credits: {
@@ -72,6 +73,7 @@
                     tickWidth: 0,
                     type: 'datetime',
                     labels: {
+                        style: {"color":"#939eaf","fontSize":11},
                         formatter: function() {
                              return Highcharts.dateFormat('%e %b', this.value);
                         }
