@@ -149,11 +149,8 @@
                 if(getactivityCount > 1){
                     $('text#t' + circleObj.target.id).css({fill:'#fff'});
                 }
-                localStorage.setItem('actionSelStatusFlag' , isActionExternal);
-                localStorage.setItem('actionSelActivityCount' , getactivityCount);
-                localStorage.setItem('actionSel' , getIdList);
-                localStorage.setItem('selectedCircleSLNo',circle_slno);
-
+                var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getactivityCount,"actionSel":getIdList,"selectedCircleSLNo":circle_slno};
+                localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
                 if(defaultGrey) {
                     myContainer = $('.reports_section_details_container');
                     //highlight activity in reports page
@@ -579,11 +576,12 @@
                             }
                             //Action Selection Activity
                             //AFter loaded default select
-                            if(localStorage.getItem('actionSel')) {
-                                var isActionExternal = localStorage.getItem('actionSelStatusFlag'),
-                                    getactivityCount =  localStorage.getItem('actionSelActivityCount'),
-                                    splitIdList =  localStorage.getItem('actionSel').split(","),
-                                    getSelectedCircleSLNo = localStorage.getItem('selectedCircleSLNo');
+                            var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
+                            if(activityLocalStorageInfo != null) {
+                                     var isActionExternal = activityLocalStorageInfo.actionSelStatusFlag,
+                                    getactivityCount =  activityLocalStorageInfo.actionSelActivityCount,
+                                    splitIdList =  activityLocalStorageInfo.actionSel.split(","),
+                                    getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo;
                                     $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal =='false'  ? '#777':'#0072bc'});
                                 if(getactivityCount > 1){
                                     $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff'});

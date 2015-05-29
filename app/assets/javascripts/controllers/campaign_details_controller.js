@@ -170,9 +170,13 @@
                            // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
                             //},10000);
-                            if ((localStorage.getItem('actionSel') !== null)) {
-                                $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
+                            var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
+                            if(activityLocalStorageInfo !=null){
+                                if ((activityLocalStorageInfo.actionSel) !== null) {
+                                    $scope.makeCampaignSelected(activityLocalStorageInfo.actionSel);
+                                }
                             }
+                            
                         }
                     } else {
                         $scope.details.actionChart = false;
