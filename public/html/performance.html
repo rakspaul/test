@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics track by $index" ng-include="'screenTpl'"></div>
+                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics track by $index" ng-include="'daysofweekTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics track by $index" ng-include="'formatTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'formatTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
