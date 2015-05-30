@@ -11,6 +11,10 @@
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
     });
+
+    var selectedBrand = brandsModel.getSelectedBrand();
+    $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+
     //Based on gauge click, load the filter and reset data set after gauge click.
     var forceLoadCampaignsFilter;
     if(gaugeModel.dashboard.selectedFilter !== '') {
@@ -22,7 +26,12 @@
       $scope.loadMoreStrategies(args.campaignId);
     });
 
-    $scope.viewReports = function(campaign) {
+    //braodcasting from campaignListModel.js
+    $scope.$on("updateCampaignAsBrandChange", function(event, campaignData) {
+        campaignSelectModel.setSelectedCampaign(campaignData);
+    });
+    
+      $scope.viewReports = function(campaign) {
         var selectedCampaign = {
             id : campaign.id,
             name : campaign.name,
@@ -78,6 +87,19 @@
     $scope.highlightSearch = function(text, search) {
       return utils.highlightSearch(text, search);
     };
+     $(function() {
+        $( "#cost_block,#performance_block" ).scroll(function(){
+             var window_scrollTop = $(window).scrollTop();
+             var scroll_to_element= $(".squaredFour").offset().top -15;
+             if(scroll_to_element < window_scrollTop){
+                window.scrollTo(0,scroll_to_element);
+             } 
+             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+                  var test_height = parseInt($(this).height())+1;
+                  $(this).height(test_height);
+              }
+        }); 
+     });
 
   });
 

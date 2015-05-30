@@ -1,40 +1,16 @@
 <div class="reports_main_page_holder">
     <div class="reports_header_tabs_holder clearfix">
-        <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
-        <div class="pull-left">
-            <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
-                    ng-href="/{{tab.href}}" id="viewability_title_tab_{{tab.href}}" > {{tab.title}}</a></span>
-        </div>
+        <report-tabs></report-tabs>
     </div>
 
     <div class="inventory_reports_container">
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1" id="viewability_camp_list_dd">
-                <!--<large-list-search selected-obj=selectedCampaign></large-list-search>-->
                 <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
             </div>
 
             <div class="pull-right download_report">
-
-                <div class="dropdown" id="viewability_filter_dd">
-                        <span class="dropdown_ul_text " data-toggle="dropdown">
-                            <a class="download_anchor" href="" id="viewability_download_btn">Download Report
-                            </a>
-                        </span>
-
-                    <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
-
-                        <li value="tactics"><a id="viewability_tactic" ng-if="download_urls.tactics" class="download_anchor"
-                                               ng-click="downloadViewabilityReport(download_urls.tactics, 'by_tactic')">Viewability by Tactic</a></li>
-                        <li value="domains"><a id="viewability_domain" ng-if="download_urls.domains" class="download_anchor"
-                                               ng-click="downloadViewabilityReport(download_urls.domains, 'by_domain')">Viewability by Domain</a></li>
-                        <li value="publishers"><a id="viewability_publisher" ng-if="download_urls.publishers" class="download_anchor"
-                                                  ng-click="downloadViewabilityReport(download_urls.publishers, 'by_publisher')">Viewability by Publisher</a></li>
-                        <li value="exchanges"><a id="viewability_exchange" ng-if="download_urls.exchanges" class="download_anchor"
-                                                 ng-click="downloadViewabilityReport(download_urls.exchanges, 'by_exchange')">Viewability by Exchange</a></li>
-                    </ul>
-                </div>
-                <span class="download-report-load-icon" ng-if="viewReportDownloadBusy">Downloading </span>
+                <download-report></download-report>
             </div>
         </div>
 

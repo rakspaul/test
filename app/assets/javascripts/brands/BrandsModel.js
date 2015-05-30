@@ -39,6 +39,10 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
     enable: function() {
       brand.enable = true;
       brand.cssClass = "";
+    },
+
+    callBrandBroadcast :  function(brand) {
+        brandsService.preForBrandBroadcast(brand);
     }
 
   };

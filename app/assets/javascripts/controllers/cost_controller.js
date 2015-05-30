@@ -1,14 +1,18 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window,campaignSelectModel, kpiSelectModel,strategySelectModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
-        //Hot fix to show the campaign tab selected
-        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
+        //highlight the header menu - Dashborad, Campaigns, Reports
+        domainReports.highlightHeaderMenu();
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
         $scope.api_return_code = 200;
+        $scope.strategyMarginPercentage = -1 ;
+        var selectedBrand = brandsModel.getSelectedBrand();
+
+        var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500)
@@ -19,16 +23,11 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             else if ( $scope.selectedCampaign.kpi =='null')
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-//            else if (campaign.status == 'active')
-//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-//        $scope.selected_filters = domainReports.getDurationKpi();
 
-
-
-        $scope.filters = domainReports.getReportsDropDowns();
+        $scope.filters = domainReports.getReportsTabs();
 
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;
@@ -66,6 +65,8 @@ var angObj = angObj || {};
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
             $scope.isStrategyDropDownShow = true;
+            $scope.strategyMarginPercentage = -1 ;
+            $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -78,7 +79,10 @@ var angObj = angObj || {};
         $scope.strategiesCostData = function (param) {
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = false;
-            var errorHandler =  function() {
+            var errorHandler =  function(result) {
+                if(result && result.status == 204) {
+                    $scope.isCostModelTransparent = true;
+                }
                 $scope.dataNotFound = true;
                 $scope.strategyCostBusy = false;
                 $scope.tacticCostBusy = false;
@@ -86,54 +90,17 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyCostData = result.data.data.costData ;
-                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0){
+                        $scope.strategyCostData = result.data.data ;
+                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
                             $scope.dataNotFound = false;
-                            $scope.strategyCostBusy = false;
-                            if(param.strategyId) {
-                                $scope.tacticCostBusy = true;
-                                $scope.tacticListCostData(param);
+                            $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
+                            if($scope.isCostModelTransparent ===  false) {
+                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
                             }
-                        }
-                        else{
-                            errorHandler();
-                        }
-                    }
-                    else {
-                        $scope.api_return_code=result.data.status;
-                        errorHandler();
-                    }
-                }, errorHandler);
-
-        };
-
-        $scope.tacticListCostData = function(param) {
-            $scope.tacticCostBusy = true;
-            costService.getTacticsForStrategy(param).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    $scope.tacticList = result.data.data;
-                    $scope.noTacticsFound = false;
-
-                    if ($scope.tacticList !== 'undefined') {
-                        var errorTacticCostHandler =  function() {
-                            $scope.dataNotFound = true;
-                            $scope.tacticCostBusy = false;
-                        }
-                        costService.getTacticCostData(param).then(function (result){
-                            if(result.status === "OK" || result.status === "success"){
-
-                                $scope.tacticsCostData = result.data.data.costData ;
-
-                                for( var i in $scope.tacticList){
-                                    var tacticId =  $scope.tacticList[i].id ;
-                                    var tacticName = $scope.tacticList[i].description ;
-
-                                    for( var index in $scope.tacticsCostData){
-                                        if($scope.tacticsCostData[index].id === tacticId){
-                                            $scope.tacticsCostData[index].name = tacticName
-                                        }
-                                    }
-                                }
+                            $scope.strategyCostBusy = false;
+                            $scope.strategyMarginPercentage =  $scope.strategyCostData[0].margin ;
+                            if(param.strategyId >0 ) {
+                                $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
 
                                 if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
                                     $scope.sortFunction($scope.sortByColumn);
@@ -142,17 +109,21 @@ var angObj = angObj || {};
                                     var sortCoulumName = $scope.sortByColumn.replace('-', '');
                                     $scope.sortFunction(sortCoulumName);
                                 }
-                                $scope.tacticCostBusy = false;
+
                             }
-                            else{
-                                errorTacticCostHandler();
-                            }
-                        }, errorTacticCostHandler);
-                     }
-                }
-            });
+                        }
+                        else{
+                            errorHandler(result);
+                        }
+                    }
+                    else {
+                        $scope.api_return_code=result.data.status;
+                        errorHandler(result);
+                    }
+                }, errorHandler);
 
         };
+
 
         $scope.sortFunction = function (sortby) {
             for(var i in $scope.sort_field){
@@ -177,10 +148,8 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
-
-            //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.callBackCampaignsSuccess();
+            $scope.createDownloadReportUrl();
 
         });
 
@@ -192,14 +161,18 @@ var angObj = angObj || {};
             $scope.callBackStrategyChange();
         });
 
-        $scope.callBackCampaignsSuccess= function(){
-            //TODO, logic needs to be done
+        //creating download report url
+        $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
-
-            $scope.download_urls = {
-                cost: urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter
-            };
-
+            $scope.strategyMarginPercentage = -1 ;
+            $scope.download_report = [
+                {
+                    'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : '',
+                    'label' : 'Cost Report',
+                    'className' : 'report_cost'
+                }
+            ];
         };
 
         //Function is called from startegylist directive
@@ -208,6 +181,7 @@ var angObj = angObj || {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
             $scope.dataNotFound = false ;
+            $scope.strategyMarginPercentage = -1 ; // resetting strategy margin before each strategy call
 
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
@@ -224,9 +198,6 @@ var angObj = angObj || {};
             }
         };
 
-
-
-
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
         });
@@ -234,22 +205,5 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
-
-        $scope.downloadCostReport = function(report_url) {
-            if (!loginModel.cookieExists())
-                loginModel.checkCookieExpiry();
-            else {
-                $scope.costReportDownloadBusy = true;
-                dataService.downloadFile(report_url).then(function (response) {
-                    if (response.status === "success") {
-                        $scope.costReportDownloadBusy = false;
-                        saveAs(response.file, response.fileName);
-                    } else if (response.status === "error") {
-                        $scope.costReportDownloadBusy = false;
-                    }
-                });
-                analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
-            }
-        }
     });
 }());

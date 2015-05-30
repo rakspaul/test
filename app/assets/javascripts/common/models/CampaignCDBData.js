@@ -17,6 +17,10 @@
       return this.roundOff(this.gross_rev, 2);
     }
 
+    this.getCPA = function () {
+      return this.roundOff(this.cpa, 2);
+    }
+
     this.getActionRate = function () {
       return this.roundOff(this.action_rate, 2)
     }

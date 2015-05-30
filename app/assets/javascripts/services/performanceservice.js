@@ -8,11 +8,6 @@
                 return dataService.fetch(url);
             },
 
-            getTacticsForStrategy: function(param){
-                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId + '/strategies/'+ param.strategyId+'/tactics/meta' ;
-                return dataService.fetch(url);
-            },
-
             getCampaingsForUser: function (brand_id,searchCriteria) {
                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?brand_id='+brand_id ;
                 return dataService.fetch(dataService.append(url,searchCriteria));
@@ -30,12 +25,7 @@
             getStrategyPlatformData: function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ (param.strategyId ? ('/strategies/'+ param.strategyId) : '') + '/'+ param.tab;
                 return dataService.fetch(url);
-            },
-            getTacticPerfData: function (param) {
-                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ '/strategies/'+ param.strategyId+ '/tactics/'+  param.tacticId +'/' + param.tab +'/perf?start_date=' + param.startDate + '&end_date=' + param.endDate+'&urlIndex='+param.urlIndex ;
-                return dataService.fetch(url);
             }
-
         };
     });
 }());

@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function() {
     "use strict";
-    commonModule.factory("actionChart", function($timeout, loginModel, constants, analytics) {
+    commonModule.factory("actionChart", function($timeout, loginModel, constants, analytics,utils) {
 
         var kpiPrefix = function (kpiType) {
             var kpiTypeLower = kpiType.toLowerCase();
@@ -11,18 +11,36 @@
             return (kpiType.toLowerCase() == 'vtc') ? '%' : ''
         };
 
-        var wordwrap = function( str, width, brk, cut ) {
-            brk = brk || 'n';
-            width = width || 75;
-            cut = cut || false;
-            if (!str) { return str; }
-            var regex = '.{1,' +width+ '}(\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\S+?(\s|$)');
-            return str.match( RegExp(regex, 'g') ).join( brk );
+        var wordwrap =  function(str, int_width, str_break, cut) {
+            var m = ((arguments.length >= 2) ? arguments[1] : 75);
+            var b = ((arguments.length >= 3) ? arguments[2] : '\n');
+            var c = ((arguments.length >= 4) ? arguments[3] : false);
 
-        }
+            var i, j, l, s, r;
 
+            str += '';
+
+            if (m < 1) {
+                return str;
+            }
+
+            for (i = -1, l = (r = str.split(/\r\n|\n|\r/))
+                .length; ++i < l; r[i] += s) {
+                for (s = r[i], r[i] = ''; s.length > m; r[i] += s.slice(0, j) + ((s = s.slice(j))
+                        .length ? b : '')) {
+                    j = c == 2 || (j = s.slice(0, m + 1)
+                        .match(/\S*(\s)?$/))[1] ? m : j.input.length - j[0].length || c == 1 && m || j.input.length + (j = s.slice(
+                        m)
+                        .match(/^\S*/))[0].length;
+                }
+            }
+
+            return r.join('\n');
+        };
+        var browserInfo = utils.detectBrowserInfo();
+        var adjustY = browserInfo.browserName == 'Firefox' ? 8 :7;
+        var adjustX = browserInfo.browserName == 'Firefox' ? 1 :0;
         var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list) {
-
             var text,
                 box,
                 textBG,
@@ -33,6 +51,7 @@
                 place_circle_x = 7.0,
                 display_activityCount =  (activityCount.toString().length > 1 ?  ' '+activityCount+' ' : '    <span style="color:transparent">-</span>'+ activityCount+' '),
                 numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities',
+                circleObj = null,
                 marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2).attr({
                     id: 't'+actionId || 'NA',
                     removeX:16,
@@ -42,23 +61,34 @@
                 }).css({
                     fontSize: '12px',
                     textAlign: 'center',
-                    leftMargin:'20px',
-                    rightMargin:'40px',
                     position:'absolute',
                     padding:5,
                     fontFamily: 'Avenir',
-                    fontWeight:'600',
                     color:display_color,
                     cursor: 'pointer'
                 }).on('click', function (markerObj) {
                     $('#'+actionId).click();
-                }).add(),
+                }).on('mouseover', function (event) { // added mouseover and mouseout event on text + tspan(inside circle area) to show popup
+                    chart.tooltip.hide();
+                    var target = event.target.tagName === 'tspan' ? $(event.target).parents('text') : $(event.target);
+                    var textId = target.attr('id').substr(1);
+                    var circleList = $(event.target).parents('svg').find('circle');
+                    circleObj = $(_.filter(circleList, function(obj) {  return $(obj).attr("id") === textId}));
+                    circleObj.trigger('mouseover');
+                    }).on('mouseout', function (markerObj) {
+                        circleObj.trigger('mouseout');
+                        $('.highcharts-tooltip').show();
+                    }).add(),
                 container = marker.getBBox();
-
+            var getPosition = function(that,axis){
+                return parseInt(that.getAttribute(axis));
+            };
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
-                var x = event.offsetX ==undefined ? event.layerX : event.offsetX,
-                    y = event.offsetY ==undefined ? event.layerY : event.offsetY,
+                var cX = getPosition(that,'cX') + 10;
+                var cY = getPosition(that,'cY') + 15;
+                    var x = cX,
+                    y = cY,
                     correctionX = 0,
                     symbol = '',
                     suffix = '',
@@ -170,8 +200,7 @@
                     }
                 }
             };
-
-            chart.renderer.circle(container.x+place_circle_x , container.y+8,10).attr({
+            chart.renderer.circle(container.x+place_circle_x+adjustX , container.y+adjustY,10).attr({
                 fill: '#fff',
                 stroke: (defaultGrey == false|| isActionExternal == false ) ? '#777':'#0072bc',
                 'stroke-width': 2.5,
@@ -181,7 +210,9 @@
                 comment: actionComment || 'NA',
                 id_list:id_list,
                 activityCount:activityCount,
-                zIndex: 4
+                zIndex: 4,
+                cX: container.x,
+                cY:container.y
             }).css({
                 cursor: 'pointer'
             }).on('mouseover', function (event) {
