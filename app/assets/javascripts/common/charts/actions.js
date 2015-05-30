@@ -139,10 +139,10 @@
                 if(splitIdList.length > 1 ) {
                     for(var i=0;i < splitIdList.length;i++){
                         var targetId =splitIdList[i];
-                        $('circle#' + targetId).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+                        $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#777':'#0072bc'});
                     }
                 } else {
-                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal == false ) ? '#777':'#0072bc'});
                 }
                 $("text[applyColor=1]").css({fill:'#000'});
                 var getactivityCount = that.getAttribute('activityCount');
@@ -517,7 +517,7 @@
                             var extSLNo,intSLNo;
                             extSLNo = intSLNo = 1;
                             var getParams= (document.URL).split(/[\s/]+/);
-                            var selectedCampaignId = getParams[getParams.length - 1];
+                            var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1] ;
                             if (actionItems) {
                                 for (i = chart.series[0].data.length - 1; i >= 0; i--) {
                                     position = 0;
@@ -578,11 +578,12 @@
                             //AFter loaded default select
                             var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
                             if(activityLocalStorageInfo != null) {
+
                                      var isActionExternal = activityLocalStorageInfo.actionSelStatusFlag,
                                     getactivityCount =  activityLocalStorageInfo.actionSelActivityCount,
                                     splitIdList =  activityLocalStorageInfo.actionSel.split(","),
                                     getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo;
-                                    $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal =='false'  ? '#777':'#0072bc'});
+                                    $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal == false  ? '#777':'#0072bc'});
                                 if(getactivityCount > 1){
                                     $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff'});
                                 }
