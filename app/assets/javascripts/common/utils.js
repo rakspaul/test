@@ -481,6 +481,16 @@ angObj.directive('truncateTextWithHover', function () {
       return Math.round(input * factor) / factor;
     }
   });
+
+  angObj.filter('vtcRoundOff', function () {
+    return function (input, places) {
+      places = input >1 ? 0 : places;
+      var factor = Math.pow(10, places);
+      return Math.round(input * factor) / factor;
+    }
+  });
+
+
   angObj.filter('displayActionSubtypes', function () {
     return function (actionSubTypes) {
       if (actionSubTypes === undefined) {

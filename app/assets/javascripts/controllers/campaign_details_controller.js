@@ -119,7 +119,7 @@
                     }
 
                     campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                    campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                    //campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                     //$scope.getCdbChartData($scope.campaign);
                     updateActionItems($scope.getCdbChartData,1,true);
                     //dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
