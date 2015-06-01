@@ -191,7 +191,6 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
             var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
             campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate, function(campaign, cdbData) {
               var cdbData = _.last(cdbData);
-              var tmpDataArr = [];
               self.campaignList.push(campaign);
               self.costIds += campaign.orderId + ',';
               Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);

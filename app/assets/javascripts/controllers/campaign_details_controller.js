@@ -90,47 +90,52 @@
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
-                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
-                var selectedCampaign = {
-                    id : $scope.campaign.id,
-                    name : $scope.campaign.name,
-                    startDate : $scope.campaign.start_date,
-                    endDate : $scope.campaign.end_date,
-                    kpi : $scope.campaign.kpi_type.toLowerCase()
-                };
-                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-                campaignSelectModel.setSelectedCampaign(selectedCampaign);
+                campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time', null, function(campaignData, cdbData) {
+                    var cdbData = _.last(cdbData);
+                    $scope.campaign = campaignData;
 
-                var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
+                    var selectedCampaign = {
+                        id : $scope.campaign.id,
+                        name : $scope.campaign.name,
+                        startDate : $scope.campaign.start_date,
+                        endDate : $scope.campaign.end_date,
+                        kpi : $scope.campaign.kpi_type.toLowerCase()
+                    };
+                    $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+                    campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
-                if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
-                   var _brand ={
-                       className: "active",
-                       id: -1,
-                       name: "All Brands"
-                   };
+                    var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
 
-                    brandsModel.setSelectedBrand(_brand);
+                    if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
+                       var _brand ={
+                           className: "active",
+                           id: -1,
+                           name: "All Brands"
+                       };
 
-                    $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
-                }
+                        brandsModel.setSelectedBrand(_brand);
 
-                campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                //$scope.getCdbChartData($scope.campaign);
-                updateActionItems($scope.getCdbChartData,1,true);
-                dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
-                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
-                });
+                        $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
+                    }
 
-                if($scope.isCostModelTransparent) {
-                    $scope.getCostBreakdownData($scope.campaign);
-                }
-                $scope.getPlatformData();
-                $scope.getCostViewabilityData($scope.campaign);
-                $scope.getInventoryGraphData($scope.campaign);
-                //$scope.getPlatformGraphData($scope.campaign);
-                $scope.getScreenGraphData($scope.campaign);
+                    campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                    campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                    //$scope.getCdbChartData($scope.campaign);
+                    updateActionItems($scope.getCdbChartData,1,true);
+                    //dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
+                        $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
+                    //});
+
+                    if($scope.isCostModelTransparent) {
+                        $scope.getCostBreakdownData($scope.campaign);
+                    }
+                    $scope.getPlatformData();
+                    $scope.getCostViewabilityData($scope.campaign);
+                    $scope.getInventoryGraphData($scope.campaign);
+                    //$scope.getPlatformGraphData($scope.campaign);
+                    $scope.getScreenGraphData($scope.campaign);
+                })
+
             } else {
                 if (result.status ==='error') {
                     $scope.api_return_code = result.data.status;
