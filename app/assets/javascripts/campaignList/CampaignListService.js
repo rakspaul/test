@@ -116,13 +116,9 @@
                             filterEndDate = campaign.endDate;
                     }
 
-                    getTacticsCdbLineChart(index, tacticObj, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate);
-
-                    for(var i in campaign.tacticMetrics) {
-                        if(campaign.tacticMetrics[i].id == tactic.id){
-                            getTacticsMetrics(index, tacticObj, campaign.tacticMetrics[i].data);
-                        }
-                    }
+                    getTacticsCdbLineChart(index, tacticObj, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate, function(tacticMetrics) {
+                        getTacticsMetrics(index, tacticObj, tacticMetrics);
+                    });
                 }
                 return tacticObj;
             };
@@ -151,6 +147,7 @@
                     tacticObj[index].grossRev = tacticMetrics.gross_rev;
                     tacticObj[index].ctr = tacticMetrics.ctr * 100;
                     tacticObj[index].actionRate = tacticMetrics.action_rate;
+                    tacticObj[index].vtc_rate = (tacticMetrics.video_metrics && tacticMetrics.video_metrics ) ? tacticMetrics.video_metrics.vtc_rate : -1;
                     tacticObj[index].map = {};
                     tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
                     tacticObj[index].map['cpc'] = tacticMetrics.gross_ecpc;
@@ -162,7 +159,7 @@
                 }
             };
 
-            var getTacticsCdbLineChart = function(obj, tacticsList, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate) {
+            var getTacticsCdbLineChart = function(obj, tacticsList, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate, callback) {
                 var sKpiType = kpiType,
                     kpiMap = {
                         'cpc': 'gross_ecpc',
@@ -176,6 +173,7 @@
                         if(sKpiType != undefined || sKpiType != null) {
                             if(result.data.data.length > 0) {
                                 var maxDays = result.data.data;
+                                callback && callback(_.last(maxDays));
                                 for (var i = 0; i < maxDays.length; i++) {
                                     maxDays[i]['ctr'] *= 100
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
@@ -404,36 +402,6 @@
                 //should be moved to campaign details service
                 getStrategiesData: function(campaign, timePeriod) {
                     return getStrategyList(campaign, timePeriod)
-                },
-
-                //should be moved to campaign details service
-                getTacticsData: function(campaign, timePeriod) {
-
-                    var filterStartDate = '', filterEndDate = '';
-                    switch(timePeriod) {
-                        case constants.PERIOD_LAST_7_DAYS:
-                        case constants.PERIOD_LAST_30_DAYS:
-                            filterStartDate = campaign.periodStartDate;
-                            filterEndDate = campaign.periodEndDate;
-                            break;
-                        case constants.PERIOD_LIFE_TIME:
-                        default:
-                            //campaign flight dates for timefilter
-                            filterStartDate = campaign.start_date;
-                            filterEndDate = campaign.end_date;
-                    }
-                    dataService.getCdbTacticsMetrics(campaign.id, filterStartDate, filterEndDate).then(function (result) {
-                        if(result.status == "success" && !angular.isString(result.data)) {
-                            if(result.data.data.length > 0) {
-                                var tacticsData = result.data.data;
-                                for (var i = 0; i < tacticsData.length; i++) {
-                                    campaign.tacticMetrics.push({id: tacticsData[i].ad_id, data: tacticsData[i]});
-                                }
-                            }
-                        }
-
-                    })
-
                 }
             };
         }]);
