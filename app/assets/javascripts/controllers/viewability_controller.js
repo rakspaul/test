@@ -182,6 +182,12 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
         });
+
+        $scope.sortClassFunction = function (a,b,c) {
+            var isActive = (a === b ) ?  'active' : '';
+            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            return isActive + " " + sortDirection;
+        };
     });
 
 

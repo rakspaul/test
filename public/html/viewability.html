@@ -30,7 +30,7 @@
                             <span>Impressions</span>
 
                             <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.delivered_imps',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.delivered_imps'; sortReverse = !sortReverse" style="cursor: pointer">Delivered</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.delivered_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.delivered_imps'; sortReverse = !sortReverse" style="cursor: pointer">Delivered</span>
                                 <!--<span>Total</span>-->
                             </div>
                         </div>
@@ -38,16 +38,16 @@
                             <span>Measurable</span>
 
                             <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.measurable_imps',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.measurable_imps'; sortReverse = !sortReverse" style="cursor: pointer">Imps.</span>
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.perc_measurable',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.perc_measurable'; sortReverse = !sortReverse" style="cursor: pointer">%</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.measurable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.measurable_imps'; sortReverse = !sortReverse" style="cursor: pointer">Imps.</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_measurable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_measurable'; sortReverse = !sortReverse" style="cursor: pointer">%</span>
                             </div>
                         </div>
                         <div class="each_col forth_col">
                             <span>Viewable</span>
 
                             <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.viewable_imps',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.viewable_imps'; sortReverse = !sortReverse" style="cursor: pointer">Imps.</span>
-                                <span class="tooltip_holder icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.perc_viewable',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.perc_viewable'; sortReverse = !sortReverse" style="cursor: pointer">
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.viewable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.viewable_imps'; sortReverse = !sortReverse" style="cursor: pointer">Imps.</span>
+                                <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable'; sortReverse = !sortReverse" style="cursor: pointer">
                                     %<sup>*</sup>
                                     <div class="common_tooltip">Based only on Measurable Imps</div>
                                 </span>
@@ -57,13 +57,13 @@
                             <span>Viewable %</span>
 
                             <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.perc_viewable_imps_1s',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_1s'; sortReverse = !sortReverse" style="cursor: pointer">1s</span>
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.perc_viewable_imps_5s',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_5s'; sortReverse = !sortReverse" style="cursor: pointer">5s</span>
-                                <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.perc_viewable_imps_15s',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_15s'; sortReverse = !sortReverse" style="cursor: pointer">15s</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_1s'; sortReverse = !sortReverse" style="cursor: pointer">1s</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_5s'; sortReverse = !sortReverse" style="cursor: pointer">5s</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_15s'; sortReverse = !sortReverse" style="cursor: pointer">15s</span>
                             </div>
                         </div>
                         <div class="each_col suspicious_col">
-                            <span class="icon_text_holder" ng-class="{ active:sortType === 'tactic.view_metrics.nht',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" style="cursor: pointer"> Suspicious Activity</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.nht',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" style="cursor: pointer"> Suspicious Activity</span>
                             <span  ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" style="cursor: pointer">(%)</span>
                         </div>
                         <div class="each_col seventh_col">
