@@ -9,18 +9,18 @@
                 datObj = [];
                 switch(chartFrom) {
                     case 'campaign':
-                        var chart_width = 308;
-                        var chart_height = 110;
+                        var chart_width = 330;
+                        var chart_height = 106;
                         var chart_margin =  [0, 0, 0, 0];
                         break;
                     case 'tactics':
-                        var chart_width = 308;//
-                        var chart_height = 110;
+                        var chart_width = 330;
+                        var chart_height = 106;
                         var chart_margin =  [0, 0, 0, 0];
                         break;
                     case 'strategy':
-                        var chart_width = 308;
-                        var chart_height = 110;
+                        var chart_width = 330;
+                        var chart_height = 106;
                         var chart_margin =  [0, 0, 0, 0];
                         break;         
                     default:
