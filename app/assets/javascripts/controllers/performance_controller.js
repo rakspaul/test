@@ -192,23 +192,11 @@ var angObj = angObj || {};
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
 
-       /* $scope.sortClassFunction = function (a,b,c) {
-            if(a === b ){
-                if(c === 'true'){
-                    return "active sort_order_up";
-                }
-                else{
-                    return "active sort_order_down";
-                }
-            }
-            else if(c === 'true'){
-                return "sort_order_up";
-            }
-            else{
-                return "sort_order_down";
-            }
-        };*/
-
+        $scope.sortClassFunction = function (a,b,c) {
+            var isActive = (a === b ) ?  'active' : '';
+            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            return isActive + " " + sortDirection;
+        };
 
     });
 }());
