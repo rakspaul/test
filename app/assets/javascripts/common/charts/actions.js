@@ -40,7 +40,7 @@
         var browserInfo = utils.detectBrowserInfo();
         var adjustY = browserInfo.browserName == 'Firefox' ? 8 :7;
         var adjustX = browserInfo.browserName == 'Firefox' ? 1 :0;
-        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list) {
+        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list,circleSLNo) {
             var text,
                 box,
                 textBG,
@@ -57,7 +57,8 @@
                     removeX:16,
                     flagId:flagId,
                     zIndex: 9,
-                    applyColor:applyColor
+                    applyColor:applyColor,
+                    circle_slno:circleSLNo
                 }).css({
                     fontSize: '12px',
                     textAlign: 'center',
@@ -130,6 +131,7 @@
             var chartClick =  function(circleObj, that) {
                 var myContainer = $('#action-container:first'),
                     getIdList = that.getAttribute('id_list'),
+                    circle_slno = that.getAttribute('circle_slno'),
                     splitIdList =  getIdList.split(",");
 
                 $('circle').attr({ fill:'#ffffff'});
@@ -137,20 +139,18 @@
                 if(splitIdList.length > 1 ) {
                     for(var i=0;i < splitIdList.length;i++){
                         var targetId =splitIdList[i];
-                        $('circle#' + targetId).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+                        $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#777':'#0072bc'});
                     }
                 } else {
-                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal == false ) ? '#777':'#0072bc'});
                 }
                 $("text[applyColor=1]").css({fill:'#000'});
                 var getactivityCount = that.getAttribute('activityCount');
                 if(getactivityCount > 1){
                     $('text#t' + circleObj.target.id).css({fill:'#fff'});
                 }
-                localStorage.setItem('actionSelStatusFlag' , isActionExternal);
-                localStorage.setItem('actionSelActivityCount' , getactivityCount);
-                localStorage.setItem('actionSel' , getIdList);
-
+                var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getactivityCount,"actionSel":getIdList,"selectedCircleSLNo":circle_slno};
+                localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
                 if(defaultGrey) {
                     myContainer = $('.reports_section_details_container');
                     //highlight activity in reports page
@@ -212,7 +212,8 @@
                 activityCount:activityCount,
                 zIndex: 4,
                 cX: container.x,
-                cY:container.y
+                cY:container.y,
+                circle_slno:circleSLNo
             }).css({
                 cursor: 'pointer'
             }).on('mouseover', function (event) {
@@ -225,7 +226,19 @@
                 chartClick(circleObj, this);
             }).add();
         };
-
+        // create a unique SLNO with Internal Or External flag with date
+        //actionUTC activity date
+        var getCircleSLNo = function(make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId){
+            var circleSLNo = undefined;
+            if(make_external == true){   
+                circleSLNo ="extSL_"+extSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+                extSLNo++;
+            }else{
+               circleSLNo ="intSL_"+intSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+               intSLNo++;
+            }
+            return {"circleSLNo":circleSLNo,"extSLNo":extSLNo,"intSLNo":intSLNo};
+        };
         var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
             var data = [],
                 dataArr = [],
@@ -501,6 +514,10 @@
                             }
 
                             var activityCount = 0;
+                            var extSLNo,intSLNo;
+                            extSLNo = intSLNo = 1;
+                            var getParams= (document.URL).split(/[\s/]+/);
+                            var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1] ;
                             if (actionItems) {
                                 for (i = chart.series[0].data.length - 1; i >= 0; i--) {
                                     position = 0;
@@ -518,7 +535,12 @@
                                                 activityCount = countActivityItem[actionUTC][checkFlag];
                                                 var id_list = countActivityItem[actionUTC][arrayVar];
                                                 if(activityCount == 1){
-                                                    drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list);
+                                                    var circleInfo = getCircleSLNo(actionItems[j].make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
+                                                    var circleSLNo = circleInfo.circleSLNo;
+                                                    //Get Increment Id for external and Internal SL Number
+                                                    extSLNo = circleInfo.extSLNo;
+                                                    intSLNo = circleInfo.intSLNo;
+                                                    drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo);
                                                     counter++;
                                                     position += 10; //correction for multiple markers in the same place
                                                 } else {
@@ -530,7 +552,13 @@
                                                      //Multiple Item in single chart
                                                     if( findPlacedActivity[actionUTC][checkFlag] != 'completed' ){
                                                         findPlacedActivity[actionUTC][checkFlag] = 'completed';
-                                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list);
+                                                        var circleInfo = getCircleSLNo(actionItems[j].make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
+                                                        //Get circle SL Number
+                                                        var circleSLNo = circleInfo.circleSLNo;
+                                                        //Get Increment Id for external and Internal SL Number
+                                                        extSLNo = circleInfo.extSLNo;
+                                                        intSLNo = circleInfo.intSLNo;
+                                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo);
                                                         counter++;
                                                         position += 20;
                                                     }
@@ -548,14 +576,16 @@
                             }
                             //Action Selection Activity
                             //AFter loaded default select
-                            if(localStorage.getItem('actionSel')) {
-                                var isActionExternal = localStorage.getItem('actionSelStatusFlag'),
-                                    getactivityCount =  localStorage.getItem('actionSelActivityCount'),
-                                    splitIdList =  localStorage.getItem('actionSel').split(",");
+                            var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
+                            if(activityLocalStorageInfo != null) {
 
-                                $('circle#' + splitIdList[0]).attr({ fill:   isActionExternal =='false'  ? '#777':'#0072bc'});
+                                     var isActionExternal = activityLocalStorageInfo.actionSelStatusFlag,
+                                    getactivityCount =  activityLocalStorageInfo.actionSelActivityCount,
+                                    splitIdList =  activityLocalStorageInfo.actionSel.split(","),
+                                    getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo;
+                                    $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal == false  ? '#777':'#0072bc'});
                                 if(getactivityCount > 1){
-                                    $('text#t' + splitIdList[0]).css({fill:'#fff'});
+                                    $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff'});
                                 }
                                 //Select Activity
                                 var myContainer = $('#action-container:first');
