@@ -143,6 +143,7 @@
 
             var getTacticsMetrics = function(index, tacticObj, tacticMetrics) {
                 if(!angular.isString(tacticMetrics)) {
+                    tacticObj[index].hasVTCMetric = tacticMetrics.hasVTCMetric;
                     tacticObj[index].totalImpressions = tacticMetrics.impressions;
                     tacticObj[index].grossRev = tacticMetrics.gross_rev;
                     tacticObj[index].ctr = tacticMetrics.ctr * 100;
@@ -245,8 +246,10 @@
                 return strategyObj;
             };
 
-            var getStrategyMetrics = function(index, strategyObj, strategyMetrics) {
+            var getStrategyMetrics = function(index, strategyObj, strategyData) {
+                var strategyMetrics = strategyData.measures_by_days;
                 strategyMetrics = _.last(strategyMetrics);
+                strategyObj[index].hasVTCMetric = strategyData.hasVTCMetric;
                 strategyObj[index].totalImpressions = strategyMetrics.impressions;
                 strategyObj[index].grossRev = strategyMetrics.gross_rev;
                 strategyObj[index].ctr = strategyMetrics.ctr * 100;
@@ -270,7 +273,7 @@
                         if(sKpiType != undefined || sKpiType != null) {
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
-                                getStrategyMetrics(obj, strategyList, maxDays);
+                                getStrategyMetrics(obj, strategyList, result.data.data);
                                 for (var i = 0; i < maxDays.length; i++) {
                                     var kpiType = (sKpiType);
                                     maxDays[i]['ctr'] *= 100
@@ -320,7 +323,7 @@
                         if(!angular.isUndefined(campaignObject.kpiType)) {
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
-                                callback && callback(campaignObject, maxDays);
+                                callback && callback(campaignObject, result.data.data);
                                 for (var i = 0; i < maxDays.length; i++) {
                                     maxDays[i]["ctr"] *= 100;
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100

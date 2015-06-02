@@ -92,11 +92,11 @@
                 </div>
                 <!-- when action rate is present -->
 
-                <div class="each_metric_graph_details metric_graph_details_action" ng-if="!strategy.vtc_rate || strategy.vtc_rate < 0">
+                <div class="each_metric_graph_details metric_graph_details_action" ng-if="!strategy.hasVTCMetric || strategy.vtc_rate < 0">
                     <span class="detail_val">{{strategy.actionRate | number : 2}}%</span>
                     <span>Action Rate</span>
                 </div>
-                <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate && strategy.vtc_rate >= 0">
+                <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.hasVTCMetric && strategy.vtc_rate >= 0">
                     <div class="quartile_details_VTC_btn">
                             <span class="detail_val">{{strategy.vtc_rate | vtcRoundOff : 2}}%</span>
                         <span>VTC</span>

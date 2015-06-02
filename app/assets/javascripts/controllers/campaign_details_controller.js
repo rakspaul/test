@@ -90,8 +90,8 @@
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
-                campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time', null, function(campaignData, cdbData) {
-                    var cdbData = _.last(cdbData);
+                campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time', null, function(campaignData, campaignDaysData) {
+                    var cdbData = _.last(campaignDaysData.measures_by_days);
                     $scope.campaign = campaignData;
 
                     var selectedCampaign = {
@@ -119,12 +119,9 @@
                     }
 
                     campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                    //campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                    //$scope.getCdbChartData($scope.campaign);
                     updateActionItems($scope.getCdbChartData,1,true);
-                    //dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
-                        $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
-                    //});
+                    cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
+                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
 
                     if($scope.isCostModelTransparent) {
                         $scope.getCostBreakdownData($scope.campaign);
@@ -132,7 +129,6 @@
                     $scope.getPlatformData();
                     $scope.getCostViewabilityData($scope.campaign);
                     $scope.getInventoryGraphData($scope.campaign);
-                    //$scope.getPlatformGraphData($scope.campaign);
                     $scope.getScreenGraphData($scope.campaign);
                 })
 
