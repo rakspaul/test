@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants) {
+    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService) {
         return {
             restrict:'EAC',
 
@@ -84,13 +84,20 @@
                     }          
                 };
 
-                $scope.showTactics = function(strategyId, tacticsCount) {
-                    var myContainer = $('#tactics-accordion-' + strategyId);
-                    //var x = myContainer.offset().left;
-                    var y = myContainer.offset().top;
-                    var getTacticsCount = 1;
-                    var maxTacticsCount = 2;
-                    var maxTacticsHeight = 275;
+                $scope.showTactics = function(strategy) {
+                    var strategyId = strategy.id,
+                        tacticsCount = strategy.tactics_count,
+                        myContainer = $('#tactics-accordion-' + strategyId),
+                        //x = myContainer.offset().left,
+                        y = myContainer.offset().top,
+                        getTacticsCount = 1,
+                        maxTacticsCount = 2,
+                        maxTacticsHeight = 275;
+
+                    //TODO: check if object already requested! 
+                    //introducing the tactic data call initiation on click here
+                    campaignListService.requestTacticData(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign);
+
                     if(tacticsCount > maxTacticsCount){
                         getTacticsCount = maxTacticsCount;
                     }
