@@ -11,6 +11,9 @@ var angObj = angObj || {};
         $scope.strategyLoading =  true;
         $scope.api_return_code = 200;
 
+        $scope.sortType     = 'tactic.view_metrics.measurable_imps'; // set the default sort type
+        $scope.sortReverse  = false; // set the default sort order
+
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
