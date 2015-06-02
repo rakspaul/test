@@ -63,14 +63,14 @@
                                      </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics track by $index" ng-if="tactic.platform_metrics.performance">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.platform_metrics.performance">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance | orderBy:sortType:sortReverse track by $index" ng-include="'performanceTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -102,14 +102,14 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics track by $index" ng-if="tactic.platform_metrics.cost">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.platform_metrics.cost">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost | orderBy:sortType:sortReverse track by $index" ng-include="'costTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -138,14 +138,14 @@
 
                                 </div>
                                 <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewability.tactics track by $index" ng-if="tactic.platform_metrics.viewability">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewability.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.platform_metrics.viewability">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col">
                                                 {{tactic.name}}
                                             </div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  track by $index" ng-include="'viewabilityTpl'"></div>
+                                                <div class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortType:sortReverse track by $index" ng-include="'viewabilityTpl'"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -226,7 +226,7 @@
         <div class="each_cost_col tenth_col total_cost">${{costData.platformType_aggregation.total_spend | number:0}}</div>
     </div>
 
-    <div class="platform_row" ng-repeat="platform in costData.platforms track by $index">
+    <div class="platform_row" ng-repeat="platform in costData.platforms  track by $index">
         <div class="each_cost_col first_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'? '/assets/images/platform_logos/platform_logo.png': platform.icon_url}}" />
