@@ -249,23 +249,14 @@ var angObj = angObj || {};
         });
 
         $scope.sortClassFunction = function (a,b,c) {
-            console.log(a + "-----"+ b + "---" + c);
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
         };
-
-
         /*$scope.sortColumnFunction = function (a,b) {
             $scope.sortType     = a; // set the default sort type
             $scope.sortReverse  = b; // set the default sort order
-
-
         };
 */
-
-
-
-
     });
 }());
