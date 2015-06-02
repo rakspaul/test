@@ -173,6 +173,7 @@
                       </div>
 
                       <div id="action-container" class="activity_log_list">
+                        <div class="gradient_div"></div>
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
                           <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index">
 
@@ -588,6 +589,17 @@
         $("#action_save_btn").click(function(){
            $("#edit_error_comment").show();
         });
+
+        $('.activity_log_list').bind('scroll', function(e) {
+            var elem = $(e.currentTarget);
+            if (elem[0].scrollHeight - elem.scrollTop() + 1 == elem.outerHeight()) 
+            {
+                $(".gradient_div").hide() ;
+            } else {
+                $(".gradient_div").show() ;
+            }
+        });
+
   });
     var updateSaveBtnStatus = function(){
     var txt = (jQuery("#edit_action_comment").val()).replace(/\n/g, '').replace('\\n', '');
