@@ -387,6 +387,16 @@ angObj.directive('truncateTextWithHover', function () {
       '{{txt}}</span>'
     };
   });
+  angObj.directive('targetingIconWithHover', function () {
+    return{
+      restrict: 'AE',
+      scope: {
+        txt: "@txt",
+        className: "@className"
+      },
+      template:'<span ng-show="(txt.length > 0 )" tooltip-placement="bottom" tooltip="{{txt}}" class="{{className}}"></span>'
+    };
+  });
   angObj.filter('spliter', function () {
     return function (input, splitIndex) {
 // do some bounds checking here to ensure it has that index
