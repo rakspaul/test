@@ -145,16 +145,15 @@
             var getTacticList = function(strategy, timePeriod, campaign) {
                 dataService.getStrategyTacticList(strategy.id).then(function (response) {
                     var result = response.data,
-                        pageSize = 3;
-                    if(result.status == "OK" && !angular.isString(result.data)) {
-                        if(result.data.length >= 0) {
-                            console.log(result.data);
-                            //kpiType, kpiValue
-                            if(result.data.length <= pageSize) {
-                                strategy.strategyTactics = createTacticObject(result.data, timePeriod,campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
+                        pageSize = 3,
+                        data = result.data;
+                    if(result.status == "OK" && !angular.isString(data)) {
+                        if(data.length >= 0) {
+                            if(data.length <= pageSize) {
+                                strategy.strategyTactics = createTacticObject(data, timePeriod,campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
                             } else {
-                                strategy.strategyTactics = createTacticObject(result.data.slice(0,pageSize), timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
-                                strategy.strategyTacticsLoadMore = createTacticObject(result.data.slice(pageSize), timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
+                                strategy.strategyTactics = createTacticObject(data.slice(0,pageSize), timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
+                                strategy.strategyTacticsLoadMore = data.slice(pageSize);//createTacticObject(data.slice(pageSize), timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
                             }
                         }
                     }
@@ -163,8 +162,10 @@
             };
 
 
-            var getTacticData = function(strategy, timePeriod, campaign) {    
-                getTacticList(strategy, timePeriod, campaign);
+            var getTacticData = function(strategy, timePeriod, campaign, data) {  
+                //create tactic object and request cdb and metric data
+                var dataObj = createTacticObject(data, timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);  
+                return dataObj;
             };
 
             var getTacticsMetrics = function(index, tacticObj, tacticMetrics) {
@@ -315,8 +316,9 @@
 
             var getStrategyListData = function(campaign, timePeriod) {
 
-                var kpiType = campaign.kpiType;
-                var kpiValue = campaign.kpiValue;
+                var kpiType = campaign.kpiType,
+                    kpiValue = campaign.kpiValue,
+                    pageSize = 3;
 
                 // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
                 var url = '/campaigns/' + campaign.orderId + '/strategies' ;
@@ -341,14 +343,14 @@
                             //TO DO: separate list data call and data manipulation
 
                             
-                            dataObj = createStrategyObject(data.slice(0,3), timePeriod, campaign, kpiType, kpiValue);
+                            dataObj = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
                             campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
 
-                            if(data.length <=3) {
+                            if(data.length <= pageSize) {
                                 campaign.campaignStrategies = campaignStrategies;
                             } else {
                                 campaign.campaignStrategies = campaignStrategies;
-                                campaign.campaignStrategiesLoadMore = data.slice(3);
+                                campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                             }
 
                         }
@@ -455,15 +457,23 @@
 
                 //should be moved to campaign details service
                 getStrategiesData: function(campaign, timePeriod) {
+                    //request list
                     return getStrategyListData(campaign, timePeriod)
                 }, 
 
                 requestStrategiesData: function(campaign, timePeriod, data) {
+                    //request metrics and cdb data
                     return getStrategyData(campaign, timePeriod, data)
                 }, 
 
-                requestTacticData: function(strategy, timePeriod, campaign) {
+                requestTacticsList: function(strategy, timePeriod, campaign) {
+                    //request list 
                     return getTacticList(strategy, timePeriod, campaign);
+                },
+
+                requestTacticsData: function(strategy, timePeriod, campaign, data) {
+                    //request metrics and cdb data
+                    return getTacticData(strategy, timePeriod, campaign, data);
                 }
             };
         }]);

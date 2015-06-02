@@ -279,9 +279,13 @@
                     if (loadMoreData.length > 0) {
                         var moreData = loadMoreData.splice(0, pageSize)
                         var moreDataLen = moreData.length;
+
+                        //create object for paginated data and request cdb and metric data
+                        var newTacticData = campaign.requestTacticsData(campaignStrategies[i], constants.PERIOD_LIFE_TIME, $scope.campaign, moreData);
                         var tmpstrategyTacticsArr = [];
                         for (var len = 0; len < moreDataLen; len++) {
-                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
+                            //update tactic model
+                            $scope.campaign.campaignStrategies[i].strategyTactics.push(newTacticData[len]);
                         }
                     }
                 }

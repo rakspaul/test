@@ -96,7 +96,7 @@
 
                     //TODO: check if object already requested! 
                     //introducing the tactic data call initiation on click here
-                    campaignListService.requestTacticData(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign);
+                    campaignListService.requestTacticsList(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign);
 
                     if(tacticsCount > maxTacticsCount){
                         getTacticsCount = maxTacticsCount;
