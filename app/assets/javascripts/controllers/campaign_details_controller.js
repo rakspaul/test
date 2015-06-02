@@ -403,7 +403,94 @@
             });
         };
         
-        // Platform Widget Data Connection
+        // Screen Widget Start
+        $scope.getScreenGraphData  = function(campaign){
+            var screens,
+                orderByscreens = new Array(),
+                inc = 0;
+            $scope.screenTotal = 0;
+            
+            dataService.getScreenData($scope.campaign).then(function(result) {
+                $scope.loadingScreenFlag = false;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    var kpiModel = kpiSelectModel.selectedKpi;
+                    var resultDataLen = 0,screensData=undefined;
+                    if (result.data.data && result.data.data.length > 0 && result.data.data[0].perf_metrics) {
+                        screensData=result.data.data[0].perf_metrics;
+                        resultDataLen = screensData.length;
+                    }
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
+                    for (var i = 0; i < resultDataLen; i++) {
+                        screensData[i].ctr *= 100;
+                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
+                    }
+                    if(resultDataLen>0){
+                        screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
+                        _.each(screens, function(screen) {
+                             var screenType = screen.dimension.toLowerCase();
+                             if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
+                                if(screen[campaign.kpiType.toLowerCase()] > 0){
+                                    $scope.screenTotal +=screen[campaignKpiType];
+                                     orderByscreens[inc]=screen[campaignKpiType];
+                                     inc++;  
+                                }
+                            }
+                             switch(screenType){
+                                case 'smartphone': screen.icon = "mobile_graph"; break;
+                                case 'tv':   screen.icon = "display_graph"; break;
+                                case 'tablet':   screen.icon = "tablet_graph"; break;
+                                case 'desktop':   screen.icon = "display_graph"; break;
+                            }
+                        });
+                        var maximumValue = 0 ;
+                        if(orderByscreens.length > 0 ){
+                            maximumValue = Math.max.apply(Math,orderByscreens);
+                        }
+                        $scope.details.screens = screens; 
+                        $scope.details.screenTop = maximumValue;
+                        $scope.details.kpiType = campaignKpiType;
+                    }
+                    
+                    //d3 Starts Here
+                        var containerWidthScreen = $('.bar_section_graph_holder_platform .each_section_graph').width();
+                        var kpiCountScreen = orderByscreens,
+                            chartScreen,
+                            widthScreen = containerWidthScreen - 28,
+                            bar_heightScreen = 4,
+                            gapScreen = 0,
+                            heightScreen = bar_heightScreen + 50;
+                        
+                        var xScreen, yScreen;
+                        
+                        xScreen = d3.scale.linear()
+                           .domain([0, d3.max(kpiCountScreen)])
+                           .range([0, widthScreen]);
+                            
+                        yScreen = function(iScreen) { return bar_heightScreen * iScreen; }
+                        
+                        chartScreen = d3.select($("#screenWidget")[0])
+                          .append('svg')
+                          .attr('class', 'chart')
+                          .attr('width', widthScreen)
+                          .attr('height', 200);
+                          
+                        chartScreen.selectAll("rect")
+                          .data(kpiCountScreen)
+                          .enter().append("rect")
+                          .attr("x", 0)
+                          //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
+                          .attr("y", function(dScreen, iScreen) { return iScreen * 33; })
+                          .attr("width", xScreen)
+                          .attr("height", bar_heightScreen);
+                    // d3 Ends Here
+                }
+            },function(result){
+                console.log('screen data call failed');
+            });
+        };
+        // Screen Widget Ends
+        
+        // Platform Widget Starts
         $scope.getPlatformData =  function() {
             var param = {
                 campaignId: $scope.campaign.orderId,
@@ -454,7 +541,7 @@
                         var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
                         var kpiCount = $scope.chartData,
                             chart,
-                            width = containerWidth,
+                            width = containerWidth - 28,
                             bar_height = 4,
                             gap = 0,
                             height = bar_height + 50;
@@ -467,12 +554,10 @@
                         
                         y = function(i) { return bar_height * i; }
                       
-                        var left_width = 100;
-                       
                         chart = d3.select($("#platformWidget")[0])
                           .append('svg')
                           .attr('class', 'chart')
-                          .attr('width', left_width + width)
+                          .attr('width', width)
                           .attr('height', 200);
                           
                         chart.selectAll("rect")
@@ -492,9 +577,8 @@
                 console.log('Platform data call failed');
             });
         };
+        // Platform Widget Ends
 
-
-        
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
@@ -533,56 +617,7 @@
                 console.log('formats data call failed');
             });
         };
-         $scope.getScreenGraphData  = function(campaign){
-            var screens,
-                orderByscreens = new Array(),
-                inc = 0;
-            $scope.screenTotal = 0;
-            dataService.getScreenData($scope.campaign).then(function(result) {
-                $scope.loadingScreenFlag = false;
-                if (result.status == "success" && !angular.isString(result.data)) {
-                    var resultDataLen = 0,screensData=undefined;
-                    if (result.data.data && result.data.data.length > 0 && result.data.data[0].perf_metrics) {
-                        screensData=result.data.data[0].perf_metrics;
-                        resultDataLen = screensData.length;
-                    }
-                    var campaignKpiType = campaign.kpiType.toLowerCase();
-                    for (var i = 0; i < resultDataLen; i++) {
-                        screensData[i].ctr *= 100;
-                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
-                    }
-                    if(resultDataLen>0){
-                        screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
-                        _.each(screens, function(screen) {
-                             var screenType = screen.dimension.toLowerCase();
-                             if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
-                                if(screen[campaign.kpiType.toLowerCase()] > 0){
-                                    $scope.screenTotal +=screen[campaignKpiType];
-                                     orderByscreens[inc]=screen[campaignKpiType];
-                                     inc++;  
-                                }
-                                    
-                            }
-                             switch(screenType){
-                                case 'smartphone': screen.icon = "mobile_graph"; break;
-                                case 'tv':   screen.icon = "display_graph"; break;
-                                case 'tablet':   screen.icon = "tablet_graph"; break;
-                                case 'desktop':   screen.icon = "display_graph"; break;
-                            }
-                        });
-                        var maximumValue = 0 ;
-                        if(orderByscreens.length > 0 ){
-                            maximumValue = Math.max.apply(Math,orderByscreens);
-                        }
-                        $scope.details.screens = screens; 
-                        $scope.details.screenTop = maximumValue;
-                        $scope.details.kpiType = campaignKpiType;
-                    }
-                }
-            },function(result){
-                console.log('screen data call failed');
-            });
-        };
+        
         $scope.getCostViewabilityData  = function(campaign){
             var viewabilityData, viewData;
              //get cost break down data
