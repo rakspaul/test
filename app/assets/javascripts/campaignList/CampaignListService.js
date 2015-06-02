@@ -285,7 +285,7 @@
                 });
             };
 
-            var getStrategyList = function(campaign, timePeriod) {
+            var getStrategyListData = function(campaign, timePeriod) {
 
                 var kpiType = campaign.kpiType;
                 var kpiValue = campaign.kpiValue;
@@ -294,19 +294,45 @@
                 var url = '/campaigns/' + campaign.orderId + '/strategies' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
-                    if(result.status == "success" && !angular.isString(result.data.data)) {
-                        if(result.data.data.length >= 0) {
-                            var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
-                            var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
-                            if(result.data.data.length <= 3) {
+                    var data = result.data.data;
+                    if(result.status == "success" && !angular.isString(data)) {
+                        if(data.length >= 0) {
+                            var dataObj, campaignStrategies ;
+
+                            //TODO: DO NOT DELETE - UNTIL WE INTRODUCE PAGINATION
+                            // var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
+                            // var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                            // if(result.data.data.length <= 3) {
+                            //     campaign.campaignStrategies = campaignStrategies;
+                            // } else {
+                            //     campaign.campaignStrategies = campaignStrategies.slice(0,3);
+                            //     campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
+                            // }
+
+                            //TO DO: optimise this a bit futher after introducing pagination
+                            //TO DO: separate list data call and data manipulation
+
+                            
+                            dataObj = createStrategyObject(data.slice(0,3), timePeriod, campaign, kpiType, kpiValue);
+                            campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+
+                            if(data.length <=3) {
                                 campaign.campaignStrategies = campaignStrategies;
                             } else {
-                                campaign.campaignStrategies = campaignStrategies.slice(0,3);
-                                campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
+                                campaign.campaignStrategies = campaignStrategies;
+                                campaign.campaignStrategiesLoadMore = data.slice(3);
                             }
+
                         }
                     }
                 });
+            };
+
+            var getStrategyData = function(campaign, timePeriod, data) {
+                //this requests strategy data - invoked when requestStrategiesData is called from controller
+                var dataObj = createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
+                var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                return campaignStrategies;
             };
 
             var getCdbLineChart = function(obj, campaignList, timePeriod, callback) {
@@ -401,7 +427,11 @@
 
                 //should be moved to campaign details service
                 getStrategiesData: function(campaign, timePeriod) {
-                    return getStrategyList(campaign, timePeriod)
+                    return getStrategyListData(campaign, timePeriod)
+                }, 
+
+                requestStrategiesData: function(campaign, timePeriod, data) {
+                    return getStrategyData(campaign, timePeriod, data)
                 }
             };
         }]);

@@ -253,13 +253,18 @@
                 loadMoreData = campaignArray.campaignStrategiesLoadMore;
             if (loadMoreData.length > 0) {
                 var moreData = loadMoreData.splice(0, pageSize),
-                    morDataLen = moreData.length;
-                var tmpCampaignStrategiesArr = [];
+                    morDataLen = moreData.length,
+                    //requesting strategy card data 
+                    newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, moreData),
+                    tmpCampaignStrategiesArr = [];
+
                 for (var len = 0; len < morDataLen; len++) {
-                    tmpCampaignStrategiesArr.push(moreData[len]);
+                    tmpCampaignStrategiesArr.push(newStrategyData[len]);
                 }
+                //TODO: optimising this after introducing pagination
                 //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
+                //$scope.campaign.campaignStrategies.apply();
             }
             $scope.applySortStrategies();
         };
