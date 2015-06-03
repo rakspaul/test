@@ -100,12 +100,12 @@
                             <span class="detail_val">{{tactic.ctr | roundThisOff : 2}}%</span>
                             <span>CTR</span>
                         </div>
-                        <div class="each_metric_graph_details metric_graph_details_action" ng-if="!tactic.vtc_rate || tactic.vtc_rate < 0">
-                            <span class="detail_val">{{tactic.actionRate | roundThisOff : 2}}%</span>
+                        <div class="each_metric_graph_details metric_graph_details_action" ng-if="!tactic.hasVTCMetric || tactic.vtc_rate < 0">
+                            <span class="detail_val">{{tactic.actionRate | number : 2}}%</span>
                             <span>Action Rate</span>
                         </div>
 
-                        <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="tactic.vtc_rate && tactic.vtc_rate >= 0">
+                        <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="tactic.hasVTCMetric && tactic.vtc_rate >= 0">
                             <div class="quartile_details_VTC_btn">
                                 <span class="detail_val">{{tactic.vtc_rate | vtcRoundOff : 2}}%</span>
                                 <span>VTC</span>
