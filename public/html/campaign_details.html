@@ -485,13 +485,10 @@
                                 </div>
                             </div>
                     </div>
-
-                    <div class="each_col col_vtc">
+                    <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                         <div class="col_heading clearfix">Quartile Details
                         </div>
-                        <div class="vtc_graph">
-                                
-                        </div>
+                        <div class="quartile_details_graph" width='328' height='80' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].video_metrics}}"></div>
                     </div>
                 </div>
           </div>
