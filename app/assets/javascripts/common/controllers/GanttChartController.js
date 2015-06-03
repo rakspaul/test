@@ -189,7 +189,7 @@
         $scope.init();
 
         //Listener for brand changes
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+        $scope.$on(constants.EVENT_BRAND_CHANGED,constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
             //removing chart to update and redraw
             $('.chart').remove();
             $('.header-chart').remove();
