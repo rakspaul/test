@@ -1,22 +1,26 @@
 <div class="each_col sec_col">
-    <span>Platform</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('platform_type',sortType,sortReverse)" ng-click="sortType = 'platform_type'; sortReverse = !sortReverse" >Platform</span>
+    <!--<span class="icon_text_holder" ng-class="{ active:sortType === 'platform',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" data-ng-click="sortColumnFunction('impressions','!sortReverse');" >Platform</span>-->
 </div>
 <div class="each_col third_col">
-    <span>Imps.</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'impressions'; sortReverse = !sortReverse" >Imps.</span>
 </div>
 <div class="each_col forth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon ng-scope" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>CTR</span>
+    <span class="icon_text_holder"  ng-class="sortClassFunction('ctr',sortType,sortReverse)" ng-click="sortType = 'ctr'; sortReverse = !sortReverse" >
+        <span class="default-kpi-header-icon ng-scope icon_text_holder"  tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>
+        CTR
+    </span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon ng-scope" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'action_rate'"></span>Action Rate</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse" >Action Rate</span>
 </div>
 <div class="each_col sixth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon ng-scope" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpa'"></span>CPA</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse" >CPA</span>
 </div>
 <div class="each_col seventh_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon ng-scope" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpc'"></span>CPC</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('cpc',sortType,sortReverse)" ng-click="sortType = 'cpc'; sortReverse = !sortReverse" >CPC</span>
 </div>
 <div class="each_col seventh_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon ng-scope" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'cpm'"></span>CPM</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('cpm',sortType,sortReverse)" ng-click="sortType = 'cpm'; sortReverse = !sortReverse" >CPM</span>
 </div>
 

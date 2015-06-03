@@ -31,20 +31,20 @@
                     <div class="reports_cost_header_holder">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="each_cost_col first_col active">Imps.</div>
+                            <div class="each_cost_col first_col icon_text_holder" ng-class="{ active:sortType === 'impressions',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'impressions'; sortReverse = !sortReverse">Imps.</div>
                             <div class="each_cost_col second_col">
                                 <div class="dropdown" id="kpi_dropdown">
                                     <kpi-drop-down> </kpi-drop-down>
 
                                     </div>
                             </div>
-                            <div class="each_cost_col three_col">Inventory</div>
-                            <div class="each_cost_col four_col">Data</div>
-                            <div class="each_cost_col five_col">Ad Serving</div>
-                            <div class="each_cost_col six_col">Creative</div>
-                            <div class="each_cost_col sev_col">Research</div>
-                            <div class="each_cost_col eight_col">Ad Verification</div>
-                            <div class="each_cost_col ninth_col">Tech Fees
+                            <div class="each_cost_col three_col  icon_text_holder" ng-class="sortClassFunction('inventory_cost',sortType,sortReverse)" ng-click="sortType = 'inventory_cost'; sortReverse = !sortReverse">Inventory</div>
+                            <div class="each_cost_col four_col  icon_text_holder" ng-class="sortClassFunction('data_cost',sortType,sortReverse)" ng-click="sortType = 'data_cost'; sortReverse = !sortReverse">Data</div>
+                            <div class="each_cost_col five_col  icon_text_holder" ng-class="sortClassFunction('ad_serving_cost',sortType,sortReverse)" ng-click="sortType = 'ad_serving_cost'; sortReverse = !sortReverse">Ad Serving</div>
+                            <div class="each_cost_col six_col  icon_text_holder" ng-class="sortClassFunction('rich_media_cost',sortType,sortReverse)" ng-click="sortType = 'rich_media_cost'; sortReverse = !sortReverse">Creative</div>
+                            <div class="each_cost_col sev_col  icon_text_holder" ng-class="sortClassFunction('research_cost',sortType,sortReverse)" ng-click="sortType = 'research_cost'; sortReverse = !sortReverse">Research</div>
+                            <div class="each_cost_col eight_col  icon_text_holder" ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)" ng-click="sortType = 'ad_verification_cost'; sortReverse = !sortReverse">Ad Verification</div>
+                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('platform_cost',sortType,sortReverse)" ng-click="sortType = 'platform_cost'; sortReverse = !sortReverse">Tech Fees
                                 <div class="tooltip_holder">
                                       <span class="tooltip_show_icon"></span>
                                       <div class="common_tooltip">Tech Fees is Collective's platform fees that is computed as a margin of the associated cost of Managed services + Ad execution as per the signed contract</div>
@@ -106,7 +106,7 @@
                                 <div class="all_startegy_cost">
                                     <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
                                     <!--{{filter.sortByColumn}}-->
-                                    <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData track by $index|orderBy: sortByColumn">
+                                    <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData | orderBy:sortType:sortReverse track by $index">
                                         <div class="each_cost_row">
                                             <div class="each_cost_heading" >
                                                 {{tactic.name}}

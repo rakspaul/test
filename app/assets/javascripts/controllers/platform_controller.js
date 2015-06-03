@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
-    
+
         //platform icon mapping object.
         var platform_icon_map= {
             'Facebook':'',
@@ -28,6 +28,10 @@ var angObj = angObj || {};
             'Collective Test Media':'assets/images/platform_logos/collective_logo.png',
             'Microsoft':'https://www.msn.com/favicon.ico'
         };
+
+
+        $scope.sortType     = 'impressions'; // set the default sort type
+        $scope.sortReverse  = false; // set the default sort order
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -110,8 +114,8 @@ var angObj = angObj || {};
                 }
             }, errorHandlerForPerformanceTab);
         },
-        
-        
+
+
 
         //strategy change handler
         $scope.strategyChangeHandler = function () {
@@ -161,7 +165,7 @@ var angObj = angObj || {};
 
             $scope.download_report = download_report;
         };
-        
+
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
@@ -241,7 +245,18 @@ var angObj = angObj || {};
             if($scope.selected_filters == undefined)
                 $scope.selected_filters = {} ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            /*$scope.sortType    = "platformType_aggregation."+kpiSelectModel.getSelectedKpi();*/
         });
 
+        $scope.sortClassFunction = function (a,b,c) {
+            var isActive = (a === b ) ?  'active' : '';
+            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            return isActive + " " + sortDirection;
+        };
+        /*$scope.sortColumnFunction = function (a,b) {
+            $scope.sortType     = a; // set the default sort type
+            $scope.sortReverse  = b; // set the default sort order
+        };
+*/
     });
 }());
