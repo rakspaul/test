@@ -10,7 +10,21 @@
         var kpiSuffix = function (kpiType) {
             return (kpiType.toLowerCase() == 'vtc') ? '%' : ''
         };
-
+        var getActivityCountLabel = function(activityCount){
+            var display_activityCount =  '';
+             switch(true) {
+               case (activityCount >=1 && activityCount < 10) :
+                     display_activityCount =  '    <span style="color:transparent">-</span>'+ activityCount+' ';
+                     break;
+               case (activityCount >= 10 && activityCount <= 99) :
+                    display_activityCount =  ' '+activityCount+' ';
+                    break;
+               case (activityCount >99) :
+                    display_activityCount =  ' 99+';
+                    break;
+            }
+            return display_activityCount;
+        };
         var wordwrap =  function(str, int_width, str_break, cut) {
             var m = ((arguments.length >= 2) ? arguments[1] : 75);
             var b = ((arguments.length >= 3) ? arguments[2] : '\n');
@@ -49,7 +63,8 @@
                 flagId = isActionExternal == true ? 'external' : 'internal',
                 applyColor = (activityCount >1 ) ? 1 : 0,
                 place_circle_x = 7.0,
-                display_activityCount =  (activityCount.toString().length > 1 ?  ' '+activityCount+' ' : '    <span style="color:transparent">-</span>'+ activityCount+' '),
+                display_activityCount = getActivityCountLabel(activityCount),
+                displayFontSize = (activityCount > 99 ) ? '8px' : '12px',
                 numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities',
                 circleObj = null,
                 marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2).attr({
@@ -60,7 +75,7 @@
                     applyColor:applyColor,
                     circle_slno:circleSLNo
                 }).css({
-                    fontSize: '12px',
+                    fontSize: displayFontSize,
                     textAlign: 'center',
                     position:'absolute',
                     padding:5,
@@ -84,10 +99,22 @@
             var getPosition = function(that,axis){
                 return parseInt(that.getAttribute(axis));
             };
+            var getCircleStatus = function(that){
+               return that.getAttribute("circle_slno").substr(0,3);     
+            };
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
-                var cX = getPosition(that,'cX') + 10;
-                var cY = getPosition(that,'cY') + 15;
+                var cX = getPosition(that,'cX') + 10,
+                    cY = getPosition(that,'cY') + 15,
+                    getId = getPosition(that,'id'),
+                    circleStroke = getCircleStatus(that) == 'ext' ? '#2c9aec':'#7e848b',
+                    activityCount = getPosition(that,'activityCount'),
+                    activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0;
+                $("#"+getId).attr({stroke:circleStroke});
+                //Mouseover for the text need to check if activity count > 1
+                if(activityCount > 1 && activeStatus == 0){
+                    $("#t"+getId).css({color:circleStroke,fill:circleStroke});
+                }
                     var x = cX,
                     y = cY,
                     correctionX = 0,
@@ -127,22 +154,39 @@
                             zIndex: 15
                         }).add();
             };
-
+            var chartMouseOut = function(that){
+                 var getId = getPosition(that,'id'),
+                     circleStroke = getCircleStatus(that) == 'ext' ? '#177ac6':'#57606c',
+                     activityCount = getPosition(that,'activityCount'),
+                     activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0,
+                     display_color = activityCount == 1 ? 'transparent' : '#000';
+                if(activeStatus == 0){
+                      // Mouseout for the circle
+                     $("#"+getId).attr({stroke:circleStroke});
+                     // Mouseout for the Text
+                     $("#t"+getId).css({color:display_color,fill:display_color});  
+                }else{
+                     //$("#"+getId).attr({stroke:circleStroke});
+                     // Mouseout for the Text
+                     if(activityCount > 1)
+                     $("#t"+getId).css({color:'#fff',fill:'#fff'});  
+                }
+            };
             var chartClick =  function(circleObj, that) {
                 var myContainer = $('#action-container:first'),
                     getIdList = that.getAttribute('id_list'),
                     circle_slno = that.getAttribute('circle_slno'),
                     splitIdList =  getIdList.split(",");
 
-                $('circle').attr({ fill:'#ffffff'});
+                $('circle').attr({ fill:'#ffffff',activeStatus:0});
                 //check and select multiple activity id
                 if(splitIdList.length > 1 ) {
                     for(var i=0;i < splitIdList.length;i++){
                         var targetId =splitIdList[i];
-                        $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#777':'#0072bc'});
+                        $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
                     }
                 } else {
-                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal == false ) ? '#777':'#0072bc'});
+                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
                 }
                 $("text[applyColor=1]").css({fill:'#000'});
                 var getactivityCount = that.getAttribute('activityCount');
@@ -200,7 +244,9 @@
                     }
                 }
             };
-            chart.renderer.circle(container.x+place_circle_x+adjustX , container.y+adjustY,10).attr({
+            // Adjust the circle if activity Count is greater than 99+
+            var adjustYForMoreActivity = activityCount > 99 ?   0.80 : 0;
+            chart.renderer.circle(container.x+place_circle_x+adjustX , container.y+adjustY-adjustYForMoreActivity,9).attr({
                 fill: '#fff',
                 stroke: (defaultGrey == false|| isActionExternal == false ) ? '#777':'#0072bc',
                 'stroke-width': 2.5,
@@ -217,8 +263,9 @@
             }).css({
                 cursor: 'pointer'
             }).on('mouseover', function (event) {
-                chartMouserOver(event, chart, this)
+                chartMouserOver(event, chart, this);
             }).on('mouseout', function (event) {
+                chartMouseOut(this);
                 text.destroy();
                 textBG.destroy();
                 $('.highcharts-tooltip').show();
@@ -292,6 +339,7 @@
                             minPadding:0,
                             tickWidth: 0,
                             labels: {
+                                style: {"color":"#57595b","fontSize":11},
                                 formatter: function() {
                                     if(this.isFirst) {
                                         return Highcharts.dateFormat('%e', this.value);
@@ -335,12 +383,13 @@
                         lineWidth: 1,
                         tickWidth: 0,
                         labels: {
+                            style: {"color":"#57595b","fontSize":11},
                             formatter: function() {
                                 return kpiPrefix(kpiType) + this.value + kpiSuffix(kpiType);
                             }
                         },
                         plotBands: [{ // Light air
-                            color: '#fbdbd1',
+                            color: '#ffefef',
                             label: {
                               enabled: false,
                               text: '',
@@ -388,7 +437,7 @@
                     },
                     name: kpiType,
                     data: data,
-                    color: "#00bff0" /*#6fd0f4"*/
+                    color: "#177ac6" /*#6fd0f4"*/
                 }],
                 loading: false,
                 func: function(chart) {
@@ -418,7 +467,7 @@
                             chart.yAxis[0].addPlotBand({ // Light air
                                 from: threshold,
                                 to: (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? extremes.max : extremes.min,
-                                color: '#fbdbd1',
+                                color: '#ffefef',
                                 label: {
                                     enabled: false,
                                     text: '',
@@ -583,9 +632,10 @@
                                     getactivityCount =  activityLocalStorageInfo.actionSelActivityCount,
                                     splitIdList =  activityLocalStorageInfo.actionSel.split(","),
                                     getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo;
-                                    $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal == false  ? '#777':'#0072bc'});
+                                    $('circle').attr({activeStatus:0});
+                                    $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal == false  ? '#7e848b':'#2c9aec',activeStatus:1,stroke:   isActionExternal == false  ? '#7e848b':'#2c9aec'});
                                 if(getactivityCount > 1){
-                                    $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff'});
+                                    $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff',activeStatus:1});
                                 }
                                 //Select Activity
                                 var myContainer = $('#action-container:first');
