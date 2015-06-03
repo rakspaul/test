@@ -71,7 +71,7 @@
         else
              getSpendDataForCampaigns();
 
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
+        $scope.$on((constants.EVENT_BRAND_CHANGED , constants.EVENT_STATUS_FILTER_CHANGED), function (event, args) {
             bubbleChart.cleaningBubbleChart("brands");
             bubbleChart.cleaningBubbleChart("campaigns");
             if(brandsModel.getSelectedBrand().id == -1)// All brands is selected
