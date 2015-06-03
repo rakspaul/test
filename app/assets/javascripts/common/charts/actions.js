@@ -20,7 +20,7 @@
                     display_activityCount =  ' '+activityCount+' ';
                     break;
                case (activityCount >99) :
-                    display_activityCount =  ' '+activityCount+'+';
+                    display_activityCount =  ' 99+';
                     break;
             }
             return display_activityCount;
