@@ -161,7 +161,6 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
     };
 
     Campaigns.prototype.fetchCampaigns = function() {
-      console.log("fetchCampaigns");
       $( "#cost_block,#performance_block" ).scroll(function(){
         scrollFlag = 1;
       });
