@@ -90,48 +90,51 @@
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
-                campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time', null, function(campaignData, campaignDaysData) {
-                    var cdbData = _.last(campaignDaysData.measures_by_days);
-                    $scope.campaign = campaignData;
+                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                var selectedCampaign = {
+                    id : $scope.campaign.id,
+                    name : $scope.campaign.name,
+                    startDate : $scope.campaign.start_date,
+                    endDate : $scope.campaign.end_date,
+                    kpi : $scope.campaign.kpi_type.toLowerCase()
+                };
+                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+                campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
-                    var selectedCampaign = {
-                        id : $scope.campaign.id,
-                        name : $scope.campaign.name,
-                        startDate : $scope.campaign.start_date,
-                        endDate : $scope.campaign.end_date,
-                        kpi : $scope.campaign.kpi_type.toLowerCase()
+                var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
+
+                if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
+                    var _brand ={
+                        className: "active",
+                        id: -1,
+                        name: "All Brands"
                     };
-                    $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-                    campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
-                    var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
+                    brandsModel.setSelectedBrand(_brand);
 
-                    if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
-                       var _brand ={
-                           className: "active",
-                           id: -1,
-                           name: "All Brands"
-                       };
+                    $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
+                }
 
-                        brandsModel.setSelectedBrand(_brand);
+                campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                updateActionItems($scope.getCdbChartData,1,true);
 
-                        $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
+                campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(campaignDaysData) {
+                    if(campaignDaysData) {
+                        var cdbData = _.last(campaignDaysData.measures_by_days);
+                        if(typeof campaignDaysData.hasVTCMetric !== 'undefined')
+                            cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
+                        $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
                     }
+                });
 
-                    campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
-                    updateActionItems($scope.getCdbChartData,1,true);
-                    cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
-                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
-
-                    if($scope.isCostModelTransparent) {
-                        $scope.getCostBreakdownData($scope.campaign);
-                    }
-                    $scope.getPlatformData();
-                    $scope.getCostViewabilityData($scope.campaign);
-                    $scope.getInventoryGraphData($scope.campaign);
-                    $scope.getScreenGraphData($scope.campaign);
-                })
-
+                if($scope.isCostModelTransparent) {
+                    $scope.getCostBreakdownData($scope.campaign);
+                }
+                $scope.getPlatformData();
+                $scope.getCostViewabilityData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                //$scope.getPlatformGraphData($scope.campaign);
+                $scope.getScreenGraphData($scope.campaign);
             } else {
                 if (result.status ==='error') {
                     $scope.api_return_code = result.data.status;
