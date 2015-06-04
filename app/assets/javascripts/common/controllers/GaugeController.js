@@ -17,9 +17,14 @@
     gauge.createGauge();
     gauge.setMessage(constants.GAUGE_PERFORMANCE, '%');
 
-    $scope.$on((constants.EVENT_BRAND_CHANGED,constants.EVENT_STATUS_FILTER_CHANGED), function(event, args) {
+    $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
       getGaugeData();
     });
+
+    $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+        getGaugeData();
+    });
+
     function getGaugeData () {
       $scope.perfBusy = true;
       gaugeModel.getGaugeData().then(function(result) {

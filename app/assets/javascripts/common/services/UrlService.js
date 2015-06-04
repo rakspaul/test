@@ -38,37 +38,37 @@
     };
 
     this.APICampaignCountsSummary = function(timePeriod, brandId, status) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod  + '&campaignState='+ status + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
+      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod  + '&campaignState='+ (status == undefined ? undefined : status.toLowerCase()) + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
         return url;
     };
 
     this.APISpendWidgetForAllBrands = function(timePeriod, agencyId, status ){
-       var url = apiPaths.apiSerivicesUrl  + '/agencies/' + agencyId + '/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status ;
+       var url = apiPaths.apiSerivicesUrl  + '/agencies/' + agencyId + '/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase() ;
        return url ;
     };
 
       this.APISpendWidgetForCampaigns = function(timePeriod, agencyId , brandId , status ){
-          var url = apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId + '/brands/' + brandId +'/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status ;
+          var url = apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId + '/brands/' + brandId +'/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase() ;
           return url ;
       };
 
     this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, status ){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&campaignState='+ status ;
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&campaignState='+ status.toLowerCase() ;
        return url ;
     };
 
-    this.APICalendarWidgetForAllBrands = function(timePeriod, agencyId, sortColumn, state, brandId){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/meta?topCount=5&sort_column=' + sortColumn + '&campaignState=' + state ;
+    this.APICalendarWidgetForAllBrands = function(timePeriod, agencyId, sortColumn, status, brandId){
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/meta?topCount=5&sort_column=' + sortColumn + '&campaignState=' + status.toLowerCase() ;
        return url ;
     };
 
      this.APIScreenWidgetForAllBrands = function(timePeriod, agencyId , _screenWidgetFormatType, status){
-          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf?campaignState='+ status;
+          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf?campaignState='+ status.toLowerCase();
           return url ;
       };
 
       this.APIScreenWidgetForBrand = function(timePeriod,agencyId,  brandId , _screenWidgetFormatType, status){
-         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf?campaignState='+ status ;
+         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf?campaignState='+ status.toLowerCase() ;
           return url ;
       };
 

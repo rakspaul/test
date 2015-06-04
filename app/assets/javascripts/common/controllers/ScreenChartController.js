@@ -36,12 +36,21 @@
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
 
-        $scope.$on((constants.EVENT_BRAND_CHANGED, constants.EVENT_STATUS_FILTER_CHANGED), function(event, args) {
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            $scope.refresh();
+        });
+
+        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
+            $scope.refresh();
+        });
+
+
+        $scope.refresh = function(){
             d3.select("#screen_svg").remove();
             //$("#data_not_available_screen").hide();
             screenChartModel.getScreenWidgetData()['chartData']={};
             getScreenAndFormatData();
-        });
+        };
 
       $scope.$on('SCREEN_DATA_NOT_AVAILABLE', function() {
         $scope.dataFound = false;
