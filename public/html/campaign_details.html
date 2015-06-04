@@ -441,7 +441,7 @@
                     </div>
                 </div>
                 <!-- add campaign_overview_graphs_with_vtc when vtc is present -->
-                <div class="campaign_overview_graphs">
+                <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
                     <div class="each_col col_first">
                         <div class="col_heading"></div>
                         <div class="days_left_holder">
@@ -488,7 +488,7 @@
                     <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                         <div class="col_heading clearfix">Quartile Details
                         </div>
-                        <div class="quartile_details_graph" width='328' height='80' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].video_metrics}}"></div>
+                        <div class="quartile_details_graph" width='365' height='74' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].video_metrics}}"></div>
                     </div>
                 </div>
           </div>
