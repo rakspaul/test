@@ -46,7 +46,7 @@
     }
     updateTitle();
 
-    var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function() {
+    var eventBrandChangedFunc = $rootScope.$on((constants.EVENT_BRAND_CHANGED , constants.EVENT_STATUS_FILTER_CHANGED), function() {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
       updateTitle();
     });
