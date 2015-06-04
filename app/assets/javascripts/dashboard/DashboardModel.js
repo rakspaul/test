@@ -15,7 +15,7 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
   };
 
    var getCampaingsCount =  function () {
-        var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
+        var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id, dashboardData.selectedStatus);
         var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);
 
        return dataService.fetchCancelable(url, canceller, function(response) {
