@@ -203,7 +203,6 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                   cdbData['orderId'] = campaign.orderId;
                   cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
                   self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
-                console.log(self.cdbDataMap);
               }
 
               if(brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) { //as we change the brand, we are updating the campaign model as well.

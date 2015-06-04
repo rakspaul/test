@@ -148,6 +148,7 @@
                     tacticObj[index].grossRev = tacticMetrics.gross_rev;
                     tacticObj[index].ctr = tacticMetrics.ctr * 100;
                     tacticObj[index].actionRate = tacticMetrics.action_rate;
+                    tacticObj[index].vtcData = tacticMetrics.video_metrics;
                     tacticObj[index].vtc_rate = (tacticMetrics.video_metrics && tacticMetrics.video_metrics ) ? tacticMetrics.video_metrics.vtc_rate : -1;
                     tacticObj[index].map = {};
                     tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
@@ -254,6 +255,7 @@
                 strategyObj[index].grossRev = strategyMetrics.gross_rev;
                 strategyObj[index].ctr = strategyMetrics.ctr * 100;
                 strategyObj[index].actionRate = strategyMetrics.action_rate;
+                strategyObj[index].vtcData = strategyMetrics.video_metrics;
                 strategyObj[index].vtc_rate = strategyMetrics.video_metrics.vtc_rate;
                 strategyObj[index].map = {};
                 strategyObj[index].map['cpa'] = strategyMetrics.cpa;
