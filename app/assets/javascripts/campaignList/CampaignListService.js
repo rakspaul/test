@@ -394,6 +394,7 @@
                             }
                         }
                     }else{
+                        callback && callback(campaignObject);
                         campaignObject.chart = false;
                     }
                 });

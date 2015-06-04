@@ -161,7 +161,6 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
     };
 
     Campaigns.prototype.fetchCampaigns = function() {
-      console.log("fetchCampaigns");
       $( "#cost_block,#performance_block" ).scroll(function(){
         scrollFlag = 1;
       });
@@ -190,7 +189,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
           if (data.orders.length > 0) {
             var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
             campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate, function(campaign, campaignDaysData) {
-              var cdbData = _.last(campaignDaysData.measures_by_days);
+              if(campaignDaysData)
+                var cdbData = _.last(campaignDaysData.measures_by_days);
               self.campaignList.push(campaign);
               self.costIds += campaign.orderId + ',';
               Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
