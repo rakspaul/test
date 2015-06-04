@@ -25,7 +25,7 @@
       return url;
     };
 
-    
+
     //TODO: need to remove user_id - @Gaurav/ @Richa needs to verify where this is used
     this.APICampaignList = function (user_id, date_filter, page, sort_column, sort_direction, conditions) {
       var url = apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id=' + user_id + '&date_filter=' + date_filter + '&page=' + page +
@@ -37,38 +37,38 @@
       return this.APICampaignList(user_id, constants.PERIOD_LIFE_TIME, 1, 'start_date', constants.SORT_DESC, constants.ACTIVE_UNDERPERFORMING);
     };
 
-    this.APICampaignCountsSummary = function(timePeriod, brandId) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
+    this.APICampaignCountsSummary = function(timePeriod, brandId, status) {
+      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod  + '&campaignState='+ status + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
         return url;
     };
 
-    this.APISpendWidgetForAllBrands = function(timePeriod, agencyId ){
-       var url = apiPaths.apiSerivicesUrl  + '/agencies/' + agencyId + '/brands/spend/perf?date_filter=' + timePeriod ;
+    this.APISpendWidgetForAllBrands = function(timePeriod, agencyId, status ){
+       var url = apiPaths.apiSerivicesUrl  + '/agencies/' + agencyId + '/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status ;
        return url ;
     };
 
-      this.APISpendWidgetForCampaigns = function(timePeriod, agencyId , brandId ){
-          var url = apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId + '/brands/' + brandId +'/campaigns/spend/perf?date_filter=' + timePeriod ;
+      this.APISpendWidgetForCampaigns = function(timePeriod, agencyId , brandId , status ){
+          var url = apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId + '/brands/' + brandId +'/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status ;
           return url ;
       };
 
-    this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, state ){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&state='+ state ;
+    this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, status ){
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&campaignState='+ status ;
        return url ;
     };
 
     this.APICalendarWidgetForAllBrands = function(timePeriod, agencyId, sortColumn, state, brandId){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/meta?topCount=5&sort_column=' + sortColumn + '&state=' + state ;
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/meta?topCount=5&sort_column=' + sortColumn + '&campaignState=' + state ;
        return url ;
     };
 
-     this.APIScreenWidgetForAllBrands = function(timePeriod, agencyId , _screenWidgetFormatType){
-          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf' ;
+     this.APIScreenWidgetForAllBrands = function(timePeriod, agencyId , _screenWidgetFormatType, status){
+          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf?campaignState='+ status;
           return url ;
       };
 
-      this.APIScreenWidgetForBrand = function(timePeriod,agencyId,  brandId , _screenWidgetFormatType){
-         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf' ;
+      this.APIScreenWidgetForBrand = function(timePeriod,agencyId,  brandId , _screenWidgetFormatType, status){
+         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf?campaignState='+ status ;
           return url ;
       };
 
