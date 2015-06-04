@@ -123,22 +123,49 @@
                 return tacticObj;
             };
 
-            var getTacticList = function(index, strategyObj, timePeriod, campaign, strategyId, kpiType, kpiValue) {
-                dataService.getStrategyTacticList(strategyId).then(function (response) {
+            //TODO: Will be deleted when pagination and optimisation changes are complete
+            // var getTacticList = function(index, strategyObj, timePeriod, campaign, strategyId, kpiType, kpiValue) {
+            //     dataService.getStrategyTacticList(strategyId).then(function (response) {
+            //         var result = response.data,
+            //             pageSize = 3;
+            //         if(result.status == "OK" && !angular.isString(result.data)) {
+            //             if(result.data.length >= 0) {
+            //                 if(result.data.length <= pageSize) {
+            //                     strategyObj[index].strategyTactics = createTacticObject(result.data, timePeriod,campaign, strategyId, kpiType, kpiValue);
+            //                 } else {
+            //                     strategyObj[index].strategyTactics = createTacticObject(result.data.slice(0,pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
+            //                     strategyObj[index].strategyTacticsLoadMore = createTacticObject(result.data.slice(pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
+            //                 }
+            //             }
+            //         }
+            //     });
+
+            // };
+
+            var getTacticList = function(strategy, timePeriod, campaign) {
+                dataService.getStrategyTacticList(strategy.id).then(function (response) {
                     var result = response.data,
-                        pageSize = 3;
-                    if(result.status == "OK" && !angular.isString(result.data)) {
-                        if(result.data.length >= 0) {
-                            if(result.data.length <= pageSize) {
-                                strategyObj[index].strategyTactics = createTacticObject(result.data, timePeriod,campaign, strategyId, kpiType, kpiValue);
+                        pageSize = 3,
+                        data = result.data;
+                    if(result.status == "OK" && !angular.isString(data)) {
+                        if(data.length >= 0) {
+                            if(data.length <= pageSize) {
+                                strategy.strategyTactics = createTacticObject(data, timePeriod,campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
                             } else {
-                                strategyObj[index].strategyTactics = createTacticObject(result.data.slice(0,pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
-                                strategyObj[index].strategyTacticsLoadMore = createTacticObject(result.data.slice(pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
+                                strategy.strategyTactics = createTacticObject(data.slice(0,pageSize), timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
+                                strategy.strategyTacticsLoadMore = data.slice(pageSize);//createTacticObject(data.slice(pageSize), timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
                             }
                         }
                     }
                 });
 
+            };
+
+
+            var getTacticData = function(strategy, timePeriod, campaign, data) {  
+                //create tactic object and request cdb and metric data
+                var dataObj = createTacticObject(data, timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);  
+                return dataObj;
             };
 
             var getTacticsMetrics = function(index, tacticObj, tacticMetrics) {
@@ -242,7 +269,9 @@
                     strategyObj.push(strategy_1);
                     getStrategyCdbLineChart(index, strategyObj, timePeriod, campaign, kpiType, kpiValue);
                     //getStrategyMetrics(index, strategyObj, timePeriod, campaign);
-                    getTacticList(index, strategyObj, timePeriod, campaign, strategyObj[index].id, kpiType, kpiValue);
+                    
+                    //moved tactic data call outside - when user requests tactic data
+                    //getTacticList(index, strategyObj, timePeriod, campaign, strategyObj[index].id, kpiType, kpiValue);
                 }
                 return strategyObj;
             };
@@ -290,28 +319,55 @@
                 });
             };
 
-            var getStrategyList = function(campaign, timePeriod) {
+            var getStrategyListData = function(campaign, timePeriod) {
 
-                var kpiType = campaign.kpiType;
-                var kpiValue = campaign.kpiValue;
+                var kpiType = campaign.kpiType,
+                    kpiValue = campaign.kpiValue,
+                    pageSize = 3;
 
                 // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
                 var url = '/campaigns/' + campaign.orderId + '/strategies' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
-                    if(result.status == "success" && !angular.isString(result.data.data)) {
-                        if(result.data.data.length >= 0) {
-                            var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
-                            var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
-                            if(result.data.data.length <= 3) {
+                    var data = result.data.data;
+                    if(result.status == "success" && !angular.isString(data)) {
+                        if(data.length >= 0) {
+                            var dataObj, campaignStrategies ;
+
+                            //TODO: DO NOT DELETE - UNTIL WE INTRODUCE PAGINATION
+                            // var dataObj =  createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
+                            // var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                            // if(result.data.data.length <= 3) {
+                            //     campaign.campaignStrategies = campaignStrategies;
+                            // } else {
+                            //     campaign.campaignStrategies = campaignStrategies.slice(0,3);
+                            //     campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
+                            // }
+
+                            //TO DO: optimise this a bit futher after introducing pagination
+                            //TO DO: separate list data call and data manipulation
+
+                            
+                            dataObj = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
+                            campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+
+                            if(data.length <= pageSize) {
                                 campaign.campaignStrategies = campaignStrategies;
                             } else {
-                                campaign.campaignStrategies = campaignStrategies.slice(0,3);
-                                campaign.campaignStrategiesLoadMore = campaignStrategies.slice(3);
+                                campaign.campaignStrategies = campaignStrategies;
+                                campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                             }
+
                         }
                     }
                 });
+            };
+
+            var getStrategyData = function(campaign, timePeriod, data) {
+                //this requests strategy data - invoked when requestStrategiesData is called from controller
+                var dataObj = createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
+                var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                return campaignStrategies;
             };
 
             var getCdbLineChart = function(obj, campaignList, timePeriod, callback) {
@@ -406,7 +462,23 @@
 
                 //should be moved to campaign details service
                 getStrategiesData: function(campaign, timePeriod) {
-                    return getStrategyList(campaign, timePeriod)
+                    //request list
+                    return getStrategyListData(campaign, timePeriod)
+                }, 
+
+                requestStrategiesData: function(campaign, timePeriod, data) {
+                    //request metrics and cdb data
+                    return getStrategyData(campaign, timePeriod, data)
+                }, 
+
+                requestTacticsList: function(strategy, timePeriod, campaign) {
+                    //request list 
+                    return getTacticList(strategy, timePeriod, campaign);
+                },
+
+                requestTacticsData: function(strategy, timePeriod, campaign, data) {
+                    //request metrics and cdb data
+                    return getTacticData(strategy, timePeriod, campaign, data);
                 }
             };
         }]);

@@ -249,13 +249,18 @@
                 loadMoreData = campaignArray.campaignStrategiesLoadMore;
             if (loadMoreData.length > 0) {
                 var moreData = loadMoreData.splice(0, pageSize),
-                    morDataLen = moreData.length;
-                var tmpCampaignStrategiesArr = [];
+                    morDataLen = moreData.length,
+                    //requesting strategy card data 
+                    newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, moreData),
+                    tmpCampaignStrategiesArr = [];
+
                 for (var len = 0; len < morDataLen; len++) {
-                    tmpCampaignStrategiesArr.push(moreData[len]);
+                    tmpCampaignStrategiesArr.push(newStrategyData[len]);
                 }
+                //TODO: optimising this after introducing pagination
                 //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
+                //$scope.campaign.campaignStrategies.apply();
             }
             $scope.applySortStrategies();
         };
@@ -270,9 +275,13 @@
                     if (loadMoreData.length > 0) {
                         var moreData = loadMoreData.splice(0, pageSize)
                         var moreDataLen = moreData.length;
+
+                        //create object for paginated data and request cdb and metric data
+                        var newTacticData = campaign.requestTacticsData(campaignStrategies[i], constants.PERIOD_LIFE_TIME, $scope.campaign, moreData);
                         var tmpstrategyTacticsArr = [];
                         for (var len = 0; len < moreDataLen; len++) {
-                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
+                            //update tactic model
+                            $scope.campaign.campaignStrategies[i].strategyTactics.push(newTacticData[len]);
                         }
                     }
                 }
