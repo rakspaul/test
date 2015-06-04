@@ -188,40 +188,27 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
           self.busy = false;
           if (data.orders.length > 0) {
             var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-            campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate, function(campaign, campaignDaysData) {
-              if(campaignDaysData)
-                var cdbData = _.last(campaignDaysData.measures_by_days);
-              self.campaignList.push(campaign);
+            var campaignData = campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate)
+            angular.forEach(campaignData, function(campaign) {
+              this.push(campaign);
               self.costIds += campaign.orderId + ',';
               Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
               if (campaign.kpi_type == 'null') {
                 campaign.kpi_type = 'CTR';
                 campaign.kpi_value = 0;
               }
-              if(cdbData) {
-                if(typeof self.cdbDataMap[campaign.orderId] === 'undefined')
-                  cdbData['orderId'] = campaign.orderId;
-                  cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
+              campaignListService.getCdbLineChart(campaign , self.timePeriod, function(campaignDaysData) {
+                if(campaignDaysData) {
+                  var cdbData = _.last(campaignDaysData.measures_by_days);
+                  if(typeof campaignDaysData.hasVTCMetric !== 'undefined')
+                    cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
                   self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
-              }
-
-              if(brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) { //as we change the brand, we are updating the campaign model as well.
-                $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
-              }
-
-              self.costIds = self.costIds.substring(0, self.costIds.length-1);
-
-              if(self.costIds !== '') {
-                Campaigns.prototype.fetchCostData.call(self);
-                self.costIds='';
-              }
-            });
-
+                }
+              });
+            }, self.campaignList);
           }
         }, function(result) {
-          //failure
           self.busy = false;
-          //      self.totalCount = 0;
         });
       }
     },

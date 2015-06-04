@@ -123,25 +123,6 @@
                 return tacticObj;
             };
 
-            //TODO: Will be deleted when pagination and optimisation changes are complete
-            // var getTacticList = function(index, strategyObj, timePeriod, campaign, strategyId, kpiType, kpiValue) {
-            //     dataService.getStrategyTacticList(strategyId).then(function (response) {
-            //         var result = response.data,
-            //             pageSize = 3;
-            //         if(result.status == "OK" && !angular.isString(result.data)) {
-            //             if(result.data.length >= 0) {
-            //                 if(result.data.length <= pageSize) {
-            //                     strategyObj[index].strategyTactics = createTacticObject(result.data, timePeriod,campaign, strategyId, kpiType, kpiValue);
-            //                 } else {
-            //                     strategyObj[index].strategyTactics = createTacticObject(result.data.slice(0,pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
-            //                     strategyObj[index].strategyTacticsLoadMore = createTacticObject(result.data.slice(pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
-            //                 }
-            //             }
-            //         }
-            //     });
-
-            // };
-
             var getTacticList = function(strategy, timePeriod, campaign) {
                 dataService.getStrategyTacticList(strategy.id).then(function (response) {
                     var result = response.data,
@@ -370,9 +351,9 @@
                 return campaignStrategies;
             };
 
-            var getCdbLineChart = function(obj, campaignList, timePeriod, callback) {
+            var getCdbLineChart = function(campaignObject, timePeriod, callback) {
                 //console.log(campaignList);
-                var campaignObject = campaignList[obj];
+                //var campaignObject = campaignList[obj];
 
                 dataService.getCdbChartData(campaignObject, timePeriod, 'campaigns', null).then(function (result) {
                     var lineDate = [];
@@ -381,7 +362,7 @@
                         if(!angular.isUndefined(campaignObject.kpiType)) {
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
-                                callback && callback(campaignObject, result.data.data);
+                                callback && callback(result.data.data);
                                 for (var i = 0; i < maxDays.length; i++) {
                                     maxDays[i]["ctr"] *= 100;
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
@@ -411,6 +392,8 @@
                     var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure)
                 },
+
+                getCdbLineChart : getCdbLineChart,
 
                 setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate, callback) {
                     var status = '', campaignList = [];
@@ -450,8 +433,9 @@
                         }
                         campaignList.push(campaign);
                         //console.log(campaignList);
-                        getCdbLineChart(obj, campaignList, timePeriod, callback);
+                        //getCdbLineChart(obj, campaignList, timePeriod, callback);
                     }
+                    return campaignList;
                 },
 
                 //should be moved to costservice inside cost module later
