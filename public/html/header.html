@@ -57,17 +57,20 @@
   </div>
 </div>
 <script type="text/javascript">
-  var closeMenuPopUs = function(event) {
-      if($("#cdbDropdown").is(':visible') && event.target.id != "durationMenuText") {
-          $("#cdbDropdown").closest(".each_filter").removeClass("filter_dropdown_open");
-          $("#cdbDropdown").hide();
+    var closeMenuPopUs = function(event) {
+        var cdbDropdownId = $("#cdbDropdown");
+        var brandsListId = $("#brandsList");
+        var profileDropdownId = $("#profileDropdown");
+      if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
+          cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
+          cdbDropdownId.hide();
       }
-      if($("#brandsList").is(':visible') && event.target.id != "brandsDropdown") {
-          $("#brandsList").closest(".each_filter").removeClass("filter_dropdown_open");
-          $("#brandsList").hide();
+      if(brandsListId.is(':visible') && event.target.id != "brandsDropdown") {
+          brandsListId.closest(".each_filter").removeClass("filter_dropdown_open");
+          brandsListId.hide();
       }
-      if($("#profileDropdown").is(':visible') && event.target.id != "profileItem") {
-          $("#profileDropdown").hide();
+      if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
+          profileDropdownId.hide();
       }
   }
 
@@ -76,16 +79,18 @@
   });
 
   $(document).on('click', ".dropdown_ul_text ", function (event) {
+      var campaignDropdownId = $("#campaignDropdown");
+      var campaignsListId = $("#campaigns_list");
       closeMenuPopUs(event);
       if(event.target.id == 'performance_download_btn') {
-          if($("#campaignDropdown").is(':visible')) {
-              $("#campaigns_list").hide();
+          if(campaignDropdownId.is(':visible')) {
+              campaignsListId.hide();
           }
       }
 
       if(event.target.id == 'strategy_dropdown') {
-          if($("#campaignDropdown").is(':visible')) {
-              $("#campaigns_list").hide();
+          if(campaignDropdownId.is(':visible')) {
+              campaignsListId.hide();
           }
       }
 
