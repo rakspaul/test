@@ -96,30 +96,23 @@
       var elem = $(event.target);
       elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").show() ;
       if(flag == 1){
-          
-          
           var left_pos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().left ;
           var vtc_container = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").outerWidth()/2 ;
           var vtc_btn_container = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").outerWidth()/2 ;
-          var left_pos_number = left_pos - vtc_container + vtc_btn_container ;
 
+          var left_pos_number = left_pos - vtc_container + vtc_btn_container ;
           elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css( {"left" : left_pos_number , "display" : "block" }) ;
-          console.log(elem.closest(".tactics_container").length) ;
+          
           if( elem.closest(".tactics_container").length == 0 ) {
              var top_pos  = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().top ;
              elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css("top" , top_pos - 189 ) ;
           } else {
-            
             var childPos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset();
             var parentPos = elem.closest(".tactics_linkage_lines").offset();
-            var top_pos  = childPos.top - parentPos.top ;
-            console.log("childPos " +childPos.left ) ;
-            var left_pos_rel  =childPos.left - parentPos.left ;
-            var left_pos_tactic = left_pos_rel  - vtc_container + vtc_btn_container  ;
-            elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css({"left" : left_pos_tactic ,"top" : top_pos - 189 , "display" : "block" }) ;
+            var left_pos_tactic = childPos.left - parentPos.left  - vtc_container + vtc_btn_container  ;
+            elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css({"left" : left_pos_tactic ,"top" : childPos.top - parentPos.top - 189 , "display" : "block" }) ;
           }
       }else{
-
           elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").hide() ;
       }
     }
