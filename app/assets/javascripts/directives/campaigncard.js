@@ -123,15 +123,7 @@
                     utils.goToLocation(url);
                 };
                 $scope.VTCpopup = function(event,flag) {
-                    var elem = $(event.target);
-                    elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").show() ;
-                    if(flag == 1){
-                        var top_pos  = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().top ;
-                        var left_pos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().left ;
-                        elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css( {"top" : top_pos -200 , "left" : left_pos -150 }) ;
-                    }else{
-                        elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").hide() ;
-                    }
+                    utils.VTCpopupfunc(event,flag) ;
                 }
 
               $scope.getMessageForDataNotAvailable = function (campaign) {
