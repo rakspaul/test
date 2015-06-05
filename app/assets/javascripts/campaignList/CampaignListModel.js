@@ -206,6 +206,17 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 }
               });
             }, self.campaignList);
+
+            if(brandsModel.getSelectedBrand().id !== -1 && self.campaignList.length) { //as we change the brand, we are updating the campaign model as well.
+              $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
+            }
+
+            self.costIds = self.costIds.substring(0, self.costIds.length-1);
+
+            if(self.costIds !== '') {
+              Campaigns.prototype.fetchCostData.call(self);
+              self.costIds='';
+            }
           }
         }, function(result) {
           self.busy = false;
