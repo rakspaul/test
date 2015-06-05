@@ -86,33 +86,32 @@
 
                 $scope.showTactics = function(strategy) {
                     var strategyId = strategy.id,
-                        tacticsCount = strategy.tactics_count,
-                        myContainer = $('#tactics-accordion-' + strategyId),
-                        //x = myContainer.offset().left,
-                        y = myContainer.offset().top,
-                        getTacticsCount = 1,
-                        maxTacticsCount = 2,
-                        maxTacticsHeight = 275;
-
+                        tacticsCount = strategy.tactics_count;
                     //TODO: check if object already requested! 
                     //introducing the tactic data call initiation on click here
-                    campaignListService.requestTacticsList(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign);
-
-                    if(tacticsCount > maxTacticsCount){
-                        getTacticsCount = maxTacticsCount;
-                    }
-                    var scrollTo = getTacticsCount * maxTacticsHeight;
+                    campaignListService.requestTacticsList(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign,$scope.goToStrategyStartingPosition);
                     if($('#tactics-accordion-' + strategyId).css('display') === 'none') {
+                        if(tacticsCount > 0){
+                            $("#loading_icon_"+strategyId).show();
+                        }
                         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
-                        $("html, body").animate({ scrollTop: y + scrollTo }, "slow"); 
-                        $(".tactics_open_btn").addClass("tactic_open_class");
+                        $("#strategy_"+strategyId).find(".tactics_open_btn").addClass("tactic_open_class");
                     }else{
-                        $("html, body").animate({ scrollTop: y - scrollTo }, "slow"); 
-                        $(".tactics_open_btn").removeClass("tactic_open_class");
+                         $("#loading_icon_"+strategyId).hide();
+                        $("#strategy_"+strategyId).find(".tactics_open_btn").removeClass("tactic_open_class");
                     }
                     $('#tactics-accordion-' + strategyId).toggle();
+                    
                 };
-
+                //This will call after loaded Tactics
+                $scope.goToStrategyStartingPosition = function(strategyId,loadingFlag){
+                    $('html, body').animate({'scrollTop' : $("#strategy_"+strategyId).offset().top - 10 },"slow");
+                    if(loadingFlag == 0){
+                         $("#loading_icon_"+strategyId).hide();
+                     }else{
+                         $("#loading_icon_"+strategyId).show();
+                     }
+                }
                 //This will call the Parent controllers loadMoreStrategies function
                 $scope.loadMoreStrategies = function(campaignId) {
                     $scope.$parent.loadMoreStrategies(campaignId);         

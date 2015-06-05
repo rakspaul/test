@@ -123,11 +123,13 @@
                 return tacticObj;
             };
 
-            var getTacticList = function(strategy, timePeriod, campaign) {
+            var getTacticList = function(strategy, timePeriod, campaign,callBackFunction) {
+                var loadingFlag = 1;
                 dataService.getStrategyTacticList(strategy.id).then(function (response) {
                     var result = response.data,
                         pageSize = 3,
-                        data = result.data;
+                        data = result.data,
+                        loadingFlag = 0;
                     if(result.status == "OK" && !angular.isString(data)) {
                         if(data.length >= 0) {
                             if(data.length <= pageSize) {
@@ -138,8 +140,8 @@
                             }
                         }
                     }
+                    callBackFunction && callBackFunction(strategy.id,loadingFlag);
                 });
-
             };
 
 
@@ -456,9 +458,9 @@
                     return getStrategyData(campaign, timePeriod, data)
                 }, 
 
-                requestTacticsList: function(strategy, timePeriod, campaign) {
+                requestTacticsList: function(strategy, timePeriod, campaign,callBackFunction) {
                     //request list 
-                    return getTacticList(strategy, timePeriod, campaign);
+                    return getTacticList(strategy, timePeriod, campaign,callBackFunction);
                 },
 
                 requestTacticsData: function(strategy, timePeriod, campaign, data) {
