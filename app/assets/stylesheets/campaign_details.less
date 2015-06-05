@@ -84,13 +84,18 @@ body {
   }
   .campaign_details_header {
     margin-top: 11px ;
-    height: 80px ;
+    /*height: 80px ;*/
+    margin-bottom: 40px ;
     .campaign_name {
       font-size: 26px;
       color: #313233;
-      max-width: 950px;
+      max-width: 880px;
       .AvenirBold() ;
       word-wrap : break-word;
+      .campaign_name_txt {
+        max-width: 880px;
+        word-wrap : break-word;
+      }
       .sub_title {
         .AvenirFont() ;
         font-size: 14px ;
@@ -770,8 +775,7 @@ body {
       background: #fff ;
       margin-bottom: 0px ;
       .total_days_holder {
-        
-        margin-top: 50px ;
+        margin-top: 57px ;
         .days_over_text {
           right: -52px ;
         }
@@ -795,13 +799,13 @@ body {
         width: 48% ;
         margin : 10px 0 21px 0px ;
       }
-      .col_six , .col_vtc {
+      .col_spend , .col_vtc {
         width: 48% ;
         float: right;
         margin: 10px 0 0 0;
         .col_heading {
           .darkBoldVal();
-          margin-bottom: 30px ;
+          margin-bottom: 37px ;
         }
       }
       .campaign_overview_details {
@@ -851,15 +855,16 @@ body {
             display: block;
             float: right;
             .col_heading {
-              margin-bottom: 0px ;
+              margin-bottom: 5px ;
+              margin-left: 8px ;
             }
           }
           .col_first {
             width: 322px ;
           }
-          .col_six {
+          .col_spend {
             float: left;
-            margin-left: 30px;
+            margin-left: 34px;
             width: 324px ;
           }
           .col_vtc {
