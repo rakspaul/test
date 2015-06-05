@@ -101,9 +101,9 @@
     this.MSG_CAMPAIGN_KPI_NOT_SET = "<span class='no-data-common'>Campaign KPI is not set</span>";
     this.MSG_STRATEGY_KPI_NOT_SET = "<span class='no-data-common'>Strategy KPI is not set</span>";
     this.MSG_TACTIC_KPI_NOT_SET = "<span class='no-data-common'>Tactic KPI is not set</span>";
-    this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Campaign yet to be optimized</span>";
-    this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Campaign is not optimized</span>";
-    this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Strategy yet to be optimized</span>";
+    this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
+    this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
+    this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Campaigns with set KPI value</span>";
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
     this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
