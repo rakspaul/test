@@ -1,4 +1,5 @@
 <div id="tactics-accordion-{{strategy.id}}" class="clearfix tactics_container" style="display:none">
+    <div id="loading_icon_{{strategy.id}}" style="display:none" class="load-more">&nbsp;</div>
     <div ng-repeat="tactic in strategy.strategyTactics track by tactic.id" class="clearfix tactics_linkage_lines each_tactic_holder">
         <div class="tactics_linkage_lines_bar"></div>
         <div class="each_tactic_container">
