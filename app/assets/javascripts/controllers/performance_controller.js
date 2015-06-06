@@ -175,7 +175,13 @@ var angObj = angObj || {};
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
-            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.selected_filters.kpi_type = 'cpm';
+            $scope.selected_filters2 = {};
+            $scope.selected_filters2.kpi_type = 'cpm';
+            $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
+
+
+
         };
 
 
@@ -189,7 +195,9 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             if($scope.selected_filters == undefined)
                 $scope.selected_filters = {} ;
-            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+                $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+                $scope.selected_filters2 = {};
+                $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
         $scope.sortClassFunction = function (a,b,c) {
