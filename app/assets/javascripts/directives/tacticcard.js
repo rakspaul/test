@@ -109,6 +109,9 @@
                 $scope.goToLocation = function(url){
                     utils.goToLocation(url);
                 };
+                 $scope.VTCpopup = function(event,flag) {
+                    utils.VTCpopupfunc(event,flag) ;
+                }
               $scope.getMessageForDataNotAvailable = function (tactic) {
                 if (!tactic)
                   return constants.MSG_DATA_NOT_AVAILABLE;

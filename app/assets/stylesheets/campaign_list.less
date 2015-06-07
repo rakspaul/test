@@ -1760,27 +1760,25 @@ button, i, input[type="submit"] {
             float: right;
             margin-right: 0px ;
             min-height: 40px;
-            position: relative;
             .quartile_details_title {
               font-size: 14px ;
               font-family: "Avenir-bold" ;
               color: #21252b ;
             }
             .quartile_details_VTC_btn {
-              border: solid 1px #dde6eb ;
-              position: absolute;
-              bottom: 0px ;
-              right: 0px ;
-              z-index: 3 ;
+              border: solid 1px #dde6eb;
               min-width: 40px;
               background: #fff;
               padding: 2px 5px;
+              float: right;
+              position: relative;
+              cursor: default;
             }
             .quartile_details_VTC {
               display: none;
               position: absolute;
-              bottom: 37px ;
-              left: -150px ;
+              top: 0px ;
+              left: 0px ;
               background: #fff;
               border: solid 1px #dde6eb ;
               z-index: 2 ;
@@ -1789,8 +1787,11 @@ button, i, input[type="submit"] {
               box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
               -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
               -moz-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
-              padding: 12px 20px;
+              padding: 12px 20px 0px 20px ;
               text-align: left;
+              .quartile_details_title {
+                margin-bottom: 8px ;
+              }
             }
           }
           .metric_graph_details_vtc:hover {
@@ -1798,7 +1799,8 @@ button, i, input[type="submit"] {
               display: block;
             }
             .quartile_details_VTC_btn {
-              border-top: 0;
+              z-index: 6;
+              border-top: solid 1px transparent;
               box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
               -webkit-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
               -moz-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
@@ -2039,16 +2041,16 @@ button, i, input[type="submit"] {
         .end_point_val span {
           position: absolute;
           top: 10px ;
-          left: -25px ;
+          left: -3px ;
           line-height: 18px ;
         }
         .end_point_val span.icon_KPI {
-          /*background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;*/
-          background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat 7px 3px ;
-          padding-left: 24px;
+          background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat 0px 3px ;
+          padding-left: 15px;
           color: #21252b;
           font-size: 12px;
           padding-right: 0px ;
+          left: -6px ;
         }
         /*.end_point_val:after {
           top: 21px;
@@ -2063,7 +2065,7 @@ button, i, input[type="submit"] {
         .end_point_line {
           right: 0;
         }
-        .end_point_val span {
+        .end_point_val span , .end_point_val span.icon_KPI  {
           left: auto;
           right: 0px;
         }
@@ -2162,8 +2164,8 @@ button, i, input[type="submit"] {
           height: 21px;
           color: #21252b ;
           font-size: 12px ;
-          font-family: "TradeGothicLTStd";
-          padding: 2px 10px;
+          /*font-family: "TradeGothicLTStd";
+          padding: 2px 10px;*/
           border-radius: 4px;
           -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
@@ -2906,38 +2908,31 @@ button, i, input[type="submit"] {
 
 .quartile_details_graph {
   font-family: "Avenir" ;
+  margin-left: -8px ;
+  .axis path, .axis line{
+    fill: none;
+    shape-rendering:crispEdge;
+  }
+  .axis text{
+    fill :#939eaf;
+    font-size :11px;
+  }
+  .dots {
+    fill:  #0978c9;
+  }
+  .verticalGrid {
+    border-color: #dde6eb;
+    border-width: 1px;
+    border-style: dashed;
+  }
+  .area {
+    fill: #f5f9fd;
+    stroke-width: 0;
+  }
+  .labels {
+    fill :#21252b;
+    font-size :11px;
+  }
 }
-.quartile_details_graph .axis path,
-.quartile_details_graph .axis line{
-  fill: none;
-  shape-rendering:crispEdge;
-}
-
-.quartile_details_graph .axis text{
-  fill :#939eaf;
-  font-size :11px;
-}
-
-.quartile_details_graph .dots {
-  fill:  #0978c9;
-}
-
-.quartile_details_graph .verticalGrid {
-  border-color: #dde6eb;
-  border-width: 1px;
-  border-style: dashed;
-}
-
-.quartile_details_graph .area {
-  fill: #f5f9fd;
-  stroke-width: 0;
-}
-
-.quartile_details_graph .labels {
-  fill :#21252b;
-  font-size :11px;
-}
-
-
 
 

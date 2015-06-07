@@ -869,5 +869,7 @@
             $rootScope.$broadcast("closeEditActivityScreen");
         };
         $scope.refreshCampaignDetailsPage();
+
+        
     });
 }());
