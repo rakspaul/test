@@ -10,6 +10,9 @@
         var kpiSuffix = function (kpiType) {
             return (kpiType.toLowerCase() == 'vtc') ? '%' : ''
         };
+        var getValueFromSelectedCircle = function(getSelectedCircleSLNo,fieldName){
+            return $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr(fieldName);
+        }
         var getActivityCountLabel = function(activityCount){
             var display_activityCount =  '';
              switch(true) {
@@ -108,7 +111,7 @@
                     cY = getPosition(that,'cY') + 15,
                     getId = getPosition(that,'id'),
                     circleStroke = getCircleStatus(that) == 'ext' ? '#2c9aec':'#7e848b',
-                    activityCount = getPosition(that,'activityCount'),
+                    activityCount = getPosition(that,'number_of_activity'),
                     activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0;
                 $("#"+getId).attr({stroke:circleStroke});
                 //Mouseover for the text need to check if activity count > 1
@@ -157,7 +160,7 @@
             var chartMouseOut = function(that){
                  var getId = getPosition(that,'id'),
                      circleStroke = getCircleStatus(that) == 'ext' ? '#177ac6':'#57606c',
-                     activityCount = getPosition(that,'activityCount'),
+                     activityCount = getPosition(that,'number_of_activity'),
                      activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0,
                      display_color = activityCount == 1 ? 'transparent' : '#000';
                 if(activeStatus == 0){
@@ -189,7 +192,7 @@
                     $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
                 }
                 $("text[applyColor=1]").css({fill:'#000'});
-                var getactivityCount = that.getAttribute('activityCount');
+                var getactivityCount = that.getAttribute('number_of_activity');
                 if(getactivityCount > 1){
                     $('text#t' + circleObj.target.id).css({fill:'#fff'});
                 }
@@ -206,10 +209,15 @@
                             for(var i=0;i < splitIdList.length;i++){
                                 var targetId =splitIdList[i];
                                 myContainer.find('#actionItem_'+targetId).addClass('action_selected');
-                                myContainer.animate({
+                                //ToDO Remove commented one after the fixes
+                               /* myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
+*/
                             }
+                            myContainer.animate({
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                            });
                         }else{
                             //Day wise single Activity
                             myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+that.id).addClass('action_selected');
@@ -255,7 +263,8 @@
                 kpiValue: kpiValue || 'NA',
                 comment: actionComment || 'NA',
                 id_list:id_list,
-                activityCount:activityCount,
+                /*activityCount:activityCount,*/
+                number_of_activity:activityCount,
                 zIndex: 4,
                 cX: container.x,
                 cY:container.y,
@@ -627,19 +636,27 @@
                             //AFter loaded default select
                             var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
                             if(activityLocalStorageInfo != null) {
+                               $('div[id^="actionItem_"]').removeClass('active');
 
                                      var isActionExternal = activityLocalStorageInfo.actionSelStatusFlag,
-                                    getactivityCount =  activityLocalStorageInfo.actionSelActivityCount,
-                                    splitIdList =  activityLocalStorageInfo.actionSel.split(","),
-                                    getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo;
+                                         getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo,
+                                         //getactivityCount = $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr("number_of_activity"),
+                                         getactivityCount = getValueFromSelectedCircle(getSelectedCircleSLNo,'number_of_activity'),
+                                         splitIdList =  [],
+                                         //getIds =  $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr("id_list");
+                                         getIds = getValueFromSelectedCircle(getSelectedCircleSLNo,'id_list');
+                                    if(getIds != undefined){
+                                        splitIdList = getIds.split(",");
+                                    }
                                     $('circle').attr({activeStatus:0});
                                     $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal == false  ? '#7e848b':'#2c9aec',activeStatus:1,stroke:   isActionExternal == false  ? '#7e848b':'#2c9aec'});
                                 if(getactivityCount > 1){
                                     $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff',activeStatus:1});
                                 }
+                                var numberOfActiveStatus=$('circle[activestatus="1"]').length;
                                 //Select Activity
                                 var myContainer = $('#action-container:first');
-                                if(splitIdList.length > 1 ){
+                                if(splitIdList.length > 1 && numberOfActiveStatus > 0 ){
                                     var scrollTo = $('#actionItem_' + splitIdList[0]);
                                     scrollTo.siblings().removeClass('active').end().addClass('active');
                                     //Mulitple Activity List
@@ -647,19 +664,27 @@
                                         var targetId =splitIdList[i];
                                         //$('circle#' + targetId).attr({ fill: '#777'});
                                          myContainer.find('#actionItem_'+targetId).addClass('active');
-                                         if(scrollTo.length) {
+                                         //TODO remove the commented code after the fixes
+                                         /*if(scrollTo.length) {
                                              myContainer.animate({
                                               scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                             });
-                                         }
+                                         }*/
+                                    }
+                                    if(scrollTo.length) {
+                                             myContainer.animate({
+                                              scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                            });
                                     }
                                 } else {//Day wise single Activity
-                                    var scrollTo = $('#actionItem_' + splitIdList[0]);
-                                    if(scrollTo.length) {
-                                      scrollTo.siblings().removeClass('active').end().addClass('active');
-                                      myContainer.animate({
-                                          scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                                      });
+                                    if(numberOfActiveStatus > 0){
+                                         var scrollTo = $('#actionItem_' + splitIdList[0]);
+                                         if(scrollTo.length) {
+                                            scrollTo.siblings().removeClass('active').end().addClass('active');
+                                            myContainer.animate({
+                                              scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                          });
+                                        }
                                     }
                                 }//end activity Selection
                             }
