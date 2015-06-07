@@ -156,7 +156,7 @@ var angObj = angObj || {};
             var circle_slno = 0;
             $( "circle[id_list*="+id+"]" ).each(function(index, element) {
                 circleId=parseInt(this['id']);
-                getActivityCount = this.getAttribute('activityCount');
+                getActivityCount = this.getAttribute('number_of_activity');
                 circle_slno = this.getAttribute('circle_slno');
             });
             var newId = circleId > 0 ? circleId : id;
