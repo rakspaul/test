@@ -200,6 +200,7 @@
                 localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
                 if(defaultGrey) {
                     myContainer = $('.reports_section_details_container');
+                    $('div[id^="actionItem_"]').removeClass('action_selected');
                     //highlight activity in reports page
                     var scrollTo = $('#actionItem_' + that.id);
                     if(scrollTo.length) {
@@ -238,10 +239,15 @@
                             for(var i=0;i < splitIdList.length;i++){
                                 var targetId =splitIdList[i];
                                 myContainer.find('#actionItem_'+targetId).addClass('active');
-                                myContainer.animate({
+                                //ToDO Remove below commented one after fix
+                                /*myContainer.animate({
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });*/
+                            }
+                            //
+                            myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
-                            }
                         }else{
                             myContainer.find('.active').removeClass('active').end().find('#actionItem_'+that.id).addClass('active');
                             myContainer.animate({
