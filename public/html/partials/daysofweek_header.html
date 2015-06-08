@@ -28,7 +28,7 @@
 <div class="each_col fifth_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
     <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>Action Rate</span>
 </div>
-<span  ng-if="!strategyPerfDataByScreen.hasVTCMetrics">
+<span  ng-if="!strategyPerfDataByDOW.hasVTCMetrics">
 <div class="each_col sixth_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
     <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>CPA</span>
 </div>
@@ -40,7 +40,7 @@
 </div>
 </span>
 <div class="each_col seventh_col" >
-    <div ng-if="strategyPerfDataByScreen.hasVTCMetrics"  class="dropdown kpi-dd-holder" >
+    <div ng-if="strategyPerfDataByDOW.hasVTCMetrics"  class="dropdown kpi-dd-holder" >
         <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
     </div>
 </div>
