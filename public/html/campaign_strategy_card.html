@@ -1,5 +1,9 @@
 <div ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder" id="strategy_{{strategy.id}}">
+
     <div class="clearfix each_campaign_list_container only_strategy_container">
+        <div class="strategy_title">
+            Strategy
+        </div>
         <div class="clearfix">
             <div class="each_campaign_section">
                 <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
