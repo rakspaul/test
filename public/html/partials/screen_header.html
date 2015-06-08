@@ -5,6 +5,10 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'impressions'; sortReverse = !sortReverse" >Imps.</span>
 </div>
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 <div class="vid_col" ng-class="{vid_show:strategyPerfDataByScreen.hasVTCMetrics == true}">
     <div class="each_col third_col">
         <span>Video <br> plays</span>
@@ -24,7 +28,10 @@
     </div>
 </div>
 
+
+
 <div class="each_col forth_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false}">
+
     <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortType,sortReverse)" ng-click="sortType = 'ctr'; sortReverse = !sortReverse" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>CTR</span>
 </div>
 <div class="each_col fifth_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false}">
