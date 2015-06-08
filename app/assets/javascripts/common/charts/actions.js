@@ -397,7 +397,8 @@
                                 return kpiPrefix(kpiType) + this.value + kpiSuffix(kpiType);
                             }
                         },
-                        plotBands: [{ // Light air
+                        //TODO - remove this after the date ticks are rewritten
+                        /*plotBands: [{ // Light air
                             color: '#ffefef',
                             label: {
                               enabled: false,
@@ -406,7 +407,7 @@
                                   color: 'red'
                               }
                             }
-                        }],
+                        }],*/
                         plotLines: [{
                             label: {
                                 text: 'Baseline',
@@ -446,7 +447,10 @@
                     },
                     name: kpiType,
                     data: data,
-                    color: "#177ac6" /*#6fd0f4"*/
+                    //color: "#177ac6" /*#6fd0f4"*/
+                    threshold: threshold,
+                    negativeColor: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444',
+                    color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc'
                 }],
                 loading: false,
                 func: function(chart) {
@@ -476,7 +480,7 @@
                             chart.yAxis[0].addPlotBand({ // Light air
                                 from: threshold,
                                 to: (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? extremes.max : extremes.min,
-                                color: '#ffefef',
+                                color: '#fff',
                                 label: {
                                     enabled: false,
                                     text: '',
@@ -511,7 +515,7 @@
 
                             chart.yAxis[0].addPlotLine({
                                 value: threshold,
-                                color: '#FABD82',
+                                color: '#D2DEE7',
                                 width: 1,
                                 id: 'plot-line-1'
                             });
