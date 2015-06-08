@@ -117,17 +117,17 @@ var angObj = angObj || {};
 
 
 
-        //strategy change handler
-        $scope.strategyChangeHandler = function () {
-            $scope.reportDownloadBusy = false;
-            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
-                $scope.strategyFound = false ;
-            } else {
-                $scope.strategyFound = true;
-                $scope.getPlatformData();
-                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
-            }
-        };
+            //strategy change handler
+            $scope.strategyChangeHandler = function () {
+                $scope.reportDownloadBusy = false;
+                if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+                    $scope.strategyFound = false ;
+                } else {
+                    $scope.strategyFound = true;
+                    $scope.getPlatformData();
+                    analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+                }
+            };
 
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
@@ -217,10 +217,16 @@ var angObj = angObj || {};
             $scope.selected_filters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+
+            $scope.selected_filters.kpi_type = 'cpm';
+            $scope.selected_filters2 = {};
+            $scope.selected_filters2.kpi_type = 'cpm';
+            $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
         }
 
 
         $scope.init();
+
 
         //Binding click event on tab and fetch strategy method.
         $(function() {
@@ -245,6 +251,8 @@ var angObj = angObj || {};
             if($scope.selected_filters == undefined)
                 $scope.selected_filters = {} ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.selected_filters2 = {};
+            $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
             /*$scope.sortType    = "platformType_aggregation."+kpiSelectModel.getSelectedKpi();*/
         });
 
@@ -254,10 +262,9 @@ var angObj = angObj || {};
             return isActive + " " + sortDirection;
         };
         /*$scope.sortColumnFunction = function (a,b) {
-            $scope.sortType     = a; // set the default sort type
-            $scope.sortReverse  = b; // set the default sort order
-        };
-*/
+         $scope.sortType     = a; // set the default sort type
+         $scope.sortReverse  = b; // set the default sort order
+         };
+         */
     });
-
 }());
