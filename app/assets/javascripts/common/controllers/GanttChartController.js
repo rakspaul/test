@@ -188,8 +188,9 @@
 
         $scope.init();
 
-        //removing chart to update and redraw
-        $scope.refresh = function(){
+        //Listener for brand changes
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            //removing chart to update and redraw
             $('.chart').remove();
             $('.header-chart').remove();
             $scope.selected = "quarter";
@@ -199,19 +200,8 @@
                 //single brand
                 $scope.init('single_brand', ganttChartModel.filter);
             }
-        };
-
-        //Listener for brand changes
-        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
-            $scope.refresh();
 
         });
-
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            $scope.refresh();
-
-        });
-
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;

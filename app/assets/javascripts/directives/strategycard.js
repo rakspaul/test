@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService) {
+    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants) {
         return {
             restrict:'EAC',
 
@@ -84,34 +84,26 @@
                     }          
                 };
 
-                $scope.showTactics = function(strategy) {
-                    var strategyId = strategy.id,
-                        tacticsCount = strategy.tactics_count;
-                    //TODO: check if object already requested! 
-                    //introducing the tactic data call initiation on click here
-                    campaignListService.requestTacticsList(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign,$scope.goToStrategyStartingPosition);
+                $scope.showTactics = function(strategyId, tacticsCount) {
+                    var myContainer = $('#tactics-accordion-' + strategyId);
+                    //var x = myContainer.offset().left;
+                    var y = myContainer.offset().top;
+                    var getTacticsCount = 1;
+                    var maxTacticsCount = 2;
+                    var maxTacticsHeight = 275;
+                    if(tacticsCount > maxTacticsCount){
+                        getTacticsCount = maxTacticsCount;
+                    }
+                    var scrollTo = getTacticsCount * maxTacticsHeight;
                     if($('#tactics-accordion-' + strategyId).css('display') === 'none') {
-                        if(tacticsCount > 0){
-                            $("#loading_icon_"+strategyId).show();
-                        }
                         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
-                        $("#strategy_"+strategyId).find(".tactics_open_btn").addClass("tactic_open_class");
+                        $("html, body").animate({ scrollTop: y + scrollTo }, "slow");  
                     }else{
-                         $("#loading_icon_"+strategyId).hide();
-                        $("#strategy_"+strategyId).find(".tactics_open_btn").removeClass("tactic_open_class");
+                        $("html, body").animate({ scrollTop: y - scrollTo }, "slow"); 
                     }
                     $('#tactics-accordion-' + strategyId).toggle();
-                    
                 };
-                //This will call after loaded Tactics
-                $scope.goToStrategyStartingPosition = function(strategyId,loadingFlag){
-                    $('html, body').animate({'scrollTop' : $("#strategy_"+strategyId).offset().top - 10 },"slow");
-                    if(loadingFlag == 0){
-                         $("#loading_icon_"+strategyId).hide();
-                     }else{
-                         $("#loading_icon_"+strategyId).show();
-                     }
-                }
+
                 //This will call the Parent controllers loadMoreStrategies function
                 $scope.loadMoreStrategies = function(campaignId) {
                     $scope.$parent.loadMoreStrategies(campaignId);         
@@ -126,9 +118,6 @@
                 $scope.goToLocation = function(url){
                     utils.goToLocation(url);
                 };
-                $scope.VTCpopup = function(event,flag) {
-                    utils.VTCpopupfunc(event,flag) ;
-                }
 
               $scope.getMessageForDataNotAvailable = function (strategy) {
                 if (!strategy)

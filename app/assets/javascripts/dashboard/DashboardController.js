@@ -18,23 +18,6 @@
       selectBrand(brandsModel.getBrand().allBrandObject);
     };
 
-    $scope.statusDropdown = function(status) {
-
-        if(status.toLowerCase() == "active" )
-            dashboardModel.getData().selectedStatus = constants.DASHBOARD_STATUS_ACTIVE;
-        else if(status.toLowerCase() == "completed")
-            dashboardModel.getData().selectedStatus = constants.DASHBOARD_STATUS_COMPLETED;
-        else
-            dashboardModel.getData().selectedStatus = constants.DASHBOARD_STATUS_ALL;
-
-        localStorage.setItem('dashboardStatusFilter', JSON.stringify(dashboardModel.getData().selectedStatus));
-
-        $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, status);
-
-    };
-      
-
-
     var bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
       var brand = {id: args.brandId, name: args.className};
       selectBrand(brand);
@@ -46,20 +29,14 @@
     }
     updateTitle();
 
-    var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED , function() {
+    var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function() {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
       updateTitle();
-    });
-
-    var statusChangedFunc = $rootScope.$on(constants.EVENT_STATUS_FILTER_CHANGED , function() {
-        dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-        updateTitle();
     });
 
     $scope.$on('$destroy', function() {
       bubbleBrandClickedFunc();
       eventBrandChangedFunc();
-      statusChangedFunc();
     });
   })
 }());

@@ -104,11 +104,11 @@
                 var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
 
                 if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
-                    var _brand ={
-                        className: "active",
-                        id: -1,
-                        name: "All Brands"
-                    };
+                   var _brand ={
+                       className: "active",
+                       id: -1,
+                       name: "All Brands"
+                   };
 
                     brandsModel.setSelectedBrand(_brand);
 
@@ -116,15 +116,11 @@
                 }
 
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                //$scope.getCdbChartData($scope.campaign);
                 updateActionItems($scope.getCdbChartData,1,true);
-
-                campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(campaignDaysData) {
-                    if(campaignDaysData) {
-                        var cdbData = _.last(campaignDaysData.measures_by_days);
-                        if(typeof campaignDaysData.hasVTCMetric !== 'undefined')
-                            cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
-                        $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
-                    }
+                dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
+                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
 
                 if($scope.isCostModelTransparent) {
@@ -174,13 +170,9 @@
                            // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
                             //},10000);
-                            var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
-                            if(activityLocalStorageInfo !=null){
-                                if ((activityLocalStorageInfo.actionSel) !== null) {
-                                    $scope.makeCampaignSelected(activityLocalStorageInfo.actionSel);
-                                }
+                            if ((localStorage.getItem('actionSel') !== null)) {
+                                $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
                             }
-                            
                         }
                     } else {
                         $scope.details.actionChart = false;
@@ -252,18 +244,13 @@
                 loadMoreData = campaignArray.campaignStrategiesLoadMore;
             if (loadMoreData.length > 0) {
                 var moreData = loadMoreData.splice(0, pageSize),
-                    morDataLen = moreData.length,
-                    //requesting strategy card data 
-                    newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, moreData),
-                    tmpCampaignStrategiesArr = [];
-
+                    morDataLen = moreData.length;
+                var tmpCampaignStrategiesArr = [];
                 for (var len = 0; len < morDataLen; len++) {
-                    tmpCampaignStrategiesArr.push(newStrategyData[len]);
+                    tmpCampaignStrategiesArr.push(moreData[len]);
                 }
-                //TODO: optimising this after introducing pagination
                 //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
-                //$scope.campaign.campaignStrategies.apply();
             }
             $scope.applySortStrategies();
         };
@@ -278,13 +265,9 @@
                     if (loadMoreData.length > 0) {
                         var moreData = loadMoreData.splice(0, pageSize)
                         var moreDataLen = moreData.length;
-
-                        //create object for paginated data and request cdb and metric data
-                        var newTacticData = campaign.requestTacticsData(campaignStrategies[i], constants.PERIOD_LIFE_TIME, $scope.campaign, moreData);
                         var tmpstrategyTacticsArr = [];
                         for (var len = 0; len < moreDataLen; len++) {
-                            //update tactic model
-                            $scope.campaign.campaignStrategies[i].strategyTactics.push(newTacticData[len]);
+                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
                         }
                     }
                 }
@@ -411,94 +394,7 @@
             });
         };
         
-        // Screen Widget Start
-        $scope.getScreenGraphData  = function(campaign){
-            var screens,
-                orderByscreens = new Array(),
-                inc = 0;
-            $scope.screenTotal = 0;
-            
-            dataService.getScreenData($scope.campaign).then(function(result) {
-                $scope.loadingScreenFlag = false;
-                if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
-                    var resultDataLen = 0,screensData=undefined;
-                    if (result.data.data && result.data.data.length > 0 && result.data.data[0].perf_metrics) {
-                        screensData=result.data.data[0].perf_metrics;
-                        resultDataLen = screensData.length;
-                    }
-                    var campaignKpiType = campaign.kpiType.toLowerCase();
-                    for (var i = 0; i < resultDataLen; i++) {
-                        screensData[i].ctr *= 100;
-                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
-                    }
-                    if(resultDataLen>0){
-                        screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
-                        _.each(screens, function(screen) {
-                             var screenType = screen.dimension.toLowerCase();
-                             if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
-                                if(screen[campaign.kpiType.toLowerCase()] > 0){
-                                    $scope.screenTotal +=screen[campaignKpiType];
-                                     orderByscreens[inc]=screen[campaignKpiType];
-                                     inc++;  
-                                }
-                            }
-                             switch(screenType){
-                                case 'smartphone': screen.icon = "mobile_graph"; break;
-                                case 'tv':   screen.icon = "display_graph"; break;
-                                case 'tablet':   screen.icon = "tablet_graph"; break;
-                                case 'desktop':   screen.icon = "display_graph"; break;
-                            }
-                        });
-                        var maximumValue = 0 ;
-                        if(orderByscreens.length > 0 ){
-                            maximumValue = Math.max.apply(Math,orderByscreens);
-                        }
-                        $scope.details.screens = screens; 
-                        $scope.details.screenTop = maximumValue;
-                        $scope.details.kpiType = campaignKpiType;
-                    }
-                    
-                    //d3 Starts Here
-                        var containerWidthScreen = $('.bar_section_graph_holder_platform .each_section_graph').width();
-                        var kpiCountScreen = orderByscreens,
-                            chartScreen,
-                            widthScreen = containerWidthScreen - 28,
-                            bar_heightScreen = 4,
-                            gapScreen = 0,
-                            heightScreen = bar_heightScreen + 50;
-                        
-                        var xScreen, yScreen;
-                        
-                        xScreen = d3.scale.linear()
-                           .domain([0, d3.max(kpiCountScreen)])
-                           .range([0, widthScreen]);
-                            
-                        yScreen = function(iScreen) { return bar_heightScreen * iScreen; }
-                        
-                        chartScreen = d3.select($("#screenWidget")[0])
-                          .append('svg')
-                          .attr('class', 'chart')
-                          .attr('width', widthScreen)
-                          .attr('height', 200);
-                          
-                        chartScreen.selectAll("rect")
-                          .data(kpiCountScreen)
-                          .enter().append("rect")
-                          .attr("x", 0)
-                          //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
-                          .attr("y", function(dScreen, iScreen) { return iScreen * 33; })
-                          .attr("width", xScreen)
-                          .attr("height", bar_heightScreen);
-                    // d3 Ends Here
-                }
-            },function(result){
-                console.log('screen data call failed');
-            });
-        };
-        // Screen Widget Ends
-        
-        // Platform Widget Starts
+        // Platform Widget Data Connection
         $scope.getPlatformData =  function() {
             var param = {
                 campaignId: $scope.campaign.orderId,
@@ -549,7 +445,7 @@
                         var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
                         var kpiCount = $scope.chartData,
                             chart,
-                            width = containerWidth - 28,
+                            width = containerWidth,
                             bar_height = 4,
                             gap = 0,
                             height = bar_height + 50;
@@ -562,10 +458,12 @@
                         
                         y = function(i) { return bar_height * i; }
                       
+                        var left_width = 100;
+                       
                         chart = d3.select($("#platformWidget")[0])
                           .append('svg')
                           .attr('class', 'chart')
-                          .attr('width', width)
+                          .attr('width', left_width + width)
                           .attr('height', 200);
                           
                         chart.selectAll("rect")
@@ -585,8 +483,9 @@
                 console.log('Platform data call failed');
             });
         };
-        // Platform Widget Ends
 
+
+        
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
@@ -625,7 +524,56 @@
                 console.log('formats data call failed');
             });
         };
-        
+         $scope.getScreenGraphData  = function(campaign){
+            var screens,
+                orderByscreens = new Array(),
+                inc = 0;
+            $scope.screenTotal = 0;
+            dataService.getScreenData($scope.campaign).then(function(result) {
+                $scope.loadingScreenFlag = false;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    var resultDataLen = 0,screensData=undefined;
+                    if (result.data.data && result.data.data.length > 0 && result.data.data[0].perf_metrics) {
+                        screensData=result.data.data[0].perf_metrics;
+                        resultDataLen = screensData.length;
+                    }
+                    var campaignKpiType = campaign.kpiType.toLowerCase();
+                    for (var i = 0; i < resultDataLen; i++) {
+                        screensData[i].ctr *= 100;
+                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
+                    }
+                    if(resultDataLen>0){
+                        screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
+                        _.each(screens, function(screen) {
+                             var screenType = screen.dimension.toLowerCase();
+                             if(screenType == 'smartphone' || screenType == 'tablet' || screenType =='desktop'){
+                                if(screen[campaign.kpiType.toLowerCase()] > 0){
+                                    $scope.screenTotal +=screen[campaignKpiType];
+                                     orderByscreens[inc]=screen[campaignKpiType];
+                                     inc++;  
+                                }
+                                    
+                            }
+                             switch(screenType){
+                                case 'smartphone': screen.icon = "mobile_graph"; break;
+                                case 'tv':   screen.icon = "display_graph"; break;
+                                case 'tablet':   screen.icon = "tablet_graph"; break;
+                                case 'desktop':   screen.icon = "display_graph"; break;
+                            }
+                        });
+                        var maximumValue = 0 ;
+                        if(orderByscreens.length > 0 ){
+                            maximumValue = Math.max.apply(Math,orderByscreens);
+                        }
+                        $scope.details.screens = screens; 
+                        $scope.details.screenTop = maximumValue;
+                        $scope.details.kpiType = campaignKpiType;
+                    }
+                }
+            },function(result){
+                console.log('screen data call failed');
+            });
+        };
         $scope.getCostViewabilityData  = function(campaign){
             var viewabilityData, viewData;
              //get cost break down data
@@ -869,7 +817,5 @@
             $rootScope.$broadcast("closeEditActivityScreen");
         };
         $scope.refreshCampaignDetailsPage();
-
-        
     });
 }());
