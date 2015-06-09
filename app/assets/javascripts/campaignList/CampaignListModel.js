@@ -197,11 +197,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 campaign.kpi_type = 'CTR';
                 campaign.kpi_value = 0;
               }
-              campaignListService.getCdbLineChart(campaign , self.timePeriod, function(campaignDaysData) {
-                if(campaignDaysData) {
-                  var cdbData = _.last(campaignDaysData.measures_by_days);
-                  if(typeof campaignDaysData.hasVTCMetric !== 'undefined')
-                    cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
+              campaignListService.getCdbLineChart(campaign , self.timePeriod, function(cdbData) {
+                if(cdbData) {
                   self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
                 }
               });
