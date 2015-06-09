@@ -180,8 +180,6 @@ var angObj = angObj || {};
             $scope.selected_filters2.kpi_type = 'cpm';
             $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
 
-
-
         };
 
 
