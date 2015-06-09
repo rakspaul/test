@@ -656,7 +656,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     visibility: visible;
   }
   .dropdown-menu.kpi_indicator_ul {
-    width: 120px ;
+    min-width: 111px ;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    left: -16px;
+    text-align: left;
     li {
       padding-left: 10px ;
     }
@@ -1652,7 +1655,7 @@ div.strategy_total_container {
     color: #313233 ;
     .each_col {
       float: left;
-      width: 125px;
+      width: 69px;
       text-align: right;
       margin: 5px 0 10px 15px ;
     }
@@ -1735,6 +1738,56 @@ div.strategy_total_container {
       }
     }
   }
+  
+  // Video Quartile data css
+  .vid_col {
+        float:left ;
+        width: 506px;
+        border:1px none #FF6600;
+        display: none;
+      }
+   .vid_none {
+    width: 125px !important;
+   }
+    .vid_none_hdr {
+    width: 125px !important; border:1px none #FF6600;
+   }
+  .vid_none_hdr_hide {
+    display:none;
+  }
+   .vid_show {display:block;}
+   .vid_data_hdr {
+       width:336px;
+       border:1px none #FF6600;
+       float:left;
+       padding-left:40px;
+       margin-top:5px;
+       text-align:center;
+   }
+   .vid_sub_col {
+        border-top:1px solid #CCCCCC;
+        margin-top:5px;
+        padding-top:5px;
+   }
+   .vid_sub_col_hdr {
+       width:74px;
+       float:left;
+       text-align:right;
+      padding-right:5px;
+    } 
+   .vid_quartile_data  {
+        width:74px;
+        float:left;
+        text-align:right;
+        padding-right:5px;
+    }
+   .vid_sub_col_hide {
+       clear:both;
+       display:block;
+       border-top: 1px none #ccc;
+       padding-top:5px;
+    }
+
   // Below is temporary
   // For the purpose of aligning the tabular data in the new platforms page
   // I think the  markup should be refactored as tabular data
@@ -1948,6 +2001,7 @@ div.strategy_total_container {
   #reports_bydaysofweek_block {
     .sec_col {
       text-align: left;
+      width:125px;
     }
     .first_col {
       width: 100% !important ;
