@@ -5,6 +5,8 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
+        $scope.sortType     = 'ctr'; // set the default sort type
+        $scope.sortReverse  = false; // set the default sort order
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
@@ -173,7 +175,11 @@ var angObj = angObj || {};
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
-            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            $scope.selected_filters.kpi_type = 'cpm';
+            $scope.selected_filters2 = {};
+            $scope.selected_filters2.kpi_type = 'cpm';
+            $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
+
         };
 
 
@@ -187,7 +193,16 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             if($scope.selected_filters == undefined)
                 $scope.selected_filters = {} ;
-            $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+                $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+                $scope.selected_filters2 = {};
+                $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
+
+        $scope.sortClassFunction = function (a,b,c) {
+            var isActive = (a === b ) ?  'active' : '';
+            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            return isActive + " " + sortDirection;
+        };
+
     });
 }());

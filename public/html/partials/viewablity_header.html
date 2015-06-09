@@ -1,26 +1,32 @@
 <div class="viewability_header clearfix">
-    <div class="each_col platform_name_col ">
+    <div class="each_col platform_name_col icon_text_holder" ng-class="sortClassFunction('platform_type',sortType,sortReverse)" ng-click="sortType = 'platform_type'; sortReverse = !sortReverse" >
         Platform Name
     </div>
     <div class="each_col third_col ">
         <span>Impressions</span>
-        <div class="sub_col"><span>Delivered</span><span>Total</span></div>
+        <div class="sub_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.ias_imps_delivered',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.ias_imps_delivered'; sortReverse = !sortReverse" >Delivered</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.total_imps',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.total_imps'; sortReverse = !sortReverse" >Total</span></div>
     </div>
     <div class="each_col third_col ">
         <span>Measurable</span>
-        <div class="sub_col"><span>Imps.</span><span>%</span></div>
+        <div class="sub_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.ias_measurable_imps',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.ias_measurable_imps'; sortReverse = !sortReverse" >Imps.</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.measurable_imps_perc',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.measurable_imps_perc'; sortReverse = !sortReverse" >%</span></div>
     </div>
     <div class="each_col forth_col">
         <span>Viewable</span>
-        <div class="sub_col"><span>Imps.</span><span class="tooltip_holder">%<sup>*</sup><div class="common_tooltip">Based only on Measurable Imps</div></span></div>
+        <div class="sub_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.ias_viewable_imps',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.ias_viewable_imps'; sortReverse = !sortReverse" >Imps.</span>
+            <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.viewable_imps_perc',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.viewable_imps_perc'; sortReverse = !sortReverse" >%<sup>*</sup><div class="common_tooltip">Based only on Measurable Imps</div></span></div>
     </div>
     <div class="each_col suspicious_col">
-        <span> Suspicious<br> Activity</span>
-        <span>(%)</span>
+        <span  ng-click="sortType = 'platformType_aggregation.susp_activity_perc'; sortReverse = !sortReverse" > Suspicious<br> Activity</span>
+        <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.susp_activity_perc',sortType,sortReverse)"  ng-click="sortType = 'platformType_aggregation.susp_activity_perc'; sortReverse = !sortReverse" >(%)</span>
     </div>
-    <div class="each_col seventh_col">
+    <div class="each_col seventh_col" >
         <div class="dropdown kpi-dd-holder">
-            <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()"></kpi-drop-down>
+            <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()" ></kpi-drop-down>
         </div>
     </div>
 </div>

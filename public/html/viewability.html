@@ -30,7 +30,7 @@
                             <span>Impressions</span>
 
                             <div class="sub_col">
-                                <span>Delivered</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.delivered_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.delivered_imps'; sortReverse = !sortReverse" >Delivered</span>
                                 <!--<span>Total</span>-->
                             </div>
                         </div>
@@ -38,16 +38,16 @@
                             <span>Measurable</span>
 
                             <div class="sub_col">
-                                <span>Imps.</span>
-                                <span>%</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.measurable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.measurable_imps'; sortReverse = !sortReverse" >Imps.</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_measurable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_measurable'; sortReverse = !sortReverse" >%</span>
                             </div>
                         </div>
                         <div class="each_col forth_col">
                             <span>Viewable</span>
 
                             <div class="sub_col">
-                                <span>Imps.</span>
-                                <span class="tooltip_holder">
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.viewable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.viewable_imps'; sortReverse = !sortReverse" >Imps.</span>
+                                <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable'; sortReverse = !sortReverse" >
                                     %<sup>*</sup>
                                     <div class="common_tooltip">Based only on Measurable Imps</div>
                                 </span>
@@ -57,14 +57,14 @@
                             <span>Viewable %</span>
 
                             <div class="sub_col">
-                                <span>1s</span>
-                                <span>5s</span>
-                                <span>15s</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_1s'; sortReverse = !sortReverse" >1s</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_5s'; sortReverse = !sortReverse" >5s</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_15s'; sortReverse = !sortReverse" >15s</span>
                             </div>
                         </div>
                         <div class="each_col suspicious_col">
-                            <span> Suspicious Activity</span>
-                            <span>(%)</span>
+                            <span class="icon_text_holder"  ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" > Suspicious Activity</span>
+                            <span  class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.nht',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" >(%)</span>
                         </div>
                         <div class="each_col seventh_col">
 
@@ -123,7 +123,7 @@
                         </div>
                       <div class="common-load-icon_viewability" id="tactics_activityLoader" ng-show="tacticBusy"></div>
                         <div class="all_strategies_holder">
-                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tacticsList track by $index">
+                            <div class="each_strategy_holder clearfix" ng-repeat="tactffic in viewData.tacticsList | orderBy:sortType:sortReverse track by $index">
                                 <!-- <div class="linkage_lines">
                                 </div> -->
                                 <div class="each_strategy clearfix">
