@@ -305,10 +305,10 @@
         <div class="each_col platform_name_col">
             {{ViewabilityData.platform_type}}
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col impressions_col">
             <div class="sub_col">
                 <span>{{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.total_imps | nrFormat}}</span>
+                <!-- <span>{{ViewabilityData.platformType_aggregation.total_imps | nrFormat}}</span> -->
             </div>
         </div>
         <div class="each_col third_col">
@@ -344,10 +344,10 @@
             {{platform.platform_type}}
         </div> -->
 
-        <div class="each_col third_col">
+        <div class="each_col third_col impressions_col">
             <div class="sub_col">
                 <span>{{platform.ias_imps_delivered | nrFormat}}</span>
-                <span>{{platform.total_imps | nrFormat }}</span>
+                <!-- <span>{{platform.total_imps | nrFormat }}</span> -->
             </div>
         </div>
         <div class="each_col third_col">
