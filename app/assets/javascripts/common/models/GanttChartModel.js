@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var ganttChart = function (utils, urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel) {
+    var ganttChart = function (utils, urlService, timePeriodModel, dataService, brandsModel, requestCanceller, constants, loginModel) {
         this.dashboard = {
         	tasks: {},
         	brands: {}, 
@@ -12,10 +12,10 @@
 
             if(brandsModel.getSelectedBrand().id !== -1){
                 //brand selected
-                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), this.filter,  dashboardModel.getData().selectedStatus, brandsModel.getSelectedBrand().id);
+                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), this.filter,  'all', brandsModel.getSelectedBrand().id);
                // console.log('calendar url = '+url);
             }else{
-                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), this.filter,  dashboardModel.getData().selectedStatus);
+                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), this.filter,  'all');
             }
 
            // var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
@@ -29,5 +29,5 @@
       
 
     }
-    commonModule.service('ganttChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel','requestCanceller', 'constants', 'loginModel', ganttChart ]);
+    commonModule.service('ganttChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants', 'loginModel', ganttChart ]);
 }());

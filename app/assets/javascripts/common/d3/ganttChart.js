@@ -1544,20 +1544,19 @@
                                 return 10;
                             }
                         } else if (timeDomainString == "today") {
-                            //checking if first tick date =   tick data
-                            if (moment().startOf('day').subtract(3, 'days').format('MM/DD/YYYY') == moment(d).format('MM/DD/YYYY')) {
-                                return 50;
+                            if (i == 0) {
+                                return 30;
                             } else {
                                 return 60;
                             }
                         } else if (timeDomainString == "year") {
-                            if (moment().startOf('year').format('MM/DD/YYYY') == moment(d).format('MM/DD/YYYY')) {
-                                return 20;
+                            if (i == 0) {
+                                return 16;
                             } else {
                                 return 26;
                             }
                         } else {
-                            if ( moment().startOf('quarter').format('MM/DD/YYYY') == moment(d).format('MM/DD/YYYY')) {
+                            if (i == 0) {
                                 return 128;
                             } else {
                                 return 145;

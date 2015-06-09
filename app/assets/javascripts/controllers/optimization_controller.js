@@ -77,7 +77,7 @@ var angObj = angObj || {};
                         scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                     });
             }
-            localStorage.removeItem('activityLocalStorage');
+            localStorage.removeItem('actionSel');
         };
 
         $scope.loadTableData = function () {
@@ -153,11 +153,9 @@ var angObj = angObj || {};
         $scope.showSelected = function (id,isActionExternal) {
             var circleId = 0;
             var getActivityCount =0 ;
-            var circle_slno = 0;
             $( "circle[id_list*="+id+"]" ).each(function(index, element) {
                 circleId=parseInt(this['id']);
-                getActivityCount = this.getAttribute('number_of_activity');
-                circle_slno = this.getAttribute('circle_slno');
+                getActivityCount = this.getAttribute('activityCount');
             });
             var newId = circleId > 0 ? circleId : id;
             $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
@@ -168,8 +166,7 @@ var angObj = angObj || {};
             if(getActivityCount > 1){
                 $('text#t' + newId).css({fill:'#fff'});
             }
-            var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getActivityCount,"actionSel":'actionItem_' + id,"selectedCircleSLNo":circle_slno};
-                localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
+            localStorage.setItem('actionSel', 'actionItem_' + id);
             analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
         };
 

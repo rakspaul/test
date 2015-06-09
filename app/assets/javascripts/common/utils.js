@@ -92,30 +92,6 @@
       }
       return results;
     };
-    var VTCpopupfunc = function(event,flag){
-      var elem = $(event.target);
-      elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").show() ;
-      if(flag == 1){
-          var left_pos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().left ;
-          var vtc_container = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").outerWidth()/2 ;
-          var vtc_btn_container = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").outerWidth()/2 ;
-
-          var left_pos_number = left_pos - vtc_container + vtc_btn_container ;
-          elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css( {"left" : left_pos_number , "display" : "block" }) ;
-          
-          if( elem.closest(".tactics_container").length == 0 ) {
-             var top_pos  = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().top ;
-             elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css("top" , top_pos - 189 ) ;
-          } else {
-            var childPos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset();
-            var parentPos = elem.closest(".tactics_linkage_lines").offset();
-            var left_pos_tactic = childPos.left - parentPos.left  - vtc_container + vtc_btn_container  ;
-            elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css({"left" : left_pos_tactic ,"top" : childPos.top - parentPos.top - 189 , "display" : "block" }) ;
-          }
-      }else{
-          elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").hide() ;
-      }
-    }
     var detectBrowserInfo = function() {
     var nVer = navigator.appVersion;
     var nAgt = navigator.userAgent;
@@ -209,8 +185,7 @@
       highlightSearch: highlightSearch,
       typeaheadParams: getTypeaheadParams(),
       getParameterByName : getParameterByName,
-      detectBrowserInfo : detectBrowserInfo,
-      VTCpopupfunc : VTCpopupfunc,
+      detectBrowserInfo : detectBrowserInfo
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -408,18 +383,8 @@ angObj.directive('truncateTextWithHover', function () {
       '<span  ng-show="(txt.length <= txtLength)">' +
       '{{txt}}</span>'*/
         template:'<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" >{{txt|limitTo:txtLength}} ...</span>' +
-      '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
+      '<span  ng-show="(txt.length <= txtLength)">' +
       '{{txt}}</span>'
-    };
-  });
-  angObj.directive('targetingIconWithHover', function () {
-    return{
-      restrict: 'AE',
-      scope: {
-        txt: "@txt",
-        className: "@className"
-      },
-      template:'<span ng-show="(txt.length > 0 )" tooltip-placement="bottom" tooltip="{{txt}}" class="{{className}}"></span>'
     };
   });
   angObj.filter('spliter', function () {
@@ -516,16 +481,6 @@ angObj.directive('truncateTextWithHover', function () {
       return Math.round(input * factor) / factor;
     }
   });
-
-  angObj.filter('vtcRoundOff', function () {
-    return function (input, places) {
-      places = input >1 ? 0 : places;
-      var factor = Math.pow(10, places);
-      return Math.round(input * factor) / factor;
-    }
-  });
-
-
   angObj.filter('displayActionSubtypes', function () {
     return function (actionSubTypes) {
       if (actionSubTypes === undefined) {
@@ -667,7 +622,7 @@ angObj.directive('truncateTextWithHover', function () {
       var y = Math.abs(value);
 
       if(y < 9999) {
-        return value.toFixed(2);
+        return value;
       }
 
       if(y < 1000000) {

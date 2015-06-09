@@ -29,9 +29,6 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsTabs();
 
-        $scope.sortType     = 'impressions'; // set the default sort type
-        $scope.sortReverse  = false; // set the default sort order
-
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;
 
@@ -208,11 +205,5 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
-
-        $scope.sortClassFunction = function (a,b,c) {
-            var isActive = (a === b ) ?  'active' : '';
-            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
-            return isActive + " " + sortDirection;
-        };
     });
 }());

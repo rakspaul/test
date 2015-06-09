@@ -1480,7 +1480,6 @@ button, i, input[type="submit"] {
   background-repeat: no-repeat;
   background-position: top left;
   background-size: contain ;
-  margin-right: 8px ;
 }
 .completed_campaign_status_icon {
   background-image : url("/assets/images/statusWidget/completed_icon.png") ;
@@ -1496,7 +1495,6 @@ button, i, input[type="submit"] {
 }
 .paused_campaign_status_icon {
   background-image : url("/assets/images/statusWidget/paused_icon.png")  ;
-  width: 10px ;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -1582,7 +1580,9 @@ button, i, input[type="submit"] {
   .campaign_list_header_holder {
     background: #fff ;
     border: solid 1px #d2dee7 ;
+    border-bottom-width: 2px ;
     color: #333 ;
+    text-transform: uppercase;
     height: 60px;
     padding-top: 20px;
     margin: 0px ;
@@ -1633,49 +1633,27 @@ button, i, input[type="submit"] {
     .each_campaign_list_container {
       border: solid 1px #d2dee7 ;
       background: #fff ;
-      padding: 18px 10px 0px 20px;
+      padding: 20px 20px 0px 12px;
       margin: 0px 0 10px ;
       .each_campaign_section {
         float: left;
       }
-      .main_heading {
-        font-size: 18px ;
-        color: #21252b ;
-        line-height: 24px ;
-        .AvenirBold() ;
-        word-wrap: break-word;
-        a {
-          color: #000;
-          text-decoration: none;
-        }
-      }
-      .heading {
-          color: #57606d ;
-          font-size: 14px ;
-          margin-top: 2px ;
-          margin-left: 22px ;
-      }
       .campaign_section_KPI {
-        width : 316px ;
+        width : 300px ;
         float: right;
-        height: 142px ;
-        .no-data-common {
-          margin-top: 20px ;
-        }
         .graph_details_KPI {
           .details_KPI_row1 {
             font-size: 16px;
             font-family: "Avenir";
             color: black;
-            margin-right: 8px;
             .details_KPI_title {
               float: left;
               .darkBoldVal();
             }
             .cumulative_val {
               float: right;
-              color: #939eaf;
-              font-size: 12px;
+              color: #acacac;
+              font-size: 14px;
               span {
                 font-family: "Avenir-bold" ;
                 color:  #57606d;
@@ -1689,7 +1667,6 @@ button, i, input[type="submit"] {
             font-family: "Avenir" ;
             text-align: right;
             margin-top: 0px ;
-            margin-left: 6px ;
             span {
               float: right ;
               font-family: "Avenir-bold" ;
@@ -1701,15 +1678,13 @@ button, i, input[type="submit"] {
               background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat center 3px ;
               height: 20px;
               width: 22px;
-              padding-right: 0px ;
             }
           }
         }
         .graph_KPI_outer_holder {
           height:  150px ;
-          /*margin-top : 10px ;*/
+          margin-top : 10px ;
           overflow: hidden;
-          margin-left: -13px;
           .graph_KPI_holder {
             height: 120px ;
           }
@@ -1717,7 +1692,7 @@ button, i, input[type="submit"] {
       }
       .metric_campaign_section {
         font-family: "Avenir" ;
-        width: 306px;
+        width: 300px;
         .metric_graph_header {
           .darkBoldVal();
           .metric_title {
@@ -1730,94 +1705,31 @@ button, i, input[type="submit"] {
         .metric_graph_details {
           color: #acacac ;
           font-size: 14px ;
+          border-top: solid 1px #e5ecef;
           padding-top: 12px;
           .each_metric_graph_details {
             float: left;
             min-width: 30% ;
             margin-right: 10px;
             word-wrap: break-word;
-            font-size: 12px ;
-            color: #939eaf ;
             span {
               display: block;
             }
             span.detail_val {
               .valStyle();
-              color: #57606d ;
-            }
-          }
-          .metric_graph_details_ctr {
-            text-align: center;
-              min-width: 33%;
-          }
-          .metric_graph_details_action {
-            text-align: right;
-            margin-right: 0px ;
-            float: right;
-          }
-          .metric_graph_details_vtc {
-            text-align: center;
-            float: right;
-            margin-right: 0px ;
-            min-height: 40px;
-            .quartile_details_title {
-              font-size: 14px ;
-              font-family: "Avenir-bold" ;
-              color: #21252b ;
-            }
-            .quartile_details_VTC_btn {
-              border: solid 1px #dde6eb;
-              min-width: 40px;
-              background: #fff;
-              padding: 2px 5px;
-              float: right;
-              position: relative;
-              cursor: default;
-            }
-            .quartile_details_VTC {
-              display: none;
-              position: absolute;
-              top: 0px ;
-              left: 0px ;
-              background: #fff;
-              border: solid 1px #dde6eb ;
-              z-index: 2 ;
-              width: 330px;
-              height: 190px;
-              box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
-              -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
-              -moz-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
-              padding: 12px 20px 0px 20px ;
-              text-align: left;
-              .quartile_details_title {
-                margin-bottom: 8px ;
-              }
-            }
-          }
-          .metric_graph_details_vtc:hover {
-            .quartile_details_VTC {
-              display: block;
-            }
-            .quartile_details_VTC_btn {
-              z-index: 6;
-              border-top: solid 1px transparent;
-              box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
-              -webkit-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
-              -moz-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
             }
           }
         }
       }
       .campaign_list_details {
         font-family: "Avenir" ;
-        width: 306px;
-        margin: 5px 30px 0 20px;
+        width: 310px;
+        margin: 0 40px 0 5px;
         .heading_holder {
           min-height: 80px ;
           word-wrap: break-word;
         }
         .campaigns_list_buttons_holder {
-          margin-top : 38px ;
           .strategies_btn {
             float: left;
             background: #fff;
@@ -1834,7 +1746,7 @@ button, i, input[type="submit"] {
             float: right;
           }
           .campaign_btn {
-            border: solid 1px #dee6eb;
+            border: solid 1px #bfd0dc;
             padding: 6px 8px 0;
             text-align: center;
             margin-left: 10px;
@@ -1842,15 +1754,11 @@ button, i, input[type="submit"] {
             -moz-border-radius: 14px;
             -webkit-border-radius: 14px;
             font-family: "Avenir";
-            color: #a2acba;
+            color: #bfd0dc;
             text-transform: uppercase;
-            font-size: 10px;
+            font-size: 12px;
             height: 28px;
             cursor: pointer;
-            height: 26px;
-          }
-          .campaign_btn:hover {
-            background : #dee6eb ;
           }
           .actions_btn {
             position: relative;
@@ -1872,7 +1780,22 @@ button, i, input[type="submit"] {
             }
           }
         }
-
+        .main_heading {
+          font-size: 16px ;
+          color: #000 ;
+          line-height: 24px ;
+          .AvenirBold() ;
+          word-wrap: break-word;
+          a {
+            color: #000;
+            text-decoration: none;
+          }
+        }
+        .heading {
+          color: #727272 ;
+          font-size: 14px ;
+          margin-top: 10px ;
+        }
       }
       .first_section {
         height: 8px ;
@@ -1936,11 +1859,11 @@ button, i, input[type="submit"] {
     .total_days_holder {
       position: relative;
       height : 4px ;
-      /*max-width : 360px  ;*/
-      background: #bdccd4 ;
-      border-radius: 2px ;
-      -moz-border-radius: 2px ;
-      -webkit-border-radius: 2px ;
+      max-width : 360px  ;
+      background: #cdeaff ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
       margin: 40px 0 25px ;
       font-family: "Avenir";
     }
@@ -1951,8 +1874,8 @@ button, i, input[type="submit"] {
       margin-top: 4px ;
       span {
         float: right ;
-        color: #939eaf;
-        font-size: 11px;
+        color: #acacac ;
+        font-size: 10px ;
       }
       span:first-child {
         float: left ;
@@ -1968,8 +1891,8 @@ button, i, input[type="submit"] {
       -webkit-border-radius: 4px ;
       .days_over_text {
         position: absolute;
-        top: -22px;
-        color: #0078cc;
+        top: -26px;
+        color: #44aefc;
         font-size: 12px;
         right: -35px;
         white-space: nowrap;
@@ -1985,7 +1908,7 @@ button, i, input[type="submit"] {
     }
 
     .days_not_over_text {
-      color: #0078cc;
+      color: #44aefc;
       font-size: 12px;
       position: absolute;
       top: -26px;
@@ -1999,7 +1922,7 @@ button, i, input[type="submit"] {
     .days_over:after {
       height: 12px;
       width: 12px;
-      background: #0078cc;
+      background: #44aefc;
       content: "";
       display: block;
       border-radius: 12px;
@@ -2011,13 +1934,13 @@ button, i, input[type="submit"] {
   .metric_graph {
     .full_metric_graph {
       position: relative;
-      height: 4px;
+      height: 8px;
       width: 100%;
-      border-radius: 2px;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      background: #e3ebe1;
-      margin: 26px 0 17px;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      background: #f0f6ee;
+      margin: 42px 0;
       .selected_graph {
         width: 0px;
         height: 100% ;
@@ -2040,42 +1963,39 @@ button, i, input[type="submit"] {
         }
         .end_point_val span {
           position: absolute;
-          top: 10px ;
-          left: -3px ;
+          top: 0px ;
+          left: -25px ;
           line-height: 18px ;
         }
         .end_point_val span.icon_KPI {
-          background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat 0px 3px ;
-          padding-left: 15px;
-          color: #21252b;
-          font-size: 12px;
-          padding-right: 0px ;
-          left: -6px ;
+          /*background: url("/assets/images/cdesk/icn_goal_white.png") no-repeat  #c1ccd4 5px 2px ;*/
+          background: url("/assets/images/cdesk/sprites.png") no-repeat  #c1ccd4 -162px -135px ;
+          padding-left: 24px;
         }
-        /*.end_point_val:after {
+        .end_point_val:after {
           top: 21px;
           left: -4px;
           border-right: solid 5px transparent;
           border-bottom: solid 5px transparent;
           border-top: solid 5px #c1ccd4;
           border-left: solid 5px transparent;
-        }*/
+        }
       }
       .start_end_point {
         .end_point_line {
           right: 0;
         }
-        .end_point_val span , .end_point_val span.icon_KPI  {
+        .end_point_val span {
           left: auto;
           right: 0px;
         }
-        /*.end_point_val:after {
+        .end_point_val:after {
           border-top: solid 5px rgba(0, 0, 0, 0);
           border-right: solid 5px #C1CCD4;
           border-bottom: solid 5px rgba(0, 0, 0, 0);
           top: 16px;
           left: -10px;
-        }*/
+        }
       }
       .start_beginning {
         left: 0px;
@@ -2085,14 +2005,14 @@ button, i, input[type="submit"] {
           -moz-border-radius: 4px 4px 4px 0px;
           -webkit-border-radius: 4px 4px 4px 0px;
         }
-        /*.end_point_val:after {
+        .end_point_val:after {
           top: 16px;
           left: 0px;
           border-right: solid 5px transparent;
           border-top: solid 5px transparent;
           border-left: solid 5px #c1ccd4;
           border-bottom: solid 5px transparent;
-        }*/
+        }
       }
       .graph_end_point {
         position: absolute;
@@ -2103,14 +2023,13 @@ button, i, input[type="submit"] {
           position: absolute;
           left: -25px;
         }
-        /*.end_point_val:after {
+        .end_point_val:after {
           top: 10px;
           left: -5px;
           border: solid 5px transparent;
           border-bottom: solid 5px #c1ccd4;
-        }*/
+        }
       }
-
       .completed_end_point {
         left: auto;
         right: 0;
@@ -2120,35 +2039,20 @@ button, i, input[type="submit"] {
         }
         .end_point_val span {
           margin-top: 0px;
-          top: 10px;
+          top: 18px;
           position: absolute;
           right: -1px ;
           left : auto ;
           border-radius: 4px 0px 4px 4px;
           -moz-border-radius: 4px 0px 4px 4px;
           -webkit-border-radius: 4px 0px 4px 4px;
-          padding : 0px ;
         }
-        /*.end_point_val:after {
+        .end_point_val:after {
           top: 13px;
           left: -9px;
           border-top: solid 5px transparent;
           border-right: solid 5px #c1ccd4;
           border-bottom: solid 5px transparent;
-        }*/
-      }
-      .budget_graph_val {
-        top: -3px;
-        width: 100%;
-        left: auto ;
-        .end_point_line {
-          display: none;
-        }
-        .end_point_val {
-          span {
-            color: #939eaf ;
-            font-size: 11px ;
-          }
         }
       }
       .end_point_line {
@@ -2161,18 +2065,19 @@ button, i, input[type="submit"] {
         height: 40px;
         span {
           display: block;
+          background: #c1ccd4 ;
           height: 21px;
-          color: #21252b ;
+          color: #fff ;
           font-size: 12px ;
-          /*font-family: "TradeGothicLTStd";
-          padding: 2px 10px;*/
+          font-family: "TradeGothicLTStd";
+          padding: 2px 10px;
           border-radius: 4px;
           -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
           line-height: 20px ;
         }
       }
-      /*.end_point_val:after {
+      .end_point_val:after {
         height: 0;
         width: 0;
         content: "";
@@ -2182,7 +2087,7 @@ button, i, input[type="submit"] {
         left: 0;
         border: solid 5px transparent;
         border-top: solid 5px #c1ccd4;
-      }*/
+      }
     }
   }
   .metric_graph.blue {
@@ -2906,33 +2811,6 @@ button, i, input[type="submit"] {
   }
 }
 
-.quartile_details_graph {
-  font-family: "Avenir" ;
-  margin-left: -8px ;
-  .axis path, .axis line{
-    fill: none;
-    shape-rendering:crispEdge;
-  }
-  .axis text{
-    fill :#939eaf;
-    font-size :11px;
-  }
-  .dots {
-    fill:  #0978c9;
-  }
-  .verticalGrid {
-    border-color: #dde6eb;
-    border-width: 1px;
-    border-style: dashed;
-  }
-  .area {
-    fill: #f5f9fd;
-    stroke-width: 0;
-  }
-  .labels {
-    fill :#21252b;
-    font-size :11px;
-  }
-}
+
 
 

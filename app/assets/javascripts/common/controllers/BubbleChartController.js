@@ -71,25 +71,14 @@
         else
              getSpendDataForCampaigns();
 
-        $scope.refresh = function(){
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
             bubbleChart.cleaningBubbleChart("brands");
             bubbleChart.cleaningBubbleChart("campaigns");
             if(brandsModel.getSelectedBrand().id == -1)// All brands is selected
                 getSpendDataForBrands()
             else
-                getSpendDataForCampaigns();
-        };
-
-        $scope.$on( constants.EVENT_STATUS_FILTER_CHANGED, function (event, args) {
-            $scope.refresh();
+               getSpendDataForCampaigns();
         });
-
-        $scope.$on(constants.EVENT_BRAND_CHANGED , function (event, args) {
-            $scope.refresh();
-        });
-
-
-
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
