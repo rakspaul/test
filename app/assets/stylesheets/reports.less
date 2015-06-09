@@ -657,6 +657,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .dropdown-menu.kpi_indicator_ul {
     width: 120px ;
+    text-align: left;
+    min-width: 100px;
     li {
       padding-left: 10px ;
     }
@@ -1660,6 +1662,21 @@ div.strategy_total_container {
     }
   }
   .reports_block {
+    &#reports_platform_performance_block{
+    &.quartile_data_platform{
+      .reports_platform_header{
+        .each_col{
+          padding-top: 10px;
+          &.sec_col{
+           width: 156px;
+         }
+        }
+      }
+      .each_col{
+        width: 125px;
+      }
+     }
+    }
     min-height: 100px ;
     font-family: "Avenir" ;
     color: #313233 ;
@@ -2074,11 +2091,6 @@ div.strategy_total_container {
       max-width: 80% ;
     }
     div.reports_platform_header {
-
-
-
-
-
       .ng-isolate-scope .ng-scope{
         text-align:left
       }

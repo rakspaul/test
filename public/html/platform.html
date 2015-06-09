@@ -46,7 +46,7 @@
                 <!-- -------END :  Platform Tabs ------------------------ -->
 
                 <!-- -------START :  Performance Block ------------------------ -->
-                <div class="reports_block" id="reports_platform_performance_block">
+                <div ng-class="strategyDataByPerformance.hasVTCMetrics ? 'reports_block quartile_data_platform' : 'reports_block' " id="reports_platform_performance_block">
                     <div class="no_data_found" ng-if="dataNotFoundForPerformance" ng-bind-html="getMessageForDataNotAvailable('performance')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
                         <div class="clearfix reports_platform_header">
@@ -81,6 +81,11 @@
                 <!-- -------END :  Performance Block ------------------------ -->
 
                 <!-- -------START :  Cost Block ----------------------------- -->
+                <div >
+
+
+
+
 
                 <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
                     <div class="no_data_found" ng-if="isCostModelTransparent && dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
