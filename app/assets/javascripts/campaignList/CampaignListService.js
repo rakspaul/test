@@ -93,7 +93,7 @@
                         ctr: 0,
                         vtc: 0,
                         actionRate: 0,
-                        chart: null,
+                        chart: true,
                         momentInNetworkTZ: momentInNetworkTZ
                     };
                     tactic_1.durationCompletion = campaign.durationCompletion.bind(tactic_1);
@@ -164,7 +164,7 @@
                     tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
                     tacticObj[index].map['cpc'] = tacticMetrics.gross_ecpc;
                     tacticObj[index].map['cpm'] = tacticMetrics.gross_ecpm;
-                    tacticObj[index].map['vtc'] = tacticMetrics.video_metrics.vtc_rate * 100;
+                    tacticObj[index].map['vtc'] = tacticMetrics.video_metrics.vtc_rate;
                     tacticObj[index].map['clicks'] = tacticMetrics.clicks;
                     tacticObj[index].map['action_rate'] = tacticMetrics.action_rate;
                     tacticObj[index].map['ctr'] = tacticMetrics.ctr * 100;
@@ -188,7 +188,7 @@
                                 callback && callback(_.last(maxDays));
                                 for (var i = 0; i < maxDays.length; i++) {
                                     maxDays[i]['ctr'] *= 100
-                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
+                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
                                     var kpiTypeLower = angular.lowercase(kpiType);
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
@@ -196,7 +196,11 @@
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
                             }
                         }
+                    } else {
+                        tacticsList[obj].chart = false;
                     }
+                }, function() {
+                    tacticsList[obj].chart = false;
                 });
             };
 
@@ -242,7 +246,7 @@
                         expectedMediaCost: utils.roundOff(strategy.general.expected_media_cost, 2),
                         ctr: 0,
                         actionRate: 0,
-                        chart: null,
+                        chart: true,
                         momentInNetworkTZ: momentInNetworkTZ
                     };
                     strategy_1.durationCompletion = campaign.durationCompletion.bind(strategy_1);
@@ -291,14 +295,18 @@
                                 for (var i = 0; i < maxDays.length; i++) {
                                     var kpiType = (sKpiType);
                                     maxDays[i]['ctr'] *= 100
-                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
+                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiTypeLower = angular.lowercase(kpiType);
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
                             }
                         }
+                    } else {
+                        strategyList[obj].chart = false;
                     }
+                }, function() {
+                    strategyList[obj].chart = false;
                 });
             };
 
@@ -354,32 +362,34 @@
             };
 
             var getCdbLineChart = function(campaignObject, timePeriod, callback) {
-                //console.log(campaignList);
-                //var campaignObject = campaignList[obj];
-
                 dataService.getCdbChartData(campaignObject, timePeriod, 'campaigns', null).then(function (result) {
-                    var lineDate = [];
+                    var lineDate = [], cdData;
                     campaignObject.chart = true;
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(!angular.isUndefined(campaignObject.kpiType)) {
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
-                                callback && callback(result.data.data);
                                 for (var i = 0; i < maxDays.length; i++) {
                                     maxDays[i]["ctr"] *= 100;
-                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
+                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
 
                                     var kpiType = (campaignObject.kpiType),
                                         kpiTypeLower = angular.lowercase(kpiType);
                                     lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
+                                cdData = _.last(maxDays);
+                                cdData['hasVTCMetric'] = result.data.data.hasVTCMetric;
+                                callback && callback(cdData);
                                 campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
                             }
                         }
                     }else{
-                        callback && callback(campaignObject);
                         campaignObject.chart = false;
+                        callback && callback(campaignObject);
                     }
+                }, function() {
+                    campaignObject.chart = false;
+                    callback && callback(campaignObject);
                 });
             };
 
