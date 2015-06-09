@@ -118,11 +118,8 @@
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 updateActionItems($scope.getCdbChartData,1,true);
 
-                campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(campaignDaysData) {
-                    if(campaignDaysData) {
-                        var cdbData = _.last(campaignDaysData.measures_by_days);
-                        if(typeof campaignDaysData.hasVTCMetric !== 'undefined')
-                            cdbData['hasVTCMetric'] = campaignDaysData.hasVTCMetric;
+                campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(cdbData) {
+                    if(cdbData) {
                         $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
                     }
                 });
@@ -167,7 +164,7 @@
                             var kpiType = ($scope.campaign.kpiType), kpiTypeLower = kpiType.toLowerCase();
                             for (var i = 0; i < maxDays.length; i++) {
                                 maxDays[i]['ctr'] *= 100;
-                                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
+                                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
@@ -430,7 +427,7 @@
                     var campaignKpiType = campaign.kpiType.toLowerCase();
                     for (var i = 0; i < resultDataLen; i++) {
                         screensData[i].ctr *= 100;
-                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate * 100;
+                        screensData[i].vtc = screensData[i].video_metrics.vtc_rate;
                     }
                     if(resultDataLen>0){
                         screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ?  false : true));
@@ -594,7 +591,7 @@
                 if (result.status == "success" && !angular.isString(result.data)) {
             	    for (var i = 0; i < result.data.data.length; i++) {
             		  result.data.data[i].ctr *= 100;
-            		  result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+            		  result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate;
             	    }
                     var campaignKpiType = campaign.kpiType.toLowerCase();
                     if(result.data.data.length>0){
