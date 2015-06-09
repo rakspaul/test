@@ -1625,8 +1625,33 @@ button, i, input[type="submit"] {
       cursor: default;
     }
     .kpi_title {
-      width: 312px;
       cursor: default;
+      margin-left: 150px;
+      width: 80px;
+      .tooltip_holder {
+        margin-left: 6px ;
+        .common_tooltip {
+          color: #fff ;
+          font-size: 14px ;
+          width: 180px;
+          padding: 14px 18px 10px;
+          text-align: left;
+          bottom: 32px;
+          left: -80px;
+          .legend_line {
+            border-top : solid 2px #0978c9 ;
+            padding-top: 3px ;
+
+          }
+          .underperformance_line {
+            border-color: #ef4649 ;
+            margin-top: 12px ;
+          }
+        }
+        .common_tooltip:after {
+            left: 78px;
+        }
+      }
     }
   }
   .total_campaign_list_holder {
