@@ -31,6 +31,7 @@ var angObj = angObj || {};
 
 
         $scope.sortType     = 'impressions'; // set the default sort type
+        $scope.sortTypeSubSort     = 'impressions'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
 
         //highlight the header menu - Dashborad, Campaigns, Reports

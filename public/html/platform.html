@@ -211,7 +211,7 @@
         </div>
     </div>
 
-    <div class="platform_row" ng-repeat="platform in performanceData.platforms | orderBy:sortType:sortReverse track by $index">
+    <div class="platform_row" ng-repeat="platform in performanceData.platforms | orderBy:sortTypeSubSort:sortReverse track by $index">
         <div class="each_col sec_col platform_logo" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
