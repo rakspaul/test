@@ -14,6 +14,8 @@
 
             link: function ($scope, element, attrs) {
 
+                $scope.textConstants = constants;
+
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
                     if (expected == 0) {

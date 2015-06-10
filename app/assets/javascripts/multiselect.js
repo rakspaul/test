@@ -254,14 +254,14 @@ angular.module('ui.multiselect', [])
       };
     }])
 
-  .directive('multiselectPopup', ['$document', '$rootScope', function ($document, $rootScope) {
+  .directive('multiselectPopup', ['$document', '$rootScope','constants', function ($document, $rootScope, constants) {
     return {
       restrict: 'E',
       scope: false,
       replace: true,
       templateUrl: assets.html_multi_select,
       link: function (scope, element, attrs) {
-
+        scope.textConstants = constants;
         scope.isVisible = false;
         scope.selectedAll = true;
        // scope.displaySelectAllOPtion = false;

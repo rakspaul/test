@@ -574,10 +574,13 @@
 
 (function() {
     "use strict";
-    commonModule.directive("bubbleChart", function () {
+    commonModule.directive("bubbleChart", function (constants) {
         return {
             restrict: 'EAC',
-            templateUrl: assets.html_bubble_chart
+            templateUrl: assets.html_bubble_chart,
+            link: function($scope, iElm, iAttrs, controller) {
+                $scope.textConstants = constants;
+            }
         }
     })
 }());

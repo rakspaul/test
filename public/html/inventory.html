@@ -23,18 +23,18 @@
             <div class="inventory_charts_details_holder">
                 <div class="clearfix chart_inventory_header">
                     <div class="pull-left clearfix inventory_tabs" id="category_change">
-                        <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories" id="inventory_category_tab">Categories</a></span>
-                        <span><a href="javascript:void(0);" _key="parentdomains" id="inventory_domains_tab">Domains</a></span>
-                        <span><a href="javascript:void(0);" _key="fulldomains" id="inventory_urls_tab">URLs</a></span>
+                        <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories" id="inventory_category_tab">{{textConstants.CATEGORIES}}</a></span>
+                        <span><a href="javascript:void(0);" _key="parentdomains" id="inventory_domains_tab">{{textConstants.DOMAINS}}</a></span>
+                        <span><a href="javascript:void(0);" _key="fulldomains" id="inventory_urls_tab">{{textConstants.URLS}}</a></span>
                     </div>
                     <div class="chart_details_cols_row inventory_chart_details_list clearfix">
                         <div class="pull-left performance_selection clearfix"
                              data-ng-click="showPerformance(strategyTable.show)">
                             <span class="performance_symbol {{strategyTable.cssClass}}"></span>
-                            <span class="performance_text">{{strategyTable.show}} Performance</span>
+                            <span class="performance_text">{{strategyTable.show}} {{textConstants.PERFORMANCE}}</span>
                         </div>
                         <div class="pull-right imps_del_col">
-                            Imps. Delivered
+                            {{textConstants.IMP_WITH_DOT}} {{textConstants.DELIVERED}}
                         </div>
                         <div class="pull-right cpa_dropdown cpa_col">
                             <div class="dropdown">
@@ -100,7 +100,7 @@
                 <div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} "
                      id="tactic_{{$index}}_body">
                     <div class="pull-left inventory_chart">
-                            <span ng-if="!tactic.graphRender" class="no-chart-data">Insufficient data points to render graph</span>
+                            <span ng-if="!tactic.graphRender" class="no-chart-data">{{textConstants.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH}}</span>
                             <span ng-switch="tactic.chart">
                                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
                                 <span ng-switch-when="false" ng-show="tactic.graphRender" class="no-chart"  ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>

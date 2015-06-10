@@ -17,18 +17,18 @@
                     <div ng-init="duration=campaign.durationLeft()"></div>
                     <span class="dates_details">
                         {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }} 
-                        <span ng-if="duration == 'Yet to start'">(Yet to start)</span>
-                        <span ng-if="duration == 'Ended'">(Ended)</span>
-                        <span ng-if="duration == 'Started today'" >(Started today)</span>
-                        <span ng-if="duration == 'Ending today'">(Ending today)</span>
-                        <span ng-if="duration > 0">({{duration}} Days Left)</span>
+                        <span ng-if="duration == 'Yet to start'">({{textConstants.YET_TO_START}})</span>
+                        <span ng-if="duration == 'Ended'">({{textConstants.ENDED}})</span>
+                        <span ng-if="duration == 'Started today'" >({{textConstants.STARTED_TODAY}})</span>
+                        <span ng-if="duration == 'Ending today'">({{textConstants.ENDING_TODAY}})</span>
+                        <span ng-if="duration > 0">({{duration}} {{textConstants.DAYS_LEFT}})</span>
                     </span>
                 </div>
             </div>
             <div class="cost_metric_graph">
                 <div class="clearfix metric_and_values_graph">
                     <div class="metric_graph_details_val">
-                        <div>Spend</div>
+                        <div>{{textConstants.SPEND}}</div>
                         <div>${{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | number}}</div>
                     </div>
                     <div class="metric_graph {{getSpendClass(campaign)}}">
@@ -45,7 +45,7 @@
                         </div>
                      </div>
                      <div class="metric_graph_details_val">
-                        <div>Budget</div>
+                        <div>{{textConstants.BUDGET}}</div>
                         <div>${{campaign.totalMediaCost | number:2}}</div>
                     </div>
                  </div>

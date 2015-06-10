@@ -55,12 +55,12 @@
                             </div>
                             <div ng-init="duration_t = tactic.durationLeft()"></div>
                             <div class="days_over" ng-style="{'width':tactic.durationCompletion() +'%'};">
-                              <span ng-if="duration_t == 'Yet to start'"  class="days_over_text start_text">Yet to start</span>
-                              <span ng-if="duration_t == 'Ended'" class="days_over_text ended_text" >Ended</span>
-                              <span ng-if="duration_t > 0"   class="days_over_text">{{duration_t}} Days Left</span>
+                              <span ng-if="duration_t == 'Yet to start'"  class="days_over_text start_text">{{textConstants.YET_TO_START}}</span>
+                              <span ng-if="duration_t == 'Ended'" class="days_over_text ended_text" >{{textConstants.ENDED}}</span>
+                              <span ng-if="duration_t > 0"   class="days_over_text">{{duration_t}} {{textConstants.DAYS_LEFT}}</span>
                             </div>
-                            <div ng-if="duration_t == 'Started today'" class="days_not_over_text start_text">Started today</div>
-                            <div ng-if="duration_t == 'Ending today'" class="days_not_over_text ended_text" >Ending today</div>
+                            <div ng-if="duration_t == 'Started today'" class="days_not_over_text start_text">{{textConstants.STARTED_TODAY}}</div>
+                            <div ng-if="duration_t == 'Ending today'" class="days_not_over_text ended_text" >{{textConstants.ENDING_TODAY}}</div>
 
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="each_campaign_section metric_campaign_section">
                     <div class="clearfix metric_graph_header">
-                        <span class="metric_title">Spend</span>
+                        <span class="metric_title">{{textConstants.SPEND}}</span>
                         <span class="metric_val">${{tactic.grossRev | number : 2}}</span>
                     </div>
                     <div class="metric_graph {{getSpendClassForTactic(tactic)}}">
@@ -88,7 +88,7 @@
                               <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="tactic.expectedMediaCost == tactic.totalMediaCost"><!-- put completed_end_point when at end -->
                                   <div class="end_point_val">
                                       <div class="end_point_line"></div>
-                                      <span>Budget: ${{tactic.totalMediaCost | number:2}}</span>
+                                      <span>{{textConstants.BUDGET}}: ${{tactic.totalMediaCost | number:2}}</span>
                                   </div>
                               </div>
                           </div>
@@ -96,24 +96,24 @@
                     <div class="clearfix metric_graph_details">
                         <div class="each_metric_graph_details">
                             <span class="detail_val">{{tactic.totalImpressions | number}}</span>
-                            <span>Imps.</span>
+                            <span>{{textConstants.IMP_WITH_DOT}}</span>
                         </div>
                         <div class="each_metric_graph_details metric_graph_details_ctr">
                             <span class="detail_val">{{tactic.ctr | roundThisOff : 2}}%</span>
-                            <span>CTR</span>
+                            <span>{{textConstants.CTR}}</span>
                         </div>
                         <div class="each_metric_graph_details metric_graph_details_action" ng-if="!tactic.hasVTCMetric || tactic.vtc_rate < 0">
                             <span class="detail_val">{{tactic.actionRate | number : 2}}%</span>
-                            <span>Action Rate</span>
+                            <span>{{textConstants.ACTION_RATE}}</span>
                         </div>
 
                         <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="tactic.hasVTCMetric && tactic.vtc_rate >= 0">
                             <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event,1)" ng-mouseout="VTCpopup($event,0)">
                                 <span class="detail_val">{{tactic.vtc_rate | number : 2}}%</span>
-                                <span>VTC</span>
+                                <span>{{textConstants.VTC}}</span>
                             </div>
                             <div class="quartile_details_VTC">
-                                <div class="quartile_details_title">Quartile Details</div>
+                                <div class="quartile_details_title">{{textConstants.QUARTILE_DETAILS}}</div>
                                 <div class="quartile_details_graph" width='328' height='158' quartiles-graph chart-data="{{tactic.vtcData}}"></div>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 <span class="icon_KPI"></span>
                             </span>
                             <span class="pull-right cumulative_val">
-                                Cumulative Value <span>{{tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
+                                {{textConstants.CUMULATIVE_VALUE}} <span>{{tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
                             </span>
                         </div>
                        

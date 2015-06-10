@@ -1,7 +1,7 @@
 (function () {
   'use strict';
-  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils) {
-   
+  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce) {
+   $scope.textConstants = constants;
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;
    $scope.loginError = false;
@@ -9,6 +9,7 @@
    $scope.showMessage =  undefined;
    $scope.browserMessage = undefined;
    $scope.disabledFormFields = undefined;
+   $scope.copyRights = $sce.trustAsHtml(constants.COPY_RIGHTS);
    var browserNameList ='';
    var supportedBrowser = [{name:"Chrome","version":36},{name:"Firefox","version":35},{name:"Internet Explorer","version":10}];
    $scope.login = function () {

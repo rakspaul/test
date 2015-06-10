@@ -3,6 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
 
+        $scope.textConstants = constants;
+
         //platform icon mapping object.
         var platform_icon_map= {
             'Facebook':'',

@@ -3,6 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('performanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics, $timeout) {
 
+        $scope.textConstants = constants;
+
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         $scope.sortType     = 'ctr'; // set the default sort type

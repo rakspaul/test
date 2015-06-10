@@ -8,13 +8,13 @@
     <div ng-if="whichCaller.changedrpval == 'yes'">
         <li ng-repeat="kpi in kpiData.newkpiDropDownAlt track by $index" value="{{kpi}}">
             <span class="default-kpi-dropdown-icon dropdown_for_expand"  ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="{{kpi}}"></span>
-            {{(kpi == 'action_rate') ? 'Action Rate' : kpi.toUpperCase()}}
+            {{(kpi == 'action_rate') ? textConstants.ACTION_RATE : kpi.toUpperCase()}}
         </li>
     </div>
     <div ng-if="whichCaller.changedrpval != 'yes'">
         <li ng-repeat="kpi in kpiData.kpiDropDown track by $index" value="{{kpi}}">
             <span class="default-kpi-dropdown-icon"  ng-class="{ kpiIndicator : (kpi.toLowerCase() === campaign_default_kpi_type)} " value="{{kpi}}"></span>
-            {{(kpi == 'action_rate') ? 'Action Rate' : kpi.toUpperCase()}}
+            {{(kpi == 'action_rate') ? textConstants.ACTION_RATE : kpi.toUpperCase()}}
         </li>
     </div>
 </ul>

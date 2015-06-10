@@ -108,6 +108,158 @@
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
     this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
 
+    this.NO_RELEVANT_CAMPAIGNS = "No Relevant Campaigns";
+    this.COST_BREAKDOWN = "Cost Breakdown";
+    this.PERFORMANCE = "Performance";
+    this.BUDGET = "Budget";
+    this.BRAND = "Brand";
+    this.CAMPAIGN_ON_TRACK = "Campaign On Track";
+    this.UNDERPERFORMING_CAMPAIGN = "Underperforming Campaign";
+    this.NEUTRAL = "Neutral (no status)";
+    this.IMP_WITH_DOT = "Imps.";
+    this.VTC = "VTC";
+    this.QUARTILE_DETAILS = "Quartile Details";
+    this.YET_TO_START = "Yet to start";
+    this.ENDED = "Ended";
+    this.DAYS_LEFT = "Days Left";
+    this.STARTED_TODAY = "Started today";
+    this.ENDING_TODAY = "Ending today";
+    this.VIEW_REPORT = "View Report";
+    this.ACTIVITY = "Activity";
+    this.BUDGET_WITH_COLON = "Budget:";
+    this.CUMULATIVE_VALUE = "Cumulative Value";
+    this.ACTION_RATE_R_CAPS = "Action Rate";
+
+    this.SELECT_ALL = "Select All";
+    this.DRAFT = "Draft";
+    this.READY = "Ready";
+    this.ACTIVE = "Active";
+    this.KPI_ON_TRACK = "KPI On Track";
+    this.UNDERPERFORMING = "Underperforming";
+    this.PAUSED = "Paused";
+    this.COMPLETED = "Completed";
+
+    this.CREATE_ACTIVITY = "Create Activity";
+    this.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG = "Activity created successfully. Please see activity log below!";
+    this.SELECT_ITEM_IN_LIST  =  "Please select an item in the list.";
+    this.EXTERNAL = "External";
+    this.PLEASE_FILL_OUT_FIELD = "Please fill out this field.";
+    this.EDIT_ACTIVITY = "Edit Activity";
+    this.IMPACTS = "Impacts";
+    this.CANCEL = "Cancel";
+    this.CAMPAIGN_PERFORMANCE = "Campaign Performance";
+    this.INTERNAL = "Internal";
+    this.ACTIVITY_LOG = "Activity Log";
+    this.CLICK_FOR_DETAILED_REPORTS = "Click for detailed reports";
+    this.SCREENS = "Screens";
+    this.PLATFORM = "Platform";
+    this.TOP_THREE = "Top 3";
+    this.VIEWABILITY = "Viewability";
+    this.INVENTORY = "Inventory";
+    this.TOP = "Top";
+    this.NO_LINKED_STRATEGIES = "No Linked Strategies";
+    this.ALL = "All";
+    this.ONE_S= "1s";
+    this.FIVE_S= "5s";
+    this.FIFTEEN_S= "15s";
+    this.CAMPAIGN_OVERVIEW = "Campaign Overview";
+    this.KPI = "KPI";
+    this.DATA = "Data";
+    this.AD_SERVING = "Ad Serving";
+    this.CREATIVE = "Creative";
+    this.RESEARCH = "Research";
+    this.AD_VERIFICATION = "Ad Verification";
+    this.COLLECTIVE = "Collective";
+    this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
+    this.TOTAL_SPEND = "Total Spend";
+
+    this.CAMPAIGN ="Campaign";
+
+    this.FLIGHT_DATES = "Flight Dates";
+    this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
+    this.METRICS = "Metrics";
+    this.LOAD_MORE_STRATEGIES = "Load More Strategies";
+    this.LOAD_MORE_TACTICS = "Load More Tactics";
+
+    this.STATUS = "Status";
+    this.CALENDAR = "Calendar";
+    this.MOST_RELEVANT_CAMPAIGN = "Most Relevant Campaigns";
+    this.CAMPAIGN_STATUS = "Campaign Status";
+    this.PERFORMANCE_STATUS = "Performance Status";
+    this.ON_TRACK = "On Track";
+    this.END_DATES = "End Dates";
+    this.SORT_BY = "Sort by";
+    this.WEEK = "Week";
+    this.MONTH = "Month";
+    this.QUARTER = "Quarter";
+    this.YEAR = "Year";
+
+    this.DASHBOARD = "Dashboard";
+    this.CAMPAIGNS = "Campaigns";
+    this.REPORTS = "Reports";
+    this.HELLO = "Hello";
+    this.ABOUT = "About";
+    this.LOGOUT = "Log out";
+
+    this.CATEGORIES = "Categories";
+    this.DOMAINS = "Domains";
+    this.URLS = "URLs";
+    this.DELIVERED = "Delivered";
+    this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = "Insufficient data points to render graph";
+
+    this.SEE_DATES = "See Dates";
+    this.BEFORE = "Before";
+    this.AFTER = "After";
+    this.OPTIMIZATION_TYPE = "Optimization Type";
+    this.DATE_OPTIMIZED = "Date Optimized";
+    this.METRIC = "Metric";
+    this.DATE_FROM = "Date from";
+    this.DATE_TO = "Date to";
+    this.VALUE = "Value";
+    this.BEFORE_VALUE = "Before Value";
+    this.AFTER_VALUE = "After Value";
+    this.CHANGE_IN_PERCENTAGE = "Change %";
+
+    this.DAYS_OF_WEEK = "Days of Week";
+
+    this.COST = "Cost";
+    this.BASED_ONLY_ON_MEASURABLE_IMPS ="Based only on Measurable Imps";
+    this.VIEWABLE = "Viewable";
+    this.MEASURABLE = "Measurable";
+    this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
+
+    this.STRATEGY = "Strategy";
+
+    this.PLATFORM_NAME = "Platform Name";
+
+    this.SUSPICIOUS = "Suspicious";
+    this.TOTAL = "Total";
+
+    this.SCREEN = "Screen";
+    this.SELECT_ALL_SMALL_A = "Select all";
+
+    this.FORGOT_PASSWORD = "Forgot Password";
+    this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
+    this.COPY_RIGHTS = "Copyright &copy; 2015 Collective, Inc. All Rights Reserved";
+    this.ABOUT_US = "About Us";
+    this.USERNAME_OR_PASSWORD_INCORRECT = "The Username/Password is incorrect";
+
+    this.CAPAIGN_DETAILS = "Campaign Details";
+    this.FORMAT = "Format";
+    this.DOWNLOAD_REPORT = "Download Report";
+    this.DOWNLOADING = "Downloading";
+
+    this.DAY_OF_WEEK = "Day of Week";
+    this.PRIMARY_KPI = "Primary KPI";
+
+    this.CATEGORIZED_DATA_TOOLTIP = "% computed from categorized data only. Screen categorization of media started in March 2014, hence data prior to that is uncategorized";
+
+    this.KPI_ON_TARGET = "KPI on target";
+    this.KPI_UNDERPERFORMANCE = "KPI Underperformance";
+    this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "Graph represents campaigns which have set KPI values only";
+    this.VIDEO = "Video";
+    this.PLAYS = "plays";
+
 
   };
 

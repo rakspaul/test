@@ -5,6 +5,8 @@
     $scope.data = dashboardModel.getData();
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
+    $scope.textConstants = constants;
+
     var updateTitle = function() {
       dashboardModel.setTitle();
     }
