@@ -54,7 +54,6 @@
         
     </div>
 </div>
-
 <div class="clearfix cost_col_container cost_cols_holder" ng-switch on="campaigns.costList[campaign.orderId].cost_transparency">
     <div ng-switch-when=true>
         <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | formatCostData: '' : 0}}</div>
@@ -73,4 +72,10 @@
             <span class="cost_opaque_icon"></span><span ng-bind-html="campaigns.costList[campaign.orderId].message"></span>
         </span>
     </div>
+    <div ng-switch-default>
+        <span class="cost_opaque_txt_horizontal">
+            <span class="no-data-available no-chart" ng-bind-html="getMessageForDataNotAvailable()"></span>
+        </span>
+    </div>
+
 </div>
