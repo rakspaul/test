@@ -81,11 +81,6 @@
                 <!-- -------END :  Performance Block ------------------------ -->
 
                 <!-- -------START :  Cost Block ----------------------------- -->
-                <div >
-
-
-
-
 
                 <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
                     <div class="no_data_found" ng-if="isCostModelTransparent && dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
@@ -173,18 +168,17 @@
             {{performanceData.platformType_aggregation.impressions |  nrFormat}}
         </div>
 
-
-        <div class="vid_col" ng-class="{vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+        <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
             <div class="each_col third_col">
-                {{performanceData.platformType_aggregation.video_metrics.ad_starts | nrFormat}}
+                {{performanceData.platformType_aggregation.video_metrics.ad_starts > 0 ? (performanceData.platformType_aggregation.video_metrics.ad_starts | nrFormat) : '-'}}
             </div>
 
             <div class="vid_data_hdr">
                 <div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_25 | nrFormat}}</div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_50 | nrFormat}}</div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_75 | nrFormat}}</div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_100 | nrFormat}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_25 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_25  | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_50 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_50  | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_75 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_75  | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_100 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
                 </div>
             </div>
             <div class="each_col third_col">
@@ -227,17 +221,17 @@
             {{platform.impressions |  nrFormat}}
         </div>
 
-        <div class="vid_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+        <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
             <div class="each_col third_col">
-                {{platform.video_metrics.ad_starts | nrFormat}}
+                {{platform.video_metrics.ad_starts >0 ? (platform.video_metrics.ad_starts | nrFormat) : '-'}}
             </div>
 
             <div class="vid_data_hdr">
                 <div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_25 | nrFormat}}</div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_50 | nrFormat}}</div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_75 | nrFormat}}</div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_100 | nrFormat}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_25 >0 ? (platform.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_50 >0 ? (platform.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_75 >0 ? (platform.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_100 >0 ? (platform.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
                 </div>
             </div>
             <div class="each_col third_col">

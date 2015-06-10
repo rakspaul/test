@@ -45,7 +45,10 @@
                 <!-- -------END :  Performance Tabs ------------------------ -->
 
                 <!-- -------START :  Screen Block ----------------------------- -->
-                <div class="reports_block" id="reports_byscreens_block" style="display:block;">
+                
+
+                
+                <div ng-class="strategyPerfDataByScreen.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="display:block;">
                     <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
                     <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
                         <div class="clearfix reports_performance_header">
@@ -80,7 +83,7 @@
                 <!-- -------END :  Screen Block ----------------------------- -->
 
                 <!-- -------START :  Days of week Block ----------------------------- -->
-                <div class="reports_block" id="reports_bydaysofweek_block" style="display:none;" >
+                <div ng-class="strategyPerfDataByDOW.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_bydaysofweek_block" style="display:none;" >
                     <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
                         <div class="clearfix reports_performance_header">
@@ -115,7 +118,7 @@
                 <!-- -------END :  Days of week Block ----------------------------- -->
 
                 <!-- -------START :  Format Block ----------------------------- -->
-                <div class="reports_block" id="reports_byformats_block" style="display:none;">
+                <div ng-class="strategyPerfDataByFormat.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="display:none;">
                     <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable('formats')"></div>
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
                         <div class="clearfix reports_performance_header">
@@ -160,42 +163,42 @@
     <div class="each_col sec_col" >
         {{screenData.dimension}}
     </div>
-    <div class="each_col third_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div class="each_col third_col">
         {{screenData.impressions | number:0}}
     </div>
-    <div class="vid_col" ng-class="{vid_show:strategyPerfDataByScreen.hasVTCMetrics == true}">
+    <div class="vid_col" ng-show="strategyPerfDataByScreen.hasVTCMetrics == true">
         <div class="each_col third_col">
-            {{screenData.video_metrics.ad_starts | nrFormat}}
+            {{screenData.video_metrics.ad_starts >0 ? (screenData.video_metrics.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data zeroToDash">{{screenData.video_metrics.vtc_25 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_50 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 | nrFormat}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_25 >0 ? (screenData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_50 >0 ? (screenData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 >0 ? (screenData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 >0 ? (screenData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
             <span>{{screenData.video_metrics.vtc_rate | number:2}}%</span>
         </div>
     </div>
-    <div class="each_col forth_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div class="each_col forth_col">
         {{screenData.ctr*100 | number:2}}%
     </div>
-    <div class="each_col fifth_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div class="each_col fifth_col">
         {{screenData.action_rate*100 | number:2}}%
     </div>
     <span  ng-if="!strategyPerfDataByScreen.hasVTCMetrics">
-    <div class="each_col sixth_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div class="each_col sixth_col">
         ${{screenData.cpa | number:2}}
     </div>
 
-    <div class="each_col seventh_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div class="each_col seventh_col">
         ${{screenData.cpc | number:2}}
     </div>
 
-    <div class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div class="each_col eight_col">
         ${{screenData.cpm | number:2}}
     </div>
         </span>
@@ -205,44 +208,45 @@
     </div>
 </script>
 
+
 <script type="text/ng-template" id="daysofweekTpl">
     <div class="each_col sec_col">
         {{daysofweekData.dimension}}
     </div>
-    <div class="each_col third_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+    <div class="each_col third_col">
         {{daysofweekData.impressions | number:0}}
     </div>
-    <div class="vid_col" ng-class="{vid_show:strategyPerfDataByDOW.hasVTCMetrics == true}">
+        <div class="vid_col" ng-show="strategyPerfDataByDOW.hasVTCMetrics == true">
         <div class="each_col third_col">
-            {{daysofweekData.video_metrics.ad_starts | nrFormat}}
+            {{daysofweekData.video_metrics.ad_starts >0 ? (daysofweekData.video_metrics.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_25 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_50 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_75 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_100 | nrFormat}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_25 >0 ? (daysofweekData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_50 >0 ? (daysofweekData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_75 >0 ? (daysofweekData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_100 >0 ? (daysofweekData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
-        <div class="each_col third_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+        <div class="each_col third_col">
             <span>{{daysofweekData.video_metrics.vtc_rate | number:2}}%</span>
         </div>
     </div>
-    <div class="each_col forth_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+    <div class="each_col forth_col">
         {{daysofweekData.ctr*100 | number:2}}%
     </div>
-    <div class="each_col fifth_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+    <div class="each_col fifth_col">
         {{daysofweekData.action_rate*100 | number:2}}%
     </div>
     <span  ng-if="!strategyPerfDataByDOW.hasVTCMetrics">
-    <div class="each_col sixth_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+    <div class="each_col sixth_col">
         ${{daysofweekData.cpa | number:2}}
     </div>
-    <div class="each_col seventh_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+    <div class="each_col seventh_col">
         ${{daysofweekData.cpc | number:2}}
     </div>
-    <div class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByDOW.hasVTCMetrics == false}">
+    <div class="each_col eight_col">
         ${{daysofweekData.cpm | number:2}}
     </div>
     </span>
@@ -256,44 +260,44 @@
     <div class="each_col sec_col">
         {{formatData.dimension}}
     </div>
-    <div class="each_col third_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+    <div class="each_col third_col">
         {{formatData.impressions | number:0}}
     </div>
-    <div class="vid_col" ng-class="{vid_show:strategyPerfDataByFormat.hasVTCMetrics == true}">
+    <div class="vid_col" ng-show="strategyPerfDataByFormat.hasVTCMetrics == true">
         <div class="each_col third_col">
-            {{formatData.video_metrics.ad_starts | nrFormat}}
+            {{formatData.video_metrics.ad_starts > 0 ? (formatData.video_metrics.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_25 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_50 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_75 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_100 | nrFormat}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_25 > 0 ? (formatData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_50 > 0 ? (formatData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_75 > 0 ? (formatData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_100 > 0 ? (formatData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
-        <div class="each_col third_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+        <div class="each_col third_col">
             <span>{{formatData.video_metrics.vtc_rate | number:2}}%</span>
         </div>
     </div>
-    <div class="each_col forth_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+    <div class="each_col forth_col">
         {{formatData.ctr*100 | number:2}}%
     </div>
-    <div class="each_col fifth_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+    <div class="each_col fifth_col">
         {{formatData.action_rate*100 | number:2}}%
     </div>
     <span  ng-if="!strategyPerfDataByFormat.hasVTCMetrics">
-    <div class="each_col sixth_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+    <div class="each_col sixth_col">
         ${{formatData.cpa | number:2}}
     </div>
-    <div class="each_col seventh_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+    <div class="each_col seventh_col">
         ${{formatData.cpc | number:2}}
     </div>
-    <div class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+    <div class="each_col eight_col">
         ${{formatData.cpm | number:2}}
     </div>
         </span>
-    <div ng-if="strategyPerfDataByScreen.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+    <div ng-if="strategyPerfDataByFormat.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
         {{formatData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
