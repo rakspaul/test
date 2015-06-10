@@ -5,7 +5,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.impressions'; sortTypeSubSort='impressions'; sortReverse = !sortReverse" >Imps.</span>
 </div>
 
-<div class="vid_col" ng-class="{vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+<div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
     <div class="each_col third_col">
         <span class="icon_text_holder" ng-class="sortClassFunction('performanceData.platformType_aggregation.video_metrics.ad_starts',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.video_metrics.ad_starts';sortReverse = !sortReverse ">Video <br> plays</span>
     </div>

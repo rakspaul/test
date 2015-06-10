@@ -168,8 +168,7 @@
             {{performanceData.platformType_aggregation.impressions |  nrFormat}}
         </div>
 
-
-        <div class="vid_col" ng-class="{vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+        <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
             <div class="each_col third_col">
                 {{performanceData.platformType_aggregation.video_metrics.ad_starts | nrFormat}}
             </div>
@@ -222,7 +221,7 @@
             {{platform.impressions |  nrFormat}}
         </div>
 
-        <div class="vid_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+        <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
             <div class="each_col third_col">
                 {{platform.video_metrics.ad_starts | nrFormat}}
             </div>
