@@ -35,7 +35,7 @@
                               <input id="optimization_squaredFour" type="checkbox" class="squaredFourChkbox" ng-checked="{{seeDate.value}}" >
                               <label for="optimization_squaredFour"></label>
                             </div>       
-                            <span class="squaredFourTxt">See Dates</span>
+                            <span class="squaredFourTxt">{{textConstants.SEE_DATES}}</span>
                         </div>
                     </div>
                 </div>
@@ -69,11 +69,11 @@
                 <div class="clearfix common_graph_legend" ng-show="is_network_user">
                     <div class="clearfix graph_legends">
                      <span class="legend"></span>
-                     <span class="legend_text">External</span>
+                     <span class="legend_text">{{textConstants.EXTERNAL}}</span>
                    </div>
                    <div class="clearfix graph_legends internal_legend">
                      <span class="legend"></span>
-                     <span class="legend_text">Internal</span>
+                     <span class="legend_text">{{textConstants.INTERNAL}}</span>
                    </div>
                    
                  </div>
@@ -90,21 +90,21 @@
 
                     <div class="each_rep_col_holder clearfix">
                         <div class="clearfix after_before_title">
-                            <div>Before</div>
-                            <div>After</div>
+                            <div>{{textConstants.BEFORE}}</div>
+                            <div>{{textConstants.AFTER}}</div>
                         </div>
-                        <div class="each_rep_col first_col" title="Optimization Type" >Optimization Type</div>
-                        <div class="each_rep_col sec_col" title="Date Optimized" >Date Optimized</div>
-                        <div class="each_rep_col third_col">Metric</div>
-                        <div class="each_rep_col forth_col left_border dates_hide">Date from</div>
-                        <div class="each_rep_col fifth_col dates_hide">Date to</div>
-                        <div class="each_rep_col sixth_col dates_hide">Value</div>
-                        <div class="each_rep_col sixth_col dates_show">Before Value</div>
-                        <div class="each_rep_col sev_col left_border dates_hide">Date from</div>
-                        <div class="each_rep_col eight_col dates_hide">Date to</div>
-                        <div class="each_rep_col nine_col dates_hide">Value</div>
-                        <div class="each_rep_col nine_col dates_show">After Value</div>
-                        <div class="each_rep_col ten_col left_border" >Change %</div>
+                        <div class="each_rep_col first_col" title="Optimization Type" >{{textConstants.OPTIMIZATION_TYPE}}</div>
+                        <div class="each_rep_col sec_col" title="Date Optimized" >{{textConstants.DATE_OPTIMIZED}}</div>
+                        <div class="each_rep_col third_col">{{textConstants.METRIC}}</div>
+                        <div class="each_rep_col forth_col left_border dates_hide">{{textConstants.DATE_FROM}}</div>
+                        <div class="each_rep_col fifth_col dates_hide">{{textConstants.DATE_TO}}</div>
+                        <div class="each_rep_col sixth_col dates_hide">{{textConstants.VALUE}}</div>
+                        <div class="each_rep_col sixth_col dates_show">{{textConstants.BEFORE_VALUE}}</div>
+                        <div class="each_rep_col sev_col left_border dates_hide">{{textConstants.DATE_FROM}}</div>
+                        <div class="each_rep_col eight_col dates_hide">{{textConstants.DATE_TO}}</div>
+                        <div class="each_rep_col nine_col dates_hide">{{textConstants.VALUE}}</div>
+                        <div class="each_rep_col nine_col dates_show">{{textConstants.AFTER_VALUE}}</div>
+                        <div class="each_rep_col ten_col left_border" >{{textConstants.CHANGE_IN_PERCENTAGE}}</div>
                     </div>
                     <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>
 

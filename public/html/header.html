@@ -5,13 +5,13 @@
     </div>
     <div class="pull-left main_navigation clearfix" >
       <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser">
-        <a href="/dashboard">Dashboard</a>
+        <a href="/dashboard">{{textConstants.DASHBOARD}}</a>
       </div>
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
-        <a href="/campaigns">Campaigns</a>
+        <a href="/campaigns">{{textConstants.CAMPAIGNS}}</a>
       </div>
       <div class="pull-left each_nav_link" id="reports_nav_link">
-        <a href="/performance">Reports</a>
+        <a href="/performance">{{textConstants.REPORTS}}</a>
       </div>
     </div>
     <div class="pull-right profile_menu">
@@ -20,17 +20,17 @@
         <ul class="dropdown-menu" role="menu" id="profileDropdown">
           <li>
             <a>
-              Hello, {{user_name}}
+              {{textConstants.HELLO}}, {{user_name}}
             </a>
           </li>
           <li class="about_link">
              <a href="javascript:void(0);" data-toggle="modal" data-target=".myModal">
-               About...
+               {{textConstants.ABOUT}}...
              </a>
           </li>
           <li ng-click="logout()">
             <a class="logout_link">
-              Log out
+              {{textConstants.LOGOUT}}
             </a>
           </li>
         </ul>

@@ -34,8 +34,8 @@
                                   <span class="squaredFourTxt">Keep me Signed In</span>
                             </div> -->
                             <div class="pull-right forgot_pass_holder">
-                                <a href="javascript:void(0);" >Forgot Password</a>
-                                <span class="forgot_pass_tooltip">Contact your Account Manager<br> to reset your password </span>
+                                <a href="javascript:void(0);" >{{textConstants.FORGOT_PASSWORD}}</a>
+                                <span class="forgot_pass_tooltip">{{textConstants.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER}} </span>
                             </div>
                             
                        </div>
@@ -52,9 +52,9 @@
 
     
       <div class="login_copyright_holder">
-        <span class="login_copyright_span">Copyright &copy; 2015 Collective, Inc. All Rights Reserved</span>
+        <span class="login_copyright_span" ng-bind-html="copyRights"></span>
         <span class="login_copyright_span copyright_dot_separator"><span class="dot_separator">.</span></span> 
-        <span class="login_copyright_span"><a href="http://www.collective.com/about.html" target="_blank" >About Us</a></span>
+        <span class="login_copyright_span"><a href="http://www.collective.com/about.html" target="_blank" >{{textConstants.ABOUT_US}}</a></span>
       </div>
    </div>
  </div>
