@@ -8,6 +8,8 @@
 
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
+    $scope.textConstants = constants;
+
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
     });
