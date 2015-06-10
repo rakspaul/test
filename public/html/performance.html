@@ -168,15 +168,15 @@
     </div>
     <div class="vid_col" ng-show="strategyPerfDataByScreen.hasVTCMetrics == true">
         <div class="each_col third_col">
-            {{screenData.video_metrics.ad_starts | nrFormat}}
+            {{screenData.video_metrics.ad_starts >0 ? (screenData.video_metrics.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_25 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_50 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 | nrFormat}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_25 >0 ? (screenData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_50 >0 ? (screenData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 >0 ? (screenData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 >0 ? (screenData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
@@ -217,15 +217,15 @@
     </div>
         <div class="vid_col" ng-show="strategyPerfDataByDOW.hasVTCMetrics == true">
         <div class="each_col third_col">
-            {{daysofweekData.video_metrics.ad_starts | nrFormat}}
+            {{daysofweekData.video_metrics.ad_starts >0 ? (daysofweekData.video_metrics.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_25 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_50 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_75 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_100 | nrFormat}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_25 >0 ? (daysofweekData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_50 >0 ? (daysofweekData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_75 >0 ? (daysofweekData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_100 >0 ? (daysofweekData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
@@ -264,15 +264,15 @@
     </div>
     <div class="vid_col" ng-show="strategyPerfDataByFormat.hasVTCMetrics == true">
         <div class="each_col third_col">
-            {{formatData.video_metrics.ad_starts | nrFormat}}
+            {{formatData.video_metrics.ad_starts > 0 ? (formatData.video_metrics.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_25 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_50 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_75 | nrFormat}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_100 | nrFormat}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_25 > 0 ? (formatData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_50 > 0 ? (formatData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_75 > 0 ? (formatData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_100 > 0 ? (formatData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
