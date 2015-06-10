@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    kpiSelectModule.directive('kpiDropDown', function () {
+    kpiSelectModule.directive('kpiDropDown', function (constants) {
         return {
             restrict:'EAC',
             controller: 'kpiSelectController',
@@ -9,6 +9,7 @@
             },
             templateUrl: assets.html_kpi_drop_down,
             link: function(scope, element, attrs) {
+                scope.textConstants = constants;
                 scope.whichCaller = attrs;
                 scope.$watch('type', function(newValue, oldValue) {
                     if(newValue !== oldValue) {

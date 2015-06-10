@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignSort', function (utils) {
+    angObj.directive('campaignSort', function (utils,constants) {
         return {
             restrict:'EAC',
 
@@ -12,7 +12,7 @@
 
             link: function ($scope, element, attrs) {
 
-                
+                $scope.textConstants = constants;
             } 
         };
     });

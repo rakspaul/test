@@ -254,6 +254,12 @@
 
     this.CATEGORIZED_DATA_TOOLTIP = "% computed from categorized data only. Screen categorization of media started in March 2014, hence data prior to that is uncategorized";
 
+    this.KPI_ON_TARGET = "KPI on target";
+    this.KPI_UNDERPERFORMANCE = "KPI Underperformance";
+    this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "Graph represents campaigns which have set KPI values only";
+    this.VIDEO = "Video";
+    this.PLAYS = "plays";
+
 
   };
 

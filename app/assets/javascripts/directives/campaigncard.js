@@ -13,6 +13,8 @@
 
             link: function ($scope, element, attrs) {
 
+                $scope.textConstants = constants;
+
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = -999; //fix for initial loading
