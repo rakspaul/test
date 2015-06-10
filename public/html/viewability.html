@@ -121,9 +121,8 @@
                                 selected_filters.kpi_type}}
                             </div>
                         </div>
-                      <div class="common-load-icon_viewability" id="tactics_activityLoader" ng-show="tacticBusy"></div>
                         <div class="all_strategies_holder">
-                            <div class="each_strategy_holder clearfix" ng-repeat="tactffic in viewData.tacticsList | orderBy:sortType:sortReverse track by $index">
+                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortType:sortReverse track by $index">
                                 <!-- <div class="linkage_lines">
                                 </div> -->
                                 <div class="each_strategy clearfix">
@@ -135,17 +134,6 @@
                                         <div class="sub_col">
                                             <span>{{tactic.view_metrics.delivered_imps | number:0}}</span>
                                             </div>
-                        <!--                <div class="graph_col">
-                                            <div class="full_graph_line">
-                                                <div class="filled_graph_line fully_filled"
-                                                     style="width:{{ tactic.view_metrics.delivered_imps | calculatePerc : tactic.view_metrics.total_imps }}px;">
-                                                </div>
-                                            </div>
-                                            <div class="clearfix graph_end_points">
-                                                <span>{{tactic.view_metrics.delivered_imps | number:0}}</span>
-                                                <span>{{tactic.view_metrics.total_imps| number:0}}</span>
-                                            </div>
-                                        </div>-->
                                     </div>
                                     <div class="each_col third_col">
                                         <div class="sub_col">
