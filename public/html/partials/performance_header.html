@@ -27,11 +27,13 @@
 
     </div>
 
+
     <div class="each_col third_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
         <span class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('performanceData.platformType_aggregation.video_metrics.vtc_rate',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.video_metrics.vtc_rate';sortTypeSubSort='video_metrics.vtc_rate'; sortReverse = !sortReverse">{{textConstants.VTC}}</span>
+
     </div>
 </div>
-<div class="each_col forth_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+<div class="each_col forth_col">
     <span class="icon_text_holder"  ng-class="sortClassFunction('ctr',sortType,sortReverse)" ng-click="sortType = 'ctr'; sortReverse = !sortReverse" >
         <span class="default-kpi-header-icon ng-scope icon_text_holder"  tooltip={{textConstants.PRIMARY_KPI}} ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>
         {{textConstants.CTR}}
@@ -52,7 +54,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('cpm',sortType,sortReverse)" ng-click=" sortTypeSubSort='cpm';  sortType = 'platformType_aggregation.cpm'; sortReverse = !sortReverse" >{{textConstants.CPM}}</span>
 </div>
 </span>
-<div class="each_col seventh_col"  ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+<div class="each_col seventh_col">
     <div ng-if="strategyDataByPerformance.hasVTCMetrics"  class="dropdown kpi-dd-holder" >
         <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
     </div>
