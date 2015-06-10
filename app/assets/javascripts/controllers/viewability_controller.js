@@ -39,7 +39,6 @@ var angObj = angObj || {};
             tactics: null,
             domains: null,
             publishers: null,
-            exchanges: null
         };
 
         $scope.init = function (){
@@ -54,40 +53,16 @@ var angObj = angObj || {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-
         };
 
         $scope.init();
-
-        $scope.tacticViewData = function (param, strategiesList) {
-            $scope.tacticBusy = true;
-            var errorHandler = function() {
-                $scope.tacticBusy =false;
-            }
-            viewablityService.getTacticsViewData(param).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-
-                    $scope.tacticBusy = false;
-                    strategiesList.tacticsList = result.data.data[0].tactics;
-                    $scope.viewData = strategiesList;
-
-                } // Means no strategy data found
-                else {
-                    errorHandler();
-                }
-            }, errorHandler);
-        };
-
-
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
             var strategiesList = {};
             $scope.strategyBusy = true;
-            $scope.tacticBusy = false;
             var errorHandler = function() {
                 $scope.dataNotFound = true;
                 $scope.strategyBusy = false;
-                $scope.tacticBusy = false;
             }
             $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
@@ -99,11 +74,7 @@ var angObj = angObj || {};
                     $scope.strategyBusy = false;
                     if (strategiesList) {
                         $scope.dataNotFound = false;
-                        if(param.strategyId) {
-                            $scope.tacticBusy = true;
-                            $scope.tacticViewData(param, strategiesList);
-                        }$scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
-
+                        $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
                     } else {
                         errorHandler();
                     }
@@ -139,11 +110,6 @@ var angObj = angObj || {};
                     'report_url' : urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_publisher',
                     'label' : 'Viewability by Publisher'
-                },
-                {
-                    'report_url' : urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter,
-                    'report_name' : 'by_exchange',
-                    'label' : 'Viewability by Exchange'
                 }
             ];
         };
@@ -159,7 +125,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Compaign total' : 'Strategy total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
             $scope.callBackStrategyChange();
         });
 
