@@ -45,8 +45,6 @@
                 if(selected_metric_key == 'vtc'){
                     data = _.chain(data)
                     .sortBy(function (d) {
-                        console.log(d['dimension']);
-                        console.table(d);
                         return d[selected_metric_obj_params.key][selected_metric_obj_params.field_name];
                     })
                     .reverse()
