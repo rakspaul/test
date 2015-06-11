@@ -63,8 +63,10 @@
         };
 
         $scope.formatDropdownChange = function(obj){
-          if(!$scope.dataFound)
-            return;
+          if(!$scope.dataFound) {
+              screenChartModel.setScreenWidgetFormat(obj);
+              return;
+          }
             $("#screens").hide();
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
@@ -74,8 +76,10 @@
         };
 
         $scope.metricDropdownChange = function(obj){
-          if(!$scope.dataFound)
-            return;
+          if(!$scope.dataFound) {
+              screenChartModel.setScreenWidgetMetric(obj);
+              return;
+          }
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
