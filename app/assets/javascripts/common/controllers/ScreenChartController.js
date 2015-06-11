@@ -12,8 +12,6 @@
 
       $scope.dataFound = true;
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
-        console.log('sapna: screen widget data: ');
-        console.log($scope.screenWidgetData);
 
         function getScreenAndFormatData () {
             $("#screens").show();
@@ -73,12 +71,8 @@
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData']={};
-            console.log('before analytics');
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
-            console.log('am here');
             getScreenAndFormatData();
-            console.log('sapna: screen widget data - in functin: ');
-            console.log($scope.screenWidgetData);
         };
 
         $scope.metricDropdownChange = function(obj){
