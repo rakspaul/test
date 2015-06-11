@@ -40,7 +40,6 @@
         };
 
         this.setScreenWidgetMetric = function( _selectedMetric){
-            console.log("coming here");
             switch (_selectedMetric.toLowerCase()) {
                 case 'ctr':
                     screenWidgetData['selectedMetric'] = constants.CTR;
