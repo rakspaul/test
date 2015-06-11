@@ -152,7 +152,7 @@
     this.ACTIVITY_LOG = "Activity Log";
     this.CLICK_FOR_DETAILED_REPORTS = "Click for detailed reports";
     this.SCREENS = "Screens";
-    this.PLATFORM = "Platform";
+    this.PLATFORM = "Platforms";
     this.TOP_THREE = "Top 3";
     this.VIEWABILITY = "Viewability";
     this.INVENTORY = "Inventory";
