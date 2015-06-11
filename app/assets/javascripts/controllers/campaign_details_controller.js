@@ -538,7 +538,7 @@
 
                     var arr = {}, kpiData, chartData, resultData, sortedData; // Step 2 Data Mod Restructure of the Array on memory
                     resultData = result.data.data;
-                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !resultData[0].hasVTCMetrics;
+                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !resultData.hasVTCMetrics;
                     if(resultData && !hasVTCMetrics) {
                         _.each(resultData.platform_metrics, function(obj, idx) {  
                             arr[idx] = []
