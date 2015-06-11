@@ -2,7 +2,7 @@
     "use strict";
     var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
-            metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
+            metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
             formatDropDown : [constants.SCREENS, constants.FORMATS],
             chartData : {},
@@ -64,6 +64,9 @@
                     break;
                 case 'spend' :
                     screenWidgetData['selectedMetric'] = constants.SPEND;
+                    break;
+                case 'vtc' :
+                    screenWidgetData['selectedMetric'] = constants.VTC;
                     break;
             }
 

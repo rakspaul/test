@@ -74,6 +74,7 @@
     this.SPEND = "Spend";
     this.IMPRESSIONS ="Impressions";
     this.CTR = "CTR";
+    this.VTC = "VTC";
     this.CPM = "CPM";
     this.CPC = "CPC";
     this.CPA = "CPA";
