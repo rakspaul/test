@@ -100,10 +100,10 @@
                     || selected_metric_key == 'action_rate' || selected_metric_key == 'action rate' || selected_metric_key == 'gross_rev'){
                     // max selected metric value will be first non zero value of the selected metric out of all nodes
                      if(selected_metric_key == 'vtc'){
-                        max_selected_metric_value = ((data[0][selected_metric_obj_params.key][selected_metric_obj_params.field_name]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_obj_params.key][selected_metric_obj_params.field_name]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_obj_params.key][selected_metric_obj_params.field_name] == 0 ? (data[3] !== undefined && data[3][selected_metric_obj_params.key][selected_metric_obj_params.field_name]):(data[2][selected_metric_obj_params.key][selected_metric_obj_params.field_name])) ):((data[1][selected_metric_obj_params.key][selected_metric_obj_params.field_name]) )) : ((data[0][selected_metric_obj_params.key][selected_metric_obj_params.field_name]))),
+                        max_selected_metric_value = _.max(_.pluck(_.pluck(data,selected_metric_obj_params.key),selected_metric_obj_params.field_name)),
                         ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
                      }else{
-                        max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_key] == 0 ? (data[3] !== undefined && data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
+                        max_selected_metric_value = _.max(_.pluck(data, selected_metric_key)),
                         ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
                      }
 
@@ -157,14 +157,13 @@
                         percAllocation = node[selected_metric_obj_params.key][selected_metric_obj_params.field_name];
                         if(percAllocation < 0.5)
                         percAllocation = 0.00;
-                        bar_length = node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] ;
+                        bar_length = node[selected_metric_obj_params.key][selected_metric_obj_params.field_name]  * ratio;
                         if(percAllocation > 100){
                             percAllocation = 100 ;
                         }
                         percAllocationString = percAllocation.toFixed(2) + "%";
 
                     }
-
                     if (percAllocation !== undefined && percAllocation.toFixed(2) == 0.00) {
                         showGreyProgressBar = true;
                     }
