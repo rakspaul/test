@@ -30,7 +30,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 
-<span  ng-if="!strategyPerfDataByScreen.hasVTCMetrics">
+<span  ng-show="strategyPerfDataByScreen.hasVTCMetrics == false">
 <div class="each_col sixth_col" >
     <span class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
