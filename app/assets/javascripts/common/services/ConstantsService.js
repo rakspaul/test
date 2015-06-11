@@ -260,6 +260,8 @@
     this.VIDEO = "Video";
     this.PLAYS = "plays";
 
+    this.QUARTILE_DATA = "Quartile Data";
+
 
   };
 

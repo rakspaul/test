@@ -1,4 +1,3 @@
-
 <div class="each_col sec_col">
     <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortType,sortReverse)" ng-click="sortType = 'dimension'; sortReverse = !sortReverse" >{{textConstants.FORMAT}}</span>
 </div>
@@ -9,11 +8,11 @@
 <div class="each_col third_col">
             <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortType,sortReverse)"
                   ng-click="sortType = 'video_metrics.ad_starts'; sortReverse = !sortReverse" >
-                Video <br> plays
+                {{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}
             </span>
 </div>
 <div class="vid_data_hdr">
-       <span>Quartile Data</span> <br>  
+       <span>{{textConstants.QUARTILE_DATA}}</span> <br>
        <div class="vid_sub_col">
          <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics,vtc_25',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_25'; sortReverse = !sortReverse" >25%</span></div>
          <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics,vtc_50',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_50'; sortReverse = !sortReverse" >50%</span></div>
@@ -23,7 +22,7 @@
 </div>
 <div class="each_col third_col">
         <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_rate'; sortReverse = !sortReverse" >
-            VTC
+            {{textConstants.VTC}}
         </span>
 </div>
 </div>
