@@ -133,7 +133,7 @@
     this.SELECT_ALL = "Select All";
     this.DRAFT = "Draft";
     this.READY = "Ready";
-    this.ACTIVE = "Active";
+    this.ACTIVE_LABEL = "Active";
     this.KPI_ON_TRACK = "KPI On Track";
     this.UNDERPERFORMING = "Underperforming";
     this.PAUSED = "Paused";
