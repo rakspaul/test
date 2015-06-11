@@ -309,10 +309,10 @@
 
             for (var i = 0; i < lineDataLen; i++) {
                 var chartData = lineData[i]['date'].split("-");
-                dataArr.push(lineData[i]['y']);
+                dataArr.push(lineData[i]['y'] || 0);
                 data.push([
                     Date.UTC(parseInt(chartData[0]), parseInt(chartData[1], 10) - 1 , parseInt(chartData[2])),
-                    lineData[i]['y']
+                    lineData[i]['y'] || 0
                 ]);
             }
 
@@ -322,11 +322,14 @@
                 maxVal = Math.max.apply(Math,dataArr),
                 range = parseFloat(parseFloat(maxVal) - parseFloat(minVal)),
                 percentage = ((parseFloat(maxVal) - parseFloat(minVal))/100)*15,
-                chartMinimum = parseFloat(parseFloat(minVal) - parseFloat(percentage)),
-                chartMaximum = parseFloat(parseFloat(maxVal) + parseFloat(percentage));
-                var setMinVal = minVal;
+                setMinVal = minVal,
+                setMaxVal = maxVal;
                 if(threshold >= 0){
-                    var setMinVal = minVal <= threshold ? minVal : threshold;
+                    setMinVal = minVal <= threshold ? minVal : threshold;
+                    setMaxVal = maxVal <= threshold ? threshold : maxVal;    
+                }
+                if(percentage > 0 ){
+                    setMaxVal = setMaxVal + percentage;
                 }
             return {
                 options: {
@@ -384,8 +387,8 @@
                     yAxis: {
                         maxPadding:0,
                         minPadding:0,
-                        max:chartMaximum,
                         min:setMinVal,
+                        max:setMaxVal, 
                         title: {
                             align: 'high',
                             offset: 13,
