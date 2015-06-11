@@ -45,6 +45,8 @@
                 if(selected_metric_key == 'vtc'){
                     data = _.chain(data)
                     .sortBy(function (d) {
+                        console.log(d['dimension']);
+                        console.table(d);
                         return d[selected_metric_obj_params.key][selected_metric_obj_params.field_name];
                     })
                     .reverse()
@@ -153,14 +155,15 @@
                         percAllocation = node[selected_metric_key] ;
                         percAllocationString = "$" + percAllocation.toFixed(2);
                     } else if(selected_metric_key == 'vtc'){
-                        percAllocation = (finalAllocation == 0 || node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] == 0)? 0: (node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] / finalAllocation) *100;
+                        //percAllocation = (finalAllocation == 0 || node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] == 0)? 0: (node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] / finalAllocation) *100;
+                        percAllocation = node[selected_metric_obj_params.key][selected_metric_obj_params.field_name];
                         if(percAllocation < 0.5)
                         percAllocation = 0.00;
-                        bar_length = node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] * ratio ;
+                        bar_length = node[selected_metric_obj_params.key][selected_metric_obj_params.field_name] ;
                         if(percAllocation > 100){
                             percAllocation = 100 ;
                         }
-                        percAllocationString = percAllocation.toFixed(0) + "%";
+                        percAllocationString = percAllocation.toFixed(2) + "%";
 
                     }
 
