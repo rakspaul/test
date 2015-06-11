@@ -19,7 +19,7 @@
         this.updateScreenChartData = updateScreenChartData;
 
         function dataFormatting(data) {
-
+            console.table(data[2]['video_metrics'])
             var positions = [
                 [70, 75],
                 [70, 150],
@@ -28,25 +28,46 @@
             ];
             var formattedData = [];
             var selected_metric_text = screenChartModel.getScreenWidgetData()['selectedMetric'];
-            var selected_metric_key;
-
+            var selected_metric_key,selected_metric_param_1,selected_metric_param_2,selected_metric_params;
+console.log("selected_metric_text:"+selected_metric_text);
             if (selected_metric_text == constants.SPEND)
                 selected_metric_key = 'gross_rev';
             else if (selected_metric_text == constants.ACTION_RATE)
                 selected_metric_key = 'action_rate';
+            else if (selected_metric_text == constants.VTC){
+                selected_metric_key = 'vtc';
+                selected_metric_param_1 = 'video_metrics';
+                selected_metric_param_2 = 'vtc_rate';
+                selected_metric_params = ['video_metrics']['vtc_rate'];
+            }   
             else
                 selected_metric_key = selected_metric_text.toLowerCase();
 
 
             if (selected_metric_key == 'ctr' || selected_metric_key == 'vtc' || selected_metric_key == 'impressions'
                 || selected_metric_key == 'action_rate' || selected_metric_key == 'action rate' || selected_metric_key == 'gross_rev') {
-
-                data = _.chain(data)
+                console.log("MAIN Inside")
+                if(selected_metric_key == 'vtc'){
+                    console.log("FIRST Inside")
+                    data = _.chain(data)
                     .sortBy(function (d) {
+                        console.log(d[selected_metric_param_1][selected_metric_param_2]);
+                        console.table(d);
+                        return d[selected_metric_param_1][selected_metric_param_2];
+                    })
+                    .reverse()
+                    .value();
+
+                }else{
+                    data = _.chain(data)
+                    .sortBy(function (d) {
+                       // console.table(d);
                         return d[selected_metric_key];
                     })
                     .reverse()
                     .value();
+                }
+                
             } else {
                 data = _.chain(data)
                     .sortBy(function (d) {
@@ -58,7 +79,8 @@
 
 
             if (data !== undefined && data.length > 0) {
-
+                console.log("I am in");
+                console.table(data[i]);
                 var max_selected_metric_value,
                     totalAllocation = 0,
                     unkownAllocation = 0 ,
@@ -67,22 +89,38 @@
                     index_to_remove = -1;
 
                 for (var i in data) {
-                    totalAllocation += data[i][selected_metric_key];
-
+                    if(selected_metric_key == 'vtc'){
+                        totalAllocation += data[i][selected_metric_param_1][selected_metric_param_2];
+                    }else{
+                        totalAllocation += data[i][selected_metric_key];
+                    }
+                     console.log("M97:"+unkownAllocation);
                     // fill index_to_remove if it has dimension as unkown
                     if (data[i].dimension.toLowerCase() == 'unknown') {
                         index_to_remove = i;
-                        unkownAllocation += data[i][selected_metric_key];
+                        if(selected_metric_key == 'vtc')
+                            unkownAllocation += data[i][selected_metric_param_1][selected_metric_param_2];
+                        else
+                            unkownAllocation += data[i][selected_metric_key];
+                            
                     }
                 }
+                console.log("M:"+unkownAllocation)
                 if(index_to_remove !== -1)
                   data.splice(index_to_remove,1);
 
                 if (selected_metric_key == 'ctr' || selected_metric_key == 'vtc' || selected_metric_key == 'impressions'
                     || selected_metric_key == 'action_rate' || selected_metric_key == 'action rate' || selected_metric_key == 'gross_rev'){
                     // max selected metric value will be first non zero value of the selected metric out of all nodes
-                     max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_key] == 0 ? (data[3] !== undefined && data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
-                     ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
+                     if(selected_metric_key == 'vtc'){
+                        max_selected_metric_value = ((data[0][selected_metric_param_1][selected_metric_param_2]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_param_1][selected_metric_param_2]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_param_1][selected_metric_param_2] == 0 ? (data[3] !== undefined && data[3][selected_metric_param_1][selected_metric_param_2]):(data[2][selected_metric_param_1][selected_metric_param_2])) ):((data[1][selected_metric_param_1][selected_metric_param_2]) )) : ((data[0][selected_metric_param_1][selected_metric_param_2]))),
+                        ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
+                     }else{
+                        max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_key] == 0 ? (data[3] !== undefined && data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
+                        ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value ;
+                     }
+                        console.log("max_selected_metric_value:"+max_selected_metric_value)
+                     
 
                 } else {
                     max_selected_metric_value =
@@ -104,8 +142,10 @@
                     }
 
                 }
+                console.log("Line 144 =>"+totalAllocation+"===>"+unkownAllocation);
                 /* removed unknown value from total Allocation*/
                 finalAllocation = totalAllocation - unkownAllocation;
+                console.log("Line 146 finalAllocation:"+finalAllocation);
                 for (var index in data) {
                     var node = data[index];
 
@@ -121,7 +161,7 @@
                         }
                         percAllocationString = percAllocation.toFixed(0) + "%";
 
-                    } else if (selected_metric_key == 'ctr' || selected_metric_key == 'action_rate' || selected_metric_key == 'vtc') {
+                    } else if (selected_metric_key == 'ctr' || selected_metric_key == 'action_rate') {
                         percAllocation = node[selected_metric_key] * 100;
                         bar_length = node[selected_metric_key] * ratio ;
                         percAllocationString = percAllocation.toFixed(2) + "%";
@@ -129,6 +169,21 @@
                         bar_length = (node[selected_metric_key] == 0)? 0: (length * node[selected_metric_key] / max_selected_metric_value)  ;
                         percAllocation = node[selected_metric_key] ;
                         percAllocationString = "$" + percAllocation.toFixed(2);
+                    } else if(selected_metric_key == 'vtc'){
+                        /*percAllocation = node[selected_metric_param_1][selected_metric_param_2] * 100;
+                        bar_length = node[selected_metric_param_1][selected_metric_param_2] * ratio ;
+                        percAllocationString = percAllocation.toFixed(2) + "%";*/
+                        console.log("finalAllocation:"+finalAllocation);
+                        console.log(node[selected_metric_param_1][selected_metric_param_2] +"===>"+finalAllocation);
+                        percAllocation = (finalAllocation == 0 || node[selected_metric_param_1][selected_metric_param_2] == 0)? 0: (node[selected_metric_param_1][selected_metric_param_2] / finalAllocation) *100;
+                        if(percAllocation < 0.5)
+                        percAllocation = 0.00;
+                        bar_length = node[selected_metric_param_1][selected_metric_param_2] * ratio ;
+                        if(percAllocation > 100){
+                            percAllocation = 100 ;
+                        }
+                        percAllocationString = percAllocation.toFixed(0) + "%";
+
                     }
 
                     if (percAllocation !== undefined && percAllocation.toFixed(2) == 0.00) {
