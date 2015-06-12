@@ -261,7 +261,6 @@
                         <div class="col-md-12">
                               <div class="carousel slide" id="myCarousel">
                                 <div class="carousel-inner">
-
                                   <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
                                     <div class="col-xs-3">
                                        <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
@@ -342,7 +341,7 @@
 
                                     </div>
                                   </div>
-                                  <div class="item {{isCostModelTransparent ? '' : 'active'}}">
+                                  <div class="item active">
                                         <div class="col-xs-3">
                                             <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_inventory" >
                                                 <div class="graph_heading">
@@ -363,7 +362,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                   <div class="item active">
+                                   <div class="item {{isCostModelTransparent ? '' : 'active'}}">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                                             <div class="graph_heading">
