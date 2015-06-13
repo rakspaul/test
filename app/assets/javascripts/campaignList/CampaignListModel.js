@@ -323,14 +323,22 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
 
         Campaigns.prototype.fetchCostData = function() {
           var self = this;
+          var hideLoader =  function() {
+            _.each(costidsList, function(value) { self.costList[value].costDataLoading = false });
+          }
+          var costidsList = this.costIds.split(",")
+          _.each(costidsList, function(value) { self.costList[value] = {costDataLoading : true} })
           campaignListService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD"), function(result) {
             if(result.status == "success" && !angular.isString(result.data)){
-              // self.costMargin = result.data.data;
-
               angular.forEach(result.data.data, function(cost) {
                 self.costList[cost.id]= modelTransformer.transform(cost, campaignCost);
+                hideLoader();
               });
+            } else {
+              hideLoader();
             }
+          }, function() {
+            hideLoader();
           });
         },
 
