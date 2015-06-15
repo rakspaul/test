@@ -167,6 +167,7 @@
     this.KPI = "KPI";
     this.DATA = "Data";
     this.AD_SERVING = "Ad Serving";
+    this.AD_START_IMPS = "Ad Start Imps.";
     this.CREATIVE = "Creative";
     this.RESEARCH = "Research";
     this.AD_VERIFICATION = "Ad Verification";
@@ -206,6 +207,12 @@
     this.DOMAINS = "Domains";
     this.URLS = "URLs";
     this.DELIVERED = "Delivered";
+    this.DELIVERED_IMPS = "Delivered Imps";
+    this.VIEW_MODE = "View Mode";
+    this.VIDEO_PLAYS = "Video Plays";
+    this.VIDEO_VIEWS = "Video Views";
+    this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START = "Measured as 100% Video played divided by Ad start " ;
+    this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video play completion and Video Viewability at the various quartiles of the Ad" ;
     this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = "Insufficient data points to render graph";
 
     this.SEE_DATES = "See Dates";

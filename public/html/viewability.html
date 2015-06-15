@@ -18,7 +18,19 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
-        <div class="viewability_container" ng-hide="strategyLoading">
+<!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
+<!--         <div class="view_mode_switch_container">
+            <span>{{textConstants.VIEW_MODE}}</span>
+            <span class="video_off_icon active"></span>
+            <span class="video_btn">
+                <span class="video_btn_circle" ng-click="selectVideoMode()"></span>
+            </span>
+            <span class="video_on_icon"></span>
+        </div> -->
+<!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
+
+
+        <div class="viewability_container" ng-hide="strategyLoading" >
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
                 <div class="viewability_details_outer_container">
@@ -160,6 +172,183 @@
                                     <div class="each_col seventh_col">
                                         {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                                         selected_filters.kpi_type}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="viewability_video_mode_container " style="display:none;">
+
+            <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
+                <div class="viewability_details_video_mode_outer_container">
+                    <div class="viewability_header clearfix">
+                        <div class="each_col sec_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >{{textConstants.DELIVERED_IMPS}}</span>
+                        </div>
+                        <div class="each_col third_col">
+                            <span>{{textConstants.MEASURABLE}}</span>
+
+                            <div class="sub_col">
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.measurable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.measurable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_measurable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_measurable'; sortReverse = !sortReverse" >%</span>
+                            </div>
+                        </div>
+                        <div class="each_col ad_col">
+                            <span class="clearfix icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+                                <span class="pull-left tooltip_for_txt" >{{textConstants.AD_START_IMPS}}</span>
+                                <span class="pull-left tooltip_holder">
+                                    <span class="tooltip_show_icon"></span>
+                                    <span class="clearfix common_tooltip">
+                                      <div class="video_tooltip">
+                                        <div class="clearfix ">
+                                            <span class="video_tooltip_icon play_icon"></span>
+                                            <span class="pull-left">{{textConstants.VIDEO_PLAYS}}</span>
+                                        </div>
+                                        <div class="clearfix view_video_tooltip">
+                                            <span class="video_tooltip_icon view_icon"></span>
+                                            <span class="pull-left">{{textConstants.VIDEO_VIEWS}}</span>
+                                        </div>
+                                      </div>
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="each_col sub_four_cols">
+                            <div class="clearfix title_tooltip">
+                                <span class="pull-left">{{ textConstants.QUARTILE_DETAILS }}</span>
+                                <span class="pull-left tooltip_holder">
+                                    <span class="tooltip_show_icon"></span>
+                                    <span class="clearfix common_tooltip">
+                                      {{ textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="sub_col">
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >25%</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" >50%</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >75%</span>
+                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >100%</span>
+                            </div>
+                        </div>
+                        <div class="each_col vtc_col">
+                            <div class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+                                <span class="pull-left " >{{ textConstants.VTC }}</span>
+                                <span class="pull-left tooltip_holder">
+                                    <span class="tooltip_show_icon"></span>
+                                    <span class="clearfix common_tooltip">
+                                      {{ textConstants.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START}}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="each_col suspicious_act_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >{{ textConstants.SUSPICIOUS_ACTIVITY }} %</span>
+                        </div>
+                    </div>
+                    <div class="viewability_table_body">
+                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
+                    </div>
+                    <div class="strategy_total_container " >
+                      <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
+
+                      <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
+
+                            <div class="each_col first_col">
+                                {{strategyHeading}}:
+                            </div>
+
+                            <div class="each_col sec_col">
+                                32.32K
+                            </div>
+                            <div class="each_col third_col">
+                                <div class="sub_col">
+                                    <span>463.32K</span>
+                                    <span>43.34%</span>
+                                </div>
+                            </div>
+                            <div class="each_col ad_col">
+                                <div class="clearfix played_ad">
+                                    <span class="specific_ad_icon"></span>
+                                    <span class="ad_val">432.34K</span>
+                                </div>
+                                <div class="clearfix next_val viewed_ad">
+                                    <span class="specific_ad_icon"></span>
+                                    <span class="ad_val">432.34K</span>
+                                </div>
+                            </div>
+                            <div class="each_col sub_four_cols">
+                                <div class="sub_col">
+                                    <span>432.43K</span>
+                                    <span>432.43K</span>
+                                    <span>432.43K</span>
+                                    <span>432.43K</span>
+                                </div>
+                                <div class="sub_col next_val">
+                                    <span>432.43K</span>
+                                    <span>432.43K</span>
+                                    <span>432.43K</span>
+                                    <span>432.43K</span>
+                                </div>
+                            </div>
+                            <div class="each_col">
+                                99.99%
+                            </div>
+                            <div class="each_col">
+                                0.01%
+                            </div>
+                        </div>
+                        <div class="all_strategies_holder">
+                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortType:sortReverse track by $index">
+                                <div class="each_strategy clearfix">
+                                    <div class="each_col first_col">
+                                        {{tactic.tactic_name}}
+                                    </div>
+                                    <div class="each_col sec_col">
+                                         32.21K
+                                    </div>
+                                    <div class="each_col third_col">
+                                        <div class="sub_col">
+                                            <span>110.32K</span>
+                                            <span>35.43%</span>
+                                        </div>
+                                    </div>
+                                    <div class="each_col ad_col">
+                                        <div class="clearfix played_ad">
+                                            <span class="specific_ad_icon"></span>
+                                            <span class="ad_val">432.34K</span>
+                                        </div>
+                                        <div class="clearfix next_val viewed_ad">
+                                            <span class="specific_ad_icon"></span>
+                                            <span class="ad_val">432.34K</span>
+                                        </div>
+                                    </div>
+                                    <div class="each_col sub_four_cols">
+                                        <div class="sub_col">
+                                            <span>432.43K</span>
+                                            <span>432.43K</span>
+                                            <span>432.43K</span>
+                                            <span>432.43K</span>
+                                        </div>
+                                        <div class="sub_col next_val">
+                                            <span>432.43K</span>
+                                            <span>432.43K</span>
+                                            <span>432.43K</span>
+                                            <span>432.43K</span>
+                                        </div>
+                                    </div>
+                                    <div class="each_col">
+                                        100%
+                                    </div>
+                                    <div class="each_col">
+                                        0.01%
                                     </div>
                                 </div>
                             </div>

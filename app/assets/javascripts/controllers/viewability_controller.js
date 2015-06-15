@@ -159,6 +159,20 @@ var angObj = angObj || {};
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
         };
+        $scope.selectVideoMode = function () {
+            $(".view_mode_switch_container").find(".active").removeClass("active") ;
+            if( $(".view_mode_switch_container").hasClass("video_mode_on") ) {
+                $(".view_mode_switch_container").removeClass("video_mode_on") ;
+                $(".video_off_icon").addClass("active") ;
+                $(".viewability_video_mode_container ").hide() ;
+                $(".viewability_container").show();
+            } else {
+                $(".view_mode_switch_container").addClass("video_mode_on") ;
+                $(".video_on_icon").addClass("active") ;
+                $(".viewability_video_mode_container ").show() ;
+                $(".viewability_container").hide();
+            }
+        };
     });
 
 
