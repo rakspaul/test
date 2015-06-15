@@ -1105,7 +1105,7 @@ div.strategy_total_container {
     }
   }
 }
-.viewability_details_outer_container {
+.viewability_details_outer_container , .viewability_details_video_mode_outer_container {
   margin-top: 50px;
   .viewability_header {
     border: solid 1px @reportBorder ;
@@ -1169,7 +1169,7 @@ div.strategy_total_container {
     text-transform: uppercase;
   }
 }
-.viewability_details_outer_container , #reports_platform_viewability_block {
+.viewability_details_outer_container , #reports_platform_viewability_block , .viewability_details_video_mode_outer_container {
   .no_data_found {
     text-align: center;
     background: #fff;
@@ -1405,6 +1405,206 @@ div.strategy_total_container {
   .tooltip_holder {
     .common_tooltip {
       text-align: left !important;
+    }
+  }
+}
+.view_mode_switch_container {
+  float: right ;
+  color: #21252b ;
+  font-size: 14px ;
+  margin-top: -30px;
+  span {
+    float: left;  
+    display: inline-block;
+  }
+  .video_off_icon {
+    height: 15px;
+    width: 15px;
+    margin: 2px 0 0 14px;
+    background: url("/assets/images/cdesk/video_desktop.png") no-repeat 0px 0px  ;
+  }
+  .video_on_icon {
+    height: 15px;
+    width: 20px;
+    margin-top: 2px;
+    background: url("/assets/images/cdesk/video_camera.png") no-repeat 0px 0px  ;
+  }
+  .video_off_icon.active {
+    background: url("/assets/images/cdesk/video_desktop_active.png") no-repeat 0px 0px  ;
+  }
+  .video_on_icon.active {
+    background: url("/assets/images/cdesk/video_camera_active.png") no-repeat 0px 0px  ;
+  }
+  .video_btn {
+    height: 19px ;
+    width: 30px ;
+    background: #0978c9;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    position: relative;
+    margin: 0 10px;
+  }
+  .video_btn:hover {
+    background: #6ebef8;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+  }
+  .video_btn_circle {
+    position: absolute;
+    right: 13px;
+    top: 2px;
+    height: 14px ;
+    width: 14px ;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    background-color:  #f5f9fd;
+    box-shadow:  2px 2px 0 0 rgba(0,0,0,0.2) ;
+    -moz-box-shadow:  2px 2px 0 0 rgba(0,0,0,0.2) ;
+    -webkit-box-shadow:  2px 2px 0 0 rgba(0,0,0,0.2) ;
+    
+  }
+}
+.video_mode_on {
+    .video_btn_circle { 
+      right: 2px;
+      box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.2) ;
+      -moz-box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.2) ;
+      -webkit-box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.2) ;
+    }
+}
+
+.viewability_details_video_mode_outer_container {
+  .viewability_header {
+    .sec_col , .ad_col , .suspicious_act_col {
+        margin-top: 6px;
+    }
+    .video_tooltip {
+      .video_tooltip_icon {
+        display: inline-block;
+        float: left;
+        height: 15px ;
+        width: 15px ;
+        margin-right: 10px ;
+        background: url("/assets/images/cdesk/played.png") no-repeat center center ;
+      }
+      .view_video_tooltip {
+        margin-top: 5px ;
+      }
+      .view_icon {
+        background: url("/assets/images/cdesk/viewed.png") no-repeat center center ;
+      }
+    }
+
+    .vtc_col {
+      margin-top: 16px ;
+      .tooltip_holder {
+        margin-left: 4px ;
+      }
+      .common_tooltip {
+        width: 200px;
+        left: -90px;
+      }
+      .common_tooltip:after {
+        left: 88px;
+      }
+    }
+
+  }
+  .title_tooltip {
+    margin-left: 120px ;
+    .tooltip_holder {
+      margin-left: 5px ;
+    }
+  }
+  .tooltip_show_icon {
+    width: 15px; 
+  }
+
+  .viewability_table_body {
+    .each_col {
+      text-align: right;
+      padding-right: 17px;
+    }
+    .sub_four_cols {
+      padding-right: 0px ;
+    }
+    .first_col {
+      text-align: left;
+    }
+  }
+  .each_col>span.icon_text_holder {
+    text-align: right;
+    text-transform: none;
+  }
+  .each_col  {
+    width: 80px ;
+    margin-right: 0px ;
+    text-align: right;
+  }
+  .first_col {
+    margin-left: 0px ;
+  }
+  .third_col {
+    width: 160px ;
+  }
+  div.sec_col {
+    width: 75px ;
+    margin-left: 0px ;
+  }
+  .specific_ad_icon {
+    display: inline-block;
+    float: left;
+    height: 17px ;
+    width: 15px ;
+  }
+  .played_ad {
+    .specific_ad_icon {
+      background: url("/assets/images/cdesk/played.png") no-repeat center center ;
+    }
+  }
+  .viewed_ad {
+    .specific_ad_icon {
+      background: url("/assets/images/cdesk/viewed.png") no-repeat center center ;
+    }
+  }
+  .next_val {
+    margin-top : 10px ;
+  }
+  .ad_col {
+    width: 96px ;
+    .tooltip_for_txt {
+      width: 73% ;
+      margin-right: 6px ;
+    }
+    .ad_val {
+      float: right;
+    }
+    .common_tooltip {
+      width: 125px;
+      left: -55px;
+    }
+    .common_tooltip:after  {
+      left: 52px ;
+    }
+  }
+  .sub_four_cols {
+    width: 335px ;
+    .common_tooltip {
+      width: 200px;
+      left: -95px;
+    }
+    .common_tooltip:after {
+        left: 93px;
+    }
+    .sub_col {
+      span {
+        width: 25% ;
+        text-align: right;
+        padding-right: 17px;
+      }
     }
   }
 }
