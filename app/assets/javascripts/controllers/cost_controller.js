@@ -11,7 +11,8 @@ var angObj = angObj || {};
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
         $scope.api_return_code = 200;
-        $scope.strategyMarginPercentage = -1 ;
+        $scope.strategyMarginValue = -1 ;
+        $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
         var selectedBrand = brandsModel.getSelectedBrand();
 
         var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
@@ -70,7 +71,8 @@ var angObj = angObj || {};
             $scope.tacticListCostBusy = false ;
             $scope.costReportDownloadBusy = false;
             $scope.isStrategyDropDownShow = true;
-            $scope.strategyMarginPercentage = -1 ;
+            $scope.strategyMarginValue = -1 ;
+            $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
             $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
@@ -103,7 +105,9 @@ var angObj = angObj || {};
                                 $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
                             }
                             $scope.strategyCostBusy = false;
-                            $scope.strategyMarginPercentage =  $scope.strategyCostData[0].margin ;
+                            $scope.strategyMarginValue =  $scope.strategyCostData[0].margin ;
+                            if ($scope.strategyCostData[0].pricing_method && $scope.strategyCostData[0].pricing_method === constants.PRICING_METHOD_CPM)
+                                $scope.strategyMarginUnit = constants.SYMBOL_DOLLAR;
                             if(param.strategyId >0 ) {
                                 $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
 
@@ -169,7 +173,9 @@ var angObj = angObj || {};
         //creating download report url
         $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
-            $scope.strategyMarginPercentage = -1 ;
+            $scope.strategyMarginValue = -1 ;
+            $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
+
             $scope.download_report = [
                 {
                     'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
@@ -186,7 +192,8 @@ var angObj = angObj || {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
             $scope.dataNotFound = false ;
-            $scope.strategyMarginPercentage = -1 ; // resetting strategy margin before each strategy call
+            $scope.strategyMarginValue = -1 ; // resetting strategy margin before each strategy call
+            $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;

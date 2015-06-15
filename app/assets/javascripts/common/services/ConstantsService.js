@@ -260,10 +260,12 @@
     this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "Graph represents campaigns which have set KPI values only";
     this.VIDEO = "Video";
     this.PLAYS = "plays";
+    this.PRICING_METHOD_CPM = "cpm";
+    this.PRICING_METHOD_MARKUP = "markup";
+    this.SYMBOL_PERCENT = "%";
+    this.SYMBOL_DOLLAR = "$";
 
     this.QUARTILE_DATA = "Quartile Data";
-
-
   };
 
   commonModule.service("constants", constants);
