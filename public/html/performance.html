@@ -203,8 +203,15 @@
     </div>
         </span>
     <div ng-if="strategyPerfDataByScreen.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+
+        <!--<span >{{selected_filters.kpi_type == 'cpa'? "cpm" : "cpm"}}</span>-->
+        <span ng-if="selected_filters.kpi_type == 'vtc' " style="visibility: hidden">
+        {{selected_filters.kpi_type = "cpm"}}
+        </span>
+
+
         {{screenData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-        selected_filters2.kpi_type}}
+        selected_filters.kpi_type}}
     </div>
 </script>
 
