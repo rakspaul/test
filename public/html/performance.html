@@ -164,7 +164,7 @@
         {{screenData.dimension}}
     </div>
     <div class="each_col third_col">
-        {{screenData.impressions | number:0}}
+        {{screenData.impressions >0 ? (screenData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="strategyPerfDataByScreen.hasVTCMetrics == true">
         <div class="each_col third_col">
@@ -221,7 +221,7 @@
         {{daysofweekData.dimension}}
     </div>
     <div class="each_col third_col">
-        {{daysofweekData.impressions | number:0}}
+        {{daysofweekData.impressions >0 ? (daysofweekData.impressions | nrFormat) : '-'}}
     </div>
         <div class="vid_col" ng-show="strategyPerfDataByDOW.hasVTCMetrics == true">
         <div class="each_col third_col">
@@ -268,7 +268,7 @@
         {{formatData.dimension}}
     </div>
     <div class="each_col third_col">
-        {{formatData.impressions | number:0}}
+        {{formatData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="strategyPerfDataByFormat.hasVTCMetrics == true">
         <div class="each_col third_col">
