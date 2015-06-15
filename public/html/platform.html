@@ -195,13 +195,13 @@
         </div>
          <span  ng-if="!strategyDataByPerformance.hasVTCMetrics">
         <div class="each_col sixth_col">
-            ${{performanceData.platformType_aggregation.cpa | number:2}}
+            {{performanceData.platformType_aggregation.cpa | currency:textConstants.currencySymbol:2}}
         </div>
         <div class="each_col seventh_col">
-            ${{performanceData.platformType_aggregation.cpc | number:2}}
+            {{performanceData.platformType_aggregation.cpc | currency:textConstants.currencySymbol:2}}
         </div>
         <div class="each_col eight_col">
-            ${{performanceData.platformType_aggregation.cpm | number:2}}
+            {{performanceData.platformType_aggregation.cpm | currency:textConstants.currencySymbol:2}}
         </div>
              </span>
         <div ng-if="strategyDataByPerformance.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyDataByPerformance.hasVTCMetrics == false}">
@@ -250,13 +250,13 @@
 
 <span  ng-if="!strategyDataByPerformance.hasVTCMetrics">
         <div class="each_col sixth_col">
-            ${{platform.cpa | number:2}}
+            {{platform.cpa | currency:textConstants.currencySymbol:2}}
         </div>
         <div class="each_col seventh_col">
-            ${{platform.cpc | number:2}}
+            {{platform.cpc | currency:textConstants.currencySymbol:2}}
         </div>
         <div class="each_col eight_col">
-            ${{platform.cpm | number:2}}
+            {{platform.cpm | currency:textConstants.currencySymbol:2}}
         </div>
     </span>
         <div ng-if="strategyDataByPerformance.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyDataByPerformance.hasVTCMetrics == false}">
@@ -271,13 +271,13 @@
         <div class="each_cost_col first_col">{{costData.platform_type}}</div>
         <div class="each_cost_col second_col">{{costData.platformType_aggregation.impressions | nrFormat}}</div>
         <div class="each_cost_col third_col">{{costData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_cost_col fourth_col">${{costData.platformType_aggregation.inventory_cost | number:0}}</div>
-        <div class="each_cost_col fifth_col">${{costData.platformType_aggregation.data_cost | number:0}}</div>
-        <div class="each_cost_col sixth_col">${{costData.platformType_aggregation.ad_serving_cost | number:0}}</div>
-        <div class="each_cost_col seventh_col">${{costData.platformType_aggregation.rich_media_cost | number:0}}</div>
-        <div class="each_cost_col eigth_col">${{costData.platformType_aggregation.research_cost | number:0}}</div>
-        <div class="each_cost_col ninth_col">${{costData.platformType_aggregation.ad_verification_cost | number:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">${{costData.platformType_aggregation.total_spend | number:0}}</div>
+        <div class="each_cost_col fourth_col">{{costData.platformType_aggregation.inventory_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col fifth_col">{{costData.platformType_aggregation.data_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col sixth_col">{{costData.platformType_aggregation.ad_serving_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col seventh_col">{{costData.platformType_aggregation.rich_media_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col eigth_col">{{costData.platformType_aggregation.research_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col ninth_col">{{costData.platformType_aggregation.ad_verification_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{costData.platformType_aggregation.total_spend | currency:textConstants.currencySymbol:0}}</div>
     </div>
 
     <div class="platform_row" ng-repeat="platform in costData.platforms  track by $index">
@@ -289,13 +289,13 @@
         </div>
         <div class="each_cost_col second_col">{{platform.impressions | nrFormat}}</div>
         <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_cost_col fourth_col">${{platform.inventory_cost | number:0}}</div>
-        <div class="each_cost_col fifth_col">${{platform.data_cost | number:0}}</div>
-        <div class="each_cost_col sixth_col">${{platform.ad_serving_cost | number:0}}</div>
-        <div class="each_cost_col seventh_col">${{platform.rich_media_cost | number:0}}</div>
-        <div class="each_cost_col eigth_col">${{platform.research_cost | number:0}}</div>
-        <div class="each_cost_col ninth_col">${{platform.ad_verification_cost | number:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">${{platform.total_spend | number:0}}</div>
+        <div class="each_cost_col fourth_col">{{platform.inventory_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col fifth_col">{{platform.data_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col sixth_col">{{platform.ad_serving_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col seventh_col">{{platform.rich_media_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col eigth_col">{{platform.research_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col ninth_col">{{platform.ad_verification_cost | currency:textConstants.currencySymbol:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{platform.total_spend | currency:textConstants.currencySymbol:0}}</div>
     </div>
 </script>
 

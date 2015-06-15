@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.factory("columnline", function($timeout, utils) {
+    commonModule.factory("columnline", function($timeout, utils,constants) {
 
 
         var  getRepString = function(x) {
@@ -88,7 +88,7 @@
                                 } else {
                                     // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
                                     // values till decimal 4 places.
-                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +'$' + yVal  ) ;
+                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +constants.currencySymbol + yVal  ) ;
 
                                 }
                                 return "<div id='inventory_tooltip' class='inventory-tool-tip'>" +return_val+ "</div>";
@@ -196,7 +196,7 @@
                             },
                             formatter: function() {
                                // if (!isNaN(this.value)) {
-                                    var currency =(kpIType === 'CTR')? '' : '$';
+                                    var currency =(kpIType === 'CTR')? '' : constants.currencySymbol;
                                     var $returnLabel =  currency + Highcharts.numberFormat(this.value, 2);
                                     return $returnLabel;
                                /* } else {

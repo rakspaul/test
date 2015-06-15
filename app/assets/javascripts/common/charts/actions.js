@@ -5,7 +5,7 @@
 
         var kpiPrefix = function (kpiType) {
             var kpiTypeLower = kpiType.toLowerCase();
-            return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
+            return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? constants.currencySymbol : ''
         };
         var kpiSuffix = function (kpiType) {
             return (kpiType.toLowerCase() == 'vtc') ? '%' : ''

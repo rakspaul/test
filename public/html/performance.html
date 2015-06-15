@@ -191,15 +191,15 @@
     </div>
     <span  ng-if="!strategyPerfDataByScreen.hasVTCMetrics">
     <div class="each_col sixth_col">
-        ${{screenData.cpa | number:2}}
+        {{screenData.cpa | currency:textConstants.currencySymbol:2}}
     </div>
 
     <div class="each_col seventh_col">
-        ${{screenData.cpc | number:2}}
+        {{screenData.cpc | currency:textConstants.currencySymbol:2}}
     </div>
 
     <div class="each_col eight_col">
-        ${{screenData.cpm | number:2}}
+        {{screenData.cpm | currency:textConstants.currencySymbol:2}}
     </div>
         </span>
     <div ng-if="strategyPerfDataByScreen.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
@@ -248,13 +248,13 @@
     </div>
     <span  ng-if="!strategyPerfDataByDOW.hasVTCMetrics">
     <div class="each_col sixth_col">
-        ${{daysofweekData.cpa | number:2}}
+        {{daysofweekData.cpa | currency:textConstants.currencySymbol:2}}
     </div>
     <div class="each_col seventh_col">
-        ${{daysofweekData.cpc | number:2}}
+        {{daysofweekData.cpc | currency:textConstants.currencySymbol:2}}
     </div>
     <div class="each_col eight_col">
-        ${{daysofweekData.cpm | number:2}}
+        {{daysofweekData.cpm | currency:textConstants.currencySymbol:2}}
     </div>
     </span>
     <div ng-if="strategyPerfDataByDOW.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
@@ -295,13 +295,13 @@
     </div>
     <span  ng-if="!strategyPerfDataByFormat.hasVTCMetrics">
     <div class="each_col sixth_col">
-        ${{formatData.cpa | number:2}}
+        {{formatData.cpa | currency:textConstants.currencySymbol:2}}
     </div>
     <div class="each_col seventh_col">
-        ${{formatData.cpc | number:2}}
+        {{formatData.cpc | currency:textConstants.currencySymbol:2}}
     </div>
     <div class="each_col eight_col">
-        ${{formatData.cpm | number:2}}
+        {{formatData.cpm | currency:textConstants.currencySymbol:2}}
     </div>
         </span>
     <div ng-if="strategyPerfDataByFormat.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
