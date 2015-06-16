@@ -64,7 +64,7 @@
         <div class="each_campaign_section metric_campaign_section">
             <div class="clearfix metric_graph_header">
                 <span class="metric_title">{{textConstants.SPEND}}</span>
-                <span class="metric_val">${{strategy.grossRev | number : 2}}</span>
+                <span class="metric_val">{{strategy.grossRev | currency:undefined: 2}}</span>
             </div>
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                 <div class="full_metric_graph">
@@ -72,7 +72,7 @@
                     </div>
                     <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 88) ? 'start_end_point' : ''}}" ng-style="{'left':getSpendTickWidthForStrategy(strategy) +'%'};"><!-- put start_beginning when at start -->
                         <div class="end_point_val">
-                            <span class="icon_KPI"> ${{strategy.expectedMediaCost |  nrFormat }}</span>
+                            <span class="icon_KPI"> {{strategy.expectedMediaCost |  nrFormatWithCurrency }}</span>
                             <div class="end_point_line"></div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                         <!-- put completed_end_point when at end -->
                         <div class="end_point_val">
                             <div class="end_point_line"></div>
-                            <span>{{textConstants.BUDGET}}: ${{strategy.totalMediaCost | number:2}}</span>
+                            <span>{{textConstants.BUDGET}}: {{strategy.totalMediaCost | currency:undefined:2}}</span>
                         </div>
                     </div>
                 </div>

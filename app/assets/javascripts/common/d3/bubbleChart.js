@@ -48,34 +48,34 @@
             var y = Math.abs(x);
 
             if(y < 999) {
-                return  "$" + ((r > 55) ? x.toFixed(2) : x.toFixed(0));
+                return  constants.currencySymbol + ((r > 55) ? x.toFixed(2) : x.toFixed(0));
             }
             if(y < 9999) {
                 var  x = x/1000 ;
 
-                return  "$" + ((r >55) ? x.toFixed(2)  : x.toFixed(0))+ "k";
+                return  constants.currencySymbol + ((r >55) ? x.toFixed(2)  : x.toFixed(0))+ "k";
             }
 
             if(y < 1000000) {
                 var x = x/1000;
 
-                return "$" + ((r >55) ? x.toFixed(2) : x.toFixed(0)) + "k";
+                return constants.currencySymbol + ((r >55) ? x.toFixed(2) : x.toFixed(0)) + "k";
             }
             if( y < 10000000) {
                 var x = x/1000000 ;
 
-                return "$"+ ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return constants.currencySymbol + ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000) {
                 var x = x/1000000 ;
 
-                return "$" +  ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return constants.currencySymbol +  ((r >55) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000000) {
                 var x= x/1000000000 ;
-                return "$"+  ((r >55) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
+                return constants.currencySymbol +  ((r >55) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
             }
 
             return "1T+";
@@ -505,9 +505,9 @@
 
                 return tooltip
                   //  .attr("transform",  "translate(" + focused_obj.toolTipX + "," + focused_obj.toolTipY + ")" )
-                  .html(focused_obj.name + " <br/>  <b style='display:inline-block;width:55px;'>Budget:</b>  $" + focused_obj.budget.toFixed(2).replace(/./g, function(c, i, a) {
+                  .html(focused_obj.name + " <br/>  <b style='display:inline-block;width:55px;'>Budget:</b>  "+constants.currencySymbol + focused_obj.budget.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                }) + " <br/>  <b style='display:inline-block;width:55px;'>Spend:</b>  $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
+                }) + " <br/>  <b style='display:inline-block;width:55px;'>Spend:</b>  "+constants.currencySymbol + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 })  ).style("display", "block")
                     .style("top", function(){

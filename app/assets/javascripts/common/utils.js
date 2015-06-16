@@ -428,13 +428,13 @@ angObj.directive('truncateTextWithHover', function () {
       return input.split(' ')[splitIndex];
     }
   });
-  angObj.filter('kpiFormatter', function ($filter) {
+  angObj.filter('kpiFormatter', function ($filter,constants) {
     return function (input, kpiType, precision) {
       if (input && kpiType) {
         if (kpiType.toLowerCase() == 'ctr') {
           return $filter('number')(input, 2) + '%';
         } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
-          return '$' + $filter('number')(input, 2);
+          return constants.currencySymbol + $filter('number')(input, 2);
         } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
           return $filter('number')(input, 0);
         } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
@@ -502,6 +502,7 @@ angObj.directive('truncateTextWithHover', function () {
       return symbol + input;
     }
   });
+
   angObj.filter('truncateString', function () {
     return function (input, stringLength) {
       if(input === undefined) {
@@ -596,7 +597,7 @@ angObj.directive('truncateTextWithHover', function () {
       }
     }
   });
-  angObj.filter('appendDollor', function () {
+  angObj.filter('appendDollor', function (constants) {
     return function (val, type) {
         if (val === undefined || val === "" || val === "null") {
             return 'NA';
@@ -604,12 +605,12 @@ angObj.directive('truncateTextWithHover', function () {
         else if (type.toLowerCase() === "delivery (impressions)")
             return (val.toFixed(2)).toLocaleString();
         else {
-            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : '$' + val.toFixed(2);
+            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : constants.currencySymbol + val.toFixed(2);
         }
     }
   });
     // This is used in tooltip for optimization tab
-    angObj.filter('appendDollarWithoutFormat', function () {
+    angObj.filter('appendDollarWithoutFormat', function (constants) {
        // console.log("append dollar without format");
         return function (val, type) {
             if (val === undefined || val === "" || val === "null") {
@@ -618,7 +619,7 @@ angObj.directive('truncateTextWithHover', function () {
             else if (type.toLowerCase() === "delivery (impressions)")
                 return val.toLocaleString();
             else {
-                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat((val*100).toFixed(6)) + '%' : '$' + parseFloat((val).toFixed(6)) ;
+                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat((val*100).toFixed(6)) + '%' : constants.currencySymbol + parseFloat((val).toFixed(6)) ;
             }
         }
     });
@@ -708,4 +709,34 @@ angObj.directive('truncateTextWithHover', function () {
     });
     return this;
   };
+
+
+// i18n of currency fails when the currency symbol comes at the end of the value
+  angObj.filter("nrFormatWithCurrency", function ($filter) {
+    return function (value, key) {
+      var y = Math.abs(value);
+
+      if(y < 9999) {
+        return $filter('currency')(value.toFixed(2));
+      }
+
+      if(y < 1000000) {
+        return $filter('currency')((value/1000).toFixed(2)) + "K";
+      }
+      if( y < 10000000) {
+        return $filter('currency')((value/1000000).toFixed(2)) + "M";
+      }
+
+      if(y < 1000000000) {
+        return $filter('currency')((value/1000000).toFixed(2)) + "M";
+      }
+
+      if(y < 1000000000000) {
+        return $filter('currency')((value/1000000000).toFixed(2)) + "B";
+      }
+
+      return "1T+";
+    };
+  });
+
 }());
