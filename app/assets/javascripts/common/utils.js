@@ -710,36 +710,33 @@ angObj.directive('truncateTextWithHover', function () {
     return this;
   };
 
-  // added to access symbol globally
-  angObj.filter('formatCost', function ($filter,constants) {
-    return function (input, places) {
-      var symbol = constants.currencySymbol;
-      if (input == undefined) {
-        return 'NA';
+
+// i18n of currency fails when the currency symbol comes at the end of the value
+  angObj.filter("nrFormatWithCurrency", function ($filter) {
+    return function (value, key) {
+      var y = Math.abs(value);
+
+      if(y < 9999) {
+        return $filter('currency')(value.toFixed(2));
       }
-      if(symbol === undefined) {
-        symbol = '';
+
+      if(y < 1000000) {
+        return $filter('currency')((value/1000).toFixed(2)) + "K";
       }
-      if(places !== undefined) {
-        return symbol + $filter('number')(input, places);
+      if( y < 10000000) {
+        return $filter('currency')((value/1000000).toFixed(2)) + "M";
       }
-      return symbol + input;
-    }
+
+      if(y < 1000000000) {
+        return $filter('currency')((value/1000000).toFixed(2)) + "M";
+      }
+
+      if(y < 1000000000000) {
+        return $filter('currency')((value/1000000000).toFixed(2)) + "B";
+      }
+
+      return "1T+";
+    };
   });
-
-
-  angObj.filter('formatCostWithCurrency', function (constants,formatCostDataFilter) {
-    return function (input, places) {
-      return formatCostDataFilter(input, constants.currencySymbol,  places);
-    }
-  });
-
-
-  angObj.filter('nrFormatWithCurrency',function(constants,nrFormatFilter) {
-    return function(value, key) {
-      return constants.currencySymbol+nrFormatFilter(value, key)
-    }
-  });
-
 
 }());

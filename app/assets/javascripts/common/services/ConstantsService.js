@@ -1,6 +1,6 @@
 (function() {
-  var constants = function () {
-    this.currencySymbol = '$';
+  var constants = function ($locale) {
+    this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
     this.CAMPAIGN_LIST_CANCELLER = 1;
     this.COST_CANCELLER = 2;
     this.DASHBOARD_CANCELLER = 3;

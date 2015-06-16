@@ -19,6 +19,7 @@ var angObj = '';
       'dashboardModule',
       'ngSanitize',
       'ui.bootstrap',
+      'ngLocale',
       'lrInfiniteScroll']
   );
 

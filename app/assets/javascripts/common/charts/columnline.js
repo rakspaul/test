@@ -88,7 +88,7 @@
                                 } else {
                                     // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
                                     // values till decimal 4 places.
-                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +constants.currencySymbol + yVal  ) ;
+                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' + constants.currencySymbol + yVal  ) ;
 
                                 }
                                 return "<div id='inventory_tooltip' class='inventory-tool-tip'>" +return_val+ "</div>";

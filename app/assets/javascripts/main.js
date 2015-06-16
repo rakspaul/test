@@ -1,7 +1,6 @@
 // `main.js` is the file that sbt-web will use as an entry point
 (function (requirejs) {
   'use strict';
-
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
@@ -33,6 +32,7 @@
       'angulartics': {deps: ['angular']},
       'angulartics-ga': {deps: ['angulartics']},
       'd3': {deps: ['angulartics-ga']},
+      'angular-locale' : {deps:['angular']},
       'angular-sanitize': {deps: ['d3']},
       'filesaver': {deps: ['angular-sanitize']},
       'ui-bootstrap-tpls': {deps: ['filesaver']},
@@ -297,7 +297,7 @@
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
       'common-directive-DataNotFound':'common/directives/DataNotFound',
-
+      'angular-locale':'vendor/i18n/angular-locale_'+i18nlanguage,
       'jsRoutes': '/jsroutes'
     } 
  
@@ -444,7 +444,8 @@
            'services-costservice',
            'services-optimizationservice',
            'services-momentService',
-           'common-directive-DataNotFound'
+           'common-directive-DataNotFound',
+           'angular-locale'
            ],
    
     function ($,jqueryUI,  bootstrap, angular) {

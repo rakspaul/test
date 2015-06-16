@@ -286,7 +286,7 @@
                                                 <div class="top_layer_graph"></div>
                                             </div>
                                             <div class="graph_summary" ng-if="(details.totalCostBreakdown > 0)">
-                                                Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : textConstants.currencySymbol : 0}} </span>
+                                                Total <span class="graph_val">{{details.totalCostBreakdown | currency:undefined: 0}} </span>
                                             </div>
                                         </div>
                                     </div>
@@ -465,7 +465,7 @@
                     
                     <div class="each_col col_spend">
                         <div class="col_heading clearfix">{{ textConstants.SPEND }}
-                            <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:textConstants.currencySymbol:3 }}</span>
+                            <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:3 }}</span>
                         </div>
                         <div class="metric_graph {{getSpendClass(campaign)}}">
                                 <div class="full_metric_graph">
@@ -473,14 +473,14 @@
                                     </div>
                                     <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}" ng-style="{'left': getSpendTickWidth(campaign) +'%'};"><!-- put start_beginning when at start -->
                                         <div class="end_point_val">
-                                            <span class="icon_KPI"> {{campaign.expectedMediaCost | currency:textConstants.currencySymbol:2}}</span>
+                                            <span class="icon_KPI"> {{campaign.expectedMediaCost | currency:undefined:2}}</span>
                                             <div class="end_point_line"></div>
                                         </div>
                                     </div>
                                     <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="campaign.expectedMediaCost == campaign.totalMediaCost"><!-- put completed_end_point when at end -->
                                         <div class="end_point_val">
                                             <div class="end_point_line"></div>
-                                            <span>{{ textConstants.BUDGET }}: {{campaign.totalMediaCost | currency:textConstants.currencySymbol:2}}</span>
+                                            <span>{{ textConstants.BUDGET }}: {{campaign.totalMediaCost | currency:undefined:2}}</span>
                                         </div>
                                     </div>
                                 </div>
