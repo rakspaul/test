@@ -28,6 +28,32 @@
             }
             return display_activityCount;
         };
+        var getOverlapFlag = function(activityDateArray,actionUTC){
+            var overlapFlag;
+            if (_.indexOf(activityDateArray,actionUTC) == -1 ){
+                activityDateArray.push(actionUTC);
+                overlapFlag = 0;
+            }else{
+                overlapFlag = 1;
+            }
+            return {"overlapFlag":overlapFlag,"activityDateArray":activityDateArray};
+        }
+        var getOverlapZIndex = function(isActionExternal,overlapFlag){
+            var overlapZIndex;
+            switch(true) {
+               case (isActionExternal == true && overlapFlag  == 1) :
+                     overlapZIndex = 5;
+                     break;
+                case (isActionExternal == false && overlapFlag  == 1) :
+                     overlapZIndex = 3;
+                     break;
+                default:
+                    overlapZIndex = 4;
+
+            }
+            return overlapZIndex;
+
+        }
         var wordwrap =  function(str, int_width, str_break, cut) {
             var m = ((arguments.length >= 2) ? arguments[1] : 75);
             var b = ((arguments.length >= 3) ? arguments[2] : '\n');
@@ -57,7 +83,7 @@
         var browserInfo = utils.detectBrowserInfo();
         var adjustY = browserInfo.browserName == 'Firefox' ? 8 :7;
         var adjustX = browserInfo.browserName == 'Firefox' ? 1 :0;
-        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list,circleSLNo) {
+        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag) {
             var text,
                 box,
                 textBG,
@@ -70,11 +96,13 @@
                 displayFontSize = (activityCount > 99 ) ? '8px' : '12px',
                 numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities',
                 circleObj = null,
-                marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2).attr({
+                overlapBubbleAdjust = overlapFlag == 1 ? -5 : 0,
+                bubbleZIndex = getOverlapZIndex(isActionExternal,overlapFlag),
+                marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2+overlapBubbleAdjust).attr({
                     id: 't'+actionId || 'NA',
                     removeX:16,
                     flagId:flagId,
-                    zIndex: 9,
+                    zIndex: 19,
                     applyColor:applyColor,
                     circle_slno:circleSLNo
                 }).css({
@@ -271,7 +299,7 @@
                 id_list:id_list,
                 /*activityCount:activityCount,*/
                 number_of_activity:activityCount,
-                zIndex: 4,
+                zIndex: bubbleZIndex,
                 cX: container.x,
                 cY:container.y,
                 circle_slno:circleSLNo
@@ -585,7 +613,7 @@
                             }
 
                             var activityCount = 0;
-                            var extSLNo,intSLNo;
+                            var extSLNo,intSLNo,overlapResult,activityDateArray = [];
                             extSLNo = intSLNo = 1;
                             var getParams= (document.URL).split(/[\s/]+/);
                             var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1] ;
@@ -601,17 +629,21 @@
                                             }
 
                                             if ((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
-                                                var checkFlag = actionItems[j].make_external == true ? 'external':'internal';
-                                                var arrayVar = actionItems[j].make_external == true ? 'externalIDS':'internalIDS';
+                                                var checkFlag = actionItems[j].make_external == true ? 'external':'internal',
+                                                    arrayVar = actionItems[j].make_external == true ? 'externalIDS':'internalIDS',
+                                                    id_list = countActivityItem[actionUTC][arrayVar],
+                                                    overlapFlag;
                                                 activityCount = countActivityItem[actionUTC][checkFlag];
-                                                var id_list = countActivityItem[actionUTC][arrayVar];
                                                 if(activityCount == 1){
                                                     var circleInfo = getCircleSLNo(actionItems[j].make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
                                                     var circleSLNo = circleInfo.circleSLNo;
                                                     //Get Increment Id for external and Internal SL Number
                                                     extSLNo = circleInfo.extSLNo;
                                                     intSLNo = circleInfo.intSLNo;
-                                                    drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo);
+                                                    overlapResult = getOverlapFlag(activityDateArray,actionUTC);
+                                                    activityDateArray = overlapResult.activityDateArray;
+                                                    overlapFlag = overlapResult.overlapFlag;
+                                                    drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
                                                     counter++;
                                                     position += 10; //correction for multiple markers in the same place
                                                 } else {
@@ -629,7 +661,10 @@
                                                         //Get Increment Id for external and Internal SL Number
                                                         extSLNo = circleInfo.extSLNo;
                                                         intSLNo = circleInfo.intSLNo;
-                                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo);
+                                                        overlapResult = getOverlapFlag(activityDateArray,actionUTC);
+                                                        activityDateArray = overlapResult.activityDateArray;
+                                                        overlapFlag = overlapResult.overlapFlag;
+                                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
                                                         counter++;
                                                         position += 20;
                                                     }
