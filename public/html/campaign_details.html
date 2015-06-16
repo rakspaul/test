@@ -261,6 +261,39 @@
                         <div class="col-md-12">
                               <div class="carousel slide" id="myCarousel">
                                 <div class="carousel-inner">
+                                  <div class="item active">
+                                        <div class="col-xs-3">
+                                            <!-- Video Viewability Widget Starts Here -->
+                                            <div tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
+                                                <div class="graph_heading">
+                                                    {{ textConstants.VIDEO_VIEWABILITY }}
+                                                </div>
+                                                <div class="clearfix each_section_graph" >
+                                                    <div class="sub_headings">
+                                                        <div>{{ textConstants.VIEWABLE_IMPS }}</div>
+                                                        <div>322.54K</div>
+                                                    </div>
+                                                    <div class="video_viewability_graph">
+                                                        
+                                                    </div>
+                                                    <div class="video_viewability_graph_legends">
+                                                      <div class="section_graph_details"  >
+                                                          <span class="each_detail play_color" >
+                                                              <span class="graph_color"></span>
+                                                              Plays
+                                                          </span>
+                                                           <span class="each_detail view_color" >
+                                                              <span class="graph_color "></span>
+                                                              Views
+                                                          </span>
+                                                      </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <!-- Video Viewability Widget Ends Here -->
+                                            </div>
+                                        </div>
+                                  </div>
                                   <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
                                     <div class="col-xs-3">
                                        <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
@@ -316,8 +349,8 @@
                                                 <!-- Platform Widget Ends Here -->
                                             </div>
                                         </div>
-                                    </div>
-                                <div class="item active">
+                                  </div>
+                                  <div class="item active">
                                     <div class="col-xs-3">
 
                                       <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">

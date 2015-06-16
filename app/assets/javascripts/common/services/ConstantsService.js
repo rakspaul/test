@@ -214,6 +214,8 @@
     this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START = "Measured as 100% Video played divided by Ad start " ;
     this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video play completion and Video Viewability at the various quartiles of the Ad" ;
     this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = "Insufficient data points to render graph";
+    this.VIDEO_VIEWABILITY = "Video Viewability" ;
+    this.VIEWABLE_IMPS = "Viewable Imps." ;
 
     this.SEE_DATES = "See Dates";
     this.BEFORE = "Before";
