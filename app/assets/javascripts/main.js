@@ -297,7 +297,7 @@
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
       'common-directive-DataNotFound':'common/directives/DataNotFound',
-      'angular-locale':'vendor/i18n/angular-locale_'+i18nlanguage,
+      'angular-locale':'vendor/i18n/angular-locale_en-us',
       'jsRoutes': '/jsroutes'
     } 
  
