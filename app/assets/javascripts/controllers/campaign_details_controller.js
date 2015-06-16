@@ -123,6 +123,7 @@
                 campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(cdbData) {
                     if(cdbData) {
                         $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(cdbData, campaignCDBData);
+                        $scope.campaigns.cdbDataMap[$routeParams.campaignId]['modified_vtc_metrics'] = campaignListService.vtcMetricsJsonModifier($scope.campaigns.cdbDataMap[$routeParams.campaignId].video_metrics);
                     }
                 });
 
@@ -134,6 +135,7 @@
                 $scope.getInventoryGraphData($scope.campaign);
                 //$scope.getPlatformGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
+                $scope.getVideoViewabilityGraphData($scope.campaign);
             } else {
                 if (result.status ==='error') {
                     $scope.api_return_code = result.data.status;
@@ -407,6 +409,71 @@
                 }
             },function(result){
                 console.log('inventory data call failed');
+            });
+        };
+
+        //Video viewability widget
+        $scope.getVideoViewabilityGraphData = function(campaign) {
+            dataService.getVideoViewabilityData(campaign).then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    var videoViewabilityDataToPlot = [];
+                    var responseData = result.data.data;
+                    var vvData = responseData.view_metrics.video_viewability_metrics;
+                    if(vvData) {
+                        var videoMapper = [{
+                            'videos_1q_completed': 25,
+                            'videos_2q_completed': 50,
+                            'videos_3q_completed': 75,
+                            'videos_4q_completed': 100
+                        }, {'videos_1q_view': 25, 'videos_2q_view': 50, 'videos_3q_view': 75, 'videos_4q_view': 100}];
+
+
+                        var _videoViewabilityMapperFunc = function (data, mapper, videoViewabilityDataToPlot) {
+                            var mappedData = [];
+                            _.each(data, function (value, key) {
+                                if (mapper[key]) {
+                                    mappedData.push({'video': mapper[key], 'values': value})
+                                }
+                            });
+                            mappedData.push({'video': 0, 'values': data.videos_played});
+                            videoViewabilityDataToPlot.push(_.sortBy(mappedData, 'video'));
+                        }
+                        for (var i in videoMapper) {
+                            _videoViewabilityMapperFunc(vvData, videoMapper[i], videoViewabilityDataToPlot);
+                        }
+
+                        var baseConfiguration = {
+                            data: {
+                                json: videoViewabilityDataToPlot,
+                                keys: {
+                                    xAxis: {
+                                        val: 'video',
+                                        tickValues: [0, 50, 100]
+                                    },
+                                    yAxis: {
+                                        val: 'values',
+                                        tickValues: []
+                                    }
+                                },
+                                margin: {
+                                    top: 20,
+                                    right: 20,
+                                    left: 20,
+                                    bottom: 20
+                                },
+                                showPathLabel: false,
+                                showAxisLabel: true,
+                                axisLabel: ['Plays', 'Views']
+                            }
+                        }
+
+                        $scope.videoViewData = {
+                            graphData: baseConfiguration,
+                            totalImps: responseData.view_metrics.viewable_imps,
+                            hasVTCMetric: responseData.hasVTCMetric
+                        }
+                    }
+                }
             });
         };
         
