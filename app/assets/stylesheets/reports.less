@@ -134,6 +134,7 @@
     border-radius: 6px;
     font-size: 12px ;
     font-family: "Avenir";
+    z-index: 100 ;
   }
   .common_tooltip:after {
     content: " ";
@@ -1553,27 +1554,28 @@ div.strategy_total_container {
   }
 
 }
+.video_tooltip {
+  .video_tooltip_icon {
+    display: inline-block;
+    float: left;
+    height: 15px ;
+    width: 15px ;
+    margin-right: 10px ;
+    background: url("/assets/images/cdesk/played.png") no-repeat center center ;
+  }
+  .view_video_tooltip {
+    margin-top: 5px ;
+  }
+  .view_icon {
+    background: url("/assets/images/cdesk/viewed.png") no-repeat center center ;
+  }
+}
 .viewability_details_video_mode_outer_container {
   .viewability_header {
     .sec_col , .ad_col , .suspicious_act_col {
         margin-top: 6px;
     }
-    .video_tooltip {
-      .video_tooltip_icon {
-        display: inline-block;
-        float: left;
-        height: 15px ;
-        width: 15px ;
-        margin-right: 10px ;
-        background: url("/assets/images/cdesk/played.png") no-repeat center center ;
-      }
-      .view_video_tooltip {
-        margin-top: 5px ;
-      }
-      .view_icon {
-        background: url("/assets/images/cdesk/viewed.png") no-repeat center center ;
-      }
-    }
+
     .vtc_col {
       margin-top: 16px ;
       .tooltip_holder {
@@ -2110,6 +2112,7 @@ div.strategy_total_container {
     }
     .platform_row {
       clear: both;
+      margin: 6px 0 ;
     }
     /*
 
@@ -3186,6 +3189,83 @@ only screen and (min-device-pixel-ratio: 2) {
         -webkit-background-size: 91px 34px !important;
         -moz-background-size: 91px 34px !important;
         background-size: 91px 34px !important;
+      }
+    }
+  }
+}
+
+#reports_platform_viewability_block.reports_video_mode_viewability_container {
+  .tooltip_holder .tooltip_show_icon {
+    margin-left: 4px ;
+  }
+  .each_col {
+    margin: 0px 15px 0 0  ;
+    >span {
+      text-transform: none;
+      text-align: left;
+      font-size: 14px ;
+    }
+  }
+  .third_col  {
+    width: 88px ;
+    padding-right: 0px ;
+    span {
+      text-align: right;
+      padding-right: 17px ;
+    }
+  }
+  .ad_col {
+    width: 115px ;
+    padding-right: 17px ;
+    span.tooltip_for_txt {
+      text-align: right;
+      width: 75% ;
+    }
+  }
+  .measurable_col {
+    width: 140px ;
+    span {
+      text-align: center;
+    }
+  }
+  .sub_four_cols {
+    width: 250px ;
+    .sub_col {
+      span {
+        width: 25% ;
+        padding-right: 17px ;
+      }
+    }
+    .title_tooltip {
+      margin-left: 70px ;
+    }
+  }
+  .suspicious_col , .vtc_col {
+    width: 76px;
+  }
+  .vtc_col {
+    padding-right: 10px ;
+    .icon_text_holder {
+      padding-right: 0px ;
+    }
+  }
+  .suspicious_col {
+    margin-right: 0px ;
+    span {
+      text-align: center ;
+    }
+  }
+  .viewability_header {
+    .ad_col {
+      padding-right: 0px ;
+      span.icon_text_holder {
+        padding-right: 17px ;
+      }
+    }
+    .vtc_col {
+      padding-right: 0px ;
+      .icon_text_holder {
+        padding-right: 10px ;
       }
     }
   }
