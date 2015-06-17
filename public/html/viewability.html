@@ -19,18 +19,19 @@
         </div>
 
 <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
-<!--         <div class="view_mode_switch_container">
+       <!--  <div class="view_mode_switch_container" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
-            <span class="video_off_icon active"></span>
+            <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
             <span class="video_btn">
-                <span class="video_btn_circle" ng-click="selectVideoMode()"></span>
+                <input type="checkbox" class="switch switch-inverse" data-label-on=" " data-label-off=" " ng-model="videoMode" />
             </span>
-            <span class="video_on_icon"></span>
+
+            <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
         </div> -->
 <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
 
 
-        <div class="viewability_container" ng-hide="strategyLoading" >
+        <div class="viewability_container" ng-hide="strategyLoading || videoMode"  >
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
                 <div class="viewability_details_outer_container">
@@ -184,7 +185,7 @@
 
 
 
-        <div class="viewability_video_mode_container " style="display:none;">
+        <div class="viewability_video_mode_container" ng-show="videoMode">
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
                 <div class="viewability_details_video_mode_outer_container">
@@ -359,3 +360,10 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+// $(function() {
+//         $('.switch-inverse').change(function() {
+//           console.log('Toggle: ' + $(this).prop('checked')) ;
+//         })
+//       })
+</script>
