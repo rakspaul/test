@@ -20,6 +20,36 @@
             <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.ias_viewable_imps',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.ias_viewable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
             <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.viewable_imps_perc',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.viewable_imps_perc'; sortReverse = !sortReverse" >%<sup>*</sup><div class="common_tooltip">{{textConstants.BASED_ONLY_ON_MEASURABLE_IMPS}}</div></span></div>
     </div>
+    <!--<div style="display:none;">
+        <div class="each_col ad_col">
+            <span class="clearfix icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+                <span class="pull-left tooltip_for_txt" >{{textConstants.AD_START_IMPS}}</span>
+            </span>
+        </div>
+        <div class="each_col sub_four_cols">
+            <div class="clearfix title_tooltip">
+                <span class="pull-left">{{ textConstants.QUARTILE_DETAILS }}</span>
+                                <span class="pull-left tooltip_holder">
+                                    <span class="tooltip_show_icon"></span>
+                                    <span class="clearfix common_tooltip">
+                                      {{ textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD }}
+                                    </span>
+                                </span>
+            </div>
+
+            <div class="sub_col">
+                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >25%</span>
+                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" >50%</span>
+                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >75%</span>
+                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >100%</span>
+            </div>
+        </div>
+        <div class="each_col vtc_col">
+            <div class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+                <span class="pull-left " >{{ textConstants.VTC }}</span>
+            </div>
+        </div>
+    </div>-->
     <div class="each_col suspicious_col">
         <span  ng-click="sortType = 'platformType_aggregation.susp_activity_perc'; sortReverse = !sortReverse" > {{textConstants.SUSPICIOUS}}<br> {{textConstants.ACTIVITY}}</span>
         <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.susp_activity_perc',sortType,sortReverse)"  ng-click="sortType = 'platformType_aggregation.susp_activity_perc'; sortReverse = !sortReverse" >(%)</span>
