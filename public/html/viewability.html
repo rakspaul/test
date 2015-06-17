@@ -104,30 +104,30 @@
 
                             <div class="each_col sec_col">
                                                 <div class="sub_col">
-                                                    <span>{{viewData.view_metrics.delivered_imps | number:0}}</span>
+                                                    <span>{{viewData.view_metrics.ias_imps_delivered | number:0}}</span>
                                                 </div>
                             </div>
                             <div class="each_col third_col">
                                 <div class="sub_col">
-                                    <span> {{viewData.view_metrics.measurable_imps | number:0}}</span>
-                                    <span>{{viewData.view_metrics.perc_measurable | number:0}}%</span>
+                                    <span> {{viewData.view_metrics.ias_measurable_imps | number:0}}</span>
+                                    <span>{{viewData.view_metrics.measurable_imps_perc | number:0}}%</span>
                                 </div>
                             </div>
                             <div class="each_col forth_col">
                                 <div class="sub_col">
-                                    <span> {{viewData.view_metrics.viewable_imps | number:0}}</span>
-                                    <span>{{viewData.view_metrics.perc_viewable | number:0}}%</span>
+                                    <span> {{viewData.view_metrics.ias_viewable_imps | number:0}}</span>
+                                    <span>{{viewData.view_metrics.viewable_imps_perc | number:0}}%</span>
                                 </div>
                             </div>
                             <div class="each_col fifth_col">
                                 <div class="sub_col">
-                                    <span>{{viewData.view_metrics.perc_viewable_imps_1s | number:0}}%</span>
-                                    <span>{{viewData.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
-                                    <span>{{viewData.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
+                                    <span>{{viewData.view_metrics.viewable_1s_perc | number:0}}%</span>
+                                    <span>{{viewData.view_metrics.viewable_5s_perc | number:0}}%</span>
+                                    <span>{{viewData.view_metrics.viewable_15s_perc| number:0}}%</span>
                                 </div>
                             </div>
                             <div class="each_col suspicious_col">
-                                {{viewData.view_metrics.nht | number: number:2}}%
+                                {{viewData.view_metrics.susp_activity_perc | number: number:2}}%
                             </div>
                             <div class="each_col seventh_col">
                                 {{viewData.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
