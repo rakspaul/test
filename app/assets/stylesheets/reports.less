@@ -1436,46 +1436,123 @@ div.strategy_total_container {
     background: url("/assets/images/cdesk/video_camera_active.png") no-repeat 0px 0px  ;
   }
   .video_btn {
-    height: 19px ;
-    width: 30px ;
-    background: #0978c9;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    position: relative;
     margin: 0 10px;
   }
-  .video_btn:hover {
-    background: #6ebef8;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-  }
-  .video_btn_circle {
-    position: absolute;
-    right: 13px;
-    top: 2px;
-    height: 14px ;
-    width: 14px ;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    background-color:  #f5f9fd;
-    box-shadow:  2px 2px 0 0 rgba(0,0,0,0.2) ;
-    -moz-box-shadow:  2px 2px 0 0 rgba(0,0,0,0.2) ;
-    -webkit-box-shadow:  2px 2px 0 0 rgba(0,0,0,0.2) ;
-    
-  }
-}
-.video_mode_on {
-    .video_btn_circle { 
-      right: 2px;
-      box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.2) ;
-      -moz-box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.2) ;
-      -webkit-box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.2) ;
-    }
-}
 
+  input[type="checkbox"].switch {
+    outline: none;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    -webkit-transition: all 1s linear;
+    -moz-transition: all 1s linear;
+    -ms-transition: all 1s linear;
+    -o-transition: all 1s linear;
+    transition: all 1s linear;
+  }
+  input[type="checkbox"].switch:before,
+  input[type="checkbox"].switch:after {
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    width: 26px;
+    height: 20px;
+    top: -3px;
+    border: 0;
+  }
+  input[type="checkbox"].switch:after {
+    content: "";
+    left: 1px;
+    -webkit-border-radius: 8px ;
+    -moz-border-radius: 8px ;
+    border-radius: 8px ;
+  }
+  input[type="checkbox"].switch:before {
+    content: "";
+    right: 0px;
+    -webkit-border-radius: 8px ;
+    -moz-border-radius: 8px ;
+    border-radius: 8px ;
+  }
+  input[type="checkbox"].switch[data-label-on]:after {
+    content: attr(data-label-on);
+  }
+  input[type="checkbox"].switch[data-label-off]:before {
+    content: attr(data-label-off);
+  }
+  input[type="checkbox"].switch:before,
+  input[type="checkbox"].switch:checked:after {
+    background-color: #0978c9 ;
+    width: 100% ;
+    z-index: 0;
+  }
+
+  input[type="checkbox"].switch:before:active,
+  input[type="checkbox"].switch:checked:after:active,
+  input[type="checkbox"].switch:before.active,
+  input[type="checkbox"].switch:checked:after.active {
+    background-color: #e6e6e6 ;
+  }
+  input[type="checkbox"].switch:before {
+    padding-left: 10px;
+  }
+  input[type="checkbox"].switch:checked:after {
+    padding-right: 20px;
+  }
+  input[type="checkbox"].switch:checked:after {
+    background-color: #0978c9;
+  }
+  input[type="checkbox"].switch:after {
+    background-color: #f5f9fd;
+    -webkit-border-radius: 8px  ;
+    -moz-border-radius: 8px  ;
+    border-radius: 8px  ;
+    z-index: 99;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    top: -1px;
+    box-shadow: 2px 2px 0 0 rgba(0,0,0,0.2);
+    -moz-box-shadow: 2px 2px 0 0 rgba(0,0,0,0.2);
+    -webkit-box-shadow: 2px 2px 0 0 rgba(0,0,0,0.2);
+    left: 2px;
+  }
+  input[type="checkbox"].switch:checked:after {
+    width: 30px;
+    height: 20px;
+    top: -3px;
+    box-shadow: 0px 0px 0 0 transparent ;
+    -moz-box-shadow: 0px 0px 0 0 transparent ;
+    -webkit-box-shadow: 0px 0px 0 0 transparent ;
+    left: 1px;
+  }
+  input[type="checkbox"].switch:checked:before {
+    background-color: #f5f9fd;
+    -webkit-border-radius: 8px  ;
+    -moz-border-radius: 8px  ;
+    border-radius: 8px  ;
+    z-index: 99;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    box-shadow: -2px 2px 0 0 rgba(0,0,0,0.2);
+    -moz-box-shadow: -2px 2px 0 0 rgba(0,0,0,0.2);
+    -webkit-box-shadow: -2px 2px 0 0 rgba(0,0,0,0.2);
+    top: -1px;
+    right: 1px;
+  }
+
+}
 .viewability_details_video_mode_outer_container {
   .viewability_header {
     .sec_col , .ad_col , .suspicious_act_col {
@@ -1497,7 +1574,6 @@ div.strategy_total_container {
         background: url("/assets/images/cdesk/viewed.png") no-repeat center center ;
       }
     }
-
     .vtc_col {
       margin-top: 16px ;
       .tooltip_holder {
@@ -1511,7 +1587,6 @@ div.strategy_total_container {
         left: 88px;
       }
     }
-
   }
   .title_tooltip {
     margin-left: 120px ;
@@ -1522,7 +1597,6 @@ div.strategy_total_container {
   .tooltip_show_icon {
     width: 15px; 
   }
-
   .viewability_table_body {
     .each_col {
       text-align: right;
@@ -3116,3 +3190,5 @@ only screen and (min-device-pixel-ratio: 2) {
     }
   }
 }
+
+
