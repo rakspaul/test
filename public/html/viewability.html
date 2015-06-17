@@ -19,7 +19,7 @@
         </div>
 
 <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
-       <!--  <div class="view_mode_switch_container" ng-class="{'video_mode_on':videoMode}">
+        <div class="view_mode_switch_container" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
             <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
             <span class="video_btn">
@@ -27,7 +27,7 @@
             </span>
 
             <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
-        </div> -->
+        </div>
 <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
 
 
@@ -36,16 +36,9 @@
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
                 <div class="viewability_details_outer_container">
                     <div class="viewability_header clearfix">
-                        <!-- <div class="each_col first_col">
-                            <span>Tactic</span>
-                        </div> -->
                         <div class="each_col sec_col">
-                            <span>{{ textConstants.IMPRESSIONS }}</span>
-
-                            <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.delivered_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.delivered_imps'; sortReverse = !sortReverse" >{{textConstants.DELIVERED}}</span>
-                                <!--<span>Total</span>-->
-                            </div>
+                            
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.delivered_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.delivered_imps'; sortReverse = !sortReverse" >{{textConstants.DELIVERED_IMPS}}</span>
                         </div>
                         <div class="each_col third_col">
                             <span>{{textConstants.MEASURABLE}}</span>
@@ -103,9 +96,9 @@
                             </div>
 
                             <div class="each_col sec_col">
-                                                <div class="sub_col">
-                                                    <span>{{viewData.view_metrics.delivered_imps | number:0}}</span>
-                                                </div>
+                                <div class="sub_col">
+                                    <span>{{viewData.view_metrics.delivered_imps | number:0}}</span>
+                                </div>
                             </div>
                             <div class="each_col third_col">
                                 <div class="sub_col">
