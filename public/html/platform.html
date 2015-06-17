@@ -357,7 +357,7 @@
         </div>
 
         <div class="pull-left" ng-show="videoMode" >
-            <div class="clearfix" ng-repeat="vvData in ViewabilityData.platformType_aggregation.video_viewability_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'videoViewabilityTpl'" ></div>
+            <div class="clearfix" ng-init= "vvData = ViewabilityData.platformType_aggregation.video_viewability_metrics" ng-include="'videoViewabilityTpl'" ></div>
         </div>
         
         <div class="each_col forth_col"  ng-hide="videoMode">
@@ -393,7 +393,7 @@
             </div>
         </div>
         <div class="pull-left" ng-show="videoMode">
-            <div class="clearfix" ng-repeat="vvData in platform.video_viewability_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'videoViewabilityTpl'"></div>
+            <div class="clearfix" ng-init="vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityTpl'"></div>
         </div>
         <div class="each_col forth_col"  ng-hide="videoMode">
             <div class="sub_col">
