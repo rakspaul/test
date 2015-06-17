@@ -389,7 +389,7 @@
                                     </div>
                                   </div>
                                     <!-- Video viewability widget commented for now -->
-                                    <div class="item" ng-if="videoViewData.hasVTCMetric">
+                                    <div class="item" ng-if="videoViewData.hasVideoAds">
                                         <div class="col-xs-3">
 
                                             <div tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
@@ -545,22 +545,6 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-
-      $('.carousel a.left').hide();
-    
-      $('.carousel a.right').click(function(){
-        $('.carousel .item').first().removeClass('active');
-        $('.carousel .item').next().addClass('active');
-        $('.carousel a.right').hide();
-        $('.carousel a.left').show();
-      });
-      $('.carousel a.left').click(function(){
-        $('.carousel .item').last().removeClass('active');
-        $('.carousel .item').first().addClass('active');
-        $('.carousel a.right').show();
-        $('.carousel a.left').hide();
-      });
-
 
       window.scrollTo(0, 0);
       $("#error_more_comment,#error_edit_action_more_comment").hide();

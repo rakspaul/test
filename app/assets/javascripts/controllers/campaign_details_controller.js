@@ -92,6 +92,7 @@
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
+                $scope.hasVideoAds = dataArr[0].hasVideoAds;
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 var selectedCampaign = {
                     id : $scope.campaign.id,
@@ -100,6 +101,7 @@
                     endDate : $scope.campaign.end_date,
                     kpi : $scope.campaign.kpi_type.toLowerCase()
                 };
+
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
                 campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
@@ -469,8 +471,8 @@
 
                         $scope.videoViewData = {
                             graphData: baseConfiguration,
-                            totalImps: responseData.view_metrics.viewable_imps,
-                            hasVTCMetric: responseData.hasVTCMetric
+                            totalImps: responseData.view_metrics.ias_viewable_imps,
+                            hasVideoAds: $scope.hasVideoAds
                         }
                     }
                 }
@@ -957,6 +959,29 @@
         };
         $scope.refreshCampaignDetailsPage();
 
+        $(document).ready(function() {
+            $('.carousel a.left').hide();
+            var posIndex = 1;
+            $('.carousel a.right').click(function(){
+                if($('.carousel .item').length == 6) {
+                    posIndex = 2;
+                }
+                $('.carousel .item').slice(0,posIndex).removeClass('active');
+                $('.carousel .item').slice(posIndex).addClass('active');
+                $('.carousel a.right').hide();
+                $('.carousel a.left').show();
+            });
+            $('.carousel a.left').click(function(){
+                if($('.carousel .item').length == 6) {
+                    posIndex = 2;
+                }
+                $('.carousel .item').slice('-'+posIndex).removeClass('active');
+                $('.carousel .item').slice(0,posIndex).addClass('active');
+                $('.carousel a.right').show();
+                $('.carousel a.left').hide();
+            });
+
+        });
         
     });
 }());
