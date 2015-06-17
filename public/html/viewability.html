@@ -275,7 +275,7 @@
                             <div class="each_col third_col">
                                 <div class="sub_col">
                                     <span>{{viewData.view_metrics.video_viewability_metrics.video_measurable_imps  > 0 ? (viewData.view_metrics.video_viewability_metrics.video_measurable_imps  | nrFormat) : '-' }}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.video_measurable_perc  | number:2}}%</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.video_measurable_perc    > 0 ? (tactic.view_metrics.video_viewability_metrics.video_measurable_perc | number:2) : '-'}}%</span>
                                 </div>
                             </div>
                             <div class="each_col ad_col">
@@ -322,7 +322,10 @@
                                     <div class="each_col third_col">
                                         <div class="sub_col">
                                             <span>{{tactic.view_metrics.video_viewability_metrics.video_measurable_imps    > 0 ? (tactic.view_metrics.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
-                                            <span>{{tactic.view_metrics.video_viewability_metrics.video_measurable_perc  | number:2}}%</span>
+                                            <span>
+
+                                                {{tactic.view_metrics.video_viewability_metrics.video_measurable_perc    > 0 ? (tactic.view_metrics.video_viewability_metrics.video_measurable_perc | number:2) : '-'}}%
+                                               </span>
                                         </div>
                                     </div>
                                     <div class="each_col ad_col">
