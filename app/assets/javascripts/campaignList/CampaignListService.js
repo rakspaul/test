@@ -158,7 +158,7 @@
                     tacticObj[index].grossRev = tacticMetrics.gross_rev;
                     tacticObj[index].ctr = tacticMetrics.ctr * 100;
                     tacticObj[index].actionRate = tacticMetrics.action_rate;
-                    tacticObj[index].vtcData = tacticMetrics.video_metrics;
+                    tacticObj[index].vtcData = vtcMetricsJsonModifier(tacticMetrics.video_metrics);
                     tacticObj[index].vtc_rate = (tacticMetrics.video_metrics && tacticMetrics.video_metrics ) ? tacticMetrics.video_metrics.vtc_rate : -1;
                     tacticObj[index].map = {};
                     tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
@@ -271,7 +271,7 @@
                 strategyObj[index].grossRev = strategyMetrics.gross_rev;
                 strategyObj[index].ctr = strategyMetrics.ctr * 100;
                 strategyObj[index].actionRate = strategyMetrics.action_rate;
-                strategyObj[index].vtcData = strategyMetrics.video_metrics;
+                strategyObj[index].vtcData = vtcMetricsJsonModifier(strategyMetrics.video_metrics);
                 strategyObj[index].vtc_rate = strategyMetrics.video_metrics.vtc_rate;
                 strategyObj[index].map = {};
                 strategyObj[index].map['cpa'] = strategyMetrics.cpa;
@@ -361,6 +361,48 @@
                 return campaignStrategies;
             };
 
+            var vtcMetricsJsonModifier =  function(vtcMetricJson) {
+                var vtcMapper =  {'vtc_25_perc': 25, 'vtc_50_perc' : 50, 'vtc_75_perc' : 75, 'vtc_rate' : 100};
+                var vtcDataToPlot = [];
+                var vtcRoundOff =  function(input, places) {
+                    places = input >1 ? 0 : places;
+                    var factor = Math.pow(10, places);
+                    return Math.round(input * factor) / factor;
+                }
+                _.each(vtcMetricJson, function(value, key) {
+                    if(vtcMapper[key]) {
+                        vtcDataToPlot.push({'vtc' : vtcMapper[key], 'values' : vtcRoundOff(value, 2) })
+                    }
+                });
+                vtcDataToPlot.push({'vtc' : 0, 'values' :100});
+                vtcDataToPlot = _.sortBy(vtcDataToPlot , 'vtc');
+                var baseConfiguration = {
+                    data : {
+                        json : [vtcDataToPlot],
+                        keys : {
+                            xAxis : {
+                                val : 'vtc',
+                                tickValues : _.pluck(vtcDataToPlot, 'vtc')
+                            },
+                            yAxis : {
+                                val : 'values',
+                                tickValues : []
+                            }
+                        },
+                        margin : {
+                            top : 20,
+                            right: 20,
+                            left: 20,
+                            bottom: 20,
+                        },
+                        showPathLabel :  true,
+                        showAxisLabel : false,
+                        axisLabel : ['Plays', 'Views']
+                    }
+                }
+                return baseConfiguration;
+            }
+
             var getCdbLineChart = function(campaignObject, timePeriod, callback) {
                 dataService.getCdbChartData(campaignObject, timePeriod, 'campaigns', null).then(function (result) {
                     var lineDate = [], cdData;
@@ -406,7 +448,7 @@
                 },
 
                 getCdbLineChart : getCdbLineChart,
-
+                vtcMetricsJsonModifier :vtcMetricsJsonModifier,
                 setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate, callback) {
                     var status = '', campaignList = [];
 

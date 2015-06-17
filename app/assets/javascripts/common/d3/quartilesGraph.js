@@ -1,151 +1,229 @@
 (function () {
     'use strict';
-    angObj.directive('quartilesGraph', function (utils,constants) {
+    angObj.directive('quartilesGraph', function($window) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
             link: function(scope, elem, attrs) {
-                var chartData = JSON.parse(attrs.chartData);
-                var vtcMapper =  {'vtc_25_perc': 25, 'vtc_50_perc' : 50, 'vtc_75_perc' : 75, 'vtc_rate' : 100};
-                var vtcDataToPlot = [];
+                var lineChartService  = {
+                    lineChartConfig : {},
+                    createVariablesToDrawGraph :  function(data, index) {
+                        var _config = this.lineChartConfig;
+                        var xkeyVal = _config.keys.xAxis.val;
+                        var ykeyVal = _config.keys.yAxis.val;
+                        var margin = _config.margin;
+                        var width  = _config.width;
+                        var height = _config.height;
 
-                var vtcRoundOff =  function(input, places) {
-                    places = input >1 ? 0 : places;
-                    var factor = Math.pow(10, places);
-                    return Math.round(input * factor) / factor;
-                }
-                _.each(chartData, function(value, key) {
-                    if(vtcMapper[key]) {
-                        vtcDataToPlot.push({'vtc' : vtcMapper[key], 'values' : vtcRoundOff(value, 2) })
+                        var xScale = d3.scale.linear().domain([data[0][xkeyVal], data[data.length - 1][xkeyVal]]).range([margin.left, width]);
+                        var yScale = d3.scale.linear().domain([0, d3.max(data, function(d) {
+                            return d[ykeyVal];
+                        })]).range([height, margin.left]);
+
+                        var xAxisGen = d3.svg.axis()
+                            .scale(xScale)
+                            .orient("bottom")
+                            .tickValues(_config.keys.xAxis.tickValues)
+                            .tickFormat(function(d){
+                                return d ==0 ? d : (d +'%');
+                            });
+
+                        var yAxisGen = d3.svg.axis()
+                            .scale(yScale)
+                            .orient("left")
+                            .tickValues(_config.keys.yAxis.tickValues.length > 0 ? _config.keys.yAxis.tickValues : 1);
+
+                        //define area
+                        var area = d3.svg.area()
+                            .x(function(d) {
+                                return xScale(d[xkeyVal]);
+                            })
+                            .y0(height)
+                            .y1(function(d) {
+                                return yScale(d[ykeyVal]);
+                            });
+
+                        //draw a ling function
+                        var lineFun = d3.svg.line()
+                            .x(function(d) {
+                                return xScale(d[xkeyVal]);
+                            })
+                            .y(function(d) {
+                                return yScale(d[ykeyVal]);
+                            })
+
+                        this.updateConfig({
+                            'xScale' : xScale,
+                            'yScale' : yScale,
+                            'xAxisGen' : xAxisGen,
+                            'yAxisGen' : yAxisGen,
+                            'area' :area,
+                            'lineFun' :lineFun,
+
+                        })
+
+                        this.drawPath(data, index);
+                    },
+
+
+
+                    drawPath :  function(data, index) {
+                        var _config = this.lineChartConfig;
+                        var xkeyVal = _config.keys.xAxis.val;
+                        var ykeyVal = _config.keys.yAxis.val;
+                        var svg = d3.select(_config.rawSvg[0]);
+                        //draw the area now
+                        if(index === 0) {
+                            svg.append("path")
+                                .datum(data)
+                                .attr("class", "area")
+                                .attr("d", _config.area);
+                        }
+
+                        svg.append("svg:path")
+                            .attr({
+                                d: _config.lineFun(data),
+                                "class" : "path"+index
+                            });
+                        if(index == 0) {
+                            svg.selectAll("line.verticalGrid").data(data).enter()
+                                .append("line")
+                                .attr({
+                                    "y1": _config.height,
+                                    "y2": _config.margin.top,
+                                    "x1": function(d) {
+                                        return _config.xScale(d[xkeyVal]);
+                                    },
+                                    "x2": function(d) {
+                                        return _config.xScale(d[xkeyVal]);
+                                    },
+                                    "stroke": "#dde6eb",
+                                    "stroke-width": "1px"
+                                }).style("stroke-dasharray", ("3, 3"));
+                        }
+
+                        //plotting circles on chart
+                        var circles = svg.selectAll("circle"+index)
+                            .data(data)
+                            .enter().append("circle")
+                            .attr({
+                                "class": "dots"+index,
+                                "r": 5,
+                                "cx": function(d) {
+                                    return _config.xScale(d[xkeyVal]);
+                                },
+                                "cy": function(d) {
+                                    return _config.yScale(d[ykeyVal]);
+                                }
+                            })
+                        //plotting lables on chart
+                        var label = svg.selectAll(".labels"+ (_config.showPathLabel ? index : 0))
+                            .data(data)
+                            .enter().append("text")
+                            .attr("class", "labels")
+                            .attr("x", function(d) {
+                                return _config.xScale(d[xkeyVal]) - 10;
+                            })
+                            .attr("y", function(d) {
+                                return _config.yScale(d[ykeyVal]) - 10;
+                            })
+                            .text(function(d, i) {
+                                if(_config.showPathLabel) {
+                                    return d[ykeyVal] + '%';
+                                } else {
+                                    return i ===0 ? 'imps.'+ d[ykeyVal] :'';
+                                }
+
+                            })
+
+                    },
+
+
+                    drawAxis :  function() {
+                        var _config = this.lineChartConfig;
+                        var xkeyVal = _config.keys.xAxis.val;
+                        var ykeyVal = _config.keys.yAxis.val;
+
+                        var svg = d3.select(_config.rawSvg[0]);
+                        var height = _config.height;
+                        var width = _config.width;
+                        var margin = _config.margin;
+
+                        svg.append("svg:g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," +height + ")")
+                            .call(_config.xAxisGen);
+
+                        svg.append("svg:g")
+                            .attr("class", "y axis")
+                            .attr("transform", "translate(20,0)")
+                            .call(_config.yAxisGen);
+
+                        if(_config.showAxisLabel) {
+                            /* START label for x-axis */
+                            _.each(_config.axisLabel, function(label, i) {
+                                svg.append('circle')
+                                    .attr({
+                                        'cx': width/2 - (i===0 ? 25 : -25),
+                                        'cy': height + margin.bottom + 5,
+                                        'r' : 5,
+                                        'class' : 'labelCircle'+i
+                                    })
+
+                                svg.append("text")
+                                    .attr({
+                                        "text-anchor": "middle",
+                                        "transform": "translate("+ ((width/2) + (i===0 ? 0 : 50) )+","+(height + margin.bottom*1.5)+")",
+                                        "class" : 'labelText'+i
+                                    })
+                                    .text(label);
+
+                            });
+                            /* END label for x-axis */
+                        }
+                    },
+
+                    setChartParameters :  function() {
+                        var _config = this.lineChartConfig;
+                        var margin = _config.margin;
+                        var width = _config.rawSvg.attr("width") - margin.left - margin.right;
+                        var height = _config.rawSvg.attr("height") - margin.bottom - margin.top;
+                        this.updateConfig({
+                            'width' : width,
+                            'height' : height
+                        });
+
+                        var that = this;
+                        _.each(_config.dataToPlot, function(data, idx) {
+                            that.createVariablesToDrawGraph(data, idx);
+                        })
+                    },
+
+                    updateConfig : function(configValues) {
+                        if ( typeof configValues === "object" ) {
+                            _.extend(this.lineChartConfig, configValues)
+                        }
                     }
-                });
-                vtcDataToPlot.push({'vtc' : 0, 'values' :100});
-                vtcDataToPlot = _.sortBy(vtcDataToPlot , 'vtc')
-                var margin = { top : 20, right: 20, left: 20, bottom: 20};
+                }
+
+                var lineData = JSON.parse(attrs.chartData).data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
                 rawSvg.attr("height", attrs.height);
-                var width = rawSvg.attr("width") - margin.left - margin.right;
-                var height = rawSvg.attr("height") - margin.bottom - margin.top;
-                var svg = d3.select(rawSvg[0]);
-                var xScale, yScale, xAxisGen, yAxisGen, lineFun, area;
+                lineChartService.updateConfig({
+                    rawSvg : rawSvg,
+                    dataToPlot : lineData.json,
+                    margin : lineData.margin,
+                    keys : lineData.keys,
+                    showPathLabel : lineData.showPathLabel,
+                    showAxisLabel : lineData.showAxisLabel,
+                    axisLabel : lineData.axisLabel
+                })
 
-                function setChartParameters() {
-                    xScale = d3.scale.linear().domain([vtcDataToPlot[0].vtc, vtcDataToPlot[vtcDataToPlot.length - 1].vtc]).range([20, width]);
-                    yScale = d3.scale.linear().domain([0, d3.max(vtcDataToPlot, function(d) {
-                        return d.values;
-                    })]).range([height, 20]);
-
-                    xAxisGen = d3.svg.axis()
-                        .scale(xScale)
-                        .orient("bottom")
-                        .tickValues([0, 25, 50, 75, 100])
-                        .tickFormat(function(d){
-                            return d ==0 ? d : (d +'%');
-                        });
-
-                    yAxisGen = d3.svg.axis()
-                        .scale(yScale)
-                        .orient("left")
-                        .tickValues(1);
-
-                    //define area
-                    area = d3.svg.area()
-                        .x(function(d) {
-                            return xScale(d.vtc);
-                        })
-                        .y0(height)
-                        .y1(function(d) {
-                            return yScale(d.values);
-                        });
-
-                    lineFun = d3.svg.line()
-                        .x(function(d) {
-                            return xScale(d.vtc);
-                        })
-                        .y(function(d) {
-                            return yScale(d.values);
-                        })
-
-                }
-
-                function drawLineChart() {
-                    setChartParameters();
-                    //add grid lines
-
-                    svg.append("svg:g")
-                        .attr("class", "x axis")
-                        .attr("transform", "translate(0," + height + ")")
-                        .call(xAxisGen);
-
-                    svg.append("svg:g")
-                        .attr("class", "y axis")
-                        .attr("transform", "translate(20,0)")
-                        .call(yAxisGen);
-
-                    //draw the area now
-                    svg.append("path")
-                        .datum(vtcDataToPlot)
-                        .attr("class", "area")
-                        .attr("d", area);
-
-                    svg.append("svg:path")
-                        .attr({
-                            d: lineFun(vtcDataToPlot),
-                            "stroke": "#0978c9",
-                            "stroke-width": 2,
-                            "fill": "none",
-                        });
-
-                    svg.selectAll("line.verticalGrid").data(vtcDataToPlot).enter()
-                        .append("line")
-                        .attr({
-                            "y1": height,
-                            "y2": margin.top,
-                            "x1": function(d) {
-                                return xScale(d.vtc);
-                            },
-                            "x2": function(d) {
-                                return xScale(d.vtc);
-                            },
-                            "stroke": "#dde6eb",
-                            "stroke-width": "1px"
-                        }).style("stroke-dasharray", ("3, 3"));
-
-                    //plotting circles on chart
-
-                    var circles = svg.selectAll("circle")
-                        .data(vtcDataToPlot)
-                        .enter().append("circle")
-                        .attr({
-                            "class": "dots",
-                            "r": 5,
-                            "cx": function(d) {
-                                return xScale(d.vtc);
-                            },
-                            "cy": function(d) {
-                                return yScale(d.values);
-                            }
-                        })
-
-                    //plotting lables on chart
-                    var label = svg.selectAll(".labels")
-                        .data(vtcDataToPlot)
-                        .enter().append("text")
-                        .attr("class", "labels")
-                        .attr("x", function(d) {
-                            return xScale(d.vtc) - 10;
-                        })
-                        .attr("y", function(d) {
-                            return yScale(d.values) - 10;
-                        })
-                        .text(function(d) {
-                            return d.values + '%'
-                        })
-                }
-                drawLineChart();
+                lineChartService.setChartParameters();
+                lineChartService.drawAxis();
 
             }
-        };
-    })
+        }
+    });
 }());

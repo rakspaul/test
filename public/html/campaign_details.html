@@ -257,45 +257,11 @@
               <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
 
-                  <div class="clearfix ">
+                  <div class="clearfix">
                         <div class="col-md-12">
                               <div class="carousel slide" id="myCarousel">
                                 <div class="carousel-inner">
-                                  <!-- Video viewability widget commented for now --> 
-                                  <!-- <div class="item active">
-                                        <div class="col-xs-3">
-                                            
-                                            <div tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
-                                                <div class="graph_heading">
-                                                    {{ textConstants.VIDEO_VIEWABILITY }}
-                                                </div>
-                                                <div class="clearfix each_section_graph" >
-                                                    <div class="sub_headings">
-                                                        <div>{{ textConstants.VIEWABLE_IMPS }}</div>
-                                                        <div>322.54K</div>
-                                                    </div>
-                                                    <div class="video_viewability_graph">
-                                                        
-                                                    </div>
-                                                    <div class="video_viewability_graph_legends">
-                                                      <div class="section_graph_details"  >
-                                                          <span class="each_detail play_color" >
-                                                              <span class="graph_color"></span>
-                                                              Plays
-                                                          </span>
-                                                           <span class="each_detail view_color" >
-                                                              <span class="graph_color "></span>
-                                                              Views
-                                                          </span>
-                                                      </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                  </div> -->
-                                  <!-- end of ... Video viewability widget commented for now --> 
+
                                   <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
                                     <div class="col-xs-3">
                                        <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
@@ -421,7 +387,40 @@
                                             </div>
                                         </div>
                                     </div>
-                                  </div>               
+                                  </div>
+                                    <!-- Video viewability widget commented for now -->
+                                    <div class="item" ng-if="videoViewData.hasVTCMetric">
+                                        <div class="col-xs-3">
+
+                                            <div tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
+                                                <div class="graph_heading">
+                                                    {{ textConstants.VIDEO_VIEWABILITY }}
+                                                </div>
+                                                <div class="clearfix each_section_graph" >
+                                                    <div class="sub_headings">
+                                                        <div>{{ textConstants.VIEWABLE_IMPS }}</div>
+                                                        <div>{{videoViewData.totalImps | nrFormat}}</div>
+                                                    </div>
+                                                    <div class="quartile_details_graph" width='216' height='100' quartiles-graph chart-data="{{videoViewData.graphData}}"></div>
+                                                    <!--<div class="video_viewability_graph_legends">
+                                                      <div class="section_graph_details"  >
+                                                          <span class="each_detail play_color" >
+                                                              <span class="graph_color"></span>
+                                                              Plays
+                                                          </span>
+                                                           <span class="each_detail view_color" >
+                                                              <span class="graph_color "></span>
+                                                              Views
+                                                          </span>
+                                                      </div>
+                                                    </div>-->
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of ... Video viewability widget commented for now -->
                                 </div>
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
                                 <a class="right carousel-control" href="#myCarousel" ng-show="isCostModelTransparent" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
@@ -524,7 +523,7 @@
                     <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                         <div class="col_heading clearfix">{{ textConstants.QUARTILE_DETAILS }}
                         </div>
-                        <div class="quartile_details_graph" width='365' height='74' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].video_metrics}}"></div>
+                        <div class="quartile_details_graph" width='365' height='74' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].modified_vtc_metrics}}"></div>
                     </div>
                 </div>
           </div>

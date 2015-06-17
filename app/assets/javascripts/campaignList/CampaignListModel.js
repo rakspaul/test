@@ -200,6 +200,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
               campaignListService.getCdbLineChart(campaign , self.timePeriod, function(cdbData) {
                 if(cdbData) {
                   self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
+                  self.cdbDataMap[campaign.orderId]['modified_vtc_metrics'] = campaignListService.vtcMetricsJsonModifier(self.cdbDataMap[campaign.orderId].video_metrics);
                 }
               });
             }, self.campaignList);
