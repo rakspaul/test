@@ -725,12 +725,12 @@
                 if (result.status == "success" && !angular.isString(result.data.data)) {
                         viewData = result.data.data;
                         $scope.details.getCostViewability = {
-                            pct_1s: viewData.view_metrics.perc_viewable_imps_1s,
-                            pct_5s: viewData.view_metrics.perc_viewable_imps_5s,
-                            pct_15s: viewData.view_metrics.perc_viewable_imps_15s,
-                            pct_total: viewData.view_metrics.perc_viewable
+                            pct_1s: viewData.view_metrics.viewable_1s_perc,
+                            pct_5s: viewData.view_metrics.viewable_5s_perc,
+                            pct_15s: viewData.view_metrics.viewable_15s_perc,
+                            pct_total: viewData.view_metrics.viewable_imps_perc
                         };
-                        $scope.details.getCostViewability.total = viewData.view_metrics.viewable_imps;
+                        $scope.details.getCostViewability.total = viewData.view_metrics.ias_viewable_imps;
                         $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
                         });
