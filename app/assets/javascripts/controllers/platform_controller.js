@@ -238,7 +238,12 @@ var angObj = angObj || {};
                 $(".reports_tabs_holder").find(".active").removeClass("active");
                 $(this).addClass("active");
                 $(".reports_block").hide();
-                $scope.selected_tab = tab_id[0].split("_")[1]
+                $scope.selected_tab = tab_id[0].split("_")[1];
+                if($scope.selected_tab === "viewability") {
+                    $(".view_mode_switch_container").show();
+                } else {
+                    $(".view_mode_switch_container").hide();
+                }
                 $("#reports_" + tab_id[0] + "_block").show();
                 $scope.strategyChangeHandler();
                 event.preventDefault();
