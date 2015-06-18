@@ -805,6 +805,7 @@
 
         $scope.setGraphData = function(campaign, type){
             if (campaign) {
+                campaign.type = type;
                 campaignSelectModel.setSelectedCampaign(campaign);
                 strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
                 kpiSelectModel.setSelectedKpi(campaign.kpiType);
@@ -814,7 +815,7 @@
 
             if (type === 'cost') {
                 utils.goToLocation('/cost');
-            } else if (type === 'viewability') {
+            } else if (type === 'viewability' || type === 'videoViewability') {
                 utils.goToLocation('/viewability');
             } else if (type === 'inventory') {
                 utils.goToLocation('/inventory');
