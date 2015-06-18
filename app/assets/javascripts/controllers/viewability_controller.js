@@ -2,7 +2,6 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
-        $scope.videoMode = false ;
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -12,6 +11,7 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
         $scope.api_return_code = 200;
+        $scope.videoMode = $scope.selectedCampaign.redirectWidget === "videoViewability" ||  false;
 
         $scope.sortType     = 'tactic.view_metrics.measurable_imps'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order

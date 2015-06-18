@@ -391,8 +391,7 @@
                                     <!-- Video viewability widget commented for now -->
                                     <div class="item" ng-if="videoViewData.hasVideoAds">
                                         <div class="col-xs-3">
-
-                                            <div tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
+                                            <div ng-click="setGraphData(campaign,'videoViewability')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
                                                 <div class="graph_heading">
                                                     {{ textConstants.VIDEO_VIEWABILITY }}
                                                 </div>
@@ -402,21 +401,7 @@
                                                         <div>{{videoViewData.totalImps | nrFormat}}</div>
                                                     </div>
                                                     <div class="quartile_details_graph" width='216' height='100' quartiles-graph chart-data="{{videoViewData.graphData}}"></div>
-                                                    <!--<div class="video_viewability_graph_legends">
-                                                      <div class="section_graph_details"  >
-                                                          <span class="each_detail play_color" >
-                                                              <span class="graph_color"></span>
-                                                              Plays
-                                                          </span>
-                                                           <span class="each_detail view_color" >
-                                                              <span class="graph_color "></span>
-                                                              Views
-                                                          </span>
-                                                      </div>
-                                                    </div>-->
-
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
