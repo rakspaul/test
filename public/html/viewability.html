@@ -2,6 +2,7 @@
     <div class="reports_header_tabs_holder clearfix">
         <report-tabs></report-tabs>
     </div>
+    <!-- {{viewDataAll.hasVTCMetrics}}-->
 
     <div class="inventory_reports_container">
         <div class="clearfix inventory_header">
@@ -18,7 +19,8 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
-<!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
+        <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
+        <!--<div  ng-show="viewData.hasVTCMetrics == true">-->
         <div class="view_mode_switch_container" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
             <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
@@ -28,68 +30,76 @@
 
             <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
         </div>
-<!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
+        <!--</div>-->
+        <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
 
 
         <div class="viewability_container" ng-hide="strategyLoading || videoMode"  >
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
-                <div class="viewability_details_outer_container">
-                    <div class="viewability_header clearfix">
-                        <div class="each_col sec_col">
-                            
-                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.delivered_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.delivered_imps'; sortReverse = !sortReverse" >{{textConstants.DELIVERED_IMPS}}</span>
-                        </div>
-                        <div class="each_col third_col">
-                            <span>{{textConstants.MEASURABLE}}</span>
+            <div class="viewability_details_outer_container">
+                <div class="viewability_header clearfix">
+                    <!-- <div class="each_col first_col">
+                        <span>Tactic</span>
+                    </div> -->
+                    <div class="each_col sec_col">
+                        <span>{{ textConstants.IMPRESSIONS }}</span>
 
-                            <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.measurable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.measurable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_measurable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_measurable'; sortReverse = !sortReverse" >%</span>
-                            </div>
+                        <div class="sub_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.delivered_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.delivered_imps'; sortReverse = !sortReverse" >{{textConstants.DELIVERED}}</span>
+                            <!--<span>Total</span>-->
                         </div>
-                        <div class="each_col forth_col">
-                            <span>{{textConstants.VIEWABLE}}</span>
+                    </div>
+                    <div class="each_col third_col">
+                        <span>{{textConstants.MEASURABLE}}</span>
 
-                            <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.viewable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.viewable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
-                                <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable'; sortReverse = !sortReverse" >
+                        <div class="sub_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.measurable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.measurable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_measurable',sortType,sortReverse)" ng-click="sortType = 'view_metrics.perc_measurable'; sortReverse = !sortReverse" >%</span>
+                        </div>
+                    </div>
+                    <div class="each_col forth_col">
+                        <span>{{textConstants.VIEWABLE}}</span>
+
+                        <div class="sub_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.viewable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.viewable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
+                                <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable',sortType,sortReverse)" ng-click="sortType = 'view_metrics.perc_viewable'; sortReverse = !sortReverse" >
                                     %<sup>*</sup>
                                     <div class="common_tooltip">{{textConstants.BASED_ONLY_ON_MEASURABLE_IMPS}}</div>
                                 </span>
-                            </div>
-                        </div>
-                        <div class="each_col fifth_col">
-                            <span>{{textConstants.VIEWABLE}} %</span>
-
-                            <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_1s'; sortReverse = !sortReverse" >{{textConstants.ONE_S}}</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_5s'; sortReverse = !sortReverse" >{{textConstants.FIVE_S}}</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_viewable_imps_15s'; sortReverse = !sortReverse" >{{textConstants.FIFTEEN_S}}</span>
-                            </div>
-                        </div>
-                        <div class="each_col suspicious_col">
-                            <span class="icon_text_holder"  ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" > {{textConstants.SUSPICIOUS_ACTIVITY}}</span>
-                            <span  class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.nht',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.nht'; sortReverse = !sortReverse" >(%)</span>
-                        </div>
-                        <div class="each_col seventh_col">
-
-                            <div class="dropdown kpi-dd-holder">
-                                <kpi-drop-down> </kpi-drop-down>
-                                <!--<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"-->
-                                                <!--flag="kpitypes"></report-filters>-->
-                            </div>
-
-
                         </div>
                     </div>
-                    <div >
+                    <div class="each_col fifth_col">
+                        <span>{{textConstants.VIEWABLE}} %</span>
+
+                        <div class="sub_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" ng-click="sortType = 'view_metrics.perc_viewable_imps_1s'; sortReverse = !sortReverse" >{{textConstants.ONE_S}}</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" ng-click="sortType = 'view_metrics.perc_viewable_imps_5s'; sortReverse = !sortReverse" >{{textConstants.FIVE_S}}</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" ng-click="sortType = 'view_metrics.perc_viewable_imps_15s'; sortReverse = !sortReverse" >{{textConstants.FIFTEEN_S}}</span>
+                        </div>
+                    </div>
+                    <div class="each_col suspicious_col">
+                        <span class="icon_text_holder"  ng-click="sortType = 'view_metrics.nht'; sortReverse = !sortReverse" > {{textConstants.SUSPICIOUS_ACTIVITY}}</span>
+                        <span  class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.nht',sortType,sortReverse)" ng-click="sortType = 'view_metrics.nht'; sortReverse = !sortReverse" >(%)</span>
+                    </div>
+                    <div class="each_col seventh_col">
+
+                        <div class="dropdown kpi-dd-holder">
+                            <kpi-drop-down> </kpi-drop-down>
+                            <!--<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"-->
+                            <!--flag="kpitypes"></report-filters>-->
+                        </div>
+
+
+                    </div>
+                </div>
+                <div >
                     <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
-                      <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
+                        <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
 
-                      <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
+                        <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
 
                             <div class="each_col first_col">
                                 {{strategyHeading}}:
@@ -138,30 +148,30 @@
                                     </div>
                                     <div class="each_col sec_col">
                                         <div class="sub_col">
-                                            <span>{{tactic.view_metrics.delivered_imps | number:0}}</span>
-                                            </div>
+                                            <span>{{tactic.view_metrics.ias_imps_delivered | number:0}}</span>
+                                        </div>
                                     </div>
                                     <div class="each_col third_col">
                                         <div class="sub_col">
-                                            <span> {{tactic.view_metrics.measurable_imps | number:0}}</span>
-                                            <span>{{tactic.view_metrics.perc_measurable| number:0}}%</span>
+                                            <span> {{tactic.view_metrics.ias_measurable_imps | number:0}}</span>
+                                            <span>{{tactic.view_metrics.measurable_imps_perc| number:0}}%</span>
                                         </div>
                                     </div>
                                     <div class="each_col forth_col">
                                         <div class="sub_col">
-                                            <span> {{tactic.view_metrics.viewable_imps| number:0}}</span>
-                                            <span>{{tactic.view_metrics.perc_viewable | number:0}}%</span>
+                                            <span> {{tactic.view_metrics.ias_viewable_imps| number:0}}</span>
+                                            <span>{{tactic.view_metrics.viewable_imps_perc | number:0}}%</span>
                                         </div>
                                     </div>
                                     <div class="each_col fifth_col">
                                         <div class="sub_col">
-                                            <span>{{tactic.view_metrics.perc_viewable_imps_1s | number:0}}%</span>
-                                            <span>{{tactic.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
-                                            <span>{{tactic.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
+                                            <span>{{tactic.view_metrics.viewable_1s_perc | number:0}}%</span>
+                                            <span>{{tactic.view_metrics.viewable_5s_perc | number:0}}%</span>
+                                            <span>{{tactic.view_metrics.viewable_15s_perc | number:0}}%</span>
                                         </div>
                                     </div>
                                     <div class="each_col suspicious_col">
-                                        {{tactic.view_metrics.nht | number: number:2}}%
+                                        {{tactic.view_metrics.susp_activity_perc | number: number:2}}%
                                     </div>
                                     <div class="each_col seventh_col">
                                         {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
@@ -181,124 +191,125 @@
         <div class="viewability_video_mode_container" ng-show="videoMode">
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
-                <div class="viewability_details_video_mode_outer_container">
-                    <div class="viewability_header clearfix">
-                        <div class="each_col sec_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >{{textConstants.DELIVERED_IMPS}}</span>
-                        </div>
-                        <div class="each_col third_col">
-                            <span>{{textConstants.MEASURABLE}}</span>
+            <div class="viewability_details_video_mode_outer_container">
+                <div class="viewability_header clearfix">
+                    <div class="each_col sec_col">
+                        <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_deliverable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.videos_deliverable_imps'; sortReverse = !sortReverse"  >{{textConstants.DELIVERED_IMPS}}</span>
+                    </div>
+                    <div class="each_col third_col">
+                        <span>{{textConstants.MEASURABLE}}</span>
 
-                            <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.measurable_imps',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.measurable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_measurable',sortType,sortReverse)" ng-click="sortType = 'tactic.view_metrics.perc_measurable'; sortReverse = !sortReverse" >%</span>
-                            </div>
+                        <div class="sub_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.video_measurable_imps'; sortReverse = !sortReverse" >{{textConstants.IMP_WITH_DOT}}</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_perc',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.video_measurable_perc'; sortReverse = !sortReverse" >%</span>
                         </div>
-                        <div class="each_col ad_col">
-                            <span class="clearfix icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+                    </div>
+                    <div class="each_col ad_col">
+                            <span class="clearfix icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.video_measurable_imps',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.video_measurable_imps'; sortReverse = !sortReverse">
                                 <span class="pull-left tooltip_for_txt" >{{textConstants.AD_START_IMPS}}</span>
                                 <span class="pull-left tooltip_holder">
                                     <span class="tooltip_show_icon"></span>
                                     <span class="clearfix common_tooltip">
                                       <div class="video_tooltip">
-                                        <div class="clearfix ">
-                                            <span class="video_tooltip_icon play_icon"></span>
-                                            <span class="pull-left">{{textConstants.VIDEO_PLAYS}}</span>
-                                        </div>
-                                        <div class="clearfix view_video_tooltip">
-                                            <span class="video_tooltip_icon view_icon"></span>
-                                            <span class="pull-left">{{textConstants.VIDEO_VIEWS}}</span>
-                                        </div>
+                                          <div class="clearfix ">
+                                              <span class="video_tooltip_icon play_icon"></span>
+                                              <span class="pull-left">{{textConstants.VIDEO_PLAYS}}</span>
+                                          </div>
+                                          <div class="clearfix view_video_tooltip">
+                                              <span class="video_tooltip_icon view_icon"></span>
+                                              <span class="pull-left">{{textConstants.VIDEO_VIEWS}}</span>
+                                          </div>
                                       </div>
                                     </span>
                                 </span>
                             </span>
-                        </div>
-                        <div class="each_col sub_four_cols">
-                            <div class="clearfix title_tooltip">
-                                <span class="pull-left">{{ textConstants.QUARTILE_DETAILS }}</span>
+                    </div>
+                    <div class="each_col sub_four_cols">
+                        <div class="clearfix title_tooltip">
+                            <span class="pull-left">{{ textConstants.QUARTILE_DETAILS }}</span>
                                 <span class="pull-left tooltip_holder">
                                     <span class="tooltip_show_icon"></span>
                                     <span class="clearfix common_tooltip">
                                       {{ textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD }}
                                     </span>
                                 </span>
-                            </div>
-
-                            <div class="sub_col">
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >25%</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" >50%</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >75%</span>
-                                <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >100%</span>
-                            </div>
                         </div>
-                        <div class="each_col vtc_col">
-                            <div class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
-                                <span class="pull-left " >{{ textConstants.VTC }}</span>
+
+                        <div class="sub_col">
+                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_1q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_1q_completed'; sortReverse = !sortReverse" >25%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_2q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_2q_completed'; sortReverse = !sortReverse" >50%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_3q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_3q_completed'; sortReverse = !sortReverse">75%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_4q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_4q_completed'; sortReverse = !sortReverse">100%</span>
+                        </div>
+                    </div>
+                    <div class="each_col vtc_col">
+                        <div class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.vtc',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.vtc'; sortReverse = !sortReverse" >
+                            <span class="pull-left " >{{ textConstants.VTC }}</span>
                                 <span class="pull-left tooltip_holder">
                                     <span class="tooltip_show_icon"></span>
                                     <span class="clearfix common_tooltip">
                                       {{ textConstants.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START}}
                                     </span>
                                 </span>
-                            </div>
-                        </div>
-                        <div class="each_col suspicious_act_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >{{ textConstants.SUSPICIOUS_ACTIVITY }} %</span>
                         </div>
                     </div>
-                    <div class="viewability_table_body">
+                    <div class="each_col suspicious_act_col">
+                        <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.video_susp_activity_perc',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.video_susp_activity_perc'; sortReverse = !sortReverse" >{{ textConstants.SUSPICIOUS_ACTIVITY }} %</span>
+                    </div>
+                </div>
+                <div class="viewability_table_body">
                     <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
-                      <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
+                        <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
 
-                      <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
+                        <div class="strategy_total_container_header clearfix"  ng-if=" !dataNotFound && strategyFound && viewData.view_metrics ">
 
                             <div class="each_col first_col">
                                 {{strategyHeading}}:
                             </div>
 
                             <div class="each_col sec_col">
-                                32.32K
+                                {{viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps   | number:0) : '-'}}
                             </div>
                             <div class="each_col third_col">
                                 <div class="sub_col">
-                                    <span>463.32K</span>
-                                    <span>43.34%</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.video_measurable_imps  > 0 ? (viewData.view_metrics.video_viewability_metrics.video_measurable_imps  | nrFormat) : '-' }}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.video_measurable_perc    > 0 ? (tactic.view_metrics.video_viewability_metrics.video_measurable_perc | number:2) : '-'}}%</span>
                                 </div>
                             </div>
                             <div class="each_col ad_col">
                                 <div class="clearfix played_ad">
                                     <span class="specific_ad_icon"></span>
-                                    <span class="ad_val">432.34K</span>
+                                    <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_never_started    > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_never_started | nrFormat) : '-'}}</span>
                                 </div>
                                 <div class="clearfix next_val viewed_ad">
                                     <span class="specific_ad_icon"></span>
-                                    <span class="ad_val">432.34K</span>
+                                    <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_played    > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
                             <div class="each_col sub_four_cols">
                                 <div class="sub_col">
-                                    <span>432.43K</span>
-                                    <span>432.43K</span>
-                                    <span>432.43K</span>
-                                    <span>432.43K</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_completed   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_1q_completed | nrFormat) : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_2q_completed   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_2q_completed | nrFormat) : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_3q_completed   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_3q_completed | nrFormat) : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_completed   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_4q_completed | nrFormat) : '-'}}</span>
                                 </div>
                                 <div class="sub_col next_val">
-                                    <span>432.43K</span>
-                                    <span>432.43K</span>
-                                    <span>432.43K</span>
-                                    <span>432.43K</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_2q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_2q_view | nrFormat) : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_3q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_3q_view | nrFormat) : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_4q_view | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
                             <div class="each_col">
-                                99.99%
+                                {{viewData.view_metrics.video_viewability_metrics.vtc   > 0 ?(tactic.view_metrics.video_viewability_metrics.vtc |number:2)  : '-'}}
                             </div>
                             <div class="each_col">
-                                0.01%
+                                {{viewData.view_metrics.video_viewability_metrics.video_susp_activity_perc   > 0 ?(tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2)  : '-'}}%
                             </div>
                         </div>
+
                         <div class="all_strategies_holder">
                             <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortType:sortReverse track by $index">
                                 <div class="each_strategy clearfix">
@@ -306,43 +317,46 @@
                                         {{tactic.tactic_name}}
                                     </div>
                                     <div class="each_col sec_col">
-                                         32.21K
+                                        {{tactic.view_metrics.video_viewability_metrics.videos_deliverable_imps    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_deliverable_imps | number:0) : '-'}}
                                     </div>
                                     <div class="each_col third_col">
                                         <div class="sub_col">
-                                            <span>110.32K</span>
-                                            <span>35.43%</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.video_measurable_imps    > 0 ? (tactic.view_metrics.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
+                                            <span>
+
+                                                {{tactic.view_metrics.video_viewability_metrics.video_measurable_perc    > 0 ? (tactic.view_metrics.video_viewability_metrics.video_measurable_perc | number:2) : '-'}}%
+                                               </span>
                                         </div>
                                     </div>
                                     <div class="each_col ad_col">
                                         <div class="clearfix played_ad">
                                             <span class="specific_ad_icon"></span>
-                                            <span class="ad_val">432.34K</span>
+                                            <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_never_started    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_never_started | nrFormat) : '-'}}</span>
                                         </div>
                                         <div class="clearfix next_val viewed_ad">
                                             <span class="specific_ad_icon"></span>
-                                            <span class="ad_val">432.34K</span>
+                                            <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_played    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
                                         </div>
                                     </div>
                                     <div class="each_col sub_four_cols">
                                         <div class="sub_col">
-                                            <span>432.43K</span>
-                                            <span>432.43K</span>
-                                            <span>432.43K</span>
-                                            <span>432.43K</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_1q_completed   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_1q_completed | nrFormat) : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_2q_completed   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_2q_completed | nrFormat) : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_3q_completed   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_3q_completed | nrFormat) : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_4q_completed   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_4q_completed | nrFormat) : '-'}}</span>
                                         </div>
                                         <div class="sub_col next_val">
-                                            <span>432.43K</span>
-                                            <span>432.43K</span>
-                                            <span>432.43K</span>
-                                            <span>432.43K</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_2q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_2q_view  | nrFormat) : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_3q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_3q_view | nrFormat) : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_4q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_4q_view | nrFormat) : '-'}}</span>
                                         </div>
                                     </div>
                                     <div class="each_col">
-                                        100%
+                                        {{tactic.view_metrics.video_viewability_metrics.vtc   > 0 ?(tactic.view_metrics.video_viewability_metrics.vtc |number:2)  : '-'}}
                                     </div>
                                     <div class="each_col">
-                                        0.01%
+                                        {{tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc   > 0 ?(tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2)  : '-'}}%
                                     </div>
                                 </div>
                             </div>
@@ -353,4 +367,3 @@
         </div>
     </div>
 </div>
-
