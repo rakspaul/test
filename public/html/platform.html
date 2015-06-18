@@ -281,11 +281,11 @@
 <script type="text/ng-template" id="videoViewabilityTpl">
     <div class="each_col ad_col">
         <div class="clearfix played_ad">
-            <span class="specific_ad_icon"></span>
+            <span ng-class="{'specific_ad_icon': vvData.videos_played > 0}"></span>
             <span class="ad_val">{{vvData.videos_played > 0 ? (vvData.videos_played | nrFormat) : '-'}}</span>
         </div>
         <div class="clearfix next_val viewed_ad">
-            <span class="specific_ad_icon"></span>
+            <span ng-class="{'specific_ad_icon': vvData.videos_viewable_imps > 0}"></span>
             <span class="ad_val">{{vvData.videos_viewable_imps > 0 ? (vvData.videos_viewable_imps | nrFormat) : '-'}}</span>
         </div>
     </div>
