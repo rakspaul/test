@@ -16,6 +16,18 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
+    <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
+            <div class="view_mode_switch_container" style="display:none;" ng-class="{'video_mode_on':videoMode}">
+                <span>{{textConstants.VIEW_MODE}}</span>
+                <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
+                <span class="video_btn">
+                    <input type="checkbox" class="switch switch-inverse" data-label-on=" " data-label-off=" " ng-model="videoMode" />
+                </span>
+
+                <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
+            </div>
+    <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
+
         <div class="common-load-icon_viewability" ng-show="strategyLoading"></div>
     </div>
 
@@ -120,7 +132,7 @@
                 <!-- -------END :  Cost Block ----------------------------- -->
 
                 <!-- -------START :  Viewablity Block ----------------------------- -->
-                <div class="reports_block" id="reports_platform_viewability_block" style="display:none;">
+                <div class="reports_block" id="reports_platform_viewability_block" style="display:none;" ng-class="{'reports_video_mode_viewability_container':videoMode}">
                     <div class="no_data_found" ng-if="dataNotFoundForViewability" ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewability">
                         <div class="clearfix reports_platform_header">
@@ -266,6 +278,36 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="videoViewabilityTpl">
+    <div class="each_col ad_col">
+        <div class="clearfix played_ad">
+            <span class="specific_ad_icon"></span>
+            <span class="ad_val">{{vvData.videos_played > 0 ? (vvData.videos_played | nrFormat) : '-'}}</span>
+        </div>
+        <div class="clearfix next_val viewed_ad">
+            <span class="specific_ad_icon"></span>
+            <span class="ad_val">{{vvData.videos_viewable_imps > 0 ? (vvData.videos_viewable_imps | nrFormat) : '-'}}</span>
+        </div>
+    </div>
+    <div class="each_col sub_four_cols">
+        <div class="sub_col">
+            <span>{{vvData.videos_1q_completed >0 ? (vvData.videos_1q_completed | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_2q_completed >0 ? (vvData.videos_2q_completed | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_3q_completed >0 ? (vvData.videos_3q_completed | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_4q_completed >0 ? (vvData.videos_4q_completed | nrFormat) : '-'}}</span>
+        </div>
+        <div class="sub_col next_val">
+            <span>{{vvData.videos_1q_view >0 ? (vvData.videos_1q_view | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_2q_view >0 ? (vvData.videos_2q_view | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_3q_view >0 ? (vvData.videos_3q_view | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_4q_view >0 ? (vvData.videos_4q_view | nrFormat) : '-'}}</span>
+        </div>
+    </div>
+    <div class="each_col vtc_col">
+        {{vvData.vtc | number:2}}%
+    </div>
+</script>
+
 <script type="text/ng-template" id="costTpl">
     <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
         <div class="each_cost_col first_col">{{costData.platform_type}}</div>
@@ -305,18 +347,20 @@
             {{ViewabilityData.platform_type}}
         </div>
         <div class="each_col third_col impressions_col">
-            <div class="sub_col">
                 <span>{{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}}</span>
-                <!-- <span>{{ViewabilityData.platformType_aggregation.total_imps | nrFormat}}</span> -->
-            </div>
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.ias_measurable_imps | nrFormat}}</span>
                 <span>{{ViewabilityData.platformType_aggregation.measurable_imps_perc | number:2}}%</span>
             </div>
         </div>
-        <div class="each_col forth_col">
+
+        <div class="pull-left" ng-show="videoMode" >
+            <div class="clearfix" ng-init= "vvData = ViewabilityData.platformType_aggregation.video_viewability_metrics" ng-include="'videoViewabilityTpl'" ></div>
+        </div>
+        
+        <div class="each_col forth_col"  ng-hide="videoMode">
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.ias_viewable_imps | nrFormat}}</span>
                 <span>{{ViewabilityData.platformType_aggregation.viewable_imps_perc | number:2}}%</span>
@@ -325,13 +369,13 @@
         <div class="each_col suspicious_col">
             {{ViewabilityData.platformType_aggregation.susp_activity_perc | number:2}}%
         </div>
-        <div class="each_col seventh_col">
+        <div class="each_col seventh_col"  ng-hide="videoMode">
             {{ViewabilityData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
         </div>
 
     </div>
 
-    <div class="platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
+    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
@@ -339,23 +383,19 @@
             <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
         </div>
 
-        <!-- <div class="each_col platform_name_col">
-            {{platform.platform_type}}
-        </div> -->
-
         <div class="each_col third_col impressions_col">
-            <div class="sub_col">
                 <span>{{platform.ias_imps_delivered | nrFormat}}</span>
-                <!-- <span>{{platform.total_imps | nrFormat }}</span> -->
-            </div>
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{platform.ias_measurable_imps | nrFormat}}</span>
                 <span>{{platform.measurable_imps_perc | number:2}}%</span>
             </div>
         </div>
-        <div class="each_col forth_col">
+        <div class="pull-left" ng-show="videoMode">
+            <div class="clearfix" ng-init="vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityTpl'"></div>
+        </div>
+        <div class="each_col forth_col"  ng-hide="videoMode">
             <div class="sub_col">
                 <span> {{platform.ias_viewable_imps | nrFormat}}</span>
                 <span>{{platform.viewable_imps_perc | number:2}}%</span>
@@ -364,7 +404,7 @@
         <div class="each_col suspicious_col">
             {{platform.susp_activity_perc | number:2}}%
         </div>
-        <div class="each_col seventh_col">
+        <div class="each_col seventh_col"  ng-hide="videoMode">
             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
         </div>
     </div>
