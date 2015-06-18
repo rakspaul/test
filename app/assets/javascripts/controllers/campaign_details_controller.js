@@ -487,6 +487,7 @@
             $scope.screenTotal = 0;
             
             dataService.getScreenData($scope.campaign).then(function(result) {
+                //result = {"status":"success","status_code":200,"meta":{"host":"API","method":"GET","path":"/api/reporting/v1/campaigns/402062/byscreens/perf","uri":"/api/reporting/v1/campaigns/402062/byscreens/perf?start_date=2014-03-01&end_date=2014-03-31"},"data":[{"id":402062,"name":"","hasVTCMetrics":false,"perf_metrics":[{"dimension":"Desktop","impressions":65,"clicks":0,"actions":0,"gross_rev":0.16705,"action_rate":0.0,"ctr":0.0,"cpm":2.5700000000000003,"cpc":0.0,"cpa":0.0,"video_metrics":{"ad_starts":0,"vtc_25":0,"vtc_50":0,"vtc_75":0,"vtc_100":0,"vtc_rate":0.0,"vtc_25_perc":0.0,"vtc_50_perc":0.0,"vtc_75_perc":0.0}},{"dimension":"Smartphone","impressions":86944,"clicks":213,"actions":0,"gross_rev":223.44608,"action_rate":0.0,"ctr":0.0024498527788001474,"cpm":2.57,"cpc":1.0490426291079813,"cpa":0.0,"video_metrics":{"ad_starts":0,"vtc_25":0,"vtc_50":0,"vtc_75":0,"vtc_100":0,"vtc_rate":0.0,"vtc_25_perc":0.0,"vtc_50_perc":0.0,"vtc_75_perc":0.0}},{"dimension":"Tablet","impressions":15871,"clicks":8,"actions":0,"gross_rev":40.78847,"action_rate":0.0,"ctr":5.040640161300485E-4,"cpm":2.5699999999999994,"cpc":5.09855875,"cpa":0.0,"video_metrics":{"ad_starts":0,"vtc_25":0,"vtc_50":0,"vtc_75":0,"vtc_100":0,"vtc_rate":0.0,"vtc_25_perc":0.0,"vtc_50_perc":0.0,"vtc_75_perc":0.0}},{"dimension":"Unknown","impressions":154061,"clicks":317,"actions":0,"gross_rev":395.93677,"action_rate":0.0,"ctr":0.0020576265245584543,"cpm":2.5700000000000003,"cpc":1.2490118927444795,"cpa":0.0,"video_metrics":{"ad_starts":0,"vtc_25":0,"vtc_50":0,"vtc_75":0,"vtc_100":0,"vtc_rate":0.0,"vtc_25_perc":0.0,"vtc_50_perc":0.0,"vtc_75_perc":0.0}}]}],"message":"Data for Performance report by screens"};
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var kpiModel = kpiSelectModel.selectedKpi;
@@ -508,30 +509,23 @@
                                 if (screenType == 'smartphone' || screenType == 'tablet' || screenType == 'desktop') {
                                     if (screen[campaign.kpiType.toLowerCase()] > 0) {
                                         $scope.screenTotal += screen[campaignKpiType];
-                                        orderByscreens[inc] = screen[campaignKpiType];
-                                        inc++;
                                     }
+                                    orderByscreens[inc] = screen[campaignKpiType];
+                                    inc++;
+
                                 }
                                 switch (screenType) {
-                                    case 'smartphone':
-                                        screen.icon = "mobile_graph";
-                                        break;
-                                    case 'tv':
-                                        screen.icon = "display_graph";
-                                        break;
-                                    case 'tablet':
-                                        screen.icon = "tablet_graph";
-                                        break;
-                                    case 'desktop':
-                                        screen.icon = "display_graph";
-                                        break;
+                                    case 'smartphone': screen.icon = "mobile_graph"; break;
+                                    case 'tv': screen.icon = "display_graph"; break;
+                                    case 'tablet': screen.icon = "tablet_graph"; break;
+                                    case 'desktop': screen.icon = "display_graph";break;
                                 }
                             });
                             var maximumValue = 0;
                             if (orderByscreens.length > 0) {
                                 maximumValue = Math.max.apply(Math, orderByscreens);
                             }
-                            $scope.details.screens = screens;
+                            $scope.details.screens = _.filter(screens, function(screen) { return _.indexOf(['smartphone', 'tablet', 'desktop'],screen.dimension.toLowerCase()) !=-1 });
                             $scope.details.screenTop = maximumValue;
                             $scope.details.kpiType = campaignKpiType;
                         }
@@ -566,13 +560,22 @@
                                 .data(kpiCountScreen)
                                 .enter().append("rect")
                                 .attr("x", 0)
-                                //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
                                 .attr("y", function (dScreen, iScreen) {
                                     return iScreen * 33;
                                 })
                                 .attr("width", xScreen)
                                 .attr("height", bar_heightScreen);
                             // d3 Ends Here
+
+                            $('#screenWidget rect').each(function() {
+                                var value = parseFloat($(this).attr('width'));
+                                if (value == 0) {
+                                    $(this).attr({
+                                        width: widthScreen,
+                                        style: "fill:#dddddd"
+                                    });
+                                }
+                            });
                         }
                     }
                 }
@@ -665,6 +668,15 @@
                                 .attr("width", x)
                                 .attr("height", bar_height);
                             // d3 Ends Here
+                            $("#platformWidget rect").each(function() {
+                                var value = parseFloat($(this).attr('width'));
+                                if (value == 0) {
+                                    $(this).attr({
+                                        width: width,
+                                        style: "fill:#dddddd"
+                                    });
+                                }
+                            });
                         }
                     }
                 } else {
