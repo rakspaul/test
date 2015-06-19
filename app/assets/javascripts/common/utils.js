@@ -666,9 +666,9 @@ angObj.directive('truncateTextWithHover', function () {
   angObj.filter("nrFormat", function () {
     return function (value, key) {
       var y = Math.abs(value);
-
+      key =  key || 0;
       if(y < 9999) {
-        return value.toFixed(2);
+        return value.toFixed(key);
       }
 
       if(y < 1000000) {

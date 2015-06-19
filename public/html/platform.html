@@ -318,11 +318,11 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-            <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps | nrFormat}}</span>
+            <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}</span>
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
-                <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps | nrFormat}}</span>
+                <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
                 <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_perc | number:2}}%</span>
             </div>
         </div>
@@ -343,11 +343,11 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-            <span>{{platform.video_viewability_metrics.videos_deliverable_imps | nrFormat}}</span>
+            <span>{{platform.video_viewability_metrics.videos_deliverable_imps >0 ? (platform.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}</span>
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
-                <span> {{platform.video_viewability_metrics.video_measurable_imps | nrFormat}}</span>
+                <span> {{platform.video_viewability_metrics.video_measurable_imps >0 ? (platform.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
                 <span>{{platform.video_viewability_metrics.video_measurable_perc | number:2}}%</span>
             </div>
         </div>
