@@ -51,11 +51,11 @@ We follow git version control system here are few points, which as a developer y
 0. Once you made necessary changes in your branch as per ticket you are working on.
 0. Time to commit and push your changes.
 0. In order to commit your changes you need to do need to practice following steps:-
-*	Rebase your branch with current sprint branch.
-*	If your branch is behind from current sprint branch, you need to stash your changes.
-*	Pull current sprint changes and then rebase to your branch
-*	Then apply stash.
-*	Once you are done with above steps, you are good to go for commit.
+    a.	Rebase your branch with current sprint branch.
+    b.	If your branch is behind from current sprint branch, you need to stash your changes.
+    c.	Pull current sprint changes and then rebase to your branch
+    d.	Then apply stash.
+    e.	Once you are done with above steps, you are good to go for commit.
 0. After commit, open github.com on your browser, and you can create a PR (Pull Request) from there.
 0. Don’t forgot to mention team member/manager name, you like to review your PR before merge.
 0. After reviewing your PR by manager or team member, it will get merge to current sprint.
@@ -68,10 +68,10 @@ If the application doesn't get loaded in dev mode, Comment out following lines f
 
 app/assets/javascripts/main.js
 
-<syntaxhighlight lang="javascript">
+```
 /**optimize: 'uglify2',
     uglify2: {
     warnings: false,
       mangle: false
     },**/
-</syntaxhighlight>
+```
