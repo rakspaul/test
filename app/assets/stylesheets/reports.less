@@ -660,6 +660,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 
 .inventory_reports_container , .common_reports_container{
   font-family: "Avenir";
+  position: relative;
   #optimization_strategies_dd {
     width: 80% ;
   }
@@ -1409,10 +1410,13 @@ div.strategy_total_container {
   }
 }
 .view_mode_switch_container {
-  float: right ;
+  float: none ;
   color: #21252b ;
   font-size: 14px ;
   margin-top: -20px;
+  position: absolute;
+  right: 1px;
+  top: 78px;
   span {
     float: left;  
     display: inline-block;
