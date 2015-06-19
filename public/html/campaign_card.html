@@ -79,7 +79,7 @@
                 <span>{{ textConstants.IMP_WITH_DOT }}</span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].ctr*100 | number:2}}%</span>
+                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%</span>
                 <span>{{ textConstants.CTR }}</span>
             </div>
 
@@ -109,7 +109,7 @@
                     <span class="icon_KPI"></span>
                 </span>
                 <span class="pull-right cumulative_val">
-                    {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId].map(campaign.kpiType.toLowerCase()) | kpiFormatter:campaign.kpiType:1}}</span>
+                    {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
                 </span>
             </div>
             
