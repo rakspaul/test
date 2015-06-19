@@ -279,8 +279,8 @@
                 strategyObj[index].map['cpm'] = strategyMetrics.cpm;
                 strategyObj[index].map['vtc'] = strategyMetrics.video_metrics.vtc_rate;
                 strategyObj[index].map['clicks'] = strategyMetrics.clicks;
-                strategyObj[index].map['action_rate'] = strategyObj.action_rate;
-                strategyObj[index].map['ctr'] = strategyObj.ctr * 100;
+                strategyObj[index].map['action_rate'] = strategyMetrics.action_rate;
+                strategyObj[index].map['ctr'] = strategyMetrics.ctr * 100;
             };
 
             var getStrategyCdbLineChart = function(obj, strategyList, timePeriod, campaign, kpiType, kpiValue) {
