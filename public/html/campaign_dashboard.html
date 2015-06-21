@@ -5,7 +5,7 @@
     <div class="clearfix checkbox_holder">
         <div class="external_chkbox pull-right">
             <div class="squaredFour">
-                <input type="checkbox" ng-model="campaigns.dashboard.filterSelectAll" id="camp_dash_squaredFour" class="ng-pristine ng-valid squaredFourChkbox"  data-ng-click="campaigns.dashboardSelectedAll()">
+                <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="camp_dash_squaredFour" class="ng-pristine ng-valid squaredFourChkbox"  data-ng-click="campaigns.dashboardSelectedAll()"  ng-true-value="'true'" ng-false-value="'false'" >
                 <label for="camp_dash_squaredFour"></label>
             </div>
             <span class="squaredFourTxt" >{{textConstants.SELECT_ALL}}</span>
