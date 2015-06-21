@@ -1,38 +1,31 @@
 VISTO Enviroment
 ================
-
-[Developer](http://dev-desk.collective-media.net/)
-
-[QA](https://qa-desk.collective.com)
-
-[Beta](https://beta.collective.com/)
-
-[LA](https://apps.collective.com)
+> [Developer](http://dev-desk.collective-media.net/) | [QA](https://qa-desk.collective.com) | [Beta](https://beta.collective.com/) | [LA](https://apps.collective.com)
 
 
 Setup prerequisites for VISTO
 =============================
-
 0. Visto is a scala project & you need to install scala build tool to run this project.
 0. To install SBT (scala build tool), you need to follow below steps :
-0. Install home brew. (Home brew is a package manager for mac OS X like apt and yum for linux)
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”
-(Read more about home brew here  http://brew.sh/ )
-0. Once you have installed home brew, install SBT (scala build tool).
-brew install sbt (reference -  http://www.scala-sbt.org/release/tutorial/Installing-sbt-on-Mac.html) after following above steps, you have successfully installed SBT.
+0. Install [home brew](http://brew.sh/). (Home brew is a package manager for mac OS X like apt and yum for linux)
+>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”
+
+0. Once you have installed home brew, install [SBT](http://www.scala-sbt.org/release/tutorial/Installing-sbt-on-Mac.html) (scala build tool).
+>brew install sbt 
 
 SBT command
------------
-
-0. sbt ~run
+=============
+```sh
+$ sbt ~run
 This command will run project on default port i.e. 9090 localhost.   It will download all jars related to project.
-0. sbt “~run <port number>”
+$ sbt “~run <port number>”
 To run the project on a specific port.
-0. sbt dist clean.
+$ sbt dist clean.
 Its a good practice always compile your code before committing
+```
 
 Start a project
----------------
+===============
 
 Editor Used - IntelliJ
 0. Open a regular terminal window (not the intellij one).
