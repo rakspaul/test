@@ -51,7 +51,7 @@ We follow git version control system here are few points, which as a developer y
 0. Firstly for any given task/bug you should have a ticket(number), if not create one on JIRA.
 0. Create a branch for your ticket from current sprint branch. Branch name should be your name/Ticket Number
 
-(i.e If I have a ticket CRPT-1230 then my branch will be Abhimanyu/CRPT-1230. keeping all tickets under your name directory will help you in search you previous tasks.)
+> (i.e If I have a ticket CRPT-1230 then my branch will be Abhimanyu/CRPT-1230. keeping all tickets under your name directory will help you in search you previous tasks.)
 
 0. Once you made necessary changes in your branch as per ticket you are working on.
 0. Time to commit and push your changes.
@@ -71,9 +71,8 @@ Note
 
 If the application doesn't get loaded in dev mode, Comment out following lines form main.js file -
 
+```sh
 app/assets/javascripts/main.js
-
-```
 /**optimize: 'uglify2',
     uglify2: {
     warnings: false,
