@@ -28,11 +28,11 @@ Start a project
 ===============
 
 Editor Used - IntelliJ
+
 0. Open a regular terminal window (not the intellij one).
 0. cd /Users/sriram/Documents/ (you can use any directory)
 0. mkdir github && cd github
 0. git clone https://github.com/collectivemedia/crpt-ui (Step 4 would take some time.)
-
 0. Open IntelliJ and click Open Project from the splash screen under Quick Start
 0. Navigate to the crpt-ui folder and select that folder.  And click Choose
 0. If it is the first time opening in IntelliJ, it will ask for what kind of project it is.  You would need to say it is a scala project and somewhere in the options there select SBT option
@@ -56,11 +56,11 @@ We follow git version control system here are few points, which as a developer y
 0. Once you made necessary changes in your branch as per ticket you are working on.
 0. Time to commit and push your changes.
 0. In order to commit your changes you need to do need to practice following steps:-
-    	Rebase your branch with current sprint branch.
-    	If your branch is behind from current sprint branch, you need to stash your changes.
-    	Pull current sprint changes and then rebase to your branch
-    	Then apply stash.
-    	Once you are done with above steps, you are good to go for commit.
+    * Rebase your branch with current sprint branch.
+    * If your branch is behind from current sprint branch, you need to stash your changes.
+    * Pull current sprint changes and then rebase to your branch
+    * Then apply stash.
+    * Once you are done with above steps, you are good to go for commit.
 0. After commit, open github.com on your browser, and you can create a PR (Pull Request) from there.
 0. Don’t forgot to mention team member/manager name, you like to review your PR before merge.
 0. After reviewing your PR by manager or team member, it will get merge to current sprint.
