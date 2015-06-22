@@ -20,6 +20,7 @@
             exports: 'angular'
         },
       'angular-cache': {deps: ['angular']},
+      'angular-switch': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
       'angular-route': {deps: ['angular-resource']},
@@ -166,6 +167,7 @@
       'angular': 'vendor/angular.min',
       'angular-resource': 'vendor/angular-resource.min',
       'angular-route': 'vendor/angular-route.min',
+      'angular-switch':'vendor/angular-ui-switch.min',
       'angular-cookies': 'vendor/angular-cookies',
       'angular-cache': 'vendor/angular-cache-2.3.7',
       'angular-sanitize': 'vendor/angular-sanitize',
@@ -313,6 +315,7 @@
           'jquery-ui',
            'bootstrap',
           'angular',
+          'angular-switch',
           'angular-resource',
           'angular-route',
           'angular-cookies',
