@@ -2244,11 +2244,14 @@
             format = "%d";
             timeDomainString = "quarter";
 
-            var calendar_height = tasks.length * 30.75;
+            var calendar_height = 0;
             var countBrands = 0;
             _.each(tasks, function(t){
-                if(t.type == "brand") {
+                if(t.type == "brand" && t.name!=" ") {
                     countBrands++;
+                    calendar_height += 55; //TODO: recalculation strategy for height
+                } else {
+                    calendar_height += 22;
                 }
             });
             
