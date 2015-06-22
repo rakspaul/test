@@ -107,7 +107,7 @@
 
                             <div class="each_col sec_col">
                                 <div class="sub_col">
-                                    <span>{{viewData.view_metrics.ias_imps_delivered | number:0}}</span>
+                                    <span>{{viewData.view_metrics.ias_imps_delivered | nrFormat}}</span>
                                 </div>
                             </div>
                             <div class="each_col third_col">
@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="each_col sec_col">
                                         <div class="sub_col">
-                                            <span>{{tactic.view_metrics.ias_imps_delivered | number:0}}</span>
+                                            <span>{{tactic.view_metrics.ias_imps_delivered | nrFormat}}</span>
                                         </div>
                                     </div>
                                     <div class="each_col third_col">
@@ -270,7 +270,7 @@
                             </div>
 
                             <div class="each_col sec_col">
-                                {{viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps   | number:0) : '-'}}
+                                {{viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_deliverable_imps   | nrFormat) : '-'}}
                             </div>
                             <div class="each_col third_col">
                                 <div class="sub_col">
@@ -317,7 +317,7 @@
                                         {{tactic.tactic_name}}
                                     </div>
                                     <div class="each_col sec_col">
-                                        {{tactic.view_metrics.video_viewability_metrics.videos_deliverable_imps    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_deliverable_imps | number:0) : '-'}}
+                                        {{tactic.view_metrics.video_viewability_metrics.videos_deliverable_imps    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}
                                     </div>
                                     <div class="each_col third_col">
                                         <div class="sub_col">
