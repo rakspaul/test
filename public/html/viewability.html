@@ -278,14 +278,15 @@
                                     <span>{{viewData.view_metrics.video_viewability_metrics.video_measurable_perc    > 0 ? (viewData.view_metrics.video_viewability_metrics.video_measurable_perc | number:2) : '-'}}%</span>
                                 </div>
                             </div>
+
                             <div class="each_col ad_col">
                                 <div class="clearfix played_ad">
-                                    <span ng-class="{'specific_ad_icon': viewData.view_metrics.video_viewability_metrics.videos_never_started > 0}"></span>
-                                    <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_never_started    > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_never_started | nrFormat) : '-'}}</span>
+                                    <span ng-class="{'specific_ad_icon': viewData.view_metrics.video_viewability_metrics.videos_played > 0}"></span>
+                                    <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_played  > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
                                 </div>
                                 <div class="clearfix next_val viewed_ad">
-                                    <span ng-class="{'specific_ad_icon': viewData.view_metrics.video_viewability_metrics.videos_played > 0}"></span>
-                                    <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_played    > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
+                                    <span ng-class="{'specific_ad_icon': viewData.view_metrics.video_viewability_metrics.videos_viewable_imps > 0}"></span>
+                                    <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_viewable_imps  > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
                             <div class="each_col sub_four_cols">
@@ -328,14 +329,15 @@
                                                </span>
                                         </div>
                                     </div>
+
                                     <div class="each_col ad_col">
                                         <div class="clearfix played_ad">
                                             <span ng-class="{'specific_ad_icon': tactic.view_metrics.video_viewability_metrics.videos_played > 0}"></span>
-                                            <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_played    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
+                                            <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_played > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
                                         </div>
                                         <div class="clearfix next_val viewed_ad">
-                                            <span ng-class="{'specific_ad_icon': tactic.view_metrics.video_viewability_metrics.videos_never_started > 0}"></span>
-                                            <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_never_started    > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_never_started | nrFormat) : '-'}}</span>
+                                            <span ng-class="{'specific_ad_icon': tactic.view_metrics.video_viewability_metrics.videos_viewable_imps > 0}"></span>
+                                            <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_viewable_imps > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormat) : '-'}}</span>
                                         </div>
                                     </div>
                                     <div class="each_col sub_four_cols">

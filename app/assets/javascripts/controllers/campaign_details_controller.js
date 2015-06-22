@@ -423,21 +423,21 @@
                     var vvData = responseData.view_metrics.video_viewability_metrics;
                     if(vvData) {
                         var videoMapper = [{
+                            'videos_played' : 0,
                             'videos_1q_completed': 25,
                             'videos_2q_completed': 50,
                             'videos_3q_completed': 75,
                             'videos_4q_completed': 100
-                        }, {'videos_1q_view': 25, 'videos_2q_view': 50, 'videos_3q_view': 75, 'videos_4q_view': 100}];
+                        }, {'videos_viewable_imps': 0, 'videos_1q_view': 25, 'videos_2q_view': 50, 'videos_3q_view': 75, 'videos_4q_view': 100}];
 
 
                         var _videoViewabilityMapperFunc = function (data, mapper, videoViewabilityDataToPlot) {
                             var mappedData = [];
                             _.each(data, function (value, key) {
-                                if (mapper[key]) {
+                                if (mapper.hasOwnProperty(key)) {
                                     mappedData.push({'video': mapper[key], 'values': value})
                                 }
                             });
-                            mappedData.push({'video': 0, 'values': data.videos_played});
                             videoViewabilityDataToPlot.push(_.sortBy(mappedData, 'video'));
                         }
                         for (var i in videoMapper) {
