@@ -2,9 +2,26 @@
 (function() {
     "use strict";
     commonModule.factory("line", function($timeout) {
-
+       var findKey = function(obj, value) {
+           var key;
+           _.each(obj, function(v, k) {
+               if (v === value) {
+                   key = k;
+               }
+           });
+           //if value exists return the corresponding Key else return value
+           return (key != undefined ? key.toUpperCase() : value.toUpperCase());
+       }
         var lineChart = function(lineDate, threshold, kpiType,chartFrom) {
             var kpiType = kpiType!='null' ? kpiType:'NA';
+            var kpiMap = {
+                        'cpc': 'gross_ecpc',
+                        'cpa': 'gross_ecpa',
+                        'cpm': 'gross_ecpm'
+                    };
+            if(chartFrom == 'tactics'){
+               kpiType =  findKey(kpiMap,kpiType);
+            }
             var data = [],
                 datObj = [];
                 switch(chartFrom) {
