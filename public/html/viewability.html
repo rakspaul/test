@@ -44,13 +44,10 @@
                     <!-- <div class="each_col first_col">
                         <span>Tactic</span>
                     </div> -->
-                    <div class="each_col sec_col">
-                        <span>{{ textConstants.IMPRESSIONS }}</span>
-
-                        <div class="sub_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_imps_delivered',sortType,sortReverse)" ng-click="sortType = 'view_metrics.ias_imps_delivered'; sortReverse = !sortReverse" >{{textConstants.DELIVERED}}</span>
-                            <!--<span>Total</span>-->
-                        </div>
+                    <div class="each_col sec_col viewability_delivered_col">
+                        
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_imps_delivered',sortType,sortReverse)" ng-click="sortType = 'view_metrics.ias_imps_delivered'; sortReverse = !sortReverse" >{{textConstants.DELIVERED_IMPS}}</span>
+                            
                     </div>
                     <div class="each_col third_col">
                         <span>{{textConstants.MEASURABLE}}</span>
