@@ -24,8 +24,12 @@
                             .scale(xScale)
                             .orient("bottom")
                             .tickValues(_config.keys.xAxis.tickValues)
-                            .tickFormat(function(d){
-                                return d ==0 ? d : (d +'%');
+                            .tickFormat(function(d, i){
+                                if(_config.showAxisLabel && i==0){
+                                    return "Ad start";
+                                } else{
+                                    return d ==0 ? d : (d +'%');
+                                }
                             });
 
                         var yAxisGen = d3.svg.axis()
@@ -117,24 +121,26 @@
                                 }
                             })
                         //plotting lables on chart
-                        var label = svg.selectAll(".labels"+ (_config.showPathLabel ? index : 0))
-                            .data(data)
-                            .enter().append("text")
-                            .attr("class", "labels")
-                            .attr("x", function(d) {
-                                return _config.xScale(d[xkeyVal]) - 10;
-                            })
-                            .attr("y", function(d) {
-                                return _config.yScale(d[ykeyVal]) - 10;
-                            })
-                            .text(function(d, i) {
-                                if(_config.showPathLabel) {
-                                    return d[ykeyVal] + '%';
-                                } else {
-                                    return i ===0 ? 'imps.'+ d[ykeyVal] :'';
-                                }
+                        if(index == 0) {
+                            var label = svg.selectAll(".labels" + (_config.showPathLabel ? index : 0))
+                                .data(data)
+                                .enter().append("text")
+                                .attr("class", "labels")
+                                .attr("x", function (d) {
+                                    return _config.xScale(d[xkeyVal]) - 10;
+                                })
+                                .attr("y", function (d) {
+                                    return _config.yScale(d[ykeyVal]) - 10;
+                                })
+                                .text(function (d, i) {
+                                    if (_config.showPathLabel) {
+                                        return d[ykeyVal] + '%';
+                                    } else {
+                                        return i === 0 ? 'imps.' + d[ykeyVal] : '';
+                                    }
 
-                            })
+                                })
+                        }
 
                     },
 
