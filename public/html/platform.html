@@ -21,7 +21,8 @@
                 <span>{{textConstants.VIEW_MODE}}</span>
                 <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
                 <span class="video_btn">
-                    <input type="checkbox" class="switch switch-inverse" data-label-on=" " data-label-off=" " ng-model="videoMode" />
+                   <!--  <input type="checkbox" class="switch switch-inverse" data-label-on=" " data-label-off=" " ng-model="videoMode" /> -->
+                    <switch ng-model="videoMode" ></switch>
                 </span>
 
                 <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
