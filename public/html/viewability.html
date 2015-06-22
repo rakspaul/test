@@ -23,7 +23,7 @@
         <!--<div  ng-show="viewData.hasVTCMetrics == true">-->
         <div class="view_mode_switch_container" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
-            <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
+            <span class="video_off_icon" ng-class="{'active':!videoMode}"></span>
             <span class="video_btn">
                 <input type="checkbox" class="switch switch-inverse" data-label-on=" " data-label-off=" " ng-model="videoMode" />
             </span>
@@ -281,11 +281,11 @@
 
                             <div class="each_col ad_col">
                                 <div class="clearfix played_ad">
-                                    <span ng-class="{'specific_ad_icon': viewData.view_metrics.video_viewability_metrics.videos_played > 0}"></span>
+                                    <span class="specific_ad_icon"></span>
                                     <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_played  > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
                                 </div>
                                 <div class="clearfix next_val viewed_ad">
-                                    <span ng-class="{'specific_ad_icon': viewData.view_metrics.video_viewability_metrics.videos_viewable_imps > 0}"></span>
+                                    <span class="specific_ad_icon"></span>
                                     <span class="ad_val">{{viewData.view_metrics.video_viewability_metrics.videos_viewable_imps  > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
@@ -307,7 +307,7 @@
                                 {{viewData.view_metrics.video_viewability_metrics.vtc   > 0 ?(viewData.view_metrics.video_viewability_metrics.vtc |number:2)  : '-'}}
                             </div>
                             <div class="each_col">
-                                {{viewData.view_metrics.video_viewability_metrics.video_susp_activity_perc   > 0 ?(viewData.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2)  : '-'}}%
+                                {{viewData.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2}}%
                             </div>
                         </div>
 
@@ -332,11 +332,11 @@
 
                                     <div class="each_col ad_col">
                                         <div class="clearfix played_ad">
-                                            <span ng-class="{'specific_ad_icon': tactic.view_metrics.video_viewability_metrics.videos_played > 0}"></span>
+                                            <span class="specific_ad_icon"></span>
                                             <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_played > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_played | nrFormat) : '-'}}</span>
                                         </div>
                                         <div class="clearfix next_val viewed_ad">
-                                            <span ng-class="{'specific_ad_icon': tactic.view_metrics.video_viewability_metrics.videos_viewable_imps > 0}"></span>
+                                            <span class="specific_ad_icon"></span>
                                             <span class="ad_val">{{tactic.view_metrics.video_viewability_metrics.videos_viewable_imps > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormat) : '-'}}</span>
                                         </div>
                                     </div>
@@ -358,7 +358,7 @@
                                         {{tactic.view_metrics.video_viewability_metrics.vtc   > 0 ?(tactic.view_metrics.video_viewability_metrics.vtc |number:2)  : '-'}}
                                     </div>
                                     <div class="each_col">
-                                        {{tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc   > 0 ?(tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2)  : '-'}}%
+                                        {{tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2}}%
                                     </div>
                                 </div>
                             </div>

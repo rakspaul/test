@@ -136,7 +136,7 @@
                                     if (_config.showPathLabel) {
                                         return d[ykeyVal] + '%';
                                     } else {
-                                        return i === 0 ? 'imps.' + d[ykeyVal] : '';
+                                        return i === 0 ? 'Imps.' + d[ykeyVal] : '';
                                     }
 
                                 })
