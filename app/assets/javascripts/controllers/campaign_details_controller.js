@@ -465,7 +465,8 @@
                                 },
                                 showPathLabel: false,
                                 showAxisLabel: true,
-                                axisLabel: ['Plays', 'Views']
+                                axisLabel: ['Plays', 'Views'],
+                                graphTooltip :true
                             }
                         }
 

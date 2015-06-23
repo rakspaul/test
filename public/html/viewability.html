@@ -303,7 +303,7 @@
                                 </div>
                             </div>
                             <div class="each_col">
-                                {{viewData.view_metrics.video_viewability_metrics.vtc   > 0 ?(viewData.view_metrics.video_viewability_metrics.vtc |number:2)  : '-'}}
+                                {{viewData.view_metrics.video_viewability_metrics.vtc |number:2}}%
                             </div>
                             <div class="each_col">
                                 {{viewData.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2}}%
@@ -354,7 +354,7 @@
                                         </div>
                                     </div>
                                     <div class="each_col">
-                                        {{tactic.view_metrics.video_viewability_metrics.vtc   > 0 ?(tactic.view_metrics.video_viewability_metrics.vtc |number:2)  : '-'}}
+                                        {{tactic.view_metrics.video_viewability_metrics.vtc |number:2}}%
                                     </div>
                                     <div class="each_col">
                                         {{tactic.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2}}%
