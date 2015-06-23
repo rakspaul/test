@@ -217,6 +217,10 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
+        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+            $scope.sortType = "platformType_aggregation."+args;
+            $scope.sortTypeSubSort ="tactic."+args;
+        });
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';

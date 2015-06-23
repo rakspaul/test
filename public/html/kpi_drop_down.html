@@ -27,7 +27,7 @@
     </div>
     </ul>
     <div  ng-if="whichCaller.changedrpval == 'yes'" class="direction_arrows" >
-        <div ng-repeat="kpidir in kpiData.newkpiDropDownAlt track by $index" value="{{kpidir}}">&nbsp;</div>
+        <div ng-repeat="kpidir in kpiData.newkpiDropDownAlt track by $index" ><div  ng-class="arrowPositionFunction()" class="kpi_arrow_sort" value="{{kpidir}}">&nbsp;</div></div>
     </div>
     <div  ng-if="whichCaller.changedrpval != 'yes'" class="direction_arrows" >
         <div ng-repeat="kpidir2 in kpiData.kpiDropDown track by $index" ><div ng-class="arrowPositionFunction()" class="kpi_arrow_sort" value="{{kpidir2}}">&nbsp;</div></div>

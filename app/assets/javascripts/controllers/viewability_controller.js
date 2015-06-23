@@ -159,7 +159,13 @@ var angObj = angObj || {};
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
         };
-        
+
+
+        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+            $scope.sortType = "view_metrics."+args;
+            $scope.sortTypeSubSort ="tactic."+args;
+        });
+
     });
 
 
