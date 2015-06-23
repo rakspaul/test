@@ -2254,13 +2254,6 @@
                     calendar_height += 22;
                 }
             });
-            
-            //new height after changing brand placement 
-            calendar_height = calendar_height - (countBrands * BRAND_PADDING);
-
-            calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
-
-            gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
 
             var margin = {
                 top: 20,
@@ -2268,6 +2261,13 @@
                 bottom: 20,
                 left: 50
             };
+
+            //new height after changing brand placement 
+            calendar_height = calendar_height - (countBrands * BRAND_PADDING) + (margin.top + margin.bottom + 5);
+
+            calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
+            gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+
             gantt.isSingleBrand(singleBrand);
 
             gantt.margin(margin);
