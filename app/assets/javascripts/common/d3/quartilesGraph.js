@@ -120,6 +120,19 @@
                                     return _config.yScale(d[ykeyVal]);
                                 }
                             })
+
+                        if(_config.graphTooltip) {
+                            var graphTooltip = d3.selectAll(".graphTooltip");
+                            circles.on('mouseover', function(d){
+                                graphTooltip.style("opacity", .9).html(d.values)
+                                graphTooltip.style("left", (d3.mouse(this)[0]) + "px")
+                                    .style("top", (d3.event.pageY - 28) + "px");
+                            }).on('mouseout', function(d){
+                                graphTooltip.transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
+                            });
+                        }
                         //plotting lables on chart
                         if(index == 0) {
                             var label = svg.selectAll(".labels" + (_config.showPathLabel ? index : 0))
@@ -171,7 +184,7 @@
                                 svg.append('circle')
                                     .attr({
                                         'cx': width/2 - (i===0 ? 25 : -25),
-                                        'cy': height + margin.bottom + 5,
+                                        'cy': height + margin.bottom + 15,
                                         'r' : 5,
                                         'class' : 'labelCircle'+i
                                     })
@@ -179,7 +192,7 @@
                                 svg.append("text")
                                     .attr({
                                         "text-anchor": "middle",
-                                        "transform": "translate("+ ((width/2) + (i===0 ? 0 : 50) )+","+(height + margin.bottom*1.5)+")",
+                                        "transform": "translate("+ ((width/2) + (i===0 ? 0 : 50) )+","+(height + margin.bottom*2)+")",
                                         "class" : 'labelText'+i
                                     })
                                     .text(label);
@@ -223,7 +236,8 @@
                     keys : lineData.keys,
                     showPathLabel : lineData.showPathLabel,
                     showAxisLabel : lineData.showAxisLabel,
-                    axisLabel : lineData.axisLabel
+                    axisLabel : lineData.axisLabel,
+                    graphTooltip : lineData.graphTooltip
                 })
 
                 lineChartService.setChartParameters();
