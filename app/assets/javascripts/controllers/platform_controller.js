@@ -261,7 +261,11 @@ var angObj = angObj || {};
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.selected_filters2 = {};
             $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
+            /*alert(kpiSelectModel.getSelectedKpi());*/
             /*$scope.sortType    = "platformType_aggregation."+kpiSelectModel.getSelectedKpi();*/
+        });
+        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+            $scope.sortType    = "platformType_aggregation."+args;
         });
 
         $scope.sortClassFunction = function (a,b,c) {
