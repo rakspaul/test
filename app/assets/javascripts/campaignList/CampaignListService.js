@@ -493,10 +493,10 @@
                 },
 
                 //should be moved to costservice inside cost module later
-                getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success) {
+                getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success, failure) {
                     var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
                     var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);
-                    return dataService.fetchCancelable(url, canceller, success);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
                 //should be moved to campaign details service
