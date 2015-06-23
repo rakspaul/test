@@ -126,7 +126,7 @@
                             circles.on('mouseover', function(d){
                                 graphTooltip.style("opacity", .9).html(d.values)
                                 graphTooltip.style("left", (d3.mouse(this)[0]) + "px")
-                                    .style("top", (d3.event.pageY - 28) + "px");
+                                    .style("top", (d3.mouse(this)[1] + 28) + "px");
                             }).on('mouseout', function(d){
                                 graphTooltip.transition()
                                     .duration(500)
