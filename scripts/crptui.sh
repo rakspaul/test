@@ -14,6 +14,7 @@ echo "CRPT UI SnapShot unzipped."
 
 CONF_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.conf
 CONF_QA_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application_qa.conf
+CONF_EWR_QA_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_qa.conf
 CONF_EWR_STG_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_stg.conf
 CONF_EWR_PROD_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application.ewr_prod.conf
 CONF_PROD_FILE=/tmp/crpt-ui-1.0-SNAPSHOT/conf/application_prod.conf
@@ -29,6 +30,14 @@ then
   sudo chmod 755 /etc/init.d/crpt-ui
   sudo chkconfig --add crpt-ui
   sudo /etc/init.d/crpt-ui start
+elif [ $CDESK_ENV == "ewr_qa" ]
+then
+  echo "Its EWR QA environment !!!"
+  cp ${CONF_EWR_QA_FILE} ${CONF_FILE}
+  cp /tmp/crpt-ui-1.0-SNAPSHOT/scripts/crpt-ui-runit.sh  /tmp/crpt-ui-1.0-SNAPSHOT/bin/crpt-ui-runit.sh
+  cp -r /tmp/crpt-ui-1.0-SNAPSHOT/* /home/amp/crpt-ui/
+  rm -Rvf /tmp/crpt-ui-1.0-SNAPSHOT
+  /sbin/sv t crpt-ui
 elif [ $CDESK_ENV == "ewr_stg" ]
 then
   echo "Its EWR Staging environment !!!"
