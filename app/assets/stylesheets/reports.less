@@ -552,32 +552,90 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   padding: 0 30px;
   height: 24px;
 }
+.inventory_header {
+  margin-top: 30px ;
+}
 .reports_header_tabs_holder {
+  display: none;
+  position: absolute;
+  top: 40px ;
+  left: -20px ;
   font-family: "Avenir";
-  font-size: 14px;
-  color: #434648;
-  height: 44px;
+  font-size: 12px;
+  background: #1477B6 ;
+  color: #fff;
+  z-index: 30;
   border-bottom: solid 1px #e5ecef ;
-  padding-top: 10px;
   margin-bottom: 40px;
-  span {
-    display: inline-block;
-    margin-right: 60px;
-    padding-bottom: 8px;
-    border-bottom: solid 2px transparent;
+  min-width: 350px;
+  .header_tab_dd_subheading {
+    padding-left: 20px ;
+    color: #84bce4 ;
+    text-transform: none;
+    font-size: 13px;
+    padding-bottom: 5px;
     cursor: default;
-    margin-top: 4px ;
-    a {
-      text-decoration: none;
-      color: #434648;
+  }
+  .reports_sub_menu_dd_holder {
+    display: table ;
+    .reports_sub_menu_dd {
+      display: table-cell;
+      padding: 20px 0 ;
+      width: 250px ;
     }
   }
-  span.active_tab {
-    border-bottom: solid 2px #4eabef;
+  .custom_container {
+    width: 200px;
+    background-color: #17689B;
+  }
+  .circle_with_number {
+    height: 13px;
+    min-width: 18px;
+    background-color: #6EC3FA;
+    color: #fff;
+    border-radius: 6px;
+    display: inline-block;
+    text-align: center;
+    font-size: 10px;
+    line-height: 13px;
+    margin-left: 5px;
+    padding: 0px 5px;
+  }
+  .new_report_generate_btn {
+    border: solid 1px #1998EA;
+    padding: 10px 0px;
+    color: #fff;
+    text-transform: uppercase;
+    width: 130px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    margin: 30px auto 0;
+  }
+  .header_tab_dropdown {
+    padding: 5px 20px ;
+    a {
+      text-decoration: none;
+      color: #fff;
+      text-transform: none;
+    }
+  }
+  .active_tab {
+    /*border-bottom: solid 2px #4eabef;*/
     a {
       text-decoration: none;
     }
   }
+}
+.reports_sub_menu_dd_holder:before {
+  background: url("/assets/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom;
+  content: "";
+  display: block;
+  height: 10px;
+  width: 20px;
+  position: absolute;
+  top: -10px;
+  left: 10%;
 }
 .reports_main_page_holder {
   margin: 0px auto 80px;

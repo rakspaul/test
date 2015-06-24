@@ -1,4 +1,5 @@
 <div class="main_navigation_holder" ng-controller="headerController">
+  
   <div class="main_nav clearfix">
     <div class="pull-left">
       <a href="/" class="main_logo" id="logo"></a>
@@ -12,6 +13,9 @@
       </div>
       <div class="pull-left each_nav_link" id="reports_nav_link">
         <a href="/performance">{{textConstants.REPORTS}}</a>
+        <div class="reports_header_tabs_holder clearfix">
+              <report-tabs></report-tabs>
+        </div>
       </div>
     </div>
     <div class="pull-right profile_menu">

@@ -2688,12 +2688,21 @@ button, i, input[type="submit"] {
       }
       .each_nav_link {
         margin: 0 30px  ;
-        a {
+        > a {
           text-decoration: none;
           color: #84bce4 ;
         }
         a:hover  {
           color: #fff ;
+        }
+      }
+      #reports_nav_link {
+        position: relative;
+        height: 40px ;
+      }
+      #reports_nav_link:hover {
+        .reports_header_tabs_holder {
+          display: block;
         }
       }
       .active {

@@ -1,6 +1,24 @@
-<div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div>
-<div class="pull-left">
-        <span ng-repeat="tab in filters.tabs track by $index" ng-class="{'active_tab': tab.href == filters.activeTab}">
-            <a ng-href="/{{tab.href}}" id="performance_tab_{{tab.href}}" > {{tab.title}}</a>
-        </span>
+<!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
+<div class="clearfix reports_sub_menu_dd_holder">
+	<div class="reports_sub_menu_dd canned_container">
+		<div class="header_tab_dd_subheading">Canned</div>
+		<div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == filters.activeTab}">
+		    <a ng-href="/{{tab.href}}" id="performance_tab_{{tab.href}}" > {{tab.title}}</a>
+		</div>
+	</div>
+	<div class="reports_sub_menu_dd custom_container">
+		<div class="header_tab_dd_subheading">Custom</div>
+		<div class="header_tab_dropdown">
+			<a href="javascript:void(0);">Scheduled</a>
+			<span class="circle_with_number">2</span>
+		</div>
+		<div class="header_tab_dropdown">
+			<a href="javascript:void(0);">Collective</a>
+			<span class="circle_with_number">5</span>
+		</div>
+		<div class="new_report_generate_btn">
+			+ New Report
+		</div>
+	</div>
 </div>
+
