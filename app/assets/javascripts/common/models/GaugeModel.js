@@ -12,8 +12,9 @@
         var active = response.data.data.active;
         var completed = response.data.data.completed;
         var na = response.data.data.na ;
+        var ready = response.data.data.ready , draft = response.data.data.draft, paused = response.data.data.paused ;
 
-        var totalCampaigns = active.total + completed.total + na.total ;
+        var totalCampaigns = active.total + completed.total + na.total + ready + draft + paused ;
         var onTrack = active.ontrack + completed.ontrack + na.ontrack ;
         var underPerforming = active.underperforming + completed.underperforming + na.underperforming ;
         var others = active.others + completed.others + na.others ;
