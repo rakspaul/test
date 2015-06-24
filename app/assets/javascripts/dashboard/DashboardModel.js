@@ -19,7 +19,9 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
         var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);
 
        return dataService.fetchCancelable(url, canceller, function(response) {
-           var totalCampaigns =  response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total ;
+           var ready = response.data.data.ready , draft = response.data.data.draft, paused = response.data.data.paused ;
+           var totalCampaigns =  response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
+
            dashboardData.totalCampaigns = totalCampaigns ;
 
            dashboardData.totalBrands = response.data.data.brands.total;
