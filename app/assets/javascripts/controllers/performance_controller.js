@@ -201,9 +201,9 @@ var angObj = angObj || {};
         });
 
         $scope.$on('dropdown-arrow-clicked', function(event, args) {
-            $scope.sortType = "platformType_aggregation."+args;
+            $scope.sortType = args;
             $scope.sortTypeSubSort ="tactic."+args;
-           /* $scope.sortReverse  = reverse;*/
+            $scope.sortReverse  = !$scope.sortReverse;
         });
 
         $scope.sortClassFunction = function (a,b,c) {

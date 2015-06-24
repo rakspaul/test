@@ -164,6 +164,7 @@ var angObj = angObj || {};
         $scope.$on('dropdown-arrow-clicked', function(event, args) {
             $scope.sortType = "view_metrics."+args;
             $scope.sortTypeSubSort ="tactic."+args;
+            $scope.sortReverse  = !$scope.sortReverse;
         });
 
     });
