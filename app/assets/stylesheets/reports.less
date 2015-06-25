@@ -558,19 +558,19 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_header_tabs_holder {
   display: none;
   position: absolute;
-  top: 40px ;
+  top: 43px ;
   left: -20px ;
   font-family: "Avenir";
   font-size: 12px;
-  background: #1477B6 ;
+  background: #026db3 ;
   color: #fff;
   z-index: 30;
   border-bottom: solid 1px #e5ecef ;
   margin-bottom: 40px;
   min-width: 350px;
   .header_tab_dd_subheading {
-    padding-left: 20px ;
-    color: #84bce4 ;
+    padding-left: 30px ;
+    opacity: 0.3 ;
     text-transform: none;
     font-size: 13px;
     padding-bottom: 5px;
@@ -580,40 +580,69 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     display: table ;
     .reports_sub_menu_dd {
       display: table-cell;
-      padding: 20px 0 ;
+      padding: 27px 0 20px ;
       width: 250px ;
     }
   }
   .custom_container {
-    width: 200px;
-    background-color: #17689B;
+    background-color: #02609e ;
+    .header_tab_dd_subheading {
+      padding-left: 40px ;
+    }
+    .header_tab_dropdown {
+      padding: 5px 40px ;
+    }
   }
   .circle_with_number {
-    height: 13px;
+    height: 15px;
     min-width: 18px;
-    background-color: #6EC3FA;
+    background-color: #6ebef8;
     color: #fff;
-    border-radius: 6px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
     display: inline-block;
     text-align: center;
     font-size: 10px;
-    line-height: 13px;
+    line-height: 15px;
     margin-left: 5px;
     padding: 0px 5px;
+    cursor: default;
   }
   .new_report_generate_btn {
-    border: solid 1px #1998EA;
+    display: block;
+    border: solid 1px #2c9aec;
     padding: 10px 0px;
     color: #fff;
     text-transform: uppercase;
-    width: 130px;
+    font-size: 11px;
+    width: 120px;
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
-    margin: 30px auto 0;
+    margin: 25px auto 0;
+    text-shadow: 0px 0px 0px transparent;
+    line-height: 17px;
+    transition : .  1s ;
+    -webkit-transition : .1s ;
+    -moz-transition  : .1s ;
+    .icon {
+      float: left;
+      display: inline-block;
+      background: url("/assets/images/cdesk/plus_button.png") no-repeat center center ;
+      margin: 0 6px 0 10px;
+      height: 16px ;
+      width: 16px ;
+    }
+    .icon_txt {
+      float: left;
+    }
+    &:hover {
+      background: #0978c9 ;
+    }
   }
   .header_tab_dropdown {
-    padding: 5px 20px ;
+    padding: 5px 30px ;
     a {
       text-decoration: none;
       color: #fff;
@@ -635,7 +664,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   width: 20px;
   position: absolute;
   top: -10px;
-  left: 10%;
+  left: 12%;
 }
 .reports_main_page_holder {
   margin: 0px auto 80px;
