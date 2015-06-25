@@ -36,7 +36,7 @@
                             <div class="duration"  ng-if="(tactic.ad_size!='null' && tactic.ad_size!='' && tactic.ad_size.length > 0  )">
                                 <!--<span class="device-icon {{tactic.media_type_icon}}"></span>-->
                                 <!-- <span>{{(tactic.ad_size ? (tactic.ad_size | truncateString : 50) :'[...]')}}</span> -->
-                                <targeting-icon-with-hover class-name="device-icon {{tactic.media_type_icon}}" txt="{{tactic.ad_size}}" ></targeting-icon-with-hover>
+                                <targeting-icon-with-hover class-name="device-icon {{tactic.media_type_icon}}" txt="{{tactic.ad_size.join()}}" ></targeting-icon-with-hover>
                             </div>
                         </div>
                     </div>
