@@ -6,6 +6,9 @@
 
     var searchCriteria = utils.typeaheadParams;
 
+    $scope.textConstants = constants;
+
+
     //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
     $scope.exhausted = false;
     //This prevents from making too many calls during immediate scroll down.

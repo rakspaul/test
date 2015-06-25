@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignDashboard', function (utils) {
+    angObj.directive('campaignDashboard', function (utils,constants) {
         return {
             restrict:'EAC',
 
@@ -11,6 +11,8 @@
             templateUrl: assets.html_campaign_dashboard,
 
             link: function ($scope, element, attrs) {
+
+                $scope.textConstants = constants;
 
                 $scope.getPendingWidth = function() {
                     var _total = $scope.campaigns.dashboard.pending ? $scope.campaigns.dashboard.pending.total : 0;

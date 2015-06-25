@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel , requestCanceller, constants, loginModel) {
+    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel , requestCanceller, constants, loginModel) {
 
         var bubbleWidgetData = {
             brandData : {},
@@ -12,7 +12,7 @@
         };
 
         this.getBubbleChartData = function () {
-            var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId());
+            var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), dashboardModel.getData().selectedStatus);
             var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 
@@ -38,7 +38,7 @@
 
        // getBubbleChartDataForCampaign
         this.getBubbleChartDataForCampaign = function (selectedBrand) {
-            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand);
+            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand, dashboardModel.getData().selectedStatus);
             var canceller = requestCanceller.initCanceller(constants.BUBBLE_CHART_CAMPAIGN_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 
@@ -66,7 +66,7 @@
 
         // So that user can fire paraller request to fetch campaigns of a brands.
         this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
-            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand);
+            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand, dashboardModel.getData().selectedStatus);
             return dataService.fetch(url).then(function(response) {
 
                 var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
@@ -90,5 +90,5 @@
         };
 
     };
-    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants' , 'loginModel' , bubbleChartData]);
+    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel','requestCanceller', 'constants' , 'loginModel' , bubbleChartData]);
 }());

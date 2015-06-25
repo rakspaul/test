@@ -37,11 +37,20 @@
         };
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            $scope.refresh();
+        });
+
+        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
+            $scope.refresh();
+        });
+
+
+        $scope.refresh = function(){
             d3.select("#screen_svg").remove();
             //$("#data_not_available_screen").hide();
             screenChartModel.getScreenWidgetData()['chartData']={};
             getScreenAndFormatData();
-        });
+        };
 
       $scope.$on('SCREEN_DATA_NOT_AVAILABLE', function() {
         $scope.dataFound = false;
@@ -54,8 +63,10 @@
         };
 
         $scope.formatDropdownChange = function(obj){
-          if(!$scope.dataFound)
-            return;
+          if(!$scope.dataFound) {
+              screenChartModel.setScreenWidgetFormat(obj);
+              return;
+          }
             $("#screens").hide();
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
@@ -65,8 +76,10 @@
         };
 
         $scope.metricDropdownChange = function(obj){
-          if(!$scope.dataFound)
-            return;
+          if(!$scope.dataFound) {
+              screenChartModel.setScreenWidgetMetric(obj);
+              return;
+          }
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());

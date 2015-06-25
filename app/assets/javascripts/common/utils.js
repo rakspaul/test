@@ -92,6 +92,30 @@
       }
       return results;
     };
+    var VTCpopupfunc = function(event,flag){
+      var elem = $(event.target);
+      elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").show() ;
+      if(flag == 1){
+          var left_pos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().left ;
+          var vtc_container = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").outerWidth()/2 ;
+          var vtc_btn_container = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").outerWidth()/2 ;
+
+          var left_pos_number = left_pos - vtc_container + vtc_btn_container ;
+          elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css( {"left" : left_pos_number , "display" : "block" }) ;
+          
+          if( elem.closest(".tactics_container").length == 0 ) {
+             var top_pos  = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().top ;
+             elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css("top" , top_pos - 189 ) ;
+          } else {
+            var childPos = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset();
+            var parentPos = elem.closest(".tactics_linkage_lines").offset();
+            var left_pos_tactic = childPos.left - parentPos.left  - vtc_container + vtc_btn_container  ;
+            elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css({"left" : left_pos_tactic ,"top" : childPos.top - parentPos.top - 189 , "display" : "block" }) ;
+          }
+      }else{
+          elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").hide() ;
+      }
+    }
     var detectBrowserInfo = function() {
     var nVer = navigator.appVersion;
     var nAgt = navigator.userAgent;
@@ -185,7 +209,8 @@
       highlightSearch: highlightSearch,
       typeaheadParams: getTypeaheadParams(),
       getParameterByName : getParameterByName,
-      detectBrowserInfo : detectBrowserInfo
+      detectBrowserInfo : detectBrowserInfo,
+      VTCpopupfunc : VTCpopupfunc,
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -383,8 +408,18 @@ angObj.directive('truncateTextWithHover', function () {
       '<span  ng-show="(txt.length <= txtLength)">' +
       '{{txt}}</span>'*/
         template:'<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" >{{txt|limitTo:txtLength}} ...</span>' +
-      '<span  ng-show="(txt.length <= txtLength)">' +
+      '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
       '{{txt}}</span>'
+    };
+  });
+  angObj.directive('targetingIconWithHover', function () {
+    return{
+      restrict: 'AE',
+      scope: {
+        txt: "@txt",
+        className: "@className"
+      },
+      template:'<span ng-show="(txt.length > 0 )" tooltip-placement="bottom" tooltip="{{txt}}" class="{{className}}"></span>'
     };
   });
   angObj.filter('spliter', function () {
@@ -393,13 +428,13 @@ angObj.directive('truncateTextWithHover', function () {
       return input.split(' ')[splitIndex];
     }
   });
-  angObj.filter('kpiFormatter', function ($filter) {
+  angObj.filter('kpiFormatter', function ($filter,constants) {
     return function (input, kpiType, precision) {
       if (input && kpiType) {
         if (kpiType.toLowerCase() == 'ctr') {
           return $filter('number')(input, 2) + '%';
         } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
-          return '$' + $filter('number')(input, 2);
+          return constants.currencySymbol + $filter('number')(input, 2);
         } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
           return $filter('number')(input, 0);
         } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
@@ -467,6 +502,7 @@ angObj.directive('truncateTextWithHover', function () {
       return symbol + input;
     }
   });
+
   angObj.filter('truncateString', function () {
     return function (input, stringLength) {
       if(input === undefined) {
@@ -481,6 +517,16 @@ angObj.directive('truncateTextWithHover', function () {
       return Math.round(input * factor) / factor;
     }
   });
+
+  angObj.filter('vtcRoundOff', function () {
+    return function (input, places) {
+      places = input >1 ? 0 : places;
+      var factor = Math.pow(10, places);
+      return Math.round(input * factor) / factor;
+    }
+  });
+
+
   angObj.filter('displayActionSubtypes', function () {
     return function (actionSubTypes) {
       if (actionSubTypes === undefined) {
@@ -551,7 +597,7 @@ angObj.directive('truncateTextWithHover', function () {
       }
     }
   });
-  angObj.filter('appendDollor', function () {
+  angObj.filter('appendDollor', function (constants) {
     return function (val, type) {
         if (val === undefined || val === "" || val === "null") {
             return 'NA';
@@ -559,12 +605,12 @@ angObj.directive('truncateTextWithHover', function () {
         else if (type.toLowerCase() === "delivery (impressions)")
             return (val.toFixed(2)).toLocaleString();
         else {
-            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : '$' + val.toFixed(2);
+            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : constants.currencySymbol + val.toFixed(2);
         }
     }
   });
     // This is used in tooltip for optimization tab
-    angObj.filter('appendDollarWithoutFormat', function () {
+    angObj.filter('appendDollarWithoutFormat', function (constants) {
        // console.log("append dollar without format");
         return function (val, type) {
             if (val === undefined || val === "" || val === "null") {
@@ -573,7 +619,7 @@ angObj.directive('truncateTextWithHover', function () {
             else if (type.toLowerCase() === "delivery (impressions)")
                 return val.toLocaleString();
             else {
-                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat((val*100).toFixed(6)) + '%' : '$' + parseFloat((val).toFixed(6)) ;
+                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat((val*100).toFixed(6)) + '%' : constants.currencySymbol + parseFloat((val).toFixed(6)) ;
             }
         }
     });
@@ -620,9 +666,9 @@ angObj.directive('truncateTextWithHover', function () {
   angObj.filter("nrFormat", function () {
     return function (value, key) {
       var y = Math.abs(value);
-
+      key =  key || 0;
       if(y < 9999) {
-        return value;
+        return value.toFixed(key);
       }
 
       if(y < 1000000) {
@@ -663,4 +709,34 @@ angObj.directive('truncateTextWithHover', function () {
     });
     return this;
   };
+
+
+// i18n of currency fails when the currency symbol comes at the end of the value
+  angObj.filter("nrFormatWithCurrency", function ($filter) {
+    return function (value, key) {
+      var y = Math.abs(value);
+
+      if(y < 9999) {
+        return $filter('currency')(value.toFixed(2));
+      }
+
+      if(y < 1000000) {
+        return $filter('currency')((value/1000).toFixed(2)) + "K";
+      }
+      if( y < 10000000) {
+        return $filter('currency')((value/1000000).toFixed(2)) + "M";
+      }
+
+      if(y < 1000000000) {
+        return $filter('currency')((value/1000000).toFixed(2)) + "M";
+      }
+
+      if(y < 1000000000000) {
+        return $filter('currency')((value/1000000000).toFixed(2)) + "B";
+      }
+
+      return "1T+";
+    };
+  });
+
 }());

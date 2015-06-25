@@ -2,6 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+        $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -10,6 +11,10 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
         $scope.api_return_code = 200;
+        $scope.videoMode = $scope.selectedCampaign.redirectWidget === "videoViewability" ||  false;
+
+        $scope.sortType     = 'tactic.view_metrics.measurable_imps'; // set the default sort type
+        $scope.sortReverse  = false; // set the default sort order
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
@@ -36,7 +41,6 @@ var angObj = angObj || {};
             tactics: null,
             domains: null,
             publishers: null,
-            exchanges: null
         };
 
         $scope.init = function (){
@@ -51,40 +55,16 @@ var angObj = angObj || {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-
         };
 
         $scope.init();
-
-        $scope.tacticViewData = function (param, strategiesList) {
-            $scope.tacticBusy = true;
-            var errorHandler = function() {
-                $scope.tacticBusy =false;
-            }
-            viewablityService.getTacticsViewData(param).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-
-                    $scope.tacticBusy = false;
-                    strategiesList.tacticsList = result.data.data[0].tactics;
-                    $scope.viewData = strategiesList;
-
-                } // Means no strategy data found
-                else {
-                    errorHandler();
-                }
-            }, errorHandler);
-        };
-
-
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
             var strategiesList = {};
             $scope.strategyBusy = true;
-            $scope.tacticBusy = false;
             var errorHandler = function() {
                 $scope.dataNotFound = true;
                 $scope.strategyBusy = false;
-                $scope.tacticBusy = false;
             }
             $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
@@ -96,11 +76,7 @@ var angObj = angObj || {};
                     $scope.strategyBusy = false;
                     if (strategiesList) {
                         $scope.dataNotFound = false;
-                        if(param.strategyId) {
-                            $scope.tacticBusy = true;
-                            $scope.tacticViewData(param, strategiesList);
-                        }$scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
-
+                        $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
                     } else {
                         errorHandler();
                     }
@@ -136,11 +112,6 @@ var angObj = angObj || {};
                     'report_url' : urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_publisher',
                     'label' : 'Viewability by Publisher'
-                },
-                {
-                    'report_url' : urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter,
-                    'report_name' : 'by_exchange',
-                    'label' : 'Viewability by Exchange'
                 }
             ];
         };
@@ -156,7 +127,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Compaign total' : 'Strategy total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
             $scope.callBackStrategyChange();
         });
 
@@ -182,6 +153,13 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
         });
+
+        $scope.sortClassFunction = function (a,b,c) {
+            var isActive = (a === b ) ?  'active' : '';
+            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            return isActive + " " + sortDirection;
+        };
+        
     });
 
 
