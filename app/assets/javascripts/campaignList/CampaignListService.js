@@ -116,8 +116,8 @@
                             filterEndDate = campaign.endDate;
                     }
 
-                    getTacticsCdbLineChart(index, tacticObj, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate, function(tacticMetrics) {
-                        getTacticsMetrics(index, tacticObj, tacticMetrics);
+                    getTacticsCdbLineChart(index, tacticObj, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate, function(tacticMetrics, idx) {
+                        getTacticsMetrics(idx, tacticObj, tacticMetrics);
                     });
                 }
                 return tacticObj;
@@ -185,7 +185,7 @@
                         if(sKpiType != undefined || sKpiType != null) {
                             if(result.data.data.length > 0) {
                                 var maxDays = result.data.data;
-                                callback && callback(_.last(maxDays));
+                                callback && callback(_.last(maxDays), obj);
                                 for (var i = 0; i < maxDays.length; i++) {
                                     maxDays[i]['ctr'] *= 100
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
