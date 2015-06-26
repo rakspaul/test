@@ -1,9 +1,10 @@
 (function () {
   'use strict';
-    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location) {
+    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
+        $scope.filters = domainReports.getReportsTabs();
 
         $scope.showProfileMenu = function() {
             $("#profileDropdown").toggle();
