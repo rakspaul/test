@@ -66,7 +66,7 @@
 
                         })
 
-                        this.drawPath(data, index);
+                        //this.drawPath(data, index);
                     },
 
 
