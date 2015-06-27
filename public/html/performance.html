@@ -40,13 +40,18 @@
                                 {{textConstants.FORMATS}}
                             </div>
                         </div>
+
+                        <div class="each_tab cost_tab " id="bycreatives">
+                            <div class="each_tab_text">
+                                Creative
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <!-- -------END :  Performance Tabs ------------------------ -->
 
                 <!-- -------START :  Screen Block ----------------------------- -->
-                
-
                 
                 <div ng-class="strategyPerfDataByScreen.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="display:block;">
                     <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
@@ -87,7 +92,7 @@
                     <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
                         <div class="clearfix reports_performance_header">
-                            <daysofweek-header></daysofweek-header>
+                          <daysofweek-header></daysofweek-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
@@ -152,6 +157,46 @@
                     </div>
                 </div>
                 <!-- -------END :  Format Block ----------------------------- -->
+
+                <!-- -------START :  Creative Block ----------------------------- -->
+                <!-- -------START :  Days of week Block ----------------------------- -->
+                <div  id="reports_bycreatives_block" ng-class="strategyPerfDataByCreatives.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
+
+
+                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" >
+                        <div class="clearfix reports_performance_header">
+                           <creatives-header></creatives-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder">
+                                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByCreatives.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col" style="width:100%">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Days of week Block ----------------------------- -->
+
+
             </div>
         </div>
         <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>
@@ -308,5 +353,45 @@
         {{formatData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
+</script>
+
+<script type="text/ng-template" id="CreativesTpl">
+    <div class="each_col sec_col">
+        <!--{{creativesData.dimension}}-->
+        {{creativesData.ctr*100 | number:2}}%
+    </div>
+    <div class="each_col third_col">
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        {{creativesData.ctr*100 | number:2}}%
+    </div>
+    <span  ng-if="strategyPerfDataByCreatives.hasVTCMetrics">
+    <div class="vid_data_hdr">
+        <div>
+            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_25 > 0 ? (creativesData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_50 > 0 ? (creativesData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_75 > 0 ? (creativesData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_100 > 0 ? (creativesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+        </div>
+    </div>
+    </span>
+
+
+
+
+    <div class="each_col forth_col">
+        {{creativesData.ctr*100 | number:2}}%
+    </div>
+    <div class="each_col fifth_col">
+        {{creativesData.action_rate*100 | number:2}}%
+    </div>
+
+    <div class="each_col sixth_col">
+        {{creativesData.cpa | currency:undefined:2}}
+    </div>
+    <div class="each_col seventh_col">
+        {{creativesData.cpc | currency:undefined:2}}
+    </div>
+
+
 </script>
 

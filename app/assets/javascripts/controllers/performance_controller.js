@@ -37,7 +37,7 @@ var angObj = angObj || {};
 
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
-        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}];
+        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}];
 
         $scope.download_urls = {
             screens: null,
@@ -160,6 +160,7 @@ var angObj = angObj || {};
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
+            $scope.strategyPerfDataByCreatives = [];
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
