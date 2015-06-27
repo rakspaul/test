@@ -213,8 +213,10 @@
                         });
 
                         var that = this;
+                        that.createVariablesToDrawGraph(_config.dataToPlot[0]);
+
                         _.each(_config.dataToPlot, function(data, idx) {
-                            that.createVariablesToDrawGraph(data, idx);
+                            that.drawPath(data, idx);
                         })
                     },
 
