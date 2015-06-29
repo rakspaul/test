@@ -18,7 +18,6 @@
                 scope.barData = chartData;
 
                 var widgetName = scope.barData.widgetName.toLowerCase();
-                console.log(widgetName);
                 var widgetElem = elem.find(".barChartWidget");
                 var containerWidthScreen = elem.parent().width();
                 var barChatPlotData =  _.pluck(chartData.data, 'value'),
@@ -29,8 +28,6 @@
                     heightScreen = bar_heightScreen + 50;
 
                 var xScreen, yScreen;
-                console.log("barChatPlotData--->");
-                console.log(barChatPlotData);
                 xScreen = d3.scale.linear()
                     .domain([0, d3.max(barChatPlotData)])
                     .range([0, widthScreen]);
@@ -38,8 +35,6 @@
                 yScreen = function (iScreen) {
                     return bar_heightScreen * iScreen;
                 }
-                console.log('widgetElem-->')
-                console.log(widgetElem);
                 chartScreen = d3.select(widgetElem[0])
                     .append('svg')
                     .attr('class', 'chart')
