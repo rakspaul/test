@@ -3350,8 +3350,38 @@ only screen and (min-device-pixel-ratio: 2) {
   .container {
     width: 1040px ;
   }
-  .row {
+  .each_section_custom_report {
     margin: 10px 0 ;
+  }
+  .create_report_title , .custom_report_col_title {
+    font-family: "Avenir-bold" ;
+  }
+  .search_input {
+    border: solid 1px #ccc;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 5px;
+    margin: 0 0 20px 0;
+    width: 90%;
+  }
+  .custom_report_col {
+    .each_option {
+      padding: 5px ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
+      border : solid 1px transparent ;
+      margin : 5px ;
+    }
+    .each_option.active {
+      background: #007ac9 ;
+      color: #fff ;
+      border-color: #007ac9 ;
+    }
+    .each_option:hover {
+      border: solid 1px #ccc ;
+    }
   }
 }
 
