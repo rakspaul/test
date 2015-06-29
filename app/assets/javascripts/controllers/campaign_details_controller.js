@@ -597,7 +597,7 @@
                         });
 
                         $scope.platformBarChartConfig = {
-                            'widgetName' : 'Platforms',
+                            'widgetName' : constants.PLATFORM,
                             data : $scope.chartDataPlatform,
                             kpiType : kpiModel || 'NA',
                             showLabel : true

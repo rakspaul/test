@@ -756,10 +756,10 @@ body {
           }
         }
         .barChartWidget {
-          margin-top: 46px !important;
+          margin-top: 46px !important ;
         }
         #platformWidget, .barChartWidget {
-          float: right;
+          float: left;
           width: 200px;
           margin-top: 26px;
           .chart {
@@ -785,10 +785,24 @@ body {
           }
           .barChartWidget {
             .chart {
-              margin-left: 6px ;
+              margin-left: 0px ;
             }
           }
         
+      }
+      .common_bar_data {
+        .barChartWidget {
+          margin-top: 26px  !important;
+        }
+        .each_section_graph .each_bar_section_holder {
+          padding-left: 0px ;
+        }
+        .imgContainer  {
+          margin-right: 8px ;
+          img {
+            
+          }
+        }
       }
     .each_section_graph_holder {
       .section_graph_details {
@@ -797,6 +811,17 @@ body {
     }
     .each_section_graph_holder.active {
       border: solid 1px #359eea;
+    }
+  }
+  .platform_widget , .screens_widget , .formats_widget {
+    .barChartWidget {
+      margin-left: 23px ;
+    }
+  }
+  .graphValues {
+    span {
+      margin-right:  5px ;
+      display: inline-block;
     }
   }
   .campaigns_details_holder {
