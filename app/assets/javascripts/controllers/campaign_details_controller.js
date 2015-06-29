@@ -394,7 +394,9 @@
                         inventoryData = inventoryResponseData[0].inv_metrics;
                         inventoryData = _.filter(inventoryData, function(obj) {  return obj.tb == 0 });
                         var sortedData = _.sortBy(inventoryData, 'kpi_value'); // This Sorts the Data order by CTR or CPA
-                        sortedData = sortedData.reverse().slice(0, 3);
+                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData  = sortedData.slice(0, 3);
+
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data.kpi_value * 100) : data.kpi_value;
@@ -491,9 +493,11 @@
                     var screenResponseData = result.data.data;
                     var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !screenResponseData[0].hasVTCMetrics;
                     if (screenResponseData && screenResponseData.length > 0 && !hasVTCMetrics && screenResponseData[0].perf_metrics) {
-                        screensData = screenResponseData[0].perf_metrics;
+                        screensData = _.filter(screenResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
                         var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = sortedData.reverse().slice(0, 3);
+                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData  = sortedData.slice(0, 3);
+
 
                         var screenTypeMap = {
                             'smartphone' : 'mobile_graph',
@@ -534,7 +538,9 @@
                     if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVTCMetrics && adSizeResponseData[0].perf_metrics) {
                         adSizeData = adSizeResponseData[0].perf_metrics;
                         var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = sortedData.reverse().slice(0, 3);
+                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData  = sortedData.slice(0, 3);
+
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -589,7 +595,8 @@
                         });
 
                         sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = sortedData.reverse().slice(0, 3);
+                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() !== 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData  = sortedData.slice(0, 3);
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -624,10 +631,10 @@
                     var formatResponseData = result.data.data;
                     var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !formatResponseData[0].hasVTCMetrics;
                     if (formatResponseData && formatResponseData.length > 0 && !hasVTCMetrics && formatResponseData[0].perf_metrics) {
-                        formatData = formatResponseData[0].perf_metrics;
+                        formatData = _.filter(formatResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
                         var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = sortedData.reverse().slice(0, 3);
-
+                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() !== 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData  = sortedData.slice(0, 3);
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
@@ -637,7 +644,7 @@
                         $scope.formatBarChartConfig = {
                             'widgetName' : 'Formats',
                             data : $scope.chartDataFormat,
-                            kpiType : kpiModel || 'NA'
+                            kpiType : kpiModel || ''
                         }
                     }
                 }
@@ -893,10 +900,10 @@
 
         $(document).ready(function() {
             $('.carousel a.left').hide();
-            var posIndex = 1;
+            var posIndex = 3;
             $('.carousel a.right').click(function(){
-                if($('.carousel .item').length == 6) {
-                    posIndex = 2;
+                if($('.carousel .item').length === 8) {
+                    posIndex = 4;
                 }
                 $('.carousel .item').slice(0,posIndex).removeClass('active');
                 $('.carousel .item').slice(posIndex).addClass('active');
@@ -904,8 +911,8 @@
                 $('.carousel a.left').show();
             });
             $('.carousel a.left').click(function(){
-                if($('.carousel .item').length == 6) {
-                    posIndex = 2;
+                if($('.carousel .item').length === 8) {
+                    posIndex = 4;
                 }
                 $('.carousel .item').slice('-'+posIndex).removeClass('active');
                 $('.carousel .item').slice(0,posIndex).addClass('active');

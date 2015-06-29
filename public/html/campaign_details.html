@@ -261,7 +261,6 @@
                         <div class="col-md-12">
                               <div class="carousel slide" id="myCarousel">
                                 <div class="carousel-inner">
-
                                   <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
                                     <div class="col-xs-3">
                                        <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
@@ -294,12 +293,10 @@
                                   </div>
                                   <div class="item active">
                                         <div class="col-xs-3 platform_widget">
-                                            <!-- Platform Widget Starts Here -->
                                             <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div ng-show="loadingPlatformFlag" class="load-more">&nbsp;</div>
                                                 <div ng-if="platformBarChartConfig" bar-chart chart-data="{{platformBarChartConfig}}"></div>
                                             </div>
-                                            <!-- Platform Widget Ends Here -->
                                         </div>
                                   </div>
                                   <div class="item active">
@@ -318,7 +315,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="item active">
+                                     <div class="item {{isCostModelTransparent ? '' : 'active'}}">
                                         <div class="col-xs-3 formats_widget">
                                             <div ng-click="setGraphData(campaign,'Format')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
@@ -326,7 +323,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                <div class="item active">
+                                <div class="item">
                                     <div class="col-xs-3">
                                         <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                             <div ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
@@ -335,7 +332,7 @@
                                     </div>
                                 </div>
                                   
-                                   <div class="item {{isCostModelTransparent ? '' : 'active'}}">
+                                   <div class="item">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                                             <div class="graph_heading">
@@ -382,7 +379,7 @@
                                     <!-- end of ... Video viewability widget commented for now -->
                                 </div>
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-                                <a class="right carousel-control" href="#myCarousel" ng-show="isCostModelTransparent" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
         
                               </div> <!-- mycarousel ends -->
                         </div>                  
