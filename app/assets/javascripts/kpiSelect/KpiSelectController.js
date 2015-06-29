@@ -29,8 +29,16 @@
           $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
-        $('.kpi_indicator_ul').click(function (e) {
+        $('.kpi_indicator_ul,.direction_arrows div.kpi_arrow_sort').click(function (e) {
             var _selectedKpi =  $(e.target).attr("value") ;
+            var isArrow =  $(e.target).attr("class").match("^kpi_arrow_sort") ;
+            if(isArrow !== null){
+                $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
+                $(e.target).addClass( "active" );
+                $(e.target).show();
+                $( ".icon_text_holder" ).removeClass( "active" );
+                $rootScope.$broadcast('dropdown-arrow-clicked',_selectedKpi);
+            }
             if(_selectedKpi) {
                 $scope.setSelectedKpi(_selectedKpi);
                 $scope.setSelectedKpiAlt(_selectedKpi);
@@ -38,6 +46,28 @@
                 $scope.$apply();
             }
         });
+        function setArrowSelector(){
+            $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
+                    if(window.location.pathname !== "/inventory"){
+                     var selectedKpi =  $(e.target).attr("value") ;
+                     $('.direction_arrows div.kpi_arrow_sort').hide();
+                        $('.direction_arrows div.kpi_arrow_sort.active').show();
+                     $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
+                    }
+                },
+                function(e) {
+                    $('.direction_arrows div.kpi_arrow_sort').hide();
+                    $('.direction_arrows div.kpi_arrow_sort.active').show();
+                }
+            );
+        }setTimeout(setArrowSelector, 2000);
 
+        $scope.arrowPositionFunction = function () {
+            if ($(".sort_order_up")[0]){
+                return "point_down";
+            } else {
+                return "point_up";
+            }
+        };
     });
 }());

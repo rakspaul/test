@@ -200,8 +200,15 @@ var angObj = angObj || {};
                 $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+            $scope.sortType = args;
+            $scope.sortTypeSubSort ="tactic."+args;
+            $scope.sortReverse  = !$scope.sortReverse;
+        });
+
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
         };
