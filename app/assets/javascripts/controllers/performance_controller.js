@@ -124,6 +124,16 @@ var angObj = angObj || {};
                     'report_url' : urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_days_of_week',
                     'label' : 'Performance by Days Of Week'
+                },
+                {
+                    'report_url' : urlPath + 'creatives/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_creatives',
+                    'label' : 'Performance by Creatives'
+                },
+                {
+                    'report_url' : urlPath + 'adsizes/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_adsizes',
+                    'label' : 'Performance by Ad Sizes'
                 }
             ];
         };
