@@ -97,6 +97,11 @@
                 return this.fetch(url);
             },
 
+            getAdSizeData: function(campaign) {
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byadsizes/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+                return this.fetch(url);
+            },
+
             getVideoViewabilityData: function(campaign) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/viewReport';
                 return this.fetch(url);
