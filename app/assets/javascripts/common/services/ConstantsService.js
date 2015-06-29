@@ -82,6 +82,7 @@
     this.ACTION_RATE = "Action rate";
     this.SCREENS = "Screens";
     this.FORMATS = "Formats";
+    this.CREATIVES = "Creatives";
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;

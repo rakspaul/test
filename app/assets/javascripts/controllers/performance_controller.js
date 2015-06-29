@@ -8,7 +8,10 @@ var angObj = angObj || {};
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         $scope.sortType     = ''; // set the default sort type
+
         $scope.sortReverse  = false; // set the default sort order
+
+        $scope.characterLimit  = 50;
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
@@ -161,6 +164,10 @@ var angObj = angObj || {};
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
             $scope.strategyPerfDataByCreatives = [];
+
+            $scope.strategyPerfDataByCreative = [];
+
+
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
