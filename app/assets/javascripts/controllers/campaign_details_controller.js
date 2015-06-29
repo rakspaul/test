@@ -19,6 +19,7 @@
         $scope.loadingInventoryFlag = true;
         $scope.loadingScreenFlag = true;
         $scope.loadingPlatformFlag = true;
+        $scope.loadingAdSizeFlag = true;
         $scope.activityLogFilterByStatus = true;
 
         //Hot fix to show the campaign tab selected
@@ -135,7 +136,8 @@
                 $scope.getPlatformData();
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
-                //$scope.getPlatformGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
                 $scope.getVideoViewabilityGraphData($scope.campaign);
             } else {
@@ -381,33 +383,31 @@
         };
 
         $scope.getInventoryGraphData  = function(campaign){
-            var inventory =[] ;
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var campaignKpiType = campaign.kpiType.toLowerCase();
-                    if(result.data.data.length>0){
-                        var result = result.data.data[0].inv_metrics ;
-                        var top =[];
-                        for (var i in result) {
-                            if (result[i].tb === 0) {
-                                top.push(result[i]);
-                            }
+                    var kpiModel = kpiSelectModel.selectedKpi;
+                    var inventoryData;
+                    $scope.chartDataInventory = [];
+                    var inventoryResponseData = result.data.data;
+                    if (inventoryResponseData && inventoryResponseData.length > 0 && inventoryResponseData[0].inv_metrics) {
+                        inventoryData = inventoryResponseData[0].inv_metrics;
+                        inventoryData = _.filter(inventoryData, function(obj) {  return obj.tb == 0 });
+                        var sortedData = _.sortBy(inventoryData, 'kpi_value'); // This Sorts the Data order by CTR or CPA
+                        sortedData = sortedData.reverse().slice(0, 3);
+
+                        _.each(sortedData, function(data, idx) {
+                            var kpiData = (kpiModel === 'ctr') ? (data.kpi_value * 100) : data.kpi_value;
+                            $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.domain_data, 'value' : kpiData});
+                        });
+
+                        $scope.inventoryBarChartConfig = {
+                            'widgetName' : 'Inventory',
+                            data : $scope.chartDataInventory,
+                            kpiType : kpiModel || 'NA',
+                            showLabel : true
                         }
-                        if(top.length > 0){
-                            if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc' || campaignKpiType == 'action_rate' || campaignKpiType  == 'action rate' ){
-                              for(var i in top){
-                                  top[i].kpi_value *= 100;
-                              }
-                              inventory = top.slice(0,3);
-                              $scope.details.inventoryTop = inventory[0];
-                            } else {
-                              inventory = top.slice(0,3);
-                              $scope.details.inventoryTop = inventory[2];
-                            }
-                        }
-                        $scope.details.inventory = inventory;
-		            }
+                    }
                 }
             },function(result){
                 console.log('inventory data call failed');
@@ -482,100 +482,36 @@
         
         // Screen Widget Start
         $scope.getScreenGraphData  = function(campaign){
-            var screens,
-                orderByscreens = new Array(),
-                inc = 0;
-            $scope.screenTotal = 0;
-            
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var kpiModel = kpiSelectModel.selectedKpi;
-                    var screenDataLen = 0,screensData;
+                    var screensData;
+                    $scope.chartDataScreen = [];
                     var screenResponseData = result.data.data;
                     var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !screenResponseData[0].hasVTCMetrics;
                     if (screenResponseData && screenResponseData.length > 0 && !hasVTCMetrics && screenResponseData[0].perf_metrics) {
                         screensData = screenResponseData[0].perf_metrics;
-                        screenDataLen = screensData.length;
-                        var campaignKpiType = campaign.kpiType.toLowerCase();
-                        for (var i = 0; i < screenDataLen; i++) {
-                            screensData[i].ctr *= 100;
-                            screensData[i].vtc = screensData[i].video_metrics.vtc_rate;
-                        }
-                        if (screenDataLen > 0) {
-                            screens = orderBy(screensData, "-" + campaignKpiType, ((campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ? false : true));
-                            _.each(screens, function (screen) {
-                                var screenType = screen.dimension.toLowerCase();
-                                if (screenType == 'smartphone' || screenType == 'tablet' || screenType == 'desktop') {
-                                    if (screen[campaign.kpiType.toLowerCase()] > 0) {
-                                        $scope.screenTotal += screen[campaignKpiType];
-                                    }
-                                    orderByscreens[inc] = screen[campaignKpiType];
-                                    inc++;
+                        var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
+                        sortedData = sortedData.reverse().slice(0, 3);
 
-                                }
-                                switch (screenType) {
-                                    case 'smartphone': screen.icon = "mobile_graph"; break;
-                                    case 'tv': screen.icon = "display_graph"; break;
-                                    case 'tablet': screen.icon = "tablet_graph"; break;
-                                    case 'desktop': screen.icon = "display_graph";break;
-                                }
-                            });
-                            var maximumValue = 0;
-                            if (orderByscreens.length > 0) {
-                                maximumValue = Math.max.apply(Math, orderByscreens);
-                            }
-                            $scope.details.screens = _.filter(screens, function(screen) { return _.indexOf(['smartphone', 'tablet', 'desktop'],screen.dimension.toLowerCase()) !=-1 });
-                            $scope.details.screenTop = maximumValue;
-                            $scope.details.kpiType = campaignKpiType;
+                        var screenTypeMap = {
+                            'smartphone' : 'mobile_graph',
+                            'tv' : 'display_graph',
+                            'tablet' : 'tablet_graph',
+                            'desktop' : 'display_graph'
                         }
 
-                        if($scope.screenTotal >0) {
-                            //d3 Starts Here
-                            var containerWidthScreen = $('.bar_section_graph_holder_platform .each_section_graph').width();
-                            var kpiCountScreen = orderByscreens,
-                                chartScreen,
-                                widthScreen = containerWidthScreen - 28,
-                                bar_heightScreen = 4,
-                                gapScreen = 0,
-                                heightScreen = bar_heightScreen + 50;
+                        _.each(sortedData, function(data, idx) {
+                            var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
+                            var screenType = data.dimension.toLowerCase();
+                            $scope.chartDataScreen.push({'gross_env' : data.gross_rev, className : screenTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
+                        });
 
-                            var xScreen, yScreen;
-
-                            xScreen = d3.scale.linear()
-                                .domain([0, d3.max(kpiCountScreen)])
-                                .range([0, widthScreen]);
-
-                            yScreen = function (iScreen) {
-                                return bar_heightScreen * iScreen;
-                            }
-
-                            chartScreen = d3.select($("#screenWidget")[0])
-                                .append('svg')
-                                .attr('class', 'chart')
-                                .attr('width', widthScreen)
-                                .attr('height', 200);
-
-                            chartScreen.selectAll("rect")
-                                .data(kpiCountScreen)
-                                .enter().append("rect")
-                                .attr("x", 0)
-                                .attr("y", function (dScreen, iScreen) {
-                                    return iScreen * 33;
-                                })
-                                .attr("width", xScreen)
-                                .attr("height", bar_heightScreen);
-                            // d3 Ends Here
-
-                            $('#screenWidget rect').each(function() {
-                                var value = parseFloat($(this).attr('width'));
-                                if (value == 0) {
-                                    $(this).attr({
-                                        width: widthScreen,
-                                        style: "fill:#dddddd"
-                                    });
-                                }
-                            });
+                        $scope.screenBarChartConfig = {
+                            'widgetName' : 'Screens',
+                            data : $scope.chartDataScreen,
+                            kpiType : kpiModel || 'NA'
                         }
                     }
                 }
@@ -584,7 +520,42 @@
             });
         };
         // Screen Widget Ends
-        
+
+        // Screen Widget Start
+        $scope.getAdSizeGraphData  = function(campaign){
+            dataService.getAdSizeData($scope.campaign).then(function(result) {
+                $scope.loadingAdSizeFlag = false;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    var kpiModel = kpiSelectModel.selectedKpi;
+                    var adSizeData;
+                    $scope.chartDataAdSize = [];
+                    var adSizeResponseData = result.data.data;
+                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !adSizeResponseData[0].hasVTCMetrics;
+                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVTCMetrics && adSizeResponseData[0].perf_metrics) {
+                        adSizeData = adSizeResponseData[0].perf_metrics;
+                        var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
+                        sortedData = sortedData.reverse().slice(0, 3);
+
+                        _.each(sortedData, function(data, idx) {
+                            var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
+                            var screenType = data.dimension.toLowerCase();
+                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
+                        });
+
+                        $scope.adSizenBarChartConfig = {
+                            'widgetName' : 'Ad Size',
+                            data : $scope.chartDataAdSize,
+                            kpiType : kpiModel || 'NA',
+                            showLabel : true
+                        }
+                    }
+                }
+            },function(result){
+                console.log('screen data call failed');
+            });
+        };
+        // Screen Widget Ends
+
         // Platform Widget Starts
         $scope.getPlatformData =  function() {
             var param = {
@@ -622,62 +593,16 @@
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
-                            $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'icon_url' : data.icon_url, 'platform' : data.platform, 'value' : kpiData});
+                            $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'className': '', 'icon_url' : data.icon_url, 'type' : data.platform, 'value' : kpiData});
                         });
 
-                        $scope.chartDataPlatform = _.filter($scope.chartDataPlatform, function(obj) { return obj.value >0});
-                        $scope.chartData = _.compact(_.pluck($scope.chartDataPlatform, 'value'));
-
-                        if($scope.chartData.length < 3)
-                            $scope.disableLabel = {'visibility': 'hidden'};
-
-                        if ($scope.chartData && $scope.chartData.length >  0) {
-                            // d3 Starts Here
-                            var containerWidth = $('.bar_section_graph_holder_platform .each_section_graph').width();
-                            var kpiCount = $scope.chartData,
-                                chart,
-                                width = containerWidth - 28,
-                                bar_height = 4,
-                                gap = 0,
-                                height = bar_height + 50;
-
-                            var x, y;
-
-                            x = d3.scale.linear()
-                                .domain([0, d3.max(kpiCount)])
-                                .range([0, width]);
-
-                            y = function (i) {
-                                return bar_height * i;
-                            }
-
-                            chart = d3.select($("#platformWidget")[0])
-                                .append('svg')
-                                .attr('class', 'chart')
-                                .attr('width', width)
-                                .attr('height', 200);
-
-                            chart.selectAll("rect")
-                                .data(kpiCount)
-                                .enter().append("rect")
-                                .attr("x", 0)
-                                //.attr("y", function(d, i){ return y(i) +bar_height *32; } )
-                                .attr("y", function (d, i) {
-                                    return i * 33;
-                                })
-                                .attr("width", x)
-                                .attr("height", bar_height);
-                            // d3 Ends Here
-                            $("#platformWidget rect").each(function() {
-                                var value = parseFloat($(this).attr('width'));
-                                if (value == 0) {
-                                    $(this).attr({
-                                        width: width,
-                                        style: "fill:#dddddd"
-                                    });
-                                }
-                            });
+                        $scope.platformBarChartConfig = {
+                            'widgetName' : 'Platforms',
+                            data : $scope.chartDataPlatform,
+                            kpiType : kpiModel || 'NA',
+                            showLabel : true
                         }
+
                     }
                 } else {
                     console.log('Platform data call failed');
@@ -693,33 +618,27 @@
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 $scope.loadingFormatFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-            	    for (var i = 0; i < result.data.data.length; i++) {
-            		  result.data.data[i].ctr *= 100;
-            		  result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate;
-            	    }
-                    var campaignKpiType = campaign.kpiType.toLowerCase();
-                    if(result.data.data.length>0){
+                    var formatData;
+                    var kpiModel = kpiSelectModel.selectedKpi;
+                    $scope.chartDataFormat = [];
+                    var formatResponseData = result.data.data;
+                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !formatResponseData[0].hasVTCMetrics;
+                    if (formatResponseData && formatResponseData.length > 0 && !hasVTCMetrics && formatResponseData[0].perf_metrics) {
+                        formatData = formatResponseData[0].perf_metrics;
+                        var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
+                        sortedData = sortedData.reverse().slice(0, 3);
 
-                        if(campaignKpiType == 'ctr' || campaignKpiType == 'vtc' || campaignKpiType == 'action_rate' || campaignKpiType == 'action rate') {
-                            formats=_.chain(result.data.data)
-                                .sortBy(function(format){ return format[campaignKpiType]; })
-                                .reverse()
-                                .value();
-                         }else{
-                            formats=_.chain(result.data.data)
-                                .sortBy(function(format){ return format[campaignKpiType]; })
-                                .value();
-
-                         }
-
-                        _.each(formats, function(format) {
-                            format.icon = format.dimension.toLowerCase() + "_graph";
+                        _.each(sortedData, function(data, idx) {
+                            var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
+                            var screenType = data.dimension.toLowerCase();
+                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : data.dimension.toLowerCase() + "_graph", 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
 
-                        $scope.details.formats = formats;
-                        $scope.details.formatTop = (campaignKpiType == 'ctr' || campaignKpiType == 'vtc') ? _.first(formats) : _.last(formats);
-                        $scope.details.formatTop = $scope.details.formatTop[campaignKpiType];
-                        $scope.details.kpiType = campaignKpiType;
+                        $scope.formatBarChartConfig = {
+                            'widgetName' : 'Formats',
+                            data : $scope.chartDataFormat,
+                            kpiType : kpiModel || 'NA'
+                        }
                     }
                 }
             },function(result){
