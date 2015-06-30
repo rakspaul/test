@@ -84,6 +84,7 @@
     this.FORMATS = "Formats";
     this.CREATIVES = "Creatives";
     this.VIDEO_PLAYS = "Video Plays";
+    this.ADD_SIZES = "Ad Sizes";
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
