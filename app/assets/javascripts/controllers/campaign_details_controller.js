@@ -394,9 +394,9 @@
                         inventoryData = inventoryResponseData[0].inv_metrics;
                         inventoryData = _.filter(inventoryData, function(obj) {  return obj.tb == 0 });
                         var sortedData = _.sortBy(inventoryData, 'kpi_value'); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
-
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data.kpi_value * 100) : data.kpi_value;
@@ -495,8 +495,9 @@
                     if (screenResponseData && screenResponseData.length > 0 && !hasVTCMetrics && screenResponseData[0].perf_metrics) {
                         screensData = _.filter(screenResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
                         var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
 
                         var screenTypeMap = {
@@ -538,9 +539,9 @@
                     if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVTCMetrics && adSizeResponseData[0].perf_metrics) {
                         adSizeData = adSizeResponseData[0].perf_metrics;
                         var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
-
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -596,8 +597,9 @@
                         });
 
                         sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() !== 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -630,8 +632,9 @@
                     if (formatResponseData && formatResponseData.length > 0 && !hasVTCMetrics && formatResponseData[0].perf_metrics) {
                         formatData = _.filter(formatResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
                         var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() !== 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
@@ -756,7 +759,7 @@
                 utils.goToLocation('/inventory');
             } else if (type === 'platform') {
                 utils.goToLocation('/platform');
-            } else if (type === 'view_report' || type === 'format' || type == 'screens' || type == 'AdSizes') {
+            } else if (type === 'view_report' || type === 'formats' || type == 'screens' || type == 'adsizes') {
                 utils.goToLocation('/performance');
             } else {
                 utils.goToLocation('/optimization');

@@ -18,9 +18,7 @@ var angObj = angObj || {};
 
         $scope.api_return_code = 200;
 
-        var redirectWidget = $scope.selectedCampaign.redirectWidget;
-        console.log('$scope.redirectWidget->'+$scope.redirectWidget);
-
+        $scope.redirectWidget = $scope.selectedCampaign.redirectWidget;
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
@@ -38,8 +36,30 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsTabs();
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
-        $scope.selected_tab = 'byscreens';
-        $scope.sortByColumn = 'name';
+            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
+            if($scope.redirectWidget == 'adsizes') {
+                $scope.sortByColumn = 'dimension';
+                $scope.activeAdSizeClass = 'active';
+                $scope.defaultDisplayAdSize = 'display : block';
+                $scope.defaultDisplayFormat = 'display : none';
+                $scope.defaultDisplayScreen = 'display : none';
+            }
+            else if($scope.redirectWidget == 'formats') {
+                $scope.sortByColumn = 'dimension';
+                $scope.activeFormatClass = 'active';
+                $scope.defaultDisplayFormat = 'display : block';
+                $scope.defaultDisplayAdSize = 'display : none';
+                $scope.defaultDisplayScreen = 'display : none';
+            } else {
+                $scope.selected_tab = 'byscreens'
+                $scope.sortByColumn = 'name';
+                $scope.activeScreenClass = 'active';
+                $scope.defaultDisplayScreen = 'display : block'
+                $scope.defaultDisplayAdSize = 'display : none';
+                $scope.defaultDisplayFormat = 'display : none';
+            }
+
+
 
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
@@ -69,6 +89,8 @@ var angObj = angObj || {};
             $scope.screenBusy = true;
             $scope.formatBusy = true;
             $scope.dowBusy = true;
+            $scope.creativeBusy = true;
+            $scope.adSizesBusy = true;
 
             var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
 
@@ -76,6 +98,9 @@ var angObj = angObj || {};
                 $scope.dataNotFoundForScreen = true;
                 $scope.dataNotFoundForFormat = true;
                 $scope.dataNotFoundForDOW = true;
+                $scope.dataNotFoundForCreative = true;
+                $scope.dataNotFoundForAdSizes = true;
+
             }
 
             $scope.api_return_code=200;
@@ -89,6 +114,8 @@ var angObj = angObj || {};
                         $scope.screenBusy = false;
                         $scope.formatBusy = false;
                         $scope.dowBusy = false;
+                        $scope.creativeBusy = false;
+                        $scope.adSizesBusy = false;
                         $scope['strategyPerfDataBy'+tab]  = result.data.data[0];
                     }
                 } else {
@@ -158,6 +185,8 @@ var angObj = angObj || {};
             $scope.screenBusy = false;
             $scope.formatBusy = false;
             $scope.dowBusy = false;
+            $scope.creativeBusy = true;
+            $scope.adSizesBusy = true;
 
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
@@ -170,6 +199,9 @@ var angObj = angObj || {};
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
+            $scope.dataNotFoundForCreative = false;
+            $scope.dataNotFoundForAdSizes = false;
+
         };
 
         //Initializing the variable.
@@ -232,9 +264,6 @@ var angObj = angObj || {};
                 $scope.strategyChangeHandler();
                 event.preventDefault();
             });
-            if(redirectWidget == 'AdSizes') {
-                $('#by'+redirectWidget.toLowerCase()).click();
-            }
         });
     });
 }());
