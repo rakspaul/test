@@ -1,20 +1,19 @@
-<div class="graph_heading">
-    {{barData.widgetName}} ({{barData.kpiType | uppercase}})
-</div>
-<div class="platform_number" ng-if="barData.showLabel" ng-style="disableLabel">
-    <span> {{ textConstants.TOP_THREE }}</span>
-</div>
-<div  class="clearfix" ng-if="(barData.data.length > 0 && total > 0)"  ng-class="{common_bar_data:barData.showLabel == true}">
-	<div class="clearfix each_section_graph format_section_graph dataScreenIconsText">
-
-	    <div ng-repeat="d in barData.data track by $index" class="clearfix each_bar_section_holder {{d.className}}">
-	        <div class="pull-left imgContainer" ng-if="d.icon_url"><img ng-src="{{d.icon_url==='Unknown' ? '/assets/images/platform_logos/platform_logo.png':d.icon_url}}" height='15'/></div>
-	        <div class="pull-left graphValues">
-	        	<span>{{d.type}}</span>
-	        	<span>{{d.value > 0 ? (d.value | kpiFormatter : barData.kpiType) : ''}}</span>
-	        </div>
-	    </div>
+<div ng-show="(barData.data.length > 0 && total > 0)">
+	<div class="platform_number" ng-if="barData.showLabel" ng-style="disableLabel">
+		<span> {{ textConstants.TOP_THREE }}</span>
 	</div>
-	<div class="barChartWidget" ></div>
+	<div  class="clearfix"   ng-class="{common_bar_data:barData.showLabel == true}">
+		<div class="clearfix each_section_graph format_section_graph dataScreenIconsText">
+
+			<div ng-repeat="d in barData.data track by $index" class="clearfix each_bar_section_holder {{d.className}}">
+				<div class="pull-left imgContainer" ng-if="d.icon_url"><img ng-src="{{d.icon_url==='Unknown' ? '/assets/images/platform_logos/platform_logo.png':d.icon_url}}" height='15'/></div>
+				<div class="pull-left graphValues">
+					<span>{{d.type}}&nbsp;:</span>
+					<span>{{d.value > 0 ? (d.value | kpiFormatter : barData.kpiType) : ''}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="barChartWidget" ></div>
+	</div>
 </div>
-<div  ng-if="((total == 0 ||barData.data.length == 0 ) && loadingScreenFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>
+<div ng-if="(total == 0 ||barData.data.length == 0 )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>

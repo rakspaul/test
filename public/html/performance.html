@@ -25,19 +25,19 @@
                 <!-- -------START :  Performance Tabs ------------------------ -->
                 <div class="clearfix">
                     <div class="clearfix reports_tabs_holder">
-                        <div class="each_tab cost_tab active " id="byscreens">
+                        <div class="each_tab cost_tab {{activeScreenClass}}" id="byscreens">
                             <div class="each_tab_text">
                                 {{textConstants.SCREENS}}
                             </div>
                         </div>
 
-                        <div class="each_tab cost_tab " id="byformats">
+                        <div class="each_tab cost_tab {{activeFormatClass}}" id="byformats">
                             <div class="each_tab_text">
                                 {{textConstants.FORMATS}}
                             </div>
                         </div>
 
-                        <div class="each_tab cost_tab " id="byadsizes">
+                        <div class="each_tab cost_tab {{activeAdSizeClass}}" id="byadsizes">
                             <div class="each_tab_text">
                                 {{textConstants.ADD_SIZES}}
                             </div>
@@ -62,7 +62,7 @@
 
                 <!-- -------START :  Screen Block ----------------------------- -->
 
-                <div ng-class="strategyPerfDataByScreen.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="display:block;">
+                <div ng-class="strategyPerfDataByScreen.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="{{defaultDisplayScreen}}">
                     <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
                     <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
                         <div class="clearfix reports_performance_header">
@@ -132,7 +132,7 @@
                 <!-- -------END :  Days of week Block ----------------------------- -->
 
                 <!-- -------START :  Format Block ----------------------------- -->
-                <div ng-class="strategyPerfDataByFormat.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="display:none;">
+                <div ng-class="strategyPerfDataByFormat.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
                     <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable('formats')"></div>
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
                         <div class="clearfix reports_performance_header">
@@ -171,7 +171,7 @@
                 <div  id="reports_bycreatives_block" ng-class="strategyPerfDataByCreatives.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
 
 
-                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
+                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" >
                         <div class="clearfix reports_performance_header">
                             <creatives-header></creatives-header>
@@ -182,7 +182,7 @@
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
-                                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                                    <div class="common-load-icon" ng-show="creativeBusy"></div>
                                     <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
                                 </div>
                             </div>
@@ -208,11 +208,11 @@
 
 
                 <!-- -------START :  Creative Block ----------------------------- -->
-                <div  id="reports_byadsizes_block" ng-class="strategyPerfDataByAdsizes.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
+                <div  id="reports_byadsizes_block" ng-class="strategyPerfDataByAdsizes.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
 
 
-                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" >
+                    <div class="no_data_found" ng-if="dataNotFoundForAdSizes" ng-bind-html="getMessageForDataNotAvailable('adSizes')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdSizes" >
                         <div class="clearfix reports_performance_header">
                             <adsizes-header></adsizes-header>
                         </div>
@@ -222,7 +222,7 @@
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
-                                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                                    <div class="common-load-icon" ng-show="adSizesBusy"></div>
                                     <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
                                 </div>
                             </div>
