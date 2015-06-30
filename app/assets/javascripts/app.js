@@ -60,7 +60,8 @@ var angObj = '';
             })
             .when('/reports', {
                 templateUrl: assets.html_reports,
-                title :  'Reports'
+                title :  'Reports' ,
+                controller: 'createReportController'
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,

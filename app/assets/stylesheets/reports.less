@@ -3367,21 +3367,59 @@ only screen and (min-device-pixel-ratio: 2) {
   }
   .custom_report_col {
     .each_option {
-      padding: 5px ;
+      padding: 5px 10px ;
       border-radius: 4px ;
       -moz-border-radius: 4px ;
       -webkit-border-radius: 4px ;
       border : solid 1px transparent ;
       margin : 5px ;
+      cursor: default;
+      transition : .2s ;
+      -webkit-transition : .2s ;
+      -moz-transition : .2s ;
     }
     .each_option.active {
       background: #007ac9 ;
       color: #fff ;
-      border-color: #007ac9 ;
     }
     .each_option:hover {
-      border: solid 1px #ccc ;
+      border: solid 1px #007ac9 ;
+    }
+  }
+  .add_breakdown_btn {
+    padding: 5px 10px ;
+    border-radius: 4px ;
+    -moz-border-radius: 4px ;
+    -webkit-border-radius: 4px ;
+    border : solid 1px #007ac9 ;
+    color: #0978c9 ;
+    cursor: pointer;
+    margin: 20px 0  ;
+
+  }
+  .filter_btn {
+    color: #0978c9 ;
+    cursor: pointer;
+  }
+  .add_breakdown_line {
+    float: left;
+    width: 30px ;
+    height: 30px ;
+    border: dotted 1px #007ac9 ;
+    
+  }
+}
+.common_dropdown {
+  .dropdown {
+    .dropdown-menu {
+      padding: 0 ;
+      li {
+        padding: 5px ;
+        cursor: default;
+      }
+      li:hover {
+
+      }
     }
   }
 }
-

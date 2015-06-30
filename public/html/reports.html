@@ -11,25 +11,31 @@
 	           			Report
 	           		</div>
 	           		<div class="col-md-11">
-	           			<div class="col-md-2">
-	           				 <div class="">
-	                              <div class="dropdown" >
+	           			<div class="row">
+		           			<div class="col-md-2">
+		           				 <div class="common_dropdown">
+		                              <div class="dropdown" >
 	                                    <span class="dropdown_ul_text" data-toggle="dropdown">
 	                                        <span class="dd_txt">Brand</span>
 	                                        <span class="arrow_img"></span>
 	                                    </span>
-	                                    <ul class="dropdown_ul dropdown-menu" >
-	                                        <li>Brand 1</li>
-	                                        <li>Brand 2</li>
+	                                    <ul class="dropdown-menu" >
+	                                        <li ng-repeat="dimension in reportData[0].dimensions">{{dimension}}</li>
 	                                    </ul>
-	                              </div>
-
-	                          </div>
-		           			
+		                              </div>
+		                          </div>
+		           			</div>
+		           			<div class="col-md-2 filter_btn">
+		           				Filter
+		           			</div>
 	           			</div>
-	           			<div class="col-md-2">
-	           				Filter
-	           			</div>
+	           			<div class="row">
+	           				<div class="add_breakdown_line">
+	           				</div>
+	           				<div class="col-md-2 add_breakdown_btn">
+	           					+ Add Breakdown
+	           				</div>
+		           		</div>
 	           		</div>
 	           	</div>
 	           	<div class="col-md-12 each_section_custom_report">
@@ -40,7 +46,12 @@
 	           			<input type="text" placeHolder="Search" class="search_input" />
 	           			<div class="col-md-12">
 	           				<div  class="col-md-3">
-	           					<div class="custom_report_col_title">Delivery</div>
+	           					<div class="custom_report_col_title">
+	           						<label>
+		           						<input type="checkbox">
+		           						<span>Delivery</span>
+	           						</label>
+	           					</div>
 	           					<div class="custom_report_col">
 	           						<div class="each_option">
 	           							Impressions
@@ -57,7 +68,12 @@
 	           					</div>
 	           				</div>
 	           				<div  class="col-md-3">
-	           					<div class="custom_report_col_title">Booked</div>
+	           					<div class="custom_report_col_title">
+	           						<label>
+		           						<input type="checkbox">
+		           						<span>Booked</span>
+	           						</label>
+	           					</div>
 	           					<div class="custom_report_col">
 	           						<div class="each_option">
 	           							Impressions
@@ -74,30 +90,64 @@
 	           					</div>
 	           				</div>
 	           				<div  class="col-md-3">
-	           					<div class="custom_report_col_title">Delivery</div>
+	           					<div class="custom_report_col_title">
+	           						<label>
+		           						<input type="checkbox">
+		           						<span>Engagement</span>
+	           						</label>
+	           					</div>
 	           					<div class="custom_report_col">
 	           						<div class="each_option">
-	           							Impressions
+	           							Inter	
 	           						</div>
 	           						<div class="each_option">
-	           							Clicks
+	           							Tot Inter
 	           						</div>
 	           						<div class="each_option">
-	           							CTR, %
+	           							Avg Inter time
 	           						</div>
 	           						<div class="each_option">
-	           							PI Actions
+	           							Ad days
+	           						</div>
+	           						<div class="each_option">
+	           							Inter	
+	           						</div>
+	           						<div class="each_option">
+	           							Tot Inter
+	           						</div>
+	           						<div class="each_option">
+	           							Avg Inter time
+	           						</div>
+	           						<div class="each_option">
+	           							Ad days
+	           						</div>
+	           						<div class="each_option">
+	           							Inter	
+	           						</div>
+	           						<div class="each_option">
+	           							Tot Inter
+	           						</div>
+	           						<div class="each_option">
+	           							Avg Inter time
+	           						</div>
+	           						<div class="each_option">
+	           							Ad days
 	           						</div>
 	           					</div>
 	           				</div>
 	           				<div  class="col-md-3">
-	           					<div class="custom_report_col_title">Booked</div>
+	           					<div class="custom_report_col_title">
+	           						<label>
+		           						<input type="checkbox">
+		           						<span>Video</span>
+	           						</label>
+	           					</div>
 	           					<div class="custom_report_col">
 	           						<div class="each_option">
-	           							Impressions
+	           							Video Plays 
 	           						</div>
 	           						<div class="each_option">
-	           							Clicks
+	           							25% Ad Compe ...
 	           						</div>
 	           						<div class="each_option">
 	           							CTR, %
@@ -107,11 +157,9 @@
 	           						</div>
 	           					</div>
 	           				</div>
-	           				
 	           			</div>
 	           		</div>
 	           	</div>
-	           	
 	    </div>
     </div>
 </div>
