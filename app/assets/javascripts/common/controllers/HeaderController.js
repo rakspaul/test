@@ -13,6 +13,12 @@
             $("#cdbDropdown").hide();
         };
 
+        $scope.NavigateToTab =  function(url, event) {
+            $(".header_tab_dropdown").removeClass('active_tab')
+            $(event.currentTarget).parent().addClass('active_tab');
+            $location.url(url);
+        };
+
         $scope.removeUserData = function() {
             $cookieStore.remove('cdesk_session');
             $http.defaults.headers.common.Authorization = '';
