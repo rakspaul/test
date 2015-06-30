@@ -30,20 +30,29 @@
                                 {{textConstants.SCREENS}}
                             </div>
                         </div>
-                        <div class="each_tab " id="bydaysofweek">
-                            <div class="each_tab_text">
-                                {{textConstants.DAYS_OF_WEEK}}
-                            </div>
-                        </div>
+
                         <div class="each_tab cost_tab " id="byformats">
                             <div class="each_tab_text">
                                 {{textConstants.FORMATS}}
                             </div>
                         </div>
 
+                        <div class="each_tab cost_tab " id="byadsizes">
+                            <div class="each_tab_text">
+                                {{textConstants.ADD_SIZES}}
+                            </div>
+                        </div>
+
                         <div class="each_tab cost_tab " id="bycreatives">
                             <div class="each_tab_text">
-                                Creative
+                                {{textConstants.CREATIVES}}
+                            </div>
+                        </div>
+
+
+                        <div class="each_tab " id="bydaysofweek">
+                            <div class="each_tab_text">
+                                {{textConstants.DAYS_OF_WEEK}}
                             </div>
                         </div>
 
@@ -159,7 +168,6 @@
                 <!-- -------END :  Format Block ----------------------------- -->
 
                 <!-- -------START :  Creative Block ----------------------------- -->
-                <!-- -------START :  Days of week Block ----------------------------- -->
                 <div  id="reports_bycreatives_block" ng-class="strategyPerfDataByCreatives.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
 
 
@@ -187,6 +195,46 @@
                                         </div>
                                         <div class="row_list_holder">
                                             <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Days of week Block ----------------------------- -->
+
+
+
+
+                <!-- -------START :  Creative Block ----------------------------- -->
+                <div  id="reports_byadsizes_block" ng-class="strategyPerfDataByAdsizes.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
+
+
+                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" >
+                        <div class="clearfix reports_performance_header">
+                            <adsizes-header></adsizes-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder">
+                                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByAdsizes.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col" style="width:100%">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="adsizesData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -401,4 +449,53 @@
 
 
 </script>
+
+
+<script type="text/ng-template" id="AdsizesTpl">
+    <div class="each_col sec_col">
+        <!-- {{adsizesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
+        {{ adsizesData.dimension | formatUrl :15 }}
+    </div>
+    <div class="each_col third_col">
+        {{adsizesData.impressions  | nrFormat}}
+        <!--{{creativesData.ctr*100 | number:2}}%-->
+    </div>
+    <span  ng-if="strategyPerfDataByAdsizes.hasVTCMetrics">
+    <div class="each_col third_col">
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        {{adsizesData.video_metrics.ad_starts > 0 ? (creativesData.video_metrics.ad_starts | nrFormat) : '-'}}
+    </div>
+    <div class="vid_data_hdr">
+        <div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_25 > 0 ? (creativesData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_50 > 0 ? (creativesData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_75 > 0 ? (creativesData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_100 > 0 ? (creativesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+        </div>
+    </div>
+    </span>
+    <div class="each_col forth_col">
+        {{adsizesData.action_rate*100 | number:2}}%
+    </div>
+    <span  ng-if="!strategyPerfDataByAdsizes.hasVTCMetrics">
+    <div class="each_col fifth_col">
+        {{adsizesData.cpm | currency:undefined:2}}%
+    </div>
+
+    <div class="each_col sixth_col">
+        {{adsizesData.cpc | currency:undefined:2}}
+    </div>
+    <div class="each_col seventh_col">
+        {{adsizesData.cpa | currency:undefined:2}}
+    </div>
+        </span>
+
+    <div ng-if="strategyPerfDataByAdsizes.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByAdsizes.hasVTCMetrics == false}">
+        {{adsizesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
+    </div>
+
+
+</script>
+
 

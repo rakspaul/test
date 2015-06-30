@@ -194,4 +194,18 @@
         };
     }]);
 
+    angObj.directive('adsizesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: '/assets/html/partials/adsizes_header.html',
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+
+
+
 }());
