@@ -261,7 +261,6 @@
                         <div class="col-md-12">
                               <div class="carousel slide" id="myCarousel">
                                 <div class="carousel-inner">
-
                                   <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
                                     <div class="col-xs-3">
                                        <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
@@ -293,81 +292,51 @@
                                     </div>
                                   </div>
                                   <div class="item active">
-                                        <div class="col-xs-3">
-                                            <!-- Platform Widget Starts Here -->
-                                            <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_platform" >
-                                                <div class="graph_heading">
-                                                    {{ textConstants.PLATFORM }}  ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                                </div>
-                                                <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
-                                                <div  ng-if="((chartData && chartData.length === 0) || campaign.kpiType =='null' ) && loadingPlatformFlag == false" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
-                                                <div class="clearfix each_section_graph" >
-                                                    <div class="platform_number" ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
-                                                        <span ng-style="disableLabel"> {{ textConstants.TOP_THREE }}</span>
-                                                    </div>
-                                                    <div class="dataPlatformIconsText" ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
-                                                        <div class="widgetPlatformString" ng-repeat="pdata in chartDataPlatform track by $index" >
-                                                            <div class="imgContainer"><img ng-src="{{pdata.icon_url==='Unknown' ? '/assets/images/platform_logos/platform_logo.png':pdata.icon_url}}" height='15'/></div>
-                                                            <span>{{pdata.platform}}</span>
-                                                            <span>&nbsp;{{pdata.value |kpiFormatter:campaign.kpiType }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div id="platformWidget"></div>
-                                                </div>
-                                                <!-- Platform Widget Ends Here -->
+                                        <div class="col-xs-3 platform_widget">
+                                            <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                                <div ng-show="loadingPlatformFlag" class="load-more">&nbsp;</div>
+                                                <div ng-if="platformBarChartConfig" bar-chart chart-data="{{platformBarChartConfig}}"></div>
                                             </div>
                                         </div>
                                   </div>
                                   <div class="item active">
+                                    <div class="col-xs-3 screens_widget">
+                                        <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                            <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
+                                            <div ng-if="screenBarChartConfig" bar-chart chart-data="{{screenBarChartConfig}}"></div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="item active">
+                                        <div class="col-xs-3">
+                                            <div ng-click="setGraphData(campaign,'Ad Size')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                                <div ng-show="loadingAdSizeFlag" class="load-more">&nbsp;</div>
+                                                <div ng-if="adSizenBarChartConfig" bar-chart chart-data="{{adSizenBarChartConfig}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="item {{isCostModelTransparent ? '' : 'active'}}">
+                                        <div class="col-xs-3 formats_widget">
+                                            <div ng-click="setGraphData(campaign,'Format')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                                <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
+                                                <div ng-if="formatBarChartConfig" bar-chart chart-data="{{formatBarChartConfig}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="item">
                                     <div class="col-xs-3">
-
-                                      <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
-                                          <div class="graph_heading">
-                                              Screens ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                          </div>
-                                          <div class="clearfix each_section_graph format_section_graph dataScreenIconsText"  ng-if="(details.screens.length > 0 &&  campaign.kpiType !='null' && screenTotal > 0 )">
-                                              <div ng-repeat="screen in details.screens track by $index" class="each_bar_section_holder {{screen.icon}}">
-                                                <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')">{{screen.dimension}}{{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? ':':'' }} {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? (screen[details.kpiType] | kpiFormatter : campaign.kpiType):'' }}</div>
-                                                <!--
-                                                <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " ng-style="{'width':100-((details.screenTop-screen[details.kpiType])*100/details.screenTop) +'%'};">
-                                                </div>
-                                                -->
-                                              </div>
-                                          </div>
-                                           <div id="screenWidget"></div>
-
-                                           <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
-                                           <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>
-                                      </div>
-
-                                    </div>
-                                  </div>
-                                  <div class="item active">
-                                        <div class="col-xs-3">
-                                            <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_inventory" >
-                                                <div class="graph_heading">
-                                                    {{ textConstants.INVENTORY }} ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                                </div>
-                                                <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
-                                                <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'inventory')"></div>
-                                                <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
-                                                    <div class="inventory_number">
-                                                        {{ textConstants.TOP }} {{details.inventory.length}}
-                                                    </div>
-                                                    <div ng-repeat="data in details.inventory track by $index" class="each_bar_section_holder">
-                                                        <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
-                                                        <div class="each_bar_graph" ng-style="{'width':100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value) +'%'};"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                        <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                            <div ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
+                                            <div ng-if="inventoryBarChartConfig" bar-chart chart-data="{{inventoryBarChartConfig}}"></div>
                                         </div>
                                     </div>
-                                   <div class="item {{isCostModelTransparent ? '' : 'active'}}">
+                                </div>
+                                  
+                                   <div class="item">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                                             <div class="graph_heading">
-                                                Viewability
+                                                {{textConstants.VIEWABILITY}}
                                             </div>
                                             <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
                                             <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  ng-bind-html="getMessageForDataNotAvailable(campaign,'viewability')"></div>
@@ -388,6 +357,7 @@
                                         </div>
                                     </div>
                                   </div>
+                                   
                                     <!-- Video viewability widget commented for now -->
                                     <div class="item" ng-if="videoViewData.hasVideoAds">
                                         <div class="col-xs-3">
@@ -409,7 +379,7 @@
                                     <!-- end of ... Video viewability widget commented for now -->
                                 </div>
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-                                <a class="right carousel-control" href="#myCarousel" ng-show="isCostModelTransparent" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
         
                               </div> <!-- mycarousel ends -->
                         </div>                  
