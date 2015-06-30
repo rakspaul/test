@@ -474,7 +474,7 @@
 
                         $scope.videoViewData = {
                             graphData: baseConfiguration,
-                            totalImps: responseData.view_metrics.ias_viewable_imps,
+                            totalImps: responseData.view_metrics.video_viewability_metrics.videos_viewable_imps,
                             hasVideoAds: $scope.hasVideoAds
                         }
                     }
