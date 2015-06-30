@@ -127,7 +127,12 @@ var angObj = angObj || {};
 
         $scope.reportData = reportDataJSON.data ;
     
-
+        $scope.select_option = function(event) {
+            var elem = $(event.target);
+            elem.toggleClass("active") ;
+        };
+        
+        
 
     });
 }());

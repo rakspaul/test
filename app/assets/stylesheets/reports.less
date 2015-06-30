@@ -3394,7 +3394,7 @@ only screen and (min-device-pixel-ratio: 2) {
     border : solid 1px #007ac9 ;
     color: #0978c9 ;
     cursor: pointer;
-    margin: 20px 0  ;
+    margin: 14px 0  ;
 
   }
   .filter_btn {
@@ -3403,22 +3403,45 @@ only screen and (min-device-pixel-ratio: 2) {
   }
   .add_breakdown_line {
     float: left;
-    width: 30px ;
-    height: 30px ;
-    border: dotted 1px #007ac9 ;
-    
+    width: 14px;
+    height: 30px;
+    border: dashed 1px #007ac9;
+    border-right: 0;
+    border-top: 0;
+    border-radius: 0 0 0 10px;
+    -moz-border-radius: 0 0 0 10px;
+    -webkit-border-radius: 0 0 0 6px;
+    margin-left: 25px;
   }
 }
 .common_dropdown {
   .dropdown {
+    border: solid 1px #ccc;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    .dropdown_ul_text {
+       cursor: default;
+       padding: 5px;
+       display: block;
+    }
+    .arrow_img {
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+      height: 18px;
+      width: 10px;
+      display: inline-block;
+      float: right;
+    }
     .dropdown-menu {
       padding: 0 ;
+      max-height: 200px;
+      overflow: auto;
       li {
         padding: 5px ;
         cursor: default;
       }
       li:hover {
-
+        background: #d2dee7 ;
       }
     }
   }

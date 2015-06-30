@@ -45,115 +45,55 @@
 	           		<div class="col-md-11">
 	           			<input type="text" placeHolder="Search" class="search_input" />
 	           			<div class="col-md-12">
-	           				<div  class="col-md-3">
+	           				<div  class="col-md-3 each_measurable_col">
 	           					<div class="custom_report_col_title">
 	           						<label>
-		           						<input type="checkbox">
+		           						<input type="checkbox" ng-model="delivery_chkd">
 		           						<span>Delivery</span>
 	           						</label>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option">
-	           							Impressions
-	           						</div>
-	           						<div class="each_option">
-	           							Clicks
-	           						</div>
-	           						<div class="each_option">
-	           							CTR, %
-	           						</div>
-	           						<div class="each_option">
-	           							PI Actions
+	           						<div class="each_option" ng-repeat="measures in reportData[0].delivery_measures" ng-click="select_option($event)" ng-class="{active : delivery_chkd}" >
+	           							{{measures}}
 	           						</div>
 	           					</div>
 	           				</div>
-	           				<div  class="col-md-3">
+	           				<div  class="col-md-3 each_measurable_col">
 	           					<div class="custom_report_col_title">
 	           						<label>
-		           						<input type="checkbox">
+		           						<input type="checkbox" ng-model="booked_chkd">
 		           						<span>Booked</span>
 	           						</label>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option">
-	           							Impressions
-	           						</div>
-	           						<div class="each_option active">
-	           							Clicks
-	           						</div>
-	           						<div class="each_option">
-	           							CTR, %
-	           						</div>
-	           						<div class="each_option">
-	           							PI Actions
+	           						<div class="each_option" ng-repeat="measures in reportData[0].booked_measures" ng-click="select_option($event)" ng-class="{active : booked_chkd}">
+	           							{{measures}}
 	           						</div>
 	           					</div>
 	           				</div>
-	           				<div  class="col-md-3">
+	           				<div  class="col-md-3 each_measurable_col">
 	           					<div class="custom_report_col_title">
 	           						<label>
-		           						<input type="checkbox">
+		           						<input type="checkbox" ng-model="engagement_chkd">
 		           						<span>Engagement</span>
 	           						</label>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option">
-	           							Inter	
-	           						</div>
-	           						<div class="each_option">
-	           							Tot Inter
-	           						</div>
-	           						<div class="each_option">
-	           							Avg Inter time
-	           						</div>
-	           						<div class="each_option">
-	           							Ad days
-	           						</div>
-	           						<div class="each_option">
-	           							Inter	
-	           						</div>
-	           						<div class="each_option">
-	           							Tot Inter
-	           						</div>
-	           						<div class="each_option">
-	           							Avg Inter time
-	           						</div>
-	           						<div class="each_option">
-	           							Ad days
-	           						</div>
-	           						<div class="each_option">
-	           							Inter	
-	           						</div>
-	           						<div class="each_option">
-	           							Tot Inter
-	           						</div>
-	           						<div class="each_option">
-	           							Avg Inter time
-	           						</div>
-	           						<div class="each_option">
-	           							Ad days
+	           						<div class="each_option" ng-repeat="measures in reportData[0].engagement_measures" ng-click="select_option($event)" ng-class="{active : engagement_chkd}">
+	           							{{measures}}
 	           						</div>
 	           					</div>
 	           				</div>
-	           				<div  class="col-md-3">
+	           				<div  class="col-md-3 each_measurable_col">
 	           					<div class="custom_report_col_title">
 	           						<label>
-		           						<input type="checkbox">
+		           						<input type="checkbox"  ng-model="video_chkd">
 		           						<span>Video</span>
 	           						</label>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option">
-	           							Video Plays 
-	           						</div>
-	           						<div class="each_option">
-	           							25% Ad Compe ...
-	           						</div>
-	           						<div class="each_option">
-	           							CTR, %
-	           						</div>
-	           						<div class="each_option">
-	           							PI Actions
+	           						<div class="each_option" ng-repeat="measures in reportData[0].video_measures" ng-click="select_option($event)" ng-class="{active : video_chkd}">
+	           							{{measures}}
 	           						</div>
 	           					</div>
 	           				</div>
