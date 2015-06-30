@@ -385,8 +385,8 @@
         $scope.getInventoryGraphData  = function(campaign){
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     var inventoryData;
                     $scope.chartDataInventory = [];
                     var inventoryResponseData = result.data.data;
@@ -402,15 +402,15 @@
                             var kpiData = (kpiModel === 'ctr') ? (data.kpi_value * 100) : data.kpi_value;
                             $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.domain_data, 'value' : kpiData});
                         });
-
-                        $scope.inventoryBarChartConfig = {
-                            'widgetName' : 'Inventory',
-                            data : $scope.chartDataInventory,
-                            kpiType : kpiModel || 'NA',
-                            showLabel : true
-                        }
                     }
                 }
+                $scope.inventoryBarChartConfig = {
+                    'widgetName' : 'Inventory',
+                    data : $scope.chartDataInventory,
+                    kpiType : kpiModel || 'NA',
+                    showLabel : true
+                }
+
             },function(result){
                 console.log('inventory data call failed');
             });
@@ -486,8 +486,8 @@
         $scope.getScreenGraphData  = function(campaign){
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     var screensData;
                     $scope.chartDataScreen = [];
                     var screenResponseData = result.data.data;
@@ -511,13 +511,13 @@
                             var screenType = data.dimension.toLowerCase();
                             $scope.chartDataScreen.push({'gross_env' : data.gross_rev, className : screenTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
-
-                        $scope.screenBarChartConfig = {
-                            'widgetName' : 'Screens',
-                            data : $scope.chartDataScreen,
-                            kpiType : kpiModel || 'NA'
-                        }
                     }
+                }
+
+                $scope.screenBarChartConfig = {
+                    'widgetName' : 'Screens',
+                    data : $scope.chartDataScreen,
+                    kpiType : kpiModel || 'NA'
                 }
             },function(result){
                 console.log('screen data call failed');
@@ -529,8 +529,8 @@
         $scope.getAdSizeGraphData  = function(campaign){
             dataService.getAdSizeData($scope.campaign).then(function(result) {
                 $scope.loadingAdSizeFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     var adSizeData;
                     $scope.chartDataAdSize = [];
                     var adSizeResponseData = result.data.data;
@@ -548,13 +548,15 @@
                             $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
 
-                        $scope.adSizenBarChartConfig = {
-                            'widgetName' : 'Ad Size',
-                            data : $scope.chartDataAdSize,
-                            kpiType : kpiModel || 'NA',
-                            showLabel : true
-                        }
+
                     }
+                }
+
+                $scope.adSizenBarChartConfig = {
+                    'widgetName' : 'Ad Size',
+                    data : $scope.chartDataAdSize,
+                    kpiType : kpiModel || 'NA',
+                    showLabel : true
                 }
             },function(result){
                 console.log('screen data call failed');
@@ -570,13 +572,12 @@
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
+            var kpiModel = kpiSelectModel.selectedKpi;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
                 $scope.chartDataPlatform = [];
                 $scope.chartData = [];
                 if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
-
                     var  modify = function(obj, arr, key) { // Step 1 Data Mod holds value on memory
                         _.each(obj, function(pltformObj, index) { 
                                _.each(pltformObj.platforms, function(platform) { 
@@ -602,17 +603,13 @@
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'className': '', 'icon_url' : data.icon_url, 'type' : data.platform, 'value' : kpiData});
                         });
-
-                        $scope.platformBarChartConfig = {
-                            'widgetName' : constants.PLATFORM,
-                            data : $scope.chartDataPlatform,
-                            kpiType : kpiModel || 'NA',
-                            showLabel : true
-                        }
-
                     }
-                } else {
-                    console.log('Platform data call failed');
+                }
+                $scope.platformBarChartConfig = {
+                    'widgetName' : constants.PLATFORM,
+                    data : $scope.chartDataPlatform,
+                    kpiType : kpiModel || 'NA',
+                    showLabel : true
                 }
             }, function() {
                 console.log('Platform data call failed');
@@ -624,9 +621,9 @@
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 $scope.loadingFormatFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var formatData;
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     $scope.chartDataFormat = [];
                     var formatResponseData = result.data.data;
                     var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !formatResponseData[0].hasVTCMetrics;
@@ -640,13 +637,13 @@
                             var screenType = data.dimension.toLowerCase();
                             $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : data.dimension.toLowerCase() + "_graph", 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
-
-                        $scope.formatBarChartConfig = {
-                            'widgetName' : 'Formats',
-                            data : $scope.chartDataFormat,
-                            kpiType : kpiModel || ''
-                        }
                     }
+                }
+
+                $scope.formatBarChartConfig = {
+                    'widgetName' : 'Formats',
+                    data : $scope.chartDataFormat,
+                    kpiType : kpiModel || ''
                 }
             },function(result){
                 console.log('formats data call failed');
@@ -750,7 +747,7 @@
             }
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
-
+            console.log('type-->'+type)
             if (type === 'cost') {
                 utils.goToLocation('/cost');
             } else if (type === 'viewability' || type === 'videoViewability') {
@@ -759,7 +756,7 @@
                 utils.goToLocation('/inventory');
             } else if (type === 'platform') {
                 utils.goToLocation('/platform');
-            } else if (type === 'view_report' || type === 'format' || type == 'screens') {
+            } else if (type === 'view_report' || type === 'format' || type == 'screens' || type == 'AdSizes') {
                 utils.goToLocation('/performance');
             } else {
                 utils.goToLocation('/optimization');

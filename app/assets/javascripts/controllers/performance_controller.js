@@ -18,6 +18,9 @@ var angObj = angObj || {};
 
         $scope.api_return_code = 200;
 
+        var redirectWidget = $scope.selectedCampaign.redirectWidget;
+        console.log('$scope.redirectWidget->'+$scope.redirectWidget);
+
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
@@ -150,20 +153,6 @@ var angObj = angObj || {};
             }
         };
 
-        //Binding click event on tab and fetch strategy method.
-        $(function() {
-            $(".each_tab").click(function (event) {
-                var tab_id = $(this).attr("id").split("_tab")
-                $scope.selected_tab = tab_id[0];
-                $(".reports_tabs_holder").find(".active").removeClass("active");
-                $(this).addClass("active");
-                $(".reports_block").hide();
-                $("#reports_" + tab_id[0] + "_block").show();
-                $scope.strategyChangeHandler();
-                event.preventDefault();
-            });
-        });
-
         //resetting the variable
         $scope.resetVariables =  function() {
             $scope.screenBusy = false;
@@ -230,5 +219,22 @@ var angObj = angObj || {};
             return isActive + " " + sortDirection;
         };
 
+
+        //Binding click event on tab and fetch strategy method.
+        $(function() {
+            $(".each_tab").click(function (event) {
+                var tab_id = $(this).attr("id").split("_tab")
+                $scope.selected_tab = tab_id[0];
+                $(".reports_tabs_holder").find(".active").removeClass("active");
+                $(this).addClass("active");
+                $(".reports_block").hide();
+                $("#reports_" + tab_id[0] + "_block").show();
+                $scope.strategyChangeHandler();
+                event.preventDefault();
+            });
+            if(redirectWidget == 'AdSizes') {
+                $('#by'+redirectWidget.toLowerCase()).click();
+            }
+        });
     });
 }());
