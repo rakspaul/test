@@ -223,6 +223,10 @@ var angObj = angObj || {};
             $scope.sortReverse  = !$scope.sortReverse;
         });
 
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+        };
+
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             $('.direction_arrows div.kpi_arrow_sort.active').hide();

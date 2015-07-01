@@ -250,6 +250,10 @@ var angObj = angObj || {};
             $(".each_tab").click(function (event) {
                 var tab_id = $(this).attr("id").split("_tab")
                 $(".reports_tabs_holder").find(".active").removeClass("active");
+                /*$("body").find(".seventh_col").removeClass("active");*/
+                /*$('.kpi-dd-holder').removeClass( "active" );*/
+
+
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
@@ -280,6 +284,11 @@ var angObj = angObj || {};
             $scope.sortTypeSubSort ="tactic."+args;
             $scope.sortReverse  = !$scope.sortReverse;
         });
+
+
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+        };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';

@@ -160,6 +160,10 @@ var angObj = angObj || {};
             return isActive + " " + sortDirection;
         };
 
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+        };
+
 
         $scope.$on('dropdown-arrow-clicked', function(event, args) {
             $scope.sortType = "view_metrics."+args;

@@ -3387,7 +3387,32 @@ div.strategy_total_container {
     }
   }
 }
-.kpi-dd-holder {
+
+.viewability_header{
+  .kpi-dd-holder {
+    padding-right: 13px;
+    &.active {
+      background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 92px -64px;
+      padding-right: 13px;
+      .dd_txt{
+        color:#0978c9;
+      }
+    }
+  }
+}
+
+
+
+.kpi-dd-holder,#kpi_dropdown {
+  padding-right: 13px;
+  &.active{
+
+    background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 56px -64px;
+    padding-right: 13px;
+    .dd_txt{
+      color:#0978c9;
+    }
+  }
   .dropdown_ul_text {
     display: inline-block;
   }
@@ -3399,6 +3424,7 @@ div.strategy_total_container {
   .default-kpi-header-icon  {
     float: left;
     background-position: left top;
+
   }
 }
 /*  end of reports login page */

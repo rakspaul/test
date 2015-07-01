@@ -22,6 +22,7 @@
             kpiSelectModel.setSelectedKpiAlt(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpiAlt() ;
             $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
+
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(){
@@ -33,6 +34,9 @@
             var _selectedKpi =  $(e.target).attr("value") ;
             var isArrow =  $(e.target).attr("class").match("^kpi_arrow_sort") ;
             if(isArrow !== null){
+                $(".reports_platform_header").find(".active").removeClass("active");
+                $('.kpi-dd-holder').addClass( "active" );
+                $('#kpi_dropdown').addClass( "active" );
                 $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
                 $(e.target).addClass( "active" );
                 $(e.target).show();
