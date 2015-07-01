@@ -32,8 +32,7 @@
     </div>
     <div class="common_loading_icon" ng-if="screenBusy "></div>
     <div tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
-        <div ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
-        <div ng-if="screenData" bar-chart chart-data="{{screenData}}"></div>
+        <div class="DashBoradScreenWidget" ng-if="screenData" bar-chart chart-data="{{screenData}}"></div>
     </div>
   </div>
 </div>
