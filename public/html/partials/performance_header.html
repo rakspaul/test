@@ -10,7 +10,7 @@
 <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
     <div class="each_col third_col">
 
-        <span class="icon_text_holder" ng-class="sortClassFunction('performanceData.platformType_aggregation.video_metrics.ad_starts',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.video_metrics.ad_starts';sortTypeSubSort='video_metrics.ad_starts';sortReverse = !sortReverse ">{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.video_metrics.ad_starts',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.video_metrics.ad_starts';sortTypeSubSort='video_metrics.ad_starts';sortReverse = !sortReverse ">{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
 
     </div>
     <div class="vid_data_hdr">
@@ -26,7 +26,7 @@
 
 
     <div class="each_col third_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
-        <span class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('performanceData.platformType_aggregation.video_metrics.vtc_rate',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.video_metrics.vtc_rate';sortTypeSubSort='video_metrics.vtc_rate'; sortReverse = !sortReverse"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+        <span class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.video_metrics.vtc_rate',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.video_metrics.vtc_rate';sortTypeSubSort='video_metrics.vtc_rate'; sortReverse = !sortReverse"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
 
     </div>
 </div>

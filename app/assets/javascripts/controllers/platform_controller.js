@@ -110,7 +110,7 @@ var angObj = angObj || {};
                     $scope.sortTypeSubSort='platform.ias_imps_delivered';
                 }
                 else{
-                    $scope.sortType = 'costData.platformType_aggregation.impressions';
+                    $scope.sortType = 'platformType_aggregation.impressions';
                     $scope.sortTypeSubSort='platform.impressions';
 
                 }
