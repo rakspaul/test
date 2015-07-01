@@ -62,14 +62,10 @@
        return url ;
     };
 
-     this.APIScreenWidgetForAllBrands = function(timePeriod, agencyId , _screenWidgetFormatType, status){
-          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf?campaignState='+ status.toLowerCase();
-          return url ;
-      };
-
-      this.APIScreenWidgetForBrand = function(timePeriod,agencyId,  brandId , _screenWidgetFormatType, status){
-         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf?campaignState='+ status.toLowerCase() ;
-          return url ;
+     this.APIScreenWidgetForBrand = function(timePeriod, agencyId , brandId, _screenWidgetFormatType, status){
+         var param = (brandId !== -1) ? 'brands/' + brandId + '/' : '';
+         param +=  (_screenWidgetFormatType === 'byplatforms' ? _screenWidgetFormatType : _screenWidgetFormatType +'/perf');
+         return apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ param +'?campaignState='+ status.toLowerCase();
       };
 
     this.APIActionData = function(campaignId) {
