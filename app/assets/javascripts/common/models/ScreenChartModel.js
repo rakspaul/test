@@ -33,7 +33,6 @@
             }
 
             return platformData.performance;
-
         },
 
         this.dataModifyForScreenAndFormat =  function(data, kpiModel, screenWidgetFormat) {
