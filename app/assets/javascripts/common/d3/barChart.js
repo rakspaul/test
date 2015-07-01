@@ -10,23 +10,24 @@
             link: function (scope, elem, attrs, ctrl) {
 
                 var drawBarChart = function(chartData) {
-                    var values = _.compact(_.pluck(chartData.data, 'value'));
-                    scope.total = _.reduce(values, function (sum, num) {
+                    var barChatPlotData = _.pluck(chartData.data, 'value');
+                    scope.total = _.reduce(barChatPlotData, function (sum, num) {
                         return sum + num;
                     }, 0);
                     if (chartData.showLabel && chartData.data && chartData.data.length < 3) {
                         scope.disableLabel = {'visibility': 'hidden'};
                     }
                     scope.barData = chartData;
+                    scope.separator = chartData.separator || ':'
 
                     var widgetElem = elem.find(".barChartWidget");
-                    var containerWidthScreen = elem.parent().width();
-                    var barChatPlotData = _.pluck(chartData.data, 'value'),
+                    var containerWidthScreen = elem.parent().width(),
                         chartScreen,
-                        widthScreen = containerWidthScreen - 28,
+                        widthScreen = containerWidthScreen - (chartData.widthToSubtract || 28),
                         bar_heightScreen = chartData.barHeight || 4,
-                        gapScreen = 0,
+                        gapScreen = chartData.gapScreen || 33,
                         heightScreen = bar_heightScreen + 50;
+
 
                     var xScreen, yScreen;
                     xScreen = d3.scale.linear()
@@ -41,13 +42,36 @@
                         .attr('class', 'chart')
                         .attr('width', widthScreen)
                         .attr('height', 200);
+                
+                    var gradient = chartScreen.append("svg:defs")
+                        .append("svg:linearGradient")
+                        .attr("id", "gradient")
+                        .attr("x1", "0%")
+                        .attr("y1", "0%")
+                        .attr("x2", "100%")
+                        .attr("y2", "0%")
+                        .attr("spreadMethod", "pad");
+
+                    gradient.append("svg:stop")
+                        .attr("offset", "50%")
+                        .attr("stop-color", "#0978c9")
+                        .attr("stop-opacity", 1);
+
+                    gradient.append("svg:stop")
+                        .attr("offset", "80%")
+                        .attr("stop-color", "#2298ef")
+                        .attr("stop-opacity", 1);
 
                     chartScreen.selectAll("rect")
                         .data(barChatPlotData)
                         .enter().append("rect")
+                        .attr("rx", 4)
+                        .attr("ry", 4)
                         .attr("x", 0)
+                        .attr("fill", "url(#gradient)")
+                        .attr("stroke-width", '0.5px')
                         .attr("y", function (dScreen, iScreen) {
-                            return iScreen * 33;
+                            return iScreen * gapScreen;
                         })
                         .attr("width", xScreen)
                         .attr("height", bar_heightScreen);

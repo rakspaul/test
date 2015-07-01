@@ -38,7 +38,7 @@
         this.dataModifyForScreenAndFormat =  function(data, kpiModel, screenWidgetFormat) {
             var screenAndFormatData
             if (data && data.length > 0  && data[0].perf_metrics) {
-                screenAndFormatData = data[0].perf_metrics;
+                screenAndFormatData = _.filter(data[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
             }
             return screenAndFormatData;
         },
@@ -48,6 +48,14 @@
             var screenWidgetFormat = this.getScreenWidgetFormat();
             var screensData;
             var chartDataScreen = [];
+            var calculateTotalMetrics  = function(data, kpi) {
+                var total = 1;
+                if(kpi === 'gross_rev' || kpi === 'impressions' || key == 'cpa' || key == 'cpm' || key == 'cpc') {
+                    var values = _.compact(_.pluck(data, kpi));
+                    total = _.reduce(values, function (sum, num) { return sum + num;}, 0);
+                }
+                return total;
+            };
             if(screenWidgetFormat.toLowerCase() ==='platforms') {
                 screensData = this.dataModifyForPlatform(data, kpiModel, screenWidgetFormat);
             } else {
@@ -68,8 +76,10 @@
                 'desktop' : 'display_graph'
             }
 
+            var totalMetrics = calculateTotalMetrics(sortedData, selectedMetricKey);
+
             _.each(sortedData, function(data, idx) {
-                var kpiData = (selectedMetricKey === 'ctr' || selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') ? (data[selectedMetricKey] * 100) : data[selectedMetricKey];
+                var kpiData = (selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') ? ((data[selectedMetricKey] *100)/totalMetrics) : (data[selectedMetricKey] * 100);
                 var type = data.dimension || data.platform;
                 var cls = screenWidgetFormat.toLowerCase() === 'screens' ?  screenTypeMap[data.dimension.toLowerCase()] : '';
                 chartDataScreen.push({className : cls, 'icon_url' : data.icon_url, 'type' : type, 'value' : kpiData});
@@ -79,7 +89,10 @@
                 widgetName : screenWidgetFormat,
                 data : chartDataScreen,
                 barHeight : 8,
-                kpiType : kpiModel || 'NA'
+                kpiType : kpiModel || 'NA',
+                gapScreen :70,
+                widthToSubtract : 88    ,
+                separator : ' '
             }
 
             return screenBarChartConfig;
