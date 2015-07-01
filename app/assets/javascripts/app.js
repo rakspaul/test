@@ -58,10 +58,10 @@ var angObj = '';
                 title :  'Reports - Platform',
                 controller: 'platformController'
             })
-            .when('/reports', {
-                templateUrl: assets.html_reports,
-                title :  'Reports' ,
-                controller: 'createReportController'
+            .when('/customreport', {
+                templateUrl: assets.html_custom_report,
+                title :  'Custom Report' ,
+                controller: 'customReportController'
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,

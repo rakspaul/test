@@ -3356,6 +3356,57 @@ only screen and (min-device-pixel-ratio: 2) {
   .create_report_title , .custom_report_col_title {
     font-family: "Avenir-bold" ;
   }
+  .custom_report_col_title {
+    .external_chkbox {
+      float: none;
+      cursor: default;
+      .squaredFour {
+        height: 14px;
+        width: 14px ;
+        margin-top: 2px;
+        label {
+          height: 14px ;
+          width: 14px ;
+          border-radius: 1px ;
+          -moz-border-radius: 1px ;
+          -webkit-border-radius: 1px ;
+        }
+        label:after {
+          top: 2px;
+          left: 2px;
+          border-width: 3px;
+          border-color: #007ac9;
+        }
+      }
+      .squaredFour.not_all_selected {
+        input[type=checkbox]+label:after {
+            opacity : 1 ;
+            border-left: 0;
+            top: 3px;
+            left: 3px;
+            width: 7px;
+            height: 4px;
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        input[type=checkbox]:checked+label:after {
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          transform: rotate(-45deg);  
+          border-left: solid 3px #007ac9;
+          width: 9px;
+          height: 5px;
+          top: 2px;
+          left: 2px;
+        }
+      }
+    }
+  }
   .search_input {
     border: solid 1px #ccc;
     border-radius: 4px;
@@ -3367,12 +3418,12 @@ only screen and (min-device-pixel-ratio: 2) {
   }
   .custom_report_col {
     .each_option {
-      padding: 5px 10px ;
+      padding: 5px 10px 5px 20px ;
       border-radius: 4px ;
       -moz-border-radius: 4px ;
       -webkit-border-radius: 4px ;
       border : solid 1px transparent ;
-      margin : 5px ;
+      margin : 5px 5px 5px 0 ;
       cursor: default;
       transition : .2s ;
       -webkit-transition : .2s ;
@@ -3400,6 +3451,7 @@ only screen and (min-device-pixel-ratio: 2) {
   .filter_btn {
     color: #0978c9 ;
     cursor: pointer;
+    margin-top: 6px;
   }
   .add_breakdown_line {
     float: left;
@@ -3411,11 +3463,33 @@ only screen and (min-device-pixel-ratio: 2) {
     border-radius: 0 0 0 10px;
     -moz-border-radius: 0 0 0 10px;
     -webkit-border-radius: 0 0 0 6px;
-    margin-left: 25px;
+    margin-left: 20px;
+  }
+  .report_generate_button , .report_reset_button {
+    color: #fff ;
+    height: 40px ;
+    text-align: center;
+    width: 150px ;
+    margin: 20px 20px 50px 0 ;
+    background: #0978c9 ;
+    font-size: 12px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px ;
+    border-radius: 4px;
+    float: left;
+    text-transform: uppercase;
+    line-height: 38px;
+    cursor: pointer;
+  }
+  .report_reset_button {
+    background: #dee6eb ;
+    color: #a2acba ;
   }
 }
 .common_dropdown {
   .dropdown {
+    min-width: 120px;
+    margin-right: 20px;
     border: solid 1px #ccc;
     border-radius: 4px;
     -moz-border-radius: 4px;
@@ -3431,6 +3505,7 @@ only screen and (min-device-pixel-ratio: 2) {
       width: 10px;
       display: inline-block;
       float: right;
+      margin-left: 5px ;
     }
     .dropdown-menu {
       padding: 0 ;

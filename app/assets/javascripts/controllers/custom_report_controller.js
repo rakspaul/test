@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('createReportController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('customReportController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
 
@@ -129,10 +129,40 @@ var angObj = angObj || {};
     
         $scope.select_option = function(event) {
             var elem = $(event.target);
-            elem.toggleClass("active") ;
+            if( elem.hasClass("active")  ) {
+                elem.removeClass("active") ;
+                elem.closest(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , false ) ;
+            } else {
+                elem.addClass("active") ;
+
+            }
+
+            var total_items = elem.closest(".each_measurable_col").find(".each_option").length  ;
+            var active_items = elem.closest(".each_measurable_col").find(".active").length  ;
+
+            if( active_items > 0  ) {
+                elem.closest(".each_measurable_col").find(".squaredFour").addClass("not_all_selected") ;
+            } else {
+                elem.closest(".each_measurable_col").find(".squaredFour").removeClass("not_all_selected") ;
+            }
+
+            if(total_items == active_items ) {
+                elem.closest(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , true ) ;
+            } 
         };
-        
-        
+
+        $scope.select_unselect_all = function(event) {
+            var elem = $(event.target);
+            elem.closest(".squaredFour").removeClass("not_all_selected");
+            if( elem.prop("checked") ) {
+                elem.closest(".each_measurable_col").find(".each_option").addClass("active") ;
+            } 
+        };
+
+        $scope.select_dropdown_option = function(event) {
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+        };
 
     });
 }());
