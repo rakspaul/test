@@ -32,8 +32,8 @@ var angObj = angObj || {};
         };
 
 
-        $scope.sortType     = ''; // set the default sort type
-        $scope.sortTypeSubSort     = 'impressions'; // set the default sort type
+        $scope.sortType     = 'platformType_aggregation.impression'; // set the default sort type
+        $scope.sortTypeSubSort     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -101,6 +101,20 @@ var angObj = angObj || {};
 
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
+                if(param.tab == "performance"){
+                    $scope.sortType = 'performanceData.platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='impressions'
+                }
+                else if(param.tab == "viewability"){
+                    $scope.sortType = 'ViewabilityData.platformType_aggregation.ias_imps_delivered';
+                    $scope.sortTypeSubSort='platform.ias_imps_delivered';
+                }
+                else{
+                    $scope.sortType = 'costData.platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='platform.impressions';
+
+                }
+
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
                     $scope.performanceBusy = false;

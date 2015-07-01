@@ -703,6 +703,7 @@ div.main_navigation {
       background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -716,6 +717,7 @@ div.main_navigation {
       background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -778,14 +780,14 @@ div.main_navigation {
       height:21px;
       div.kpi_arrow_sort.point_down{
         padding:0;
-        background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
+        background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
         cursor: pointer;
         width:15px;
         display: none;
       }
       div.kpi_arrow_sort.point_up{
         padding:0;
-        background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
+        background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
         cursor: pointer;
         width:15px;
         display: none;
@@ -1273,6 +1275,7 @@ div.strategy_total_container {
       .sort_order_down {
         &.active {
           background-position: 52px -64px;
+          color: #0978c9;
         }
         &:hover {
           background-position: 52px 1px;
@@ -1281,6 +1284,7 @@ div.strategy_total_container {
       .sort_order_up {
         &.active {
           background-position: 52px -64px;
+          color: #0978c9;
         }
         &:hover {
           background-position: 52px 1px;
@@ -1303,6 +1307,7 @@ div.strategy_total_container {
     background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
+    color: #0978c9;
   }
   .sort_order_down {
     cursor: pointer;
@@ -1315,6 +1320,7 @@ div.strategy_total_container {
     background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
+    color: #0978c9;
   }
 
 
@@ -1332,6 +1338,7 @@ div.strategy_total_container {
     div.each_col.seventh_col {
       font-size: 14px ;
       color: #57606d ;
+
     }
   }
 }
@@ -1825,12 +1832,18 @@ div.strategy_total_container {
       font-size: 18px;
       font-family: "Avenir";
       margin-bottom: 10px ;
+      .active{
+        color: #0978c9;
+      }
     }
     .each_strategy_holder {
       .first_col {
         color: #21252b;
         font-size: 14px;
         font-family: "Avenir-bold";
+        .active{
+          color: #0978c9;
+        }
       }
     }
   }
@@ -1948,6 +1961,7 @@ div.strategy_total_container {
       background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -1962,6 +1976,7 @@ div.strategy_total_container {
       background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -1981,6 +1996,7 @@ div.strategy_total_container {
         background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll 97px -64px;
         cursor: pointer;
         padding-right: 17px;
+        color: #0978c9;
       }
     }
 
@@ -1994,6 +2010,7 @@ div.strategy_total_container {
         background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 97px -64px;
         cursor: pointer;
         padding-right: 17px;
+        color: #0978c9;
       }
     }
   }
@@ -2622,6 +2639,9 @@ div.strategy_total_container {
   color: #a9a8a8 ;
   font-family: "Avenir" ;
 }
+
+
+
 .reports_cost_header_holder , #reports_platform_cost_block {
   color: #313233 ;
   .common-load-icon {
@@ -2641,6 +2661,7 @@ div.strategy_total_container {
     }
     &.active{
       background-position: 52px -64px;
+      color: #0978c9;
     }
   }
 
@@ -2650,6 +2671,7 @@ div.strategy_total_container {
     }
     &.active {
       background-position: 52px -64px;
+      color: #0978c9;
     }
   }
 
@@ -2689,6 +2711,9 @@ div.strategy_total_container {
   .platform_aggregation_row {
     .each_cost_col {
       font-family: "Avenir-bold" ;
+      &.active{
+        color:blue;
+      }
     }
   }
   .cost_header_holder{
@@ -2701,6 +2726,9 @@ div.strategy_total_container {
     }
     .each_cost_col {
       .ColHeadingFontColor();
+      &.active{
+        color:blue;
+      }
     }
 
     .more_options {
@@ -2817,6 +2845,14 @@ div.strategy_total_container {
     clear: both;
   }
 }
+
+#reports_platform_cost_block .reports_details_outer_container .reports_platform_header .each_cost_col.sec_col.active{
+  color:#0978c9;
+}
+
+
+
+
 #reports_platform_cost_block {
   .dropdown {
     cursor: default;
@@ -2834,6 +2870,7 @@ div.strategy_total_container {
         &.sort_order_down {
           &.active {
             background-position: 98px -64px;
+            color: #0978c9;
 
           }
           &:hover {
@@ -2845,6 +2882,7 @@ div.strategy_total_container {
         &.sort_order_up {
           &.active {
             background-position: 98px -64px;
+            color: #0978c9;
 
           }
           &:hover {
