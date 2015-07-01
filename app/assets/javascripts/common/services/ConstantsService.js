@@ -161,6 +161,9 @@
     this.TOP_THREE = "Top 3";
     this.VIEWABILITY = "Viewability";
     this.INVENTORY = "Inventory";
+    this.AdSize = "Ad Size";
+    this.FORMAT = "Format";
+
     this.TOP = "Top";
     this.NO_LINKED_STRATEGIES = "No Linked Strategies";
     this.ALL = "All";

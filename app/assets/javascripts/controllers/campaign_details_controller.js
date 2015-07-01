@@ -385,8 +385,8 @@
         $scope.getInventoryGraphData  = function(campaign){
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     var inventoryData;
                     $scope.chartDataInventory = [];
                     var inventoryResponseData = result.data.data;
@@ -394,23 +394,23 @@
                         inventoryData = inventoryResponseData[0].inv_metrics;
                         inventoryData = _.filter(inventoryData, function(obj) {  return obj.tb == 0 });
                         var sortedData = _.sortBy(inventoryData, 'kpi_value'); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
-
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data.kpi_value * 100) : data.kpi_value;
                             $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.domain_data, 'value' : kpiData});
                         });
-
-                        $scope.inventoryBarChartConfig = {
-                            'widgetName' : 'Inventory',
-                            data : $scope.chartDataInventory,
-                            kpiType : kpiModel || 'NA',
-                            showLabel : true
-                        }
                     }
                 }
+                $scope.inventoryBarChartConfig = {
+                    'widgetName' : 'Inventory',
+                    data : $scope.chartDataInventory,
+                    kpiType : kpiModel || 'NA',
+                    showLabel : true
+                }
+
             },function(result){
                 console.log('inventory data call failed');
             });
@@ -474,7 +474,7 @@
 
                         $scope.videoViewData = {
                             graphData: baseConfiguration,
-                            totalImps: responseData.view_metrics.ias_viewable_imps,
+                            totalImps: responseData.view_metrics.video_viewability_metrics.videos_viewable_imps,
                             hasVideoAds: $scope.hasVideoAds
                         }
                     }
@@ -486,8 +486,8 @@
         $scope.getScreenGraphData  = function(campaign){
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     var screensData;
                     $scope.chartDataScreen = [];
                     var screenResponseData = result.data.data;
@@ -495,8 +495,9 @@
                     if (screenResponseData && screenResponseData.length > 0 && !hasVTCMetrics && screenResponseData[0].perf_metrics) {
                         screensData = _.filter(screenResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
                         var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
 
                         var screenTypeMap = {
@@ -511,13 +512,13 @@
                             var screenType = data.dimension.toLowerCase();
                             $scope.chartDataScreen.push({'gross_env' : data.gross_rev, className : screenTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
-
-                        $scope.screenBarChartConfig = {
-                            'widgetName' : 'Screens',
-                            data : $scope.chartDataScreen,
-                            kpiType : kpiModel || 'NA'
-                        }
                     }
+                }
+
+                $scope.screenBarChartConfig = {
+                    'widgetName' : 'Screens',
+                    data : $scope.chartDataScreen,
+                    kpiType : kpiModel || 'NA'
                 }
             },function(result){
                 console.log('screen data call failed');
@@ -529,8 +530,8 @@
         $scope.getAdSizeGraphData  = function(campaign){
             dataService.getAdSizeData($scope.campaign).then(function(result) {
                 $scope.loadingAdSizeFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     var adSizeData;
                     $scope.chartDataAdSize = [];
                     var adSizeResponseData = result.data.data;
@@ -538,9 +539,9 @@
                     if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVTCMetrics && adSizeResponseData[0].perf_metrics) {
                         adSizeData = adSizeResponseData[0].perf_metrics;
                         var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() == 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
-
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -548,13 +549,15 @@
                             $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
 
-                        $scope.adSizenBarChartConfig = {
-                            'widgetName' : 'Ad Size',
-                            data : $scope.chartDataAdSize,
-                            kpiType : kpiModel || 'NA',
-                            showLabel : true
-                        }
+
                     }
+                }
+
+                $scope.adSizenBarChartConfig = {
+                    'widgetName' : 'Ad Size',
+                    data : $scope.chartDataAdSize,
+                    kpiType : kpiModel || 'NA',
+                    showLabel : true
                 }
             },function(result){
                 console.log('screen data call failed');
@@ -570,13 +573,12 @@
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
+            var kpiModel = kpiSelectModel.selectedKpi;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
                 $scope.chartDataPlatform = [];
                 $scope.chartData = [];
                 if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
-                    var kpiModel = kpiSelectModel.selectedKpi;
-
                     var  modify = function(obj, arr, key) { // Step 1 Data Mod holds value on memory
                         _.each(obj, function(pltformObj, index) { 
                                _.each(pltformObj.platforms, function(platform) { 
@@ -595,24 +597,21 @@
                         });
 
                         sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() !== 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'className': '', 'icon_url' : data.icon_url, 'type' : data.platform, 'value' : kpiData});
                         });
-
-                        $scope.platformBarChartConfig = {
-                            'widgetName' : constants.PLATFORM,
-                            data : $scope.chartDataPlatform,
-                            kpiType : kpiModel || 'NA',
-                            showLabel : true
-                        }
-
                     }
-                } else {
-                    console.log('Platform data call failed');
+                }
+                $scope.platformBarChartConfig = {
+                    'widgetName' : constants.PLATFORM,
+                    data : $scope.chartDataPlatform,
+                    kpiType : kpiModel || 'NA',
+                    showLabel : true
                 }
             }, function() {
                 console.log('Platform data call failed');
@@ -624,29 +623,30 @@
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 $scope.loadingFormatFlag = false;
+                var kpiModel = kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var formatData;
-                    var kpiModel = kpiSelectModel.selectedKpi;
                     $scope.chartDataFormat = [];
                     var formatResponseData = result.data.data;
                     var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !formatResponseData[0].hasVTCMetrics;
                     if (formatResponseData && formatResponseData.length > 0 && !hasVTCMetrics && formatResponseData[0].perf_metrics) {
                         formatData = _.filter(formatResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
                         var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() !== 'cpa' || kpiModel.toLowerCase() !== 'cpm') ? sortedData.reverse() : sortedData;
+                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                         sortedData  = sortedData.slice(0, 3);
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
                             $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : data.dimension.toLowerCase() + "_graph", 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
-
-                        $scope.formatBarChartConfig = {
-                            'widgetName' : 'Formats',
-                            data : $scope.chartDataFormat,
-                            kpiType : kpiModel || ''
-                        }
                     }
+                }
+
+                $scope.formatBarChartConfig = {
+                    'widgetName' : 'Formats',
+                    data : $scope.chartDataFormat,
+                    kpiType : kpiModel || ''
                 }
             },function(result){
                 console.log('formats data call failed');
@@ -750,7 +750,7 @@
             }
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
-
+            console.log('type-->'+type)
             if (type === 'cost') {
                 utils.goToLocation('/cost');
             } else if (type === 'viewability' || type === 'videoViewability') {
@@ -759,7 +759,7 @@
                 utils.goToLocation('/inventory');
             } else if (type === 'platform') {
                 utils.goToLocation('/platform');
-            } else if (type === 'view_report' || type === 'format' || type == 'screens') {
+            } else if (type === 'view_report' || type === 'formats' || type == 'screens' || type == 'adsizes') {
                 utils.goToLocation('/performance');
             } else {
                 utils.goToLocation('/optimization');

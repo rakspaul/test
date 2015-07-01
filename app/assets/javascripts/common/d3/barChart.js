@@ -12,7 +12,7 @@
 
                 var values = _.compact(_.pluck(chartData.data, 'value'));
                 scope.total = _.reduce(values, function(sum, num){ return sum + num; }, 0);
-                if(chartData.showLabel && chartData.data.length < 3) {
+                if(chartData.showLabel && chartData.data && chartData.data.length < 3) {
                     scope.disableLabel = {'visibility': 'hidden'};
                 }
                 scope.barData = chartData;
