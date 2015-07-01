@@ -81,7 +81,12 @@
             _.each(sortedData, function(data, idx) {
                 var kpiData = (selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') ? ((data[selectedMetricKey] *100)/totalMetrics) : (data[selectedMetricKey] * 100);
                 var type = data.dimension || data.platform;
-                var cls = screenWidgetFormat.toLowerCase() === 'screens' ?  screenTypeMap[data.dimension.toLowerCase()] : '';
+                var cls ='';
+                if(screenWidgetFormat.toLowerCase() === 'screens') {
+                    cls = screenTypeMap[data.dimension.toLowerCase()];
+                } else if(screenWidgetFormat.toLowerCase() === 'formats') {
+                    cls = data.dimension.toLowerCase() + "_graph"
+                }
                 chartDataScreen.push({className : cls, 'icon_url' : data.icon_url, 'type' : type, 'value' : kpiData});
             });
 
