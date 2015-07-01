@@ -36,13 +36,14 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsTabs();
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
-            if($scope.redirectWidget == 'adsizes') {
+
+            if($scope.redirectWidget && $scope.redirectWidget == 'adsizes') {
                 $scope.sortByColumn = 'dimension';
                 $scope.activeAdSizeClass = 'active';
                 $scope.defaultDisplayAdSize = 'display : block';
                 $scope.defaultDisplayFormat = 'display : none';
                 $scope.defaultDisplayScreen = 'display : none';
+                $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
             }
             else if($scope.redirectWidget == 'formats') {
                 $scope.sortByColumn = 'dimension';
