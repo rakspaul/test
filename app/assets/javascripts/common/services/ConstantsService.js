@@ -82,6 +82,7 @@
     this.ACTION_RATE = "Action rate";
     this.SCREENS = "Screens";
     this.FORMATS = "Formats";
+    this.PLATFORMS = "Platforms";
     this.CREATIVES = "Creatives";
     this.VIDEO_PLAYS = "Video Plays";
     this.ADD_SIZES = "Ad Sizes";
