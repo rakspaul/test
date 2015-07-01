@@ -69,13 +69,13 @@
             $scope.screenBusy = true ;
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
-                if(screenChartModel.getScreenWidgetData()['dataNotAvailable'] == true){
+                /*if(screenChartModel.getScreenWidgetData()['dataNotAvailable'] == true){
                     $scope.dataFound = false;
                     $scope.cleanScreenWidget();
-                } else{
+                } else{*/
                     $scope.dataFound = true;
                     $scope.updateScreenChartData();
-                }
+                //}
             });
         };
 
