@@ -8,8 +8,8 @@
             controller: ['$scope', '$http', function($scope, $http) {
             }],
             link: function (scope, elem, attrs, ctrl) {
-                scope.$watch('screenData', function(data) {
-                    var chartData = data;
+
+                var drawBarChart = function(chartData) {
                     var values = _.compact(_.pluck(chartData.data, 'value'));
                     scope.total = _.reduce(values, function (sum, num) {
                         return sum + num;
@@ -19,13 +19,12 @@
                     }
                     scope.barData = chartData;
 
-                    var widgetName = scope.barData.widgetName.toLowerCase();
                     var widgetElem = elem.find(".barChartWidget");
                     var containerWidthScreen = elem.parent().width();
                     var barChatPlotData = _.pluck(chartData.data, 'value'),
                         chartScreen,
                         widthScreen = containerWidthScreen - 28,
-                        bar_heightScreen = data.barHeight || 4,
+                        bar_heightScreen = chartData.barHeight || 4,
                         gapScreen = 0,
                         heightScreen = bar_heightScreen + 50;
 
@@ -59,8 +58,15 @@
                             $(this).attr({width: widthScreen, style: "fill:#dddddd"});
                         }
                     });
-                    // d3 Ends Here
-                });
+                }
+
+                if(attrs.class == 'DashBoradScreenWidget') {
+                    scope.$watch('screenData', function (data) {
+                        drawBarChart(data)
+                    });
+                } else {
+                    drawBarChart(JSON.parse(attrs.chartData))
+                }
             }
 
         }
