@@ -27,16 +27,11 @@
             $scope.getScreenAndFormatData();
         };
 
-        $scope.$on('SCREEN_DATA_NOT_AVAILABLE', function() {
-            $scope.dataFound = false;
-        });
-
-
         $scope.formatDropdownChange = function(obj){
-            /*if(!$scope.dataFound) {
+            if(!$scope.dataFound) {
                 screenChartModel.setScreenWidgetFormat(obj);
                 return;
-            }*/
+            }
             $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData']={};
@@ -60,7 +55,6 @@
             console.log($scope.screenData);
         };
 
-
         $scope.cleanScreenWidget = function(){
             d3.select(".chart").remove()
         };
@@ -69,13 +63,8 @@
             $scope.screenBusy = true ;
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
-                /*if(screenChartModel.getScreenWidgetData()['dataNotAvailable'] == true){
-                    $scope.dataFound = false;
-                    $scope.cleanScreenWidget();
-                } else{*/
-                    $scope.dataFound = true;
-                    $scope.updateScreenChartData();
-                //}
+                $scope.dataFound = true;
+                $scope.updateScreenChartData();
             });
         };
 
