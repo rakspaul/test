@@ -9,18 +9,52 @@
             dataNotAvailable : true
         };
 
-        this.dataModifyForScreenChart =  function(data) {
-            var mapper =  {
-                'Spend' : 'gross_rev',
-                'Action rate' : 'action_rate',
-                'VTC' : 'vtc'
+        var mapper =  {
+            'Spend' : 'gross_rev',
+            'Action rate' : 'action_rate',
+            'VTC' : 'vtc'
+        }
+
+        this.dataModifyForPlatform =  function(data, kpiModel, screenWidgetFormat) {
+            var platformData = {};
+            var modify = function (obj, platformData, key) { // Step 1 Data Mod holds value on memory
+                _.each(obj, function (pltformObj, index) {
+                    _.each(pltformObj.platforms, function (platform) {
+                        platformData[key].push(platform);
+                    })
+                })
             }
+
+            if(data  && data.platform_metrics) {
+                _.each(data.platform_metrics, function (obj, idx) {
+                    platformData[idx] = []
+                    modify(obj, platformData, idx);
+                });
+            }
+
+            return platformData.performance;
+
+        },
+
+        this.dataModifyForScreenAndFormat =  function(data, kpiModel, screenWidgetFormat) {
+            var screenAndFormatData
+            if (data && data.length > 0  && data[0].perf_metrics) {
+                screenAndFormatData = data[0].perf_metrics;
+            }
+            return screenAndFormatData;
+        },
+
+        this.dataModifyForScreenChart =  function(data) {
             var kpiModel = this.getScreenWidgetMetric();
             var screenWidgetFormat = this.getScreenWidgetFormat();
             var screensData;
             var chartDataScreen = [];
-            if (data && data.length > 0  && data[0].perf_metrics) {
-                screensData = data[0].perf_metrics;
+            if(screenWidgetFormat.toLowerCase() ==='platforms') {
+                screensData = this.dataModifyForPlatform(data, kpiModel, screenWidgetFormat);
+            } else {
+                screensData = this.dataModifyForScreenAndFormat(data, kpiModel, screenWidgetFormat);
+            }
+            if (screensData) {
                 var selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
                 var sortedData = _.sortBy(screensData, selectedMetricKey); // This Sorts the Data order by CTR or CPA
                 sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
@@ -39,12 +73,13 @@
                 var kpiData = (selectedMetricKey === 'ctr' || selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') ? (data[selectedMetricKey] * 100) : data[selectedMetricKey];
                 var type = data.dimension || data.platform;
                 var cls = screenWidgetFormat.toLowerCase() === 'screens' ?  screenTypeMap[data.dimension.toLowerCase()] : '';
-                chartDataScreen.push({className : cls, 'icon_url' : '', 'type' : type, 'value' : kpiData});
+                chartDataScreen.push({className : cls, 'icon_url' : data.icon_url, 'type' : type, 'value' : kpiData});
             });
 
             var screenBarChartConfig = {
                 widgetName : screenWidgetFormat,
                 data : chartDataScreen,
+                barHeight : 8,
                 kpiType : kpiModel || 'NA'
             }
 
@@ -64,11 +99,8 @@
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
-                if(typeof data !== 'undefined' && data.length > 0) {
-                    screenWidgetData['dataNotAvailable'] = false ;
+                if(typeof data !== 'undefined') {
                     screenWidgetData['responseData'] = data;
-                } else {
-                    screenWidgetData['dataNotAvailable'] = true ;
                 }
             });
         };
