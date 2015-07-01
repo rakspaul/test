@@ -10,6 +10,10 @@
             link: function (scope, elem, attrs, ctrl) {
 
                 var drawBarChart = function(chartData) {
+                    scope.barData = chartData;
+                    scope.separator = chartData.separator || ':'
+                    scope.kpiType = chartData.kpiType;
+
                     var barChatPlotData = _.pluck(chartData.data, 'value');
                     scope.total = _.reduce(barChatPlotData, function (sum, num) {
                         return sum + num;
@@ -17,8 +21,6 @@
                     if (chartData.showLabel && chartData.data && chartData.data.length < 3) {
                         scope.disableLabel = {'visibility': 'hidden'};
                     }
-                    scope.barData = chartData;
-                    scope.separator = chartData.separator || ':'
 
                     var widgetElem = elem.find(".barChartWidget");
                     var containerWidthScreen = elem.parent().width(),

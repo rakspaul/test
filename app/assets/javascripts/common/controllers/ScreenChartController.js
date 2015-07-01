@@ -33,6 +33,7 @@
                 return;
             }
             $scope.cleanScreenWidget();
+            $(".dataScreenIconsText").hide();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData']={};
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
@@ -64,6 +65,7 @@
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
                 $scope.dataFound = true;
+                $(".dataScreenIconsText").show();
                 $scope.updateScreenChartData();
             });
         };

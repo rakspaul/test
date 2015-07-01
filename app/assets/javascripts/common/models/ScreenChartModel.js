@@ -50,7 +50,7 @@
             var chartDataScreen = [];
             var calculateTotalMetrics  = function(data, kpi) {
                 var total = 1;
-                if(kpi === 'gross_rev' || kpi === 'impressions' || key == 'cpa' || key == 'cpm' || key == 'cpc') {
+                if(kpi === 'gross_rev' || kpi === 'impressions' || kpi == 'cpa' || kpi == 'cpm' || kpi == 'cpc') {
                     var values = _.compact(_.pluck(data, kpi));
                     total = _.reduce(values, function (sum, num) { return sum + num;}, 0);
                 }
@@ -79,7 +79,16 @@
             var totalMetrics = calculateTotalMetrics(sortedData, selectedMetricKey);
 
             _.each(sortedData, function(data, idx) {
-                var kpiData = (selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') ? ((data[selectedMetricKey] *100)/totalMetrics) : (data[selectedMetricKey] * 100);
+                var kpiData;
+                if(selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') {
+                        kpiData = ((data[selectedMetricKey] *100)/totalMetrics);
+                } else {
+                    if(selectedMetricKey === 'vtc') {
+                        kpiData = (data.video_metrics.vtc_rate);
+                    } else {
+                        kpiData = (data[selectedMetricKey]);
+                    }
+                }
                 var type = data.dimension || data.platform;
                 var cls ='';
                 if(screenWidgetFormat.toLowerCase() === 'screens') {
@@ -94,7 +103,7 @@
                 widgetName : screenWidgetFormat,
                 data : chartDataScreen,
                 barHeight : 8,
-                kpiType : kpiModel || 'NA',
+                kpiType : selectedMetricKey || 'NA',
                 gapScreen :70,
                 widthToSubtract : 88    ,
                 separator : ' '
