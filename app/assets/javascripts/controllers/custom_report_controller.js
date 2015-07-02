@@ -5,7 +5,7 @@ var angObj = angObj || {};
 
         $scope.textConstants = constants;
         dataService.getCustomReport($scope.campaign).then(function(result) {
-            var keys = ['dimensions', 'delivery_measures', 'booked_measures', 'engagement_measures', 'video_measures'];
+            var keys = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
 
             var jsonModifier =  function(data) {
                 var arr= [];

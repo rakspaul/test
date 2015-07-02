@@ -98,7 +98,7 @@
             },
 
             getCustomReport :  function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/reporting/custom/meta';
+                var url = apiPaths.apiSerivicesUrl + '/reports/custom/meta';
                 return this.fetch(url);
             },
 
