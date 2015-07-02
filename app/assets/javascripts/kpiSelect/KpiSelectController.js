@@ -36,16 +36,19 @@
             if(isArrow !== null){
                 $(".reports_platform_header").find(".active").removeClass("active");
                 $('.kpi-dd-holder').addClass( "active" );
-                if ($('.sec_col span').hasClass('sort_order_up')){
-                    $('.kpi-dd-holder').addClass( "sort_order_down" );
-                    $('.kpi-dd-holder').removeClass( "sort_order_up" );
-                } else if ($('.sec_col span').hasClass('sort_order_down')) {
-                    $('.kpi-dd-holder').addClass( "sort_order_up" );
-                    $('.kpi-dd-holder').removeClass( "sort_order_down" );
-                }
+
                 $('#kpi_dropdown').addClass( "active" );
                 $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
                 $(e.target).addClass( "active" );
+                /*alert($(e.target).hasClass( "point_down" ));*/
+                if($(e.target).hasClass( "point_down" )){
+                    $(e.target).removeClass( "point_down" );
+                    $(e.target).addClass( "point_up" );
+                }
+                else if($(e.target).hasClass( "point_up" )){
+                    $(e.target).removeClass( "point_up" );
+                    $(e.target).addClass( "point_down" );
+                }
                 $(e.target).show();
                 $( ".icon_text_holder" ).removeClass( "active" );
                 $rootScope.$broadcast('dropdown-arrow-clicked',_selectedKpi);
