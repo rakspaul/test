@@ -32,7 +32,7 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsTabs();
 
-        $scope.sortType     = ''; // set the default sort type
+        $scope.sortType     = 'impressions'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
 
         $scope.sortByColumn = 'name';
@@ -222,6 +222,10 @@ var angObj = angObj || {};
             $scope.sortTypeSubSort ="tactic."+args;
             $scope.sortReverse  = !$scope.sortReverse;
         });
+
+        $scope.removeKpiActive = function(){
+            $('#kpi_dropdown').removeClass( "active" );
+        };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';

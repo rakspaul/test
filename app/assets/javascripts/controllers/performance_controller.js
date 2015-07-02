@@ -7,7 +7,7 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        $scope.sortType     = ''; // set the default sort type
+        $scope.sortType     = 'impressions'; // set the default sort type
 
         $scope.sortReverse  = false; // set the default sort order
 
@@ -123,8 +123,8 @@ var angObj = angObj || {};
                     errorHandlerForPerformanceTab(result);
                 }
             }, errorHandlerForPerformanceTab);
-            
-            
+
+
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
@@ -244,6 +244,10 @@ var angObj = angObj || {};
             $scope.sortTypeSubSort ="tactic."+args;
             $scope.sortReverse  = !$scope.sortReverse;
         });
+
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+        };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';

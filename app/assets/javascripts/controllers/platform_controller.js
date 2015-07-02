@@ -32,8 +32,8 @@ var angObj = angObj || {};
         };
 
 
-        $scope.sortType     = ''; // set the default sort type
-        $scope.sortTypeSubSort     = 'impressions'; // set the default sort type
+        $scope.sortType     = 'platformType_aggregation.impression'; // set the default sort type
+        $scope.sortTypeSubSort     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -101,6 +101,20 @@ var angObj = angObj || {};
 
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
+                if(param.tab == "performance"){
+                    $scope.sortType = 'platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='impressions'
+                }
+                else if(param.tab == "viewability"){
+                    $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
+                    $scope.sortTypeSubSort='ias_imps_deliveredd';
+                }
+                else{
+                    $scope.sortType = 'platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='platform.impressions';
+
+                }
+
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
                     $scope.performanceBusy = false;
@@ -236,6 +250,10 @@ var angObj = angObj || {};
             $(".each_tab").click(function (event) {
                 var tab_id = $(this).attr("id").split("_tab")
                 $(".reports_tabs_holder").find(".active").removeClass("active");
+                /*$("body").find(".seventh_col").removeClass("active");*/
+                /*$('.kpi-dd-holder').removeClass( "active" );*/
+
+
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
@@ -266,6 +284,11 @@ var angObj = angObj || {};
             $scope.sortTypeSubSort ="tactic."+args;
             $scope.sortReverse  = !$scope.sortReverse;
         });
+
+
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+        };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
