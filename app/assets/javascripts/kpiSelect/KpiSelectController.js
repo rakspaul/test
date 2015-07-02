@@ -34,13 +34,13 @@
             var _selectedKpi =  $(e.target).attr("value") ;
             var isArrow =  $(e.target).attr("class").match("^kpi_arrow_sort") ;
             if(isArrow !== null){
+                $(".drop_list li").css("color", "#57606d");
+                $("[value="+_selectedKpi+"]").css("color", "#0978c9");
                 $(".reports_platform_header").find(".active").removeClass("active");
                 $('.kpi-dd-holder').addClass( "active" );
-
                 $('#kpi_dropdown').addClass( "active" );
                 $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
                 $(e.target).addClass( "active" );
-                /*alert($(e.target).hasClass( "point_down" ));*/
                 if($(e.target).hasClass( "point_down" )){
                     $(e.target).removeClass( "point_down" );
                     $(e.target).addClass( "point_up" );
