@@ -3,7 +3,7 @@
     angObj.directive('barChart', function ($window) {
         return {
             restrict: 'EA',
-            templateUrl: '/assets/html/partials/bar_chart.html',
+            templateUrl: assets.html_bar_chart,
 
             controller: ['$scope', '$http', function($scope, $http) {
             }],
