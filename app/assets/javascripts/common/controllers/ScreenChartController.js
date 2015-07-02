@@ -32,6 +32,11 @@
                 screenChartModel.setScreenWidgetFormat(obj);
                 return;
             }
+            if(obj == "Platforms") {
+                $(".dashboard_screens_graph_holder").addClass("dashboard_screens_platform") ;
+            } else {
+                $(".dashboard_screens_graph_holder").removeClass("dashboard_screens_platform") ;
+            }
             $scope.cleanScreenWidget();
             $(".dataScreenIconsText").hide();
             screenChartModel.setScreenWidgetFormat(obj);
