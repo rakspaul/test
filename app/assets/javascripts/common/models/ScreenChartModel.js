@@ -15,6 +15,13 @@
             'VTC' : 'vtc'
         }
 
+        var screenTypeMap = {
+            'smartphone' : 'mobile_graph',
+            'tv' : 'display_graph',
+            'tablet' : 'tablet_graph',
+            'desktop' : 'display_graph'
+        }
+
         this.dataModifyForPlatform =  function(data, kpiModel, screenWidgetFormat) {
             var platformData = {};
             var modify = function (obj, platformData, key) { // Step 1 Data Mod holds value on memory
@@ -63,18 +70,18 @@
             }
             if (screensData) {
                 var selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
-                var sortedData = _.sortBy(screensData, selectedMetricKey); // This Sorts the Data order by CTR or CPA
+                var sortedData;
+                if(selectedMetricKey === 'vtc') {
+                    sortedData = _.sortBy(screensData, function(arr) { return arr.video_metrics.vtc_rate });
+                } else {
+                    sortedData =  _.sortBy(screensData, selectedMetricKey);
+                }
                 sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                 sortedData  = sortedData.slice(0, 3);
                 sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
             }
 
-            var screenTypeMap = {
-                'smartphone' : 'mobile_graph',
-                'tv' : 'display_graph',
-                'tablet' : 'tablet_graph',
-                'desktop' : 'display_graph'
-            }
+
 
             var totalMetrics = calculateTotalMetrics(sortedData, selectedMetricKey);
 

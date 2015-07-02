@@ -64,6 +64,12 @@ var angObj = angObj || {};
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
         };
 
+        $scope.reset_metric_options = function(event) {
+            $(".each_measurable_col .not_all_selected").removeClass("not_all_selected");
+            $(".each_measurable_col .active").removeClass("active");
+            $(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , false ) ;
+        };
+
 
 
     });
