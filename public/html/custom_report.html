@@ -20,22 +20,25 @@
 	                                        <span class="arrow_img"></span>
 	                                    </span>
 	                                    <ul class="dropdown-menu" >
-	                                        <li ng-repeat="dimension in reportData[0].dimensions" ng-click="select_dropdown_option($event)">{{dimension}}</li>
+	                                        <li ng-repeat="dimension in reportData[0].dimensions" id="{{dimension.key}}" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>
 	                                    </ul>
 		                              </div>
 		                          </div>
 		           			</div>
-		           			<div class="pull-left filter_btn">
+		           			<div class="pull-left filter_btn" ng-hide="showTxtFilter" ng-click="showTxtFilter = ! showTxtFilter">
 		           				Filter
 		           			</div>
+							<div class="pull-left" ng-show="showTxtFilter">
+								<input type="text" name="filter" autofocus placeholder="Select filter" />
+							</div>
 	           			</div>
-	           			<div class="row">
+	           			<!--div class="row">
 	           				<div class="add_breakdown_line">
 	           				</div>
 	           				<div class="col-md-2 add_breakdown_btn">
 	           					+ Add Breakdown
 	           				</div>
-		           		</div>
+		           		</div-->
 	           		</div>
 	           	</div>
 	           	<div class="col-md-12 each_section_custom_report">
@@ -43,7 +46,7 @@
 	           			Metrics
 	           		</div>
 	           		<div class="col-md-11">
-	           			<input type="text" placeHolder="Search" class="search_input" />
+	           			<input style="display:none" type="text" placeHolder="Search" class="search_input" />
 	           			<div class="col-md-12">
 	           				<div  class="col-md-3 each_measurable_col">
 	           					<div class="custom_report_col_title">
@@ -56,8 +59,8 @@
                                     </div>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option" ng-repeat="measures in reportData[0].delivery_measures" ng-click="select_option($event , 'delivery_chkd')" >
-	           							{{measures}}
+	           						<div class="each_option" ng-repeat="delivery_measure in reportData[0].delivery_measures" id="{{delivery_measure.key}}" ng-click="select_option($event , 'delivery_chkd')" >
+	           							{{delivery_measure.value}}
 	           						</div>
 	           					</div>
 	           				</div>
@@ -72,8 +75,8 @@
                                     </div>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option" ng-repeat="measures in reportData[0].booked_measures" ng-click="select_option($event , 'booked_chkd')" >
-	           							{{measures}}
+	           						<div class="each_option" ng-repeat="booked_measure in reportData[0].booked_measures" id="{{booked_measure.key}}" ng-click="select_option($event , 'booked_chkd')" >
+	           							{{booked_measure.value}}
 	           						</div>
 	           					</div>
 	           				</div>
@@ -88,8 +91,8 @@
                                     </div>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option" ng-repeat="measures in reportData[0].engagement_measures" ng-click="select_option($event , 'engagement_chkd')" >
-	           							{{measures}}
+	           						<div class="each_option" ng-repeat="engagement_measure in reportData[0].engagement_measures" id="{{engagement_measure.key}}" ng-click="select_option($event , 'engagement_chkd')" >
+	           							{{engagement_measure.value}}
 	           						</div>
 	           					</div>
 	           				</div>
@@ -104,8 +107,8 @@
                                     </div>
 	           					</div>
 	           					<div class="custom_report_col">
-	           						<div class="each_option" ng-repeat="measures in reportData[0].video_measures" ng-click="select_option($event, 'video_chkd')" >
-	           							{{measures}}
+	           						<div class="each_option" ng-repeat="video_measure in reportData[0].video_measures" id="{{video_measure.key}}" ng-click="select_option($event, 'video_chkd')" >
+	           							{{video_measure.value}}
 	           						</div>
 	           					</div>
 	           				</div>

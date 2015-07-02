@@ -5,6 +5,7 @@
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.filters = domainReports.getReportsTabs();
+        $scope.isNetworkUser = loginModel.getIsNetworkUser();
 
         $scope.showProfileMenu = function() {
             $("#profileDropdown").toggle();
