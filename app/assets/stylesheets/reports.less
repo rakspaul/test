@@ -640,6 +640,7 @@ div.main_navigation {
         text-decoration: none;
         color: #fff;
         text-transform: none;
+        cursor: pointer;
       }
       a:hover {
           color : #84BCE4 ;
@@ -656,6 +657,14 @@ div.main_navigation {
     div.header_tab_dropdown.active_tab {
       a {
         text-decoration: underline;
+      }
+      a:hover {
+        color: #fff ;
+      }
+    }
+    div.header_tab_dropdown.active_tab:hover {
+      a {
+        color: #fff ;
       }
     }
     .active_tab {
@@ -3725,3 +3734,51 @@ only screen and (min-device-pixel-ratio: 2) {
     }
   }
 }
+
+
+.custom_report_response_page {
+  width: 1040px; 
+  margin: 0 auto ;
+  .custom_report_response_table {
+    overflow: auto;
+    min-height: 200px;
+    margin-top: 40px;
+    border : solid 1px #ccc ;
+    margin-bottom: 50px ;
+    padding: 30px ;
+    .heading_row {
+      font-family: "Avenir-bold" ;
+      margin-bottom: 20px ;
+      border-bottom: solid 1px #ccc ;
+    }
+    .each_row {
+      display: table ;
+    }
+    .each_col {
+      display: table-cell;
+      width: 102px;
+      min-width: 102px;
+      max-width: 102px;
+      word-wrap: break-word;
+      padding-right: 20px;
+      padding-bottom: 15px;
+    }
+  }
+  .filter_by_holder {
+    .filtered_by_txt {
+      background: #007ac9 ;
+      padding: 5px 10px ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
+      color: #fff ;
+    }
+  }
+}
+
+
+
+
+
+
+

@@ -64,12 +64,82 @@ var angObj = angObj || {};
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
         };
 
-        $scope.reset_metric_options = function(event) {
-            $(".each_measurable_col .not_all_selected").removeClass("not_all_selected");
-            $(".each_measurable_col .active").removeClass("active");
-            $(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , false ) ;
-        };
-
+        var responseReportJSON = 
+        {
+          "report_id": 10,
+          "report_time": "2015-06-30 T 15:00",
+          "meta": {
+            "host": "API",
+            "method": "GET",
+            "path": "/api/reporting/v1/reports/custom/10",
+            "uri": "/api/reporting/v1/reports/custom/10?dimensions="
+          },
+          "report_data": [
+            {
+              "dimensions": {
+                "campaign": "Clorox Company(Clorox Company)-FY16 JAS CTP Toiletwand (C/BC)"
+              },
+              "metrics": {
+                  "impressions": 172799,
+                  "clicks": 6,
+                  "ctr": 0.003,
+                  "post_imp_action": 0,
+                  "post_click_action": 0,
+                  "pccr": 0.000,
+                  "actions": 0,
+                  "gross_rev": 1019.51,
+                  "ecpm": 5.90,
+                  "ecpc": 169.92,
+                  "ecpa": 0.00,
+                  "ad_count": 0,
+                  "ad_start": 0,
+                  "ad_end": 0,
+                  "ad_days": 0,
+                  "booked_impressions": 245855,
+                  "actual_impressions": 172799,
+                  "diff_impressions": -73056,
+                  "delivered_perc": 70.00,
+                  "booked_rev": 1450.54,
+                  "actual_rev": 1019.514,
+                  "diff_rev": -431.03,
+                  "booked_ecpm": 5.90,
+                  "actual_ecpm": 5.90,
+                  "diff_ecpm": 0.00,
+                  "interactions": 5213.02,
+                  "total_interactions": 9692.60,
+                  "avg_inter_time": 0.011,
+                  "inter_perc": 3.017,
+                  "total_inter_perc": 5.609,
+                  "avg_view_time": 20.09,
+                  "gross_ecpmi": 105.19,
+                  "ad_starts": 0,
+                  "completion_25": 0,
+                  "completion_50": 0,
+                  "completion_75": 0,
+                  "completion_100": 0,
+                  "completion_rate": 0,
+                  "play_rate": 0,
+                  "video_full_screen": 0,
+                  "mutes": 0,
+                  "mute_rate": 0,
+                  "pauses": 0,
+                  "video_replays": 0,
+                  "video_stops": 0,
+                  "vast_redirect_errors": 0
+              }
+            }
+          ],
+          "message": "Report data"
+        } 
+        ;
+        $scope.notSorted = function(obj){
+            if (!obj) {
+                return [];
+            }
+            return Object.keys(obj);
+        }
+        
+        $scope.responseReportData = responseReportJSON.report_data ;
 
 
     });
