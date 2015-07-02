@@ -2426,7 +2426,23 @@ div.strategy_total_container {
     }*/
   // end of temporary styling
 
-  #reports_bycreatives_block,#reports_byadsizes_block{
+  #reports_byadsizes_block{
+    .vid_data_hdr {
+      margin-left:1px
+      width: 297px;
+    }
+    .reports_details_outer_container{
+      .each_col{
+        width:120px;
+        margin-left:20px;
+      }
+    }
+  }
+
+
+
+
+  #reports_bycreatives_block{
     .each_col{
       width:149px;
       text-align: right;
@@ -2441,7 +2457,63 @@ div.strategy_total_container {
     &.reports_block  {
       &.quar_data{
         .each_col{
-          width:114px;
+          width:116px;
+
+          text-align: right;
+          &.first_col{
+            width:100%;
+            text-align: left;
+            margin-left:0;
+          }
+          &.sec_col{
+            text-align: left;
+            /*width:124px;*/
+            margin-left: 0;
+          }
+          &.four_col{
+            margin-left: 0;
+            width:83px;
+          }
+        }
+        .vid_data_hdr{
+          margin-left:11px;
+        }
+      }
+    }
+
+    .reports_block{
+      .reports_performance_header{
+        .vid_data_hdr{
+          margin-right:22px;
+          margin-left:0;
+        }
+        .each_col{
+          /*      text-align: left;
+                width:120px!important;*/
+        }
+      }
+    }
+  }
+
+  /**/
+
+  #reports_byadsizes_block{
+    .each_col{
+      width:149px;
+      text-align: right;
+      &.first_col{
+        width:100%;
+        text-align: left;
+      }
+      &.sec_col{
+        text-align: left;
+      }
+    }
+    &.reports_block  {
+      &.quar_data{
+        .each_col{
+          width:72px;
+
           text-align: right;
           &.first_col{
             width:100%;
@@ -2460,6 +2532,8 @@ div.strategy_total_container {
         }
         .vid_data_hdr{
           margin-left:11px;
+          padding-left:2px;
+          width:300px;
         }
       }
     }

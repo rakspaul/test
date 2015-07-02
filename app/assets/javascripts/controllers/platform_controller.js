@@ -34,7 +34,7 @@ var angObj = angObj || {};
 
         $scope.sortType     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortTypeSubSort     = 'platformType_aggregation.impression'; // set the default sort type
-        $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverse  = true; // set the default sort order
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
