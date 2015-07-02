@@ -428,6 +428,23 @@ angObj.directive('truncateTextWithHover', function () {
       return input.split(' ')[splitIndex];
     }
   });
+
+  angObj.filter('dashboardKpiFormatter', function ($filter,constants) {
+    return function (input, kpiType) {
+      if(input && kpiType) {
+        if (kpiType.toLowerCase() == 'ctr' || kpiType.toLowerCase() === 'action_rate') {
+          return (input*100).toFixed(2) + '%';
+        } else if(kpiType.toLowerCase() == 'vtc') {
+          return (input).toFixed(2) + '%';
+        } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+          return constants.currencySymbol + input.toFixed(2);
+        } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
+          return input.toFixed(0) + '%';
+        }
+      }
+    }
+  });
+
   angObj.filter('kpiFormatter', function ($filter,constants) {
     return function (input, kpiType, precision) {
       if (input && kpiType) {

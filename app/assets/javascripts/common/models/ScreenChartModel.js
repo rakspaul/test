@@ -4,35 +4,131 @@
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
-            formatDropDown : [constants.SCREENS, constants.FORMATS],
+            formatDropDown : [constants.SCREENS, constants.FORMATS, constants.PLATFORMS],
             chartData : {},
             dataNotAvailable : true
-
         };
 
-        this.getScreenChartData = function () {
-           var _screenWidgetFormatType = "by" + screenWidgetData['selectedFormat'].toLowerCase();
-            var url;
-            if(brandsModel.getSelectedBrand().id !== -1){
-                 url = urlService.APIScreenWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), brandsModel.getSelectedBrand().id , _screenWidgetFormatType, dashboardModel.getData().selectedStatus );
-            }else {
-                 url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), _screenWidgetFormatType, dashboardModel.getData().selectedStatus );
+        var mapper =  {
+            'Spend' : 'gross_rev',
+            'Action rate' : 'action_rate',
+            'VTC' : 'vtc'
+        }
+
+        this.dataModifyForPlatform =  function(data, kpiModel, screenWidgetFormat) {
+            var platformData = {};
+            var modify = function (obj, platformData, key) { // Step 1 Data Mod holds value on memory
+                _.each(obj, function (pltformObj, index) {
+                    _.each(pltformObj.platforms, function (platform) {
+                        platformData[key].push(platform);
+                    })
+                })
             }
 
+            if(data  && data.platform_metrics) {
+                _.each(data.platform_metrics, function (obj, idx) {
+                    platformData[idx] = []
+                    modify(obj, platformData, idx);
+                });
+            }
+
+            return platformData.performance;
+        },
+
+        this.dataModifyForScreenAndFormat =  function(data, kpiModel, screenWidgetFormat) {
+            var screenAndFormatData
+            if (data && data.length > 0  && data[0].perf_metrics) {
+                screenAndFormatData = _.filter(data[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
+            }
+            return screenAndFormatData;
+        },
+
+        this.dataModifyForScreenChart =  function(data) {
+            var kpiModel = this.getScreenWidgetMetric();
+            var screenWidgetFormat = this.getScreenWidgetFormat();
+            var screensData;
+            var chartDataScreen = [];
+            var calculateTotalMetrics  = function(data, kpi) {
+                var total = 1;
+                if(kpi === 'gross_rev' || kpi === 'impressions' || kpi == 'cpa' || kpi == 'cpm' || kpi == 'cpc') {
+                    var values = _.compact(_.pluck(data, kpi));
+                    total = _.reduce(values, function (sum, num) { return sum + num;}, 0);
+                }
+                return total;
+            };
+            if(screenWidgetFormat.toLowerCase() ==='platforms') {
+                screensData = this.dataModifyForPlatform(data, kpiModel, screenWidgetFormat);
+            } else {
+                screensData = this.dataModifyForScreenAndFormat(data, kpiModel, screenWidgetFormat);
+            }
+            if (screensData) {
+                var selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
+                var sortedData = _.sortBy(screensData, selectedMetricKey); // This Sorts the Data order by CTR or CPA
+                sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
+                sortedData  = sortedData.slice(0, 3);
+                sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
+            }
+
+            var screenTypeMap = {
+                'smartphone' : 'mobile_graph',
+                'tv' : 'display_graph',
+                'tablet' : 'tablet_graph',
+                'desktop' : 'display_graph'
+            }
+
+            var totalMetrics = calculateTotalMetrics(sortedData, selectedMetricKey);
+
+            _.each(sortedData, function(data, idx) {
+                var kpiData;
+                if(selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') {
+                        kpiData = ((data[selectedMetricKey] *100)/totalMetrics);
+                } else {
+                    if(selectedMetricKey === 'vtc') {
+                        kpiData = (data.video_metrics.vtc_rate);
+                    } else {
+                        kpiData = (data[selectedMetricKey]);
+                    }
+                }
+                var type = data.dimension || data.platform;
+                var cls ='';
+                if(screenWidgetFormat.toLowerCase() === 'screens') {
+                    cls = screenTypeMap[data.dimension.toLowerCase()];
+                } else if(screenWidgetFormat.toLowerCase() === 'formats') {
+                    cls = data.dimension.toLowerCase() + "_graph"
+                }
+                chartDataScreen.push({className : cls, 'icon_url' : data.icon_url, 'type' : type, 'value' : kpiData});
+            });
+
+            var screenBarChartConfig = {
+                widgetName : screenWidgetFormat,
+                data : chartDataScreen,
+                barHeight : 8,
+                kpiType : selectedMetricKey || 'NA',
+                gapScreen :70,
+                widthToSubtract : 88    ,
+                separator : ' '
+            }
+
+            return screenBarChartConfig;
+        },
+
+        this.getScreenChartData = function () {
+            var _screenWidgetFormatType = "by" + screenWidgetData['selectedFormat'].toLowerCase(),
+                url,
+                selectedStatus =  dashboardModel.getData().selectedStatus,
+                selectedTimePeriod = timePeriodModel.timeData.selectedTimePeriod.key,
+                getAgencyId = loginModel.getAgencyId(),
+                brandId = brandsModel.getSelectedBrand().id,
+                that = this;
+
+            url = urlService.APIScreenWidgetForBrand(selectedTimePeriod, getAgencyId, brandId , _screenWidgetFormatType,  selectedStatus);
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
-                if(data !== undefined && data.length >0)
-                    data=data[0].perf_metrics;
-                if(data !== undefined && data.length >0){
-                    screenWidgetData['dataNotAvailable'] = false ;
-                    screenWidgetData['chartData'] = data ;
-                } else {
-                    screenWidgetData['dataNotAvailable'] = true ;
+                if(typeof data !== 'undefined') {
+                    screenWidgetData['responseData'] = data;
                 }
-
-              //  return  screenWidgetData['chartData'] ;
-            })
+            });
         };
 
         this.getScreenWidgetData = function(){
@@ -40,35 +136,8 @@
         };
 
         this.setScreenWidgetMetric = function( _selectedMetric){
-            switch (_selectedMetric.toLowerCase()) {
-                case 'ctr':
-                    screenWidgetData['selectedMetric'] = constants.CTR;
-                    break;
-                case 'cpm':
-                     screenWidgetData['selectedMetric'] = constants.CPM;
-                    break;
-                case 'cpa':
-                    screenWidgetData['selectedMetric'] = constants.CPA;
-                    break;
-                case 'cpc':
-                    screenWidgetData['selectedMetric'] = constants.CPC;
-                    break;
-                case 'impressions':
-                    screenWidgetData['selectedMetric'] = constants.IMPRESSIONS;
-                    break;
-                case 'action_rate' :
-                    screenWidgetData['selectedMetric'] = constants.ACTION_RATE;
-                    break;
-                case 'action rate':
-                    screenWidgetData['selectedMetric'] = constants.ACTION_RATE;
-                    break;
-                case 'spend' :
-                    screenWidgetData['selectedMetric'] = constants.SPEND;
-                    break;
-                case 'vtc' :
-                    screenWidgetData['selectedMetric'] = constants.VTC;
-                    break;
-            }
+            if(_selectedMetric.toLowerCase() === 'action rate') { _selectedMetric = 'action_rate' }
+            screenWidgetData['selectedMetric'] = constants[_selectedMetric.toUpperCase()];
 
         };
 
@@ -77,15 +146,7 @@
         }
 
         this.setScreenWidgetFormat = function( _selectedFormat){
-            switch (_selectedFormat.toLowerCase()) {
-                case 'screens':
-                    screenWidgetData['selectedFormat'] = constants.SCREENS;
-                    break;
-                case 'formats':
-                    screenWidgetData['selectedFormat'] = constants.FORMATS;
-                    break;
-            }
-
+            screenWidgetData['selectedFormat'] = constants[_selectedFormat.toUpperCase()];
         };
 
         this.getScreenWidgetFormat = function(){

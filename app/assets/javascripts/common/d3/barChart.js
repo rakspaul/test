@@ -8,56 +8,91 @@
             controller: ['$scope', '$http', function($scope, $http) {
             }],
             link: function (scope, elem, attrs, ctrl) {
-                var chartData = JSON.parse(attrs.chartData);
 
-                var values = _.compact(_.pluck(chartData.data, 'value'));
-                scope.total = _.reduce(values, function(sum, num){ return sum + num; }, 0);
-                if(chartData.showLabel && chartData.data && chartData.data.length < 3) {
-                    scope.disableLabel = {'visibility': 'hidden'};
-                }
-                scope.barData = chartData;
+                var drawBarChart = function(chartData) {
+                    scope.barData = chartData;
+                    scope.separator = chartData.separator || ':'
+                    scope.kpiType = chartData.kpiType;
 
-                var widgetName = scope.barData.widgetName.toLowerCase();
-                var widgetElem = elem.find(".barChartWidget");
-                var containerWidthScreen = elem.parent().width();
-                var barChatPlotData =  _.pluck(chartData.data, 'value'),
-                    chartScreen,
-                    widthScreen = containerWidthScreen - 28,
-                    bar_heightScreen = 4,
-                    gapScreen = 0,
-                    heightScreen = bar_heightScreen + 50;
-
-                var xScreen, yScreen;
-                xScreen = d3.scale.linear()
-                    .domain([0, d3.max(barChatPlotData)])
-                    .range([0, widthScreen]);
-
-                yScreen = function (iScreen) {
-                    return bar_heightScreen * iScreen;
-                }
-                chartScreen = d3.select(widgetElem[0])
-                    .append('svg')
-                    .attr('class', 'chart')
-                    .attr('width', widthScreen)
-                    .attr('height', 200);
-
-                chartScreen.selectAll("rect")
-                    .data(barChatPlotData)
-                    .enter().append("rect")
-                    .attr("x", 0)
-                    .attr("y", function (dScreen, iScreen) {
-                        return iScreen * 33;
-                    })
-                    .attr("width", xScreen)
-                    .attr("height", bar_heightScreen);
-
-                widgetElem.find('rect').each(function() {
-                    var value = parseFloat($(this).attr('width'));
-                    if (value == 0) {
-                        $(this).attr({ width: widthScreen,style: "fill:#dddddd"});
+                    var barChatPlotData = _.pluck(chartData.data, 'value');
+                    scope.total = _.reduce(barChatPlotData, function (sum, num) {
+                        return sum + num;
+                    }, 0);
+                    if (chartData.showLabel && chartData.data && chartData.data.length < 3) {
+                        scope.disableLabel = {'visibility': 'hidden'};
                     }
-                });
-                // d3 Ends Here
+
+                    var widgetElem = elem.find(".barChartWidget");
+                    var containerWidthScreen = elem.parent().width(),
+                        chartScreen,
+                        widthScreen = containerWidthScreen - (chartData.widthToSubtract || 28),
+                        bar_heightScreen = chartData.barHeight || 4,
+                        gapScreen = chartData.gapScreen || 33,
+                        heightScreen = bar_heightScreen + 50;
+
+
+                    var xScreen, yScreen;
+                    xScreen = d3.scale.linear()
+                        .domain([0, d3.max(barChatPlotData)])
+                        .range([0, widthScreen]);
+
+                    yScreen = function (iScreen) {
+                        return bar_heightScreen * iScreen;
+                    }
+                    chartScreen = d3.select(widgetElem[0])
+                        .append('svg')
+                        .attr('class', 'chart')
+                        .attr('width', widthScreen)
+                        .attr('height', 200);
+                
+                    var gradient = chartScreen.append("svg:defs")
+                        .append("svg:linearGradient")
+                        .attr("id", "gradient")
+                        .attr("x1", "0%")
+                        .attr("y1", "0%")
+                        .attr("x2", "100%")
+                        .attr("y2", "0%")
+                        .attr("spreadMethod", "pad");
+
+                    gradient.append("svg:stop")
+                        .attr("offset", "50%")
+                        .attr("stop-color", "#0978c9")
+                        .attr("stop-opacity", 1);
+
+                    gradient.append("svg:stop")
+                        .attr("offset", "80%")
+                        .attr("stop-color", "#2298ef")
+                        .attr("stop-opacity", 1);
+
+                    chartScreen.selectAll("rect")
+                        .data(barChatPlotData)
+                        .enter().append("rect")
+                        .attr("rx", 4)
+                        .attr("ry", 4)
+                        .attr("x", 0)
+                        .attr("fill", "url(#gradient)")
+                        .attr("stroke-width", '0.5px')
+                        .attr("y", function (dScreen, iScreen) {
+                            return iScreen * gapScreen;
+                        })
+                        .attr("width", xScreen)
+                        .attr("height", bar_heightScreen);
+
+                    widgetElem.find('rect').each(function () {
+                        var value = parseFloat($(this).attr('width'));
+                        if (value == 0) {
+                            $(this).attr({width: widthScreen, style: "fill:#dddddd"});
+                        }
+                    });
+                }
+
+                if(attrs.class == 'DashBoradScreenWidget') {
+                    scope.$watch('screenData', function (data) {
+                        drawBarChart(data)
+                    });
+                } else {
+                    drawBarChart(JSON.parse(attrs.chartData))
+                }
             }
 
         }
