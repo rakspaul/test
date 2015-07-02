@@ -13,7 +13,7 @@ var angObj = angObj || {};
         $scope.api_return_code = 200;
         $scope.videoMode = $scope.selectedCampaign.redirectWidget === "videoViewability" ||  false;
 
-        $scope.sortType     = 'tactic.view_metrics.measurable_imps'; // set the default sort type
+        $scope.sortType     = 'view_metrics.ias_imps_delivered'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {

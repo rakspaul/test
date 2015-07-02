@@ -400,7 +400,7 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-                {{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}} 
+                {{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}}
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
@@ -424,7 +424,7 @@
 
     </div>
 
-    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
+    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms  | orderBy:sortTypeSubSort:sortReverse track by $index">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />

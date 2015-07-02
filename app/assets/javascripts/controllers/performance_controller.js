@@ -7,7 +7,7 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        $scope.sortType     = ''; // set the default sort type
+        $scope.sortType     = 'impressions'; // set the default sort type
 
         $scope.sortReverse  = false; // set the default sort order
 

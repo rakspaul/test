@@ -102,12 +102,12 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 if(param.tab == "performance"){
-                    $scope.sortType = 'performanceData.platformType_aggregation.impressions';
+                    $scope.sortType = 'platformType_aggregation.impressions';
                     $scope.sortTypeSubSort='impressions'
                 }
                 else if(param.tab == "viewability"){
-                    $scope.sortType = 'ViewabilityData.platformType_aggregation.ias_imps_delivered';
-                    $scope.sortTypeSubSort='platform.ias_imps_delivered';
+                    $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
+                    $scope.sortTypeSubSort='ias_imps_deliveredd';
                 }
                 else{
                     $scope.sortType = 'platformType_aggregation.impressions';
