@@ -38,7 +38,9 @@ var angObj = angObj || {};
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;
 
-        $scope.sort_field = [{
+        /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+        /*
+         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
             'class': '',
@@ -54,6 +56,9 @@ var angObj = angObj || {};
             'class': '',
             sortDirection: ''
         }] ;
+        */
+
+
 
         $scope.download_urls = {
             cost: null
@@ -111,6 +116,8 @@ var angObj = angObj || {};
                             if(param.strategyId >0 ) {
                                 $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
 
+                                /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+                                /*
                                 if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
                                     $scope.sortFunction($scope.sortByColumn);
                                 } else {
@@ -118,7 +125,7 @@ var angObj = angObj || {};
                                     var sortCoulumName = $scope.sortByColumn.replace('-', '');
                                     $scope.sortFunction(sortCoulumName);
                                 }
-
+                                */
                             }
                         }
                         else{
@@ -133,7 +140,8 @@ var angObj = angObj || {};
 
         };
 
-
+/* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+/*
         $scope.sortFunction = function (sortby) {
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
@@ -154,6 +162,7 @@ var angObj = angObj || {};
 
             }
         };
+        */
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
@@ -166,7 +175,12 @@ var angObj = angObj || {};
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
-            $scope.more_options = Number($scope.selectedStrategy.id) === 0 ?  false : true;
+
+
+            /* COMMENTING THIS LINE BELOW AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+            // $scope.more_options = Number($scope.selectedStrategy.id) === 0 ?  false : true;
+
+
             $scope.callBackStrategyChange();
         });
 
