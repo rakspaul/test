@@ -85,7 +85,7 @@
     this.PLATFORMS = "Platforms";
     this.CREATIVES = "Creatives";
     this.VIDEO_PLAYS = "Video Plays";
-    this.ADD_SIZES = "Ad Sizes";
+    this.AD_SIZES = "Ad Sizes";
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
@@ -162,7 +162,7 @@
     this.TOP_THREE = "Top 3";
     this.VIEWABILITY = "Viewability";
     this.INVENTORY = "Inventory";
-    this.AdSize = "Ad Size";
+    this.AD_SIZE = "Ad Size";
     this.FORMAT = "Format";
 
     this.TOP = "Top";
