@@ -38,7 +38,7 @@
                 $(".dashboard_screens_graph_holder").removeClass("dashboard_screens_platform") ;
             }
             $scope.cleanScreenWidget();
-            $(".dataScreenIconsText").hide();
+            $(".DashBoradScreenWidget").hide();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData']={};
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
@@ -58,7 +58,6 @@
         $scope.updateScreenChartData = function() {
             $scope.cleanScreenWidget();
             $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
-            console.log($scope.screenData);
         };
 
         $scope.cleanScreenWidget = function(){
@@ -70,7 +69,7 @@
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
                 $scope.dataFound = true;
-                $(".dataScreenIconsText").show();
+                $(".DashBoradScreenWidget").show();
                 $scope.updateScreenChartData();
             });
         };

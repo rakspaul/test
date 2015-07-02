@@ -33,8 +33,8 @@ var angObj = angObj || {};
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-
         $scope.filters = domainReports.getReportsTabs();
+        console.log($scope.filters);
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
 
             if($scope.redirectWidget && $scope.redirectWidget == 'adsizes') {
