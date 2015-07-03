@@ -111,7 +111,7 @@ var angObj = angObj || {};
                 }
                 else{
                     $scope.sortType = 'platformType_aggregation.impressions';
-                    $scope.sortTypeSubSort='platform.impressions';
+                    $scope.sortTypeSubSort='impressions';
 
                 }
 
