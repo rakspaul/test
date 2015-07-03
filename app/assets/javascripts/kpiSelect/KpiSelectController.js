@@ -30,7 +30,8 @@
           $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
-        $('.kpi_indicator_ul,.direction_arrows div.kpi_arrow_sort').click(function (e) {
+          $('.kpi_indicator_ul,.direction_arrows div.kpi_arrow_sort').click(function (e) {
+            $('.direction_arrows div.kpi_arrow_sort.active').show();
             var _selectedKpi =  $(e.target).attr("value") ;
             var isArrow =  $(e.target).attr("class").match("^kpi_arrow_sort") ;
             if(isArrow !== null){
@@ -41,13 +42,16 @@
                 $('#kpi_dropdown').addClass( "active" );
                 $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
                 $(e.target).addClass( "active" );
-                if($(e.target).hasClass( "point_down" )){
+                if($(e.target).hasClass( "point_down" ) && $(e.target).hasClass( "active" )){
                     $(e.target).removeClass( "point_down" );
                     $(e.target).addClass( "point_up" );
+                    $(e.target).show();
+                    $('.direction_arrows div.kpi_arrow_sort.active').show();
                 }
-                else if($(e.target).hasClass( "point_up" )){
+                else if($(e.target).hasClass( "point_up" ) && $(e.target).hasClass( "active" )){
                     $(e.target).removeClass( "point_up" );
                     $(e.target).addClass( "point_down" );
+                    $(e.target).show();
                 }
                 $(e.target).show();
                 $( ".icon_text_holder" ).removeClass( "active" );
@@ -77,6 +81,7 @@
         }setTimeout(setArrowSelector, 2000);
 
         $scope.arrowPositionFunction = function () {
+
             if ($(".sort_order_up")[0]){
                 return "point_down";
             } else {

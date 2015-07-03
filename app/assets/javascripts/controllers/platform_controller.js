@@ -288,11 +288,15 @@ var angObj = angObj || {};
 
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
+            /* $('#kpi_dropdown').removeClass( "active" );*/
+            $(".drop_list li").css("color", "#57606d");
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+            $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
         };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
-            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+            /*$('.direction_arrows div.kpi_arrow_sort.active').hide();*/
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
         };
