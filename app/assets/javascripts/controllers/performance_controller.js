@@ -9,7 +9,7 @@ var angObj = angObj || {};
         domainReports.highlightHeaderMenu();
         $scope.sortType     = 'impressions'; // set the default sort type
 
-        $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverse  = true; // set the default sort order
 
         $scope.characterLimit  = 50;
 

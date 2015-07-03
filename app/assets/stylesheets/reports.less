@@ -757,6 +757,7 @@ div.main_navigation {
 
   .kpi_arrow_sort.point_down.active{
     background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
+    display:block;
   }
 
   .reports_main_page_holder .direction_arrows div div.kpi_arrow_sort.point_down.active{
@@ -786,13 +787,17 @@ div.main_navigation {
       padding:0;
       width:15px;
       display:block;
-      height:21px;
+      height:25px;
       div.kpi_arrow_sort.point_down{
         padding:0;
         background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
         cursor: pointer;
         width:15px;
         display: none;
+        &.active{
+          background-position: right -64px;
+          display:block;
+        }
       }
       div.kpi_arrow_sort.point_up{
         padding:0;
@@ -800,6 +805,10 @@ div.main_navigation {
         cursor: pointer;
         width:15px;
         display: none;
+        &.active{
+          background-position: right -64px;
+          display:block;
+        }
       }
     }
   }
@@ -824,6 +833,7 @@ div.main_navigation {
     min-width: 100px;
     li {
       padding-left: 10px ;
+      height:25px;
     }
   }
 }
@@ -2435,7 +2445,23 @@ div.strategy_total_container {
     }*/
   // end of temporary styling
 
-  #reports_bycreatives_block,#reports_byadsizes_block{
+  #reports_byadsizes_block{
+    .vid_data_hdr {
+      margin-left:1px
+      width: 297px;
+    }
+    .reports_details_outer_container{
+      .each_col{
+        width:120px;
+        margin-left:20px;
+      }
+    }
+  }
+
+
+
+
+  #reports_bycreatives_block{
     .each_col{
       width:149px;
       text-align: right;
@@ -2450,7 +2476,63 @@ div.strategy_total_container {
     &.reports_block  {
       &.quar_data{
         .each_col{
-          width:114px;
+          width:116px;
+
+          text-align: right;
+          &.first_col{
+            width:100%;
+            text-align: left;
+            margin-left:0;
+          }
+          &.sec_col{
+            text-align: left;
+            /*width:124px;*/
+            margin-left: 0;
+          }
+          &.four_col{
+            margin-left: 0;
+            width:83px;
+          }
+        }
+        .vid_data_hdr{
+          margin-left:11px;
+        }
+      }
+    }
+
+    .reports_block{
+      .reports_performance_header{
+        .vid_data_hdr{
+          margin-right:22px;
+          margin-left:0;
+        }
+        .each_col{
+          /*      text-align: left;
+                width:120px!important;*/
+        }
+      }
+    }
+  }
+
+  /**/
+
+  #reports_byadsizes_block{
+    .each_col{
+      width:149px;
+      text-align: right;
+      &.first_col{
+        width:100%;
+        text-align: left;
+      }
+      &.sec_col{
+        text-align: left;
+      }
+    }
+    &.reports_block  {
+      &.quar_data{
+        .each_col{
+          width:72px;
+
           text-align: right;
           &.first_col{
             width:100%;
@@ -2469,6 +2551,8 @@ div.strategy_total_container {
         }
         .vid_data_hdr{
           margin-left:11px;
+          padding-left:2px;
+          width:300px;
         }
       }
     }
@@ -3401,7 +3485,7 @@ div.strategy_total_container {
   .kpi-dd-holder {
     padding-right: 13px;
     &.active {
-      background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 92px -64px;
+      /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 92px -64px;*/
       padding-right: 13px;
       .dd_txt{
         color:#0978c9;
@@ -3419,7 +3503,7 @@ div.strategy_total_container {
 
 #reports_platform_cost_block{
   .reports_main_page_holder .direction_arrows div {
-    height: 20px;
+    height: 25px;
   }
 
 }
@@ -3428,7 +3512,7 @@ div.strategy_total_container {
   padding-right: 13px;
   &.active{
 
-    background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 56px -64px;
+    /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 56px -64px;*/
     padding-right: 13px;
     .dd_txt{
       color:#0978c9;

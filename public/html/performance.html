@@ -207,7 +207,7 @@
 
 
 
-                <!-- -------START :  Creative Block ----------------------------- -->
+                <!-- -------START :  Add sizes Block ----------------------------- -->
                 <div  id="reports_byadsizes_block" ng-class="strategyPerfDataByAdsizes.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
 
 
@@ -473,22 +473,31 @@
             <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_100 > 0 ? (creativesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
         </div>
     </div>
+    <div class="each_col third_col">
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        {{adsizesData.video_metrics.vtc_rate | number:2}}%
+    </div>
     </span>
+    <div class="each_col forth_col">
+        {{adsizesData.ctr*100 | number:2}}%
+    </div>
     <div class="each_col forth_col">
         {{adsizesData.action_rate*100 | number:2}}%
     </div>
-    <span  ng-if="!strategyPerfDataByAdsizes.hasVTCMetrics">
-    <div class="each_col fifth_col">
-        {{adsizesData.cpm | currency:undefined:2}}%
-    </div>
 
-    <div class="each_col sixth_col">
-        {{adsizesData.cpc | currency:undefined:2}}
-    </div>
-    <div class="each_col seventh_col">
-        {{adsizesData.cpa | currency:undefined:2}}
-    </div>
-        </span>
+    <span  ng-if="!strategyPerfDataByAdsizes.hasVTCMetrics">
+        <div class="each_col seventh_col">
+           {{adsizesData.cpa | currency:undefined:2}}
+        </div>
+
+        <div class="each_col sixth_col">
+           {{adsizesData.cpc | currency:undefined:2}}
+        </div>
+
+        <div class="each_col fifth_col">
+           {{adsizesData.cpm | currency:undefined:2}}%
+        </div>
+    </span>
 
     <div ng-if="strategyPerfDataByAdsizes.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByAdsizes.hasVTCMetrics == false}">
         {{adsizesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
