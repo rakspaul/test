@@ -22,21 +22,23 @@
 
 
 </span>
+<div class="each_col forth_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortType,sortReverse)" ng-click="sortType = 'ctr'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+</div>
 
 <div class="each_col forth_col">
     <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 
 <span  ng-show="strategyPerfDataByCreatives.hasVTCMetrics   == false">
-<div class="each_col fifth_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('cpm',sortType,sortReverse)" ng-click="sortType = 'cpm'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
-
 <div class="each_col sixth_col">
     <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpc',sortType,sortReverse)" ng-click="sortType = 'cpc'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
-<div class="each_col seventh_col">
-    <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('cpm',sortType,sortReverse)" ng-click="sortType = 'cpm'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
 </span>
 

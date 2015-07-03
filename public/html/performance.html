@@ -427,18 +427,22 @@
     </div>
     </span>
     <div class="each_col forth_col">
+        {{creativesData.ctr*100 | number:2}}%
+    </div>
+
+    <div class="each_col fifth_col">
         {{creativesData.action_rate*100 | number:2}}%
     </div>
     <span  ng-if="!strategyPerfDataByCreatives.hasVTCMetrics">
-    <div class="each_col fifth_col">
-        {{creativesData.cpm | currency:undefined:2}}%
+    <div class="each_col sixth_col">
+        {{creativesData.cpa | currency:undefined:2}}%
     </div>
 
-    <div class="each_col sixth_col">
+    <div class="each_col seventh_col">
         {{creativesData.cpc | currency:undefined:2}}
     </div>
-    <div class="each_col seventh_col">
-        {{creativesData.cpa | currency:undefined:2}}
+    <div class="each_col eight_col">
+        {{creativesData.cpm | currency:undefined:2}}
     </div>
         </span>
 
@@ -446,14 +450,12 @@
         {{creativesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
-
-
 </script>
 
 
 <script type="text/ng-template" id="AdsizesTpl">
     <div class="each_col sec_col">
-        <!-- {{adsizesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
+        <!-- {{adsizesData.dimension | limitTo: characterLimit}}{{adsizesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ adsizesData.dimension | formatUrl :15 }}
     </div>
     <div class="each_col third_col">
@@ -463,14 +465,14 @@
     <span  ng-if="strategyPerfDataByAdsizes.hasVTCMetrics">
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{adsizesData.video_metrics.ad_starts > 0 ? (creativesData.video_metrics.ad_starts | nrFormat) : '-'}}
+        {{adsizesData.video_metrics.ad_starts > 0 ? (adsizesData.video_metrics.ad_starts | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
         <div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_25 > 0 ? (creativesData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_50 > 0 ? (creativesData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_75 > 0 ? (creativesData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_100 > 0 ? (creativesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_25 > 0 ? (adsizesData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_50 > 0 ? (adsizesData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_75 > 0 ? (adsizesData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_100 > 0 ? (adsizesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
         </div>
     </div>
     <div class="each_col third_col">
@@ -486,17 +488,17 @@
     </div>
 
     <span  ng-if="!strategyPerfDataByAdsizes.hasVTCMetrics">
-        <div class="each_col seventh_col">
-           {{adsizesData.cpa | currency:undefined:2}}
-        </div>
+            <div class="each_col seventh_col">
+               {{adsizesData.cpa | currency:undefined:2}}
+            </div>
 
-        <div class="each_col sixth_col">
-           {{adsizesData.cpc | currency:undefined:2}}
-        </div>
+            <div class="each_col sixth_col">
+               {{adsizesData.cpc | currency:undefined:2}}
+            </div>
 
-        <div class="each_col fifth_col">
-           {{adsizesData.cpm | currency:undefined:2}}%
-        </div>
+            <div class="each_col fifth_col">
+               {{adsizesData.cpm | currency:undefined:2}}%
+            </div>
     </span>
 
     <div ng-if="strategyPerfDataByAdsizes.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByAdsizes.hasVTCMetrics == false}">
