@@ -97,8 +97,13 @@
                 return this.fetch(url);
             },
 
-            getCustomReport :  function(campaign) {
+            getCustomReportMetrics :  function(campaign) {
                 var url = apiPaths.apiSerivicesUrl + '/reports/custom/meta';
+                return this.fetch(url);
+            },
+
+            getCustomReportData :  function(campaign) {
+                var url = apiPaths.apiSerivicesUrl + '/reports/custom/:reportid?dimension=key:value';
                 return this.fetch(url);
             },
 
