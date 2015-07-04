@@ -247,7 +247,6 @@ var angObj = angObj || {};
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
-            console.log(sortDirection);
             return isActive + " " + sortDirection;
         };
     });
