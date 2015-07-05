@@ -13,6 +13,7 @@
                     scope.barData = chartData;
                     scope.separator = chartData.separator || ':'
                     scope.kpiType = chartData.kpiType;
+                    scope.page = chartData.page;
 
                     var barChatPlotData = _.pluck(chartData.data, 'value');
                     scope.total = _.reduce(barChatPlotData, function (sum, num) {

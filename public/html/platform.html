@@ -62,12 +62,12 @@
                 <div ng-class="strategyDataByPerformance.hasVTCMetrics ? 'reports_block quartile_data_platform' : 'reports_block' " id="reports_platform_performance_block">
                     <div class="no_data_found" ng-if="dataNotFoundForPerformance" ng-bind-html="getMessageForDataNotAvailable('performance')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
-                        <div class="clearfix reports_platform_header">
+                        <div class="clearfix reports_platform_header" ng-hide="performanceBusy">
                             <performance-header></performance-header>
                         </div>
                         <div class="strategy_total_container">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="performanceBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
@@ -101,12 +101,12 @@
                         <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
                     </div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost && isCostModelTransparent">
-                        <div class="clearfix reports_platform_header">
+                        <div class="clearfix reports_platform_header" ng-hide="costBusy">
                             <cost-header></cost-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_cost_heading">
+                                <div class="each_cost_heading" ng-hide="costBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
@@ -136,12 +136,12 @@
                 <div class="reports_block" id="reports_platform_viewability_block" style="display:none;" ng-class="{'reports_video_mode_viewability_container':videoMode}">
                     <div class="no_data_found" ng-if="dataNotFoundForViewability" ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewability">
-                        <div class="clearfix reports_platform_header">
+                        <div class="clearfix reports_platform_header" ng-hide="viewabilityBusy">
                             <viewablity-header></viewablity-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="viewabilityBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">

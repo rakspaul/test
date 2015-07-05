@@ -10,9 +10,8 @@
         };
 
         var mapper =  {
-            'Spend' : 'gross_rev',
-            'Action rate' : 'action_rate',
-            'VTC' : 'vtc'
+            'spend' : 'gross_rev',
+            'action rate' : 'action_rate'
         }
 
         var screenTypeMap = {
@@ -51,7 +50,7 @@
         },
 
         this.dataModifyForScreenChart =  function(data) {
-            var kpiModel = this.getScreenWidgetMetric();
+            var kpiModel = this.getScreenWidgetMetric().toLowerCase();
             var screenWidgetFormat = this.getScreenWidgetFormat();
             var screensData;
             var chartDataScreen = [];
@@ -68,6 +67,7 @@
             } else {
                 screensData = this.dataModifyForScreenAndFormat(data, kpiModel, screenWidgetFormat);
             }
+
             if (screensData) {
                 var selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
                 var sortedData;
@@ -77,25 +77,24 @@
                     sortedData =  _.sortBy(screensData, selectedMetricKey);
                 }
                 sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
-                sortedData  = sortedData.slice(0, 3);
                 sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
+                sortedData  = sortedData.slice(0, 3);
             }
-
-
 
             var totalMetrics = calculateTotalMetrics(sortedData, selectedMetricKey);
 
             _.each(sortedData, function(data, idx) {
                 var kpiData;
                 if(selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') {
-                        kpiData = ((data[selectedMetricKey] *100)/totalMetrics);
+                    kpiData = ((data[selectedMetricKey] *100)/totalMetrics).toFixed(0);
+                } else if(selectedMetricKey === 'ctr' ||  selectedMetricKey === 'action_rate')  {
+                    kpiData = parseFloat((data[selectedMetricKey]*100).toFixed(2));
+                } else if (selectedMetricKey === 'vtc') {
+                    kpiData = parseFloat(data.video_metrics.vtc_rate.toFixed(2));
                 } else {
-                    if(selectedMetricKey === 'vtc') {
-                        kpiData = (data.video_metrics.vtc_rate);
-                    } else {
-                        kpiData = (data[selectedMetricKey]);
-                    }
+                    kpiData = parseFloat(data[selectedMetricKey].toFixed(2));
                 }
+
                 var type = data.dimension || data.platform;
                 var cls ='';
                 if(screenWidgetFormat.toLowerCase() === 'screens') {
@@ -113,7 +112,8 @@
                 kpiType : selectedMetricKey || 'NA',
                 gapScreen :70,
                 widthToSubtract : 88    ,
-                separator : ' '
+                separator : ' ',
+                page : 'dashboard'
             }
 
             return screenBarChartConfig;
