@@ -133,7 +133,8 @@
                 <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(strategy)"></span>
                 <span ng-switch-default>
                     <div ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
-                        <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart>
+                        <div class="campaign_details_graph" width='355' height='111' campaign-chart chart-data=""></div>
+                        <!-- <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart> -->
                     </div>
                     <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" ng-bind-html="getMessageForDataNotAvailable(strategy)">
                     </div>
