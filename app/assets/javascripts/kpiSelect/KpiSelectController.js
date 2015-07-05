@@ -33,16 +33,19 @@
         $scope.myData = {};
         $scope.myData.doClick = function($event,value) {
             var targetTags = $('.direction_arrows div.kpi_arrow_sort');
+            var sortOrder = true;
             var _selectedKpi = value;
             $("[value="+_selectedKpi+"]").css("color", "#0978c9");
             var tags = $event.currentTarget.className.match("^active");
             var classesPresent = $event.currentTarget.className;
             $('.kpi-dd-holder').addClass( "active" );
             if(classesPresent.indexOf('point_up') > -1){
+                sortOrder = false;
                 targetTags.removeClass( "point_up" );
                 targetTags.addClass( "point_down" );
             }
             else{
+                sortOrder = true;
                 targetTags.removeClass( "point_down" );
                 targetTags.addClass( "point_up" );
             }
@@ -53,7 +56,7 @@
                 $event.currentTarget.className += "  tester";
                 $('.direction_arrows div.kpi_arrow_sort.active').show();
             }
-            $rootScope.$broadcast('dropdown-arrow-clicked',value);
+            $rootScope.$broadcast('dropdown-arrow-clicked',value,sortOrder);
 
             if(_selectedKpi) {
                 $scope.changeClickedSelectedKpiAlt(_selectedKpi);

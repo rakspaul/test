@@ -35,6 +35,7 @@ var angObj = angObj || {};
         $scope.sortType     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortTypeSubSort     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortReverse  = true; // set the default sort order
+        $scope.sortReverseKpiDropdown  = true; // set the default sort order
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -289,10 +290,11 @@ var angObj = angObj || {};
             $scope.selected_filters2 = {};
             $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
-        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+
+        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "platformType_aggregation."+args;
             $scope.sortTypeSubSort ="tactic."+args;
-            $scope.sortReverse  = !$scope.sortReverse;
+            $scope.sortReverse  = sortorder;
         });
 
 
@@ -308,7 +310,14 @@ var angObj = angObj || {};
             var isActive = (a === b ) ?  'active' : '';
             /*$('.direction_arrows div.kpi_arrow_sort.active').hide();*/
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
-            return isActive + " " + sortDirection;
+            if($('.kpi-dd-holder').hasClass( "active" )){
+                $('.each_cost_col').removeClass( "active" );
+                return sortDirection;
+            }
+            else{
+                return isActive + " " + sortDirection;
+            }
+
         };
     });
 }());
