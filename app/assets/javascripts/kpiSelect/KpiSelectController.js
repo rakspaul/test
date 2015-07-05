@@ -30,14 +30,14 @@
           $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
-
         $scope.myData = {};
         $scope.myData.doClick = function($event,value) {
             var targetTags = $('.direction_arrows div.kpi_arrow_sort');
             var _selectedKpi = value;
+            $("[value="+_selectedKpi+"]").css("color", "#0978c9");
             var tags = $event.currentTarget.className.match("^active");
             var classesPresent = $event.currentTarget.className;
-
+            $('.kpi-dd-holder').addClass( "active" );
             if(classesPresent.indexOf('point_up') > -1){
                 targetTags.removeClass( "point_up" );
                 targetTags.addClass( "point_down" );
@@ -46,16 +46,12 @@
                 targetTags.removeClass( "point_down" );
                 targetTags.addClass( "point_up" );
             }
-
             if(!classesPresent.indexOf('active') > -1){
                 targetTags.removeClass( "active" );
                 targetTags.hide();
                 $event.currentTarget.className += "  active";
                 $event.currentTarget.className += "  tester";
-
-
                 $('.direction_arrows div.kpi_arrow_sort.active').show();
-
             }
             $rootScope.$broadcast('dropdown-arrow-clicked',value);
 
@@ -80,10 +76,6 @@
             }
         });
 
-
-          $('.direction_arrows div.kpi_arrow_sort').click(function (e) {
-
-        });
         function setArrowSelector(){
             $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
                     if(window.location.pathname !== "/inventory"){

@@ -222,6 +222,13 @@ var angObj = angObj || {};
             })
         };
 
+        /*$scope.defaultSortChecker = function(e) {
+            if($('.kpi-dd-holder').hasClass( "active" )){
+                $('.each_cost_col').removeClass( "active" );
+            }
+        };
+        $scope.defaultSortChecker();
+*/
         //Initializing the variable.
         $scope.init= function(){
             $scope.strategyFound = false ;
@@ -239,7 +246,10 @@ var angObj = angObj || {};
             $scope.selected_filters2 = {};
             $scope.selected_filters2.kpi_type = 'cpm';
             $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
+
         }
+
+
 
 
         $scope.init();
