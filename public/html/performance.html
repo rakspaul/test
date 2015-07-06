@@ -404,7 +404,7 @@
 </script>
 
 <script type="text/ng-template" id="CreativesTpl">
-    <div class="each_col sec_col">
+    <div class="each_col sec_col" title="{{creativesData.dimension}}">
        <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ creativesData.dimension | formatUrl :15 }}
     </div>
