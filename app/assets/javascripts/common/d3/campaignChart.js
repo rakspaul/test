@@ -15,8 +15,8 @@
                         var margin = _config.margin;
                         var width = _config.width;
                         var height = _config.height;
-                        console.log(data[0])
-                        console.log(ykeyVal)
+
+
                         var xScale = d3.time.scale().domain([data[0][xkeyVal], data[data.length - 1][xkeyVal]]).range([margin.left, width]);
                         var yScale = d3.scale.linear().domain([0, d3.max(data, function(d) {
                             return d[ykeyVal];
@@ -28,7 +28,6 @@
                             .ticks(_config.keys.xAxis.ticks)
                             .tickFormat(d3.time.format("%d %b"))
                             .tickSize(0);
-
 
                         //.tickValues(_config.keys.xAxis.tickValues)
                         /*.tickFormat(function(d){
@@ -64,7 +63,6 @@
                                 return yScale(d[ykeyVal]);
                             })
 
-
                         this.updateConfig({
                             'xScale': xScale,
                             'yScale': yScale,
@@ -74,21 +72,16 @@
                             'lineFun': lineFun,
 
                         })
-
-
                     },
-
-
 
                     drawPath: function(data, index) {
                         // parse the dates from a string into a date object
-
                         var _config = this.lineChartConfig;
                         var xkeyVal = _config.keys.xAxis.val;
                         var ykeyVal = _config.keys.yAxis.val;
+                        var threshold = _config.threshold;
+                        var kpiType = _config.kpiType;
                         var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate(10,0)");
-
-
 
                         //draw the area now
                         /*if(index === 0) {
@@ -97,24 +90,7 @@
                               .attr("class", "area")
                               .attr("d", _config.area);
                         }*/
-
-                        /*    <image preserveAspectRatio="none" x="0" y="25.333333333333336" width="11" height="11" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/images/cdesk/target_indicator_dark.png"></image> */
-                        svg.append("image")
-                            .attr("id", "goal")
-                            .attr("width", "11")
-                            .attr("height", "11")
-                            .attr("x", 5)
-                            .attr("y", _config.yScale(150))
-                            .attr("xlink:href", "http://localhost:9000/assets/images/cdesk/target_indicator_dark.png")
-
-
-                        svg.append("line")
-                            .style("stroke-width", "2")
-                            .style("stroke", "#C0D0E0")
-                            .attr("id", "threshold-line")
-                            .attr("x1", _config.margin.left).attr("y1", _config.yScale(150))
-                            .attr("x2", _config.width).attr("y2", _config.yScale(150));
-
+                        //lines for the border of the chart
                         svg.append("line")
                             .style("stroke-width", "1")
                             .style("stroke", "#C0D0E0")
@@ -129,49 +105,130 @@
                             .attr("x1", _config.width).attr("y1", _config.height)
                             .attr("x2", _config.width).attr("y2", _config.margin.top);
 
+                        if (threshold != 0) {
+                            //if there is a threshold, then draw goal icon, line and render threshold encoding
 
-
-                        svg.append("svg:path")
-                            .attr('stroke', 'url(#temperature-gradient)')
-                            .attr({
-                                d: _config.lineFun(data),
-                                "class": "path" + index
+                            //find the max data
+                            var maxData = d3.max(data, function(d) {
+                                return d[ykeyVal];
                             });
 
+                            //if threshold is out of view i.e greater than data view
+                            if (threshold > maxData) {
+                                //rescale yaxis
+                                _config.yScale.domain([0, threshold]);
+                            }
 
+                            svg.append("image")
+                                .attr("id", "goal")
+                                .attr("width", "11")
+                                .attr("height", "11")
+                                .attr("x", 5)
+                                .attr("y", _config.yScale(threshold) - 5)
+                                .attr("xlink:href", "/" + assets.target_marker);
 
+                            svg.append("line")
+                                .style("stroke-width", "2")
+                                .style("stroke", "#C0D0E0")
+                                .attr("id", "threshold-line")
+                                .attr("x1", _config.margin.left).attr("y1", _config.yScale(threshold))
+                                .attr("x2", _config.width).attr("y2", _config.yScale(threshold));
 
-                        //draw threshold
-                        svg.append("linearGradient")
-                            .attr("id", "temperature-gradient")
-                            .attr("gradientUnits", "userSpaceOnUse")
-                            .attr("x1", 0).attr("y1", _config.yScale(150))
-                            .attr("x2", 0).attr("y2", _config.yScale(150.1))
-                            .selectAll("stop")
-                            .data([{
-                                    offset: "0%",
-                                    color: "#f24444"
-                                }, {
-                                    offset: "50%",
-                                    color: "#f24444"
-                                }, //negative
-                                {
-                                    offset: "50%",
-                                    color: "#0078cc"
-                                }, {
-                                    offset: "100%",
-                                    color: "#0078cc"
-                                }
-                            ])
-                            .enter().append("stop")
-                            .attr("offset", function(d) {
-                                return d.offset;
-                            })
-                            .attr("stop-color", function(d) {
-                                return d.color;
-                            });
+                            // svg.append("svg:path")
+                            //     //.attr('stroke', 'url(#temperature-gradient)')
+                            //     .attr({
+                            //         d: _config.lineFun(data),
+                            //         "class": "path" + index
+                            //     });
 
+                            //draw threshold
+                            //TODO: older method of encoding threshold - verification process.
+                            // svg.append("linearGradient")
+                            //     .attr("id", "temperature-gradient")
+                            //     .attr("gradientUnits", "userSpaceOnUse")
+                            //     .attr("x1", 0).attr("y1", _config.yScale(threshold))
+                            //     .attr("x2", 0).attr("y2", _config.yScale(threshold +0.01))
+                            //     .selectAll("stop")
+                            //     .data([{
+                            //             offset: "0%",
+                            //             color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc'
+                            //         }, {
+                            //             offset: "50%",
+                            //             color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc'
+                            //         }, //negative
+                            //         {
+                            //             offset: "50%",
+                            //             color:  (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444'
+                            //         }, {
+                            //             offset: "100%",
+                            //             color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444'
+                            //         }
+                            //     ])
+                            //     .enter().append("stop")
+                            //     .attr("offset", function(d) {
+                            //         return d.offset;
+                            //     })
+                            //     .attr("stop-color", function(d) {
+                            //         return d.color;
+                            //     });
 
+                            //interpolate path data
+                            var line = d3.svg.line()
+                                .interpolate("basis")
+                                .x(function(d) {
+                                    return _config.xScale(d.date);
+                                })
+                                .y(function(d) {
+                                    return _config.yScale(d.values);
+                                });
+
+                            //classes used to color the threshold clipping path
+                            var red = "clip-above",
+                                blue = "clip-below",
+                                //default settings - positive color is blue and is below and danger zone is red that is above
+                                aboveClass = blue,
+                                belowClass = red;
+                            if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                                //positive color is blue that is above and danger zone is below that is red
+                                aboveClass = red,
+                                belowClass = blue;
+                            }
+
+                            //clipPath area for threshold encoding
+                            svg.append("clipPath")
+                                .attr("id", aboveClass)
+                                .append("rect")
+                                .attr("width", _config.width)
+                                .attr("height", _config.yScale(threshold));
+
+                            svg.append("clipPath")
+                                .attr("id", belowClass)
+                                .append("rect")
+                                .attr("y", _config.yScale(threshold))
+                                .attr("width", _config.width)
+                                .attr("height", _config.height - _config.yScale(threshold));
+
+                            //apply threshold encoding color classes to the path data
+                            svg.selectAll(".line")
+                                .data(["above", "below"])
+                                .enter().append("path")
+                                .attr("class", function(d) {
+                                    return "line " + d;
+                                })
+                                .attr("clip-path", function(d) {
+                                    return "url(#clip-" + d + ")";
+                                })
+                                .datum(data)
+                                .attr("d", line);
+
+                        } else { //if no threshold
+                            //render default color to the path
+                            svg.append("svg:path")
+                                .attr({
+                                    d: _config.lineFun(data),
+                                    "class": "path" + index
+                                });
+                        }
 
                         /* if(index == 0) {
                            svg.selectAll("line.verticalGrid").data(data).enter()
@@ -226,7 +283,6 @@
 
                     },
 
-
                     drawAxis: function() {
                         var _config = this.lineChartConfig;
                         var xkeyVal = _config.keys.xAxis.val;
@@ -243,36 +299,34 @@
 
                         .call(_config.xAxisGen)
 
-
                         svg.append("svg:g")
                             .attr("class", "y axis")
                             .attr("transform", "translate(30,0)")
                             .call(_config.yAxisGen);
 
-                        if (_config.showAxisLabel) {
-                            /* START label for x-axis */
-                            _.each(_config.axisLabel, function(label, i) {
-                                svg.append('circle')
-                                    .attr({
-                                        'cx': width / 2 - (i === 0 ? 25 : -25),
-                                        'cy': height + margin.bottom + 5,
-                                        'r': 5,
-                                        'class': 'labelCircle' + i
-                                    })
-
-                                svg.append("text")
-                                    .attr({
-                                        "text-anchor": "middle",
-                                        "transform": "translate(" + ((width / 2) + (i === 0 ? 0 : 50)) + "," + (height + margin.bottom * 1.5) + ")",
-                                        "class": 'labelText' + i
-                                    })
-                                    .text(label);
-
-                            });
-
-
-                            /* END label for x-axis */
-                        }
+                        // if (_config.showAxisLabel) {
+                        //     /* START label for x-axis */
+                        //     _.each(_config.axisLabel, function(label, i) {
+                        //         svg.append('circle')
+                        //             .attr({
+                        //                 'cx': width / 2 - (i === 0 ? 25 : -25),
+                        //                 'cy': height + margin.bottom + 5,
+                        //                 'r': 5,
+                        //                 'class': 'labelCircle' + i
+                        //             })
+                        //
+                        //         svg.append("text")
+                        //             .attr({
+                        //                 "text-anchor": "middle",
+                        //                 "transform": "translate(" + ((width / 2) + (i === 0 ? 0 : 50)) + "," + (height + margin.bottom * 1.5) + ")",
+                        //                 "class": 'labelText' + i
+                        //             })
+                        //             .text(label);
+                        //
+                        //     });
+                        //
+                        //     /* END label for x-axis */
+                        // }
                     },
 
                     setChartParameters: function() {
@@ -290,11 +344,9 @@
                         _config.dataToPlot[0].forEach(function(d) {
                             d['date'] = parseDate(d['date']);
                         });
-                        console.log(_config.dataToPlot[0]);
                         that.createVariablesToDrawGraph(_config.dataToPlot[0]);
 
                         _.each(_config.dataToPlot, function(data, idx) {
-
                             that.drawPath(data, idx);
                         })
 
@@ -304,39 +356,80 @@
                         if (typeof configValues === "object") {
                             _.extend(this.lineChartConfig, configValues)
                         }
+                    },
+
+                    findKey: function(obj, value) {
+                        var key;
+                        _.each(obj, function(v, k) {
+                            if (v === value) {
+                                key = k;
+                            }
+                        });
+                        //if value exists return the corresponding Key else return value
+                        return (key != undefined ? key.toUpperCase() : value.toUpperCase());
+                    },
+
+                    chartDataFun: function(lineData, threshold, kpiType, chartFrom) {
+                        var _config = this.lineChartConfig;
+                        var kpiType = kpiType != 'null' ? kpiType : 'NA';
+                        var kpiMap = {
+                            'cpc': 'gross_ecpc',
+                            'cpa': 'gross_ecpa',
+                            'cpm': 'gross_ecpm'
+                        };
+                        if (chartFrom == 'tactics') {
+                            kpiType = lineChartService.findKey(kpiMap, kpiType);
+                        }
+                        _config.kpiType = kpiType;
+                        var data = [];
+
+                        for (var i = 0; i < lineData.length; i++) {
+                            data.push({
+                                date: lineData[i]['date'],
+                                values: lineData[i]['y']
+                            });
+                        }
+                        return data;
                     }
                 }
+
+                var dataObj = JSON.parse(attrs.chartData);
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from);
+
+                //TODO: DO NOT DELETE THIS DATA
+                // [{
+                //     "date": "2015-1-1",
+                //     "values": 150
+                // }, {
+                //     "date": "2015-1-2",
+                //     "values": 100
+                // }, {
+                //     "date": "2015-1-3",
+                //     "values": 170
+                // }, {
+                //     "date": "2015-1-4",
+                //     "values": 180
+                // }, {
+                //     "date": "2015-1-5",
+                //     "values": 190
+                // }, {
+                //     "date": "2015-1-6",
+                //     "values": 180
+                // }, {
+                //     "date": "2015-1-7",
+                //     "values": 130.09
+                // }, {
+                //     "date": "2015-1-8",
+                //     "values": 130.09
+                // }, {
+                //     "date": "2015-1-9",
+                //     "values": 130.09
+                // }]
+
                 var lineData = {
-                    json: [
-                        [{
-                            "date": "2015-1-1",
-                            "values": 150
-                        }, {
-                            "date": "2015-1-2",
-                            "values": 100
-                        }, {
-                            "date": "2015-1-3",
-                            "values": 170
-                        }, {
-                            "date": "2015-1-4",
-                            "values": 180
-                        }, {
-                            "date": "2015-1-5",
-                            "values": 190
-                        }, {
-                            "date": "2015-1-6",
-                            "values": 180
-                        }, {
-                            "date": "2015-1-7",
-                            "values": 130.09
-                        }, {
-                            "date": "2015-1-8",
-                            "values": 130.09
-                        }, {
-                            "date": "2015-1-9",
-                            "values": 130.09
-                        }]
-                    ],
+                    json: [chartDataset],
+                    threshold: dataObj.kpiValue,
+                    kpiType: dataObj.kpiType,
                     keys: {
                         xAxis: {
                             val: 'date',
@@ -350,16 +443,16 @@
                         }
                     },
                     margin: {
-                        top:20,
+                        top: 20,
                         right: 10,
                         left: 20,
                         bottom: 10,
                     },
                     showPathLabel: true,
                     showAxisLabel: false,
-                    axisLabel: ['Plays', 'Views']
+                    axisLabel: ['Data', 'Value']
                 };
-                console.log(lineData.json);
+
                 //JSON.parse(attrs.chartData).data ;//scope[attrs.chartData].data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
@@ -368,6 +461,7 @@
                     rawSvg: rawSvg,
                     dataToPlot: lineData.json,
                     margin: lineData.margin,
+                    threshold: lineData.threshold,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,
                     showAxisLabel: lineData.showAxisLabel,

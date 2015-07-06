@@ -3087,13 +3087,16 @@ button, i, input[type="submit"] {
 }
 
 .campaign_details_graph .path0 {
-  stroke: #0978c9;
+  stroke: #0078cc;/*url(#temperature-gradient);*/
   stroke-width: 2;
   fill: none;
 }
-
-.campaign_details_graph .path1 {
-  stroke: #4cc94a;
-  stroke-width: 1;
+.campaign_details_graph .line {
   fill: none;
+  stroke: #0078cc;
+  stroke-width: 2;
+}
+
+.campaign_details_graph .line.above {
+  stroke: #f24444;
 }
