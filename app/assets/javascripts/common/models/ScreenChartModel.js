@@ -78,7 +78,7 @@
                 } else {
                     sortedData =  _.sortBy(screensData, selectedMetricKey);
                 }
-                sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
+                sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
                 sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                 dataToDisplayOnWidget  = sortedData.slice(0, 3);
             }
