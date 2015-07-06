@@ -784,6 +784,22 @@ div.main_navigation {
     padding:0px;
     margin:0px;
     div{
+      div.kpi_arrow_sort.active.is_active_point_up{
+        background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+        background-position: right -64px;
+        &:hover{
+          background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+          background-position: right -64px;
+        }
+      }
+      div.kpi_arrow_sort.active.is_active_point_down{
+        background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+        background-position: right -64px;
+        &:hover{
+          background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+          background-position: right -64px;
+        }
+      }
       padding:0;
       width:15px;
       display:block;
@@ -794,10 +810,6 @@ div.main_navigation {
         cursor: pointer;
         width:15px;
         display: none;
-        &.active{
-          background-position: right -64px;
-          display:block;
-        }
       }
       div.kpi_arrow_sort.point_up{
         padding:0;
@@ -805,10 +817,6 @@ div.main_navigation {
         cursor: pointer;
         width:15px;
         display: none;
-        &.active{
-          background-position: right -64px;
-          display:block;
-        }
       }
     }
   }

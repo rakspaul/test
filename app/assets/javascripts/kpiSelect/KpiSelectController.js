@@ -13,9 +13,9 @@
         $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
 
         $scope.setSelectedKpi = function(_kpi){
-          kpiSelectModel.setSelectedKpi(_kpi);
-          $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
-          $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
+            kpiSelectModel.setSelectedKpi(_kpi);
+            $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
+            $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
         };
 
         $scope.setSelectedKpiAlt = function(_kpi){
@@ -26,8 +26,8 @@
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(){
-          $scope.setSelectedKpi(campaignSelectModel.getSelectedCampaign().kpi);
-          $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+            $scope.setSelectedKpi(campaignSelectModel.getSelectedCampaign().kpi);
+            $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
         $scope.myData = {};
@@ -35,25 +35,31 @@
             var targetTags = $('.direction_arrows div.kpi_arrow_sort');
             var sortOrder = true;
             var _selectedKpi = value;
+            $(".drop_list li").css("color", "#000");
             $("[value="+_selectedKpi+"]").css("color", "#0978c9");
             var tags = $event.currentTarget.className.match("^active");
             var classesPresent = $event.currentTarget.className;
             $('.kpi-dd-holder').addClass( "active" );
-            if(classesPresent.indexOf('point_up') > -1){
-                sortOrder = false;
-                targetTags.removeClass( "point_up" );
-                targetTags.addClass( "point_down" );
-            }
-            else{
+            if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
+                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
+                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                $event.currentTarget.className += "  is_active_point_down";
                 sortOrder = true;
-                targetTags.removeClass( "point_down" );
-                targetTags.addClass( "point_up" );
+            }
+            else if (classesPresent.indexOf('is_active_point_down') > -1 === true ){
+                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                $event.currentTarget.className += "  is_active_point_up";
+                sortOrder = false;
+            }
+            else if (classesPresent.indexOf('is_active_point_up') > -1  === true  ){
+                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
+                $event.currentTarget.className += "  is_active_point_down";
+                sortOrder = true;
             }
             if(!classesPresent.indexOf('active') > -1){
                 targetTags.removeClass( "active" );
                 targetTags.hide();
                 $event.currentTarget.className += "  active";
-                $event.currentTarget.className += "  tester";
                 $('.direction_arrows div.kpi_arrow_sort.active').show();
             }
             $rootScope.$broadcast('dropdown-arrow-clicked',value,sortOrder);
@@ -82,10 +88,10 @@
         function setArrowSelector(){
             $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
                     if(window.location.pathname !== "/inventory"){
-                     var selectedKpi =  $(e.target).attr("value") ;
-                     $('.direction_arrows div.kpi_arrow_sort').hide();
+                        var selectedKpi =  $(e.target).attr("value") ;
+                        $('.direction_arrows div.kpi_arrow_sort').hide();
                         $('.direction_arrows div.kpi_arrow_sort.active').show();
-                     $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
+                        $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
                     }
                 },
                 function(e) {

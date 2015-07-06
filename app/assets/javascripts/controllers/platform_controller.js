@@ -223,13 +223,7 @@ var angObj = angObj || {};
             })
         };
 
-        /*$scope.defaultSortChecker = function(e) {
-            if($('.kpi-dd-holder').hasClass( "active" )){
-                $('.each_cost_col').removeClass( "active" );
-            }
-        };
-        $scope.defaultSortChecker();
-*/
+
         //Initializing the variable.
         $scope.init= function(){
             $scope.strategyFound = false ;
