@@ -287,7 +287,7 @@ var angObj = angObj || {};
 
         $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "platformType_aggregation."+args;
-            $scope.sortTypeSubSort ="tactic."+args;
+            $scope.sortTypeSubSort = args;
             $scope.sortReverse  = sortorder;
         });
 
