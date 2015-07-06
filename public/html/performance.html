@@ -172,7 +172,8 @@
 
 
                     <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" >
+                    
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" ng-class="{strategy_video_disabled:strategyPerfDataByCreatives.hasVTCMetrics == false}" >
                         <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
                             <creatives-header></creatives-header>
                         </div>
@@ -404,6 +405,7 @@
 </script>
 
 <script type="text/ng-template" id="CreativesTpl">
+
     <div class="each_col sec_col" title="{{creativesData.dimension}}">
        <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ creativesData.dimension | formatUrl :15 }}
