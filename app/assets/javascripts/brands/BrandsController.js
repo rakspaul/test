@@ -34,7 +34,7 @@
       fetchBrands(searchCriteria,search);
 
     $scope.loadMoreBrands = function() {
-      searchCriteria.offset += searchCriteria.limit + 1;
+      searchCriteria.offset += searchCriteria.limit;
       searchCriteria.key = $("#brandsDropdown").val();
       search = false;
       $scope.fetching = true;
