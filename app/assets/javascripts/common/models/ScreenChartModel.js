@@ -53,7 +53,9 @@
             var kpiModel = this.getScreenWidgetMetric().toLowerCase();
             var screenWidgetFormat = this.getScreenWidgetFormat();
             var screensData;
+            var totalMetrics;
             var chartDataScreen = [];
+            var dataToDisplayOnWidget;
             var calculateTotalMetrics  = function(data, kpi) {
                 var total = 1;
                 if(kpi === 'gross_rev' || kpi === 'impressions' || kpi == 'cpa' || kpi == 'cpm' || kpi == 'cpc') {
@@ -78,12 +80,14 @@
                 }
                 sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm') ? sortedData : sortedData.reverse();
                 sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
-                sortedData  = sortedData.slice(0, 3);
+                dataToDisplayOnWidget  = sortedData.slice(0, 3);
             }
 
-            var totalMetrics = calculateTotalMetrics(sortedData, selectedMetricKey);
 
-            _.each(sortedData, function(data, idx) {
+            var d = (screenWidgetFormat.toLowerCase() === 'platforms') ? sortedData : dataToDisplayOnWidget;
+            totalMetrics = calculateTotalMetrics(d, selectedMetricKey);
+
+            _.each(dataToDisplayOnWidget, function(data, idx) {
                 var kpiData;
                 if(selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') {
                     kpiData = ((data[selectedMetricKey] *100)/totalMetrics).toFixed(0);
