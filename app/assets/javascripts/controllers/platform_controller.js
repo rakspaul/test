@@ -108,7 +108,7 @@ var angObj = angObj || {};
                 }
                 else if(param.tab == "viewability"){
                     $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
-                    $scope.sortTypeSubSort='ias_imps_deliveredd';
+                    $scope.sortTypeSubSort='ias_imps_delivered';
                 }
                 else{
                     $scope.sortType = 'platformType_aggregation.impressions';
