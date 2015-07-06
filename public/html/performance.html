@@ -64,13 +64,13 @@
 
                 <div ng-class="strategyPerfDataByScreen.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="{{defaultDisplayScreen}}">
                     <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
-                    <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
-                        <div class="clearfix reports_performance_header">
+                    <div class="reports_details_outer_container"  ng-if="!dataNotFoundForScreen">
+                        <div class="clearfix reports_performance_header" ng-hide="screenBusy">
                             <screen-header></screen-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="screenBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
@@ -100,12 +100,12 @@
                 <div ng-class="strategyPerfDataByDOW.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_bydaysofweek_block" style="display:none;" >
                     <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
-                        <div class="clearfix reports_performance_header">
+                        <div class="clearfix reports_performance_header" ng-hide="dowBusy">
                             <daysofweek-header></daysofweek-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="dowBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
@@ -135,12 +135,12 @@
                 <div ng-class="strategyPerfDataByFormat.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
                     <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable('formats')"></div>
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
-                        <div class="clearfix reports_performance_header">
+                        <div class="clearfix reports_performance_header" ng-hide="formatBusy">
                             <format-header></format-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="formatBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
@@ -173,12 +173,12 @@
 
                     <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" >
-                        <div class="clearfix reports_performance_header">
+                        <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
                             <creatives-header></creatives-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="creativeBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
@@ -213,12 +213,12 @@
 
                     <div class="no_data_found" ng-if="dataNotFoundForAdSizes" ng-bind-html="getMessageForDataNotAvailable('adSizes')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdSizes" >
-                        <div class="clearfix reports_performance_header">
+                        <div class="clearfix reports_performance_header" ng-hide="adSizesBusy">
                             <adsizes-header></adsizes-header>
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col">
+                                <div class="each_col first_col" ng-hide="adSizesBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">

@@ -433,13 +433,13 @@ angObj.directive('truncateTextWithHover', function () {
     return function (input, kpiType) {
       if(input && kpiType) {
         if (kpiType.toLowerCase() == 'ctr' || kpiType.toLowerCase() === 'action_rate') {
-          return (input*100).toFixed(2) + '%';
+          return input+ '%';
         } else if(kpiType.toLowerCase() == 'vtc') {
-          return (input).toFixed(2) + '%';
+          return input + '%';
         } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
-          return constants.currencySymbol + input.toFixed(2);
+          return constants.currencySymbol + input;
         } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
-          return input.toFixed(0) + '%';
+          return input + '%';
         }
       }
     }
