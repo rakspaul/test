@@ -249,6 +249,9 @@ var angObj = angObj || {};
             $('.kpi-dd-holder').removeClass( "active" );
             $(".drop_list li").css("color", "#000");
         };
+        $scope.specialSort = function(passedSortype){
+            $scope.sortType = passedSortype;
+        };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
