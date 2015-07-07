@@ -51,6 +51,7 @@ var angObj = angObj || {};
                 $scope.defaultDisplayFormat = 'display : block';
                 $scope.defaultDisplayAdSize = 'display : none';
                 $scope.defaultDisplayScreen = 'display : none';
+                $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
             } else {
                 $scope.selected_tab = 'byscreens'
                 $scope.sortByColumn = 'name';
