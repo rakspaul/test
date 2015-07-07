@@ -238,9 +238,28 @@ var angObj = angObj || {};
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
-                if ($scope.selected_tab === "viewability") {
+                if($scope.selected_tab === "viewability") {
+                    $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
+                    $scope.sortTypeSubSort = 'ias_imps_delivered';
+                }
+                else if($scope.selected_tab === "performance") {
+                    $scope.sortType = 'platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='impressions'
+                }
+                else if($scope.selected_tab === "cost") {
+                    $scope.sortType = 'platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='impressions';
+                }
+                else{
+                    $scope.sortType = 'platformType_aggregation.impressions';
+                    $scope.sortTypeSubSort='impressions';
+
+                }
+                if($scope.selected_tab === "viewability") {
+
                     $(".view_mode_switch_container").show();
-                } else {
+                }
+                else {
                     $(".view_mode_switch_container").hide();
                 }
                 $("#reports_" + tab_id[0] + "_block").show();
