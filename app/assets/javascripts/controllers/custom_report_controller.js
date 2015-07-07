@@ -156,7 +156,6 @@ var angObj = angObj || {};
             $scope.reset_metric_options() ;
             $(".report_builder_container").show();
             $(".custom_report_response_page").hide();
-           
         };
         $scope.loadMoreItems = function() {
             console.log("load");
