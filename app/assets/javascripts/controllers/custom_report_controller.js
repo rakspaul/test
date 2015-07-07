@@ -1,30 +1,34 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('customReportController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
+        var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
 
         var keys = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
         var metricKey = _.without(keys, 'dimensions');
+        $scope.dataNotFound = false;
+        $scope.reportDataBusy = false;
 
         $scope.getDimensionList =  function(data, selectedMetrics) {
-            var metricKeyStr = '';
+            $(".filtered_by_txt").text(elem.text());
+            var metricKeyStr = elem.text() +",";
             if(selectedMetrics.length >0) {
-                metricKeyStr += _.pluck(selectedMetrics, 'key').join()
+                metricKeyStr += _.pluck(selectedMetrics, 'label').join()
             } else {
                 _.each(metricKey, function(mkey, idx) {
-                    metricKeyStr += _.pluck(data[mkey], 'key').join()
+                    metricKeyStr += _.pluck(data[mkey], 'value').join() + ',';
                 })
+                metricKeyStr = metricKeyStr.substring(0, metricKeyStr.length - 1);
             }
+
 
             $scope.metricKeyArr = _.uniq(metricKeyStr.split(","));
         };
 
         $scope.getMetricValues =  function(data, selectedMetrics) {
-            var metricValuesStr;
-            var metricValues = [];
-            var tmpArr =[];
+            var metricValuesStr ;
             var metrics;
             if(selectedMetrics.length >0) {
                 metrics = _.pluck(selectedMetrics, 'key')
@@ -41,14 +45,14 @@ var angObj = angObj || {};
                         pickedobj = obj[mkey];
                     }
                     if(!$.isEmptyObject(pickedobj)) {
-                        metricValuesStr = metricValuesStr.substring(0, metricValuesStr.length - 1);
-                        metricValuesStr =  metricValuesStr + _.values(pickedobj).join() +',';
+                        metricValuesStr +=  _.values(pickedobj).join() +',';
                     }
                 });
-                metricValues.push(metricValuesStr.split(","));
-            });
+                metricValuesStr = obj.dimension.value.replace(/\,/, ' - ') + ","+  metricValuesStr;
+                metricValuesStr = metricValuesStr.substring(0, metricValuesStr.length - 1);
+                $scope.metricValues.push(metricValuesStr.split(","));
 
-            $scope.metricValues = metricValues;
+            });
         };
 
         dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
@@ -116,10 +120,17 @@ var angObj = angObj || {};
 
         };
 
+        $scope.back_to_custom_reports = function() {
+            $scope.reset_metric_options() ;
+            $(".report_builder_container").show();
+            $(".custom_report_response_page").hide();
+        };
+
         $scope.reset_metric_options = function(event) {
             $(".each_measurable_col .not_all_selected").removeClass("not_all_selected");
             $(".each_measurable_col .active").removeClass("active");
             $(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , false ) ;
+            $(".reportFilter").val('');
         };
 
         $scope.metricSelected =  function() {
@@ -132,33 +143,49 @@ var angObj = angObj || {};
 
         };
 
+        $scope.reset = function(){
+            $scope.limit = 200;
+            $scope.offset = 1;
+            $scope.fetching = false;
+        };
+
+        $scope.fetchReportsData = function()  {
+            $scope.reportDataBusy = true;
+            var str =  $scope.selectedDimensionId + ($scope.filterTxt !== '' ?  (':' + $scope.filterTxt) : '');
+            var params = $scope.reportID+"?dimension="+str+"&offset="+$scope.offset+"&limit="+$scope.limit;
+            dataService.getCustomReportData($scope.campaign, params).then(function(result) {
+                requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
+                var reportData = result.data.data.report_data;
+                $scope.fetching = false;
+                $scope.reportDataBusy = false;
+                if(reportData.length >0) {
+                    $scope.getMetricValues(reportData, $scope.selectedItems);
+                } else {
+                    $scope.dataNotFound = true;
+                    $scope.dataNotFoundMessage = constants.MSG_DATA_NOT_AVAILABLE;
+                }
+            });
+        };
 
         $scope.generateReport = function() {
             $scope.selectedItems = [];
+            $scope.metricValues = [];
             $(".report_builder_container").hide();
             $(".custom_report_response_page").show();
             $("html, body").animate({ scrollTop: 0 });
-            var metricsSelected;
             $scope.metricSelected();
             $scope.getDimensionList($scope.customeDimensionData[0], $scope.selectedItems);
-            var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
-            var reportID = elem.attr("data-template_id");
-            var selectedDimensionId = elem.attr("id");
-            var params = reportID+"?dimension="+selectedDimensionId+"&offset=101&limit=200";
-            dataService.getCustomReportData($scope.campaign, params).then(function(result) {
-                var reportData = result.data.data.report_data;
-                $scope.getMetricValues(reportData, $scope.selectedItems);
-
-
-            });
+            $scope.reportID = elem.attr("data-template_id");
+            $scope. selectedDimensionId = elem.attr("id");
+            $scope.filterTxt = $.trim($(".reportFilter").val());
+            $scope.reset();
+            $scope.fetchReportsData();
         };
-         $scope.back_to_custom_reports = function() {
-            $scope.reset_metric_options() ;
-            $(".report_builder_container").show();
-            $(".custom_report_response_page").hide();
-        };
+
         $scope.loadMoreItems = function() {
-            console.log("load");
+            $scope.offset += $scope.limit;
+            $scope.fetching = true;
+            $scope.fetchReportsData();
         };
     });
 }());
