@@ -37,6 +37,21 @@ var angObj = angObj || {};
         $scope.sortReverse  = true; // set the default sort order
         $scope.sortReverseKpiDropdown  = true; // set the default sort order
 
+        if($scope.selected_tab == "performance"){
+            $scope.sortType = 'platformType_aggregation.impressions';
+            $scope.sortTypeSubSort='impressions'
+        }
+        else if($scope.selected_tab == "viewability"){
+            $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
+            $scope.sortTypeSubSort='ias_imps_delivered';
+        }
+        else{
+            $scope.sortType = 'platformType_aggregation.impressions';
+            $scope.sortTypeSubSort='impressions';
+
+        }
+
+
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
 
@@ -102,19 +117,7 @@ var angObj = angObj || {};
 
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
-                if(param.tab == "performance"){
-                    $scope.sortType = 'platformType_aggregation.impressions';
-                    $scope.sortTypeSubSort='impressions'
-                }
-                else if(param.tab == "viewability"){
-                    $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
-                    $scope.sortTypeSubSort='ias_imps_delivered';
-                }
-                else{
-                    $scope.sortType = 'platformType_aggregation.impressions';
-                    $scope.sortTypeSubSort='impressions';
 
-                }
 
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
