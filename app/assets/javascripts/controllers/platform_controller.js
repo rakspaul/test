@@ -287,8 +287,11 @@ var angObj = angObj || {};
         });
 
 
-        $scope.removeKpiActive = function () {
-            $('.kpi-dd-holder').removeClass("active");
+
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
+
             /* $('#kpi_dropdown').removeClass( "active" );*/
             $(".drop_list li").css("color", "#57606d");
             $('.direction_arrows div.kpi_arrow_sort.active').hide();

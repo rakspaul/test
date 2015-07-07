@@ -241,6 +241,7 @@ var angObj = angObj || {};
            /* $('#kpi_dropdown').removeClass( "active" );*/
             $(".drop_list li").css("color", "#57606d");
             $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
             $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
 
         };

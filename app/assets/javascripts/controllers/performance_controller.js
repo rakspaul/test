@@ -9,7 +9,7 @@ var angObj = angObj || {};
         domainReports.highlightHeaderMenu();
         $scope.sortType     = 'impressions'; // set the default sort type
 
-        $scope.sortReverse  = true; // set the default sort order
+        $scope.sortReverse  = false; // set the default sort order
 
         $scope.characterLimit  = 50;
 
@@ -248,6 +248,7 @@ var angObj = angObj || {};
 
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
             $(".drop_list li").css("color", "#000");
         };
         $scope.specialSort = function(passedSortype){
