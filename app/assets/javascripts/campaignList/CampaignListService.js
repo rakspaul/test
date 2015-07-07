@@ -194,6 +194,13 @@
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
+                                //d3 chart data
+                                tacticsList[obj].lineChart = {
+                                    data: lineData,
+                                    kpiValue: parseFloat(kpiValue),
+                                    kpiType: kpiType,
+                                    from: 'tactics'
+                                };
                             }
                         }
                     } else {
@@ -300,6 +307,13 @@
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
+                                //d3 chart data
+                                strategyList[obj].lineChart = {
+                                    data: lineData,
+                                    kpiValue: parseFloat(kpiValue),
+                                    kpiType: sKpiType,
+                                    from: 'strategy'
+                                };
                             }
                         }
                     } else {
@@ -423,6 +437,13 @@
                                 cdData['hasVTCMetric'] = result.data.data.hasVTCMetric;
                                 callback && callback(cdData);
                                 campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
+                                //d3 chart data
+                                campaignObject.lineChart = {
+                                  data: lineDate,
+                                  kpiValue: parseFloat(campaignObject.kpiValue),
+                                  kpiType: campaignObject.kpiType,
+                                  from: 'campaign'
+                                };
                             }
                         }
                     }else{

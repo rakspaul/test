@@ -3045,3 +3045,73 @@ button, i, input[type="submit"] {
   -webkit-border-radius : 5px;
 }
 
+.campaign_details_graph {
+  font-family: "Avenir";
+  margin-left: -15px;
+  margin-top: -6px;
+}
+.campaign_details_graph .axis path,
+.campaign_details_graph .axis line {
+  fill: none;
+  stroke: #C0D0E0;
+  stroke-width: 1;
+  shape-rendering: crispEdge;
+}
+
+.campaign_details_graph .x .axis line {
+      stroke: lightgrey;
+  }
+
+.campaign_details_graph .axis text {
+  fill: #939eaf;
+  font-size: 12px;
+}
+.campaign_details_graph .dots0 {
+  fill: #0978c9;
+}
+.campaign_details_graph .dots1 {
+  fill: #4cc94a;
+}
+.campaign_details_graph .verticalGrid {
+  border-color: #dde6eb;
+  border-width: 1px;
+  border-style: dashed;
+}
+.campaign_details_graph .area {
+  fill: #f5f9fd;
+  stroke-width: 0;
+}
+.campaign_details_graph .labels {
+  fill: #21252b;
+  font-size: 11px;
+}
+
+.campaign_details_graph .path0 {
+  stroke: #0078cc;/*url(#temperature-gradient);*/
+  stroke-width: 2;
+  fill: none;
+}
+.campaign_details_graph .line {
+  fill: none;
+  stroke: #0078cc;
+  stroke-width: 2;
+}
+
+.campaign_details_graph .line.above {
+  stroke: #f24444;
+}
+
+.campaign_details_graph .tooltip_line {
+  position: absolute;
+  z-index: 1030;
+  display: block;
+  visibility: visible;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.campaign_details_graph .tooltip_box {
+  stroke: #ccc;
+  stroke-width: 2;
+  fill: #fff;
+}
