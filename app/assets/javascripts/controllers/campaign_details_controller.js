@@ -404,7 +404,6 @@
                     }
                 }
                 $scope.inventoryBarChartConfig = {
-                    'widgetName' : 'Inventory',
                     data : $scope.chartDataInventory,
                     kpiType : kpiModel || 'NA',
                     showLabel : true
@@ -514,7 +513,6 @@
                 }
 
                 $scope.screenBarChartConfig = {
-                    'widgetName' : 'Screens',
                     data : $scope.chartDataScreen,
                     kpiType : kpiModel || 'NA'
                 }
@@ -551,7 +549,6 @@
                 }
 
                 $scope.adSizenBarChartConfig = {
-                    'widgetName' : 'Ad Size',
                     data : $scope.chartDataAdSize,
                     kpiType : kpiModel || 'NA',
                     showLabel : true
@@ -605,7 +602,6 @@
                     }
                 }
                 $scope.platformBarChartConfig = {
-                    'widgetName' : constants.PLATFORM,
                     data : $scope.chartDataPlatform,
                     kpiType : kpiModel || 'NA',
                     showLabel : true
@@ -641,7 +637,6 @@
                 }
 
                 $scope.formatBarChartConfig = {
-                    'widgetName' : 'Formats',
                     data : $scope.chartDataFormat,
                     kpiType : kpiModel || ''
                 }

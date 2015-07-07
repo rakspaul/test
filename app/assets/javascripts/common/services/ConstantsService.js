@@ -163,8 +163,7 @@
     this.VIEWABILITY = "Viewability";
     this.INVENTORY = "Inventory";
     this.AD_SIZE = "Ad Size";
-    this.FORMAT = "Format";
-
+  
     this.TOP = "Top";
     this.NO_LINKED_STRATEGIES = "No Linked Strategies";
     this.ALL = "All";
