@@ -137,6 +137,7 @@ var angObj = angObj || {};
             $scope.selectedItems = [];
             $(".report_builder_container").hide();
             $(".custom_report_response_page").show();
+            $("html, body").animate({ scrollTop: 0 });
             var metricsSelected;
             $scope.metricSelected();
             $scope.getDimensionList($scope.customeDimensionData[0], $scope.selectedItems);
@@ -151,7 +152,12 @@ var angObj = angObj || {};
 
             });
         };
-
+         $scope.back_to_custom_reports = function() {
+            $scope.reset_metric_options() ;
+            $(".report_builder_container").show();
+            $(".custom_report_response_page").hide();
+           
+        };
         $scope.loadMoreItems = function() {
             console.log("load");
         };
