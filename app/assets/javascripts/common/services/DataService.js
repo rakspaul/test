@@ -102,8 +102,8 @@
                 return this.fetch(url);
             },
 
-            getCustomReportData :  function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/reports/custom/:reportid?dimension=key:value';
+            getCustomReportData :  function(campaign, params) {
+                var url = apiPaths.apiSerivicesUrl + '/reports/custom/'+params;
                 return this.fetch(url);
             },
 
