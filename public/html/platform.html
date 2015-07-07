@@ -220,8 +220,9 @@
         </div>
              </span>
         <div ng-if="strategyDataByPerformance.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyDataByPerformance.hasVTCMetrics == false}">
-            {{performanceData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-            selected_filters2.kpi_type}}
+            <span ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'"> {{performanceData.platformType_aggregation.cpm | currency:undefined:2}}</span>
+            <span ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'"> {{performanceData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+            selected_filters2.kpi_type}}</span>
         </div>
     </div>
 
@@ -275,8 +276,9 @@
         </div>
     </span>
         <div ng-if="strategyDataByPerformance.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyDataByPerformance.hasVTCMetrics == false}">
-            {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-            selected_filters2.kpi_type}}
+            <span ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'">{{platform.cpm | currency:undefined:2}}</span>
+            <span ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+            selected_filters2.kpi_type}}</span>
         </div>
     </div>
 </script>
@@ -374,7 +376,7 @@
         <div class="each_cost_col tenth_col total_cost">{{costData.platformType_aggregation.total_spend | currency:undefined:0}}</div>
     </div>
 
-    <div class="platform_row" ng-repeat="platform in costData.platforms  track by $index">
+    <div class="platform_row" ng-repeat="platform in costData.platforms | orderBy:sortTypeSubSort:sortReverse  track by $index">
         <div class="each_cost_col first_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'? '/assets/images/platform_logos/platform_logo.png': platform.icon_url}}" />
@@ -433,7 +435,7 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-               {{platform.ias_imps_delivered | nrFormat}} 
+               {{platform.ias_imps_delivered | nrFormat}}
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">

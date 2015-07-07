@@ -13,9 +13,9 @@
         $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
 
         $scope.setSelectedKpi = function(_kpi){
-          kpiSelectModel.setSelectedKpi(_kpi);
-          $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
-          $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
+            kpiSelectModel.setSelectedKpi(_kpi);
+            $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
+            $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
         };
 
         $scope.setSelectedKpiAlt = function(_kpi){
@@ -26,37 +26,57 @@
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(){
-          $scope.setSelectedKpi(campaignSelectModel.getSelectedCampaign().kpi);
-          $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+            $scope.setSelectedKpi(campaignSelectModel.getSelectedCampaign().kpi);
+            $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
-          $('.kpi_indicator_ul,.direction_arrows div.kpi_arrow_sort').click(function (e) {
-            $('.direction_arrows div.kpi_arrow_sort.active').show();
-            var _selectedKpi =  $(e.target).attr("value") ;
-            var isArrow =  $(e.target).attr("class").match("^kpi_arrow_sort") ;
-            if(isArrow !== null){
-                $(".drop_list li").css("color", "#57606d");
-                $("[value="+_selectedKpi+"]").css("color", "#0978c9");
-                $(".reports_platform_header").find(".active").removeClass("active");
-                $('.kpi-dd-holder').addClass( "active" );
-                $('#kpi_dropdown').addClass( "active" );
-                $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
-                $(e.target).addClass( "active" );
-                if($(e.target).hasClass( "point_down" ) && $(e.target).hasClass( "active" )){
-                    $(e.target).removeClass( "point_down" );
-                    $(e.target).addClass( "point_up" );
-                    $(e.target).show();
-                    $('.direction_arrows div.kpi_arrow_sort.active').show();
-                }
-                else if($(e.target).hasClass( "point_up" ) && $(e.target).hasClass( "active" )){
-                    $(e.target).removeClass( "point_up" );
-                    $(e.target).addClass( "point_down" );
-                    $(e.target).show();
-                }
-                $(e.target).show();
-                $( ".icon_text_holder" ).removeClass( "active" );
-                $rootScope.$broadcast('dropdown-arrow-clicked',_selectedKpi);
+        $scope.myData = {};
+        $scope.myData.doClick = function($event,value) {
+            var targetTags = $('.direction_arrows div.kpi_arrow_sort');
+            var sortOrder = true;
+            var _selectedKpi = value;
+            $(".drop_list li").css("color", "#000");
+            $("[value="+_selectedKpi+"]").css("color", "#0978c9");
+            var tags = $event.currentTarget.className.match("^active");
+            var classesPresent = $event.currentTarget.className;
+            $('.kpi-dd-holder').addClass( "active" );
+            if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
+                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
+                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                $event.currentTarget.className += "  is_active_point_down";
+                sortOrder = true;
             }
+            else if (classesPresent.indexOf('is_active_point_down') > -1 === true ){
+                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                $event.currentTarget.className += "  is_active_point_up";
+                sortOrder = false;
+            }
+            else if (classesPresent.indexOf('is_active_point_up') > -1  === true  ){
+                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
+                $event.currentTarget.className += "  is_active_point_down";
+                sortOrder = true;
+            }
+            if(!classesPresent.indexOf('active') > -1){
+                targetTags.removeClass( "active" );
+                targetTags.hide();
+                $event.currentTarget.className += "  active";
+                $('.direction_arrows div.kpi_arrow_sort.active').show();
+            }
+            $rootScope.$broadcast('dropdown-arrow-clicked',value,sortOrder);
+
+            if(_selectedKpi) {
+                $scope.changeClickedSelectedKpiAlt(_selectedKpi);
+            }
+        };
+
+        $scope.changeClickedSelectedKpiAlt = function(_kpi){
+            $scope.setSelectedKpi(_kpi);
+            $scope.setSelectedKpiAlt(_kpi);
+            analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _kpi, loginModel.getLoginName());
+
+        };
+        $('.kpi_indicator_ul').click(function (e) {
+            var _selectedKpi =  $(e.target).attr("value") ;
             if(_selectedKpi) {
                 $scope.setSelectedKpi(_selectedKpi);
                 $scope.setSelectedKpiAlt(_selectedKpi);
@@ -64,13 +84,14 @@
                 $scope.$apply();
             }
         });
+
         function setArrowSelector(){
             $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
                     if(window.location.pathname !== "/inventory"){
-                     var selectedKpi =  $(e.target).attr("value") ;
-                     $('.direction_arrows div.kpi_arrow_sort').hide();
+                        var selectedKpi =  $(e.target).attr("value") ;
+                        $('.direction_arrows div.kpi_arrow_sort').hide();
                         $('.direction_arrows div.kpi_arrow_sort.active').show();
-                     $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
+                        $('.direction_arrows div.kpi_arrow_sort[value=' + selectedKpi +']').show();
                     }
                 },
                 function(e) {

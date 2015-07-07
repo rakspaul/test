@@ -1,6 +1,6 @@
 <div class="each_cost_col first_col icon_text_holder"  ng-class="sortClassFunction('platform_type',sortType,sortReverse)" ng-click="sortType = 'platform_type'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.PLATFORM_NAME}}</div>
-<div class="each_cost_col sec_col" ng-class="sortClassFunction('platformType_aggregation.impressions',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</div>
-<div class="each_cost_col third_col "   >
+<div class="each_cost_col sec_col" ng-class="sortClassFunction('platformType_aggregation.impressions',sortType,sortReverse)" ng-click="sortType = 'platformType_aggregation.impressions';sortTypeSubSort='impressions';sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</div>
+<div class="each_cost_col third_col "  >
     <div class="dropdown kpi-dd-holder">
         <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()"> </kpi-drop-down>
     </div>

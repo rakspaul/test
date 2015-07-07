@@ -31,9 +31,9 @@
                     <div class="reports_cost_header_holder">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="each_cost_col first_col icon_text_holder" ng-class="{ active:sortType === 'impressions',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" ng-click="sortType = 'impressions'; sortReverse = !sortReverse;removeKpiActive();">Imps.</div>
+                            <div class="each_cost_col first_col icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'impressions'; sortReverse = !sortReverse;removeKpiActive();">Imps.</div>
                             <div class="each_cost_col second_col">
-                                <div class="dropdown" id="kpi_dropdown">
+                                <div class="dropdown kpi-dd-holder" id="kpi_dropdown">
                                     <kpi-drop-down> </kpi-drop-down>
 
                                     </div>

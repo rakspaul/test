@@ -157,18 +157,26 @@ var angObj = angObj || {};
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            if($('.kpi-dd-holder').hasClass( "active" )){
+                $('.each_cost_col').removeClass( "active" );
+                return sortDirection;
+            }
+            else{
+                return isActive + " " + sortDirection;
+            }
             return isActive + " " + sortDirection;
         };
 
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
+            $(".drop_list li").css("color", "#000");
         };
 
 
-        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "view_metrics."+args;
             $scope.sortTypeSubSort ="tactic."+args;
-            $scope.sortReverse  = !$scope.sortReverse;
+            $scope.sortReverse  = sortorder;
         });
 
     });

@@ -231,15 +231,16 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
-        $scope.$on('dropdown-arrow-clicked', function(event, args) {
-            $scope.sortType = "platformType_aggregation."+args;
-            $scope.sortTypeSubSort ="tactic."+args;
-            $scope.sortReverse  = !$scope.sortReverse;
+        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
+            $scope.sortType = "kpi_metrics."+args;
+            $scope.sortTypeSubSort ="kpi_metrics."+args;
+            $scope.sortReverse  = sortorder;
         });
 
         $scope.removeKpiActive = function(){
            /* $('#kpi_dropdown').removeClass( "active" );*/
             $(".drop_list li").css("color", "#57606d");
+            $('.kpi-dd-holder').removeClass( "active" );
             $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
 
         };
@@ -247,6 +248,7 @@ var angObj = angObj || {};
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+
             return isActive + " " + sortDirection;
         };
     });

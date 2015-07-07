@@ -784,6 +784,22 @@ div.main_navigation {
     padding:0px;
     margin:0px;
     div{
+      div.kpi_arrow_sort.active.is_active_point_up{
+        background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+        background-position: right -64px;
+        &:hover{
+          background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+          background-position: right -64px;
+        }
+      }
+      div.kpi_arrow_sort.active.is_active_point_down{
+        background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+        background-position: right -64px;
+        &:hover{
+          background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+          background-position: right -64px;
+        }
+      }
       padding:0;
       width:15px;
       display:block;
@@ -794,10 +810,6 @@ div.main_navigation {
         cursor: pointer;
         width:15px;
         display: none;
-        &.active{
-          background-position: right -64px;
-          display:block;
-        }
       }
       div.kpi_arrow_sort.point_up{
         padding:0;
@@ -805,10 +817,6 @@ div.main_navigation {
         cursor: pointer;
         width:15px;
         display: none;
-        &.active{
-          background-position: right -64px;
-          display:block;
-        }
       }
     }
   }
@@ -2462,6 +2470,16 @@ div.strategy_total_container {
 
 
   #reports_bycreatives_block{
+    .vid_data_hdr{
+      margin-left:1px;
+      padding-left:0;
+      width:297px;
+    }
+  }
+
+
+
+  #reports_bycreatives_block{
     .each_col{
       width:125px;
       text-align: right;
@@ -2476,7 +2494,7 @@ div.strategy_total_container {
     &.reports_block  {
       &.quar_data{
         .each_col{
-          width:116px;
+          width:102px;
 
           text-align: right;
           &.first_col{
@@ -2802,6 +2820,7 @@ div.strategy_total_container {
         width:110px;
         min-width:53px;
         margin-right: 10px;
+
       }
       &.eight_col{
         margin-right: 2px;
@@ -3017,11 +3036,14 @@ div.strategy_total_container {
       }
 
       &.ninth_col{
-        white-space:nowrap;
-        background-position: 105px 1px;
+        background-position: 108px 1px;
         margin-right: 8px;
-        padding-right: 0;
+        padding-right: 12px;
+        white-space: nowrap;
         width: 119px;
+        &.active{
+          background-position: 108px -63px;
+        }
       }
 
 
@@ -3494,6 +3516,7 @@ div.strategy_total_container {
   }
   .dropdown_ul_text {
     display: inline-block;
+    white-space: nowrap;
     .default-kpi-header-icon  {
       float: left;
     }
@@ -3539,6 +3562,7 @@ div.strategy_total_container {
   }
   .dropdown_ul_text {
     display: inline-block;
+    white-space: nowrap;
   }
   .default-kpi-dropdown-icon {
     display: inline-block;

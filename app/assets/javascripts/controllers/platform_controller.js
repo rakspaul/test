@@ -35,6 +35,22 @@ var angObj = angObj || {};
         $scope.sortType     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortTypeSubSort     = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortReverse  = true; // set the default sort order
+        $scope.sortReverseKpiDropdown  = true; // set the default sort order
+
+        if($scope.selected_tab == "performance"){
+            $scope.sortType = 'platformType_aggregation.impressions';
+            $scope.sortTypeSubSort='impressions'
+        }
+        else if($scope.selected_tab == "viewability"){
+            $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
+            $scope.sortTypeSubSort='ias_imps_delivered';
+        }
+        else{
+            $scope.sortType = 'platformType_aggregation.impressions';
+            $scope.sortTypeSubSort='impressions';
+
+        }
+
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -101,19 +117,7 @@ var angObj = angObj || {};
 
             $scope.api_return_code=200;
             platformService.getStrategyPlatformData(param).then(function (result) {
-                if(param.tab == "performance"){
-                    $scope.sortType = 'platformType_aggregation.impressions';
-                    $scope.sortTypeSubSort='impressions'
-                }
-                else if(param.tab == "viewability"){
-                    $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
-                    $scope.sortTypeSubSort='ias_imps_deliveredd';
-                }
-                else{
-                    $scope.sortType = 'platformType_aggregation.impressions';
-                    $scope.sortTypeSubSort='platform.impressions';
 
-                }
 
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
@@ -222,6 +226,7 @@ var angObj = angObj || {};
             })
         };
 
+
         //Initializing the variable.
         $scope.init= function(){
             $scope.strategyFound = false ;
@@ -239,7 +244,10 @@ var angObj = angObj || {};
             $scope.selected_filters2 = {};
             $scope.selected_filters2.kpi_type = 'cpm';
             $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
+
         }
+
+
 
 
         $scope.init();
@@ -279,10 +287,11 @@ var angObj = angObj || {};
             $scope.selected_filters2 = {};
             $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
-        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+
+        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = "platformType_aggregation."+args;
-            $scope.sortTypeSubSort ="tactic."+args;
-            $scope.sortReverse  = !$scope.sortReverse;
+            $scope.sortTypeSubSort = args;
+            $scope.sortReverse  = sortorder;
         });
 
 
@@ -298,7 +307,14 @@ var angObj = angObj || {};
             var isActive = (a === b ) ?  'active' : '';
             /*$('.direction_arrows div.kpi_arrow_sort.active').hide();*/
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
-            return isActive + " " + sortDirection;
+            if($('.kpi-dd-holder').hasClass( "active" )){
+                $('.each_cost_col').removeClass( "active" );
+                return sortDirection;
+            }
+            else{
+                return isActive + " " + sortDirection;
+            }
+
         };
     });
 }());

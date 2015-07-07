@@ -239,20 +239,31 @@ var angObj = angObj || {};
                 $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
-        $scope.$on('dropdown-arrow-clicked', function(event, args) {
+        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
             $scope.sortType = args;
             $scope.sortTypeSubSort ="tactic."+args;
-            $scope.sortReverse  = !$scope.sortReverse;
+            $scope.sortReverse  = sortorder;
         });
 
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
+            $(".drop_list li").css("color", "#000");
+        };
+        $scope.specialSort = function(passedSortype){
+            $scope.sortType = passedSortype;
         };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            if($('.kpi-dd-holder').hasClass( "active" )){
+                $('.each_cost_col').removeClass( "active" );
+                return sortDirection;
+            }
+            else{
+                return isActive + " " + sortDirection;
+            }
             return isActive + " " + sortDirection;
         };
 
