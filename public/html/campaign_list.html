@@ -55,22 +55,21 @@
             <span>3 Underperforming Active Campaigns</span>
         </div>
 -->
-
         <div class="cost_col_header_tabs_holder">
             <div class="clearfix cost_tabs_margin">
                 <div class="clearfix cost_tabs_holder">
-                    <div class="each_tab active" id="performance_tab">
-                        <div class="each_tab_text">
+                    <div class="each_tab" id="performance_tab" ng-click="campaigns.getData('performance_tab')">
+                        <div class="each_tab_text" >
                             {{ textConstants.PERFORMANCE }}
                         </div>
                     </div>
                     <div class="each_tab cost_tab" id="cost_tab" ng-show="isAgencyCostModelTransparent">
-                        <div class="each_tab_text">
+                        <div class="each_tab_text" ng-click="campaigns.getData('cost_tab')">
                             {{ textConstants.COST_BREAKDOWN }}
                         </div>
                     </div>
                 </div>
-
+                 
             </div>
             
             <!--cost filter -->
@@ -83,15 +82,14 @@
         
         </div>      
     </div>
-
     <div class="scrollable_container">
         <!-- COST DIV -->
         <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
-            <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-immediate-check="false" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
+            <div infinite-scroll="campaigns.fetchData()" infinite-scroll-immediate-check="false" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
                 <div  class="no-campaign-available" ng-if="(campaigns.dashboard.filterTotal == 0 )" >{{ textConstants.NO_RELEVANT_CAMPAIGNS }}</div>
-                <div class="each_campaign_cost_container" data-ng-repeat="campaign in campaigns.campaignList track by campaign.orderId">
+                <div class="each_campaign_cost_container" data-ng-repeat="campaign in campaigns.costBreakdownList track by campaign.orderId">
                     <!-- campaign cost card -->
-                    <div campaign-cost-card campaign="campaign" campaigns="campaigns"></div>
+                 <div campaign-cost-card campaign="campaign" campaigns="campaigns"></div>
                      <!-- campaign cost card ends-->
                 </div>
             </div>
@@ -101,7 +99,7 @@
 
         <!-- PERFORMANCE DIV -->
         <div class="each_section_block total_campaign_list_holder"  id="performance_block" >
-            <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-immediate-check="false" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
+            <div infinite-scroll="campaigns.fetchData()" infinite-scroll-immediate-check="false" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
                 <div  class="no-campaign-available" ng-if="(campaigns.dashboard.filterTotal == 0 )" >{{ textConstants.NO_RELEVANT_CAMPAIGNS }}</div>
                 <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList track by campaign.orderId">
                     <!-- campaign strategy card -->
@@ -127,24 +125,5 @@
         $(".dropdown_ul li").click( function() {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
         }) ;
-        
-
-        /*$(window).scroll( function() {
-            var scroll_top = $(window).scrollTop() ;
-            if($(".fixed_line").offset() !== undefined) {
-                var fixed_div_top = $(".fixed_line").offset().top;
-                var fixed_height = $(".fixed_container").height();
-                if (scroll_top < fixed_div_top) {
-                    $(".fixed_container").removeClass("isFixed");
-                    $(".scrollable_container").css("margin-top", "0px");
-                } else {
-                    $(".fixed_container").addClass("isFixed");
-                    $(".scrollable_container").css("margin-top", fixed_height);
-                }
-            }
-        }) ; 
-        $( "#cost_block,#performance_block" ).scroll(function(){
-           window.scrollTo(0, 160);
-         });  */  
     });
 </script>
