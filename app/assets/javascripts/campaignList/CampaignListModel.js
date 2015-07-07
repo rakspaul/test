@@ -191,6 +191,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
             };
 
         };
+
         Campaigns.prototype = function() {
             var reloadGraphs = function() {
                     campaignListService.loadGraphs(this.campaignList, timePeriodApiMapping(this.selectedTimePeriod.key))
@@ -201,6 +202,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         totalPages: 0
                     };
                     this.costBreakdownList = [];
+                    this.resetTabActivation();
                 },
                 fetchData = function() {
                     if ($('#performance_tab').hasClass("active") == false && $('#cost_tab').hasClass("active") == false) {
@@ -215,17 +217,23 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
 
                     }
                 },
+                findScrollerFromContainer = function() {
+                    var self = this;
+                    $('.each_section_block').bind('scroll', function() {
+                        self.scrollFlag = 1;
+                    });
+                },
                 getData = function(from) {
                     $("#cost_tab,#performance_tab").removeClass("active");
                     $('#' + from).addClass("active");
                     this.scrollFlag = 1;
                     if (from == 'cost_tab') {
-                        if (this.tabActivation.costTab == 0) {
+                        if (this.tabActivation.costTab == 0) { // if You click costbreakdown if tab is not activated  will fetch data.
                             fetchCostBreakdown.call(this);
                             this.tabActivation.costTab = 1;
                         }
                     } else {
-                        if (this.tabActivation.performanceTab == 0) {
+                        if (this.tabActivation.performanceTab == 0) { // if You click performance if tab is not activated fetch data.
                             fetchCampaigns.call(this);
                             this.tabActivation.performanceTab = 1;
                         }
@@ -233,11 +241,9 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 },
 
                 fetchCampaigns = function() {
-                    $("#performance_block,#performance_tab,#cost_block,#cost_tab").scroll(function() {
-                        this.scrollFlag = 1;
-                    });
 
-                    if ((this.dashboard.filterTotal > 0) && (this.scrollFlag >= 0)) {
+                    findScrollerFromContainer.call(this); // check scoroller only inside container
+                    if ((this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
                         this.scrollFlag = 0; //Reseting scrollFlag
                         if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
                             return;
@@ -288,10 +294,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     }
                 },
                 fetchCostBreakdown = function() {
-                    $("#performance_block,#performance_tab,#cost_block,#cost_tab").scroll(function(event) {
-                        this.scrollFlag = 1;
-                    });
-                    if ((this.dashboard.filterTotal > 0) && (this.scrollFlag >= 0)) {
+                    findScrollerFromContainer.call(this);
+                    if ((this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
                         this.scrollFlag = 0; //Reseting scrollFlag
                         if (this.CBdownParams.totalPages && (this.CBdownParams.totalPages + 1) == this.CBdownParams.nextPage) {
                             return;
@@ -312,8 +316,6 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             self.periodEndDate = data.period_end_date;
 
                             self.busy = false;
-                            //console.log("Line Number:279");
-                            //console.log(data)
                             if (data.orders.length > 0) {
                                 var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                                 var campaignData = campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate)
@@ -708,7 +710,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         }
                     }
                     this.campaignList = [];
-                    scrollFlag = 1;
+                    this.scrollFlag = 1;
                     this.resetCostBreakdown.call(this);
                     fetchData.call(this);
                     //fetchCampaigns.call(this);
@@ -803,7 +805,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 buildTimePeriodList: buildTimePeriodList,
                 fetchData: fetchData,
                 resetCostBreakdown: resetCostBreakdown,
-                getData: getData
+                getData: getData,
+                findScrollerFromContainer: findScrollerFromContainer
 
                 //resetSortParams : this.resetSortParams
             }

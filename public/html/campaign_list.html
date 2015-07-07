@@ -55,8 +55,6 @@
             <span>3 Underperforming Active Campaigns</span>
         </div>
 -->
-        CostBreakdown:{{campaigns.costBreakdownList.length}}<br>
-    Performance :{{campaigns.campaignList.length}}
         <div class="cost_col_header_tabs_holder">
             <div class="clearfix cost_tabs_margin">
                 <div class="clearfix cost_tabs_holder">
@@ -127,24 +125,5 @@
         $(".dropdown_ul li").click( function() {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
         }) ;
-        
-
-        /*$(window).scroll( function() {
-            var scroll_top = $(window).scrollTop() ;
-            if($(".fixed_line").offset() !== undefined) {
-                var fixed_div_top = $(".fixed_line").offset().top;
-                var fixed_height = $(".fixed_container").height();
-                if (scroll_top < fixed_div_top) {
-                    $(".fixed_container").removeClass("isFixed");
-                    $(".scrollable_container").css("margin-top", "0px");
-                } else {
-                    $(".fixed_container").addClass("isFixed");
-                    $(".scrollable_container").css("margin-top", fixed_height);
-                }
-            }
-        }) ; 
-        $( "#cost_block,#performance_block" ).scroll(function(){
-           window.scrollTo(0, 160);
-         });  */  
     });
 </script>
