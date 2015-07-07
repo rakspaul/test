@@ -239,23 +239,41 @@
                                 formatY = parseFloat(yAxisValue).toFixed(3),
                                 formatX = moment(xAxisValue).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
+                            //calculating the plotting position
+                            var WIDTH= _config.width,
+                                HEIGHT= _config.height,
+                                w = 160,
+                                h = 40,
+                                x = mousePos[0],
+                                y = mousePos[1];
+
+                            //if overflow in width
+                            if((x + w) > WIDTH) {
+                              x = WIDTH - 20 - w;
+                            }
+
+                            //if overflow in height
+                            if((y + h) > HEIGHT) {
+                              y = HEIGHT - h;
+                            }
+
                             var rect = svg.selectAll(".tooltip_box")
                                 .data([mousePos]).enter()
                                 .append("rect")
                                 .attr("class","tooltip_box")
-                                .attr("x", function(d) { return d[0] - 10})
-                                .attr("y", function(d) { return d[1] - 15})
-                                .attr("width", 140)
-                                .attr("height", 40);
+                                .attr("x", function(d) { return x + 20 })
+                                .attr("y", function(d) { return y - 5 })
+                                .attr("width", w)
+                                .attr("height", h);
                             var text = svg.selectAll(".tooltip_line")
                                 .data([mousePos]).enter()
                                 .append("text")
                                 .classed("tooltip_line", true)
-                                .attr("x", function(d) { return d[0]})
-                                .attr("y", function(d) { return d[1]})
+                                .attr("x", function(d) { return x + 30 })
+                                .attr("y", function(d) { return y + 10 })
                               text.append('tspan').text(formatX);
                               text.append('tspan')
-                                  .attr("x", function(d) { return d[0]})
+                                  .attr("x", function(d) { return x + 30 })
                                   .attr("dy", 16)
                                   .style("font-weight","bold")
                                   .text(kpiType+": ");
