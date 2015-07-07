@@ -8,21 +8,42 @@ var angObj = angObj || {};
         var keys = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
         var metricKey = _.without(keys, 'dimensions');
 
-        $scope.getDimensionList =  function(data) {
+        $scope.getDimensionList =  function(data, selectedMetrics) {
             var metricKeyStr = '';
-            _.each(metricKey, function(mkey, idx) {
-                metricKeyStr += _.pluck(data[mkey], 'key').join()
-            })
+            if(selectedMetrics.length >0) {
+                metricKeyStr += _.pluck(selectedMetrics, 'key').join()
+            } else {
+                _.each(metricKey, function(mkey, idx) {
+                    metricKeyStr += _.pluck(data[mkey], 'key').join()
+                })
+            }
+
             $scope.metricKeyArr = _.uniq(metricKeyStr.split(","));
         };
 
-        $scope.getMetricValues =  function(data) {
+        $scope.getMetricValues =  function(data, selectedMetrics) {
             var metricValuesStr;
             var metricValues = [];
+            var tmpArr =[];
+            var metrics;
+            if(selectedMetrics.length >0) {
+                metrics = _.pluck(selectedMetrics, 'key')
+            }
+            var pickedobj;
             _.each(data, function(obj) {
                 metricValuesStr = '';
                 _.each(metricKey, function(mkey, idx) {
-                    metricValuesStr += _.values(obj[mkey]).join()
+                    if(metrics && metrics.length >0) {
+                        pickedobj = _.filter(obj[mkey], function(value, key, object) {
+                            return _.indexOf(metrics, key) != -1;
+                        });
+                    } else {
+                        pickedobj = obj[mkey];
+                    }
+                    if(!$.isEmptyObject(pickedobj)) {
+                        metricValuesStr = metricValuesStr.substring(0, metricValuesStr.length - 1);
+                        metricValuesStr =  metricValuesStr + _.values(pickedobj).join() +',';
+                    }
                 });
                 metricValues.push(metricValuesStr.split(","));
             });
@@ -111,27 +132,23 @@ var angObj = angObj || {};
 
         };
 
+
         $scope.generateReport = function() {
             $scope.selectedItems = [];
             $(".report_builder_container").hide();
             $(".custom_report_response_page").show();
             var metricsSelected;
             $scope.metricSelected();
-            if($scope.selectedItems.length >0) {
-                $scope.metricKeyAr = metricsSelected = _.pluck($scope.selectedItems, 'key');
-            } else {
-                $scope.getDimensionList($scope.customeDimensionData[0]);
-            }
-
+            $scope.getDimensionList($scope.customeDimensionData[0], $scope.selectedItems);
             var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
-
             var reportID = elem.attr("data-template_id");
             var selectedDimensionId = elem.attr("id");
-            var dimesionStr = selectedDimensionId + (metricsSelected && metricsSelected.length >0 ? ( ":" +  metricsSelected.join()) : '');
-            var params = reportID+"?dimension="+dimesionStr+"&offset=101&limit=200";
+            var params = reportID+"?dimension="+selectedDimensionId+"&offset=101&limit=200";
             dataService.getCustomReportData($scope.campaign, params).then(function(result) {
                 var reportData = result.data.data.report_data;
-                $scope.getMetricValues(reportData);
+                $scope.getMetricValues(reportData, $scope.selectedItems);
+
+
             });
         };
 
