@@ -209,17 +209,15 @@
                                 .attr("height", _config.height - _config.yScale(threshold));
 
                             //apply threshold encoding color classes to the path data
-                            svg.selectAll(".line")
+                              svg.selectAll(".line")
                                 .data(["above", "below"])
                                 .enter().append("path")
-                                .attr("class", function(d) {
-                                    return "line " + d;
-                                })
-                                .attr("clip-path", function(d) {
-                                    return "url(#clip-" + d + ")";
-                                })
+                                .attr("class", function(d) { return "line " + d; })
+                                .attr("clip-path", function(d) { return "url(#clip-" + d + ")"; })
                                 .datum(data)
-                                .attr("d", line);
+                                .attr("d", line)
+                                .on("mouseover", tooltipMouseOver)
+                                .on("mouseout", tooltipMouseOut);
 
                         } else { //if no threshold
                             //render default color to the path
@@ -227,8 +225,53 @@
                                 .attr({
                                     d: _config.lineFun(data),
                                     "class": "path" + index
-                                });
+                                })
+                                .on("mouseover", tooltipMouseOver)
+                                .on("mouseout", tooltipMouseOut);
                         }
+
+                        //tooltipMouseOver
+                        function tooltipMouseOver() {
+                            var svg = d3.select(_config.rawSvg[0]),
+                                mousePos = d3.mouse(this),
+                                yAxisValue = _config.yScale.invert(mousePos[1]),
+                                xAxisValue = _config.xScale.invert(mousePos[0]),
+                                formatY = parseFloat(yAxisValue).toFixed(3),
+                                formatX = moment(xAxisValue).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+
+                            var rect = svg.selectAll(".tooltip_box")
+                                .data([mousePos]).enter()
+                                .append("rect")
+                                .attr("class","tooltip_box")
+                                .attr("x", function(d) { return d[0] - 10})
+                                .attr("y", function(d) { return d[1] - 15})
+                                .attr("width", 140)
+                                .attr("height", 40);
+                            var text = svg.selectAll(".tooltip_line")
+                                .data([mousePos]).enter()
+                                .append("text")
+                                .classed("tooltip_line", true)
+                                .attr("x", function(d) { return d[0]})
+                                .attr("y", function(d) { return d[1]})
+                              text.append('tspan').text(formatX);
+                              text.append('tspan')
+                                  .attr("x", function(d) { return d[0]})
+                                  .attr("dy", 16)
+                                  .style("font-weight","bold")
+                                  .text(kpiType+": ");
+                              text.append('tspan')
+                                  .attr("dx", 0)
+                                  .text(formatY);
+                              //.text(parseFloat(yAxisValue).toFixed(3));
+                          }
+
+                          //tooltipMouseout
+                          function tooltipMouseOut() {
+                              var svg = d3.select(_config.rawSvg[0]);
+                              svg.selectAll(".tooltip_line").data([]).exit().remove();
+                              svg.selectAll(".tooltip_box").data([]).exit().remove();
+                          }
+
 
                         /* if(index == 0) {
                            svg.selectAll("line.verticalGrid").data(data).enter()
