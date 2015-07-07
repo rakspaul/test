@@ -317,7 +317,7 @@
                                         <div class="col-xs-3">
                                             <div ng-click="setGraphData(campaign,'adsizes')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
-                                                    {{ textConstants.AdSize }} ({{campaign.kpiType | uppercase}})
+                                                    {{ textConstants.AD_SIZES }} ({{campaign.kpiType | uppercase}})
                                                 </div>
                                                 <div ng-show="loadingAdSizeFlag" class="load-more">&nbsp;</div>
                                                 <div ng-if="adSizenBarChartConfig" bar-chart chart-data="{{adSizenBarChartConfig}}"></div>
@@ -328,7 +328,7 @@
                                         <div class="col-xs-3 formats_widget">
                                             <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
-                                                    {{ textConstants.FORMAT }} ({{campaign.kpiType | uppercase}})
+                                                    {{ textConstants.FORMATS }} ({{campaign.kpiType | uppercase}})
                                                 </div>
 
                                                 <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
