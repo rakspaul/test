@@ -12,7 +12,7 @@
 	           		</div>
 	           		<div class="col-md-11">
 	           			<div class="row">
-		           			<div class="pull-left">
+		           			<div class="pull-left custom_report_filter">
 		           				 <div class="common_dropdown">
 		                              <div class="dropdown" >
 	                                    <span class="dropdown_ul_text" data-toggle="dropdown">
@@ -28,8 +28,8 @@
 		           			<div class="pull-left filter_btn" ng-hide="showTxtFilter" ng-click="showTxtFilter = ! showTxtFilter">
 		           				Filter
 		           			</div>
-							<div class="pull-left" ng-show="showTxtFilter">
-								<input type="text" name="filter" autofocus placeholder="Select filter" />
+							<div class="pull-left filter_input_txtbox" ng-show="showTxtFilter" >
+								<input type="text" name="filter" class ="reportFilter" autofocus placeholder="Select filter" />
 							</div>
 	           			</div>
 	           			<!--div class="row">
@@ -132,25 +132,29 @@
 <!-- Custom Report Response Page -->
 
 <div class="custom_report_response_page" style="display:none;">
+	<div class="back_arrow" ng-click="back_to_custom_reports()"></div>
 	<h3>Brand Delivery report for last month</h3>
 	<div class="filter_by_holder">
 		<span>Filtered by: </span>
-		<span class="filtered_by_txt">Brand</span>
-		<span class="filtered_by_txt">Site</span>
+		<span class="filtered_by_txt">&nbsp;</span>
+		<!-- <span class="filtered_by_txt">Site</span> -->
 	</div>
 	<div class="custom_report_response_table">
-		<div class="each_row heading_row">
-			<div class="each_col" ng-repeat="items in metricKeyArr">
-				{{items}}
+		<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" scroll-threshold="50">
+			<div class="each_row heading_row">
+				<div class="each_col" ng-repeat="items in metricKeyArr">
+					{{items}}
+				</div>
 			</div>
-		</div>
-		<div style="height: 500px; overflow: scroll;">
-			<div class="each_row" ng-repeat="arr in metricValues">
+			<div class="no_data_found" ng-if="dataNotFound">{{dataNotFoundMessage}}</div>
+			<div ng-if="reportDataBusy" class="common-load-more"></div>
+			<div class="each_row reportData" ng-repeat="arr in metricValues">
 				<div class="each_col" ng-repeat="val in arr track by $index">
 					{{val}}
 				</div>
 			</div>
 		</div>
+		<div ng-if="fetching" class="common-load-more"></div>
 	</div>
 </div>
 

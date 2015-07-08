@@ -3687,8 +3687,24 @@ only screen and (min-device-pixel-ratio: 2) {
   }
   .each_section_custom_report {
     margin: 10px 0 ;
+    /*.each_measurable_col {
+      border-right: dashed 1px #eee ;
+    }
+    .each_measurable_col:last-child {
+      border: 0px ;
+    }*/
+    .filter_input_txtbox {
+      input {
+        border : solid 1px #ccc ;
+        border-radius: 4px  ;
+        -moz-border-radius: 4px  ;
+        -webkit-border-radius: 4px  ;
+        padding: 5px ;
+        height: 32px;
+      }
+    }
   }
-  .create_report_title , .custom_report_col_title {
+  .create_report_title  {
     font-family: "Avenir-bold" ;
   }
   .custom_report_col_title {
@@ -3698,7 +3714,7 @@ only screen and (min-device-pixel-ratio: 2) {
       .squaredFour {
         height: 14px;
         width: 14px ;
-        margin-top: 2px;
+        margin-top: 3px;
         label {
           height: 14px ;
           width: 14px ;
@@ -3712,6 +3728,10 @@ only screen and (min-device-pixel-ratio: 2) {
           border-width: 3px;
           border-color: #007ac9;
         }
+      }
+      .squaredFourTxt {
+        color: #000;
+        font-size: 16px;
       }
       .squaredFour.not_all_selected {
         input[type=checkbox]+label:after {
@@ -3758,7 +3778,7 @@ only screen and (min-device-pixel-ratio: 2) {
       -moz-border-radius: 4px ;
       -webkit-border-radius: 4px ;
       border : solid 1px transparent ;
-      margin : 5px 5px 5px 0 ;
+      margin : 5px 0px ;
       cursor: default;
       transition : .2s ;
       -webkit-transition : .2s ;
@@ -3771,6 +3791,9 @@ only screen and (min-device-pixel-ratio: 2) {
     .each_option:hover {
       border: solid 1px #007ac9 ;
     }
+  }
+  .custom_report_filter {
+    margin-left: 42px ;
   }
   .add_breakdown_btn {
     padding: 5px 10px ;
@@ -3821,6 +3844,12 @@ only screen and (min-device-pixel-ratio: 2) {
     color: #a2acba ;
   }
 }
+.common-load-more {
+  margin: 60px auto 0;
+  width: 30px;
+  height : 30px ;
+  background: url("/assets/images/loading.gif") no-repeat ;
+}
 .common_dropdown {
   .dropdown {
     min-width: 120px;
@@ -3829,6 +3858,7 @@ only screen and (min-device-pixel-ratio: 2) {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+    min-height: 30px ;
     .dropdown_ul_text {
        cursor: default;
        padding: 5px;
@@ -3861,13 +3891,24 @@ only screen and (min-device-pixel-ratio: 2) {
 .custom_report_response_page {
   width: 1040px; 
   margin: 0 auto ;
+  .back_arrow {
+    height: 30px ;
+    width: 30px ;
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -614px -238px ;
+    cursor: pointer;
+    margin-top: 30px ;
+  }
   .custom_report_response_table {
-    overflow: auto;
     min-height: 200px;
     margin-top: 40px;
     border : solid 1px #ccc ;
     margin-bottom: 50px ;
     padding: 30px ;
+    .custom_report_scroll {
+      min-height: 200px ;
+      max-height: 500px; 
+      overflow: auto ;
+    }
     .heading_row {
       font-family: "Avenir-bold" ;
       margin-bottom: 20px ;
@@ -3884,9 +3925,11 @@ only screen and (min-device-pixel-ratio: 2) {
       word-wrap: break-word;
       padding-right: 20px;
       padding-bottom: 15px;
+      text-align: right;
     }
   }
   .filter_by_holder {
+    margin-top: 25px ;
     .filtered_by_txt {
       background: #007ac9 ;
       padding: 5px 10px ;
