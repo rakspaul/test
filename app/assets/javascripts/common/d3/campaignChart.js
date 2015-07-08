@@ -249,7 +249,7 @@
 
                             //if overflow in width
                             if((x + w) > WIDTH) {
-                              x = WIDTH - 20 - w;
+                              x = x - 10 - w;
                             }
 
                             //if overflow in height
@@ -357,8 +357,23 @@
                         svg.append("svg:g")
                             .attr("class", "x axis")
                             .attr("transform", "translate(10," + height + ")")
-
                         .call(_config.xAxisGen)
+                          .selectAll('.x .tick text') // select all the x tick texts
+                        .call(function(t){
+                          t.each(function(d){ // for each one
+                            var self = d3.select(this);
+                            var s = self.text().split(' ');  // get the text and split it
+                            self.text(''); // clear it out
+                            self.append("tspan") // insert two tspans
+                              .attr("x", 0)
+                              .attr("dy","1em")
+                              .text(s[0]);
+                            self.append("tspan")
+                              .attr("x", 0)
+                              .attr("dy","1.1em")
+                              .text(s[1]);
+                          })
+                      });
 
                         svg.append("svg:g")
                             .attr("class", "y axis")
