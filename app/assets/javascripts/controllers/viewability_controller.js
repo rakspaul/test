@@ -11,7 +11,11 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
         $scope.api_return_code = 200;
-        $scope.videoMode = $scope.selectedCampaign.redirectWidget === "videoViewability" ||  false;
+        $scope.videoMode = true;
+        var redirectWidget = $scope.selectedCampaign.redirectWidget;
+        if(redirectWidget) {
+            $scope.videoMode = redirectWidget === "videoViewability" ||  false;
+        }
 
         $scope.sortType     = 'view_metrics.ias_imps_delivered'; // set the default sort type
         $scope.sortReverse  = true; // set the default sort order
@@ -69,11 +73,10 @@ var angObj = angObj || {};
             $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                   // console.log("in view metric page");
-                   // console.log(result.data.data);
                     strategiesList = result.data.data;
                     $scope.viewData = strategiesList;
                     $scope.strategyBusy = false;
+                    $scope.hasVTCMetrics =  result.data.data.hasVTCMetrics || true;
                     if (strategiesList) {
                         $scope.dataNotFound = false;
                         $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';

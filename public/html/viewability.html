@@ -19,9 +19,7 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
-        <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
-        <!--<div  ng-show="viewData.hasVTCMetrics == true">-->
-        <div class="view_mode_switch_container" ng-class="{'video_mode_on':videoMode}">
+        <div class="view_mode_switch_container" ng-show="hasVTCMetrics" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
             <span class="video_off_icon" ng-class="{'active':!videoMode}"></span>
             <span class="video_btn">
@@ -30,20 +28,12 @@
 
             <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
         </div>
-        <!--</div>-->
-        <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
-       <!--  <form>
-          <switch ng-model="videoMode" class="green"></switch>
-        </form> -->
 
         <div class="viewability_container" ng-hide="strategyLoading || videoMode"  >
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
             <div class="viewability_details_outer_container">
                 <div class="viewability_header clearfix">
-                    <!-- <div class="each_col first_col">
-                        <span>Tactic</span>
-                    </div> -->
                     <div class="each_col sec_col viewability_delivered_col">
                         
                             <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_imps_delivered',sortType,sortReverse)" ng-click="sortType = 'view_metrics.ias_imps_delivered'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.DELIVERED_IMPS}}</span>
