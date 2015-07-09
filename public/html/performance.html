@@ -73,7 +73,7 @@
                                 <div class="each_col first_col" ng-hide="screenBusy">
                                     {{strategyHeading}}:
                                 </div>
-                                <div class="row_list_holder">
+                                <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
                                     <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                 </div>
@@ -108,7 +108,7 @@
                                 <div class="each_col first_col" ng-hide="dowBusy">
                                     {{strategyHeading}}:
                                 </div>
-                                <div class="row_list_holder">
+                                <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
                                     <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
@@ -143,7 +143,7 @@
                                 <div class="each_col first_col" ng-hide="formatBusy">
                                     {{strategyHeading}}:
                                 </div>
-                                <div class="row_list_holder">
+                                <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
                                     <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'formatTpl'"></div>
                                 </div>
@@ -182,7 +182,7 @@
                                 <div class="each_col first_col" ng-hide="creativeBusy">
                                     {{strategyHeading}}:
                                 </div>
-                                <div class="row_list_holder">
+                                <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="creativeBusy"></div>
                                     <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
                                 </div>
@@ -222,7 +222,7 @@
                                 <div class="each_col first_col" ng-hide="adSizesBusy">
                                     {{strategyHeading}}:
                                 </div>
-                                <div class="row_list_holder">
+                                <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="adSizesBusy"></div>
                                     <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
                                 </div>
