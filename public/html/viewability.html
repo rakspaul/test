@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div >
-                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
+                    <div class="no_data_found" ng-if="((dataNotFound || !strategyFound) && !strategyBusy && loadingFlag == false )"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
@@ -247,7 +247,7 @@
                     </div>
                 </div>
                 <div class="viewability_table_body">
-                    <div class="no_data_found" ng-if="(dataNotFound || !strategyFound) && !strategyBusy"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
+                    <div class="no_data_found" ng-if="((dataNotFound || !strategyFound) && !strategyBusy && loadingFlag == false  )"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>

@@ -54,6 +54,7 @@ var angObj = angObj || {};
             $scope.tacticBusy = false ;
             $scope.strategyFound = false;
             $scope.isStrategyDropDownShow = true;
+            $scope.loadingFlag = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
@@ -72,6 +73,7 @@ var angObj = angObj || {};
             }
             $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
+                $scope.loadingFlag = false;
                 if (result.status === "OK" || result.status === "success") {
                     strategiesList = result.data.data;
                     $scope.viewData = strategiesList;
