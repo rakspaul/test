@@ -2,7 +2,7 @@
     <!-- <div class="reports_header_tabs_holder clearfix">
         <report-tabs></report-tabs>
     </div> -->
-
+ 
     <div class="inventory_reports_container" >
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1"  id="performance_camp_list_dd" >
@@ -172,7 +172,7 @@
 
 
                     <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
-                    
+
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" ng-class="{strategy_video_disabled:strategyPerfDataByCreatives.hasVTCMetrics == false}" >
                         <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
                             <creatives-header></creatives-header>
@@ -407,7 +407,7 @@
 <script type="text/ng-template" id="CreativesTpl">
 
     <div class="each_col sec_col" title="{{creativesData.dimension}}">
-       <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
+        <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ creativesData.dimension | formatUrl :15 }}
     </div>
     <div class="each_col third_col">
@@ -416,7 +416,7 @@
     </div>
     <span  ng-if="strategyPerfDataByCreatives.hasVTCMetrics">
     <div class="each_col third_col">
-             <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
         {{creativesData.video_metrics.ad_starts > 0 ? (creativesData.video_metrics.ad_starts | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
@@ -495,15 +495,15 @@
 
     <span  ng-if="!strategyPerfDataByAdsizes.hasVTCMetrics">
             <div class="each_col seventh_col">
-               {{adsizesData.cpa | currency:undefined:2}}
+                {{adsizesData.cpa | currency:undefined:2}}
             </div>
 
             <div class="each_col sixth_col">
-               {{adsizesData.cpc | currency:undefined:2}}
+                {{adsizesData.cpc | currency:undefined:2}}
             </div>
 
             <div class="each_col fifth_col">
-               {{adsizesData.cpm | currency:undefined:2}}
+                {{adsizesData.cpm | currency:undefined:2}}
             </div>
     </span>
 
