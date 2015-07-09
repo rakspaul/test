@@ -3,7 +3,7 @@
 	<div class="reports_sub_menu_dd canned_container">
 		<div class="header_tab_dd_subheading">Canned</div>
 		<div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == filters.activeTab}">
-		    <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}" > {{tab.title}}</a>
+		    <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}" > {{tab.title}}</a>
 		</div>
 	</div>
 	<div class="reports_sub_menu_dd custom_container">
