@@ -1,37 +1,37 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortType,sortReverse)" ng-click="sortType = 'dimension'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.AD_SIZE}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'dimension'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.AD_SIZE}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'impressions'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'impressions'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 
 
 <span  ng-show="strategyPerfDataByAdsizes.hasVTCMetrics  == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortType,sortReverse)" ng-click="sortType = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VIDEO_PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VIDEO_PLAYS}}</span>
     </div>
 <div class="vid_data_hdr">
     <span>{{textConstants.QUARTILE_DATA}}</span> <br>
     <div class="vid_sub_col">
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();" >25%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();" >50%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_75'; sortReverse = !sortReverse;removeKpiActive();" >75%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_100'; sortReverse = !sortReverse;removeKpiActive();" >100%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();" >25%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();" >50%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_75'; sortReverse = !sortReverse;removeKpiActive();" >75%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_100'; sortReverse = !sortReverse;removeKpiActive();" >100%</span></div>
     </div>
 </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_rate'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VTC}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_rate'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VTC}}</span>
     </div>
 
 
 </span>
 
 <div class="each_col forth_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortType,sortReverse)" ng-click="sortType = 'ctr'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'ctr'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
 </div>
 
 <div class="each_col forth_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'action_rate'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 
 
@@ -39,13 +39,13 @@
 <span  ng-show="strategyPerfDataByAdsizes.hasVTCMetrics  == false">
 
     <div class="each_col seventh_col">
-        <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+        <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpa',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'cpa'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
     </div>
     <div class="each_col sixth_col">
-        <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpc',sortType,sortReverse)" ng-click="sortType = 'cpc'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+        <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpc',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'cpc'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
     </div>
     <div class="each_col fifth_col">
-           <span class="icon_text_holder" ng-class="sortClassFunction('cpm',sortType,sortReverse)" ng-click="sortType = 'cpm'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+           <span class="icon_text_holder" ng-class="sortClassFunction('cpm',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'cpm'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
     </div>
 
 </span>

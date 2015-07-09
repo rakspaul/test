@@ -8,6 +8,16 @@ var angObj = angObj || {};
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         $scope.sortType     = 'impressions'; // set the default sort type
+        $scope.sortTypebyformats     = 'impressions'; // set the default sort type
+        $scope.sortTypebyplatforms     = 'impressions'; // set the default sort type
+        $scope.sortTypebydaysofweek     = 'impressions'; // set the default sort type
+        $scope.sortTypebycreatives     = 'impressions'; // set the default sort type
+        $scope.sortTypebyadsizes     = 'impressions'; // set the default sort type
+
+        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
+
+
+
 
         $scope.sortReverse  = false; // set the default sort order
 
@@ -240,7 +250,27 @@ var angObj = angObj || {};
                 $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+
+
+
         $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
+       if($scope.selected_tab == "byformats"){
+            $scope.sortTypebyformats = args;
+        }
+        else if($scope.selected_tab == "bydaysofweek"){
+            $scope.sortTypebydaysofweek = args;
+        }
+        else if($scope.selected_tab == "bycreatives"){
+            $scope.sortTypebycreatives = args;
+        }
+        else if($scope.selected_tab == "byadsizes"){
+            $scope.sortTypebyadsizes = args;
+        }
+        else if($scope.selected_tab == "byplatforms"){
+            $scope.sortTypebyplatforms = args;
+
+        }
+
             $scope.sortType = args;
             $scope.sortTypeSubSort ="tactic."+args;
             $scope.sortReverse  = sortorder;
