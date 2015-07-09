@@ -144,8 +144,8 @@ var angObj = angObj || {};
         };
 
         $scope.reset = function(){
-            $scope.limit = 200;
-            $scope.offset = 1;
+            $scope.limit = 50;
+            $scope.offset = 0;
             $scope.fetching = false;
         };
 
