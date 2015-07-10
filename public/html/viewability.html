@@ -3,7 +3,6 @@
         <report-tabs></report-tabs>
     </div> -->
     <!-- {{viewDataAll.hasVTCMetrics}}-->
-
     <div class="inventory_reports_container">
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1" id="viewability_camp_list_dd">
@@ -83,7 +82,7 @@
                     </div>
                 </div>
                 <div >
-                    <div class="no_data_found" ng-if="((dataNotFound || !strategyFound) && !strategyBusy && loadingFlag == false )"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
+                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy)"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
@@ -179,7 +178,6 @@
 
         <div class="viewability_video_mode_container" ng-show="videoMode">
 
-            <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
             <div class="viewability_details_video_mode_outer_container">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col">
@@ -247,7 +245,7 @@
                     </div>
                 </div>
                 <div class="viewability_table_body">
-                    <div class="no_data_found" ng-if="((dataNotFound || !strategyFound) && !strategyBusy && loadingFlag == false  )"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
+                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy  )"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
                     </div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
