@@ -9,7 +9,16 @@ var angObj = angObj || {};
         domainReports.highlightHeaderMenu();
         $scope.sortType     = 'impressions'; // set the default sort type
 
-        $scope.sortReverse  = true; // set the default sort order
+        $scope.sortTypebyformats     = 'impressions'; // set the default sort type
+        $scope.sortTypebyplatforms     = 'impressions'; // set the default sort type
+        $scope.sortTypebydaysofweek     = 'impressions'; // set the default sort type
+        $scope.sortTypebycreatives     = 'impressions'; // set the default sort type
+        $scope.sortTypebyadsizes     = 'impressions'; // set the default sort type
+
+        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
+
+
+        $scope.sortReverse  = false; // set the default sort order
 
         $scope.characterLimit  = 50;
 
@@ -240,14 +249,36 @@ var angObj = angObj || {};
                 $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+
+
+
         $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
+       if($scope.selected_tab == "byformats"){
+            $scope.sortTypebyformats = args;
+        }
+        else if($scope.selected_tab == "bydaysofweek"){
+            $scope.sortTypebydaysofweek = args;
+        }
+        else if($scope.selected_tab == "bycreatives"){
+            $scope.sortTypebycreatives = args;
+        }
+        else if($scope.selected_tab == "byadsizes"){
+            $scope.sortTypebyadsizes = args;
+        }
+        else if($scope.selected_tab == "byplatforms"){
+            $scope.sortTypebyplatforms = args;
+
+        }
+
             $scope.sortType = args;
             $scope.sortTypeSubSort ="tactic."+args;
             $scope.sortReverse  = sortorder;
+            $scope.kpiDropdownActive = true;
         });
 
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
             $(".drop_list li").css("color", "#000");
         };
         $scope.specialSort = function(passedSortype){
@@ -272,7 +303,8 @@ var angObj = angObj || {};
         //Binding click event on tab and fetch strategy method.
         $(function() {
             $(".each_tab").click(function (event) {
-                var tab_id = $(this).attr("id").split("_tab")
+                var tab_id = $(this).attr("id").split("_tab");
+
                 $scope.selected_tab = tab_id[0];
                 $(".reports_tabs_holder").find(".active").removeClass("active");
                 $(this).addClass("active");

@@ -39,7 +39,7 @@
             $("[value="+_selectedKpi+"]").css("color", "#0978c9");
             var tags = $event.currentTarget.className.match("^active");
             var classesPresent = $event.currentTarget.className;
-            $('.kpi-dd-holder').addClass( "active" );
+           /* $('.kpi-dd-holder').addClass( "active" );*/
             if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
                 $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
                 $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
@@ -62,6 +62,8 @@
                 $event.currentTarget.className += "  active";
                 $('.direction_arrows div.kpi_arrow_sort.active').show();
             }
+
+            $scope.theKpiToblue = value;
             $rootScope.$broadcast('dropdown-arrow-clicked',value,sortOrder);
 
             if(_selectedKpi) {

@@ -12,7 +12,6 @@
                 <download-report></download-report>
             </div>
         </div>
-
         <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
@@ -110,18 +109,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortTypebydaysofweek:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics | orderBy:sortTypebydaysofweek:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortTypebydaysofweek:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -145,18 +144,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'formatTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortTypebyformats:sortReverse track by $index" ng-include="'formatTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics | orderBy:sortTypebyformats:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'formatTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortTypebyformats:sortReverse track by $index" ng-include="'formatTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +171,7 @@
 
 
                     <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
-                    
+
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" ng-class="{strategy_video_disabled:strategyPerfDataByCreatives.hasVTCMetrics == false}" >
                         <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
                             <creatives-header></creatives-header>
@@ -184,18 +183,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="creativeBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortTypebycreatives:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByCreatives.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByCreatives.tactics | orderBy:sortTypebycreatives:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col" style="width:100%">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortTypebycreatives:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -224,18 +223,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="adSizesBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes.perf_metrics | orderBy:sortTypebyadsizes:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByAdsizes.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByAdsizes.tactics | orderBy:sortTypebyadsizes:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col" style="width:100%">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="adsizesData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="adsizesData in tactic.perf_metrics | orderBy:sortTypebyadsizes:sortReverse track by $index" ng-include="'AdsizesTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -407,7 +406,7 @@
 <script type="text/ng-template" id="CreativesTpl">
 
     <div class="each_col sec_col" title="{{creativesData.dimension}}">
-       <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
+        <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ creativesData.dimension | formatUrl :15 }}
     </div>
     <div class="each_col third_col">
@@ -416,7 +415,7 @@
     </div>
     <span  ng-if="strategyPerfDataByCreatives.hasVTCMetrics">
     <div class="each_col third_col">
-             <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
         {{creativesData.video_metrics.ad_starts > 0 ? (creativesData.video_metrics.ad_starts | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
@@ -495,15 +494,15 @@
 
     <span  ng-if="!strategyPerfDataByAdsizes.hasVTCMetrics">
             <div class="each_col seventh_col">
-               {{adsizesData.cpa | currency:undefined:2}}
+                {{adsizesData.cpa | currency:undefined:2}}
             </div>
 
             <div class="each_col sixth_col">
-               {{adsizesData.cpc | currency:undefined:2}}
+                {{adsizesData.cpc | currency:undefined:2}}
             </div>
 
             <div class="each_col fifth_col">
-               {{adsizesData.cpm | currency:undefined:2}}
+                {{adsizesData.cpm | currency:undefined:2}}
             </div>
     </span>
 

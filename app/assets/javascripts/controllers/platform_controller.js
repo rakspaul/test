@@ -9,6 +9,7 @@ var angObj = angObj || {};
         $scope.sortTypeSubSort = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortReverse = true; // set the default sort order
         $scope.sortReverseKpiDropdown = true; // set the default sort order
+        $scope.kpiDropdownActive = {}
 
         if ($scope.selected_tab == "performance") {
             $scope.sortType = 'platformType_aggregation.impressions';
@@ -110,16 +111,16 @@ var angObj = angObj || {};
 
 
             //strategy change handler
-        $scope.strategyChangeHandler = function () {
-            $scope.reportDownloadBusy = false;
-            if ($scope.selectedStrategy.id == -99 || $scope.selectedStrategy.id == -1) {
-                $scope.strategyFound = false;
-            } else {
-                $scope.strategyFound = true;
-                $scope.getPlatformData();
-                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
-            }
-        };
+            $scope.strategyChangeHandler = function () {
+                $scope.reportDownloadBusy = false;
+                if ($scope.selectedStrategy.id == -99 || $scope.selectedStrategy.id == -1) {
+                    $scope.strategyFound = false;
+                } else {
+                    $scope.strategyFound = true;
+                    $scope.getPlatformData();
+                    analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+                }
+            };
 
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function (event, campaign) {
@@ -231,16 +232,43 @@ var angObj = angObj || {};
             $(".each_tab").click(function (event) {
                 var tab_id = $(this).attr("id").split("_tab")
                 $(".reports_tabs_holder").find(".active").removeClass("active");
-                /*$("body").find(".seventh_col").removeClass("active");*/
-                /*$('.kpi-dd-holder').removeClass( "active" );*/
 
 
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
-                if ($scope.selected_tab === "viewability") {
+
+               /* alert($scope.sortType);*/
+                if($scope.kpiDropdownActive != true){
+
+                    if($scope.selected_tab === "viewability") {
+                        $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
+                        $scope.sortTypeSubSort = 'ias_imps_delivered';
+                    }
+                    else if($scope.selected_tab === "performance") {
+                        $scope.sortType = 'platformType_aggregation.impressions';
+                        $scope.sortTypeSubSort='impressions'
+                    }
+                    else if($scope.selected_tab === "cost") {
+                        $scope.sortType = 'platformType_aggregation.impressions';
+                        $scope.sortTypeSubSort='impressions';
+                    }
+                    else{
+                        $scope.sortType = 'platformType_aggregation.impressions';
+                        $scope.sortTypeSubSort='impressions';
+                    }
+                }
+
+
+
+
+
+
+                if($scope.selected_tab === "viewability") {
+
                     $(".view_mode_switch_container").show();
-                } else {
+                }
+                else {
                     $(".view_mode_switch_container").hide();
                 }
                 $("#reports_" + tab_id[0] + "_block").show();
@@ -265,11 +293,15 @@ var angObj = angObj || {};
             $scope.sortType = "platformType_aggregation." + args;
             $scope.sortTypeSubSort = args;
             $scope.sortReverse = sortorder;
+            $scope.kpiDropdownActive = true;
         });
 
 
-        $scope.removeKpiActive = function () {
-            $('.kpi-dd-holder').removeClass("active");
+
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
+
             /* $('#kpi_dropdown').removeClass( "active" );*/
             $(".drop_list li").css("color", "#57606d");
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
