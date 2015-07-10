@@ -19,7 +19,7 @@
     </div>
   
     <div class="each_col ad_col"  ng-show="videoMode" >
-        <span class="clearfix icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+        <span class="clearfix icon_text_holder" ng-class="sortClassFunction('videos_viewable_imps',sortType,sortReverse)" ng-click="sortType = 'videos_viewable_imps'; sortReverse = !sortReverse;"  >
            
             <span class="pull-left tooltip_for_txt" >{{textConstants.AD_START_IMPS}}</span>
             <span class="pull-left tooltip_holder">
@@ -50,15 +50,20 @@
             </span>
         </div>
 
+
+
+
+
+
         <div class="sub_col">
-            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >25%</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_5s',sortType,sortReverse)" >50%</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >75%</span>
-            <span class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_15s',sortType,sortReverse)" >100%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_1q_completed',sortType,sortReverse)" ng-click="sortType = 'videos_1q_completed'; sortReverse = !sortReverse;" >25%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_2q_completed',sortType,sortReverse)" ng-click="sortType = 'videos_2q_completed'; sortReverse = !sortReverse;">50%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_3q_completed',sortType,sortReverse)" ng-click="sortType = 'videos_3q_completed'; sortReverse = !sortReverse;">75%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_4q_completed',sortType,sortReverse)" ng-click="sortType = 'videos_4q_completed'; sortReverse = !sortReverse;">100%</span>
         </div>
     </div>
     <div class="each_col vtc_col"  ng-show="videoMode">
-        <div class="icon_text_holder" ng-class="sortClassFunction('tactic.view_metrics.perc_viewable_imps_1s',sortType,sortReverse)" >
+        <div class="icon_text_holder" ng-class="sortClassFunction('vtc',sortType,sortReverse)" ng-click="sortType = 'vtc'; sortReverse = !sortReverse;" >
             <span class="pull-left " >{{ textConstants.VTC }}</span>
             <span class="pull-left tooltip_holder">
                 <span class="tooltip_show_icon"></span>
