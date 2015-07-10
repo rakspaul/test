@@ -491,8 +491,8 @@
                     $scope.chartDataScreen = [];
                     var screenResponseData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
-                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
-                    if (screenResponseData && screenResponseData.length > 0 && !hasAdFormats && screenResponseData[0].perf_metrics) {
+                    var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
+                    if (screenResponseData && screenResponseData.length > 0 && !hasVideoAds && screenResponseData[0].perf_metrics) {
                         screensData = _.filter(screenResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
                         var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
@@ -534,8 +534,8 @@
                     $scope.chartDataAdSize = [];
                     var adSizeResponseData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
-                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
-                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasAdFormats && adSizeResponseData[0].perf_metrics) {
+                    var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
+                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds && adSizeResponseData[0].perf_metrics) {
                         adSizeData = adSizeResponseData[0].perf_metrics;
                         var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
@@ -587,8 +587,8 @@
                     var arr = {}, kpiData, chartData, resultData, sortedData; // Step 2 Data Mod Restructure of the Array on memory
                     resultData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
-                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
-                    if(resultData && !hasAdFormats) {
+                    var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
+                    if(resultData && !hasVideoAds) {
                         _.each(resultData.platform_metrics, function(obj, idx) {  
                             arr[idx] = []
                             modify(obj, arr, idx);
@@ -626,8 +626,8 @@
                     $scope.chartDataFormat = [];
                     var formatResponseData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
-                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
-                    if (formatResponseData && formatResponseData.length > 0 && !hasAdFormats && formatResponseData[0].perf_metrics) {
+                    var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;//for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
+                    if (formatResponseData && formatResponseData.length > 0 && !hasVideoAds && formatResponseData[0].perf_metrics) {
                         formatData = _.filter(formatResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
                         var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
