@@ -6,7 +6,7 @@
 </div>
 
 
-<span  ng-show="strategyPerfDataByAdsizes.hasVTCMetrics  == true">
+<span  ng-show="adFormats.videoAds  == true">
     <div class="each_col third_col">
         <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VIDEO_PLAYS}}</span>
     </div>
@@ -36,7 +36,7 @@
 
 
 
-<span  ng-show="strategyPerfDataByAdsizes.hasVTCMetrics  == false">
+<span  ng-show="adFormats.videoAds  == false">
 
     <div class="each_col seventh_col">
         <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('cpa',sortTypebyadsizes,sortReverse)" ng-click="sortTypebyadsizes = 'cpa'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
@@ -52,7 +52,7 @@
 
 
 <div class="each_col seventh_col" >
-    <div ng-if="strategyPerfDataByAdsizes.hasVTCMetrics"  class="dropdown kpi-dd-holder" >
+    <div ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder" >
         <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
     </div>
 </div>

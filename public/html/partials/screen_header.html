@@ -4,7 +4,7 @@
 <div class="each_col third_col">
     <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'impressions'; sortReverse = !sortReverse;removeKpiActive();specialSort('impressions');" >{{textConstants.IMP_WITH_DOT}}</span>
 </div>
-<div class="vid_col" ng-show="strategyPerfDataByScreen.hasVTCMetrics == true">
+<div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
         <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortType,sortReverse)" ng-click="sortType = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.ad_starts');" >{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
     </div>
@@ -30,7 +30,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse;removeKpiActive();specialSort('action_rate');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 
-<span  ng-show="strategyPerfDataByScreen.hasVTCMetrics == false">
+<span  ng-show="adFormats.videoAds == false">
 <div class="each_col sixth_col" >
     <span class="icon_text_holder" ng-class="sortClassFunction('cpa',sortType,sortReverse)" ng-click="sortType = 'cpa'; sortReverse = !sortReverse;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
@@ -44,7 +44,7 @@
 </span>
 
 <div class="each_col seventh_col" >
-    <div ng-if="strategyPerfDataByScreen.hasVTCMetrics"  class="dropdown kpi-dd-holder" >
+    <div ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder" >
         <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
     </div>
 </div>

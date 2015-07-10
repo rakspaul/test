@@ -45,7 +45,31 @@
             highlightHeaderMenu : function() {
                 //Hot fix to show the campaign tab selected
                 $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
+            },
+
+            checkForCampaignFormat :  function(adFormats) {
+                var adSupportVideo = false;
+                var adSupportDisplay = false;
+
+                var videoAds =  function() {
+                    return _.indexOf(adFormats, 'Video') != -1;
+                }
+                if(adFormats && adFormats.length >0) {
+                    if (videoAds() && adFormats.length > 1) {
+                        adSupportVideo = true;
+                        adSupportDisplay = true;
+                    } else {
+                        if (videoAds() && adFormats.length === 1) {
+                            adSupportVideo = true;
+                        } else {
+                            adSupportDisplay = true;
+                        }
+                    }
+                }
+
+                return {'videoAds' : adSupportVideo, 'displayAds': adSupportDisplay}
             }
+
         };
     }]);
 

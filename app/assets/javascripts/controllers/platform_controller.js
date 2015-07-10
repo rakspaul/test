@@ -95,13 +95,14 @@ var angObj = angObj || {};
                     $scope.performanceBusy = false;
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
-                    $scope.hasVTCMetrics = result.data.data.hasVTCMetrics || true;
+                    $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
 
                     if ($scope.isCostModelTransparent === false && result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
                         $scope.isCostModelTransparentMsg = result.data.data.message;
                         $scope['strategyDataBy' + tab] = result.data.data;
+                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                     }
                 } else {
                     errorHandlerForPerformanceTab(result);
