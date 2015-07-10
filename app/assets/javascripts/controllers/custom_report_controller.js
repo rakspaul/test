@@ -126,6 +126,13 @@ var angObj = angObj || {};
             $(".custom_report_response_page").hide();
         };
 
+        $scope.show_respective_table = function(id) {
+            $(".custom_report_response_table").hide() ;
+            $("#" +  id + "_table").show() ;
+            $(".custom_report_response_tabs").find(".each_tab").removeClass("active") ;
+            $(".custom_report_response_tabs").find("#" + id +  "_tab").addClass("active") ;
+        };
+
         $scope.reset_metric_options = function(event) {
             $(".each_measurable_col .not_all_selected").removeClass("not_all_selected");
             $(".each_measurable_col .active").removeClass("active");
