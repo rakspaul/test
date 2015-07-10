@@ -94,9 +94,7 @@
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
-                console.log(dataArr);
                 $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
-                console.log($scope.adFormats);
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 var selectedCampaign = {
                     id : $scope.campaign.id,
