@@ -3907,8 +3907,7 @@ only screen and (min-device-pixel-ratio: 2) {
     margin-top: 30px ;
   }
   .custom_report_response_table {
-    min-height: 200px;
-    margin-top: 40px;
+    min-height: 200px ;
     border : solid 1px #ccc ;
     margin-bottom: 50px ;
     padding: 30px ;
@@ -3965,10 +3964,10 @@ div.reports_tabs_content_container {
 
 
 .sort_order_down_new {
-  cursor: pointer;
-  padding-right: 17px;
+  cursor: pointer ;
+  padding-right: 17px ;
   &:hover {
-    background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
+    background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px ;
   }
 }
 .dropdown_ul_text{
@@ -3976,6 +3975,53 @@ div.reports_tabs_content_container {
     color:#0978c9;
   }
 }
+.report_response_and_tabs {
+  .custom_report_response_tabs {
+    .each_tab {
+        float: left;
+        padding: 7px 5px;
+        text-align: center;
+        width: 120px;
+        border: solid 1px #ccc;
+        border-bottom: 0;
+        margin-top: 40px;
+        border-right: 0;
+        cursor: pointer;
+        position: relative;
+        height: 35px;
+        line-height: normal;
+        background: #f5f9fd ;
+      &:first-child {
+        border-radius:  4px 0 0 0 ;
+        -moz-border-radius:  4px 0 0 0 ;
+        -webkit-border-radius:  4px 0 0 0 ;
+      }
+      &:last-child {
+        border-right : solid 1px #ccc ; 
+        border-radius: 0 4px 0 0 ;
+        -moz-border-radius: 0 4px 0 0 ;
+        -webkit-border-radius: 0 4px 0 0 ;
+      }
 
+    }
+    .each_tab.active {
+      span {
+        height: 36px;
+        background: #fff;
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        line-height: normal;
+        padding: 7px 5px;
+        border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+        cursor: default;
+      }
+    }
+  }
+}
 
 

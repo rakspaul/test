@@ -139,23 +139,32 @@
 		<span class="filtered_by_txt">&nbsp;</span>
 		<!-- <span class="filtered_by_txt">Site</span> -->
 	</div>
-	<div class="custom_report_response_table">
-		<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" scroll-threshold="50">
-			<div class="each_row heading_row">
-				<div class="each_col" ng-repeat="items in metricKeyArr">
-					{{items}}
-				</div>
-			</div>
-			<div class="no_data_found" ng-if="dataNotFound">{{dataNotFoundMessage}}</div>
-			<div ng-if="reportDataBusy" class="common-load-more"></div>
-			<div class="each_row reportData" ng-repeat="arr in metricValues">
-				<div class="each_col" ng-repeat="val in arr track by $index">
-					{{val}}
-				</div>
-			</div>
+	<div class="report_response_and_tabs" >
+		<div class="clearfix custom_report_response_tabs">
+			<div class="each_tab active"><span>Delivery</span></div>
+			<div class="each_tab"><span>Booked</span></div>
+			<div class="each_tab"><span>Engagement</span></div>
+			<div class="each_tab"><span>Video</span></div>
 		</div>
-		<div ng-if="fetching" class="common-load-more"></div>
+		<div class="custom_report_response_table">
+			<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" scroll-threshold="50">
+				<div class="each_row heading_row">
+					<div class="each_col" ng-repeat="items in metricKeyArr">
+						{{items}}
+					</div>
+				</div>
+				<div class="no_data_found" ng-if="dataNotFound">{{dataNotFoundMessage}}</div>
+				<div ng-if="reportDataBusy" class="common-load-more"></div>
+				<div class="each_row reportData" ng-repeat="arr in metricValues">
+					<div class="each_col" ng-repeat="val in arr track by $index">
+						{{val}}
+					</div>
+				</div>
+			</div>
+			<div ng-if="fetching" class="common-load-more"></div>
+		</div>
 	</div>
+
 </div>
 
 <!-- End of Custom Report Response Page -->
