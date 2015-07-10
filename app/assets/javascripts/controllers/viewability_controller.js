@@ -74,7 +74,6 @@ var angObj = angObj || {};
 
                 if (result.status === "OK" || result.status === "success" || result.status == 204) {
                     if(result.data != '' ){ // if data not empty
-                        console.log("coming here")
                         strategiesList = result.data.data;
                         $scope.viewData = strategiesList;
                         $scope.strategyBusy = false;
