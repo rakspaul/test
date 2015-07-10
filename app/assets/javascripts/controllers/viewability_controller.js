@@ -76,7 +76,7 @@ var angObj = angObj || {};
                     strategiesList = result.data.data;
                     $scope.viewData = strategiesList;
                     $scope.strategyBusy = false;
-                    $scope.hasVTCMetrics =  result.data.data.hasVTCMetrics || true;
+                    $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                     if (strategiesList) {
                         $scope.dataNotFound = false;
                         $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';

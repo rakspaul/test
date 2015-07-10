@@ -19,7 +19,7 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
-        <div class="view_mode_switch_container" ng-show="hasVTCMetrics" ng-class="{'video_mode_on':videoMode}">
+        <div class="view_mode_switch_container" ng-show="adFormats.videoAds" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
             <span class="video_off_icon" ng-class="{'active':!videoMode}"></span>
             <span class="video_btn">

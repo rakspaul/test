@@ -88,12 +88,15 @@
                 $scope.details.sortStrategies(fieldName);
             }
         }
+
         //API call for campaign details
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
-                $scope.hasVideoAds = dataArr[0].hasVideoAds;
+                console.log(dataArr);
+                $scope.adFormats = domainReports.checkForCampaignFormat(dataArr[0].adFormats);
+                console.log($scope.adFormats);
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 var selectedCampaign = {
                     id : $scope.campaign.id,
@@ -473,7 +476,7 @@
                         $scope.videoViewData = {
                             graphData: baseConfiguration,
                             totalImps: responseData.view_metrics.video_viewability_metrics.videos_viewable_imps,
-                            hasVideoAds: $scope.hasVideoAds
+                            adFormats: $scope.adFormats
                         }
                     }
                 }
@@ -489,8 +492,9 @@
                     var screensData;
                     $scope.chartDataScreen = [];
                     var screenResponseData = result.data.data;
-                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !screenResponseData[0].hasVTCMetrics;
-                    if (screenResponseData && screenResponseData.length > 0 && !hasVTCMetrics && screenResponseData[0].perf_metrics) {
+                    var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
+                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
+                    if (screenResponseData && screenResponseData.length > 0 && !hasAdFormats && screenResponseData[0].perf_metrics) {
                         screensData = _.filter(screenResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
                         var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
@@ -531,8 +535,9 @@
                     var adSizeData;
                     $scope.chartDataAdSize = [];
                     var adSizeResponseData = result.data.data;
-                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !adSizeResponseData[0].hasVTCMetrics;
-                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVTCMetrics && adSizeResponseData[0].perf_metrics) {
+                    var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
+                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
+                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasAdFormats && adSizeResponseData[0].perf_metrics) {
                         adSizeData = adSizeResponseData[0].perf_metrics;
                         var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
@@ -583,8 +588,9 @@
 
                     var arr = {}, kpiData, chartData, resultData, sortedData; // Step 2 Data Mod Restructure of the Array on memory
                     resultData = result.data.data;
-                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !resultData.hasVTCMetrics;
-                    if(resultData && !hasVTCMetrics) {
+                    var adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
+                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
+                    if(resultData && !hasAdFormats) {
                         _.each(resultData.platform_metrics, function(obj, idx) {  
                             arr[idx] = []
                             modify(obj, arr, idx);
@@ -621,8 +627,9 @@
                     var formatData;
                     $scope.chartDataFormat = [];
                     var formatResponseData = result.data.data;
-                    var hasVTCMetrics = kpiModel.toLowerCase() === 'vtc' && !formatResponseData[0].hasVTCMetrics;
-                    if (formatResponseData && formatResponseData.length > 0 && !hasVTCMetrics && formatResponseData[0].perf_metrics) {
+                    var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
+                    var hasAdFormats = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;
+                    if (formatResponseData && formatResponseData.length > 0 && !hasAdFormats && formatResponseData[0].perf_metrics) {
                         formatData = _.filter(formatResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
                         var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();

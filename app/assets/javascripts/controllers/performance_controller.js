@@ -43,7 +43,6 @@ var angObj = angObj || {};
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
         $scope.filters = domainReports.getReportsTabs();
-        console.log($scope.filters);
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
 
             if($scope.redirectWidget && $scope.redirectWidget == 'adsizes') {
@@ -128,6 +127,7 @@ var angObj = angObj || {};
                         $scope.creativeBusy = false;
                         $scope.adSizesBusy = false;
                         $scope['strategyPerfDataBy'+tab]  = result.data.data[0];
+                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     }
                 } else {
                     errorHandlerForPerformanceTab(result);

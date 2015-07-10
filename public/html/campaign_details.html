@@ -69,7 +69,7 @@
                       <!-- end of action filter -->
                 </div>
 
-                
+
 
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
@@ -165,7 +165,7 @@
                                     </div>
                                 </div>
                                   
-                                   <div class="item">
+                                   <div class="item" ng-if="adFormats.displayAds">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                                             <div class="graph_heading">
@@ -192,7 +192,7 @@
                                   </div>
                                    
                                     <!-- Video viewability widget commented for now -->
-                                    <div class="item" ng-if="videoViewData.hasVideoAds">
+                                    <div class="item" ng-if="videoViewData.adFormats.videoAds">
                                         <div class="col-xs-3">
                                             <div ng-click="setGraphData(campaign,'videoViewability')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
                                                 <div class="graph_heading">
