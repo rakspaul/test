@@ -54,7 +54,6 @@ var angObj = angObj || {};
             $scope.tacticBusy = false ;
             $scope.strategyFound = false;
             $scope.isStrategyDropDownShow = true;
-
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
@@ -72,17 +71,23 @@ var angObj = angObj || {};
             }
             $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    strategiesList = result.data.data;
-                    $scope.viewData = strategiesList;
-                    $scope.strategyBusy = false;
-                    $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
-                    if (strategiesList) {
-                        $scope.dataNotFound = false;
-                        $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
-                    } else {
+
+                if (result.status === "OK" || result.status === "success" || result.status == 204) {
+                    if(result.data != '' ){ // if data not empty
+                        strategiesList = result.data.data;
+                        $scope.viewData = strategiesList;
+                        $scope.strategyBusy = false;
+                        $scope.hasVTCMetrics =  result.data.data.hasVTCMetrics || true;
+                        if (strategiesList) {
+                            $scope.dataNotFound = false;
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+                        } else {
+                            errorHandler();
+                        }
+                    }else{ // if data is empty set as data not found
                         errorHandler();
                     }
+                    
                 } // Means no strategy data found
                 else {
 
