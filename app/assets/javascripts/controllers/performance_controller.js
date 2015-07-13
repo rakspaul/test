@@ -23,6 +23,8 @@ var angObj = angObj || {};
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;
         $scope.sortReverseForCostscpc  = true;
+        $scope.sortReverseAddSizes  = true;
+
 
 
 
