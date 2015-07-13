@@ -49,7 +49,7 @@
 
             checkForCampaignFormat :  function(adFormats) {
                 var adSupportVideo = false;
-                var adSupportDisplay = false;
+                var adSupportDisplay = true;
 
                 var videoAds =  function() {
                     return _.indexOf(adFormats, 'Video') != -1;
@@ -61,6 +61,7 @@
                     } else {
                         if (videoAds() && adFormats.length === 1) {
                             adSupportVideo = true;
+                            adSupportDisplay = false;
                         } else {
                             adSupportDisplay = true;
                         }
