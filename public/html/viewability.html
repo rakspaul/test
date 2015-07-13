@@ -28,15 +28,13 @@
             <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
         </div>
 
-        <div class="viewability_container" ng-hide="strategyLoading || videoMode"  >
-
-            <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
-            <div class="viewability_details_outer_container">
+        <div class="viewability_container">
+            <div class="viewability_details_outer_container" ng-show="adFormats.displayAds && !videoMode ">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col viewability_delivered_col">
-                        
+
                             <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_imps_delivered',sortType,sortReverse)" ng-click="sortType = 'view_metrics.ias_imps_delivered'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.DELIVERED_IMPS}}</span>
-                            
+
                     </div>
                     <div class="each_col third_col">
                         <span>{{textConstants.MEASURABLE}}</span>
@@ -82,8 +80,7 @@
                     </div>
                 </div>
                 <div >
-                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy)"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
-                    </div>
+                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy)"  ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
 
@@ -176,9 +173,9 @@
 
 
 
-        <div class="viewability_video_mode_container" ng-show="videoMode">
+        <div class="viewability_video_mode_container">
 
-            <div class="viewability_details_video_mode_outer_container">
+            <div class="viewability_details_video_mode_outer_container" ng-show="adFormats.videoAds && videoMode">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col">
                         <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_deliverable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.videos_deliverable_imps'; sortReverse = !sortReverse;removeKpiActive();"  >{{textConstants.DELIVERED_IMPS}}</span>

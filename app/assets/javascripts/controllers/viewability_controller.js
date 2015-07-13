@@ -11,7 +11,6 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.strategyLoading =  true;
         $scope.api_return_code = 200;
-        $scope.videoMode = true;
         var redirectWidget = $scope.selectedCampaign.redirectWidget;
         if(redirectWidget) {
             $scope.videoMode = redirectWidget === "videoViewability" ||  false;
@@ -31,14 +30,11 @@ var angObj = angObj || {};
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             else if ( $scope.selectedCampaign.kpi =='null')
                 return constants.MSG_CAMPAIGN_KPI_NOT_SET;
-//            else if (campaign.status == 'active')
-//                return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;
             else if (dataSetType == 'viewability')
                 return constants.MSG_METRICS_NOT_TRACKED;
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-     //   $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsTabs();
 
         $scope.download_urls = {
@@ -77,7 +73,10 @@ var angObj = angObj || {};
                         strategiesList = result.data.data;
                         $scope.viewData = strategiesList;
                         $scope.strategyBusy = false;
-                        $scope.hasVTCMetrics =  result.data.data.hasVTCMetrics || true;
+                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
+                        if($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
+                            $scope.videoMode = false;
+                        }
                         if (strategiesList) {
                             $scope.dataNotFound = false;
                             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
@@ -129,7 +128,7 @@ var angObj = angObj || {};
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
             $scope.createDownloadReportUrl();
-
+            $scope.videoMode = false;
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){

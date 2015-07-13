@@ -96,10 +96,13 @@ var angObj = angObj || {};
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
                     $scope.performanceBusy = false;
+                    $scope.videoMode = true;
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
                     $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
-
+                    if($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
+                        $scope.videoMode = false;
+                    }
                     if ($scope.isCostModelTransparent === false && result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
@@ -129,6 +132,7 @@ var angObj = angObj || {};
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function (event, campaign) {
             $scope.init();
+
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
             $scope.createDownloadReportUrl();
         });
@@ -212,6 +216,7 @@ var angObj = angObj || {};
             $scope.strategyFound = false;
             $scope.api_return_code = 200;
             $scope.isStrategyDataEmpty = false;
+            $scope.videoMode = false;
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};
