@@ -20,6 +20,12 @@ var angObj = angObj || {};
 
         $scope.sortReverse  = false; // set the default sort order
 
+        $scope.sortReverseForCostscpm  = true;
+        $scope.sortReverseForCostscpa  = true;
+        $scope.sortReverseForCostscpc  = true;
+
+
+
         $scope.characterLimit  = 50;
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
@@ -300,11 +306,15 @@ var angObj = angObj || {};
         };
 
 
+
+
         //Binding click event on tab and fetch strategy method.
         $(function() {
             $(".each_tab").click(function (event) {
                 var tab_id = $(this).attr("id").split("_tab");
-
+                if($scope.kpiDropdownActive == true){
+                    $('.icon_text_holder').removeClass( "active" );
+                }
                 $scope.selected_tab = tab_id[0];
                 $(".reports_tabs_holder").find(".active").removeClass("active");
                 $(this).addClass("active");

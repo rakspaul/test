@@ -42,13 +42,13 @@
 <span  ng-show="adFormats.videoAds == false">
 <div class="each_col sixth_col" ng-class="{vid_none_hdr:adFormats.videoAds == false}">
 
-    <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.cpa',sortType,sortReverse)" ng-click="sortTypeSubSort='cpa';  sortType = 'platformType_aggregation.cpa'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPA}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpa',sortType,sortReverseForCostscpa)" ng-click="sortTypeSubSort='cpa';  sortType = '-platformType_aggregation.cpa'; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" >{{textConstants.CPA}}</span>
 </div>
 <div class="each_col seventh_col" ng-class="{vid_none_hdr:adFormats.videoAds == false}">
-    <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.cpc',sortType,sortReverse)" ng-click="sortTypeSubSort='cpc';  sortType = 'platformType_aggregation.cpc'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpc',sortType,sortReverseForCostscpc)" ng-click="sortTypeSubSort='cpc';  sortType = '-platformType_aggregation.cpc'; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" >{{textConstants.CPC}}</span>
 </div>
 <div class="each_col seventh_col" ng-class="{vid_none_hdr:adFormats.videoAds == false}">
-    <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.cpm',sortType,sortReverse)" ng-click=" sortTypeSubSort='cpm';  sortType = 'platformType_aggregation.cpm'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPM}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpm',sortType,sortReverseForCostscpm)" ng-click=" sortTypeSubSort='cpm';  sortType = '-platformType_aggregation.cpm'; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" >{{textConstants.CPM}}</span>
 </div>
 </span>
 <div class="each_col seventh_col">

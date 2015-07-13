@@ -9,6 +9,9 @@ var angObj = angObj || {};
         $scope.sortTypeSubSort = 'platformType_aggregation.impression'; // set the default sort type
         $scope.sortReverse = true; // set the default sort order
         $scope.sortReverseKpiDropdown = true; // set the default sort order
+        $scope.sortReverseForCostscpm  = true;
+        $scope.sortReverseForCostscpa  = true;
+        $scope.sortReverseForCostscpc  = true;
         $scope.kpiDropdownActive = {}
 
         if ($scope.selected_tab == "performance") {
