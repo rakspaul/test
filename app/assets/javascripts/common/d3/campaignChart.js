@@ -105,19 +105,22 @@
                             .attr("x1", _config.width).attr("y1", _config.height)
                             .attr("x2", _config.width).attr("y2", _config.margin.top);
 
+                        //find the max data
+                        var maxData = d3.max(data, function(d) {
+                            return d[ykeyVal];
+                        });
+
                         if (threshold != 0) {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
-
-                            //find the max data
-                            var maxData = d3.max(data, function(d) {
-                                return d[ykeyVal];
-                            });
 
                             //if threshold is out of view i.e greater than data view
                             if (threshold > maxData) {
                                 //rescale yaxis
                                 _config.yScale.domain([0, threshold]);
                             }
+
+                            //resize domain of y-axis 20% extra spacing
+                            updateDomain(maxData, 20);
 
                             svg.append("image")
                                 .attr("id", "goal")
@@ -220,6 +223,10 @@
                                 .on("mouseout", tooltipMouseOut);
 
                         } else { //if no threshold
+
+                            //resize domain of y-axis 20% extra spacing
+                            updateDomain(maxData, 20);
+
                             //render default color to the path
                             svg.append("svg:path")
                                 .attr({
@@ -228,6 +235,14 @@
                                 })
                                 .on("mouseover", tooltipMouseOver)
                                 .on("mouseout", tooltipMouseOut);
+                        }
+                        //resize domain of yaxis
+                        function updateDomain(maxData, percentage){
+                          var adjustment = (maxData * percentage) /100;
+                          var newMax = adjustment + maxData;
+                          if(newMax>0){
+                              _config.yScale.domain([0, newMax]);
+                          }
                         }
 
                         //tooltipMouseOver
