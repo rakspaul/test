@@ -74,18 +74,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByScreen.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByScreen.tactics | orderBy:sortType:sortTypeScreens:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortType:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                         </div>
                                     </div>
                                 </div>

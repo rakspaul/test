@@ -7,13 +7,14 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        $scope.sortType     = 'impressions'; // set the default sort type
+        $scope.sortType     = 'impressions'; 
 
-        $scope.sortTypebyformats     = 'impressions'; // set the default sort type
-        $scope.sortTypebyplatforms     = 'impressions'; // set the default sort type
-        $scope.sortTypebydaysofweek     = 'impressions'; // set the default sort type
-        $scope.sortTypebycreatives     = 'impressions'; // set the default sort type
-        $scope.sortTypebyadsizes     = 'impressions'; // set the default sort type
+        $scope.sortTypebyformats     = 'impressions'; 
+        $scope.sortTypebyplatforms     = 'impressions'; 
+        $scope.sortTypebydaysofweek     = 'impressions'; 
+        $scope.sortTypebycreatives     = 'impressions'; 
+        $scope.sortTypebyadsizes     = 'impressions'; 
+        $scope.sortTypeScreens     = 'impressions'; 
 
         var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
 
@@ -23,9 +24,32 @@ var angObj = angObj || {};
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;
         $scope.sortReverseForCostscpc  = true;
-        $scope.sortReverseAddSizes  = true;
+        $scope.sortReverseAddSizes  = false;
 
+        $scope.sortReverseForCostscpmFormats  = true;
+        $scope.sortReverseForCostscpaFormats  = true;
+        $scope.sortReverseForCostscpcFormats  = true;
+        $scope.sortReverseAddSizesFormats  = true;
 
+        $scope.sortReverseForCostscpmPlatforms  = true;
+        $scope.sortReverseForCostscpaPlatforms   = true;
+        $scope.sortReverseForCostscpcPlatforms    = true;
+        $scope.sortReverseAddSizesPlatforms    = true;
+
+        $scope.sortReverseForCostscpmDaysofweek  = true;
+        $scope.sortReverseForCostscpaDaysofweek  = true;
+        $scope.sortReverseForCostscpcDaysofweek  = true;
+        $scope.sortReverseAddSizesDaysofweek  = true;
+
+        $scope.sortReverseForCostscpmCreatives  = true;
+        $scope.sortReverseForCostscpaCreatives  = true;
+        $scope.sortReverseForCostscpcCreatives  = true;
+        $scope.sortReverseAddSizesCreatives  = true;
+
+        $scope.sortReverseForCostscpmAdsizes  = true;
+        $scope.sortReverseForCostscpaAdsizes  = true;
+        $scope.sortReverseForCostscpcAdsizes  = true;
+        $scope.sortReverseAddSizesAdsizes  = true;
 
 
         $scope.characterLimit  = 50;
