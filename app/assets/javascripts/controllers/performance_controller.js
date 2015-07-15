@@ -9,12 +9,12 @@ var angObj = angObj || {};
         domainReports.highlightHeaderMenu();
         $scope.sortType     = 'impressions'; 
 
-        $scope.sortTypebyformats     = 'impressions'; 
-        $scope.sortTypebyplatforms     = 'impressions'; 
-        $scope.sortTypebydaysofweek     = 'impressions'; 
-        $scope.sortTypebycreatives     = 'impressions'; 
-        $scope.sortTypebyadsizes     = 'impressions'; 
-        $scope.sortTypeScreens     = 'impressions'; 
+        $scope.sortTypebyformats     = '-impressions';
+        $scope.sortTypebyplatforms     = '-impressions';
+        $scope.sortTypebydaysofweek     = '-impressions';
+        $scope.sortTypebycreatives     = '-impressions';
+        $scope.sortTypebyadsizes     = '-impressions';
+        $scope.sortTypeScreens     = '-impressions';
 
         var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
 

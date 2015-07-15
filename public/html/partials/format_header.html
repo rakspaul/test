@@ -2,7 +2,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypebyformats,sortReverse)" ng-click="sortTypebyformats = 'dimension'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.FORMAT}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortTypebyformats,sortReverse)" ng-click="sortTypebyformats = 'impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebyformats,!sortReverse)" ng-click="sortTypebyformats = '-impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
 <div class="each_col third_col">
