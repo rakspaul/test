@@ -89,7 +89,7 @@
                                              <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'costs')"></div>
                                             <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
                                                 <div class="pull-right section_graph_details"  >
-                                                    <div class="each_detail" ng-repeat="data in costBreakdownChartInfo track by data.name" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
+                                                    <div class="each_detail" ng-repeat="data in costBreakdownChartInfo track by $index" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
                                                         <span class="graph_color {{data.className}}"></span>
                                                         {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                                     </div>
