@@ -282,29 +282,37 @@ var angObj = angObj || {};
         });
 
 
-
-
-        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
-       if($scope.selected_tab == "byformats"){
-            $scope.sortTypebyformats = args;
-        }
-        else if($scope.selected_tab == "bydaysofweek"){
-            $scope.sortTypebydaysofweek = args;
-        }
-        else if($scope.selected_tab == "bycreatives"){
-            $scope.sortTypebycreatives = args;
-        }
-        else if($scope.selected_tab == "byadsizes"){
-            $scope.sortTypebyadsizes = args;
-        }
-        else if($scope.selected_tab == "byplatforms"){
-            $scope.sortTypebyplatforms = args;
-
-        }
-
+        $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
+            if ($scope.selected_tab == 'byformats') {
+                $scope.sortTypebyformats = args;
+            }
+            else if ($scope.selected_tab == 'bydaysofweek') {
+                $scope.sortTypebydaysofweek = args;
+            }
+            else if ($scope.selected_tab == 'bycreatives') {
+                $scope.sortTypebycreatives = args;
+            }
+            else if ($scope.selected_tab == 'byadsizes') {
+                $scope.sortTypebyadsizes = args;
+            }
+            else if ($scope.selected_tab == 'byplatforms') {
+                $scope.sortTypebyplatforms = args;
+            }
+            else if ($scope.selected_tab == 'byscreens') {
+                $scope.sortTypeScreens = args;
+                if (args === 'cpm') {
+                    $scope.sortReverseForCostscpm = sortorder;
+                }
+                else if (args === 'cpc') {
+                    $scope.sortReverseForCostscpc = sortorder;
+                }
+                else {
+                    $scope.sortReverseForCostscpa = sortorder;
+                }
+            }
             $scope.sortType = args;
-            $scope.sortTypeSubSort ="tactic."+args;
-            $scope.sortReverse  = sortorder;
+            $scope.sortTypeSubSort = 'tactic.' + args;
+            $scope.sortReverse = sortorder;
             $scope.kpiDropdownActive = true;
         });
 
@@ -330,8 +338,6 @@ var angObj = angObj || {};
             }
             return isActive + " " + sortDirection;
         };
-
-
 
 
         //Binding click event on tab and fetch strategy method.
