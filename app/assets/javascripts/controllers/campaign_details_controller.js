@@ -327,7 +327,7 @@
         };
 
         $scope.getCostBreakdownData  = function(campaign){
-            var costData, other = 0, sum;
+            var costData, other = 0, sum,cBreakdownChart = [];
              //get cost break down data
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
                 $scope.loadingCostBreakdownFlag = false;
@@ -338,12 +338,6 @@
                          if (sum < 100) {
                              other = 100 - sum;
                          }
-                         $scope.details.getCostBreakdown = {
-                             inventory: costData.inventory_cost_pct,
-                             data: costData.data_cost_pct,
-                             adServing: costData.ad_serving_cost_pct,
-                             other: other
-                         };
                          $scope.getCostBreakdownInfo = [
                              {
                                  name: 'Inventory',
@@ -370,12 +364,23 @@
                              $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
                          };
                          $scope.order('-value', false);
-                         $timeout(function () {
-                             $scope.details.pieChart = pieChart.highChart($scope.costBreakdownChartInfo);
+                         var cBreakdownChartColors = [],cBreakdownChartData = [];
+                         _.each($scope.costBreakdownChartInfo, function (data, key) {
+                            if(data.name !='Other'){
+                                 cBreakdownChartColors.push(data.colorCode);
+                                 cBreakdownChartData.push(data.value);
+                            }
                          });
+                         //Put Others as Last 
+                        var findOthers = _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
+                        cBreakdownChartColors.push(findOthers.colorCode);
+                        cBreakdownChartData.push(findOthers.value);
                          if(costData.cost_transparency === false) {
                              $scope.isCostModelTransparent = false;
                          }
+                         //set Up configuration for Cost breakdown chart
+                         $scope.costBreakDownPieChartConfig = {data:cBreakdownChartData,width:108,height:108,widgetId:'costBreakdownWidget',colors:cBreakdownChartColors};
+
                      }
                 }
             },function(result){
