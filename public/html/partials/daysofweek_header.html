@@ -2,7 +2,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypebydaysofweek,sortReverse)" ng-click="sortTypebydaysofweek = 'dimension'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.DAY_OF_WEEK}} </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortTypebydaysofweek,sortReverse)" ng-click="sortTypebydaysofweek = 'impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebydaysofweek,!sortReverse)" ng-click="sortTypebydaysofweek = '-impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
@@ -34,13 +34,13 @@
 </div>
 <span  ng-show="adFormats.videoAds  == false">
 <div class="each_col sixth_col">
-    <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebydaysofweek,sortReverseForCostscpa)" ng-click="sortTypebydaysofweek = '-cpa'; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebydaysofweek,sortReverseForCostscpaDaysofweek)" ng-click="sortTypebydaysofweek = '-cpa'; sortReverse = sortReverseForCostscpaDaysofweek; sortReverseForCostscpaDaysofweek = !sortReverseForCostscpaDaysofweek;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
 <div class="each_col seventh_col">
-    <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypebydaysofweek,sortReverseForCostscpc)" ng-click="sortTypebydaysofweek = '-cpc'; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypebydaysofweek,sortReverseForCostscpcDaysofweek)" ng-click="sortTypebydaysofweek = '-cpc'; sortReverse = sortReverseForCostscpcDaysofweek; sortReverseForCostscpcDaysofweek = !sortReverseForCostscpcDaysofweek;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
 <div class="each_col seventh_col">
-    <span class="icon_text_holder" class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypebydaysofweek,sortReverseForCostscpm)" ng-click="sortTypebydaysofweek = '-cpm'; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" ng-click="sortTypebydaysofweek = '-cpm'; sortReverse = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
 </span>
 <div class="each_col seventh_col" >

@@ -1,45 +1,45 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortType,sortReverse)" ng-click="sortType = 'dimension'; sortReverse = !sortReverse;removeKpiActive();specialSort('dimension');" >{{textConstants.SCREEN}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'dimension'; sortReverse = !sortReverse;removeKpiActive();specialSort('dimension');" >{{textConstants.SCREEN}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortType,sortReverse)" ng-click="sortType = 'impressions'; sortReverse = !sortReverse;removeKpiActive();specialSort('impressions');" >{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypeScreens,!sortReverse)" ng-click="sortTypeScreens = '-impressions'; sortReverse = !sortReverse;removeKpiActive();specialSort('-impressions');" >{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortType,sortReverse)" ng-click="sortType = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.ad_starts');" >{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.ad_starts');" >{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
     </div>
     <div class="vid_data_hdr">
         <span>{{textConstants.QUARTILE_DATA}}</span> <br>
         <div class="vid_sub_col">
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_25');" >25%</span></div>
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_50');" >50%</span></div>
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_75'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_75');" >75%</span></div>
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_100'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_100');" >100%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_25');" >25%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_50');" >50%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_75'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_75');" >75%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_100'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_100');" >100%</span></div>
         </div>
     </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortType,sortReverse)" ng-click="sortType = 'video_metrics.vtc_rate'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_rate');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_rate'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_rate');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
     </div>
 </div>
 
 <div class="each_col forth_col" >
 
-    <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortType,sortReverse)" ng-click="sortType = 'ctr'; sortReverse = !sortReverse;removeKpiActive();specialSort('ctr');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'ctr'; sortReverse = !sortReverse;removeKpiActive();specialSort('ctr');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
 </div>
 <div class="each_col fifth_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortType,sortReverse)" ng-click="sortType = 'action_rate'; sortReverse = !sortReverse;removeKpiActive();specialSort('action_rate');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'action_rate'; sortReverse = !sortReverse;removeKpiActive();specialSort('action_rate');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 
 <span  ng-show="adFormats.videoAds == false">
 <div class="each_col sixth_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortType,sortReverseForCostscpa)" ng-click="sortType = '-cpa'; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypeScreens,sortReverseForCostscpa)" ng-click="sortTypeScreens = '-cpa'; sortReverse = sortReverseForCostscpa; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
 
 <div class="each_col seventh_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortType,sortReverseForCostscpc)" ng-click="sortType = '-cpc'; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI"  ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('+cpc',sortTypeScreens,sortReverseForCostscpc)" ng-click="sortTypeScreens = '+cpc'; sortReverse = sortReverseForCostscpc; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
 <div class="each_col seventh_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortType,sortReverseForCostscpm)" ng-click="sortType = '-cpm'; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypeScreens,sortReverseForCostscpm)" ng-click="sortTypeScreens = '-cpm'; sortReverse = sortReverseForCostscpm; sortReverseForCostscpm = !sortReverseForCostscpm; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
 </span>
 

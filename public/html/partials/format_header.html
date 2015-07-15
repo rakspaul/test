@@ -2,7 +2,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypebyformats,sortReverse)" ng-click="sortTypebyformats = 'dimension'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.FORMAT}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('impressions',sortTypebyformats,sortReverse)" ng-click="sortTypebyformats = 'impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebyformats,!sortReverse)" ng-click="sortTypebyformats = '-impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
 <div class="each_col third_col">
@@ -34,13 +34,13 @@
 </div>
 <span  ng-show="adFormats.videoAds  == false">
 <div class="each_col sixth_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebyformats,sortReverseForCostscpa)" ng-click="sortTypebyformats = '-cpa'; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip={{textConstants.PRIMARY_KPI}} ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebyformats,sortReverseForCostscpaFormats)" ng-click="sortTypebyformats = '-cpa'; sortReverse = sortReverseForCostscpaFormats; sortReverseForCostscpaFormats = !sortReverseForCostscpaFormats;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
 <div class="each_col seventh_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypebyformats,sortReverseForCostscpc)" ng-click="sortTypebyformats = '-cpc'; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip={{textConstants.PRIMARY_KPI}} ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypebyformats,sortReverseForCostscpcFormats)" ng-click="sortTypebyformats = '-cpc'; sortReverse = sortReverseForCostscpcFormats; sortReverseForCostscpcFormats = !sortReverseForCostscpcFormats;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
 <div class="each_col seventh_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypebyformats,sortReverseForCostscpm)" ng-click="sortTypebyformats = '-cpm'; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip={{textConstants.PRIMARY_KPI}} ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypebyformats,sortReverseForCostscpmFormats)" ng-click="sortTypebyformats = '-cpm'; sortReverse = sortReverseForCostscpmFormats; sortReverseForCostscpmFormats = !sortReverseForCostscpmFormats; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
 </span>
 <div class="each_col seventh_col" >
