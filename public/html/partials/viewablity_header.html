@@ -73,7 +73,7 @@
         <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.susp_activity_perc',sortType,sortReverse)"  ng-click="sortType = 'platformType_aggregation.susp_activity_perc'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.SUSPICIOUS}}<br> {{textConstants.ACTIVITY}} %</span>
     </div>
     <div class="each_col seventh_col"  ng-hide="adFormats.videoAds && videoMode">
-        <div class="dropdown kpi-dd-holder">
+        <div class="dropdown kpi-dd-holder "  >
             <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()" ></kpi-drop-down>
         </div>
     </div>

@@ -300,6 +300,10 @@ var angObj = angObj || {};
             $scope.kpiDropdownActive = true;
         });
 
+/*        $scope.getSortType = function(sort){
+            return sort.split(".")[1];
+        };*/
+
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
             $('.dropdown_ul_text').removeClass( "active" );
