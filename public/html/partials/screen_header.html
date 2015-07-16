@@ -36,7 +36,7 @@
 </div>
 
 <div class="each_col seventh_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('+cpc',sortTypeScreens,sortReverseForCostscpc)" ng-click="sortTypeScreens = '+cpc'; sortReverse = sortReverseForCostscpc; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypeScreens,sortReverseForCostscpc)" ng-click="sortTypeScreens = '-cpc'; sortReverse = sortReverseForCostscpc; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
 <div class="each_col seventh_col" >
     <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypeScreens,sortReverseForCostscpm)" ng-click="sortTypeScreens = '-cpm'; sortReverse = sortReverseForCostscpm; sortReverseForCostscpm = !sortReverseForCostscpm; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
@@ -44,7 +44,7 @@
 </span>
 
 <div class="each_col seventh_col" >
-    <div ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder" >
+    <div ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder " >
         <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
     </div>
 </div>
