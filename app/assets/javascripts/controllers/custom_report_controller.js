@@ -121,11 +121,16 @@ var angObj = angObj || {};
                 elem.closest(".each_measurable_col").find(".each_option").removeClass("active") ;
             }
         };
+        $scope.delete_level = function(event) {
+             var elem = $(event.target);
+             elem.closest(".breakdown_div").remove();
+         };
 
         $scope.select_dropdown_option = function(event) {
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
+            elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
 
         };
 
@@ -175,6 +180,7 @@ var angObj = angObj || {};
             var str =  selectedDimensionId + (filterTxt !== '' ?  (':' + filterTxt) : '');
             var params = reportID+"?dimension="+str+"&offset="+$scope.offset+"&limit="+$scope.limit;
             dataService.getCustomReportData($scope.campaign, params).then(function(result) {
+                console.log(result);
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
                 var reportData = result.data.data.report_data;
                 $scope.fetching = false;
@@ -193,7 +199,7 @@ var angObj = angObj || {};
             $scope.metricValues = [];
             $scope.reportMetaData=[];
             $scope.hideReportsTabs = false;
-            $(".report_builder_container").hide();
+            $(".img_table_container").hide();
             $(".custom_report_response_page").show();
             $("html, body").animate({ scrollTop: 0 });
             $scope.selectedMetricsList =  _customctrl.metricSelected();
