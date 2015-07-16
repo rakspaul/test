@@ -2403,14 +2403,22 @@ div.strategy_total_container {
     }*/
     .platform_aggregation_row{
       font-size:15px;
-      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 9px;
       height: 25px;
       margin-top: 1px;
       font-family: "Avenir-bold" ;
+      div.row_open {
+        background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 4px ;
+        margin-left: 0px;
+        padding-left: 15px;
+        cursor: default;
+      }
 
     }
     .collapseRow .platform_aggregation_row {
-      background-image : url("/assets/images/cdesk/common_side_arrow.png")
+      div.row_open {
+        background-image : url("/assets/images/cdesk/common_side_arrow.png")  ;
+        background-position: -2px 4px ;
+      }
     }
   }
   /*  #reports_platform_cost_block {
@@ -2779,6 +2787,12 @@ div.strategy_total_container {
         margin-left: 20px ;*/
         &.vid_show{
           width: 130px ;
+        }
+      }
+      div.sec_col.row_open {
+        width: 195px ;
+        &.vid_show{
+          width: 145px ;
         }
       }
       div.each_col.first_col {
@@ -3231,7 +3245,7 @@ div.strategy_total_container {
     margin-top: 34px;
     color: #666;
     font-size: 12px;
-    .squaredFour {
+/*    .squaredFour {
       width: 20px;
       margin: 0px 5px 0 0;
       position: relative;
@@ -3282,10 +3296,11 @@ div.strategy_total_container {
         filter: alpha(opacity=100);
         opacity: 1;
       }
-    }
+    }*/
     .squaredFourTxt {
       float: left;
       font-family: "Avenir" ;
+      margin-top: 2px ;
     }
   }
 }
@@ -4007,15 +4022,8 @@ only screen and (min-device-pixel-ratio: 2) {
     background: #f5f9fd ;
     padding: 60px 0;
     border-top: solid 2px #ccd9e3 ;
-    .report-response-load {
-      background: url("/assets/images/cdesk/table_loading.png") no-repeat center top;
-      height: 150px;
-      width: 100%;
-      padding-top: 108px;
-      text-align: center;
-      font-size: 20px;
-      color: #c6c9cd;
-      margin: 60px 0;
+    .img_table_container {
+
     }
     .img_table_txt {
       display: block;
@@ -4171,18 +4179,16 @@ only screen and (min-device-pixel-ratio: 2) {
     min-height: 200px ;
     border : solid 1px #ccc ;
     margin-bottom: 50px ;
+    padding: 30px ;
     background: #fff ;
-    position: relative;
-    overflow: hidden;
     .custom_report_scroll {
       min-height: 200px ;
       max-height: 500px;
       overflow: auto ;
     }
-    
     .each_col.more_dimension_arrow {
       display: none;
-      background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 4px 3px #fff;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat left 4px 3px #fff;
       height: 11px;
       width: 12px;
       min-width: 12px;
@@ -4193,7 +4199,6 @@ only screen and (min-device-pixel-ratio: 2) {
       top: 0;
       left: 0;
       z-index: 3;
-      margin-top : 3px ;
     }
 
     .second_dimension_row_holder {
@@ -4237,42 +4242,10 @@ only screen and (min-device-pixel-ratio: 2) {
         }
       }
     }
-    .vertical_scroll {
-      padding-top: 75px;
-      .heading_row {
-        position: absolute;
-        background-color: #fff;
-        top: 0;
-        left: 0px;
-        padding: 30px 0 0 50px ;
-        z-index: 4;
-      }
-    }
-    .horizontal_scroll {
-      background: #f5f5f5 ;
-      .each_row , .second_dimension_row {
-        position: static;
-      }
-      .tree_dimension_col {
-          position: absolute;
-          left: 0;
-          background-color: #fff;
-      }
-      .heading_row , .first_dimension_row_holder , .second_dimension_row_holder {
-        padding-left: 320px ;
-      }
-      .second_dimension_row_holder {
-        margin-left: 0px ;
-      }
-      .tree_string {
-        display: none !important;
-      }
+    .more_dimension_col {
+      padding-left: 0px ;
     }
     .reportData.active {
-      .more_dimension_arrow  {
-        background-image: url("/assets/images/cdesk/common_down_arrow.png") ;
-        margin-top: 0px ;
-      }
       .more_dimension_col {
         &:after {
           content: "";
@@ -4289,41 +4262,19 @@ only screen and (min-device-pixel-ratio: 2) {
     .reportData.hasBreakdown {
       .more_dimension_arrow {
         display: block;
-
       }
-      
-    }
-    .more_dimension_col {
+      .more_dimension_col {
         padding-left: 20px ;
       }
+    }
     .heading_row {
       font-family: "Avenir-bold" ;
       margin-bottom: 20px ;
       border-bottom: solid 1px #ccc ;
-      padding: 30px 30px 0 30px;
-    }
-    .first_dimension_row_holder {
-      padding: 20px 30px 0px 30px ;
-    }
-    .second_dimension_row_holder  {
-      margin-left: 35px ;
     }
     .each_row {
       display: table ;
       position: relative;
-    }
-    .fixed_dimension_col {
-      position: absolute ;
-      top: 0px ;
-      left: 0px ;
-      min-height: 200px;
-      width: 300px;
-      background: #fff;
-      height: 100%;
-      z-index: 2;
-      overflow: auto;
-      box-shadow: 0px 0px 4px #ccc;/*
-      background: url("/assets/images/cdesk/right_table_divider.png") repeat scroll right 1px ;*/
     }
     .each_col {
       display: table-cell;
@@ -4340,9 +4291,6 @@ only screen and (min-device-pixel-ratio: 2) {
       min-width: 295px;
       max-width: 295px;
       text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
   .filter_by_holder {
@@ -4438,17 +4386,21 @@ div.reports_tabs_content_container {
         -webkit-border-radius: 4px 4px 0 0;
         -moz-border-radius: 4px 4px 0 0;
         cursor: default;
-        z-index: 2 ;
       }
     }
   }
-  .sec_dimension_load_more {
-    text-align: center;
-    margin: 10px 0 20px;
-  }
 }
 
-
+.report-response-load {
+  background: url("/assets/images/cdesk/table_loading.png") no-repeat center top;
+  height: 150px;
+  width: 100%;
+  padding-top: 108px;
+  text-align: center;
+  font-size: 20px;
+  color: #c6c9cd;
+  margin: 60px 0;
+}
 
 
 
