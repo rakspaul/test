@@ -273,19 +273,26 @@
 				<div class="custom_report_response_table" id="delivery_table">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
 							<div class="each_col" ng-repeat="dm in metricKeyArr.delivery_metrics track by $index">
 								{{dm.value}}
 							</div>
 						</div>
-						<div class="each_row reportData" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index" ng-include="'customeReportTpl'"></div>
+						<div class="clearfix first_dimension_row_holder">
+							<div class="each_row reportData" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index" ng-include="'customeReportTpl'"><!-- add active when the next dimension is open --><!-- hasBreakdown when the next dimension is available -->
+							</div>
+						</div>
+						<div class="clearfix second_dimension_row_holder">
+							<div class="second_dimension_row" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index"  ng-include="'secDimCustomeReportTpl'" ></div>
+						</div>
+						
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="booked_table" style="display:none;">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
 							<div class="each_col" ng-repeat="bm in metricKeyArr.booked_metrics track by $index">
 								{{bm.value}}
 							</div>
@@ -297,7 +304,7 @@
 				<div class="custom_report_response_table" id="engagement_table" style="display:none;">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
 							<div class="each_col" ng-repeat="em in metricKeyArr.engagement_metrics track by $index">
 								{{em.value}}
 							</div>
@@ -309,7 +316,7 @@
 				<div class="custom_report_response_table" id="video_table" style="display:none;">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
 							<div class="each_col" ng-repeat="vm in metricKeyArr.video_metrics track by $index">
 								{{vm.value}}
 							</div>
@@ -351,8 +358,10 @@
 
 <script type="text/ng-template" id="customeReportTpl">
 
+	<div class="each_col more_dimension_arrow"></div>
+
 	<!---- Dimension report data ------------------------>
-	<div class="each_col" ng-if="customeReportData.value">{{customeReportData.value}}</div>
+	<div class="each_col tree_dimension_col more_dimension_col" ng-if="customeReportData.value">{{customeReportData.value}}</div>
 
 	<!----- Delivery report data ------------------------>
 	<div class="each_col" ng-if="customeReportData.impressions >=0">{{customeReportData.impressions |  nrFormat}}</div>
@@ -408,3 +417,77 @@
 	<div class="each_col" ng-if="customeReportData.video_stops >=0">{{customeReportData.video_stops}}</div>
 	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors}}</div>
 </script>
+
+
+
+
+
+
+<!-- Second Dimension -->
+
+<script type="text/ng-template" id="secDimCustomeReportTpl">
+
+
+
+	<div class="each_col tree_string"></div>
+
+
+
+	<!---- Dimension report data ------------------------>
+	<div class="each_col tree_dimension_col" ng-if="customeReportData.value">{{customeReportData.value}}</div>
+
+	<!----- Delivery report data ------------------------>
+	<div class="each_col" ng-if="customeReportData.impressions >=0">{{customeReportData.impressions |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.clicks >=0">{{customeReportData.clicks |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.ctr >=0">{{customeReportData.ctr | kpiFormatter:'ctr'}}</div>
+	<div class="each_col" ng-if="customeReportData.post_imp >=0">{{customeReportData.post_imp |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.post_click >=0">{{customeReportData.post_click |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.pccr >=0">{{customeReportData.pccr *100 | number:2 }}</div>
+	<div class="each_col" ng-if="customeReportData.actions >=0">{{customeReportData.actions |  nrFormat }}</div>
+	<div class="each_col" ng-if="customeReportData.pub_payout >=0">{{customeReportData.pub_payout |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.gross_ecpm >=0">{{customeReportData.gross_ecpm | number:2}}</div>
+	<div class="each_col" ng-if="customeReportData.gross_ecpc >=0">{{customeReportData.gross_ecpc | number:2}}</div>
+
+	<!----- booked report data ------------------------>
+	<div class="each_col" ng-if="customeReportData.ad_count >=0">{{customeReportData.ad_count}}</div>
+	<div class="each_col" ng-if="customeReportData.ad_start">{{customeReportData.ad_start}}</div>
+	<div class="each_col" ng-if="customeReportData.ad_end">{{customeReportData.ad_end}}</div>
+	<div class="each_col" ng-if="customeReportData.ad_days >=0">{{customeReportData.ad_days}}</div>
+	<div class="each_col" ng-if="customeReportData.booked_impressions >=0">{{customeReportData.booked_impressions |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.booked_actual_imps >=0">{{customeReportData.booked_actual_imps |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.diff_impressions >=0">{{customeReportData.diff_impressions |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.delivered_imps >=0">{{customeReportData.delivered_imps |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.booked_rev >=0">{{customeReportData.booked_rev |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.gross_rev >=0">{{customeReportData.gross_rev |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.diff_rev >=0">{{customeReportData.diff_rev |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.booked_ecpm >=0">{{customeReportData.booked_ecpm | number:2}}</div>
+	<div class="each_col" ng-if="customeReportData.actual_ecpm >=0">{{customeReportData.actual_ecpm | number:2}}</div>
+	<div class="each_col" ng-if="customeReportData.booked_diff_ecpm >=0">{{customeReportData.booked_diff_ecpm | number:2}}</div>
+
+	<!----- engagement report data ------------------------>
+
+	<div class="each_col" ng-if="customeReportData.inter >=0">{{customeReportData.inter}}</div>
+	<div class="each_col" ng-if="customeReportData.total_inter >=0">{{customeReportData.total_inter}}</div>
+	<div class="each_col" ng-if="customeReportData.avg_inter_time >=0">{{customeReportData.avg_inter_time}}</div>
+	<div class="each_col" ng-if="customeReportData.ir_perc >=0">{{customeReportData.ir_perc}}</div>
+	<div class="each_col" ng-if="customeReportData.total_ir_perc >=0">{{customeReportData.total_ir_perc}}</div>
+	<div class="each_col" ng-if="customeReportData.avg_view_time >=0">{{customeReportData.avg_view_time}}</div>
+	<div class="each_col" ng-if="customeReportData.ecpmi >=0">{{customeReportData.ecpmi | number:2}}</div>
+
+	<!----- video report data ------------------------>
+	<div class="each_col" ng-if="customeReportData.ad_starts >=0">{{customeReportData.ad_starts}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_25 >=0">{{customeReportData.completion_25}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_50 >=0">{{customeReportData.completion_50}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_75 >=0">{{customeReportData.completion_75}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_100 >=0">{{customeReportData.completion_100}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_rate >=0">{{customeReportData.completion_rate}}</div>
+	<div class="each_col" ng-if="customeReportData.play_rate >=0">{{customeReportData.play_rate}}</div>
+	<div class="each_col" ng-if="customeReportData.video_full_screen >=0">{{customeReportData.video_full_screen}}</div>
+	<div class="each_col" ng-if="customeReportData.mutes >=0">{{customeReportData.mutes}}</div>
+	<div class="each_col" ng-if="customeReportData.mute_rate >=0">{{customeReportData.mute_rate}}</div>
+	<div class="each_col" ng-if="customeReportData.pauses >=0">{{customeReportData.pauses}}</div>
+	<div class="each_col" ng-if="customeReportData.video_replays >=0">{{customeReportData.video_replays}}</div>
+	<div class="each_col" ng-if="customeReportData.video_stops >=0">{{customeReportData.video_stops}}</div>
+	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors}}</div>
+</script>
+
