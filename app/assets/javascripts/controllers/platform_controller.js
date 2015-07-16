@@ -243,37 +243,45 @@ var angObj = angObj || {};
         //Binding click event on tab and fetch strategy method.
         $(function () {
             $(".each_tab").click(function (event) {
-                var tab_id = $(this).attr("id").split("_tab")
+                var tab_id = $(this).attr("id").split("_tab");
                 $(".reports_tabs_holder").find(".active").removeClass("active");
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
-                var tabImps = ['platformType_aggregation.ias_imps_delivered', 'platformType_aggregation.impressions', 'platformType_aggregation.impressions', 'platformType_aggregation.impressions'];
-                if (jQuery.inArray($scope.sortType, tabImps)!='-1') {
-                    /*this needs to be redone just a bug fix for now*/
-                    /**/
-                    if($scope.kpiDropdownActive != true){
 
-                        if($scope.selected_tab === "viewability") {
-                            $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
-                            $scope.sortTypeSubSort = 'ias_imps_delivered';
-                        }
-                        else if($scope.selected_tab === "performance") {
-                            $scope.sortType = 'platformType_aggregation.impressions';
-                            $scope.sortTypeSubSort='impressions'
-                        }
-                        else if($scope.selected_tab === "cost") {
-                            $scope.sortType = 'platformType_aggregation.impressions';
-                            $scope.sortTypeSubSort='impressions';
-                        }
-                        else{
-                            $scope.sortType = 'platformType_aggregation.impressions';
-                            $scope.sortTypeSubSort='impressions';
-                        }
+                var tabImps = ['platformType_aggregation.cpc', 'platformType_aggregation.cpa', 'platformType_aggregation.cpm', 'platformType_aggregation.vtc', 'platformType_aggregation.action_rate', 'platformType_aggregation.ctr'];
+
+                if($scope.selected_tab === "viewability") {
+                    if (jQuery.inArray($scope.sortTypebyViewability, tabImps)!='-1') {
+                        $scope.sortTypebyViewability = $scope.sortTypebyViewability;
+                        $('.kpi-dd-holder').addClass( "active" );
+                    }
+                    else{
+                        $scope.sortTypebyViewability = $scope.sortTypebyViewability;
+                        $scope.removeKpiActive();
                     }
                 }
-                /**/
-                /**/
+                else if($scope.selected_tab === "performance") {
+                    if (jQuery.inArray($scope.sortTypebyPerformance, tabImps)!='-1') {
+                        $scope.sortTypebyPerformance = $scope.sortTypebyPerformance;
+                        $('.kpi-dd-holder').addClass( "active" );
+                    }
+                    else{
+                        $scope.sortTypebyPerformance = $scope.sortTypebyPerformance;
+                        $scope.removeKpiActive();
+                    }
+                }
+                else if($scope.selected_tab === "cost") {
+                    if (jQuery.inArray($scope.sortTypebyCost, tabImps)!='-1') {
+                        $scope.sortTypebyCost = $scope.sortTypebyCost;
+                        $('.kpi-dd-holder').addClass( "active" );
+                    }
+                    else{
+                        $scope.sortTypebyCost = $scope.sortTypebyCost;
+                        $scope.removeKpiActive();
+                    }
+                }
+
                 if($scope.selected_tab === "viewability") {
 
                     $(".view_mode_switch_container").show();
@@ -299,16 +307,21 @@ var angObj = angObj || {};
             $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-            $scope.sortType = "platformType_aggregation." + args;
-            $scope.sortTypeSubSort = args;
-            $scope.sortReverse = sortorder;
-            $scope.kpiDropdownActive = true;
+            if($scope.selected_tab === "viewability") {
+                $scope.sortTypebyViewability = "platformType_aggregation." + args;
+            }
+            else if($scope.selected_tab === "performance") {
+                $scope.sortTypebyPerformance = "platformType_aggregation." + args;
+            }
+            else if($scope.selected_tab === "cost") {
+
+                $scope.sortTypebyCost = "platformType_aggregation." + args;
+            }
         });
 
-/*        $scope.getSortType = function(sort){
-            return sort.split(".")[1];
-        };*/
+
 
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
