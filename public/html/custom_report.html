@@ -294,7 +294,7 @@
 							</div>
 						</div>
 						<!-- second dimension div-->
-						<div class="clearfix second_dimension_row_holder" style="display:none;">
+						<div class="clearfix second_dimension_row_holder" >
 							
 							<div class="second_dimension_row" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index"  ng-include="'secDimCustomeReportTpl'" ></div>
 							<!-- load more for second dimension -->
@@ -360,17 +360,7 @@
 
 </div>
 
-<script type="text/javascript">
 
- $('.date').datepicker({
-    orientation: "top left",
-    format: 'yyyy-mm-dd',
-    keyboardNavigation: false,
-    todayHighlight: true
-    // startDate: "-infinity"
-});
-
-</script>
 
 
 
@@ -509,3 +499,26 @@
 	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors}}</div>
 </script>
 
+<script type="text/javascript">
+
+	 $('.date').datepicker({
+	    orientation: "top left",
+	    format: 'yyyy-mm-dd',
+	    keyboardNavigation: false,
+	    todayHighlight: true
+	    // startDate: "-infinity"
+	});
+
+	var lastScrollLeft = 0;
+	$(".custom_report_scroll").scroll(function() {
+	    var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
+	    if (lastScrollLeft != documentScrollLeft) {
+	        lastScrollLeft = documentScrollLeft;
+	        $(".custom_report_scroll").removeClass("vertical_scroll").addClass("horizontal_scroll") ;
+	    } else {
+	        
+	        $(".custom_report_scroll").removeClass("horizontal_scroll").addClass("vertical_scroll") ;
+	    }
+	});
+
+</script>
