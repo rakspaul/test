@@ -275,9 +275,9 @@
 					<div class="each_tab" ng-click="show_respective_table('video')" id="video_tab"><span>Video</span></div>
 				</div>
 				<div class="custom_report_response_table" id="delivery_table">
-					<div class="fixed_dimension_col">
-					</div>
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
+					<!-- <div class="fixed_dimension_col">
+					</div> -->
+					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100"><!-- add vertical_scroll class when scrolled vertically -->
 						
 						<div class="each_row heading_row">
 							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
@@ -286,11 +286,11 @@
 							</div>
 						</div>
 						<div class="clearfix first_dimension_row_holder">
-							<div class="each_row reportData" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index" ng-include="'customeReportTpl'"><!-- add active when the next dimension is open --><!--  when the next dimension is available -->
+							<div class="each_row reportData" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index" ng-include="'customeReportTpl'"><!-- add active when the next dimension is open --><!-- add hasBreakdown when the next dimension is available -->
 							</div>
 						</div>
 						<!-- second dimension div-->
-						<div class="clearfix second_dimension_row_holder">
+						<div class="clearfix second_dimension_row_holder" style="display:none;">
 							
 							<div class="second_dimension_row" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index"  ng-include="'secDimCustomeReportTpl'" ></div>
 							<!-- load more for second dimension -->
