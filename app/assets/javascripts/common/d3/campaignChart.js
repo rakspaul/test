@@ -219,8 +219,6 @@
                                 .attr("clip-path", function(d) { return "url(#clip-" + d + ")"; })
                                 .datum(data)
                                 .attr("d", line)
-                                .on("mouseover", tooltipMouseOver)
-                                .on("mouseout", tooltipMouseOut);
 
                         } else { //if no threshold
 
@@ -233,9 +231,17 @@
                                     d: _config.lineFun(data),
                                     "class": "path" + index
                                 })
-                                .on("mouseover", tooltipMouseOver)
-                                .on("mouseout", tooltipMouseOut);
                         }
+
+                        svg.append("rect")
+                          .attr("class", "overlay")
+                          .attr("width",  _config.width)
+                          .attr("height",  _config.height)
+                          //.on("mouseover", function() { focus.style("display", null); })
+                          //.on("mouseout", function() { focus.style("display", "none"); })
+                          .on("mousemove", mousemove)
+                          .on("mouseout", tooltipMouseOut);
+
                         //resize domain of yaxis
                         function updateDomain(maxData, percentage){
                           var adjustment = (maxData * percentage) /100;
@@ -300,10 +306,79 @@
 
                           //tooltipMouseout
                           function tooltipMouseOut() {
-                              var svg = d3.select(_config.rawSvg[0]);
-                              svg.selectAll(".tooltip_line").data([]).exit().remove();
-                              svg.selectAll(".tooltip_box").data([]).exit().remove();
+                             var svg = d3.select(_config.rawSvg[0]);
+                             svg.selectAll(".tooltip_line")//.data([]).exit()
+                             .remove();
+                             svg.selectAll(".tooltip_box")//.data([]).exit()
+                             .remove();
                           }
+
+                          var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+                          function mousemove() {
+
+                             var x0 = _config.xScale.invert(d3.mouse(this)[0]),
+                                 i = bisectDate(data, x0, 1),
+                                 d0 = data[i - 1],
+                                 d1 = data[i],
+                                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+                                 var svg = d3.select(_config.rawSvg[0]),
+                                     mousePos = d3.mouse(this),
+                                     formatY = parseFloat(d.values).toFixed(3),
+                                     formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+
+                                svg.selectAll(".tooltip_line")
+                                    .remove();
+                                svg.selectAll(".tooltip_box")
+                                    .remove();
+
+                                 //calculating the plotting position
+                                 var WIDTH= _config.width,
+                                     HEIGHT= _config.height,
+                                     w = 160,
+                                     h = 40,
+                                     x =  _config.xScale(_config.xScale.invert(d3.mouse(this)[0])),
+                                    // y = _config.yScale(_config.yScale.invert(d3.mouse(this)[1]));
+                                     y = _config.yScale(d.values);
+
+                                 //if overflow in width
+                                 if((x + w) > WIDTH) {
+                                    x = x - 20 - w;
+                                 }
+
+                                 //if overflow in height
+                                 if((y + h) > HEIGHT) {
+                                    y = HEIGHT - h;
+                                 }
+
+                                 var rect = svg
+                                     .append("rect")
+                                     .attr("class","tooltip_box")
+                                     .attr("x", function(d) { return x + 20 })
+                                     .attr("y", function(d) { return y - 5 })
+                                     .attr("width", w)
+                                     .attr("height", h)
+
+                                 var text = svg
+                                     .append("text")
+                                     .classed("tooltip_line", true)
+                                     .attr("x", function(d) { return x + 30 })
+                                     .attr("y", function(d) { return y + 10 })
+
+                                   text.append('tspan').text(formatX);
+                                   text.append('tspan')
+                                       .attr("x", function(d) { return x + 30 })
+                                       .attr("dy", 16)
+                                       .style("font-weight","bold")
+                                       .text(kpiType+": ");
+                                   text.append('tspan')
+                                       .attr("dx", 0)
+                                       .text(formatY);
+
+                                       // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+                                       // focus.select("text").text(formatCurrency(d.close));
+                           }
 
 
                         /* if(index == 0) {
