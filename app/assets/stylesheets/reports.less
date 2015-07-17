@@ -4186,19 +4186,31 @@ only screen and (min-device-pixel-ratio: 2) {
     min-height: 200px ;
     border : solid 1px #ccc ;
     margin-bottom: 50px ;
-    padding: 30px ;
     background: #fff ;
     position: relative;
-    padding-left: 300px;
+    overflow: hidden;
     .custom_report_scroll {
       min-height: 200px ;
       max-height: 500px;
       overflow: auto ;
-      padding-left: 20px ;
+    }
+    .vertical_scroll {
+      padding-top: 75px;
+      .heading_row {
+        position: absolute;
+        background-color: #fff;
+        top: 0;
+        left: 0px;
+        padding: 30px 0 0 50px ;
+        z-index: 4;
+      }
+    }
+    .horizontal_scroll {
+
     }
     .each_col.more_dimension_arrow {
       display: none;
-      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat left 4px 3px #fff;
+      background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 4px 3px #fff;
       height: 11px;
       width: 12px;
       min-width: 12px;
@@ -4209,6 +4221,7 @@ only screen and (min-device-pixel-ratio: 2) {
       top: 0;
       left: 0;
       z-index: 3;
+      margin-top : 3px ;
     }
 
     .second_dimension_row_holder {
@@ -4252,10 +4265,12 @@ only screen and (min-device-pixel-ratio: 2) {
         }
       }
     }
-    .more_dimension_col {
-      padding-left: 0px ;
-    }
+    
     .reportData.active {
+      .more_dimension_arrow  {
+        background-image: url("/assets/images/cdesk/common_down_arrow.png") ;
+        margin-top: 0px ;
+      }
       .more_dimension_col {
         &:after {
           content: "";
@@ -4272,15 +4287,24 @@ only screen and (min-device-pixel-ratio: 2) {
     .reportData.hasBreakdown {
       .more_dimension_arrow {
         display: block;
+
       }
-      .more_dimension_col {
+      
+    }
+    .more_dimension_col {
         padding-left: 20px ;
       }
-    }
     .heading_row {
       font-family: "Avenir-bold" ;
       margin-bottom: 20px ;
       border-bottom: solid 1px #ccc ;
+      padding: 30px 30px 0 30px;
+    }
+    .first_dimension_row_holder {
+      padding: 20px 30px 0px 30px ;
+    }
+    .second_dimension_row_holder  {
+      margin-left: 35px ;
     }
     .each_row {
       display: table ;
@@ -4409,6 +4433,7 @@ div.reports_tabs_content_container {
         -webkit-border-radius: 4px 4px 0 0;
         -moz-border-radius: 4px 4px 0 0;
         cursor: default;
+        z-index: 2 ;
       }
     }
   }
