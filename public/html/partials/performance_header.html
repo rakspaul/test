@@ -42,13 +42,13 @@
 <span  ng-show="adFormats.videoAds == false">
 <div class="each_col sixth_col" ng-class="{vid_none_hdr:adFormats.videoAds == false}">
 
-    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpa',sortTypebyPerformance,sortReverseForCostscpa)" ng-click="sortTypebyPerformanceSubSort='cpa';  sortTypebyPerformance = '-platformType_aggregation.cpa'; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" >{{textConstants.CPA}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpa',sortTypebyPerformance,sortReverseForCostscpa)" ng-click="sortTypebyPerformanceSubSort='-cpa';  sortTypebyPerformance = '-platformType_aggregation.cpa'; sortReverse = sortReverseForCostscpa; sortReverseForCostscpa = !sortReverseForCostscpa;removeKpiActive();" >{{textConstants.CPA}}</span>
 </div>
 <div class="each_col seventh_col" ng-class="{vid_none_hdr:adFormats.videoAds == false}">
-    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpc',sortTypebyPerformance,sortReverseForCostscpc)" ng-click="sortTypebyPerformanceSubSort='cpc';  sortTypebyPerformance = '-platformType_aggregation.cpc'; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" >{{textConstants.CPC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpc',sortTypebyPerformance,sortReverseForCostscpc)" ng-click="sortTypebyPerformanceSubSort='-cpc';  sortTypebyPerformance = '-platformType_aggregation.cpc';sortReverse = sortReverseForCostscpc; sortReverseForCostscpc = !sortReverseForCostscpc;removeKpiActive();" >{{textConstants.CPC}}</span>
 </div>
 <div class="each_col seventh_col" ng-class="{vid_none_hdr:adFormats.videoAds == false}">
-    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpm',sortTypebyPerformance,sortReverseForCostscpm)" ng-click=" sortTypebyPerformanceSubSort='cpm';  sortTypebyPerformance = '-platformType_aggregation.cpm'; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" >{{textConstants.CPM}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.cpm',sortTypebyPerformance,sortReverseForCostscpm)" ng-click=" sortTypebyPerformanceSubSort='-cpm';  sortTypebyPerformance = '-platformType_aggregation.cpm';sortReverse = sortReverseForCostscpm; sortReverseForCostscpm = !sortReverseForCostscpm;removeKpiActive();" >{{textConstants.CPM}}</span>
 </div>
 </span>
 <div class="each_col seventh_col">
