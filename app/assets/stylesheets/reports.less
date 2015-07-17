@@ -4022,8 +4022,15 @@ only screen and (min-device-pixel-ratio: 2) {
     background: #f5f9fd ;
     padding: 60px 0;
     border-top: solid 2px #ccd9e3 ;
-    .img_table_container {
-
+    .report-response-load {
+      background: url("/assets/images/cdesk/table_loading.png") no-repeat center top;
+      height: 150px;
+      width: 100%;
+      padding-top: 108px;
+      text-align: center;
+      font-size: 20px;
+      color: #c6c9cd;
+      margin: 60px 0;
     }
     .img_table_txt {
       display: block;
@@ -4181,10 +4188,13 @@ only screen and (min-device-pixel-ratio: 2) {
     margin-bottom: 50px ;
     padding: 30px ;
     background: #fff ;
+    position: relative;
+    padding-left: 300px;
     .custom_report_scroll {
       min-height: 200px ;
       max-height: 500px;
       overflow: auto ;
+      padding-left: 20px ;
     }
     .each_col.more_dimension_arrow {
       display: none;
@@ -4275,6 +4285,19 @@ only screen and (min-device-pixel-ratio: 2) {
     .each_row {
       display: table ;
       position: relative;
+    }
+    .fixed_dimension_col {
+      position: absolute ;
+      top: 0px ;
+      left: 0px ;
+      min-height: 200px;
+      width: 300px;
+      background: #fff;
+      height: 100%;
+      z-index: 2;
+      overflow: auto;
+      box-shadow: 0px 0px 4px #ccc;/*
+      background: url("/assets/images/cdesk/right_table_divider.png") repeat scroll right 1px ;*/
     }
     .each_col {
       display: table-cell;
@@ -4389,18 +4412,13 @@ div.reports_tabs_content_container {
       }
     }
   }
+  .sec_dimension_load_more {
+    text-align: center;
+    margin: 10px 0 20px;
+  }
 }
 
-.report-response-load {
-  background: url("/assets/images/cdesk/table_loading.png") no-repeat center top;
-  height: 150px;
-  width: 100%;
-  padding-top: 108px;
-  text-align: center;
-  font-size: 20px;
-  color: #c6c9cd;
-  margin: 60px 0;
-}
+
 
 
 
