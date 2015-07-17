@@ -3790,7 +3790,7 @@ only screen and (min-device-pixel-ratio: 2) {
       .metrics_btns {
         .title_row_separator {
           margin-top: 0px ;
-          .metrics_edit_container , .reset_txt {
+          .metrics_edit_container , .secondary_txt {
             margin-top: 10px ;
           }
         }
@@ -3820,7 +3820,7 @@ only screen and (min-device-pixel-ratio: 2) {
           label:after {
             top: 2px;
             left: 2px;
-            border-width: 6px;
+            border-width: 2px;
             border-color: #007ac9;
           }
         }
@@ -3853,6 +3853,13 @@ only screen and (min-device-pixel-ratio: 2) {
             top: 2px;
             left: 2px;
           }
+        }
+      }
+    }
+    .select_all_measures_holder {
+      .custom_report_col_title {
+        .squaredFourTxt {
+          font-family: "Avenir" ;
         }
       }
     }
@@ -3967,13 +3974,22 @@ only screen and (min-device-pixel-ratio: 2) {
       width: 20px;
       background: url("/assets/images/cdesk/add_circle.png") no-repeat left center ;
     }
+    .total_metrics_container  {
+      .popup_heading {
+        font-size: 26px ;
+        font-family: "Avenir-bold" ;
+      }
+    }
     .about_popup {
       width: 1000px;
       height: 80%;
       overflow: auto;
       text-align: left;
-      .common_primary_btn ,.common_secondary_btn {
-        margin : 40px 20px 40px 0 ;
+      .common_primary_btn {
+        margin : 40px 15px 20px 0 ;
+      }
+      .secondary_txt {
+        margin : 48px 30px 0 0 ;
       }
     }
 }
@@ -4002,7 +4018,7 @@ only screen and (min-device-pixel-ratio: 2) {
   background: #dee6eb ;
   color: #a2acba ;
 }
-.reset_txt {
+.secondary_txt {
   color:  #939ead ;
   cursor: pointer;
   margin-right: 24px ;
