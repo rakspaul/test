@@ -37,12 +37,12 @@
             var _selectedKpi = value;
             $(".drop_list li").css("color", "#000");
             $("[value="+_selectedKpi+"]").css("color", "#0978c9");
+            $(".drop_list li[value="+_selectedKpi+"]").addClass('active');
             var tags = $event.currentTarget.className.match("^active");
             var classesPresent = $event.currentTarget.className;
             $('.kpi-dd-holder').addClass( "active" );
             if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
-                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
-                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                $('.kpi_arrow_sort').removeClass( "is_active_point_up is_active_point_down" );
                 $event.currentTarget.className += "  is_active_point_down";
                 sortOrder = true;
             }
@@ -78,6 +78,21 @@
 
         };
         $('.kpi_indicator_ul').click(function (e) {
+            var activeTabId = $(".reports_tabs_holder").find(".active").attr('id');
+            if (activeTabId) {
+                if ($(e.target).hasClass("active") === true) {
+                    $('#reports_' + activeTabId + '_block .kpi-dd-holder').addClass("active");
+                } else {
+                    $('#reports_' + activeTabId + '_block .kpi-dd-holder').removeClass("active");
+                }
+            } else {
+                if ($(e.target).hasClass("active") === true) {
+                    $('.kpi-dd-holder').addClass("active");
+                } else {
+                    $('.kpi-dd-holder').removeClass("active");
+                }
+            }
+
             var _selectedKpi =  $(e.target).attr("value") ;
             if(_selectedKpi) {
                 $scope.setSelectedKpi(_selectedKpi);
