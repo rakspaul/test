@@ -189,15 +189,16 @@
                                         </div>
                                     </div>
                                   </div>
-                                   
+
                                     <!-- Video viewability widget commented for now -->
-                                    <div class="item" ng-if="videoViewData.adFormats.videoAds">
+                                    <div class="item" ng-show="adFormats.videoAds">
                                         <div class="col-xs-3">
                                             <div ng-click="setGraphData(campaign,'videoViewability')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
                                                 <div class="graph_heading">
                                                     {{ textConstants.VIDEO_VIEWABILITY }}
                                                 </div>
-                                                <div class="clearfix each_section_graph" >
+                                                <div ng-show="loadingVideoViewabilityFlag" class="load-more">&nbsp;</div>
+                                                <div class="clearfix each_section_graph" ng-if="!loadingVideoViewabilityFlag">
                                                     <div class="sub_headings">
                                                         <div>{{ textConstants.VIEWABLE_IMPS }}</div>
                                                         <div>{{videoViewData.totalImps | nrFormat}}</div>

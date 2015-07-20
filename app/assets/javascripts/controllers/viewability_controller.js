@@ -13,9 +13,8 @@ var angObj = angObj || {};
         $scope.api_return_code = 200;
         var redirectWidget = $scope.selectedCampaign.redirectWidget;
         if(redirectWidget) {
-            $scope.videoMode = redirectWidget === "videoViewability" ||  false;
+            $scope.videoMode = redirectWidget === "videoViewability";
         }
-
         $scope.sortType     = 'view_metrics.ias_imps_delivered'; // set the default sort type
         $scope.sortReverse  = true; // set the default sort order
 
@@ -72,6 +71,7 @@ var angObj = angObj || {};
                     if(result.data != '' ){ // if data not empty
                         strategiesList = result.data.data;
                         $scope.viewData = strategiesList;
+                        $scope.videoMode = true;
                         $scope.strategyBusy = false;
                         $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                         if($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
