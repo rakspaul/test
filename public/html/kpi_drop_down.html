@@ -27,10 +27,13 @@
         </div>
     </ul>
     <div  ng-if="whichCaller.changedrpval == 'yes'" class="direction_arrows" >
-        <div ng-repeat="kpidir in kpiData.newkpiDropDownAlt track by $index" ><div ng-click="myData.doClick($event, kpidir)"  class="kpi_arrow_sort point_down" value="{{kpidir}}">&nbsp;</div></div>
+        <div ng-repeat="kpidir in kpiData.newkpiDropDownAlt track by $index" ><div ng-click="myData.doClick($event, kpidir)"  class="kpi_arrow_sort point_up" value="{{kpidir}}">&nbsp;</div></div>
     </div>
+
+
+
     <div  ng-if="whichCaller.changedrpval != 'yes'" class="direction_arrows" >
-        <div ng-repeat="kpidir2 in kpiData.kpiDropDown track by $index" ><div ng-click="myData.doClick($event, kpidir2)"   class="kpi_arrow_sort point_down" value="{{kpidir2}}">&nbsp;</div></div>
+         <div ng-repeat="kpidir2 in kpiData.kpiDropDown track by $index" ><div ng-click="myData.doClick($event, kpidir2)" ng-class="kpidir2 == 'cpc' ? 'point_up' : kpidir2 == 'cpm' ? 'point_up' : kpidir2 == 'cpa' ? 'point_up': 'non_cost point_down' "   class="kpi_arrow_sort" value="{{kpidir2}}">&nbsp;</div></div>
     </div>
 </div>
 

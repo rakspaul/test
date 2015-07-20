@@ -30,32 +30,60 @@
             $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
+       /* $scope.dropdownSortDirection = function(direction,reverse){
+
+        }*/
+
         $scope.myData = {};
         $scope.myData.doClick = function($event,value) {
             var targetTags = $('.direction_arrows div.kpi_arrow_sort');
-            var sortOrder = true;
+            var sortOrder = false;
             var _selectedKpi = value;
             $(".drop_list li").css("color", "#000");
+            $(".drop_list li").removeClass('active');
             $("[value="+_selectedKpi+"]").css("color", "#0978c9");
+            $(".drop_list li[value="+_selectedKpi+"]").addClass('active');
             var tags = $event.currentTarget.className.match("^active");
             var classesPresent = $event.currentTarget.className;
             $('.kpi-dd-holder').addClass( "active" );
-            if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
-                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
-                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
-                $event.currentTarget.className += "  is_active_point_down";
-                sortOrder = true;
+            /* the redundan code here will be refactored and broken out into seperate function*/
+            /* just a defect fix for now*/
+            if(classesPresent.indexOf('non_cost') > -1 === true ){
+                if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
+                    $('.kpi_arrow_sort').removeClass( "is_active_point_up is_active_point_down" );
+                    $event.currentTarget.className += "  is_active_point_down";
+                    sortOrder = true;
+                }
+                else if (classesPresent.indexOf('is_active_point_down') > -1 === true ){
+                    $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                    $event.currentTarget.className += "  is_active_point_up";
+                    sortOrder = false;
+                }
+                else if (classesPresent.indexOf('is_active_point_up') > -1  === true  ){
+                    $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
+                    $event.currentTarget.className += "  is_active_point_down";
+                    sortOrder = true;
+                }
             }
-            else if (classesPresent.indexOf('is_active_point_down') > -1 === true ){
-                $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
-                $event.currentTarget.className += "  is_active_point_up";
-                sortOrder = false;
+
+            else{
+                if(classesPresent.indexOf('is_active_point_up') > -1 === false && classesPresent.indexOf('is_active_point_down') > -1  === false  ){
+                    $('.kpi_arrow_sort').removeClass( "is_active_point_up is_active_point_down" );
+                    $event.currentTarget.className += "  is_active_point_up";
+                    sortOrder = false;
+                }
+                else if (classesPresent.indexOf('is_active_point_down') > -1 === true ){
+                    $('.kpi_arrow_sort').removeClass( "is_active_point_down" );
+                    $event.currentTarget.className += "  is_active_point_up";
+                    sortOrder = false;
+                }
+                else if (classesPresent.indexOf('is_active_point_up') > -1  === true  ){
+                    $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
+                    $event.currentTarget.className += "  is_active_point_down";
+                    sortOrder = true;
+                }
             }
-            else if (classesPresent.indexOf('is_active_point_up') > -1  === true  ){
-                $('.kpi_arrow_sort').removeClass( "is_active_point_up" );
-                $event.currentTarget.className += "  is_active_point_down";
-                sortOrder = true;
-            }
+
             if(!classesPresent.indexOf('active') > -1){
                 targetTags.removeClass( "active" );
                 targetTags.hide();
@@ -78,6 +106,21 @@
 
         };
         $('.kpi_indicator_ul').click(function (e) {
+            var activeTabId = $(".reports_tabs_holder").find(".active").attr('id');
+            if (activeTabId) {
+                if ($(e.target).hasClass("active") === true) {
+                    $('#reports_' + activeTabId + '_block .kpi-dd-holder').addClass("active");
+                } else {
+                    $('#reports_' + activeTabId + '_block .kpi-dd-holder').removeClass("active");
+                }
+            } else {
+                if ($(e.target).hasClass("active") === true) {
+                    $('.kpi-dd-holder').addClass("active");
+                } else {
+                    $('.kpi-dd-holder').removeClass("active");
+                }
+            }
+
             var _selectedKpi =  $(e.target).attr("value") ;
             if(_selectedKpi) {
                 $scope.setSelectedKpi(_selectedKpi);

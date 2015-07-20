@@ -311,13 +311,16 @@ var angObj = angObj || {};
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             if($scope.selected_tab === "viewability") {
                 $scope.sortTypebyViewability = "platformType_aggregation." + args;
+                $scope.sortReverse = sortorder;
             }
             else if($scope.selected_tab === "performance") {
                 $scope.sortTypebyPerformance = "platformType_aggregation." + args;
+                $scope.sortReverse = sortorder;
             }
             else if($scope.selected_tab === "cost") {
 
                 $scope.sortTypebyCost = "platformType_aggregation." + args;
+                $scope.sortReverse = sortorder;
             }
         });
 
