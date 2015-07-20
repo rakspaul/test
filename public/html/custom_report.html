@@ -130,7 +130,7 @@
 		           		<div class="metrics_btns">
 		           			<div class="clearfix title_row_separator">
 		           				<div class="pull-left metrics_edit_container">
-				           			<a class="blue_txt" href="javascript:void(0);" data-toggle="modal" data-target=".myModal1">
+				           			<a class="blue_txt" href="javascript:void(0);" data-toggle="modal" data-target=".metric_popup">
 				           				<span class="dashed_txt">Default</span>
 				           			</a>
 
@@ -142,31 +142,34 @@
 						    	<!-- <div class="pull-right common_secondary_blue_btn" >
 						    		Schedule
 						    	</div> -->
-						    	<div class="pull-right reset_txt" ng-click="reset_metric_options()" >
+						    	<div class="pull-right secondary_txt" ng-click="reset_metric_options()" >
 			           				Reset
 			           			</div>
 		           			</div>
 		           			
 		           		</div>
 
-		           		<div class="myModal1 modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		           		<div class="metric_popup modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						    <div class="about_popup">
 						        <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span>
 						        <div class="col-md-12 each_section_custom_report" >
 								           		
-						       		<div class="" >
+						       		<div class="total_metrics_container" >
 						       			<input style="display:none" type="text" placeHolder="Search" class="search_input" />
-						       			<!-- <div class="col-md-12 select_all_measures_holder">
-						       				<div class="clearfix custom_report_col_title">
-						   						<div class="pull-right external_chkbox">
-						                          <div class="squaredFour">
-						                            <input type="checkbox" class="squaredFourChkbox" id="selectAll_chkbox" ng-click="select_unselect_all_measures($event)" />
-						                            <label for="selectAll_chkbox"></label>
-						                          </div>
-						                          <span class="squaredFourTxt">Select All</span>
-						                        </div>
-						   					</div>
-						       			</div> -->
+						       			<div class="clearfix">
+						       				<div class="pull-left popup_heading">Metrics</div>
+							       			<div class="pull-right select_all_measures_holder">
+							       				<div class="clearfix custom_report_col_title">
+							   						<div class="pull-right external_chkbox">
+							                          <div class="squaredFour">
+							                            <input type="checkbox" class="squaredFourChkbox" id="selectAll_chkbox"  />
+							                            <label for="selectAll_chkbox"></label>
+							                          </div>
+							                          <span class="squaredFourTxt">Select All</span>
+							                        </div>
+							   					</div>
+							       			</div>
+						       			</div>
 						       			<div class="col-md-12">
 						       				<div  class="col-md-3 each_measurable_col">
 						       					<div class="custom_report_col_title">
@@ -233,9 +236,9 @@
 						       					</div>
 						       				</div>
 						       			</div>
-						       			<div class="col-md-12">
-						       				<div class="common_primary_btn">Save</div>
-						       				<div class="common_secondary_btn">Cancel</div>
+						       			<div class="clearfix">
+						       				<div class="pull-right common_primary_btn">Save</div>
+						       				<div class="pull-right secondary_txt"  data-dismiss="modal" aria-hidden="true">Cancel</div>
 						       			</div>
 						       		</div>
 						       	</div>
