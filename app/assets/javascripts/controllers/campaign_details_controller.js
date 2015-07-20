@@ -14,6 +14,7 @@
 
         $scope.actionItems = activityList.data;
         $scope.loadingViewabilityFlag = true;
+        $scope.loadingVideoViewabilityFlag = true;
         $scope.loadingCostBreakdownFlag = true;
         $scope.loadingFormatFlag = true;
         $scope.loadingInventoryFlag = true;
@@ -104,6 +105,7 @@
                     kpi : $scope.campaign.kpi_type.toLowerCase()
                 };
 
+                console.log($scope.adFormats);
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
                 campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
@@ -141,6 +143,7 @@
                 $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
                 $scope.getVideoViewabilityGraphData($scope.campaign);
+
             } else {
                 if (result.status ==='error') {
                     $scope.api_return_code = result.data.status;
@@ -450,6 +453,7 @@
                             _videoViewabilityMapperFunc(vvData, videoMapper[i], videoViewabilityDataToPlot);
                         }
 
+                        $scope.loadingVideoViewabilityFlag = false;
                         var baseConfiguration = {
                             data: {
                                 json: videoViewabilityDataToPlot,
@@ -927,6 +931,8 @@
                 $('.carousel a.right').show();
                 $('.carousel a.left').hide();
             });
+
+
 
         });
         
