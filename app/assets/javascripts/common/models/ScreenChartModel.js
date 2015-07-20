@@ -86,28 +86,29 @@
 
             var d = (screenWidgetFormat.toLowerCase() === 'platforms') ? sortedData : dataToDisplayOnWidget;
             totalMetrics = calculateTotalMetrics(d, selectedMetricKey);
+            if(totalMetrics >0) {
+                _.each(dataToDisplayOnWidget, function (data, idx) {
+                    var kpiData;
+                    if (selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') {
+                        kpiData = ((data[selectedMetricKey] * 100) / totalMetrics).toFixed(0);
+                    } else if (selectedMetricKey === 'ctr' || selectedMetricKey === 'action_rate') {
+                        kpiData = parseFloat((data[selectedMetricKey] * 100).toFixed(2));
+                    } else if (selectedMetricKey === 'vtc') {
+                        kpiData = parseFloat(data.video_metrics.vtc_rate.toFixed(2));
+                    } else {
+                        kpiData = parseFloat(data[selectedMetricKey].toFixed(2));
+                    }
 
-            _.each(dataToDisplayOnWidget, function(data, idx) {
-                var kpiData;
-                if(selectedMetricKey === 'gross_rev' || selectedMetricKey === 'impressions') {
-                    kpiData = ((data[selectedMetricKey] *100)/totalMetrics).toFixed(0);
-                } else if(selectedMetricKey === 'ctr' ||  selectedMetricKey === 'action_rate')  {
-                    kpiData = parseFloat((data[selectedMetricKey]*100).toFixed(2));
-                } else if (selectedMetricKey === 'vtc') {
-                    kpiData = parseFloat(data.video_metrics.vtc_rate.toFixed(2));
-                } else {
-                    kpiData = parseFloat(data[selectedMetricKey].toFixed(2));
-                }
-
-                var type = data.dimension || data.platform;
-                var cls ='';
-                if(screenWidgetFormat.toLowerCase() === 'screens') {
-                    cls = screenTypeMap[data.dimension.toLowerCase()];
-                } else if(screenWidgetFormat.toLowerCase() === 'formats') {
-                    cls = data.dimension.toLowerCase() + "_graph"
-                }
-                chartDataScreen.push({className : cls, 'icon_url' : data.icon_url, 'type' : type, 'value' : kpiData});
-            });
+                    var type = data.dimension || data.platform;
+                    var cls = '';
+                    if (screenWidgetFormat.toLowerCase() === 'screens') {
+                        cls = screenTypeMap[data.dimension.toLowerCase()];
+                    } else if (screenWidgetFormat.toLowerCase() === 'formats') {
+                        cls = data.dimension.toLowerCase() + "_graph"
+                    }
+                    chartDataScreen.push({className: cls, 'icon_url': data.icon_url, 'type': type, 'value': kpiData});
+                });
+            }
 
             var screenBarChartConfig = {
                 widgetName : screenWidgetFormat,

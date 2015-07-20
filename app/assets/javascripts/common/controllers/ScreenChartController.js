@@ -20,10 +20,9 @@
             $scope.refresh();
         });
 
-
         $scope.refresh = function(){
             $scope.cleanScreenWidget();
-            screenChartModel.getScreenWidgetData()['responseData']={};
+            screenChartModel.getScreenWidgetData()['chartData']={};
             $scope.getScreenAndFormatData();
         };
 
@@ -38,7 +37,6 @@
                 $(".dashboard_screens_graph_holder").removeClass("dashboard_screens_platform") ;
             }
             $scope.cleanScreenWidget();
-            $(".DashBoradScreenWidget").hide();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData']={};
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
@@ -56,12 +54,12 @@
         };
 
         $scope.updateScreenChartData = function() {
-            $scope.cleanScreenWidget();
             $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
         };
 
         $scope.cleanScreenWidget = function(){
-            d3.select(".chart").remove()
+            d3.select(".chart").remove();
+            $(".DashBoradScreenWidget").hide();
         };
 
         $scope.getScreenAndFormatData = function() {
