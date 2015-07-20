@@ -84,6 +84,31 @@
         $scope.details.getSortDirection= function(){
             return ($scope.details.sortDirection == "desc")? "false" : "true";
         };
+        $scope.setWidgetLoadedStatus = function(){
+            $scope.loadingScreenFlag = false;
+            $scope.screenTotal = 0;
+            //$scope.loadingPlatformFlag = false;
+            //$scope.platformTotal = 0;
+            $scope.loadingCostBreakdownFlag = false;
+            $scope.details.totalCostBreakdown = 0;
+            $scope.loadingInventoryFlag = false;
+            $scope.loadingViewabilityFlag = false;
+            $scope.details.getCostViewability = undefined;
+            $scope.getCostViewabilityFlag = 1;
+            $scope.details.actionChart = false;
+        };
+        $scope.setEmptyWidget = function(){
+            var chartConfig = {
+                    data : '',
+                    kpiType : $scope.selectedCampaign.kpi.toUpperCase() || 'NA',
+                    showLabel : true
+                }
+            $scope.platformBarChartConfig = chartConfig;
+            $scope.inventoryBarChartConfig =  chartConfig;
+            $scope.screenBarChartConfig = chartConfig
+            $scope.adSizenBarChartConfig = chartConfig;
+            $scope.formatBarChartConfig = chartConfig;
+        };
         $scope.details.callStrategiesSorting = function(fieldName,count){
             if(count > 1){
                 $scope.details.sortStrategies(fieldName);
@@ -145,22 +170,36 @@
                 $scope.getVideoViewabilityGraphData($scope.campaign);
 
             } else {
-                if (result.status ==='error') {
-                    $scope.api_return_code = result.data.status;
-                } else {
-                    $scope.api_return_code = result.status;
+                if(result.status == 204 && result.data == "" ){
+                     //if data not found
+                    $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+                    $scope.campaign = _.findWhere(campaignSelectModel, {id: $scope.selectedCampaign.id});
+                    $scope.campaign.campaignTitle = $scope.campaign.name;
+                   $scope.details = {
+                        campaign: null,
+                        details: null,
+                        actionChart :false
+                    };
+                    $scope.loadingPlatformFlag = false;
+                    $scope.loadingAdSizeFlag = false;
+                    $scope.loadingFormatFlag = false;
+                    $scope.activityLogFlag = true;
+                    $scope.setWidgetLoadedStatus();
+                    $scope.setEmptyWidget();
+                    $scope.campaign.getSelectedCampaign =campaignSelectModel.getSelectedCampaign;
+                    $scope.campaign.durationLeft= campaignSelectModel.durationLeft;
+                    $scope.campaign.daysSinceEnded = campaignSelectModel.daysSinceEnded;
+
+                }else{
+                    if (result.status ==='error') {
+                        $scope.api_return_code = result.data.status;
+                    } else {
+                        $scope.api_return_code = result.status;
+                    }
+                    $scope.setWidgetLoadedStatus();
+
                 }
-                $scope.loadingScreenFlag = false;
-                $scope.screenTotal = 0;
-                //$scope.loadingPlatformFlag = false;
-                //$scope.platformTotal = 0;
-                $scope.loadingCostBreakdownFlag = false;
-                $scope.details.totalCostBreakdown = 0;
-                $scope.loadingInventoryFlag = false;
-                $scope.loadingViewabilityFlag = false;
-                $scope.details.getCostViewability = undefined;
-                $scope.getCostViewabilityFlag = 1;
-                $scope.details.actionChart = false;
+                
             }
         }, function(result) {
             console.log('call failed');
