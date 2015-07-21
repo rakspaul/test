@@ -50,14 +50,14 @@
                 <div ng-if="strategyFound && !strategyBusy" class="inventory_strategy_chart clearfix">
 
                     <div class="pull-left inventory_chart">
-                          <span ng-switch="inventoryChart">
-                                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>
-                                <span ng-switch-default>
+                          <span >
+                                <span ng-if="(loadingFlag == true)" class="no-chart load-more">&nbsp;</span>
+                                <span ng-if="(loadingFlag == false && !inventoryChart)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>
+                                <span >
                                     <div class="highcharts" ng-if="inventoryChart">
                                         <highchart config="inventoryChart" chartTitle=""></highchart>
                                     </div>
-                                    <div class="highcharts" ng-if="!inventoryChart">
+                                    <div class="highcharts" ng-if="(loadingFlag == false && !inventoryChart) ">
                                         <span class="no-chart" ng-bind-html="getMessageForDataNotAvailable('inventory')"><!-- (PARTIAL CHART)--></span>
                                     </div>
                                 </span>
