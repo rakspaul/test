@@ -48,12 +48,14 @@
                 screenChartModel.setScreenWidgetMetric(obj);
                 return;
             }
+            $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetMetric(obj);
             analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
             $scope.updateScreenChartData();
         };
 
         $scope.updateScreenChartData = function() {
+            $(".DashBoradScreenWidget").show();
             $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
         };
 
