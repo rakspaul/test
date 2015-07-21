@@ -2403,14 +2403,22 @@ div.strategy_total_container {
     }*/
     .platform_aggregation_row{
       font-size:15px;
-      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 9px;
       height: 25px;
       margin-top: 1px;
       font-family: "Avenir-bold" ;
+      div.row_open {
+        background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 4px ;
+        margin-left: 0px;
+        padding-left: 15px;
+        cursor: default;
+      }
 
     }
     .collapseRow .platform_aggregation_row {
-      background-image : url("/assets/images/cdesk/common_side_arrow.png")
+      div.row_open {
+        background-image : url("/assets/images/cdesk/common_side_arrow.png")  ;
+        background-position: -2px 4px ;
+      }
     }
   }
   /*  #reports_platform_cost_block {
@@ -2780,6 +2788,9 @@ div.strategy_total_container {
         &.vid_show{
           width: 130px ;
         }
+      }
+      div.sec_col.row_open {
+        width: 195px ;
       }
       div.each_col.first_col {
         float: none;

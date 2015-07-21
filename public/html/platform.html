@@ -175,8 +175,8 @@
 </div>
 
 <script type="text/ng-template" id="performanceTpl">
-    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col sec_col" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
+    <div class="platform_aggregation_row" >
+        <div class="each_col sec_col row_open" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}" ng-click="togglePlatformRow($event)" >
             {{performanceData.platform_type}}
         </div>
         <div class="each_col third_col">
@@ -315,8 +315,8 @@
 
 
 <script type="text/ng-template" id="videoViewabilityTpl">
-    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col platform_name_col">
+    <div class="platform_aggregation_row" >
+        <div class="each_col platform_name_col row_open" ng-click="togglePlatformRow($event)">
             {{ViewabilityData.platform_type}}
         </div>
 
@@ -363,8 +363,8 @@
 </script>
 
 <script type="text/ng-template" id="costTpl">
-    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_cost_col first_col">{{costData.platform_type}}</div>
+    <div class="platform_aggregation_row" >
+        <div class="each_cost_col first_col row_open" ng-click="togglePlatformRow($event)">{{costData.platform_type}}</div>
         <div class="each_cost_col second_col">{{costData.platformType_aggregation.impressions | nrFormat}}</div>
         <div class="each_cost_col third_col">{{costData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
         <div class="each_cost_col fourth_col">{{costData.platformType_aggregation.inventory_cost | currency:undefined:0}}</div>
@@ -396,8 +396,8 @@
 </script>
 
 <script type="text/ng-template" id="viewabilityTpl">
-    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col platform_name_col">
+    <div class="platform_aggregation_row" >
+        <div class="each_col platform_name_col row_open" ng-click="togglePlatformRow($event)">
             {{ViewabilityData.platform_type}}
         </div>
 
