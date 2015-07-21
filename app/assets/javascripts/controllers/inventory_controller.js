@@ -184,6 +184,7 @@ var angObj = angObj || {};
         //Function called to draw the Strategy chart
         $scope.getStrategyChart = function (param) {
             $scope.strategyBusy = true;
+            $scope.loadingFlag = true;
             var url = inventoryService.getStrategyDomainData(param);
             var canceller =  requestCanceller.initCanceller(constants.INVENTORY_STRATEGY_CANCELLER);
             var errorHandler =  function(result) {
@@ -202,6 +203,7 @@ var angObj = angObj || {};
             };
             $scope.api_return_code = 200;
             return dataService.fetchCancelable(url, canceller, function(result){
+                $scope.loadingFlag = false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.strategyTable.topPerformance = [], $scope.strategyTable.bottomPerformance = [];
 
