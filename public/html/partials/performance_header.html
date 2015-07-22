@@ -31,7 +31,7 @@
     </div>
 </div>
 <div class="each_col forth_col">
-    <span class="icon_text_holder"  ng-class="sortClassFunction('ctr',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'ctr'; sortReverse = !sortReverse;removeKpiActive();" >
+    <span class="icon_text_holder"  ng-class="sortClassFunction('platformType_aggregation.ctr',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'platformType_aggregation.ctr'; sortTypeSubSort ='ctr'; sortReverse = !sortReverse;removeKpiActive();" >
         <span class="default-kpi-header-icon ng-scope icon_text_holder"  tooltip={{textConstants.PRIMARY_KPI}} ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() == 'ctr'"></span>
         {{textConstants.CTR}}
     </span>

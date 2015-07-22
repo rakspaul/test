@@ -312,15 +312,17 @@ var angObj = angObj || {};
             if($scope.selected_tab === "viewability") {
                 $scope.sortTypebyViewability = "platformType_aggregation." + args;
                 $scope.sortReverse = sortorder;
+                $scope.sortTypeSubSort = args;
             }
             else if($scope.selected_tab === "performance") {
                 $scope.sortTypebyPerformance = "platformType_aggregation." + args;
                 $scope.sortReverse = sortorder;
+                $scope.sortTypeSubSort = args;
             }
             else if($scope.selected_tab === "cost") {
-
                 $scope.sortTypebyCost = "platformType_aggregation." + args;
                 $scope.sortReverse = sortorder;
+                $scope.sortTypeSubSort = args;
             }
         });
 
@@ -329,8 +331,7 @@ var angObj = angObj || {};
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
             $('.dropdown_ul_text').removeClass( "active" );
-
-            /* $('#kpi_dropdown').removeClass( "active" );*/
+            $('.drop_list li').removeClass( "active" );
             $(".drop_list li").css("color", "#57606d");
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
             $('.direction_arrows div.kpi_arrow_sort').removeClass("active");

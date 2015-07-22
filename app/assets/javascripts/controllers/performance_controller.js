@@ -319,7 +319,10 @@ var angObj = angObj || {};
         $scope.removeKpiActive = function(){
             $('.kpi-dd-holder').removeClass( "active" );
             $('.dropdown_ul_text').removeClass( "active" );
-            $(".drop_list li").css("color", "#000");
+            $('.drop_list li').removeClass( "active" );
+            $(".drop_list li").css("color", "#57606d");
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+            $('.direction_arrows div.kpi_arrow_sort').removeClass("active");
         };
         $scope.specialSort = function(passedSortype){
             $scope.sortType = passedSortype;
