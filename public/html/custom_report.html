@@ -65,11 +65,11 @@
 		                                        <span class="arrow_img"></span>
 		                                    </span>
 		                                    <ul class="dropdown-menu" >
-		                                    	<li ng-click="select_dropdown_option($event , 'yesterday')">Yesterday</li>
-		                                    	<li ng-click="select_dropdown_option($event , '' )">Week to date</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Last 7 days</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Last week</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Month to date</li>
+		                                    	<li ng-click="select_dropdown_option($event , 'yesterday'   )">Yesterday</li>
+		                                    	<li ng-click="select_dropdown_option($event , 'weekToDate'  )">Week to date</li>
+		                                        <li ng-click="select_dropdown_option($event , 'last7Days'   )">Last 7 days</li>
+		                                        <li ng-click="select_dropdown_option($event , 'lastWeek'    )">Last week</li>
+		                                        <li ng-click="select_dropdown_option($event , 'monthToDate' )">Month to date</li>
 		                                        <li ng-click="select_dropdown_option($event , '' )">Last month</li>
 		                                        <li ng-click="select_dropdown_option($event , '' )">Quarter to date</li>
 		                                        <li ng-click="select_dropdown_option($event , '' )">Last quarter</li>
@@ -84,11 +84,11 @@
 									<div class="col-md-12 input-daterange input-group date pull-left" id="timeframe">
 									    <div class="col-md-12 dateWrapper">
 									    	<div class="col-md-6">
-									        	<input type="text" id="startDateInput" class="input-sm form-control" data-provide="timeframe" name="startTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+									        	<input type="text" id="startDateInput" class="input-sm form-control" data-provide="timeframe" data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
 									        	<i class="glyphicon glyphicon-th pull-right"></i>
 									        </div>
 									        <div class="col-md-6">
-									        	<input type="text" id="endDateInput" class="input-sm form-control" data-provide="timeframe" name="endTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+									        	<input type="text" id="endDateInput" class="input-sm form-control" data-provide="timeframe"  data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
 									        	<i class="glyphicon glyphicon-th pull-right"></i>
 									        </div>
 									    </div>
@@ -476,9 +476,7 @@
 	 $('.date').datepicker({
 	    orientation: "top left",
 	    format: 'yyyy-mm-dd',
-	    keyboardNavigation: false,
-	    todayHighlight: true
-	    // startDate: "-infinity"
+	    keyboardNavigation: false
 	});
 
 	var lastScrollLeft = 0;
