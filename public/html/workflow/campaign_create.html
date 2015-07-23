@@ -1,0 +1,159 @@
+<div id="campaignCreate">
+    <div class="firstWrapper">
+        <div class="masterContainer">
+            <!-- Header Starts -->
+            <div class="clearfix page_header_container">
+                <div class="pull-left campaign_name_holder">
+                    <span class="campaign_name">{{ textConstants.CREATE_CAMPAIGN }}</span>
+                    <div class="pull-left stepCompLabel">
+                        <p class="selected">1. Settings</p>
+                        <div class="statusLabel">
+                            <span>Goal: </span>
+                            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+                            <span>Brand</span>
+                        </div>
+                        <div class="statusLabel">
+                            <span>Goal: </span>
+                            <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+                            <span>Performance</span>
+                        </div>
+                        <div class="statusLabel">
+                            <span>Flight: </span>
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            <span id="calenderRange" class="errorTxt">07/01/14-08/01/14</span>
+                        </div>
+                        <div class="statusLabel">
+                            <span>Budget: </span>
+                            <span class="glyphicon">{{ textConstants.DOLLAR }}</span>
+                            <span id="budgetAmount" class="errorTxt">250.000.25</span>
+                        </div>
+
+                        <p class="">2. Pricing Model</p>
+                        <div class="statusLabel">
+                            <span>Not Set</span>
+                        </div>
+                        <p class="">3. Contacts (optional)</p>
+                        <div class="statusLabel">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Header Ends -->
+
+            <!-- Settings Start -->
+            <div class="settingWrap">
+                <div class="collapseHeader">
+                    <span>Choose your campaign <b>{{ textConstants.SETTINGS }}</b></span>
+
+                    <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;">Save</a>
+                    <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
+                </div>
+
+                <div class="isCollapsed">
+                    <form class="form-horizontal ng-scope ng-pristine ng-valid" id="saveCreateCampaign" role="form" name="saveCreateCampaign" action="#" data-toggle="validator" onsubmit="return false">
+                        <!--==== Row 1 ====-->
+                        <div class="col-md-12">
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-top: 5px;">Who is the campaign for?</label>
+                            <div class="form-group col-sm-3">
+                                <label for="accountDDL" class="col-sm-12 control-label greyTxt">{{ textConstants.ACCOUNT }}</label>
+                                <select class="form-control" id="accountDDL" name="clientId" required>
+                                    <option value="" disabled selected>Select Account</option>
+                                    <option ng-repeat="data in accountsData" clientid='{{data.id}}'>{{data.name}}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <label for="advertiserDDL" class="col-sm-12 control-label greyTxt">{{ textConstants.ADVERTISERS }}</label>
+                                <select class="form-control" id="advertiserDDL" name="advertiserId" required>
+                                    <option value="" disabled selected>Select Advertiser</option>
+                                    <option ng-repeat="data in advertisers" advertiserid='{{data.id}}'>{{data.name}}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <label for="brandDDL" class="col-sm-12 control-label greyTxt">{{ textConstants.BRAND }}</label>
+                                <select class="form-control" id="brandDDL" name="brandId">
+                                    <option value="" disabled selected>Select Brand</option>
+                                    <option ng-repeat="data in brands" brandid='{{data.id}}'>{{data.name}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 spacingInput"><!-- SPACING --></div>
+
+                        <!--==== Row 2 ====-->
+                        <div class="col-md-12">
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is the primary goal?</label>
+                            <div class="form-group col-sm-3">
+                                <label for="goalDDL" class="col-sm-12 control-label greyTxt">Select One Goal</label>
+                                <select class="form-control" id="goalDDL" name="goal">
+                                    <option ng-repeat="goal in goals">{{goal}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 spacingInput"><!-- SPACING --></div>
+
+                        <!--==== Row 3 ====-->
+                        <div class="col-md-12" style="height: 96px;">
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">When should the campaign run?</label>
+                            <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+                                <div class="col-md-12 dateWrapper">
+                                    <div class="col-md-2">
+                                        <label class="col-sm-12 control-label greyTxt">{{ textConstants.START_DATE }}</label>
+                                        <input type="text" id="startDateInput" class="input-sm form-control" data-provide="datepicker" name="startTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="col-sm-12 control-label greyTxt">{{ textConstants.END_DATE }}</label>
+                                        <input type="text" id="endDateInput" class="input-sm form-control" disabled="disabled" data-provide="datepicker" name="endTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+                                    </div>
+                                    <label class="col-sm-12 control-label greyTxt errorLabel errorDate">Date range is in the past.</label>
+                                </div>
+                            <span class="col-md-12 input-group-addon">
+                                <div class="col-md-2"><i class="glyphicon glyphicon-th pull-right"></i></div>
+                                <div class="col-md-2"><i class="glyphicon glyphicon-th pull-right" style="margin-right: 8px;"></i></div>
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 spacingInput"><!-- SPACING --></div>
+
+                        <!--==== Row 4 ====-->
+                        <div class="col-md-12">
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">How much do you want to spend?</label>
+                            <div class="form-group col-sm-3">
+                                <label for="budgetInput" class="col-sm-12 control-label greyTxt">Enter Whole Dollar Amount</label>
+                                <span class="currency">{{ textConstants.DOLLAR }}</span>
+                                <input type="text" only-num class="form-control col-md-12" id="inputBudget" name="budget"/>
+                            </div>
+                            <label class="col-sm-12 control-label greyTxt errorLabel errorBudget">You must enter whole dollar amounts.</label>
+                        </div>
+
+                        <div class="col-md-12 spacingInput"><!-- SPACING --></div>
+
+                        <!--==== Row 5 ====-->
+                        <div class="col-md-12">
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is your Campaign name?</label>
+                            <div class="form-group col-sm-9">
+                                <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" name="nameCamp" maxlength="256" placeholder="Suggested Campaign name will populate as values are entered" required/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- Settings End -->
+
+            <!-- Message Pop Starts -->
+            <div class="popMess succesfulPopMess">
+                <span>Campaign has been successfully saved.</span>
+            </div>
+            <div class="popMess errorPopMess">
+                <span>Please correct the {{errorAmount}} error(s) to continue.</span>
+            </div>
+            <!-- Message Pop End -->
+        </div>
+    </div>
