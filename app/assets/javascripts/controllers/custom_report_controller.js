@@ -126,12 +126,24 @@ var angObj = angObj || {};
              elem.closest(".breakdown_div").remove();
          };
 
-        $scope.select_dropdown_option = function(event) {
+        $scope.select_dropdown_option = function(event , arg ) {
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
             elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
-
+            var startDate,endDate;
+            // switch(arg) {
+            //     case 'yesterday':
+            //         $('#startDateInput').datepicker('update', '2015, 07, 20');
+            //         $('#startDateInput').datepicker('update', '2015, 07, 28');
+                
+            //         break;
+            //     case 'week':
+                    
+            //         break;
+            //     default:
+            //         //default code block
+            // }
         };
 
         $scope.back_to_custom_reports = function() {

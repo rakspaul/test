@@ -65,16 +65,16 @@
 		                                        <span class="arrow_img"></span>
 		                                    </span>
 		                                    <ul class="dropdown-menu" >
-		                                    	<li ng-click="select_dropdown_option($event)">Yesterday</li>
-		                                    	<li ng-click="select_dropdown_option($event)">Week to date</li>
-		                                        <li ng-click="select_dropdown_option($event)">Last 7 days</li>
-		                                        <li ng-click="select_dropdown_option($event)">Last week</li>
-		                                        <li ng-click="select_dropdown_option($event)">Month to date</li>
-		                                        <li ng-click="select_dropdown_option($event)">Last month</li>
-		                                        <li ng-click="select_dropdown_option($event)">Quarter to date</li>
-		                                        <li ng-click="select_dropdown_option($event)">Last quarter</li>
-		                                        <li ng-click="select_dropdown_option($event)">Year to date</li>
-		                                        <li ng-click="select_dropdown_option($event)">Custom dates</li>
+		                                    	<li ng-click="select_dropdown_option($event , 'yesterday')">Yesterday</li>
+		                                    	<li ng-click="select_dropdown_option($event , '' )">Week to date</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Last 7 days</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Last week</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Month to date</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Last month</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Quarter to date</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Last quarter</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Year to date</li>
+		                                        <li ng-click="select_dropdown_option($event , '' )">Custom dates</li>
 		                                    </ul>
 			                              </div>
 			                          </div>
@@ -345,8 +345,9 @@
     orientation: "top left",
     format: 'yyyy-mm-dd',
     keyboardNavigation: false,
-    todayHighlight: true
+    // todayHighlight: true
     // startDate: "-infinity"
+   
 });
 
 </script>
