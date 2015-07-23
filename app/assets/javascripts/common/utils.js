@@ -413,65 +413,6 @@ angObj.directive('truncateTextWithHover', function () {
     };
   });
 
-  angObj.directive("addmore", function($compile) {
-      return function(scope, element, attrs) {
-        element.bind("click", function() {
-          scope.count++;
-          angular.element(document.getElementById('breakdown_row')).append($compile(
-            '<div class="clearfix title_row_separator breakdown_div">' +
-              '<div class="pull-left custom_report_filter">' + 
-                  '<div class="common_dropdown">' +
-                        '<div class="dropdown" >' + 
-                                '<span class="dropdown_ul_text" data-toggle="dropdown">' + 
-                                    '<span class="dd_txt" data-template_id = "{{showDefaultDimension.template_id}}" id="{{showDefaultDimension.key}}">Choose Breakdown</span>' +
-                                    '<span class="arrow_img"></span>' +
-                                '</span>' +
-                                '<ul class="dropdown-menu" >' +
-                                  '<li ng-click="select_dropdown_option($event)">Choose Breakdown</li>' + 
-                                  '<li ng-repeat="dimension in customeDimensionData[0].dimensions" id="{{dimension.key}}" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>' +
-                                '</ul>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-      
-                '<div class="pull-left filter_input_txtbox" style="display:none;" >' +
-                  '<input type="text" name="filter" class ="reportFilter" autofocus placeholder="Contains keywords ..." />' +
-                '</div>' +
-                '<div class="pull-left delete_row" ng-click="delete_level($event);"></div>' +
-              '</div>')(scope));
-        });
-      };
-  });
-
-    angObj.directive("addfilter", function($compile) {
-        return function(scope, element, attrs) {
-          element.bind("click", function() {
-            scope.count++;
-            angular.element(document.getElementById('filter_breakdown_row')).append($compile(
-              '<div class="clearfix custom_filter_breakdown breakdown_div">' +
-                      '<div class="pull-left custom_filter_dropdown">' +
-                        '<div class="common_dropdown">' +
-                                    '<div class="dropdown" >' +
-                                        '<span class="dropdown_ul_text" data-toggle="dropdown">' +
-                                            '<span class="dd_txt">Choose filter</span>' +
-                                            '<span class="arrow_img"></span>' +
-                                        '</span>' +
-                                        '<ul class="dropdown-menu" >' +
-                                          '<div class="dropdown_autoselect_box" ><input type="text" placeHolder="Search" ></div>' +
-                                          '<li ng-repeat="dimension in customeDimensionData[0].dimensions" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>' +
-                                        '</ul>' +
-                                    '</div>' +
-                                '</div>' +
-                      '</div>' +
-                      '<div class="pull-left filter_input_txtbox" style="display:none;" >' +
-                        '<input type="text" name="filter" class ="reportFilter" autofocus placeholder="Contains keywords ..." />' +
-                      '</div>' +
-                      '<div class="pull-left delete_row" ng-click="delete_level($event);"></div>' +
-                    '</div>')(scope));
-          });
-        };
-    });
-
   angObj.directive('targetingIconWithHover', function () {
     return{
       restrict: 'AE',

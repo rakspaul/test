@@ -87,6 +87,40 @@
         };
     }]);
 
+    angObj.directive("addfilter", function($http, $compile) {
+        return {
+            restrict:'EAC',
+            link: function($scope, element, attrs) {
+                console.log(attrs);
+                console.log(element);
+                var template;
+                element.bind('click', function() {
+                    $http.get('/assets/html/partials/add_report_filter.html').then(function (tmpl) {
+                        template = $compile(tmpl.data)($scope);
+                        angular.element(document.getElementById('filter_breakdown_row')).append(template);
+                    });
+                });
+            }
+        };
+    });
+
+    angObj.directive("addmore", function($http, $compile) {
+        return {
+            restrict:'EAC',
+            link: function($scope, element, attrs) {
+                console.log(attrs);
+                console.log(element);
+                var template;
+                element.bind('click', function() {
+                    $http.get('/assets/html/partials/add_report_dimension.html').then(function (tmpl) {
+                        template = $compile(tmpl.data)($scope);
+                        angular.element(document.getElementById('breakdown_row')).append(template);
+                    });
+                });
+            }
+        };
+    });
+
     angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
         return {
             controller: function($scope, $cookieStore, $location){

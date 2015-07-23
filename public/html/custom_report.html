@@ -13,8 +13,8 @@
 		           			Report
 		           		</div>
 		           		<div>
-		           			
-		           			<div class="clearfix title_row_separator breakdown_div">
+
+		           			<div class="clearfix title_row_separator breakdown_div dimension_block">
 			           			<div class="pull-left custom_report_filter">
 			           				 <div class="common_dropdown">
 			                              <div class="dropdown" >
@@ -29,14 +29,14 @@
 			                              </div>
 			                          </div>
 			           			</div>
-			           			
+
 								<div class="pull-left filter_input_txtbox" style="display:none;" >
 									<input type="text" name="filter" class ="reportFilter" autofocus placeholder="Contains keywords ..." />
 								</div>
 		           			</div>
 
 		           			<div id="breakdown_row" ></div>
-		           			
+
 		           			<div class="row">
 		           				<div class="add_breakdown_line">
 		           				</div>
@@ -46,7 +46,7 @@
 		           					<div class="pull-left">
 		           						Add Breakdown
 		           					</div>
-		           					 
+
 		           				</div>
 			           		</div>
 		           		</div>
@@ -131,8 +131,8 @@
 		           		<div class="metrics_btns">
 		           			<div class="clearfix title_row_separator">
 		           				<div class="pull-left metrics_edit_container">
-				           			<a class="blue_txt" href="javascript:void(0);" data-toggle="modal" data-target=".metric_popup">
-				           				<span class="dashed_txt">Default</span>
+				           			<a class="blue_txt" href="#" data-toggle="modal" data-target=".metric_popup">
+				           				<span class="dashed_txt">{{metrics_text}}</span>
 				           			</a>
 
 			           			</div>
@@ -163,7 +163,7 @@
 							       				<div class="clearfix custom_report_col_title">
 							   						<div class="pull-right external_chkbox">
 							                          <div class="squaredFour">
-							                            <input type="checkbox" class="squaredFourChkbox" id="selectAll_chkbox"  />
+							                            <input ng-click="select_unselect_all($event);" type="checkbox" class="squaredFourChkbox" id="selectAll_chkbox"  />
 							                            <label for="selectAll_chkbox"></label>
 							                          </div>
 							                          <span class="squaredFourTxt">Select All</span>
@@ -176,7 +176,7 @@
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
 						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="delivery_chkbox" ng-click="select_unselect_all($event)" />
+						                                <input type="checkbox" class="squaredFourChkbox" id="delivery_chkbox" ng-click="select_unselect_metrics($event)" />
 						                                <label for="delivery_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Delivery</span>
@@ -192,7 +192,7 @@
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
 						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="booked_chkbox" ng-click="select_unselect_all($event)" />
+						                                <input type="checkbox" class="squaredFourChkbox" id="booked_chkbox" ng-click="select_unselect_metrics($event)" />
 						                                <label for="booked_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Booked</span>
@@ -208,7 +208,7 @@
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
 						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="engagement_chkbox" ng-click="select_unselect_all($event)"  />
+						                                <input type="checkbox" class="squaredFourChkbox" id="engagement_chkbox" ng-click="select_unselect_metrics($event)"  />
 						                                <label for="engagement_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Engagement</span>
@@ -224,7 +224,7 @@
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
 						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="video_chkbox" ng-click="select_unselect_all($event)" />
+						                                <input type="checkbox" class="squaredFourChkbox" id="video_chkbox" ng-click="select_unselect_metrics($event)" />
 						                                <label for="video_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Video</span>
@@ -238,7 +238,7 @@
 						       				</div>
 						       			</div>
 						       			<div class="clearfix">
-						       				<div class="pull-right common_primary_btn">Save</div>
+						       				<div class="pull-right common_primary_btn" ng-click="metricSelected($event)">Save</div>
 						       				<div class="pull-right secondary_txt"  data-dismiss="modal" aria-hidden="true">Cancel</div>
 						       			</div>
 						       		</div>
@@ -279,94 +279,140 @@
 					<div class="each_tab" ng-click="show_respective_table('video')" id="video_tab"><span>Video</span></div>
 				</div>
 				<div class="custom_report_response_table" id="delivery_table">
-					<!-- <div class="fixed_dimension_col">
-					</div> -->
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100"><!-- add vertical_scroll class when scrolled vertically -->
-						
+
 						<div class="each_row heading_row">
-							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{reportTitle}}</div>
 							<div class="each_col" ng-repeat="dm in metricKeyArr.delivery_metrics track by $index">
 								{{dm.value}}
 							</div>
 						</div>
 						<div class="clearfix first_dimension_row_holder">
-							<div class="each_row reportData" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index" ng-include="'customeReportTpl'"><!-- add active when the next dimension is open --><!-- add hasBreakdown when the next dimension is available -->
+							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div class="each_row reportData {{showhasBreakdown}}"  data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics track by $index" ><!-- add active when the next dimension is open --><!-- add hasBreakdown when the next dimension is available -->
+								<div ng-include="'customeReportTpl'"></div>
+								<!-- second dimension div-->
+								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div>
+										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].delivery_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
+										<!-- load more for second dimension -->
+										<div class="sec_dimension_load_more" ng-click="fetchMoreSecondDimensionData($event)" style="display:none;" >
+											<a href="javascript:void(0);" >Load more</a>
+										</div>
+									</div>
+									<!-- end of load more for second dimension -->
+								</div>
+								<!-- end of second dimension div-->
 							</div>
 						</div>
-						<!-- second dimension div-->
-						<div class="clearfix second_dimension_row_holder" >
-							
-							<div class="second_dimension_row" ng-repeat="customeReportData in metricValues.delivery_metrics track by $index"  ng-include="'secDimCustomeReportTpl'" ></div>
-							<!-- load more for second dimension -->
-							<div class="sec_dimension_load_more"  style="display:none;">
-								<a href="javascript:void(0);" >Load more</a>
-							</div>
-							<!-- end of load more for second dimension -->
-						</div>
-						<!-- end of second dimension div-->
+
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="booked_table" style="display:none;">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{reportTitle}}</div>
 							<div class="each_col" ng-repeat="bm in metricKeyArr.booked_metrics track by $index">
 								{{bm.value}}
 							</div>
 						</div>
-						<div class="each_row reportData" ng-repeat="customeReportData in metricValues.booked_metrics track by $index" ng-include="'customeReportTpl'"></div>
+						<div class="clearfix first_dimension_row_holder">
+							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.booked_metrics track by $index">
+								<div ng-include="'customeReportTpl'"></div>
+								<!-- second dimension div-->
+								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div>
+										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].booked_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
+										<!-- load more for second dimension -->
+										<div class="sec_dimension_load_more"  style="display:none;">
+											<a href="javascript:void(0);" >Load more</a>
+										</div>
+									</div>
+									<!-- end of load more for second dimension -->
+								</div>
+								<!-- end of second dimension div-->
+							</div>
+						</div>
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="engagement_table" style="display:none;">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{reportTitle}}</div>
 							<div class="each_col" ng-repeat="em in metricKeyArr.engagement_metrics track by $index">
 								{{em.value}}
 							</div>
 						</div>
-						<div class="each_row reportData" ng-repeat="customeReportData in metricValues.engagement_metrics track by $index" ng-include="'customeReportTpl'"></div>
+						<div class="clearfix first_dimension_row_holder">
+							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics track by $index">
+								<div ng-include="'customeReportTpl'"></div>
+								<!-- second dimension div-->
+								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div>
+										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].engagement_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
+										<!-- load more for second dimension -->
+										<div class="sec_dimension_load_more"  style="display:none;">
+											<a href="javascript:void(0);" >Load more</a>
+										</div>
+									</div>
+									<!-- end of load more for second dimension -->
+								</div>
+								<!-- end of second dimension div-->
+							</div>
+						</div>
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="video_table" style="display:none;">
 					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
 						<div class="each_row heading_row">
-							<div class="each_col tree_dimension_col">{{selectedDimension}}</div>
+							<div class="each_col tree_dimension_col">{{reportTitle}}</div>
 							<div class="each_col" ng-repeat="vm in metricKeyArr.video_metrics track by $index">
 								{{vm.value}}
 							</div>
 						</div>
-						<div class="each_row reportData" ng-repeat="customeReportData in metricValues.video_metrics track by $index" ng-include="'customeReportTpl'"></div>
+						<div class="clearfix first_dimension_row_holder">
+							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.video_metrics track by $index">
+								<div ng-include="'customeReportTpl'"></div>
+								<!-- second dimension div-->
+								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div>
+										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].video_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
+										<!-- load more for second dimension -->
+										<div class="sec_dimension_load_more"  style="display:none;">
+											<a href="javascript:void(0);" >Load more</a>
+										</div>
+									</div>
+									<!-- end of load more for second dimension -->
+								</div>
+								<!-- end of second dimension div-->
+							</div>
+						</div>
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 			</div>
 
 		</div>
-
-
-
-
-
-
 	</div>
-
-
-
 	<!-- End of Custom Report Response Page -->
-
 </div>
-
 
 <script type="text/ng-template" id="customeReportTpl">
 
-	<div class="each_col more_dimension_arrow"></div>
+	<div class="each_col {{customeReportData.level === 'first_dimension'?  'more_dimension_arrow' : 'tree_string'}}"></div>
 
 	<!---- Dimension report data ------------------------>
-	<div class="each_col tree_dimension_col more_dimension_col" ng-if="customeReportData.value">{{customeReportData.value}}</div>
+	<div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension'?  'more_dimension_col' : ' '}}" ng-click="showDataForClikedDimension($event, customeReportData.value); $event.stopPropagation();" ng-if="customeReportData.value">{{customeReportData.value}}</div>
 
 	<!----- Delivery report data ------------------------>
 	<div class="each_col" ng-if="customeReportData.impressions >=0">{{customeReportData.impressions |  nrFormat}}</div>
@@ -407,93 +453,22 @@
 	<div class="each_col" ng-if="customeReportData.ecpmi >=0">{{customeReportData.ecpmi | number:2}}</div>
 
 	<!----- video report data ------------------------>
-	<div class="each_col" ng-if="customeReportData.ad_starts >=0">{{customeReportData.ad_starts}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_25 >=0">{{customeReportData.completion_25}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_50 >=0">{{customeReportData.completion_50}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_75 >=0">{{customeReportData.completion_75}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_100 >=0">{{customeReportData.completion_100}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_rate >=0">{{customeReportData.completion_rate}}</div>
-	<div class="each_col" ng-if="customeReportData.play_rate >=0">{{customeReportData.play_rate}}</div>
+	<div class="each_col" ng-if="customeReportData.ad_starts >=0">{{customeReportData.ad_starts |  nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_25 >=0">{{customeReportData.completion_25 | nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_50 >=0">{{customeReportData.completion_50 | nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_75 >=0">{{customeReportData.completion_75 | nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_100 >=0">{{customeReportData.completion_100 | nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.completion_rate >=0">{{customeReportData.completion_rate | number:2}}</div>
+	<div class="each_col" ng-if="customeReportData.play_rate >=0">{{customeReportData.play_rate | number:2}}</div>
 	<div class="each_col" ng-if="customeReportData.video_full_screen >=0">{{customeReportData.video_full_screen}}</div>
-	<div class="each_col" ng-if="customeReportData.mutes >=0">{{customeReportData.mutes}}</div>
-	<div class="each_col" ng-if="customeReportData.mute_rate >=0">{{customeReportData.mute_rate}}</div>
-	<div class="each_col" ng-if="customeReportData.pauses >=0">{{customeReportData.pauses}}</div>
+	<div class="each_col" ng-if="customeReportData.mutes >=0">{{customeReportData.mutes | nrFormat}}</div>
+	<div class="each_col" ng-if="customeReportData.mute_rate >=0">{{customeReportData.mute_rate | number :2}}</div>
+	<div class="each_col" ng-if="customeReportData.pauses >=0">{{customeReportData.pauses | nrFormat}}</div>
 	<div class="each_col" ng-if="customeReportData.video_replays >=0">{{customeReportData.video_replays}}</div>
 	<div class="each_col" ng-if="customeReportData.video_stops >=0">{{customeReportData.video_stops}}</div>
-	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors}}</div>
-</script>
+	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors | nrFormat}}</div>
 
 
-
-
-
-
-<!-- Second Dimension -->
-
-<script type="text/ng-template" id="secDimCustomeReportTpl">
-
-
-
-	<div class="each_col tree_string"></div>
-
-
-
-	<!---- Dimension report data ------------------------>
-	<div class="each_col tree_dimension_col" ng-if="customeReportData.value">{{customeReportData.value}}</div>
-
-	<!----- Delivery report data ------------------------>
-	<div class="each_col" ng-if="customeReportData.impressions >=0">{{customeReportData.impressions |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.clicks >=0">{{customeReportData.clicks |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.ctr >=0">{{customeReportData.ctr | kpiFormatter:'ctr'}}</div>
-	<div class="each_col" ng-if="customeReportData.post_imp >=0">{{customeReportData.post_imp |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.post_click >=0">{{customeReportData.post_click |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.pccr >=0">{{customeReportData.pccr *100 | number:2 }}</div>
-	<div class="each_col" ng-if="customeReportData.actions >=0">{{customeReportData.actions |  nrFormat }}</div>
-	<div class="each_col" ng-if="customeReportData.pub_payout >=0">{{customeReportData.pub_payout |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.gross_ecpm >=0">{{customeReportData.gross_ecpm | number:2}}</div>
-	<div class="each_col" ng-if="customeReportData.gross_ecpc >=0">{{customeReportData.gross_ecpc | number:2}}</div>
-
-	<!----- booked report data ------------------------>
-	<div class="each_col" ng-if="customeReportData.ad_count >=0">{{customeReportData.ad_count}}</div>
-	<div class="each_col" ng-if="customeReportData.ad_start">{{customeReportData.ad_start}}</div>
-	<div class="each_col" ng-if="customeReportData.ad_end">{{customeReportData.ad_end}}</div>
-	<div class="each_col" ng-if="customeReportData.ad_days >=0">{{customeReportData.ad_days}}</div>
-	<div class="each_col" ng-if="customeReportData.booked_impressions >=0">{{customeReportData.booked_impressions |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.booked_actual_imps >=0">{{customeReportData.booked_actual_imps |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.diff_impressions >=0">{{customeReportData.diff_impressions |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.delivered_imps >=0">{{customeReportData.delivered_imps |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.booked_rev >=0">{{customeReportData.booked_rev |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.gross_rev >=0">{{customeReportData.gross_rev |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.diff_rev >=0">{{customeReportData.diff_rev |  nrFormat}}</div>
-	<div class="each_col" ng-if="customeReportData.booked_ecpm >=0">{{customeReportData.booked_ecpm | number:2}}</div>
-	<div class="each_col" ng-if="customeReportData.actual_ecpm >=0">{{customeReportData.actual_ecpm | number:2}}</div>
-	<div class="each_col" ng-if="customeReportData.booked_diff_ecpm >=0">{{customeReportData.booked_diff_ecpm | number:2}}</div>
-
-	<!----- engagement report data ------------------------>
-
-	<div class="each_col" ng-if="customeReportData.inter >=0">{{customeReportData.inter}}</div>
-	<div class="each_col" ng-if="customeReportData.total_inter >=0">{{customeReportData.total_inter}}</div>
-	<div class="each_col" ng-if="customeReportData.avg_inter_time >=0">{{customeReportData.avg_inter_time}}</div>
-	<div class="each_col" ng-if="customeReportData.ir_perc >=0">{{customeReportData.ir_perc}}</div>
-	<div class="each_col" ng-if="customeReportData.total_ir_perc >=0">{{customeReportData.total_ir_perc}}</div>
-	<div class="each_col" ng-if="customeReportData.avg_view_time >=0">{{customeReportData.avg_view_time}}</div>
-	<div class="each_col" ng-if="customeReportData.ecpmi >=0">{{customeReportData.ecpmi | number:2}}</div>
-
-	<!----- video report data ------------------------>
-	<div class="each_col" ng-if="customeReportData.ad_starts >=0">{{customeReportData.ad_starts}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_25 >=0">{{customeReportData.completion_25}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_50 >=0">{{customeReportData.completion_50}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_75 >=0">{{customeReportData.completion_75}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_100 >=0">{{customeReportData.completion_100}}</div>
-	<div class="each_col" ng-if="customeReportData.completion_rate >=0">{{customeReportData.completion_rate}}</div>
-	<div class="each_col" ng-if="customeReportData.play_rate >=0">{{customeReportData.play_rate}}</div>
-	<div class="each_col" ng-if="customeReportData.video_full_screen >=0">{{customeReportData.video_full_screen}}</div>
-	<div class="each_col" ng-if="customeReportData.mutes >=0">{{customeReportData.mutes}}</div>
-	<div class="each_col" ng-if="customeReportData.mute_rate >=0">{{customeReportData.mute_rate}}</div>
-	<div class="each_col" ng-if="customeReportData.pauses >=0">{{customeReportData.pauses}}</div>
-	<div class="each_col" ng-if="customeReportData.video_replays >=0">{{customeReportData.video_replays}}</div>
-	<div class="each_col" ng-if="customeReportData.video_stops >=0">{{customeReportData.video_stops}}</div>
-	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors}}</div>
 </script>
 
 <script type="text/javascript">
@@ -511,10 +486,9 @@
 	    var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
 	    if (lastScrollLeft != documentScrollLeft) {
 	        lastScrollLeft = documentScrollLeft;
-	        $(".custom_report_scroll").removeClass("vertical_scroll").addClass("horizontal_scroll") ;
+	        //$(".custom_report_scroll").removeClass("vertical_scroll").addClass("horizontal_scroll") ;
 	    } else {
-	        
-	        $(".custom_report_scroll").removeClass("horizontal_scroll").addClass("vertical_scroll") ;
+	        //$(".custom_report_scroll").removeClass("horizontal_scroll").addClass("vertical_scroll") ;
 	    }
 	});
 
