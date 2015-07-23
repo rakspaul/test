@@ -770,6 +770,9 @@
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             utils.goToLocation('/optimization');
         };
+        $scope.setReportMenu = function(){
+            $rootScope.$broadcast("callSetDefaultReport","Optimization Impact");
+        };
 
         $scope.setActivityButtonData = function( campaign, strategy){
             campaignSelectModel.setSelectedCampaign(campaign);

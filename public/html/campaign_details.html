@@ -361,13 +361,13 @@
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
                                   <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
                                   </div>
-                                  <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
+                                  <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()">
                                   </div>
                               </div>
                           </div>
 
 
-                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
+                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
 
                               <div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}</div>
                               <div class="pull-left activity_points">

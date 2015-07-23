@@ -35,6 +35,9 @@
            $(".header_tab_dropdown").removeClass('active_tab');
            $( "a[reportTitle='"+reportTitle+"']").parent().addClass('active_tab')
         }
+        var callSetDefaultReport = $rootScope.$on("callSetDefaultReport",function(event,args){
+            $scope.setDefaultReport(args);
+        });
         $rootScope.dashboard = {};
         $rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
 

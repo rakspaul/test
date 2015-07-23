@@ -1,4 +1,4 @@
-<div class="breadcrumb_campaign"><a href="/campaigns/{{selectedObj.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div>
+<div class="breadcrumb_campaign"><a href="/campaigns/{{selectedObj.id}}" onclick="removeHighLightedReport()">{{textConstants.CAPAIGN_DETAILS}}</a></div>
 <div class="clearfix dropdown_type1_holder pull-left" >
 
     <span class="report_heading_dropdown_txt">{{ textConstants.CAMPAIGN }}</span>
@@ -24,3 +24,8 @@
      </span>
      </div>
 </div>
+<script type="text/javascript">
+function removeHighLightedReport(){
+   $(".header_tab_dropdown").removeClass('active_tab');
+}
+</script>
