@@ -308,41 +308,52 @@ var angObj = angObj || {};
             $scope.secondDimensionOffset = 0;
         };
 
-
         $scope.select_option = function(event) {
             var elem = $(event.target);
             if( elem.hasClass("active")  ) {
                 elem.removeClass("active") ;
                 elem.closest(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , false ) ;
+                $("#selectAll_chkbox").prop("checked" , false ) ;
             } else {
                 elem.addClass("active") ;
-
             }
 
-            var total_items = elem.closest(".each_measurable_col").find(".each_option").length  ;
-            var active_items = elem.closest(".each_measurable_col").find(".active").length  ;
+            var total_col_items = elem.closest(".each_measurable_col").find(".each_option").length  ;
+            var active_col_items = elem.closest(".each_measurable_col").find(".active").length  ;
 
-            if( active_items > 0  ) {
+            if( active_col_items > 0  ) {
                 elem.closest(".each_measurable_col").find(".squaredFour").addClass("not_all_selected") ;
             } else {
                 elem.closest(".each_measurable_col").find(".squaredFour").removeClass("not_all_selected") ;
             }
 
-            if(total_items == active_items ) {
+            if(total_col_items == active_col_items ) {
                 elem.closest(".each_measurable_col").find(".squaredFourChkbox").prop("checked" , true ) ;
+                elem.closest(".each_measurable_col").find(".squaredFour").removeClass("not_all_selected") ;
             }
+
+            var total_items  = $(".total_metrics_container").find(".each_option").length ;
+            var active_items = $(".total_metrics_container").find(".each_option.active").length ;
+            if( total_items == active_items ) {
+                $("#selectAll_chkbox").prop("checked" , true ) ;
+            }
+
+
         };
 
         $scope.select_unselect_all = function(event) {
             var elem = $(event.target);
             var optionElem = $(".each_measurable_col").find(".each_option");
+            var metricElem  = $(".each_measurable_col").find(".squaredFour") ;
+            metricElem.removeClass("not_all_selected") ;
             if( elem.prop("checked") ) {
-                $(".squaredFourChkbox").attr('checked', 'checked')
                 optionElem.addClass("active") ;
+                metricElem.find(".squaredFourChkbox").prop("checked" , true ) ;
             } else {
                 optionElem.removeClass("active") ;
-                $(".squaredFourChkbox").removeAttr('checked');
+                metricElem.find(".squaredFourChkbox").prop("checked" , false ) ;
             }
+
         };
 
         $scope.select_unselect_metrics = function(event) {
@@ -352,8 +363,15 @@ var angObj = angObj || {};
                 elem.closest(".each_measurable_col").find(".each_option").addClass("active") ;
             } else {
                 elem.closest(".each_measurable_col").find(".each_option").removeClass("active") ;
+                $("#selectAll_chkbox").prop("checked" , false ) ;
+            }
+            var total_items  = $(".total_metrics_container").find(".each_option").length ;
+            var active_items = $(".total_metrics_container").find(".each_option.active").length ;
+            if( total_items == active_items ) {
+                $("#selectAll_chkbox").prop("checked" , true ) ;
             }
         };
+       
         $scope.delete_level = function(event) {
             var elem = $(event.target);
             elem.closest(".breakdown_div").remove();
