@@ -5,7 +5,7 @@
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
     packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
-   
+
     shim: {
       'jsRoutes': {
         deps: [],
@@ -127,7 +127,8 @@
       'login-LoginController':{deps: ['login-LoginService']},
 
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
-      'controllers-actions_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-actions_controller': {deps: ['controllers-campaign_details_controller']},
       'controllers-optimization_controller':{deps: ['controllers-actions_controller']},
       'controllers-inventory_controller':{deps: ['controllers-optimization_controller']},
       'controllers-viewability_controller':{deps: ['controllers-inventory_controller']},
@@ -278,6 +279,7 @@
       'login-LoginController':'login/LoginController',
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
+      'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
       'controllers-actions_controller':'controllers/actions_controller',
       'controllers-optimization_controller':'controllers/optimization_controller',
       'controllers-inventory_controller':'controllers/inventory_controller',
@@ -311,8 +313,8 @@
       'common-directive-DataNotFound':'common/directives/DataNotFound',
       'angular-locale':'vendor/i18n/angular-locale_en-us',
       'jsRoutes': '/jsroutes'
-    } 
- 
+    }
+
   });
 
   requirejs.onError = function (err) {
@@ -339,13 +341,13 @@
            'moment',
            'moment-tz',
            'underscore',
-           'angulartics', 
-           'angulartics-ga', 
+           'angulartics',
+           'angulartics-ga',
            'd3',
            'angular-sanitize',
-           'filesaver', 
-           'ui-bootstrap-tpls', 
-           'lrInfiniteScroll', 
+           'filesaver',
+           'ui-bootstrap-tpls',
+           'lrInfiniteScroll',
            'app',
            'CommonModule',
            'common-charts-line',
@@ -433,6 +435,7 @@
            'login-LoginController',
 
            'controllers-campaign_details_controller',
+           'controllers-campaign_create_controller',
            'controllers-actions_controller',
            'controllers-optimization_controller',
            'controllers-inventory_controller',
@@ -465,7 +468,7 @@
            'common-directive-DataNotFound',
            'angular-locale'
            ],
-   
+
     function ($,jqueryUI,  bootstrap, angular) {
             angular.bootstrap(document, ['app']);
     }

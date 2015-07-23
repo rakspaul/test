@@ -68,6 +68,11 @@ var angObj = '';
                 title :  'Reports - Performance',
                 controller: 'performanceController'
             })
+            .when('/create', {
+                templateUrl: assets.html_campaign_create,
+                title :  'Create - Campaign',
+                controller: 'CreateCampaignController'
+            })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }).config([
