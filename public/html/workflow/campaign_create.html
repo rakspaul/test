@@ -18,12 +18,12 @@
                         <div class="statusLabel" ng-if="selectedCampaign.startTime">
                             <span>Flight: </span>
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            <span class="errorTxt">{{selectedCampaign.startTime}}</span>  <span class="errorTxt" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
+                            <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
                         </div>
                         <div class="statusLabel" ng-if="selectedCampaign.budget">
                             <span>Budget: </span>
                             <span class="glyphicon">{{ textConstants.DOLLAR }}</span>
-                            <span id="budgetAmount"  class="errorTxt">{{selectedCampaign.budget}}</span>
+                            <span id="budgetAmount"  class="">{{selectedCampaign.budget}}</span>
                         </div>
 
                         <p class="">2. Pricing Model</p>
@@ -44,7 +44,7 @@
                 <form class="form-horizontal ng-scope ng-pristine ng-valid" id="saveCreateCampaign" role="form" name="saveCreateCampaign" action="#"  novalidate>
                 <div class="collapseHeader">
                     <span>Choose your campaign <b>{{ textConstants.SETTINGS }}</b></span>
-                    <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save</a>
+                    <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save as Draft</a>
                     <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
                 </div>
 
@@ -100,12 +100,12 @@
                                 <div class="col-md-12 dateWrapper">
                                     <div class="form-group  col-md-2" show-errors='{showSuccess: true}'>
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" class="input-sm form-control" data-provide="datepicker" name="startTime" ng-model="selectedCampaign.startTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required ng-change="handleFlightDate(selectedCampaign)"/>
+                                        <input type="text" id="startDateInput" class="input-sm form-control" placeholder="MM/DD/YYYY" data-provide="datepicker" name="startTime" ng-model="selectedCampaign.startTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required ng-change="handleFlightDate(selectedCampaign)"/>
                                         <label ng-if="saveCreateCampaign.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                     </div>
                                     <div class="form-group  col-md-2" show-errors='{showSuccess: true}'>
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" class="input-sm form-control" disabled="disabled" data-provide="datepicker" ng-model="selectedCampaign.endTime" name="endTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+                                        <input type="text" id="endDateInput" class="input-sm form-control" placeholder="MM/DD/YYYY" disabled="disabled" data-provide="datepicker" ng-model="selectedCampaign.endTime" name="endTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
                                         <label ng-if="saveCreateCampaign.endTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                     </div>
                                 </div>
