@@ -283,6 +283,79 @@
     this.SYMBOL_DOLLAR = "$";
 
     this.QUARTILE_DATA = "Quartile Data";
+
+    //workflow related variables
+    this.WF_CREATE_CAMPAIGN = "Create Campaign";
+    this.UPLOAD_TEMPLATE = "Upload Template";
+    this.CREATE = "Create";
+    this.WF_SETTINGS = "Settings";
+    this.ACCOUNT = "Account";
+    this.WF_BRAND = "Brands";
+    this.ADVERTISERS = "Advertisers";
+    this.SELECT_ACCOUNT = "Select Account";
+    this.WF_GOAL = "Goal";
+    this.SELECT_GOAL = "Select Goal";
+    this.BUDGET = "Budget";
+    this.DOLLAR = "$";
+    this.START_DATE = "Start Date";
+    this.END_DATE = "End Date";
+    this.SELECT_TIME = "Select Time";
+    this.ADS = "Ads";
+    this.UNTITLED_CAMPAIGN = "Untitled Campaign";
+    this.SAVE_CAMPAIGN = "Save Campaign";
+    this.PUSH_CAMPAIGN = "Push Campaign";
+    this.CANCEL = "Cancel";
+    this.GROUP_TITLE = "Group Title";
+    this.EDIT = "Edit";
+    this.DFP_DISPLAY = "DFP Display";
+    this.DFP_PRE_ROLL = "DFP Pre-roll";
+    this.DRAFT = "Draft";
+    this.READY = "Ready";
+    this.IMPRESSIONS = "Impressions";
+    this.CREATIVES = "Creatives";
+    this.TARGETING = "Targeting";
+
+    this.WF_GUIDED_COPY ="Guided Copy Here - What should i choose?";
+    this.WF_HEADER_CREATIVES ="What type of creatives are you using?";
+    this.WF_AD_FORMAT = "Ad Format";
+    this.WF_DISPLAY = "Display";
+    this.WF_VIDEO = "Video";
+    this.WF_RICH_MEDIA = "Rich Media";
+    this.WF_SOCIAL = "Social";
+    this.WF_HEADER_PRIMARY_GOAL = "What is your primary goal?";
+    this.WF_AD_GOAL = "Ad Goal";
+    this.WF_PERFORMANCE = "Performance";
+    this.WF_BRAND = "Brand";
+    this.WF_HEADER_SCREENS = "What device screens are you targeting?";
+    this.WF_SCREEN_TYPE = "Screen Type";
+    this.WF_DESKTOP = "Desktop";
+    this.WF_MOBILE = "Mobile";
+    this.WF_TABLET = "Tablet";
+
+    this.WF_HEADER_SETTINGS ="Guided Copy Here - Setting up your ad...";
+    this.WF_AD_SIZE = "Ad Size";
+    this.WF_FLIGHT_DATE = "Flight Date";
+    this.WF_IMPRESSIONS = "Impressions";
+    this.WF_MEDIA_COST = "Media Cost";
+    this.WF_BUDGET = "Budget";
+    this.WF_UNIT_COST = "Unit Cost";
+
+    this.WF_HEADER_BUYING_PLATFORM ="Here are the available buying platform based on your goals & ad settings";
+    this.WF_HEADER_BUYING_PLATFORM_SUB ="Guided Copy Here - Which platform should i choose?";
+    this.WF_COLLECTIVE_MEDIA = "Collective Media";
+    this.WF_COLLECTIVE_BIDDER = "Collective Bidder";
+    this.WF_APPNEXUS= "Appnexus";
+    this.WF_MORE_PLATFORM = "More platform coming soon!";
+
+    this.WF_CHANGE_PLATFORM = "Change Platform";
+    this.WF_DELIVERY_PACING = "Delivery Pacing";
+    this.WF_HEADER_DELIVERY_FREQUENCY = "Guided Copy Here - Setting up delivery and frequency...";
+    this.WF_PRIORITY = "Priority";
+    this.WF_DELIVER_IMPRESSIONS = "Deliver Impressions";
+    this.WF_FREQUENCY = "Frequency";
+    this.WF_SET_FREQUENCY_CAP = "Set per User frequency cap";
+    this.WF_IMPRESSION_PER = "Impression per";
+
   };
 
   commonModule.service("constants", constants);

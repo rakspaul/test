@@ -4,22 +4,22 @@
         return {
 
             getClients: function () {
-                var url = apiPaths.workflowCreate_apiServicesUrl + '/clients';
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);
             },
 
             getAdvertisers: function (clientId) {
-                var url = apiPaths.workflowCreate_apiServicesUrl + '/clients/' + clientId + '/advertisers';
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';
                 return dataService.fetch(url);
             },
 
             getBrands: function (advertiserId) {
-                var url = apiPaths.workflowCreate_apiServicesUrl + '/advertisers/' + advertiserId + '/brands';
+                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers/' + advertiserId + '/brands';
                 return dataService.fetch(url);
             },
 
             saveCampaign: function (data) {
-                return dataService.post(apiPaths.workflowCreate_apiServicesUrl +'/campaigns', data, {'Content-Type': 'application/json'})
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns', data, {'Content-Type': 'application/json'})
             }
 
         };
