@@ -43,7 +43,10 @@
     });
 
     //onload
-    if(brandsModel.getSelectedBrand().id !== -1) {
+    //if selected All Brands
+    if(brandsModel.getSelectedBrand().id == -1) {
+      dashboardModel.setSelectedBrand(brandsModel.getAllBrand());
+    }else if(brandsModel.getSelectedBrand().id !== -1) {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
     }
     updateTitle();
