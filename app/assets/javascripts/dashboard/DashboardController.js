@@ -46,7 +46,7 @@
     //if selected All Brands
     if(brandsModel.getSelectedBrand().id == -1) {
       dashboardModel.setSelectedBrand(brandsModel.getAllBrand());
-    }else if(brandsModel.getSelectedBrand().id !== -1) {
+    }else {
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
     }
     updateTitle();
