@@ -389,25 +389,39 @@ var angObj = angObj || {};
         };
 
         $scope.select_dropdown_option = function(event , arg ) {
+            
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
             elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
+            
             var startDate,endDate;
-            // switch(arg) {
-            //     case 'yesterday':
-            //         $('#startDateInput').datepicker('update', '2015, 07, 20');
-            //         $('#startDateInput').datepicker('update', '2015, 07, 28');
-                
-            //         break;
-            //     case 'week':
-                    
-            //         break;
-            //     default:
-            //         //default code block
-            // }
+            switch(arg) {
+                case 'yesterday':
+                    startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                    endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                    break;
+                case 'last7Days':
+                    startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+                    endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
+                    break;
+                case 'lastWeek': 
+                    startDate = moment().days(-14).format('YYYY-MM-DD');
+                    endDate   = moment().days(-7, 'days').format('YYYY-MM-DD');  
+                    break;
+                case 'monthToDate': 
+                    startDate = moment().format('YYYY-MM')+'-01';
+                    endDate   = moment().format('YYYY-M-DD');  
+                break;
+               
+                default:
+                    startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                    endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
+            }
+            $('#startDateInput').datepicker('update', startDate);
+            $('#endDateInput').datepicker('update', endDate);
         };
-
+       
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide() ;
             $("#" +  id + "_table").show() ;
