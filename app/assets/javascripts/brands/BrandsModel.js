@@ -32,6 +32,9 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
     getBrand: function() {
       return brand;
     },
+    getAllBrand: function() {
+      return brand.allBrandObject;
+    },
     disable: function() {
       brand.enable = false;
       brand.cssClass = "brands_filter_disabled"; 
