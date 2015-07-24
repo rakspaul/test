@@ -16,175 +16,217 @@
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
 
+    <!-- VIDEO MODE SWITCH COMMENTED FOR NOW -->
+            <div class="view_mode_switch_container" style="display:none;" ng-class="{'video_mode_on':videoMode}">
+                <span>{{textConstants.VIEW_MODE}}</span>
+                <span class="video_off_icon active" ng-class="{'active':!videoMode}"></span>
+                <span class="video_btn">
+                   <!--  <input type="checkbox" class="switch switch-inverse" data-label-on=" " data-label-off=" " ng-model="videoMode" /> -->
+                    <switch ng-model="videoMode" ></switch>
+                </span>
+
+                <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
+            </div>
+    <!-- END OF ...VIDEO MODE SWITCH COMMENTED FOR NOW -->
+
         <div class="common-load-icon_viewability" ng-show="strategyLoading"></div>
     </div>
 
     <div class="platform_container" ng-hide="strategyLoading">
-            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')"></div>
-            <div class="reports_tabs_content_container" ng-show="strategyFound">
-                <div class="reports_tabs_content_container">
-                    <!-- -------START :  Platform Tabs ------------------------ -->
-                    <div class="clearfix">
-                        <div class="clearfix reports_tabs_holder">
-                            <div class="each_tab cost_tab active " id="platform_performance">
-                                <div class="each_tab_text">
-                                    Performance
-                                </div>
+        <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')"></div>
+        <div class="reports_tabs_content_container" ng-show="strategyFound">
+            <div class="reports_tabs_content_container">
+                <!-- -------START :  Platform Tabs ------------------------ -->
+                <div class="clearfix">
+                    <div class="clearfix reports_tabs_holder">
+                        <div class="each_tab cost_tab active " id="platform_performance">
+                            <div class="each_tab_text">
+                                {{textConstants.PERFORMANCE}}
                             </div>
-                            <div class="each_tab " id="platform_cost" ng-show="isAgencyCostModelTransparent">
-                                <div class="each_tab_text">
-                                    Cost
-                                </div>
+                        </div>
+                        <div class="each_tab " id="platform_cost" ng-show="isAgencyCostModelTransparent">
+                            <div class="each_tab_text">
+                                {{textConstants.COST}}
                             </div>
-                            <div class="each_tab cost_tab " id="platform_viewability">
-                                <div class="each_tab_text">
-                                    Viewability
-                                </div>
+                        </div>
+                        <div class="each_tab cost_tab " id="platform_viewability">
+                            <div class="each_tab_text">
+                                {{textConstants.VIEWABILITY}}
                             </div>
                         </div>
                     </div>
-                    <!-- -------END :  Platform Tabs ------------------------ -->
-
-                    <!-- -------START :  Performance Block ------------------------ -->
-                    <div class="reports_block" id="reports_platform_performance_block">
-                        <div class="no_data_found" ng-if="dataNotFoundForPerformance" ng-bind-html="getMessageForDataNotAvailable('performance')"></div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance" >
-                            <div class="clearfix reports_platform_header">
-                                <performance-header></performance-header>
-                            </div>
-                            <div class="strategy_total_container">
-                                <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col">
-                                        {{strategyHeading}}:
-                                    </div>
-                                    <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="performanceBusy"></div>
-                                        <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
-                                    </div>
-                                </div>
-                                <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics track by $index" ng-if="tactic.platform_metrics.performance">
-                                        <div class="linkage_bar"></div>
-                                        <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{tactic.name}}
-                                            </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance track by $index" ng-include="'performanceTpl'"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- -------END :  Performance Block ------------------------ -->
-
-                    <!-- -------START :  Cost Block ----------------------------- -->
-
-                    <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
-                        <div class="no_data_found" ng-if="isCostModelTransparent && dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
-                        <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
-                            <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
-                        </div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost && isCostModelTransparent">
-                            <div class="clearfix reports_platform_header">
-                                <cost-header></cost-header>
-                            </div>
-                            <div class="strategy_total_container ">
-                                <div class="strategy_total_container_header clearfix">
-                                    <div class="each_cost_heading">
-                                        {{strategyHeading}}:
-                                    </div>
-                                    <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="costBusy"></div>
-                                        <div class="clearfix each_row_list expandRow" ng-repeat="costData in strategyDataByCost.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
-                                    </div>
-                                </div>
-                                <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics track by $index" ng-if="tactic.platform_metrics.cost">
-                                        <div class="linkage_bar"></div>
-                                        <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{tactic.name}}
-                                            </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost track by $index" ng-include="'costTpl'"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- -------END :  Cost Block ----------------------------- -->
-
-                    <!-- -------START :  Viewablity Block ----------------------------- -->
-                    <div class="reports_block" id="reports_platform_viewability_block" style="display:none;">
-                        <div class="no_data_found" ng-if="dataNotFoundForViewability" ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
-                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewability">
-                            <div class="clearfix reports_platform_header">
-                                <viewablity-header></viewablity-header>
-                            </div>
-                            <div class="strategy_total_container ">
-                                <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col">
-                                        {{strategyHeading}}:
-                                    </div>
-                                    <div class="row_list_holder">
-                                        <div class="common-load-icon" ng-show="viewabilityBusy"></div>
-                                        <div class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability track by $index" ng-include="'viewabilityTpl'"></div>
-                                    </div>
-                                </div>
-                                <div class="all_strategies_holder">
-                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewability.tactics track by $index" ng-if="tactic.platform_metrics.viewability">
-                                        <div class="linkage_bar"></div>
-                                        <div class="each_strategy clearfix">
-                                            <div class="each_col first_col">
-                                                {{tactic.name}}
-                                            </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability track by $index" ng-include="'viewabilityTpl'"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- -------END :  Viewablity Block ----------------------------- -->
                 </div>
+                <!-- -------END :  Platform Tabs ------------------------ -->
+
+                <!-- -------START :  Performance Block ------------------------ -->
+                <div ng-class="strategyDataByPerformance.hasVTCMetrics ? 'reports_block quartile_data_platform' : 'reports_block' " id="reports_platform_performance_block">
+                    <div class="no_data_found" ng-if="dataNotFoundForPerformance" ng-bind-html="getMessageForDataNotAvailable('performance')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForPerformance" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
+                        <div class="clearfix reports_platform_header">
+                            <performance-header></performance-header>
+                        </div>
+                        <div class="strategy_total_container">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder">
+                                    <div class="common-load-icon" ng-show="performanceBusy"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance | orderBy:sortType:sortReverse track by $index" ng-include="'performanceTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.platform_metrics.performance">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance | orderBy:sortType:sortReverse track by $index" ng-include="'performanceTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Performance Block ------------------------ -->
+
+                <!-- -------START :  Cost Block ----------------------------- -->
+
+                <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
+                    <div class="no_data_found" ng-if="isCostModelTransparent && dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable('cost')"></div>
+                    <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
+                        <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
+                    </div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost && isCostModelTransparent">
+                        <div class="clearfix reports_platform_header">
+                            <cost-header></cost-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_cost_heading">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder">
+                                    <div class="common-load-icon" ng-show="costBusy"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-repeat="costData in strategyDataByCost.platform_metrics.cost | orderBy:sortType:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.platform_metrics.cost">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost | orderBy:sortType:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Cost Block ----------------------------- -->
+
+                <!-- -------START :  Viewablity Block ----------------------------- -->
+                <div class="reports_block" id="reports_platform_viewability_block" style="display:none;" ng-class="{'reports_video_mode_viewability_container':videoMode}">
+                    <div class="no_data_found" ng-if="dataNotFoundForViewability" ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForViewability">
+                        <div class="clearfix reports_platform_header">
+                            <viewablity-header></viewablity-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder">
+                                    <div class="common-load-icon" ng-show="viewabilityBusy"></div>
+                                    <div ng-if="!videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortType:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
+                                    <div ng-if="videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortType:sortReverse  track by $index"  ng-include="'videoViewabilityTpl'"></div>
+                                </div>
+
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewability.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.platform_metrics.viewability">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div ng-if="!videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortType:sortReverse track by $index" ng-include="'viewabilityTpl'"></div>
+                                            <div ng-if="videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortType:sortReverse track by $index" ng-include="'videoViewabilityTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Viewablity Block ----------------------------- -->
             </div>
+        </div>
     </div>
 </div>
 
 <script type="text/ng-template" id="performanceTpl">
     <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
-        <div class="each_col sec_col">
+        <div class="each_col sec_col" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
             {{performanceData.platform_type}}
         </div>
         <div class="each_col third_col">
             {{performanceData.platformType_aggregation.impressions |  nrFormat}}
         </div>
+
+        <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
+            <div class="each_col third_col">
+                {{performanceData.platformType_aggregation.video_metrics.ad_starts > 0 ? (performanceData.platformType_aggregation.video_metrics.ad_starts | nrFormat) : '-'}}
+            </div>
+
+            <div class="vid_data_hdr">
+                <div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_25 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_25  | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_50 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_50  | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_75 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_75  | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_100 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+                </div>
+            </div>
+            <div class="each_col third_col">
+                <span>{{performanceData.platformType_aggregation.video_metrics.vtc_rate | number:2}}%</span>
+            </div>
+        </div>
+
+
         <div class="each_col forth_col">
-                {{performanceData.platformType_aggregation.ctr*100 | number:2}}%
+            {{performanceData.platformType_aggregation.ctr*100 | number:2}}%
         </div>
         <div class="each_col fifth_col">
-                {{performanceData.platformType_aggregation.action_rate*100 | number:2}}%
+            {{performanceData.platformType_aggregation.action_rate*100 | number:2}}%
         </div>
+         <span  ng-if="!strategyDataByPerformance.hasVTCMetrics">
         <div class="each_col sixth_col">
-        ${{performanceData.platformType_aggregation.cpa | number:2}}
+            {{performanceData.platformType_aggregation.cpa | currency:undefined:2}}
         </div>
         <div class="each_col seventh_col">
-        ${{performanceData.platformType_aggregation.cpc | number:2}}
+            {{performanceData.platformType_aggregation.cpc | currency:undefined:2}}
         </div>
         <div class="each_col eight_col">
-        ${{performanceData.platformType_aggregation.cpm | number:2}}
+            {{performanceData.platformType_aggregation.cpm | currency:undefined:2}}
+        </div>
+             </span>
+        <div ng-if="strategyDataByPerformance.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyDataByPerformance.hasVTCMetrics == false}">
+            {{performanceData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+            selected_filters2.kpi_type}}
         </div>
     </div>
 
-    <div class="platform_row" ng-repeat="platform in performanceData.platforms track by $index">
-        <div class="each_col sec_col platform_logo" >
+    <div class="platform_row" ng-repeat="platform in performanceData.platforms | orderBy:sortTypeSubSort:sortReverse track by $index">
+        <div class="each_col sec_col platform_logo" ng-class="{vid_none_hdr:strategyPerfDataByScreen.hasVTCMetrics == false,vid_show:strategyDataByPerformance.hasVTCMetrics == true}">
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
             </span>
@@ -193,20 +235,127 @@
         <div class="each_col third_col">
             {{platform.impressions |  nrFormat}}
         </div>
+
+        <div class="vid_col" ng-show="strategyDataByPerformance.hasVTCMetrics == true">
+            <div class="each_col third_col">
+                {{platform.video_metrics.ad_starts >0 ? (platform.video_metrics.ad_starts | nrFormat) : '-'}}
+            </div>
+
+            <div class="vid_data_hdr">
+                <div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_25 >0 ? (platform.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_50 >0 ? (platform.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_75 >0 ? (platform.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_100 >0 ? (platform.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+                </div>
+            </div>
+            <div class="each_col third_col">
+                <span>{{platform.video_metrics.vtc_rate | number:2}}%</span>
+            </div>
+        </div>
+
         <div class="each_col forth_col">
             {{platform.ctr*100 | number:2}}%
         </div>
+
         <div class="each_col fifth_col">
             {{platform.action_rate*100 | number:2}}%
         </div>
+
+
+<span  ng-if="!strategyDataByPerformance.hasVTCMetrics">
         <div class="each_col sixth_col">
-            ${{platform.cpa | number:2}}
+            {{platform.cpa | currency:undefined:2}}
         </div>
         <div class="each_col seventh_col">
-            ${{platform.cpc | number:2}}
+            {{platform.cpc | currency:undefined:2}}
         </div>
         <div class="each_col eight_col">
-            ${{platform.cpm | number:2}}
+            {{platform.cpm | currency:undefined:2}}
+        </div>
+    </span>
+        <div ng-if="strategyDataByPerformance.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyDataByPerformance.hasVTCMetrics == false}">
+            {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+            selected_filters2.kpi_type}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="videoViewabilityPartialTpl">
+    <div class="each_col ad_col">
+        <div class="clearfix played_ad">
+            <span class="specific_ad_icon"></span>
+            <span class="ad_val">{{vvData.videos_played > 0 ? (vvData.videos_played | nrFormat) : '-'}}</span>
+        </div>
+        <div class="clearfix next_val viewed_ad">
+            <span class="specific_ad_icon"></span>
+            <span class="ad_val">{{vvData.videos_viewable_imps > 0 ? (vvData.videos_viewable_imps | nrFormat) : '-'}}</span>
+        </div>
+    </div>
+    <div class="each_col sub_four_cols">
+        <div class="sub_col">
+            <span>{{vvData.videos_1q_completed >0 ? (vvData.videos_1q_completed | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_2q_completed >0 ? (vvData.videos_2q_completed | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_3q_completed >0 ? (vvData.videos_3q_completed | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_4q_completed >0 ? (vvData.videos_4q_completed | nrFormat) : '-'}}</span>
+        </div>
+        <div class="sub_col next_val">
+            <span>{{vvData.videos_1q_view >0 ? (vvData.videos_1q_view | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_2q_view >0 ? (vvData.videos_2q_view | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_3q_view >0 ? (vvData.videos_3q_view | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_4q_view >0 ? (vvData.videos_4q_view | nrFormat) : '-'}}</span>
+        </div>
+    </div>
+    <div class="each_col vtc_col">
+        {{vvData.vtc | number:2}}%
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="videoViewabilityTpl">
+    <div class="platform_aggregation_row" ng-click="togglePlatformRow($event)">
+        <div class="each_col platform_name_col">
+            {{ViewabilityData.platform_type}}
+        </div>
+
+        <div class="each_col third_col impressions_col">
+            <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}</span>
+        </div>
+        <div class="each_col third_col measurable_col" >
+            <div class="sub_col">
+                <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
+                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_perc | number:2}}%</span>
+            </div>
+        </div>
+
+        <div class="clearfix pull-left" ng-init= "vvData = ViewabilityData.platformType_aggregation.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
+
+        <div class="each_col suspicious_col">
+            {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_susp_activity_perc | number:2}}%
+        </div>
+    </div>
+
+    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
+        <div class="each_col platform_name_col platform_logo" >
+            <span class="platform_logo_img">
+                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+            </span>
+            <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
+        </div>
+
+        <div class="each_col third_col impressions_col">
+            <span>{{platform.video_viewability_metrics.videos_deliverable_imps >0 ? (platform.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}</span>
+        </div>
+        <div class="each_col third_col measurable_col" >
+            <div class="sub_col">
+                <span> {{platform.video_viewability_metrics.video_measurable_imps >0 ? (platform.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
+                <span>{{platform.video_viewability_metrics.video_measurable_perc | number:2}}%</span>
+            </div>
+        </div>
+        <div class="clearfix pull-left" ng-init= "vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
+
+        <div class="each_col suspicious_col">
+            {{platform.video_viewability_metrics.video_susp_activity_perc | number:2}}%
         </div>
     </div>
 </script>
@@ -216,16 +365,16 @@
         <div class="each_cost_col first_col">{{costData.platform_type}}</div>
         <div class="each_cost_col second_col">{{costData.platformType_aggregation.impressions | nrFormat}}</div>
         <div class="each_cost_col third_col">{{costData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_cost_col fourth_col">${{costData.platformType_aggregation.inventory_cost | number:0}}</div>
-        <div class="each_cost_col fifth_col">${{costData.platformType_aggregation.data_cost | number:0}}</div>
-        <div class="each_cost_col sixth_col">${{costData.platformType_aggregation.ad_serving_cost | number:0}}</div>
-        <div class="each_cost_col seventh_col">${{costData.platformType_aggregation.rich_media_cost | number:0}}</div>
-        <div class="each_cost_col eigth_col">${{costData.platformType_aggregation.research_cost | number:0}}</div>
-        <div class="each_cost_col ninth_col">${{costData.platformType_aggregation.ad_verification_cost | number:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">${{costData.platformType_aggregation.total_spend | number:0}}</div>
+        <div class="each_cost_col fourth_col">{{costData.platformType_aggregation.inventory_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col fifth_col">{{costData.platformType_aggregation.data_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col sixth_col">{{costData.platformType_aggregation.ad_serving_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col seventh_col">{{costData.platformType_aggregation.rich_media_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col eigth_col">{{costData.platformType_aggregation.research_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col ninth_col">{{costData.platformType_aggregation.ad_verification_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{costData.platformType_aggregation.total_spend | currency:undefined:0}}</div>
     </div>
 
-    <div class="platform_row" ng-repeat="platform in costData.platforms track by $index">
+    <div class="platform_row" ng-repeat="platform in costData.platforms  track by $index">
         <div class="each_cost_col first_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'? '/assets/images/platform_logos/platform_logo.png': platform.icon_url}}" />
@@ -234,13 +383,13 @@
         </div>
         <div class="each_cost_col second_col">{{platform.impressions | nrFormat}}</div>
         <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_cost_col fourth_col">${{platform.inventory_cost | number:0}}</div>
-        <div class="each_cost_col fifth_col">${{platform.data_cost | number:0}}</div>
-        <div class="each_cost_col sixth_col">${{platform.ad_serving_cost | number:0}}</div>
-        <div class="each_cost_col seventh_col">${{platform.rich_media_cost | number:0}}</div>
-        <div class="each_cost_col eigth_col">${{platform.research_cost | number:0}}</div>
-        <div class="each_cost_col ninth_col">${{platform.ad_verification_cost | number:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">${{platform.total_spend | number:0}}</div>
+        <div class="each_cost_col fourth_col">{{platform.inventory_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col fifth_col">{{platform.data_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col sixth_col">{{platform.ad_serving_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col seventh_col">{{platform.rich_media_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col eigth_col">{{platform.research_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col ninth_col">{{platform.ad_verification_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{platform.total_spend | currency:undefined:0}}</div>
     </div>
 </script>
 
@@ -249,18 +398,17 @@
         <div class="each_col platform_name_col">
             {{ViewabilityData.platform_type}}
         </div>
-        <div class="each_col third_col">
-            <div class="sub_col">
-                <span>{{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.total_imps | nrFormat}}</span>
-            </div>
+
+        <div class="each_col third_col impressions_col">
+                {{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}} 
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.ias_measurable_imps | nrFormat}}</span>
                 <span>{{ViewabilityData.platformType_aggregation.measurable_imps_perc | number:2}}%</span>
             </div>
         </div>
+
         <div class="each_col forth_col">
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.ias_viewable_imps | nrFormat}}</span>
@@ -276,7 +424,7 @@
 
     </div>
 
-    <div class="platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
+    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
                 <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
@@ -284,17 +432,10 @@
             <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
         </div>
 
-        <!-- <div class="each_col platform_name_col">
-            {{platform.platform_type}}
-        </div> -->
-
-        <div class="each_col third_col">
-            <div class="sub_col">
-                <span>{{platform.ias_imps_delivered | nrFormat}}</span>
-                <span>{{platform.total_imps | nrFormat }}</span>
-            </div>
+        <div class="each_col third_col impressions_col">
+               {{platform.ias_imps_delivered | nrFormat}} 
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{platform.ias_measurable_imps | nrFormat}}</span>
                 <span>{{platform.measurable_imps_perc | number:2}}%</span>

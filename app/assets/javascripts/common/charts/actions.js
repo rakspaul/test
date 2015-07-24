@@ -5,12 +5,55 @@
 
         var kpiPrefix = function (kpiType) {
             var kpiTypeLower = kpiType.toLowerCase();
-            return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
+            return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? constants.currencySymbol : ''
         };
         var kpiSuffix = function (kpiType) {
             return (kpiType.toLowerCase() == 'vtc') ? '%' : ''
         };
+        var getValueFromSelectedCircle = function(getSelectedCircleSLNo,fieldName){
+            return $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr(fieldName);
+        }
+        var getActivityCountLabel = function(activityCount){
+            var display_activityCount =  '';
+             switch(true) {
+               case (activityCount >=1 && activityCount < 10) :
+                     display_activityCount =  '    <span style="color:transparent">-</span>'+ activityCount+' ';
+                     break;
+               case (activityCount >= 10 && activityCount <= 99) :
+                    display_activityCount =  ' '+activityCount+' ';
+                    break;
+               case (activityCount >99) :
+                    display_activityCount =  ' 99+';
+                    break;
+            }
+            return display_activityCount;
+        };
+        var getOverlapFlag = function(activityDateArray,actionUTC){
+            var overlapFlag;
+            if (_.indexOf(activityDateArray,actionUTC) == -1 ){
+                activityDateArray.push(actionUTC);
+                overlapFlag = 0;
+            }else{
+                overlapFlag = 1;
+            }
+            return {"overlapFlag":overlapFlag,"activityDateArray":activityDateArray};
+        }
+        var getOverlapZIndex = function(isActionExternal,overlapFlag){
+            var overlapZIndex;
+            switch(true) {
+               case (isActionExternal == true && overlapFlag  == 1) :
+                     overlapZIndex = 5;
+                     break;
+                case (isActionExternal == false && overlapFlag  == 1) :
+                     overlapZIndex = 3;
+                     break;
+                default:
+                    overlapZIndex = 4;
 
+            }
+            return overlapZIndex;
+
+        }
         var wordwrap =  function(str, int_width, str_break, cut) {
             var m = ((arguments.length >= 2) ? arguments[1] : 75);
             var b = ((arguments.length >= 3) ? arguments[2] : '\n');
@@ -40,7 +83,7 @@
         var browserInfo = utils.detectBrowserInfo();
         var adjustY = browserInfo.browserName == 'Firefox' ? 8 :7;
         var adjustX = browserInfo.browserName == 'Firefox' ? 1 :0;
-        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list) {
+        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag) {
             var text,
                 box,
                 textBG,
@@ -49,17 +92,21 @@
                 flagId = isActionExternal == true ? 'external' : 'internal',
                 applyColor = (activityCount >1 ) ? 1 : 0,
                 place_circle_x = 7.0,
-                display_activityCount =  (activityCount.toString().length > 1 ?  ' '+activityCount+' ' : '    <span style="color:transparent">-</span>'+ activityCount+' '),
+                display_activityCount = getActivityCountLabel(activityCount),
+                displayFontSize = (activityCount > 99 ) ? '8px' : '12px',
                 numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities',
                 circleObj = null,
-                marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2).attr({
+                overlapBubbleAdjust = overlapFlag == 1 ? -5 : 0,
+                bubbleZIndex = getOverlapZIndex(isActionExternal,overlapFlag),
+                marker = chart.renderer.text(display_activityCount,xPos-7 ,yPos+2+overlapBubbleAdjust).attr({
                     id: 't'+actionId || 'NA',
                     removeX:16,
                     flagId:flagId,
-                    zIndex: 9,
-                    applyColor:applyColor
+                    zIndex: 19,
+                    applyColor:applyColor,
+                    circle_slno:circleSLNo
                 }).css({
-                    fontSize: '12px',
+                    fontSize: displayFontSize,
                     textAlign: 'center',
                     position:'absolute',
                     padding:5,
@@ -83,10 +130,22 @@
             var getPosition = function(that,axis){
                 return parseInt(that.getAttribute(axis));
             };
+            var getCircleStatus = function(that){
+               return that.getAttribute("circle_slno").substr(0,3);     
+            };
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
-                var cX = getPosition(that,'cX') + 10;
-                var cY = getPosition(that,'cY') + 15;
+                var cX = getPosition(that,'cX') + 10,
+                    cY = getPosition(that,'cY') + 15,
+                    getId = getPosition(that,'id'),
+                    circleStroke = getCircleStatus(that) == 'ext' ? '#2c9aec':'#7e848b',
+                    activityCount = getPosition(that,'number_of_activity'),
+                    activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0;
+                $("#"+getId).attr({stroke:circleStroke});
+                //Mouseover for the text need to check if activity count > 1
+                if(activityCount > 1 && activeStatus == 0){
+                    $("#t"+getId).css({color:circleStroke,fill:circleStroke});
+                }
                     var x = cX,
                     y = cY,
                     correctionX = 0,
@@ -126,33 +185,50 @@
                             zIndex: 15
                         }).add();
             };
-
+            var chartMouseOut = function(that){
+                 var getId = getPosition(that,'id'),
+                     circleStroke = getCircleStatus(that) == 'ext' ? '#177ac6':'#57606c',
+                     activityCount = getPosition(that,'number_of_activity'),
+                     activeStatus = getPosition(that,'activestatus') > 0 ? 1 :0,
+                     display_color = activityCount == 1 ? 'transparent' : '#000';
+                if(activeStatus == 0){
+                      // Mouseout for the circle
+                     $("#"+getId).attr({stroke:circleStroke});
+                     // Mouseout for the Text
+                     $("#t"+getId).css({color:display_color,fill:display_color});  
+                }else{
+                     //$("#"+getId).attr({stroke:circleStroke});
+                     // Mouseout for the Text
+                     if(activityCount > 1)
+                     $("#t"+getId).css({color:'#fff',fill:'#fff'});  
+                }
+            };
             var chartClick =  function(circleObj, that) {
                 var myContainer = $('#action-container:first'),
                     getIdList = that.getAttribute('id_list'),
+                    circle_slno = that.getAttribute('circle_slno'),
                     splitIdList =  getIdList.split(",");
 
-                $('circle').attr({ fill:'#ffffff'});
+                $('circle').attr({ fill:'#ffffff',activeStatus:0});
                 //check and select multiple activity id
                 if(splitIdList.length > 1 ) {
                     for(var i=0;i < splitIdList.length;i++){
                         var targetId =splitIdList[i];
-                        $('circle#' + targetId).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+                        $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
                     }
                 } else {
-                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+                    $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
                 }
                 $("text[applyColor=1]").css({fill:'#000'});
-                var getactivityCount = that.getAttribute('activityCount');
+                var getactivityCount = that.getAttribute('number_of_activity');
                 if(getactivityCount > 1){
                     $('text#t' + circleObj.target.id).css({fill:'#fff'});
                 }
-                localStorage.setItem('actionSelStatusFlag' , isActionExternal);
-                localStorage.setItem('actionSelActivityCount' , getactivityCount);
-                localStorage.setItem('actionSel' , getIdList);
-
+                var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getactivityCount,"actionSel":getIdList,"selectedCircleSLNo":circle_slno};
+                localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
                 if(defaultGrey) {
                     myContainer = $('.reports_section_details_container');
+                    $('div[id^="actionItem_"]').removeClass('action_selected');
                     //highlight activity in reports page
                     var scrollTo = $('#actionItem_' + that.id);
                     if(scrollTo.length) {
@@ -162,10 +238,15 @@
                             for(var i=0;i < splitIdList.length;i++){
                                 var targetId =splitIdList[i];
                                 myContainer.find('#actionItem_'+targetId).addClass('action_selected');
-                                myContainer.animate({
+                                //ToDO Remove commented one after the fixes
+                               /* myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
+*/
                             }
+                            myContainer.animate({
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                            });
                         }else{
                             //Day wise single Activity
                             myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+that.id).addClass('action_selected');
@@ -186,10 +267,15 @@
                             for(var i=0;i < splitIdList.length;i++){
                                 var targetId =splitIdList[i];
                                 myContainer.find('#actionItem_'+targetId).addClass('active');
-                                myContainer.animate({
+                                //ToDO Remove below commented one after fix
+                                /*myContainer.animate({
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });*/
+                            }
+                            //
+                            myContainer.animate({
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
-                            }
                         }else{
                             myContainer.find('.active').removeClass('active').end().find('#actionItem_'+that.id).addClass('active');
                             myContainer.animate({
@@ -200,7 +286,9 @@
                     }
                 }
             };
-            chart.renderer.circle(container.x+place_circle_x+adjustX , container.y+adjustY,10).attr({
+            // Adjust the circle if activity Count is greater than 99+
+            var adjustYForMoreActivity = activityCount > 99 ?   0.80 : 0;
+            chart.renderer.circle(container.x+place_circle_x+adjustX , container.y+adjustY-adjustYForMoreActivity,9).attr({
                 fill: '#fff',
                 stroke: (defaultGrey == false|| isActionExternal == false ) ? '#777':'#0072bc',
                 'stroke-width': 2.5,
@@ -209,15 +297,18 @@
                 kpiValue: kpiValue || 'NA',
                 comment: actionComment || 'NA',
                 id_list:id_list,
-                activityCount:activityCount,
-                zIndex: 4,
+                /*activityCount:activityCount,*/
+                number_of_activity:activityCount,
+                zIndex: bubbleZIndex,
                 cX: container.x,
-                cY:container.y
+                cY:container.y,
+                circle_slno:circleSLNo
             }).css({
                 cursor: 'pointer'
             }).on('mouseover', function (event) {
-                chartMouserOver(event, chart, this)
+                chartMouserOver(event, chart, this);
             }).on('mouseout', function (event) {
+                chartMouseOut(this);
                 text.destroy();
                 textBG.destroy();
                 $('.highcharts-tooltip').show();
@@ -225,7 +316,19 @@
                 chartClick(circleObj, this);
             }).add();
         };
-
+        // create a unique SLNO with Internal Or External flag with date
+        //actionUTC activity date
+        var getCircleSLNo = function(make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId){
+            var circleSLNo = undefined;
+            if(make_external == true){   
+                circleSLNo ="extSL_"+extSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+                extSLNo++;
+            }else{
+               circleSLNo ="intSL_"+intSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+               intSLNo++;
+            }
+            return {"circleSLNo":circleSLNo,"extSLNo":extSLNo,"intSLNo":intSLNo};
+        };
         var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
             var data = [],
                 dataArr = [],
@@ -234,10 +337,10 @@
 
             for (var i = 0; i < lineDataLen; i++) {
                 var chartData = lineData[i]['date'].split("-");
-                dataArr.push(lineData[i]['y']);
+                dataArr.push(lineData[i]['y'] || 0);
                 data.push([
                     Date.UTC(parseInt(chartData[0]), parseInt(chartData[1], 10) - 1 , parseInt(chartData[2])),
-                    lineData[i]['y']
+                    lineData[i]['y'] || 0
                 ]);
             }
 
@@ -247,11 +350,14 @@
                 maxVal = Math.max.apply(Math,dataArr),
                 range = parseFloat(parseFloat(maxVal) - parseFloat(minVal)),
                 percentage = ((parseFloat(maxVal) - parseFloat(minVal))/100)*15,
-                chartMinimum = parseFloat(parseFloat(minVal) - parseFloat(percentage)),
-                chartMaximum = parseFloat(parseFloat(maxVal) + parseFloat(percentage));
-                var setMinVal = minVal;
+                setMinVal = minVal,
+                setMaxVal = maxVal;
                 if(threshold >= 0){
-                    var setMinVal = minVal <= threshold ? minVal : threshold;
+                    setMinVal = minVal <= threshold ? minVal : threshold;
+                    setMaxVal = maxVal <= threshold ? threshold : maxVal;    
+                }
+                if(percentage > 0 ){
+                    setMaxVal = setMaxVal + percentage;
                 }
             return {
                 options: {
@@ -279,6 +385,7 @@
                             minPadding:0,
                             tickWidth: 0,
                             labels: {
+                                style: {"color":"#57595b","fontSize":11},
                                 formatter: function() {
                                     if(this.isFirst) {
                                         return Highcharts.dateFormat('%e', this.value);
@@ -308,8 +415,8 @@
                     yAxis: {
                         maxPadding:0,
                         minPadding:0,
-                        max:chartMaximum,
                         min:setMinVal,
+                        max:setMaxVal, 
                         title: {
                             align: 'high',
                             offset: 13,
@@ -322,12 +429,14 @@
                         lineWidth: 1,
                         tickWidth: 0,
                         labels: {
+                            style: {"color":"#57595b","fontSize":11},
                             formatter: function() {
                                 return kpiPrefix(kpiType) + this.value + kpiSuffix(kpiType);
                             }
                         },
-                        plotBands: [{ // Light air
-                            color: '#fbdbd1',
+                        //TODO - remove this after the date ticks are rewritten
+                        /*plotBands: [{ // Light air
+                            color: '#ffefef',
                             label: {
                               enabled: false,
                               text: '',
@@ -335,7 +444,7 @@
                                   color: 'red'
                               }
                             }
-                        }],
+                        }],*/
                         plotLines: [{
                             label: {
                                 text: 'Baseline',
@@ -375,7 +484,10 @@
                     },
                     name: kpiType,
                     data: data,
-                    color: "#00bff0" /*#6fd0f4"*/
+                    //color: "#177ac6" /*#6fd0f4"*/
+                    threshold: threshold,
+                    negativeColor: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#0078cc' : '#f24444',
+                    color: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? '#f24444' : '#0078cc'
                 }],
                 loading: false,
                 func: function(chart) {
@@ -405,7 +517,7 @@
                             chart.yAxis[0].addPlotBand({ // Light air
                                 from: threshold,
                                 to: (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? extremes.max : extremes.min,
-                                color: '#fbdbd1',
+                                color: '#fff',
                                 label: {
                                     enabled: false,
                                     text: '',
@@ -440,7 +552,7 @@
 
                             chart.yAxis[0].addPlotLine({
                                 value: threshold,
-                                color: '#FABD82',
+                                color: '#D2DEE7',
                                 width: 1,
                                 id: 'plot-line-1'
                             });
@@ -501,6 +613,10 @@
                             }
 
                             var activityCount = 0;
+                            var extSLNo,intSLNo,overlapResult,activityDateArray = [];
+                            extSLNo = intSLNo = 1;
+                            var getParams= (document.URL).split(/[\s/]+/);
+                            var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1] ;
                             if (actionItems) {
                                 for (i = chart.series[0].data.length - 1; i >= 0; i--) {
                                     position = 0;
@@ -513,12 +629,21 @@
                                             }
 
                                             if ((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
-                                                var checkFlag = actionItems[j].make_external == true ? 'external':'internal';
-                                                var arrayVar = actionItems[j].make_external == true ? 'externalIDS':'internalIDS';
+                                                var checkFlag = actionItems[j].make_external == true ? 'external':'internal',
+                                                    arrayVar = actionItems[j].make_external == true ? 'externalIDS':'internalIDS',
+                                                    id_list = countActivityItem[actionUTC][arrayVar],
+                                                    overlapFlag;
                                                 activityCount = countActivityItem[actionUTC][checkFlag];
-                                                var id_list = countActivityItem[actionUTC][arrayVar];
                                                 if(activityCount == 1){
-                                                    drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list);
+                                                    var circleInfo = getCircleSLNo(actionItems[j].make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
+                                                    var circleSLNo = circleInfo.circleSLNo;
+                                                    //Get Increment Id for external and Internal SL Number
+                                                    extSLNo = circleInfo.extSLNo;
+                                                    intSLNo = circleInfo.intSLNo;
+                                                    overlapResult = getOverlapFlag(activityDateArray,actionUTC);
+                                                    activityDateArray = overlapResult.activityDateArray;
+                                                    overlapFlag = overlapResult.overlapFlag;
+                                                    drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
                                                     counter++;
                                                     position += 10; //correction for multiple markers in the same place
                                                 } else {
@@ -530,7 +655,16 @@
                                                      //Multiple Item in single chart
                                                     if( findPlacedActivity[actionUTC][checkFlag] != 'completed' ){
                                                         findPlacedActivity[actionUTC][checkFlag] = 'completed';
-                                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list);
+                                                        var circleInfo = getCircleSLNo(actionItems[j].make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
+                                                        //Get circle SL Number
+                                                        var circleSLNo = circleInfo.circleSLNo;
+                                                        //Get Increment Id for external and Internal SL Number
+                                                        extSLNo = circleInfo.extSLNo;
+                                                        intSLNo = circleInfo.intSLNo;
+                                                        overlapResult = getOverlapFlag(activityDateArray,actionUTC);
+                                                        activityDateArray = overlapResult.activityDateArray;
+                                                        overlapFlag = overlapResult.overlapFlag;
+                                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
                                                         counter++;
                                                         position += 20;
                                                     }
@@ -548,18 +682,29 @@
                             }
                             //Action Selection Activity
                             //AFter loaded default select
-                            if(localStorage.getItem('actionSel')) {
-                                var isActionExternal = localStorage.getItem('actionSelStatusFlag'),
-                                    getactivityCount =  localStorage.getItem('actionSelActivityCount'),
-                                    splitIdList =  localStorage.getItem('actionSel').split(",");
+                            var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
+                            if(activityLocalStorageInfo != null) {
+                               $('div[id^="actionItem_"]').removeClass('active');
 
-                                $('circle#' + splitIdList[0]).attr({ fill:   isActionExternal =='false'  ? '#777':'#0072bc'});
+                                     var isActionExternal = activityLocalStorageInfo.actionSelStatusFlag,
+                                         getSelectedCircleSLNo = activityLocalStorageInfo.selectedCircleSLNo,
+                                         //getactivityCount = $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr("number_of_activity"),
+                                         getactivityCount = getValueFromSelectedCircle(getSelectedCircleSLNo,'number_of_activity'),
+                                         splitIdList =  [],
+                                         //getIds =  $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr("id_list");
+                                         getIds = getValueFromSelectedCircle(getSelectedCircleSLNo,'id_list');
+                                    if(getIds != undefined){
+                                        splitIdList = getIds.split(",");
+                                    }
+                                    $('circle').attr({activeStatus:0});
+                                    $('circle[circle_slno="'+getSelectedCircleSLNo+'"]').attr({ fill:   isActionExternal == false  ? '#7e848b':'#2c9aec',activeStatus:1,stroke:   isActionExternal == false  ? '#7e848b':'#2c9aec'});
                                 if(getactivityCount > 1){
-                                    $('text#t' + splitIdList[0]).css({fill:'#fff'});
+                                    $('text[circle_slno="'+getSelectedCircleSLNo+'"]').css({fill:'#fff',activeStatus:1});
                                 }
+                                var numberOfActiveStatus=$('circle[activestatus="1"]').length;
                                 //Select Activity
                                 var myContainer = $('#action-container:first');
-                                if(splitIdList.length > 1 ){
+                                if(splitIdList.length > 1 && numberOfActiveStatus > 0 ){
                                     var scrollTo = $('#actionItem_' + splitIdList[0]);
                                     scrollTo.siblings().removeClass('active').end().addClass('active');
                                     //Mulitple Activity List
@@ -567,19 +712,27 @@
                                         var targetId =splitIdList[i];
                                         //$('circle#' + targetId).attr({ fill: '#777'});
                                          myContainer.find('#actionItem_'+targetId).addClass('active');
-                                         if(scrollTo.length) {
+                                         //TODO remove the commented code after the fixes
+                                         /*if(scrollTo.length) {
                                              myContainer.animate({
                                               scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                             });
-                                         }
+                                         }*/
+                                    }
+                                    if(scrollTo.length) {
+                                             myContainer.animate({
+                                              scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                            });
                                     }
                                 } else {//Day wise single Activity
-                                    var scrollTo = $('#actionItem_' + splitIdList[0]);
-                                    if(scrollTo.length) {
-                                      scrollTo.siblings().removeClass('active').end().addClass('active');
-                                      myContainer.animate({
-                                          scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                                      });
+                                    if(numberOfActiveStatus > 0){
+                                         var scrollTo = $('#actionItem_' + splitIdList[0]);
+                                         if(scrollTo.length) {
+                                            scrollTo.siblings().removeClass('active').end().addClass('active');
+                                            myContainer.animate({
+                                              scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                          });
+                                        }
                                     }
                                 }//end activity Selection
                             }

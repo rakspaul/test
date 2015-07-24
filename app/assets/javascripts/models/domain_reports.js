@@ -49,7 +49,7 @@
         };
     }]);
 
-    angObj.directive('reportTabs', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('reportTabs', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
@@ -57,7 +57,7 @@
 
             templateUrl: '/assets/html/partials/reports_header_tab.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);
@@ -70,6 +70,7 @@
             restrict:'EAC',
             templateUrl: '/assets/html/partials/download_report.html',
             link: function($scope, element, attrs) {
+                $scope.textConstants = constants;
                 element.bind('click', function() {
                     var locationPath = $location.path();
                     if(loginModel.getIsAgencyCostModelTransparent()) {
@@ -108,75 +109,75 @@
         };
     });
 
-    angObj.directive('screenHeader', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('screenHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/screen_header.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);
 
-    angObj.directive('daysofweekHeader', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('daysofweekHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/daysofweek_header.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);
 
-    angObj.directive('formatHeader', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('formatHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/format_header.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);
 
 
-    angObj.directive('performanceHeader', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('performanceHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/performance_header.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);
 
-    angObj.directive('costHeader', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('costHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/cost_header.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);
 
-    angObj.directive('viewablityHeader', ['$http', '$compile', function ($http, $compile) {
+    angObj.directive('viewablityHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/viewablity_header.html',
             link: function(scope, element, attrs) {
-
+                scope.textConstants = constants;
             }
         };
     }]);

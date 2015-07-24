@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    campaignSelectModule.directive('campaignDropDown', ['utils','campaignSelectModel', function (utils, campaignSelectModel) {
+    campaignSelectModule.directive('campaignDropDown', ['utils','campaignSelectModel','constants', function (utils, campaignSelectModel,constants) {
         return {
             restrict: 'AE',
             scope: {
@@ -9,6 +9,7 @@
             controller: 'campaignSelectController',
             templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
+                $scope.textConstants = constants;
                 $('#campaigns_list').scrollWithInDiv();
                 var campaignName = '';
                 var localStorageCampaignData;

@@ -12,6 +12,7 @@
                 <download-report></download-report>
             </div>
         </div>
+
         <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
@@ -26,17 +27,17 @@
                     <div class="clearfix reports_tabs_holder">
                         <div class="each_tab cost_tab active " id="byscreens">
                             <div class="each_tab_text">
-                                Screens
+                                {{textConstants.SCREENS}}
                             </div>
                         </div>
                         <div class="each_tab " id="bydaysofweek">
                             <div class="each_tab_text">
-                                Days of Week
+                                {{textConstants.DAYS_OF_WEEK}}
                             </div>
                         </div>
                         <div class="each_tab cost_tab " id="byformats">
                             <div class="each_tab_text">
-                                Formats
+                                {{textConstants.FORMATS}}
                             </div>
                         </div>
                     </div>
@@ -44,7 +45,10 @@
                 <!-- -------END :  Performance Tabs ------------------------ -->
 
                 <!-- -------START :  Screen Block ----------------------------- -->
-                <div class="reports_block" id="reports_byscreens_block" style="display:block;">
+                
+
+                
+                <div ng-class="strategyPerfDataByScreen.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="display:block;">
                     <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
                     <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
                         <div class="clearfix reports_performance_header">
@@ -57,18 +61,18 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics track by $index" ng-include="'screenTpl'"></div>
+                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByScreen.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByScreen.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics track by $index" ng-include="'screenTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +83,7 @@
                 <!-- -------END :  Screen Block ----------------------------- -->
 
                 <!-- -------START :  Days of week Block ----------------------------- -->
-                <div class="reports_block" id="reports_bydaysofweek_block" style="display:none;" >
+                <div ng-class="strategyPerfDataByDOW.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_bydaysofweek_block" style="display:none;" >
                     <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
                         <div class="clearfix reports_performance_header">
@@ -92,18 +96,18 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics track by $index" ng-include="'daysofweekTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics track by $index" ng-include="'daysofweekTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +118,7 @@
                 <!-- -------END :  Days of week Block ----------------------------- -->
 
                 <!-- -------START :  Format Block ----------------------------- -->
-                <div class="reports_block" id="reports_byformats_block" style="display:none;">
+                <div ng-class="strategyPerfDataByFormat.hasVTCMetrics ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="display:none;">
                     <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable('formats')"></div>
                     <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
                         <div class="clearfix reports_performance_header">
@@ -127,18 +131,18 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics track by $index" ng-include="'formatTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'formatTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics track by $index|orderBy: sortByColumn" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics | orderBy:sortType:sortReverse track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics track by $index" ng-include="'formatTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortType:sortReverse track by $index" ng-include="'formatTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -156,11 +160,28 @@
 
 
 <script type="text/ng-template" id="screenTpl">
-    <div class="each_col sec_col">
+    <div class="each_col sec_col" >
         {{screenData.dimension}}
     </div>
     <div class="each_col third_col">
-        {{screenData.impressions | number:0}}
+        {{screenData.impressions >0 ? (screenData.impressions | nrFormat) : '-'}}
+    </div>
+    <div class="vid_col" ng-show="strategyPerfDataByScreen.hasVTCMetrics == true">
+        <div class="each_col third_col">
+            {{screenData.video_metrics.ad_starts >0 ? (screenData.video_metrics.ad_starts | nrFormat) : '-'}}
+        </div>
+
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_25 >0 ? (screenData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_50 >0 ? (screenData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 >0 ? (screenData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 >0 ? (screenData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <span>{{screenData.video_metrics.vtc_rate | number:2}}%</span>
+        </div>
     </div>
     <div class="each_col forth_col">
         {{screenData.ctr*100 | number:2}}%
@@ -168,14 +189,29 @@
     <div class="each_col fifth_col">
         {{screenData.action_rate*100 | number:2}}%
     </div>
+    <span  ng-if="!strategyPerfDataByScreen.hasVTCMetrics">
     <div class="each_col sixth_col">
-        ${{screenData.cpa | number:2}}
+        {{screenData.cpa | currency:undefined:2}}
     </div>
+
     <div class="each_col seventh_col">
-        ${{screenData.cpc | number:2}}
+        {{screenData.cpc | currency:undefined:2}}
     </div>
+
     <div class="each_col eight_col">
-        ${{screenData.cpm | number:2}}
+        {{screenData.cpm | currency:undefined:2}}
+    </div>
+        </span>
+    <div ng-if="strategyPerfDataByScreen.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+
+        <!--<span >{{selected_filters.kpi_type == 'cpa'? "cpm" : "cpm"}}</span>-->
+        <span ng-if="selected_filters.kpi_type == 'vtc' " style="visibility: hidden">
+        {{selected_filters.kpi_type = "cpm"}}
+        </span>
+
+
+        {{screenData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters.kpi_type}}
     </div>
 </script>
 
@@ -185,7 +221,24 @@
         {{daysofweekData.dimension}}
     </div>
     <div class="each_col third_col">
-        {{daysofweekData.impressions | number:0}}
+        {{daysofweekData.impressions >0 ? (daysofweekData.impressions | nrFormat) : '-'}}
+    </div>
+        <div class="vid_col" ng-show="strategyPerfDataByDOW.hasVTCMetrics == true">
+        <div class="each_col third_col">
+            {{daysofweekData.video_metrics.ad_starts >0 ? (daysofweekData.video_metrics.ad_starts | nrFormat) : '-'}}
+        </div>
+
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_25 >0 ? (daysofweekData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_50 >0 ? (daysofweekData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_75 >0 ? (daysofweekData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_100 >0 ? (daysofweekData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <span>{{daysofweekData.video_metrics.vtc_rate | number:2}}%</span>
+        </div>
     </div>
     <div class="each_col forth_col">
         {{daysofweekData.ctr*100 | number:2}}%
@@ -193,23 +246,46 @@
     <div class="each_col fifth_col">
         {{daysofweekData.action_rate*100 | number:2}}%
     </div>
+    <span  ng-if="!strategyPerfDataByDOW.hasVTCMetrics">
     <div class="each_col sixth_col">
-        ${{daysofweekData.cpa | number:2}}
+        {{daysofweekData.cpa | currency:undefined:2}}
     </div>
     <div class="each_col seventh_col">
-        ${{daysofweekData.cpc | number:2}}
+        {{daysofweekData.cpc | currency:undefined:2}}
     </div>
     <div class="each_col eight_col">
-        ${{daysofweekData.cpm | number:2}}
+        {{daysofweekData.cpm | currency:undefined:2}}
     </div>
- </script>
+    </span>
+    <div ng-if="strategyPerfDataByDOW.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByScreen.hasVTCMetrics == false}">
+        {{daysofweekData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
+    </div>
+</script>
 
 <script type="text/ng-template" id="formatTpl">
     <div class="each_col sec_col">
         {{formatData.dimension}}
     </div>
     <div class="each_col third_col">
-        {{formatData.impressions | number:0}}
+        {{formatData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}
+    </div>
+    <div class="vid_col" ng-show="strategyPerfDataByFormat.hasVTCMetrics == true">
+        <div class="each_col third_col">
+            {{formatData.video_metrics.ad_starts > 0 ? (formatData.video_metrics.ad_starts | nrFormat) : '-'}}
+        </div>
+
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_25 > 0 ? (formatData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_50 > 0 ? (formatData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_75 > 0 ? (formatData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_100 > 0 ? (formatData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <span>{{formatData.video_metrics.vtc_rate | number:2}}%</span>
+        </div>
     </div>
     <div class="each_col forth_col">
         {{formatData.ctr*100 | number:2}}%
@@ -217,14 +293,20 @@
     <div class="each_col fifth_col">
         {{formatData.action_rate*100 | number:2}}%
     </div>
+    <span  ng-if="!strategyPerfDataByFormat.hasVTCMetrics">
     <div class="each_col sixth_col">
-        ${{formatData.cpa | number:2}}
+        {{formatData.cpa | currency:undefined:2}}
     </div>
     <div class="each_col seventh_col">
-        ${{formatData.cpc | number:2}}
+        {{formatData.cpc | currency:undefined:2}}
     </div>
     <div class="each_col eight_col">
-        ${{formatData.cpm | number:2}}
+        {{formatData.cpm | currency:undefined:2}}
+    </div>
+        </span>
+    <div ng-if="strategyPerfDataByFormat.hasVTCMetrics" class="each_col eight_col" ng-class="{vid_none:strategyPerfDataByFormat.hasVTCMetrics == false}">
+        {{formatData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
     </div>
 </script>
 

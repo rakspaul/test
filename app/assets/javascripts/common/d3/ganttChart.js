@@ -1544,19 +1544,20 @@
                                 return 10;
                             }
                         } else if (timeDomainString == "today") {
-                            if (i == 0) {
-                                return 30;
+                            //checking if first tick date =   tick data
+                            if (moment().startOf('day').subtract(3, 'days').format('MM/DD/YYYY') == moment(d).format('MM/DD/YYYY')) {
+                                return 50;
                             } else {
                                 return 60;
                             }
                         } else if (timeDomainString == "year") {
-                            if (i == 0) {
-                                return 16;
+                            if (moment().startOf('year').format('MM/DD/YYYY') == moment(d).format('MM/DD/YYYY')) {
+                                return 20;
                             } else {
                                 return 26;
                             }
                         } else {
-                            if (i == 0) {
+                            if ( moment().startOf('quarter').format('MM/DD/YYYY') == moment(d).format('MM/DD/YYYY')) {
                                 return 128;
                             } else {
                                 return 145;
@@ -2243,20 +2244,16 @@
             format = "%d";
             timeDomainString = "quarter";
 
-            var calendar_height = tasks.length * 30.75;
+            var calendar_height = 0;
             var countBrands = 0;
             _.each(tasks, function(t){
-                if(t.type == "brand") {
+                if(t.type == "brand" && t.name!=" ") {
                     countBrands++;
+                    calendar_height += 55; //TODO: recalculation strategy for height
+                } else {
+                    calendar_height += 22;
                 }
             });
-            
-            //new height after changing brand placement 
-            calendar_height = calendar_height - (countBrands * BRAND_PADDING);
-
-            calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
-
-            gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
 
             var margin = {
                 top: 20,
@@ -2264,6 +2261,13 @@
                 bottom: 20,
                 left: 50
             };
+
+            //new height after changing brand placement 
+            calendar_height = calendar_height - (countBrands * BRAND_PADDING) + (margin.top + margin.bottom + 5);
+
+            calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
+            gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+
             gantt.isSingleBrand(singleBrand);
 
             gantt.margin(margin);

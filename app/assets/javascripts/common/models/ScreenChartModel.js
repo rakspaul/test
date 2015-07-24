@@ -1,8 +1,8 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,requestCanceller, constants, loginModel) {
+    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
-            metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
+            metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
             formatDropDown : [constants.SCREENS, constants.FORMATS],
             chartData : {},
@@ -14,9 +14,9 @@
            var _screenWidgetFormatType = "by" + screenWidgetData['selectedFormat'].toLowerCase();
             var url;
             if(brandsModel.getSelectedBrand().id !== -1){
-                 url = urlService.APIScreenWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), brandsModel.getSelectedBrand().id , _screenWidgetFormatType );
+                 url = urlService.APIScreenWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), brandsModel.getSelectedBrand().id , _screenWidgetFormatType, dashboardModel.getData().selectedStatus );
             }else {
-                 url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), _screenWidgetFormatType );
+                 url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), _screenWidgetFormatType, dashboardModel.getData().selectedStatus );
             }
 
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
@@ -65,6 +65,9 @@
                 case 'spend' :
                     screenWidgetData['selectedMetric'] = constants.SPEND;
                     break;
+                case 'vtc' :
+                    screenWidgetData['selectedMetric'] = constants.VTC;
+                    break;
             }
 
         };
@@ -91,5 +94,5 @@
 
 
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants' , 'loginModel', screenChartData]);
+    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', screenChartData]);
 }());

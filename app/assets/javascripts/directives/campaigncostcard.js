@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCostCard', function (utils) {
+    angObj.directive('campaignCostCard', function (utils, constants) {
         return {
             restrict:'EAC',
 
@@ -12,6 +12,8 @@
             templateUrl: assets.html_campaign_cost_card,
 
             link: function ($scope, element, attrs) {
+
+                $scope.textConstants = constants;
 
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
@@ -103,6 +105,9 @@
                 //This is called when the user clicks on the campaign title
                 $scope.goToLocation = function(url){
                     utils.goToLocation(url);
+                };
+                $scope.getMessageForDataNotAvailable = function () {
+                    return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
                 };
             } 
         };

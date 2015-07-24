@@ -6,10 +6,24 @@
       </a>
     </div>
     <div class="each_header_title metrics_title unselectable">
-        Metrics
+        {{textConstants.METRICS}}
     </div>
     <div class="each_header_title kpi_title unselectable">
-        KPI
+        <div class="pull-left">
+            {{textConstants.KPI}}
+        </div>
+        <div class="pull-left tooltip_holder">
+              <span class="tooltip_show_icon"></span>
+              <div class="common_tooltip">
+                <div class="legend_line ontarget_line">
+                    {{textConstants.KPI_ON_TARGET}}
+                </div>
+                <div class="legend_line underperformance_line">
+                    {{textConstants.KPI_UNDERPERFORMANCE}}
+                </div>
+                
+              </div>
+        </div>
     </div>                
 </div>
 <!--campaign card sort ends-->

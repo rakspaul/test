@@ -1,7 +1,6 @@
 // `main.js` is the file that sbt-web will use as an entry point
 (function (requirejs) {
   'use strict';
-
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
@@ -21,6 +20,7 @@
             exports: 'angular'
         },
       'angular-cache': {deps: ['angular']},
+      'angular-switch': {deps: ['angular']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
       'angular-route': {deps: ['angular-resource']},
@@ -33,6 +33,7 @@
       'angulartics': {deps: ['angular']},
       'angulartics-ga': {deps: ['angulartics']},
       'd3': {deps: ['angulartics-ga']},
+      'angular-locale' : {deps:['angular']},
       'angular-sanitize': {deps: ['d3']},
       'filesaver': {deps: ['angular-sanitize']},
       'ui-bootstrap-tpls': {deps: ['filesaver']},
@@ -59,6 +60,7 @@
       'common-utils':{deps: ['common-directives-CommonDirectives']},
       'common-services-AnalyticsService':{deps: ['common-utils']},
       'common-d3-gauge':{deps: ['common-services-AnalyticsService']},
+      'common-d3-quartilesGraph':{deps: ['common-services-AnalyticsService']},
       'common-controllers-GaugeController':{deps: ['common-d3-gauge']},
       'common-models-GaugeModel':{deps: ['common-controllers-GaugeController']},
       'common-d3-bubbleChart':{deps: ['common-models-GaugeModel']},
@@ -165,6 +167,7 @@
       'angular': 'vendor/angular.min',
       'angular-resource': 'vendor/angular-resource.min',
       'angular-route': 'vendor/angular-route.min',
+      'angular-switch':'vendor/angular-ui-switch.min',
       'angular-cookies': 'vendor/angular-cookies',
       'angular-cache': 'vendor/angular-cache-2.3.7',
       'angular-sanitize': 'vendor/angular-sanitize',
@@ -204,6 +207,7 @@
       'common-utils':'common/utils',
       'common-services-AnalyticsService':'common/services/AnalyticsService',
       'common-d3-gauge':'common/d3/gauge',
+      'common-d3-quartilesGraph':'common/d3/quartilesGraph',
       'common-controllers-GaugeController':'common/controllers/GaugeController',
       'common-models-GaugeModel':'common/models/GaugeModel',
       'common-d3-bubbleChart':'common/d3/bubbleChart',
@@ -295,7 +299,7 @@
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
       'common-directive-DataNotFound':'common/directives/DataNotFound',
-
+      'angular-locale':'vendor/i18n/angular-locale_en-us',
       'jsRoutes': '/jsroutes'
     } 
  
@@ -311,6 +315,7 @@
           'jquery-ui',
            'bootstrap',
           'angular',
+          'angular-switch',
           'angular-resource',
           'angular-route',
           'angular-cookies',
@@ -351,6 +356,7 @@
            'common-utils',
            'common-services-AnalyticsService',
            'common-d3-gauge',
+           'common-d3-quartilesGraph',
            'common-controllers-GaugeController',
            'common-models-GaugeModel',
            'common-d3-bubbleChart',
@@ -441,7 +447,8 @@
            'services-costservice',
            'services-optimizationservice',
            'services-momentService',
-           'common-directive-DataNotFound'
+           'common-directive-DataNotFound',
+           'angular-locale'
            ],
    
     function ($,jqueryUI,  bootstrap, angular) {

@@ -13,6 +13,8 @@
 
             link: function ($scope, element, attrs) {
 
+                $scope.textConstants = constants;
+
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = -999; //fix for initial loading
@@ -122,6 +124,9 @@
                 $scope.goToLocation = function(url){
                     utils.goToLocation(url);
                 };
+                $scope.VTCpopup = function(event,flag) {
+                    utils.VTCpopupfunc(event,flag) ;
+                }
 
               $scope.getMessageForDataNotAvailable = function (campaign) {
                 if (!campaign)
