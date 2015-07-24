@@ -377,13 +377,13 @@ var angObj = angObj || {};
             elem.closest(".breakdown_div").remove();
         };
 
-        $scope.select_dropdown_option = function(event , arg , from ) {
-            if( from == "dropdown") {
-                var elem = $(event.target);
-                elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
-                elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
-                elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
-            }
+        $scope.select_dropdown_option = function(event , arg ) {
+            
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+            elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
+            elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
+            
             var startDate,endDate;
             switch(arg) {
                 case 'yesterday':
