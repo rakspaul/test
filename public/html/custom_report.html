@@ -473,12 +473,6 @@
 
 <script type="text/javascript">
 
-	 $('.date').datepicker({
-	    orientation: "top left",
-	    format: 'yyyy-mm-dd',
-	    keyboardNavigation: false
-	});
-
 	var lastScrollLeft = 0;
 	$(".custom_report_scroll").scroll(function() {
 	    var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
@@ -490,4 +484,14 @@
 	    }
 	});
 
+	$(document).ready( function(){
+		 $('.date').datepicker({
+		    orientation: "top left",
+		    format: 'yyyy-mm-dd',
+		    keyboardNavigation: false
+		});
+		var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
+        $('#startDateInput').datepicker('update', yesterday) ;
+        $('#endDateInput').datepicker('update', yesterday );
+	}) ;
 </script>

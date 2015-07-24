@@ -410,7 +410,7 @@ var angObj = angObj || {};
             $('#startDateInput').datepicker('update', startDate);
             $('#endDateInput').datepicker('update', endDate);
         };
-
+       
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide() ;
             $("#" +  id + "_table").show() ;
