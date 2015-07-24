@@ -18,11 +18,11 @@
 			           			<div class="pull-left custom_report_filter">
 			           				 <div class="common_dropdown">
 			                              <div class="dropdown" >
-		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
+		                                    <span class="dropdown_ul_text" data-toggle="dropdown" >
 		                                        <span class="dd_txt" data-template_id = "{{showDefaultDimension.template_id}}" id="{{showDefaultDimension.key}}">Choose Breakdown</span>
 		                                        <span class="arrow_img"></span>
 		                                    </span>
-		                                    <ul class="dropdown-menu" >
+		                                    <ul class="dropdown-menu" ng-click="enable_generate_btn();">
 		                                    	<li ng-click="select_dropdown_option($event)">Choose Breakdown</li>
 		                                        <li ng-repeat="dimension in customeDimensionData[0].dimensions" id="{{dimension.key}}" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>
 		                                    </ul>
@@ -137,7 +137,7 @@
 
 			           			</div>
 
-								<div class="pull-right common_primary_btn report_generate_button" ng-click="generateReport()" >
+								<div class="pull-right common_primary_btn report_generate_button disabled" ng-click="generateReport()" >
 						    		Generate
 						    	</div>
 						    	<!-- <div class="pull-right common_secondary_blue_btn" >
@@ -288,18 +288,18 @@
 							</div>
 						</div>
 						<div class="clearfix first_dimension_row_holder">
-							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
 							<div class="each_row reportData {{showhasBreakdown}}"  data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics track by $index" ><!-- add active when the next dimension is open --><!-- add hasBreakdown when the next dimension is available -->
-								<div ng-include="'customeReportTpl'"></div>
+								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
 								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
 								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
 									<div>
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].delivery_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
-										<div class="sec_dimension_load_more" ng-click="fetchMoreSecondDimensionData($event)" style="display:none;" >
+										<span class="sec_dimension_load_more" ng-click="fetchMoreSecondDimensionData($event)" style="display:none;" >
 											<a href="javascript:void(0);" >Load more</a>
-										</div>
+										</span>
 									</div>
 									<!-- end of load more for second dimension -->
 								</div>
@@ -319,18 +319,18 @@
 							</div>
 						</div>
 						<div class="clearfix first_dimension_row_holder">
-							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.booked_metrics track by $index">
-								<div ng-include="'customeReportTpl'"></div>
+								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
 								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
 								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
 									<div>
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].booked_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
-										<div class="sec_dimension_load_more"  style="display:none;">
+										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
-										</div>
+										</span>
 									</div>
 									<!-- end of load more for second dimension -->
 								</div>
@@ -349,18 +349,18 @@
 							</div>
 						</div>
 						<div class="clearfix first_dimension_row_holder">
-							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics track by $index">
-								<div ng-include="'customeReportTpl'"></div>
+								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
 								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
 								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
 									<div>
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].engagement_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
-										<div class="sec_dimension_load_more"  style="display:none;">
+										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
-										</div>
+										</span>
 									</div>
 									<!-- end of load more for second dimension -->
 								</div>
@@ -379,18 +379,18 @@
 							</div>
 						</div>
 						<div class="clearfix first_dimension_row_holder">
-							<div ng-if="reportDataLoading" class="common-load-more"></div>
+							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.video_metrics track by $index">
-								<div ng-include="'customeReportTpl'"></div>
+								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
 								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
 								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
 									<div>
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].video_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
-										<div class="sec_dimension_load_more"  style="display:none;">
+										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
-										</div>
+										</span>
 									</div>
 									<!-- end of load more for second dimension -->
 								</div>
