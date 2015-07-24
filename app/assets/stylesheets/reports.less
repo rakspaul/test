@@ -4034,7 +4034,7 @@ only screen and (min-device-pixel-ratio: 2) {
       text-align: center;
       font-size: 20px;
       color: #c6c9cd;
-      margin: 60px 0;
+      margin: 20px 0 60px ;
     }
     .img_table_txt {
       display: block;
@@ -4220,10 +4220,12 @@ only screen and (min-device-pixel-ratio: 2) {
       display: block;
       .second_dimension_row {
         position: relative;
+        margin-top: 10px;
+        color: #5A5A5A ;
         .tree_dimension_col {
-          width: 295px;
-          min-width: 295px;
-          max-width: 295px;
+          width: 290px;
+          min-width: 290px;
+          max-width: 290px;
           padding: 6px 0 0 25px ;
         }
         .each_col.tree_string {
@@ -4254,6 +4256,12 @@ only screen and (min-device-pixel-ratio: 2) {
           }
         }
       }
+      .second_dimension_row:last-of-type {
+          background-color: #fff;
+          z-index: 2;
+          height: 13px;
+          border-left: dashed 1px rgb(149, 161, 169);
+      }
     }
     .vertical_scroll {
       padding-top: 75px;
@@ -4264,6 +4272,7 @@ only screen and (min-device-pixel-ratio: 2) {
         left: 0px;
         padding: 30px 0 0 50px ;
         z-index: 4;
+
       }
     }
     .horizontal_scroll {
@@ -4292,6 +4301,7 @@ only screen and (min-device-pixel-ratio: 2) {
         margin-top: 0px ;
       }
       .more_dimension_col {
+        cursor: pointer;
         &:after {
           content: "";
           height: 100%;
@@ -4301,6 +4311,7 @@ only screen and (min-device-pixel-ratio: 2) {
           top: 0;
           left: 5px;
           z-index: 1;
+          margin-bottom: 30px;
         }
       }
     }
@@ -4319,6 +4330,7 @@ only screen and (min-device-pixel-ratio: 2) {
       margin-bottom: 20px ;
       border-bottom: solid 1px #ccc ;
       padding: 30px 30px 0 30px;
+
     }
     .first_dimension_row_holder {
       padding: 20px 30px 0px 30px ;
@@ -4329,6 +4341,13 @@ only screen and (min-device-pixel-ratio: 2) {
     .each_row {
       display: table ;
       position: relative;
+      margin-bottom: 25px;
+      .common-load-more {
+        height: 30px;
+        background: url("/assets/images/loading.gif") no-repeat center center;
+        width: 1000px;
+        margin: 30px 0 50px;
+      }
     }
     .fixed_dimension_col {
       position: absolute ;
@@ -4349,10 +4368,11 @@ only screen and (min-device-pixel-ratio: 2) {
       min-width: 102px;
       max-width: 102px;
       word-wrap: break-word;
-      padding-right: 20px;
-      padding-bottom: 15px;
+      padding-right: 20px;/*
+      padding-bottom: 15px;*/
       text-align: right;
     }
+
     .tree_dimension_col {
       width: 295px;
       min-width: 295px;
@@ -4373,6 +4393,12 @@ only screen and (min-device-pixel-ratio: 2) {
       -webkit-border-radius: 4px ;
       color: #fff ;
     }
+  }
+  .heading_row.each_row {
+    margin-bottom: 0px ;
+     .each_col {
+        padding-bottom: 20px ;
+      }
   }
 }
 
@@ -4463,7 +4489,12 @@ div.reports_tabs_content_container {
   .sec_dimension_load_more {
     text-align: center;
     margin: 10px 0 20px;
+    display: block;
   }
+}
+.heading_first_dimension {
+  font-family: "Avenir-bold" ;
+  color: #5C5C5C ;
 }
 .new_breakdown_div {
   .filter_input_txtbox {
@@ -4477,4 +4508,7 @@ div.reports_tabs_content_container {
   margin: 8px 0 0 10px;
   background: url("/assets/images/cdesk/clear_entry.png") no-repeat center center ;
 }
-
+.report_generate_button.disabled {
+  opacity: .5 ;
+  cursor: default;
+}

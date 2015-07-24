@@ -234,8 +234,11 @@ var angObj = angObj || {};
 
         $scope.generateReport = function() {
             if(!_customctrl.enableGenerateButton()) {
+                $(".report_generate_button").addClass("disabled") ;
+                $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide() ;
                 return false;
             }
+            $(".report_generate_button").removeClass("disabled") ;
             $scope.metricValues = [];
             $scope.reportMetaData={};
             $scope.hideReportsTabs = false;
@@ -252,7 +255,15 @@ var angObj = angObj || {};
             _customctrl.getReportData();
 
         };
-
+        $scope.enable_generate_btn = function() {
+            if(_customctrl.enableGenerateButton()) {
+                $(".report_generate_button").removeClass("disabled") ;
+            } else {
+                $(".report_generate_button").addClass("disabled") ;
+                $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide() ;
+            }
+        }
+        
         $scope.loadMoreItems = function() {
             $scope.firstDimensionoffset += $scope.limit;
             $scope.fetching = true;
