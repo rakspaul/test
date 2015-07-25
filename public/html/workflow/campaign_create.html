@@ -18,12 +18,12 @@
                         <div class="statusLabel" ng-if="selectedCampaign.startTime">
                             <span>Flight: </span>
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            <span class="errorTxt">{{selectedCampaign.startTime}}</span>  <span class="errorTxt" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
+                            <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
                         </div>
                         <div class="statusLabel" ng-if="selectedCampaign.budget">
                             <span>Budget: </span>
                             <span class="glyphicon">{{ textConstants.DOLLAR }}</span>
-                            <span id="budgetAmount"  class="errorTxt">{{selectedCampaign.budget}}</span>
+                            <span id="budgetAmount"  class="">{{selectedCampaign.budget}}</span>
                         </div>
 
                         <p class="">2. Pricing Model</p>
@@ -44,7 +44,7 @@
                 <form class="form-horizontal ng-scope ng-pristine ng-valid" id="saveCreateCampaign" role="form" name="saveCreateCampaign" action="#"  novalidate>
                 <div class="collapseHeader">
                     <span>Choose your campaign <b>{{ textConstants.SETTINGS }}</b></span>
-                    <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save</a>
+                    <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save as Draft</a>
                     <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
                 </div>
 
@@ -82,11 +82,27 @@
                         <!--==== Row 2 ====-->
                         <div class=" col-md-12" >
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is the primary goal?</label>
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
+                            <div class="form-group col-sm-5" show-errors='{showSuccess: true}'>
                                 <label for="goalDDL" class="col-sm-12 control-label greyTxt">Select One Goal</label>
                                 <select ng-options="goal.name for goal in workflowData.goals" class="form-control" id="goalDDL" ng-model="selectedCampaign.goal" ng-change="selectHandler('goal', selectedCampaign)" name="goalId" required>
                                     <option value="">Select Goal</option>
                                 </select>
+                                
+                                <!-- ABI BELOW IS THE TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
+                                <div class="col-md-12 btn-group goalBtnGroup zeroPadding" data-toggle="buttons">
+                                    <label class="btn btn-primary active">
+                                      <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                                        <span>Performanced</span>
+                                        <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="radio" name="options" id="option2" autocomplete="off">
+                                        <span>Brand</span>
+                                        <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+                                    </label>
+                                </div>
+                                <!-- ABI BELOW IS THE TOGGLE BTN FOR GOAL SELECTION ENDS HERE -->
+                                
                                 <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select a goal.</label>
                             </div>
                         </div>
@@ -100,12 +116,12 @@
                                 <div class="col-md-12 dateWrapper">
                                     <div class="form-group  col-md-2" show-errors='{showSuccess: true}'>
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" class="input-sm form-control" data-provide="datepicker" name="startTime" ng-model="selectedCampaign.startTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required ng-change="handleFlightDate(selectedCampaign)"/>
+                                        <input type="text" id="startDateInput" class="input-sm form-control" placeholder="MM/DD/YYYY" data-provide="datepicker" name="startTime" ng-model="selectedCampaign.startTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required ng-change="handleFlightDate(selectedCampaign)"/>
                                         <label ng-if="saveCreateCampaign.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                     </div>
                                     <div class="form-group  col-md-2" show-errors='{showSuccess: true}'>
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" class="input-sm form-control" disabled="disabled" data-provide="datepicker" ng-model="selectedCampaign.endTime" name="endTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+                                        <input type="text" id="endDateInput" class="input-sm form-control" placeholder="MM/DD/YYYY" disabled="disabled" data-provide="datepicker" ng-model="selectedCampaign.endTime" name="endTime" data-date-format="yyyy-mm-dd" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
                                         <label ng-if="saveCreateCampaign.endTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                     </div>
                                 </div>
@@ -137,6 +153,7 @@
                             <div class="form-group col-sm-9">
                                 <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" name="nameCamp" maxlength="256" placeholder="Suggested Campaign name will populate as values are entered" required/>
                             </div>
+                            
                         </div>
 
 

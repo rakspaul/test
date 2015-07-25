@@ -973,6 +973,10 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 
 /*== Date Picker CSS Ends ==*/
 
+/*== Toggle Switch BTNs CSS STARTS HERE ==*/
+
+/*== Toggle Switch BTNs CSS ENDS HERE ==*/
+
 /* detailed page style */
 body {
   background: #f5f9fd !important;
@@ -997,7 +1001,7 @@ body {
       }
       .page_header_container {
         margin: 37px 0 0 0;
-        width: 18%;
+        width: 20%;
         float: left;
         .campaign_name {
           color: #565656;
@@ -1089,7 +1093,7 @@ body {
       .settingWrap{
         border-left: 1px dashed #DBDBDB;
         padding: 20px 0 20px 20px;
-        width: 82%;
+        width: 80%;
         float: left;
       }
       .collapseHeader {
@@ -1135,9 +1139,9 @@ body {
           padding: 2px 0 0 7px !important;
           display: none;
         }
-
-
-
+        .has-error .errorLabel {
+          display: block;
+        }
         .labelQuestTxt {
           color: #000;
           font-size: 15px;
@@ -1156,6 +1160,28 @@ body {
           border-top-left-radius: 4px;
           border-bottom-left-radius: 4px;
         }
+        .goalBtnGroup {
+          .btn-primary {
+            border-radius: 3px;
+            width: 36%;
+            float: left;
+            margin-right: 4%;
+            color: #6F6E6E;
+            background-color: #EFEFEF;
+            border-color: #D4D4D4;
+            padding: 11px 0;
+            span {
+              width: 100%;
+              float: left;
+              text-align: center;
+            }
+          }
+          .btn-primary.active {
+            color: #000;
+            background-color: #BFBFBF;
+            border-color: #9E9E9E;
+          }
+        }
         .accountBtn {
           width: 135px;
           text-align: left;
@@ -1163,7 +1189,7 @@ body {
           border-bottom-left-radius: 4px;
         }
         #inputBudget {
-          text-indent: 10px;
+          text-indent: 16px;
         }
         .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2,
         .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4,
@@ -1198,10 +1224,10 @@ body {
               background: transparent;
               border-radius: 3px !important;
               text-align: left;
-              text-indent: 8px;
+              text-indent: 2px;
             }
             #endDateInput {
-              background: #eee;
+              background: rgba(0, 0, 0, 0.07);
             }
           }
           .input-group-addon {
@@ -1658,7 +1684,3 @@ body {
   // Campaign Create Ad POP Ends Here
 
 }
-
-.form-group.has-error .errorLabel {
-    display: block;
-  }
