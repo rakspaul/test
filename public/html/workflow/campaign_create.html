@@ -27,11 +27,11 @@
                         </div>
 
                         <p class="">2. Pricing Model</p>
-                        <div class="statusLabel">
+                        <div class="statusLabel disabled">
                             <span>Not Set</span>
                         </div>
                         <p class="">3. Contacts (optional)</p>
-                        <div class="statusLabel">
+                        <div class="statusLabel disabled">
                             <span>Not Set</span>
                         </div>
                     </div>
@@ -85,10 +85,12 @@
                             <div class="form-group col-sm-5">
                                 <!-- ABI BELOW IS THE TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectedCampaign.goal = goal">
+                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
                                       <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name">
-                                        <span>{{goal.name}}</span>
-                                        <span class="glyphicon glyphicon-{{goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>
+                                        <span class="hideRadioBtn">
+                                            <span>{{goal.name}}</span>
+                                            <span class="glyphicon glyphicon-{{goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>
+                                        </span>
                                     </label>
                                 </div>
                                 <!-- ABI BELOW IS THE TOGGLE BTN FOR GOAL SELECTION ENDS HERE -->
@@ -106,11 +108,11 @@
                                 <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
                                     <div class="col-md-2">
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control"  data-date-today-highlight="true"  data-provide="datepicker" name="startTime" ng-model="selectedCampaign.startTime" data-date-format="mm/dd/yyyy" data-date-start-date="-infinity" data-date-orientation="top auto" required ng-change="handleFlightDate(selectedCampaign)"/>
+                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" data-date-today-highlight="true" name="startTime" ng-model="selectedCampaign.startTime" data-date-format="mm/dd/yyyy" data-date-start-date="-infinity" data-date-orientation="top auto" required ng-change="handleFlightDate(selectedCampaign)"/>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" disabled="disabled" data-date-today-highlight="true" data-provide="datepicker" ng-model="selectedCampaign.endTime" name="endTime" data-date-format="mm/dd/yyyy" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
+                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" disabled="disabled" data-date-today-highlight="true"  ng-model="selectedCampaign.endTime" name="endTime" data-date-format="mm/dd/yyyy" data-date-start-date="-infinity" data-date-orientation="top auto" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                 </div>

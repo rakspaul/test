@@ -2,6 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService,$timeout) {
+        $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.selectedCampaign = {}
@@ -73,14 +74,13 @@ var angObj = angObj || {};
 
 
         $scope.handleFlightDate = function(data) {
+            var startTime = data.startTime;
             var endDateElem = $('#endDateInput');
             endDateElem.attr("disabled","disabled").css({'background':'#eee'});
-            if(data.startTime) {
+            if(startTime) {
                 endDateElem.removeAttr("disabled").css({'background':'transparent'});
-                var changeDate = new Date(data.startTime);
-                changeDate.setDate(changeDate.getDate());
-                endDateElem.datepicker("setStartDate", changeDate);
-                endDateElem.datepicker("update", changeDate);
+                var changeDate =  moment(startTime).format('MM/DD/YYYY')
+                $('#endDateInput').datepicker("setStartDate", changeDate);
             }
         }
 
@@ -88,9 +88,20 @@ var angObj = angObj || {};
             var $elem = $(".succesfulPopMess");
             $elem.show();
             $scope.reset();
+            var goalElem = $('.goalBtnGroup').find('label');
+            goalElem.find('label').removeClass('active').find('input').removeAttr('checked');
+            $(goalElem[0]).find("input").attr("checked", "checked");
+            $(goalElem[0]).addClass('active');
             $timeout(function(){
                 $elem.hide();
             }, 1000)
+        }
+
+        $scope.selectCampaignGoal = function(event, goal) {
+            $scope.selectedCampaign.goal = goal;
+            var currTarget = $(event.currentTarget);
+            currTarget.parents('.goalBtnGroup').find('label').removeClass('active')
+            currTarget.addClass("active")
         }
 
         $scope.saveCampaign = function() {
@@ -117,7 +128,14 @@ var angObj = angObj || {};
         $scope.reset = function() {
             $scope.$broadcast('show-errors-reset');
             $scope.selectedCampaign = { };
-        }
+        };
+
+            $('.input-daterange').datepicker({
+                format: "mm/dd/yyyy",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true
+            });
 
         createCampaign.clients();
         createCampaign.fetchGoals();
