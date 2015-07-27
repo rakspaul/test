@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angObj.directive('campaignChart', function($window) {
+    angObj.directive('campaignChart', function($window, constants) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -33,11 +33,17 @@
                         /*.tickFormat(function(d){
                             return d ==0 ? d : (d +'%');
                         });*/
-
+                        var numberFormat = d3.format(".f");
                         var yAxisGen = d3.svg.axis()
                             .scale(yScale)
                             .orient("left")
-                            .tickValues(_config.keys.yAxis.tickValues.length > 0 ? _config.keys.yAxis.tickValues : 1)
+                            .ticks(_config.keys.yAxis.ticks)
+                            .tickPadding(10)
+                          //  .tickFormat(d3.format(".f"))
+                           .tickFormat(function(d){
+                              return kpiPrefix(_config.kpiType) + " " + numberFormat(d) + " " + kpiSuffix(_config.kpiType);
+                           })
+                            //.tickValues(_config.keys.yAxis.tickValues.length > 0 ? _config.keys.yAxis.tickValues : 1)
                             .tickSize(0);
 
                         // var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -54,7 +60,7 @@
                                  return yScale(d[ykeyVal]);
                              });*/
 
-                        //draw a ling function
+                        //draw a line function
                         var lineFun = d3.svg.line()
                             .x(function(d) {
                                 return xScale(d[xkeyVal]);
@@ -81,8 +87,12 @@
                         var ykeyVal = _config.keys.yAxis.val;
                         var threshold = _config.threshold;
                         var kpiType = _config.kpiType;
-                        var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate(10,0)");
+                        var adjustment = 10;
+                        if(_config.isPerformanceChart) {
+                          adjustment = 30;
+                        }
 
+                        var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate("+adjustment+",0)");
                         //draw the area now
                         /*if(index === 0) {
                           svg.append("path")
@@ -122,11 +132,27 @@
                             //resize domain of y-axis 20% extra spacing
                             updateDomain(maxData, 20);
 
+                            var imageSize = "11",
+                                imagePosition = 5;
+
+                            //if performance chart
+                            if(_config.isPerformanceChart) {
+                                imageSize = "13";
+                                imagePosition = -30;
+
+                                svg.append("text")
+                                    .attr("id", "kpi_type_text")
+                                    .attr("x", -15)
+                                    .attr("y", 20)
+                                    .style("font-size","12px")
+                                    .style("fill", "#57595b")
+                                    .text(_config.kpiType);
+                            }
                             svg.append("image")
                                 .attr("id", "goal")
-                                .attr("width", "11")
-                                .attr("height", "11")
-                                .attr("x", 5)
+                                .attr("width", imageSize)
+                                .attr("height", imageSize)
+                                .attr("x", imagePosition)
                                 .attr("y", _config.yScale(threshold) - 5)
                                 .attr("xlink:href", "/" + assets.target_marker);
 
@@ -443,10 +469,14 @@
                         var height = _config.height;
                         var width = _config.width;
                         var margin = _config.margin;
+                        var adjustment = 10;
+                        if(_config.isPerformanceChart) {
+                          adjustment = 30;
+                        }
 
                         svg.append("svg:g")
                             .attr("class", "x axis")
-                            .attr("transform", "translate(10," + height + ")")
+                            .attr("transform", "translate("+adjustment+"," + height + ")")
                         .call(_config.xAxisGen)
                           .selectAll('.x .tick text') // select all the x tick texts
                         .call(function(t){
@@ -467,8 +497,9 @@
 
                         svg.append("svg:g")
                             .attr("class", "y axis")
-                            .attr("transform", "translate(30,0)")
-                            .call(_config.yAxisGen);
+                            .attr("transform", "translate("+(20+adjustment)+",0)")
+                            .call(_config.yAxisGen)
+
 
                         // if (_config.showAxisLabel) {
                         //     /* START label for x-axis */
@@ -559,8 +590,25 @@
                     }
                 }
 
+
+
                 var dataObj = JSON.parse(attrs.chartData);
-                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from);
+                console.log("d3");
+                console.log(dataObj);
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from),
+                    performanceChart = false;
+
+                if(dataObj.from =="action_performance") {
+                   performanceChart = true;
+                }
+
+                var kpiPrefix = function (kpiType) {
+                    var kpiTypeLower = kpiType.toLowerCase();
+                    return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? constants.currencySymbol : ''
+                };
+                var kpiSuffix = function (kpiType) {
+                    return (kpiType.toLowerCase() == 'vtc') ? '%' : ''
+                };
 
                 //TODO: DO NOT DELETE THIS DATA
                 // [{
@@ -595,6 +643,7 @@
                 var lineData = {
                     json: [chartDataset],
                     threshold: dataObj.kpiValue,
+                    isPerformanceChart: performanceChart,
                     kpiType: dataObj.kpiType,
                     keys: {
                         xAxis: {
@@ -605,6 +654,7 @@
                         yAxis: {
                             val: 'values',
                             name: 'kpiType',
+                            ticks: 0, //override with performance config
                             tickValues: []
                         }
                     },
@@ -619,6 +669,14 @@
                     axisLabel: ['Data', 'Value']
                 };
 
+                //override chart details
+                if(performanceChart) {
+                  lineData.keys.yAxis.ticks = 6;
+                  lineData.keys.xAxis.ticks = 7;
+                  //lineData.margin.right = 0;
+                }
+
+
                 //JSON.parse(attrs.chartData).data ;//scope[attrs.chartData].data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
@@ -628,6 +686,7 @@
                     dataToPlot: lineData.json,
                     margin: lineData.margin,
                     threshold: lineData.threshold,
+                    isPerformanceChart: lineData.isPerformanceChart,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,
                     showAxisLabel: lineData.showAxisLabel,
