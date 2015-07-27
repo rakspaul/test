@@ -71,13 +71,14 @@ var angObj = angObj || {};
             }
         }
 
+
         $scope.handleFlightDate = function(data) {
             var endDateElem = $('#endDateInput');
-            endDateElem.attr("disabled","disabled").css({'background':'#eee'})
+            endDateElem.attr("disabled","disabled").css({'background':'#eee'});
             if(data.startTime) {
                 endDateElem.removeAttr("disabled").css({'background':'transparent'});
-                var changeDate = new Date(data.startTime)
-                changeDate.setDate(changeDate.getDate() + 1);
+                var changeDate = new Date(data.startTime);
+                changeDate.setDate(changeDate.getDate());
                 endDateElem.datepicker("setStartDate", changeDate);
                 endDateElem.datepicker("update", changeDate);
             }

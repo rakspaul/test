@@ -291,7 +291,7 @@
     this.WF_SETTINGS = "Settings";
     this.ACCOUNT = "Account";
     this.WF_BRAND = "Brands";
-    this.ADVERTISERS = "Advertisers";
+    this.ADVERTISERS = "Advertiser";
     this.SELECT_ACCOUNT = "Select Account";
     this.WF_GOAL = "Goal";
     this.SELECT_GOAL = "Select Goal";
