@@ -477,5 +477,20 @@ var angObj = angObj || {};
             $route.reload();
         };
 
+        $(document).ready( function() {
+            $('.input-daterange').datepicker({
+                format: "yyyy-mm-dd",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true,
+                keyboardNavigation: false
+            }).on('changeDate', function () {
+                $("#date-selected-txt").text("Custom Dates");
+            });
+            var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
+            $('#startDateInput').datepicker('update', yesterday) ;
+            $('#endDateInput').datepicker('update', yesterday );
+        });
+
     });
 }());

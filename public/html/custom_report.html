@@ -84,11 +84,11 @@
 									<div class="col-md-12 input-daterange input-group date pull-left" id="timeframe">
 									    <div class="col-md-12 dateWrapper">
 									    	<div class="col-md-6">
-									        	<input type="text" id="startDateInput" class="input-sm form-control" data-provide="timeframe" data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
+									        	<input type="text" id="startDateInput" class="input-sm form-control" required/>
 									        	<i class="glyphicon glyphicon-th pull-right"></i>
 									        </div>
 									        <div class="col-md-6">
-									        	<input type="text" id="endDateInput" class="input-sm form-control" data-provide="timeframe"  data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
+									        	<input type="text" id="endDateInput" class="input-sm form-control"  required/>
 									        	<i class="glyphicon glyphicon-th pull-right"></i>
 									        </div>
 									    </div>
@@ -473,34 +473,4 @@
 	<div class="each_col" ng-if="customeReportData.vast_redirect_errors >=0">{{customeReportData.vast_redirect_errors | nrFormat}}</div>
 
 
-</script>
-
-<script type="text/javascript">
-
-	var lastScrollLeft = 0;
-	$(".custom_report_scroll").scroll(function() {
-	    var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
-	    if (lastScrollLeft != documentScrollLeft) {
-	        lastScrollLeft = documentScrollLeft;
-	        //$(".custom_report_scroll").removeClass("vertical_scroll").addClass("horizontal_scroll") ;
-	    } else {
-	        //$(".custom_report_scroll").removeClass("horizontal_scroll").addClass("vertical_scroll") ;
-	    }
-	});
-
-	$(document).ready( function(){
-		 $('.date').datepicker({
-		    orientation: "top left",
-		    format: 'yyyy-mm-dd',
-		    keyboardNavigation: false
-		})
-		.on('changeDate', function(){
-            $("#date-selected-txt").text("Custom Dates") ;
-        })
-
-		 ;
-		var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
-        $('#startDateInput').datepicker('update', yesterday) ;
-        $('#endDateInput').datepicker('update', yesterday );
-	}) ;
 </script>
