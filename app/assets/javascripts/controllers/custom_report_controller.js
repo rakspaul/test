@@ -168,7 +168,7 @@ var angObj = angObj || {};
         };
 
         _customctrl.getTimeFrame =  function() {
-            var dateWrapper = $(".dateWrapper").find("[data-provide ='timeframe']")
+            var dateWrapper = $(".dateWrapper").find(".timeframe")
             return '&startdate='+dateWrapper[0].value +"&endDate="+dateWrapper[1].value;
         };
 
