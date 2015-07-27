@@ -68,16 +68,16 @@
                         <span class="icon_text_holder"  ng-click="sortType = 'view_metrics.susp_activity_perc'; sortReverse = !sortReverse;removeKpiActive();" > {{textConstants.SUSPICIOUS_ACTIVITY}}</span>
                         <span  class="icon_text_holder" ng-class="sortClassFunction('view_metrics.susp_activity_perc',sortType,sortReverse)" ng-click="sortType = 'view_metrics.susp_activity_perc'; sortReverse = !sortReverse;removeKpiActive();" >(%)</span>
                     </div>
-                    <div class="each_col seventh_col">
+                    <!--<div class="each_col seventh_col">
 
                         <div class="dropdown kpi-dd-holder">
                             <kpi-drop-down> </kpi-drop-down>
-                            <!--<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"-->
-                            <!--flag="kpitypes"></report-filters>-->
+                            &lt;!&ndash;<report-filters selected-filter="selected_filters" list-object="filters.kpiTypes"&ndash;&gt;
+                            &lt;!&ndash;flag="kpitypes"></report-filters>&ndash;&gt;
                         </div>
 
 
-                    </div>
+                    </div>-->
                 </div>
                 <div >
                     <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy)"  ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
@@ -117,10 +117,10 @@
                             <div class="each_col suspicious_col">
                                 {{viewData.view_metrics.susp_activity_perc | number: number:2}}%
                             </div>
-                            <div class="each_col seventh_col">
+                            <!--<div class="each_col seventh_col">
                                 {{viewData.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                                 selected_filters.kpi_type}}
-                            </div>
+                            </div>-->
                         </div>
                         <div class="all_strategies_holder">
                             <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortType:sortReverse track by $index">
@@ -158,10 +158,10 @@
                                     <div class="each_col suspicious_col">
                                         {{tactic.view_metrics.susp_activity_perc | number: number:2}}%
                                     </div>
-                                    <div class="each_col seventh_col">
+                                    <!--<div class="each_col seventh_col">
                                         {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                                         selected_filters.kpi_type}}
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>

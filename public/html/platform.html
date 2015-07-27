@@ -420,9 +420,9 @@
         <div class="each_col suspicious_col">
             {{ViewabilityData.platformType_aggregation.susp_activity_perc | number:2}}%
         </div>
-        <div class="each_col seventh_col">
+        <!--<div class="each_col seventh_col">
             {{ViewabilityData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
-        </div>
+        </div>-->
 
     </div>
 
@@ -452,8 +452,8 @@
         <div class="each_col suspicious_col">
             {{platform.susp_activity_perc | number:2}}%
         </div>
-        <div class="each_col seventh_col">
+       <!-- <div class="each_col seventh_col">
             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
-        </div>
+        </div>-->
     </div>
 </script>
