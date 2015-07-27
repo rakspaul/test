@@ -17,6 +17,10 @@ var angObj = angObj || {};
         $scope.secondDimensionReportLoading = {};
         $scope.metrics_text = 'Default';
 
+        $scope.getMessageForDataNotAvailable = function () {
+            return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
+        };
+
 
         _customctrl.getDimensionList =  function(data, selectedMetrics) {
             $scope.selectedDimension  = elem.text();
@@ -211,23 +215,35 @@ var angObj = angObj || {};
             return params;
         };
 
+        _customctrl.errorHandler = function() {
+            $scope.reportDataLoading = false;
+            $scope.reportDataNotFound = true;
+        };
+
         _customctrl.fetchReportData = function(selectedMetricsList, params, idx, callback)  {
             dataService.getCustomReportData($scope.campaign, params).then(function(result) {
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
-                callback(result.data.data.report_data, idx)
-            });
+                if(result && result.data.data) {
+                    callback(result.data.data.report_data, idx)
+                } else {
+                    _customctrl.errorHandler();
+                }
+            }, _customctrl.errorHandler);
         };
 
         _customctrl.getReportData = function() {
             _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(null, $scope.firstDimensionoffset), null, function(respData) {
                 $scope.fetching = false;
-                if(respData.length >0) {
+                if(respData && respData.length >0) {
                     $scope.reportDataLoading = false;
+                    $scope.reportDataNotFound = false;
                     if($scope.isReportForMultiDimension) {
                         $scope.showhasBreakdown = 'hasBreakdown';
                     }
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
 
+                } else {
+                    _customctrl.errorHandler();
                 }
             });
         }
@@ -242,8 +258,10 @@ var angObj = angObj || {};
             $scope.metricValues = [];
             $scope.reportMetaData={};
             $scope.hideReportsTabs = false;
+            $scope.reportDataNotFound = false;
             $scope.showhasBreakdown = '';
             $scope.reportDataLoading = true;
+            $scope.fetching = false;
             $(".img_table_container").hide();
             $(".custom_report_response_page").show();
             $("html, body").animate({ scrollTop: 0 });

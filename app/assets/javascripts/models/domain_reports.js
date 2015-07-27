@@ -96,11 +96,18 @@
                 var template;
                 element.bind('click', function() {
                     $http.get('/assets/html/partials/add_report_filter.html').then(function (tmpl) {
+                        $scope.dimensionQuery ='';
                         template = $compile(tmpl.data)($scope);
                         angular.element(document.getElementById('filter_breakdown_row')).append(template);
+                        $(".custom_filter_dropdown .dropdown-menu").find('input').on('click', function (e) {
+                            e.stopPropagation();
+                        });
                     });
                 });
-            }
+            },
+            controller: function($scope, $cookieStore, $location){
+
+            },
         };
     });
 
