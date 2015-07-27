@@ -57,24 +57,24 @@
 		           		</div>
 		           		<div >
 		           			<div class="clearfix title_row_separator">
-			           			<div class="pull-left col-md-4">
+			           			<div class="pull-left col-md-4 timeframe_selector">
 			           				 <div class="common_dropdown">
 			                              <div class="dropdown" >
 		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
-		                                        <span class="dd_txt">Yesterday</span>
+		                                        <span class="dd_txt" id="date-selected-txt">Yesterday</span>
 		                                        <span class="arrow_img"></span>
 		                                    </span>
 		                                    <ul class="dropdown-menu" >
-		                                    	<li ng-click="select_dropdown_option($event , 'yesterday'   )">Yesterday</li>
-		                                    	<li ng-click="select_dropdown_option($event , 'weekToDate'  )">Week to date</li>
-		                                        <li ng-click="select_dropdown_option($event , 'last7Days'   )">Last 7 days</li>
-		                                        <li ng-click="select_dropdown_option($event , 'lastWeek'    )">Last week</li>
-		                                        <li ng-click="select_dropdown_option($event , 'monthToDate' )">Month to date</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Last month</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Quarter to date</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Last quarter</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Year to date</li>
-		                                        <li ng-click="select_dropdown_option($event , '' )">Custom dates</li>
+		                                    	<li ng-click="select_dropdown_option($event , 'yesterday'     )">Yesterday</li>
+		                                    	<li ng-click="select_dropdown_option($event , 'weekToDate'    )">Week to date</li>
+		                                        <li ng-click="select_dropdown_option($event , 'last7Days'     )">Last 7 days</li>
+		                                        <li ng-click="select_dropdown_option($event , 'lastWeek'      )">Last week</li>
+		                                        <li ng-click="select_dropdown_option($event , 'monthToDate'   )">Month to date</li>
+		                                        <li ng-click="select_dropdown_option($event , 'lastMonth'     )">Last month</li>
+		                                        <li ng-click="select_dropdown_option($event , 'quarterToDate' )">Quarter to date</li>
+		                                        <li ng-click="select_dropdown_option($event , 'lastQuarter'   )">Last quarter</li>
+		                                        <li ng-click="select_dropdown_option($event , 'yearToDate'    )">Year to date</li>
+		                                        <li ng-click="select_dropdown_option($event , 'customDates'   )">Custom dates</li>
 		                                    </ul>
 			                              </div>
 			                          </div>
@@ -493,7 +493,12 @@
 		    orientation: "top left",
 		    format: 'yyyy-mm-dd',
 		    keyboardNavigation: false
-		});
+		})
+		.on('changeDate', function(){
+            $("#date-selected-txt").text("Custom Dates") ;
+        })
+
+		 ;
 		var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
         $('#startDateInput').datepicker('update', yesterday) ;
         $('#endDateInput').datepicker('update', yesterday );
