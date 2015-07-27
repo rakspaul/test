@@ -87,6 +87,7 @@
                         var ykeyVal = _config.keys.yAxis.val;
                         var threshold = _config.threshold;
                         var kpiType = _config.kpiType;
+                        var yScale = _config.yScale;
                         var adjustment = 10;
                         if(_config.isPerformanceChart) {
                           adjustment = 30;
@@ -147,7 +148,38 @@
                                     .style("font-size","12px")
                                     .style("fill", "#57595b")
                                     .text(_config.kpiType);
-                            }
+
+                                function addCrossHair(xCoord, yCoord) {
+                                      // Update vertical cross hair
+                                    d3.select("#v_crosshair")
+                                        .attr("x1", xCoord)
+                                        .attr("y1", _config.height )
+                                        .attr("x2", xCoord)
+                                        .attr("y2", _config.margin.top)
+                                        .style("display", "block");
+                                  }
+
+                                svg.append("g").attr("class", "crosshair").append("line").attr("id", "v_crosshair") // vertical cross hair
+                                    .attr("x1", 0)
+                                    .attr("y1", 0)
+                                    .attr("x2", 0)
+                                    .attr("y2", 0)
+                                    .style("stroke", "#C0C0C0")
+                                    .style("stroke-width", "1px")
+                                    .style("stroke-dasharray", "4,3")
+                                    .style("display", "none");
+                                    svg.on("mousemove", function () {
+                                        var xCoord = d3.mouse(this)[0],
+                                            yCoord = d3.mouse(this)[1];
+                                        addCrossHair(xCoord, yCoord);
+                                    })
+                                        .on("mouseover", function () {
+                                        d3.selectAll(".crosshair").style("display", "block");
+                                    })
+                                        .on("mouseout", function () {
+                                        d3.selectAll(".crosshair").style("display", "none");
+                                    })
+                            } //check for performance chart ends
                             svg.append("image")
                                 .attr("id", "goal")
                                 .attr("width", imageSize)
