@@ -1,16 +1,16 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService) {
+    angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService,$timeout) {
         $scope.textConstants = constants;
         $scope.workflowData = {};
+        $scope.selectedCampaign = {}
         var createCampaign = {
             clients :  function() {
                 workflowService.getClients().then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['clients'] =  _.sortBy(responseData, 'name');
-                        console.log($scope.workflowData);
                     }
                     else{
                         createCampaign.errorHandler(result);
@@ -43,7 +43,8 @@ var angObj = angObj || {};
             },
 
             fetchGoals :  function() {
-                $scope.workflowData['goals'] = [{id : 1, name : 'Brand'} ,{id : 1, name : 'Performance'}]
+                $scope.workflowData['goals'] = [{id : 1, name : 'Performance', 'active' : true}, {id : 2, name : 'Brand', 'active' : false}]
+                $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
             },
 
 
@@ -56,36 +57,69 @@ var angObj = angObj || {};
         $scope.workflowData['post_value'] = {};
         $scope.selectHandler =  function(type, data) {
             if(type === 'client') {
-                createCampaign.fetchAdvertisers(data.clientId);
-                $scope.workflowData['post_value']['clientId'] = data.clientId;
+                createCampaign.fetchAdvertisers(data.client.id);
+                $scope.workflowData['post_value']['clientId'] = data.client.id;
             }
             else if(type == 'advertiser') {
-                createCampaign.fetchBrands(data.advertiserId);
-                $scope.workflowData['post_value']['advertiserId'] = data.advertiserId;
+                createCampaign.fetchBrands(data.advertiser.id);
+                $scope.workflowData['post_value']['advertiserId'] = data.advertiser.id;
             }
 
             else if(type === 'brand') {
-                $scope.workflowData['post_value']['brandId'] = data.brandId;
+                $scope.workflowData['post_value']['brandId'] = data.brand.id;
 
             }
         }
 
         $scope.handleFlightDate = function(data) {
-            $("input[data-provide = 'datepicker']").attr("disabled","disabled").css({'background':'#eee'})
+            var endDateElem = $('#endDateInput');
+            endDateElem.attr("disabled","disabled").css({'background':'#eee'})
             if(data.startTime) {
-                $("input[data-provide = 'datepicker']").removeAttr("disabled").css({'background':'transparent'});
+                endDateElem.removeAttr("disabled").css({'background':'transparent'});
+                var changeDate = new Date(data.startTime)
+                changeDate.setDate(changeDate.getDate() + 1);
+                endDateElem.datepicker("setStartDate", changeDate);
+                endDateElem.datepicker("update", changeDate);
             }
+        }
+
+        $scope.sucessHandler = function(form) {
+            var $elem = $(".succesfulPopMess");
+            $elem.show();
+            $scope.reset();
+            $timeout(function(){
+                $elem.hide();
+            }, 1000)
         }
 
         $scope.saveCampaign = function() {
             $scope.$broadcast('show-errors-check-validity');
-            console.log($scope.workflowData['post_value'])
+            if ($scope.createCampaignForm.$valid) {
+                var formElem = $("#createCampaignForm");
+                var formData = formElem.serializeArray();
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                var postDataObj = {};
+                postDataObj.clientId = Number(formData.clientId);
+                postDataObj.advertiserId = Number(formData.advertiserId);
+                postDataObj.brandId = Number(formData.brandId);
+                postDataObj.goal = formData.goal.toUpperCase();
+                postDataObj.bookedRevenue = Number(formData.budget);
+                postDataObj.name = formData.campaignName;
+                workflowService.saveCampaign(postDataObj).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.sucessHandler(formElem);
+                    }
+                });
+            }
         };
+
+        $scope.reset = function() {
+            $scope.$broadcast('show-errors-reset');
+            $scope.selectedCampaign = { };
+        }
 
         createCampaign.clients();
         createCampaign.fetchGoals();
-
-        console.log($scope.workflowData);
     });
 })();
 
