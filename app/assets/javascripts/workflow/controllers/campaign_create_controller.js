@@ -130,12 +130,12 @@ var angObj = angObj || {};
             $scope.selectedCampaign = { };
         };
 
-            $('.input-daterange').datepicker({
-                format: "mm/dd/yyyy",
-                orientation: "top auto",
-                autoclose: true,
-                todayHighlight: true
-            });
+        $('.input-daterange').datepicker({
+            format: "mm/dd/yyyy",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true
+        });
 
         createCampaign.clients();
         createCampaign.fetchGoals();
