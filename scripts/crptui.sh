@@ -33,15 +33,15 @@ then
   sudo /etc/init.d/crpt-ui start
 elif [$CDESK_ENV == "dev"]
 then
-  sudo /etc/init.d/crpt-ui stop
+  sudo /etc/init.d/crpt-ui-dev stop
   echo "Its Dev environment !!!"
   echo "Changing copying application_qa.conf to application.conf"
   cp ${CONF_EWR_DEV_FILE} ${CONF_FILE} 
   cp -r /tmp/crpt-ui-1.0-SNAPSHOT /home/amp/crpt-ui/
-  sudo cp /tmp/crpt-ui /etc/init.d/crpt-ui
-  sudo chmod 755 /etc/init.d/crpt-ui
-  sudo chkconfig --add crpt-ui
-  sudo /etc/init.d/crpt-ui start
+  sudo cp /tmp/crpt-ui-dev /etc/init.d/crpt-ui-dev
+  sudo chmod 755 /etc/init.d/crpt-ui-dev
+  sudo chkconfig --add crpt-ui-dev
+  sudo /etc/init.d/crpt-ui-dev start
 elif [ $CDESK_ENV == "ewr_qa" ]
 then
   echo "Its EWR QA environment !!!"
