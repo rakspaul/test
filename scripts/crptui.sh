@@ -31,7 +31,7 @@ then
   sudo chmod 755 /etc/init.d/crpt-ui
   sudo chkconfig --add crpt-ui
   sudo /etc/init.d/crpt-ui start
-elif [$CDESK_ENV == "dev"]
+elif [ $CDESK_ENV == "dev" ]
 then
   sudo /etc/init.d/crpt-ui-dev stop
   echo "Its Dev environment !!!"
