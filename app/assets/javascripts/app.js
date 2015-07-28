@@ -68,15 +68,15 @@ var angObj = '';
                 title :  'Reports - Performance',
                 controller: 'performanceController'
             })
-            .when('/create', {
+            .when('/campaign/create', {
                 templateUrl: assets.html_campaign_create,
                 title :  'Create - Campaign',
                 controller: 'CreateCampaignController'
             })
-            .when('/createAd', {
+            .when('/campaign/overview/:campaignId', {
                 templateUrl: assets.html_campaign_create_ad,
-                title :  'Create Ad - Campaign',
-                controller: 'CreateCampaignAdController'
+                title :  'Campaign - Overview',
+                controller: 'CreateCampaignController'
             })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
