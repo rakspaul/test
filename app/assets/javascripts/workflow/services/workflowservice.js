@@ -20,6 +20,11 @@
 
             saveCampaign: function (data) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns', data, {'Content-Type': 'application/json'})
+            },
+
+            getCampaignData : function(campaignId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId;
+                return dataService.fetch(url);
             }
 
         };
