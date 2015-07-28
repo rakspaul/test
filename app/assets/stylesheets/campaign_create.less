@@ -1027,6 +1027,9 @@ body {
               color: #e83b05;
             }
           }
+          .statusLabel.disabled {
+            color: #bbb ;
+          }
           p {
             font-size: 14px;
             width: 100%;
@@ -1187,6 +1190,26 @@ body {
             background-color: #BFBFBF;
             border-color: #9E9E9E;
           }
+
+          label {
+            position: relative;
+            height: 60px;
+            margin-top : 10px;
+            .hideRadioBtn {
+              background-color: #efefef ;
+              position: absolute;
+              top: 20%;
+              left: 10%;
+              width: 80% ;
+              height: 80%;
+            }
+          }
+          label.active {
+            .hideRadioBtn {
+              background-color: #bfbfbf;
+            }
+          }
+
         }
         .accountBtn {
           width: 135px;

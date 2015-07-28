@@ -21,7 +21,7 @@
         },
       'angular-cache': {deps: ['angular']},
       'angular-switch': {deps: ['angular']},
-      'date-picker': {deps: ['angular']},
+      'date-picker': {deps: ['jquery', 'bootstrap']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
       'angular-route': {deps: ['angular-resource']},

@@ -4,7 +4,15 @@
     * Copyright 2012 Stefan Petre
     * Improvements by Andrew Rowls
     * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
-    */(function($, undefined){
+    */(function(factory){
+        if (typeof define === "function" && define.amd) {
+            define(["jquery"], factory);
+        } else if (typeof exports === 'object') {
+            factory(require('jquery'));
+        } else {
+            factory(jQuery);
+        }
+        }(function($, undefined){
    
            function UTCDate(){
                    return new Date(Date.UTC.apply(Date, arguments));
@@ -1778,6 +1786,6 @@
            $(function(){
                    datepickerPlugin.call($('[data-provide="datepicker-inline"]'));
            });
-   
-    }(window.jQuery));
+
+    }));
 

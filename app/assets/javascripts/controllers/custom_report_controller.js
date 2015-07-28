@@ -168,7 +168,7 @@ var angObj = angObj || {};
         };
 
         _customctrl.getTimeFrame =  function() {
-            var dateWrapper = $(".dateWrapper").find("[data-provide ='timeframe']")
+            var dateWrapper = $(".dateWrapper").find(".timeframe")
             return '&startdate='+dateWrapper[0].value +"&endDate="+dateWrapper[1].value;
         };
 
@@ -476,6 +476,21 @@ var angObj = angObj || {};
         $scope.reset_metric_options = function(event) {
             $route.reload();
         };
+
+        $(document).ready( function() {
+            $('.input-daterange').datepicker({
+                format: "yyyy-mm-dd",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true,
+                keyboardNavigation: false
+            }).on('changeDate', function () {
+                $("#date-selected-txt").text("Custom Dates");
+            });
+            var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
+            $('#startDateInput').datepicker('update', yesterday) ;
+            $('#endDateInput').datepicker('update', yesterday );
+        });
 
     });
 }());
