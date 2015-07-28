@@ -3,62 +3,61 @@
         <div class="masterContainer">
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader"> 
-                <div class="col-md-12">
-                    <div class="col-md-8">
-                        <span>Anderson Cooper & Associates</span>
-                        <span>Adobe Systems, Inc.</span>
-                        <span>Creative Cloud</span>
-                        <div class="col-md-12">
-                            <span class="label label-warning">DRAFT</span>
-                            <h1>Creative Cloud Brand Campaign July-Aug 2015</h1>
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                <div class="col-md-12 zeroPadding">
+                    <div class="col-md-9 zeroPadding">
+                        <span class="accountTitleTag">Anderson Cooper & Associates  |  Adobe Systems, Inc.  |  Creative Cloud</span>
+                        <div class="col-md-12 campTitleWrap">
+                            <span class="label pull-left label-warning">DRAFT</span>
+                            <h1 class="pull-left">Creative Cloud Brand Campaign July-Aug 2015</h1>
+                            <span class="pull-left glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-12">
-                            <span>VID 345623  |  Last Saved 15 Jul 2015 : 09:35</span>
-                            <div class="btn-group btn-toggle"> 
-                                <button class="btn btn-xs btn-default">ACTIVE</button>
-                                <button class="btn btn-xs btn-primary active">INACTIVE</button>
-                            </div>
+                        <div class="col-md-12 zeroPadding">
+                            <span class="campIdTime">VID 345623  |  Last Saved 15 Jul 2015 : 09:35</span>
                         </div>
                     </div>
-                    <div class="col-md-4 peopleModule">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <div class="col-md-3 peopleModule">
+                        <span class="glyphicon glyphicon-user pull-right" aria-hidden="true"></span>
                     </div>
                 </div>
                 
-                <div class="col-md-12">
+                <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="col-md-1">
                         <label>Goal</label>
-                        <span class="glyphicon glyphicon-record" aria-hidden="true"> Brand</span>
+                        <div class="glyphicon glyphicon-record" aria-hidden="true"></div>
+						<span> Brand</span>
                     </div>
                     <div class="col-md-1">
                         <label>Budget Allocated</label>
                         <span>$0 / 1.2M</span>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Flight Dates</label>
                         <span>JUL 1, 2015 - AUG 1, 2015 (30 Days)</span>
-                        
+                        <div class="btn-group btn-toggle"> 
+                            <button class="btn btn-xs btn-default">ACTIVE</button>
+                            <button class="btn btn-xs btn-primary active">DISABLE</button>
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <label>Pricing Model</label>
+						<span>Cost Per Viewable Impression</span>
                     </div>
-                    <div class="col-md-3">
-                        <div class="col-md-4">
-                            <label>Ad Groups</label>
-                            <span>1</span>
+                    <div class="col-md-2 borderZero">
+                        <div class="col-md-4 zeroPadding borderZero">
+                            <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
+                            <span class="col-md-12 zeroPadding text-center">1</span>
                         </div>
-                        <div class="col-md-4">
-                            <label>Ads</label>
-                            <span>1</span>
+                        <div class="col-md-4 zeroPadding borderZero">
+                            <label class="col-md-12 zeroPadding text-center">Ads</label>
+                            <span class="col-md-12 zeroPadding text-center">1</span>
                         </div>
-                        <div class="col-md-4">
-                            <label>Creatives</label>
-                            <span>3</span>
+                        <div class="col-md-4 zeroPadding borderZero">
+                            <label class="col-md-12 zeroPadding text-center">Creatives</label>
+                            <span class="col-md-12 zeroPadding text-center">3</span>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-primary">PUSH CAMPAIGN</button>
+                    <div class="col-md-2 borderZero">
+                        <button type="button" class="btn btn-primary pull-right">PUSH CAMPAIGN</button>
                     </div>
                 </div>
             </div>
@@ -71,42 +70,50 @@
                         <a href="" class="submit_btn pull-left addMaster">{{ textConstants.CREATE }}</a>
                     </div>
                 
-                        <a class="pull-right viewTwo">View 2</a>
-                        <a class="pull-right viewOne">View 1</a>
-                        <select class="form-control pull-right" id="sortDDL">
-                            <option>Sort 1</option>
-                            <option>Sort 2</option>
-                            <option>Sort 3</option>
-                            <option>Sort 4</option>
-                        </select>
-                    </div>
+                </div>
 		    
                     <div class="col-md-12 spacingInput"><!-- Spacing --></div>
                     <div class="col-md-12 adContainer">
                         <!--=== Group Ad ===-->
-                        <div class="col-md-12 adModule adGroup">
+                        <!--<div class="col-md-12 adModule adGroup">
                             <div class="col-md-12 adTitle">
                                 <span class="pull-left adGroupTxt">{{ textConstants.GROUP_TITLE }}</span>
                                 <span class="pull-right adGroupEditBtn">{{ textConstants.EDIT }}</span><br/>
                             </div>
+                        </div>-->
+			
+						<!--=== Create BTN Ad ===-->
+                        <div class="col-md-3 adModule adCreateBtn">
+                            <div class="col-md-12">
+                                <a href="" class="col-md-12 text-center addMaster">
+									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+									<h1>CREATE AD</h1>
+								</a>
+                            </div>
                         </div>
 			
-                        <!--=== Single Ad Draft ===-->
+                        <!--=== Single Ad Ready ===-->
                         <div class="col-md-3 adModule">
                             <div class="col-md-12 adTitle">
-                                <span class="pull-left adDisplay">{{ textConstants.DFP_DISPLAY }}</span>
-                                <span class="pull-right adStatus">{{ textConstants.DRAFT }}</span><br/>
-                                <a href="" class="pull-left adNum">201668960</a>
+                                <span class="pull-left adDisplay">Collective Media</span>
+                                <span class="pull-right adStatus">DRAFT</span><br/>
+                                <span class="pull-left">ID: <a href="" class="adNum">201668960</a></span>
                             </div>
                             <div class="col-md-12">
                                 <h1 class="col-md-10 adCamp">
                                     (WCNC) AT&T(MEC Intl) - Digital Life 2015 (C/JH)
                                 </h1>
-                                <img src="" alt="" class="col-md-2 displayType"/>
+                                <span class="glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
                                 <span class="pull-left adTxtGray dateAd">Jun 1, 2015 - Aug 31, 2015</span>
+								
+								<div class="btn-group btn-toggle pull-right"> 
+									<button class="btn btn-xs btn-default">ON</button>
+									<button class="btn btn-xs btn-success active">OFF</button>
+								</div>
+								
                                 <div class="spacer"><div class="col-md-12"></div></div>
-                                <span class="pull-left text-left adTxtGray">{{ textConstants.IMPRESSIONS }}<br/>CPM</span>
-                                <span class="pull-right text-right adTxtGray">6,750,000<br/>$2.45</span>
+                                <span class="pull-left text-left adTxtGray">{{ textConstants.IMPRESSIONS }}<br/>CPM<br/>Media Cost</span>
+                                <span class="pull-right text-right adTxtGray">6,750,000<br/>$2.45<br/>$2,250.00</span>
                                 <div class="spacer"><div class="col-md-12"></div></div>
                                 <div class="col-md-6">
                                     <h2 class="col-md-12 text-center zeroPadding">1</h2>
@@ -122,19 +129,25 @@
                         <!--=== Single Ad Ready ===-->
                         <div class="col-md-3 adModule adReady">
                             <div class="col-md-12 adTitle">
-                                <span class="pull-left adDisplay">{{ textConstants.DFP_PRE_ROLL }}</span>
+                                <span class="pull-left adDisplay">Collective Media</span>
                                 <span class="pull-right adStatus">{{ textConstants.READY }}</span><br/>
-                                <a href="" class="pull-left adNum">201668960</a>
+                                <span class="pull-left">ID: <a href="" class="adNum">201668960</a></span>
                             </div>
                             <div class="col-md-12">
                                 <h1 class="col-md-10 adCamp">
                                     (WCNC) AT&T(MEC Intl) - Digital Life 2015 (C/JH)
                                 </h1>
-                                <img src="" alt="" class="col-md-2 displayType"/>
+                                <span class="glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
                                 <span class="pull-left adTxtGray dateAd">Jun 1, 2015 - Aug 31, 2015</span>
+								
+								<div class="btn-group btn-toggle pull-right"> 
+									<button class="btn btn-xs btn-default">ON</button>
+									<button class="btn btn-xs btn-success active">OFF</button>
+								</div>
+								
                                 <div class="spacer"><div class="col-md-12"></div></div>
-                                <span class="pull-left text-left adTxtGray">{{ textConstants.IMPRESSIONS }}<br/>CPM</span>
-                                <span class="pull-right text-right adTxtGray">6,750,000<br/>$2.45</span>
+                                <span class="pull-left text-left adTxtGray">{{ textConstants.IMPRESSIONS }}<br/>CPM<br/>Media Cost</span>
+                                <span class="pull-right text-right adTxtGray">6,750,000<br/>$2.45<br/>$2,250.00</span>
                                 <div class="spacer"><div class="col-md-12"></div></div>
                                 <div class="col-md-6">
                                     <h2 class="col-md-12 text-center zeroPadding">1</h2>
@@ -147,13 +160,6 @@
                             </div>
                         </div>
 
-                        <!--=== Create BTN Ad ===-->
-                        <div class="col-md-3 adModule adCreateBtn">
-                            <div class="col-md-12">
-                                <a href="" class="col-md-12 text-center addMaster">+</a>
-                            </div>
-                        </div>
-                        
                     </div>
                 </div>
             </div>
@@ -162,7 +168,7 @@
         </div>
         
         <!--=== POP Up Light Box ===-->
-        <div class="campaignAdCreate">
+        <div class="campaignAdCreate" style="display: none;">
             <div class="adMainWrapper">    
                 <div class="pull-right addClose"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></div> <br />
                 <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" novalidate>

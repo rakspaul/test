@@ -990,6 +990,9 @@ body {
 .zeroPadding {
   padding: 0px !important;
 }
+.borderZero {
+  border-width: 0px !important;
+}
 #campaignCreate{
   float: left;
   width: 100%;
@@ -999,7 +1002,7 @@ body {
     background: #fff;
     position: relative;
     .masterContainer{
-      width: 1040px;
+      width: 1200px;
       margin: 0 auto;
       position: relative;
       .spacingInput {
@@ -1129,10 +1132,7 @@ body {
         float: left;
         width: 100%;
         background: #fff;
-        padding: 13px;
-        border-radius: 5px;
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
+        padding: 10px 0 0 0;
         .paddingRightNone {
           padding: 0px !important;
         }
@@ -1273,14 +1273,57 @@ body {
       }
       .campAdHeader {
         width: 100%;
+        margin-top: 12px;
+        .accountTitleTag {
+          float: left;
+          font-size: 12px;
+        }
+        h1 {
+          font-weight: bold;
+          font-family: 'Arial';
+          font-size: 16px;
+          margin: 0 10px;
+        }
+        .campTitleWrap {
+          padding: 8px 0 1px;
+          .glyphicon {
+            color: #ABABAB;
+          }
+        }
+        .campIdTime {
+          font-size: 11px;
+          padding: 3px 0 15px 0;
+          color: #a5a5a5;
+          float: left;
+          clear: left;
+        }
+        .campSettingOverView {
+          border-bottom: 1px dotted #B9B9B9;
+          div[class^='col-md'],div[class*=' col-md']{
+              padding: 0 5px;
+              border-right: 1px dotted #B9B9B9;
+              height: 50px;
+          }
+          label {
+            font-size: 11px;
+            color: #888;
+            float: left;
+            width: 100%;
+            padding: 0;
+          }
+          span {
+            font-size: 14px;
+            font-family: 'Arial';
+          }
+          .btn-group {
+            margin-left: 5px;
+          }
+        }
       }
       .adWrap{
-        border-radius: 5px;
-        border: 1px solid #DBDBDB;
         background: #fff;
         width: 100%;
         float: left;
-        margin-top: 13px;
         margin-bottom: 85px;
         .collapseHeader {
           float: left;
@@ -1321,7 +1364,7 @@ body {
             border: 2px dashed #dbdbdb !important;
             cursor: pointer;
             .text-center{
-              margin-top: 115px;
+              margin-top: 100px;
             }
           }
           .adModule {
@@ -1330,7 +1373,7 @@ body {
             border: 1px solid #dbdbdb;
             width: 24.25%;
             margin-right: 1%;
-            min-height: 279px;
+            min-height: 302px;
             .col-md-12 {
               padding: 10px;
             }
@@ -1378,8 +1421,12 @@ body {
                 border-bottom: 1px solid #ddd;
               }
             }
+            .glyphicon {
+              font-size: 30px;
+              color: #B1B1B1;
+            }
           }
-          .adModule:nth-child(4n-7) {
+          .adModule:nth-child(4n) {
             margin-right: 0;
           }
           .adReady {
@@ -1393,6 +1440,17 @@ body {
         }
         .addMaster {
           cursor: pointer;
+          span {
+            color: #D2D2D2;
+            font-size: 55px;
+          }
+          h1 {
+            width: 100%;
+            text-align: center;
+            font-weight: lighter !important;
+            color: #A9A9A9 !important;
+            margin-top: 10px !important;
+          }
         }
       }
       .popMess {
