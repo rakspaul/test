@@ -75,13 +75,16 @@ var angObj = angObj || {};
 
         $scope.handleFlightDate = function(data) {
             var startTime = data.startTime;
-            var endDateElem = $('#endDateInput');
+            var endDateElem = $('#endDateInput')
+            var changeDate;
             endDateElem.attr("disabled","disabled").css({'background':'#eee'});
             if(startTime) {
                 endDateElem.removeAttr("disabled").css({'background':'transparent'});
-                var changeDate =  moment(startTime).format('MM/DD/YYYY')
-                $('#endDateInput').datepicker("setStartDate", changeDate);
+                changeDate =  moment(startTime).format('MM/DD/YYYY')
+                endDateElem.datepicker("setStartDate", changeDate);
+                endDateElem.datepicker("update", changeDate);
             }
+
         }
 
         $scope.sucessHandler = function(form) {
@@ -92,6 +95,7 @@ var angObj = angObj || {};
             goalElem.find('label').removeClass('active').find('input').removeAttr('checked');
             $(goalElem[0]).find("input").attr("checked", "checked");
             $(goalElem[0]).addClass('active');
+            $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
             $timeout(function(){
                 $elem.hide();
             }, 1000)
@@ -102,7 +106,14 @@ var angObj = angObj || {};
             var currTarget = $(event.currentTarget);
             currTarget.parents('.goalBtnGroup').find('label').removeClass('active')
             currTarget.addClass("active")
-        }
+        };
+
+        createCampaign.getBrandId = function(brandId, postDataObj) {
+            brandId =  Number(brandId);
+            if(brandId > 0) {
+                postDataObj.brandId =  brandId;
+            }
+        };
 
         $scope.saveCampaign = function() {
             $scope.$broadcast('show-errors-check-validity');
@@ -113,10 +124,12 @@ var angObj = angObj || {};
                 var postDataObj = {};
                 postDataObj.clientId = Number(formData.clientId);
                 postDataObj.advertiserId = Number(formData.advertiserId);
-                postDataObj.brandId = Number(formData.brandId);
+                createCampaign.getBrandId(formData.brandId, postDataObj);
                 postDataObj.goal = formData.goal.toUpperCase();
                 postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
+                postDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
+                postDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.sucessHandler(formElem);
@@ -130,12 +143,20 @@ var angObj = angObj || {};
             $scope.selectedCampaign = { };
         };
 
-        $('.input-daterange').datepicker({
-            format: "mm/dd/yyyy",
-            orientation: "top auto",
-            autoclose: true,
-            todayHighlight: true
-        });
+        $(function() {
+            $('.input-daterange').datepicker({
+                format: "mm/dd/yyyy",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            var startDateElem = $('#startDateInput');
+            var today =  moment().format("MM/DD/YYYY");
+            startDateElem.datepicker("setStartDate", today);
+            startDateElem.datepicker("update", today);
+
+        })
 
         createCampaign.clients();
         createCampaign.fetchGoals();
