@@ -128,7 +128,8 @@
 
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
       'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
-      'controllers-actions_controller': {deps: ['controllers-campaign_details_controller']},
+      'controllers-campaign_create_ad_controller': {deps: ['controllers-campaign_create_controller']},
+      'controllers-actions_controller': {deps: ['controllers-campaign_create_ad_controller']},
       'controllers-optimization_controller':{deps: ['controllers-actions_controller']},
       'controllers-inventory_controller':{deps: ['controllers-optimization_controller']},
       'controllers-viewability_controller':{deps: ['controllers-inventory_controller']},
@@ -282,6 +283,7 @@
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
+      'controllers-campaign_create_ad_controller':'workflow/controllers/campaign_create_ad_controller',
       'controllers-actions_controller':'controllers/actions_controller',
       'controllers-optimization_controller':'controllers/optimization_controller',
       'controllers-inventory_controller':'controllers/inventory_controller',
@@ -440,6 +442,7 @@
 
            'controllers-campaign_details_controller',
            'controllers-campaign_create_controller',
+           'controllers-campaign_create_ad_controller',
            'controllers-actions_controller',
            'controllers-optimization_controller',
            'controllers-inventory_controller',
