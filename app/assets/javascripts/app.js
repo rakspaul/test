@@ -76,7 +76,7 @@ var angObj = '';
             .when('/campaign/overview/:campaignId', {
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
-                controller: 'CreateCampaignAdController'
+                controller: 'CampaignOverViewController'
             })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];

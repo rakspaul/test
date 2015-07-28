@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService,$timeout) {
+    angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService,$timeout, $location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
@@ -87,8 +87,8 @@ var angObj = angObj || {};
 
         }
 
-        $scope.sucessHandler = function(form) {
-            var $elem = $(".succesfulPopMess");
+        $scope.sucessHandler = function(result) {
+            /*var $elem = $(".succesfulPopMess");
             $elem.show();
             $scope.reset();
             var goalElem = $('.goalBtnGroup').find('label');
@@ -98,7 +98,9 @@ var angObj = angObj || {};
             $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
             $timeout(function(){
                 $elem.hide();
-            }, 1000)
+            }, 1000)*/
+            var url = '/campaign/overview/'+ result.data.data.id;
+            $location.url(url);
         }
 
         $scope.selectCampaignGoal = function(event, goal) {
@@ -132,7 +134,7 @@ var angObj = angObj || {};
                 postDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.sucessHandler(formElem);
+                        $scope.sucessHandler(result);
                     }
                 });
             }
