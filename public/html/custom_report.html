@@ -287,9 +287,9 @@
 								{{dm.value}}
 							</div>
 						</div>
-						<div class="clearfix first_dimension_row_holder">
+						<div class="clearfix first_dimension_row_holder" >
 							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
-							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable()"></span>
+							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 							<div class="each_row reportData {{showhasBreakdown}}"  data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics track by $index" ><!-- add active when the next dimension is open --><!-- add hasBreakdown when the next dimension is available -->
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
@@ -321,7 +321,7 @@
 						</div>
 						<div class="clearfix first_dimension_row_holder">
 							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
-							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable()"></span>
+							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.booked_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
@@ -352,7 +352,7 @@
 						</div>
 						<div class="clearfix first_dimension_row_holder">
 							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
-							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable()"></span>
+							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
@@ -383,7 +383,7 @@
 						</div>
 						<div class="clearfix first_dimension_row_holder">
 							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
-							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable()"></span>
+							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.video_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
