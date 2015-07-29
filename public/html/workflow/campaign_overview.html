@@ -21,22 +21,22 @@
                 </div>
                 
                 <div class="col-md-12 zeroPadding campSettingOverView">
-                    <div class="col-md-1" style="padding:0">
+                    <div class="col-md-2 borderZero zeroPadding">
                         <label>Goal</label>
                         <div class="glyphicon glyphicon-record" aria-hidden="true"></div>
-						<span> {{workflowData.campaignData.goal.toLowerCase() | toCamelCase}}</span>
+			<span> {{workflowData.campaignData.goal.toLowerCase() | toCamelCase}}</span>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2 borderZero">
                         <label>Budget Allocated</label>
                         <span>{{workflowData.campaignData.bookedRevenue | number}}</span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2 borderZero">
                         <label>Flight Dates</label>
                         <span>{{workflowData.campaignData.flightDate}} <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
                     </div>
                     <div class="col-md-2">
                         <label>Pricing Model</label>
-						<span>Cost Per Viewable Impression</span>
+			<span class="disabledTxt">Cost Per Viewable Impression</span>
                     </div>
                     <div class="col-md-2 borderZero">
                         <div class="col-md-4 zeroPadding borderZero">
