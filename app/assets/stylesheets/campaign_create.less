@@ -990,6 +990,9 @@ body {
 .zeroPadding {
   padding: 0px !important;
 }
+.zeroMargin {
+  margin: 0px !important;
+}
 .borderZero {
   border-width: 0px !important;
 }
@@ -1391,6 +1394,10 @@ body {
                 padding: 2px 0 1px 0;
                 margin-top: 3px;
               }
+              .adIconWidget {
+                float: left;
+                padding-right: 10px;
+              }
             }
             .adTxtGray {
               font-size: 12px;
@@ -1504,30 +1511,14 @@ body {
   }
   // Campaign Create Ad POP Starts Here
   .campaignAdCreate{
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    height: 100%;
-    display: none;
+    float: left;
+    width: 80%;
+    border-left: 1px dotted #b9b9b9;
     .adMainWrapper {
-      background: #F2F2F2;
-      border:1px solid #000;
-      border-radius: 5px;
-      -webkit-box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.75);
-      -moz-box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.75);
-      box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.75);
-      width: 800px;
+      width: 100%;
       min-height: 500px;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      margin-left: -400px;
-      margin-top: -250px;
       padding:20px;
-      display: table;
+      float: left;
       .headerSteps {
         padding: 0 0 15px 0;
       }
@@ -1615,7 +1606,6 @@ body {
       .nextPanel {
         margin: 20px 0;
         position: relative;
-        left: 35%;
       }
       .placementRadio {
         padding-left: 198px;
@@ -1633,9 +1623,17 @@ body {
           padding: 2px 30px 0 5px;
         }
       }
+      // Step 1
+      .adStepOne {
+        .adNameBox {
+          .btn-toggle {
+            margin: 6px 0 20px;
+          }
+        }
+      }
       // Step 2 Ad Create
       .adStepTwo {
-        display: none;
+        //display: none;
       }
 
       .bgColor{background-color:#FFFFFF;}
@@ -1771,7 +1769,16 @@ body {
       }
     }
   }
-
   // Campaign Create Ad POP Ends Here
-
+}
+.adCreateMaster {
+  .campTitleWrap {
+    h1 {
+      line-height: 18px !important;
+      font-size: 14px !important;
+    }
+    .label {
+      font-size: 9px !important;
+    }
+  }
 }

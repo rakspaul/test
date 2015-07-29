@@ -1,26 +1,12 @@
-<div id="campaignCreate">
+<div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer">
             <!-- Header Starts -->
-            <div class="clearfix page_header_container campAdHeader"> 
-                <div class="col-md-12 zeroPadding">
-                    <div class="col-md-9 zeroPadding">
-                        <span class="accountTitleTag">Anderson Cooper & Associates  |  Adobe Systems, Inc.  |  Creative Cloud</span>
-                        <div class="col-md-12 campTitleWrap">
-                            <span class="label pull-left label-warning">DRAFT</span>
-                            <h1 class="pull-left">Creative Cloud Brand Campaign July-Aug 2015</h1>
-                            <span class="pull-left glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </div>
-                        <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime">VID 345623  |  Last Saved 15 Jul 2015 : 09:35</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 peopleModule">
-                        <span class="glyphicon glyphicon-user pull-right" aria-hidden="true"></span>
-                    </div>
-                </div>
-                
+            <div class="clearfix page_header_container campAdHeader "> 
                 <div class="col-md-12 zeroPadding campSettingOverView">
+					<div class="col-md-3 campTitleWrap">
+                        <h1 class="pull-left zeroMargin">Creative Cloud Brand Campaign July-Aug 2015 <span class="label label-warning">D</span></h1>
+                    </div>
                     <div class="col-md-1">
                         <label>Goal</label>
                         <div class="glyphicon glyphicon-record" aria-hidden="true"></div>
@@ -30,184 +16,95 @@
                         <label>Budget Allocated</label>
                         <span>$0 / 1.2M</span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label>Flight Dates</label>
-                        <span>JUL 1, 2015 - AUG 1, 2015 (30 Days)</span>
-                        <div class="btn-group btn-toggle"> 
-                            <button class="btn btn-xs btn-default">ACTIVE</button>
-                            <button class="btn btn-xs btn-primary active">DISABLE</button>
-                        </div>
+                        <span>JUL 1, 2015 - AUG 1, 2015</span>
                     </div>
                     <div class="col-md-2">
                         <label>Pricing Model</label>
 						<span>Cost Per Viewable Impression</span>
                     </div>
-                    <div class="col-md-2 borderZero">
-                        <div class="col-md-4 zeroPadding borderZero">
-                            <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
-                            <span class="col-md-12 zeroPadding text-center">1</span>
+                    <div class="col-md-3 borderZero">
+                        <div class="col-md-3 zeroPadding">
+                            <label class="col-md-12 zeroPadding text-center">Contacts</label>
+                            <span class="col-md-12 zeroPadding text-center">0</span>
                         </div>
-                        <div class="col-md-4 zeroPadding borderZero">
+						<div class="col-md-3 zeroPadding borderZero">
+                            <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Ad Groups</label>
+                            <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
+                        </div>
+                        <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
                             <span class="col-md-12 zeroPadding text-center">1</span>
                         </div>
-                        <div class="col-md-4 zeroPadding borderZero">
+                        <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
                             <span class="col-md-12 zeroPadding text-center">3</span>
                         </div>
                     </div>
-                    <div class="col-md-2 borderZero">
-                        <button type="button" class="btn btn-primary pull-right" disabled="disabled">PUSH CAMPAIGN</button>
-                    </div>
                 </div>
             </div>
             <!-- Header Ends -->
-            
-            <!-- Ads Start -->
-            <div class="adWrap">
-                <div class="isAdCollapsed">
-                    <div class="pull-left create_btn_holder col-md-12" style="padding: 0;">
-                        <a href="" class="submit_btn pull-left addMaster">{{ textConstants.CREATE }}</a>
-                    </div>
-                
-                </div>
-		    
-                    <div class="col-md-12 spacingInput"><!-- Spacing --></div>
-                    <div class="col-md-12 adContainer">
-                        <!--=== Group Ad ===-->
-                        <!--<div class="col-md-12 adModule adGroup">
-                            <div class="col-md-12 adTitle">
-                                <span class="pull-left adGroupTxt">{{ textConstants.GROUP_TITLE }}</span>
-                                <span class="pull-right adGroupEditBtn">{{ textConstants.EDIT }}</span><br/>
-                            </div>
-                        </div>-->
-			
-						<!--=== Create BTN Ad ===-->
-                        <div class="col-md-3 adModule adCreateBtn">
-                            <div class="col-md-12">
-                                <a href="" class="col-md-12 text-center addMaster">
-									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-									<h1>CREATE AD</h1>
-								</a>
-                            </div>
+        
+		<!-- Header Starts -->
+        <div class="clearfix page_header_container">
+                <div class="pull-left campaign_name_holder">
+                    <span class="campaign_name">Create Ad</span>
+                    <div class="pull-left stepCompLabel">
+                        <p class="selected">1. Select Ad Type</p>
+                        <div class="statusLabel disabled">
+                            <span>Not Set</span>
                         </div>
-			
-                        <!--=== Single Ad Ready ===-->
-                        <div class="col-md-3 adModule">
-                            <div class="col-md-12 adTitle">
-								<img src="http://img2.wikia.nocookie.net/__cb20100516075848/logopedia/images/archive/2/25/20150410110027!BMW_logo.png" height="40" class="adIconWidget" alt/>
-                                <span class="pull-left adDisplay">Collective Media</span>
-                                <span class="pull-right adStatus">Draft</span><br/>
-                                <span class="pull-left">ID: <a href="" class="adNum">201668960</a></span>
-                            </div>
-                            <div class="col-md-12">
-                                <h1 class="col-md-10 adCamp">
-                                    (WCNC) AT&T(MEC Intl) - Digital Life 2015 (C/JH)
-                                </h1>
-                                <span class="glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
-                                <span class="pull-left adTxtGray dateAd">Jun 1, 2015 - Aug 31, 2015</span>
-								
-								<div class="btn-group btn-toggle pull-right"> 
-									<button class="btn btn-xs btn-default">ON</button>
-									<button class="btn btn-xs btn-success active">OFF</button>
-								</div>
-								
-                                <div class="spacer"><div class="col-md-12"></div></div>
-                                <span class="pull-left text-left adTxtGray">{{ textConstants.IMPRESSIONS }}<br/>CPM<br/>Media Cost</span>
-                                <span class="pull-right text-right adTxtGray">6,750,000<br/>$2.45<br/>$2,250.00</span>
-                                <div class="spacer"><div class="col-md-12"></div></div>
-                                <div class="col-md-6">
-                                    <h2 class="col-md-12 text-center zeroPadding">1</h2>
-                                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{ textConstants.CREATIVES }}</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <h2 class="col-md-12 text-center zeroPadding">3</h2>
-                                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
-                                </div>
-                            </div>
+                        <p class="">2. Settings</p>
+                        <div class="statusLabel disabled">
+                            <span>Not Set</span>
                         </div>
-
-                        <!--=== Single Ad Ready ===-->
-                        <div class="col-md-3 adModule adReady">
-                            <div class="col-md-12 adTitle">
-								<img src="http://img2.wikia.nocookie.net/__cb20100516075848/logopedia/images/archive/2/25/20150410110027!BMW_logo.png" height="40" class="adIconWidget" alt/>
-                                <span class="pull-left adDisplay">Collective Media</span>
-                                <span class="pull-right adStatus">{{ textConstants.READY }}</span><br/>
-                                <span class="pull-left">ID: <a href="" class="adNum">201668960</a></span>
-                            </div>
-                            <div class="col-md-12">
-                                <h1 class="col-md-10 adCamp">
-                                    (WCNC) AT&T(MEC Intl) - Digital Life 2015 (C/JH)
-                                </h1>
-                                <span class="glyphicon glyphicon-picture pull-right" aria-hidden="true"></span>
-                                <span class="pull-left adTxtGray dateAd">Jun 1, 2015 - Aug 31, 2015</span>
-								
-								<div class="btn-group btn-toggle pull-right"> 
-									<button class="btn btn-xs btn-default">ON</button>
-									<button class="btn btn-xs btn-success active">OFF</button>
-								</div>
-								
-                                <div class="spacer"><div class="col-md-12"></div></div>
-                                <span class="pull-left text-left adTxtGray">{{ textConstants.IMPRESSIONS }}<br/>CPM<br/>Media Cost</span>
-                                <span class="pull-right text-right adTxtGray">6,750,000<br/>$2.45<br/>$2,250.00</span>
-                                <div class="spacer"><div class="col-md-12"></div></div>
-                                <div class="col-md-6">
-                                    <h2 class="col-md-12 text-center zeroPadding">1</h2>
-                                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{ textConstants.CREATIVES }}</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <h2 class="col-md-12 text-center zeroPadding">3</h2>
-                                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
-                                </div>
-                            </div>
+                        <p class="">3. Buying Platform</p>
+                        <div class="statusLabel disabled">
+                            <span>Not Set</span>
                         </div>
-
+						<p class="">4. Targeting</p>
+                        <div class="statusLabel disabled">
+                            <span>Not Set</span>
+                        </div>
+						<p class="">5. Ad Sizes / Creatives</p>
+                        <div class="statusLabel disabled">
+                            <span>Not Set</span>
+                        </div>
+						<p class="">6. Inventory Filters</p>
+                        <div class="statusLabel disabled">
+                            <span>Not Set</span>
+                        </div>
                     </div>
                 </div>
-            </div>
         </div>
-        
-        </div>
-        
+        <!-- Header Ends -->
+		
         <!--=== POP Up Light Box ===-->
-        <div class="campaignAdCreate" style="display: none;">
+        <div class="campaignAdCreate">
             <div class="adMainWrapper">    
-                <div class="pull-right addClose"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></div> <br />
                 <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" novalidate>
                     <div class="adCreateConsole">
-                        <!--###=== Ad Create Header Starts ===###-->
-                        <div class="col-md-12 headerSteps">
-                            <div class="col-md-1 hdr_ad">AD</div>
-                            <div class="col-md-10 zeroPadding"><input type="text" size="75" class="form-control"></div>
-                            <div class="col-md-1 hdr_paused">Paused</div>
-                            
-                            <div class="col-md-12 zeroPadding subHeaderSteps">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-3 headerFormatSelect">
-                                    <span>{{ textConstants.WF_AD_FORMAT }}<strong>
-                                    <span class="glyphicon" aria-hidden="true"></span>
-                                    {{adData.adFormat}}</strong></span>
-                                </div>
-                                <div class="col-md-3 headerAdGoalSelect">
-                                    <span>{{ textConstants.WF_AD_GOAL }}<strong>
-                                    <span class="glyphicon" aria-hidden="true"></span>
-                                    {{adData.adGoal}}</strong></span>
-                                </div>
-                                <div class="col-md-3 headerScreenSelect">
-                                    <span>{{ textConstants.WF_SCREEN_TYPE }}<strong>
-                                    <span class="glyphicon" aria-hidden="true"></span>
-                                    {{dataScreenAd}}</strong></span>
-                                </div>
-                                <div class="col-md-1"><a href=""><span class="glyphicon glyphicon-cog editStepOne" aria-hidden="true"></span></a></div>
-                                <div class="col-md-1"></div>
-                            </div>
-                        </div>
-                        <!--###=== Ad Create Header Ends ===###-->
                         
                         <!--###=== STEP 1 Starts ===###-->
                         <div class="col-md-12 zeroPadding adStepOne">
-                            <a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_GUIDED_COPY }}</a>
+                            <a href="" class="col-md-9 zeroPadding">{{ textConstants.WF_GUIDED_COPY }}</a>
+							<button type="button" class="btn btn-primary pull-right">Save</button>
+							<button type="button" class="btn btn-link pull-right">Cancel</button>
+							
+							<!--=== AD Name ===-->
+                            <div class="col-md-12 zeroPadding adNameBox">
+                                <div class="col-md-12 adHeader">What is your Ad name?</div>
+								<div class="col-md-10 zeroPadding">
+									<input type="text" class="form-control">
+								</div>
+								<div class="btn-group btn-toggle col-md-2"> 
+									<button class="btn btn-xs btn-default">START</button>
+									<button class="btn btn-xs btn-primary active">PAUSED</button>
+								</div>
+							</div>
             
+			
                             <!--=== AD Format ===-->
                             <div class="col-md-12 zeroPadding adFormatChkBox">
                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES }}</div>
@@ -293,13 +190,20 @@
                                         <div class="btnLabel">{{ textConstants.WF_TABLET }}</div>
                                     </label>
                                 </div>
-                                <div class="col-md-12 placementRadio" style="display: none;">
-                                    <label>Choose One</label>
-                                    <input type="radio" name="group4" value="browser" class="btn_rad">
-                                    <span>Browser</span>
-                                    <input type="radio" name="group4" value="apps" class="btn_rad">
-                                    <span>Apps</span>
-                                </div>
+                            </div>
+							
+							<!--=== Ad Group Selection ===-->
+                            <div class="col-md-12 zeroPadding adGroupSelection">
+                                <div class="col-md-12 adHeader">Which Ad Group should this ad be placed in?</div>
+                                <div class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Ad Group
+									<span class="caret"></span></button>
+									<ul class="dropdown-menu">
+									  <li><a href="#">Group 1</a></li>
+									  <li><a href="#">Group 2</a></li>
+									  <li><a href="#">Group 3</a></li>
+									</ul>
+								</div>
                             </div>
                             
                             <!--=== Next Step Panel ===-->
@@ -307,7 +211,6 @@
                                 <div class="pull-left nextPanel">
                                     <!-- Standard button -->
                                     <button type="button" class="btn btn-primary createAdNext">Next</button>
-                                    <button type="button" class="btn btn-link addClose">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +230,7 @@
                                 </ul>
                             </div>
                              
-                    <div class="col-md-10 zeroPadding tabContent">
+						<div class="col-md-10 zeroPadding tabContent">
                             <!-- Tab panes -->
                              <div class="tab-content"> 
                                 
