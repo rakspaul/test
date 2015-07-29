@@ -6,18 +6,41 @@ var angObj = angObj || {};
         $scope.workflowData = {};
 console.log("heloo");
         var campaignOverView = {
+
+            modifyCampaignData :  function() {
+                var campaignData = $scope.workflowData['campaignData'];
+                campaignData.updatedAt = moment(campaignData.updatedAt).format("DD MMM YYYY : HH:mm");
+                campaignData.flightDate = moment(campaignData.startTime).format('MMM DD, YYYY') + ' - ' + moment(campaignData.endTime).format('MMM DD, YYYY');
+                campaignData.numOfDays = moment(campaignData.endTime).diff(moment(campaignData.endTime), 'days');
+                console.log($scope.workflowData);
+            },
+
             getCampaignData :  function(campaignId) {
                 console.log("campaignId"+campaignId);
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
-                        workflowData['campaignData'] = responseData;
-                        conso
+                        $scope.workflowData['campaignData'] = responseData;
+                        campaignOverView.modifyCampaignData();
                     }
                     else{
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
+            },
+
+            getAdsForCampaign :  function(campaignId) {
+                workflowService.getAdsForCampaign(campaignId).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        var responseData = result.data.data;
+                        $scope.workflowData['campaignAdsData'] = responseData;
+                        console.log($scope.workflowData);
+                    }
+                    else{
+                        campaignOverView.errorHandler(result);
+                    }
+                }, campaignOverView.errorHandler);
+
             },
 
             errorHandler : function(errData) {
@@ -27,9 +50,9 @@ console.log("heloo");
 
 
         campaignOverView.getCampaignData($routeParams.campaignId);
+        campaignOverView.getAdsForCampaign($routeParams.campaignId);
 
         $(function() {
-
             $('.btn-toggle').click(function() {
                 $(this).find('.btn').toggleClass('active');
 
