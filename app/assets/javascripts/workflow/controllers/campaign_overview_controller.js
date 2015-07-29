@@ -9,9 +9,7 @@ console.log("heloo");
 
             modifyCampaignData :  function() {
                 var campaignData = $scope.workflowData['campaignData'];
-                campaignData.updatedAt = moment(campaignData.updatedAt).format("DD MMM YYYY : HH:mm");
-                campaignData.flightDate = moment(campaignData.startTime).format('MMM DD, YYYY') + ' - ' + moment(campaignData.endTime).format('MMM DD, YYYY');
-                campaignData.numOfDays = moment(campaignData.endTime).diff(moment(campaignData.endTime), 'days');
+                campaignData.numOfDays = moment(campaignData.endTime).diff(moment(campaignData.startTime), 'days');
                 console.log($scope.workflowData);
             },
 
@@ -40,7 +38,6 @@ console.log("heloo");
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
-
             },
 
             errorHandler : function(errData) {
@@ -48,6 +45,9 @@ console.log("heloo");
             }
         }
 
+        $scope.utc = function(date) {
+            return Date.parse(date)
+        }
 
         campaignOverView.getCampaignData($routeParams.campaignId);
         campaignOverView.getAdsForCampaign($routeParams.campaignId);
