@@ -25,8 +25,12 @@
             getCampaignData : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId;
                 return dataService.fetch(url);
-            }
+            },
 
+            getAdsForCampaign : function(campaignId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ads';
+                return dataService.fetch(url);
+            }
         };
     });
 }());

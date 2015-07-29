@@ -8,11 +8,11 @@
                         <span class="accountTitleTag">Anderson Cooper & Associates  |  Adobe Systems, Inc.  |  Creative Cloud</span>
                         <div class="col-md-12 campTitleWrap">
                             <span class="label pull-left label-warning">DRAFT</span>
-                            <h1 class="pull-left">Creative Cloud Brand Campaign July-Aug 2015</h1>
+                            <h1 class="pull-left">{{workflowData.campaignData.name}} July-Aug 2015</h1>
                             <span class="pull-left glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime">VID 345623  |  Last Saved 15 Jul 2015 : 09:35</span>
+                            <span class="campIdTime">VID {{workflowData.campaignData.id}}  |  Last Saved {{workflowData.campaignData.updatedAt}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 peopleModule">
@@ -21,22 +21,18 @@
                 </div>
                 
                 <div class="col-md-12 zeroPadding campSettingOverView">
-                    <div class="col-md-1">
+                    <div class="col-md-1" style="padding:0">
                         <label>Goal</label>
                         <div class="glyphicon glyphicon-record" aria-hidden="true"></div>
-						<span> Brand</span>
+						<span> {{workflowData.campaignData.goal.toLowerCase() | toCamelCase}}</span>
                     </div>
                     <div class="col-md-1">
                         <label>Budget Allocated</label>
-                        <span>$0 / 1.2M</span>
+                        <span>{{workflowData.campaignData.bookedRevenue | number}}</span>
                     </div>
                     <div class="col-md-4">
                         <label>Flight Dates</label>
-                        <span>JUL 1, 2015 - AUG 1, 2015 (30 Days)</span>
-                        <div class="btn-group btn-toggle"> 
-                            <button class="btn btn-xs btn-default">ACTIVE</button>
-                            <button class="btn btn-xs btn-primary active">DISABLE</button>
-                        </div>
+                        <span>{{workflowData.campaignData.flightDate}} <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
                     </div>
                     <div class="col-md-2">
                         <label>Pricing Model</label>
@@ -45,7 +41,7 @@
                     <div class="col-md-2 borderZero">
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
-                            <span class="col-md-12 zeroPadding text-center">1</span>
+                            <span class="col-md-12 zeroPadding text-center">0</span>
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
@@ -53,7 +49,7 @@
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
-                            <span class="col-md-12 zeroPadding text-center">3</span>
+                            <span class="col-md-12 zeroPadding text-center">0</span>
                         </div>
                     </div>
                     <div class="col-md-2 borderZero">
@@ -65,13 +61,6 @@
             
             <!-- Ads Start -->
             <div class="adWrap">
-                <div class="isAdCollapsed">
-                    <div class="pull-left create_btn_holder col-md-12" style="padding: 0;">
-                        <a href="" class="submit_btn pull-left addMaster">{{ textConstants.CREATE }}</a>
-                    </div>
-                
-                </div>
-		    
                     <div class="col-md-12 spacingInput"><!-- Spacing --></div>
                     <div class="col-md-12 adContainer">
                         <!--=== Group Ad ===-->
@@ -81,7 +70,7 @@
                                 <span class="pull-right adGroupEditBtn">{{ textConstants.EDIT }}</span><br/>
                             </div>
                         </div>-->
-			
+
 						<!--=== Create BTN Ad ===-->
                         <div class="col-md-3 adModule adCreateBtn">
                             <div class="col-md-12">
@@ -91,7 +80,7 @@
 								</a>
                             </div>
                         </div>
-			
+
                         <!--=== Single Ad Ready ===-->
                         <div class="col-md-3 adModule">
                             <div class="col-md-12 adTitle">
