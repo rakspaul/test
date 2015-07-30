@@ -834,6 +834,17 @@
             $scope.activityLogFilterByStatus = showExternal;
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 450, 330 , null, undefined, showExternal);
             //TODO: reset D3 action performance chart here
+            //D3 chart object for action performance chart
+            $scope.details.lineChart = {
+                data: $scope.details.lineData,
+                kpiValue: parseFloat($scope.campaign.kpiValue),
+                kpiType: $scope.campaign.kpiType,
+                from: 'action_performance',
+                //customisation
+                activityList: activityList.data.data,
+                showExternal: showExternal
+            };
+
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_' + (showExternal ? 'external' : 'all'), loginModel.getLoginName());
             return filter;
         };
@@ -945,6 +956,16 @@
         $scope.refreshGraph = function(showExternal){ /*Single Campaign UI Support elements - sta */ /*Refresh Graph Data */
           //TODO: move to D3
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 450, 330 , null, undefined, showExternal);
+
+            $scope.details.lineChart = {
+                data: $scope.details.lineData,
+                kpiValue: parseFloat($scope.campaign.kpiValue),
+                kpiType: $scope.campaign.kpiType,
+                from: 'action_performance',
+                //customisation
+                activityList: activityList.data.data,
+                showExternal: showExternal
+            };
         };
 
         var callRefreshGraphData = $rootScope.$on("callRefreshGraphData",function(event,args){
