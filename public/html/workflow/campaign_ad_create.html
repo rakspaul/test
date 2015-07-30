@@ -7,7 +7,7 @@
                     <div class="col-md-3 campTitleWrap">
                         <h1 class="pull-left zeroMargin">
 			                <span class="label label-warning">{{workflowData.campaignData.status}}</span>
-                            {{workflowData.campaignData.clientName}}  |  {{workflowData.campaignData.advertiserName}}  <span ng-if="workflowData.campaignData.brandName"> |  {{workflowData.campaignData.brandName}}</span>
+                            {{workflowData.campaignData.name}}</span>
 			            </h1>
                     </div>
                     <div class="col-md-1 borderZero">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-md-1 borderZero">
                         <label>Total Budget</label>
-                        <span>{{(workflowData.campaignData.bookedRevenue || 453434535) | currency:undefined:0}}</span>
+                        <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="col-md-2 borderZero">
                         <label>Flight Dates</label>
