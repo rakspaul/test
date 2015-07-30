@@ -471,7 +471,7 @@
                               position = 0,
                               flag = [],
                               counter = 0;
-                          var defaultGrey = undefined;
+                          var defaultGrey = _config.defaultGrey;
                           if (_config.activityList) {
                               _.each(data, function(seriesData, i) {
                                   position = 0;
@@ -1246,6 +1246,7 @@
                   lineData.keys.yAxis.ticks = 6;
                   lineData.keys.xAxis.ticks = 7;
                   lineData.external = dataObj.showExternal;
+                  lineData.defaultGrey= dataObj.defaultGrey || undefined;
                   //lineData.margin.right = 0;
                 }
 
@@ -1264,7 +1265,8 @@
                     showAxisLabel: lineData.showAxisLabel,
                     axisLabel: lineData.axisLabel,
                     activityList: (dataObj.activityList !== undefined)? dataObj.activityList : undefined,
-                    external: lineData.external
+                    external: lineData.external,
+                    defaultGrey: lineData.defaultGrey
                 });
 
                 lineChartService.setChartParameters();

@@ -288,7 +288,7 @@
                                 <div ng-if="details.actionChart && campaign.kpiType" class="highcharts" id="details_chart">
                                     <div class="line_tooltip"></div>
                                     <div class="campaign_details_graph performance" width='450' height='330' campaign-chart chart-data="{{details.lineChart}}" chart-location="action_performance"></div>
-                                    <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
+                                    <!-- <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart> -->
                                 </div>
                                 <div ng-if="!(details.actionChart && campaign.kpiType)" class="highcharts" id="details_chart" ng-bind-html="getMessageForDataNotAvailable(campaign,'campaign')">
                                 </div>
