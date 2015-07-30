@@ -27,22 +27,30 @@ console.log("heloo");
 
 
         campaignOverView.getCampaignData($routeParams.campaignId);
+        // Switch BTN Animation
+        $('.btn-toggle').click(function(){
+            $(this).find('.btn').toggleClass('active');
 
-        $(function() {
+            if ($(this).find('.btn-primary').size()>0) {
+                $(this).find('.btn').toggleClass('btn-primary');
+            }
+            if ($(this).find('.btn-success').size()>0) {
+                $(this).find('.btn').toggleClass('btn-success');
+            }
+            $(this).find('.btn').toggleClass('btn-default');
 
-            $('.btn-toggle').click(function() {
-                $(this).find('.btn').toggleClass('active');
+        });
 
-                if ($(this).find('.btn-primary').size()>0) {
-                    $(this).find('.btn').toggleClass('btn-primary');
-                }
-                if ($(this).find('.btn-success').size()>0) {
-                    $(this).find('.btn').toggleClass('btn-success');
-                }
-                $(this).find('.btn').toggleClass('btn-default');
-
-            });
-        })
+        // Next and Previous BTN Func
+        $('.btnNext').click(function(){
+            $('.nav-tabs > .active').next('li').find('a').trigger('click');
+        });
+          
+        $('.btnPrevious').click(function(){
+            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+        });
+        
+        
 
 
     });
