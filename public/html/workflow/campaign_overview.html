@@ -5,7 +5,7 @@
             <div class="clearfix page_header_container campAdHeader"> 
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
-                        <span class="accountTitleTag" ng-if="workflowData.campaignData.clientName">{{workflowData.campaignData.clientName}}  |  {{workflowData.campaignData.advertiserName}}  |  {{workflowData.campaignData.brandName}}</span>
+                        <span class="accountTitleTag" ng-if="workflowData.campaignData.clientName">{{workflowData.campaignData.clientName}}  |  {{workflowData.campaignData.advertiserName}}  <span ng-if="workflowData.campaignData.brandName"> |  {{workflowData.campaignData.brandName}}</span></span>
                         <div class="col-md-12 campTitleWrap">
                             <span class="label pull-left label-warning">{{workflowData.campaignData.status}}</span>
                             <h1 class="pull-left">{{workflowData.campaignData.name}}</h1>
@@ -23,12 +23,12 @@
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="col-md-2 borderZero zeroPadding">
                         <label>Goal</label>
-                        <div class="glyphicon glyphicon-record" aria-hidden="true"></div>
+                        <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true"></div>
 			<span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
                     </div>
                     <div class="col-md-2 borderZero">
-                        <label>Budget Allocated</label>
-                        <span>{{(workflowData.campaignData.bookedRevenue || 453434535) | currency:undefined:0}}</span>
+                        <label>Total Budget</label>
+                        <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="col-md-2 borderZero">
                         <label>Flight Dates</label>
@@ -74,7 +74,7 @@
 						<!--=== Create BTN Ad ===-->
                         <div class="col-md-3 adModule adCreateBtn">
                             <div class="col-md-12">
-                                <a href="" class="col-md-12 text-center addMaster">
+                                <a href="/campaign/overview/{{workflowData.campaignData.id}}/ads/create" class="col-md-12 text-center addMaster">
 									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 									<h1>CREATE AD</h1>
 								</a>
@@ -87,7 +87,7 @@
 								<img src="http://img2.wikia.nocookie.net/__cb20100516075848/logopedia/images/archive/2/25/20150410110027!BMW_logo.png" height="40" class="adIconWidget" alt/>
                                 <span class="pull-left adDisplay">Collective Media</span>
                                 <span class="pull-right adStatus">{{adsData.state}}</span><br/>
-                                <span class="pull-left">ID: <a href="" class="adNum">{{adsData.id}}</a></span>
+                                <span class="pull-left">ID: {{adsData.id}}</span>
                             </div>
                             <div class="col-md-12">
                                 <h1 class="col-md-10 adCamp">
