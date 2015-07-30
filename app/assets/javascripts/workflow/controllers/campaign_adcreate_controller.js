@@ -1,18 +1,16 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignAdController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
         $scope.textConstants = constants;
         $scope.workflowData = {};
-console.log("heloo");
         var campaignOverView = {
             getCampaignData :  function(campaignId) {
                 console.log("campaignId"+campaignId);
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
-                        workflowData['campaignData'] = responseData;
-                        conso
+                        $scope.workflowData['campaignData'] = responseData;
                     }
                     else{
                         campaignOverView.errorHandler(result);
@@ -23,6 +21,10 @@ console.log("heloo");
             errorHandler : function(errData) {
                 console.log(errData);
             }
+        }
+
+        $scope.utc = function(date) {
+            return Date.parse(date)
         }
 
 

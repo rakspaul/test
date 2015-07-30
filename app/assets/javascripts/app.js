@@ -78,10 +78,10 @@ var angObj = '';
                 title :  'Campaign - Overview',
                 controller: 'CampaignOverViewController'
             })
-            .when('/campaign/adBuild/:campaignId', {
+            .when('/campaign/overview/:campaignId/ads/create', {
                 templateUrl: assets.html_campaign_create_adBuild,
                 title :  'Campaign - Ad Create',
-                controller: 'CampaignAdController'
+                controller: 'CampaignAdsCreateController'
             })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
