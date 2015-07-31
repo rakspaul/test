@@ -115,7 +115,7 @@
   display: block;
   padding: 12px ;
 }
-.datepicker table tr td {
+.datepicker table tr td.day {
   text-align: center;
   width: 38px;
   height: 38px;
@@ -649,6 +649,7 @@ fieldset[disabled] .datepicker table tr td.active.disabled:hover.active {
   margin: 1%;
   cursor: pointer;
   border-radius: 4px;
+  text-align: center;
 }
 .datepicker table tr td span:hover {
   background: #eef2f5;
@@ -866,6 +867,9 @@ td.day.range.last-day:before {
 .datepicker table tr td.day.selected {
   position: relative;
   z-index: 2;
+}
+.datepicker .datepicker-months thead {
+  padding-bottom: 10px ;
 }
 td.day.selected + td.day.range {
   position: relative;
