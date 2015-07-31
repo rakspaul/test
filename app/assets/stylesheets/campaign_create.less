@@ -1011,12 +1011,13 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       width: 1200px;
       margin: 0 auto;
       position: relative;
+      padding: 0 30px;
       .spacingInput {
         height: 10px;
       }
       .page_header_container {
         margin: 37px 0 0 0;
-        width: 20%;
+        width: 23%;
         float: left;
         .campaign_name {
           color: #565656;
@@ -1038,6 +1039,15 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
             margin: 3px 0;
             .errorTxt {
               color: #e83b05;
+            }
+            .glyphicon {
+              width: 26px;
+              text-align: center;
+              padding: 0;
+            }
+            .col-md-5 {
+              font-size: 11px;
+              color: #939ead;
             }
           }
           li {
@@ -1064,9 +1074,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
           }
           span:first-child {
             clear: left;
-            width: 45px;
             text-align: right;
-            margin-right: 5px;
           }
           .active {
             font-family: "Avenir-bold";
@@ -1124,8 +1132,8 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
       .settingWrap{
         border-left: 1px dashed #DBDBDB;
-        padding: 20px 0 20px 20px;
-        width: 80%;
+        padding: 30px;
+        width: 77%;
         float: left;
       }
       .collapseHeader {
@@ -1293,7 +1301,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
       .campAdHeader {
         width: 100%;
-        margin-top: 12px;
+        margin-top: 20px !important;
         .accountTitleTag {
           float: left;
           font-size: 12px;
@@ -1530,12 +1538,12 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
   // Campaign Create Ad POP Starts Here
   .campaignAdCreate{
     float: left;
-    width: 80%;
+    width: 77%;
     border-left: 1px dotted #b9b9b9;
     .adMainWrapper {
       width: 100%;
       min-height: 500px;
-      padding:20px;
+      padding:30px 30px 0 30px;
       float: left;
       .headerSteps {
         padding: 0 0 15px 0;
@@ -1574,7 +1582,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
       .adHeader {
         padding:0px;
-        font-family:"Avenir-bold";
+        font-family:"Avenir-roman";
         font-size:18px;
       }
       .adSubHeader{
@@ -1664,7 +1672,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
 
       // Tabs navigation start
-      .tab-content { padding:6px;}
+      //.tab-content { padding:6px;}
       .tabs-left, .tabs-right {
         border-bottom: none;
       }
@@ -1757,7 +1765,15 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
         border-radius: 4px;
         border:1px solid #DDD;
         padding:18px;
-        height:77px;
+        min-height:151px;
+        text-align: center;
+        span {
+          height: 40px;
+          display: inline-block;
+        }
+        img {
+          padding: 10px 0;
+        }
       }
       .platformHeading {
         border-bottom:1px solid #DDD;
@@ -1791,17 +1807,31 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       line-height: 18px !important;
       font-size: 14px !important;
       padding: 4px 0 0 0;
+      float: left;
+      width: 91%;
     }
     .label {
       font-size: 9px !important;
       float: left;
-      margin: 3px 5px 0 0;
+      margin: 13px 3% 0 0;
+      width: 6%;
+      text-align: center;
+      padding: 4px 0;
     }
   }
   .page_header_container {
-    margin-top: 15px;
+    margin-top: 30px !important;
+    .campaign_name_holder {
+      padding-left: 5px;
+    }
     .nav-tabs {
       border-width: 0px;
+    }
+    .col-md-5 {
+      width: 30%;
+    }
+    .col-md-7 {
+      width: 70%;
     }
   }
   .platformWrap {
@@ -1812,6 +1842,93 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       margin-bottom: 10px;
       display: none;
     }
+  }
+  .tab-content .tab-pane {    
+    position: relative;
+    float: left;
+    min-height: 530px;
+    width: 100%;
+    h2 {
+      color: #21252b;
+      font-size: 18px;
+      margin: 0;
+      font-family:"Avenir-bold";
+    }
+    .nextWrapper {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid #D0D0D0;
+      height: 30px;
+      width: 100%;
+      cursor: pointer;
+      text-align: center;
+      img {
+        width: 35px;
+        margin-top: -12px;
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
+        background: -moz-linear-gradient(top,  rgba(255,255,255,1) 22%, rgba(255,255,255,0.81) 37%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,rgba(255,255,255,1)), color-stop(37%,rgba(255,255,255,0.81)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+      }
+    }
+    #datepicker {
+      height: 54px;
+      .dateWrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 10;
+        input {
+          border-radius: 3px;
+          background: transparent;
+        }
+      }
+      .input-group-addon {
+        background: none;
+        border-width: 0;
+        width: 100%;
+        padding: 0;
+        .glyphicon {
+          margin: 31px 0 0 0;
+        }
+      }
+      .greyTxt {
+        color: #b3b3b3 !important;
+        padding: 7px 0 0 2px !important;
+        text-align: left;
+        font-weight: lighter;
+        font-size: 13px;
+        margin-bottom: 0;
+      }
+      #endDateInput {
+        background: rgba(0,0,0,0.07);
+      }
+    }
+    .unitCost {
+      .col-md-3 {
+        position: relative;
+        span {
+          position: absolute;
+          top: 8px;
+          left: 8px;
+        }
+        input {
+          text-indent: 10px;
+        }
+      }
+    }
+  }
+  .form-group {
+    margin-bottom: 30px;
+  }
+  .spacingInput {
+    height: 30px !important;
   }
 }
 #datepicker {

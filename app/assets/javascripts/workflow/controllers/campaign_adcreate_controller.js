@@ -1,11 +1,13 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils) {
+        $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData= {}
         $scope.adData.screenType =[]
+        $scope.campaignId = $routeParams.campaignId;
 
         $scope.getAdFormatIconName = function(adFormat) {
             var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
@@ -146,6 +148,15 @@ var angObj = angObj || {};
         $('.showPreset').click(function(){
             $('.presetGreyBox').slideToggle();
         });
+        // Create AD Tab Animation
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {    
+            var target = $(this).attr('href');  
+              
+            $(target).css('bottom','-'+$(window).width()+'px');   
+            var bottom = $(target).offset().bottom;
+            $(target).css({bottom:bottom}).animate({"bottom":"0px"}, "10");
+        });
+        
     });
 })();
 

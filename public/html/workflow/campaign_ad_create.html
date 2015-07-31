@@ -5,9 +5,11 @@
             <div class="clearfix page_header_container campAdHeader ">
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="col-md-3 campTitleWrap">
+						<!--Abi for this part they just want the letter not the word "DRAFT" instead "D"-->
+						<!--<span class="label label-warning">{{workflowData.campaignData.status}}</span>-->
+						<span class="label label-warning">D</span>
                         <h1 class="pull-left zeroMargin">
-			                <span class="label label-warning">{{workflowData.campaignData.status}}</span>
-                            {{workflowData.campaignData.name}}</span>
+                            {{workflowData.campaignData.name}}
 			            </h1>
                     </div>
                     <div class="col-md-1 borderZero">
@@ -30,8 +32,8 @@
                     </div>
                     <div class="col-md-3 borderZero">
                         <div class="col-md-3 zeroPadding">
-                            <label class="col-md-12 zeroPadding text-center">Contacts</label>
-                            <span class="col-md-12 zeroPadding text-center">0</span>
+                            <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</label>
+                            <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
                         </div>
                         <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Ad Groups</label>
@@ -55,40 +57,90 @@
                 <div class="pull-left campaign_name_holder">
                     <span class="campaign_name">Create Ad</span>
                     <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
-                        <li class="active"><a href="#adType" data-toggle="tab">1. Select Ad Type</a>
+                        <li class="active"><a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
                         </li>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <span class="col-md-5 zeroPadding">Ad Format </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+								<span>Display</span>
+							</div>
                         </div>
-                        <div class="statusLabel" ng-if="adData.goal.name">
-                            <span>Goal: </span>
-                            <span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>
-                            <span>{{selectedCampaign.goal.name}}</span>
+						<div class="statusLabel disabled">
+                            <span class="col-md-5 zeroPadding">Ad Goal </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+								<span>Performance</span>
+							</div>
                         </div>
-                        <li class=""><a href="#setting" data-toggle="tab">2. Settings</a>
+						<div class="statusLabel disabled">
+                            <span class="col-md-5 zeroPadding">Screen Type </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+								<span>Desktop</span>
+								<br/>
+								<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+								<span>Mobile</span>
+								<br/>
+								<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+								<span>Tablet</span>
+							</div>
+                        </div>
+                        <li class=""><a href="#setting" role="tab" data-toggle="tab">2. Settings</a>
                         </li>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <span class="col-md-5 zeroPadding">Flight Date </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+								<span>07/31/2015 - 07/31/2015</span>
+							</div>
                         </div>
-                        <li class=""><a href="#buying" data-toggle="tab">3. Buying Platform</a>
+						<div class="statusLabel disabled">
+                            <span class="col-md-5 zeroPadding">Unit Cost </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+								<span>10.00 CPM</span>
+							</div>
+                        </div>
+						<div class="statusLabel disabled">
+                            <span class="col-md-5 zeroPadding">Budget </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+								<span>5,000.00</span>
+							</div>
+                        </div>
+                        <li class=""><a href="#buying" role="tab" data-toggle="tab">3. Buying Platform</a>
                         </li>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <span class="col-md-5 zeroPadding">Platform </span>
+							<div class="col-md-7 zeroPadding">
+								<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+								<span>Collective Bidder</span>
+							</div>
                         </div>
-                        <li class=""><a href="#targetting" data-toggle="tab">4. Targeting</a>
+                        <li class=""><a href="#targetting" role="tab" data-toggle="tab">4. Targeting</a>
                         </li>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <span class="col-md-5 zeroPadding">Not Set </span>
+							<div class="col-md-7 zeroPadding">
+								
+							</div>
                         </div>
-                        <li class=""><a href="#creative" data-toggle="tab">5. Ad Sizes / Creatives</a>
+                        <li class=""><a href="#creative" role="tab" data-toggle="tab">5. Ad Sizes / Creatives</a>
                         </li>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <span class="col-md-5 zeroPadding">Not Set </span>
+							<div class="col-md-7 zeroPadding">
+								
+							</div>
                         </div>
-                        <li class=""><a href="#inventory" data-toggle="tab">6. Inventory Filters</a>
+                        <li class=""><a href="#inventory" role="tab" data-toggle="tab">6. Inventory Filters</a>
                         </li>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <span class="col-md-5 zeroPadding">Not Set </span>
+							<div class="col-md-7 zeroPadding">
+								
+							</div>
                         </div>
                     </ul>
                 </div>
@@ -107,18 +159,26 @@
 
                                         <!-- Tab1 Setting start-->
                                         <div class="tab-pane fade in active" id="adType">
-                                            <div class="col-md-12 spacingInput">
+											<div class="col-md-6 zeroPadding">
+												<h2 class="col-md-12 zeroPadding">Select Ad Type</h2>
+												<a href="" class="col-md-12 zeroPadding">Learn more about Ad Types</a>
+											</div>
+											
+											<div class="col-md-6 zeroPadding">
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+												<button type="button" class="btn btn-link pull-right">Cancel</button>
+											</div>
+											
+											<div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
-                                            <a href="" class="col-md-9 zeroPadding">{{ textConstants.WF_GUIDED_COPY }}</a>
-                                            <button type="button" class="btn btn-primary pull-right">Save</button>
-                                            <button type="button" class="btn btn-link pull-right">Cancel</button>
 
                                             <!--=== AD Name ===-->
                                             <div class="col-md-12 zeroPadding adNameBox">
                                                 <div class="col-md-12 adHeader">What is your Ad name?</div>
-                                                <div class="col-md-10 zeroPadding">
-                                                    <input type="text" class="form-control" name="adName" />
+                                                <div class="col-md-12 zeroPadding">
+                                                    <input type="text" class="form-control" name="adName" placeholder="Enter name of Ad" remove-special-character ='remove-special-character' ng-model="adData.adName"/>
                                                 </div>
                                             </div>
 
@@ -153,7 +213,6 @@
                                                         <div class="btnLabel">{{goal.name}}</div>
                                                     </label>
                                                 </div>
-
                                             </div>
 
                                             <!--=== Screen Type ===-->
@@ -169,152 +228,138 @@
                                                     </label>
                                                 </div>
                                             </div>
-
-                                            <!--=== Ad Group Selection ===-->
-                                            <!--<div class="col-md-12 zeroPadding adGroupSelection">
-                                                <div class="col-md-12 adHeader">Which Ad Group should this ad be placed in?</div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Ad Group
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#">Group 1</a>
-                                                        </li>
-                                                        <li><a href="#">Group 2</a>
-                                                        </li>
-                                                        <li><a href="#">Group 3</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>-->
+											
+											<div class="col-md-12 spacingInput">
+                                                <!-- SPACING -->
+                                            </div>
 
                                             <!--=== Next Step Panel ===-->
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="pull-left nextPanel">
-													<a class="btn btn-primary btnNext" href="#setting" data-toggle="tab">Next</a>
-													<!--<a class="btn btn-primary btnPrevious" >Previous</a>-->
-                                                </div>
-                                            </div>
+                                            <a href="#setting" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                            </a>
+											
                                         </div>
                                         <!-- Tab1 Setting end-->
 
                                         <!-- Tab2 Setting start-->
                                         <div class="tab-pane fade" id="setting">
-                                            <div class="col-md-12 spacingInput">
+                                            <div class="col-md-6 zeroPadding">
+												<h2 class="col-md-12 zeroPadding">Settings</h2>
+												<a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_SETTINGS}}</a>
+											</div>
+											
+											<div class="col-md-6 zeroPadding">
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+												<button type="button" class="btn btn-link pull-right">Cancel</button>
+											</div>
+											
+											<div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
-                                            <a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_SETTINGS}}</a>
-                                            <div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="col-md-2 zeroPadding">{{ textConstants.WF_FLIGHT_DATE }}</div>
-                                                <div id="sandbox-container" class="span5 col-md-5">
-                                                    <div class="input-daterange input-group datetwo" id="datepicker">
-                                                        <input type="text" placeholder="MM/DD/YYYY" readonly class="input-sm form-control" ng-model="adData.startTime" id="startFlight" name="startFlight"  required ng-change="handleFlightDate(adData)"/>
-                                                        <span class="input-group-addon">-</span>
-                                                        <input type="text" placeholder="MM/DD/YYYY" readonly class="input-sm form-control" ng-model="adData.endTime" id="endFlight" name="endFlight"  required/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-
-					                        <div class="col-md-12 zeroPadding">
-                                                <div class="col-md-2 zeroPadding">{{ textConstants.WF_UNIT_COST }}</div>
-                                                <div class="form-group col-md-4">
-                                                    <input type="text" class="form-control" ng-model="adData.unitCost" numbers-only="numbers-only" name="unitCost">
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType" class="form-control" id="unitcostType">
-                                                        <option value="">Select</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="col-md-2 zeroPadding">{{ textConstants.WF_BUDGET }}</div>
-
-                                                <div class="col-md-8 zeroPadding">
-
-                                                    <div class="col-sm-1">
-                                                        <input type="radio" name="group4" value="browser" class="btn_rad">
-                                                    </div>
-                                                    <div class="col-sm-3">{{ textConstants.WF_IMPRESSIONS }}</div>
-                                                    <div class="form-group col-sm-5">
-                                                        <input type="text" class="form-control" placeholder="0">
-                                                    </div>
-                                                    <div class="col-sm-3"></div>
-
-                                                    <div class="col-md-12 spacingInput">
-                                                        <!-- SPACING -->
-                                                    </div>
-
-                                                    <div class="col-sm-1">
-                                                        <input type="radio" name="group4" value="browser" class="btn_rad">
-                                                    </div>
-                                                    <div class="col-sm-3">{{ textConstants.WF_MEDIA_COST }}</div>
-                                                    <div class="form-group col-sm-5">
-                                                        <input type="text" class="form-control" placeholder="0">
-                                                    </div>
-                                                    <div class="col-sm-3"></div>
-
-                                                </div>
-
-                                                <div class="col-md-2 zeroPadding"></div>
-
-                                            </div>
-                                            <div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-
-                                            <!--=== Next Step Panel ===-->
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="pull-left nextPanel">
-													<a class="btn btn-primary btnPrevious" href="#adType" data-toggle="tab">Previous</a>
-													<a class="btn btn-primary btnNext" href="#buying" data-toggle="tab">Next</a>
+											
+											<div class="col-md-12 zeroPadding">
+                                                <div class="col-md-12 adHeader">What are the flight dates?</div>
+												 <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+													<div class="col-md-12 dateWrapper form-group zeroPadding" show-errors='{showSuccess: true}'>
+														<div class="col-md-2 zeroPadding">
+															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.START_DATE }}</label>
+															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
+														</div>
+														<div class="col-md-2 zeroPadding" style="margin-left: 10px;">
+															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.END_DATE }}</label>
+															<input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
+														</div>
+														<label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+													</div>
+													<span class="col-md-12 input-group-addon">
+														<div class="col-md-2 zeroPadding"><i class="glyphicon glyphicon-th pull-right"></i></div>
+														<div class="col-md-2 zeroPadding" style="margin-left: 10px;"><i class="glyphicon glyphicon-th pull-right"></i></div>
+													</span>
 												</div>
                                             </div>
+
+											<div class="col-md-12 spacingInput">
+                                                <!-- SPACING -->
+                                            </div>
+											
+											<div class="col-md-12 zeroPadding unitCost">
+                                                <div class="col-md-12 adHeader">What is this Unit Cost?</div>
+												<div class="form-group col-md-3 zeroPadding">
+													<span>$</span>
+                                                    <input type="text" class="form-control" ng-model="adData.unitCost" numbers-only="numbers-only" name="unitCost">
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType" class="form-control" id="unitcostType">
+                                                        <option value="">CPM</option>
+                                                    </select>
+                                                </div>
+											</div>
+											
+											<div class="col-md-12 zeroPadding budgetWrap">
+                                                <div class="col-md-12 adHeader">What is this Budget?</div>
+												<div class="form-group col-md-3 zeroPadding">
+													<span>Impressions</span>
+													<input type="radio" name="budgetType" group="budgetGroup" value="Impressions" class="btn_rad" ng-model="adData.budgetType">
+													<input type="text" name="budgetValue1" group="budgetGroup" ng-model="adData.ImpressionsValue" numbers-only="numbers-only" class="form-control" placeholder="Enter Value" >
+                                                </div>
+												<div class="form-group col-md-3">
+													<span>Media Cost</span>
+													<input type="radio"  name="budgetType"  value="Media Cost" class="btn_rad" ng-model="adData.budgetType">
+													<input type="text" name="budgetValue2" class="form-control" numbers-only="numbers-only" ng-model="adData.mediaCostValue" placeholder="Enter Value">
+												</div>
+											</div>
+											
+                                            <div class="col-md-12 zeroPadding freqWrap">
+                                                <div class="col-md-12 adHeader">Set Frequency?</div>
+												<a href="" class="col-md-12 zeroPadding">Learn more about setting up delivery and frequency</a>
+												<div class="form-group col-md-6 zeroPadding">
+                                                    <label for="frequencyCap" class="col-md-12 zeroPadding">
+                                                        <input type="checkbox" name="" id="frequencyCap" value="" class="pull-left" ng-click="">
+                                                        <div class="pull-left" style="padding-left: 10px;">Set Frequency Cap</div>
+                                                    </label>
+                                                </div>
+											</div>
+											
+                                            <!--=== Next Step Panel ===-->
+											<a href="#buying" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                            </a>
                                         </div>
                                         <!-- Tab1 Setting Ends -->
 
                                         <!-- Tabs Buying Platform -->
                                         <div class="tab-pane fade" id="buying">
+											<div class="col-md-6 zeroPadding">
+												<h2 class="col-md-12 zeroPadding">Buying Platform</h2>
+												<a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
+											</div>
+											
+											<div class="col-md-6 zeroPadding">
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+												<button type="button" class="btn btn-link pull-right">Cancel</button>
+											</div>
+											
+											<div class="col-md-12 spacingInput">
+                                                <!-- SPACING -->
+                                            </div>
                                             <div class="buyingPlatformHolder">
-                                                {{ textConstants.WF_HEADER_BUYING_PLATFORM }}
-                                                <div class="col-md-12 spacingInput">
-                                                    <!-- SPACING -->
-                                                </div>
-                                                <a href="" class="col-md-12 zeroPadding"> {{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
-                                                <div class="col-md-12 spacingInput">
-                                                    <!-- SPACING -->
-                                                </div>
-
                                                 <div class="col-md-12 zeroPadding">
-                                                    <!--<div class="col-md-5 platformHolder">
-                                                        <input type="radio" name="group5" value="collective" class="btn_rad clickCm">
-														<img src="/assets/images/cdesk/logo_C.png" />
-														{{ textConstants.WF_COLLECTIVE_MEDIA }}
-                                                    </div>-->
-                                                    <div class="col-md-3 platformHolder">
-                                                        <input type="radio" name="group5" value="bidder" class="btn_rad clickCb">
-														<img src="/assets/images/cdesk/logo_C_bidder.png" />
-														{{ textConstants.WF_COLLECTIVE_BIDDER }}
+                                                    <div class="col-md-2 platformHolder">
+														<span>{{ textConstants.WF_COLLECTIVE_BIDDER }}</span><br/>
+														<img src="/assets/images/cdesk/logo_C_bidder.png" /><br/>
+														<input type="radio" name="platform" value="bidder" class="btn_rad" ng-model="adData.platform">
                                                     </div>
                                                     <div class="col-md-1"></div>
-													<div class="col-md-3 platformHolder">
-                                                        <input type="radio" name="group5" value="nexus" class="btn_rad clickNx">
-														<img src="/assets/images/cdesk/logo_C_appnexus.png" />
-														{{ textConstants.WF_APPNEXUS }}
+													<div class="col-md-2 platformHolder">
+                                                        <span>{{ textConstants.WF_APPNEXUS }}</span><br/>
+														<img src="/assets/images/cdesk/logo_C_appnexus.png" /><br/>
+														<input type="radio" name="platform" value="nexus" class="btn_rad" ng-model="adData.platform">
                                                     </div>
 													<div class="col-md-1"></div>
-													<div class="col-md-3 platformHolder">
-														{{ textConstants.WF_MORE_PLATFORM }}
+													<div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
+														<span>{{ textConstants.WF_MORE_PLATFORM }}</span>
                                                     </div>
                                                 </div>
 
@@ -514,56 +559,89 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-12"></div>
+                                                <div class="col-md-12 spacingInput">
+													<!-- SPACING -->
+												</div>
                                             </div>
 											<!-- App Nexus Holder Ends -->
 					
 											<!--=== Next Step Panel ===-->
-											<div class="col-md-12 zeroPadding">
-											<div class="pull-left nextPanel">
-												<a class="btn btn-primary btnPrevious" href="#setting" data-toggle="tab">Previous</a>
-												<a class="btn btn-primary btnNext" href="#targetting" data-toggle="tab">Next</a>
-											</div>
-											</div>
+											<a href="#targetting" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                            </a>
                                         </div>
                                         <!-- Tabs Buying Platform Ends -->
 
                                         <!-- Tabs Targeting -->
                                         <div class="tab-pane fade" id="targetting">
-					    Targeting
-					    <!--=== Next Step Panel ===-->
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnPrevious" href="#buying" data-toggle="tab">Previous</a>
-						    <a class="btn btn-primary btnNext" href="#creative" data-toggle="tab">Next</a>
-						</div>
-                                            </div>
-					</div>
+											<div class="col-md-6 zeroPadding">
+												<h2 class="col-md-12 zeroPadding">Targeting</h2>
+												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
+											</div>
+											
+											<div class="col-md-6 zeroPadding">
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+												<button type="button" class="btn btn-link pull-right">Cancel</button>
+											</div>
+											
+											<div class="col-md-12 spacingInput">
+													<!-- SPACING -->
+											</div>
+											
+											<!--=== Next Step Panel ===-->
+											<a href="#creative" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                            </a>
+										</div>
                                         <!-- Tabs Targetting Platform -->
 
                                         <!-- Tabs Creative -->
                                         <div class="tab-pane fade" id="creative">
-					    Creatives
-					    <!--=== Next Step Panel ===-->
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnPrevious" href="#targetting" data-toggle="tab">Previous</a>
-						    <a class="btn btn-primary btnNext" href="#inventory" data-toggle="tab">Next</a>
-						</div>
-                                            </div>
-					</div>
+											<div class="col-md-6 zeroPadding">
+												<h2 class="col-md-12 zeroPadding">Creatives</h2>
+												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
+											</div>
+											
+											<div class="col-md-6 zeroPadding">
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+												<button type="button" class="btn btn-link pull-right">Cancel</button>
+											</div>
+											
+											<div class="col-md-12 spacingInput">
+													<!-- SPACING -->
+											</div>
+											
+											<!--=== Next Step Panel ===-->
+											<a href="#inventory" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                            </a>
+										</div>
                                         <!-- Tabs Creative -->
 
                                         <!-- Tabs Inventory Filters -->
                                         <div class="tab-pane fade" id="inventory">
-					    Inventory Filters
-					    <!--=== Next Step Panel ===-->
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnPrevious" href="#creative" data-toggle="tab">Previous</a>
-                                                </div>
-                                            </div>
-					</div>
+											<div class="col-md-6 zeroPadding">
+												<h2 class="col-md-12 zeroPadding">Inventory Filters</h2>
+												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
+											</div>
+											
+											<div class="col-md-6 zeroPadding">
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+												<button type="button" class="btn btn-link pull-right">Cancel</button>
+											</div>
+											
+											<div class="col-md-12 spacingInput">
+													<!-- SPACING -->
+											</div>
+											
+											<!--=== Next Step Panel ===-->
+											<a href="#adType" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                            </a>
+										</div>
                                         <!-- Tabs Inventory Filters -->
 
                                     </div>
