@@ -60,6 +60,11 @@
                         <div class="statusLabel disabled">
                             <span>Not Set</span>
                         </div>
+                        <div class="statusLabel" ng-if="adData.goal.name">
+                            <span>Goal: </span>
+                            <span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>
+                            <span>{{selectedCampaign.goal.name}}</span>
+                        </div>
                         <li class=""><a href="#setting" data-toggle="tab">2. Settings</a>
                         </li>
                         <div class="statusLabel disabled">
@@ -113,10 +118,10 @@
                                             <div class="col-md-12 zeroPadding adNameBox">
                                                 <div class="col-md-12 adHeader">What is your Ad name?</div>
                                                 <div class="col-md-10 zeroPadding">
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="adName" />
                                                 </div>
                                             </div>
-					    
+
 					    <div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
@@ -126,35 +131,12 @@
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_FORMAT }}</div>
 
-                                                <div class="form-group col-md-3 btn_border">
+                                                <div class="form-group col-md-3 btn_border {{adformat.disable ?  'adDisableRadio' : ''}}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
+                                                    <div ng-if="adformat.disable" class="adDisableRadioWrap"></div>
                                                     <label>
-                                                        <input type="radio" id="radioDisplay" name="group1" value="Display" class="btn_rad" ng-model="adData.adFormat">
-                                                        <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_DISPLAY }}</div>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group col-md-3 btn_border adDisableRadio">
-                                                    <div class="adDisableRadioWrap"></div>
-                                                    <label>
-                                                        <input type="radio" id="radioVideo" name="group1" value="Video" class="btn_rad" ng-model="adData.adFormat">
-                                                        <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_VIDEO }}</div>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group col-md-3 btn_border adDisableRadio">
-                                                    <div class="adDisableRadioWrap"></div>
-                                                    <label>
-                                                        <input type="radio" id="radioRichMedia" name="group1" value="Rich Media" class="btn_rad" ng-model="adData.adFormat">
-                                                        <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_RICH_MEDIA }}</div>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group col-md-3 btn_border adDisableRadio">
-                                                    <div class="adDisableRadioWrap"></div>
-                                                    <label>
-                                                        <input type="radio" id="radioSocial" name="group1" value="Social" class="btn_rad" ng-model="adData.adFormat">
-                                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_SOCIAL }}</div>
+                                                        <input type="radio" name="group{{adformat.id}}" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat">
+                                                        <span class="glyphicon glyphicon-{{getAdFormatIconName(adformat.name.toLowerCase())}}" aria-hidden="true"></span>
+                                                        <div class="btnLabel">{{adformat.name}}</div>
                                                     </label>
                                                 </div>
                                             </div>
@@ -164,20 +146,14 @@
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
 
-                                                <div class="form-group col-md-3 btn_border">
+                                                <div class="form-group col-md-3 btn_border" ng-repeat="goal in workflowData.goals track by goal.id">
                                                     <label>
-                                                        <input type="radio" id="radioPerformance" name="group2" value="Performance" class="btn_rad" ng-model="adData.adGoal">
-                                                        <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_PERFORMANCE }}</div>
+                                                        <input type="radio" name="group{{goal.id}}" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal">
+                                                        <span class="glyphicon glyphicon-{{getGoalIconName(goal.name.toLowerCase())}}" aria-hidden="true"></span>
+                                                        <div class="btnLabel">{{goal.name}}</div>
                                                     </label>
                                                 </div>
-                                                <div class="form-group col-md-3 btn_border">
-                                                    <label>
-                                                        <input type="radio" id="radioBrand" name="group2" value="Brand" class="btn_rad" ng-model="adData.adGoal">
-                                                        <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_BRAND }}</div>
-                                                    </label>
-                                                </div>
+
                                             </div>
 
                                             <!--=== Screen Type ===-->
@@ -185,25 +161,11 @@
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
 
-                                                <div class="form-group col-md-3 btn_border">
-                                                    <label>
-                                                        <input type="checkbox" id="chkDesktop" name="group3" value="Desktop" class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Desktop">
-                                                        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_DESKTOP }}</div>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group col-md-3 btn_border">
-                                                    <label>
-                                                        <input type="checkbox" id="chkMobile" name="group3" value="Mobile" class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Mobile">
-                                                        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_MOBILE }}</div>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group col-md-3 btn_border">
-                                                    <label>
-                                                        <input type="checkbox" id="chkTablet" name="group3" value="Tablet" class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Tablet">
-                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{ textConstants.WF_TABLET }}</div>
+                                                <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
+                                                    <label for="screenTypeChkBox{{screenType.id}}">
+                                                        <input type="checkbox" name="selectedScreenType[]" id="screenTypeChkBox{{screenType.id}}" value="{{screenType.name}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType)">
+                                                        <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>
+                                                        <div class="btnLabel">{{screenType.name}}</div>
                                                     </label>
                                                 </div>
                                             </div>
@@ -250,24 +212,24 @@
                                                 <div class="col-md-2 zeroPadding">{{ textConstants.WF_FLIGHT_DATE }}</div>
                                                 <div id="sandbox-container" class="span5 col-md-5">
                                                     <div class="input-daterange input-group datetwo" id="datepicker">
-                                                        <input type="text" class="input-sm form-control" id="startFlight" name="startFlight" disabled="disabled" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
+                                                        <input type="text" placeholder="MM/DD/YYYY" readonly class="input-sm form-control" ng-model="adData.startTime" id="startFlight" name="startFlight"  required ng-change="handleFlightDate(adData)"/>
                                                         <span class="input-group-addon">-</span>
-                                                        <input type="text" class="input-sm form-control" id="endFlight" name="endFlight" disabled="disabled" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
+                                                        <input type="text" placeholder="MM/DD/YYYY" readonly class="input-sm form-control" ng-model="adData.endTime" id="endFlight" name="endFlight"  required/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
-					    
-					    <div class="col-md-12 zeroPadding">
+
+					                        <div class="col-md-12 zeroPadding">
                                                 <div class="col-md-2 zeroPadding">{{ textConstants.WF_UNIT_COST }}</div>
                                                 <div class="form-group col-md-4">
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" ng-model="adData.unitCost" numbers-only="numbers-only" name="unitCost">
                                                 </div>
                                                 <div class="form-group col-md-3">
-                                                    <select class="form-control" id="unitcost">
-                                                        <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType" class="form-control" id="unitcostType">
+                                                        <option value="">Select</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -456,7 +418,7 @@
                                                         <a class="">Learn more about defining your strategy</a>
                                                     </div>
                                                 </div>
-						
+
 						<div class="col-md-12 spacingInput">
 						    <!-- SPACING -->
 						</div>
@@ -501,7 +463,7 @@
 							    </div>
 							    <span class="glyphicon glyphicon-info-sign pull-left" aria-hidden="true"></span>
 							</div>
-						    
+
 							<div class="col-md-5 zeroPadding">
 							    <label class="col-md-12" for="rampPeriod">Ramp Duration</label>
 							    <div class="form-group col-md-4">
@@ -522,13 +484,13 @@
 							</div>
 						    </div>
 						</div>
-						
+
 						<div class="form-group col-md-12 zeroPadding">
 						    <div class="col-md-5 zeroPadding">
 							<label class="col-md-4">Performance Objective</label>
 							<span class="col-md-8">Clicks</span>
 						    </div>
-						    
+
 						    <div class="col-md-5 zeroPadding">
 							<label class="col-md-12" for="marginGoal">Margin Goal</label>
 							<div class="form-group col-md-6">
@@ -539,7 +501,7 @@
 						</div>
                                             </div>
                                             <!-- Collective Bidder Holder Ends -->
-					    
+
 					    <!-- App Nexus Holder -->
                                             <div class="platformWrap collectNexusScreenHolder">
                                                 <div class="col-md-12 platformHeading">
@@ -553,11 +515,11 @@
                                                 </div>
 
                                                 <div class="col-md-12">
-                                               
+
 						</div>
                                             </div>
 					    <!-- App Nexus Holder Ends -->
-					    
+
 					    <!--=== Next Step Panel ===-->
 					    <div class="col-md-12 zeroPadding">
 						<div class="pull-left nextPanel">

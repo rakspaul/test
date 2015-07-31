@@ -108,11 +108,11 @@
                                 <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
                                     <div class="col-md-2">
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control"  name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
+                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="col-sm-12 control-label greyTxt">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
+                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                 </div>
