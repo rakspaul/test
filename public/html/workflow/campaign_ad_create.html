@@ -116,6 +116,10 @@
                                                     <input type="text" class="form-control">
                                                 </div>
                                             </div>
+					    
+					    <div class="col-md-12 spacingInput">
+                                                <!-- SPACING -->
+                                            </div>
 
                                             <!--=== AD Format ===-->
                                             <div class="col-md-12 zeroPadding adFormatChkBox">
@@ -184,7 +188,7 @@
                                                 <div class="form-group col-md-3 btn_border">
                                                     <label>
                                                         <input type="checkbox" id="chkDesktop" name="group3" value="Desktop" class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Desktop">
-                                                        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                                                        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{ textConstants.WF_DESKTOP }}</div>
                                                     </label>
                                                 </div>
@@ -198,14 +202,14 @@
                                                 <div class="form-group col-md-3 btn_border">
                                                     <label>
                                                         <input type="checkbox" id="chkTablet" name="group3" value="Tablet" class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Tablet">
-                                                        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{ textConstants.WF_TABLET }}</div>
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <!--=== Ad Group Selection ===-->
-                                            <div class="col-md-12 zeroPadding adGroupSelection">
+                                            <!--<div class="col-md-12 zeroPadding adGroupSelection">
                                                 <div class="col-md-12 adHeader">Which Ad Group should this ad be placed in?</div>
                                                 <div class="dropdown">
                                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Ad Group
@@ -220,12 +224,12 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                            </div>
+                                            </div>-->
 
                                             <!--=== Next Step Panel ===-->
                                             <div class="col-md-12 zeroPadding">
                                                 <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnNext" >Next</a>
+						    <a class="btn btn-primary btnNext" href="#setting" data-toggle="tab">Next</a>
 						    <!--<a class="btn btn-primary btnPrevious" >Previous</a>-->
                                                 </div>
                                             </div>
@@ -241,15 +245,6 @@
                                             <div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="col-md-2 zeroPadding bText">{{ textConstants.WF_AD_SIZE }}</div>
-                                                <div class="form-group col-md-10">
-                                                    <input type="text" class="form-control" placeholder="Type or search ad size">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
 
                                             <div class="col-md-12 zeroPadding">
                                                 <div class="col-md-2 zeroPadding">{{ textConstants.WF_FLIGHT_DATE }}</div>
@@ -259,6 +254,21 @@
                                                         <span class="input-group-addon">-</span>
                                                         <input type="text" class="input-sm form-control" id="endFlight" name="endFlight" disabled="disabled" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-orientation="top auto" required/>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 spacingInput">
+                                                <!-- SPACING -->
+                                            </div>
+					    
+					    <div class="col-md-12 zeroPadding">
+                                                <div class="col-md-2 zeroPadding">{{ textConstants.WF_UNIT_COST }}</div>
+                                                <div class="form-group col-md-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <select class="form-control" id="unitcost">
+                                                        <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 spacingInput">
@@ -301,27 +311,12 @@
                                                 <!-- SPACING -->
                                             </div>
 
-                                            <div class="col-md-12 zeroPadding">
-                                                <div class="col-md-2 zeroPadding">{{ textConstants.WF_UNIT_COST }}</div>
-                                                <div class="form-group col-md-4">
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <select class="form-control" id="unitcost">
-                                                        <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-
                                             <!--=== Next Step Panel ===-->
                                             <div class="col-md-12 zeroPadding">
                                                 <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnNext" >Next</a>
-						    <a class="btn btn-primary btnPrevious" >Previous</a>
-                                                </div>
+						    <a class="btn btn-primary btnPrevious" href="#adType" data-toggle="tab">Previous</a>
+						    <a class="btn btn-primary btnNext" href="#buying" data-toggle="tab">Next</a>
+						</div>
                                             </div>
                                         </div>
                                         <!-- Tab1 Setting Ends -->
@@ -339,41 +334,56 @@
                                                 </div>
 
                                                 <div class="col-md-12 zeroPadding">
-                                                    <div class="col-md-5 platformHolder">
-                                                        <input type="radio" name="group5" value="collective" class="btn_rad clickCm"> <img src="/assets/images/cdesk/logo_C.png" /> {{ textConstants.WF_COLLECTIVE_MEDIA }}
+                                                    <!--<div class="col-md-5 platformHolder">
+                                                        <input type="radio" name="group5" value="collective" class="btn_rad clickCm">
+							<img src="/assets/images/cdesk/logo_C.png" />
+							{{ textConstants.WF_COLLECTIVE_MEDIA }}
+                                                    </div>-->
+                                                    <div class="col-md-3 platformHolder">
+                                                        <input type="radio" name="group5" value="bidder" class="btn_rad clickCb">
+							<img src="/assets/images/cdesk/logo_C_bidder.png" />
+							{{ textConstants.WF_COLLECTIVE_BIDDER }}
                                                     </div>
                                                     <div class="col-md-1"></div>
-                                                    <div class="col-md-5 platformHolder">
-                                                        <input type="radio" name="group5" value="bidder" class="btn_rad clickCb"> <img src="/assets/images/cdesk/logo_C_bidder.png" />{{ textConstants.WF_COLLECTIVE_BIDDER }}
+						    <div class="col-md-3 platformHolder">
+                                                        <input type="radio" name="group5" value="nexus" class="btn_rad clickNx">
+							<img src="/assets/images/cdesk/logo_C_appnexus.png" />
+							{{ textConstants.WF_APPNEXUS }}
                                                     </div>
-                                                    <div class="col-md-1"></div>
+						    <div class="col-md-1"></div>
+						    <div class="col-md-3 platformHolder">
+							{{ textConstants.WF_MORE_PLATFORM }}
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-md-12 spacingInput">
                                                     <!-- SPACING -->
                                                 </div>
 
-                                                <div class="col-md-12">
+                                                <!--<div class="col-md-12 zeroPadding">
                                                     <div class="col-md-5 platformHolder">
-                                                        <input type="radio" name="group5" value="collective" class="btn_rad"> <img src="/assets/images/cdesk/logo_C_appnexus.png" /> {{ textConstants.WF_APPNEXUS }}
+                                                        <input type="radio" name="group5" value="nexus" class="btn_rad clickNx">
+							<img src="/assets/images/cdesk/logo_C_appnexus.png" />
+							{{ textConstants.WF_APPNEXUS }}
                                                     </div>
                                                     <div class="col-md-1"></div>
                                                     <div class="col-md-5 platformHolder">
-                                                        <input type="radio" name="group5" value="bidder" class="btn_rad"> {{ textConstants.WF_MORE_PLATFORM }}
+							{{ textConstants.WF_MORE_PLATFORM }}
                                                     </div>
                                                     <div class="col-md-1"></div>
-                                                </div>
+                                                </div>-->
                                             </div>
                                             <!-- buying platform holder ends -->
 
                                             <!-- Collective media screen Holder -->
-                                            <div class="collectMediaScreenHolder">
+                                            <div class="platformWrap collectMediaScreenHolder">
                                                 <div class="col-md-12 platformHeading">
-                                                    <div class="col-md-9 zeroPadding">
-                                                        C {{ textConstants.WF_COLLECTIVE_MEDIA }}
+                                                    <div class="col-md-8 zeroPadding">
+                                                        <a href="" class="editPlatform"> Buying Platform</a> > {{ textConstants.WF_COLLECTIVE_MEDIA }}<br/>
+							<img src="/assets/images/cdesk/logo_C.png" alt="" class="pull-left"/>
                                                     </div>
-                                                    <div class="col-md-3 zeroPadding">
-                                                        <a href="" class="editPlatform"> {{ textConstants.WF_CHANGE_PLATFORM }}</a>
+						    <div class="col-md-4 zeroPadding text-right">
+                                                        <a class="">Learn more about defining your strategy</a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
@@ -425,66 +435,136 @@
                                                         </select>
                                                     </div>
                                                 </div>
-						
-                                                <!--=== Next Step Panel ===-->
-						<div class="col-md-12 zeroPadding">
-						    <div class="pull-left nextPanel">
-							<a class="btn btn-primary btnNext" >Next</a>
-							<a class="btn btn-primary btnPrevious" >Previous</a>
-						    </div>
-						</div>
                                             </div>
                                             <!-- Collective media screen holder Ends -->
 
                                             <!-- Collective Bidder Holder -->
-                                            <div class="collectBidderScreenHolder">
-                                                <div class="col-md-12 platformHeading">
-                                                    <div class="col-md-9 zeroPadding">
-                                                        C Collective Bidder
+                                            <div class="platformWrap collectBidderScreenHolder">
+                                                <div class="col-md-12 platformHeading zeroPadding">
+                                                    <div class="col-md-8 zeroPadding">
+                                                        <a href="" class="editPlatform"> Buying Platform</a> > Bidding Strategy<br/>
+							<div class="col-md-12 spacingInput">
+							    <!-- SPACING -->
+							</div>
+							<img src="/assets/images/cdesk/logo_C_bidder.png" class="pull-left"/>
+							<span class="col-md-6">Collective Bidder</span>
+							<div class="col-md-12 spacingInput">
+							    <!-- SPACING -->
+							</div>
                                                     </div>
-                                                    <div class="col-md-3 zeroPadding">
-                                                        <a href="" class="editPlatform">  {{ textConstants.WF_CHANGE_PLATFORM }}</a>
+						    <div class="col-md-4 zeroPadding text-right">
+                                                        <a class="">Learn more about defining your strategy</a>
                                                     </div>
                                                 </div>
+						
+						<div class="col-md-12 spacingInput">
+						    <!-- SPACING -->
+						</div>
 
-                                                <div class="col-md-12">
-                                                    <span class="">Bidding Strategy</span>
-                                                    <a class="col-md-12 zeroPadding" href="">{{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}</a>
-                                                </div>
-
-                                                <div class="col-md-12">
+                                                <div class="col-md-12 zeroPadding">
                                                     <div class="col-md-2 zeroPadding">Ad Type</div>
-                                                    <div class="form-group col-md-4">
-                                                        <input type="dropdown" value="set">
-                                                    </div>
                                                     <div class="form-group col-md-6 zeroPadding">
-                                                        Show Preset
+                                                        <select class="form-control">
+							    <option>Click Optimized</option>
+							    <option>2</option>
+							    <option>3</option>
+							    <option>4</option>
+							    <option>5</option>
+							</select>
                                                     </div>
+                                                    <a class="showPreset col-md-4">Show Preset</a>
                                                 </div>
 
-                                                <div class="col-md-12">
-                                                    <div class="col-md-2 zeroPadding">Pe</div>
-                                                    <div class="form-group col-md-4">
-                                                        <input type="dropdown" value="set">
-                                                    </div>
-                                                    <div class="form-group col-md-6 zeroPadding">
-                                                        Show Preset
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <div class="col-md-2 zeroPading">
-                                                        <span class="">Strategy</span>
-                                                        <input type="text" size="12" name="strageu" value="strategy" placeholder="standard" />
-                                                    </div>
-                                                    <div class="col-md-2">Key Value</div>
-                                                    <div class="col-md-2">User Partition</div>
-                                                    <div class="col-md-2">Budger Partition</div>
-                                                    <div class="col-md-2">Min. Bid</div>
-                                                    <div class="col-md-2">Max Cost</div>
-                                                </div>
+                                                <div class="col-md-12 presetGreyBox">
+						    <div class="form-group col-md-2">
+							<label for="minBid">Min. Bid</label>
+							<input type="text" class="form-control" id="minBid" value="0.01">
+						    </div>
+						    <div class="form-group col-md-2">
+							<label for="maxCost">Max Cost</label>
+							<input type="text" class="form-control" id="maxCost" value="10">
+						    </div>
+						    <br/>
+						    <div class="form-group col-md-12 zeroPadding">
+							<div class="col-md-5 zeroPadding">
+							    <label class="col-md-12" for="blackPeriod">Blackout Period</label>
+							    <div class="form-group col-md-4">
+								<input type="text" class="form-control" id="blackPeriod" value="1">
+							    </div>
+							    <div class="form-group col-md-4">
+								<select class="form-control">
+								    <option>Days</option>
+								    <option>Weeks</option>
+								    <option>Months</option>
+								    <option>Years</option>
+								</select>
+							    </div>
+							    <span class="glyphicon glyphicon-info-sign pull-left" aria-hidden="true"></span>
+							</div>
+						    
+							<div class="col-md-5 zeroPadding">
+							    <label class="col-md-12" for="rampPeriod">Ramp Duration</label>
+							    <div class="form-group col-md-4">
+								<input type="text" class="form-control" id="rampPeriod" value="0">
+							    </div>
+							    <div class="form-group col-md-4">
+								<select class="form-control">
+								    <option>Days</option>
+								    <option>Weeks</option>
+								    <option>Months</option>
+								    <option>Years</option>
+								</select>
+							    </div>
+							    <span class="glyphicon glyphicon-info-sign pull-left" aria-hidden="true"></span>
+							</div>
+							<div class="col-md-12">
+							    <a href="" class="pull-right text-right">Reset</a>
+							</div>
+						    </div>
+						</div>
+						
+						<div class="form-group col-md-12 zeroPadding">
+						    <div class="col-md-5 zeroPadding">
+							<label class="col-md-4">Performance Objective</label>
+							<span class="col-md-8">Clicks</span>
+						    </div>
+						    
+						    <div class="col-md-5 zeroPadding">
+							<label class="col-md-12" for="marginGoal">Margin Goal</label>
+							<div class="form-group col-md-6">
+							    <input type="text" class="form-control" id="marginGoal" value="0">
+							</div>
+							<span class="pull-left">%</span>
+						    </div>
+						</div>
                                             </div>
                                             <!-- Collective Bidder Holder Ends -->
+					    
+					    <!-- App Nexus Holder -->
+                                            <div class="platformWrap collectNexusScreenHolder">
+                                                <div class="col-md-12 platformHeading">
+                                                    <div class="col-md-8 zeroPadding">
+                                                        <a href="" class="editPlatform"> Buying Platform</a> > App Nexus <br/>
+							<img src="/assets/images/cdesk/logo_C_appnexus.png" alt="" class="pull-left" />
+                                                    </div>
+						    <div class="col-md-4 zeroPadding text-right">
+                                                        <a class="">Learn more about defining your strategy</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                               
+						</div>
+                                            </div>
+					    <!-- App Nexus Holder Ends -->
+					    
+					    <!--=== Next Step Panel ===-->
+					    <div class="col-md-12 zeroPadding">
+						<div class="pull-left nextPanel">
+						    <a class="btn btn-primary btnPrevious" href="#setting" data-toggle="tab">Previous</a>
+						    <a class="btn btn-primary btnNext" href="#targetting" data-toggle="tab">Next</a>
+						</div>
+					    </div>
                                         </div>
                                         <!-- Tabs Buying Platform Ends -->
 
@@ -494,9 +574,9 @@
 					    <!--=== Next Step Panel ===-->
                                             <div class="col-md-12 zeroPadding">
                                                 <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnNext" >Next</a>
-						    <a class="btn btn-primary btnPrevious" >Previous</a>
-                                                </div>
+						    <a class="btn btn-primary btnPrevious" href="#buying" data-toggle="tab">Previous</a>
+						    <a class="btn btn-primary btnNext" href="#creative" data-toggle="tab">Next</a>
+						</div>
                                             </div>
 					</div>
                                         <!-- Tabs Targetting Platform -->
@@ -507,9 +587,9 @@
 					    <!--=== Next Step Panel ===-->
                                             <div class="col-md-12 zeroPadding">
                                                 <div class="pull-left nextPanel">
-						    <a class="btn btn-primary btnNext" >Next</a>
-						    <a class="btn btn-primary btnPrevious" >Previous</a>
-                                                </div>
+						    <a class="btn btn-primary btnPrevious" href="#targetting" data-toggle="tab">Previous</a>
+						    <a class="btn btn-primary btnNext" href="#inventory" data-toggle="tab">Next</a>
+						</div>
                                             </div>
 					</div>
                                         <!-- Tabs Creative -->
@@ -520,8 +600,7 @@
 					    <!--=== Next Step Panel ===-->
                                             <div class="col-md-12 zeroPadding">
                                                 <div class="pull-left nextPanel">
-						    <!--<a class="btn btn-primary btnNext" >Next</a>-->
-						    <a class="btn btn-primary btnPrevious" >Previous</a>
+						    <a class="btn btn-primary btnPrevious" href="#creative" data-toggle="tab">Previous</a>
                                                 </div>
                                             </div>
 					</div>

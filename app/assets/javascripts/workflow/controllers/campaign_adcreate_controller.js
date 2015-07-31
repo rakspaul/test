@@ -27,8 +27,8 @@ var angObj = angObj || {};
             return Date.parse(date)
         }
 
-
         campaignOverView.getCampaignData($routeParams.campaignId);
+        
         // Switch BTN Animation
         $('.btn-toggle').click(function(){
             $(this).find('.btn').toggleClass('active');
@@ -40,19 +40,29 @@ var angObj = angObj || {};
                 $(this).find('.btn').toggleClass('btn-success');
             }
             $(this).find('.btn').toggleClass('btn-default');
-
         });
 
-        // Next and Previous BTN Func
-        $('.btnNext').click(function(){
-            $('.nav-tabs > .active').next('li').find('a').trigger('click');
+        // Buying Platform Views
+        $('.clickCm, .clickCb, .clickNx').click(function(){
+            $('.buyingPlatformHolder').toggle();
         });
-          
-        $('.btnPrevious').click(function(){
-            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+        // Collective Media-Buying Platform Views
+        $('.clickCm').click(function(){
+            $('.collectMediaScreenHolder').toggle();
         });
-        
-        
+        // Collective Bidder-Buying Platform Views
+        $('.clickCb').click(function(){
+            $('.collectBidderScreenHolder').toggle();
+        });
+        // Nexus-Buying Platform Views
+        $('.clickNx').click(function(){
+            $('.collectNexusScreenHolder').toggle();
+        });
+        // Change-Buying Platform Views
+        $('.editPlatform').click(function(){
+            $('.buyingPlatformHolder').toggle();
+            $('.collectMediaScreenHolder, .collectBidderScreenHolder, .collectNexusScreenHolder').hide();
+        });
 
 
     });
