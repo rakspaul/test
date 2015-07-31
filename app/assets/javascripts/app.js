@@ -73,7 +73,7 @@ var angObj = '';
                 title :  'Create - Campaign',
                 controller: 'CreateCampaignController'
             })
-            .when('/campaign/overview/:campaignId', {
+            .when('/campaign/:campaignId/overview', {
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
                 controller: 'CampaignOverViewController'

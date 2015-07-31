@@ -99,7 +99,7 @@ var angObj = angObj || {};
             $timeout(function(){
                 $elem.hide();
             }, 1000)*/
-            var url = '/campaign/overview/'+ result.data.data.id;
+            var url = '/campaign/'+ result.data.data.id + '/overview';
             $location.url(url);
         }
 
