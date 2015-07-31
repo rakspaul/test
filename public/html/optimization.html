@@ -57,7 +57,10 @@
                                 <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable('activities')"></span>
                                 <span ng-switch-default>
                                     <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
-                                        <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart>
+                                        <div class="line_tooltip"></div>
+                                        <div class="campaign_details_graph performance" width='990' height='250' campaign-chart chart-data="{{lineChart}}" chart-location="action_performance"></div>
+
+                                        <!-- <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart> -->
                                     </div>
                                 </span>
                             </span>

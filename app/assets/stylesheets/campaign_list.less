@@ -3055,12 +3055,19 @@ button, i, input[type="submit"] {
   margin-left: -15px;
   margin-top: -6px;
 }
+.performance {
+  margin-left: 0;
+}
 .campaign_details_graph .axis path,
 .campaign_details_graph .axis line {
   fill: none;
   stroke: #C0D0E0;
   stroke-width: 1;
   shape-rendering: crispEdge;
+}
+.campaign_details_graph .axis text {
+  fill: #57595b;
+  font-size: 12px;
 }
 
 .campaign_details_graph .x .axis line {
@@ -3125,4 +3132,20 @@ button, i, input[type="submit"] {
 .campaign_details_graph .overlay {
   fill: none;
   pointer-events: all;
+}
+
+.line_tooltip {
+  width: auto;
+  height: auto;
+  font-family: "Avenir";
+  font-size:12px;
+  color: #000;
+  border:2px solid #2c9aec;
+  position:absolute;
+  top:10px;
+  left:10px;
+  background-color: #fff;
+  padding:5px;
+  border-radius:5px;
+  display:none;
 }

@@ -208,6 +208,20 @@ var angObj = angObj || {};
 
                                     $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType.toUpperCase(), actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
 
+                                    //D3 chart object for action performance chart
+                                    $scope.lineChart = {
+                                        data: lineData,
+                                        kpiValue: parseFloat(kpiValue),
+                                        kpiType: kpiType.toUpperCase(),
+                                        from: 'action_performance',
+                                        //customisation
+                                        defaultGrey: true,
+                                        activityList: actionItems,
+                                        showExternal: $scope.clicked,
+                                        selected: $scope.actionId
+
+                                    };
+
                                 }
                                 else {
                                     // CDB data obtained is not for currently selected campaing and strategy id

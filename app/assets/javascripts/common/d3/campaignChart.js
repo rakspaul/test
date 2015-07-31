@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angObj.directive('campaignChart', function($window) {
+    angObj.directive('campaignChart', function($window, constants, analytics, loginModel) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -33,11 +33,17 @@
                         /*.tickFormat(function(d){
                             return d ==0 ? d : (d +'%');
                         });*/
-
+                        var numberFormat = d3.format(".f");
                         var yAxisGen = d3.svg.axis()
                             .scale(yScale)
                             .orient("left")
-                            .tickValues(_config.keys.yAxis.tickValues.length > 0 ? _config.keys.yAxis.tickValues : 1)
+                            .ticks(_config.keys.yAxis.ticks)
+                            .tickPadding(10)
+                          //  .tickFormat(d3.format(".f"))
+                           .tickFormat(function(d){
+                              return kpiPrefix(_config.kpiType) + " " + numberFormat(d) + " " + kpiSuffix(_config.kpiType);
+                           })
+                            //.tickValues(_config.keys.yAxis.tickValues.length > 0 ? _config.keys.yAxis.tickValues : 1)
                             .tickSize(0);
 
                         // var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -54,7 +60,7 @@
                                  return yScale(d[ykeyVal]);
                              });*/
 
-                        //draw a ling function
+                        //draw a line function
                         var lineFun = d3.svg.line()
                             .x(function(d) {
                                 return xScale(d[xkeyVal]);
@@ -81,8 +87,13 @@
                         var ykeyVal = _config.keys.yAxis.val;
                         var threshold = _config.threshold;
                         var kpiType = _config.kpiType;
-                        var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate(10,0)");
+                        var yScale = _config.yScale;
+                        var adjustment = 10;
+                        if(_config.isPerformanceChart) {
+                          adjustment = 30;
+                        }
 
+                        var svg = d3.select(_config.rawSvg[0]).append('g').attr("transform", "translate("+adjustment+",0)");
                         //draw the area now
                         /*if(index === 0) {
                           svg.append("path")
@@ -122,11 +133,58 @@
                             //resize domain of y-axis 20% extra spacing
                             updateDomain(maxData, 20);
 
+                            var imageSize = "11",
+                                imagePosition = 5;
+
+                            //if performance chart
+                            if(_config.isPerformanceChart) {
+                                imageSize = "13";
+                                imagePosition = -30;
+
+                                svg.append("text")
+                                    .attr("id", "kpi_type_text")
+                                    .attr("x", -15)
+                                    .attr("y", 20)
+                                    .style("font-size","12px")
+                                    .style("fill", "#57595b")
+                                    .text(_config.kpiType);
+
+                                function addCrossHair(xCoord, yCoord) {
+                                      // Update vertical cross hair
+                                    d3.select("#v_crosshair")
+                                        .attr("x1", xCoord)
+                                        .attr("y1", _config.height )
+                                        .attr("x2", xCoord)
+                                        .attr("y2", _config.margin.top)
+                                        .style("display", "block");
+                                  }
+
+                                svg.append("g").attr("class", "crosshair").append("line").attr("id", "v_crosshair") // vertical cross hair
+                                    .attr("x1", 0)
+                                    .attr("y1", 0)
+                                    .attr("x2", 0)
+                                    .attr("y2", 0)
+                                    .style("stroke", "#C0C0C0")
+                                    .style("stroke-width", "1px")
+                                    .style("stroke-dasharray", "4,3")
+                                    .style("display", "none");
+                                    svg.on("mousemove", function () {
+                                        var xCoord = d3.mouse(this)[0],
+                                            yCoord = d3.mouse(this)[1];
+                                        addCrossHair(xCoord, yCoord);
+                                    })
+                                        .on("mouseover", function () {
+                                        d3.selectAll(".crosshair").style("display", "block");
+                                    })
+                                        .on("mouseout", function () {
+                                        d3.selectAll(".crosshair").style("display", "none");
+                                    })
+                            } //check for performance chart ends
                             svg.append("image")
                                 .attr("id", "goal")
-                                .attr("width", "11")
-                                .attr("height", "11")
-                                .attr("x", 5)
+                                .attr("width", imageSize)
+                                .attr("height", imageSize)
+                                .attr("x", imagePosition)
                                 .attr("y", _config.yScale(threshold) - 5)
                                 .attr("xlink:href", "/" + assets.target_marker);
 
@@ -237,6 +295,7 @@
                           .attr("class", "overlay")
                           .attr("width",  _config.width)
                           .attr("height",  _config.height)
+                          .attr("transform", "translate("+(adjustment-10)+",0)")
                           //.on("mouseover", function() { focus.style("display", null); })
                           //.on("mouseout", function() { focus.style("display", "none"); })
                           .on("mousemove", mousemove)
@@ -257,7 +316,7 @@
                                 mousePos = d3.mouse(this),
                                 yAxisValue = _config.yScale.invert(mousePos[1]),
                                 xAxisValue = _config.xScale.invert(mousePos[0]),
-                                formatY = parseFloat(yAxisValue).toFixed(3),
+                                formatY = parseFloat(yAxisValue).toFixed(2),
                                 formatX = moment(xAxisValue).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
                             //calculating the plotting position
@@ -325,7 +384,7 @@
 
                                  var svg = d3.select(_config.rawSvg[0]),
                                      mousePos = d3.mouse(this),
-                                     formatY = parseFloat(d.values).toFixed(3),
+                                     formatY = parseFloat(d.values).toFixed(2),
                                      formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
                                 svg.selectAll(".tooltip_line")
@@ -380,6 +439,311 @@
                                        // focus.select("text").text(formatCurrency(d.close));
                            }
 
+  if(_config.isPerformanceChart) {
+
+                          var actionItems = [];
+                          //TODO: prepare activity data
+                          // _.each(data, function(seriesData, i) {
+                          //     _.each(_config.activityList, function(activityData, j) {
+                          //       if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
+                          //         actionItems.push({
+                          //             date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                          //             values: seriesData.values,
+                          //             name: activityData.ad_name
+                          //         });
+                          //       }
+                          //
+                          //     })
+                          //
+                          // })
+
+                            var external = _config.external,
+                              showExternal;
+                            if (external != undefined && external == true) {
+                                //filter applied
+                                showExternal = true;
+                            }
+
+//---------
+                          var countActivityItem = [],
+                              findPlacedActivity = [],
+                              eFlag =0,
+                              position = 0,
+                              flag = [],
+                              counter = 0;
+                          var defaultGrey = _config.defaultGrey;
+                          if (_config.activityList) {
+                              _.each(data, function(seriesData, i) {
+                                  position = 0;
+                                  _.each(_config.activityList, function(activityData, j) {
+                                      var dateUTC = new Date(activityData.created_at);
+                                      var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
+                                      //if(seriesData.date == actionUTC) {
+                                      if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
+                                          if (flag[actionUTC] === undefined) {
+                                              flag[actionUTC] = 1;
+                                          }
+
+                                          if((showExternal && activityData.make_external == true) || (showExternal === undefined)) {
+                                              eFlag = activityData.make_external;
+                                              if (countActivityItem[actionUTC] == undefined  ){
+                                                  countActivityItem[actionUTC] = [];
+                                                  countActivityItem[actionUTC]['externalIDS'] =[];
+                                                  countActivityItem[actionUTC]['internalIDS'] =[];
+                                                  countActivityItem[actionUTC]['external'] = 0
+                                                  countActivityItem[actionUTC]['internal'] = 0;
+                                              }
+                                              if(eFlag == true){
+                                                  if( countActivityItem[actionUTC]['external'] != undefined ){
+                                                      countActivityItem[actionUTC]['external']++;
+                                                      var arrayVar = "externalIDS";
+                                                  }
+                                              } else {
+                                                  var arrayVar = "internalIDS";
+                                                  if( countActivityItem[actionUTC]['internal'] != undefined ){
+                                                      countActivityItem[actionUTC]['internal']++;
+                                                  }
+                                              }
+                                              var activity_id = activityData.ad_id + '' + activityData.id;
+                                              var check_morethan_one = countActivityItem[actionUTC][arrayVar].length > 0 ? "," : "";
+                                              countActivityItem[actionUTC][arrayVar]= countActivityItem[actionUTC][arrayVar] + check_morethan_one + activity_id;
+                                          }
+                                      }
+                                  }) //end of activity data iteration
+                              }) //end of series data iteration
+                          }
+
+                          var activityCount = 0;
+                          var extSLNo,intSLNo,overlapResult,activityDateArray = [];
+                          extSLNo = intSLNo = 1;
+                          var getParams= (document.URL).split(/[\s/]+/);
+                          var selectedCampaignId = getParams[getParams.length - 1] == 'optimization' ? JSON.parse(localStorage.getItem('selectedCampaign')).id : getParams[getParams.length - 1] ;
+                          if (_config.activityList) {
+                              _.each(data, function(seriesData, i) {
+                                  position = 0;
+                                  _.each(_config.activityList, function(activityData, j) {
+                                      var dateUTC = new Date(activityData.created_at);
+                                      var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
+                                      if(moment(seriesData.date).format('YYYY-MM-DD') == moment(activityData.created_at).format('YYYY-MM-DD')) {
+
+                                          var newActivity = undefined;
+
+                                          if (flag[actionUTC] === undefined) {
+                                              flag[actionUTC] = 1;
+                                          }
+
+                                          // newActivity ={
+                                          //     date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                                          //     values: seriesData.values,
+                                          //     name: activityData.ad_name
+                                          // };
+
+                                          if ((showExternal && activityData.make_external == true) || (showExternal === undefined)) {
+                                              var checkFlag = activityData.make_external == true ? 'external':'internal',
+                                                  arrayVar = activityData.make_external == true ? 'externalIDS':'internalIDS',
+                                                  id_list = countActivityItem[actionUTC][arrayVar],
+                                                  overlapFlag;
+                                              activityCount = countActivityItem[actionUTC][checkFlag];
+                                              if(activityCount == 1){
+                                                  var circleInfo = getCircleSLNo(activityData.make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
+                                                  var circleSLNo = circleInfo.circleSLNo;
+                                                  //Get Increment Id for external and Internal SL Number
+                                                  extSLNo = circleInfo.extSLNo;
+                                                  intSLNo = circleInfo.intSLNo;
+                                                  overlapResult = getOverlapFlag(activityDateArray,actionUTC);
+                                                  activityDateArray = overlapResult.activityDateArray;
+                                                  overlapFlag = overlapResult.overlapFlag;
+
+                                                  //TODO: DRAW MARKER WITH ONE ACTIVITY
+                                                  newActivity ={
+                                                      date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                                                      values: seriesData.values,
+                                                      name: activityData.ad_name,
+                                                      id: activityData.ad_id + '' + activityData.id,
+                                                      comment: activityData.comment,
+                                                      activityCount: activityCount,
+                                                      make_external: activityData.make_external,
+                                                      id_list: id_list,
+                                                      circleSLNo: circleSLNo,
+                                                      overlapFlag: overlapFlag,
+                                                      kpiType: kpiType,
+                                                      defaultGrey: defaultGrey,
+                                                      action_color: activityData.action_color,
+                                                      position: position,
+                                                      flagId: activityData.make_external == true ? 'external' : 'internal',
+                                                  };
+                                                  actionItems.push(newActivity);
+
+                                                  //drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
+                                                  counter++;
+                                                  position += 20; //correction for multiple markers in the same place
+                                              } else {
+                                                  if (findPlacedActivity[actionUTC] == undefined  ){
+                                                      findPlacedActivity[actionUTC] =[];
+                                                      findPlacedActivity[actionUTC]['external'] = 0
+                                                      findPlacedActivity[actionUTC]['internal'] = 0;
+                                                  }
+                                                   //Multiple Item in single chart
+                                                  if( findPlacedActivity[actionUTC][checkFlag] != 'completed' ){
+                                                      findPlacedActivity[actionUTC][checkFlag] = 'completed';
+                                                      var circleInfo = getCircleSLNo(activityData.make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId);
+                                                      //Get circle SL Number
+                                                      var circleSLNo = circleInfo.circleSLNo;
+                                                      //Get Increment Id for external and Internal SL Number
+                                                      extSLNo = circleInfo.extSLNo;
+                                                      intSLNo = circleInfo.intSLNo;
+                                                      overlapResult = getOverlapFlag(activityDateArray,actionUTC);
+                                                      activityDateArray = overlapResult.activityDateArray;
+                                                      overlapFlag = overlapResult.overlapFlag;
+
+                                                      //TODO: DRAW ACTIVITY MARKER WITH THIS DATA
+                                                      newActivity ={
+                                                          date: _config.parseDate(moment(activityData.created_at).format('YYYY-MM-DD')),
+                                                          values: seriesData.values,
+                                                          name: activityData.ad_name,
+                                                          id: activityData.ad_id + '' + activityData.id,
+                                                          comment: activityData.comment,
+                                                          activityCount: activityCount,
+                                                          make_external: activityData.make_external,
+                                                          id_list: id_list,
+                                                          circleSLNo: circleSLNo,
+                                                          overlapFlag: overlapFlag,
+                                                          kpiType: kpiType,
+                                                          defaultGrey: defaultGrey,
+                                                          action_color: activityData.action_color,
+                                                          position: position,
+                                                          flagId: activityData.make_external == true ? 'external' : 'internal',
+                                                      };
+                                                      actionItems.push(newActivity);
+
+                                                      //drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list,circleSLNo,overlapFlag);
+                                                      counter++;
+                                                      position += 20;
+                                                  }
+                                              }
+                                          }
+
+
+                                      }
+
+                                  }) //iteration of activity data
+                              }) //iteration of series data
+                          }
+
+//--------
+
+
+
+                           //draw activiy markers
+                           //TODO: call function
+                           var markerData = svg.selectAll("circle").data(actionItems);
+
+                           var marker = markerData.enter()
+                               .append("g")
+	                             .attr("transform", function(d){
+                                 if(d.overlapFlag){
+                                   return "translate("+_config.xScale(d.date)+","+(_config.yScale(d.values)+20)+")";
+                                 }
+                                 return "translate("+_config.xScale(d.date)+","+_config.yScale(d.values)+")";
+                               })
+                               .style("cursor","pointer");
+
+                            var markerBorder = marker.append("circle")
+                                .attr("class","marker_1")
+                                .attr("stroke", function(d){
+                                    return (d.defaultGrey == false || d.make_external == false ) ? '#777':'#0072bc'; //177ac6
+                                })
+
+                                .attr("data-pos-x", function(d, i) { return _config.xScale(d.date) })
+                                .attr("data-pos-y", function(d, i) {
+                                    if(d.overlapFlag){
+                                        return (_config.yScale(d.values)+20);
+                                    }
+                                    return _config.yScale(d.values)
+                                })
+                                .attr("stroke-width", "2.5")
+                                .attr("fill", function(d, i) { return "#fff" })
+                                .attr("r", function(d, i) { return 9 })
+                                //data properties
+                                .attr("id", function(d) { return d.id || 'NA' })
+                                .attr("kpiType", function(d) { return d.kpiType || 'NA' })
+                                .attr("kpiValue", function(d) { return d.kpiValue || 'NA' })
+                                .attr("comment", function(d) { return d.comment || 'NA' })
+                                .attr("id_list", function(d) { return d.id_list })
+                                .attr("activityCount", function(d) { return d.activityCount })
+                                .attr("number_of_activity", function(d) { return d.activityCount })
+                                .attr("number_of_activity", function(d) { return d.activityCount })
+                                .attr("circle_slno", function(d) { return d.circleSLNo })
+
+                                // zIndex: bubbleZIndex,
+                                // cX: container.x,
+                                // cY:container.y,
+
+
+                             marker.append('text')
+                             .attr("dx", function(d){
+                                 if(d.activityCount>9) {
+                                     return -6;
+                                 } else {
+                                     return -4;
+                                 }
+                             })
+                             .attr("dy", function(d){
+                                 if(d.activityCount>99) {
+                                     return 3;
+                                 } else if(d.activityCount>9) {
+                                     return 4;
+                                 } else {
+                                     return 4;
+                                 }
+                             })
+                             .style("font-size", function(d){
+                                if(d.activityCount>99) {
+                                    return "8px";
+                                } else if(d.activityCount>9) {
+                                    return "10px";
+                                } else {
+                                    return "12px";
+                                }
+                             })
+                             .style("fill", function(d){
+                                return (d.activityCount >1 ) ? '#000' : 'transparent';
+                             })
+                             .text(function(d){
+                               return getActivityCountLabel(d.activityCount);
+                             })
+                             .attr("data-pos-x", function(d, i) { return _config.xScale(d.date) })
+                             .attr("data-pos-y", function(d, i) {
+                                 if(d.overlapFlag){
+                                     return (_config.yScale(d.values)+20);
+                                 }
+                                 return _config.yScale(d.values)
+                             })
+                             //data properties
+                             .attr("id", function(d) { return 't'+d.id || 'NA' })
+                             .attr("flagId", function(d) { return d.flagId || 'NA' })
+                             .attr("circle_slno", function(d) { return d.circleSLNo })
+                             .attr("applyColor", function(d) { return (d.activityCount >1 ) ? 1 : 0 })
+
+
+                            // marker.on("mouseover", function () {
+                            //      d3.select(this).select(".marker_1").style("stroke","#2c9aec");
+                            //        d3.select(this).select("text").style("fill", "#2c9aec");
+                            //  })
+                            // .on("mouseout", function () {
+                            //      d3.select(this).select(".marker_1").style("stroke", "#177ac6");
+                            //        d3.select(this).select("text").style("fill", "#000");
+                            //  })
+                            marker.on("click", function (d) {
+                                  chartClick(d, defaultGrey);
+                            }).on("mouseover", function (d) {
+                                  chartMouserOver(d, _config, this);
+                            }).on("mouseout", function (d) {
+                                  chartMouseOut(d, _config, this);
+                            })
+
+
+}
 
                         /* if(index == 0) {
                            svg.selectAll("line.verticalGrid").data(data).enter()
@@ -443,10 +807,14 @@
                         var height = _config.height;
                         var width = _config.width;
                         var margin = _config.margin;
+                        var adjustment = 10;
+                        if(_config.isPerformanceChart) {
+                          adjustment = 30;
+                        }
 
                         svg.append("svg:g")
                             .attr("class", "x axis")
-                            .attr("transform", "translate(10," + height + ")")
+                            .attr("transform", "translate("+adjustment+"," + height + ")")
                         .call(_config.xAxisGen)
                           .selectAll('.x .tick text') // select all the x tick texts
                         .call(function(t){
@@ -467,8 +835,9 @@
 
                         svg.append("svg:g")
                             .attr("class", "y axis")
-                            .attr("transform", "translate(30,0)")
-                            .call(_config.yAxisGen);
+                            .attr("transform", "translate("+(20+adjustment)+",0)")
+                            .call(_config.yAxisGen)
+
 
                         // if (_config.showAxisLabel) {
                         //     /* START label for x-axis */
@@ -507,6 +876,10 @@
 
                         var that = this;
                         var parseDate = d3.time.format("%Y-%m-%d").parse;
+                        this.updateConfig({
+                          'parseDate': parseDate
+                        })
+
                         _config.dataToPlot[0].forEach(function(d) {
                             d['date'] = parseDate(d['date']);
                         });
@@ -515,6 +888,7 @@
                         _.each(_config.dataToPlot, function(data, idx) {
                             that.drawPath(data, idx);
                         })
+
 
                     },
 
@@ -559,42 +933,289 @@
                     }
                 }
 
-                var dataObj = JSON.parse(attrs.chartData);
-                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from);
 
-                //TODO: DO NOT DELETE THIS DATA
-                // [{
-                //     "date": "2015-1-1",
-                //     "values": 150
-                // }, {
-                //     "date": "2015-1-2",
-                //     "values": 100
-                // }, {
-                //     "date": "2015-1-3",
-                //     "values": 170
-                // }, {
-                //     "date": "2015-1-4",
-                //     "values": 180
-                // }, {
-                //     "date": "2015-1-5",
-                //     "values": 190
-                // }, {
-                //     "date": "2015-1-6",
-                //     "values": 180
-                // }, {
-                //     "date": "2015-1-7",
-                //     "values": 130.09
-                // }, {
-                //     "date": "2015-1-8",
-                //     "values": 130.09
-                // }, {
-                //     "date": "2015-1-9",
-                //     "values": 130.09
-                // }]
+
+                //All supporting functions
+
+                var kpiPrefix = function (kpiType) {
+                    var kpiTypeLower = kpiType.toLowerCase();
+                    return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? constants.currencySymbol : ''
+                };
+
+                var kpiSuffix = function (kpiType) {
+                    return (kpiType.toLowerCase() == 'vtc') ? '%' : ''
+                };
+
+                // create a unique SLNO with Internal Or External flag with date
+                //actionUTC activity date
+                var getCircleSLNo = function(make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId){
+                    var circleSLNo = undefined;
+                    if(make_external == true){
+                        circleSLNo ="extSL_"+extSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+                        extSLNo++;
+                    }else{
+                       circleSLNo ="intSL_"+intSLNo+"_"+actionUTC+"_"+selectedCampaignId;
+                       intSLNo++;
+                    }
+                    return {"circleSLNo":circleSLNo,"extSLNo":extSLNo,"intSLNo":intSLNo};
+                };
+
+                var getOverlapFlag = function(activityDateArray,actionUTC){
+                    var overlapFlag;
+                    if (_.indexOf(activityDateArray,actionUTC) == -1 ){
+                        activityDateArray.push(actionUTC);
+                        overlapFlag = 0;
+                    }else{
+                        overlapFlag = 1;
+                    }
+                    return {"overlapFlag":overlapFlag,"activityDateArray":activityDateArray};
+                };
+
+                var getActivityCountLabel = function(activityCount){
+                    var display_activityCount =  '';
+                     switch(true) {
+                       case (activityCount >1 && activityCount < 10) :
+                             display_activityCount =  ' '+ activityCount+' ';
+                             break;
+                       case (activityCount >= 10 && activityCount <= 99) :
+                            display_activityCount =  ' '+activityCount+' ';
+                            break;
+                       case (activityCount >99) :
+                            display_activityCount =  ' 99+';
+                            break;
+                      default: display_activityCount = '';
+                    }
+                    return display_activityCount;
+                };
+
+                var chartClick =  function(that, defaultGrey) {
+                    var myContainer = $('#action-container:first'),
+                        actionId = that.id,
+                        getIdList = that.id_list,
+                        circle_slno = that.circleSLNo,
+                        isActionExternal = that.make_external,
+                        splitIdList =  getIdList.split(",");
+
+                    $('circle').attr({ fill:'#ffffff',activeStatus:0});
+                    //check and select multiple activity id
+                    if(splitIdList.length > 1 ) {
+                        for(var i=0;i < splitIdList.length;i++){
+                            var targetId =splitIdList[i];
+                            $('circle#' + targetId).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
+                        }
+                    } else {
+                        $('circle#' + actionId).attr({ fill:(  isActionExternal == false ) ? '#7e848b':'#2c9aec',activeStatus:1});
+                    }
+                    $("text[applyColor=1]").css({fill:'#000'});
+                    var getactivityCount = that.activityCount;
+                    if(getactivityCount > 1){
+                        $('text#t' + actionId).css({fill:'#fff'});
+                    }
+                    var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getactivityCount,"actionSel":getIdList,"selectedCircleSLNo":circle_slno};
+                    localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
+                    if(defaultGrey) {
+                        myContainer = $('.reports_section_details_container');
+                        $('div[id^="actionItem_"]').removeClass('action_selected');
+                        //highlight activity in reports page
+                        var scrollTo = $('#actionItem_' + that.id);
+                        if(scrollTo.length) {
+                            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+                            //Mulitple Activity List
+                            if(splitIdList.length > 1 ){
+                                for(var i=0;i < splitIdList.length;i++){
+                                    var targetId =splitIdList[i];
+                                    myContainer.find('#actionItem_'+targetId).addClass('action_selected');
+                                    //ToDO Remove commented one after the fixes
+                                   /* myContainer.animate({
+                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                    });
+    */
+                                }
+                                myContainer.animate({
+                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });
+                            }else{
+                                //Day wise single Activity
+                                myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+that.id).addClass('action_selected');
+                                myContainer.animate({
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });
+
+                            }
+                            analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, 'optimization_graph_activity_marker_click', loginModel.getLoginName());
+                        }
+                    } else {
+                    //click to scroll and highlight activity
+                        var scrollTo = $('#actionItem_' + that.id);
+                        if(scrollTo.length) {
+                            scrollTo.siblings().removeClass('active').end().addClass('active');
+                            if(splitIdList.length > 1 ){
+                                myContainer.find('.active').removeClass('active').end();
+                                for(var i=0;i < splitIdList.length;i++){
+                                    var targetId =splitIdList[i];
+                                    myContainer.find('#actionItem_'+targetId).addClass('active');
+                                    //ToDO Remove below commented one after fix
+                                    /*myContainer.animate({
+                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                    });*/
+                                }
+                                //
+                                myContainer.animate({
+                                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                    });
+                            }else{
+                                myContainer.find('.active').removeClass('active').end().find('#actionItem_'+that.id).addClass('active');
+                                myContainer.animate({
+                                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                                });
+                            }
+                            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
+                        }
+                    }
+                };
+
+                var wordwrap =  function(str, int_width, str_break, cut) {
+                    var m = ((arguments.length >= 2) ? arguments[1] : 75);
+                    var b = ((arguments.length >= 3) ? arguments[2] : '\n');
+                    var c = ((arguments.length >= 4) ? arguments[3] : false);
+
+                    var i, j, l, s, r;
+
+                    str += '';
+
+                    if (m < 1) {
+                        return str;
+                    }
+
+                    for (i = -1, l = (r = str.split(/\r\n|\n|\r/))
+                        .length; ++i < l; r[i] += s) {
+                        for (s = r[i], r[i] = ''; s.length > m; r[i] += s.slice(0, j) + ((s = s.slice(j))
+                                .length ? b : '')) {
+                            j = c == 2 || (j = s.slice(0, m + 1)
+                                .match(/\S*(\s)?$/))[1] ? m : j.input.length - j[0].length || c == 1 && m || j.input.length + (j = s.slice(
+                                m)
+                                .match(/^\S*/))[0].length;
+                        }
+                    }
+
+                    return r.join('\n');
+                };
+
+                var getCircleStatus = function(that){
+                   return that.circleSLNo.substr(0,3);
+                };
+
+                var chartMouserOver =  function(d, _config, that) {
+                    var getId = d.id,
+                        circleStroke = getCircleStatus(d) == 'ext' ? '#2c9aec':'#7e848b',
+                        activityCount = d.activityCount,
+                        activeStatus = parseInt($('#'+getId).attr('activestatus')) > 0 ? 1 :0;
+                    $("#"+getId).attr({stroke:circleStroke});
+                    //Mouseover for the text need to check if activity count > 1
+                    if(activityCount > 1 && activeStatus == 0){
+                        $("#t"+getId).css({color:circleStroke,fill:circleStroke});
+                    }
+
+                    var svg = d3.select(_config.rawSvg[0]),
+                        mousePos = d3.mouse(that),
+                        yAxisValue = $("#"+getId).data('pos-y')+20,
+                        xAxisValue = $("#"+getId).data('pos-x')+20,
+                        formatY = parseFloat(d.values).toFixed(2),
+                        formatX = moment(xAxisValue).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+
+                    //calculating the plotting position
+                    var WIDTH= _config.width,
+                        HEIGHT= _config.height,
+                        w = 40,
+                        h = 40,
+                        x = xAxisValue + 20,
+                        y = yAxisValue;
+
+                    // //if overflow in width
+                    // if((x + w) > WIDTH) {
+                    //   x = x - 10 - w;
+                    // }
+                    //
+                    // //if overflow in height
+                    // if((y + h) > HEIGHT) {
+                    //   y = HEIGHT - h;
+                    // }
+
+
+                    var html_comment,
+                        //info = ""+formatX+"<br>"+d.kpiType+": <b>"+formatY+"</b><br>",
+                        info = ""+d.kpiType+": <b>"+formatY+"</b><br>",
+                        getMessage = localStorage.getItem('networkUser') == 'true' ? ' External ': '',
+                        numberOfActivityHeader = d.make_external == true ? '<b>'+d.activityCount+'</b> '+getMessage+' Activities' : '<b>'+d.activityCount +'</b> Internal Activities';
+
+                    var symbol = kpiPrefix(d.kpiType);
+                    var suffix = kpiSuffix(d.kpiType);
+
+                    html_comment= (d.comment).toString().replace(/(?:<)/g, '&lt;');
+                    html_comment = wordwrap(html_comment, 20, '<br/>');
+                    html_comment = html_comment.replace(/(?:\\r\\n|\r|\\n| \\n)/g, '<br />');
+                    html_comment = info + html_comment;
+                    if(activityCount > 1){
+
+                        html_comment = info + numberOfActivityHeader;
+
+                    }
+                    $('.line_tooltip').show();
+                    $('.line_tooltip').html(html_comment);
+
+                    h = $('.line_tooltip').height();
+                    w= $('.line_tooltip').width();
+
+                    //if overflow in width
+                    if((x + w) > WIDTH) {
+                      x = x - 10 - w;
+                    }
+
+                    //if overflow in height
+                    if((y + h) > HEIGHT) {
+                      y = HEIGHT - h;
+                    }
+
+                    $('.line_tooltip').css({"top":y+"px"});
+                    $('.line_tooltip').css({"left":x+"px"});
+
+                };
+
+                var chartMouseOut = function(d, _config, that){
+                    $('.line_tooltip').hide();
+                     var getId = d.id,
+                         circleStroke = getCircleStatus(d) == 'ext' ? '#177ac6':'#57606c',
+                         activityCount = d.activityCount,
+                         activeStatus = parseInt($('#'+getId).attr('activestatus')) > 0 ? 1 :0,
+                         display_color = activityCount == 1 ? 'transparent' : '#000';
+                    if(activeStatus == 0){
+                          // Mouseout for the circle
+                         $("#"+getId).attr({stroke:circleStroke});
+                         // Mouseout for the Text
+                         $("#t"+getId).css({color:display_color,fill:display_color});
+                    }else{
+                         //$("#"+getId).attr({stroke:circleStroke});
+                         // Mouseout for the Text
+                         if(activityCount > 1)
+                         $("#t"+getId).css({color:'#fff',fill:'#fff'});
+                    }
+                };
+
+                //Chart data import and launch
+
+                var dataObj = JSON.parse(attrs.chartData);
+
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from),
+                    performanceChart = false;
+
+                if(dataObj.from =="action_performance") {
+                   performanceChart = true;
+                }
 
                 var lineData = {
                     json: [chartDataset],
                     threshold: dataObj.kpiValue,
+                    isPerformanceChart: performanceChart,
                     kpiType: dataObj.kpiType,
                     keys: {
                         xAxis: {
@@ -605,6 +1226,7 @@
                         yAxis: {
                             val: 'values',
                             name: 'kpiType',
+                            ticks: 0, //override with performance config
                             tickValues: []
                         }
                     },
@@ -619,6 +1241,15 @@
                     axisLabel: ['Data', 'Value']
                 };
 
+                //override chart details
+                if(performanceChart) {
+                  lineData.keys.yAxis.ticks = 6;
+                  lineData.keys.xAxis.ticks = 7;
+                  lineData.external = dataObj.showExternal;
+                  lineData.defaultGrey= dataObj.defaultGrey || undefined;
+                  //lineData.margin.right = 0;
+                }
+
                 //JSON.parse(attrs.chartData).data ;//scope[attrs.chartData].data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
@@ -628,15 +1259,18 @@
                     dataToPlot: lineData.json,
                     margin: lineData.margin,
                     threshold: lineData.threshold,
+                    isPerformanceChart: lineData.isPerformanceChart,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,
                     showAxisLabel: lineData.showAxisLabel,
-                    axisLabel: lineData.axisLabel
-                })
+                    axisLabel: lineData.axisLabel,
+                    activityList: (dataObj.activityList !== undefined)? dataObj.activityList : undefined,
+                    external: lineData.external,
+                    defaultGrey: lineData.defaultGrey
+                });
 
                 lineChartService.setChartParameters();
                 lineChartService.drawAxis();
-
 
             }
         }
