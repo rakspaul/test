@@ -30,8 +30,8 @@
                     </div>
                     <div class="col-md-3 borderZero">
                         <div class="col-md-3 zeroPadding">
-                            <label class="col-md-12 zeroPadding text-center">Contacts</label>
-                            <span class="col-md-12 zeroPadding text-center">0</span>
+                            <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</label>
+                            <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
                         </div>
                         <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Ad Groups</label>
@@ -111,14 +111,14 @@
                                                 <!-- SPACING -->
                                             </div>
                                             <a href="" class="col-md-9 zeroPadding">{{ textConstants.WF_GUIDED_COPY }}</a>
-                                            <button type="button" class="btn btn-primary pull-right">Save</button>
+                                            <button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right">Save</button>
                                             <button type="button" class="btn btn-link pull-right">Cancel</button>
 
                                             <!--=== AD Name ===-->
                                             <div class="col-md-12 zeroPadding adNameBox">
                                                 <div class="col-md-12 adHeader">What is your Ad name?</div>
                                                 <div class="col-md-10 zeroPadding">
-                                                    <input type="text" class="form-control" name="adName" />
+                                                    <input type="text" class="form-control" name="adName" remove-special-character ='remove-special-character' ng-model="adData.adName"/>
                                                 </div>
                                             </div>
 
@@ -169,24 +169,6 @@
                                                     </label>
                                                 </div>
                                             </div>
-
-                                            <!--=== Ad Group Selection ===-->
-                                            <!--<div class="col-md-12 zeroPadding adGroupSelection">
-                                                <div class="col-md-12 adHeader">Which Ad Group should this ad be placed in?</div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Ad Group
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#">Group 1</a>
-                                                        </li>
-                                                        <li><a href="#">Group 2</a>
-                                                        </li>
-                                                        <li><a href="#">Group 3</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>-->
 
                                             <!--=== Next Step Panel ===-->
                                             <div class="col-md-12 zeroPadding">
@@ -243,11 +225,11 @@
                                                 <div class="col-md-8 zeroPadding">
 
                                                     <div class="col-sm-1">
-                                                        <input type="radio" name="group4" value="browser" class="btn_rad">
+                                                        <input type="radio" name="budgetType" value="Impressions" class="btn_rad" ng-model="adData.budgetType">
                                                     </div>
                                                     <div class="col-sm-3">{{ textConstants.WF_IMPRESSIONS }}</div>
                                                     <div class="form-group col-sm-5">
-                                                        <input type="text" class="form-control" placeholder="0">
+                                                        <input type="text" name="budgetValue1" ng-model="adData.ImpressionsValue" numbers-only="numbers-only" class="form-control" placeholder="0" >
                                                     </div>
                                                     <div class="col-sm-3"></div>
 
@@ -256,11 +238,11 @@
                                                     </div>
 
                                                     <div class="col-sm-1">
-                                                        <input type="radio" name="group4" value="browser" class="btn_rad">
+                                                        <input type="radio"  name="budgetType"  value="Media Cost" class="btn_rad" ng-model="adData.budgetType">
                                                     </div>
                                                     <div class="col-sm-3">{{ textConstants.WF_MEDIA_COST }}</div>
                                                     <div class="form-group col-sm-5">
-                                                        <input type="text" class="form-control" placeholder="0">
+                                                        <input type="text" name="budgetValue2" class="form-control" numbers-only="numbers-only" ng-model="adData.mediaCostValue" placeholder="0">
                                                     </div>
                                                     <div class="col-sm-3"></div>
 
@@ -296,19 +278,14 @@
                                                 </div>
 
                                                 <div class="col-md-12 zeroPadding">
-                                                    <!--<div class="col-md-5 platformHolder">
-                                                        <input type="radio" name="group5" value="collective" class="btn_rad clickCm">
-							<img src="/assets/images/cdesk/logo_C.png" />
-							{{ textConstants.WF_COLLECTIVE_MEDIA }}
-                                                    </div>-->
                                                     <div class="col-md-3 platformHolder">
-                                                        <input type="radio" name="group5" value="bidder" class="btn_rad clickCb">
+                                                        <input type="radio" name="platform" value="bidder" class="btn_rad" ng-model="adData.platform">
 							<img src="/assets/images/cdesk/logo_C_bidder.png" />
 							{{ textConstants.WF_COLLECTIVE_BIDDER }}
                                                     </div>
                                                     <div class="col-md-1"></div>
 						    <div class="col-md-3 platformHolder">
-                                                        <input type="radio" name="group5" value="nexus" class="btn_rad clickNx">
+                                                        <input type="radio" name="platform" value="nexus" class="btn_rad" ng-model="adData.platform">
 							<img src="/assets/images/cdesk/logo_C_appnexus.png" />
 							{{ textConstants.WF_APPNEXUS }}
                                                     </div>
