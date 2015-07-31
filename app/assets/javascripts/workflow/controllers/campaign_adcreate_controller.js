@@ -142,8 +142,10 @@ var angObj = angObj || {};
             $('.buyingPlatformHolder').toggle();
             $('.collectMediaScreenHolder, .collectBidderScreenHolder, .collectNexusScreenHolder').hide();
         });
-
-
+        // Show Hide Preset Values
+        $('.showPreset').click(function(){
+            $('.presetGreyBox').slideToggle();
+        });
     });
 })();
 
