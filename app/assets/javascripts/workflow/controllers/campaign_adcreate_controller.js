@@ -144,8 +144,19 @@ var angObj = angObj || {};
             $('.buyingPlatformHolder').toggle();
             $('.collectMediaScreenHolder, .collectBidderScreenHolder, .collectNexusScreenHolder').hide();
         });
-
-
+        // Show Hide Preset Values
+        $('.showPreset').click(function(){
+            $('.presetGreyBox').slideToggle();
+        });
+        // Create AD Tab Animation
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {    
+            var target = $(this).attr('href');  
+              
+            $(target).css('bottom','-'+$(window).width()+'px');   
+            var bottom = $(target).offset().bottom;
+            $(target).css({bottom:bottom}).animate({"bottom":"0px"}, "10");
+        });
+        
     });
 })();
 
