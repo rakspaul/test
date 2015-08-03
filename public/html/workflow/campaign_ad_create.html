@@ -57,7 +57,7 @@
                     <span class="campaign_name">Create Ad</span>
                     <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
                         <li class="active">
-                            <a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
+                            <a href="#adType" role="tab" data-toggle="tab" id="adType-tab">1. Select Ad Type</a>
                             <div>
                                 <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
                                     <span class="col-md-5 zeroPadding">Not Set </span>
@@ -89,7 +89,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#setting" role="tab" data-toggle="tab">2. Settings</a>
+                            <a href="#setting" role="tab" data-toggle="tab" id="setting-tab">2. Settings</a>
                             <div>
                                 <div class="statusLabel disabled" ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue">
                                     <span class="col-md-5 zeroPadding">Not Set </span>
@@ -118,7 +118,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#buying" role="tab" data-toggle="tab">3. Buying Platform</a>
+                            <a href="#buying" role="tab" data-toggle="tab" id="buying-tab">3. Buying Platform</a>
                             <div>
                                 <div class="statusLabel disabled" ng-if="!adData.platform">
                                     <span class="col-md-5 zeroPadding">Not Set </span>
@@ -133,7 +133,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="javascript:void(0);" role="tab" >4. Targeting</a>
+                            <a href="#targetting" role="tab" data-toggle="tab" id="targetting-tab">4. Targeting</a>
                         
                             <div class="statusLabel disabled">
                                 <span class="col-md-5 zeroPadding">Not Set </span>
@@ -143,7 +143,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="javascript:void(0);" role="tab" >5. Ad Sizes / Creatives</a>
+                            <a href="#creative" role="tab" data-toggle="tab" id="creative-tab">5. Ad Sizes / Creatives</a>
                         
                             <div class="statusLabel disabled">
                                 <span class="col-md-5 zeroPadding">Not Set </span>
@@ -153,7 +153,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="javascript:void(0);" role="tab" >6. Inventory Filters</a>
+                            <a href="#inventory" role="tab" data-toggle="tab" id="inventory-tab">6. Inventory Filters</a>
                         
                             <div class="statusLabel disabled">
                                 <span class="col-md-5 zeroPadding">Not Set </span>
@@ -284,7 +284,7 @@
 											<div class="row zeroPadding unitCost">
                                                 <div class="col-md-12 adHeader">What is this Unit Cost?</div>
 												<div class="form-group col-md-3 zeroPadding">
-													<span>$</span>
+													<span class="paddingTop">$</span>
                                                     <input type="text" class="form-control" ng-model="adData.unitCost" numbers-only="numbers-only" name="unitCost">
                                                 </div>
                                                 <div class="form-group col-md-2">
@@ -321,8 +321,8 @@
 											
                                             <!--=== Next Step Panel ===-->
                                             <div class="row">
-    											<a href="#buying" data-toggle="tab" class="nextWrapper">
-    												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+    											<a href="#buying" data-toggle="tab" class="nextWrapper" >
+    												<img src="/assets/images/cdesk/arrow_down.png" alt="" />
                                                 </a>
                                             </div>
                                         </div>
@@ -539,7 +539,7 @@
 											<!-- App Nexus Holder Ends -->
 					
 											<!--=== Next Step Panel ===-->
-											<a href="#targetting" data-toggle="tab" class="nextWrapper">
+											<a href="#targetting" data-toggle="tab" class="nextWrapper" >
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
                                         </div>
@@ -554,7 +554,7 @@
 											
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#creative" data-toggle="tab" class="nextWrapper">
+											<a href="#creative" data-toggle="tab" class="nextWrapper" >
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>
@@ -569,7 +569,7 @@
 											
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#inventory" data-toggle="tab" class="nextWrapper">
+											<a href="#inventory" data-toggle="tab" class="nextWrapper" >
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>
@@ -584,7 +584,7 @@
 											
 								    	
 											<!--=== Next Step Panel ===-->
-											<a href="#adType" data-toggle="tab" class="nextWrapper">
+											<a href="#adType" data-toggle="tab" class="nextWrapper" >
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>

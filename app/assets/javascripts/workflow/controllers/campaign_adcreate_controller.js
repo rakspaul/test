@@ -113,6 +113,7 @@ var angObj = angObj || {};
             }
 
         }
+    
         $(function() {
             $('.input-daterange').datepicker({
                 format: "mm/dd/yyyy",
@@ -209,11 +210,14 @@ var angObj = angObj || {};
         $('.showPreset').click(function(){
             $('.presetGreyBox').slideToggle();
         });
+
         // Create AD Tab Animation
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             $('a[data-toggle="tab"]').parents("li").removeClass('active');
             $(this).parents('li').addClass('active');
+            
             var target = $(this).attr('href');
+            $("#myTabs").find( target + "-tab" ).closest("li").addClass("active") ;
             $(target).css('bottom','-'+$(window).width()+'px');
             var bottom = $(target).offset().bottom;
             $(target).css({bottom:bottom}).animate({"bottom":"0px"}, "10");
