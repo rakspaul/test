@@ -14,8 +14,8 @@
                     </div>
                     <div class="col-md-1 borderZero">
                         <label>Goal</label>
-                        <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true"></div>
-                        <span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
+                        <div ng-show="workflowData.campaignData.goal" class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true"></div>
+                        <span> {{(workflowData.campaignData.goal.toLowerCase()) | toCamelCase}}</span>
                     </div>
                     <div class="col-md-1 borderZero">
                         <label>Total Budget</label>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
-                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.noOfAds}}</span>
+                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount || 0}}</span>
                         </div>
                         <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
@@ -58,7 +58,7 @@
                     <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
                         <li class="active"><a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
                         </li>
-                        <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenNames.length ===0">
+                        <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
                             <span class="col-md-5 zeroPadding">Not Set </span>
                         </div>
 
@@ -163,7 +163,6 @@
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div class="col-md-6 zeroPadding" style="float:right;">
-                                            <button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
                                             <button type="button" ng-disabled="!adData.adName" id="SaveAd" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
                                             <button type="button" class="btn btn-link pull-right">Cancel</button>
                                         </div>
@@ -229,12 +228,11 @@
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
                                                     <label for="screenTypeChkBox{{screenType.id}}">
-                                                        <input type="checkbox" name="screenTypeName[]" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenNames}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
+                                                        <input type="checkbox" name="screenTypeId" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
                                                         <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{screenType.name}}</div>
                                                     </label>
                                                 </div>
-                                                <input type="hidden" name="screenTypeId" value="{{adData.screenIds}}">
                                             </div>
 											
 											<div class="col-md-12 spacingInput">
@@ -242,7 +240,7 @@
                                             </div>
 
                                             <!--=== Next Step Panel ===-->
-                                            <a href="#setting" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+                                            <a href="#setting" data-toggle="tab" role="tab" class="nextWrapper col-md-12 zeroPadding">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 											
@@ -263,7 +261,7 @@
 											<div class="col-md-12 zeroPadding">
                                                 <div class="col-md-12 adHeader">What are the flight dates?</div>
 												 <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-													<div class="col-md-12 dateWrapper form-group zeroPadding" show-errors='{showSuccess: true}'>
+													<div class="col-md-12 dateWrapper form-group zeroPadding">
 														<div class="col-md-2 zeroPadding">
 															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.START_DATE }}</label>
 															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="adData.startTime"  required ng-change="handleFlightDate(adData)"/>
@@ -323,7 +321,7 @@
 											</div>
 											
                                             <!--=== Next Step Panel ===-->
-											<a href="#buying" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#buying" data-toggle="tab" role="tab" class="nextWrapper col-md-12 zeroPadding">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
                                         </div>
@@ -343,7 +341,7 @@
                                                 <div class="col-md-12 zeroPadding">
                                                     <div class="col-md-2 platformHolder" ng-repeat="platform in workflowData.platforms">
 														<span>{{platform.name}}</span><br/>
-														<img src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png" /><br/>
+														<img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png" /><br/>
 														<input type="radio" name="platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click ="adData.platformId = platform.id">
                                                     </div>
                                                 </div>
@@ -555,7 +553,7 @@
 											<!-- App Nexus Holder Ends -->
 					
 											<!--=== Next Step Panel ===-->
-											<a href="#targetting" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#targetting" data-toggle="tab" role="tab" class="nextWrapper col-md-12 zeroPadding">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
                                         </div>
@@ -573,7 +571,7 @@
 											</div>
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#creative" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#creative" data-toggle="tab" role="tab" class="nextWrapper col-md-12 zeroPadding">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>
@@ -591,7 +589,7 @@
 											</div>
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#inventory" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#inventory" data-toggle="tab" role="tab" class="nextWrapper col-md-12 zeroPadding">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>
@@ -609,7 +607,7 @@
 											</div>
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#adType" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#adType" data-toggle="tab" role="tab" class="nextWrapper col-md-12 zeroPadding">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>

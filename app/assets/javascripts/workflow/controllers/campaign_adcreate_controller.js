@@ -1,13 +1,12 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData= {}
-        $scope.adData.screenNames =[];
-        $scope.adData.screenIds =[];
+        $scope.adData.screenTypes =[];
 
         $scope.campaignId = $routeParams.campaignId;
 
@@ -33,12 +32,16 @@ var angObj = angObj || {};
 
         var campaignOverView = {
             getCampaignData :  function(campaignId) {
-                console.log("campaignId"+campaignId);
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
-                        console.log($scope.workflowData['campaignData']);
+
+                        var startDateElem = $('#startDateInput');
+                        var campaignStartTime =  moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
+                        var campaignEndTime =  moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
+                        startDateElem.datepicker("setStartDate", campaignStartTime);
+                        startDateElem.datepicker("setEndDate", campaignEndTime);
                     }
                     else{
                         campaignOverView.errorHandler(result);
@@ -85,25 +88,27 @@ var angObj = angObj || {};
 
 
         $scope.screenTypeSelection = function(screenTypeObj) {
-            var idx = $scope.adData.screenNames.indexOf(screenTypeObj.name);
-            if (idx > -1) {
-                $scope.adData.screenNames.splice(idx, 1);
-            }
-          else {
-                $scope.adData.screenNames.push(screenTypeObj.name);
-                $scope.adData.screenIds.push(screenTypeObj.id);
+            var screenTypeFound = _.filter($scope.adData.screenTypes, function(obj) { return obj.name === screenTypeObj.name});
+            if(screenTypeFound.length >0) {
+                var idx = _.findLastIndex($scope.adData.screenTypes, screenTypeObj);
+                $scope.adData.screenTypes.splice(idx, 1);
+
+            } else {
+                $scope.adData.screenTypes.push(screenTypeObj);
             }
         }
 
         $scope.handleFlightDate = function(data) {
             var startTime = data.startTime;
-            var endDateElem = $('#endDateInput')
+            var endDateElem = $('#endDateInput');
+            var campaignEndTime = $scope.workflowData['campaignData'].endTime;
             var changeDate;
             endDateElem.attr("disabled","disabled").css({'background':'#eee'});
             if(startTime) {
                 endDateElem.removeAttr("disabled").css({'background':'transparent'});
                 changeDate = moment(startTime).format('MM/DD/YYYY')
                 endDateElem.datepicker("setStartDate", changeDate);
+                endDateElem.datepicker("setEndDate", campaignEndTime);
                 endDateElem.datepicker("update", changeDate);
             }
 
@@ -116,17 +121,10 @@ var angObj = angObj || {};
                 todayHighlight: true
             });
 
-            var startDateElem = $('#startDateInput');
-            var today =  moment().format("MM/DD/YYYY");
-            startDateElem.datepicker("setStartDate", today);
-            startDateElem.datepicker("update", today);
-
-
             $("#SaveAd").on('click',function() {
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                console.log(formData);
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
                 postAdDataObj.campaignId = Number($scope.campaignId);
@@ -134,6 +132,9 @@ var angObj = angObj || {};
 
                 if(formData.adFormatId)
                     postAdDataObj.adFormatId = Number(formData.adFormatId);
+
+                if(formData.screenTypeId)
+                    postAdDataObj.screenTypeId = formData.screenTypeId;
 
                 if(formData.goal)
                     postAdDataObj.goal = formData.goal;
@@ -157,16 +158,17 @@ var angObj = angObj || {};
                 if(formData.platformId) {
                     postAdDataObj.platformId = Number(formData.platformId);
                 }
-
-                console.log(postAdDataObj);
-
                 workflowService.saveAd(postAdDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.sucessHandler(result);
+                        var responseData = result.data.data;
+                        $scope.state = responseData.state;
+                        if($scope.state && $scope.state.toLowerCase() === 'draft') {
+                            var url = '/campaign/'+ result.data.data.campaignId + '/overview';
+                            $location.url(url);
+                        }
                     }
                 });
             })
-
         })
 
         // Switch BTN Animation
@@ -208,10 +210,11 @@ var angObj = angObj || {};
             $('.presetGreyBox').slideToggle();
         });
         // Create AD Tab Animation
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {    
-            var target = $(this).attr('href');  
-              
-            $(target).css('bottom','-'+$(window).width()+'px');   
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $('a[data-toggle="tab"]').parents("li").removeClass('active');
+            $(this).parents('li').addClass('active');
+            var target = $(this).attr('href');
+            $(target).css('bottom','-'+$(window).width()+'px');
             var bottom = $(target).offset().bottom;
             $(target).css({bottom:bottom}).animate({"bottom":"0px"}, "10");
         });

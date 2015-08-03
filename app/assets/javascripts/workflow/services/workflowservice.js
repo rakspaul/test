@@ -34,6 +34,10 @@
 
             saveAd : function(data) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads', data, {'Content-Type': 'application/json'})
+            },
+            pushCampaign : function(campaignId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/push';
+                return dataService.fetch(url);
             }
         };
 
