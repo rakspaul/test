@@ -228,7 +228,7 @@ button, i, input[type="submit"] {
       margin-bottom: 15px;
       .FontColor(@textHeadingColor, 20pt, @primaryFont);
     }
-    .search-cum-navbar {
+/*    .search-cum-navbar {
       height: 40px;
       padding: 5px 20px;
       border-radius: 5px;
@@ -308,7 +308,7 @@ button, i, input[type="submit"] {
         > input:-moz-placeholder { color: @textColorWhite; opacity: 1 ;}
         > input:-ms-input-placeholder { color: @textColorWhite;opacity: 1 ; }
       }
-    }
+    }*/
     .campaign {
       min-height: 220px;
       overflow: hidden;
@@ -861,7 +861,6 @@ button, i, input[type="submit"] {
   background: white;
 }
 #brandsDropdown {
-  background: #F9B537;
   border: none;
   height:30px;
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
@@ -2719,27 +2718,32 @@ button, i, input[type="submit"] {
     a {
       color: #fff ;
     }
-    .main_filters {
-      margin-top: 4px ;
+
+  }
+}
+.breadcrumb_nav_holder {
+  position : relative ;
+  height: 80px;
+  padding-top: 20px;
+  width: 1040px;
+  margin: 0 auto;
+  border-bottom: solid 1px #d2dee7;
+  color: #333 ;
       .page_filters {
-        color: #fff ;
         .brands_dd_icon {
           height: 30px ;
           width: 30px ;
-          /*background: url("/assets/images/cdesk/brand_icon.png") no-repeat 8px 9px  ;*/
           background: url("/assets/images/cdesk/sprites.png") no-repeat -200px -150px ;
         }
-
         .timeline_dd_icon {
           height: 30px ;
           width: 30px ;
-          /*background: url("/assets/images/cdesk/lifetime_filter_icon.png") no-repeat 8px 9px  ;*/
           background: url("/assets/images/cdesk/sprites.png") no-repeat  -108px -224px ;
         }
         .timeline_dd {
           margin-top: 5px ;
         }
-        li.each_filter {
+        .each_filter {
           margin-top: 0px ;
           .header_filter_arrow_dropdown  {
             background: url("/assets/images/cdesk/down_arrow_filter.png") no-repeat no-repeat 65px 8px;
@@ -2749,7 +2753,7 @@ button, i, input[type="submit"] {
           }
           #brandsList {
             width: 280px;
-            left : -60px ;
+            left : 0px ;
             padding: 0 ;
             .brandsList_ul {
               padding: 10px 0 ;
@@ -2764,10 +2768,8 @@ button, i, input[type="submit"] {
             }
             li:hover {
               background: rgba(255,255,255,0.1) ;
-              color: #fff ;
             }
             li.active {
-              /*background: url("/assets/images/cdesk/side_arrow.png") no-repeat 10px 8px  ;*/
               background: url("/assets/images/cdesk/sprites-2.png") no-repeat  -535px 9px ;
             }
             a {
@@ -2788,10 +2790,10 @@ button, i, input[type="submit"] {
               padding-right: 20px;
               padding-top: 4px ;
             }
-            input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ;opacity: 1 ; }
-            input::-moz-placeholder { color: #FFF ;font-family: "Avenir" ; opacity: 1 ; }
-            input:-moz-placeholder { color: #FFF ;  font-family: "Avenir" ;opacity: 1 ;}
-            input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; opacity: 1 ;}
+            input::-webkit-input-placeholder { color: #333 ; font-family: "Avenir" ;opacity: 1 ; }
+            input::-moz-placeholder { color: #333 ;font-family: "Avenir" ; opacity: 1 ; }
+            input:-moz-placeholder { color: #333 ;  font-family: "Avenir" ;opacity: 1 ;}
+            input:-ms-input-placeholder { color: #333 ; font-family: "Avenir" ; opacity: 1 ;}
           }
         }
         .disabled_brand_list {
@@ -2804,7 +2806,7 @@ button, i, input[type="submit"] {
           cursor: default;
           z-index: 1;
         }
-        li.brands_filter.brands_filter_disabled {
+        .brands_filter.brands_filter_disabled {
           .disabled_brand_list {
             display: block;
           }
@@ -2815,7 +2817,7 @@ button, i, input[type="submit"] {
             input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
           }
         }
-        li.brands_filter  {
+        .brands_filter  {
           &:hover {
             .brands_dd_icon {
               background-position : -200px -211px ;
@@ -2827,7 +2829,7 @@ button, i, input[type="submit"] {
             }
           }
         }
-        li.brands_filter.brands_filter_disabled  {
+        .brands_filter.brands_filter_disabled  {
           &:hover {
             .brands_dd_icon {
               background-position : -200px -150px ;
@@ -2839,11 +2841,10 @@ button, i, input[type="submit"] {
             }
           }
         }
-        li.lifetime_filter {
+        .lifetime_filter {
           &:hover {
             .timeline_dd_icon {
               background-position : -108px -286px ;
-              /*background-position : 8px -53px ;*/
             }
             .header_filter_arrow_dropdown {
               background-position: 65px -46px ;
@@ -2862,7 +2863,7 @@ button, i, input[type="submit"] {
             }
           }
           #cdbMenu:hover , #cdbMenu:focus {
-            color: #fff ;
+            color: #333 ;
           }
           .cdbMenu_options {
             li:first-child , li:nth-child(2) {
@@ -2874,18 +2875,17 @@ button, i, input[type="submit"] {
           }
           div.timeline_dd.open {
             #cdbMenu {
-              color: #fff ;
+              color: #333 ;
             }
           }
         }
-        .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
-          color: #fff ;
+        .each_filter a , .each_filter a:hover, .each_filter a:focus {
+          color: #333 ;
           background:  transparent;
           padding: 0;
           cursor: pointer;
         }
         #brandsDropdown {
-          background: #007ac9;
           min-width: 50px ;
           width: 88px ;
           color: #84bce4 ;
@@ -2894,22 +2894,22 @@ button, i, input[type="submit"] {
           font-family: "Avenir" ;
         }
         #brandsDropdown::-webkit-input-placeholder {
-          color: white;
+          color: #333;
           opacity: 1 ;
         }
         #brandsDropdown:-moz-placeholder { 
-          color: white;
+          color: #333;
           opacity: 1 ;
         }
         #brandsDropdown::-moz-placeholder { 
-          color: white;
+          color: #333;
           opacity: 1 ;
         }
         #brandsDropdown:-ms-input-placeholder {
-          color: white;
+          color: #333;
           opacity: 1 ;
         }
-        li.filter_dropdown_open {
+        .filter_dropdown_open {
             .header_filter_arrow_dropdown {
               background-image : url("/assets/images/cdesk/up_arrow_filter.png") ;
             }
@@ -2934,17 +2934,15 @@ button, i, input[type="submit"] {
             }
         }
         #brandsDropdown:focus {
-          color: #fff ; 
+          color: #333 ; 
         }
-        li.lifetime_filter {
+        .lifetime_filter {
           margin-right : 40px;
           
         }
       }
-    }
-  }
+    
 }
-
 /*.quartile_details_graph {
   font-family: "Avenir" ;
   margin-left: -8px ;
@@ -3148,4 +3146,15 @@ button, i, input[type="submit"] {
   padding:5px;
   border-radius:5px;
   display:none;
+}
+div.breadcrumb_campaign_strategy {
+    position: absolute;
+    top: 74px;
+    margin-left: 200px;
+    .breadcrumb_nav_campaign , .breadcrumb_nav_strategy {
+      width: 250px ;
+      .report_heading_dropdown_txt {
+        float: none;
+      }
+    }
 }
