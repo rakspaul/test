@@ -416,13 +416,13 @@
                 .text(function(d) {
                     var text ;
                     if(d.r > 60)
-                        text = d.className.substring(0, 12) + '...' ;
+                        text = (d.className.length > 12 )?d.className.substring(0, 12) + '...':d.className.substring(0, 12);
                     else if(d.r >55)
-                        text = d.className.substring(0, 10) + '...' ;
+                        text = (d.className.length > 10 )?d.className.substring(0, 10) + '...':d.className.substring(0, 10);
                     else if(d.r > 50)
-                        text = d.className.substring(0, 8) + '...' ;
+                        text = (d.className.length > 8 )?d.className.substring(0, 8) + '...':d.className.substring(0, 8);
                      else if (d.r > 40)
-                        text = d.className.substring(0, 6) + '...' ;
+                        text = (d.className.length > 6 )?d.className.substring(0, 6) + '...':d.className.substring(0, 6);
 
                     return text ;
                 });
