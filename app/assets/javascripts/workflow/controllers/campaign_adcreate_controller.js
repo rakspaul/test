@@ -6,22 +6,29 @@ var angObj = angObj || {};
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData= {}
-        $scope.adData.screenType =[]
+        $scope.adData.screenNames =[];
+        $scope.adData.screenIds =[];
+
         $scope.campaignId = $routeParams.campaignId;
 
         $scope.getAdFormatIconName = function(adFormat) {
             var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
-            return adFormatMapper[adFormat];
+            return adFormatMapper[adFormat.toLowerCase()];
         }
 
         $scope.getScreenTypeIconName = function(screenType) {
             var screenTypeMapper = {'desktop' : 'phone', 'mobile' : 'phone', 'tablet' : 'phone'}
-            return screenTypeMapper[screenType];
+            return screenTypeMapper[screenType.toLowerCase()];
         }
 
         $scope.getGoalIconName = function(goal) {
             var goalMapper = {'performance' : 'signal', 'brand' : 'record'}
-            return goalMapper[goal];
+            return goalMapper[goal.toLowerCase()];
+        }
+
+        $scope.getPlatformIconName = function(platform) {
+            var platformMapper = {'collective bidder' : 'logo_C_bidder', 'appnexus' : 'logo_C_appnexus'}
+            return platformMapper[platform.toLowerCase()];
         }
 
         var campaignOverView = {
@@ -31,6 +38,7 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
+                        console.log($scope.workflowData['campaignData']);
                     }
                     else{
                         campaignOverView.errorHandler(result);
@@ -54,6 +62,10 @@ var angObj = angObj || {};
                 $scope.workflowData['unitTypes'] = [{id :1 , name: 'CPM'}, {id: 2, name :'CPC'}, {id:3, name:'CPA'}];
             },
 
+            fetchPlatforms:  function() {
+                $scope.workflowData['platforms'] = [{id :1 , name: 'Collective Bidder'}, {id: 2, name :'Appnexus'}];
+            },
+
 
             errorHandler : function(errData) {
                 console.log(errData);
@@ -69,30 +81,31 @@ var angObj = angObj || {};
         campaignOverView.fetchGoals();
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
+        campaignOverView.fetchPlatforms();
 
 
         $scope.screenTypeSelection = function(screenTypeObj) {
-            //$scope.adData.screenType screenTypeObj.name
-
-            var idx = $scope.adData.screenType.indexOf(screenTypeObj.name);
-
-            // is currently selected
+            var idx = $scope.adData.screenNames.indexOf(screenTypeObj.name);
             if (idx > -1) {
-                $scope.adData.screenType.splice(idx, 1);
+                $scope.adData.screenNames.splice(idx, 1);
             }
           else {
-                $scope.adData.screenType.push(screenTypeObj.name);
+                $scope.adData.screenNames.push(screenTypeObj.name);
+                $scope.adData.screenIds.push(screenTypeObj.id);
             }
-            console.log($scope.adData.screenType);
         }
 
         $scope.handleFlightDate = function(data) {
             var startTime = data.startTime;
-            var endDateElem = $('#endFlight')
+            var endDateElem = $('#endDateInput')
             var changeDate;
-            changeDate =  moment(startTime).format('MM/DD/YYYY')
-            endDateElem.datepicker("setStartDate", changeDate);
-            endDateElem.datepicker("update", changeDate);
+            endDateElem.attr("disabled","disabled").css({'background':'#eee'});
+            if(startTime) {
+                endDateElem.removeAttr("disabled").css({'background':'transparent'});
+                changeDate = moment(startTime).format('MM/DD/YYYY')
+                endDateElem.datepicker("setStartDate", changeDate);
+                endDateElem.datepicker("update", changeDate);
+            }
 
         }
         $(function() {
@@ -103,10 +116,56 @@ var angObj = angObj || {};
                 todayHighlight: true
             });
 
-            var startDateElem = $('#startFlight');
+            var startDateElem = $('#startDateInput');
             var today =  moment().format("MM/DD/YYYY");
             startDateElem.datepicker("setStartDate", today);
             startDateElem.datepicker("update", today);
+
+
+            $("#SaveAd").on('click',function() {
+                var formElem = $("#formAdCreate");
+                var formData = formElem.serializeArray();
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                console.log(formData);
+                var postAdDataObj = {};
+                postAdDataObj.name = formData.adName;
+                postAdDataObj.campaignId = Number($scope.campaignId);
+                postAdDataObj.state =  $scope.workflowData['campaignData'].status;
+
+                if(formData.adFormatId)
+                    postAdDataObj.adFormatId = Number(formData.adFormatId);
+
+                if(formData.goal)
+                    postAdDataObj.goal = formData.goal;
+
+                if(formData.startTime)
+                    postAdDataObj.startTime = formData.startTime;
+
+                if(formData.endTime)
+                    postAdDataObj.endTime = formData.endTime;
+
+                if(formData.unitType && formData.unitCost) {
+                    postAdDataObj.rateType = formData.unitType
+                    postAdDataObj.rateValue = formData.unitCost;
+                }
+
+                if(formData.budgetType && budgetValue1) {
+                    postAdDataObj.budgetType = formData.budgetType
+                    postAdDataObj.budgetValue1 = formData.budgetValue1;
+                }
+
+                if(formData.platformId) {
+                    postAdDataObj.platformId = Number(formData.platformId);
+                }
+
+                console.log(postAdDataObj);
+
+                workflowService.saveAd(postAdDataObj).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.sucessHandler(result);
+                    }
+                });
+            })
 
         })
 
