@@ -7,14 +7,13 @@
                     <div class="col-md-3 campTitleWrap">
 						<!--Abi for this part they just want the letter not the word "DRAFT" instead "D"-->
 						<!--<span class="label label-warning">{{workflowData.campaignData.status}}</span>-->
-						<span class="label label-warning">D</span>
+						<span class="label label-warning">{{workflowData.campaignData.status}}</span>
                         <h1 class="pull-left zeroMargin">
                             {{workflowData.campaignData.name}}
 			            </h1>
                     </div>
                     <div class="col-md-1 borderZero">
                         <label>Goal</label>
-                        {{workflowData.campaignData.goal}}
                         <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true"></div>
                         <span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
                     </div>
@@ -59,66 +58,73 @@
                     <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
                         <li class="active"><a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
                         </li>
-                        <div class="statusLabel disabled">
+                        <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenNames.length ===0">
+                            <span class="col-md-5 zeroPadding">Not Set </span>
+                        </div>
+
+                        <div class="statusLabel" ng-if="adData.adFormat">
                             <span class="col-md-5 zeroPadding">Ad Format </span>
 							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-								<span>Display</span>
+								<span class="glyphicon glyphicon-{{getAdFormatIconName(adData.adFormat)}}" aria-hidden="true"></span>
+								<span>{{adData.adFormat}}</span>
 							</div>
                         </div>
-						<div class="statusLabel disabled">
+						<div class="statusLabel" ng-if="adData.goal">
                             <span class="col-md-5 zeroPadding">Ad Goal </span>
 							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-								<span>Performance</span>
+								<span class="glyphicon glyphicon-{{getGoalIconName(adData.goal)}}" aria-hidden="true"></span>
+								<span>{{adData.goal}}</span>
 							</div>
                         </div>
-						<div class="statusLabel disabled">
+						<div class="statusLabel" ng-if="adData.screenNames && adData.screenNames.length >0">
                             <span class="col-md-5 zeroPadding">Screen Type </span>
 							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-								<span>Desktop</span>
-								<br/>
-								<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-								<span>Mobile</span>
-								<br/>
-								<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-								<span>Tablet</span>
+                                <div ng-repeat="screenName in adData.screenNames">
+                                    <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenName)}}" aria-hidden="true"></span>
+                                    <span>{{screenName}}</span>
+                                </div>
 							</div>
                         </div>
+
                         <li class=""><a href="#setting" role="tab" data-toggle="tab">2. Settings</a>
                         </li>
-                        <div class="statusLabel disabled">
+                        <div class="statusLabel disabled" ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue">
+                            <span class="col-md-5 zeroPadding">Not Set </span>
+                        </div>
+                        <div class="statusLabel" ng-if="adData.startTime">
                             <span class="col-md-5 zeroPadding">Flight Date </span>
 							<div class="col-md-7 zeroPadding">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-								<span>07/31/2015 - 07/31/2015</span>
+								<span>{{adData.startTime}} - {{adData.endTime}}</span>
 							</div>
                         </div>
-						<div class="statusLabel disabled">
+						<div class="statusLabel" ng-if="adData.unitCost  &&  adData.unitType.name">
                             <span class="col-md-5 zeroPadding">Unit Cost </span>
 							<div class="col-md-7 zeroPadding">
 								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								<span>10.00 CPM</span>
+								<span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
 							</div>
                         </div>
-						<div class="statusLabel disabled">
-                            <span class="col-md-5 zeroPadding">Budget </span>
+						<div class="statusLabel" ng-if="(adData.budgetMediaCostType && adData.mediaCostValue) || (adData.budgetImpressionType && adData.ImpressionsValue)">
+                            <span class="col-md-5 zeroPadding">{{adData.budgetMediaCostType ? adData.budgetMediaCostType : adData.budgetImpressionType}} </span>
 							<div class="col-md-7 zeroPadding">
 								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								<span>5,000.00</span>
+								<span>{{(adData.mediaCostValue ? adData.mediaCostValue : adData.ImpressionsValue )  | number }}</span>
 							</div>
                         </div>
                         <li class=""><a href="#buying" role="tab" data-toggle="tab">3. Buying Platform</a>
                         </li>
-                        <div class="statusLabel disabled">
+                        <div class="statusLabel disabled" ng-if="!adData.platform">
+                            <span class="col-md-5 zeroPadding">Not Set </span>
+                        </div>
+                        <div class="statusLabel disabled" ng-if="adData.platform">
                             <span class="col-md-5 zeroPadding">Platform </span>
 							<div class="col-md-7 zeroPadding">
 								<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-								<span>Collective Bidder</span>
+								<span>{{adData.platform}}</span>
 							</div>
                         </div>
-                        <li class=""><a href="#targetting" role="tab" data-toggle="tab">4. Targeting</a>
+                        <li class=""><a href="#" role="tab" >4. Targeting</a>
                         </li>
                         <div class="statusLabel disabled">
                             <span class="col-md-5 zeroPadding">Not Set </span>
@@ -126,7 +132,7 @@
 								
 							</div>
                         </div>
-                        <li class=""><a href="#creative" role="tab" data-toggle="tab">5. Ad Sizes / Creatives</a>
+                        <li class=""><a href="#" role="tab" >5. Ad Sizes / Creatives</a>
                         </li>
                         <div class="statusLabel disabled">
                             <span class="col-md-5 zeroPadding">Not Set </span>
@@ -134,7 +140,7 @@
 								
 							</div>
                         </div>
-                        <li class=""><a href="#inventory" role="tab" data-toggle="tab">6. Inventory Filters</a>
+                        <li class=""><a href="#" role="tab" >6. Inventory Filters</a>
                         </li>
                         <div class="statusLabel disabled">
                             <span class="col-md-5 zeroPadding">Not Set </span>
@@ -150,12 +156,18 @@
             <!--=== Steps ===-->
             <div class="campaignAdCreate">
                 <div class="adMainWrapper">
-                    <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" novalidate>
+                    <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
                         <div class="adCreateConsole">
                             <div class="col-md-12 zeroPadding adStepOne">
                                 <div class="col-md-12 zeroPadding tabContent">
                                     <!-- Tab panes -->
                                     <div class="tab-content">
+                                        <div class="col-md-6 zeroPadding" style="float:right;">
+                                            <button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
+                                            <button type="button" ng-disabled="!adData.adName" id="SaveAd" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
+                                            <button type="button" class="btn btn-link pull-right">Cancel</button>
+                                        </div>
+
 
                                         <!-- Tab1 Setting start-->
                                         <div class="tab-pane fade in active" id="adType">
@@ -163,13 +175,8 @@
 												<h2 class="col-md-12 zeroPadding">Select Ad Type</h2>
 												<a href="" class="col-md-12 zeroPadding">Learn more about Ad Types</a>
 											</div>
-											
-											<div class="col-md-6 zeroPadding">
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-												<button type="button" class="btn btn-link pull-right">Cancel</button>
-											</div>
-											
+
+
 											<div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
@@ -194,11 +201,12 @@
                                                 <div class="form-group col-md-3 btn_border {{adformat.disable ?  'adDisableRadio' : ''}}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
                                                     <div ng-if="adformat.disable" class="adDisableRadioWrap"></div>
                                                     <label>
-                                                        <input type="radio" name="group{{adformat.id}}" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat">
+                                                        <input type="radio" name="adFormatName" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat" ng-click ="adData.adFormatId = adformat.id">
                                                         <span class="glyphicon glyphicon-{{getAdFormatIconName(adformat.name.toLowerCase())}}" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{adformat.name}}</div>
                                                     </label>
                                                 </div>
+                                                <input type="hidden" name="adFormatId" value="{{adData.adFormatId }}">
                                             </div>
 
                                             <!--=== AD Goal ===-->
@@ -208,7 +216,7 @@
 
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="goal in workflowData.goals track by goal.id">
                                                     <label>
-                                                        <input type="radio" name="group{{goal.id}}" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal">
+                                                        <input type="radio" name="goal" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal">
                                                         <span class="glyphicon glyphicon-{{getGoalIconName(goal.name.toLowerCase())}}" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{goal.name}}</div>
                                                     </label>
@@ -219,14 +227,14 @@
                                             <div class="col-md-12 zeroPadding screenChkSelection">
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
-
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
                                                     <label for="screenTypeChkBox{{screenType.id}}">
-                                                        <input type="checkbox" name="selectedScreenType[]" id="screenTypeChkBox{{screenType.id}}" value="{{screenType.name}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType)">
+                                                        <input type="checkbox" name="screenTypeName[]" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenNames}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
                                                         <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{screenType.name}}</div>
                                                     </label>
                                                 </div>
+                                                <input type="hidden" name="screenTypeId" value="{{adData.screenIds}}">
                                             </div>
 											
 											<div class="col-md-12 spacingInput">
@@ -248,12 +256,6 @@
 												<a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_SETTINGS}}</a>
 											</div>
 											
-											<div class="col-md-6 zeroPadding">
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-												<button type="button" class="btn btn-link pull-right">Cancel</button>
-											</div>
-											
 											<div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
@@ -264,13 +266,12 @@
 													<div class="col-md-12 dateWrapper form-group zeroPadding" show-errors='{showSuccess: true}'>
 														<div class="col-md-2 zeroPadding">
 															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.START_DATE }}</label>
-															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
+															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="adData.startTime"  required ng-change="handleFlightDate(adData)"/>
 														</div>
 														<div class="col-md-2 zeroPadding" style="margin-left: 10px;">
 															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.END_DATE }}</label>
-															<input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
+															<input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required/>
 														</div>
-														<label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
 													</div>
 													<span class="col-md-12 input-group-addon">
 														<div class="col-md-2 zeroPadding"><i class="glyphicon glyphicon-th pull-right"></i></div>
@@ -290,8 +291,8 @@
                                                     <input type="text" class="form-control" ng-model="adData.unitCost" numbers-only="numbers-only" name="unitCost">
                                                 </div>
                                                 <div class="form-group col-md-2">
-                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType" class="form-control" id="unitcostType">
-                                                        <option value="">CPM</option>
+                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType" name="unitType" class="form-control" id="unitcostType">
+                                                        <option value="">Select</option>
                                                     </select>
                                                 </div>
 											</div>
@@ -300,13 +301,13 @@
                                                 <div class="col-md-12 adHeader">What is this Budget?</div>
 												<div class="form-group col-md-3 zeroPadding">
 													<span>Impressions</span>
-													<input type="radio" name="budgetType" group="budgetGroup" value="Impressions" class="btn_rad" ng-model="adData.budgetType">
-													<input type="text" name="budgetValue1" group="budgetGroup" ng-model="adData.ImpressionsValue" numbers-only="numbers-only" class="form-control" placeholder="Enter Value" >
+													<input type="radio" name="budgetType" group="budgetGroup" value="Impressions" class="btn_rad" ng-model="adData.budgetImpressionType" ng-click="adData.budgetMediaCostType = null; adData.mediaCostValue = ''">
+													<input type="text" ng-disabled="!adData.budgetImpressionType" name="budgetValue1" group="budgetGroup" ng-model="adData.ImpressionsValue" numbers-only="numbers-only" class="form-control" placeholder="Enter Value" >
                                                 </div>
 												<div class="form-group col-md-3">
 													<span>Media Cost</span>
-													<input type="radio"  name="budgetType"  value="Media Cost" class="btn_rad" ng-model="adData.budgetType">
-													<input type="text" name="budgetValue2" class="form-control" numbers-only="numbers-only" ng-model="adData.mediaCostValue" placeholder="Enter Value">
+													<input type="radio"  name="budgetType"  value="Media Cost" class="btn_rad" ng-model="adData.budgetMediaCostType" ng-click="adData.budgetImpressionType = null; adData.ImpressionsValue = ''">
+													<input type="text" ng-disabled="!adData.budgetMediaCostType" name="budgetValue1" class="form-control" numbers-only="numbers-only" ng-model="adData.mediaCostValue" placeholder="Enter Value">
 												</div>
 											</div>
 											
@@ -335,32 +336,20 @@
 												<a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
 											</div>
 											
-											<div class="col-md-6 zeroPadding">
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-												<button type="button" class="btn btn-link pull-right">Cancel</button>
-											</div>
-											
 											<div class="col-md-12 spacingInput">
                                                 <!-- SPACING -->
                                             </div>
                                             <div class="buyingPlatformHolder">
                                                 <div class="col-md-12 zeroPadding">
-                                                    <div class="col-md-2 platformHolder">
-														<span>{{ textConstants.WF_COLLECTIVE_BIDDER }}</span><br/>
-														<img src="/assets/images/cdesk/logo_C_bidder.png" /><br/>
-														<input type="radio" name="platform" value="bidder" class="btn_rad" ng-model="adData.platform">
+                                                    <div class="col-md-2 platformHolder" ng-repeat="platform in workflowData.platforms">
+														<span>{{platform.name}}</span><br/>
+														<img src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png" /><br/>
+														<input type="radio" name="platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click ="adData.platformId = platform.id">
                                                     </div>
-                                                    <div class="col-md-1"></div>
-													<div class="col-md-2 platformHolder">
-                                                        <span>{{ textConstants.WF_APPNEXUS }}</span><br/>
-														<img src="/assets/images/cdesk/logo_C_appnexus.png" /><br/>
-														<input type="radio" name="platform" value="nexus" class="btn_rad" ng-model="adData.platform">
-                                                    </div>
-													<div class="col-md-1"></div>
-													<div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
-														<span>{{ textConstants.WF_MORE_PLATFORM }}</span>
-                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="platformId" value="{{adData.platformId }}">
+                                                <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 15px">
+                                                    <span>{{ textConstants.WF_MORE_PLATFORM }}</span>
                                                 </div>
 
                                                 <div class="col-md-12 spacingInput">
@@ -579,12 +568,6 @@
 												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
 											</div>
 											
-											<div class="col-md-6 zeroPadding">
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-												<button type="button" class="btn btn-link pull-right">Cancel</button>
-											</div>
-											
 											<div class="col-md-12 spacingInput">
 													<!-- SPACING -->
 											</div>
@@ -601,12 +584,6 @@
 											<div class="col-md-6 zeroPadding">
 												<h2 class="col-md-12 zeroPadding">Creatives</h2>
 												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
-											</div>
-											
-											<div class="col-md-6 zeroPadding">
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-												<button type="button" class="btn btn-link pull-right">Cancel</button>
 											</div>
 											
 											<div class="col-md-12 spacingInput">
@@ -627,13 +604,7 @@
 												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
 											</div>
 											
-											<div class="col-md-6 zeroPadding">
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-												<button type="button" ng-disabled="!adData.adName" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-												<button type="button" class="btn btn-link pull-right">Cancel</button>
-											</div>
-											
-											<div class="col-md-12 spacingInput">
+								    	<div class="col-md-12 spacingInput">
 													<!-- SPACING -->
 											</div>
 											

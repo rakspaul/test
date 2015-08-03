@@ -30,7 +30,12 @@
             getAdsForCampaign : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ads';
                 return dataService.fetch(url);
+            },
+
+            saveAd : function(data) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads', data, {'Content-Type': 'application/json'})
             }
         };
+
     });
 }());
