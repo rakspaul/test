@@ -56,105 +56,119 @@
                 <div class="pull-left campaign_name_holder">
                     <span class="campaign_name">Create Ad</span>
                     <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
-                        <li class="active"><a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
-                        </li>
-                        <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenNames.length ===0">
-                            <span class="col-md-5 zeroPadding">Not Set </span>
-                        </div>
-
-                        <div class="statusLabel" ng-if="adData.adFormat">
-                            <span class="col-md-5 zeroPadding">Ad Format </span>
-							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-{{getAdFormatIconName(adData.adFormat)}}" aria-hidden="true"></span>
-								<span>{{adData.adFormat}}</span>
-							</div>
-                        </div>
-						<div class="statusLabel" ng-if="adData.goal">
-                            <span class="col-md-5 zeroPadding">Ad Goal </span>
-							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-{{getGoalIconName(adData.goal)}}" aria-hidden="true"></span>
-								<span>{{adData.goal}}</span>
-							</div>
-                        </div>
-						<div class="statusLabel" ng-if="adData.screenNames && adData.screenNames.length >0">
-                            <span class="col-md-5 zeroPadding">Screen Type </span>
-							<div class="col-md-7 zeroPadding">
-                                <div ng-repeat="screenName in adData.screenNames">
-                                    <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenName)}}" aria-hidden="true"></span>
-                                    <span>{{screenName}}</span>
+                        <li class="active">
+                            <a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
+                            <div>
+                                <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenNames.length ===0">
+                                    <span class="col-md-5 zeroPadding">Not Set </span>
                                 </div>
-							</div>
-                        </div>
 
-                        <li class=""><a href="#setting" role="tab" data-toggle="tab">2. Settings</a>
+                                <div class="statusLabel" ng-if="adData.adFormat">
+                                    <span class="col-md-5 zeroPadding">Ad Format </span>
+        							<div class="col-md-7 zeroPadding">
+        								<span class="glyphicon glyphicon-{{getAdFormatIconName(adData.adFormat)}}" aria-hidden="true"></span>
+        								<span>{{adData.adFormat}}</span>
+        							</div>
+                                </div>
+        						<div class="statusLabel" ng-if="adData.goal">
+                                    <span class="col-md-5 zeroPadding">Ad Goal </span>
+        							<div class="col-md-7 zeroPadding">
+        								<span class="glyphicon glyphicon-{{getGoalIconName(adData.goal)}}" aria-hidden="true"></span>
+        								<span>{{adData.goal}}</span>
+        							</div>
+                                </div>
+        						<div class="statusLabel" ng-if="adData.screenNames && adData.screenNames.length >0">
+                                    <span class="col-md-5 zeroPadding">Screen Type </span>
+        							<div class="col-md-7 zeroPadding">
+                                        <div ng-repeat="screenName in adData.screenNames">
+                                            <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenName)}}" aria-hidden="true"></span>
+                                            <span>{{screenName}}</span>
+                                        </div>
+        							</div>
+                                </div>
+                            </div>
                         </li>
-                        <div class="statusLabel disabled" ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue">
-                            <span class="col-md-5 zeroPadding">Not Set </span>
-                        </div>
-                        <div class="statusLabel" ng-if="adData.startTime">
-                            <span class="col-md-5 zeroPadding">Flight Date </span>
-							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-								<span>{{adData.startTime}} - {{adData.endTime}}</span>
-							</div>
-                        </div>
-						<div class="statusLabel" ng-if="adData.unitCost  &&  adData.unitType.name">
-                            <span class="col-md-5 zeroPadding">Unit Cost </span>
-							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								<span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
-							</div>
-                        </div>
-						<div class="statusLabel" ng-if="(adData.budgetMediaCostType && adData.mediaCostValue) || (adData.budgetImpressionType && adData.ImpressionsValue)">
-                            <span class="col-md-5 zeroPadding">{{adData.budgetMediaCostType ? adData.budgetMediaCostType : adData.budgetImpressionType}} </span>
-							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								<span>{{(adData.mediaCostValue ? adData.mediaCostValue : adData.ImpressionsValue )  | number }}</span>
-							</div>
-                        </div>
-                        <li class=""><a href="#buying" role="tab" data-toggle="tab">3. Buying Platform</a>
+                        <li>
+                            <a href="#setting" role="tab" data-toggle="tab">2. Settings</a>
+                            <div>
+                                <div class="statusLabel disabled" ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue">
+                                    <span class="col-md-5 zeroPadding">Not Set </span>
+                                </div>
+                                <div class="statusLabel" ng-if="adData.startTime">
+                                    <span class="col-md-5 zeroPadding">Flight Date </span>
+        							<div class="col-md-7 zeroPadding">
+        								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        								<span>{{adData.startTime}} - {{adData.endTime}}</span>
+        							</div>
+                                </div>
+        						<div class="statusLabel" ng-if="adData.unitCost  &&  adData.unitType.name">
+                                    <span class="col-md-5 zeroPadding">Unit Cost </span>
+        							<div class="col-md-7 zeroPadding">
+        								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+        								<span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
+        							</div>
+                                </div>
+        						<div class="statusLabel" ng-if="(adData.budgetMediaCostType && adData.mediaCostValue) || (adData.budgetImpressionType && adData.ImpressionsValue)">
+                                    <span class="col-md-5 zeroPadding">{{adData.budgetMediaCostType ? adData.budgetMediaCostType : adData.budgetImpressionType}} </span>
+        							<div class="col-md-7 zeroPadding">
+        								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+        								<span>{{(adData.mediaCostValue ? adData.mediaCostValue : adData.ImpressionsValue )  | number }}</span>
+        							</div>
+                                </div>
+                            </div>
                         </li>
-                        <div class="statusLabel disabled" ng-if="!adData.platform">
-                            <span class="col-md-5 zeroPadding">Not Set </span>
-                        </div>
-                        <div class="statusLabel disabled" ng-if="adData.platform">
-                            <span class="col-md-5 zeroPadding">Platform </span>
-							<div class="col-md-7 zeroPadding">
-								<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-								<span>{{adData.platform}}</span>
-							</div>
-                        </div>
-                        <li class=""><a href="#" role="tab" >4. Targeting</a>
+                        <li>
+                            <a href="#buying" role="tab" data-toggle="tab">3. Buying Platform</a>
+                            <div>
+                                <div class="statusLabel disabled" ng-if="!adData.platform">
+                                    <span class="col-md-5 zeroPadding">Not Set </span>
+                                </div>
+                                <div class="statusLabel disabled" ng-if="adData.platform">
+                                    <span class="col-md-5 zeroPadding">Platform </span>
+        							<div class="col-md-7 zeroPadding">
+        								<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+        								<span>{{adData.platform}}</span>
+        							</div>
+                                </div>
+                            </div>
                         </li>
-                        <div class="statusLabel disabled">
-                            <span class="col-md-5 zeroPadding">Not Set </span>
-							<div class="col-md-7 zeroPadding">
-								
-							</div>
-                        </div>
-                        <li class=""><a href="#" role="tab" >5. Ad Sizes / Creatives</a>
+                        <li>
+                            <a href="javascript:void(0);" role="tab" >4. Targeting</a>
+                        
+                            <div class="statusLabel disabled">
+                                <span class="col-md-5 zeroPadding">Not Set </span>
+    							<div class="col-md-7 zeroPadding">
+    								
+    							</div>
+                            </div>
                         </li>
-                        <div class="statusLabel disabled">
-                            <span class="col-md-5 zeroPadding">Not Set </span>
-							<div class="col-md-7 zeroPadding">
-								
-							</div>
-                        </div>
-                        <li class=""><a href="#" role="tab" >6. Inventory Filters</a>
+                        <li>
+                            <a href="javascript:void(0);" role="tab" >5. Ad Sizes / Creatives</a>
+                        
+                            <div class="statusLabel disabled">
+                                <span class="col-md-5 zeroPadding">Not Set </span>
+    							<div class="col-md-7 zeroPadding">
+    								
+    							</div>
+                            </div>
                         </li>
-                        <div class="statusLabel disabled">
-                            <span class="col-md-5 zeroPadding">Not Set </span>
-							<div class="col-md-7 zeroPadding">
-								
-							</div>
-                        </div>
+                        <li>
+                            <a href="javascript:void(0);" role="tab" >6. Inventory Filters</a>
+                        
+                            <div class="statusLabel disabled">
+                                <span class="col-md-5 zeroPadding">Not Set </span>
+    							<div class="col-md-7 zeroPadding">
+    								
+    							</div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
             <!-- Header Ends -->
 
             <!--=== Steps ===-->
-            <div class="campaignAdCreate">
+            <div class="campaignAdCreate campaignAdCreatePage">
                 <div class="adMainWrapper">
                     <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
                         <div class="adCreateConsole">
@@ -162,39 +176,32 @@
                                 <div class="col-md-12 zeroPadding tabContent">
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div class="col-md-6 zeroPadding" style="float:right;">
+                                        <div class="common-btns" >
                                             <button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
-                                            <button type="button" ng-disabled="!adData.adName" id="SaveAd" class="btn btn-primary pull-right" style="margin: 0 5px;">Save</button>
-                                            <button type="button" class="btn btn-link pull-right">Cancel</button>
+                                            <button type="button" ng-disabled="!adData.adName" id="SaveAd" class="btn btn-primary pull-right">Save</button>
+                                            <a href="javascript:void(0);" class="pull-right cancel-btn">Cancel</a>
                                         </div>
 
 
                                         <!-- Tab1 Setting start-->
                                         <div class="tab-pane fade in active" id="adType">
-											<div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding">Select Ad Type</h2>
-												<a href="" class="col-md-12 zeroPadding">Learn more about Ad Types</a>
-											</div>
-
-
-											<div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
+                                            <div class="row">
+    											<div class="col-md-6 zeroPadding">
+    												<h2 class="col-md-12 zeroPadding marginBottom">Select Ad Type</h2>
+    												<a href="javascript:void(0);" >Learn more about Ad Types</a>
+    											</div>
                                             </div>
 
                                             <!--=== AD Name ===-->
-                                            <div class="col-md-12 zeroPadding adNameBox">
+                                            <div class="row zeroPadding adNameBox">
                                                 <div class="col-md-12 adHeader">What is your Ad name?</div>
                                                 <div class="col-md-12 zeroPadding">
                                                     <input type="text" class="form-control" name="adName" placeholder="Enter name of Ad" remove-special-character ='remove-special-character' ng-model="adData.adName"/>
                                                 </div>
                                             </div>
 
-											<div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-
                                             <!--=== AD Format ===-->
-                                            <div class="col-md-12 zeroPadding adFormatChkBox">
+                                            <div class="row zeroPadding adFormatChkBox">
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_FORMAT }}</div>
 
@@ -210,7 +217,7 @@
                                             </div>
 
                                             <!--=== AD Goal ===-->
-                                            <div class="col-md-12 zeroPadding adGoalChkBox">
+                                            <div class="row zeroPadding adGoalChkBox">
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
 
@@ -224,7 +231,7 @@
                                             </div>
 
                                             <!--=== Screen Type ===-->
-                                            <div class="col-md-12 zeroPadding screenChkSelection">
+                                            <div class="row zeroPadding screenChkSelection">
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
@@ -236,31 +243,26 @@
                                                 </div>
                                                 <input type="hidden" name="screenTypeId" value="{{adData.screenIds}}">
                                             </div>
-											
-											<div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
 
                                             <!--=== Next Step Panel ===-->
-                                            <a href="#setting" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
-												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
-                                            </a>
+                                            <div class="row">
+                                                <a href="#setting" data-toggle="tab" class="nextWrapper">
+    												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                                </a>
+                                            </div>
 											
                                         </div>
                                         <!-- Tab1 Setting end-->
 
                                         <!-- Tab2 Setting start-->
                                         <div class="tab-pane fade" id="setting">
-                                            <div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding">Settings</h2>
-												<a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_SETTINGS}}</a>
+                                            <div class="row">
+                                                <div class="col-md-6 zeroPadding">
+    												<h2 class="col-md-12 zeroPadding marginBottom">Settings</h2>
+    												<a href="javascript:void(0);" >{{ textConstants.WF_HEADER_SETTINGS}}</a>
+    											</div>
 											</div>
-											
-											<div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
-											
-											<div class="col-md-12 zeroPadding">
+											<div class="row zeroPadding">
                                                 <div class="col-md-12 adHeader">What are the flight dates?</div>
 												 <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
 													<div class="col-md-12 dateWrapper form-group zeroPadding" show-errors='{showSuccess: true}'>
@@ -279,12 +281,8 @@
 													</span>
 												</div>
                                             </div>
-
-											<div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
 											
-											<div class="col-md-12 zeroPadding unitCost">
+											<div class="row zeroPadding unitCost">
                                                 <div class="col-md-12 adHeader">What is this Unit Cost?</div>
 												<div class="form-group col-md-3 zeroPadding">
 													<span>$</span>
@@ -297,7 +295,7 @@
                                                 </div>
 											</div>
 											
-											<div class="col-md-12 zeroPadding budgetWrap">
+											<div class="row zeroPadding budgetWrap">
                                                 <div class="col-md-12 adHeader">What is this Budget?</div>
 												<div class="form-group col-md-3 zeroPadding">
 													<span>Impressions</span>
@@ -311,9 +309,9 @@
 												</div>
 											</div>
 											
-                                            <div class="col-md-12 zeroPadding freqWrap">
+                                            <div class="row zeroPadding freqWrap">
                                                 <div class="col-md-12 adHeader">Set Frequency?</div>
-												<a href="" class="col-md-12 zeroPadding">Learn more about setting up delivery and frequency</a>
+												<a href="javascript:void(0);" class="col-md-12 zeroPadding">Learn more about setting up delivery and frequency</a>
 												<div class="form-group col-md-6 zeroPadding">
                                                     <label for="frequencyCap" class="col-md-12 zeroPadding">
                                                         <input type="checkbox" name="" id="frequencyCap" value="" class="pull-left" ng-click="">
@@ -323,22 +321,21 @@
 											</div>
 											
                                             <!--=== Next Step Panel ===-->
-											<a href="#buying" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
-												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
-                                            </a>
+                                            <div class="row">
+    											<a href="#buying" data-toggle="tab" class="nextWrapper">
+    												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+                                                </a>
+                                            </div>
                                         </div>
                                         <!-- Tab1 Setting Ends -->
 
                                         <!-- Tabs Buying Platform -->
                                         <div class="tab-pane fade" id="buying">
 											<div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding">Buying Platform</h2>
-												<a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
+												<h2 class="col-md-12 zeroPadding marginBottom">Buying Platform</h2>
+												<a href="javascript:void(0);" >{{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
 											</div>
-											
-											<div class="col-md-12 spacingInput">
-                                                <!-- SPACING -->
-                                            </div>
+
                                             <div class="buyingPlatformHolder">
                                                 <div class="col-md-12 zeroPadding">
                                                     <div class="col-md-2 platformHolder" ng-repeat="platform in workflowData.platforms">
@@ -348,14 +345,11 @@
                                                     </div>
                                                 </div>
                                                 <input type="hidden" name="platformId" value="{{adData.platformId }}">
-                                                <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 15px">
+                                                <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0px">
                                                     <span>{{ textConstants.WF_MORE_PLATFORM }}</span>
                                                 </div>
 
-                                                <div class="col-md-12 spacingInput">
-                                                    <!-- SPACING -->
-                                                </div>
-
+                                               
                                                 <!--<div class="col-md-12 zeroPadding">
                                                     <div class="col-md-5 platformHolder">
                                                         <input type="radio" name="group5" value="nexus" class="btn_rad clickNx">
@@ -375,16 +369,16 @@
                                             <div class="platformWrap collectMediaScreenHolder">
                                                 <div class="col-md-12 platformHeading">
                                                     <div class="col-md-8 zeroPadding">
-                                                        <a href="" class="editPlatform"> Buying Platform</a> > {{ textConstants.WF_COLLECTIVE_MEDIA }}<br/>
+                                                        <a href="javascript:void(0);" class="editPlatform"> Buying Platform</a> > {{ textConstants.WF_COLLECTIVE_MEDIA }}<br/>
 														<img src="/assets/images/cdesk/logo_C.png" alt="" class="pull-left"/>
                                                     </div>
 													<div class="col-md-4 zeroPadding text-right">
-                                                        <a class="">Learn more about defining your strategy</a>
+                                                        <a href="javascript:void(0);">Learn more about defining your strategy</a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <span class="">{{ textConstants.WF_DELIVERY_PACING }}</span>
-                                                    <a class="col-md-12 zeroPadding" href="">{{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}</a>
+                                                    <a href="javascript:void(0);">{{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}</a>
                                                 </div>
 
                                                 <div class="col-md-12">
@@ -438,24 +432,18 @@
                                             <div class="platformWrap collectBidderScreenHolder">
                                                 <div class="col-md-12 platformHeading zeroPadding">
                                                     <div class="col-md-8 zeroPadding">
-                                                        <a href="" class="editPlatform"> Buying Platform</a> > Bidding Strategy<br/>
-														<div class="col-md-12 spacingInput">
-															<!-- SPACING -->
-														</div>
+                                                        <a href="javascript:void(0);" class="editPlatform"> Buying Platform</a> > Bidding Strategy<br/>
+														
 														<img src="/assets/images/cdesk/logo_C_bidder.png" class="pull-left"/>
 														<span class="col-md-6">Collective Bidder</span>
-														<div class="col-md-12 spacingInput">
-															<!-- SPACING -->
-														</div>
+														
                                                     </div>
 													<div class="col-md-4 zeroPadding text-right">
-                                                        <a class="">Learn more about defining your strategy</a>
+                                                        <a href="javascript:void(0);">Learn more about defining your strategy</a>
                                                     </div>
                                                 </div>
 
-												<div class="col-md-12 spacingInput">
-													<!-- SPACING -->
-												</div>
+												
 
                                                 <div class="col-md-12 zeroPadding">
                                                     <div class="col-md-2 zeroPadding">Ad Type</div>
@@ -468,7 +456,7 @@
 															<option>5</option>
 														</select>
                                                     </div>
-                                                    <a class="showPreset col-md-4 btn btn-link">Show Preset</a>
+                                                    <a href="javascript:void(0);" class="showPreset col-md-4 btn btn-link">Show Preset</a>
                                                 </div>
 
                                                 <div class="col-md-12 presetGreyBox">
@@ -514,7 +502,7 @@
 														<span class="glyphicon glyphicon-info-sign pull-left" aria-hidden="true"></span>
 													</div>
 													<div class="col-md-12">
-														<a href="" class="pull-right text-right">Reset</a>
+														<a href="javascript:void(0);" class="pull-right text-right">Reset</a>
 													</div>
 													</div>
 												</div>
@@ -540,22 +528,19 @@
                                             <div class="platformWrap collectNexusScreenHolder">
                                                 <div class="col-md-12 platformHeading">
                                                     <div class="col-md-8 zeroPadding">
-                                                        <a href="" class="editPlatform"> Buying Platform</a> > App Nexus <br/>
+                                                        <a href="javascript:void(0);" class="editPlatform"> Buying Platform</a> > App Nexus <br/>
 														<img src="/assets/images/cdesk/logo_C_appnexus.png" alt="" class="pull-left" />
                                                     </div>
 													<div class="col-md-4 zeroPadding text-right">
-                                                        <a class="">Learn more about defining your strategy</a>
+                                                        <a href="javascript:void(0);">Learn more about defining your strategy</a>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-12 spacingInput">
-													<!-- SPACING -->
-												</div>
                                             </div>
 											<!-- App Nexus Holder Ends -->
 					
 											<!--=== Next Step Panel ===-->
-											<a href="#targetting" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#targetting" data-toggle="tab" class="nextWrapper">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
                                         </div>
@@ -564,16 +549,13 @@
                                         <!-- Tabs Targeting -->
                                         <div class="tab-pane fade" id="targetting">
 											<div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding">Targeting</h2>
-												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
+												<h2 class="col-md-12 zeroPadding marginBottom">Targeting</h2>
+												<a href="javascript:void(0);">Help Link...</a>
 											</div>
 											
-											<div class="col-md-12 spacingInput">
-													<!-- SPACING -->
-											</div>
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#creative" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#creative" data-toggle="tab" class="nextWrapper">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>
@@ -582,16 +564,13 @@
                                         <!-- Tabs Creative -->
                                         <div class="tab-pane fade" id="creative">
 											<div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding">Creatives</h2>
-												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
+												<h2 class="col-md-12 zeroPadding marginBottom">Creatives</h2>
+												<a href="javascript:void(0);" >Help Link...</a>
 											</div>
 											
-											<div class="col-md-12 spacingInput">
-													<!-- SPACING -->
-											</div>
 											
 											<!--=== Next Step Panel ===-->
-											<a href="#inventory" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#inventory" data-toggle="tab" class="nextWrapper">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>
@@ -600,16 +579,13 @@
                                         <!-- Tabs Inventory Filters -->
                                         <div class="tab-pane fade" id="inventory">
 											<div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding">Inventory Filters</h2>
-												<a href="" class="col-md-12 zeroPadding">Help Link...</a>
+												<h2 class="col-md-12 zeroPadding marginBottom">Inventory Filters</h2>
+												<a href="javascript:void(0);" >Help Link...</a>
 											</div>
 											
-								    	<div class="col-md-12 spacingInput">
-													<!-- SPACING -->
-											</div>
-											
+								    	
 											<!--=== Next Step Panel ===-->
-											<a href="#adType" data-toggle="tab" class="nextWrapper col-md-12 zeroPadding">
+											<a href="#adType" data-toggle="tab" class="nextWrapper">
 												<img src="/assets/images/cdesk/arrow_down.png" alt=""/>
                                             </a>
 										</div>

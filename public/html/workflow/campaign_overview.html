@@ -21,7 +21,7 @@
                 </div>
                 
                 <div class="col-md-12 zeroPadding campSettingOverView">
-                    <div class="col-md-2 borderZero zeroPadding">
+                    <div class="col-md-1 borderZero zeroPadding">
                         <label>Goal</label>
                         <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true"></div>
 			<span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
@@ -30,7 +30,7 @@
                         <label>Total Budget</label>
                         <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
                     </div>
-                    <div class="col-md-2 borderZero">
+                    <div class="col-md-3 borderZero">
                         <label>Flight Dates</label>
                         <span ng-if="workflowData.campaignData.startTime">{{utc(workflowData.campaignData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'MMM dd, yyyy'}}  <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
                     </div>
