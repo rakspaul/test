@@ -4,6 +4,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
         $scope.textConstants = constants;
         $scope.workflowData = {};
+        $scope.disablePushBtn = true;
         var campaignOverView = {
 
             modifyCampaignData :  function() {

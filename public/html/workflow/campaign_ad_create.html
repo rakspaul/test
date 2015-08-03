@@ -59,7 +59,7 @@
                         <li class="active">
                             <a href="#adType" role="tab" data-toggle="tab">1. Select Ad Type</a>
                             <div>
-                                <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenNames.length ===0">
+                                <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
                                     <span class="col-md-5 zeroPadding">Not Set </span>
                                 </div>
 
@@ -77,12 +77,12 @@
         								<span>{{adData.goal}}</span>
         							</div>
                                 </div>
-        						<div class="statusLabel" ng-if="adData.screenNames && adData.screenNames.length >0">
+        						<div class="statusLabel" ng-if="adData.screenTypes.length >0">
                                     <span class="col-md-5 zeroPadding">Screen Type </span>
         							<div class="col-md-7 zeroPadding">
-                                        <div ng-repeat="screenName in adData.screenNames">
-                                            <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenName)}}" aria-hidden="true"></span>
-                                            <span>{{screenName}}</span>
+                                        <div ng-repeat="screenType in adData.screenTypes">
+                                            <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name)}}" aria-hidden="true"></span>
+                                            <span>{{screenType.name}}</span>
                                         </div>
         							</div>
                                 </div>
@@ -177,7 +177,6 @@
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div class="common-btns" >
-                                            <button type="button" ng-disabled="!adData.adName" class="btn btn-default pull-right">Push this Ad</button>
                                             <button type="button" ng-disabled="!adData.adName" id="SaveAd" class="btn btn-primary pull-right">Save</button>
                                             <a href="javascript:void(0);" class="pull-right cancel-btn">Cancel</a>
                                         </div>
@@ -236,7 +235,7 @@
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
                                                     <label for="screenTypeChkBox{{screenType.id}}">
-                                                        <input type="checkbox" name="screenTypeName[]" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenNames}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
+                                                        <input type="checkbox" name="screenTypeId" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
                                                         <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{screenType.name}}</div>
                                                     </label>
@@ -340,7 +339,7 @@
                                                 <div class="col-md-12 zeroPadding">
                                                     <div class="col-md-2 platformHolder" ng-repeat="platform in workflowData.platforms">
 														<span>{{platform.name}}</span><br/>
-														<img src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png" /><br/>
+														<img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png" /><br/>
 														<input type="radio" name="platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click ="adData.platformId = platform.id">
                                                     </div>
                                                 </div>

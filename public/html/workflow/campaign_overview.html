@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
-                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount || 0}}</span>
+                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.noOfAds || 0}}</span>
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="col-md-2 borderZero">
-                        <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn"  >PUSH CAMPAIGN</button>
+                        <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn"  ng-disabled="disablePushBtn">PUSH CAMPAIGN</button>
                     </div>
                 </div>
             </div>
