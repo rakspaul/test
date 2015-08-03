@@ -4,13 +4,12 @@ var angObj = angObj || {};
     angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
         $scope.textConstants = constants;
         $scope.workflowData = {};
-console.log("heloo");
         var campaignOverView = {
 
             modifyCampaignData :  function() {
                 var campaignData = $scope.workflowData['campaignData'];
                 campaignData.numOfDays = moment(campaignData.endTime).diff(moment(campaignData.startTime), 'days');
-                console.log($scope.workflowData);
+                $scope.disablePushBtn = campaignData.status.toLowerCase() !== 'draft' || campaignData.status.toLowerCase() !== 'new'
             },
 
             getCampaignData :  function(campaignId) {
@@ -32,12 +31,17 @@ console.log("heloo");
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignAdsData'] = responseData;
-                        console.log($scope.workflowData);
                     }
                     else{
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
+            },
+
+            pushSavedCampaign : function(campaignId) {
+                workflowService.pushCampaign(campaignId).then(function (result) {
+                    console.log(result);
+                });
             },
 
             errorHandler : function(errData) {
@@ -49,22 +53,20 @@ console.log("heloo");
             return Date.parse(date)
         }
 
+
+        $scope.getAdFormatIconName = function(adFormat) {
+            var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
+            return adFormatMapper[adFormat.toLowerCase()];
+        }
+
         campaignOverView.getCampaignData($routeParams.campaignId);
         campaignOverView.getAdsForCampaign($routeParams.campaignId);
 
         $(function() {
-            $('.btn-toggle').click(function() {
-                $(this).find('.btn').toggleClass('active');
+            $("#pushCampaignBtn").on('click', function() {
+                campaignOverView.pushSavedCampaign($routeParams.campaignId);
+            })
 
-                if ($(this).find('.btn-primary').size()>0) {
-                    $(this).find('.btn').toggleClass('btn-primary');
-                }
-                if ($(this).find('.btn-success').size()>0) {
-                    $(this).find('.btn').toggleClass('btn-success');
-                }
-                $(this).find('.btn').toggleClass('btn-default');
-
-            });
         })
 
 
