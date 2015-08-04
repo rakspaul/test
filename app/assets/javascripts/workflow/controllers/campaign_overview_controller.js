@@ -10,7 +10,7 @@ var angObj = angObj || {};
             modifyCampaignData :  function() {
                 var campaignData = $scope.workflowData['campaignData'];
                 campaignData.numOfDays = moment(campaignData.endTime).diff(moment(campaignData.startTime), 'days');
-                $scope.disablePushBtn = campaignData.status.toLowerCase() !== 'draft' || campaignData.status.toLowerCase() !== 'new'
+                $scope.disablePushBtn = !(_.indexOf(['draft', 'new'], campaignData.status.toLowerCase() >0))
             },
 
             getCampaignData :  function(campaignId) {

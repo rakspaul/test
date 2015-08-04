@@ -101,7 +101,7 @@ var angObj = angObj || {};
         $scope.handleFlightDate = function(data) {
             var startTime = data.startTime;
             var endDateElem = $('#endDateInput');
-            var campaignEndTime = $scope.workflowData['campaignData'].endTime;
+            var campaignEndTime =  moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
             var changeDate;
             endDateElem.attr("disabled","disabled").css({'background':'#eee'});
             if(startTime) {

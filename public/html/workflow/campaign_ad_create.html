@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
-                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.noOfAds}}</span>
+                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount}}</span>
                         </div>
                         <div class="col-md-3 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
@@ -178,7 +178,7 @@
                                     <div class="tab-content">
                                         <div class="common-btns" >
                                             <button type="button" ng-disabled="!adData.adName" id="SaveAd" class="btn btn-primary pull-right">Save</button>
-                                            <a href="javascript:void(0);" class="pull-right cancel-btn">Cancel</a>
+                                            <a href="/campaign/{{workflowData.campaignData.id}}/overview" class="pull-right cancel-btn">Cancel</a>
                                         </div>
 
 
@@ -264,7 +264,7 @@
 											<div class="row zeroPadding">
                                                 <div class="col-md-12 adHeader">What are the flight dates?</div>
 												 <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-													<div class="col-md-12 dateWrapper form-group zeroPadding" show-errors='{showSuccess: true}'>
+													<div class="col-md-12 dateWrapper form-group zeroPadding">
 														<div class="col-md-2 zeroPadding">
 															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.START_DATE }}</label>
 															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="adData.startTime"  required ng-change="handleFlightDate(adData)"/>
