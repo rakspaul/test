@@ -235,12 +235,11 @@
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
                                                     <label for="screenTypeChkBox{{screenType.id}}">
-                                                        <input type="checkbox" name="screenTypeId" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
+                                                        <input type="checkbox" name="screens" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
                                                         <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>
                                                         <div class="btnLabel">{{screenType.name}}</div>
                                                     </label>
                                                 </div>
-                                                <input type="hidden" name="screenTypeId" value="{{adData.screenIds}}">
                                             </div>
 
                                             <!--=== Next Step Panel ===-->
@@ -288,9 +287,10 @@
                                                     <input type="text" class="form-control" ng-model="adData.unitCost" numbers-only="numbers-only" name="unitCost">
                                                 </div>
                                                 <div class="form-group col-md-2">
-                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType" name="unitType" class="form-control" id="unitcostType">
+                                                    <select ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" ng-model="adData.unitType"  class="form-control" id="unitcostType">
                                                         <option value="">Select</option>
                                                     </select>
+                                                    <input type="hidden" name="unitType" value="{{adData.unitType.name}}" >
                                                 </div>
 											</div>
 											

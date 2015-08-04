@@ -134,26 +134,26 @@ var angObj = angObj || {};
                 if(formData.adFormatId)
                     postAdDataObj.adFormatId = Number(formData.adFormatId);
 
-                if(formData.screenTypeId)
-                    postAdDataObj.screenTypeId = formData.screenTypeId;
+                if(formData.screens)
+                    postAdDataObj.screens = JSON.parse(formData.screens);
 
                 if(formData.goal)
                     postAdDataObj.goal = formData.goal;
 
                 if(formData.startTime)
-                    postAdDataObj.startTime = formData.startTime;
+                    postAdDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
 
                 if(formData.endTime)
-                    postAdDataObj.endTime = formData.endTime;
+                    postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
 
                 if(formData.unitType && formData.unitCost) {
                     postAdDataObj.rateType = formData.unitType
                     postAdDataObj.rateValue = formData.unitCost;
                 }
 
-                if(formData.budgetType && budgetValue1) {
+                if(formData.budgetType && formData.budgetValue1) {
                     postAdDataObj.budgetType = formData.budgetType
-                    postAdDataObj.budgetValue1 = formData.budgetValue1;
+                    postAdDataObj.budgetValue = Number(formData.budgetValue1);
                 }
 
                 if(formData.platformId) {
