@@ -242,6 +242,7 @@
 
     this.COST = "Cost";
     this.BASED_ONLY_ON_MEASURABLE_IMPS ="Based only on Measurable Imps";
+    this.BASED_ONLY_ON_VIEWABLE_IMPS ="Based only on Viewable Imps";
     this.VIEWABLE = "Viewable";
     this.MEASURABLE = "Measurable";
     this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
