@@ -1302,10 +1302,13 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
       .campAdHeader {
         width: 100%;
-        margin-top: 20px !important;
+        margin-top: 10px !important;
         .accountTitleTag {
           float: left;
           font-size: 12px;
+          img {
+            margin: -3px 10px 0 10px;
+          }
         }
         h1 {
           font-weight: bold;
@@ -1346,6 +1349,35 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
           }
           .btn-group {
             margin-left: 5px;
+          }
+        }
+        .emptyValueTxt {
+          color: #f47e2a;
+        }
+        .widgetModule {
+          padding: 0;
+          margin-top: 10px;
+          .campWidgets {
+            float: right;
+            position: relative;
+            margin: 0 0 0 15px;
+            span {
+                  position: absolute;
+                  top: -7px;
+                  right: -8px;
+                  z-index: 10;
+                  color: #0978c9;
+                  font-size: 9px;
+                  background: #fff;
+                  border: 2px solid #0978c9;
+                  padding: 0px 3px;
+                  font-family: "Arial";
+                  font-weight: bold;
+                  line-height: 10px;
+              }
+            img {
+              float: left;
+            }
           }
         }
       }
@@ -1404,6 +1436,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
             margin-right: 1%;
             margin-bottom: 1%;
             min-height: 302px;
+            background: #fff;
             .col-md-12 {
               padding: 10px;
             }
@@ -1461,6 +1494,9 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
               color: #B1B1B1;
             }
           }
+          .adModule:first-child {
+            background: rgba(255, 255, 255, 0.48);
+          }
           .adModule:nth-child(4n) {
             margin-right: 0;
           }
@@ -1517,6 +1553,31 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       .errorPopMess {
         display: none;
         border: 2px solid #e83b05;
+      }
+    }
+    .maxWidthAdj {
+      width: 100%;
+      float: left;
+      padding: 0px;
+      .campAdHeader {
+        width: 1200px;
+        margin: 10px auto 0 !important;
+        float: none;
+        .campSettingOverView {
+          border-width: 0px;
+        }
+      }
+      .adWrap {
+        background: #eef5fc;
+        margin: 0px;
+        border-top: 2px solid #ccd2da;
+        .adContainer {
+          padding: 30px;
+          width: 1200px;
+          float: none;
+          margin: 0 auto;
+          display: table;
+        }
       }
     }
     .campaignSave {

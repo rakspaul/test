@@ -51,6 +51,17 @@
                 <div class="isCollapsed">
                         <!--==== Row 1 ====-->
                         <div class="col-md-12">
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is your Campaign name?</label>
+                            <div class="form-group col-sm-9" show-errors='{showSuccess: true}'>
+                                <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" placeholder="Enter Campaign name." required/>
+                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
+                            </div> 
+                        </div>
+                        
+                        <div class="col-md-12 spacingInput"><!-- SPACING --></div>
+                        
+                        <!--==== Row 2 ====-->
+                        <div class="col-md-12">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-top: 5px;">Who is the campaign for?</label>
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
                                 <label for="accountDDL" class="col-sm-12 control-label greyTxt">{{ textConstants.ACCOUNT }}</label>
@@ -78,7 +89,7 @@
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
-                        <!--==== Row 2 ====-->
+                        <!--==== Row 3 ====-->
                         <div class=" col-md-12" >
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is the primary goal?</label>
                             <div class="form-group col-sm-5">
@@ -100,7 +111,7 @@
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
-                        <!--==== Row 3 ====-->
+                        <!--==== Row 4 ====-->
                         <div class="col-md-12" style="height: 96px;">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">When should the campaign run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
@@ -124,7 +135,7 @@
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
-                        <!--==== Row 4 ====-->
+                        <!--==== Row 5 ====-->
                         <div class="col-md-12">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">How much do you want to spend?</label>
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
@@ -134,20 +145,6 @@
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12 control-label greyTxt errorLabel">You must enter whole dollar amounts.</label>
                             </div>
                         </div>
-
-                        <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
-                        <!--==== Row 5 ====-->
-                        <div class="col-md-12">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is your Campaign name?</label>
-                            <div class="form-group col-sm-9" show-errors='{showSuccess: true}'>
-                                <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" placeholder="Enter Campaign name." required/>
-                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
-                            </div>
-                            
-                        </div>
-
-
                 </div>
                 </form>
             </div>
