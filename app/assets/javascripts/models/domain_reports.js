@@ -23,8 +23,8 @@
                         title: 'Inventory'
                     },
                     {
-                        href:'viewability',
-                        title: 'Viewability'
+                        href:'quality',
+                        title: 'Quality'
                     },
                     {
                         href:'optimization',
