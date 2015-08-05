@@ -108,17 +108,17 @@ var angObj = angObj || {};
                 {
                     'report_url': urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_tactic',
-                    'label' : 'Viewability by Tactic'
+                    'label' : 'Quality by Tactic'
                 },
                 {
                     'report_url' : urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_domain',
-                    'label' : 'Viewability by Domain'
+                    'label' : 'Quality by Domain'
                 },
                 {
                     'report_url' : urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_publisher',
-                    'label' : 'Viewability by Publisher'
+                    'label' : 'Quality by Publisher'
                 }
             ];
         };

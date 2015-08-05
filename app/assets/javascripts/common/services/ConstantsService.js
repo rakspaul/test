@@ -161,7 +161,7 @@
     this.SCREENS = "Screens";
     this.PLATFORM = "Platforms";
     this.TOP_THREE = "Top 3";
-    this.VIEWABILITY = "Viewability";
+    this.VIEWABILITY = "Quality";
     this.INVENTORY = "Inventory";
     this.AD_SIZE = "Ad Size";
   
@@ -216,7 +216,7 @@
     this.URLS = "URLs";
     this.DELIVERED = "Delivered";
     this.DELIVERED_IMPS = "Delivered Imps";
-    this.VIEW_MODE = "View Mode";
+    this.VIEW_MODE = "Media Type";
     this.VIDEO_PLAYS = "Video Plays";
     this.VIDEO_VIEWS = "Video Views";
     this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START = "Measured as 100% Video played divided by Ad start " ;

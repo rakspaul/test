@@ -43,9 +43,9 @@ var angObj = '';
                 controller: 'InventoryController'
               
             })
-            .when('/viewability', {
+            .when('/quality', {
                 templateUrl: assets.html_viewability,
-                title :  'Reports - Viewability',
+                title :  'Reports - Quality',
                 controller: 'viewabilityController'
             })
             .when('/cost', {
