@@ -57,108 +57,111 @@
                     <span class="campaign_name">Create Ad</span>
                     <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
                         <li class="active">
-                            <a href="#adType" role="tab" data-toggle="tab" id="adType-tab">1. Select Ad Type</a>
+                            <a href="#adType" role="tab" data-toggle="tab" id="adType-tab">1 Select Ad Type</a>
                             <div>
                                 <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
-                                    <span class="col-md-5 zeroPadding">Not Set </span>
+                                    <div class="col-md-12">
+										<span>Not Set</span>
+									</div>
                                 </div>
 
                                 <div class="statusLabel" ng-if="adData.adFormat">
-                                    <span class="col-md-5 zeroPadding">Ad Format </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
         								<span class="glyphicon glyphicon-{{getAdFormatIconName(adData.adFormat)}}" aria-hidden="true"></span>
         								<span>{{adData.adFormat}}</span>
+										<span>(format)</span>
         							</div>
                                 </div>
         						<div class="statusLabel" ng-if="adData.goal">
-                                    <span class="col-md-5 zeroPadding">Ad Goal </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
         								<span class="glyphicon glyphicon-{{getGoalIconName(adData.goal)}}" aria-hidden="true"></span>
         								<span>{{adData.goal}}</span>
+										<span>(goal)</span>
         							</div>
                                 </div>
         						<div class="statusLabel" ng-if="adData.screenTypes.length >0">
-                                    <span class="col-md-5 zeroPadding">Screen Type </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
                                         <div ng-repeat="screenType in adData.screenTypes">
                                             <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name)}}" aria-hidden="true"></span>
                                             <span>{{screenType.name}}</span>
                                         </div>
+										<span>(screen)</span>
         							</div>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <a href="#setting" role="tab" data-toggle="tab" id="setting-tab">2. Settings</a>
+                            <a href="#setting" role="tab" data-toggle="tab" id="setting-tab">2 Settings</a>
                             <div>
                                 <div class="statusLabel disabled" ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue">
-                                    <span class="col-md-5 zeroPadding">Not Set </span>
+                                    <div class="col-md-12">
+										<span>Not Set</span>
+									</div>
                                 </div>
                                 <div class="statusLabel" ng-if="adData.startTime">
-                                    <span class="col-md-5 zeroPadding">Flight Date </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
         								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         								<span>{{adData.startTime}} - {{adData.endTime}}</span>
+										<span>(flight date)</span>
         							</div>
                                 </div>
         						<div class="statusLabel" ng-if="adData.unitCost  &&  adData.unitType.name">
-                                    <span class="col-md-5 zeroPadding">Unit Cost </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
         								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
         								<span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
+										<span>(unit cost)</span>
         							</div>
                                 </div>
         						<div class="statusLabel" ng-if="(adData.budgetMediaCostType && adData.mediaCostValue) || (adData.budgetImpressionType && adData.ImpressionsValue)">
-                                    <span class="col-md-5 zeroPadding">{{adData.budgetMediaCostType ? adData.budgetMediaCostType : adData.budgetImpressionType}} </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
         								<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
         								<span>{{(adData.mediaCostValue ? adData.mediaCostValue : adData.ImpressionsValue )  | number }}</span>
+										<span>{{adData.budgetMediaCostType ? adData.budgetMediaCostType : adData.budgetImpressionType}} </span>
         							</div>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <a href="#buying" role="tab" data-toggle="tab" id="buying-tab">3. Buying Platform</a>
+                            <a href="#buying" role="tab" data-toggle="tab" id="buying-tab">3 Buying Platform</a>
                             <div>
                                 <div class="statusLabel disabled" ng-if="!adData.platform">
-                                    <span class="col-md-5 zeroPadding">Not Set </span>
+                                    <div class="col-md-12">
+										<span>Not Set</span>
+									</div>
                                 </div>
                                 <div class="statusLabel disabled" ng-if="adData.platform">
-                                    <span class="col-md-5 zeroPadding">Platform </span>
-        							<div class="col-md-7 zeroPadding">
+        							<div class="col-md-12">
         								<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
         								<span>{{adData.platform}}</span>
+										<span>(platform)</span>
         							</div>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <a href="#targetting" role="tab" data-toggle="tab" id="targetting-tab">4. Targeting</a>
+                            <a href="#targetting" role="tab" data-toggle="tab" id="targetting-tab">4 Targeting</a>
                         
                             <div class="statusLabel disabled">
-                                <span class="col-md-5 zeroPadding">Not Set </span>
-    							<div class="col-md-7 zeroPadding">
-    								
+    							<div class="col-md-12">
+    								<span>Not Set</span>
     							</div>
                             </div>
                         </li>
                         <li>
-                            <a href="#creative" role="tab" data-toggle="tab" id="creative-tab">5. Ad Sizes / Creatives</a>
+                            <a href="#creative" role="tab" data-toggle="tab" id="creative-tab">5 Ad Sizes / Creatives</a>
                         
                             <div class="statusLabel disabled">
-                                <span class="col-md-5 zeroPadding">Not Set </span>
-    							<div class="col-md-7 zeroPadding">
-    								
+    							<div class="col-md-12">
+    								<span>Not Set</span>
     							</div>
                             </div>
                         </li>
                         <li>
-                            <a href="#inventory" role="tab" data-toggle="tab" id="inventory-tab">6. Inventory Filters</a>
+                            <a href="#inventory" role="tab" data-toggle="tab" id="inventory-tab">6 Inventory Filters</a>
                         
                             <div class="statusLabel disabled">
-                                <span class="col-md-5 zeroPadding">Not Set </span>
-    							<div class="col-md-7 zeroPadding">
-    								
+    							<div class="col-md-12">
+    								<span>Not Set</span>
     							</div>
                             </div>
                         </li>
