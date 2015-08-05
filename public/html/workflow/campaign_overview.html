@@ -1,11 +1,11 @@
 <div id="campaignCreate">
     <div class="firstWrapper">
-        <div class="masterContainer">
+        <div class="masterContainer maxWidthAdj">
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader"> 
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
-                        <span class="accountTitleTag" ng-if="workflowData.campaignData.clientName">{{workflowData.campaignData.clientName}}  |  {{workflowData.campaignData.advertiserName}}  <span ng-if="workflowData.campaignData.brandName"> |  {{workflowData.campaignData.brandName}}</span></span>
+                        <span class="accountTitleTag" ng-if="workflowData.campaignData.clientName">{{workflowData.campaignData.clientName}}  <img src="/assets/images/workflow/arrowBreadcrumbs.png" alt="" width="7"/>  {{workflowData.campaignData.advertiserName}}  <span ng-if="workflowData.campaignData.brandName"> |  {{workflowData.campaignData.brandName}}</span></span>
                         <div class="col-md-12 campTitleWrap">
                             <span class="label pull-left label-warning">{{workflowData.campaignData.status}}</span>
                             <h1 class="pull-left">{{workflowData.campaignData.name}}</h1>
@@ -15,8 +15,23 @@
                             <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy : HH:mm"}}</span>
                         </div>
                     </div>
-                    <div class="col-md-3 peopleModule">
-                        <span class="glyphicon glyphicon-user pull-right" aria-hidden="true"></span>
+                    <div class="col-md-3 widgetModule">
+						<div class="campWidgets">
+							<span class="badge">2</span>
+							<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>
+						</div>
+						<div class="campWidgets">
+							<span class="badge">2</span>
+							<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>
+						</div>
+						<div class="campWidgets">
+							<span class="badge">2</span>
+							<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>
+						</div>
+						<div class="campWidgets">
+							<span class="badge">2</span>
+							<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>
+						</div>
                     </div>
                 </div>
                 
@@ -41,7 +56,8 @@
                     <div class="col-md-2 borderZero">
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
-                            <span class="col-md-12 zeroPadding text-center">0</span>
+							<!--Abi if value is zero add this class to the span below emptyValueTxt-->
+                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
@@ -49,7 +65,7 @@
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
-                            <span class="col-md-12 zeroPadding text-center">0</span>
+                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
                         </div>
                     </div>
                     <div class="col-md-2 borderZero">
@@ -61,7 +77,6 @@
             
             <!-- Ads Start -->
             <div class="adWrap">
-                    <div class="col-md-12 spacingInput"><!-- Spacing --></div>
                     <div class="col-md-12 adContainer">
                         <!--=== Group Ad ===-->
                         <!--<div class="col-md-12 adModule adGroup">
@@ -76,7 +91,7 @@
                             <div class="col-md-12">
                                 <a href="/campaign/{{workflowData.campaignData.id}}/ads/create" class="col-md-12 text-center addMaster">
 									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-									<h1>CREATE AD</h1>
+									<h1>Create Ad</h1>
 								</a>
                             </div>
                         </div>
