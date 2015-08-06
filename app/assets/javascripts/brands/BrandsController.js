@@ -43,6 +43,7 @@
 
 
     $scope.selectBrand = function (brand) {
+      $("#brand_name_selected").text(brand.name) ;
       $('#brandsDropdown').attr('placeholder', brand.name).val('');
       $scope.brandData.showAll = true;
 
@@ -68,7 +69,6 @@
     $scope.$on('$destroy', function() {
       eventBrandChangedFromDashBoard();
     });
-
     $scope.brandsDropdownClicked = function() {
       if(brandsModel.getBrand().enable === false) {
         return;
