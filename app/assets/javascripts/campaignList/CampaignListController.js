@@ -6,6 +6,18 @@
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
 
+    $scope.campaignListSortFunction = function(campaign) {
+          if(campaign.status ==="Ready" ){
+              return campaign.start_date;
+          }
+          else if(campaign.status ==="Draft" ){
+              return campaign.start_date;
+          }
+          else{
+              return campaign.end_date;
+          }
+    };
+
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
     $scope.textConstants = constants;
@@ -32,7 +44,7 @@
     $scope.$on("updateCampaignAsBrandChange", function(event, campaignData) {
         campaignSelectModel.setSelectedCampaign(campaignData);
     });
-    
+
       $scope.viewReports = function(campaign) {
         var selectedCampaign = {
             id : campaign.id,
@@ -95,12 +107,12 @@
              var scroll_to_element= $(".squaredFour").offset().top -15;
              if(scroll_to_element < window_scrollTop){
                 window.scrollTo(0,scroll_to_element);
-             } 
+             }
              if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
                   var test_height = parseInt($(this).height())+1;
                   $(this).height(test_height);
               }
-        }); 
+        });
      });
 
   });
