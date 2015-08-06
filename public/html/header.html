@@ -45,13 +45,14 @@
     </div>
   </div>
 </div>
-<div class="breadcrumb_nav_holder">
+<div class="breadcrumb_nav_holder nav_filters">
     <div class="clearfix page_filters">
      <!--  <div class="search-cum-navbar"> -->
         <div class="clearfix">
           <div class="pull-right dropdown dropdown-two each_filter lifetime_filter">
-            <div class="pull-left timeline_dd_icon"></div>
-            <div class="pull-left timeline_dd" ng-controller="timePeriodController">
+            <div class="nav_filters_heading">Timeframe</div>
+            <!-- <div class="pull-left timeline_dd_icon"></div> -->
+            <div class="timeline_dd" ng-controller="timePeriodController">
               <timeperiod-drop-down></timeperiod-drop-down>
             </div>
           </div>
@@ -73,7 +74,7 @@
           cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
           cdbDropdownId.hide();
       }
-      if(brandsListId.is(':visible') && event.target.id != "brandsDropdown") {
+      if(brandsListId.is(':visible') && event.target.id != "brand_name_selected" && event.target.id != "brandsDropdown"  ) {
           brandsListId.closest(".each_filter").removeClass("filter_dropdown_open");
           brandsListId.hide();
       }
