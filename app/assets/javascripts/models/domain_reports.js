@@ -80,7 +80,7 @@
             },
             restrict:'EAC',
 
-            templateUrl: '/assets/html/partials/reports_header_tab.html',
+            templateUrl: assets.html_report_header_tab,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -95,7 +95,7 @@
                 console.log(element);
                 var template;
                 element.bind('click', function() {
-                    $http.get('/assets/html/partials/add_report_filter.html').then(function (tmpl) {
+                    $http.get(assets.html_add_report_filter).then(function (tmpl) {
                         $scope.dimensionQuery ='';
                         template = $compile(tmpl.data)($scope);
                         angular.element(document.getElementById('filter_breakdown_row')).append(template);
@@ -119,7 +119,7 @@
                 console.log(element);
                 var template;
                 element.bind('click', function() {
-                    $http.get('/assets/html/partials/add_report_dimension.html').then(function (tmpl) {
+                    $http.get(assets.html_add_report_dimension).then(function (tmpl) {
                         template = $compile(tmpl.data)($scope);
                         angular.element(document.getElementById('breakdown_row')).append(template);
                     });
@@ -134,7 +134,7 @@
 
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/download_report.html',
+            templateUrl: assets.html_download_report,
             link: function($scope, element, attrs) {
                 $scope.textConstants = constants;
                 element.bind('click', function() {
@@ -180,7 +180,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/screen_header.html',
+            templateUrl: assets.html_screen_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -192,7 +192,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/daysofweek_header.html',
+            templateUrl: assets.html_daysofweek_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -204,7 +204,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/format_header.html',
+            templateUrl: assets.html_format_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -217,7 +217,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/performance_header.html',
+            templateUrl: assets.html_performance_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -229,7 +229,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/cost_header.html',
+            templateUrl: assets.html_cost_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -241,7 +241,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/viewablity_header.html',
+            templateUrl: assets.html_viewablity_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -253,7 +253,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/creatives_header.html',
+            templateUrl: assets.html_creatives_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -265,7 +265,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/adsizes_header.html',
+            templateUrl: assets.html_adsizes_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
