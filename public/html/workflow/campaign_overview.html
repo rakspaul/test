@@ -99,30 +99,40 @@
                         <!--=== Single Ad Ready ===-->
                         <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id">
                             <div class="col-md-12 adTitle">
-								<img ng-src="{{adsData.platform.iconUrl}}" height="40" class="adIconWidget" title="{{adsData.platform.name}}"/>
+								<img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.name}}"/>
                                 <span class="pull-left adDisplay">Collective Media</span>
-                                <span class="pull-right adStatus">{{adsData.state}}</span><br/>
                                 <span class="pull-left">ID: {{adsData.id}}</span>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="padding: 0px 10px 35px;">
                                 <h1 class="col-md-10 adCamp">
                                     {{adsData.name}}
                                 </h1>
                                 <span ng-if="adsData.format.name" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.format.name)}} pull-right" aria-hidden="true"></span>
                                 <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(adsData.endTime) | date : 'MMM dd, yyyy'}}</span>
                                 <div class="spacer" ng-if="adsData.startTime && adsData.endTime"><div class="col-md-12"></div></div>
-                                <span class="pull-left text-left adTxtGray">{{adsData.budgetType}}<br/>{{adsData.rateType}}</span>
-                                <span class="pull-right text-right adTxtGray">{{adsData.budgetValue}}<br/>{{adsData.rateValue}}</span>
+								<div class="col-md-4 zeroPadding">
+									<span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
+									<span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
+								</div>
+								<div class="col-md-4 zeroPadding">
+									<span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
+									<span class="col-md-12 text-center zeroPadding">{{adsData.rateValue}}</span>
+								</div>
+								<div class="col-md-4 zeroPadding">
+									<span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
+									<span class="col-md-12 text-center zeroPadding">$99,999</span>
+								</div>
                                 <div class="spacer"><div class="col-md-12"></div></div>
-                                <div class="col-md-6">
-                                    <h2 class="col-md-12 text-center zeroPadding">0</h2>
-                                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{ textConstants.CREATIVES }}</span>
+                                <div class="col-md-12" style="padding: 0px 10px;">
+                                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes (0)</span>
+									<p style="margin: 0;">Not Set</p>
                                 </div>
-                                <div class="col-md-6">
-                                    <h2 class="col-md-12 text-center zeroPadding">0</h2>
-                                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
+                                <div class="col-md-12" style="padding: 0px 10px;">
+                                    <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
+									<p style="margin: 0;">Not Set</p>
                                 </div>
                             </div>
+							<span class="pull-right adStatus">{{adsData.state}}</span>
                         </div>
                     </div>
                 </div>

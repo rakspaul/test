@@ -209,6 +209,7 @@
 
                                                 <div class="form-group col-md-3 btn_border {{adformat.disable ?  'adDisableRadio' : ''}}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
                                                     <div ng-if="adformat.disable" class="adDisableRadioWrap"></div>
+													<!--Abi can you add the active class to the label element below-->
                                                     <label>
                                                         <input type="radio" name="adFormatName" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat" ng-click ="adData.adFormatId = adformat.id">
                                                         <span class="glyphicon glyphicon-{{getAdFormatIconName(adformat.name.toLowerCase())}}" aria-hidden="true"></span>
@@ -224,6 +225,7 @@
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
 
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="goal in workflowData.goals track by goal.id">
+													<!--Abi can you add the active class to the label element below-->
                                                     <label>
                                                         <input type="radio" name="goal" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal">
                                                         <span class="glyphicon glyphicon-{{getGoalIconName(goal.name.toLowerCase())}}" aria-hidden="true"></span>
@@ -236,11 +238,17 @@
                                             <div class="row zeroPadding screenChkSelection">
                                                 <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}</div>
                                                 <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
+												<!--Abi can you add the active class to the div element below-->
                                                 <div class="form-group col-md-3 btn_border" ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
                                                     <label for="screenTypeChkBox{{screenType.id}}">
                                                         <input type="checkbox" name="screens" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}" class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);">
-                                                        <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>
-                                                        <div class="btnLabel">{{screenType.name}}</div>
+                                                        <!--Abi the span method is not gonna be used anymore now they required seperate imgs-->
+														<!--<span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name.toLowerCase())}}" aria-hidden="true"></span>-->
+                                                        
+														<img src="/assets/images/workflow/desktop.svg" alt="" width="25"/>
+														<!--<img src="/assets/images/workflow/mobile.svg" alt="" width="25"/>
+														<img src="/assets/images/workflow/tablet.svg" alt="" width="25"/>-->
+														<div class="btnLabel">{{screenType.name}}</div>
                                                     </label>
                                                 </div>
                                             </div>
@@ -267,18 +275,22 @@
                                                 <div class="col-md-12 adHeader">What are the flight dates?</div>
 												 <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
 													<div class="col-md-12 dateWrapper form-group zeroPadding">
-														<div class="col-md-2 zeroPadding">
-															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.START_DATE }}</label>
-															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly name="startTime" ng-model="adData.startTime"  required ng-change="handleFlightDate(adData)"/>
+														<div class="col-md-2 zeroPadding" style="width: 150px;">
+															<label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+															<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="adData.startTime"  required ng-change="handleFlightDate(adData)"/>
 														</div>
-														<div class="col-md-2 zeroPadding" style="margin-left: 10px;">
-															<label class="col-sm-12 control-label greyTxt text-left zeroPadding">{{ textConstants.END_DATE }}</label>
-															<input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="input-sm form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required/>
+														<div class="col-md-2" style="width: 150px; padding-left: 10px;">
+															<label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+															<input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required/>
 														</div>
 													</div>
 													<span class="col-md-12 input-group-addon">
-														<div class="col-md-2 zeroPadding"><i class="glyphicon glyphicon-th pull-right"></i></div>
-														<div class="col-md-2 zeroPadding" style="margin-left: 10px;"><i class="glyphicon glyphicon-th pull-right"></i></div>
+														<div class="calenderIcon" style="margin: 19px 0 0 117px;">
+															<img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+														</div>
+														<div class="calenderIcon" style="margin: 19px 0 0 128px;">
+															<img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+														</div>
 													</span>
 												</div>
                                             </div>
@@ -566,8 +578,105 @@
                                         <!-- Tabs Creative -->
                                         <div class="tab-pane fade" id="creative">
 											<div class="col-md-6 zeroPadding">
-												<h2 class="col-md-12 zeroPadding marginBottom">Creatives</h2>
-												<a href="javascript:void(0);" >Help Link...</a>
+												<h2 class="col-md-12 zeroPadding marginBottom">Creative Tags</h2>
+												<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
+												<br/>
+												<div class="spacingInput"></div>
+												<button type="button" class="btn btn-default">Add from Library</button>
+												<button type="button" class="btn btn-default">Create New</button>
+											</div>
+											
+											<div class="col-md-12 zeroPadding">
+												<div class="table-responsive">
+												<table class="table">
+													<thead>
+													  <tr>
+														<th>Size</th>
+														<th>Tag</th>
+														<th>Type</th>
+														<th>SSL</th>
+														<th>Audit Status</th>
+													  </tr>
+													</thead>
+													<tbody>
+														<!--Test 1-->
+														<tr>
+															<td>
+																<span class="col-md-3">1</span>
+																<div class="col-md-9">
+																	<p class="col-md-12">250x300</p>
+																	<div class="squareCreativeOne"></div>
+																</div>
+															</td>
+															<td>
+																<span class="col-md-4 pull-right text-right">Active</span>
+																<span class="col-md-8">FY15 Display Launch</span>
+																<a class="col-md-8" href="">View Tag</a>
+															</td>
+															<td>
+																<span class="col-md-12">Javascript</span>	
+															</td>
+															<td>
+																<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+															</td>
+															<td>
+																<span class="pull-left">Passed</span>
+																<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+															</td>
+														</tr>
+														<!--Test 2-->
+														<tr>
+															<td>
+																<span class="col-md-3">2</span>
+																<div class="col-md-9">
+																	<p class="col-md-12">160x600</p>
+																	<div class="squareCreativeTwo"></div>
+																</div>
+															</td>
+															<td>
+																<span class="col-md-4 pull-right text-right">Active</span>
+																<span class="col-md-8">FY15 Display Launch</span>
+																<a class="col-md-8" href="">View Tag</a>
+															</td>
+															<td>
+																<span class="col-md-12">Javascript</span>	
+															</td>
+															<td>
+																<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+															</td>
+															<td>
+																<span class="pull-left">Rejected <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></span>
+																<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+															</td>
+														</tr>
+														<!--Test 3-->
+														<tr>
+															<td>
+																<span class="col-md-3">3</span>
+																<div class="col-md-9">
+																	<p class="col-md-12">900x160</p>
+																	<div class="squareCreativeThree"></div>
+																</div>
+															</td>
+															<td>
+																<span class="col-md-4 pull-right text-right">Active</span>
+																<span class="col-md-8">FY15 Display Launch</span>
+																<a class="col-md-8" href="">View Tag</a>
+															</td>
+															<td>
+																<span class="col-md-12">Javascript</span>	
+															</td>
+															<td>
+																<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+															</td>
+															<td>
+																<span class="pull-left">Pending</span>
+																<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+															</td>
+														</tr>
+													</tbody>
+												  </table>
+											  </div>
 											</div>
 											
 											
