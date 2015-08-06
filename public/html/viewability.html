@@ -17,7 +17,6 @@
         <div id="viewability_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div>
-
         <div class="view_mode_switch_container" ng-show="adFormats.videoAds" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
             <span class="video_off_icon" ng-class="{'active':!videoMode}"></span>
@@ -29,7 +28,7 @@
         </div>
 
         <div class="viewability_container">
-            <div class="viewability_details_outer_container" ng-show="adFormats.displayAds || !videoMode">
+            <div class="viewability_details_outer_container" ng-show="(!adFormats.videoAds && adFormats.displayAds) || !videoMode">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col viewability_delivered_col">
 
