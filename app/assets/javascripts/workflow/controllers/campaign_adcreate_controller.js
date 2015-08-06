@@ -69,6 +69,27 @@ var angObj = angObj || {};
                 $scope.workflowData['platforms'] = [{id :1 , name: 'Collective Bidder'}, {id: 2, name :'Appnexus'}];
             },
 
+            saveAds :  function(postDataObj) {
+                if($scope.adId) {
+                    postDataObj['adId'] = $scope.adId;
+                    postDataObj['updatedAt'] = $scope.updatedAt;
+
+                }
+                postDataObj['adId'] = $scope.adId ? $scope.adId : '';
+                var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
+                promiseObj.then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        var responseData = result.data.data;
+                        $scope.state = responseData.state;
+                        $scope.adId = responseData.id;
+                        $scope.updatedAt = responseData.updatedAt;
+                        if ($scope.state && $scope.state.toLowerCase() === 'draft') {
+                            var url = '/campaign/' + result.data.data.campaignId + '/overview';
+                            $window.location.href = url;
+                        }
+                    }
+                });
+            },
 
             errorHandler : function(errData) {
                 console.log(errData);
@@ -159,16 +180,10 @@ var angObj = angObj || {};
                 if(formData.platformId) {
                     postAdDataObj.platformId = Number(formData.platformId);
                 }
-                workflowService.saveAd(postAdDataObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
-                        $scope.state = responseData.state;
-                        if($scope.state && $scope.state.toLowerCase() === 'draft') {
-                            var url = '/campaign/'+ result.data.data.campaignId + '/overview';
-                            $location.url(url);
-                        }
-                    }
-                });
+
+                campaignOverView.saveAds(postAdDataObj)
+
+
             })
         })
 
