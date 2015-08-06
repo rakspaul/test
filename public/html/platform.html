@@ -1,19 +1,16 @@
 <div class="reports_main_page_holder">
-    <!-- <div class="reports_header_tabs_holder clearfix">
-        <report-tabs></report-tabs>
-    </div> -->
-    <div class="clearfix breadcrumb_campaign_strategy nav_filters">
-            <div class="pull-left dropdown breadcrumb_nav_campaign" >
-                <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
-            </div>
-             <div class="pull-left breadcrumb_nav_strategy" ng-show="isStrategyDropDownShow">
-                <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down>
-            </div>
-    </div>
+
     <div class="inventory_reports_container" >
-        
-        <div class="pull-right download_report">
-            <download-report></download-report>
+        <div class="clearfix page_top_header">
+            <div class="pull-left page_name">
+                Platform Report
+            </div>
+            <div class="pull-right download_report">
+                <download-report></download-report>
+            </div>
+        </div>
+        <div class="clearfix">
+            <filters-header></filters-header>
         </div>
        
 
