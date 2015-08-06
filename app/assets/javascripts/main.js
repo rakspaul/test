@@ -30,6 +30,10 @@
       'highcharts': {deps: ['highcharts-ng']},
       'highcharts-more': {deps: ['highcharts']},
       'solid-gauge': {deps: ['highcharts-more']},
+
+      'ng-file-upload-shim': {deps: []},
+      'ng-file-upload': {deps: ['angular']},
+
       'underscore': {deps: []},
       'angulartics': {deps: ['angular']},
       'angulartics-ga': {deps: ['angulartics']},
@@ -138,6 +142,9 @@
       'controllers-performance_controller':{deps: ['controllers-cost_controller']},
       'controllers-platform_controller' : {deps: ['controllers-cost_controller']},
       'controllers-custom_report_controller' : {deps: ['controllers-cost_controller']},
+
+      'controllers-custom_report_upload_controller': {deps: ['controllers-custom_report_controller']},
+
       'directives-strategycard':{deps: ['controllers-performance_controller']},
       'directives-tacticcard':{deps: ['directives-strategycard']},
       'directives-campaigncard':{deps: ['directives-tacticcard']},
@@ -191,6 +198,8 @@
       'solid-gauge': 'vendor/solid-gauge',
       'moment': 'vendor/moment.min.2.8.3',
       'moment-tz': 'vendor/moment-timezone-with-data-2010-2020',
+      'ng-file-upload': 'vendor/ng-file-upload',
+      'ng-file-upload-shim': 'vendor/ng-file-upload-shim',
       'underscore': 'vendor/underscore-min',
       'ng-infinite-scroll': 'vendor/ng-infinite-scroll.min',
       'lrInfiniteScroll': 'vendor/lrInfiniteScroll',
@@ -294,6 +303,9 @@
       'controllers-performance_controller':'controllers/performance_controller',
       'controllers-platform_controller':'controllers/platform_controller',
       'controllers-custom_report_controller':'controllers/custom_report_controller',
+
+      'controllers-custom_report_upload_controller':'controllers/custom_report_upload_controller',
+
       'directives-strategycard':'directives/strategycard',
       'directives-tacticcard':'directives/tacticcard',
       'directives-campaigncard':'directives/campaigncard',
@@ -348,6 +360,8 @@
            'solid-gauge',
            'moment',
            'moment-tz',
+           'ng-file-upload-shim',
+           'ng-file-upload',
            'underscore',
            'angulartics',
            'angulartics-ga',
@@ -454,6 +468,9 @@
            'controllers-performance_controller',
            'controllers-platform_controller',
            'controllers-custom_report_controller',
+
+           'controllers-custom_report_upload_controller',
+
            'directives-strategycard',
            'directives-tacticcard',
            'directives-campaigncard',

@@ -1,0 +1,91 @@
+<div class="report_generator_and_response">
+	<div class="report_builder_container">
+	    <div class="container">
+	    	<div class="row">
+	    		<div class="col-md-12 heading" style="font-weight: bold">
+	    			<h3>Upload files</h3>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+
+  <style media="screen">
+
+  .drop-box {
+    background: #F8F8F8;
+    border: 2px dashed #DADBDE;
+    /*width: 100%;*/
+    margin-right: 140px;
+    margin-left: 140px;
+    /*height: 265px;*/
+    text-align: center;
+    padding: 40px;
+    border-radius:5px;
+  }
+
+  .dragover-accept {
+    border: 2px dashed #3AA0E6;
+  }
+  </style>
+
+	<!-- Custom Report Response Page -->
+	<div class="custom_response_screenshot_container">
+		<div ngf-drop ngf-select ng-model="files"
+     ng-model-rejected="rejFiles"
+     ngf-multiple="true" ngf-allow-dir="false"  class="drop-box"
+    ngf-drag-over-class="dragover"
+    ngf-accept="'.pdf,.xls,.ppt,.pptx'"
+   ngf-max-size='10000000'>
+    <!-- ngf-accept="'.pdf,.xls'"
+   ngf-max-size='1000000000000' -->
+            <div class="" style="height: 200px;width: 300px;margin: 0 auto;background:url('/assets/images/cdesk/dragging_files.png') no-repeat center center">
+            </div>
+      			<span class="img_table_txt">
+      				Simple drag and drop files to add or  <a id="fileupload" href="#" >Browse</a>
+      			</span>
+            <center>(ppt, pptx, pdf, xls)</center>
+
+
+		</div>
+
+
+<!-- accept="image/*,application/pdf" -->
+  <!-- <div ngf-drop ngf-select ng-model="files" class="drop-box"
+      ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="false" ngf-accept="'.pdf,.xls'"
+       ngf-max-size='10000000'>Drop pdfs or images here or click to upload</div> -->
+  <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+
+
+
+
+    <div class="custom_report_response_page">
+
+
+      <div ng-show="total>0">
+        Uploaded {{loaded}} of {{total}}<br>
+        Progress: {{ 100 *(loaded/total) }} %
+      </div>
+
+      Accepted Files:
+      <ul>
+        <li ng-repeat="f in files" style="font:smaller">
+          Filename:{{f.name}} -- Size:{{f.size}} bytes </li>
+      </ul>
+      Rejected File:
+      <ul>
+        <li ng-repeat="r in rejFiles">
+          <span style="color:red">{{(r.size>10000000?'File size exceeds 10MB':'')}}
+          {{("pdfpptxpptxls").lastIndexOf((r.name).substring((r.name).lastIndexOf(".")+1))?"Unsupported File type":""  }}
+        </span>
+          **Filename:{{r.name}} -- Size:{{r.size}} bytes</li>
+      </ul>
+      Upload Log:
+      <pre>{{log}}</pre>
+    </div>
+
+
+
+	</div>
+	<!-- End of Custom Report Response Page -->
+</div>

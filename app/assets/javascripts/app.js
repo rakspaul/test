@@ -21,6 +21,7 @@ var angObj = '';
       'ui.bootstrap',
       'uiSwitch',
       'ngLocale',
+      'ngFileUpload',
       'lrInfiniteScroll']
   );
 
@@ -62,6 +63,11 @@ var angObj = '';
                 templateUrl: assets.html_custom_report,
                 title :  'Custom Report' ,
                 controller: 'customReportController'
+            })
+            .when('/uploadreports', {
+                templateUrl: assets.html_custom_report_upload,
+                title :  'Upload Custom Reports' ,
+                controller: 'customReportUploadController'
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,
