@@ -1,0 +1,47 @@
+<div class="report_generator_and_response">
+	<div class="report_builder_container">
+	    <div class="container">
+	    	<div class="row">
+	    		<div class="col-md-12 heading" style="font-weight: bold">
+	    			<h3>Collective Reports</h3>
+
+            <!--saudamini  ,remove this and replace button here  -->
+            <a href="/reports/upload" style="background:#3AA0E6;display:inline-block;float:right;margin-top: -40px; padding:10px;border-radius:5px;color:#fff;z-index:1000">Upload Report</a>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+<style media="screen">
+  .head {
+    width: 200px;
+    display: inline-block;
+  }
+  .notes {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+    display: block;
+  }
+</style>
+  	<div class="custom_response_screenshot_container"  style="background:#fff">
+        <div class="custom_report_response_page">
+              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px">
+                <span class="head">Updated</span>
+                <span class="head">Report Type</span>
+                <span class="head">Campaign</span>
+                <span class="head">Author</span>
+              </div>
+
+              <div ng-repeat="rlist in reportList" style="border:1px solid #ccc; height:100px;width:100%;padding:15px">
+                <span class="head">{{rlist.updatedAt}}</span>
+                <span class="head">{{rlist.reportType}}</span>
+                <span class="head">Campaign</span>
+                <span class="head">Author</span>
+                <span class="head" style="width:190px">Download - Edit - Delete</span>
+                <span class="notes">{{rlist.notes}} </span>
+              </div>
+              <!--  no data or loading -->
+              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="(!reportList || nodata)">{{(nodata && !reportList) ?"No data found": "Loading..."}}</div>
+          </div>
+      </div>
+</div>

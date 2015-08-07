@@ -139,6 +139,12 @@
                 return this.fetch(url);
             },
 
+            getReportListData: function (url) {
+                //console.log(this.fetch(url));
+                return this.fetch(url);
+
+            },
+
             createAction: function (data) {
                 var url = apiPaths.workflow_apiServicesUrl + '/actions';
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_action_subtypes_selected', loginModel.getLoginName(), data.action_sub_type_ids.length);
@@ -374,6 +380,8 @@
                     }
                 );
             }
+
+
         };
     });
 }());

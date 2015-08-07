@@ -22,7 +22,8 @@ var angObj = '';
       'uiSwitch',
       'ngLocale',
       'ngFileUpload',
-      'lrInfiniteScroll']
+      'lrInfiniteScroll',
+      'collectiveReportModule']
   );
 
 
@@ -68,6 +69,11 @@ var angObj = '';
                 templateUrl: assets.html_custom_report_upload,
                 title :  'Upload Custom Reports' ,
                 controller: 'customReportUploadController'
+            })
+            .when('/reports/list', {
+                templateUrl: assets.html_collective_report_listing,
+                title :  'collective report listing',
+                controller: 'CollectiveReportListingController'
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,
