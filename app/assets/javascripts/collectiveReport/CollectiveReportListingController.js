@@ -6,9 +6,13 @@
 
     collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope) { console.log(collectiveReportModel);
          collectiveReportModel.reportList(function(response){
+           if(response.data !== undefined && response.data.length > 0) {
              $scope.reportList = response.data;
-         });
-        console.log("Collective reprot: ",$scope.reportList );
+           } else {
+             $scope.nodata = true;
+           }
+
+         })
+        //console.log("Collective report: ",$scope.reportList );
     });
     }());
-

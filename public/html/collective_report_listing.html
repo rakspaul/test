@@ -4,9 +4,10 @@
 	    	<div class="row">
 	    		<div class="col-md-12 heading" style="font-weight: bold">
 	    			<h3>Collective Reports</h3>
+
+            <!--saudamini  ,remove this and replace button here  -->
+            <a href="/reports/upload" style="background:#3AA0E6;display:inline-block;float:right;margin-top: -40px; padding:10px;border-radius:5px;color:#fff;z-index:1000">Upload Report</a>
 	    		</div>
-          <!--saudamini  ,remove this and replace button here  -->
-          <a href="/reports/upload" style="background:#3AA0E6;display:inline-block;float:right;margin-top: -40px; padding:10px;border-radius:5px;color:#fff">Upload Report</a>
 	    	</div>
 	    </div>
 	</div>
@@ -39,7 +40,8 @@
                 <span class="head" style="width:190px">Download - Edit - Delete</span>
                 <span class="notes">{{rlist.notes}} </span>
               </div>
-              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="!reportList">No Data Found</div>
+              <!--  no data or loading -->
+              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="(!reportList || nodata)">{{(nodata && !reportList) ?"No data found": "Loading..."}}</div>
           </div>
       </div>
 </div>
