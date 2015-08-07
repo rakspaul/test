@@ -89,7 +89,10 @@
           return url ;
       };
 
-
+      this.APIReportList = function(campaignId) {
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/listreports/'+campaignId;
+          return url;
+      }
 
 
   }
