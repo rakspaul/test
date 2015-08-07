@@ -70,6 +70,11 @@ var angObj = '';
                 title :  'Upload Custom Reports' ,
                 controller: 'customReportUploadController'
             })
+            .when('/reports/list', {
+                templateUrl: assets.html_collective_report_listing,
+                title :  'collective report listing',
+                controller: 'CollectiveReportListingController'
+            })
             .when('/performance', {
                 templateUrl: assets.html_performance,
                 title :  'Reports - Performance',
@@ -94,11 +99,6 @@ var angObj = '';
                 templateUrl: assets.html_creative,
                 title :  'Creative',
                 controller: 'creativeController'
-            })
-            .when('/collectivereport', {
-                templateUrl: assets.html_collective_report_listing,
-                title :  'collective report listing',
-                controller: 'CollectiveReportListingController'
             })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];

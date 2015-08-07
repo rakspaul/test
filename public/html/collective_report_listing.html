@@ -1,40 +1,45 @@
-<div style="padding: 20px">
+<div class="report_generator_and_response">
+	<div class="report_builder_container">
+	    <div class="container">
+	    	<div class="row">
+	    		<div class="col-md-12 heading" style="font-weight: bold">
+	    			<h3>Collective Reports</h3>
+	    		</div>
+          <!--saudamini  ,remove this and replace button here  -->
+          <a href="/reports/upload" style="background:#3AA0E6;display:inline-block;float:right;margin-top: -40px; padding:10px;border-radius:5px;color:#fff">Upload Report</a>
+	    	</div>
+	    </div>
+	</div>
+<style media="screen">
+  .head {
+    width: 200px;
+    display: inline-block;
+  }
+  .notes {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+    display: block;
+  }
+</style>
+  	<div class="custom_response_screenshot_container"  style="background:#fff">
+        <div class="custom_report_response_page">
+              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px">
+                <span class="head">Updated</span>
+                <span class="head">Report Type</span>
+                <span class="head">Campaign</span>
+                <span class="head">Author</span>
+              </div>
 
-    <table style="width: 100%;">
-        <thead>
-        <tr>
-            <th style="width:20%">Updated</th>
-            <th style="width:20%">Report Type</th>
-            <th style="width:20%">Campaign</th>
-            <th style="width:20%">Author</th>
-            <th style="width:20%"></th>
-        </tr>
-        </thead>
-        <tbody>
-       <!-- repeat [start] -->
-
-        <tr ng-repeat="rlist in reportList">
-            <td colspan="5">
-                <table style="width: 100%;margin-bottom: 20px;">
-                    <tr>
-                        <td style="width:20%; padding: 5px;">{{rlist.updatedAt}}</td>
-                        <td style="width:20%">{{rlist.reportType}}</td>
-                        <td style="width:20%">campaign</td>
-                        <td style="width:20%"></td>
-                        <td style="width:20%"><span>Dwnld</span>&nbsp;<span>Edit</span>&nbsp;<span>Del</span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5" style="background: #ccd9e3; padding: 5px;">{{rlist.notes}} </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-       <!-- repeat [end] -->
-        </tbody>
-
-
-    </table>
-    <div ng-show="!reportList">No Data Found</div>
+              <div ng-repeat="rlist in reportList" style="border:1px solid #ccc; height:100px;width:100%;padding:15px">
+                <span class="head">{{rlist.updatedAt}}</span>
+                <span class="head">{{rlist.reportType}}</span>
+                <span class="head">Campaign</span>
+                <span class="head">Author</span>
+                <span class="head" style="width:190px">Download - Edit - Delete</span>
+                <span class="notes">{{rlist.notes}} </span>
+              </div>
+              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="!reportList">No Data Found</div>
+          </div>
+      </div>
 </div>
-<div></div>
