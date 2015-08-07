@@ -253,7 +253,8 @@
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/filters_header.html',
-            link: function(scope, element, attrs) {
+            link: function(scope, element, attrs) { 
+                scope.reportFilter = attrs.reports ;
                 scope.textConstants = constants;
             }
         };

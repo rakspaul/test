@@ -1,19 +1,27 @@
 <div class="reports_main_page_holder">
-    <!-- <div class="reports_header_tabs_holder clearfix">
-        <report-tabs></report-tabs>
-    </div> -->
-
-    <div class="inventory_reports_container" >
-        <div class="clearfix inventory_header">
+    <div class="common_reports_container" >
+        <!-- <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1"  id="performance_camp_list_dd" >
                 <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
             </div>
             <div class="pull-right download_report">
                 <download-report></download-report>
             </div>
-        </div>
-        <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
+        </div> -->
+        <!-- <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+        </div> -->
+         <div class="clearfix page_top_header">
+            <div class="pull-left page_name">
+                Performance Report
+            </div>
+            <div class="pull-right download_report">
+                <download-report></download-report>
+            </div>
+        </div>
+        
+        <div class="clearfix">
+            <filters-header reports="true"></filters-header>
         </div>
 
         <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
