@@ -28,7 +28,7 @@
                     
                     var inputValue = $('#campaignDropdown').val();
                     if(inputValue) {
-                        $('#campaignDropdown').attr('placeholder', inputValue);
+                        //$('#campaignDropdown').attr('placeholder', inputValue);
                         $('#campaignDropdown').val('');
 
                     }
@@ -42,15 +42,15 @@
                         if(localStorageCampaignData.id || (localStorageCampaignData.id === $scope.$parent.selectedCampaign.id)) {
                             inputValue = localStorageCampaignData.name;
                             if(inputValue) {
-                                $('#campaignDropdown').attr('placeholder', '');
-                                $(".campaign_name_length").text(inputValue) ;
+                                //$('#campaignDropdown').attr('placeholder', '');
+                                $(".campaign_name_selected").text(inputValue) ;
                                 $('#campaignDropdown').val(inputValue);
                             }
                         } else {
                             inputValue  = $('#campaignDropdown').attr('placeholder');
                             if(inputValue) {
-                                $('#campaignDropdown').attr('placeholder', '');
-                                $(".campaign_name_length").text(inputValue) ;
+                                //$('#campaignDropdown').attr('placeholder', '');
+                                $(".campaign_name_selected").text(inputValue) ;
                                 $('#campaignDropdown').val(inputValue);
                             }
                         }

@@ -2,7 +2,7 @@
 <div class="clearfix dropdown_type1_holder pull-left" >
 
     <div class="report_heading_dropdown_txt nav_filters_heading">{{ textConstants.CAMPAIGN }}</div>
-    <div class="campaign_name_selected" title="{{selectedObj.name}}" id="campaign_name_selected">{{selectedObj.name }}</div>
+    <div class="campaign_name_selected" title="{{selectedObj.name}}" id="campaign_name_selected" ng-model="selectedObj.name">{{selectedObj.name }}</div>
     <div class="clearfix dropdown dropdown_type1">
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
@@ -10,13 +10,14 @@
                 <li class="dropdown" >
                     <ul class="dropdown-menu" role="menu"  id="campaigns_list" lr-infinite-scroll="loadMore" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">
                         <div id="campaignsDropdownDiv">
-                            <input class="dropdown-toggle inactive dd_txt" ng-model="selectedObj.name"
-                                   id="campaignDropdown"  placeholder="{{selectedObj.name }}" ng-keyup="search()"/>
+                            <input class="dropdown-toggle inactive dd_txt" id="campaignDropdown" ng-keyup="search()" placeHolder="Select Campaign" />
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
                             <span class="campaign_name_length">{{selectedObj.name}}</span>
                         </div>
-                        <li ng-repeat="campaign in campaignData.campaigns track by $index" class="campaigns_list_li" value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}" _kpi="{{(campaign.kpi_type == undefined )? campaign.kpi : campaign.kpi_type}}" title="{{campaign.name}}"
+                        <div class="dropdown_list_scroll">
+                            <li ng-repeat="campaign in campaignData.campaigns track by $index" class="campaigns_list_li" value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}" _kpi="{{(campaign.kpi_type == undefined )? campaign.kpi : campaign.kpi_type}}" title="{{campaign.name}}"
                             _startDate="{{(campaign.start_date == undefined) ? campaign.startDate : campaign.start_date}}" _endDate="{{(campaign.end_date == undefined) ? campaign.endDate : campaign.end_date}}">{{campaign.name }}</li>
+                        </div>
                     </ul>
                     </li>
                 </ul>
