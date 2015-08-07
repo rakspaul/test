@@ -64,7 +64,7 @@ var angObj = '';
                 title :  'Custom Report' ,
                 controller: 'customReportController'
             })
-            .when('/uploadreports', {
+            .when('/reports/upload', {
                 templateUrl: assets.html_custom_report_upload,
                 title :  'Upload Custom Reports' ,
                 controller: 'customReportUploadController'
