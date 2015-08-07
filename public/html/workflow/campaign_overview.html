@@ -16,22 +16,22 @@
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
-						<div class="campWidgets">
-							<span class="badge">2</span>
-							<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>
-						</div>
-						<div class="campWidgets">
-							<span class="badge">2</span>
-							<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>
-						</div>
-						<div class="campWidgets">
-							<span class="badge">2</span>
-							<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>
-						</div>
-						<div class="campWidgets">
-							<span class="badge">2</span>
-							<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>
-						</div>
+			<div class="campWidgets">
+				<span class="badge">2</span>
+				<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>
+			</div>
+			<div class="campWidgets">
+				<span class="badge">2</span>
+				<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>
+			</div>
+			<div class="campWidgets">
+				<span class="badge">2</span>
+				<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>
+			</div>
+			<div class="campWidgets">
+				<span class="badge">2</span>
+				<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>
+			</div>
                     </div>
                 </div>
                 
@@ -86,14 +86,19 @@
                             </div>
                         </div>-->
 
-						<!--=== Create BTN Ad ===-->
+			<!--=== Create BTN Ad ===-->
                         <div class="col-md-3 adModule adCreateBtn">
                             <div class="col-md-12">
                                 <a href="/campaign/{{workflowData.campaignData.id}}/ads/create" class="col-md-12 text-center addMaster">
-									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-									<h1>Create Ad</h1>
-								</a>
+					<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+					<h1>Create Ad</h1>
+				</a>
                             </div>
+			    <!--Abi for some reason toggle switch works here but not below???-->
+			    <div class="btn-group btn-toggle pull-left"> 
+				    <button class="btn btn-xs btn-default">ON</button>
+				    <button class="btn btn-xs btn-success active">OFF</button>
+			    </div>
                         </div>
 
                         <!--=== Single Ad Ready ===-->
@@ -108,31 +113,36 @@
                                     {{adsData.name}}
                                 </h1>
                                 <span ng-if="adsData.format.name" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.format.name)}} pull-right" aria-hidden="true"></span>
+				<!--Abi for some reason toggle switch doesnt work here but above it those?-->
+				<div class="btn-group btn-toggle pull-left"> 
+				    <button class="btn btn-xs btn-default">ON</button>
+				    <button class="btn btn-xs btn-success active">OFF</button>
+				</div>
                                 <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(adsData.endTime) | date : 'MMM dd, yyyy'}}</span>
                                 <div class="spacer" ng-if="adsData.startTime && adsData.endTime"><div class="col-md-12"></div></div>
-								<div class="col-md-4 zeroPadding">
-									<span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
-									<span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
-								</div>
-								<div class="col-md-4 zeroPadding">
-									<span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
-									<span class="col-md-12 text-center zeroPadding">{{adsData.rateValue}}</span>
-								</div>
-								<div class="col-md-4 zeroPadding">
-									<span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
-									<span class="col-md-12 text-center zeroPadding">$99,999</span>
-								</div>
+				<div class="col-md-4 zeroPadding">
+					<span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
+					<span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
+				</div>
+				<div class="col-md-4 zeroPadding">
+					<span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
+					<span class="col-md-12 text-center zeroPadding">{{adsData.rateValue}}</span>
+				</div>
+				<div class="col-md-4 zeroPadding">
+					<span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
+					<span class="col-md-12 text-center zeroPadding">$99,999</span>
+				</div>
                                 <div class="spacer"><div class="col-md-12"></div></div>
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes (0)</span>
-									<p style="margin: 0;">Not Set</p>
+				    <p style="margin: 0;">Not Set</p>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
-									<p style="margin: 0;">Not Set</p>
+				    <p style="margin: 0;">Not Set</p>
                                 </div>
                             </div>
-							<span class="pull-right adStatus">{{adsData.state}}</span>
+			    <span class="pull-right adStatus">{{adsData.state}}</span>
                         </div>
                     </div>
                 </div>

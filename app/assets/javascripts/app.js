@@ -89,6 +89,11 @@ var angObj = '';
                 title :  'Campaign - Ad Create',
                 controller: 'CampaignAdsCreateController'
             })
+            .when('/creative', {
+                templateUrl: assets.html_creative,
+                title :  'Creative',
+                controller: 'creativeController'
+            })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }).config([
