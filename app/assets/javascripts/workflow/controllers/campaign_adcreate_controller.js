@@ -7,9 +7,14 @@ var angObj = angObj || {};
         $scope.workflowData = {};
         $scope.adData= {}
         $scope.adData.screenTypes =[];
-
+        $scope.creativeData = {};
         $scope.campaignId = $routeParams.campaignId;
 
+        $scope.IsVisible = false;//To show hide view tag in creatives listing
+                $scope.ShowHide = function () {
+                //If DIV is visible it will be hidden and vice versa.
+                $scope.IsVisible = $scope.IsVisible ? false : true;
+                }
         $scope.getAdFormatIconName = function(adFormat) {
             var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
             return adFormatMapper[adFormat.toLowerCase()];
@@ -30,18 +35,22 @@ var angObj = angObj || {};
             return platformMapper[platform.toLowerCase()];
         }
 
+
         var campaignOverView = {
             getCampaignData :  function(campaignId) {
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
-
                         var startDateElem = $('#startDateInput');
                         var campaignStartTime =  moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
                         var campaignEndTime =  moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
+                        /*call to get creatives*/
+                        campaignOverView.getTaggedCreatives(39,94);
+
+                      //  campaignOverView.getTaggedCreatives($scope.workflowData['campaignData'].campaignId, $scope.workflowData['campaignData'].id);
                     }
                     else{
                         campaignOverView.errorHandler(result);
@@ -90,6 +99,21 @@ var angObj = angObj || {};
                     }
                 });
             },
+        /*Function to get creatives for list view*/
+            getTaggedCreatives: function(campaignId,adId){
+            console.log($scope.workflowData);
+                workflowService.getTaggedCreatives(campaignId,adId).then(function (result) { console.log("data returned");
+                                if (result.status === "OK" || result.status === "success") { console.log(result.data.data);
+                                    var responseData = result.data.data;
+                                    console.log("responseData"+responseData);
+                                    $scope.creativeData['creativeInfo'] = responseData;
+                                 }
+                                else{   console.log("failed");
+                                     campaignOverView.errorHandler(result);
+                                     }
+                }, campaignOverView.errorHandler);
+
+            },
 
             errorHandler : function(errData) {
                 console.log(errData);
@@ -106,6 +130,8 @@ var angObj = angObj || {};
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
         campaignOverView.fetchPlatforms();
+        //campaignOverView.getCreatives(3,10);
+
 
 
         $scope.screenTypeSelection = function(screenTypeObj) {
