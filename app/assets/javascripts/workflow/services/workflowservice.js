@@ -43,6 +43,13 @@
             pushCampaign : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/push';
                 return dataService.fetch(url);
+
+            },
+//http://dev-workflow002.ewr004.collective-media.net:9009/api/wf/v2/campaigns/39/ads/adid
+            getTaggedCreatives : function(campaignId,adId){
+            console.log("adID:"+adId+"CampaignID:"+campaignId);
+                             var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
+                             return dataService.fetch(url);
             }
         };
 
