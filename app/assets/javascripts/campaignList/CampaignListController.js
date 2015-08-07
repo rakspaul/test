@@ -6,14 +6,22 @@
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
 
+    $scope.sortReverse = false;
     $scope.campaignListSortFunction = function(campaign) {
           if(campaign.status ==="Ready" ){
+              $scope.sortReverse = false;
               return campaign.start_date;
           }
           else if(campaign.status ==="Draft" ){
+              $scope.sortReverse = false;
               return campaign.start_date;
           }
+          else if(campaign.status ==="Completed" ){
+              $scope.sortReverse = true;
+              return campaign.end_date;
+          }
           else{
+              $scope.sortReverse = false;
               return campaign.end_date;
           }
     };
