@@ -6,6 +6,7 @@ var angObj = angObj || {};
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.selectedCampaign = {}
+
         var createCampaign = {
             clients :  function() {
                 workflowService.getClients().then(function (result) {
@@ -59,10 +60,13 @@ var angObj = angObj || {};
         $scope.selectHandler =  function(type, data) {
             if(type === 'client') {
                 createCampaign.fetchAdvertisers(data.client.id);
+                $scope.workflowData['advertisers'] = {};
+                $scope.workflowData['brands'] = {};
                 $scope.workflowData['post_value']['clientId'] = data.client.id;
             }
             else if(type == 'advertiser') {
                 createCampaign.fetchBrands(data.advertiser.id);
+                $scope.workflowData['brands'] = {};
                 $scope.workflowData['post_value']['advertiserId'] = data.advertiser.id;
             }
 
