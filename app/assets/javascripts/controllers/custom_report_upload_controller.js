@@ -6,8 +6,8 @@ var angObj = angObj || {};
       $scope.textConstants = constants;
 
       //reset files
-      reportsUploadList.data ="";
-
+      reportsUploadList.list =[];
+      $scope.reportsUploadList = reportsUploadList.list;
 
       $scope.test="Upload Reports";
       $scope.$watch('files', function () {
@@ -21,17 +21,17 @@ var angObj = angObj || {};
 
       $scope.prepareUpload = function (files) {
 
-      //    console.log(reportsUploadList.data);
-       if (files && files.length) {
-         $scope.loaded =0;
-         $scope.total = files.length;
-           for (var i = 0; i < files.length; i++) {
-               var file = files[i];
-               reportsUploadList.add(file);
-               //TODO: assign data in service
+           if (files && files.length) {
+             $scope.loaded =0;
+             $scope.total = files.length;
+               for (var i = 0; i < files.length; i++) {
+                   var file = files[i];
+                   reportsUploadList.add(file);
+                   //TODO: assign data in service
+               }
+               $scope.reportsUploadList = reportsUploadList.list;
            }
-       }
-       $scope.reportsUploadList = reportsUploadList.list;
+           console.log($scope.reportsUploadList);
      }; //prepare ends
 
      $scope.upload = function () {
@@ -83,6 +83,13 @@ var angObj = angObj || {};
     }
     }; //upload ends
 
+
+    $scope.localDelete = function(key) {
+      if (confirm('Are you sure you want to delete this?')) {
+        reportsUploadList.list.splice(key, 1);
+        $scope.reportsUploadList = reportsUploadList.list;
+      }
+    };
 
 
     });
