@@ -174,9 +174,10 @@
       'services-momentService': {deps: ['login-LoginModel']},
       'common-directive-DataNotFound':{deps:['CommonModule']},
 
-        'collectiveReport-CollectiveReportModule':{deps: ['angular']},
-        'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
-        'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']}
+      'collectiveReport-CollectiveReportModule':{deps: ['angular']},
+      'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
+      'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']}
 
     },
     optimize: 'uglify2',
@@ -301,6 +302,7 @@
       'collectiveReport-CollectiveReportModule':'collectiveReport/CollectiveReportModule',
       'collectiveReport-CollectiveReportListingController':'collectiveReport/CollectiveReportListingController',
       'collectiveReport-CollectiveReportModel':'collectiveReport/CollectiveReportModel',
+      'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
@@ -514,7 +516,8 @@
 
           'collectiveReport-CollectiveReportModule',
           'collectiveReport-CollectiveReportListingController',
-          'collectiveReport-CollectiveReportModel'
+          'collectiveReport-CollectiveReportModel',
+          'collectiveReport-CollectiveReportDirective'
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {

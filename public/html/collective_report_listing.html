@@ -23,6 +23,7 @@
     display: block;
   }
 </style>
+
   	<div class="custom_response_screenshot_container"  style="background:#fff">
         <div class="custom_report_response_page">
               <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px">
@@ -37,11 +38,15 @@
                 <span class="head">{{rlist.reportType}}</span>
                 <span class="head">Campaign</span>
                 <span class="head">Author</span>
-                <span class="head" style="width:190px">Download - Edit - Delete</span>
+                <span class="head" style="width:190px">
+                    <a href="">Download</a>
+                    <a  ng-click="editReportModal($index)"> - Edit</a>
+                    <a> - Delete</a></span>
                 <span class="notes">{{rlist.notes}} </span>
               </div>
               <!--  no data or loading -->
               <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="(!reportList || nodata)">{{(nodata && !reportList) ?"No data found": "Loading..."}}</div>
           </div>
       </div>
+
 </div>
