@@ -100,6 +100,11 @@ var angObj = '';
                 title :  'Creative',
                 controller: 'creativeController'
             })
+            .when('/creative/list', {
+                templateUrl: assets.html_creative_list,
+                title :  'Creative List',
+                controller: 'creativeListController'
+            })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }).config([
