@@ -314,13 +314,13 @@
 												<div class="form-group col-md-3 zeroPadding">
 													<span>Impressions</span>
 													<input type="radio" name="budgetType" group="budgetGroup" value="Impressions" class="btn_rad" ng-model="adData.budgetImpressionType" ng-click="adData.budgetMediaCostType = null; adData.mediaCostValue = ''">
-													<input type="text" ng-disabled="!adData.budgetImpressionType" name="budgetValue1" group="budgetGroup" ng-model="adData.ImpressionsValue" numbers-only="numbers-only" class="form-control" placeholder="Enter Value" >
+													<input type="text" ng-disabled="!adData.budgetImpressionType" id="impressionInp" name="budgetValue1" group="budgetGroup" ng-model="adData.ImpressionsValue" numbers-only="numbers-only" class="form-control" placeholder="Enter Value" >
                                                 </div>
 												<div class="form-group col-md-3">
 													<span>Media Cost</span>
-													<input type="radio"  name="budgetType"  value="Media Cost" class="btn_rad" ng-model="adData.budgetMediaCostType" ng-click="adData.budgetImpressionType = null; adData.ImpressionsValue = ''">
-													<input type="text" ng-disabled="!adData.budgetMediaCostType" name="budgetValue1" class="form-control" numbers-only="numbers-only" ng-model="adData.mediaCostValue" placeholder="Enter Value">
-												</div>
+													<input type="radio"  name="budgetType"  value="Cost" class="btn_rad" ng-model="adData.budgetMediaCostType" ng-click="adData.budgetImpressionType = null; adData.ImpressionsValue = ''">
+													<input type="text" ng-disabled="!adData.budgetMediaCostType" id="mediaCostInp" name="budgetValue1" class="form-control" numbers-only="numbers-only" ng-model="adData.mediaCostValue" placeholder="Enter Value">
+                                                </div>
 											</div>
 											
                                             <div class="row zeroPadding freqWrap">
