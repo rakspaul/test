@@ -23,8 +23,7 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
             kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
             if (campaign.selectedCampaign.name){
                 $(".campaign_name_selected").text(campaign.selectedCampaign.name);
-                //$("#campaignDropdown").width($(".campaign_name_length").width() + 14);
-                //$("#campaignDropdown").val(campaign.selectedCampaign.name);
+                $("#campaignDropdown").val(campaign.selectedCampaign.name);
             }
         }
     };

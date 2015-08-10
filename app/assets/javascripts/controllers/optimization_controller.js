@@ -27,7 +27,7 @@ var angObj = angObj || {};
                 return constants.MSG_DATA_NOT_AVAILABLE;
             }
         };
-
+        $scope.strategyLoading =  true;
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
         $scope.strategyLoading =  true;
@@ -46,6 +46,7 @@ var angObj = angObj || {};
 
             $scope.campaignActionList = [];
             $scope.chartForStrategy = true;
+            $scope.strategyLoading =  true;
 
             $scope.tacticNotFound = false;
             $scope.tacticLoading = true;
@@ -189,6 +190,7 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
+                $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if(param.orderId === Number($scope.selectedCampaign.id)){
 

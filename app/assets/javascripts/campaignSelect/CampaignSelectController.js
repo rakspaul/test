@@ -20,10 +20,8 @@
         $scope.fetching = false;
 
        $scope.$parent.strategyLoading = true;
-       $scope.$parent.isFetchStrategiesCalled = false;
+       //$scope.$parent.isFetchStrategiesCalled = false;
 
-        //TODO: can make a general improvement
-        // Don't make calls to server, if previous selected campaign is same as presently selected campaign.
 
         var searchCriteria = utils.typeaheadParams;
 
@@ -36,7 +34,7 @@
             //Get Campaign for the selected brand
             resetSearchCriteria();
             $scope.exhausted = false;
-            $scope.$parent.isFetchStrategiesCalled = false;
+           // $scope.$parent.isFetchStrategiesCalled = false;
             $scope.fetchCampaigns(true,true);
 
         });
@@ -60,14 +58,7 @@
             }
 
             campaignSelectModel.setSelectedCampaign(selectedCampaign);
-
-            /*if (localStorage.getItem('isNavigationFromCampaigns') == "true" || localStorage.getItem('isNavigationFromCampaigns') == true) {
-                $rootScope.$broadcast(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED);
-            } else {*/
-
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-             //}
-
         };
 
         $scope.fetchCampaigns = function(search,set_campaign){
@@ -127,9 +118,9 @@
 
 
         //Function called when the user clicks on the campaign dropdown
-        $('#campaigns_list').click(function (e) {
+        $('#campaigns_list').on('click', 'li', function (e) {
             $scope.$parent.strategyLoading = true ;
-            $scope.$parent.isFetchStrategiesCalled = false;
+            //$scope.$parent.isFetchStrategiesCalled = false;
             var selectedCampaign = {
                 id : $(e.target).attr('value'),
                 name :  $(e.target).text(),
@@ -140,14 +131,14 @@
             };
             $scope.setCampaign(selectedCampaign );
 
-            $(this).hide();
+            $('#campaigns_list').hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
         });
         // $(function() {
         //   $("#campaignsDropdownDiv").on('click',  function(){
-        //         $('#campaigns_list').scrollTop(0)  
-        //     }); 
+        //         $('#campaigns_list').scrollTop(0)
+        //     });
         // });
 
 

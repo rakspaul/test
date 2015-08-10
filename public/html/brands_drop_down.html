@@ -1,5 +1,6 @@
+
 <div class="nav_filters_heading">Brand</div>
-<div class="brand_name_selected" id="brand_name_selected" ng-click="brandsDropdownClicked()" title="{{brandData.selectedBrand.name}}"  >All Brands</div>
+<div class="brand_name_selected" id="brand_name_selected" ng-click="brandsDropdownClicked()" title="{{brandData.selectedBrand.name}}"  >{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}</div>
 <div class="clearfix">
  <!--  <div class="pull-left brands_dd_icon"></div> -->
   <div class="brandsDropdownSearch">
@@ -7,11 +8,11 @@
     <ul class="dropdown-menu" role="menu" id="brandsList">
       <div id="brandsDropdownDiv">
         <input class="dropdown-toggle inactive"  id="brandsDropdown"
-               placeholder="All Brands"  ng-keyup="disableShowAll();searchBrands()" ng-model="selectedBrand.name"/>
+               placeholder="{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}"  ng-keyup="disableShowAll();searchBrands()" ng-model="selectedBrand.name"/>
         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
       </div>
       <div class="brandsList_ul" id="brandsList_ul" lr-infinite-scroll="loadMoreBrands" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">
-        <li ng-repeat="brand in brands track by brand.id" ng-hide="isExcludedByBrandFilter" class="{{brand.className}}" ng-controller="brandsListController">
+        <li ng-repeat="brand in brands track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === brandData.selectedBrand.id}" ng-controller="brandsListController">
           <a data-ng-click="selectBrand(brand)">
             <span class="tick"></span>
             <span class="menuItemText"

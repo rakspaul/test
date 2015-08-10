@@ -33,7 +33,8 @@ var angObj = angObj || {};
             $scope.sortTypeSubSort = 'impressions';
 
         }
-
+        $scope.strategyLoading =  true;
+        $scope.strategyFound = true;
         $scope.videoMode = true;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -97,8 +98,7 @@ var angObj = angObj || {};
 
             $scope.api_return_code = 200;
             platformService.getStrategyPlatformData(param).then(function (result) {
-
-
+                $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = result.data.data.cost_transparency;
                     $scope.performanceBusy = false;
@@ -220,6 +220,7 @@ var angObj = angObj || {};
         //Initializing the variable.
         $scope.init = function () {
             $scope.strategyFound = false;
+            $scope.strategyLoading =  true;
             $scope.api_return_code = 200;
             $scope.isStrategyDataEmpty = false;
             $scope.videoMode = false;

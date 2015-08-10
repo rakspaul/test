@@ -95,8 +95,7 @@ var angObj = angObj || {};
                 $scope.inventoryChart = false;
             };
             return dataService.fetchCancelable(url, canceller, function(result) {
-            //inventoryService.getAllTacticDomainData(param).then(function (result) {
-
+                $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
 
                     if (result.data.data[0] !== 'undefined' ) {
@@ -204,6 +203,8 @@ var angObj = angObj || {};
             $scope.api_return_code = 200;
             return dataService.fetchCancelable(url, canceller, function(result){
                 $scope.loadingFlag = false;
+                $scope.strategyLoading =  false;
+
                 if (result.status === "OK" || result.status === "success") {
                     $scope.strategyTable.topPerformance = [], $scope.strategyTable.bottomPerformance = [];
 

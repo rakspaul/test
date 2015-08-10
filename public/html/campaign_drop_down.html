@@ -15,7 +15,7 @@
                             <span class="campaign_name_length">{{selectedObj.name}}</span>
                         </div>
                         <div class="dropdown_list_scroll">
-                            <li ng-repeat="campaign in campaignData.campaigns track by $index" class="campaigns_list_li" value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}" _kpi="{{(campaign.kpi_type == undefined )? campaign.kpi : campaign.kpi_type}}" title="{{campaign.name}}"
+                            <li ng-repeat="campaign in campaignData.campaigns track by $index" class="campaigns_list_li {{campaign.name === selectedObj.name ? 'active' : ''}}" value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}" _kpi="{{(campaign.kpi_type == undefined )? campaign.kpi : campaign.kpi_type}}" title="{{campaign.name}}"
                             _startDate="{{(campaign.start_date == undefined) ? campaign.startDate : campaign.start_date}}" _endDate="{{(campaign.end_date == undefined) ? campaign.endDate : campaign.end_date}}">{{campaign.name }}</li>
                         </div>
                     </ul>
