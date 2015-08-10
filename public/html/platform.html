@@ -343,7 +343,7 @@
         <div class="clearfix pull-left" ng-init= "vvData = ViewabilityData.platformType_aggregation.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_susp_activity_perc | number:2}}%
+            {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_susp_activity_perc | number:0}}%
         </div>
     </div>
 
@@ -378,7 +378,7 @@
         <div class="clearfix pull-left" ng-init= "vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{platform.video_viewability_metrics.video_susp_activity_perc | number:2}}%
+            {{platform.video_viewability_metrics.video_susp_activity_perc | number:0}}%
         </div>
     </div>
 </script>
@@ -471,7 +471,7 @@
             </div>
         </div>
         <div class="each_col suspicious_col">
-            {{platform.susp_activity_perc | number:2}}%
+            {{platform.susp_activity_perc | number:0}}%
         </div>
        <!-- <div class="each_col seventh_col">
             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
