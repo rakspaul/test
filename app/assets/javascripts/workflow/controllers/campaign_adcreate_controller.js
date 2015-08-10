@@ -8,6 +8,7 @@ var angObj = angObj || {};
         $scope.adData= {}
         $scope.adData.screenTypes =[];
         $scope.creativeData = {};
+        $scope.emptyCreativesFlag=false;
         $scope.campaignId = $routeParams.campaignId;
 
         $scope.IsVisible = false;//To show hide view tag in creatives listing
@@ -48,9 +49,9 @@ var angObj = angObj || {};
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         /*call to get creatives*/
-                        campaignOverView.getTaggedCreatives(39,94);
-
-                      //  campaignOverView.getTaggedCreatives($scope.workflowData['campaignData'].campaignId, $scope.workflowData['campaignData'].id);
+                        console.log(responseData);
+                       // campaignOverView.getTaggedCreatives(39,94);
+                        campaignOverView.getTaggedCreatives(campaignId, responseData.id);
                     }
                     else{
                         campaignOverView.errorHandler(result);
@@ -101,14 +102,15 @@ var angObj = angObj || {};
             },
         /*Function to get creatives for list view*/
             getTaggedCreatives: function(campaignId,adId){
-            console.log($scope.workflowData);
                 workflowService.getTaggedCreatives(campaignId,adId).then(function (result) { console.log("data returned");
                                 if (result.status === "OK" || result.status === "success") { console.log(result.data.data);
                                     var responseData = result.data.data;
+                                    if(responseData.creatives.length==0) $scope.emptyCreativesFlag=true;
                                     console.log("responseData"+responseData);
                                     $scope.creativeData['creativeInfo'] = responseData;
                                  }
-                                else{   console.log("failed");
+                                else{
+                                     console.log("failed");
                                      campaignOverView.errorHandler(result);
                                      }
                 }, campaignOverView.errorHandler);
