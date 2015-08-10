@@ -41,6 +41,7 @@ var angObj = angObj || {};
             domains: null,
             publishers: null,
         };
+        $scope.strategyLoading =  true;
 
         $scope.init = function (){
 
@@ -49,6 +50,7 @@ var angObj = angObj || {};
             $scope.tacticBusy = false ;
             $scope.strategyFound = false;
             $scope.isStrategyDropDownShow = true;
+            $scope.strategyLoading =  true;
             $scope.selected_filters = {};
             $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
@@ -66,7 +68,7 @@ var angObj = angObj || {};
             }
             $scope.api_return_code = 200;
             viewablityService.getStrategyViewData(param).then(function (result) {
-
+                $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success" || result.status == 204) {
                     if(result.data != '' ){ // if data not empty
                         strategiesList = result.data.data;

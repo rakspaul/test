@@ -148,6 +148,7 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
 
             performanceService.getStrategyPerfData(param).then(function (result) {
+                $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
                     if($scope.hidePerformanceReportTab) {
@@ -158,6 +159,7 @@ var angObj = angObj || {};
                         $scope.dowBusy = false;
                         $scope.creativeBusy = false;
                         $scope.adSizesBusy = false;
+
                         $scope['strategyPerfDataBy'+tab]  = result.data.data[0];
                         $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     }
@@ -253,6 +255,7 @@ var angObj = angObj || {};
             $scope.api_return_code = 200;
             $scope.isStrategyDataEmpty = false;
             $scope.hidePerformanceReportTab = false;
+            $scope.strategyLoading =  true;
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};

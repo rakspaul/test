@@ -247,7 +247,18 @@
             }
         };
     }]);
-
+    angObj.directive('filtersHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: '/assets/html/partials/filters_header.html',
+            link: function(scope, element, attrs) { 
+                scope.reportFilter = attrs.reports ;
+                scope.textConstants = constants;
+            }
+        };
+    }]);
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
