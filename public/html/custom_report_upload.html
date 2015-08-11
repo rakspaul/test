@@ -48,47 +48,50 @@
 	}
   </style>
 
-	<!-- Custom Report Response Page -->
-	<div class="custom_response_screenshot_container">
-		<div ng-show="!progress"  ngf-drop ngf-select ng-model="files"
-     ng-model-rejected="rejFiles"
-     ngf-multiple="true" ngf-allow-dir="false"  class="drop-box"
-    ngf-drag-over-class="dragover"
-    ngf-accept="'.pdf,.xls,.ppt,.pptx'"
-   ngf-max-size='10000000'>
-    <!-- ngf-accept="'.pdf,.xls'"
-   ngf-max-size='1000000000000' -->
-            <div class="" style="height: 200px;width: 300px;margin: 0 auto;background:url('/assets/images/cdesk/dragging_files.png') no-repeat center center">
-            </div>
-      			<span class="img_table_txt">
-      				Simple drag and drop files to add or  <a id="fileupload" href="#" >Browse</a>
-      			</span>
-            <center>(ppt, pptx, pdf, xls)</center>
+
+	<div style="    margin-bottom: 40px;
+	    background: #f5f9fd;
+	    padding: 60px 0;
+	    border-top: solid 2px #ccd9e3;">
+			<div ng-show="!progress"  ngf-drop ngf-select ng-model="files"
+	     ng-model-rejected="rejFiles"
+	     ngf-multiple="true" ngf-allow-dir="false"  class="drop-box"
+	    ngf-drag-over-class="dragover"
+	    ngf-accept="'.pdf,.xls,.ppt,.pptx'"
+	   ngf-max-size='10000000'>
+	    <!-- ngf-accept="'.pdf,.xls'"
+	   ngf-max-size='1000000000000' -->
+	            <div class="" style="height: 200px;width: 300px;margin: 0 auto;background:url('/assets/images/cdesk/dragging_files.png') no-repeat center center">
+	            </div>
+	      			<span class="img_table_txt">
+	      				Simple drag and drop files to add or  <a id="fileupload" href="#" >Browse</a>
+	      			</span>
+	            <center>(ppt, pptx, pdf, xls)</center>
 
 
+			</div>
+
+
+
+
+	<!-- accept="image/*,application/pdf" -->
+	  <!-- <div ngf-drop ngf-select ng-model="files" class="drop-box"
+	      ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="false" ngf-accept="'.pdf,.xls'"
+	       ngf-max-size='10000000'>Drop pdfs or images here or click to upload</div> -->
+	  <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+
+
+	<div ng-show="progress" class="drop-box">
+		<div class="progress_bar">
+			<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
 		</div>
-
-
-
-
-<!-- accept="image/*,application/pdf" -->
-  <!-- <div ngf-drop ngf-select ng-model="files" class="drop-box"
-      ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="false" ngf-accept="'.pdf,.xls'"
-       ngf-max-size='10000000'>Drop pdfs or images here or click to upload</div> -->
-  <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-
-
-
-<div ng-show="progress" class="drop-box">
-	<div class="progress_bar">
-		<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
+		Uploaded {{loaded}} of {{total}}<br>
+		Progress: {{ 100 *(loaded/total) }} %
 	</div>
-	Uploaded {{loaded}} of {{total}}<br>
-	Progress: {{ 100 *(loaded/total) }} %
-</div>
+	</div>
 
-
-    <div class="custom_report_response_page">
+    <div class="custom_report_upload_page">
 
 
       <!-- <div ng-show="total>0">
@@ -107,10 +110,7 @@
 				<li ng-repeat="file in reportsUploadList">{{file.name}} {{file.size}} :::: {{file.status}}</li>
 			</ol> -->
 			<style media="screen">
-			  .head {
-			    width: 190px;
-			    display: inline-block;
-			  }
+			  
 			  .notes {
 			    border: 1px solid #ccc;
 			    padding: 5px;
@@ -121,49 +121,54 @@
 
 			        <div class="custom_report_response_page" ng-show="reportsUploadList.length">
 
-			              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px;margin-top:10px" >
-											<span ng-show="progress" class="head">Status</span>
-			                <span class="head">File Name</span>
-											<span class="head">Size</span>
-			                <span class="head">Report Type</span>
-			                <span class="head">Campaign</span>
-
+			              <div class="clearfix" style="border:1px solid #ccc; padding:15px;margin-top:10px" >
+							<span ng-show="progress" class="col-md-1 each-col">Status</span>
+			                <span class="col-md-3 each-col">File Name</span>
+							<span class="col-md-1 each-col">Size</span>
+			                <span class="col-md-3 each-col">Report Type</span>
+			                <span class="col-md-4 each-col">Campaign</span>
 			              </div>
 
-			              <div ng-repeat="(index, file) in reportsUploadList" style="border:1px solid #ccc; height:auto;width:100%;padding:15px">
-											<fieldset ng-disabled="file.status && progress">
-												<span ng-show="file.status" class="head">{{file.status}}</span>
-												<span class="head">{{file.name}}</span>
-												<span class="head">{{file.size/1000000 | number:2}} MB</span>
+			              <div ng-repeat="(index, file) in reportsUploadList" style="border:1px solid #ccc;margin-bottom:5px; height:auto;width:100%;padding:15px">
+							<fieldset ng-disabled="file.status && progress">
+								<div class="clearfix">
+									<span ng-show="file.status" class="col-md-1 each-col">{{file.status}}</span>
+									<span class="col-md-3 each-col">{{file.name}}</span>
+									<span class="col-md-1 each-col">{{file.size/1000000 | number:2}} MB</span>
+									<span class="col-md-3 each-col">
+										<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left"></select>
+										<input type="text" style="width:112px" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
+									</span>
+					               <!--  <span class=""></span> -->
+		<!-- TODO: get campaignId and need many instances -->
+									<div class="col-md-4 each-col">
+										<campaign-drop-down selected-obj="file.selectedCampaign"> </campaign-drop-down>
+									</div>
 
-												<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType"></select>
-												<input type="text" style="width:100px" ng-model="file.reportName" placeholder="Report Name">
-
-				                <span class="head"></span>
-	<!-- TODO: get campaignId and need many instances -->
-												<campaign-drop-down selected-obj="file.selectedCampaign"> </campaign-drop-down>
-
-				                <span  ng-click="localDelete(index)" ng-show="file.status!='success'" class="head" style="width:190px">Delete</span>
-				                <!-- <span class="notes"> </span> -->
-												<div style="clear:both"></div>
-
-												<span>Description:</span><input style="width:90%" type="text" ng-model="file.notes" placeholder="Description">
-											</fieldset>
-										</div>
+					                <span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="col-md-1 each-col" >Delete</span>
+					                
+				                </div>
+								<div class="clearfix col-md-12" style="margin-top:10px ;"> 
+									<span>Description:</span>
+									<input style="width:90%" type="text" ng-model="file.notes" placeholder="Description">
+								</div>
+							</fieldset>
+						</div>
 			              <!--  no data or loading -->
+			            <div style="margin-bottom:20px;margin-top:20px" ng-show="reportsUploadList.length">
+						  <span ng-click="upload()" ng-show="!progress" style="background:#3AA0E6; display:inline-block;padding:10px;border-radius:5px;color:#fff">Start Upload</span>
+
+							<a href="/campaigns" ng-show="!progress" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
+
+							<a href="/campaigns" ng-show="progress" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
+						</div>
 			          </div>
 
 
 
 
 
-			<div style="margin-bottom:20px;margin-top:20px" ng-show="reportsUploadList.length">
-			  <span ng-click="upload()" ng-show="!progress" style="background:#3AA0E6; display:inline-block;padding:10px;border-radius:5px;color:#fff">Start Upload</span>
-
-				<a href="/campaigns" ng-show="!progress" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
-
-				<a href="/campaigns" ng-show="progress" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
-			</div>
+			
 
 
 <!--dont style this - - logging area for test-->
@@ -188,7 +193,7 @@
 				</ul>
 
 				<span>Upload Log:</span>
-      	<pre>{{log}}</pre>
+      			<pre>{{log}}</pre>
 			</div><!--to be removed after development -->
 <!--dont style this - - logging ends** -->
 
@@ -197,6 +202,6 @@
 
 
 
-	</div>
-	<!-- End of Custom Report Response Page -->
+
+	
 </div>
