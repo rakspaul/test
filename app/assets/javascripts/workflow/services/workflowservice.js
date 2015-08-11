@@ -45,11 +45,14 @@
                 return dataService.fetch(url);
 
             },
-//http://dev-workflow002.ewr004.collective-media.net:9009/api/wf/v2/campaigns/39/ads/adid
             getTaggedCreatives : function(campaignId,adId){
-            console.log("adID:"+adId+"CampaignID:"+campaignId);
-                             var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
-                             return dataService.fetch(url);
+                var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
+                return dataService.fetch(url);
+            },
+
+            getCreatives :  function(clientId, advertiserId) {
+                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives';
+                return dataService.fetch(url);
             }
         };
 
