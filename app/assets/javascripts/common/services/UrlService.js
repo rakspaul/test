@@ -94,6 +94,12 @@
           return url;
       }
 
+      this.APIUploadReport = function() {
+          //http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/upload';
+          return url;
+      }
+
 
   }
 
