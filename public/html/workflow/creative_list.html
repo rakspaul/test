@@ -1,11 +1,11 @@
 <div id="creativeList">
     <!-- Creative -->
     <div class="mainWrap">
-		<div class="clearfix nav_filters">
-			<div class="pull-left dropdown each_filter brands_filter">
+		<div class="col-md-12 zeroPadding clearfix nav_filters">
+			<div class="each_filter brands_filter">
 				<creative-drop-down type="clients" data= "{{creativeData.clients}}" ng-if="creativeData.clients"></creative-drop-down>
 			</div>
-			<div class="pull-left dropdown each_filter brands_filter">
+			<div class="each_filter brands_filter">
 				<creative-drop-down type="advertisers" data= "{{creativeData.clients}}" ng-if="creativeData.clients"></creative-drop-down>
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 			<table class="table">
 				<thead>
 				  <tr>
-					<th>Size<br/><br/></th>
+					<th style="text-indent: 27px;">Size<br/><br/></th>
 					<th>Format<br/><br/></th>
 					<th>Tag<br/><br/></th>
 					<th>Type <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><br/>SSL</th>
@@ -64,14 +64,14 @@
 					<tr ng-repeat="creativeData in creativeData.creatives">
 					<!--Column 1-->
 					<td>
-						<span class="col-md-3"><input type="checkbox" value="{{$index+1}}" /></span>
-						<div class="col-md-9">
+						<span class="col-md-1"><input type="checkbox" value="{{$index+1}}" /></span>
+						<div class="col-md-11">
 							<p class="col-md-12">{{creativeData.size.size}}</p>
 						</div>
 					</td>
 					<!--Column 2-->
 					<td>
-						<img ng-src="/assets/images/workflow/{{getAdFormatIconName(creativeData.creativeFormat)}}.svg" alt="" width="20"/>
+						<span class="glyphicon glyphicon-{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
 					</td>
 					<!--Column 3-->
 					<td>
@@ -148,5 +148,16 @@
 			<span class="pull-right" style="padding: 6px 10px 0 0">1-50 of 364</span>
 			</div>
 		</div>-->
+    </div>
+    
+    <!--Modal View Starts Here-->
+    <div class="popScriptUpdate">
+	<div class="popContainer">
+	    <h1 class="pull-left">Title</h1>
+	    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+	    <pre></pre>
+	    <button type="button" class="btn btn-primary pull-right">Update Tag</button>
+	    <button type="button" class="btn btn-link pull-right">Cancel</button>
+	</div>
     </div>
 </div>
