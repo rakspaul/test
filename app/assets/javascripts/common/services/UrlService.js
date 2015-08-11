@@ -91,6 +91,7 @@
 
       this.APIReportList = function(campaignId) {
           var url = apiPaths.apiSerivicesUrl +'/uploadedreports/listreports/'+campaignId;
+          console.log('UrlService url: ',url);
           return url;
       }
 
@@ -107,6 +108,11 @@
 
       this.APIEditReport = function(reportId) {
           var url = apiPaths.apiSerivicesUrl +'/uploadedreports/'+reportId;
+          return url;
+      }
+
+      this.APIDownloadReport = function(reportId) {
+          var url = apiPaths.apiSerivicesUrl+'/uploadedreports/download/'+reportId;
           return url;
       }
 
