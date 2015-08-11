@@ -1,0 +1,18 @@
+<div class="nav_filters_heading">{{dropdownType}}</div>
+<div class="dropdown_name_selected" id="client_name_selected" ng-click="clientsDropdown()">Select Campaign</div> 
+<div class="clearfix">
+    <div class="clientsDropdownSearch">
+        <ul class="dropdown-menu" role="menu" id="clientsList">
+            <div id="clientssDropdownDiv">
+                <input class="dropdown-toggle inactive"  id="brandsDropdown" />
+                <span class="sort-image-inactive brands_dd_filter_arrow"></span>
+            </div>
+            <div class="clientsList_ul" id="clientsList_ul">
+                <li ng-repeat="d in data track by d.id">
+                    <a><span class="menuItemText">{{d.name}}</span></a>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
+
