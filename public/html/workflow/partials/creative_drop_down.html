@@ -1,32 +1,33 @@
-<!--<div class="nav_filters_heading">{{dropdownType}}</div>
-<div class="dropdown_name_selected" id="client_name_selected" ng-click="clientsDropdown()">Select Campaign</div> 
-<div class="clearfix">
-    <div class="clientsDropdownSearch">
-        <ul class="dropdown-menu" role="menu" id="clientsList">
-            <div id="clientssDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="brandsDropdown" />
-                <span class="sort-image-inactive brands_dd_filter_arrow"></span>
-            </div>
-            
-            <div class="clientsList_ul" id="clientsList_ul">
-                <li ng-repeat="d in data track by d.id">
-                    <a><span class="menuItemText">{{d.name}}</span></a>
-                </li>
-            </div>
-        </ul> 
+<div class="each_filter brands_filter">
+    <div class="nav_filters_heading">Client</div>
+    <div class="dropdown_name_selected" id="client_name_selected" ng-click="clientsDropdown()">{{defaultClient.name ?  defaultClient.name : 'Select Client'}}</div>
+    <div class="clearfix">
+        <div class="clientsDropdownSearch">
+            <ul class="dropdown-menu" role="menu" id="clientsList">
+                <div class="clientsList_ul" id="clientsList_ul">
+                    <li ng-repeat="client in creativeFilterData.clients track by client.id">
+                        <a data-ng-click="selectClient(client)"><span class="menuItemText">{{client.name}}</span></a>
+                    </li>
+                </div>
+            </ul>
+        </div>
     </div>
-</div>-->
+</div>
 
-<div class="col-md-12 zeroPadding form-group creativeDDL">
-    <div class="col-md-12 zeroPadding">
-        <img src="/assets/images/cdesk/common_down_arrow.png" alt=""/>
-        <label for="sel1" class="nav_filters_heading">{{dropdownType}}</label>
-        <select class="form-control" id="sel1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
+<div class="each_filter brands_filter">
+    <div class="nav_filters_heading">Advertiser</div>
+    <div class="dropdown_name_selected" id="advertiser_name_selected" ng-click="advertisersDropdown()">{{defaultAdvertiser.name ?  defaultAdvertiser.name : 'Select Advertiser'}}</div>
+    <div class="clearfix">
+        <div class="clientsDropdownSearch">
+            <ul class="dropdown-menu" role="menu" id="advertisersList">
+                <div class="advertisersList_ul" id="advertisersList_ul">
+                    <li ng-repeat="advertiser in creativeFilterData.advertisers track by advertiser.id">
+                        <a data-ng-click="selectAdvertisers(advertiser)"><span class="menuItemText">{{advertiser.name}}</span></a>
+                    </li>
+                </div>
+            </ul>
+        </div>
     </div>
+
 </div>
 

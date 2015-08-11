@@ -38,8 +38,9 @@ var angObj = angObj || {};
                 console.log(errData);
             }
         }
-        creatives.getCreativeSizes(5, 6);
-
+        $scope.prarentHandler = function(campaignId, advertiserId) {
+            creatives.getCreativeSizes(campaignId, advertiserId);
+        }
         $(function () {
 
             $("#saveCreative").on('click', function () {
