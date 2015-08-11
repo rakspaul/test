@@ -41,13 +41,6 @@
 
                 creativeFilter.clients();
 
-                $scope.clientsDropdown = function () {
-                    $("#clientsList").toggle();
-                };
-
-                $scope.advertisersDropdown = function () {
-                    $("#advertisersList").toggle();
-                };
 
                 $scope.selectClient = function(client) {
                     $("#client_name_selected").text(client.name);
