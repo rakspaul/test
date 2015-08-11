@@ -999,6 +999,28 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 .disabledTxt {
   color: #BBBBBB !important;
 }
+.errorLabel {
+  color: #E83B05 !important;
+  padding: 2px 0 0 4px !important;
+  margin-top: 0 !important;
+  margin-left: 0;
+  font-size: 13px;
+  font-weight: lighter;
+  display: none;
+}
+.has-error .errorLabel {
+  display: block;
+}
+.preloader {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  z-index: 100;
+  width: 31px;
+  height: 31px;
+  margin-left: -15px;
+  display: none;
+}
 #campaignCreate{
   float: left;
   width: 100%;
@@ -1190,14 +1212,6 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
           text-align: left;
           font-weight: lighter;
           font-size: 13px;
-        }
-        .errorLabel {
-          color: #E83B05 !important;
-          padding: 2px 0 0 7px !important;
-          display: none;
-        }
-        .has-error .errorLabel {
-          display: block;
         }
         .labelQuestTxt {
           color: #000;
