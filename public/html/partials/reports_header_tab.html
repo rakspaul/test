@@ -2,6 +2,7 @@
 <div class="clearfix reports_sub_menu_dd_holder">
 	<div class="reports_sub_menu_dd canned_container">
 		<div class="header_tab_dd_subheading">Campaign Reports</div>
+		
 		<div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == filters.activeTab}">
 		    <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}" > {{tab.title}}</a>
 		</div>
@@ -12,8 +13,8 @@
 			<a href="javascript:void(0);">Scheduled</a>
 			<span class="circle_with_number">2</span>
 		</div> -->
-		<div class="header_tab_dropdown">
-			<a ng-click="NavigateToTab('/reports/list', $event)" >Collective</a>
+		<div ng-repeat="tab in customFilters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == customFilters.activeTab}">
+			<a ng-click="NavigateToTab('/'+ tab.href, $event)">{{tab.title}}</a>
 			<!-- <span class="circle_with_number">5</span> -->
 		</div>
 		<a href="/customreport" class="clearfix new_report_generate_btn" ng-show="isNetworkUser">

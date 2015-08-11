@@ -42,6 +42,18 @@
                      activeTab : document.location.pathname.substring(1)
                 }
             },
+            getCustomReportsTabs : function() {
+                var tabs  =  [
+                    {
+                        href:'reports/list',
+                        title: 'Collective'
+                    }
+                ];
+                return {
+                    'tabs' :  tabs,
+                     activeTab : document.location.pathname.substring(1)
+                }
+            },
             highlightHeaderMenu : function() {
                 //Hot fix to show the campaign tab selected
                 $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
