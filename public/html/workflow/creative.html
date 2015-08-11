@@ -19,41 +19,49 @@
 	<div class="col-md-10 containerWrap">
 	    <a href="" class="col-md-12 zeroPadding">Guided Copy Here - Adding 3rd Party Creatives...</a>
 	    
-	    <form role="form">
+	    <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 		<div class="form-group col-md-2">
 		    <label for="sel1">Creative Format</label>
-		    <select class="form-control" id="sel1">
-		      <option>Display</option>
-		      <option>Video</option>
-		      <option>Rich Media</option>
-		      <option>Social</option>
+		    <select class="form-control" id="sel1" name="creativeFormat">
+		      <option selected="selected" value="display">Display</option>
+		      <option disabled="disabled" value="video">Video</option>
+		      <option disabled="disabled" value="richMedia">Rich Media</option>
+		      <option disabled="disabled" value="social">Social</option>
 		    </select>
+			<label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the creative format.</label>
+
 		</div>
-		<div class="form-group col-md-8">
-		    <label for="usr">Name</label>
-		    <input type="text" class="form-control" id="usr">
+		<div class="form-group col-md-8" show-errors='{showSuccess: true}'>
+		    <label for="name">Name</label>
+		    <input type="text" class="form-control ng-pristine ng-valid" id="name" name="name" ng-model="name"  required>
+			<label ng-if="formCreativeCreate.name.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the creative.</label>
 		</div>
-		<div class="form-group col-md-12">
-		    <label for="comment" class="col-md-12 zeroPadding">Secure Tag (SSL compatible) & Macro Tracker <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></label>
-		    <textarea class="form-control col-md-8" style="width: 66.66666667%;" rows="15" id="comment" placeholder="Copy and paste the tag from your ad server"></textarea>
+		<div class="form-group col-md-12" show-errors='{showSuccess: true}'>
+		    <label for="tag" class="col-md-12 zeroPadding">Secure Tag (SSL compatible) & Macro Tracker <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></label>
+		    <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag"  required></textarea>
 		    <span class="col-md-4 previewBtn">Preview</span>
+			<label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a comment for the creative.</label>
+            <div ng-show="IncorrectTag">{{incorrectTagMessage}}</div>
+
+        </div>
+		<div class="form-group col-md-12 zeroPadding" >
+		    <label class="radio-inline"><input type="radio" name="creativeType" value="JS" checked="checked" required>Javascript</label>
+		    <label class="radio-inline"><input type="radio" name="creativeType" value="HTML">HTML</label>
+			<!--<label ng-if="formCreativeCreate.creativeType.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select type the creative.</label>-->
 		</div>
-		<div class="col-md-12 zeroPadding">
-		    <label class="radio-inline"><input type="radio" name="optradio">Javascript</label>
-		    <label class="radio-inline"><input type="radio" name="optradio">HTML</label>
-		</div>
-		<div class="form-group col-md-2">
+		<div class="form-group col-md-2" show-errors='{showSuccess: true}'>
 		    <label for="sel1">Creative Size</label>
-		    <select class="form-control" id="sel1">
-		      <option>Select Size</option>
-		      <option>300x600</option>
+		    <select ng-options="creativeSize.size.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.size.id" ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>
+				<option value="">Select Size</option>
 		    </select>
+			<label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the creative size.</label>
 		</div>
 		<div class="col-md-12 zeroPadding">
 		    <div class="col-md-8 zeroPadding"></div>
 		    <div class="col-md-4 zeroPadding">
-			<button type="submit" class="btn btn-link pull-left">Cancel</button>
-			<button type="submit" class="btn btn-primary pull-left">Save Tag</button>
+            <div ng-show="addedSuccessfully">{{Message}}</div>
+			<button type="submit" class="btn btn-link pull-left" id="cancelCreative" data-ng-click="cancel">Cancel</button>
+			<button type="submit" class="btn btn-primary pull-left" id="saveCreative">Save Tag</button>
 		    </div>
 		</div>
 	    </form>

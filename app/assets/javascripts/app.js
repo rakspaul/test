@@ -95,7 +95,7 @@ var angObj = '';
                 title :  'Campaign - Ad Create',
                 controller: 'CampaignAdsCreateController'
             })
-            .when('/creative', {
+            .when('/creative/create', {
                 templateUrl: assets.html_creative,
                 title :  'Creative',
                 controller: 'creativeController'
