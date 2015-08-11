@@ -4,10 +4,13 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope,$modal) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope,$modal, domainReports) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
+        domainReports.highlightHeaderMenu();
+        $scope.customFilters = domainReports.getCustomReportsTabs();
+
         collectiveReportModel.reportList(function(response){
            if(response.data !== undefined && response.data.length > 0) {
              $scope.reportList = response.data;
