@@ -28,7 +28,7 @@
         $scope.editReportModal = function(index) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_edit_collective_report,
-                controller:function ($scope, $modalInstance, report) {
+                controller:function ($scope, $modalInstance, report,campaignSelectModel,dataService,urlService) {
                     $scope.report = report;
                     $scope.close=function(){
                         $modalInstance.dismiss();//$scope.modalInstance.close() also works I think
@@ -37,12 +37,22 @@
                     {id:'CUSTOM',name:'Custom'},
                     {id:'PCAR',name:'PCAR'}
                     ];
+                   // console.log('campaigns',campaignSelectModel.getCampaigns(189776123));
+
+
                     $scope.campaign="test";
                     $scope.editedData = {
                         reportType:report.reportType,
                         reportName: report.reportName,
                         campaignId:415486,
-                        notes:$scope.report.notes
+                        notes:report.notes
+                    }
+                    $scope.updateReport = function() {
+                        var url = urlService.APIEditReport(report.id);
+                        //dataService.updateReportData(url,editedData);
+                        dataService.updateReportData(url,$scope.editedData).then(function(response) {
+                            console.log("Edit Response: ",response);
+                        });
                     }
                 },
                 resolve: {

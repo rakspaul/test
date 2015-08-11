@@ -105,6 +105,12 @@
           return url;
       }
 
+      this.APIEditReport = function(reportId) {
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/'+reportId;
+          return url;
+      }
+
+
 
   }
 

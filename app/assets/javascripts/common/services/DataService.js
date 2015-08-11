@@ -140,9 +140,12 @@
             },
 
             getReportListData: function (url) {
-                //console.log(this.fetch(url));
                 return this.fetch(url);
 
+            },
+
+            updateReportData:function(url,data) {
+                  return this.put(url,data);
             },
 
             createAction: function (data) {
