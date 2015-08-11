@@ -13,7 +13,16 @@ var angObj = angObj || {};
             var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
             return adFormatMapper[adFormat.toLowerCase()];
         }
-
+        $scope.ShowHideTag = function (event) {
+            var elem = $(event.target); 
+            if( elem.siblings(".script_tag").is(":visible") ) {
+                elem.siblings(".script_tag").hide() ;
+                elem.text("View Tag") ;
+            } else {
+                elem.siblings(".script_tag").show() ;
+                elem.text("Hide Tag") ;
+            }
+        }
         var creativeList = {
             clients :  function() {
                 workflowService.getClients().then(function (result) {
