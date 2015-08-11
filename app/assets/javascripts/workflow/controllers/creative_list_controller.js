@@ -19,7 +19,7 @@ var angObj = angObj || {};
                 elem.siblings(".script_tag").hide() ;
                 elem.text("View Tag") ;
             } else {
-                elem.siblings(".script_tag").show() ;
+                elem.siblings(".script_tag").show() ; 
                 elem.text("Hide Tag") ;
             }
         }
