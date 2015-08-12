@@ -12,7 +12,7 @@
   <style media="screen">
 
   .drop-box {
-    background: #F8F8F8;
+    background: #F5F9FD;
     border: 2px dashed #DADBDE;
     /*width: 100%;*/
     margin-right: 140px;
@@ -53,7 +53,8 @@
 	    background: #f5f9fd;
 	    padding: 60px 0;
 	    border-top: solid 2px #ccd9e3;">
-			<div ng-show="!progress || !reportsUploadList.length"  ngf-drop ngf-select ng-model="files"
+			 <!-- ng-show="!progress || !reportsUploadList.length" -->
+			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files"
 	     ng-model-rejected="rejFiles"
 	     ngf-multiple="true" ngf-allow-dir="false"  class="drop-box"
 	    ngf-drag-over-class="dragover"
@@ -82,7 +83,7 @@
 
 
 
-	<div ng-show="progress && reportsUploadList.length" class="drop-box">
+	<div ng-show="progress && (100 *(loaded/total) < 100) " class="drop-box" style="min-height:324px;padding-top: 80px;">
 		<span style="font-size:22px;font-weight:bold">{{ 100 *(loaded/total) | number: 0 }}%</span>
 		<div class="progress_bar">
 			<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
@@ -157,12 +158,14 @@
 							</fieldset>
 						</div>
 			              <!--  no data or loading -->
-			            <div style="margin-bottom:20px;margin-top:20px" ng-show="reportsUploadList.length">
-						  <span ng-click="upload()" ng-show="!progress" style="background:#3AA0E6; display:inline-block;padding:10px;border-radius:5px;color:#fff">Start Upload</span>
+										<!-- ng-show="reportsUploadList.length" -->
+			            <div style="margin-bottom:20px;margin-top:20px" >
+										<!-- ng-show="!progress" -->
+						  <span ng-click="upload()"  ng-show="!completed" style="background:#3AA0E6; display:inline-block;padding:10px;border-radius:5px;color:#fff">Start Upload</span>
 
-							<a href="/reports/upload" ng-show="!progress" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
+							<a href="/reports/list"  ng-show="!completed" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
 
-							<a href="/reports/upload" ng-show="progress" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
+							<a href="/reports/list" ng-show="completed" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
 						</div>
 			          </div>
 
