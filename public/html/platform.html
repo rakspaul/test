@@ -323,7 +323,7 @@
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_perc | number:0}}%</span>
+                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_perc | number:2}}%</span>
             </div>
         </div>
 
@@ -333,7 +333,7 @@
         <div class="each_col forth_col">
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_viewable_imps | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_viewable_perc | number:0}}%</span>
+                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_viewable_perc | number:2}}%</span>
             </div>
         </div>
         <!-- -->
@@ -342,7 +342,7 @@
         <div class="clearfix pull-left" ng-init= "vvData = ViewabilityData.platformType_aggregation.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_susp_activity_perc | number:0}}%
+            {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_susp_activity_perc | number:2}}%
         </div>
     </div>
 
@@ -360,7 +360,7 @@
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{platform.video_viewability_metrics.video_measurable_imps >0 ? (platform.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
-                <span>{{platform.video_viewability_metrics.video_measurable_perc | number:0}}%</span>
+                <span>{{platform.video_viewability_metrics.video_measurable_perc | number:2}}%</span>
             </div>
         </div>
 
@@ -369,7 +369,7 @@
         <div class="each_col forth_col">
             <div class="sub_col">
                 <span> {{platform.video_viewability_metrics.videos_viewable_imps | nrFormat}}</span>
-                <span> {{platform.video_viewability_metrics.video_viewable_perc | number:0}}%</span>
+                <span> {{platform.video_viewability_metrics.video_viewable_perc | number:2}}%</span>
             </div>
         </div>
         <!-- -->
@@ -377,7 +377,7 @@
         <div class="clearfix pull-left" ng-init= "vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{platform.video_viewability_metrics.video_susp_activity_perc | number:0}}%
+            {{platform.video_viewability_metrics.video_susp_activity_perc | number:2}}%
         </div>
     </div>
 </script>
@@ -427,18 +427,18 @@
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.ias_measurable_imps | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.measurable_imps_perc | number:0}}%</span>
+                <span>{{ViewabilityData.platformType_aggregation.measurable_imps_perc | number:2}}%</span>
             </div>
         </div>
 
         <div class="each_col forth_col">
             <div class="sub_col">
                 <span> {{ViewabilityData.platformType_aggregation.ias_viewable_imps | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.viewable_imps_perc | number:0}}%</span>
+                <span>{{ViewabilityData.platformType_aggregation.viewable_imps_perc | number:2}}%</span>
             </div>
         </div>
         <div class="each_col suspicious_col">
-            {{ViewabilityData.platformType_aggregation.susp_activity_perc | number:0}}%
+            {{ViewabilityData.platformType_aggregation.susp_activity_perc | number:2}}%
         </div>
         <!--<div class="each_col seventh_col">
             {{ViewabilityData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
@@ -460,17 +460,17 @@
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
                 <span> {{platform.ias_measurable_imps | nrFormat}}</span>
-                <span>{{platform.measurable_imps_perc | number:0}}%</span>
+                <span>{{platform.measurable_imps_perc | number:2}}%</span>
             </div>
         </div>
         <div class="each_col forth_col">
             <div class="sub_col">
                 <span> {{platform.ias_viewable_imps | nrFormat}}</span>
-                <span>{{platform.viewable_imps_perc | number:0}}%</span>
+                <span>{{platform.viewable_imps_perc | number:2}}%</span>
             </div>
         </div>
         <div class="each_col suspicious_col">
-            {{platform.susp_activity_perc | number:0}}%
+            {{platform.susp_activity_perc | number:2}}%
         </div>
        <!-- <div class="each_col seventh_col">
             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
