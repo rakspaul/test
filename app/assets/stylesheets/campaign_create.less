@@ -1996,6 +1996,60 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
     }
   }
+  .popCreativeLib {
+    position: absolute;
+    left: 0;
+    top: 66px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.50);
+    .creativeLib {
+      position: relative;
+      width: 800px;
+      min-height: 250px;
+      left: 50%;
+      top: 100px;
+      margin-left: -400px;
+      background: white;
+      border-radius: 5px;
+      display: inline-block;
+      .col-md-7 {
+        background-color: #F3F3F3;
+      }
+      .closePopBtn {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        z-index: 10;
+        cursor: pointer;
+        color: #fff;
+      }
+      .headerLib {
+        padding: 20px;
+        float: left;
+        width: 100%;
+        background: #E4E4E4;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        .btn-default {
+          float: right;
+          margin: 0;
+        }
+        h1 {
+          float: left;
+          color: #000;
+          width: auto;
+          font-size: 16px;
+          margin-top: 0;
+        }
+        a {
+          float: left;
+          clear: left;
+        }
+      }
+    }
+  }
   // Campaign Create Ad POP Ends Here
 }
 .adCreateMaster {
