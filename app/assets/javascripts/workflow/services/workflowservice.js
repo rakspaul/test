@@ -48,13 +48,12 @@
             getTaggedCreatives : function(campaignId,adId){
 
             console.log("adID:"+adId+"CampaignID:"+campaignId);
-                             var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
-                             return dataService.fetch(url);
+                 var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
+                 return dataService.fetch(url);
             },
-            getCreativeSizes : function(clientID,adID){
-                        console.log("adID:"+adID+"ClientID:"+clientID);
-                                         var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientID +'/advertisers/' + adID + '/creatives';
-                                         return dataService.fetch(url);
+            getCreativeSizes : function(){
+                 var url= apiPaths.WORKFLOW_APIUrl +'/sizes';
+                 return dataService.fetch(url);
             },
             saveCreatives: function(clientId,adId,data){
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives', data, {'Content-Type': 'application/json'})

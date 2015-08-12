@@ -55,7 +55,7 @@
 
                 <div class="form-group col-md-2" show-errors='{showSuccess: true}'>
                     <label for="sel1">Creative Size</label>
-                    <select ng-options="creativeSize.size.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.size.id"
+                    <select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"
                             ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>
                         <option value="">Select Size</option>
                     </select>
