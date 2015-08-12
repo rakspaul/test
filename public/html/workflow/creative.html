@@ -1,22 +1,25 @@
 <div id="creative">
     <!-- Header Starts -->
     <div class="page_header_container">
-        <div class="col-md-12 zeroPadding">
-            <span class="col-md-2 zeroPadding">Creative Tag Library</span>
+	<div class="col-md-2 zeroPadding"></div>
+        <div class="col-md-10 containerWrap">
+            <span>Creative Tag Library</span>
             <img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="12"/>
-            <span class="col-md-2 zeroPadding">Add Creative Tag</span>
+            <span>Add Creative Tag</span>
        </div>
     </div>
     <!-- Header Ends -->
-    <div class="col-md-12 zeroPadding clearfix nav_filters">
-        <creative-drop-down></creative-drop-down>
-    </div>
+    
     <!--=== List Starts ===-->
     <div class="creativeList">
         <div class="col-md-2 zeroPadding"></div>
         <div class="col-md-10 containerWrap">
-            <a href="" class="col-md-12 zeroPadding">Guided Copy Here - Adding 3rd Party Creatives...</a>
+            <a href="" class="col-md-12 zeroPadding">Adding third party Creative Tag</a>
 
+	    <div class="col-md-12 zeroPadding clearfix nav_filters">
+		<creative-drop-down></creative-drop-down>
+	    </div>
+	    
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 
                 <div class="form-group col-md-2">
@@ -37,7 +40,8 @@
                 </div>
 
                 <div class="form-group col-md-12" show-errors='{showSuccess: true}'>
-                    <label for="tag" class="col-md-12 zeroPadding">Secure Tag (SSL compatible) & Macro Tracker
+                    <label for="tag" class="col-md-12 zeroPadding">
+			<span>Secure Tag (SSL compatible) & Macro Tracker</span>
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </label>
                     <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
