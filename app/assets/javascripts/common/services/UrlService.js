@@ -91,8 +91,31 @@
 
       this.APIReportList = function(campaignId) {
           var url = apiPaths.apiSerivicesUrl +'/uploadedreports/listreports/'+campaignId;
+          console.log('UrlService url: ',url);
           return url;
       }
+
+      this.APIUploadReport = function() {
+          //http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/upload';
+          return url;
+      }
+
+      this.APIDeleteReport = function(reportId) {
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/' + reportId;
+          return url;
+      }
+
+      this.APIEditReport = function(reportId) {
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/'+reportId;
+          return url;
+      }
+
+      this.APIDownloadReport = function(reportId) {
+          var url = apiPaths.apiSerivicesUrl+'/uploadedreports/download/'+reportId;
+          return url;
+      }
+
 
 
   }

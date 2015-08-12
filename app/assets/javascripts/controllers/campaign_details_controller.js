@@ -814,8 +814,8 @@
             console.log('type-->'+type)
             if (type === 'cost') {
                 utils.goToLocation('/cost');
-            } else if (type === 'viewability' || type === 'videoViewability') {
-                utils.goToLocation('/viewability');
+            } else if (type === 'quality' || type === 'videoViewability') {
+                utils.goToLocation('/quality');
             } else if (type === 'inventory') {
                 utils.goToLocation('/inventory');
             } else if (type === 'platform') {

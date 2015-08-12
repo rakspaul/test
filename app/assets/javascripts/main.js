@@ -179,7 +179,8 @@
       'collectiveReport-CollectiveReportModule':{deps: ['angular']},
       'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
-      'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']}
+      'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']}
 
     },
     optimize: 'uglify2',
@@ -305,6 +306,7 @@
       'collectiveReport-CollectiveReportListingController':'collectiveReport/CollectiveReportListingController',
       'collectiveReport-CollectiveReportModel':'collectiveReport/CollectiveReportModel',
       'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
+      'collectiveReport-CollectiveEditReportController':'collectiveReport/CollectiveEditReportController',
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
@@ -523,7 +525,8 @@
           'collectiveReport-CollectiveReportModule',
           'collectiveReport-CollectiveReportListingController',
           'collectiveReport-CollectiveReportModel',
-          'collectiveReport-CollectiveReportDirective'
+          'collectiveReport-CollectiveReportDirective',
+          'collectiveReport-CollectiveEditReportController'
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {

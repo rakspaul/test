@@ -1979,7 +1979,6 @@ div.strategy_total_container {
   .each_col {
     padding-top: 0px ;
     padding-bottom: 0px ;
-    margin-top: 5px;
     margin-bottom: 10px;
   }
   .platform_name_col {
@@ -2368,8 +2367,8 @@ div.strategy_total_container {
   // I think the  markup should be refactored as tabular data
   #reports_platform_cost_block,#reports_platform_viewability_block,#reports_platform_performance_block{
     .each_col {
-      line-height: 17px ;
-      margin-top: 10px ;
+      line-height: 17px ;/*
+      margin-top: 10px ;*/
     }
     .plat_name{
       margin-left:10px;
@@ -2973,6 +2972,7 @@ div.strategy_total_container {
     }
     .each_cost_col {
       .ColHeadingFontColor();
+      line-height: 17px ;
       &.active{
         color:#0978c9;
       }
@@ -3108,7 +3108,16 @@ div.strategy_total_container {
     cursor: default;
   }
 
-
+  .platform_row {
+    margin: 10px 0;
+    .platform_logo {
+      padding-left: 12px ;
+      .plat_name {
+        max-width: 60%;
+        line-height: 17px ;
+      }
+    }
+  }
   .reports_platform_header{
     .each_cost_col {
       &.fifth_col{
@@ -4469,5 +4478,28 @@ div.reports_tabs_content_container {
     color: #21252b ;
     font-size: 26px ;
     font-family: "Avenir-bold";
+  }
+}
+.custom_report_upload_page {
+  .report_heading_dropdown_txt {
+    display: none;
+  }
+  .each-col {
+    word-wrap : break-word;
+  }
+  input[type="text"] {
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 1px solid #dde6eb;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #939ead;
+    line-height: 18px;
+    padding: 8px;
+    margin: 0 8px;
+    &:hover {
+      border: 1px solid #ccd2da;
+    }
   }
 }

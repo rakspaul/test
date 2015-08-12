@@ -24,29 +24,6 @@ var angObj = angObj || {};
             }
         }
         var creativeList = {
-            clients :  function() {
-                workflowService.getClients().then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
-                        $scope.creativeData['clients'] =  _.sortBy(responseData, 'name');
-                    }
-                    else{
-                        creativeList.errorHandler(result);
-                    }
-                }, creativeList.errorHandler);
-            },
-
-            fetchAdvertisers :  function(clientId) {
-                workflowService.getAdvertisers(clientId).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
-                        $scope.creativeData['advertisers'] =  _.sortBy(responseData, 'name');
-                    }
-                    else{
-                        createCampaign.errorHandler(result);
-                    }
-                }, createCampaign.errorHandler);
-            },
 
             getCreativesList : function(campaignId, advertiserId) {
                 workflowService.getCreatives(campaignId, advertiserId).then(function (result) {
@@ -56,18 +33,16 @@ var angObj = angObj || {};
                         console.log($scope.creativeData);
                     }
                 });
-            },
-
-            errorHandler : function(errData) {
-                console.log(errData);
             }
         };
 
         $scope.campaignId = $routeParams.campaignId;
-        creativeList.clients();
-        creativeList.getCreativesList(3, 21);
 
 
+        $scope.prarentHandler = function(campaignId, advertiserId) {
+            creativeList.getCreativesList(campaignId, advertiserId);
+        }
     });
+
 })();
 

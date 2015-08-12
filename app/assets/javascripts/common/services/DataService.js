@@ -140,7 +140,6 @@
             },
 
             getReportListData: function (url) {
-                //console.log(this.fetch(url));
                 return this.fetch(url);
 
             },
@@ -224,10 +223,10 @@
                 );
             },
 
-            downloadFile: function (url) {
+            downloadFile: function (url) { console.log("Download File: ",url);
                 $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
                 return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
-                    function (response) {
+                    function (response) { console.log("Data service response: ",response);
                         if (response.status === 401) {
                             loginModel.unauthorized();
                             return errorObject;
@@ -348,10 +347,10 @@
                 );
             },
 
-            put: function (url, data) {
+            put: function (url, data,header) {
                 loginModel.checkCookieExpiry();
                 $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
-                return $http.put(url, angular.toJson(data)).then(
+                return $http({url: url, method: 'PUT', data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'multipart/form-data'}) }).then(
                     function (response) {
                         if(response.status == 401) {
                             loginModel.unauthorized();
@@ -379,7 +378,46 @@
                         };
                     }
                 );
+            },
+
+            delete: function (url, data, header) {
+                loginModel.checkCookieExpiry();
+                $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
+                  return $http({url: url, method: 'DELETE', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
+                    function (response) {
+                        if(response.status === 401) {
+                            loginModel.unauthorized();
+                            return errorObject;
+                        } else if(response.status === 403) {
+                            loginModel.forbidden();
+                            return errorObject;
+                        }
+                        return {
+                            status: "success",
+                            data: response.data
+                        };
+                    },
+                    function (error) {
+                        if(error.status === 401) {
+                            errorObject.data.message = error.data.message
+                            loginModel.unauthorized();
+                            return errorObject;
+                        } else if(error.status === 403) {
+                            loginModel.forbidden();
+                            return errorObject;
+                        } else if(error.status === 404) {
+                            errorObject.data.message = 'Network error.  Please contact support.'
+                            return errorObject;
+                        }
+                        return {
+                            status: "error",
+                            data: error
+                        };
+                    }
+                );
             }
+
+
 
 
         };
