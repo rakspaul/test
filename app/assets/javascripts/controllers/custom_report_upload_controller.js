@@ -1,9 +1,13 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList) {
+    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel) {
 
       $scope.textConstants = constants;
+
+      $scope.reportTypeList = [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}];
+
+      $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
       //reset files
       reportsUploadList.list =[];
@@ -26,6 +30,11 @@ var angObj = angObj || {};
              $scope.total = files.length;
                for (var i = 0; i < files.length; i++) {
                    var file = files[i];
+                   file.notes = "";
+                   file.campaignId = "415486"; //temp
+                   file.reportType= $scope.reportTypeList[0];
+                   file.reportName = "";
+                   file.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                    reportsUploadList.add(file);
                    //TODO: assign data in service
                }
@@ -46,13 +55,14 @@ var angObj = angObj || {};
               Upload.upload({
                  //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
                  //TODO: move url ro url service
-                  url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
+                  //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
+                  url: urlService.APIUploadReport(),
                   fields: {
-                      'reportType': 'Custom',
-                      'reportName': 'reportname custom',
-                      'notes': 'some long notes',
-                      'fileName': 'myreportname.pdf',
-                      'campaignId': '415486',
+                      'reportType': file.reportType.name,
+                      'reportName': file.reportName,
+                      'notes': file.notes,
+                      'fileName': file.name,
+                      'campaignId': file.campaignId,
                   },
                   fileFormDataName : 'report',
                   file: file
@@ -69,6 +79,8 @@ var angObj = angObj || {};
                 file.status ="success";
                   $timeout(function() {
                     if(config.file !== undefined){
+                      file.data = data.data;
+                      console.log(data);
                         $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
                     }
 
@@ -85,11 +97,30 @@ var angObj = angObj || {};
 
 
     $scope.localDelete = function(key) {
-      if (confirm('Are you sure you want to delete this?')) {
-        reportsUploadList.list.splice(key, 1);
-        $scope.reportsUploadList = reportsUploadList.list;
+      if(! $scope.progress) {
+          if (confirm('Are you sure you want to delete this?')) {
+            reportsUploadList.list.splice(key, 1);
+            $scope.reportsUploadList = reportsUploadList.list;
+          }
       }
     };
+
+    $scope.serverDelete = function(key,fileId) {
+          if (confirm('Are you sure you want to delete this?')) {
+              //delete file -- server request
+                collectiveReportModel.deleteReport(fileId, function(response){
+                     if(response.status_code == 200) {
+                       reportsUploadList.list.splice(key, 1);
+                       $scope.reportsUploadList = reportsUploadList.list;
+                     } else {
+                       console.log('delete error');
+                     }
+                 });
+
+          } //confirmation
+    };
+
+
 
 
     });
