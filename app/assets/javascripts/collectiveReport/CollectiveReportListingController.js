@@ -3,12 +3,12 @@
  */
 (function() {
     'use strict';
-
-    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope,$modal, domainReports) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope, $modal, domainReports, dataService, urlService) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
         domainReports.highlightHeaderMenu();
+        $scope.reportDownloadBusy = false;
         $scope.customFilters = domainReports.getCustomReportsTabs();
 
         collectiveReportModel.reportList(function(response){
@@ -23,34 +23,43 @@
             }
 
          })
-        //console.log("Collective report: ",$scope.reportList );
 
+
+        //Edit report Pop up
         $scope.editReportModal = function(index) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_edit_collective_report,
-                controller:function ($scope, $modalInstance, report) {
-                    $scope.report = report;
-                    $scope.close=function(){
-                        $modalInstance.dismiss();//$scope.modalInstance.close() also works I think
-                    };
-                    $scope.reportTypes =[
-                    {id:'CUSTOM',name:'Custom'},
-                    {id:'PCAR',name:'PCAR'}
-                    ];
-                    $scope.campaign="test";
-                    $scope.editedData = {
-                        reportType:report.reportType,
-                        reportName: report.reportName,
-                        campaignId:415486,
-                        notes:$scope.report.notes
-                    }
-                },
+                controller:"CollectiveEditReportController",
                 resolve: {
                     report: function () {
                         return  $scope.reportList[index];
-                    }}
+                    }
+                }
             });
         }
+
+        $scope.downloadCollectiveReport = function(reportId) {
+            if(reportId) {
+            $scope.reportDownloadBusy = true;
+            dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
+                console.log("Response Status: ", response.status);
+                if (response.status === "success") {
+                    $scope.reportDownloadBusy = false;
+                    saveAs(response.file, response.fileName);
+                } else {
+                    $scope.reportDownloadBusy = false;
+                    //todo: Show error message
+                }
+            }, function () {
+                $scope.reportDownloadBusy = false;
+            }, function () {
+                $scope.reportDownloadBusy = false;
+            });
+          } else {
+                //todo: show error message
+            }
+        }
+
 
 
 

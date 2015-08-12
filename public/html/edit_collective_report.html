@@ -23,7 +23,7 @@
     </style>
     <div class="div-spacing">
         <div id="float-left">File Name</div>
-        <div id="float-right">{{report.reportName}}</div>
+        <div id="float-right">{{report.fileName}}</div>
         <div class="clear-both"></div>
     </div>
 
@@ -52,9 +52,9 @@
 
     <div>
         <div id="float-left">Description</div>
-        <div id="float-right"><textarea ng-model="editedData.description"></textarea></div>
+        <div id="float-right"><textarea ng-model="editedData.notes"></textarea></div>
         <div class="clear-both"></div>
     </div>
-    <button class="btn btn-submit btn-block">Save</button>
+    <button class="btn btn-submit btn-block" ng-click="updateReport()" >Save</button>
     </div>
 </div>
