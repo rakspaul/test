@@ -134,6 +134,7 @@
 			              <div ng-repeat="(index, file) in reportsUploadList" style="border:1px solid #ccc;margin-bottom:5px; height:auto;width:100%;padding:15px">
 							<fieldset ng-disabled="file.status && progress">
 								<div class="clearfix">
+									<span  ng-click="retryUpload(index)" ng-show="file.status=='error'" style="cursor:pointer" class="col-md-1 each-col" >Retry</span>
 									<span ng-show="file.status" class="col-md-1 each-col">{{file.status}}</span>
 									<span class="col-md-3 each-col">{{file.name}}</span>
 									<span class="col-md-1 each-col">{{file.size/1000000 | number:2}} MB</span>

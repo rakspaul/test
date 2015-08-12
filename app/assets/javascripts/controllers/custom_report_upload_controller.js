@@ -67,76 +67,141 @@ var angObj = angObj || {};
        }
     });
 
-    //  $scope.uploadProgress = function(){
-    //     var percenge = 100 *($scope.loaded/$scope.total);
-    //     if(percentage == 100) {
-    //       $scope.progress = false;
-    //       console.log('releasing lock');
-    //     }
-    //     return percenge;
-    //  }
+     $scope.retryUpload = function(index){
+       if(! $scope.progress) {
+         $scope.upload("retry", $scope.reportsUploadList[index]);
+       } else {
+         alert('File upload in progress. Please Wait');
+       }
+     }
 
-     $scope.upload = function () {
-        $scope.progress= true;
-        var files = reportsUploadList.list
-        if (files && files.length) {
-            $scope.loaded =0;
-            $scope.total = files.length;
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                if(file.status === undefined || file.status!= "success") {
-                    (function(file) {
-                        Upload.upload({
-                           //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-                           //TODO: move url ro url service
-                            //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
-                            url: urlService.APIUploadReport(),
-                            fields: {
-                                'reportType': file.reportType.name,
-                                'reportName': file.reportName,
-                                'notes': file.notes,
-                                'fileName': file.name,
-                                'campaignId': file.campaignId,
-                            },
-                            fileFormDataName : 'report',
-                            file: file
-                        }).progress(function (evt) {
-                          file.status ="uploading";
-                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                            //if(evt.config.file !== undefined) {
-                              $scope.log = 'progress: ' + progressPercentage + '% ' +
-                                          evt.config.file.name + '\n' + $scope.log;
-                            //}
+     $scope.upload = function (type, file) {
+        if(type != "retry") {
 
-                        }).success(function (data, status, headers, config) {
-                          $scope.loaded++;
-                          file.status ="success";
-                            $timeout(function() {
-                              if(config.file !== undefined){
-                                file.data = data.data;
-                                console.log(data);
-                                  $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
-                              }
+            $scope.progress= true;
+            var files = reportsUploadList.list
+            if (files && files.length) {
+                $scope.loaded =0;
+                $scope.total = files.length;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if(file.status === undefined || file.status!= "success") {
+                        (function(file) {
+                            Upload.upload({
+                               //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                               //TODO: move url ro url service
+                                //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
+                                url: urlService.APIUploadReport(),
+                                fields: {
+                                    'reportType': file.reportType.name,
+                                    'reportName': file.reportName,
+                                    'notes': file.notes,
+                                    'fileName': file.name,
+                                    'campaignId': file.campaignId,
+                                },
+                                fileFormDataName : 'report',
+                                file: file
+                            }).progress(function (evt) {
+                              file.status ="uploading";
+                                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                                //if(evt.config.file !== undefined) {
+                                  $scope.log = 'progress: ' + progressPercentage + '% ' +
+                                              evt.config.file.name + '\n' + $scope.log;
+                                //}
 
-                            });
-                        }).error(function(data){
-                          $scope.loaded++;
-                          file.status ="error";
-                          console.log(data);
-                        }); //upload ends
+                            }).success(function (data, status, headers, config) {
+                              $scope.loaded++;
+                              file.status ="success";
+                                $timeout(function() {
+                                  if(config.file !== undefined){
+                                    file.data = data.data;
+                                    console.log(data);
+                                      $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+                                  }
 
-                    })(file) //end of closure
+                                });
+                            }).error(function(data){
+                              $scope.loaded++;
+                              file.status ="error";
+                              console.log(data);
+                            }); //upload ends
 
-                } else {
-                  $scope.progress = false;
-                }//end of status check
+                        })(file) //end of closure
 
+                    } else {
+                      $scope.progress = false;
+                    }//end of status check
+
+                }
             }
+            console.log('end of upload');
+
+        } else { //retry upload
+
+          console.log('retry upload');
+          console.log(file);
+
+          $scope.progress= true;
+
+          if (file) {
+              $scope.loaded =0;
+              $scope.total = 1;
+                  if(file.status === undefined || file.status!= "success") {
+                      (function(file) {
+                          Upload.upload({
+                             //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                             //TODO: move url ro url service
+                              //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
+                              url: urlService.APIUploadReport(),
+                              fields: {
+                                  'reportType': file.reportType.name,
+                                  'reportName': file.reportName,
+                                  'notes': file.notes,
+                                  'fileName': file.name,
+                                  'campaignId': file.campaignId,
+                              },
+                              fileFormDataName : 'report',
+                              file: file
+                          }).progress(function (evt) {
+                            file.status ="uploading";
+                              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                              //if(evt.config.file !== undefined) {
+                                $scope.log = 'progress: ' + progressPercentage + '% ' +
+                                            evt.config.file.name + '\n' + $scope.log;
+                              //}
+
+                          }).success(function (data, status, headers, config) {
+                            $scope.loaded++;
+                            file.status ="success";
+                              $timeout(function() {
+                                if(config.file !== undefined){
+                                  file.data = data.data;
+                                  $scope.progress = false;
+                                  console.log(data);
+                                    $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+                                }
+
+                              });
+                          }).error(function(data){
+                            $scope.loaded++;
+                            file.status ="error";
+                            console.log(data);
+                          }); //upload ends
+
+                      })(file) //end of closure
+
+                  } else {
+                    $scope.progress = false;
+                  }//end of status check
+
+
+          console.log('end of upload');
+
+
         }
-        console.log('end of upload');
     }; //upload ends
 
-
+}
     $scope.localDelete = function(key) {
       if(! $scope.progress) {
           if (confirm('Are you sure you want to delete this?')) {
