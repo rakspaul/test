@@ -354,7 +354,7 @@
 
                             
                             dataObj = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
-                            campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                            campaignStrategies = _.chain(dataObj);
 
                             if(data.length <= pageSize) {
                                 campaign.campaignStrategies = campaignStrategies;
