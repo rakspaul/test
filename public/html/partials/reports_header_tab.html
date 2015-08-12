@@ -13,8 +13,11 @@
 			<a href="javascript:void(0);">Scheduled</a>
 			<span class="circle_with_number">2</span>
 		</div> -->
-		<div ng-repeat="tab in customFilters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == customFilters.activeTab}">
-			<a ng-click="NavigateToTab('/'+ tab.href, $event)">{{tab.title}}</a>
+		<div ng-repeat="tab in customFilters.tabs track by $index" class="clearfix header_tab_dropdown" ng-class="{'active_tab': tab.href == customFilters.activeTab}">
+			
+				<a href="javascript:void(0);" class="pull-left reports_list_link" ng-click="NavigateToTab('/'+ tab.href, $event)">{{tab.title}}</a>
+				<div class="upload_icon" ng-click="NavigateToTab('/reports/upload', $event)" ng-show="isNetworkUser"></div>
+			
 			<!-- <span class="circle_with_number">5</span> -->
 		</div>
 		<a href="/customreport" class="clearfix new_report_generate_btn" ng-show="isNetworkUser">
