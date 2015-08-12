@@ -16,14 +16,12 @@ var angObj = angObj || {};
 
         var creatives = {
             /*Function to get creatives sizes*/
-            getCreativeSizes: function (clientID, adID) {
-                workflowService.getCreativeSizes(clientID, adID).then(function (result) {
+            getCreativeSizes: function () {
+                workflowService.getCreativeSizes().then(function (result) {
                     console.log("data returned");
                     if (result.status === "OK" || result.status === "success") {
                         console.log(result.data.data);
                         var responseData = result.data.data;
-
-
                         $scope.creativeSizeData['creativeSize'] = responseData;
                         //console.log("responseData"+creativeSizeData);
                     }
@@ -39,6 +37,8 @@ var angObj = angObj || {};
             }
         }
         $scope.prarentHandler = function(campaignId, advertiserId) {
+            $scope.campaignId = campaignId;
+            $scope.advertiserId = advertiserId;
             creatives.getCreativeSizes(campaignId, advertiserId);
         }
         $(function () {
@@ -57,7 +57,7 @@ var angObj = angObj || {};
                     if (!formData.tag.match(matchPattern)) {
                         $scope.IncorrectTag = true;
                         $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
-                        console.log("Incorrect tag")
+                        console.log("Incorrect tag");
 
                     }
                     else {
@@ -68,10 +68,10 @@ var angObj = angObj || {};
                         postCrDataObj.creativeFormat = formData.creativeFormat;
                         postCrDataObj.creativeType = formData.creativeType;
                         postCrDataObj.sslEnable = "true";
-                        postCrDataObj.createdBy = "11127";//remove while committing
-                        postCrDataObj.updatedBy = "11127";//remove while committing
+                        //postCrDataObj.createdBy = "11127";//remove while committing
+                        //postCrDataObj.updatedBy = "11127";//remove while committing
                         console.log(postCrDataObj);
-                        workflowService.saveCreatives(6, 5, postCrDataObj).then(function (result) {
+                        workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 console.log("creative added");
                                 $scope.addedSuccessfully = true;
