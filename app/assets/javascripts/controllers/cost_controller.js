@@ -71,6 +71,7 @@ var angObj = angObj || {};
 
             $scope.dataNotFound = false;
             $scope.strategyFound = false;
+            $scope.strategyLoading =  true;
 
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
@@ -101,6 +102,7 @@ var angObj = angObj || {};
             }
             $scope.api_return_code=200;
             costService.getStrategyCostData(param).then(function (result) {
+                    $scope.strategyLoading =  false;
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
