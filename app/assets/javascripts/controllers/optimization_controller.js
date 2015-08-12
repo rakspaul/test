@@ -30,7 +30,6 @@ var angObj = angObj || {};
         $scope.strategyLoading =  true;
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
-        $scope.strategyLoading =  true;
         $scope.selected_filters = {};
         $scope.selected_filters.time_filter = 'life_time'; //
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
