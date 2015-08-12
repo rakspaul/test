@@ -145,10 +145,11 @@
 										<campaign-drop-down selected-obj="file.selectedCampaign"> </campaign-drop-down>
 									</div>
 
-					                <span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="col-md-1 each-col" >Delete</span>
-					                
-				                </div>
-								<div class="clearfix col-md-12" style="margin-top:10px ;"> 
+									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="col-md-1 each-col" >Delete</span>
+									<span  ng-click="serverDelete(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="col-md-1 each-col" >Server Delete</span>
+
+				        </div>
+								<div class="clearfix col-md-12" style="margin-top:10px ;">
 									<span>Description:</span>
 									<input style="width:90%" type="text" ng-model="file.notes" placeholder="Description">
 								</div>

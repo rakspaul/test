@@ -100,6 +100,11 @@
           return url;
       }
 
+      this.APIDeleteReport = function(reportId) {
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/' + reportId;
+          return url;
+      }
+
 
   }
 

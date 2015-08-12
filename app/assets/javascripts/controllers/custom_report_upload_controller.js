@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService) {
+    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel) {
 
       $scope.textConstants = constants;
 
@@ -79,6 +79,8 @@ var angObj = angObj || {};
                 file.status ="success";
                   $timeout(function() {
                     if(config.file !== undefined){
+                      file.data = data.data;
+                      console.log(data);
                         $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
                     }
 
@@ -102,6 +104,22 @@ var angObj = angObj || {};
           }
       }
     };
+
+    $scope.serverDelete = function(key,fileId) {
+          if (confirm('Are you sure you want to delete this?')) {
+              //delete file -- server request
+                collectiveReportModel.deleteReport(fileId, function(response){
+                     if(response.status_code == 200) {
+                       reportsUploadList.list.splice(key, 1);
+                       $scope.reportsUploadList = reportsUploadList.list;
+                     } else {
+                       console.log('delete error');
+                     }
+                 });
+
+          } //confirmation
+    };
+
 
 
 
