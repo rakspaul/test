@@ -7,6 +7,8 @@ var angObj = angObj || {};
         $scope.creativeData = {};
         $scope.adData= {}
         $scope.adData.screenTypes =[];
+        $scope.creativeListLoading = true;
+        $scope.creativesNotFound = false;
 
         $scope.getAdFormatIconName = function(adFormat) {
             adFormat =  adFormat || 'display';
@@ -27,12 +29,20 @@ var angObj = angObj || {};
 
             getCreativesList : function(campaignId, advertiserId) {
                 workflowService.getCreatives(campaignId, advertiserId).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
+                    if (result.status === "OK" || result.status === "success" && result.data.data.length >0) {
+                        $scope.creativeListLoading = false;
+                        $scope.creativesNotFound = false;
                         $scope.creativeData['creatives'] = result.data.data;
                         $scope.creativeData['creatives_count'] = result.data.data.length;
-                        console.log($scope.creativeData);
+                    } else {
+                        creativeList.errorHandler()
                     }
-                });
+                }, creativeList.errorHandler);
+            },
+
+            errorHandler : function() {
+                $scope.creativesNotFound = true;
+                $scope.creativeListLoading = false;
             }
         };
 
@@ -40,7 +50,15 @@ var angObj = angObj || {};
 
 
         $scope.prarentHandler = function(campaignId, advertiserId) {
-            creativeList.getCreativesList(campaignId, advertiserId);
+            $scope.creativeData= {};
+            if(campaignId && advertiserId) {
+                $scope.creativeListLoading = true;
+                $scope.creativesNotFound = false;
+                creativeList.getCreativesList(campaignId, advertiserId);
+            } else {
+                $scope.creativeListLoading = false;
+                $scope.creativesNotFound = true;
+            }
         }
     });
 
