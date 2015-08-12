@@ -7,24 +7,6 @@
     $scope.campaigns = new campaignListModel();
 
     $scope.sortReverse = false;
-    $scope.campaignListSortFunction = function(campaign) {
-          if(campaign.status ==="Ready" ){
-              $scope.sortReverse = false;
-              return campaign.start_date;
-          }
-          else if(campaign.status ==="Draft" ){
-              $scope.sortReverse = false;
-              return campaign.start_date;
-          }
-          else if(campaign.status ==="Completed" ){
-              $scope.sortReverse = true;
-              return campaign.end_date;
-          }
-          else{
-              $scope.sortReverse = false;
-              return campaign.end_date;
-          }
-    };
 
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
