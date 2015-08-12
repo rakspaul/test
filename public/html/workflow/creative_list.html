@@ -5,7 +5,7 @@
 				<creative-drop-down></creative-drop-down>
 		</div>
 		<div class="col-md-12 zeroPadding">
-			<h2 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count}})</h2>
+			<h2 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h2>
 			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
 		</div>
 
@@ -56,7 +56,7 @@
 				</thead>
 				<tbody>
 					<!--Test 1-->
-					<tr ng-repeat="creativeData in creativeData.creatives">
+					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives">
 					<!--Column 1-->
 					<td>
 						<span class="col-md-1"><input type="checkbox" value="{{$index+1}}" /></span>
@@ -98,6 +98,10 @@
 					<td>
 						<span>7 Aug 2015</span>
 					</td>
+					</tr>
+					creativesNotFound ---> {{creativesNotFound}}
+					<tr ng-show="creativesNotFound">
+						<td>Data not available</td>
 					</tr>
 				</tbody>
 			</table>
@@ -156,5 +160,4 @@
 	</div>
     </div>-->
 </div>
-
-<img src="/assets/images/workflow/preloader.gif" alt="Loading" width="31" class="preloader"/>
+<img src="/assets/images/workflow/preloader.gif" ng-show="creativeListLoading" alt="Loading" width="31" class="preloader"/>
