@@ -53,7 +53,7 @@
 	    background: #f5f9fd;
 	    padding: 60px 0;
 	    border-top: solid 2px #ccd9e3;">
-			<div ng-show="!progress"  ngf-drop ngf-select ng-model="files"
+			<div ng-show="!progress || !reportsUploadList.length"  ngf-drop ngf-select ng-model="files"
 	     ng-model-rejected="rejFiles"
 	     ngf-multiple="true" ngf-allow-dir="false"  class="drop-box"
 	    ngf-drag-over-class="dragover"
@@ -82,12 +82,13 @@
 
 
 
-	<div ng-show="progress" class="drop-box">
+	<div ng-show="progress && reportsUploadList.length" class="drop-box">
+		<span style="font-size:22px;font-weight:bold">{{ 100 *(loaded/total) | number: 0 }}%</span>
 		<div class="progress_bar">
 			<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
 		</div>
-		Uploaded {{loaded}} of {{total}}<br>
-		Progress: {{ 100 *(loaded/total) }} %
+		Uploading {{ (loaded < total) ? loaded+1 : loaded }} of {{total}}<br>
+
 	</div>
 	</div>
 
@@ -159,9 +160,9 @@
 			            <div style="margin-bottom:20px;margin-top:20px" ng-show="reportsUploadList.length">
 						  <span ng-click="upload()" ng-show="!progress" style="background:#3AA0E6; display:inline-block;padding:10px;border-radius:5px;color:#fff">Start Upload</span>
 
-							<a href="/campaigns" ng-show="!progress" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
+							<a href="/reports/upload" ng-show="!progress" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
 
-							<a href="/campaigns" ng-show="progress" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
+							<a href="/reports/upload" ng-show="progress" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
 						</div>
 			          </div>
 

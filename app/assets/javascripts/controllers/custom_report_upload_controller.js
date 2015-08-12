@@ -112,6 +112,12 @@ var angObj = angObj || {};
                      if(response.status_code == 200) {
                        reportsUploadList.list.splice(key, 1);
                        $scope.reportsUploadList = reportsUploadList.list;
+
+                       if(!$scope.reportsUploadList.length) {
+                         console.log('reset progress view');
+                         $scope.progress= false;
+                       }
+
                      } else {
                        console.log('delete error');
                      }
