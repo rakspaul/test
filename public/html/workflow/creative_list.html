@@ -88,18 +88,17 @@
 					</td>
 					<!--Column 6-->
 					<td>
-						<span>1</span>
+						<span>{{creativeData.noOfCampaigns}}</span>
 					</td>
 					<!--Column 7-->
 					<td>
-						<span>5</span>
+						<span>{{creativeData.noOfAds}}</span>
 					</td>
 					<!--Column 8-->
 					<td>
-						<span>7 Aug 2015</span>
+						<span>{{formatDate(creativeData.createdAt)}}</span>
 					</td>
 					</tr>
-					creativesNotFound ---> {{creativesNotFound}}
 					<tr ng-show="creativesNotFound">
 						<td>Data not available</td>
 					</tr>
