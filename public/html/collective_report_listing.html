@@ -29,15 +29,15 @@
         <div class="download-report-load-icon" style="text-align: center;padding-bottom: 20px;" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}}........</div>
         <div class="custom_report_response_page">
               <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px">
-                <span class="head">Updated</span>
-                <span class="head">Report Type</span>
-                <span class="head">Campaign</span>
-                <span class="head">Author</span>
+                <span class="head" ng-click="sortReport('updatedAt')" style="text-decoration: underline">Updated</span>
+                <span class="head" ng-click="sortReport('reportType')" style="text-decoration: underline">Report Type</span>
+                <span class="head" ng-click="sortReport('campaignId')" style="text-decoration: underline">Campaign</span>
+                <span class="head" ng-click="sortReport('createdBy')" style="text-decoration: underline">Author</span>
               </div>
-              <div ng-repeat="rlist in reportList" style="border:1px solid #ccc; height:100px;width:100%;padding:15px">
-                <span class="head">{{rlist.updatedAt}}{{moment(rlist.updatedAt).format('YYYY-MM-DD')}}</span>
+              <div ng-repeat="rlist in reportList | orderBy:sort.column:sort.descending" style="border:1px solid #ccc; height:100px;width:100%;padding:15px">
+                <span class="head">{{rlist.updatedAt | reportDateFilter}}</span>
                 <span class="head">{{rlist.reportType}}</span>
-                <span class="head">Campaign</span>
+                <span class="head">{{rlist.campaignId}}</span>
                 <span class="head">{{rlist.createdBy}}</span>
                 <span class="head" style="width:190px">
                     <a ng-click="downloadCollectiveReport(rlist.id)" href="#" title="{{ rlist.fileName }}">Download</a>

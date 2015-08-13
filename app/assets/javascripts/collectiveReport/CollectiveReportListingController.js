@@ -13,16 +13,15 @@
         $scope.brandId = -1;
         $scope.reportList = [];
 
-
-        // $scope.getReports();
-
-        console.log('Selected report: ',campaignSelectModel.getSelectedCampaign());
-
         $scope.getReports = function() {
             collectiveReportModel.reportList(function (response) {
                 if (response.data !== undefined && response.data.length > 0) {
                     $scope.reportList = response.data;
-                    console.log($scope.reportList);
+/*                    console.log("Report List: ",$scope.reportList);
+                    $scope.reportList[0].createdBy = "Sapna";
+                    $scope.reportList[3].createdBy = "Mini";
+                    $scope.reportList[1].createdBy = "Zoo";
+                    console.log($scope.reportList);*/
                     $scope.nodata = false;
                 } else {
                     $scope.reportList = [];
@@ -36,12 +35,9 @@
             })
         }
 
-
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
-            console.log("am getting called",campaign);
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
             $scope.getReports();
-            console.log("RL ",$scope.reportList );
         });
 
 
@@ -97,6 +93,13 @@
 
            }
        }
+
+        $scope.sort = {column:'updatedAt',descending:true};
+            $scope.sortReport = function(column) {
+                $scope.sort.column = column;
+                $scope.sort.descending = !$scope.sort.descending;
+           }
+
 
     });
     }());

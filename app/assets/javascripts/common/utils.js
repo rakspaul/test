@@ -819,4 +819,10 @@ angObj.directive('truncateTextWithHover', function () {
     };
   });
 
+  angObj.filter("reportDateFilter", function ($filter,momentService) {
+    return function (value, key) {
+      return momentService.reportDateFormat(value);
+    };
+  });
+
 }());

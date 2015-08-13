@@ -357,6 +357,8 @@
     this.WF_SET_FREQUENCY_CAP = "Set per User frequency cap";
     this.WF_IMPRESSION_PER = "Impression per";
 
+    this.YESTERDAY = "Yesterday";
+
   };
 
   commonModule.service("constants", constants);
