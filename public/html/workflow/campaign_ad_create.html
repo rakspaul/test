@@ -379,7 +379,7 @@
                                                     <input type="text" ng-disabled="!adData.budgetImpressionType"
                                                            id="impressionInp" name="budgetValue1" group="budgetGroup"
                                                            ng-model="adData.ImpressionsValue"
-                                                           numbers-only="numbers-only" class="form-control"
+                                                           whole-number-only="whole-number-only" class="form-control"
                                                            placeholder="Enter Value">
                                                 </div>
                                                 <div class="form-group col-md-3">
@@ -389,7 +389,7 @@
                                                            ng-click="adData.budgetImpressionType = null; adData.ImpressionsValue = ''">
                                                     <input type="text" ng-disabled="!adData.budgetMediaCostType"
                                                            id="mediaCostInp" name="budgetValue1" class="form-control"
-                                                           numbers-only="numbers-only" ng-model="adData.mediaCostValue"
+                                                           whole-number-only="whole-number-only" ng-model="adData.mediaCostValue"
                                                            placeholder="Enter Value">
                                                 </div>
                                             </div>
@@ -790,7 +790,8 @@
             </div>
         </div>
     </div>
-    
+
+
     <div class="popCreativeLib" style="display:none;">
 	<div class="creativeLib">
 	    <div class="headerLib">
@@ -813,7 +814,7 @@
 			</div>
 		    </div>
 		    <h3>Recently Created / Used</h3>
-		    
+
 		    <table class="table">
 			<thead>
 			  <tr>
@@ -910,13 +911,13 @@
 			</tbody>
 		    </table>
 		</div>
-		
+
 		<div class="col-md-12" style="margin-bottom: 15px;">
 		    <button type="button" class="btn btn-primary pull-right">Save</button>
 		    <button type="button" class="btn btn-link pull-right">Cancel</button>
 		</div>
-		
+
 	    </div>
-	</div>	
+	</div>
     </div>
 </div>

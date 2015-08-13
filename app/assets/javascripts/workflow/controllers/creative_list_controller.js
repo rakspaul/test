@@ -48,6 +48,10 @@ var angObj = angObj || {};
 
         $scope.campaignId = $routeParams.campaignId;
 
+        $scope.formatDate = function(date) {
+            return moment(date).format('MMM d YYYY')
+        }
+
 
         $scope.prarentHandler = function(campaignId, advertiserId) {
             $scope.creativeData= {};
