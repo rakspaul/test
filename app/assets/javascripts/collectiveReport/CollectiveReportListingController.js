@@ -3,26 +3,46 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope, $modal, domainReports, dataService, urlService) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
         domainReports.highlightHeaderMenu();
         $scope.reportDownloadBusy = false;
         $scope.customFilters = domainReports.getCustomReportsTabs();
+        $scope.brandId = -1;
+        $scope.reportList = [];
 
-        collectiveReportModel.reportList(function(response){
-           if(response.data !== undefined && response.data.length > 0) {
-             $scope.reportList = response.data;
-           } else {
-             $scope.nodata = true;
-           }
-            $scope.setReportToEdit = function(index) { console.log('index',index);
-                   $scope.reportToEdit = $scope.reportList[index];
-                   $scope.showEditReport = true;
-            }
 
-         })
+        // $scope.getReports();
+
+        console.log('Selected report: ',campaignSelectModel.getSelectedCampaign());
+
+        $scope.getReports = function() {
+            collectiveReportModel.reportList(function (response) {
+                if (response.data !== undefined && response.data.length > 0) {
+                    $scope.reportList = response.data;
+                    console.log($scope.reportList);
+                    $scope.nodata = false;
+                } else {
+                    $scope.reportList = [];
+                    $scope.nodata = true;
+                }
+                $scope.setReportToEdit = function(index) {
+                 $scope.reportToEdit = $scope.reportList[index];
+                 $scope.showEditReport = true;
+                 }
+
+            })
+        }
+
+
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+            console.log("am getting called",campaign);
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
+            $scope.getReports();
+            console.log("RL ",$scope.reportList );
+        });
 
 
         //Edit report Pop up
@@ -33,6 +53,9 @@
                 resolve: {
                     report: function () {
                         return  $scope.reportList[index];
+                    },
+                    brand: function() {
+                        return $scope.brandId;
                     }
                 }
             });
@@ -61,12 +84,19 @@
         }
 
 
+       $scope.deleteReport = function($index,reportId) {
+           if (confirm('Are you sure you want to delete this?')) {
+               //delete file -- server request
+               collectiveReportModel.deleteReport(reportId, function(response){
+                   if(response.status_code == 200) {
+                       $scope.reportList.splice($index, 1);
+                   } else {
+                       console.log('delete error');
+                   }
+               });
 
-
-        $scope.doSomething=function(){
-            //any actions to take place
-            console.log("Do Something");
-        }
+           }
+       }
 
     });
     }());
