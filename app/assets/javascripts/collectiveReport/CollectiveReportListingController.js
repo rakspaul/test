@@ -94,7 +94,7 @@
            }
        }
 
-        $scope.sort = {column:'reportType',descending:false};
+        $scope.sort = {column:'updatedAt',descending:true};
             $scope.sortReport = function(column) {
                 $scope.sort.column = column;
                 $scope.sort.descending = !$scope.sort.descending;
