@@ -23,6 +23,7 @@
     display: block;
   }
 </style>
+    <filters-header reports="true" strategy=false></filters-header>
 
   	<div class="custom_response_screenshot_container"  style="background:#fff">
         <div class="download-report-load-icon" style="text-align: center;padding-bottom: 20px;" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}}........</div>
@@ -34,7 +35,7 @@
                 <span class="head">Author</span>
               </div>
               <div ng-repeat="rlist in reportList" style="border:1px solid #ccc; height:100px;width:100%;padding:15px">
-                <span class="head">{{rlist.updatedAt}}</span>
+                <span class="head">{{rlist.updatedAt}}{{moment(rlist.updatedAt).format('YYYY-MM-DD')}}</span>
                 <span class="head">{{rlist.reportType}}</span>
                 <span class="head">Campaign</span>
                 <span class="head">{{rlist.createdBy}}</span>
@@ -42,14 +43,14 @@
                     <a ng-click="downloadCollectiveReport(rlist.id)" href="#" title="{{ rlist.fileName }}">Download</a>
 
                     <a  ng-click="editReportModal($index)"> - Edit</a>
-                    <a> - Delete</a></span>
+                    <a ng-click="deleteReport($index, rlist.id)" href="#"> - Delete</a></span>
 
                 <span class="notes">{{rlist.notes}} </span>
               </div>
 
 
               <!--  no data or loading -->
-              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="(!reportList || nodata)">{{(nodata && !reportList) ?"No data found": "Loading..."}}</div>
+              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" ng-show="(!reportList || nodata)">{{(nodata) ?"No data found": "Loading..."}}</div>
           </div>
       </div>
 

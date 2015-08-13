@@ -4,8 +4,9 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,campaignSelectModel,dataService,urlService) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,brand,campaignSelectModel,dataService,urlService) {
         $scope.report = report;
+        $scope.brandId = brand;
         $scope.close=function(){
             $modalInstance.dismiss();
         };
@@ -24,10 +25,18 @@
             notes:report.notes
         }
 
+        //$scope.setCampaignId = function(campaignId) { console.log('campaign Id: ',campaignId);
+        //    $scope.editedData.campaignId = campaignId;
+        //    console.log("Campaing id set: ",$scope.editedData);
+        //}
         $scope.updateReport = function() {
-            dataService.put(urlService.APIEditReport(report.id),$scope.editedData,{'Content-Type': 'multipart/form-data'}).then(function(response) {
+            dataService.put(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'text/plain; charset=utf-8'}).then(function(response) {
                 console.log("Edit Response: ",response);
             });
         }
+
+        campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
+            $scope.campaignList = response;
+        })
     });
 }());

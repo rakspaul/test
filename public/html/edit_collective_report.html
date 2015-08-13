@@ -36,9 +36,12 @@
     <div class="div-spacing">
         <div id="float-left">Report Type</div>
         <div id="float-right">
-            <select ng-model="editedData.reportType" ng-options="rt.id as rt.name for rt in reportTypes">
-                <option value=""></option>
-            </select>
+            <div class="dropdown">
+                <span data-toggle="dropdown">Select Report Type</span>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.id">{{rt.name}}test</li>
+                </ul>
+            </div>
         </div>
         <div class="clear-both"></div>
     </div>
@@ -46,7 +49,15 @@
 
     <div class="div-spacing">
         <div id="float-left">Campaign</div>
-        <div id="float-right"><input type="text" ng-model="editedData.campaign"></input></div>
+        <div id="float-right">
+            <div class="dropdown">
+                <span data-toggle="dropdown">Select Camapign</span>
+                <ul class="dropdown-menu">
+
+                    <li ng-repeat="cl in campaignList" ng-click="editedData.campaignId = ''+cl.campaign_id">{{cl.name}}</li>
+                </ul>
+             </div>
+        </div>
         <div class="clear-both"></div>
     </div>
 

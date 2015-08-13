@@ -6,7 +6,10 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
 
     var reportList = {};
     var getReportList = function(callback) {
-        var url = urlService.APIReportList(415486);
+        //415486
+        var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
+        var url = urlService.APIReportList(selectedCampaginObj.id);
+       //var url = urlService.APIReportList(415486);
         console.log("url",url);
         return dataService.getReportListData(url).then(function(response) {
             console.log("Response: ",response.data);
@@ -25,12 +28,6 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
 
         });
     }
-
-
-
-
-
-
 
     return {
       reportList: getReportList,
