@@ -8,8 +8,12 @@ var angObj = angObj || {};
         $scope.adData= {}
         $scope.adData.screenTypes =[];
         $scope.creativeData = {};
+        $scope.popup={};
         $scope.emptyCreativesFlag=false;
+        $scope.showHidePopup=false;
         $scope.campaignId = $routeParams.campaignId;
+        $scope.selectedArr= [];
+
 
         $scope.IsVisible = false;//To show hide view tag in creatives listing
                 $scope.ShowHide = function () {
@@ -265,7 +269,61 @@ var angObj = angObj || {};
             var bottom = $(target).offset().bottom;
             $(target).css({bottom:bottom}).animate({"bottom":"0px"}, "10");
         });
-        
+
+        var addFromLibrary ={
+            getPopupData :  function(clientID,adID,format) {console.log("clientID:"+clientID+"adID:"+adID+"format"+format);
+                            workflowService.getPopupData(clientID, adID ,format).then(function (result) {
+                                if (result.status === "OK" || result.status === "success") {
+                                    var responseData = result.data.data;
+                                    $scope.popup['popupData'] = responseData;
+                                    console.log(responseData);
+                                }
+                                else{
+                                    addFromLibrary.errorHandler(result);
+                                }
+                            }, addFromLibrary.errorHandler);
+            },
+            getSearchSizeData:function(clientID,adID,format,size){
+                               workflowService.getSearchSizeData(clientID, adID ,format,size).then(function (result) {
+                                          if (result.status === "OK" || result.status === "success") {
+                                              var responseData = result.data.data;
+                                              $scope.popup['popupData'] = responseData;
+                                              console.log(responseData);
+                                          }
+                                          else{
+                                              addFromLibrary.errorHandler(result);
+                                          }
+                                      }, addFromLibrary.errorHandler);
+                               },
+            errorHandler : function(errData) {
+                            console.log(errData);
+            }
+        }
+        $scope.showPopup = function() {
+             $scope.showHidePopup=true;
+             console.log("showPopUp");
+             //addFromLibrary.getPopupData($scope.campaignId, $scope.adId,"DISPLAY");
+             addFromLibrary.getPopupData($scope.workflowData['campaignData'].clientId,$scope.workflowData['campaignData'].advertiserId,$scope.adData.adFormat.toUpperCase());
+
+        }
+        $scope.closePop=function(){
+             $scope.showHidePopup=false;
+
+        }
+        $scope.stateChanged = function(screenTypeObj) { console.log(screenTypeObj);
+
+                var selectedChkBox = _.filter($scope.selectedArr, function(obj) { return obj.name === screenTypeObj.name});
+                console.log("selectedChkBox"+ selectedChkBox);
+                if(selectedChkBox.length >0) {
+                    var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
+                    $scope.selectedArr.splice(idx, 1);
+
+                } else {
+                    $scope.selectedArr.push(screenTypeObj);
+                }
+                console.log($scope.selectedArr);
+            }
+
     });
 })();
 
