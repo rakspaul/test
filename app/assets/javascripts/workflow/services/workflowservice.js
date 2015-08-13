@@ -67,6 +67,13 @@
                 var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives';
                 return dataService.fetch(url);
 
+            },
+
+            getPopupData:function(clientId, advertiserId,format) {
+                console.log("clientID:"+clientId+"advertiserId:"+advertiserId);
+                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives?creativeFormat='+format;
+                console.log("url:"+url);
+                return dataService.fetch(url);
             }
         };
 
