@@ -5,6 +5,15 @@ var angObj = angObj || {};
 
       $scope.textConstants = constants;
       $scope.completed = false;
+    //  $scope.campaignList = [];
+      $scope.brandId = "-1";
+
+      campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
+          $scope.campaignList = response;
+          console.log('fethcing');
+      });
+
+      console.log($scope.campaignList);
 
       $scope.reportTypeList = [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}];
 
@@ -23,7 +32,16 @@ var angObj = angObj || {};
       //  $scope.upload([$scope.file]);
       // });
       $scope.log = '';
+      $scope.show_report_name_txtbox = function(event) {
 
+        var elem = $(event.target);
+        console.log(elem.val() + " fdgshdgsfghjs") ;
+        if( elem.val() == 3 ) {
+            elem.siblings("#reportName").show() ;
+        } else {
+            elem.siblings("#reportName").hide() ;
+        }
+      };
       $scope.prepareUpload = function (files) {
 
            if (files && files.length) {

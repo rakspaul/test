@@ -64,28 +64,35 @@
 			        <div class="custom_report_response_page" ng-show="reportsUploadList.length">
 
 			              <div class="clearfix" style="border:1px solid #ccc; padding:15px;margin-top:10px" >
-							<span ng-show="progress" class="col-md-1 each-col">Status</span>
-			                <span class="col-md-3 each-col">File Name</span>
+							       <span class="col-md-1 each-col">Status</span>
+			                <span class="col-md-2 each-col">File Name</span>
 							<span class="col-md-1 each-col">Size</span>
 			                <span class="col-md-3 each-col">Report Type</span>
 			                <span class="col-md-4 each-col">Campaign</span>
+											<span class="col-md-1"></span>
 			              </div>
 
 			              <div ng-repeat="(index, file) in reportsUploadList" style="border:1px solid #ccc;margin-bottom:5px; height:auto;width:100%;padding:15px">
 							<fieldset ng-disabled="(file.status == 'uploading' || file.status == 'success')">
 								<div class="clearfix">
 									<span  ng-click="retryUpload(index)" ng-show="file.status=='error'" style="cursor:pointer" class="col-md-1 each-col" >Retry</span>
-									<span ng-show="file.status" class="col-md-1 each-col">{{file.status}}</span>
-									<span class="col-md-3 each-col">{{file.name}}</span>
+									<span  class="col-md-1 each-col">{{file.status}}</span> <!--ng-show="file.status"-->
+									<span class="col-md-2 each-col">{{file.name}}</span>
 									<span class="col-md-1 each-col">{{file.size/1000000 | number:2}} MB</span>
 									<span class="col-md-3 each-col">
-										<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left"></select>
-										<input type="text" style="width:112px" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
+										<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select>
+										<input type="text" id="reportName" style="width:112px;display:none;" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
 									</span>
 					               <!--  <span class=""></span> -->
 		<!-- TODO: get campaignId and need many instances -->
-									<div class="col-md-4 each-col">
-										<campaign-drop-down selected-obj="file.selectedCampaign"> </campaign-drop-down>
+									<div class="col-md-4 each-col" style="position:relative;">
+											  <div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
+						            <div class="dropdown">
+						                <span data-toggle="dropdown" class="dropdown_txt">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
+						                <ul class="dropdown-menu">
+						                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
+						                </ul>
+						             </div>
 									</div>
 
 									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="col-md-1 each-col" >Delete</span>
@@ -149,13 +156,13 @@
 
 
 
-	
+
 </div>
-<div class="top_message_box red_msg">
+<div class="top_message_box red_msg" style="display:none">
 	<span class="msg_box">
 		<span class="msg_icon"></span>
 		<span class="msg_txt">Please upload file size less than 10mb</span>
 		<span class="close_msg_box">x</span>
 	</span>
-	
+
 </div>

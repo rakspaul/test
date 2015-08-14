@@ -4640,4 +4640,39 @@ div.reports_tabs_content_container {
       background:url('/assets/images/cdesk/dragging_files.png') no-repeat center center
     }
   }
+  .dropdown {
+    .dropdown_txt {
+      padding: 5px 10px;
+      border: solid 1px #dde6eb;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 282px center;
+      max-width: 300px;
+      min-width: 300px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    ul {
+      width: 400px;
+      min-height : 100px ;
+      max-height: 200px;
+      overflow: auto;
+      li {
+        padding: 5px 10px;
+        cursor: default;
+        &:hover {
+          background-color : #eee ;
+        }
+      }
+    }
+  }
+}
+.disabled_dropdown {
+  height: 55px;
+  width: 340px;
+  cursor: default;
+  position: absolute;
+  top: -8px;
+  left: -6px;
+  z-index: 1;
 }
