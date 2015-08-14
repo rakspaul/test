@@ -97,8 +97,8 @@ var angObj = '';
             })
             .when('/creative/add', {
                 templateUrl: assets.html_creative,
-                title :  'Add Creative',
-                controller: 'creativeController'
+                title :  'Add Creative'
+                //controller: ''
             })
             .when('/creative/list', {
                 templateUrl: assets.html_creative_list,
