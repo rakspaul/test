@@ -7,6 +7,11 @@ var angObj = angObj || {};
         $scope.workflowData = {};
         $scope.selectedCampaign = {}
 
+        $scope.getGoalIconName = function (goal) {
+            var goalMapper = {'performance': 'signal', 'brand': 'record'}
+            return goalMapper[goal.toLowerCase()];
+        }
+
         var createCampaign = {
             clients :  function() {
                 workflowService.getClients().then(function (result) {
@@ -56,23 +61,27 @@ var angObj = angObj || {};
         }
 
 
-        $scope.workflowData['post_value'] = {};
         $scope.selectHandler =  function(type, data) {
-            if(type === 'client') {
-                createCampaign.fetchAdvertisers(data.client.id);
-                $scope.workflowData['advertisers'] = {};
-                $scope.workflowData['brands'] = {};
-                $scope.workflowData['post_value']['clientId'] = data.client.id;
-            }
-            else if(type == 'advertiser') {
-                createCampaign.fetchBrands(data.advertiser.id);
-                $scope.workflowData['brands'] = {};
-                $scope.workflowData['post_value']['advertiserId'] = data.advertiser.id;
-            }
-
-            else if(type === 'brand') {
-                $scope.workflowData['post_value']['brandId'] = data.brand.id;
-
+            switch(type) {
+                case 'client' :
+                    $scope.workflowData['advertisers'] = {};
+                    $scope.workflowData['brands'] = {};
+                    $scope.selectedCampaign.advertiser = '';
+                    if(data.client) {
+                        createCampaign.fetchAdvertisers(data.client.id);
+                    }
+                    break;
+                case 'advertiser' :
+                    $scope.workflowData['brands'] = {};
+                    $scope.selectedCampaign.brand = '';
+                    if(data.advertiser) {
+                        createCampaign.fetchBrands(data.advertiser.id);
+                    }
+                    break;
+                case 'brand' :
+                    if(data.brand) {
+                    }
+                    break;
             }
         }
 
