@@ -12,7 +12,9 @@ var angObj = angObj || {};
         $scope.addedSuccessfully = false;
         $scope.IncorrectTag = false;
         $scope.campaignId = $routeParams.campaignId;
-
+        if($location.path() === '/creative/add') {
+            $scope.isAddCreativePopup = true;
+        }
 
         var creatives = {
             /*Function to get creatives sizes*/

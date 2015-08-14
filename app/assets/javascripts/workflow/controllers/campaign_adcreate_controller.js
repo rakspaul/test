@@ -14,7 +14,7 @@ var angObj = angObj || {};
         $scope.campaignId = $routeParams.campaignId;
         $scope.selectedArr = [];
         $scope.dataFromCreativeLibraryNotFound = false;
-        $scope.isAddCreativePopup=false;
+        $scope.isAddCreativePopup = false;
 
 
         $scope.IsVisible = false;//To show hide view tag in creatives listing
