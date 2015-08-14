@@ -7,13 +7,16 @@ var angObj = angObj || {};
 
         $scope.sortType = 'platformType_aggregation.impression'; // set the default sort type
 
-        $scope.sortTypebyPerformance     = 'platformType_aggregation.impressions';
-        $scope.sortTypebyCost     = 'platformType_aggregation.impressions';
-        $scope.sortTypebyViewability     = 'platformType_aggregation.ias_imps_delivered';
 
-
+        $scope.sortTypebyPerformance     = '-platformType_aggregation.impressions';
+        $scope.sortTypebyCost     = '-platformType_aggregation.impressions';
+        $scope.sortTypebyViewability     = '-platformType_aggregation.ias_imps_delivered';
         $scope.sortTypeSubSort = 'platformType_aggregation.impression'; // set the default sort type
-        $scope.sortReverse = true; // set the default sort order
+
+        $scope.sortReverse = false; // set the default sort order
+        $scope.sortReverseForPerfImps = true;
+        $scope.sortReverseForCostImps = true;
+        $scope.sortReverseForQualImps = true;
         $scope.sortReverseKpiDropdown = true; // set the default sort order
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;
