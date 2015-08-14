@@ -1,75 +1,25 @@
-<div class="report_generator_and_response">
-	<div class="report_builder_container">
+<div class="report_generator_and_response reports_upload_page">
+
 	    <div class="container">
 	    	<div class="row">
-	    		<div class="col-md-12 heading" style="font-weight: bold">
-	    			<h3>Upload files</h3>
-	    		</div>
+	    		<div class="col-md-12 title1" >
+					<h3>Upload files</h3>
+				</div>
 	    	</div>
 	    </div>
-	</div>
+	
 
-  <style media="screen">
-
-  .drop-box {
-    background: #F5F9FD;
-    border: 2px dashed #DADBDE;
-    /*width: 100%;*/
-    margin-right: 140px;
-    margin-left: 140px;
-    /*height: 265px;*/
-    text-align: center;
-    padding: 40px;
-    border-radius:5px;
-  }
-
-  .dragover {
-    border: 2px dashed #3AA0E6;
-  }
-
-	.progress_bar {
-		position: relative;
-    height: 14px;
-    background: #bdccd4;
-    border-radius: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    margin: 40px 0 25px;
-	}
-	.progress_area {
-		overflow: hidden;
-    height: 14px;
-    margin-bottom: 20px;
-    background-color: #3AA0E6;
-    border-radius: 4px;
-		width:0px;
-    /*-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);*/
-	}
-  </style>
-
-
-	<div style="    margin-bottom: 40px;
-	    background: #f5f9fd;
-	    padding: 60px 0;
-	    border-top: solid 2px #ccd9e3;">
+	<div class="file_upload_container">
 			 <!-- ng-show="!progress || !reportsUploadList.length" -->
-			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files"
-	     ng-model-rejected="rejFiles"
-	     ngf-multiple="true" ngf-allow-dir="false"  class="drop-box"
-	    ngf-drag-over-class="dragover"
-	    ngf-accept="'.pdf,.xls,.ppt,.pptx'"
-	   ngf-max-size='10000000'>
+			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx'" ngf-max-size='10000000'>
 	    <!-- ngf-accept="'.pdf,.xls'"
 	   ngf-max-size='1000000000000' -->
-	            <div class="" style="height: 200px;width: 300px;margin: 0 auto;background:url('/assets/images/cdesk/dragging_files.png') no-repeat center center">
+	            <div class="file_upload_icon" >
 	            </div>
-	      			<span class="img_table_txt">
-	      				Simple drag and drop files to add or  <a id="fileupload" href="#" >Browse</a>
-	      			</span>
-	            <center>(ppt, pptx, pdf, xls)</center>
-
-
+      			<span class="img_table_txt">
+      				Simple drag and drop files to add or  <a id="fileupload" href="javscript:void(0);" >Browse</a>
+      			</span>
+            	<center>(ppt, pptx, pdf, xls)</center>
 			</div>
 
 
@@ -79,18 +29,17 @@
 	  <!-- <div ngf-drop ngf-select ng-model="files" class="drop-box"
 	      ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="false" ngf-accept="'.pdf,.xls'"
 	       ngf-max-size='10000000'>Drop pdfs or images here or click to upload</div> -->
-	  <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+	  		<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
 
 
 
-	<div ng-show="progress && (100 *(loaded/total) < 100) " class="drop-box" style="min-height:324px;padding-top: 80px;">
-		<span style="font-size:22px;font-weight:bold">{{ 100 *(loaded/total) | number: 0 }}%</span>
-		<div class="progress_bar">
-			<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
-		</div>
-		Uploading {{ (loaded < total) ? loaded+1 : loaded }} of {{total}}<br>
-
-	</div>
+			<div ng-show="progress && (100 *(loaded/total) < 100) " class="drop-box" style="min-height:324px;padding-top: 80px;">
+				<span style="font-size:22px;font-weight:bold">{{ 100 *(loaded/total) | number: 0 }}%</span>
+				<div class="progress_bar">
+					<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
+				</div>
+				Uploading {{ (loaded < total) ? loaded+1 : loaded }} of {{total}}<br>
+			</div>
 	</div>
 
     <div class="custom_report_upload_page">
@@ -111,41 +60,39 @@
 			<!-- <ol>
 				<li ng-repeat="file in reportsUploadList">{{file.name}} {{file.size}} :::: {{file.status}}</li>
 			</ol> -->
-			<style media="screen">
-			  
-			  .notes {
-			    border: 1px solid #ccc;
-			    padding: 5px;
-			    margin-top: 10px;
-			    display: block;
-			  }
-			</style>
 
 			        <div class="custom_report_response_page" ng-show="reportsUploadList.length">
 
 			              <div class="clearfix" style="border:1px solid #ccc; padding:15px;margin-top:10px" >
-							<span ng-show="progress" class="col-md-1 each-col">Status</span>
-			                <span class="col-md-3 each-col">File Name</span>
+							       <span class="col-md-1 each-col">Status</span>
+			                <span class="col-md-2 each-col">File Name</span>
 							<span class="col-md-1 each-col">Size</span>
 			                <span class="col-md-3 each-col">Report Type</span>
 			                <span class="col-md-4 each-col">Campaign</span>
+											<span class="col-md-1"></span>
 			              </div>
 
 			              <div ng-repeat="(index, file) in reportsUploadList" style="border:1px solid #ccc;margin-bottom:5px; height:auto;width:100%;padding:15px">
-							<fieldset ng-disabled="file.status && progress">
+							<fieldset ng-disabled="(file.status == 'uploading' || file.status == 'success')">
 								<div class="clearfix">
 									<span  ng-click="retryUpload(index)" ng-show="file.status=='error'" style="cursor:pointer" class="col-md-1 each-col" >Retry</span>
-									<span ng-show="file.status" class="col-md-1 each-col">{{file.status}}</span>
-									<span class="col-md-3 each-col">{{file.name}}</span>
+									<span  class="col-md-1 each-col">{{file.status}}</span> <!--ng-show="file.status"-->
+									<span class="col-md-2 each-col">{{file.name}}</span>
 									<span class="col-md-1 each-col">{{file.size/1000000 | number:2}} MB</span>
 									<span class="col-md-3 each-col">
-										<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left"></select>
-										<input type="text" style="width:112px" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
+										<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select>
+										<input type="text" id="reportName" style="width:112px;display:none;" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
 									</span>
 					               <!--  <span class=""></span> -->
 		<!-- TODO: get campaignId and need many instances -->
-									<div class="col-md-4 each-col">
-										<campaign-drop-down selected-obj="file.selectedCampaign"> </campaign-drop-down>
+									<div class="col-md-4 each-col" style="position:relative;">
+											  <div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
+						            <div class="dropdown">
+						                <span data-toggle="dropdown" class="dropdown_txt">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
+						                <ul class="dropdown-menu">
+						                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
+						                </ul>
+						             </div>
 									</div>
 
 									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="col-md-1 each-col" >Delete</span>
@@ -209,5 +156,13 @@
 
 
 
-	
+
+</div>
+<div class="top_message_box red_msg" style="display:none">
+	<span class="msg_box">
+		<span class="msg_icon"></span>
+		<span class="msg_txt">Please upload file size less than 10mb</span>
+		<span class="close_msg_box">x</span>
+	</span>
+
 </div>
