@@ -3,7 +3,7 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
@@ -12,20 +12,20 @@
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.brandId = -1;
         $scope.reportList = [];
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        $scope.nodata = "";
+        $scope.sort = {column:'updatedAt',descending:true};
 
-        $scope.getReports = function() {
+
+        $scope.getReports = function() { $scope.nodata = "Loading....";
             collectiveReportModel.reportList(function (response) {
                 if (response.data !== undefined && response.data.length > 0) {
                     $scope.reportList = response.data;
-/*                    console.log("Report List: ",$scope.reportList);
-                    $scope.reportList[0].createdBy = "Sapna";
-                    $scope.reportList[3].createdBy = "Mini";
-                    $scope.reportList[1].createdBy = "Zoo";
-                    console.log($scope.reportList);*/
-                    $scope.nodata = false;
+                    $scope.nodata = "";
+                    $scope.sortReport($scope.sort.column);
                 } else {
                     $scope.reportList = [];
-                    $scope.nodata = true;
+                    $scope.nodata = "Data not found";
                 }
                 $scope.setReportToEdit = function(index) {
                  $scope.reportToEdit = $scope.reportList[index];
@@ -46,15 +46,28 @@
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_edit_collective_report,
                 controller:"CollectiveEditReportController",
+                scope:$scope,
                 resolve: {
                     report: function () {
-                        return  $scope.reportList[index];
+                        return $scope.reportList[index];
+                        /*for(var i=0;i<=$scope.reportList.length;i++) {
+                            if($scope.reportList[i].id == reportId) {
+                                return  $scope.reportList[i];
+                            }
+                        }*/
+
                     },
                     brand: function() {
                         return $scope.brandId;
+                    },
+                    reportList: function() {
+                        console.log($scope.reportList)
+                        return $scope.reportList;
                     }
                 }
             });
+
+
         }
 
         $scope.downloadCollectiveReport = function(reportId) {
@@ -94,11 +107,15 @@
            }
        }
 
-        $scope.sort = {column:'updatedAt',descending:true};
+
             $scope.sortReport = function(column) {
-                $scope.sort.column = column;
+
+                $scope.reportList = $filter('orderBy')($scope.reportList, column,$scope.sort.descending);
                 $scope.sort.descending = !$scope.sort.descending;
            }
+
+
+        //$scope.sortReport($scope.sort.column);
 
 
     });

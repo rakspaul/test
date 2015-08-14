@@ -37,9 +37,9 @@
         <div id="float-left">Report Type</div>
         <div id="float-right">
             <div class="dropdown">
-                <span data-toggle="dropdown">Select Report Type</span>
+                <span data-toggle="dropdown">{{editedData.reportType}}</span>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.id">{{rt.name}}test</li>
+                    <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.id;" >{{rt.name}}test</li>
                 </ul>
             </div>
         </div>
@@ -51,10 +51,10 @@
         <div id="float-left">Campaign</div>
         <div id="float-right">
             <div class="dropdown">
-                <span data-toggle="dropdown">Select Camapign</span>
+                <span data-toggle="dropdown">{{selectedCampaignObj.name}}</span>
                 <ul class="dropdown-menu">
 
-                    <li ng-repeat="cl in campaignList" ng-click="editedData.campaignId = ''+cl.campaign_id">{{cl.name}}</li>
+                    <li ng-repeat="cl in campaignList" ng-click="editedData.campaignId = ''+cl.campaign_id;selectedCampaignObj.name=cl.name">{{cl.name}}</li>
                 </ul>
              </div>
         </div>
