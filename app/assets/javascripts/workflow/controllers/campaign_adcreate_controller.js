@@ -5,86 +5,92 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
-        $scope.adData= {}
-        $scope.adData.screenTypes =[];
+        $scope.adData = {}
+        $scope.adData.screenTypes = [];
         $scope.creativeData = {};
-        $scope.popup={};
-        $scope.emptyCreativesFlag=false;
-        $scope.showHidePopup=false;
+        $scope.creativesLibraryData = {};
+        $scope.emptyCreativesFlag = false;
+        $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
-        $scope.selectedArr= [];
+        $scope.selectedArr = [];
+        $scope.dataFromCreativeLibraryNotFound = false;
+        $scope.isAddCreativePopup=false;
 
 
         $scope.IsVisible = false;//To show hide view tag in creatives listing
-                $scope.ShowHide = function () {
-                //If DIV is visible it will be hidden and vice versa.
-                $scope.IsVisible = $scope.IsVisible ? false : true;
-                }
-        $scope.getAdFormatIconName = function(adFormat) {
-            var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
+        $scope.ShowHide = function () {
+            //If DIV is visible it will be hidden and vice versa.
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+        }
+        $scope.getAdFormatIconName = function (adFormat) {
+            var adFormatMapper = {'display': 'picture', 'video': 'film', 'rich media': 'paperclip', 'social': 'user'}
             return adFormatMapper[adFormat.toLowerCase()];
         }
 
-        $scope.getScreenTypeIconName = function(screenType) {
-            var screenTypeMapper = {'desktop' : 'phone', 'mobile' : 'phone', 'tablet' : 'phone'}
+        $scope.getScreenTypeIconName = function (screenType) {
+            var screenTypeMapper = {'desktop': 'phone', 'mobile': 'phone', 'tablet': 'phone'}
             return screenTypeMapper[screenType.toLowerCase()];
         }
 
-        $scope.getGoalIconName = function(goal) {
-            var goalMapper = {'performance' : 'signal', 'brand' : 'record'}
+        $scope.getGoalIconName = function (goal) {
+            var goalMapper = {'performance': 'signal', 'brand': 'record'}
             return goalMapper[goal.toLowerCase()];
         }
 
-        $scope.getPlatformIconName = function(platform) {
-            var platformMapper = {'collective bidder' : 'logo_C_bidder', 'appnexus' : 'logo_C_appnexus'}
+        $scope.getPlatformIconName = function (platform) {
+            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus'}
             return platformMapper[platform.toLowerCase()];
         }
 
 
         var campaignOverView = {
-            getCampaignData :  function(campaignId) {
+            getCampaignData: function (campaignId) {
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
                         var startDateElem = $('#startDateInput');
-                        var campaignStartTime =  moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
-                        var campaignEndTime =  moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
+                        var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
+                        var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
-                        /*call to get creatives*/
-                        console.log(responseData);
-                       // campaignOverView.getTaggedCreatives(39,94);
-                        campaignOverView.getTaggedCreatives(campaignId, responseData.id);
+                        //campaignOverView.getTaggedCreatives(campaignId, responseData.id);
                     }
-                    else{
+                    else {
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
             },
 
-            fetchGoals :  function() {
-                $scope.workflowData['goals'] = [{id : 1, name : 'Performance'}, {id : 2, name : 'Brand'}]
+            fetchGoals: function () {
+                $scope.workflowData['goals'] = [{id: 1, name: 'Performance'}, {id: 2, name: 'Brand'}]
             },
 
-            fetchAdFormats :  function() {
-                $scope.workflowData['adFormats'] = [{id : 1, name : 'Display', disable:false}, {id : 2, name : 'Video', disable : true}, {id : 3, name : 'Rich Media', disable : true}, {id : 4, name : 'Social', disable : true}]
+            fetchAdFormats: function () {
+                $scope.workflowData['adFormats'] = [{id: 1, name: 'Display', disable: false}, {
+                    id: 2,
+                    name: 'Video',
+                    disable: true
+                }, {id: 3, name: 'Rich Media', disable: true}, {id: 4, name: 'Social', disable: true}]
             },
 
-            fetchScreenType:  function() {
-                $scope.workflowData['screenTypes'] = [{id : 1, name : 'Desktop'}, {id : 2, name : 'Mobile'}, {id : 3, name : 'Tablet'}]
+            fetchScreenType: function () {
+                $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop'}, {id: 2, name: 'Mobile'}, {
+                    id: 3,
+                    name: 'Tablet'
+                }]
             },
 
-            fetchUnitTypes:  function() {
-                $scope.workflowData['unitTypes'] = [{id :1 , name: 'CPM'}, {id: 2, name :'CPC'}, {id:3, name:'CPA'}];
+            fetchUnitTypes: function () {
+                $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}, {id: 2, name: 'CPC'}, {id: 3, name: 'CPA'}];
             },
 
-            fetchPlatforms:  function() {
-                $scope.workflowData['platforms'] = [{id :1 , name: 'Collective Bidder'}, {id: 2, name :'Appnexus'}];
+            fetchPlatforms: function () {
+                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder'}, {id: 2, name: 'Appnexus'}];
             },
 
-            saveAds :  function(postDataObj) {
-                if($scope.adId) {
+            saveAds: function (postDataObj) {
+                if ($scope.adId) {
                     postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
 
@@ -104,29 +110,30 @@ var angObj = angObj || {};
                     }
                 });
             },
-        /*Function to get creatives for list view*/
-            getTaggedCreatives: function(campaignId,adId){
-                workflowService.getTaggedCreatives(campaignId,adId).then(function (result) { console.log("data returned");
-                                if (result.status === "OK" || result.status === "success") { console.log(result.data.data);
-                                    var responseData = result.data.data;
-                                    if(responseData.creatives.length==0) $scope.emptyCreativesFlag=true;
-                                    console.log("responseData"+responseData);
-                                    $scope.creativeData['creativeInfo'] = responseData;
-                                 }
-                                else{
-                                     console.log("failed");
-                                     campaignOverView.errorHandler(result);
-                                     }
+            /*Function to get creatives for list view*/
+            getTaggedCreatives: function (campaignId, adId) {
+                workflowService.getTaggedCreatives(campaignId, adId).then(function (result) {
+                    console.log("data returned");
+                    if (result.status === "OK" || result.status === "success") {
+                        console.log(result.data.data);
+                        var responseData = result.data.data;
+                        if (responseData.creatives.length == 0) $scope.emptyCreativesFlag = true;
+                        $scope.creativeData['creativeInfo'] = responseData;
+                    }
+                    else {
+                        console.log("failed");
+                        campaignOverView.errorHandler(result);
+                    }
                 }, campaignOverView.errorHandler);
 
             },
 
-            errorHandler : function(errData) {
+            errorHandler: function (errData) {
                 console.log(errData);
             }
         }
 
-        $scope.utc = function(date) {
+        $scope.utc = function (date) {
             return Date.parse(date)
         }
 
@@ -139,10 +146,11 @@ var angObj = angObj || {};
         //campaignOverView.getCreatives(3,10);
 
 
-
-        $scope.screenTypeSelection = function(screenTypeObj) {
-            var screenTypeFound = _.filter($scope.adData.screenTypes, function(obj) { return obj.name === screenTypeObj.name});
-            if(screenTypeFound.length >0) {
+        $scope.screenTypeSelection = function (screenTypeObj) {
+            var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
+                return obj.name === screenTypeObj.name
+            });
+            if (screenTypeFound.length > 0) {
                 var idx = _.findLastIndex($scope.adData.screenTypes, screenTypeObj);
                 $scope.adData.screenTypes.splice(idx, 1);
 
@@ -151,14 +159,14 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.handleFlightDate = function(data) {
+        $scope.handleFlightDate = function (data) {
             var startTime = data.startTime;
             var endDateElem = $('#endDateInput');
-            var campaignEndTime =  moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
+            var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
             var changeDate;
-            endDateElem.attr("disabled","disabled").css({'background':'#eee'});
-            if(startTime) {
-                endDateElem.removeAttr("disabled").css({'background':'transparent'});
+            endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
+            if (startTime) {
+                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                 changeDate = moment(startTime).format('MM/DD/YYYY')
                 endDateElem.datepicker("setStartDate", changeDate);
                 endDateElem.datepicker("setEndDate", campaignEndTime);
@@ -166,8 +174,8 @@ var angObj = angObj || {};
             }
 
         }
-    
-        $(function() {
+
+        $(function () {
             $('.input-daterange').datepicker({
                 format: "mm/dd/yyyy",
                 orientation: "top auto",
@@ -175,44 +183,53 @@ var angObj = angObj || {};
                 todayHighlight: true
             });
 
-            $("#SaveAd").on('click',function() {
+            $("#SaveAd").on('click', function () {
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                var creativesData = $scope.creativeData['creativeInfo'];
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
                 postAdDataObj.campaignId = Number($scope.campaignId);
-                postAdDataObj.state =  $scope.workflowData['campaignData'].status;
+                postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
-                if(formData.adFormatId)
-                    postAdDataObj.adFormatId = Number(formData.adFormatId);
 
-                if(formData.screens)
+                if (formData.format)
+                    postAdDataObj.format = formData.format.toUpperCase();
+
+                if (formData.screens)
                     postAdDataObj.screens = JSON.parse(formData.screens);
 
-                if(formData.goal)
+                if (formData.goal)
                     postAdDataObj.goal = formData.goal;
 
-                if(formData.startTime)
+                if (formData.startTime)
                     postAdDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
 
-                if(formData.endTime)
+                if (formData.endTime)
                     postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
 
-                if(formData.unitType && formData.unitCost) {
+                if (formData.unitType && formData.unitCost) {
                     postAdDataObj.rateType = formData.unitType
                     postAdDataObj.rateValue = formData.unitCost;
                 }
 
-                if(formData.budgetType && formData.budgetValue1) {
+                if (formData.budgetType && formData.budgetValue1) {
                     postAdDataObj.budgetType = formData.budgetType
                     postAdDataObj.budgetValue = Number(formData.budgetValue1);
                 }
 
-                if(formData.platformId) {
+                if (formData.platformId) {
                     postAdDataObj.platformId = Number(formData.platformId);
                 }
 
+                if(creativesData && creativesData.creatives) {
+                    _.each(creativesData.creatives,
+                        function(obj) { obj['sizeId'] = obj.size.id;
+                    });
+                    postAdDataObj['creatives'] = creativesData.creatives;
+
+                }
                 campaignOverView.saveAds(postAdDataObj)
 
 
@@ -220,41 +237,41 @@ var angObj = angObj || {};
         })
 
         // Switch BTN Animation
-        $('.btn-toggle').click(function(){
+        $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');
 
-            if ($(this).find('.btn-primary').size()>0) {
+            if ($(this).find('.btn-primary').size() > 0) {
                 $(this).find('.btn').toggleClass('btn-primary');
             }
-            if ($(this).find('.btn-success').size()>0) {
+            if ($(this).find('.btn-success').size() > 0) {
                 $(this).find('.btn').toggleClass('btn-success');
             }
             $(this).find('.btn').toggleClass('btn-default');
         });
 
         // Buying Platform Views
-        $('.clickCm, .clickCb, .clickNx').click(function(){
+        $('.clickCm, .clickCb, .clickNx').click(function () {
             $('.buyingPlatformHolder').toggle();
         });
         // Collective Media-Buying Platform Views
-        $('.clickCm').click(function(){
+        $('.clickCm').click(function () {
             $('.collectMediaScreenHolder').toggle();
         });
         // Collective Bidder-Buying Platform Views
-        $('.clickCb').click(function(){
+        $('.clickCb').click(function () {
             $('.collectBidderScreenHolder').toggle();
         });
         // Nexus-Buying Platform Views
-        $('.clickNx').click(function(){
+        $('.clickNx').click(function () {
             $('.collectNexusScreenHolder').toggle();
         });
         // Change-Buying Platform Views
-        $('.editPlatform').click(function(){
+        $('.editPlatform').click(function () {
             $('.buyingPlatformHolder').toggle();
             $('.collectMediaScreenHolder, .collectBidderScreenHolder, .collectNexusScreenHolder').hide();
         });
         // Show Hide Preset Values
-        $('.showPreset').click(function(){
+        $('.showPreset').click(function () {
             $('.presetGreyBox').slideToggle();
         });
 
@@ -262,68 +279,104 @@ var angObj = angObj || {};
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             $('a[data-toggle="tab"]').parents("li").removeClass('active');
             $(this).parents('li').addClass('active');
-            
+
             var target = $(this).attr('href');
-            $("#myTabs").find( target + "-tab" ).closest("li").addClass("active") ;
-            $(target).css('bottom','-'+$(window).width()+'px');
+            $("#myTabs").find(target + "-tab").closest("li").addClass("active");
+            $(target).css('bottom', '-' + $(window).width() + 'px');
             var bottom = $(target).offset().bottom;
-            $(target).css({bottom:bottom}).animate({"bottom":"0px"}, "10");
+            $(target).css({bottom: bottom}).animate({"bottom": "0px"}, "10");
         });
 
-        var addFromLibrary ={
-            getPopupData :  function(clientID,adID,format) {console.log("clientID:"+clientID+"adID:"+adID+"format"+format);
-                            workflowService.getPopupData(clientID, adID ,format).then(function (result) {
-                                if (result.status === "OK" || result.status === "success") {
-                                    var responseData = result.data.data;
-                                    $scope.popup['popupData'] = responseData;
-                                    console.log(responseData);
-                                }
-                                else{
-                                    addFromLibrary.errorHandler(result);
-                                }
-                            }, addFromLibrary.errorHandler);
+        var addFromLibrary = {
+            modifyCreativesData : function(respData) {
+                var arr;
+                _.each(respData, function(data) {
+                    if($scope.selectedArr.length >0) {
+                        arr = _.filter($scope.selectedArr, function (obj) {
+                            return obj.id === data.id
+                        });
+                        if(arr.length >0) {
+                            data['checked'] = arr[0].checked;
+                        }
+                    } else {
+                        data['checked'] = false;
+                    }
+                });
+                return respData;
             },
-            getSearchSizeData:function(clientID,adID,format,size){
-                               workflowService.getSearchSizeData(clientID, adID ,format,size).then(function (result) {
-                                          if (result.status === "OK" || result.status === "success") {
-                                              var responseData = result.data.data;
-                                              $scope.popup['popupData'] = responseData;
-                                              console.log(responseData);
-                                          }
-                                          else{
-                                              addFromLibrary.errorHandler(result);
-                                          }
-                                      }, addFromLibrary.errorHandler);
-                               },
-            errorHandler : function(errData) {
-                            console.log(errData);
+
+            getCreativesFromLibrary: function (clientID, adID, format) {
+                workflowService.getCreativesFromLibrary(clientID, adID, format).then(function (result) {
+                    if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
+                        var responseData = result.data.data;
+                        $scope.dataFromCreativeLibraryNotFound = false;
+                        $scope.creativesLibraryData['creativesData'] = addFromLibrary.modifyCreativesData(responseData);
+                    }
+                    else {
+                        addFromLibrary.errorHandler(result);
+                    }
+                }, addFromLibrary.errorHandler);
+            },
+            errorHandler: function (errData) {
+                $scope.dataFromCreativeLibraryNotFound =  true;
+                $scope.emptyCreativesFlag = true;
             }
-        }
-        $scope.showPopup = function() {
-             $scope.showHidePopup=true;
-             console.log("showPopUp");
-             //addFromLibrary.getPopupData($scope.campaignId, $scope.adId,"DISPLAY");
-             addFromLibrary.getPopupData($scope.workflowData['campaignData'].clientId,$scope.workflowData['campaignData'].advertiserId,$scope.adData.adFormat.toUpperCase());
+        };
 
-        }
-        $scope.closePop=function(){
-             $scope.showHidePopup=false;
+        $scope.showPopup = function () {
+            $scope.showHidePopup = true;
+            addFromLibrary.getCreativesFromLibrary($scope.workflowData['campaignData'].clientId, $scope.workflowData['campaignData'].advertiserId, $scope.adData.adFormat.toUpperCase());
+        };
 
-        }
-        $scope.stateChanged = function(screenTypeObj) { console.log(screenTypeObj);
+        $scope.saveCreativeTags = function () {
+            $scope.showHidePopup = false;
+            $scope.updateCreativeData($scope.selectedArr)
+        };
 
-                var selectedChkBox = _.filter($scope.selectedArr, function(obj) { return obj.name === screenTypeObj.name});
-                console.log("selectedChkBox"+ selectedChkBox);
-                if(selectedChkBox.length >0) {
-                    var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
-                    $scope.selectedArr.splice(idx, 1);
+        $scope.closePop = function () {
+            $scope.showHidePopup = false;
+        };
 
-                } else {
-                    $scope.selectedArr.push(screenTypeObj);
+        $scope.updateCreativeData = function(data) {
+            $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
+        };
+
+        $scope.removeCreativeTags =  function(clickedTagData, actionFrom) {
+            var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) { return obj.id === clickedTagData.id});
+            if (selectedCreativeTag.length > 0) {
+                var idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
+                $scope.selectedArr.splice(idx, 1);
+                if(actionFrom !== 'popup') {
+                    $scope.updateCreativeData($scope.selectedArr)
                 }
-                console.log($scope.selectedArr);
             }
+            var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
+            $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
+            $("#"+clickedTagData.id).removeAttr("checked");
+        };
 
+        $scope.stateChanged = function ($event, screenTypeObj) {
+            var checkbox = $event.target;
+            screenTypeObj['checked'] = checkbox.checked;
+
+            var selectedChkBox = _.filter($scope.selectedArr, function (obj) {
+                return obj.name === screenTypeObj.name
+            });
+
+            if (selectedChkBox.length > 0) {
+                var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
+                $scope.selectedArr.splice(idx, 1);
+
+            } else {
+                $scope.selectedArr.push(screenTypeObj);
+            }
+            console.log($scope.selectedArr);
+        };
+
+        $scope.showCreateNewWindow=function(){
+            $scope.isAddCreativePopup = true;
+            console.log("showCreateNew");
+        }
     });
 })();
 

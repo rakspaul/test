@@ -235,7 +235,7 @@
                                                     <div ng-if="adformat.disable" class="adDisableRadioWrap"></div>
                                                     <!--Abi can you add the active class to the label element below-->
                                                     <label>
-                                                        <input type="radio" name="adFormatName"
+                                                        <input type="radio" name="format"
                                                                value="{{adformat.name}}" class="btn_rad"
                                                                ng-model="adData.adFormat"
                                                                ng-click="adData.adFormatId = adformat.id">
@@ -245,7 +245,7 @@
                                                         <div class="btnLabel">{{adformat.name}}</div>
                                                     </label>
                                                 </div>
-                                                <input type="hidden" name="adFormatId" value="{{adData.adFormatId }}">
+                                                <!--<input type="hidden" name="adFormatId" value="{{adData.adFormatId }}">-->
                                             </div>
 
                                             <!--=== AD Goal ===-->
@@ -698,8 +698,8 @@
                                                 <br/>
 
                                                 <div class="spacingInput"></div>
-                                                <button type="button" class="btn btn-default" ng-click="showPopup()">Add from Library</button>
-                                                <button type="button" class="btn btn-default">Create New</button>
+                                                <button type="button" class="btn btn-default" ng-disabled="adData.adFormatId === undefined" ng-click="showPopup()">Add from Library</button>
+                                                <button type="button" class="btn btn-default" ng-click="showCreateNewWindow()">Create New</button>
                                             </div>
 
                                             <div class="col-md-12 zeroPadding">
@@ -743,7 +743,7 @@
                                                             </td>
                                                             <td>
                                                                 <span class="glyphicon glyphicon-remove pull-right"
-                                                                      aria-hidden="true"></span>
+                                                                      aria-hidden="true" ng-click="removeCreativeTags(creativeData)"></span>
                                                             </td>
 
                                                         </tr>
@@ -790,85 +790,6 @@
             </div>
         </div>
     </div>
-    
-    <div class="popCreativeLib" ng-show="showHidePopup">
-	<div class="creativeLib">
-	    <div class="headerLib">
-		<span class="glyphicon glyphicon-remove closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
-		<button type="button" class="btn btn-default">Create New</button>
-		<h1>Add from Library</h1>
-		<a href="">Adding a Creative Tag to Your Ad (guided copy)</a>
-	    </div>
-	    <div class="col-md-12 zeroPadding">
-		<div class="col-md-7">
-		    <h2 class="col-md-3 zeroPadding">Available</h2>
-		    <div id="custom-search-input" class="col-md-9">
-			<div class="input-group col-md-12">
-			    <input type="text" class="form-control input-lg" placeholder="Search..." ng-model="sizeSearchVal"/>
-			    <span class="input-group-btn">
-				<button class="btn btn-info btn-lg" type="button" ng-click="searchSize()">
-				    <i class="glyphicon glyphicon-search"></i>
-				</button>
-			    </span>
-			</div>
-		    </div>
-
-		    <table class="table" id="selCheck">
-			<thead>
-			  <tr>
-			    <th></th>
-			    <th></th>
-			  </tr>
-			</thead>
-			<tbody>
-			    <!--Test 1   | filter : {{sizeSearchVal}}  -->
-			    <tr ng-repeat="data in popup.popupData | filter:sizeSearchVal">
-			      <td>
-				  <span class="col-md-1 "><input class="checkboxcls" type="checkbox" value="{{data.id}}_{{data.size.size}}_{{data.name}}" name="{{data.name}}" ng-model="_tmp" ng-click="stateChanged(data);"/></span>
-				  <div class="col-md-11">
-					  <p class="col-md-12">{{data.size.size}}</p>
-				  </div>
-			      </td>
-			      <td>{{data.name}}</td>
-			    </tr>
-			</tbody>
-		    </table>
-		</div>
-		<div class="col-md-5">
-		    <h2>Selected</h2>
-		    <table class="table">
-			<thead>
-			  <tr>
-			    <th></th>
-			    <th></th>
-			  </tr>
-			</thead>
-			<tbody>
-
-			    <!--Test 3-->
-			    <tr ng-repeat="data in selectedArr">
-			      <td>
-				  <div class="col-md-11">
-					  <p class="col-md-12">{{data.size.size}}</p>
-				  </div>
-			      </td>
-			      <td>
-				  <span class="col-md-11">
-				      {{data.name}}
-				  </span>
-				  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-			      </td>
-			    </tr>
-			</tbody>
-		    </table>
-		</div>
-
-		<div class="col-md-12" style="margin-bottom: 15px;">
-		    <button type="button" class="btn btn-primary pull-right" ng-click="closePop()">Save</button>
-		    <button type="button" class="btn btn-link pull-right" >Cancel</button>
-		</div>
-
-	    </div>
-	</div>
-    </div>
+    <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'"> </div>
+    <div ng-include="'/assets/html/workflow/creative.html'"> </div>
 </div>
