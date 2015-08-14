@@ -149,6 +149,10 @@ var angObj = angObj || {};
             $scope.selectedCampaign = { };
         };
 
+        $scope.getRandom=function() {
+            return Math.floor((Math.random()*6)+1);
+        },
+
         $(function() {
             $('.input-daterange').datepicker({
                 format: "mm/dd/yyyy",
