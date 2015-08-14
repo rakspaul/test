@@ -194,8 +194,8 @@ var angObj = angObj || {};
                 postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
 
-                if (formData.adFormatId)
-                    postAdDataObj.adFormatId = Number(formData.adFormatId);
+                if (formData.format)
+                    postAdDataObj.format = formData.format.toUpperCase();
 
                 if (formData.screens)
                     postAdDataObj.screens = JSON.parse(formData.screens);
@@ -224,6 +224,9 @@ var angObj = angObj || {};
                 }
 
                 if(creativesData && creativesData.creatives) {
+                    _.each(creativesData.creatives,
+                        function(obj) { obj['sizeId'] = obj.size.id;
+                    });
                     postAdDataObj['creatives'] = creativesData.creatives;
 
                 }

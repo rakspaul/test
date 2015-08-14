@@ -235,7 +235,7 @@
                                                     <div ng-if="adformat.disable" class="adDisableRadioWrap"></div>
                                                     <!--Abi can you add the active class to the label element below-->
                                                     <label>
-                                                        <input type="radio" name="adFormatName"
+                                                        <input type="radio" name="format"
                                                                value="{{adformat.name}}" class="btn_rad"
                                                                ng-model="adData.adFormat"
                                                                ng-click="adData.adFormatId = adformat.id">
@@ -245,7 +245,7 @@
                                                         <div class="btnLabel">{{adformat.name}}</div>
                                                     </label>
                                                 </div>
-                                                <input type="hidden" name="adFormatId" value="{{adData.adFormatId }}">
+                                                <!--<input type="hidden" name="adFormatId" value="{{adData.adFormatId }}">-->
                                             </div>
 
                                             <!--=== AD Goal ===-->
