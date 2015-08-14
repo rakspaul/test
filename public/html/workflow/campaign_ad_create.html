@@ -747,9 +747,9 @@
                                                             </td>
 
                                                         </tr>
-                                                        <tr ng-show="emptyCreativesFlag">
+                                                        <tr ng-show="emptyCreativesFlag" class="emptyCreativesFlag" style="display: inline-block !important;">
                                                             <td>
-                                                                <div> No Creatives to Show</div>
+								<div class="alert alert-warning" role="alert">Empty Creatives</div>
                                                             </td>
                                                         </tr>
 
@@ -871,4 +871,7 @@
 	    </div>
 	</div>
     </div>
+    
+    <!--<div ng-include src="'creative.html'"></div>-->
+    
 </div>
