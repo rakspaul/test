@@ -3149,11 +3149,21 @@ button, i, input[type="submit"] {
     width: 100%;
     border-bottom: solid 1px #ccc;
     padding : 0 10px ;
+    .campaign_name_length {
+      display: none;
+    }
     input {
       float: none;
       width: 100% ;
       background: url("/assets/images/cdesk/search_input.png") no-repeat right center ;
       padding-right: 20px ;
+      max-width: 660px;
+      overflow: hidden;
+      display: inline-block;
+      height: 32px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border: 0;
     }
   }
   .dropdown-menu { 

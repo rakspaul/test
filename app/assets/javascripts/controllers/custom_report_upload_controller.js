@@ -33,14 +33,25 @@ var angObj = angObj || {};
       // });
       $scope.log = '';
       $scope.show_report_name_txtbox = function(event) {
-
         var elem = $(event.target);
-        console.log(elem.val() + " fdgshdgsfghjs") ;
-        if( elem.val() == 3 ) {
-            elem.siblings("#reportName").show() ;
+        elem.closest(".dropdown").find(".dropdown_txt").text(elem.text()) ;
+        if( elem.text() == "Custom" ) {
+            $(".upload_files_container").addClass("custom_report_type") ;
+            elem.closest(".each-col").find("#reportName").show() ;
         } else {
-            elem.siblings("#reportName").hide() ;
+            $(".upload_files_container").removeClass("custom_report_type") ;
+            elem.closest(".each-col").find("#reportName").hide() ;
         }
+        elem.closest(".dropdown").find(".dropdown-menu").hide();
+      };
+      
+      $scope.toggle_dropdown = function(event) {
+        var elem = $(event.target);
+        elem.closest(".dropdown").find(".dropdown-menu").toggle() ;
+      };
+      $scope.close_msg_box = function(event) {
+        var elem = $(event.target);
+        elem.closest(".top_message_box").hide() ;
       };
       $scope.prepareUpload = function (files) {
 
