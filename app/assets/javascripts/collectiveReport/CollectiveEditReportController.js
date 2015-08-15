@@ -7,6 +7,8 @@
     collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,brand,campaignSelectModel,dataService,urlService) {
         $scope.report = report;
         $scope.brandId = brand;
+
+       // $scope.selectedName = editedData.;
         $scope.close=function(){
             $modalInstance.dismiss();
         };
@@ -30,13 +32,30 @@
         //    console.log("Campaing id set: ",$scope.editedData);
         //}
         $scope.updateReport = function() {
-            dataService.put(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'text/plain; charset=utf-8'}).then(function(response) {
+            dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
                 console.log("Edit Response: ",response);
+                console.log($scope.report[report.id]);
+                for(var i=0;i<$scope.reportList.length;i++) {
+                    if($scope.reportList[i].id == report.id) {
+                        console.log($scope.reportList[i])
+                        $scope.reportList[i] = $scope.editedData;
+                    }
+                }
+                $scope.close();
+
             });
+
         }
+
+        $scope.selectedCampaignObj = campaignSelectModel.getSelectedCampaign();
 
         campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
             $scope.campaignList = response;
+/*            for(var i=0;i<$scope.campaignList;i++) {
+                if($scope.campaignList[i] == report.campaignId) {
+                    $scope.selectedCampaignObj = $scope.campaignList[i];
+                }
+            }*/
         })
     });
 }());

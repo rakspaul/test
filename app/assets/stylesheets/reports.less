@@ -3,7 +3,82 @@
 @reportTabDefaultColor : #57606d ;
 @reportBorder : #ccd9e3 ;
 
-
+.title1 , .title1 h3 {
+  font-size: 26px ;
+  color: #21252b ;
+}
+.top_message_box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+  span.msg_box {
+    display: inline-block;
+    color: #3e763f;
+    background-color: #e0f0d9;
+    padding: 13px 10px;
+    margin-top: 20px;
+    min-width: 360px;
+    text-align: left;
+    font-size: 14px;
+    box-shadow: 0px 2px 5px 0px rgba(74,105,116, 0.25);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(74,105,116, 0.25);
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(74,105,116, 0.25);
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    .msg_icon {
+      float: left;
+      height: 20px;
+      width: 20px;
+      display: inline-block;
+      background-color: #3e763f;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      &:after {
+        content: "";
+        border-bottom: solid 3px #e0f0d9;
+        border-left: solid 3px #e0f0d9;
+        height: 6px;
+        width: 10px;
+        display: inline-block;
+        transform: rotate(-50deg);
+        -moz-transform: rotate(-50deg);
+        -webkit-transform: rotate(-50deg);
+        margin: 0px 0 2px 5px;
+      }
+    }
+    .msg_txt {
+      float: left;
+      margin: 10px ;
+      line-height: 2px ;
+    }
+    .close_msg_box {
+      cursor: pointer;
+      float: right;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border: solid 1px #ccc;
+      color: #999;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      padding-left: 1px;
+    }
+  }
+}
+.red_msg {
+  span.msg_box {
+    background-color: #f2dede ;
+    color: #b96a6a ;
+  }
+}
 .campaign_details_graphs_holder {
   .carousel-inner .active.left { left: -25%; }
   .carousel-inner .next        { left:  25%; }
@@ -2822,7 +2897,6 @@ div.strategy_total_container {
       div.sec_col {
         margin-left: 0px ;
         width: 214px;
-        padding-top: 10px;
         &.vid_show{
           width: 149px ;
           padding-top: 10px;
@@ -4509,4 +4583,96 @@ div.reports_tabs_content_container {
       border: 1px solid #ccd2da;
     }
   }
+}
+
+
+/* Reports upload page */
+.reports_upload_page {
+  .drop-box {
+    background: #F5F9FD;
+    border: 2px dashed #DADBDE;
+    /*width: 100%;*/
+    margin-right: 140px;
+    margin-left: 140px;
+    /*height: 265px;*/
+    text-align: center;
+    padding: 40px;
+    border-radius:5px;
+  }
+
+  .dragover {
+    border: 2px dashed #3AA0E6;
+  }
+  .notes {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+    display: block;
+  }
+  .progress_bar {
+    position: relative;
+    height: 14px;
+    background: #bdccd4;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    margin: 40px 0 25px;
+  }
+  .progress_area {
+    overflow: hidden;
+    height: 14px;
+    margin-bottom: 20px;
+    background-color: #3AA0E6;
+    border-radius: 4px;
+    width:0px;
+    /*-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);*/
+  }
+  .file_upload_container {
+    margin-bottom: 40px;
+    background: #f5f9fd;
+    padding: 60px 0;
+    border-top: solid 2px #ccd9e3;
+    .file_upload_icon {
+      height: 200px;
+      width: 300px;
+      margin: 0 auto;
+      background:url('/assets/images/cdesk/dragging_files.png') no-repeat center center
+    }
+  }
+  .dropdown {
+    .dropdown_txt {
+      padding: 5px 10px;
+      border: solid 1px #dde6eb;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 282px center;
+      max-width: 300px;
+      min-width: 300px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    ul {
+      width: 400px;
+      min-height : 100px ;
+      max-height: 200px;
+      overflow: auto;
+      li {
+        padding: 5px 10px;
+        cursor: default;
+        &:hover {
+          background-color : #eee ;
+        }
+      }
+    }
+  }
+}
+.disabled_dropdown {
+  height: 55px;
+  width: 340px;
+  cursor: default;
+  position: absolute;
+  top: -8px;
+  left: -6px;
+  z-index: 1;
 }

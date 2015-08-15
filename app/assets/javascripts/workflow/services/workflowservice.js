@@ -69,7 +69,7 @@
 
             },
 
-            getPopupData:function(clientId, advertiserId,format) {
+            getCreativesFromLibrary:function(clientId, advertiserId,format) {
                 console.log("clientID:"+clientId+"advertiserId:"+advertiserId);
                 var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives?creativeFormat='+format;
                 console.log("url:"+url);

@@ -3,7 +3,7 @@
     <!--<span class="icon_text_holder" ng-class="{ active:sortTypebyPerformance === 'platform',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" data-ng-click="sortColumnFunction('impressions','!sortReverse;removeKpiActive();');" >Platform</span>-->
 </div>
 <div class="each_col third_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.impressions',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'platformType_aggregation.impressions'; sortTypebyPerformanceSubSort='impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.impressions',sortTypebyPerformance,sortReverseForPerfImps)" ng-click="sortTypebyPerformance = '-platformType_aggregation.impressions'; sortTypebyPerformanceSubSort='impressions'; sortReverse = sortReverseForPerfImps; sortReverseForPerfImps = !sortReverseForPerfImps;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
 
 </div>
 
@@ -15,7 +15,6 @@
     </div>
     <div class="vid_data_hdr">
         <span>{{textConstants.QUARTILE_DATA}}</span> <br>
-
         <div class="vid_sub_col">
             <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.video_metrics.vtc_25',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'platformType_aggregation.video_metrics.vtc_25';sortTypebyPerformanceSubSort='video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();;">25%</div>
             <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('platformType_aggregation.video_metrics.vtc_50',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'platformType_aggregation.video_metrics.vtc_50';sortTypebyPerformanceSubSort='video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();">50%</div>

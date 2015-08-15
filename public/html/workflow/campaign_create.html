@@ -11,7 +11,8 @@
                             <span>Not Set</span>
                         </div>
                         <div class="statusLabel" ng-if="selectedCampaign.goal.name">
-                            <span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>
+                            <img ng-src="/assets/images/workflow/{{getGoalIconName(selectedCampaign.goal.name)}}.svg" alt="" width="10"/>
+                            <!--<span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>-->
                             <span>{{selectedCampaign.goal.name}}</span>
                             <span>(format)</span>
                         </div>
@@ -47,7 +48,7 @@
                         <span>{{ textConstants.WF_SETTINGS }}</span>
                         <a>Learn more about Campaign Settings</a>
                     </div>
-                    
+
                     <div class="col-md-6 zeroPadding">
                         <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save</a>
                         <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
@@ -61,11 +62,11 @@
                             <div class="form-group col-sm-9" show-errors='{showSuccess: true}'>
                                 <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" placeholder="Enter Campaign name." required/>
                                 <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
-                            </div> 
+                            </div>
                         </div>
-                        
+
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-                        
+
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">Who is the campaign for?</label>
@@ -102,19 +103,13 @@
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
                                     <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
-                                      <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name">
+                                      <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>
                                         <span class="hideRadioBtn">
                                             <span>{{goal.name}}</span>
-                                            <!--Abi the span method is not gonna be used anymore now they required seperate imgs-->
-                                            <!--<span class="glyphicon glyphicon-{{goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>-->
-                                            
-                                            <img src="/assets/images/workflow/performance.svg" alt="" width="25"/>
-                                            <!--<img src="/assets/images/workflow/brand.svg" alt="" width="25"/>-->
+                                            <img ng-src="/assets/images/workflow/{{getGoalIconName(goal.name)}}.svg" alt="" width="25"/>
                                         </span>
                                     </label>
                                 </div>
-                                <!-- TOGGLE BTN FOR GOAL SELECTION ENDS HERE -->
-                                
                                 <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select a goal.</label>
                             </div>
                         </div>
@@ -173,4 +168,5 @@
             </div>-->
             <!-- Message Pop End -->
         </div>
+    </div>
     </div>

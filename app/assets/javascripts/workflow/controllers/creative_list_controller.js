@@ -49,7 +49,7 @@ var angObj = angObj || {};
         $scope.campaignId = $routeParams.campaignId;
 
         $scope.formatDate = function(date) {
-            return moment(date).format('MMM d YYYY')
+            return moment(date).format('MMM DD YYYY')
         }
 
 
