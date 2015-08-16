@@ -94,11 +94,6 @@
 					<h1>Create Ad</h1>
 				</a>
                             </div>
-			    <!--Abi for some reason toggle switch works here but not below???-->
-			    <div class="btn-group btn-toggle pull-left"> 
-				    <button class="btn btn-xs btn-default">ON</button>
-				    <button class="btn btn-xs btn-success active">OFF</button>
-			    </div>
                         </div>
 
                         <!--=== Single Ad Ready ===-->
@@ -114,10 +109,10 @@
                                 </h1>
                                 <span ng-if="adsData.format.name" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.format.name)}} pull-right" aria-hidden="true"></span>
 				<!--Abi for some reason toggle switch doesnt work here but above it those?-->
-				<div class="btn-group btn-toggle pull-left"> 
+				<!--<div class="btn-group btn-toggle pull-left"> 
 				    <button class="btn btn-xs btn-default">ON</button>
 				    <button class="btn btn-xs btn-success active">OFF</button>
-				</div>
+				</div>-->
                                 <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(adsData.endTime) | date : 'MMM dd, yyyy'}}</span>
                                 <div class="spacer" ng-if="adsData.startTime && adsData.endTime"><div class="col-md-12"></div></div>
 				<div class="col-md-4 zeroPadding">
@@ -142,6 +137,7 @@
 				    <p style="margin: 0;">Not Set</p>
                                 </div>
                             </div>
+			    <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
 			    <span class="pull-right adStatus">{{adsData.state}}</span>
                         </div>
                     </div>
