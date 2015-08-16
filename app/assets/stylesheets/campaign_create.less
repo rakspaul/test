@@ -2016,6 +2016,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       position: relative;
       width: 800px;
       min-height: 250px;
+      max-height: 450px;
       left: 50%;
       top: 80px;
       margin-left: -400px;
@@ -2027,6 +2028,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
       .table {
         margin-bottom: 0;
+        overflow: scroll;
       }
       .table>thead>tr>th {
         border-width: 0;
@@ -2036,6 +2038,8 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       }
       .col-md-7 {
         background-color: #F3F3F3;
+        overflow: scroll;
+        height: 300px;
         h2 {
           font-size: 16px;
           float: left;
@@ -2083,6 +2087,8 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
         }
       }
       .col-md-5 {
+        overflow: scroll;
+        height: 300px;
         h2 {
           font-size: 16px;
           float: left;
@@ -2119,6 +2125,20 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
           float: left;
           clear: left;
         }
+      }
+    }
+  }
+  .newCreativeSlide {
+    .popCreativeLib {
+      background: #fff;
+    }
+    .closeBtnCreative {
+      float: right;
+      display: inline-block !important;
+      cursor: pointer;
+      span {
+        margin: 0px 10px;
+        float: right;
       }
     }
   }

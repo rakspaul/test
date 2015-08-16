@@ -749,7 +749,7 @@
                                                         </tr>
                                                         <tr ng-show="emptyCreativesFlag" class="emptyCreativesFlag" style="display: inline-block !important;">
                                                             <td>
-								<div class="alert alert-warning" role="alert">Empty Creatives</div>
+								<span class="label label-warning" style="padding: .2em .6em .3em;">No Creatives</span>
                                                             </td>
                                                         </tr>
 
@@ -791,5 +791,7 @@
         </div>
     </div>
     <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'"> </div>
-    <div ng-include="'/assets/html/workflow/creative.html'"> </div>
+    <div ng-include="'/assets/html/workflow/creative.html'" class="newCreativeSlide">
+	<div>Close</div>
+    </div>
 </div>
