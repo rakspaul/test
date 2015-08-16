@@ -177,20 +177,20 @@
                                                     <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
                                                 </div>
                                                 <div class="pull-right section_graph_details"  ng-if="(details.getCostViewability)">
-                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_1s >=0 )"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
-                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_5s >=0 )"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
-                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_15s >=0 )"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
+                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_display >=0 )"><span class="graph_color color2"></span>> Display: {{details.getCostViewability.pct_display  | formatCostData: '' : 0}}% </div>
+                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_video >=0 )"><span class="graph_color color3"></span>> Video: {{details.getCostViewability.pct_video  | formatCostData: '' : 0}}%</div>
                                                 </div>
                                                 <div class="top_layer_graph"></div>
                                             </div>
-                                            <div class="graph_summary"  ng-if="(details.getCostViewability)">
-                                                Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}<!-- </span><span> --> ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
-                                            </div>
+                                            <!--<div class="graph_summary"  ng-if="(details.getCostViewability)">
+                                                Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}&lt;!&ndash; </span><span> &ndash;&gt; ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
+                                            </div>-->
                                         </div>
                                     </div>
                                   </div>
 
                                     <!-- Video viewability widget commented for now -->
+                                    <!--
                                     <div class="item" ng-show="adFormats.videoAds">
                                         <div class="col-xs-3">
                                             <div ng-click="setGraphData(campaign,'videoViewability')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
@@ -209,8 +209,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- end of ... Video viewability widget commented for now -->
-                                </div>
+
+                                </div>-->
+                                <!-- end of ... Video viewability widget commented for now -->
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
                                 <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
         

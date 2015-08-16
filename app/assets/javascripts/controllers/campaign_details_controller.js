@@ -721,13 +721,12 @@
                 if (result.status == "success" && !angular.isString(result.data.data)) {
                         viewData = result.data.data;
                         $scope.details.getCostViewability = {
-                            pct_1s: viewData.view_metrics.viewable_1s_perc,
-                            pct_5s: viewData.view_metrics.viewable_5s_perc,
-                            pct_15s: viewData.view_metrics.viewable_15s_perc,
-                            pct_total: viewData.view_metrics.viewable_imps_perc
+                            pct_display : viewData.view_metrics.viewable_imps_perc,
+                            pct_video : viewData.view_metrics.video_viewability_metrics.video_viewable_perc,
+                            pct_total : viewData.view_metrics.viewable_imps_perc > viewData.view_metrics.video_viewability_metrics.video_viewable_perc ? viewData.view_metrics.viewable_imps_perc : viewData.view_metrics.video_viewability_metrics.video_viewable_perc
                         };
-                        $scope.details.getCostViewability.total = viewData.view_metrics.ias_viewable_imps;
-                        $timeout(function(){
+
+                    $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
                         });
                 }
