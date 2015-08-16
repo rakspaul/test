@@ -2,14 +2,14 @@
 
 	    <div class="container">
 	    	<div class="row">
-	    		<div class="col-md-12 title1" >
+	    		<div class="title1" >
 					<h3>Upload files</h3>
 				</div>
 	    	</div>
 	    </div>
 	
 
-	<div class="file_upload_container">
+	<div class="file_upload_container"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
 			 <!-- ng-show="!progress || !reportsUploadList.length" -->
 			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx'" ngf-max-size='10000000'>
 	    <!-- ngf-accept="'.pdf,.xls'"
@@ -19,7 +19,7 @@
       			<span class="img_table_txt">
       				Simple drag and drop files to add or  <a id="fileupload" href="javscript:void(0);" >Browse</a>
       			</span>
-            	<center>(ppt, pptx, pdf, xls)</center>
+            	<span class="img_type_format">(ppt, pptx, pdf, xls)</span>
 			</div>
 
 
@@ -61,59 +61,65 @@
 				<li ng-repeat="file in reportsUploadList">{{file.name}} {{file.size}} :::: {{file.status}}</li>
 			</ol> -->
 
-			        <div class="custom_report_response_page" ng-show="reportsUploadList.length">
-
-			              <div class="clearfix" style="border:1px solid #ccc; padding:15px;margin-top:10px" >
-							       <span class="col-md-1 each-col">Status</span>
-			                <span class="col-md-2 each-col">File Name</span>
-							<span class="col-md-1 each-col">Size</span>
-			                <span class="col-md-3 each-col">Report Type</span>
-			                <span class="col-md-4 each-col">Campaign</span>
-											<span class="col-md-1"></span>
+			        <div class="custom_report_response_page " ng-show="reportsUploadList.length">
+			        	<div class="upload_files_container"> <!-- add some_status when some status is there -->
+			              <div class="table_header clearfix" >
+							<span class="each-col status-col">Status</span>
+			                <span class="each-col file-name-col">File Name</span>
+							<span class="each-col file-size-col">Size</span>
+			                <span class="each-col report-type-col">Report Type</span>
+			                <span class="each-col campaign-col">Campaign</span>
 			              </div>
 
-			              <div ng-repeat="(index, file) in reportsUploadList" style="border:1px solid #ccc;margin-bottom:5px; height:auto;width:100%;padding:15px">
+			              <div ng-repeat="(index, file) in reportsUploadList" class="upload_file_holder"  ><!-- disabled_list when the list is disabled -->
 							<fieldset ng-disabled="(file.status == 'uploading' || file.status == 'success')">
-								<div class="clearfix">
-									<span  ng-click="retryUpload(index)" ng-show="file.status=='error'" style="cursor:pointer" class="col-md-1 each-col" >Retry</span>
-									<span  class="col-md-1 each-col">{{file.status}}</span> <!--ng-show="file.status"-->
-									<span class="col-md-2 each-col">{{file.name}}</span>
-									<span class="col-md-1 each-col">{{file.size/1000000 | number:2}} MB</span>
-									<span class="col-md-3 each-col">
-										<select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select>
-										<input type="text" id="reportName" style="width:112px;display:none;" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
+								<div class="clearfix about_file_row">
+									<span ng-click="retryUpload(index)"  style="cursor:pointer" class="each-col status-col redo-status" ><span>Redo</span></span> <!-- ng-show="file.status=='error'" -->
+									<span class="each-col status-col ready-status" style="display:none;">Ready{{file.status}}</span> <!--ng-show="file.status"-->
+									<span class="each-col file-name-col">{{file.name}}</span>
+									<span class="each-col file-size-col">{{file.size/1000000 | number:2}} MB</span>
+									<span class="each-col report-type-col">
+										<!-- <select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select> -->
+										<div class="dropdown">
+								                <span data-toggle="dropdown" class="dropdown_txt" ng-click="toggle_dropdown($event);">PCAR</span>
+								                <ul class="dropdown-menu">
+								                    <li ng-repeat="filetype in reportTypeList" ng-model="file.reportType" ng-click="show_report_name_txtbox($event);">{{filetype.name}}</li>
+								                </ul>
+								         </div>
+										<input type="text" id="reportName" style="display:none;" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
 									</span>
 					               <!--  <span class=""></span> -->
 		<!-- TODO: get campaignId and need many instances -->
-									<div class="col-md-4 each-col" style="position:relative;">
-											  <div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
-						            <div class="dropdown">
-						                <span data-toggle="dropdown" class="dropdown_txt">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
-						                <ul class="dropdown-menu">
-						                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
-						                </ul>
-						             </div>
+									<div class="each-col campaign-col" style="position:relative;">
+											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
+								            <div class="dropdown">
+								                <span data-toggle="dropdown" class="dropdown_txt">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
+								                <ul class="dropdown-menu">
+								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
+								                </ul>
+								             </div>
 									</div>
 
-									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="col-md-1 each-col" >Delete</span>
-									<span  ng-click="serverDelete(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="col-md-1 each-col" >Server Delete</span>
+									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="each-col delete-col" title="Delete"></span>
+									<span  ng-click="serverDelete(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="each-col delete-col" title="Server Delete"></span>
 
-				        </div>
-								<div class="clearfix col-md-12" style="margin-top:10px ;">
-									<span>Description:</span>
-									<input style="width:90%" type="text" ng-model="file.notes" placeholder="Description">
+				        		</div>
+								<div class="clearfix description_row" >
+									<span class="title">Description</span>
+									<input type="text" ng-model="file.notes" placeholder="Description">
 								</div>
 							</fieldset>
 						</div>
+					</div>
 			              <!--  no data or loading -->
 										<!-- ng-show="reportsUploadList.length" -->
-			            <div style="margin-bottom:20px;margin-top:20px" >
+			            <div class="btn_holder" >
 										<!-- ng-show="!progress" -->
-						  <span ng-click="upload()"  ng-show="!completed" style="background:#3AA0E6; display:inline-block;padding:10px;border-radius:5px;color:#fff">Start Upload</span>
+						  <span ng-click="upload()"  ng-show="!completed" class="common_primary_btn">Upload</span>
 
-							<a href="/reports/list"  ng-show="!completed" style="margin-left:10px;background:#DADBDE;display:inline-block;padding:10px;border-radius:5px;color:#fff">Cancel</a>
+							<a href="/reports/list"  ng-show="!completed" class="secondary_txt">Cancel</a>
 
-							<a href="/reports/list" ng-show="completed" style="background:#3AA0E6;display:inline-block; padding:10px;border-radius:5px;color:#fff">Done</a>
+							<a href="/reports/list" ng-show="completed" class="common_primary_btn">Done</a>
 						</div>
 			          </div>
 
@@ -125,7 +131,7 @@
 
 
 <!--dont style this - - logging area for test-->
-      <div style="margin-top:10px;"> <!--to be removed after development -->
+      <div style="margin-top:10px;display:none;"> <!--to be removed after development -->
 				Rejected Error log:
 				<ul style="display: block;
 			    padding: 9.5px;
@@ -152,17 +158,15 @@
 
 
     </div> <!-- end of custom_report_response_page -->
-
-
-
-
-
 </div>
-<div class="top_message_box red_msg" style="display:none">
+
+<!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+<div class="top_message_box" style="display:none;">
 	<span class="msg_box">
-		<span class="msg_icon"></span>
-		<span class="msg_txt">Please upload file size less than 10mb</span>
-		<span class="close_msg_box">x</span>
+		<span class="msg_icon">x</span>
+		<span class="msg_txt">Message</span>
+		<span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
 	</span>
-
 </div>
+<!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+

@@ -1,54 +1,41 @@
-<div class="report_generator_and_response">
+<div class="report_generator_and_response reports_list_page">
 	<div class="report_builder_container">
 	    <div class="container">
 	    	<div class="row">
-	    		<div class="col-md-12 heading" style="font-weight: bold">
-	    			<h3>Collective Reports</h3>
-
-            <!--saudamini  ,remove this and replace button here  -->
-            <a href="/reports/upload" style="background:#3AA0E6;display:inline-block;float:right;margin-top: -40px; padding:10px;border-radius:5px;color:#fff;z-index:1000">Upload Report</a>
+	    		<div class="clearfix title1" >
+	    			<h3 class="pull-left">Collective Reports</h3>            
+            <a href="/reports/upload" class="common_primary_btn upload_page_link">Upload Report</a>
 	    		</div>
 	    	</div>
 	    </div>
 	</div>
-<style media="screen">
-  .head {
-    width: 200px;
-    display: inline-block;
-  }
-  .notes {
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin-top: 10px;
-    display: block;
-  }
-</style>
     <filters-header reports="true" strategy=false></filters-header>
 
-  	<div class="custom_response_screenshot_container"  style="background:#fff">
+  	<div>
         <div class="download-report-load-icon" style="text-align: center;padding-bottom: 20px;" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}}........</div>
         <div class="custom_report_response_page">
-              <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px">
-                <span class="head" ng-click="sortReport('updatedAt')" style="text-decoration: underline">Updated</span>
-                <span class="head" ng-click="sortReport('reportType')" style="text-decoration: underline">Report Type</span>
-                <span class="head" ng-click="sortReport('campaignId')" style="text-decoration: underline">Campaign</span>
-                <span class="head" ng-click="sortReport('createdBy')" style="text-decoration: underline">Author</span>
+              <div class="clearfix table_header">
+                <span class="each-col update-time-col" ng-click="sortReport('updatedAt')">Updated</span>
+                <span class="each-col report-type-col" ng-click="sortReport('reportType')">Report Type</span>
+                <span class="each-col camapign-col" ng-click="sortReport('campaignId')">Campaign</span>
+                <span class="each-col author-col" ng-click="sortReport('createdBy')">Author</span>
               </div>
-              <div ng-repeat="rlist in reportList track by $index" style="border:1px solid #ccc; height:100px;width:100%;padding:15px">
-                <span class="head">{{rlist.updatedAt | reportDateFilter}}</span>
-                <span class="head">{{rlist.reportType}}</span>
-                <span class="head">{{selectedCampaign.name}}</span>
-                <span class="head">{{rlist.createdBy}}</span>
-                <span class="head" style="width:190px">
-                    <a ng-click="downloadCollectiveReport(rlist.id)" href="#" title="{{ rlist.fileName }}">Download</a>
-
-                    <a  ng-click="editReportModal($index)"> - Edit</a>
-                    <a ng-click="deleteReport($index, rlist.id)" href="#"> - Delete</a></span>
-
-                <span class="notes">{{rlist.notes}} </span>
+              <div class="upload_file_holder" ng-repeat="rlist in reportList track by $index">
+                <div class="clearfix about_file_row">
+                  <span class="each-col update-time-col">{{rlist.updatedAt | reportDateFilter}}</span>
+                  <span class="each-col report-type-col">{{rlist.reportType}}</span>
+                  <span class="each-col campaign-col ">{{selectedCampaign.name}}</span>
+                  <span class="each-col author-col">{{rlist.createdBy}}</span>
+                  <span class="each-col options-button-col" >
+                      <a ng-click="downloadCollectiveReport(rlist.id)" href="javascript:void(0);" title="{{ rlist.fileName }}" class="btn-icon download-icon"></a>
+                      <a ng-click="editReportModal($index)" title="Edit" class="btn-icon edit-icon" href="javascript:void(0);"></a>
+                      <a ng-click="deleteReport($index, rlist.id)" href="javascript:void(0);" class="btn-icon delete-icon" title="Delete"></a>
+                  </span>
+                </div>
+                <span class="description_row">{{rlist.notes}} </span>
               </div>
               <!--  no data or loading -->
-            <div style="border:1px solid #ccc; height:50px;width:100%;padding:15px" >{{nodata}}</div>
+            <div class="no_data" >{{nodata}}</div>
           </div>
       </div>
 
