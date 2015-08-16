@@ -4658,7 +4658,8 @@ div.reports_tabs_content_container {
       max-width: 400px;
       min-height: 100px;
       max-height: 200px;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       padding: 0;
       li {
         padding: 5px 10px;
@@ -4893,6 +4894,9 @@ div.reports_tabs_content_container {
   /*end of hided for now through css */
   .each-col {
     margin-right: 35px ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow : ellipsis ;
 
   }
   .nav_filters {
@@ -4900,15 +4904,10 @@ div.reports_tabs_content_container {
   }
   .update-time-col {
     width: 62px ;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow : ellipsis ;
   }
   .report-type-col {
     width: 80px ;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow : ellipsis ;
+    
   }
   .campaign-col {
     width : 520px ;
@@ -4984,4 +4983,109 @@ div.reports_tabs_content_container {
     }
   }
 }
+.popup-holder {
+  font-size: 14px;
+  color: #21252B;
+  line-height: 20px;
+    input[type="text"] , textarea {
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 1px solid #dde6eb;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #939ead;
+    line-height: 18px;
+    padding: 8px;
+    margin: 0 8px;
+    border-radius: 2px ;
+    -moz-border-radius: 2px ;
+    -webkit-border-radius: 2px ;
+    &:hover {
+      border: 1px solid #ccd2da;
+    }
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    margin: 0;
+    height: 80px;
+    overflow: auto;
+    color: #21252b;
+    margin-top: 4px;
+  }
+  .dropdown {
+    margin-top: 4px ;
+    .dropdown_txt {
+      padding: 5px 10px;
+      border: solid 1px #dde6eb;
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat right center;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      line-height: normal;
+      &:hover {
+        border: 1px solid #ccd2da;
+      }
+    }
+    ul.dropdown-menu {
+      max-width: 400px;
+      min-height: 100px;
+      max-height: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0;
+      li {
+        padding: 5px 10px;
+        cursor: default;
+        &:hover {
+          background-color : rgb(238, 242, 245);
+        }
+      }
+    }
+  }
+  .modal-title {
+    font-size: 26px ;
+  }
+  .data_row {
+    margin-top: 20px ;
+  }
+  .data_heading {
+    font-family: "Avenir-bold" ;
+    display: inline-block;
+    width: 100px ;
+  }
+  .data_value {
+    display: inline-block;
+  }
+  .popup-btns-holder {
+    background: #f5f9fd ;
+    padding: 20px 30px;
+    .common_primary_btn {
+      float: right;
+      margin: 0;
+      width: 100px;
+    }
+    .secondary_txt {
+      float: right;
+      margin: 10px 20px 0 0;
+    }
+    .delete-option {
+          color: #939ead; 
+          padding-left: 20px ;
 
+    }
+  }
+  .report-type-data {
+    width: 140px ;
+    margin-right: 20px ;
+  }
+  .campaign-dd-data {
+    width: 380px ;
+  }
+}
