@@ -47,6 +47,7 @@
                 templateUrl: assets.html_edit_collective_report,
                 controller:"CollectiveEditReportController",
                 scope:$scope,
+                windowClass: 'edit-dialog',
                 resolve: {
                     report: function () {
                         return $scope.reportList[index];

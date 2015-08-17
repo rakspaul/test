@@ -46,6 +46,20 @@
             });
 
         }
+        $scope.show_report_type_txtbox = function(event) {
+
+            var elem = $(event.target);
+            
+            elem.closest(".dropdown").find(".dropdown_txt").text(elem.text()) ;
+            if( elem.text() == "Custom" ) {
+                elem.closest(".data_row").addClass("custom_report_type") ;
+                elem.closest(".data_row").find("#reportName").show() ;
+            } else {
+                elem.closest(".data_row").removeClass("custom_report_type") ;
+                elem.closest(".data_row").find("#reportName").hide() ;
+            }
+            
+          };
 
         $scope.selectedCampaignObj = campaignSelectModel.getSelectedCampaign();
 
