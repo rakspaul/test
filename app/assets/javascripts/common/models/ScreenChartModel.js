@@ -106,7 +106,7 @@
                     } else if (screenWidgetFormat.toLowerCase() === 'formats') {
                         cls = data.dimension.toLowerCase() + "_graph"
                     }
-                    chartDataScreen.push({className: cls, 'icon_url': data.icon_url, 'type': type, 'value': kpiData});
+                    chartDataScreen.push({className: cls, 'icon_url': data.icon_url, 'type': type, 'value': Number(kpiData)});
                 });
             }
 
