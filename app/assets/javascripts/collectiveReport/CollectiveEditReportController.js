@@ -4,9 +4,11 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,brand,campaignSelectModel,dataService,urlService) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,brand,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel) {
         $scope.report = report;
         $scope.brandId = brand;
+        $scope.ediScreenBusy = false;
+        $scope.editedObj = angular.copy(report);
 
        // $scope.selectedName = editedData.;
         $scope.close=function(){
@@ -27,24 +29,41 @@
             notes:report.notes
         }
 
+        console.log('Report: ',report);
+
         //$scope.setCampaignId = function(campaignId) { console.log('campaign Id: ',campaignId);
         //    $scope.editedData.campaignId = campaignId;
         //    console.log("Campaing id set: ",$scope.editedData);
         //}
         $scope.updateReport = function() {
+            $scope.ediScreenBusy = true;
             dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
-                console.log("Edit Response: ",response);
-                console.log($scope.report[report.id]);
-                for(var i=0;i<$scope.reportList.length;i++) {
-                    if($scope.reportList[i].id == report.id) {
-                        console.log($scope.reportList[i])
-                        $scope.reportList[i] = $scope.editedData;
-                    }
-                }
+                $scope.editedObj.reportType = $scope.editedData.reportType;
+                $scope.editedObj.reportName = $scope.editedData.reportName
+                $scope.editedObj.campaignId = $scope.editedData.campaignId
+                $scope.editedObj.notes = $scope.editedData.notes;
+                $scope.reportList[reportIndex] = $scope.editedObj;
+                $scope.ediScreenBusy = false;
                 $scope.close();
+            },function(error) { console.error(error);$scope.ediScreenBusy = false;});
+        }
 
-            });
+        $scope.deleteReport = function() {
+            if (confirm('Are you sure you want to delete this?')) {
+                $scope.ediScreenBusy = true;
+                //delete file -- server request
+                collectiveReportModel.deleteReport(report.id, function(response){
+                    if(response.status_code == 200) {
+                        $scope.reportList.splice(reportIndex, 1);
+                        //$scope.message.success = "Report Deleted Successfully";
+                    } else {
+                        //$scope.editMessage.error = "Error Deleting the Report";
+                    }
+                    $scope.ediScreenBusy = false;
+                    $scope.close();
+                });
 
+            }
         }
         $scope.show_report_type_txtbox = function(event) {
 
@@ -65,11 +84,6 @@
 
         campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
             $scope.campaignList = response;
-/*            for(var i=0;i<$scope.campaignList;i++) {
-                if($scope.campaignList[i] == report.campaignId) {
-                    $scope.selectedCampaignObj = $scope.campaignList[i];
-                }
-            }*/
         })
     });
 }());

@@ -3,41 +3,48 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
         domainReports.highlightHeaderMenu();
-        $scope.reportDownloadBusy = false;
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.brandId = -1;
         $scope.reportList = [];
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.nodata = "";
         $scope.sort = {column:'updatedAt',descending:true};
+        $scope.screenBusy = false;
+        $scope.flashMessage = {'message':'','isErrorMsg':''};
+        $scope.isNetworkUser = loginModel.getIsNetworkUser();
 
 
-        $scope.getReports = function() { $scope.nodata = "Loading....";
+        $scope.getReports = function() {
+            //$scope.nodata = "Loading....";
+            $scope.screenBusy = true;
             collectiveReportModel.reportList(function (response) {
                 if (response.data !== undefined && response.data.length > 0) {
                     $scope.reportList = response.data;
-                    $scope.nodata = "";
                     $scope.sortReport($scope.sort.column);
+                    $scope.screenBusy = false;
                 } else {
                     $scope.reportList = [];
                     $scope.nodata = "Data not found";
+                    $scope.screenBusy = false;
                 }
-                $scope.setReportToEdit = function(index) {
+ /*               $scope.setReportToEdit = function(index) {
                  $scope.reportToEdit = $scope.reportList[index];
                  $scope.showEditReport = true;
-                 }
+                 }*/
 
-            })
+            },function(error) {$scope.screenBusy = false;})
         }
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
-            $scope.getReports();
+            $scope.nodata = "";
+            $scope.reportList = [];
+                $scope.getReports();
         });
 
 
@@ -50,16 +57,14 @@
                 windowClass: 'edit-dialog',
                 resolve: {
                     report: function () {
+                        console.log('reportlistingController:',$scope.reportList[index]);
                         return $scope.reportList[index];
-                        /*for(var i=0;i<=$scope.reportList.length;i++) {
-                            if($scope.reportList[i].id == reportId) {
-                                return  $scope.reportList[i];
-                            }
-                        }*/
-
                     },
                     brand: function() {
                         return $scope.brandId;
+                    },
+                    reportIndex: function() {
+                        return index;
                     },
                     reportList: function() {
                         console.log($scope.reportList)
@@ -73,23 +78,36 @@
 
         $scope.downloadCollectiveReport = function(reportId) {
             if(reportId) {
-            $scope.reportDownloadBusy = true;
+            //$scope.reportDownloadBusy = true;
+                $scope.screenBusy = true;
             dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
                 console.log("Response Status: ", response.status);
                 if (response.status === "success") {
-                    $scope.reportDownloadBusy = false;
+                    //$scope.reportDownloadBusy = false;
+                    $scope.screenBusy = false;
                     saveAs(response.file, response.fileName);
+                    $scope.flashMessage.message = constants.reportDownloadSuccess;
                 } else {
-                    $scope.reportDownloadBusy = false;
-                    //todo: Show error message
+                   // $scope.reportDownloadBusy = false;
+                    $scope.screenBusy = false;
+                    $scope.flashMessage.message = constants.reportDownloadFailed;
+                    $scope.flashMessage.isErrorMsg = true;
                 }
             }, function () {
-                $scope.reportDownloadBusy = false;
+               // $scope.reportDownloadBusy = false;
+                $scope.screenBusy = false;
+                $scope.flashMessage.message = constants.reportDownloadFailed;
+                $scope.flashMessage.isErrorMsg = true;
             }, function () {
-                $scope.reportDownloadBusy = false;
+              //  $scope.reportDownloadBusy = false;
+                $scope.screenBusy = false;
+                $scope.flashMessage.message = constants.reportDownloadFailed;
+                $scope.flashMessage.isErrorMsg = true;
             });
           } else {
-                //todo: show error message
+                $scope.screenBusy = false;
+                $scope.flashMessage.message = constants.reportDownloadFailed;
+                $scope.flashMessage.isErrorMsg = true;
             }
         }
 
@@ -101,7 +119,8 @@
                    if(response.status_code == 200) {
                        $scope.reportList.splice($index, 1);
                    } else {
-                       console.log('delete error');
+                       $scope.flashMessage.message = constants.reportDeleteFailed;
+                       $scope.flashMessage.isErrorMsg = true;
                    }
                });
 
@@ -114,6 +133,12 @@
                 $scope.reportList = $filter('orderBy')($scope.reportList, column,$scope.sort.descending);
                 $scope.sort.descending = !$scope.sort.descending;
            }
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.flashMessage = {'message':'','isErrorMsg':''};
+        };
 
 
         //$scope.sortReport($scope.sort.column);

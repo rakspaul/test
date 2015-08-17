@@ -360,6 +360,15 @@
     this.YESTERDAY = "Yesterday";
     this.WF_NOT_SET="Not Set";
 
+    this.reportDownloadSuccess = "Report Downloaded Successfully";
+    this.reportDownloadFailed = "Report Download Failed";
+
+    this.reportEditSuccess = "Edited Report Successfully";
+    this.reportEditFailed = "Edit Report Failed";
+
+    this.reportDeleteSuccess = "Edited Report Successfully";
+    this.reportDeleteFailed = "Edit Report Failed";
+
   };
 
   commonModule.service("constants", constants);
