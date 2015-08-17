@@ -76,7 +76,7 @@
 							<fieldset ng-disabled="(file.status == 'uploading' || file.status == 'success')">
 								<div class="clearfix about_file_row">
 									<span ng-click="retryUpload(index)"  style="cursor:pointer" class="each-col status-col redo-status" ng-show="file.status=='error'"><span>Retry</span></span> <!-- ng-show="file.status=='error'" -->
-									<span class="each-col status-col ready-status" ng-show="file.status=='success'">Ready</span> <!--ng-show="file.status"-->
+									<span class="each-col status-col ready-status" ng-show="file.status=='success'">Success</span> <!--ng-show="file.status"-->
 									<span class="each-col file-name-col">{{file.name}}</span>
 									<span class="each-col file-size-col">{{file.size/1000000 | number:2}} MB</span>
 									<span class="each-col report-type-col">
