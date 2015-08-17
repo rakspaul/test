@@ -7,6 +7,13 @@ var angObj = angObj || {};
       $scope.completed = false;
     //  $scope.campaignList = [];
       $scope.brandId = "-1";
+      $scope.successMsg = false;
+
+      $scope.closeMessage = function(){
+        //$('.top_message_box').css({'display':'none'});
+        $scope.rejFiles = [];
+        $scope.successMsg = false;
+      };
 
       campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
           $scope.campaignList = response;
@@ -59,10 +66,10 @@ var angObj = angObj || {};
         var elem = $(event.target);
         elem.closest(".dropdown").find(".dropdown-menu").toggle() ;
       };
-      $scope.close_msg_box = function(event) {
-        var elem = $(event.target);
-        elem.closest(".top_message_box").hide() ;
-      };
+      // $scope.close_msg_box = function(event) {
+      //   var elem = $(event.target);
+      //   elem.closest(".top_message_box").hide() ;
+      // };
       $scope.prepareUpload = function (files) {
 
            if (files && files.length) {
@@ -121,6 +128,7 @@ var angObj = angObj || {};
             var files = reportsUploadList.list
             if (files && files.length) {
                 $scope.loaded =0;
+                $scope.uploadedCount = 0;
                 $scope.total = files.length;
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
@@ -150,6 +158,8 @@ var angObj = angObj || {};
 
                             }).success(function (data, status, headers, config) {
                               $scope.loaded++;
+                              $scope.successMsg = true;
+                              $scope.uploadedCount++;
                               file.status ="success";
                                 $timeout(function() {
                                   if(config.file !== undefined){
