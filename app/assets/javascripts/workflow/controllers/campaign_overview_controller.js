@@ -10,7 +10,6 @@ var angObj = angObj || {};
             modifyCampaignData :  function() {
                 var campaignData = $scope.workflowData['campaignData'];
                 campaignData.numOfDays = moment(campaignData.endTime).diff(moment(campaignData.startTime), 'days');
-                $scope.disablePushBtn = !(_.indexOf(['draft', 'new'], campaignData.status.toLowerCase() >0))
             },
 
             getCampaignData :  function(campaignId) {
@@ -32,6 +31,15 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignAdsData'] = responseData;
+                        console.log(responseData);   //  $scope.disablePushBtn = !(_.indexOf(['draft'], campaignAdsData.state.toLowerCase() >0))
+
+                        for(var index in responseData) {
+                              if(responseData[index].state.toLowerCase()=="draft"){
+                                console.log("index:"+index);
+                                $scope.disablePushBtn=false;
+                                break;
+                              }
+                        } console.log("outside for loop:"+$scope.disablePushBtn);
                     }
                     else{
                         campaignOverView.errorHandler(result);
