@@ -8,6 +8,7 @@ var angObj = angObj || {};
     //  $scope.campaignList = [];
       $scope.brandId = "-1";
       $scope.successMsg = false;
+      $scope.errorMsg = false;
 
       $scope.closeMessage = function(){
         //$('.top_message_box').css({'display':'none'});
@@ -129,6 +130,7 @@ var angObj = angObj || {};
             if (files && files.length) {
                 $scope.loaded =0;
                 $scope.uploadedCount = 0;
+                $scope.errorCount = 0;
                 $scope.total = files.length;
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
@@ -152,27 +154,31 @@ var angObj = angObj || {};
                               file.status ="uploading";
                                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                                 //if(evt.config.file !== undefined) {
-                                  $scope.log = 'progress: ' + progressPercentage + '% ' +
-                                              evt.config.file.name + '\n' + $scope.log;
+                                //  $scope.log = 'progress: ' + progressPercentage + '% ' +
+                                      //        evt.config.file.name + '\n' + $scope.log;
                                 //}
 
                             }).success(function (data, status, headers, config) {
                               $scope.loaded++;
                               $scope.successMsg = true;
+                              $scope.rejFiles = [];
                               $scope.uploadedCount++;
                               file.status ="success";
                                 $timeout(function() {
                                   if(config.file !== undefined){
                                     file.data = data.data;
-                                    console.log(data);
-                                      $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+                                      //console.log(data);
+                                      //$scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
                                   }
 
                                 });
                             }).error(function(data){
                               $scope.loaded++;
+                              $scope.errorCount++;
+                              $scope.rejFiles = [];
+                              $scope.errorMsg = true;
                               file.status ="error";
-                              console.log(data);
+                              //console.log(data);
                             }); //upload ends
 
                         })(file) //end of closure
@@ -195,6 +201,10 @@ var angObj = angObj || {};
           if (file) {
               $scope.loaded =0;
               $scope.total = 1;
+              $scope.uploadedCount = 0;
+              $scope.errorCount = 0;
+              $scope.errorMsg = false;
+              $scope.successMsg = false;
                   if(file.status === undefined || file.status!= "success") {
                       (function(file) {
                           Upload.upload({
@@ -203,7 +213,7 @@ var angObj = angObj || {};
                               //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
                               url: urlService.APIUploadReport(),
                               fields: {
-                                  'reportType': file.reportType.name,
+                                  'reportType': file.reportType,
                                   'reportName': file.reportName,
                                   'notes': file.notes,
                                   'fileName': file.name,
@@ -215,26 +225,30 @@ var angObj = angObj || {};
                             file.status ="uploading";
                               var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                               //if(evt.config.file !== undefined) {
-                                $scope.log = 'progress: ' + progressPercentage + '% ' +
-                                            evt.config.file.name + '\n' + $scope.log;
+                              //  $scope.log = 'progress: ' + progressPercentage + '% ' +
+                                  //          evt.config.file.name + '\n' + $scope.log;
                               //}
 
                           }).success(function (data, status, headers, config) {
                             $scope.loaded++;
+                            $scope.successMsg = true;
+                            $scope.uploadedCount++;
                             file.status ="success";
                               $timeout(function() {
                                 if(config.file !== undefined){
                                   file.data = data.data;
                                   $scope.progress = false;
-                                  console.log(data);
-                                    $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+                                //  console.log(data);
+                                  //  $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
                                 }
 
                               });
                           }).error(function(data){
                             $scope.loaded++;
+                            $scope.errorCount++;
+                            $scope.errorMsg = true;
                             file.status ="error";
-                            console.log(data);
+                            //console.log(data);
                           }); //upload ends
 
                       })(file) //end of closure
