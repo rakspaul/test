@@ -1,71 +1,64 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"
-            ng-click="close()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <h2 class="modal-title" id="myModalLabel">Edit Report</h2>
-</div>
-<div class="modal-body">
-    <style media="screen">
-        #float-left {
-            float: left;
-        }
-        #float-right {
-            float: right;
-            width:300px;
-        }
-        .clear-both {
-            clear: both;
-        }
-        .div-spacing {
-            padding-bottom: 15px;
-        }
-    </style>
-    <div class="div-spacing">
-        <div id="float-left">File Name</div>
-        <div id="float-right">{{report.fileName}}</div>
-        <div class="clear-both"></div>
-    </div>
 
-    <div class="div-spacing">
-        <div id="float-left">Size</div>
-        <div id="float-right">{{report.fileSize}}</div>
-        <div class="clear-both"></div>
+<div class="popup-holder">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title" id="myModalLabel">Edit Report</h2>
     </div>
+    <div class="modal-body">
+        <div class="data_row">
+            <span class="data_heading">File Name</span>
+            <span class="data_value">{{report.fileName}}</span>
+        </div>
 
-    <div class="div-spacing">
-        <div id="float-left">Report Type</div>
-        <div id="float-right">
-            <div class="dropdown">
-                <span data-toggle="dropdown">{{editedData.reportType}}</span>
-                <ul class="dropdown-menu">
-                    <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.id;" >{{rt.name}}test</li>
-                </ul>
+        <div class="data_row">
+            <span class="data_heading">Size</span>
+            <span class="data_value">{{report.fileSize}}</span>
+        </div>
+
+        <div class="clearfix data_row">
+            <div class="pull-left report-type-data">
+                <div class="data_heading">Report Type</div>
+                <div class="">
+                    <div class="dropdown">
+                        <span data-toggle="dropdown" class="dropdown_txt">{{editedData.reportType}}</span>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.id;" >{{rt.name}}test</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-left campaign-dd-data">
+                <div class="data_heading">Campaign</div>
+                <div class="">
+                    <div class="dropdown">
+                        <span data-toggle="dropdown" class="dropdown_txt">{{selectedCampaignObj.name}}</span>
+                        <ul class="dropdown-menu">
+
+                            <li ng-repeat="cl in campaignList" ng-click="editedData.campaignId = ''+cl.campaign_id;selectedCampaignObj.name=cl.name">{{cl.name}}</li>
+                        </ul>
+                     </div>
+                </div>
             </div>
         </div>
-        <div class="clear-both"></div>
-    </div>
 
-
-    <div class="div-spacing">
-        <div id="float-left">Campaign</div>
-        <div id="float-right">
-            <div class="dropdown">
-                <span data-toggle="dropdown">{{selectedCampaignObj.name}}</span>
-                <ul class="dropdown-menu">
-
-                    <li ng-repeat="cl in campaignList" ng-click="editedData.campaignId = ''+cl.campaign_id;selectedCampaignObj.name=cl.name">{{cl.name}}</li>
-                </ul>
-             </div>
+        <div class="data_row">
+            <div class="data_heading">Description</div>
+            <div class="">
+                <textarea ng-model="editedData.notes"></textarea>
+            </div>
         </div>
-        <div class="clear-both"></div>
-    </div>
 
-    <div>
-        <div id="float-left">Description</div>
-        <div id="float-right"><textarea ng-model="editedData.notes"></textarea></div>
-        <div class="clear-both"></div>
-    </div>
-    <button class="btn btn-submit btn-block" ng-click="updateReport()" >Save</button>
-    </div>
-</div>
+        
+        </div><!-- end of modal_body -->
+        <div class="clearfix popup-btns-holder">
+            <!-- <span class="pull-left delete-option">Delete</span> -->
+            <span class="common_primary_btn" ng-click="updateReport()" >Save</span>
+            <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
+                Cancel
+            </span>
+           
+        </div>
+    </div> <!-- end of popup-holder -->
