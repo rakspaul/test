@@ -93,7 +93,7 @@ var angObj = angObj || {};
                    var file = files[i];
                    file.notes = "";
                    file.campaignId = ""; //temp
-                   file.reportType= ""; //default - PCAR
+                   file.reportType= "PCAR"; //default - PCAR
                    file.reportName = "";
                    file.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                    reportsUploadList.add(file);
