@@ -7,7 +7,13 @@
         $scope.filters = domainReports.getReportsTabs();
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.isNetworkUser = loginModel.getIsNetworkUser();
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
+
+        if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
+            campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                $scope.selectedCampaign = response[0].campaign_id;
+            });
+        }
 
         $scope.showProfileMenu = function() {
             $("#profileDropdown").toggle();
@@ -17,6 +23,7 @@
         };
 
         $scope.NavigateToTab =  function(url, event) {
+
             $(".header_tab_dropdown").removeClass('active_tab');
             $(event.currentTarget).parent().addClass('active_tab');
             $location.url(url);

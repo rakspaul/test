@@ -3,7 +3,7 @@
 	<div class="reports_sub_menu_dd canned_container">
 		<div class="header_tab_dd_subheading">Campaign Reports</div>
 		<div class="header_tab_dropdown">
-			<a href="javascript:void(0);" ng-click="NavigateToTab('/campaigns/' + selectedCampaign.id , $event)" >Reports Overview</a>
+			<a href="javascript:void(0);" ng-click="NavigateToTab('/campaigns/' + selectedCampaign, $event)" >Reports Overview</a>
 		</div>
 		
 		<div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == filters.activeTab}">
