@@ -194,8 +194,8 @@ var angObj = angObj || {};
                 postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
 
-                if (formData.format)
-                    postAdDataObj.format = formData.format.toUpperCase();
+                if (formData.adFormat)
+                    postAdDataObj.adFormat = formData.adFormat.toUpperCase();
 
                 if (formData.screens)
                     postAdDataObj.screens = JSON.parse(formData.screens);
