@@ -55,11 +55,12 @@
                 collectiveReportModel.deleteReport(report.id, function(response){
                     if(response.status_code == 200) {
                         $scope.reportList.splice(reportIndex, 1);
+                        $scope.ediScreenBusy = false;
                         //$scope.message.success = "Report Deleted Successfully";
                     } else {
                         //$scope.editMessage.error = "Error Deleting the Report";
+                        $scope.ediScreenBusy = false;
                     }
-                    $scope.ediScreenBusy = false;
                     $scope.close();
                 });
 
