@@ -128,11 +128,11 @@
 
 
 
-			
 
 
-<!--dont style this - - logging area for test-->
-      <div style="margin-top:10px;display:none;"> <!--to be removed after development -->
+
+<!--dont style this - - logging area for test--> <!--to be removed after development -->
+      <!-- <div style="margin-top:10px;display:none;"> 
 				Rejected Error log:
 				<ul style="display: block;
 			    padding: 9.5px;
@@ -148,26 +148,29 @@
 					<li ng-repeat="r in rejFiles">
 						<span style="color:red">{{(r.$error=="maxSize"?'File size exceeds 10MB':'Unsupported file format')}}
 					</span>
-						<!-- **Filename:{{r.name}} -- Size:{{r.size}} bytes -- Error: {{r.$error}} -->
+
 					</li>
 				</ul>
 
 				<span>Upload Log:</span>
       			<pre>{{log}}</pre>
-			</div><!--to be removed after development -->
-<!--dont style this - - logging ends** -->
+			</div> -->
 
 
     </div> <!-- end of custom_report_response_page -->
 </div>
 
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<div class="top_message_box {{(!successMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg">
+<div class="top_message_box {{(!successMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg || errorMsg">
 	<span class="msg_box">
 		<span class="msg_icon">x</span>
 		<span class="msg_txt">
-			{{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}}
-			<div ng-show="!successMsg && rejFiles.length" ng-repeat="r in rejFiles">
+				<span ng-show="successMsg">You have sucessfully uploaded {{uploadedCount}} file(s)</span>
+				<span ng-show="errorMsg">Error in uploading {{errorCount}} file(s)</span>
+				<span ng-show="!errorMsg && !successMsg">Cannot upload files bigger than 10MB / Unsupported file format</span>
+
+			<!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
+			<div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">
 				- {{r.name}} ( {{r.size/1000000 | number:2}} MB. )
 			</div>
 		</span>
