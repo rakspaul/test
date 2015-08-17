@@ -70,17 +70,13 @@
                     }
                 },
                  series: [{
-                    innerRadius: '70%',
-                    data: [{y:viewabilityData.pct_15s, color:'#FFA700'}],
-                    radius: '55%'
-                }, {
                     innerRadius: '85%',
-                    data: [{y:viewabilityData.pct_5s, color:'#45CB41'}],
+                    data: [{y:viewabilityData.pct_video, color:'#45CB41'}],
                     radius: '70%'
                 }, {
                     innerRadius: '100%',
                     radius: '85%',
-                    data: [{y:viewabilityData.pct_1s, color:'#008ED5'}]
+                    data: [{y:viewabilityData.pct_display, color:'#008ED5'}]
                 }, {
                     innerRadius: '101',
                     data: [{y:viewabilityData.pct_total, color:'#000000'}]
