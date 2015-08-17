@@ -134,9 +134,15 @@
                             <div class="spacer" ng-if="adsData.startTime && adsData.endTime">
                                 <div class="col-md-12"></div>
                             </div>
-                            <div class="col-md-4 zeroPadding">
-                                <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType === 'COST' ? 'Budget' : 'Impres.'}}</span>
-                                <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
+                            <div class="col-md-4 zeroPadding" ng-switch on="adsData.budgetType">
+                                <div ng-switch-when="COST">
+                                    <span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
+                                    <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | currency:undefined:0}}</span>
+                                </div>
+                                <div ng-switch-when="IMPRESSIONS">
+                                    <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
+                                    <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
+                                </div>
                             </div>
                             <div class="col-md-4 zeroPadding">
                                 <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
