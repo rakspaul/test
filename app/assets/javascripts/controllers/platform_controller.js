@@ -164,7 +164,7 @@ var angObj = angObj || {};
                 {
                     'report_url': urlPath + 'viewability/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name': 'by_viewability',
-                    'label': 'Platform By Viewability'
+                    'label': 'Platform By Quality'
                 }
             ];
 
