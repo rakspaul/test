@@ -15,6 +15,7 @@ var angObj = angObj || {};
         //$('.top_message_box').css({'display':'none'});
         $scope.rejFiles = [];
         $scope.successMsg = false;
+        $scope.errorMsg = false;
       };
 
       $scope.campaignList = [{ id: -1, name : 'Loading...'}];
