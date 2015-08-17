@@ -116,7 +116,7 @@
 										<!-- ng-show="reportsUploadList.length" -->
 			            <div class="btn_holder" >
 										<!-- ng-show="!progress" -->
-						  <span ng-click="upload()"  ng-show="!completed" class="common_primary_btn">Upload</span>
+						  <span ng-click="progress || upload()"  ng-show="!completed" class="common_primary_btn" style="{{progress ? 'opacity:0.3;cursor:default;' :''}}"">Upload</span>
 
 							<a href="/reports/list"  ng-show="!completed" class="secondary_txt">Cancel</a>
 
@@ -132,7 +132,7 @@
 
 
 <!--dont style this - - logging area for test--> <!--to be removed after development -->
-      <!-- <div style="margin-top:10px;display:none;"> 
+      <!-- <div style="margin-top:10px;display:none;">
 				Rejected Error log:
 				<ul style="display: block;
 			    padding: 9.5px;
