@@ -1,14 +1,15 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel) {
+    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel, brandsModel) {
 
       $scope.textConstants = constants;
       $scope.completed = false;
     //  $scope.campaignList = [];
-      $scope.brandId = "-1";
+      //$scope.brandId = "-1";
       $scope.successMsg = false;
       $scope.errorMsg = false;
+      $scope.disabledUpload = false;
 
       $scope.closeMessage = function(){
         //$('.top_message_box').css({'display':'none'});
@@ -16,10 +17,23 @@ var angObj = angObj || {};
         $scope.successMsg = false;
       };
 
-      campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
+      $scope.campaignList = [{ id: -1, name : 'Loading...'}];
+
+      var selectedBrand = brandsModel.getSelectedBrand();
+      campaignSelectModel.getCampaigns(selectedBrand.id).then(function(response){
           $scope.campaignList = response;
-          console.log('fethcing');
+          console.log('fetching campaign data');
       });
+
+      $scope.isDisabled = function(campaignId){
+        if(!campaignId) {
+          $scope.disabledUpload = true;
+          return "border:1px dotted red";
+        } else {
+          $scope.disabledUpload = false;
+          return "";//"border:1px dotted green";
+        }
+      };
 
       $scope.showStatus = function() {
         if(_.find($scope.reportsUploadList, function(item) {
@@ -31,7 +45,6 @@ var angObj = angObj || {};
         }
 
       }
-      console.log($scope.campaignList);
 
       $scope.reportTypeList = [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}];
 
@@ -43,7 +56,7 @@ var angObj = angObj || {};
 
       $scope.test="Upload Reports";
       $scope.$watch('files', function () {
-        console.log('watch triggered');
+        console.log('files changed');
        $scope.prepareUpload($scope.files);
       });
       // $scope.$watch('file', function () {
@@ -79,7 +92,7 @@ var angObj = angObj || {};
                for (var i = 0; i < files.length; i++) {
                    var file = files[i];
                    file.notes = "";
-                   file.campaignId = "415486"; //temp
+                   file.campaignId = ""; //temp
                    file.reportType= ""; //default - PCAR
                    file.reportName = "";
                    file.selectedCampaign = campaignSelectModel.getSelectedCampaign();
@@ -96,21 +109,21 @@ var angObj = angObj || {};
                   reportsUploadList.list = filtered;
                   $scope.completed = false;
               }
-                              console.log(filtered);
+                              //console.log(filtered);
                $scope.reportsUploadList = reportsUploadList.list;
            }
 
-           console.log($scope.reportsUploadList);
+           //console.log($scope.reportsUploadList);
      }; //prepare files - ends
 
-     //watch upload progress percentage 
+     //watch upload progress percentage
      $scope.$watch('loaded', function() {
        var percentage = 100 *($scope.loaded/$scope.total);
-       console.log(percentage);
+       //console.log(percentage);
        if(percentage == 100) {
          $scope.progress = false;
          $scope.completed = true;
-         console.log('releasing lock');
+         console.log('releasing progress lock');
        }
     });
 
@@ -189,12 +202,12 @@ var angObj = angObj || {};
 
                 }
             }
-            console.log('end of upload');
+            //console.log('end of upload');
 
         } else { //retry upload
 
           console.log('retry upload');
-          console.log(file);
+          //console.log(file);
 
           $scope.progress= true;
 
@@ -258,18 +271,21 @@ var angObj = angObj || {};
                   }//end of status check
 
 
-          console.log('end of upload');
+          //console.log('end of upload');
 
 
         }
     }; //upload ends
 
 }
+    $scope.deleteProgress = false;
     $scope.localDelete = function(key) {
       if(! $scope.progress) {
           if (confirm('Are you sure you want to delete this?')) {
+            $scope.deleteProgress = true;
             reportsUploadList.list.splice(key, 1);
             $scope.reportsUploadList = reportsUploadList.list;
+            $scope.deleteProgress = false;
           }
       }
     };
@@ -277,11 +293,12 @@ var angObj = angObj || {};
     $scope.serverDelete = function(key,fileId) {
           if (confirm('Are you sure you want to delete this?')) {
               //delete file -- server request
+                $scope.deleteProgress = true;
                 collectiveReportModel.deleteReport(fileId, function(response){
                      if(response.status_code == 200) {
                        reportsUploadList.list.splice(key, 1);
                        $scope.reportsUploadList = reportsUploadList.list;
-
+                       $scope.deleteProgress = false;
                        if(!$scope.reportsUploadList.length) {
                          console.log('reset progress view');
                          $scope.progress= false;
