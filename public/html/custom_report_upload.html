@@ -7,9 +7,9 @@
 				</div>
 	    	</div>
 	    </div>
-	
 
-	<div class="file_upload_container"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
+
+	<div class="file_upload_container  {{(reportsUploadList.length) ? 'some_file_uploaded' : ''}}"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
 			 <!-- ng-show="!progress || !reportsUploadList.length" -->
 			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx'" ngf-max-size='10000000'>
 	    <!-- ngf-accept="'.pdf,.xls'"
@@ -62,7 +62,7 @@
 			</ol> -->
 
 			        <div class="custom_report_response_page " ng-show="reportsUploadList.length">
-			        	<div class="upload_files_container"> <!-- add some_status when some status is there -->
+			        	<div class="upload_files_container {{(showStatus()) ? 'some_status' : ''}} "> <!-- add some_status when some status is there -->
 			              <div class="table_header clearfix" >
 							<span class="each-col status-col">Status</span>
 			                <span class="each-col file-name-col">File Name</span>
@@ -71,11 +71,11 @@
 			                <span class="each-col campaign-col">Campaign</span>
 			              </div>
 
-			              <div ng-repeat="(index, file) in reportsUploadList" class="upload_file_holder"  ><!-- disabled_list when the list is disabled -->
+			              <div ng-repeat="(index, file) in reportsUploadList" class="upload_file_holder {{( file.status == 'uploading') ? 'disabled_list' : ''}}"  ><!-- disabled_list when the list is disabled -->
 							<fieldset ng-disabled="(file.status == 'uploading' || file.status == 'success')">
 								<div class="clearfix about_file_row">
-									<span ng-click="retryUpload(index)"  style="cursor:pointer" class="each-col status-col redo-status" ><span>Redo</span></span> <!-- ng-show="file.status=='error'" -->
-									<span class="each-col status-col ready-status" style="display:none;">Ready{{file.status}}</span> <!--ng-show="file.status"-->
+									<span ng-click="retryUpload(index)"  style="cursor:pointer" class="each-col status-col redo-status" ng-show="file.status=='error'"><span>Redo</span></span> <!-- ng-show="file.status=='error'" -->
+									<span class="each-col status-col ready-status" ng-show="file.status=='success'">Ready</span> <!--ng-show="file.status"-->
 									<span class="each-col file-name-col">{{file.name}}</span>
 									<span class="each-col file-size-col">{{file.size/1000000 | number:2}} MB</span>
 									<span class="each-col report-type-col">
@@ -83,7 +83,7 @@
 										<div class="dropdown">
 								                <span data-toggle="dropdown" class="dropdown_txt" ng-click="toggle_dropdown($event);">PCAR</span>
 								                <ul class="dropdown-menu">
-								                    <li ng-repeat="filetype in reportTypeList" ng-model="file.reportType" ng-click="show_report_name_txtbox($event);">{{filetype.name}}</li>
+								                    <li ng-repeat="filetype in reportTypeList" ng-click="show_report_name_txtbox($event); file.reportType =''+filetype.name">{{filetype.name}}</li>
 								                </ul>
 								         </div>
 										<input type="text" id="reportName" style="display:none;" ng-model="file.reportName" placeholder="Report Name" class="pull-left">
@@ -101,7 +101,7 @@
 									</div>
 
 									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="each-col delete-col" title="Delete"></span>
-									<span  ng-click="serverDelete(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="each-col delete-col" title="Server Delete"></span>
+									<span  ng-click="serverDelete(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="each-col delete-col" title="Delete from Server"></span>
 
 				        		</div>
 								<div class="clearfix description_row" >

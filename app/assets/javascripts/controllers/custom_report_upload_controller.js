@@ -13,6 +13,16 @@ var angObj = angObj || {};
           console.log('fethcing');
       });
 
+      $scope.showStatus = function() {
+        if(_.find($scope.reportsUploadList, function(item) {
+            return item.status == "success" || item.status == "error";
+        })){
+          return true;
+        } else {
+            return false;
+        }
+
+      }
       console.log($scope.campaignList);
 
       $scope.reportTypeList = [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}];
@@ -62,7 +72,7 @@ var angObj = angObj || {};
                    var file = files[i];
                    file.notes = "";
                    file.campaignId = "415486"; //temp
-                   file.reportType= $scope.reportTypeList[0];
+                   file.reportType= ""; //default - PCAR
                    file.reportName = "";
                    file.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                    reportsUploadList.add(file);
@@ -122,7 +132,7 @@ var angObj = angObj || {};
                                 //url: 'http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload',
                                 url: urlService.APIUploadReport(),
                                 fields: {
-                                    'reportType': file.reportType.name,
+                                    'reportType': file.reportType,
                                     'reportName': file.reportName,
                                     'notes': file.notes,
                                     'fileName': file.name,
