@@ -1,12 +1,13 @@
 (function () {
   'use strict';
-    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports ) {
+    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.filters = domainReports.getReportsTabs();
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.isNetworkUser = loginModel.getIsNetworkUser();
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
         $scope.showProfileMenu = function() {
             $("#profileDropdown").toggle();
