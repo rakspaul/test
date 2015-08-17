@@ -347,10 +347,10 @@
                 );
             },
 
-            put: function (url, data,header) {
+            put: function (url, data) {
                 loginModel.checkCookieExpiry();
                 $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
-                return $http({url: url, method: 'PUT', data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'multipart/form-data'}) }).then(
+                return $http.put(url, angular.toJson(data)).then(
                     function (response) {
                         if(response.status == 401) {
                             loginModel.unauthorized();
