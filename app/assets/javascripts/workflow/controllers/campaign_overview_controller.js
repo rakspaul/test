@@ -5,6 +5,8 @@ var angObj = angObj || {};
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.disablePushBtn = true;
+        $scope.notPushed=false;
+        $scope.sizeString="";
         var campaignOverView = {
 
             modifyCampaignData :  function() {
@@ -31,15 +33,14 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignAdsData'] = responseData;
-                        console.log(responseData);   //  $scope.disablePushBtn = !(_.indexOf(['draft'], campaignAdsData.state.toLowerCase() >0))
+                        console.log(responseData);
 
                         for(var index in responseData) {
                               if(responseData[index].state.toLowerCase()=="draft"){
-                                console.log("index:"+index);
                                 $scope.disablePushBtn=false;
                                 break;
                               }
-                        } console.log("outside for loop:"+$scope.disablePushBtn);
+                        }
                     }
                     else{
                         campaignOverView.errorHandler(result);
@@ -77,6 +78,25 @@ var angObj = angObj || {};
             })
 
         })
+
+        $scope.appendSizes=function(creative){
+            //console.log(creative);
+            if(typeof creative!='undefined'){
+            if(creative.length==1){
+                 $scope.sizeString=creative[0].size.size;
+            }else if(creative.length>1){
+                 $scope.sizeString= "";
+                 for(var i in creative){
+                     $scope.sizeString+= creative[i].size.size +",";
+                 }
+                 $scope.sizeString=$scope.sizeString.substring(0, $scope.sizeString.length - 1);
+            }
+            }else{
+                 $scope.sizeString=constants.WF_NOT_SET;
+            }
+            return $scope.sizeString;
+            //console.log("$scope.sizeString:"+$scope.sizeString)
+        }
         
         // Switch BTN Animation
         $('.btn-toggle').click(function() {

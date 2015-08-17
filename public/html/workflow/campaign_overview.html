@@ -115,12 +115,10 @@
                             <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget"
                                  title="{{adsData.platform.name}}"/>
                             <!--<span class="pull-left adDisplay">Collective Media</span>-->
-                            <span class="pull-left">ID: {{adsData.id}}</span>
-                        </div>
+                            <span class="pull-left">ID: {{adsData.id}}</span><span ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>                        </div>
                         <div class="col-md-12" style="padding: 0px 10px 35px;">
                             <h1 class="col-md-10 adCamp">
-                                {{adsData.name}}
-                            </h1>
+                                <div class="trim-info" tooltip="{{adsData.name}}">{{adsData.name}}</div>                            </h1>
                             <span ng-if="adsData.adFormat"
                                   class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
                                   aria-hidden="true"></span>
@@ -152,9 +150,9 @@
                                 <div class="col-md-12"></div>
                             </div>
                             <div class="col-md-12" style="padding: 0px 10px;">
-                                <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes (0)</span>
+                                <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
 
-                                <p style="margin: 0;">Not Set</p>
+                                <p style="margin: 0;">{{appendSizes(adsData.creatives)}}</p>
                             </div>
                             <div class="col-md-12" style="padding: 0px 10px;">
                                 <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
