@@ -4656,7 +4656,7 @@ div.reports_tabs_content_container {
     }
     ul.dropdown-menu {
       max-width: 400px;
-      min-height: 100px;
+      min-height: 60px;
       max-height: 200px;
       overflow-y: auto;
       overflow-x: hidden;
@@ -4708,11 +4708,11 @@ div.reports_tabs_content_container {
       padding: 40px 0px ;
     }
   }
-  #reportName {
+  input.report-type-name {
     width: 140px;
     margin-right: 0;
     margin-left: 4px;
-    padding: 6px 8px;
+    padding: 5px 8px;
     font-size: 14px;
     color: #57606d;
     line-height: 16px;
@@ -5035,7 +5035,7 @@ div.reports_tabs_content_container {
     }
     ul.dropdown-menu {
       max-width: 400px;
-      min-height: 100px;
+      min-height: 60px;
       max-height: 200px;
       overflow-y: auto;
       overflow-x: hidden;
@@ -5049,12 +5049,17 @@ div.reports_tabs_content_container {
       }
     }
   }
+  .modal-header {
+    border-bottom: 0px ;
+    padding: 30px 30px 0px 30px ;
+  }
+  .modal-body {
+    padding : 0 30px 30px ;
+  }
   .modal-title {
     font-size: 26px ;
   }
-  .data_row {
-    margin-top: 20px ;
-  }
+
   .data_heading {
     font-family: "Avenir-bold" ;
     display: inline-block;
@@ -5078,7 +5083,7 @@ div.reports_tabs_content_container {
     .delete-option {
       color: #939ead; 
       padding-left: 20px ;
-      background: url("/assets/images/cdesk/delete-grey.png") no-repeat left left 2px;
+      background: url("/assets/images/cdesk/delete-grey.png") no-repeat left 2px;
       margin-top: 10px;
       cursor: pointer;
     }
@@ -5088,6 +5093,44 @@ div.reports_tabs_content_container {
     margin-right: 20px ;
   }
   .campaign-dd-data {
-    width: 380px ;
+    width: 480px ;
   }
+  .data_row {
+    margin-top: 20px ;
+
+  }
+  .data_row.custom_report_type {
+      .report-type-data {
+          width: 284px ;
+          .dropdown {
+            width: 140px ;
+            float: left;
+          }
+          .report-type-name {
+            width: 140px;
+            display: inline-block;
+            margin: 4px 0 0 4px;
+            padding: 5px 8px 4px;
+          }
+      }
+      .campaign-dd-data {
+        width: 340px ;
+      }
+    }
 }
+
+/*common loading icon */
+.loading-icon {
+  text-align: center;
+  text-indent: -99999;
+  height: 40px;
+  width: 40px;
+  background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  margin: 20px auto 0 ;
+  display: block;
+}
+.edit-dialog .modal-dialog {
+    width :710px ;
+}
+
+/* end of common loading icon */
