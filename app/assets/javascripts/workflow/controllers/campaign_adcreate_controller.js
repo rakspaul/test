@@ -376,6 +376,12 @@ var angObj = angObj || {};
         $scope.showCreateNewWindow=function(){
             $scope.isAddCreativePopup = true;
             console.log("showCreateNew");
+            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "0px"}, 'slow');
+        }
+        
+        $scope.closeBtnCreative=function(){
+            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
+            //$scope.isAddCreativePopup = false;
         }
     });
 })();
