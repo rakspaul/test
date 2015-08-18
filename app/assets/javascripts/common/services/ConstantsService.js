@@ -161,7 +161,8 @@
     this.SCREENS = "Screens";
     this.PLATFORM = "Platforms";
     this.TOP_THREE = "Top 3";
-    this.VIEWABILITY = "Quality";
+    this.QUALITY = "Quality";
+    this.VIEWABILITY = 'Viewability';
     this.INVENTORY = "Inventory";
     this.AD_SIZE = "Ad Size";
   
