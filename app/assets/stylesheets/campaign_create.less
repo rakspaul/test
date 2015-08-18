@@ -1020,6 +1020,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
   height: 31px;
   margin-left: -15px;
 }
+
 #campaignCreate{
   float: left;
   width: 100%;
@@ -1765,7 +1766,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
       .adHeader {
         padding:0px;
         font-family:"Avenir-roman";
-        font-size:18px;
+        font-size:16px;
       }
       .adSubHeader{
         color:#b3b3b3;
@@ -2140,6 +2141,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
   .newCreativeSlide {
     .popCreativeLib {
       background: #fff;
+      left: 100%;
     }
     .closeBtnCreative {
       float: right;
@@ -2309,8 +2311,19 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
         background: rgba(0,0,0,0.07);
       }
     }
-    .unitCost {
+    .symbolAbs {
       .col-md-3 {
+        position: relative;
+        span {
+          position: absolute;
+          top: 8px;
+          left: 8px;
+        }
+        input {
+          text-indent: 10px;
+        }
+      }
+      .col-md-7 {
         position: relative;
         span {
           position: absolute;
@@ -2373,6 +2386,40 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
     }
     .btn_border {
       margin-bottom: 0px ;
+    }
+    input[type="text"] {
+      border: 1px solid #dbe8ef !important;
+      border-radius: 0px !important;
+    }
+    //Radio BTN Toggle
+    .radioBtnToggle {
+      .btn-group {
+        margin-top: 5px;
+        input[type="text"] {
+          width: 150px;
+          margin: 0px 15px;
+          float: left;
+          border: 1px solid #dbe8ef !important;
+          border-radius: 0px !important;
+        }
+        .btn-default {
+          border: 1px solid #dbe8ef !important;
+          border-radius: 0px !important;
+          width: 120px;
+        }
+        .btn-default.active, .btn-default:hover {
+          border: 1px solid #dbe8ef;
+          background-color: #dbe8ef;
+        }
+      }
+    }
+    .greyTxt {
+      color: #b3b3b3 !important;
+      padding: 7px 0 0 2px !important;
+      text-align: left;
+      font-weight: lighter;
+      font-size: 13px;
+      margin-bottom: 0;
     }
   }
 }
