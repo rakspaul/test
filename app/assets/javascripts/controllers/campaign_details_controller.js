@@ -726,6 +726,40 @@
                             pct_total : viewData.view_metrics.viewable_imps_perc > viewData.view_metrics.video_viewability_metrics.video_viewable_perc ? viewData.view_metrics.viewable_imps_perc : viewData.view_metrics.video_viewability_metrics.video_viewable_perc
                         };
 
+                    var highChartSeriesObj = [];
+                    if($scope.details.getCostViewability.pct_video >0 && $scope.details.getCostViewability.pct_display >0) {
+                        highChartSeriesObj.push({ innerRadius: '85%', data: [{y:$scope.details.getCostViewability.pct_video, color:'#45CB41'}], radius: '70%'});
+                        highChartSeriesObj.push({innerRadius: '100%', radius: '85%',data: [{y:$scope.details.getCostViewability.pct_display, color:'#008ED5'}]});
+                    }
+
+                    if($scope.details.getCostViewability.pct_video === 0 && $scope.details.getCostViewability.pct_display >0) {
+                        highChartSeriesObj.push({innerRadius: '100%', radius: '85%',data: [{y:$scope.details.getCostViewability.pct_display, color:'#008ED5'}]});
+                    }
+
+                    if($scope.details.getCostViewability.pct_video > 0 && $scope.details.getCostViewability.pct_display === 0) {
+                        highChartSeriesObj.push({innerRadius: '100%', radius: '85%',data: [{y:$scope.details.getCostViewability.pct_video, color:'#45CB41'}]});
+                    }
+                    highChartSeriesObj.push({innerRadius: '101', data: [{y:$scope.details.getCostViewability.pct_total, color:'#000000'}]});
+                    highChartSeriesObj.push({ innerRadius: '103', radius: '102%',data: [{y:100, color:'#FFFFFF'}]});
+
+                    /*
+                        innerRadius: '85%',
+                            data: [{y:viewabilityData.pct_video, color:'#45CB41'}],
+                        radius: '70%'
+                    }, , {
+                        innerRadius: '101',
+                            data: [{y:viewabilityData.pct_total, color:'#000000'}]
+                    },
+                    //temp workaround to fix animation issues
+                    {
+                        innerRadius: '103',
+                            radius: '102%',
+                        data: [{y:100, color:'#FFFFFF'}]
+                    }*/
+
+                    $scope.details.getCostViewability.highChartSeriesObj = highChartSeriesObj;
+
+
                     $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
                         });
