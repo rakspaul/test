@@ -72,11 +72,11 @@
 			                <span class="each-col campaign-col">Campaign</span>
 			              </div>
 
-			              <div ng-repeat="(index, file) in reportsUploadList" class="upload_file_holder {{( file.status == 'uploading') ? 'disabled_list' : ''}}"  ><!-- disabled_list when the list is disabled -->
+			              <div ng-repeat="(index, file) in reportsUploadList" class="upload_file_holder {{( file.status == 'uploading' || deleteProgress) ? 'disabled_list' : ''}}"  ><!-- disabled_list when the list is disabled -->
 							<fieldset ng-disabled="(file.status == 'uploading' || file.status == 'success')">
 								<div class="clearfix about_file_row">
-									<span ng-click="retryUpload(index)"  style="cursor:pointer" class="each-col status-col redo-status" ng-show="file.status=='error'"><span>Redo</span></span> <!-- ng-show="file.status=='error'" -->
-									<span class="each-col status-col ready-status" ng-show="file.status=='success'">Ready</span> <!--ng-show="file.status"-->
+									<span ng-click="retryUpload(index)"  style="cursor:pointer" class="each-col status-col redo-status" ng-show="file.status=='error'"><span>Retry</span></span> <!-- ng-show="file.status=='error'" -->
+									<span class="each-col status-col ready-status" ng-show="file.status=='success'">Success</span> <!--ng-show="file.status"-->
 									<span class="each-col file-name-col">{{file.name}}</span>
 									<span class="each-col file-size-col">{{file.size/1000000 | number:2}} MB</span>
 									<span class="each-col report-type-col">
@@ -94,7 +94,7 @@
 									<div class="each-col campaign-col" style="position:relative;">
 											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
 								            <div class="dropdown">
-								                <span data-toggle="dropdown" class="dropdown_txt">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
+								                <span data-toggle="dropdown" class="dropdown_txt" style="{{isDisabled(file.campaignId)}}">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
 								                <ul class="dropdown-menu">
 								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
 								                </ul>
@@ -107,7 +107,7 @@
 				        		</div>
 								<div class="clearfix description_row" >
 									<span class="title">Description</span>
-									<input type="text" ng-model="file.notes" placeholder="Description">
+									<input type="text" ng-model="file.notes" placeholder="Description" maxlength="160">
 								</div>
 							</fieldset>
 						</div>
@@ -116,7 +116,7 @@
 										<!-- ng-show="reportsUploadList.length" -->
 			            <div class="btn_holder" >
 										<!-- ng-show="!progress" -->
-						  <span ng-click="upload()"  ng-show="!completed" class="common_primary_btn">Upload</span>
+						  <span ng-click="(progress || disabledUpload) || upload()"  ng-show="!completed" class="common_primary_btn" style="{{(progress || disabledUpload) ? 'opacity:0.3;cursor:default;' :''}}"">Upload</span>
 
 							<a href="/reports/list"  ng-show="!completed" class="secondary_txt">Cancel</a>
 
@@ -128,11 +128,11 @@
 
 
 
-			
 
 
-<!--dont style this - - logging area for test-->
-      <div style="margin-top:10px;display:none;"> <!--to be removed after development -->
+
+<!--dont style this - - logging area for test--> <!--to be removed after development -->
+      <!-- <div style="margin-top:10px;display:none;">
 				Rejected Error log:
 				<ul style="display: block;
 			    padding: 9.5px;
@@ -148,26 +148,29 @@
 					<li ng-repeat="r in rejFiles">
 						<span style="color:red">{{(r.$error=="maxSize"?'File size exceeds 10MB':'Unsupported file format')}}
 					</span>
-						<!-- **Filename:{{r.name}} -- Size:{{r.size}} bytes -- Error: {{r.$error}} -->
+
 					</li>
 				</ul>
 
 				<span>Upload Log:</span>
       			<pre>{{log}}</pre>
-			</div><!--to be removed after development -->
-<!--dont style this - - logging ends** -->
+			</div> -->
 
 
     </div> <!-- end of custom_report_response_page -->
 </div>
 
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<div class="top_message_box {{(!successMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg">
+<div class="top_message_box {{(!successMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg || errorMsg">
 	<span class="msg_box">
 		<span class="msg_icon">x</span>
 		<span class="msg_txt">
-			{{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}}
-			<div ng-show="!successMsg && rejFiles.length" ng-repeat="r in rejFiles">
+				<span ng-show="successMsg">You have sucessfully uploaded {{uploadedCount}} file(s)</span>
+				<span ng-show="errorMsg">Error in uploading {{errorCount}} file(s)</span>
+				<span ng-show="!errorMsg && !successMsg">Cannot upload files bigger than 10MB / Unsupported file format</span>
+
+			<!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
+			<div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">
 				- {{r.name}} ( {{r.size/1000000 | number:2}} MB. )
 			</div>
 		</span>
