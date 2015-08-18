@@ -15,7 +15,6 @@ var angObj = angObj || {};
             },
 
             getCampaignData :  function(campaignId) {
-                console.log("campaignId"+campaignId);
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -33,8 +32,6 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignAdsData'] = responseData;
-                        console.log(responseData);
-
                         for(var index in responseData) {
                               if(responseData[index].state.toLowerCase()=="draft"){
                                 $scope.disablePushBtn=false;
@@ -50,7 +47,6 @@ var angObj = angObj || {};
 
             pushSavedCampaign : function(campaignId) {
                 workflowService.pushCampaign(campaignId).then(function (result) {
-                    console.log(result);
                 });
             },
 
@@ -60,7 +56,7 @@ var angObj = angObj || {};
         }
 
         $scope.utc = function(date) {
-            return Date.parse(date)
+            return moment(date).utc().valueOf()
         }
 
 

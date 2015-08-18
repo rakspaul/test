@@ -2715,6 +2715,9 @@ button, i, input[type="submit"] {
         height: 40px ;
       }
       #reports_nav_link:hover {
+        a {
+          color: #fff !important ;
+        }
         .reports_header_tabs_holder {
           display: block;
         }
@@ -2952,17 +2955,28 @@ button, i, input[type="submit"] {
   li.active {
     font-family: "Avenir-bold" ;
   }
-/*  .dropdown-menu {
+  .dropdown-menu {
     .dropdown_list_scroll {
       max-height: 200px;
       overflow-y: auto;
     }
-  }*/
+  }
+
   .dropdown_name_selected {
     padding-right: 20px;
     cursor: default;
     img {
       margin-left: 5px;
+    }
+  }
+  .dropdown_type1_holder.active {
+    .campaign_name_selected {
+      font-family: "Avenir-bold" ;
+    }
+  }
+  .dropdown_type2.active {
+    #strategy_dropdown {
+      font-family: "Avenir-bold" ;
     }
   }
   .timeline_dd {
@@ -3187,4 +3201,9 @@ button, i, input[type="submit"] {
       }
     }
   }
+}
+.common_primary_btn.loading-icon {
+  background: url("/assets/images/cdesk/loading_white.gif") no-repeat  center center #0978c9;
+  opacity: 0.3;
+  font-size: 0;
 }

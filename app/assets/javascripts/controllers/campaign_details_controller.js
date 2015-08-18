@@ -467,7 +467,8 @@
                 $scope.inventoryBarChartConfig = {
                     data : $scope.chartDataInventory,
                     kpiType : kpiModel || 'NA',
-                    showLabel : true
+                    showLabel : true,
+                    graphName : 'inventory'
                 }
 
             },function(result){
@@ -577,7 +578,8 @@
 
                 $scope.screenBarChartConfig = {
                     data : $scope.chartDataScreen,
-                    kpiType : kpiModel || 'NA'
+                    kpiType : kpiModel || 'NA',
+                    graphName : 'screens'
                 }
             },function(result){
                 console.log('screen data call failed');
@@ -615,7 +617,8 @@
                 $scope.adSizenBarChartConfig = {
                     data : $scope.chartDataAdSize,
                     kpiType : kpiModel || 'NA',
-                    showLabel : true
+                    showLabel : true,
+                    graphName : 'adsizes'
                 }
             },function(result){
                 console.log('screen data call failed');
@@ -669,7 +672,8 @@
                 $scope.platformBarChartConfig = {
                     data : $scope.chartDataPlatform,
                     kpiType : kpiModel || 'NA',
-                    showLabel : true
+                    showLabel : true,
+                    graphName : 'platforms'
                 }
             }, function() {
                 console.log('Platform data call failed');
@@ -704,7 +708,8 @@
 
                 $scope.formatBarChartConfig = {
                     data : $scope.chartDataFormat,
-                    kpiType : kpiModel || ''
+                    kpiType : kpiModel || '',
+                    graphName : 'formats'
                 }
             },function(result){
                 console.log('formats data call failed');
@@ -726,6 +731,22 @@
                             pct_total : viewData.view_metrics.viewable_imps_perc > viewData.view_metrics.video_viewability_metrics.video_viewable_perc ? viewData.view_metrics.viewable_imps_perc : viewData.view_metrics.video_viewability_metrics.video_viewable_perc
                         };
 
+                    var highChartSeriesObj = [];
+                    if($scope.details.getCostViewability.pct_video >0 && $scope.details.getCostViewability.pct_display >0) {
+                        highChartSeriesObj.push({ innerRadius: '85%', data: [{y:$scope.details.getCostViewability.pct_video, color:'#45CB41'}], radius: '70%'});
+                        highChartSeriesObj.push({innerRadius: '100%', radius: '85%',data: [{y:$scope.details.getCostViewability.pct_display, color:'#008ED5'}]});
+                    }
+
+                    if($scope.details.getCostViewability.pct_video === 0 && $scope.details.getCostViewability.pct_display >0) {
+                        highChartSeriesObj.push({innerRadius: '100%', radius: '85%',data: [{y:$scope.details.getCostViewability.pct_display, color:'#008ED5'}]});
+                    }
+
+                    if($scope.details.getCostViewability.pct_video > 0 && $scope.details.getCostViewability.pct_display === 0) {
+                        highChartSeriesObj.push({innerRadius: '100%', radius: '85%',data: [{y:$scope.details.getCostViewability.pct_video, color:'#45CB41'}]});
+                    }
+                    highChartSeriesObj.push({innerRadius: '101', data: [{y:$scope.details.getCostViewability.pct_total, color:'#000000'}]});
+                    highChartSeriesObj.push({ innerRadius: '103', radius: '102%',data: [{y:100, color:'#FFFFFF'}]});
+                    $scope.details.getCostViewability.highChartSeriesObj = highChartSeriesObj;
                     $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
                         });
@@ -747,6 +768,7 @@
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
+            campaign = campaign || $scope.campaign;
             if (!campaign) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
             } else if (campaign.durationLeft() == 'Yet to start') {

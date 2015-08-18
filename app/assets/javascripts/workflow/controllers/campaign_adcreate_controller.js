@@ -9,11 +9,11 @@ var angObj = angObj || {};
         $scope.adData.screenTypes = [];
         $scope.creativeData = {};
         $scope.creativesLibraryData = {};
-        $scope.emptyCreativesFlag = false;
+        $scope.emptyCreativesFlag = true;
         $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.selectedArr = [];
-        $scope.dataFromCreativeLibraryNotFound = false;
+        $scope.dataFromCreativeLibraryNotFound = true;
         $scope.isAddCreativePopup = false;
 
 
@@ -117,7 +117,10 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         console.log(result.data.data);
                         var responseData = result.data.data;
-                        if (responseData.creatives.length == 0) $scope.emptyCreativesFlag = true;
+                        if (responseData.creatives.length > 0)
+                            $scope.emptyCreativesFlag = false;
+                        else
+                            $scope.emptyCreativesFlag = true;
                         $scope.creativeData['creativeInfo'] = responseData;
                     }
                     else {
@@ -134,7 +137,7 @@ var angObj = angObj || {};
         }
 
         $scope.utc = function (date) {
-            return Date.parse(date)
+            return moment(date).utc().valueOf()
         }
 
         campaignOverView.getCampaignData($routeParams.campaignId);
@@ -309,8 +312,11 @@ var angObj = angObj || {};
                 workflowService.getCreativesFromLibrary(clientID, adID, format).then(function (result) {
                     if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
                         var responseData = result.data.data;
-                        $scope.dataFromCreativeLibraryNotFound = false;
                         $scope.creativesLibraryData['creativesData'] = addFromLibrary.modifyCreativesData(responseData);
+                        if($scope.creativesLibraryData.creativesData.length>0)
+                            $scope.dataFromCreativeLibraryNotFound = false;
+                        else
+                            $scope.dataFromCreativeLibraryNotFound = true;
                     }
                     else {
                         addFromLibrary.errorHandler(result);
@@ -339,6 +345,11 @@ var angObj = angObj || {};
 
         $scope.updateCreativeData = function(data) {
             $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
+            if($scope.creativeData.creativeInfo.creatives.length>0)
+                $scope.emptyCreativesFlag=false;
+            else
+                $scope.emptyCreativesFlag=true;
+
         };
 
         $scope.removeCreativeTags =  function(clickedTagData, actionFrom) {

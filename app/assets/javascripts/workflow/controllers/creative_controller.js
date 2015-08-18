@@ -55,7 +55,7 @@ var angObj = angObj || {};
                     var postCrDataObj = {};
 
 
-                    var matchPattern = new RegExp(/<script>[A-Za-z]*https:.*[A-Za-z]*<\/script>/)
+                    var matchPattern = new RegExp(/<script|SCRIPT [A-Za-z]*https:.*[A-Za-z]*>[A-Za-z]*https:.*[A-Za-z]*<\/script|SCRIPT>/)
                     if (!formData.tag.match(matchPattern)) {
                         $scope.IncorrectTag = true;
                         $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
@@ -78,6 +78,7 @@ var angObj = angObj || {};
                                 console.log("creative added");
                                 $scope.addedSuccessfully = true;
                                 $scope.Message = "Creative Added Successfully";
+                                $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
 
                             }
                             else {
@@ -91,6 +92,13 @@ var angObj = angObj || {};
                 }
             });
         });
+        $scope.cancelBtn=function(){ 
+                if($location.path()==="/creative/add"){
+                   $window.location.href = "/creative/list";
+                }else{
+                    $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
+                }
+        }
     });
 
 })();

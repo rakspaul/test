@@ -48,9 +48,9 @@
                   <span class="each-col campaign-col ">{{selectedCampaign.name}}</span>
                   <span class="each-col author-col">{{rlist.createdBy}}</span>
                   <span class="each-col options-button-col" >
-                      <a ng-show="isNetworkUser" ng-click="downloadCollectiveReport(rlist.id)" href="javascript:void(0);" title="{{ rlist.fileName }}" class="btn-icon download-icon"></a>
+                      <a  ng-click="downloadCollectiveReport(rlist.id)" href="javascript:void(0);" title="{{ rlist.fileName }}" class="btn-icon download-icon"></a>
                       <a ng-show="isNetworkUser" ng-click="editReportModal($index)" title="Edit" class="btn-icon edit-icon" href="javascript:void(0);"></a>
-                      <a  ng-click="deleteReport($index, rlist.id)" href="javascript:void(0);" class="btn-icon delete-icon" title="Delete"></a>
+                      <a  ng-show="isNetworkUser" ng-click="deleteReport($index, rlist.id)" href="javascript:void(0);" class="btn-icon delete-icon" title="Delete"></a>
                   </span>
                 </div>
                 <span class="description_row">{{rlist.notes}} </span>

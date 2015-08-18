@@ -69,24 +69,7 @@
                         tickWidth: 1
                     }
                 },
-                 series: [{
-                    innerRadius: '85%',
-                    data: [{y:viewabilityData.pct_video, color:'#45CB41'}],
-                    radius: '70%'
-                }, {
-                    innerRadius: '100%',
-                    radius: '85%',
-                    data: [{y:viewabilityData.pct_display, color:'#008ED5'}]
-                }, {
-                    innerRadius: '101',
-                    data: [{y:viewabilityData.pct_total, color:'#000000'}]
-                },
-                //temp workaround to fix animation issues
-                {
-                    innerRadius: '103',
-                    radius: '102%',
-                    data: [{y:100, color:'#FFFFFF'}]
-                }],
+                 series: viewabilityData.highChartSeriesObj,
                 loading: false,
                 func: function(chart) {
                     //orange, green, blue, black

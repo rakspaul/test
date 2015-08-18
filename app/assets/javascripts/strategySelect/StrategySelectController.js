@@ -13,13 +13,6 @@
         //$scope.$parent.isFetchStrategiesCalled = false;
         $scope.isStrategyDropDownShow = true;
 
-        $rootScope.$on(constants.EVENT_CAMPAIGN_CHANGED, function() {
-            //if(!$scope.$parent.isFetchStrategiesCalled) {
-                $scope.reset();// reset all data
-                $scope.isStrategyDropDownShow = true;
-                $scope.fetchStrategies();// fetch strategies and set selected Strategy as First Strategy
-            //}
-        });
 
         // On this event, only fetch list of strategyies and retain selectedStrategy (done from outside).
         var eventCampaignStrategyChangedFunc =  $rootScope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function() {
@@ -33,7 +26,10 @@
             $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
             $scope.$watch(function(scope) { return $scope.strategyData.selectedStrategy });
         };
-
+        $scope.add_active_to_strategy = function() {
+            $(".dropdown_type1_holder").removeClass("active");
+            $(".dropdown_type2").addClass("active") ;
+        };
 
         $scope.setStrategy = function(strategy){
             strategySelectModel.setSelectedStrategy(strategy);
