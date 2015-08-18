@@ -78,6 +78,7 @@ var angObj = angObj || {};
                                 console.log("creative added");
                                 $scope.addedSuccessfully = true;
                                 $scope.Message = "Creative Added Successfully";
+                                $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
 
                             }
                             else {
