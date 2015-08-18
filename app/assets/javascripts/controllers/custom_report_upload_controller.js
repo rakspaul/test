@@ -12,7 +12,7 @@ var angObj = angObj || {};
       $scope.disabledUpload = false;
 
       $scope.closeMessage = function(){
-        //$('.top_message_box').css({'display':'none'});
+        $('.top_message_box').css({'display':'none'});
         $scope.rejFiles = [];
         $scope.successMsg = false;
         $scope.errorMsg = false;
