@@ -10,7 +10,7 @@
             templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
                 $scope.textConstants = constants;
-                $('#campaigns_list').scrollWithInDiv();
+                $('.dropdown_list_scroll').scrollWithInDiv();
                 var campaignName = '';
                 var localStorageCampaignData;
                 $scope.$watch('selectedObj.name', function(v) {
@@ -33,6 +33,11 @@
 
                     }
                 });
+
+                $scope.add_active_selection = function() {
+                    $(".dropdown_type2").removeClass("active") ;
+                    $(".dropdown_type1_holder").addClass("active");
+                };
 
                 $(document).click(function(event) {
                     localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));

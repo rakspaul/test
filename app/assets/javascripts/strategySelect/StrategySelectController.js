@@ -33,7 +33,10 @@
             $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
             $scope.$watch(function(scope) { return $scope.strategyData.selectedStrategy });
         };
-
+        $scope.add_active_to_strategy = function() {
+            $(".dropdown_type1_holder").removeClass("active");
+            $(".dropdown_type2").addClass("active") ;
+        };
 
         $scope.setStrategy = function(strategy){
             strategySelectModel.setSelectedStrategy(strategy);
