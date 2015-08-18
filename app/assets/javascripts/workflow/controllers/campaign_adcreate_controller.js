@@ -376,11 +376,13 @@ var angObj = angObj || {};
         $scope.showCreateNewWindow=function(){
             $scope.isAddCreativePopup = true;
             console.log("showCreateNew");
-            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "0px"}, 'slow');
+            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "50%" , marginLeft: "-307px"}, 'slow');
+            $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
         
         $scope.closeBtnCreative=function(){
-            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
+            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, 'slow');
+            $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
             //$scope.isAddCreativePopup = false;
         }
     });
