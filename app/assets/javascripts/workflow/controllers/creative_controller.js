@@ -55,7 +55,7 @@ var angObj = angObj || {};
                     var postCrDataObj = {};
 
 
-                    var matchPattern = new RegExp(/<script>[A-Za-z]*https:.*[A-Za-z]*<\/script>/)
+                    var matchPattern = new RegExp(/<script|SCRIPT [A-Za-z]*https:.*[A-Za-z]*>[A-Za-z]*https:.*[A-Za-z]*<\/script|SCRIPT>/)
                     if (!formData.tag.match(matchPattern)) {
                         $scope.IncorrectTag = true;
                         $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
