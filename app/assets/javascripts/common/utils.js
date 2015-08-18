@@ -825,4 +825,18 @@ angObj.directive('truncateTextWithHover', function () {
     };
   });
 
+   angObj.filter('textEllipsis', function () {
+      return function (input) {
+        if (input == undefined) {
+          return '';
+        }
+        var dispname = input;
+        if(input.length >60) {
+            dispname =input.substring(0,60) + "...";
+        }
+
+        return dispname;
+      }
+    });
+
 }());
