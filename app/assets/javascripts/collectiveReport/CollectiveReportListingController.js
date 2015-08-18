@@ -75,6 +75,32 @@
 
         }
 
+        //Edit report Pop up
+        $scope.deleteReportModal = function(index) {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_delete_collective_report,
+                controller:"CollectiveDeleteReportController",
+                scope:$scope,
+                windowClass: 'delete-dialog'
+                // resolve: {
+                //     report: function () {
+                //         return $scope.reportList[index];
+                //     },
+                //     brand: function() {
+                //         return $scope.brandId;
+                //     },
+                //     reportIndex: function() {
+                //         return index;
+                //     },
+                //     reportList: function() {
+                //         return $scope.reportList;
+                //     }
+                // }
+            });
+
+
+        }
+
         $scope.downloadCollectiveReport = function(reportId) {
             if(reportId) {
             //$scope.reportDownloadBusy = true;
