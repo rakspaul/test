@@ -7,6 +7,7 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
+        domainReports.highlightSubHeaderMenu();
         $scope.sortType     = 'impressions'; 
 
         $scope.sortTypebyformats     = '-impressions';

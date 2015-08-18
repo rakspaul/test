@@ -58,6 +58,10 @@
                 //Hot fix to show the campaign tab selected
                 $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
             },
+            highlightSubHeaderMenu: function() {
+                $(".reports_sub_menu_dd").find('.active_tab').removeClass('active_tab').end().find('#'+document.location.pathname.substring(1)).addClass('active_tab');
+            },
+
 
             checkForCampaignFormat :  function(adFormats) {
                 var adSupportVideo = false;
