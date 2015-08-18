@@ -134,7 +134,7 @@ var angObj = angObj || {};
         }
 
         $scope.utc = function (date) {
-            return Date.parse(date)
+            return moment(date).utc().valueOf()
         }
 
         campaignOverView.getCampaignData($routeParams.campaignId);
