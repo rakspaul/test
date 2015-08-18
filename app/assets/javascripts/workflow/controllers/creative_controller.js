@@ -92,6 +92,13 @@ var angObj = angObj || {};
                 }
             });
         });
+        $scope.cancelBtn=function(){ 
+                if($location.path()==="/creative/add"){
+                   $window.location.href = "/creative/list";
+                }else{
+                    $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
+                }
+        }
     });
 
 })();
