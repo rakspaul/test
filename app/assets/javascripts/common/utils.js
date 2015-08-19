@@ -9,6 +9,7 @@
       var suf = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
       return suf;
     };
+    var reportTypeOptions = function() {return [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}]};
     var makeTitle = function (input) {
       var title = '<div id="legend">';
       for (var i = 0; i < input.length; i++) {
@@ -211,6 +212,7 @@
       getParameterByName : getParameterByName,
       detectBrowserInfo : detectBrowserInfo,
       VTCpopupfunc : VTCpopupfunc,
+      reportTypeOptions:reportTypeOptions
     };
   }]);
   angObj.directive('welcomeUser', function (common) {

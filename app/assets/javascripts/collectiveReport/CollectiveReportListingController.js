@@ -9,7 +9,6 @@
         $scope.campaign =  "Campaign Name";
         domainReports.highlightHeaderMenu();
         $scope.customFilters = domainReports.getCustomReportsTabs();
-        $scope.brandId = -1;
         $scope.reportList = [];
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.nodata = "";
@@ -60,15 +59,15 @@
                         console.log('reportlistingController:',$scope.reportList[index]);
                         return $scope.reportList[index];
                     },
-                    brand: function() {
-                        return $scope.brandId;
-                    },
                     reportIndex: function() {
                         return index;
                     },
                     reportList: function() {
                         console.log($scope.reportList)
                         return $scope.reportList;
+                    },
+                    updateFlashMsg: function() {
+
                     }
                 }
             });

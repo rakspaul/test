@@ -4,9 +4,8 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,brand,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants) {
         $scope.report = report;
-        $scope.brandId = brand;
         $scope.ediScreenBusy = false;
         $scope.editedObj = angular.copy(report);
 
@@ -15,11 +14,7 @@
             $modalInstance.dismiss();
         };
 
-        //Need to move reportTypes
-        $scope.reportTypes =[
-            {id:'Custom',name:'Custom'},
-            {id:'PCAR',name:'PCAR'}
-        ];
+        $scope.reportTypes = utils.reportTypeOptions();
 
         //campaignId = 415486
         $scope.editedData = {
@@ -29,12 +24,6 @@
             notes:report.notes
         }
 
-        console.log('Report: ',report);
-
-        //$scope.setCampaignId = function(campaignId) { console.log('campaign Id: ',campaignId);
-        //    $scope.editedData.campaignId = campaignId;
-        //    console.log("Campaing id set: ",$scope.editedData);
-        //}
         $scope.updateReport = function() {
             $scope.ediScreenBusy = true;
             dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
@@ -45,7 +34,12 @@
                 $scope.reportList[reportIndex] = $scope.editedObj;
                 $scope.ediScreenBusy = false;
                 $scope.close();
-            },function(error) { console.error(error);$scope.ediScreenBusy = false;});
+                $scope.flashMessage.message = constants.reportEditSuccess;
+            },function(error) {
+                $scope.ediScreenBusy = false;
+                $scope.flashMessage.message = constants.reportEditFailed;
+                $scope.flashMessage.isErrorMsg = true;
+            });
         }
 
         $scope.deleteReport = function() {
@@ -56,14 +50,16 @@
                     if(response.status_code == 200) {
                         $scope.reportList.splice(reportIndex, 1);
                         $scope.ediScreenBusy = false;
+                        $scope.flashMessage.message = constants.reportDeleteSuccess;
                         //$scope.message.success = "Report Deleted Successfully";
                     } else {
                         //$scope.editMessage.error = "Error Deleting the Report";
                         $scope.ediScreenBusy = false;
+                        $scope.flashMessage.message = constants.reportDeleteFailed;
+                        $scope.flashMessage.isErrorMsg = true;
                     }
                     $scope.close();
                 });
-
             }
         }
         $scope.show_report_type_txtbox = function(event) {
@@ -83,7 +79,7 @@
 
         $scope.selectedCampaignObj = campaignSelectModel.getSelectedCampaign();
 
-        campaignSelectModel.getCampaigns($scope.brandId).then(function(response){
+        campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id).then(function(response){
             $scope.campaignList = response;
         })
     });
