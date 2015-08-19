@@ -1,0 +1,130 @@
+// Manual CSS Resets
+.zeroPadding {
+  padding: 0px !important;
+}
+.zeroMargin {
+  margin: 0px !important;
+}
+.borderZero {
+  border-width: 0px !important;
+}
+.disabledTxt {
+  color: #BBBBBB !important;
+}
+
+// Inputs
+input[type='text'] {
+  border: 1px solid #dbe8ef !important;
+  border-radius: 0 !important;
+}
+
+// Labels
+.errorLabel {
+  color: #E83B05 !important;
+  padding: 2px 0 0 4px !important;
+  margin-top: 0 !important;
+  margin-left: 0;
+  font-size: 13px;
+  font-weight: lighter;
+  display: none;
+}
+.has-error .errorLabel {
+  display: block;
+}
+
+// Preloader Position
+.preloader {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  z-index: 100;
+  width: 31px;
+  height: 31px;
+  margin-left: -15px;
+}
+
+// DDL
+select.form-control {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url('/assets/images/workflow/ddl_arrow.png');
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-position-y: 6px;
+}
+
+// BTN
+.btn, select {
+  border-radius: 0px !important;
+}
+
+.btn-primary {
+  background: #0978C9;
+}
+
+// Toggle BTN
+.goalBtnGroup {
+  .btn-primary {
+    border-radius: 2px;
+    width: 100px;
+    height: 80px;
+    float: left;
+    margin-right: 4%;
+    color: #6F6E6E;
+    background-color: #fff;
+    border-color: #dee6eb;
+    padding: 11px 0;
+    span {
+      width: 100%;
+      float: left;
+      text-align: center;
+      color: #21252b;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  }
+  .btn-primary:hover {
+    background-color: #f5f9fd;
+    border-color: #2dee6eb;
+  }
+  .btn-primary.active {
+    color: #2c9aec;
+    background-color: #eff2f5;
+    border-color: #2c9aec;
+    span {
+      color: #2c9aec;
+      font-weight: bold;
+    }
+  }
+  label {
+    position: relative;
+    height: 60px;
+    margin-top : 10px;
+    .hideRadioBtn {
+      background-color: #fff ;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% ;
+      height: 100%;
+      margin-top: 0;
+      img {
+        margin: 35px auto 0;
+        display: block;
+      }
+    }
+  }
+  label.active {
+    .hideRadioBtn {
+      background-color: #eff2f5;
+      border: 2px solid #2c9aec;
+    }
+  }
+}
+
+// Calender
+.calenderIcon {
+  border-left: 1px solid #dbe8ef !important;
+}
+
