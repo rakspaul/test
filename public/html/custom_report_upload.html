@@ -101,8 +101,8 @@
 								             </div>
 									</div>
 
-									<span  ng-click="localDelete(index)" ng-show="file.status!='success'" style="cursor:pointer" class="each-col delete-col" title="Delete"></span>
-									<span  ng-click="serverDelete(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="each-col delete-col" title="Delete from Server"></span>
+									<span  ng-click="localDeletetModal(index)" ng-show="file.status!='success'" style="cursor:pointer" class="each-col delete-col" title="Delete"></span>
+									<span  ng-click="serverDeleteModal(index,file.data.id)" ng-show="file.status=='success'" style="cursor:pointer" class="each-col delete-col" title="Delete from Server"></span>
 
 				        		</div>
 								<div class="clearfix description_row" >
@@ -161,13 +161,15 @@
 </div>
 
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<div class="top_message_box {{(!successMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg || errorMsg">
+<div class="top_message_box {{(!successMsg && !deleteSuccessMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg || errorMsg || deleteSuccessMsg || deleteErrorMsg">
 	<span class="msg_box">
 		<span class="msg_icon">x</span>
 		<span class="msg_txt">
 				<span ng-show="successMsg">You have sucessfully uploaded {{uploadedCount}} file(s)</span>
 				<span ng-show="errorMsg">Error in uploading {{errorCount}} file(s)</span>
-				<span ng-show="!errorMsg && !successMsg">Cannot upload files bigger than 10MB / Unsupported file format</span>
+				<span ng-show="deleteSuccessMsg">File successfully deleted</span>
+				<span ng-show="deleteErrorMsg">Error in deletig file</span>
+				<span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg">Cannot upload files bigger than 10MB / Unsupported file format</span>
 
 			<!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
 			<div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">

@@ -6,7 +6,7 @@
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;
         $scope.deleteAction = deleteAction;
-        console.log('collective delete rept ctrl: ',$scope.flashMessage.message);
+        //console.log('collective delete rept ctrl: ',$scope.flashMessage.message);
         console.log($scope.deleteAction);
 
        // console.log("In delete controller",deleteAction);
