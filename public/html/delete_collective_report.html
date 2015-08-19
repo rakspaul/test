@@ -4,11 +4,11 @@
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h2 class="modal-title" id="myModalLabel">Delete Report</h2>
+        <h2 class="modal-title" id="myModalLabel">{{headerMsg}}</h2>
     </div>
     <div class="modal-body">
         <div class="data_row">
-            <span>Please note that this action affects <span class="bold-font">Report Name</span>'s view, report will be deleted for both you and the marketer. </span>
+            <span>{{mainMsg}}</span>
         </div>
         
         </div><!-- end of modal_body -->
@@ -20,7 +20,7 @@
                 </div>
                 <span class="squaredFourTxt" >Don't show again</span>
             </div>
-            <span class="common_primary_btn" >Delete</span>
+            <span class="common_primary_btn" ng-click="deleteAction();close()">Delete</span>
             <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
                 Cancel
             </span>
