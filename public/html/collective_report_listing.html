@@ -7,6 +7,47 @@
         background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
         margin: 20px auto 0 ;
         display: block;}
+    /*Placing for now here so that no conflicts come for css files*/
+
+        .common-sort-icon {
+            display: inline-block;
+            height: 13px;
+            width: 10px;
+            margin-left: 5px;
+        }
+    .each-col {
+        cursor: pointer;
+    }
+        .each-col:hover .common-sort-icon {
+            background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
+        }
+        /*.common-sort-icon.ascending {*/
+            /*background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;*/
+        /*}*/
+        /*.common-sort-icon.descending {*/
+            /*background : url("/assets/images/cdesk/sprites.png") no-repeat  -430px -351px;*/
+
+        /*}*/
+        .each-col.active ,  .each-col.active:hover {
+            color : #0978c9 ;
+
+        }
+    .each-col.active .common-sort-icon.ascending , .each-col.active:hover  .common-sort-icon.ascending{
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -414px;
+    }
+    .each-col.active .common-sort-icon.descending , .each-col.active:hover  .common-sort-icon.descending{
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px;
+    }
+    .reports_list_page .update-time-col {
+        width: 68px;
+    }
+    .reports_list_page .report-type-col {
+        width: 90px;
+    }
+    .reports_list_page .campaign-col {
+        width : 506px ;
+    }
+    /*Placing for now here so that no conflicts come for css files
 </style>
 
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
@@ -33,13 +74,14 @@
     <filters-header reports="true" strategy=false></filters-header>
 
   	<div>
+        <div ng-class="{'loading-icon':screenBusy}"></div>
         <!--<div class="download-report-load-icon" style="text-align: center;padding-bottom: 20px;" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}}........</div>-->
         <div class="custom_report_response_page">
               <div class="clearfix table_header">
-                <span class="each-col update-time-col" ng-click="sortReport('updatedAt')">Updated</span>
-                <span class="each-col report-type-col" ng-click="sortReport('reportType')">Report Type</span>
-                <span class="each-col campaign-col" ng-click="sortReport('campaignId')">Campaign</span>
-                <span class="each-col author-col" ng-click="sortReport('createdBy')">Author</span>
+                <span class="each-col update-time-col icon_text_holder" ng-class="{'active':sort.column=='updatedAt'}" ng-click="sortReport('updatedAt')">Updated<span class="common-sort-icon descending" ng-class="(sort.descending?'ascending':'descending')"></span></span>
+                <span class="each-col report-type-col" ng-class="{'active':sort.column=='reportType'}" ng-click="sortReport('reportType')">Report Type<span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span></span>
+                <span class="each-col campaign-col" ng-class="{'active':sort.column=='campaignId'}" ng-click="sortReport('campaignId')">Campaign<span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span></span>
+                <span class="each-col author-col" ng-class="{'active':sort.column=='createdBy'}" ng-click="sortReport('createdBy')">Author<span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span></span>
               </div>
               <div class="upload_file_holder" ng-repeat="rlist in reportList track by $index">
                 <div class="clearfix about_file_row">
@@ -57,7 +99,6 @@
               </div>
               <!--  no data or loading -->
             <div ng-class="{'no_data':nodata}">{{nodata}}</div>
-            <div ng-class="{'loading-icon':screenBusy}"></div>
           </div>
       </div>
 

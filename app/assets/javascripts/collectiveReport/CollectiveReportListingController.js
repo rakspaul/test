@@ -118,6 +118,7 @@
                collectiveReportModel.deleteReport(reportId, function(response){
                    if(response.status_code == 200) {
                        $scope.reportList.splice($index, 1);
+                       $scope.flashMessage.message = constants.reportDeleteSuccess;
                    } else {
                        $scope.flashMessage.message = constants.reportDeleteFailed;
                        $scope.flashMessage.isErrorMsg = true;
@@ -127,12 +128,12 @@
            }
        }
 
+       $scope.sortReport = function(column) {
+           $scope.sort.column = column;
+           $scope.reportList = $filter('orderBy')($scope.reportList, column,$scope.sort.descending);
+           $scope.sort.descending = !$scope.sort.descending;
 
-            $scope.sortReport = function(column) {
-
-                $scope.reportList = $filter('orderBy')($scope.reportList, column,$scope.sort.descending);
-                $scope.sort.descending = !$scope.sort.descending;
-           }
+       }
 
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);

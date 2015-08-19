@@ -367,8 +367,8 @@
     this.reportEditSuccess = "Edited Report Successfully";
     this.reportEditFailed = "Edit Report Failed";
 
-    this.reportDeleteSuccess = "Edited Report Successfully";
-    this.reportDeleteFailed = "Edit Report Failed";
+    this.reportDeleteSuccess = "Deleted Report Successfully";
+    this.reportDeleteFailed = "Deleting Report Failed";
 
   };
 
