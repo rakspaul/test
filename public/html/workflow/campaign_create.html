@@ -2,38 +2,51 @@
     <div class="firstWrapper">
         <div class="masterContainer">
             <!-- Header Starts -->
-            <div class="clearfix page_header_container">
+            <div class="clearfix left_column_nav">
                 <div class="pull-left campaign_name_holder">
-                    <span class="campaign_name">{{ textConstants.WF_CREATE_CAMPAIGN }}</span>
+                    <h1 class="campaign_name">{{ textConstants.WF_CREATE_CAMPAIGN }}</h1>
                     <div class="pull-left stepCompLabel">
-                        <p class="selected">1. {{ textConstants.WF_SETTINGS}}</p>
+                        <p class="titleLabel selected">1. {{ textConstants.WF_SETTINGS}}</p>
                         <div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
-                            <span>Not Set</span>
+                            <div class="col-md-12">
+                                <span>Not Set</span>
+                            </div>
                         </div>
                         <div class="statusLabel" ng-if="selectedCampaign.goal.name">
-                            <img ng-src="/assets/images/workflow/{{getGoalIconName(selectedCampaign.goal.name)}}.svg" alt="" width="10"/>
-                            <!--<span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>-->
-                            <span>{{selectedCampaign.goal.name}}</span>
-                            <span>(format)</span>
+                            <div class="col-md-12">
+                                <img class="statusIcon" ng-src="/assets/images/workflow/{{getGoalIconName(selectedCampaign.goal.name)}}.svg" alt="" width="12"/>
+                                <!--<span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>-->
+                                <span>{{selectedCampaign.goal.name}}</span>
+                                <span>(format)</span>
+                            </div>
                         </div>
                         <div class="statusLabel" ng-if="selectedCampaign.startTime">
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
-                            <span>(flight)</span>
+                            <div class="col-md-12">
+                                <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
+                                <img class="statusIcon" ng-src="/assets/images/workflow/calendar.svg" alt="" width="12"/>
+                                <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
+                                <span>(flight)</span>
+                            </div>
                         </div>
                         <div class="statusLabel" ng-if="selectedCampaign.budget">
-                            <span class="glyphicon" style="margin-top: -1px; text-indent: 3px;">{{ textConstants.DOLLAR }}</span>
-                            <span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
-                            <span>(budget)</span>
+                            <div class="col-md-12">
+                                <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
+                                <span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
+                                <span>(budget)</span>
+                            </div>
                         </div>
 
-                        <p class="">2. Pricing Model</p>
+                        <p class="titleLabel">2. Pricing Model</p>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <div class="col-md-12">
+                                <span>Not Set</span>
+                            </div>
                         </div>
-                        <p class="">3. Contacts (optional)</p>
+                        <p class="titleLabel">3. Contacts (optional)</p>
                         <div class="statusLabel disabled">
-                            <span>Not Set</span>
+                            <div class="col-md-12">
+                                <span>Not Set</span>
+                            </div>
                         </div>
                     </div>
                 </div>
