@@ -50,5 +50,52 @@
         $rootScope.dashboard = {};
         $rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
 
+        $(function() {
+            var closeMenuPopUs = function(event) {
+                  console.log("in closeMenuPopUs   " + event.target.id ) ;
+                    var cdbDropdownId = $("#cdbDropdown");
+                    var brandsListId = $("#brandsList");
+                    var profileDropdownId = $("#profileDropdown");
+                    var reportTypeDropdownId = $("#reportTypeDropdown");
+                  if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
+                      cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
+                      cdbDropdownId.hide();
+                  }
+                  if(brandsListId.is(':visible') && event.target.id != "brand_name_selected" && event.target.id != "brandsDropdown"  ) {
+                      brandsListId.closest(".each_filter").removeClass("filter_dropdown_open");
+                      brandsListId.hide();
+                  }
+                  if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
+                      profileDropdownId.hide();
+                  }
+                  if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
+                      reportTypeDropdownId.hide();
+                  }
+              }
+
+              $( document ).click(function(event) {
+                  closeMenuPopUs(event);
+              });
+
+              $(document).on('click', ".dropdown_ul_text ", function (event) {
+                  var campaignDropdownId = $("#campaignDropdown");
+                  var campaignsListId = $("#campaigns_list");
+                  closeMenuPopUs(event);
+                  if(event.target.id == 'performance_download_btn') {
+                      if(campaignDropdownId.is(':visible')) {
+                          campaignsListId.hide();
+                      }
+                  }
+
+                  if(event.target.id == 'strategy_dropdown') {
+                      if(campaignDropdownId.is(':visible')) {
+                          campaignsListId.hide();
+                      }
+                  }
+
+              });
+
+        })
+
     });
 }());
