@@ -55,7 +55,7 @@
             </div>
             <!-- Header Ends -->
 
-            <!-- Header Starts -->
+            <!-- Left Menu Column Starts -->
             <div class="clearfix page_header_container">
                 <div class="pull-left campaign_name_holder">
                     <span class="campaign_name">Create Ad</span>
@@ -70,14 +70,20 @@
                                 </div>
                                 <div class="statusLabel" ng-if="adData.adFormat">
                                     <div class="col-md-12">
-                                        <span class="glyphicon glyphicon-{{getAdFormatIconName(adData.adFormat)}}" aria-hidden="true"></span>
+                                        <!--<span class="glyphicon glyphicon-{{getAdFormatIconName(adData.adFormat)}}" aria-hidden="true"></span>-->
+										<img src="/assets/images/workflow/display.svg" alt="" width="12" class="statusIcon"/>
+										<!--<img src="/assets/images/workflow/video.svg" alt="" width="12" class="statusIcon"/>
+										<img src="/assets/images/workflow/mixedmedia.svg" alt="" width="12" class="statusIcon"/>
+										<img src="/assets/images/workflow/audience.svg" alt="" width="12" class="statusIcon"/>-->
                                         <span>{{adData.adFormat}}</span>
                                         <span>(Format)</span>
                                     </div>
                                 </div>
                                 <div class="statusLabel" ng-if="adData.goal">
                                     <div class="col-md-12">
-                                        <span class="glyphicon glyphicon-{{getGoalIconName(adData.goal)}}" aria-hidden="true"></span>
+                                        <!--<span class="glyphicon glyphicon-{{getGoalIconName(adData.goal)}}" aria-hidden="true"></span>-->
+										<img src="/assets/images/workflow/signal.svg" alt="" width="12" class="statusIcon"/>
+										<!--<img src="/assets/images/workflow/record.svg" alt="" width="12" class="statusIcon"/>-->
                                         <span>{{adData.goal}}</span>
                                         <span>(Goal)</span>
                                     </div>
@@ -85,10 +91,12 @@
                                 <div class="statusLabel" ng-if="adData.screenTypes.length >0">
                                     <div class="col-md-12">
                                         <div ng-repeat="screenType in adData.screenTypes">
-                                            <span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name)}}" aria-hidden="true"></span>
-                                            <span>{{screenType.name}}</span>
+                                            <!--<span class="glyphicon glyphicon-{{getScreenTypeIconName(screenType.name)}}" aria-hidden="true"></span>-->
+											<img src="/assets/images/workflow/desktop.svg" alt="" width="12" class="statusIcon"/>
+											<!--<img src="/assets/images/workflow/mobile.svg" alt="" width="12" class="statusIcon"/>
+											<img src="/assets/images/workflow/tablet.svg" alt="" width="12" class="statusIcon"/>-->
+                                            <span>{{screenType.name}} (Screen)</span>
                                         </div>
-                                        <span>(Screen)</span>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +184,7 @@
                     </ul>
                 </div>
             </div>
-            <!-- Header Ends -->
+            <!-- Left Menu Column Ends -->
 
             <!--=== Steps ===-->
             <div class="campaignAdCreate campaignAdCreatePage">
