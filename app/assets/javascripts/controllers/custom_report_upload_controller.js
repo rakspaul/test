@@ -76,7 +76,9 @@ var angObj = angObj || {};
         }
         elem.closest(".dropdown").find(".dropdown-menu").hide();
       };
-      
+      $scope.close_other_dropdown = function() {
+        $("#reportTypeDropdown").hide() ;
+      };
       $scope.toggle_dropdown = function(event) {
         var elem = $(event.target);
         elem.closest(".dropdown").find(".dropdown-menu").toggle() ;

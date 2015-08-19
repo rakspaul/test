@@ -82,8 +82,8 @@
 									<span class="each-col report-type-col">
 										<!-- <select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select> -->
 										<div class="dropdown">
-								                <span data-toggle="dropdown" class="dropdown_txt" ng-click="toggle_dropdown($event);">PCAR</span>
-								                <ul class="dropdown-menu">
+								                <span data-toggle="dropdown" class="dropdown_txt" ng-click="toggle_dropdown($event);" id="reportTypeDropdownTxt">PCAR</span>
+								                <ul class="dropdown-menu" id="reportTypeDropdown">
 								                    <li ng-repeat="filetype in reportTypeList" ng-click="show_report_name_txtbox($event); file.reportType =''+filetype.name">{{filetype.name}}</li>
 								                </ul>
 								         </div>
@@ -94,9 +94,9 @@
 									<div class="each-col campaign-col" style="position:relative;">
 											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
 								            <div class="dropdown">
-								                <span data-toggle="dropdown" class="dropdown_txt" style="{{isDisabled(file.campaignId)}}">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
+								                <span data-toggle="dropdown" class="dropdown_txt" style="{{isDisabled(file.campaignId)}}" ng-click="close_other_dropdown();">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
 								                <ul class="dropdown-menu">
-								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
+								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name ; ">{{cl.name}}</li>
 								                </ul>
 								             </div>
 									</div>
