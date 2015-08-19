@@ -96,7 +96,7 @@
 								            <div class="dropdown">
 								                <span data-toggle="dropdown" class="dropdown_txt" style="{{isDisabled(file.campaignId)}}" ng-click="close_other_dropdown();">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
 								                <ul class="dropdown-menu">
-								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name ; ">{{cl.name}}</li>
+								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
 								                </ul>
 								             </div>
 									</div>
