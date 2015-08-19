@@ -64,6 +64,10 @@ var angObj = angObj || {};
                 $scope.creativesNotFound = true;
             }
         }
+        
+        // Success Message Show/Hide
+        // If tag was added successfully run this
+        $(".successMessage").delay( 300 ).animate({opacity: 1}, 'slow').delay( 1500 ).animate({opacity: 0}, 'slow');
     });
 
 })();

@@ -1,17 +1,19 @@
 <div id="creativeList">
     <!-- Creative -->
     <div class="mainWrap">
+		<div class="alert alert-success successMessage" role="alert">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> New Creative has been created successfully.
+		</div>
+		
+		<div class="col-md-12 zeroPadding">
+			<h1 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h1>
+			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
+		</div>
 		<div class="col-md-12 zeroPadding clearfix nav_filters">
 				<creative-drop-down></creative-drop-down>
 		</div>
-		<div class="col-md-12 zeroPadding">
-			<h2 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h2>
-			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
-		</div>
-
-		<div class="spacingInput"></div>
-
-		<div class="col-md-12 zeroPadding">
+		
+		<div class="col-md-12 zeroPadding btn_list_filters">
 			<a href="/creative/add" class="btn btn-default" role="button">Create New</a>
 			<button type="button" class="btn btn-default disabled">Bulk Upload</button>
 			<div class="dropdown" style="display: inline-block;">
@@ -37,11 +39,9 @@
 			</div>
 		</div>
 
-		<div class="spacingInput"></div>
-
 		<div class="col-md-12 zeroPadding">
 			<div class="table-responsive">
-			<table class="table">
+			<table class="table table-striped">
 				<thead>
 				  <tr>
 					<th style="text-indent: 27px;">Size<br/><br/></th>
