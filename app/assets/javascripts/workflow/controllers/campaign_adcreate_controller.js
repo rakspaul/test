@@ -14,13 +14,13 @@ var angObj = angObj || {};
         $scope.campaignId = $routeParams.campaignId;
         $scope.selectedArr = [];
         $scope.dataFromCreativeLibraryNotFound = true;
+        $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
-
-
         $scope.IsVisible = false;//To show hide view tag in creatives listing
-        $scope.ShowHide = function () {
+
+        $scope.ShowHide = function (context) {
             //If DIV is visible it will be hidden and vice versa.
-            $scope.IsVisible = $scope.IsVisible ? false : true;
+            context.IsVisible = context.IsVisible ? false : true;
         }
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {'display': 'picture', 'video': 'film', 'rich media': 'paperclip', 'social': 'user'}
@@ -131,6 +131,7 @@ var angObj = angObj || {};
 
             },
 
+
             errorHandler: function (errData) {
                 console.log(errData);
             }
@@ -146,6 +147,7 @@ var angObj = angObj || {};
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
         campaignOverView.fetchPlatforms();
+
         //campaignOverView.getCreatives(3,10);
 
 
@@ -364,6 +366,11 @@ var angObj = angObj || {};
             var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
             $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
             $("#"+clickedTagData.id).removeAttr("checked");
+            /*Enable save button of popup library if elements exists*/
+            if($scope.selectedArr.length >0)
+                $scope.enableSaveBtn = false;
+            else
+                $scope.enableSaveBtn = true;
         };
 
         $scope.stateChanged = function ($event, screenTypeObj) {
@@ -382,7 +389,13 @@ var angObj = angObj || {};
                 $scope.selectedArr.push(screenTypeObj);
             }
             console.log($scope.selectedArr);
+            /*Enable save button of popup library if elements exists*/
+            if($scope.selectedArr.length >0)
+                $scope.enableSaveBtn = false;
+            else
+                $scope.enableSaveBtn = true;
         };
+
 
         $scope.showCreateNewWindow=function(){
             $scope.isAddCreativePopup = true;
@@ -396,6 +409,7 @@ var angObj = angObj || {};
             $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
             //$scope.isAddCreativePopup = false;
         }
+
     });
 })();
 
