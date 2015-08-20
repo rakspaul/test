@@ -24,7 +24,7 @@
         $scope.activityLogFilterByStatus = true;
 
         //Hot fix to show the campaign tab selected
-        $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
+        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = loginModel.getIsNetworkUser();
         var campaignList = [];

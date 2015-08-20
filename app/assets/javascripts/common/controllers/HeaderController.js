@@ -52,7 +52,6 @@
 
         $(function() {
             var closeMenuPopUs = function(event) {
-                  console.log("in closeMenuPopUs   " + event.target.id ) ;
                     var cdbDropdownId = $("#cdbDropdown");
                     var brandsListId = $("#brandsList");
                     var profileDropdownId = $("#profileDropdown");
