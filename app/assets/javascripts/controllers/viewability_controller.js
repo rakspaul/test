@@ -15,8 +15,10 @@ var angObj = angObj || {};
         if(redirectWidget) {
             $scope.videoMode = redirectWidget === "videoViewability";
         }
-        $scope.sortType     = 'view_metrics.ias_imps_delivered'; // set the default sort type
-        $scope.sortReverse  = true; // set the default sort order
+        $scope.sortType     = '-view_metrics.ias_imps_delivered'; // set the default sort type
+        $scope.sortTypeForVidView     = '-view_metrics.video_viewability_metrics.videos_deliverable_imps'; // set the default sort type
+        $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverseDefaultSelection  = true;
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {

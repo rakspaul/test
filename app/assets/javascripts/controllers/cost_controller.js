@@ -33,8 +33,9 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsTabs();
 
-        $scope.sortType     = 'impressions'; // set the default sort type
-        $scope.sortReverse  = true; // set the default sort order
+        $scope.sortType     = '-impressions'; // set the default sort type
+        $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverseDefaultSelection  = true;
 
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;

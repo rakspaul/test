@@ -42,7 +42,7 @@
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col viewability_delivered_col">
 
-                        <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_imps_delivered',sortType,sortReverse)" ng-click="sortType = 'view_metrics.ias_imps_delivered'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.DELIVERED_IMPS}}</span>
+                        <span class="icon_text_holder" ng-class="sortClassFunction('-view_metrics.ias_imps_delivered',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-view_metrics.ias_imps_delivered'; sortReverse = sortReverseDefaultSelection; sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();" >{{textConstants.DELIVERED_IMPS}}</span>
 
                     </div>
                     <div class="each_col third_col">
@@ -185,7 +185,7 @@
             <div class="viewability_details_video_mode_outer_container" ng-show="adFormats.videoAds && videoMode">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col">
-                        <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_deliverable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.videos_deliverable_imps'; sortReverse = !sortReverse;removeKpiActive();"  >{{textConstants.DELIVERED_IMPS}}</span>
+                        <span class="icon_text_holder" ng-class="sortClassFunction('-view_metrics.video_viewability_metrics.videos_deliverable_imps',sortTypeForVidView,sortReverseDefaultSelection)" ng-click="sortTypeForVidView = '-view_metrics.video_viewability_metrics.videos_deliverable_imps'; sortReverse = sortReverseDefaultSelection; sortReverseDefaultSelection = !sortReverseDefaultSelection ;removeKpiActive();"  >{{textConstants.DELIVERED_IMPS}}</span>
                     </div>
                     <div class="each_col third_col">
                         <span>{{textConstants.MEASURABLE}}</span>
@@ -322,7 +322,7 @@
                         </div>
 
                         <div class="all_strategies_holder">
-                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortType:sortReverse track by $index">
+                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortTypeForVidView:sortReverse track by $index">
                                 <div class="each_strategy clearfix">
                                     <div class="each_col first_col">
                                         {{tactic.tactic_name}}
