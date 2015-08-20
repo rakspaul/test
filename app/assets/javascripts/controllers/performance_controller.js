@@ -21,6 +21,11 @@ var angObj = angObj || {};
 
 
         $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverseFormatTab  = false;
+        $scope.sortReverseAdSizeTab  = false;
+        $scope.sortReverseCreativesTab  = false;
+        $scope.sortReverseDaysTab  = false;
+
 
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;

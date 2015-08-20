@@ -117,18 +117,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortTypebydaysofweek:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics | orderBy:sortTypebydaysofweek:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortTypebydaysofweek:sortReverse track by $index" ng-include="'daysofweekTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,18 +152,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortTypebyformats:sortReverse track by $index" ng-include="'formatTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics | orderBy:sortTypebyformats:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortTypebyformats:sortReverse track by $index" ng-include="'formatTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -190,18 +190,18 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="creativeBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortTypebycreatives:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByCreatives.tactics | orderBy:sortTypebycreatives:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByCreatives.tactics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="tactic.perf_metrics">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col" style="width:100%">
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortTypebycreatives:sortReverse track by $index" ng-include="'CreativesTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
