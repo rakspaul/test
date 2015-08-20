@@ -34,7 +34,6 @@
                     <div class="pull-left clearfix inventory_tabs" id="category_change">
                         <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories" id="inventory_category_tab">{{textConstants.CATEGORIES}}</a></span>
                         <span><a href="javascript:void(0);" _key="parentdomains" id="inventory_domains_tab">{{textConstants.DOMAINS}}</a></span>
-                        <span><a href="javascript:void(0);" _key="fulldomains" id="inventory_urls_tab">{{textConstants.URLS}}</a></span>
                     </div>
                     <div class="chart_details_cols_row inventory_chart_details_list clearfix">
                         <div class="pull-left performance_selection clearfix"
@@ -79,10 +78,10 @@
                             <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                                 <span class="row_index">{{$index + 1}}</span>
                                 <span class="url_val" title="{{stable.domain_data}}"
-                                      ng-if="(selected_filters_tab !== 'fulldomains' && selected_filters_tab !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
+                                      ng-if="(selected_filters_tab !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
 
                                 <span class="url_val" title="{{stable.domain_data}}"
-                                      ng-if="(selected_filters_tab == 'fulldomains' || selected_filters_tab == 'parentdomains' )">
+                                      ng-if="(selected_filters_tab == 'parentdomains' )">
                                     <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :15 }}</a>
                                  </span>
 
@@ -130,9 +129,9 @@
                                  ng-repeat="tableData in tactic.data track by $index">
                                 <span class="row_index">{{$index + 1}}</span>
                                 <span class="url_val" title="{{tableData.domain_data}}"
-                                      ng-if="(selected_filters_tab !== 'fulldomains' && selected_filters_tab !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>
+                                      ng-if="(selected_filters_tab !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>
                                 <span class="url_val" title="{{tableData.domain_data}}"
-                                      ng-if="(selected_filters_tab == 'fulldomains' || selected_filters_tab == 'parentdomains' )">
+                                      ng-if="(selected_filters_tab == 'parentdomains' )">
                                     <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:15}}</a>
                                  </span>
                                 <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | nrFormat}}</span>
