@@ -24,10 +24,10 @@
                     <div class="dropdown">
                         <span data-toggle="dropdown" class="dropdown_txt">{{editedData.reportType}}</span>
                         <ul class="dropdown-menu">
-                            <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.name ; show_report_type_txtbox($event)"  >{{rt.name}}</li>
+                            <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.name ;updateReportName(); "  >{{rt.name}}</li>
                         </ul>
                     </div>
-                    <input type="text" id="reportName" style="display:none;" placeholder="Report Name" class="pull-left report-type-name">
+                    <input type="text" id="reportName" ng-show="editedData.reportType == 'Custom'" ng-model="editedData.reportName" placeholder="Report Name" class="pull-left report-type-name">
                 </div>
             </div>
             <div class="pull-right campaign-dd-data">

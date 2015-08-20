@@ -179,7 +179,7 @@
       'collectiveReport-CollectiveReportModule':{deps: ['angular']},
       'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
-      'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
+      //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
 
@@ -306,7 +306,7 @@
       'collectiveReport-CollectiveReportModule':'collectiveReport/CollectiveReportModule',
       'collectiveReport-CollectiveReportListingController':'collectiveReport/CollectiveReportListingController',
       'collectiveReport-CollectiveReportModel':'collectiveReport/CollectiveReportModel',
-      'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
+      //'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
       'collectiveReport-CollectiveEditReportController':'collectiveReport/CollectiveEditReportController',
       'collectiveReport-CollectiveDeleteReportController':'collectiveReport/CollectiveDeleteReportController',
 
@@ -528,7 +528,7 @@
           'collectiveReport-CollectiveReportModule',
           'collectiveReport-CollectiveReportListingController',
           'collectiveReport-CollectiveReportModel',
-          'collectiveReport-CollectiveReportDirective',
+         // 'collectiveReport-CollectiveReportDirective',
           'collectiveReport-CollectiveEditReportController',
           'collectiveReport-CollectiveDeleteReportController'
            ],
