@@ -149,15 +149,17 @@
                                     .style("fill", "#57595b")
                                     .text(_config.kpiType);
 
-                                function addCrossHair(xCoord, yCoord) {
+                                 var addCrossHair = function(xCoord, yCoord) {
                                       // Update vertical cross hair
-                                    d3.select("#v_crosshair")
-                                        .attr("x1", xCoord)
-                                        .attr("y1", _config.height )
-                                        .attr("x2", xCoord)
-                                        .attr("y2", _config.margin.top)
-                                        .style("display", "block");
-                                  }
+                                    if(xCoord > 21) { //show crosshair inside view
+                                      d3.select("#v_crosshair")
+                                          .attr("x1", xCoord)
+                                          .attr("y1", _config.height )
+                                          .attr("x2", xCoord)
+                                          .attr("y2", _config.margin.top)
+                                          .style("display", "block");
+                                      }
+                                  };
 
                                 svg.append("g").attr("class", "crosshair").append("line").attr("id", "v_crosshair") // vertical cross hair
                                     .attr("x1", 0)
@@ -295,7 +297,7 @@
                           .attr("class", "overlay")
                           .attr("width",  _config.width)
                           .attr("height",  _config.height)
-                          .attr("transform", "translate("+(adjustment-10)+",0)")
+                          //.attr("transform", "translate("+(adjustment-10)+",0)")
                           //.on("mouseover", function() { focus.style("display", null); })
                           //.on("mouseout", function() { focus.style("display", "none"); })
                           .on("mousemove", mousemove)
