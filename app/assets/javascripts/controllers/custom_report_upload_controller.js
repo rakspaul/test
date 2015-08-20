@@ -80,8 +80,10 @@ var angObj = angObj || {};
             $(".upload_files_container").addClass("custom_report_type") ;
             elem.closest(".each-col").find("#reportName").show() ;
         } else {
-            $(".upload_files_container").removeClass("custom_report_type") ;
-            elem.closest(".each-col").find("#reportName").hide() ;
+          elem.closest(".each-col").find("#reportName").hide() ;
+          if($(".upload_files_container").find(".report-type-name:visible").length == 0 ) {
+             $(".upload_files_container").removeClass("custom_report_type") ;
+           }
         }
         elem.closest(".dropdown").find(".dropdown-menu").hide();
       };
