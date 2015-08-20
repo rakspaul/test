@@ -25,9 +25,6 @@
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
-        $(".main_navigation").find(".header_tab_dropdown").removeClass('active_tab');
-        $(".main_navigation").find("#reports_overview_tab").addClass("active_tab") ;
-
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = loginModel.getIsNetworkUser();
         var campaignList = [];
