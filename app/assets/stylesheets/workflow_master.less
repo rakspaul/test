@@ -85,10 +85,14 @@ select.form-control {
 }
 
 // BTN
-.btn, select {border-radius: 2px !important;}
+.btn, select {border-radius: 2px !important; text-decoration: none;}
 .btn-primary {background: #0978C9;}
 .btn-primary:hover {background: #2c9aec;}
 .btn-primary:active {background: #0564a9;}
+/////
+.btn-default {color: #57606d; font-size: 14px; border: 1px solid #dde6eb;}
+.btn-default:hover {background: #eef2f5;}
+.btn-default:active {color: #57606d;}
 
 // Small Toggle BTN
 .radioBtnToggle {
@@ -115,11 +119,17 @@ select.form-control {
         color: #0978c9;
       }
     }
-    .btn-default.active, .btn-default:hover {
+    .btn-default.active, .btn-default.active:hover, .btn-default:hover {
       border: 1px solid #0978c9;
       background-color: #0978c9;
       span {
         color: #fff;
+      }
+    }
+    .btn-default:hover {
+      background-color: #f5f9fd;
+      span {
+        color: #0978c9;
       }
     }
     .btn-default:first-child {
@@ -340,3 +350,27 @@ select.form-control {
   }
 }
 
+// Search Input
+.searchInput {
+  .input-group {
+    width: 100%;
+    input[type="text"] {
+      margin: 0;
+    }
+    span {
+      position: absolute;
+      z-index: 10;
+      top: 1px;
+      right: 1px;
+      button {
+        float: right;
+        margin: 0 !important;
+        border-width: 0;
+        cursor: pointer;
+        .glyphicon {
+          position: inherit;
+        }
+      }
+    }
+  }
+}
