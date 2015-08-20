@@ -26,7 +26,7 @@
                             .scale(xScale)
                             .orient("bottom")
                             .ticks(_config.keys.xAxis.ticks)
-                            .tickFormat(d3.time.format("%d %b"))
+                            .tickFormat(d3.time.format("%_d %b"))
                             .tickSize(0);
 
                         //.tickValues(_config.keys.xAxis.tickValues)
@@ -812,26 +812,29 @@
                           adjustment = 30;
                         }
 
-                        svg.append("svg:g")
+                        var xTicks = svg.append("svg:g")
                             .attr("class", "x axis")
                             .attr("transform", "translate("+adjustment+"," + height + ")")
-                        .call(_config.xAxisGen)
-                          .selectAll('.x .tick text') // select all the x tick texts
-                        .call(function(t){
-                          t.each(function(d){ // for each one
-                            var self = d3.select(this);
-                            var s = self.text().split(' ');  // get the text and split it
-                            self.text(''); // clear it out
-                            self.append("tspan") // insert two tspans
-                              .attr("x", 0)
-                              .attr("dy","1em")
-                              .text(s[0]);
-                            self.append("tspan")
-                              .attr("x", 0)
-                              .attr("dy","1.1em")
-                              .text(s[1]);
-                          })
-                      });
+                        .call(_config.xAxisGen);
+
+                        if(_config.isPerformanceChart) {
+                              xTicks.selectAll('.x .tick text') // select all the x tick texts #909BAB
+                              .call(function(t){
+                                t.each(function(d){ // for each one
+                                  var self = d3.select(this);
+                                  var s = self.text().split(' ');  // get the text and split it
+                                  self.text(''); // clear it out
+                                  self.append("tspan") // insert two tspans
+                                    .attr("x", 0)
+                                    .attr("dy","1em")
+                                    .text((s[0]!="")?s[0]:s[1]);
+                                  self.append("tspan")
+                                    .attr("x", 0)
+                                    .attr("dy","1.1em")
+                                    .text((s[0]!="")?s[1]:s[2]);
+                                    })
+                                });
+                        } //end of type check
 
                         svg.append("svg:g")
                             .attr("class", "y axis")
