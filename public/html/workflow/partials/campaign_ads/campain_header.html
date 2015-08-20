@@ -1,0 +1,49 @@
+<div class="col-md-12 zeroPadding campSettingOverView">
+    <div class="col-md-3 campTitleWrap">
+        <!--Abi for this part they just want the letter not the word "DRAFT" instead "D"-->
+        <!--<span class="label label-warning">{{workflowData.campaignData.status}}</span>-->
+        <span class="label label-warning">{{workflowData.campaignData.status}}</span>
+
+        <h1 class="pull-left zeroMargin">
+            {{workflowData.campaignData.name}}
+        </h1>
+    </div>
+    <div class="col-md-1 borderZero">
+        <label>Goal</label>
+
+        <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}"
+             aria-hidden="true"></div>
+        <span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
+    </div>
+    <div class="col-md-1 borderZero">
+        <label>Total Budget</label>
+        <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
+    </div>
+    <div class="col-md-2 borderZero">
+        <label>Flight Dates</label>
+                        <span ng-if="workflowData.campaignData.startTime">{{utc(workflowData.campaignData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'MMM dd, yyyy'}}  <span
+                                ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
+    </div>
+    <div class="col-md-2">
+        <label>Pricing Model</label>
+        <span class="disabledTxt">Cost Per Viewable Impression</span>
+    </div>
+    <div class="col-md-3 borderZero">
+        <div class="col-md-3 zeroPadding">
+            <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</label>
+            <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
+        </div>
+        <div class="col-md-3 zeroPadding borderZero">
+            <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Ad Groups</label>
+            <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
+        </div>
+        <div class="col-md-3 zeroPadding borderZero">
+            <label class="col-md-12 zeroPadding text-center">Ads</label>
+            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount}}</span>
+        </div>
+        <div class="col-md-3 zeroPadding borderZero">
+            <label class="col-md-12 zeroPadding text-center">Creatives</label>
+            <span class="col-md-12 zeroPadding text-center">0</span>
+        </div>
+    </div>
+</div>
