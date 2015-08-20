@@ -90,7 +90,50 @@ select.form-control {
 .btn-primary:hover {background: #2c9aec;}
 .btn-primary:active {background: #0564a9;}
 
-// Toggle BTN
+// Small Toggle BTN
+.radioBtnToggle {
+  .miniToggle {
+    margin-top: 5px;
+    label {
+      position: relative;
+      span {
+        width: 100%;
+        text-align: center;
+      }
+    }
+    input[type="text"] {
+      width: 150px;
+      margin: 0px 15px;
+      float: left;
+      border: 1px solid #0978c9 !important;
+    }
+    .btn-default {
+      border: 1px solid #0978c9 !important;
+      border-radius: 2px !important;
+      width: 120px;
+      span {
+        color: #0978c9;
+      }
+    }
+    .btn-default.active, .btn-default:hover {
+      border: 1px solid #0978c9;
+      background-color: #0978c9;
+      span {
+        color: #fff;
+      }
+    }
+    .btn-default:first-child {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+    .btn-default:last-child {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+  }
+}
+
+// Big Toggle BTN
 .goalBtnGroup {
   .btn-primary {
     border-radius: 2px;
