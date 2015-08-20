@@ -4,7 +4,7 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants,$modal) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants,$modal,dataStore) {
         $scope.report = report;
         $scope.ediScreenBusy = false;
         $scope.editedObj = angular.copy(report);
@@ -32,6 +32,7 @@
                 $scope.editedObj.campaignId = $scope.editedData.campaignId
                 $scope.editedObj.notes = $scope.editedData.notes;
                 $scope.reportList[reportIndex] = $scope.editedObj;
+                console.log($scope.reportList);
                 $scope.ediScreenBusy = false;
                 $scope.close();
                 $scope.flashMessage.message = constants.reportEditSuccess;
@@ -42,24 +43,9 @@
             });
         }
 
-        $scope.deleteReport = function() {
-            if (confirm('Are you sure you want to delete this?')) {
-                $scope.ediScreenBusy = true;
-                //delete file -- server request
-                collectiveReportModel.deleteReport(report.id, function(response){
-                    if(response.status_code == 200) {
-                        $scope.reportList.splice(reportIndex, 1);
-                        $scope.ediScreenBusy = false;
-                        $scope.flashMessage.message = constants.reportDeleteSuccess;
-                        //$scope.message.success = "Report Deleted Successfully";
-                    } else {
-                        //$scope.editMessage.error = "Error Deleting the Report";
-                        $scope.ediScreenBusy = false;
-                        $scope.flashMessage.message = constants.reportDeleteFailed;
-                        $scope.flashMessage.isErrorMsg = true;
-                    }
-                    $scope.close();
-                });
+        $scope.updateReportName = function() {
+            if($scope.editedData.reportType != 'Custom') {
+                $scope.editedData.reportName = "";
             }
         }
 
@@ -81,8 +67,13 @@
                             collectiveReportModel.deleteReport(report.id, function (response) {
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(reportIndex, 1);
+                                    //to avoid listing report getting encached, remove that url from cache.
+                                    var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
+                                    var url = urlService.APIReportList(selectedCampaginObj.id);
+                                    if(url) {
+                                        dataStore.deleteFromCache(url);
+                                    }
                                     $scope.flashMessage.message = constants.reportDeleteSuccess;
-                                    console.log('collective report listing ctrl: ',$scope.flashMessage.message);
                                 } else {
                                     $scope.flashMessage.message = constants.reportDeleteFailed;
                                     $scope.flashMessage.isErrorMsg = true;

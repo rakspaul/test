@@ -3,7 +3,7 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
@@ -56,18 +56,13 @@
                 windowClass: 'edit-dialog',
                 resolve: {
                     report: function () {
-                        console.log('reportlistingController:',$scope.reportList[index]);
                         return $scope.reportList[index];
                     },
                     reportIndex: function() {
                         return index;
                     },
                     reportList: function() {
-                        console.log($scope.reportList)
                         return $scope.reportList;
-                    },
-                    updateFlashMsg: function() {
-
                     }
                 }
             });
@@ -87,17 +82,19 @@
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        console.log($scope.reportList[index]);
-                        return "Please note that this action affects "+ $scope.reportList[index].fileName+"'s.  Report will be deleted for both you and the marketer."
+                        return "Please note that this action affects '"+ $scope.reportList[index].fileName+"'. The report will be deleted for both you and the marketer."
                     },
                     deleteAction: function() {
-                        console.log("delete action: ",reportId);
                         return function() {
                             collectiveReportModel.deleteReport(reportId, function (response) {
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(index, 1);
                                     $scope.flashMessage.message = constants.reportDeleteSuccess;
-                                    console.log('collective report listing ctrl: ',$scope.flashMessage.message);
+                                    var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
+                                    var url = urlService.APIReportList(selectedCampaginObj.id);
+                                    if(url) {
+                                        dataStore.deleteFromCache(url);
+                                    }
                                 } else {
                                     $scope.flashMessage.message = constants.reportDeleteFailed;
                                     $scope.flashMessage.isErrorMsg = true;
@@ -114,7 +111,6 @@
             //$scope.reportDownloadBusy = true;
                 $scope.screenBusy = true;
             dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
-                console.log("Response Status: ", response.status);
                 if (response.status === "success") {
                     //$scope.reportDownloadBusy = false;
                     $scope.screenBusy = false;
