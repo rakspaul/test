@@ -4908,26 +4908,39 @@ div.reports_tabs_content_container {
   .breadcrumb_nav_strategy {
     display: none;
   }
+  .title1 { 
+    h3 {
+      margin-top: 28px;
+    }
+  }
   /*end of hided for now through css */
   .each-col {
     margin-right: 35px ;
     white-space: nowrap;
     overflow: hidden;
     text-overflow : ellipsis ;
-
+    cursor: pointer;
+    &:hover {
+      .common-sort-icon {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
+      }
+    }
+  }
+  .each-col.active , .each-col.active:hover {
+    color : #0978c9 ;
   }
   .nav_filters {
     margin-bottom: 30px ;
   }
   .update-time-col {
-    width: 62px ;
+    width: 68px ;
   }
   .report-type-col {
-    width: 80px ;
+    width: 90px ;
     
   }
   .campaign-col {
-    width : 520px ;
+    width : 506px ;
   }
   .author-col {
     width: 140px ;
@@ -5149,10 +5162,32 @@ div.reports_tabs_content_container {
   margin: 20px auto 0 ;
   display: block;
 }
+/* end of common loading icon */
 .edit-dialog .modal-dialog {
     width :710px ;
 }
 .delete-dialog .modal-dialog {
     width :464px ;
 }
-/* end of common loading icon */
+/*common sort icon */
+.common-sort-icon {
+  display: inline-block;
+  height: 13px;
+  width: 10px;
+  margin-left: 5px;
+}
+/*.common-sort-icon.ascending {*/
+    /*background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;*/
+/*}*/
+/*.common-sort-icon.descending {*/
+    /*background : url("/assets/images/cdesk/sprites.png") no-repeat  -430px -351px;*/
+/*}*/
+.active , .active:hover {
+  .common-sort-icon.ascending {
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -414px;
+  }
+  .common-sort-icon.descending {
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px;
+  }
+}
+/*end of common sort icon */
