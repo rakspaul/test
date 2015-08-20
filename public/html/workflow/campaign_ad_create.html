@@ -10,7 +10,7 @@
                         <span class="label label-warning">{{workflowData.campaignData.status}}</span>
 
                         <h1 class="pull-left zeroMargin">
-                            {{workflowData.campaignData.name}}
+                            {{workflowData.campaignData.name | textEllipsis}}
                         </h1>
                     </div>
                     <div class="col-md-1 borderZero">
@@ -776,7 +776,7 @@
                                                             </td>
                                                             <td>
                                                                 <span class="col-md-8">{{creativeData.name}}</span>
-                                                                <a class="col-md-8" href="" ng-click="ShowHide()">View Tag</a>
+                                                                <a class="col-md-8" href="" ng-click="ShowHide(this)">View Tag</a>
 
                                                                 <div style="width:350px;word-wrap:break-word;height:100px;">
                                                                     <div ng-show="IsVisible" class="ng-cloak">
