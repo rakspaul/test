@@ -352,11 +352,11 @@
                                             <div class="row zeroPadding budgetWrap radioBtnToggle">
                                                 <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">Choose how we calculate your budget</label>
-												<div class="btn-group" data-toggle="buttons">
-                                                    <label class="btn btn-default">Impressions
+												<div class="btn-group miniToggle">
+                                                    <label class="btn btn-default active"><span>Impressions</span>
                                                     <input type="radio" name="budgetType" group="budgetGroup"
                                                            value="Impressions" class="btn_rad"
-                                                           ng-model="adData.budgetImpressionType"
+                                                           ng-model="adData.budgetImpressionType" hidden="hidden"
                                                            ng-click="adData.budgetMediaCostType = null; adData.mediaCostValue = ''">
                                                     <!--<input type="text" ng-disabled="!adData.budgetImpressionType"
                                                            id="impressionInp" name="budgetValue1" group="budgetGroup"
@@ -365,9 +365,9 @@
                                                            placeholder="Enter Value">-->
 													</label>
 						    
-                                                    <label class="btn btn-default">Media Cost
+                                                    <label class="btn btn-default"><span>Media Cost</span>
                                                     <input type="radio" name="budgetType" value="Cost" class="btn_rad"
-                                                           ng-model="adData.budgetMediaCostType"
+                                                           ng-model="adData.budgetMediaCostType" hidden="hidden"
                                                            ng-click="adData.budgetImpressionType = null; adData.ImpressionsValue = ''">
                                                     <!--<input type="text" ng-disabled="!adData.budgetMediaCostType"
                                                            id="mediaCostInp" name="budgetValue1" class="form-control"
@@ -398,37 +398,37 @@
 											<div class="row zeroPadding unitCostTwo radioBtnToggle">
 												<div class="col-md-2 zeroPadding">
 												<label class="col-sm-12 control-label greyTxt miniLabels">Set up Cap</label>
-												<div class="btn-group" data-toggle="buttons">
-												<label class="btn btn-default" style="width: auto;">Yes
-												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad">
+												<div class="btn-group miniToggle">
+												<label class="btn btn-default active" style="width: auto;"><span>Yes</span>
+												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad" hidden="hidden">
 												</label>
 												
-												<label class="btn btn-default" style="width: auto;">No
-												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad">
+												<label class="btn btn-default" style="width: auto;"><span>No</span>
+												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad" hidden="hidden">
 												</label>
 												</div>
 											</div>				
 											<div class="col-md-4 zeroPadding">
 												<label class="col-sm-12 control-label greyTxt miniLabels">Type of Cap</label>
-												<div class="btn-group" data-toggle="buttons">
-												<label class="btn btn-default">Impressions
-												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad">
+												<div class="btn-group miniToggle">
+												<label class="btn btn-default active"><span>Impressions</span>
+												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad" hidden="hidden">
 												</label>
 												
-												<label class="btn btn-default">Cost
-												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad">
+												<label class="btn btn-default"><span>Cost</span>
+												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad" hidden="hidden">
 												</label>
 												</div>
 											</div>
 											<div class="col-md-2 zeroPadding">
 												<label class="col-sm-12 control-label greyTxt miniLabels">Cap by User</label>
-												<div class="btn-group" data-toggle="buttons">
-												<label class="btn btn-default" style="width: auto;">Yes
-												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad">
+												<div class="btn-group miniToggle">
+												<label class="btn btn-default active" style="width: auto;"><span>Yes</span>
+												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad" hidden="hidden">
 												</label>
 												
-												<label class="btn btn-default" style="width: auto;">No
-												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad">
+												<label class="btn btn-default" style="width: auto;"><span>No</span>
+												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad" hidden="hidden">
 												</label>
 												</div>
 											</div>
@@ -451,14 +451,16 @@
 											<div class="col-md-6 zeroPadding">
 												<div class="col-md-12 adHeader">How should your Ad deliver?</div>
 												<label class="col-sm-12 control-label greyTxt miniLabels">Pacing</label>
-												<div class="btn-group" data-toggle="buttons">
-												<label class="btn btn-default" style="width: auto;">Pace Evenly
-												<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad">
-												</label>
-												
-												<label class="btn btn-default" style="width: auto;">Spend as fast as possible
-												<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad">
-												</label>
+												<div class="btn-group miniToggle">
+													<label class="btn btn-default active" style="width: auto;">
+														<span>Pace Evenly</span>
+														<input type="radio" name="setUpCap" group="budgetGroup" value="Yes" class="btn_rad" hidden="hidden">
+													</label>
+													
+													<label class="btn btn-default" style="width: auto;">
+														<span>Spend as fast as possible</span>
+														<input type="radio" name="setUpCap" group="budgetGroup" value="No" class="btn_rad" hidden="hidden">
+													</label>
 												</div>
 											</div>
 										</div>
@@ -728,10 +730,37 @@
 
                                         <!-- Tabs Targeting -->
                                         <div class="tab-pane fade" id="targetting">
-                                            <div class="col-md-6 zeroPadding">
-                                                <h2 class="col-md-12 zeroPadding marginBottom">Targeting</h2>
-                                                <a href="javascript:void(0);">Help Link...</a>
+                                            <div class="col-md-7 zeroPadding">
+                                                <h2 class="col-md-12 zeroPadding marginBottom">Select Your Target Audience <a>or Choose a saved preset</a></h2>
+                                                <a href="javascript:void(0);">Which target audience should I choose for my ad?</a>
                                             </div>
+											<div class="col-md-12 zeroPadding">
+												<a href="" class="addTargetBtn"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Targeting</a>
+											</div>
+											
+											<div class="col-md-12 zeroPadding">
+												<div class="dropdown">
+													<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+														Select Target
+														<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+														<li><a href="#">Geography</a></li>
+														<li><a href="#">Behavior</a></li>
+														<li><a href="#">Demographics</a></li>
+														<li><a href="#">Interests</a></li>
+														<li><a href="#">Technology</a></li>
+														<li><a href="#">Context</a></li>
+														<li><a href="#">Other</a></li>
+													</ul>
+												</div>
+											</div>
+											
+											<div class="col-md-12 zeroPadding">
+												<div class="col-md-12">
+													
+												</div>
+											</div>
 
 
                                             <!--=== Next Step Panel ===-->
