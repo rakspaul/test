@@ -1090,7 +1090,7 @@
     .nextWrapper {
       position: absolute;
       left: 0;
-      bottom: 0;
+      bottom: -58px;
       background: #fff;
       border-top: 1px solid #D0D0D0;
       height: 30px;
@@ -1186,6 +1186,145 @@
       font-size: 15px;
       text-decoration: none;
       margin-top: 20px;
+    }
+    .ddlSetTarget {
+      margin-top: 20px;
+    }
+    .selectWrap {
+      border: 1px solid #E6E6E6;
+      padding: 20px !important;
+      margin-top: 20px;
+      h2 {
+        float: left;
+        width: 100%;
+        margin: 0;
+        color: #21252b;
+        font-size: 18px;
+        span {
+          color: #939ead !important;
+          font-size: 14px;
+          margin: 0 5px;
+        }
+      }
+      .searchInput {
+        float: left;
+        width: 100%;
+        border-left: 1px solid #dde6eb;
+        border-right: 1px solid #dde6eb;
+        padding: 20px;
+        .geoTypeResult {
+          float: left;
+          margin-top: 20px;
+        }
+      }
+      .col-md-12 {
+        .btn {
+          margin-top: 20px;
+        }
+      }
+      .tabbable {
+        .nav-tabs {
+          margin-top: 20px;
+          float: left;
+          width: 100%;
+          li {
+            background: #f5f9fd;
+            border-radius: 0px;
+            border-top: 1px solid #dde6eb;
+            border-right: 1px solid #dde6eb;
+            border-bottom: 1px solid #dde6eb;
+            a {
+              margin: 0;
+              border-width: 0;
+              background-color: transparent;
+            }
+          }
+          li.active {
+            background: #fff;
+            border-bottom: 0px;
+            a {
+              background: #fff;
+              margin-top: 1px;
+            }
+          }
+          li:first-child {
+            border-top-left-radius: 2px;
+            border-left: 1px solid #dde6eb;
+          }
+        }
+        .tab-pane {
+          border-left: 1px solid #dde6eb;
+          border-bottom: 1px solid #dde6eb;
+          border-right: 1px solid #dde6eb;
+          padding: 20px;
+          min-height: 300px;
+        }
+        textarea {
+          min-height: 300px;
+        }
+      }
+      .selectedTables {
+        .col-md-12 {
+          padding-right: 0;
+          .table {
+            margin-top: 20px;
+            thead {
+              border-width: 0;
+              .col-md-8 {
+                color: #939ead;
+              }
+              .col-md-4{
+                a {
+                  cursor: pointer;
+                }
+              }
+            }
+            th, td {
+              padding: 8px 0;
+              background: #fff !important;
+            }
+            th:last-child, td:last-child {
+              text-align: right;
+            }
+            .child {
+              margin-left: 20px;
+            }
+            td a {
+              color: #939ead;
+              cursor: pointer;
+            }
+            .glyphicon {
+              color: #0978c9;
+            }
+            .glyphicon.child {
+              color: #939ead;
+            }
+          }
+          h5 {
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #21252b;
+            margin: 25px 0;
+            font-family: 'Avenir';
+          }
+        }
+      }
+    }
+    .tab-pane {
+      padding-top: 0 !important;
+      .table {
+        thead {
+          display: none;
+        }
+        tbody {
+          tr {
+            td {
+              padding: 10px 0 10px 5px !important;
+            }
+          }
+        }
+      }  
     }
   }
   .form-group {
