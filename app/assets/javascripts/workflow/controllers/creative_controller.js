@@ -55,8 +55,15 @@ var angObj = angObj || {};
                     var postCrDataObj = {};
 
 
-                    var matchPattern = new RegExp(/<script|SCRIPT [A-Za-z]*https:.*[A-Za-z]*>[A-Za-z]*https:.*[A-Za-z]*<\/script|SCRIPT>/)
+                   // var matchPattern = new RegExp(/<script|SCRIPT [A-Za-z]*https:.*[A-Za-z]*>[A-Za-z]*https:.*[A-Za-z]*<\/script|SCRIPT>/)
+                   //var matchPattern = new RegExp('<script .*https:.*<\/script>.*','i');
+                   var matchPattern = new RegExp(/<script>.*https:.*<\/script>.*/);
                     if (!formData.tag.match(matchPattern)) {
+//                    if(formData.tag.indexOf('https://') === -1){ console.log("incorect")
+//                        $scope.IncorrectTag = true;
+//                        $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
+//                        console.log("Incorrect tag");
+//                    }
                         $scope.IncorrectTag = true;
                         $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
                         console.log("Incorrect tag");
@@ -78,7 +85,7 @@ var angObj = angObj || {};
                                 console.log("creative added");
                                 $scope.addedSuccessfully = true;
                                 $scope.Message = "Creative Added Successfully";
-                                $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%"}, 'slow');
+                                $scope.cancelBtn();// redirect user after successful saving
 
                             }
                             else {
