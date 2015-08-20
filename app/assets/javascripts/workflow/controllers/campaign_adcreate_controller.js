@@ -246,8 +246,8 @@ var angObj = angObj || {};
         });
 
         // Create AD Tab Animation
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            $('a[data-toggle="tab"]').parents("li").removeClass('active');
+        $('.leftNavLink').on('shown.bs.tab', function (e) {
+            $('.leftNavLink').parents("li").removeClass('active');
             $(this).parents('li').addClass('active');
 
             var target = $(this).attr('href');
