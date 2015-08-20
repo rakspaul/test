@@ -1,0 +1,232 @@
+<div class="col-md-6 zeroPadding">
+    <h2 class="col-md-12 zeroPadding marginBottom">Buying Platform</h2>
+    <a href="javascript:void(0);">{{
+        textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
+</div>
+
+<div class="buyingPlatformHolder">
+    <div class="col-md-12 zeroPadding">
+        <div class="col-md-2 platformHolder"
+             ng-repeat="platform in workflowData.platforms">
+            <span>{{platform.name}}</span><br/>
+            <img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png"/><br/>
+            <input type="radio" name="platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click="adData.platformId = platform.id">
+        </div>
+    </div>
+    <input type="hidden" name="platformId" value="{{adData.platformId }}">
+
+    <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0px">
+        <span>{{ textConstants.WF_MORE_PLATFORM }}</span>
+    </div>
+</div>
+<!-- buying platform holder ends -->
+
+<!-- Collective media screen Holder -->
+<div class="platformWrap collectMediaScreenHolder">
+    <div class="col-md-12 platformHeading">
+        <div class="col-md-8 zeroPadding">
+            <a href="javascript:void(0);" class="editPlatform"> Buying
+                Platform</a> > {{ textConstants.WF_COLLECTIVE_MEDIA }}<br/>
+            <img src="/assets/images/cdesk/logo_C.png" alt="" class="pull-left"/>
+        </div>
+        <div class="col-md-4 zeroPadding text-right">
+            <a href="javascript:void(0);">Learn more about defining your
+                strategy</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <span class="">{{ textConstants.WF_DELIVERY_PACING }}</span>
+        <a href="javascript:void(0);">{{
+            textConstants.WF_HEADER_DELIVERY_FREQUENCY }}</a>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-2 zeroPadding">{{ textConstants.WF_PRIORITY}}
+        </div>
+        <div class="form-group col-md-4">
+            <select id="unitcost" class="form-control">
+                <option ng-repeat="unitcost in unitcosts">{{unitcost}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <select id="unitcost" class="form-control">
+                <option ng-repeat="unitcost in unitcosts">{{unitcost}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-2 zeroPadding">{{
+            textConstants.WF_DELIVER_IMPRESSIONS }}
+        </div>
+        <div class="form-group col-md-4">
+            <select id="unitcost" class="form-control">
+                <option ng-repeat="unitcost in unitcosts">{{unitcost}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-2 zeroPadding">{{
+            textConstants.WF_DELIVER_FREQUENCY }}
+        </div>
+        <div class="form-group col-md-1">
+            <input type="checkbox" value="set">
+        </div>
+        <div class="form-group col-md-5 zeroPadding">
+            {{ textConstants.WF_SET_FREQUENCY_CAP }}
+        </div>
+    </div>
+
+    <div class="col-md-12 showImpressionCap">
+        <div class="col-md-4 zeroPadding">
+            <input type="text">
+        </div>
+        <div class="form-group col-md-3 zeroPadding">{{
+            textConstants.WF_IMPRESSION_PER }}
+        </div>
+        <div class="form-group1 col-md-4">
+            <select id="unitcost" class="form-control">
+                <option ng-repeat="unitcost in unitcosts">{{unitcost}}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>
+<!-- Collective media screen holder Ends -->
+
+<!-- Collective Bidder Holder -->
+<div class="platformWrap collectBidderScreenHolder">
+    <div class="col-md-12 platformHeading zeroPadding">
+        <div class="col-md-8 zeroPadding">
+            <a href="javascript:void(0);" class="editPlatform"> Buying
+                Platform</a> > Bidding Strategy<br/>
+
+            <img src="/assets/images/cdesk/logo_C_bidder.png"
+                 class="pull-left"/>
+            <span class="col-md-6">Collective Bidder</span>
+
+        </div>
+        <div class="col-md-4 zeroPadding text-right">
+            <a href="javascript:void(0);">Learn more about defining your
+                strategy</a>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 zeroPadding">
+        <div class="col-md-2 zeroPadding">Ad Type</div>
+        <div class="form-group col-md-6 zeroPadding">
+            <select class="form-control">
+                <option>Click Optimized</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <a href="javascript:void(0);"
+           class="showPreset col-md-4 btn btn-link">Show Preset</a>
+    </div>
+
+    <div class="col-md-12 presetGreyBox">
+        <div class="form-group col-md-2">
+            <label for="minBid">Min. Bid</label>
+            <input type="text" class="form-control" id="minBid"
+                   value="0.01">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="maxCost">Max Cost</label>
+            <input type="text" class="form-control" id="maxCost" value="10">
+        </div>
+        <br/>
+
+        <div class="form-group col-md-12 zeroPadding">
+            <div class="col-md-5 zeroPadding">
+                <label class="col-md-12" for="blackPeriod">Blackout
+                    Period</label>
+
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="blackPeriod"
+                           value="1">
+                </div>
+                <div class="form-group col-md-4">
+                    <select class="form-control">
+                        <option>Days</option>
+                        <option>Weeks</option>
+                        <option>Months</option>
+                        <option>Years</option>
+                    </select>
+                </div>
+                                                            <span class="glyphicon glyphicon-info-sign pull-left"
+                                                                  aria-hidden="true"></span>
+            </div>
+
+            <div class="col-md-5 zeroPadding">
+                <label class="col-md-12" for="rampPeriod">Ramp
+                    Duration</label>
+
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" id="rampPeriod"
+                           value="0">
+                </div>
+                <div class="form-group col-md-4">
+                    <select class="form-control">
+                        <option>Days</option>
+                        <option>Weeks</option>
+                        <option>Months</option>
+                        <option>Years</option>
+                    </select>
+                </div>
+                                                            <span class="glyphicon glyphicon-info-sign pull-left"
+                                                                  aria-hidden="true"></span>
+            </div>
+            <div class="col-md-12">
+                <a href="javascript:void(0);" class="pull-right text-right">Reset</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-md-12 zeroPadding">
+        <div class="col-md-5 zeroPadding">
+            <label class="col-md-4">Performance Objective</label>
+            <span class="col-md-8">Clicks</span>
+        </div>
+
+        <div class="col-md-5 zeroPadding">
+            <label class="col-md-12" for="marginGoal">Margin Goal</label>
+
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" id="marginGoal"
+                       value="0">
+            </div>
+            <span class="pull-left">%</span>
+        </div>
+    </div>
+</div>
+<!-- Collective Bidder Holder Ends -->
+
+<!-- App Nexus Holder -->
+<div class="platformWrap collectNexusScreenHolder">
+    <div class="col-md-12 platformHeading">
+        <div class="col-md-8 zeroPadding">
+            <a href="javascript:void(0);" class="editPlatform"> Buying
+                Platform</a> > App Nexus <br/>
+            <img src="/assets/images/cdesk/logo_C_appnexus.png" alt=""
+                 class="pull-left"/>
+        </div>
+        <div class="col-md-4 zeroPadding text-right">
+            <a href="javascript:void(0);">Learn more about defining your
+                strategy</a>
+        </div>
+    </div>
+
+</div>
+<!-- App Nexus Holder Ends -->
+
+<!--=== Next Step Panel ===-->
+<a href="#targetting" data-toggle="tab" class="nextWrapper">
+    <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+</a>
