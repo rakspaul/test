@@ -1,0 +1,122 @@
+<!-- Left Menu Column Starts -->
+    <div class="pull-left campaign_name_holder">
+        <h1 class="campaign_name">Create Ad</h1>
+        <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
+            <li class="active">
+                <a href="#adType" role="tab" data-toggle="tab" id="adType-tab" ng-click="closeBtnCreative()">1 Select Ad Type</a>
+                <div class="col-md-12 zeroPadding">
+                    <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
+                        <div class="col-md-12">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.adFormat">
+                        <div class="col-md-12">
+                            <img ng-src="/assets/images/workflow/{{getAdFormatIconName(adData.adFormat)}}.svg" alt="" width="12" class="statusIcon"/>
+                            <span>{{adData.adFormat}}</span>
+                            <span>(Format)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.goal">
+                        <div class="col-md-12">
+                            <img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg" alt="" width="12" class="statusIcon"/>
+                            <span>{{adData.goal}}</span>
+                            <span>(Goal)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
+                        <div class="col-md-12">
+                            <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
+                                <img ng-src="/assets/images/workflow/{{screenType.name}}.svg" alt="" width="12" class="statusIcon"/>
+                                <span>{{screenType.name}}</span><span>(Screen)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#setting" role="tab" data-toggle="tab" id="setting-tab" ng-click="closeBtnCreative()">2 Budget & Delivery</a>
+
+                <div>
+                    <div class="statusLabel disabled"
+                         ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue">
+                        <div class="col-md-12">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.startTime">
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            <span>{{adData.startTime}} - {{adData.endTime}}</span>
+                            <span>(Flight)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.unitCost  &&  adData.unitType.name">
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                            <span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
+                            <span>(unit cost)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel"
+                         ng-if="(adData.budgetType && adData.budgetAmount)">
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                            <span>{{adData.budgetAmount | number }}</span>
+                            <span>{{adData.budgetType}} </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#buying" role="tab" data-toggle="tab" id="buying-tab" ng-click="closeBtnCreative()">3 Buying Platform</a>
+                <div>
+                    <div class="statusLabel disabled" ng-if="!adData.platform">
+                        <div class="col-md-12">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel disabled" ng-if="adData.platform">
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                            <span>{{adData.platform}}</span>
+                            <span>(platform)</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#targetting" role="tab" data-toggle="tab" id="targetting-tab" ng-click="closeBtnCreative()">4 Targeting</a>
+                <div>
+                    <div class="statusLabel disabled">
+                        <div class="col-md-12">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#creative" role="tab" data-toggle="tab" id="creative-tab" ng-click="closeBtnCreative()">5 Ad Sizes /
+                    Creatives</a>
+                <div>
+                    <div class="statusLabel disabled">
+                        <div class="col-md-12">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="#inventory" role="tab" data-toggle="tab" id="inventory-tab" ng-click="closeBtnCreative()">6 Inventory Filters</a>
+                <div>
+                    <div class="statusLabel disabled">
+                        <div class="col-md-12">
+                            <span>Not Set</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+<!-- Left Menu Column Ends -->
