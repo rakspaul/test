@@ -74,7 +74,11 @@
                 var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives?creativeFormat='+format;
                 console.log("url:"+url);
                 return dataService.fetch(url);
+            },
+            updateCreative : function(clientId,adId,id,data) {
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives/'+id, data, {'Content-Type': 'application/json'})
             }
+
         };
 
     });
