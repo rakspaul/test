@@ -4,7 +4,7 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants,$modal) {
         $scope.report = report;
         $scope.ediScreenBusy = false;
         $scope.editedObj = angular.copy(report);
@@ -62,10 +62,43 @@
                 });
             }
         }
+
+        $scope.deleteReportModal = function() {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_delete_collective_report,
+                controller:"CollectiveDeleteReportController",
+                scope:$scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    headerMsg: function() {
+                        return constants.deleteReportHeader;
+                    },
+                    mainMsg: function() {
+                        return "Please note that this action affects "+ $scope.reportList[reportIndex].fileName+"'s.  Report will be deleted for both you and the marketer."
+                    },
+                    deleteAction: function() {
+                        return function() {
+                            collectiveReportModel.deleteReport(report.id, function (response) {
+                                if (response.status_code == 200) {
+                                    $scope.reportList.splice(reportIndex, 1);
+                                    $scope.flashMessage.message = constants.reportDeleteSuccess;
+                                    console.log('collective report listing ctrl: ',$scope.flashMessage.message);
+                                } else {
+                                    $scope.flashMessage.message = constants.reportDeleteFailed;
+                                    $scope.flashMessage.isErrorMsg = true;
+                                }
+                            });
+                            $scope.close();
+                        }
+                    }
+                }
+            });
+        };
+
         $scope.show_report_type_txtbox = function(event) {
 
             var elem = $(event.target);
-            
+
             elem.closest(".dropdown").find(".dropdown_txt").text(elem.text()) ;
             if( elem.text() == "Custom" ) {
                 elem.closest(".data_row").addClass("custom_report_type") ;
@@ -74,7 +107,7 @@
                 elem.closest(".data_row").removeClass("custom_report_type") ;
                 elem.closest(".data_row").find("#reportName").hide() ;
             }
-            
+
           };
 
         $scope.selectedCampaignObj = campaignSelectModel.getSelectedCampaign();

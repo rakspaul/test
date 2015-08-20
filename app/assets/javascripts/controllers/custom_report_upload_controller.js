@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel, brandsModel) {
+    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel, brandsModel, $modal) {
 
       $scope.textConstants = constants;
       $scope.completed = false;
@@ -9,13 +9,22 @@ var angObj = angObj || {};
       //$scope.brandId = "-1";
       $scope.successMsg = false;
       $scope.errorMsg = false;
+      $scope.deleteSuccessMsg = false;
+      $scope.deleteErrorMsg = false;
+
       $scope.disabledUpload = false;
 
-      $scope.closeMessage = function(){
-        $('.top_message_box').css({'display':'none'});
-        $scope.rejFiles = [];
+      $scope.resetMessages = function(){
         $scope.successMsg = false;
         $scope.errorMsg = false;
+        $scope.deleteSuccessMsg = false;
+        $scope.deleteErrorMsg = false;
+      }
+
+      $scope.closeMessage = function(){
+        //$('.top_message_box').css({'display':'none'});
+        $scope.rejFiles = [];
+        $scope.resetMessages();
       };
 
       $scope.campaignList = [{ id: -1, name : 'Loading...'}];
@@ -176,6 +185,7 @@ var angObj = angObj || {};
 
                             }).success(function (data, status, headers, config) {
                               $scope.loaded++;
+                              $scope.resetMessages();
                               $scope.successMsg = true;
                               $scope.rejFiles = [];
                               $scope.uploadedCount++;
@@ -192,6 +202,7 @@ var angObj = angObj || {};
                               $scope.loaded++;
                               $scope.errorCount++;
                               $scope.rejFiles = [];
+                              $scope.resetMessages();
                               $scope.errorMsg = true;
                               file.status ="error";
                               //console.log(data);
@@ -219,8 +230,7 @@ var angObj = angObj || {};
               $scope.total = 1;
               $scope.uploadedCount = 0;
               $scope.errorCount = 0;
-              $scope.errorMsg = false;
-              $scope.successMsg = false;
+              $scope.resetMessages();
                   if(file.status === undefined || file.status!= "success") {
                       (function(file) {
                           Upload.upload({
@@ -247,6 +257,7 @@ var angObj = angObj || {};
 
                           }).success(function (data, status, headers, config) {
                             $scope.loaded++;
+                            $scope.resetMessages();
                             $scope.successMsg = true;
                             $scope.uploadedCount++;
                             file.status ="success";
@@ -262,6 +273,7 @@ var angObj = angObj || {};
                           }).error(function(data){
                             $scope.loaded++;
                             $scope.errorCount++;
+                            $scope.resetMessages();
                             $scope.errorMsg = true;
                             file.status ="error";
                             //console.log(data);
@@ -282,38 +294,116 @@ var angObj = angObj || {};
 
 }
     $scope.deleteProgress = false;
-    $scope.localDelete = function(key) {
-      if(! $scope.progress) {
-          if (confirm('Are you sure you want to delete this?')) {
-            $scope.deleteProgress = true;
-            reportsUploadList.list.splice(key, 1);
-            $scope.reportsUploadList = reportsUploadList.list;
-            $scope.deleteProgress = false;
-          }
-      }
-    };
+    // $scope.localDelete = function(key) {
+    //   if(! $scope.progress) {
+    //       if (confirm('Are you sure you want to delete this?')) {
+    //         $scope.deleteProgress = true;
+    //         reportsUploadList.list.splice(key, 1);
+    //         $scope.reportsUploadList = reportsUploadList.list;
+    //         $scope.deleteProgress = false;
+    //       }
+    //   }
+    // };
+    //Delete report Pop up
+    $scope.localDeletetModal = function(key) {
+        var $modalInstance = $modal.open({
+            templateUrl: assets.html_delete_collective_report,
+            controller:"CollectiveDeleteReportController",
+            scope:$scope,
+            windowClass: 'delete-dialog',
+            resolve: {
+                headerMsg: function() {
+                    return constants.deleteReportHeader;
+                },
+                mainMsg: function() {
 
-    $scope.serverDelete = function(key,fileId) {
-          if (confirm('Are you sure you want to delete this?')) {
-              //delete file -- server request
-                $scope.deleteProgress = true;
-                collectiveReportModel.deleteReport(fileId, function(response){
-                     if(response.status_code == 200) {
-                       reportsUploadList.list.splice(key, 1);
-                       $scope.reportsUploadList = reportsUploadList.list;
-                       $scope.deleteProgress = false;
-                       if(!$scope.reportsUploadList.length) {
-                         console.log('reset progress view');
-                         $scope.progress= false;
-                       }
+                    return "Please note that this action affects "+ $scope.reportsUploadList[key].name+".  Report will be deleted for both you and the marketer."
+                },
+                deleteAction: function() {
 
-                     } else {
-                       console.log('delete error');
-                     }
-                 });
+                    return function() {
+                        $scope.deleteProgress = true;
+                        reportsUploadList.list.splice(key, 1);
+                        $scope.reportsUploadList = reportsUploadList.list;
+                        $scope.deleteProgress = false;
 
-          } //confirmation
-    };
+                        $scope.resetMessages();
+                        $scope.deleteSuccessMsg = true;
+
+                        // $scope.flashMessage.message = constants.reportDeleteFailed;
+                        // $scope.flashMessage.isErrorMsg = true;
+                    }
+                }
+            }
+        });
+    }; //end of local delete
+
+    // $scope.serverDelete = function(key,fileId) {
+    //       if (confirm('Are you sure you want to delete this?')) {
+    //           //delete file -- server request
+    //             $scope.deleteProgress = true;
+    //             collectiveReportModel.deleteReport(fileId, function(response){
+    //                  if(response.status_code == 200) {
+    //                    reportsUploadList.list.splice(key, 1);
+    //                    $scope.reportsUploadList = reportsUploadList.list;
+    //                    $scope.deleteProgress = false;
+    //                    if(!$scope.reportsUploadList.length) {
+    //                      console.log('reset progress view');
+    //                      $scope.progress= false;
+    //                    }
+    //
+    //                  } else {
+    //                    console.log('delete error');
+    //                  }
+    //              });
+    //
+    //       } //confirmation
+    // };
+
+    $scope.serverDeleteModal = function(key, reportId) {
+        var $modalInstance = $modal.open({
+            templateUrl: assets.html_delete_collective_report,
+            controller:"CollectiveDeleteReportController",
+            scope:$scope,
+            windowClass: 'delete-dialog',
+            resolve: {
+                headerMsg: function() {
+                    return constants.deleteReportHeader;
+                },
+                mainMsg: function() {
+
+                    return "Please note that this action affects "+ $scope.reportsUploadList[key].name+".  Report will be deleted for both you and the marketer."
+                },
+                deleteAction: function() {
+
+                    return function() {
+                        $scope.deleteProgress = true;
+                        collectiveReportModel.deleteReport(reportId, function(response){
+                             if(response.status_code == 200) {
+                               reportsUploadList.list.splice(key, 1);
+                               $scope.reportsUploadList = reportsUploadList.list;
+                               $scope.deleteProgress = false;
+                               if(!$scope.reportsUploadList.length) {
+                                 $scope.progress= false;
+                               }
+                               $scope.resetMessages();
+                               $scope.deleteSuccessMsg = true;
+                             } else {
+                               console.log('delete error');
+                               $scope.resetMessages();
+                               $scope.deleteErrorMsg = true;
+                               $scope.deleteProgress = false;
+                             }
+                         });
+
+                        // $scope.flashMessage.message = constants.reportDeleteFailed;
+                        // $scope.flashMessage.isErrorMsg = true;
+                    }
+                }
+            }
+        });
+    }; //end of local delete
+
 
 
 

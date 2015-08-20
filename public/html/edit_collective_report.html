@@ -24,7 +24,7 @@
                     <div class="dropdown">
                         <span data-toggle="dropdown" class="dropdown_txt">{{editedData.reportType}}</span>
                         <ul class="dropdown-menu">
-                            <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.id ; show_report_type_txtbox($event)"  >{{rt.name}}</li>
+                            <li ng-repeat="rt in reportTypes" ng-click="editedData.reportType = rt.name ; show_report_type_txtbox($event)"  >{{rt.name}}</li>
                         </ul>
                     </div>
                     <input type="text" id="reportName" style="display:none;" placeholder="Report Name" class="pull-left report-type-name">
@@ -47,14 +47,14 @@
         <div class="data_row">
             <div class="data_heading">Description</div>
             <div class="">
-                <textarea ng-model="editedData.notes"></textarea>
+                <textarea ng-model="editedData.notes" maxlength="160"></textarea>
             </div>
         </div>
 
         
         </div><!-- end of modal_body -->
         <div class="clearfix popup-btns-holder">
-            <span class="pull-left delete-option" ng-click="deleteReport()">Delete</span>
+            <span class="pull-left delete-option" ng-click="deleteReportModal();">Delete</span>
             <span class="common_primary_btn" ng-class="{'loading-icon':ediScreenBusy}" ng-click="updateReport()">Save</span>
             <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
                 Cancel

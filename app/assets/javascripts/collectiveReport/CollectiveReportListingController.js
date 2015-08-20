@@ -75,6 +75,40 @@
 
         }
 
+        //Delete report Pop up
+        $scope.deleteReportModal = function(index,reportId) {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_delete_collective_report,
+                controller:"CollectiveDeleteReportController",
+                scope:$scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    headerMsg: function() {
+                        return constants.deleteReportHeader;
+                    },
+                    mainMsg: function() {
+                        console.log($scope.reportList[index]);
+                        return "Please note that this action affects "+ $scope.reportList[index].fileName+"'s.  Report will be deleted for both you and the marketer."
+                    },
+                    deleteAction: function() {
+                        console.log("delete action: ",reportId);
+                        return function() {
+                            collectiveReportModel.deleteReport(reportId, function (response) {
+                                if (response.status_code == 200) {
+                                    $scope.reportList.splice(index, 1);
+                                    $scope.flashMessage.message = constants.reportDeleteSuccess;
+                                    console.log('collective report listing ctrl: ',$scope.flashMessage.message);
+                                } else {
+                                    $scope.flashMessage.message = constants.reportDeleteFailed;
+                                    $scope.flashMessage.isErrorMsg = true;
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
         $scope.downloadCollectiveReport = function(reportId) {
             if(reportId) {
             //$scope.reportDownloadBusy = true;

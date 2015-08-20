@@ -165,7 +165,7 @@
     this.VIEWABILITY = 'Viewability';
     this.INVENTORY = "Inventory";
     this.AD_SIZE = "Ad Size";
-  
+
     this.TOP = "Top";
     this.NO_LINKED_STRATEGIES = "No Linked Strategies";
     this.ALL = "All";
@@ -369,6 +369,7 @@
 
     this.reportDeleteSuccess = "Deleted Report Successfully";
     this.reportDeleteFailed = "Deleting Report Failed";
+    this.deleteReportHeader = "Delete Report";
 
   };
 

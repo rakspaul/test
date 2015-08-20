@@ -11,6 +11,7 @@
                 campaign:"="
             },
             templateUrl: assets.html_edit_collective_report,
+            templateUrl: assets.html_delete_collective_report,
             link: function(scope, element, attrs) {
 
             }

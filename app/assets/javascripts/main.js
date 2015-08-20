@@ -180,7 +180,8 @@
       'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
-      'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']}
+      'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
 
     },
     optimize: 'uglify2',
@@ -307,6 +308,8 @@
       'collectiveReport-CollectiveReportModel':'collectiveReport/CollectiveReportModel',
       'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
       'collectiveReport-CollectiveEditReportController':'collectiveReport/CollectiveEditReportController',
+      'collectiveReport-CollectiveDeleteReportController':'collectiveReport/CollectiveDeleteReportController',
+
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
@@ -526,7 +529,8 @@
           'collectiveReport-CollectiveReportListingController',
           'collectiveReport-CollectiveReportModel',
           'collectiveReport-CollectiveReportDirective',
-          'collectiveReport-CollectiveEditReportController'
+          'collectiveReport-CollectiveEditReportController',
+          'collectiveReport-CollectiveDeleteReportController'
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {
