@@ -257,5 +257,12 @@ var angObj = angObj || {};
 
             return isActive + " " + sortDirection;
         };
+        // hot fix for the enabling the active link in the reports dropdown
+        setTimeout(function(){ 
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#cost").addClass("active_tab") ; 
+        }, 200);
+        // end of hot fix for the enabling the active link in the reports dropdown
+
     });
 }());

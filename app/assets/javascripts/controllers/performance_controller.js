@@ -367,6 +367,13 @@ var angObj = angObj || {};
                 $scope.strategyChangeHandler();
                 event.preventDefault();
             });
+            // hot fix for the enabling the active link in the reports dropdown
+       
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#performance").addClass("active_tab") ; 
+        
+            // end of hot fix for the enabling the active link in the reports dropdown
         });
+
     });
 }());
