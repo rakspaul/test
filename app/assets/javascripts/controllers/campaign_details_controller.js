@@ -1031,7 +1031,12 @@
                 $('.carousel a.left').hide();
             });
 
-
+            // hot fix for the enabling the active link in the reports dropdown
+            setTimeout(function(){ 
+                $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
+                $(".main_navigation").find("#reports_overview_tab").addClass("active_tab") ; 
+            }, 200);
+            
 
         });
         
