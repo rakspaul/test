@@ -17,7 +17,7 @@
             <span class="data_value">{{report.fileSize}}</span>
         </div>
 
-        <div class="clearfix data_row">
+        <div class="clearfix data_row {{editedData.reportType == 'Custom' ? 'custom_report_type' : ''}}">
             <div class="pull-left report-type-data">
                 <div class="data_heading">Report Type</div>
                 <div class="">

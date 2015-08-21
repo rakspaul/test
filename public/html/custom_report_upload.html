@@ -117,7 +117,7 @@
 										<!-- ng-show="reportsUploadList.length" -->
 			            <div class="btn_holder" >
 										<!-- ng-show="!progress" -->
-						  <span ng-click="(progress || disabledUpload) || upload()"  ng-show="!completed" class="common_primary_btn" style="{{(progress || disabledUpload) ? 'opacity:0.3;cursor:default;' :''}}">Upload</span>
+						  <span ng-click="(progress || disabledUpload) || upload()"  ng-show="!completed" class="common_primary_btn" ng-class="{'loading-icon': progress}" style="{{(progress || disabledUpload) ? 'opacity:0.3;cursor:default;' :''}}">Upload</span>
 
 							<a href="/reports/list"  ng-show="!completed" class="secondary_txt">Cancel</a>
 
