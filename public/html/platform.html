@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="viewabilityBusy"></div>
-                                    <div ng-if="adFormats.displayAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
+                                    <div ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
                                     <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'videoViewabilityTpl'"></div>
                                 </div>
 
@@ -157,7 +157,7 @@
                                             {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div ng-if="adFormats.displayAds || !videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortTypebyViewability:sortReverse track by $index" ng-include="'viewabilityTpl'"></div>
+                                            <div ng-if="!adFormats.videoAds || !videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortTypebyViewability:sortReverse track by $index" ng-include="'viewabilityTpl'"></div>
                                             <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortTypebyViewability:sortReverse track by $index" ng-include="'videoViewabilityTpl'"></div>
                                         </div>
                                     </div>
