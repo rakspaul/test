@@ -1,7 +1,6 @@
 <div class="col-md-6 zeroPadding">
     <h2 class="col-md-12 zeroPadding marginBottom">Creative Tags</h2>
-    <a href="javascript:void(0);">Adding a Creative Tag to Your Ad (guided
-        copy)</a>
+    <a href="javascript:void(0);">Adding a Creative Tag to Your Ad (guided copy)</a>
     <br/>
 
     <div class="spacingInput"></div>
@@ -22,6 +21,11 @@
             </thead>
             <tbody>
             <!--Test 1-->
+            <tr ng-show="emptyCreativesFlag" class="emptyCreativesFlag">
+                <td>
+                    <span class="label label-warning" style="padding: .2em .6em .3em;">No Creatives</span>
+                </td>
+            </tr>
             <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
                 <td>
                     <span class="col-md-3">{{$index+1}}</span>
@@ -32,8 +36,7 @@
                 </td>
                 <td>
                     <span class="col-md-8">{{creativeData.name}}</span>
-                    <a class="col-md-8" href="" ng-click="ShowHide()">View
-                        Tag</a>
+                    <a class="col-md-8" href="" ng-click="ShowHide(this)">View Tag</a>
 
                     <div style="width:350px;word-wrap:break-word;height:100px;">
                         <div ng-show="IsVisible" class="ng-cloak">
@@ -54,11 +57,7 @@
                 </td>
 
             </tr>
-            <tr ng-show="emptyCreativesFlag" class="emptyCreativesFlag" style="display: inline-block !important;">
-                <td>
-                    <span class="label label-warning" style="padding: .2em .6em .3em;">No Creatives</span>
-                </td>
-            </tr>
+
 
             </tbody>
         </table>
