@@ -51,54 +51,51 @@ var angObj = angObj || {};
                     var formElem = $("#formCreativeCreate");
                     var formData = formElem.serializeArray();
                     formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                    console.log(formData)
-                    var postCrDataObj = {};
 
-
-                   // var matchPattern = new RegExp(/<script|SCRIPT [A-Za-z]*https:.*[A-Za-z]*>[A-Za-z]*https:.*[A-Za-z]*<\/script|SCRIPT>/)
-                   //var matchPattern = new RegExp('<script .*https:.*<\/script>.*','i');
-                   var matchPattern = new RegExp(/<script>.*https:.*<\/script>.*/);
-                    if (!formData.tag.match(matchPattern)) {
-//                    if(formData.tag.indexOf('https://') === -1){ console.log("incorect")
-//                        $scope.IncorrectTag = true;
-//                        $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
-//                        console.log("Incorrect tag");
-//                    }
-                        $scope.IncorrectTag = true;
-                        $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
-                        console.log("Incorrect tag");
-
-                    }
-                    else {
-                        $scope.IncorrectTag = false;
-                        postCrDataObj.name = formData.name;
-                        postCrDataObj.tag = formData.tag;
-                        postCrDataObj.sizeId = formData.creativeSize;
-                        postCrDataObj.creativeFormat = formData.creativeFormat;
-                        postCrDataObj.creativeType = formData.creativeType;
-                        postCrDataObj.sslEnable = "true";
-                        //postCrDataObj.createdBy = "11127";//remove while committing
-                        //postCrDataObj.updatedBy = "11127";//remove while committing
-                        console.log(postCrDataObj);
-                        workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                console.log("creative added");
-                                $scope.addedSuccessfully = true;
-                                $scope.Message = "Creative Added Successfully";
-                                $scope.cancelBtn();// redirect user after successful saving
-
-                            }
-                            else {
-                                $scope.addedSuccessfully = true;
-                                $scope.Message = "Unable to create Creatives";
-                                console.log(result);
-                            }
-                        });
-
+                   var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+                   var PatternInside =  new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+                    var tagLower=formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm,'');
+                    console.log(tagLower);
+                    if (tagLower.match(PatternOutside)) {
+                            $scope.creativesave(formData);
+                    }else if (tagLower.match(PatternInside)) {
+                            $scope.creativesave(formData);
+                    }else {
+                            $scope.IncorrectTag = true;
+                            $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
+                            console.log("Incorrect tag");
                     }
                 }
             });
         });
+        $scope.creativesave=function(formData){
+            console.log(formData)
+                var postCrDataObj = {};
+                $scope.IncorrectTag = false;
+                postCrDataObj.name = formData.name;
+                postCrDataObj.tag = formData.tag;
+                postCrDataObj.sizeId = formData.creativeSize;
+                postCrDataObj.creativeFormat = formData.creativeFormat;
+                postCrDataObj.creativeType = formData.creativeType;
+                postCrDataObj.sslEnable = "true";
+                console.log(postCrDataObj);
+                workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        console.log("creative added");
+                        $scope.addedSuccessfully = true;
+                        $scope.Message = "Creative Added Successfully";
+                        $scope.cancelBtn();// redirect user after successful saving
+
+                    }
+                    else {
+                        $scope.addedSuccessfully = true;
+                        $scope.Message = "Unable to create Creatives";
+                        console.log(result);
+                    }
+                });
+
+
+        }
         $scope.cancelBtn=function(){ 
                 if($location.path()==="/creative/add"){
                    $window.location.href = "/creative/list";
