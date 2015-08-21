@@ -4,7 +4,7 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants,$modal,dataStore) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants,$modal,dataStore, $timeout) {
         $scope.report = report;
         $scope.ediScreenBusy = false;
         $scope.editedObj = angular.copy(report);
@@ -24,6 +24,16 @@
             notes:report.notes
         }
 
+        //close messages in 3 seconds
+        $scope.timeoutReset = function(){
+
+            $timeout(function(){
+                //resetting the flag and message
+               $scope.flashMessage = {'message':'','isErrorMsg':''};
+            }, 3000);
+
+        }
+
         $scope.updateReport = function() {
             $scope.ediScreenBusy = true;
             dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
@@ -36,10 +46,14 @@
                 $scope.ediScreenBusy = false;
                 $scope.close();
                 $scope.flashMessage.message = constants.reportEditSuccess;
+                //reset errors after 3 seconds
+                $scope.timeoutReset();
             },function(error) {
                 $scope.ediScreenBusy = false;
                 $scope.flashMessage.message = constants.reportEditFailed;
                 $scope.flashMessage.isErrorMsg = true;
+                //reset errors after 3 seconds
+                $scope.timeoutReset();
             });
         }
 
@@ -74,9 +88,13 @@
                                         dataStore.deleteFromCache(url);
                                     }
                                     $scope.flashMessage.message = constants.reportDeleteSuccess;
+                                    //reset errors after 3 seconds
+                                    $scope.timeoutReset();
                                 } else {
                                     $scope.flashMessage.message = constants.reportDeleteFailed;
                                     $scope.flashMessage.isErrorMsg = true;
+                                    //reset errors after 3 seconds
+                                    $scope.timeoutReset();
                                 }
                             });
                             $scope.close();
