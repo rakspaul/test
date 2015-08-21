@@ -4,10 +4,10 @@
     //originally in models/campaign.js
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-        'constants', 'momentService',
+        'constants', 'momentService','domainReports',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, momentInNetworkTZ) {
+                  constants, momentInNetworkTZ, domainReports) {
 
             var appendStrategyData = function(obj, key) {
                 var str = '';
@@ -145,15 +145,15 @@
             };
 
 
-            var getTacticData = function(strategy, timePeriod, campaign, data) {  
+            var getTacticData = function(strategy, timePeriod, campaign, data) {
                 //create tactic object and request cdb and metric data
-                var dataObj = createTacticObject(data, timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);  
+                var dataObj = createTacticObject(data, timePeriod, campaign, strategy.id, campaign.kpiType, campaign.kpiValue);
                 return dataObj;
             };
 
             var getTacticsMetrics = function(index, tacticObj, tacticMetrics) {
                 if(!angular.isString(tacticMetrics)) {
-                    tacticObj[index].hasVTCMetric = tacticMetrics.hasVTCMetric;
+                    tacticObj[index].adFormats = domainReports.checkForCampaignFormat(tacticMetrics.adFormat); //tacticMetrics.hasVTCMetric;
                     tacticObj[index].totalImpressions = tacticMetrics.impressions;
                     tacticObj[index].grossRev = tacticMetrics.gross_rev;
                     tacticObj[index].ctr = tacticMetrics.ctr * 100;
@@ -263,7 +263,7 @@
                     strategyObj.push(strategy_1);
                     getStrategyCdbLineChart(index, strategyObj, timePeriod, campaign, kpiType, kpiValue);
                     //getStrategyMetrics(index, strategyObj, timePeriod, campaign);
-                    
+
                     //moved tactic data call outside - when user requests tactic data
                     //getTacticList(index, strategyObj, timePeriod, campaign, strategyObj[index].id, kpiType, kpiValue);
                 }
@@ -273,7 +273,7 @@
             var getStrategyMetrics = function(index, strategyObj, strategyData) {
                 var strategyMetrics = strategyData.measures_by_days;
                 strategyMetrics = _.last(strategyMetrics);
-                strategyObj[index].hasVTCMetric = strategyData.hasVTCMetric;
+                strategyObj[index].adFormats = domainReports.checkForCampaignFormat(strategyData.adFormats); //strategyData.hasVTCMetric;
                 strategyObj[index].totalImpressions = strategyMetrics.impressions;
                 strategyObj[index].grossRev = strategyMetrics.gross_rev;
                 strategyObj[index].ctr = strategyMetrics.ctr * 100;
@@ -352,7 +352,7 @@
                             //TO DO: optimise this a bit futher after introducing pagination
                             //TO DO: separate list data call and data manipulation
 
-                            
+
                             dataObj = createStrategyObject(data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
                             campaignStrategies = dataObj;//_.chain(dataObj);
 
@@ -434,15 +434,15 @@
                                     lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 cdData = _.last(maxDays);
-                                cdData['hasVTCMetric'] = result.data.data.hasVTCMetric;
+                                cdData['adFormats'] = domainReports.checkForCampaignFormat(result.data.data.adFormats); //result.data.data.hasVTCMetric;
                                 callback && callback(cdData);
                                 campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
                                 //d3 chart data
                                 campaignObject.lineChart = {
-                                  data: lineDate,
-                                  kpiValue: parseFloat(campaignObject.kpiValue),
-                                  kpiType: campaignObject.kpiType,
-                                  from: 'campaign'
+                                    data: lineDate,
+                                    kpiValue: parseFloat(campaignObject.kpiValue),
+                                    kpiType: campaignObject.kpiType,
+                                    from: 'campaign'
                                 };
                             }
                         }
@@ -524,12 +524,12 @@
                 getStrategiesData: function(campaign, timePeriod) {
                     //request list
                     return getStrategyListData(campaign, timePeriod)
-                }, 
+                },
 
                 requestStrategiesData: function(campaign, timePeriod, data) {
                     //request metrics and cdb data
                     return getStrategyData(campaign, timePeriod, data)
-                }, 
+                },
 
                 requestTacticsList: function(strategy, timePeriod, campaign,callBackFunction) {
                     //request list 
