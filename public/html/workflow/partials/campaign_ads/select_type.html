@@ -59,7 +59,7 @@
          ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
         <label for="screenTypeChkBox{{screenType.id}}">
             <input type="checkbox" name="screens" ng-model="screenType.active" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}"  class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);" ng-checked="screenType.active">
-            <img ng-src="/assets/images/workflow/{{screenType.name}}.svg" alt="" width="25"/>
+            <img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>
 
             <div class="btnLabel">{{screenType.name}}</div>
         </label>
