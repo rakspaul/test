@@ -11,6 +11,7 @@ var angObj = angObj || {};
         $scope.creativesNotFound = false;
         $scope.showViewTagPopup=false;
         $scope.edittrue=true;
+        $scope.IncorrectTag = false;
 
         //$scope.popUpData.tag="";
 
@@ -118,6 +119,7 @@ var angObj = angObj || {};
         }
 
         $scope.cancelPopup=function(){
+            $scope.IncorrectTag = false;
             $scope.showViewTagPopup=false;
             $scope.edittrue=true;
         }
