@@ -4924,15 +4924,6 @@ div.reports_tabs_content_container {
       margin-bottom: 40px;
     }
   }
-  .disabled_dropdown {
-    height: 55px;
-    width: 102%;
-    cursor: default;
-    position: absolute;
-    top: -8px;
-    left: -6px;
-    z-index: 1;
-  }
   .disabled_list {
     opacity: 0.3 ;
   }
@@ -5187,6 +5178,13 @@ div.reports_tabs_content_container {
     }
 }
 
+.edit-dialog .modal-dialog {
+    width :710px ;
+}
+.delete-dialog .modal-dialog {
+    width :464px ;
+}
+
 /*common loading icon */
 .loading-icon {
   text-align: center;
@@ -5198,12 +5196,23 @@ div.reports_tabs_content_container {
   display: block;
 }
 /* end of common loading icon */
-.edit-dialog .modal-dialog {
-    width :710px ;
+
+/*common disabled dropdowns layout */
+.disabled_dropdown_holder {
+  position: relative;
+  .disabled_dropdown {
+    height: 55px;
+    width: 100%;
+    cursor: default;
+    position: absolute;
+    top: -8px;
+    left: 0px;
+    z-index: 1;
+  }
 }
-.delete-dialog .modal-dialog {
-    width :464px ;
-}
+/*end of common disabled dropdowns layout */
+
+
 /*common sort icon */
 .common-sort-icon {
   display: inline-block;
@@ -5226,3 +5235,4 @@ div.reports_tabs_content_container {
   }
 }
 /*end of common sort icon */
+
