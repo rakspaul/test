@@ -87,6 +87,7 @@
                         var ykeyVal = _config.keys.yAxis.val;
                         var threshold = _config.threshold;
                         var kpiType = _config.kpiType;
+                        var chartCallFrom = _config.chartCallFrom;
                         var yScale = _config.yScale;
                         var adjustment = 10;
                         if(_config.isPerformanceChart) {
@@ -144,7 +145,7 @@
                                 svg.append("text")
                                     .attr("id", "kpi_type_text")
                                     .attr("x", -15)
-                                    .attr("y", 20)
+                                    .attr("y", (chartCallFrom == 'action_optimization') ? 10 : 20)
                                     .style("font-size","12px")
                                     .style("fill", "#57595b")
                                     .text(_config.kpiType);
@@ -1209,6 +1210,7 @@
                 //Chart data import and launch
 
                 var dataObj = JSON.parse(attrs.chartData);
+                var chartCallFrom = attrs.chartLocation || null;
 
                 var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from),
                     performanceChart = false;
@@ -1221,6 +1223,7 @@
                     json: [chartDataset],
                     threshold: dataObj.kpiValue,
                     isPerformanceChart: performanceChart,
+                    chartCallFrom: chartCallFrom,
                     kpiType: dataObj.kpiType,
                     keys: {
                         xAxis: {
@@ -1265,6 +1268,7 @@
                     margin: lineData.margin,
                     threshold: lineData.threshold,
                     isPerformanceChart: lineData.isPerformanceChart,
+                    chartCallFrom: lineData.chartCallFrom,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,
                     showAxisLabel: lineData.showAxisLabel,
