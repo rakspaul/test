@@ -27,7 +27,7 @@
                     <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
                         <div class="col-md-12">
                             <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
-                                <img ng-src="/assets/images/workflow/{{screenType.name}}.svg" alt="" width="12" class="statusIcon"/>
+                                <img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="12" class="statusIcon"/>
                                 <span>{{screenType.name}}</span><span>(Screen)</span>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                     <div class="statusLabel"
                          ng-if="(adData.budgetType && adData.budgetAmount)">
                         <div class="col-md-12">
-                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                            <span>{{adData.budgetType === 'Impressions' ? '#' : '$'}}</span>
                             <span>{{adData.budgetAmount | number }}</span>
                             <span>{{adData.budgetType}} </span>
                         </div>
