@@ -4799,24 +4799,49 @@ div.reports_tabs_content_container {
     margin-top: 10px;
     display: block;
   }
-  .progress_bar {
-    position: relative;
-    height: 14px;
-    background: #bdccd4;
+  .progress-box {
+    background: #f5f9fd;
+    width: 1040px;
+    margin: 20px auto 0;
+    text-align: center;
+    padding: 100px 0;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
-    margin: 40px 0 25px;
+    min-height: 280px;
+    padding: 68px 0;
+  }
+  .progress_bar {
+    position: relative;
+    height: 8px;
+    background: #E9EDF2;
+    border-radius: 40px;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+    margin: 25px auto;
+    width: 680px;
   }
   .progress_area {
     overflow: hidden;
-    height: 14px;
+    height: 8px;
     margin-bottom: 20px;
-    background-color: #3AA0E6;
-    border-radius: 4px;
-    width:0px;
-    /*-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);*/
+    background-color: #3aa0e6;
+    width: 0;
+    background-image: linear-gradient(90deg, #2298EF 0%, #0978C9 100%);
+    border-radius: 40px;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+  }
+  .progress-upload-info {
+    opacity: 0.3;
+    font-size: 20px;
+    color: #21252B;
+    line-height: 27px;
+  }
+  .progress_percentage {
+    font-size: 26px ;
+    color: #21252b ;
+    font-family: "Avenir-bold" ;
   }
   .delete-col {
     height: 16px ;

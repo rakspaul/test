@@ -33,12 +33,12 @@
 
 
 
-			<div ng-show="progress && (100 *(loaded/total) < 100) " class="drop-box" style="min-height:324px;padding-top: 80px;">
-				<span style="font-size:22px;font-weight:bold">{{ 100 *(loaded/total) | number: 0 }}%</span>
+			<div class="progress-box" ng-show="progress && (100 *(loaded/total) < 100) " >
+				<span class="progress_percentage">{{ 100 *(loaded/total) | number: 0 }}%</span>
 				<div class="progress_bar">
 					<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
 				</div>
-				Uploading {{ (loaded < total) ? loaded+1 : loaded }} of {{total}}<br>
+				<span class="progress-upload-info">Uploading {{ (loaded < total) ? loaded+1 : loaded }} of {{total}}</span>
 			</div>
 
 	</div>
