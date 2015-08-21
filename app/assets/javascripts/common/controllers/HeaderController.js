@@ -22,8 +22,11 @@
             $("#cdbDropdown").hide();
         };
 
-        $scope.NavigateToTab =  function(url, event) {
-
+        $scope.NavigateToTab =  function(url, event, page) {
+            if(page === 'reportOverview') {
+                $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
+                url = '/campaigns/'+ $scope.selectedCampaign
+            }
             $(".header_tab_dropdown").removeClass('active_tab');
             $(event.currentTarget).parent().addClass('active_tab');
             $location.url(url);
