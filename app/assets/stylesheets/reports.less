@@ -1774,6 +1774,39 @@ div.strategy_total_container {
 
 #reports_platform_viewability_block{
   &.reports_video_mode_viewability_container{
+    .viewability_header{
+      .suspicious_col{
+        width: 80px;
+        .tooltip_holder{
+          margin-right: 0;
+          padding-right: 10px;
+          &.sort_order_up{
+            background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+            background-repeat: no-repeat;
+            &.active{
+              background-image: url("/assets/images/cdesk/sorting_arrows_down.png");
+            }
+          }
+          &.sort_order_down{
+            background-image: url("/assets/images/cdesk/sorting_arrows_down.png");
+            background-repeat: no-repeat;
+            &.active{
+              background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+            }
+          }
+          &.active{
+            background-position: 68px -64px;
+            &:hover{
+              background-position: 68px -64px;
+            }
+          }
+          &:hover{
+            background-position: 68px 1px;
+          }
+         }
+        }
+      }
+
     .each_col{
       &.forth_col {
         span {
