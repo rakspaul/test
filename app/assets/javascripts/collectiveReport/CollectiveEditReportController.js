@@ -60,7 +60,7 @@
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Please note that this action affects "+ $scope.reportList[reportIndex].fileName+"'s.  Report will be deleted for both you and the marketer."
+                        return "Please note that this action affects '<span class='bold-font'>"+ $scope.reportList[reportIndex].fileName+"</span>'. The report will be deleted for both you and the marketer."
                     },
                     deleteAction: function() {
                         return function() {

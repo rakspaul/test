@@ -318,8 +318,7 @@ var angObj = angObj || {};
                     return constants.deleteReportHeader;
                 },
                 mainMsg: function() {
-
-                    return "Please note that this action affects "+ $scope.reportsUploadList[key].name+".  Report will be deleted for both you and the marketer."
+                    return "Please note that this action affects '<span class='bold-font'>"+ $scope.reportsUploadList[key].name+"</span>'. The report will be deleted for both you and the marketer."
                 },
                 deleteAction: function() {
 
