@@ -121,7 +121,8 @@
 
 							<a href="/reports/list"  ng-show="!completed" class="secondary_txt">Cancel</a>
 
-							<a href="/reports/list" ng-show="completed" class="common_primary_btn">Done</a>
+							<a ng-show="completed" ng-click="goToReportList()" class="common_primary_btn">Done</a>
+							<!-- href="/reports/list"  -->
 						</div>
 			          </div>
 

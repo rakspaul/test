@@ -3,7 +3,7 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore , $timeout ) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
@@ -16,6 +16,16 @@
         $scope.screenBusy = false;
         $scope.flashMessage = {'message':'','isErrorMsg':''};
         $scope.isNetworkUser = loginModel.getIsNetworkUser();
+
+        //close messages in 3 seconds
+        $scope.timeoutReset = function(){
+
+            $timeout(function(){
+                //resetting the flag and message
+               $scope.flashMessage = {'message':'','isErrorMsg':''};
+            }, 3000);
+
+        }
 
 
         $scope.getReports = function() {
@@ -90,6 +100,8 @@
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(index, 1);
                                     $scope.flashMessage.message = constants.reportDeleteSuccess;
+                                    //reset errors after 3 seconds
+                                    $scope.timeoutReset();
                                     var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
                                     var url = urlService.APIReportList(selectedCampaginObj.id);
                                     if(url) {
@@ -98,6 +110,8 @@
                                 } else {
                                     $scope.flashMessage.message = constants.reportDeleteFailed;
                                     $scope.flashMessage.isErrorMsg = true;
+                                    //reset errors after 3 seconds
+                                    $scope.timeoutReset();
                                 }
                             });
                         }
@@ -116,27 +130,37 @@
                     $scope.screenBusy = false;
                     saveAs(response.file, response.fileName);
                     $scope.flashMessage.message = constants.reportDownloadSuccess;
+                    //reset errors after 3 seconds
+                    $scope.timeoutReset();
                 } else {
                    // $scope.reportDownloadBusy = false;
                     $scope.screenBusy = false;
                     $scope.flashMessage.message = constants.reportDownloadFailed;
                     $scope.flashMessage.isErrorMsg = true;
+                    //reset errors after 3 seconds
+                    $scope.timeoutReset();
                 }
             }, function () {
                // $scope.reportDownloadBusy = false;
                 $scope.screenBusy = false;
                 $scope.flashMessage.message = constants.reportDownloadFailed;
                 $scope.flashMessage.isErrorMsg = true;
+                //reset errors after 3 seconds
+                $scope.timeoutReset();
             }, function () {
               //  $scope.reportDownloadBusy = false;
                 $scope.screenBusy = false;
                 $scope.flashMessage.message = constants.reportDownloadFailed;
                 $scope.flashMessage.isErrorMsg = true;
+                //reset errors after 3 seconds
+                $scope.timeoutReset();
             });
           } else {
                 $scope.screenBusy = false;
                 $scope.flashMessage.message = constants.reportDownloadFailed;
                 $scope.flashMessage.isErrorMsg = true;
+                //reset errors after 3 seconds
+                $scope.timeoutReset();
             }
         }
 
@@ -148,9 +172,13 @@
                    if(response.status_code == 200) {
                        $scope.reportList.splice($index, 1);
                        $scope.flashMessage.message = constants.reportDeleteSuccess;
+                       //reset errors after 3 seconds
+                       $scope.timeoutReset();
                    } else {
                        $scope.flashMessage.message = constants.reportDeleteFailed;
                        $scope.flashMessage.isErrorMsg = true;
+                       //reset errors after 3 seconds
+                       $scope.timeoutReset();
                    }
                });
 

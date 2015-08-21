@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel, brandsModel, $modal) {
+    angObj.controller('customReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel, brandsModel, $modal,dataStore ,$location) {
 
       $scope.textConstants = constants;
       $scope.completed = false;
@@ -21,6 +21,14 @@ var angObj = angObj || {};
         $scope.deleteErrorMsg = false;
       }
 
+      $scope.timeoutReset = function(){
+
+        $timeout(function(){
+          $scope.resetMessages();
+        }, 3000);
+
+      }
+
       $scope.closeMessage = function(){
         //$('.top_message_box').css({'display':'none'});
         $scope.rejFiles = [];
@@ -38,7 +46,7 @@ var angObj = angObj || {};
       $scope.isDisabled = function(campaignId){
         if(!campaignId) {
           $scope.disabledUpload = true;
-          return "border:1px dotted red";
+          return "";//border:1px dotted red
         } else {
           $scope.disabledUpload = false;
           return "";//"border:1px dotted green";
@@ -189,6 +197,7 @@ var angObj = angObj || {};
                               $scope.loaded++;
                               $scope.resetMessages();
                               $scope.successMsg = true;
+                              $scope.timeoutReset();
                               $scope.rejFiles = [];
                               $scope.uploadedCount++;
                               file.status ="success";
@@ -206,6 +215,7 @@ var angObj = angObj || {};
                               $scope.rejFiles = [];
                               $scope.resetMessages();
                               $scope.errorMsg = true;
+                              $scope.timeoutReset();
                               file.status ="error";
                               //console.log(data);
                             }); //upload ends
@@ -261,6 +271,7 @@ var angObj = angObj || {};
                             $scope.loaded++;
                             $scope.resetMessages();
                             $scope.successMsg = true;
+                            $scope.timeoutReset();
                             $scope.uploadedCount++;
                             file.status ="success";
                               $timeout(function() {
@@ -277,6 +288,7 @@ var angObj = angObj || {};
                             $scope.errorCount++;
                             $scope.resetMessages();
                             $scope.errorMsg = true;
+                            $scope.timeoutReset();
                             file.status ="error";
                             //console.log(data);
                           }); //upload ends
@@ -330,6 +342,7 @@ var angObj = angObj || {};
 
                         $scope.resetMessages();
                         $scope.deleteSuccessMsg = true;
+                        $scope.timeoutReset();
 
                         // $scope.flashMessage.message = constants.reportDeleteFailed;
                         // $scope.flashMessage.isErrorMsg = true;
@@ -389,11 +402,12 @@ var angObj = angObj || {};
                                }
                                $scope.resetMessages();
                                $scope.deleteSuccessMsg = true;
+                               $scope.timeoutReset();
                              } else {
-                               console.log('delete error');
                                $scope.resetMessages();
                                $scope.deleteErrorMsg = true;
                                $scope.deleteProgress = false;
+                               $scope.timeoutReset();
                              }
                          });
 
@@ -406,6 +420,14 @@ var angObj = angObj || {};
     }; //end of local delete
 
 
+    $scope.goToReportList = function() {
+        var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
+        var url = urlService.APIReportList(selectedCampaginObj.id);
+        if(url) {
+            dataStore.deleteFromCache(url);
+        }
+        $location.path('/reports/list');
+      }
 
 
 
