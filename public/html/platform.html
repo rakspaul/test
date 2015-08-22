@@ -293,10 +293,10 @@
     </div>-->
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span>{{vvData.videos_1q_view_perc >0 ? (vvData.videos_1q_view_perc | nrFormat) : '-'}}</span>
-            <span>{{vvData.videos_2q_view_perc >0 ? (vvData.videos_2q_view_perc | nrFormat) : '-'}}</span>
-            <span>{{vvData.videos_3q_view_perc >0 ? (vvData.videos_3q_view_perc | nrFormat) : '-'}}</span>
-            <span>{{vvData.videos_4q_view_perc >0 ? (vvData.videos_4q_view_perc | nrFormat) : '-'}}</span>
+            <span>{{vvData.videos_1q_view_perc >0 ? ((vvData.videos_1q_view_perc | nrFormat)+'%') : '-'}}</span>
+            <span>{{vvData.videos_2q_view_perc >0 ? ((vvData.videos_2q_view_perc | nrFormat)+'%') : '-'}}</span>
+            <span>{{vvData.videos_3q_view_perc >0 ? ((vvData.videos_3q_view_perc | nrFormat)+'%') : '-'}}</span>
+            <span>{{vvData.videos_4q_view_perc >0 ? ((vvData.videos_4q_view_perc | nrFormat)+'%') : '-'}}</span>
         </div>
         <!--<div class="sub_col next_val">
             <span>{{vvData.videos_1q_view >0 ? (vvData.videos_1q_view | nrFormat) : '-'}}</span>
