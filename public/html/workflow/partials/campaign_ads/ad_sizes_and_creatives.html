@@ -1,6 +1,6 @@
 <div class="col-md-6 zeroPadding">
-    <h2 class="col-md-12 zeroPadding marginBottom">Creative Tags</h2>
-    <a href="javascript:void(0);">Adding a Creative Tag to Your Ad (guided copy)</a>
+    <h2 class="col-md-12 zeroPadding marginBottom">Creative</h2>
+    <a href="javascript:void(0);">Adding a Creative to your Tag</a>
     <br/>
 
     <div class="spacingInput"></div>
@@ -8,59 +8,53 @@
     <button type="button" class="btn btn-default" ng-click="showCreateNewWindow()">Create New</button>
 </div>
 
-<div class="col-md-12 zeroPadding">
+<div class="col-md-12 zeroPadding creativeTableTag">
     <div class="table-responsive">
         <table class="table">
             <thead>
-            <tr>
-                <th>Size</th>
-                <th>Tag</th>
-                <th>Type</th>
-                <th>SSL</th>
-            </tr>
+                <tr>
+                    <th class="col-md-1"></th>
+                    <th class="col-md-2">Size</th>
+                    <th class="col-md-5">Tag</th>
+                    <th class="col-md-2">Type</th>
+                    <th class="col-md-2">SSL</th>
+                </tr>
             </thead>
             <tbody>
-            <!--Test 1-->
-            <tr ng-show="emptyCreativesFlag" class="emptyCreativesFlag">
-                <td>
-                    <span class="label label-warning" style="padding: .2em .6em .3em;">No Creatives</span>
-                </td>
-            </tr>
-            <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
-                <td>
-                    <span class="col-md-3">{{$index+1}}</span>
-
-                    <div class="col-md-9">
-                        <p class="col-md-12">{{creativeData.size.size}}</p>
-                    </div>
-                </td>
-                <td>
-                    <span class="col-md-8">{{creativeData.name}}</span>
-                    <a class="col-md-8" href="" ng-click="ShowHide(this)">View Tag</a>
-
-                    <div style="width:350px;word-wrap:break-word;height:100px;">
-                        <div ng-show="IsVisible" class="ng-cloak">
-                            {{creativeData.tag}}
+                <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
+                    <td>
+                        <span class="col-md-3">{{$index+1}}</span>
+    
+                        <div class="col-md-9">
+                            <p class="col-md-12">{{creativeData.size.size}}</p>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <span class="col-md-12">{{creativeData.creativeType}}</span>
-                </td>
-                <td>
-                                                                <span class="glyphicon glyphicon-ok-circle"
-                                                                      aria-hidden="true"></span>
-                </td>
-                <td>
-                                                                <span class="glyphicon glyphicon-remove pull-right"
-                                                                      aria-hidden="true" ng-click="removeCreativeTags(creativeData)"></span>
-                </td>
-
-            </tr>
-
-
+                    </td>
+                    <td>
+                        <span class="col-md-8">{{creativeData.name}}</span>
+                        <a class="col-md-8" href="" ng-click="ShowHide(this)">View Tag</a>
+    
+                        <div style="width:350px;word-wrap:break-word;height:100px;">
+                            <div ng-show="IsVisible" class="ng-cloak">
+                                {{creativeData.tag}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="col-md-12">{{creativeData.creativeType}}</span>
+                    </td>
+                    <td>
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    </td>
+                    <td>
+                        <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="removeCreativeTags(creativeData)"></span>
+                    </td>
+    
+                </tr>
             </tbody>
         </table>
+        <div ng-show="emptyCreativesFlag" class="emptyCreativesFlag">
+            <span>You haven't added any Creative Tags for your Ad yet</span>
+        </div>
     </div>
 </div>
 <!--=== Next Step Panel ===-->
