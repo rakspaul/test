@@ -194,10 +194,10 @@
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div class="common-btns">
-                                            <button type="button" ng-disabled="!adData.adName" id="SaveAd"
+                                            <button type="submit" ng-disabled="!adData.adName" id="SaveAd"
                                                     class="btn btn-primary pull-right">Save
                                             </button>
-                                            <a href="/campaign/{{workflowData.campaignData.id}}/overview"
+                                            <a ng-href="/campaign/{{workflowData.campaignData.id}}/overview"
                                                class="pull-right cancel-btn">Cancel</a>
                                         </div>
 

@@ -32,7 +32,7 @@
 			</thead>
 			<tbody>
 			<!--Test 1   | filter : {{sizeSearchVal}}  -->
-			<tr ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal">
+			<tr ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal | orderBy: 'name'">
 			    <td>
 				<span class="col-md-1 "><input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/></span>
 				<div class="col-md-11">
@@ -43,7 +43,7 @@
 			</tr>
 			</tbody>
 		    </table>
-		    <div ng-show="dataFromCreativeLibraryNotFound" class="dataFromCreativeLibraryNotFound">
+		    <div ng-if="dataFromCreativeLibraryNotFound" class="dataFromCreativeLibraryNotFound">
 			<span>Data Not Found</span>
 		    </div>
 		</div>
