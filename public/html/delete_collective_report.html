@@ -1,0 +1,29 @@
+<div class="popup-holder">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title" id="myModalLabel">{{headerMsg}}</h2>
+    </div>
+    <div class="modal-body">
+        <div class="data_row">
+            <span ng-bind-html="mainMsg"></span>
+        </div>
+        
+        </div><!-- end of modal_body -->
+        <div class="clearfix popup-btns-holder">
+            <div class="external_chkbox pull-left">
+                <!-- <div class="squaredFour">
+                    <input type="checkbox" class="squaredFourChkbox" id="dont_show_squaredFour" >
+                    <label for="dont_show_squaredFour"></label>
+                </div> -->
+                <!-- <span class="squaredFourTxt" >Don't show again</span> -->
+            </div>
+            <span class="common_primary_btn" ng-click="deleteAction();close()">Delete</span>
+            <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
+                Cancel
+            </span>
+           
+        </div>
+    </div> <!-- end of popup-holder -->

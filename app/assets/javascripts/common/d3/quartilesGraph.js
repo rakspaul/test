@@ -184,7 +184,7 @@
                                 svg.append('circle')
                                     .attr({
                                         'cx': width/2 - (i===0 ? 25 : -25),
-                                        'cy': height + margin.bottom + 15,
+                                        'cy': height + margin.bottom + 13,
                                         'r' : 5,
                                         'class' : 'labelCircle'+i
                                     })
@@ -192,7 +192,7 @@
                                 svg.append("text")
                                     .attr({
                                         "text-anchor": "middle",
-                                        "transform": "translate("+ ((width/2) + (i===0 ? 0 : 50) )+","+(height + margin.bottom*2)+")",
+                                        "transform": "translate("+ ((width/2) + (i===0 ? 0 : 50) )+","+(height + margin.bottom*1.8)+")",
                                         "class" : 'labelText'+i
                                     })
                                     .text(label);

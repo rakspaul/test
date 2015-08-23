@@ -21,7 +21,9 @@ var angObj = '';
       'ui.bootstrap',
       'uiSwitch',
       'ngLocale',
-      'lrInfiniteScroll']
+      'ngFileUpload',
+      'lrInfiniteScroll',
+      'collectiveReportModule']
   );
 
 
@@ -43,9 +45,9 @@ var angObj = '';
                 controller: 'InventoryController'
               
             })
-            .when('/viewability', {
+            .when('/quality', {
                 templateUrl: assets.html_viewability,
-                title :  'Reports - Viewability',
+                title :  'Reports - Quality',
                 controller: 'viewabilityController'
             })
             .when('/cost', {
@@ -58,10 +60,50 @@ var angObj = '';
                 title :  'Reports - Platform',
                 controller: 'platformController'
             })
+            .when('/customreport', {
+                templateUrl: assets.html_custom_report,
+                title :  'Custom Report' ,
+                controller: 'customReportController'
+            })
+            .when('/reports/upload', {
+                templateUrl: assets.html_custom_report_upload,
+                title :  'Upload Custom Reports' ,
+                controller: 'customReportUploadController'
+            })
+            .when('/reports/list', {
+                templateUrl: assets.html_collective_report_listing,
+                title :  'collective report listing',
+                controller: 'CollectiveReportListingController'
+            })
             .when('/performance', {
                 templateUrl: assets.html_performance,
                 title :  'Reports - Performance',
                 controller: 'performanceController'
+            })
+            .when('/campaign/create', {
+                templateUrl: assets.html_campaign_create,
+                title :  'Create - Campaign',
+                controller: 'CreateCampaignController'
+            })
+            .when('/campaign/:campaignId/overview', {
+                templateUrl: assets.html_campaign_create_ad,
+                title :  'Campaign - Overview',
+                controller: 'CampaignOverViewController'
+            })
+            .when('/campaign/:campaignId/ads/create', {
+                templateUrl: assets.html_campaign_create_adBuild,
+                title :  'Campaign - Ad Create',
+                controller: 'CampaignAdsCreateController'
+            })
+            .when('/creative/add', {
+                templateUrl: assets.html_creative,
+                title :  'Add Creative'
+                //controller: ''
+            })
+            .when('/creative/list', {
+                templateUrl: assets.html_creative_list,
+                title :  'Creative List',
+                controller: 'creativeListController'
             })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];

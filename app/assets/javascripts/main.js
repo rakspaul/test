@@ -5,7 +5,7 @@
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
     packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
-   
+
     shim: {
       'jsRoutes': {
         deps: [],
@@ -21,6 +21,7 @@
         },
       'angular-cache': {deps: ['angular']},
       'angular-switch': {deps: ['angular']},
+      'date-picker': {deps: ['jquery', 'bootstrap']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
       'angular-route': {deps: ['angular-resource']},
@@ -29,6 +30,10 @@
       'highcharts': {deps: ['highcharts-ng']},
       'highcharts-more': {deps: ['highcharts']},
       'solid-gauge': {deps: ['highcharts-more']},
+
+      'ng-file-upload-shim': {deps: []},
+      'ng-file-upload': {deps: ['angular']},
+
       'underscore': {deps: []},
       'angulartics': {deps: ['angular']},
       'angulartics-ga': {deps: ['angulartics']},
@@ -61,6 +66,9 @@
       'common-services-AnalyticsService':{deps: ['common-utils']},
       'common-d3-gauge':{deps: ['common-services-AnalyticsService']},
       'common-d3-quartilesGraph':{deps: ['common-services-AnalyticsService']},
+      'common-d3-campaignChart':{deps: ['common-services-AnalyticsService']},
+      'common-d3-barChart':{deps: ['common-services-AnalyticsService']},
+      'common-d3-pieChart':{deps: ['common-services-AnalyticsService']},
       'common-controllers-GaugeController':{deps: ['common-d3-gauge']},
       'common-models-GaugeModel':{deps: ['common-controllers-GaugeController']},
       'common-d3-bubbleChart':{deps: ['common-models-GaugeModel']},
@@ -123,13 +131,22 @@
       'login-LoginController':{deps: ['login-LoginService']},
 
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
-      'controllers-actions_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-campaign_overview_controller': {deps: ['controllers-campaign_create_controller']},
+      'controllers-campaign_adcreate_controller': {deps: ['controllers-campaign_overview_controller']},
+      'controllers-creative_controller': {deps: ['controllers-campaign_adcreate_controller']},
+      'controllers-creative_list_controller': {deps: ['controllers-creative_controller']},
+      'controllers-actions_controller': {deps: ['controllers-creative_list_controller']},
       'controllers-optimization_controller':{deps: ['controllers-actions_controller']},
       'controllers-inventory_controller':{deps: ['controllers-optimization_controller']},
       'controllers-viewability_controller':{deps: ['controllers-inventory_controller']},
       'controllers-cost_controller':{deps: ['controllers-viewability_controller']},
       'controllers-performance_controller':{deps: ['controllers-cost_controller']},
       'controllers-platform_controller' : {deps: ['controllers-cost_controller']},
+      'controllers-custom_report_controller' : {deps: ['controllers-cost_controller']},
+
+      'controllers-custom_report_upload_controller': {deps: ['controllers-custom_report_controller']},
+
       'directives-strategycard':{deps: ['controllers-performance_controller']},
       'directives-tacticcard':{deps: ['directives-strategycard']},
       'directives-campaigncard':{deps: ['directives-tacticcard']},
@@ -146,14 +163,26 @@
       'models-activity_list':{deps: ['models-action_type']},
       'models-action_sub_type':{deps: ['models-activity_list']},
       'models-tactic':{deps: ['models-action_sub_type']},
+      'models-reports_upload_list':{deps: ['models-action_sub_type']},
       'services-inventoryservice':{deps: ['models-tactic']},
       'services-viewablityservice':{deps: ['services-inventoryservice']},
       'services-performanceservice':{deps: ['services-viewablityservice']},
       'services-costservice':{deps: ['services-performanceservice']},
-      'services-optimizationservice':{deps: ['services-costservice']},
+      'services-workflowservice':{deps: ['services-costservice']},
+      'directives-showerrors':{deps: ['services-workflowservice']},
+      'directives-workflowdirectives':{deps: ['services-workflowservice']},
+      'services-optimizationservice':{deps: ['directives-showerrors']},
       'services-platformservice':{deps: ['services-optimizationservice']},
       'services-momentService': {deps: ['login-LoginModel']},
-      'common-directive-DataNotFound':{deps:['CommonModule']}
+      'common-directive-DataNotFound':{deps:['CommonModule']},
+
+      'collectiveReport-CollectiveReportModule':{deps: ['angular']},
+      'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
+      'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
+      //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
+
     },
     optimize: 'uglify2',
     uglify2: {
@@ -177,9 +206,12 @@
       'highcharts': 'vendor/highcharts',
       'highcharts-ng': 'vendor/highcharts-ng',
       'highcharts-more': 'vendor/highcharts-more',
+      'date-picker': 'vendor/datePicker',
       'solid-gauge': 'vendor/solid-gauge',
       'moment': 'vendor/moment.min.2.8.3',
       'moment-tz': 'vendor/moment-timezone-with-data-2010-2020',
+      'ng-file-upload': 'vendor/ng-file-upload',
+      'ng-file-upload-shim': 'vendor/ng-file-upload-shim',
       'underscore': 'vendor/underscore-min',
       'ng-infinite-scroll': 'vendor/ng-infinite-scroll.min',
       'lrInfiniteScroll': 'vendor/lrInfiniteScroll',
@@ -208,6 +240,9 @@
       'common-services-AnalyticsService':'common/services/AnalyticsService',
       'common-d3-gauge':'common/d3/gauge',
       'common-d3-quartilesGraph':'common/d3/quartilesGraph',
+      'common-d3-campaignChart':'common/d3/campaignChart',
+      'common-d3-barChart':'common/d3/barChart',
+      'common-d3-pieChart':'common/d3/pieChart',
       'common-controllers-GaugeController':'common/controllers/GaugeController',
       'common-models-GaugeModel':'common/models/GaugeModel',
       'common-d3-bubbleChart':'common/d3/bubbleChart',
@@ -268,7 +303,20 @@
       'login-LoginService':'login/LoginService',
       'login-LoginController':'login/LoginController',
 
+      'collectiveReport-CollectiveReportModule':'collectiveReport/CollectiveReportModule',
+      'collectiveReport-CollectiveReportListingController':'collectiveReport/CollectiveReportListingController',
+      'collectiveReport-CollectiveReportModel':'collectiveReport/CollectiveReportModel',
+      //'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
+      'collectiveReport-CollectiveEditReportController':'collectiveReport/CollectiveEditReportController',
+      'collectiveReport-CollectiveDeleteReportController':'collectiveReport/CollectiveDeleteReportController',
+
+
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
+      'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
+      'controllers-campaign_overview_controller':'workflow/controllers/campaign_overview_controller',
+      'controllers-campaign_adcreate_controller':'workflow/controllers/campaign_adcreate_controller',
+      'controllers-creative_controller':'workflow/controllers/creative_controller',
+      'controllers-creative_list_controller':'workflow/controllers/creative_list_controller',
       'controllers-actions_controller':'controllers/actions_controller',
       'controllers-optimization_controller':'controllers/optimization_controller',
       'controllers-inventory_controller':'controllers/inventory_controller',
@@ -276,6 +324,10 @@
       'controllers-cost_controller':'controllers/cost_controller',
       'controllers-performance_controller':'controllers/performance_controller',
       'controllers-platform_controller':'controllers/platform_controller',
+      'controllers-custom_report_controller':'controllers/custom_report_controller',
+
+      'controllers-custom_report_upload_controller':'controllers/custom_report_upload_controller',
+
       'directives-strategycard':'directives/strategycard',
       'directives-tacticcard':'directives/tacticcard',
       'directives-campaigncard':'directives/campaigncard',
@@ -291,18 +343,22 @@
       'models-activity_list':'models/activity_list',
       'models-action_sub_type':'models/action_sub_type',
       'models-tactic':'models/tactic',
+      'models-reports_upload_list':'models/reports_upload_list',
       'services-inventoryservice':'services/inventoryservice',
       'services-viewablityservice':'services/viewablityservice',
       'services-performanceservice':'services/performanceservice',
       'services-platformservice':'services/platformservice',
       'services-costservice':'services/costservice',
+      'services-workflowservice':'workflow/services/workflowservice',
+      'directives-showerrors':'workflow/directives/showerrors',
+      'directives-workflowdirectives':'workflow/directives/workflowdirectives',
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
       'common-directive-DataNotFound':'common/directives/DataNotFound',
       'angular-locale':'vendor/i18n/angular-locale_en-us',
       'jsRoutes': '/jsroutes'
-    } 
- 
+    }
+
   });
 
   requirejs.onError = function (err) {
@@ -322,19 +378,22 @@
           'angular-cache',
           'ng-infinite-scroll',
            'highcharts',
+           'date-picker',
            'highcharts-ng',
            'highcharts-more',
            'solid-gauge',
            'moment',
            'moment-tz',
+           'ng-file-upload-shim',
+           'ng-file-upload',
            'underscore',
-           'angulartics', 
-           'angulartics-ga', 
+           'angulartics',
+           'angulartics-ga',
            'd3',
            'angular-sanitize',
-           'filesaver', 
-           'ui-bootstrap-tpls', 
-           'lrInfiniteScroll', 
+           'filesaver',
+           'ui-bootstrap-tpls',
+           'lrInfiniteScroll',
            'app',
            'CommonModule',
            'common-charts-line',
@@ -357,6 +416,9 @@
            'common-services-AnalyticsService',
            'common-d3-gauge',
            'common-d3-quartilesGraph',
+           'common-d3-campaignChart',
+           'common-d3-barChart',
+           'common-d3-pieChart',
            'common-controllers-GaugeController',
            'common-models-GaugeModel',
            'common-d3-bubbleChart',
@@ -419,6 +481,11 @@
            'login-LoginController',
 
            'controllers-campaign_details_controller',
+           'controllers-campaign_create_controller',
+           'controllers-campaign_overview_controller',
+           'controllers-campaign_adcreate_controller',
+           'controllers-creative_controller',
+           'controllers-creative_list_controller',
            'controllers-actions_controller',
            'controllers-optimization_controller',
            'controllers-inventory_controller',
@@ -426,6 +493,10 @@
            'controllers-cost_controller',
            'controllers-performance_controller',
            'controllers-platform_controller',
+           'controllers-custom_report_controller',
+
+           'controllers-custom_report_upload_controller',
+
            'directives-strategycard',
            'directives-tacticcard',
            'directives-campaigncard',
@@ -440,17 +511,28 @@
            'models-activity_list',
            'models-action_sub_type',
            'models-tactic',
+           'models-reports_upload_list',
            'services-inventoryservice',
            'services-viewablityservice',
            'services-performanceservice',
            'services-platformservice',
            'services-costservice',
+           'services-workflowservice',
+           'directives-showerrors',
+           'directives-workflowdirectives',
            'services-optimizationservice',
            'services-momentService',
            'common-directive-DataNotFound',
-           'angular-locale'
+           'angular-locale',
+
+          'collectiveReport-CollectiveReportModule',
+          'collectiveReport-CollectiveReportListingController',
+          'collectiveReport-CollectiveReportModel',
+         // 'collectiveReport-CollectiveReportDirective',
+          'collectiveReport-CollectiveEditReportController',
+          'collectiveReport-CollectiveDeleteReportController'
            ],
-   
+
     function ($,jqueryUI,  bootstrap, angular) {
             angular.bootstrap(document, ['app']);
     }

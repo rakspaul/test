@@ -7,6 +7,7 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
+        domainReports.highlightSubHeaderMenu();
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
@@ -32,13 +33,16 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsTabs();
 
-        $scope.sortType     = ''; // set the default sort type
+        $scope.sortType     = '-impressions'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverseDefaultSelection  = true;
 
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;
 
-        $scope.sort_field = [{
+        /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+        /*
+         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
             'class': '',
@@ -54,6 +58,9 @@ var angObj = angObj || {};
             'class': '',
             sortDirection: ''
         }] ;
+        */
+
+
 
         $scope.download_urls = {
             cost: null
@@ -66,6 +73,7 @@ var angObj = angObj || {};
 
             $scope.dataNotFound = false;
             $scope.strategyFound = false;
+            $scope.strategyLoading =  true;
 
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
@@ -96,6 +104,7 @@ var angObj = angObj || {};
             }
             $scope.api_return_code=200;
             costService.getStrategyCostData(param).then(function (result) {
+                    $scope.strategyLoading =  false;
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
@@ -111,6 +120,8 @@ var angObj = angObj || {};
                             if(param.strategyId >0 ) {
                                 $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
 
+                                /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+                                /*
                                 if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
                                     $scope.sortFunction($scope.sortByColumn);
                                 } else {
@@ -118,7 +129,7 @@ var angObj = angObj || {};
                                     var sortCoulumName = $scope.sortByColumn.replace('-', '');
                                     $scope.sortFunction(sortCoulumName);
                                 }
-
+                                */
                             }
                         }
                         else{
@@ -133,7 +144,8 @@ var angObj = angObj || {};
 
         };
 
-
+/* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+/*
         $scope.sortFunction = function (sortby) {
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
@@ -154,6 +166,7 @@ var angObj = angObj || {};
 
             }
         };
+        */
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
@@ -166,7 +179,12 @@ var angObj = angObj || {};
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
-            $scope.more_options = Number($scope.selectedStrategy.id) === 0 ?  false : true;
+
+
+            /* COMMENTING THIS LINE BELOW AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
+            // $scope.more_options = Number($scope.selectedStrategy.id) === 0 ?  false : true;
+
+
             $scope.callBackStrategyChange();
         });
 
@@ -217,11 +235,34 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
+        $scope.$on('dropdown-arrow-clicked', function(event, args,sortorder) {
+            $scope.sortType = "kpi_metrics."+args;
+            $scope.sortTypeSubSort ="kpi_metrics."+args;
+            $scope.sortReverse  = sortorder;
+        });
+
+        $scope.removeKpiActive = function(){
+           /* $('#kpi_dropdown').removeClass( "active" );*/
+            $(".drop_list li").css("color", "#57606d");
+            $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
+            $('.drop_list li').removeClass( "active" );
+            $('.direction_arrows div.kpi_arrow_sort').removeClass( "active" );
+
+        };
 
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+
             return isActive + " " + sortDirection;
         };
+        // hot fix for the enabling the active link in the reports dropdown
+        setTimeout(function(){ 
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#cost").addClass("active_tab") ; 
+        }, 200);
+        // end of hot fix for the enabling the active link in the reports dropdown
+
     });
 }());

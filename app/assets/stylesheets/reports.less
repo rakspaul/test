@@ -3,8 +3,96 @@
 @reportTabDefaultColor : #57606d ;
 @reportBorder : #ccd9e3 ;
 
-
-
+.title1 h3 {
+  font-size: 26px ;
+  color: #21252b ;
+  margin-bottom: 25px ;
+  font-family: "Avenir-bold";
+}
+.top_message_box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+  span.msg_box {
+    display: inline-block;
+    color: #3e763f;
+    background-color: #e0f0d9;
+    padding: 13px 10px;
+    margin-top: 20px;
+    min-width: 360px;
+    text-align: left;
+    font-size: 14px;
+    box-shadow: 0px 2px 5px 0px rgba(74,105,116, 0.25);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(74,105,116, 0.25);
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(74,105,116, 0.25);
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    .msg_icon {
+      float: left;
+      height: 20px;
+      width: 20px;
+      display: inline-block;
+      background-color: #3e763f;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      padding: 5px 0 0 0;
+      font-size: 0px ;
+      &:after {
+        content: "";
+        border-bottom: solid 3px #e0f0d9;
+        border-left: solid 3px #e0f0d9;
+        height: 6px;
+        width: 10px;
+        display: inline-block;
+        transform: rotate(-50deg);
+        -moz-transform: rotate(-50deg);
+        -webkit-transform: rotate(-50deg);
+        margin: 0px 0 2px 5px;
+      }
+    }
+    .msg_txt {
+      float: left;
+      margin: 0px 10px ;
+    }
+    .close_msg_box {
+      cursor: pointer;
+      float: right;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border: solid 1px #ccc;
+      color: #999;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      padding-left: 1px;
+    }
+  }
+}
+.red_msg {
+  span.msg_box {
+    background-color: #f2dede ;
+    color: #b96a6a ;
+    .msg_icon {
+      background: #b96a6a;
+      color: #f2dede;
+      font-size: 18px;
+      line-height: 17px;
+      text-align: center;
+      padding: 0 0 0 1px;
+      &:after {
+        display : none ;
+      }
+    }
+  }
+}
 .campaign_details_graphs_holder {
   .carousel-inner .active.left { left: -25%; }
   .carousel-inner .next        { left:  25%; }
@@ -28,14 +116,6 @@
   }
   .carousel-inner  {
     padding-top: 30px ;
-    overflow : visible ;
-  }
-  .carousel-inner:before , .carousel-inner:after {
-    content: " ";
-    display: table;
-  }
-  .clearfix:after {
-    clear: both;
   }
   .col-xs-3 {
     padding: 0 ;
@@ -181,11 +261,6 @@
   margin-top: 16px;
   width: 70px;
   display: block;
-}
-.dropdown_type1_holder {
-  .report_heading_dropdown_txt {
-    margin-top: 10px;
-  }
 }
 .cost_opaque_msg {
   height: 120px;
@@ -552,32 +627,161 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   padding: 0 30px;
   height: 24px;
 }
-.reports_header_tabs_holder {
-  font-family: "Avenir";
-  font-size: 14px;
-  color: #434648;
-  height: 44px;
-  border-bottom: solid 1px #e5ecef ;
-  padding-top: 10px;
-  margin-bottom: 40px;
-  span {
-    display: inline-block;
-    margin-right: 60px;
-    padding-bottom: 8px;
-    border-bottom: solid 2px transparent;
-    cursor: default;
-    margin-top: 4px ;
-    a {
-      text-decoration: none;
-      color: #434648;
+
+div.main_navigation {
+  div.reports_header_tabs_holder {
+    display: none;
+    position: absolute;
+    top: 43px ;
+    left: -20px ;
+    font-family: "Avenir";
+    font-size: 12px;
+    background: #004D86 ;
+    color: #fff;
+    z-index: 1002;
+    border-bottom: solid 1px #e5ecef ;
+    margin-bottom: 40px;
+    min-width: 200px;
+    .header_tab_dd_subheading {
+      padding-left: 20px ;
+      opacity: 0.3 ;
+      text-transform: none;
+      font-size: 13px;
+      padding-bottom: 5px;
+      cursor: default;
+    }
+    .reports_sub_menu_dd_holder {
+      display: table ;
+      .reports_sub_menu_dd {
+        display: table-cell;
+        padding: 16px 0 13px ;
+        min-width: 172px ;
+      }
+    }
+    .custom_container {
+      background-color: #004478 ;
+      .header_tab_dropdown {
+        padding: 1px 20px 1px 30px;
+        .reports_list_link {
+          padding: 5px 0;
+        }
+        .upload_icon {
+          cursor: pointer;
+          float: right;
+          height: 28px ;
+          width: 28px ;
+          background: url("/assets/images/cdesk/upload-icon.png") no-repeat ;
+        }
+      }
+    }
+    .circle_with_number {
+      height: 15px;
+      min-width: 18px;
+      background-color: #6ebef8;
+      color: #fff;
+      border-radius: 8px;
+      -moz-border-radius: 8px;
+      -webkit-border-radius: 8px;
+      display: inline-block;
+      text-align: center;
+      font-size: 10px;
+      line-height: 15px;
+      margin-left: 5px;
+      padding: 0px 5px;
+      cursor: default;
+    }
+    .new_report_generate_btn {
+      display: block;
+      padding: 17px 0px 0px 30px;
+      color: #fff;
+      font-size: 14px;
+      text-transform: none;
+      cursor: pointer;
+      text-align: center;
+      margin: 98px auto 0;
+      border-top: 1px solid rgba(255,255,255,0.20);
+      text-shadow: 0px 0px 0px transparent;
+      transition : .  1s ;
+      -webkit-transition : .1s ;
+      -moz-transition  : .1s ;
+      line-height: 16px;
+      .icon {
+        float: left;
+        display: inline-block;
+        background: url("/assets/images/cdesk/report-builder-icon.png") no-repeat left top;
+        margin: 0 4px 0 0px;
+        height: 20px;
+        width: 22px;
+      }
+      .icon_txt {
+        float: left;
+      }
+      /*&:hover {
+        background: #0978c9 ;
+      }*/
+    }
+    .header_tab_dropdown {
+      padding: 5px 30px ;
+      a {
+        text-decoration: none;
+        color: #fff;
+        text-transform: none;
+        cursor: pointer;
+      }
+      a:hover {
+        color : #84BCE4 ;
+      }
+    }
+    div.header_tab_dropdown:hover {
+      a {
+        color : #84BCE4 ;
+      }
+      a:hover {
+        color : #84BCE4 ;
+      }
+    }
+    .active_tab {
+      /*border-bottom: solid 2px #4eabef;*/
+      a {
+        text-decoration: none;
+      }
     }
   }
-  span.active_tab {
-    border-bottom: solid 2px #4eabef;
-    a {
-      text-decoration: none;
+  #reports_nav_link.each_nav_link.active {
+    div.header_tab_dropdown.active_tab {
+      background-color: rgba(255,255,255,0.10) ;
+      a:hover {
+        color: #fff ;
+      }
+    }
+    div.header_tab_dropdown.active_tab:hover {
+      a {
+        color: #fff ;
+      }
     }
   }
+}
+.reports_sub_menu_dd_holder:before {
+  /*background: url("/assets/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom;*/
+    content: "";
+    display: block;
+    height: 50px;
+    width: 350px;
+    position: absolute;
+    top: -50px;
+    left: 0;
+}
+.reports_sub_menu_dd_holder:after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 42px;
+  height: 0;
+  width: 0;
+  border: solid 6px #004d86;
+  border-left: solid 8px transparent;
+  border-top: 0;
+  border-right: solid 8px transparent;
 }
 .reports_main_page_holder {
   margin: 0px auto 80px;
@@ -606,6 +810,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -619,6 +824,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -644,6 +850,77 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     white-space: normal;
     word-wrap: break-word;
   }
+
+
+
+  .kpi_arrow_sort.point_down.active{
+    background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
+    display:block;
+  }
+
+  .reports_main_page_holder .direction_arrows div div.kpi_arrow_sort.point_down.active{
+    background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
+    display:block;
+  }
+
+
+
+  .drop_list{
+    float: left;
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    width: 110px;
+    li{
+      white-space: nowrap;
+    }
+  }
+
+  .direction_arrows{
+    float:left;
+    font-size: 14px;
+    padding:0px;
+    margin:0px;
+    div{
+      div.kpi_arrow_sort.active.is_active_point_up{
+        background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+        background-position: right -64px;
+        &:hover{
+          background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+          background-position: right -64px;
+        }
+      }
+      div.kpi_arrow_sort.active.is_active_point_down{
+        background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+        background-position: right -64px;
+        &:hover{
+          background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+          background-position: right -64px;
+        }
+      }
+      padding:0;
+      width:15px;
+      display:block;
+      height:25px;
+      div.kpi_arrow_sort.point_down{
+        padding:0;
+        background:  url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 3px;
+        cursor: pointer;
+        width:15px;
+        display: none;
+      }
+      div.kpi_arrow_sort.point_up{
+        padding:0;
+        background:  url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 3px;
+        cursor: pointer;
+        width:15px;
+        display: none;
+      }
+    }
+  }
+
+
+
   .default-kpi-header-icon , .default-kpi-dropdown-icon {
     height: 17px;
     width: 17px;
@@ -657,16 +934,17 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     visibility: visible;
   }
   .dropdown-menu.kpi_indicator_ul {
-    width: 120px ;
+    width: 130px ;
     text-align: left;
     min-width: 100px;
     li {
       padding-left: 10px ;
+      height:25px;
     }
   }
 }
 
-.inventory_reports_container , .common_reports_container{
+.common_reports_container , .breadcrumb_campaign_strategy {
   font-family: "Avenir";
   position: relative;
   #optimization_strategies_dd {
@@ -682,6 +960,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       margin-left: 2px;
     }
   }
+  .dropdown_type1 {
+    position: relative;
+  }
   .dropdown_type1 , .dropdown_type2  {
     .arrrow_img {
       background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
@@ -689,11 +970,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .dropdown-menu li {
     cursor: default;
-    padding: 5px 10px;
-    line-height: 15px;
+    padding: 6px 10px;
   }
   .dropdown-menu li:hover {
-    background: #d2dee7 ;
+    background: #F5F9FD ;
   }
   .download_report {
     height: 38px;
@@ -773,25 +1053,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .download_anchor_li_disabled:hover {
     background: #fff !important;
   }
-  /*  .dropdown_type3 {
-      margin: 8px 40px 0 0;
-      background: url("/assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
-      padding-left: 20px;
-      .dropdown-menu {
-        min-width: 120px;
-        left: -6px;
-        li {
-          padding-left: 25px;
-        }
-      }
-      .dd_txt {
-        color: #697075;
-      }
-    }*/
   .dropdown_type1 {
-    font-size: 26px;
     color: #313233;
-    font-weight: bold;
     .dropdown-menu {
       width: 660px ;
     }
@@ -812,28 +1075,21 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
         max-width: 660px;
         overflow: hidden;
         display: inline-block;
-        height: 40px;
+        height: 32px;
         text-overflow: ellipsis;
         white-space: nowrap;
         float: left;
       }
       input#campaignDropdown {
         border: 0;
-        background: transparent;
       }
     }
   }
   .dropdown_type2 {
-    font-size: 18px;
     color: #313233;
-    font-weight: bold;
-    margin-top: 15px;
-    max-width: 90%;
+    /*margin-top: 15px;*/
+    max-width: 100%;
     word-wrap: break-word;
-  }
-  .dropdown.dropdown_type2 , .dropdown.dropdown_type1 {
-    .AvenirBold() ;
-    font-weight: normal;
   }
   .dropdown-menu {
     padding: 0px;
@@ -931,11 +1187,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .inventory_charts_details_holder , .reports_chart_details_holder {
     .chart_inventory_header {
-      margin-top: 32px;
+      margin-top: 15px;
       margin-right: 20px;
       .inventory_chart_details_list {
         width : 530px ;
       }
+    }
+  }
+  .inventory_charts_details_holder {
+    .dropdown-menu {
+      height: 162px;
     }
   }
   .inventory_chart_details_list {
@@ -1115,13 +1376,14 @@ div.strategy_total_container {
   }
 }
 .viewability_details_outer_container , .viewability_details_video_mode_outer_container {
-  margin-top: 50px;
+  margin-top: 15px;
   .viewability_header {
     border: solid 1px @reportBorder ;
     .each_col.suspicious_col{
       .sort_order_down {
         &.active {
           background-position: 52px -64px;
+          color: #0978c9;
         }
         &:hover {
           background-position: 52px 1px;
@@ -1130,6 +1392,7 @@ div.strategy_total_container {
       .sort_order_up {
         &.active {
           background-position: 52px -64px;
+          color: #0978c9;
         }
         &:hover {
           background-position: 52px 1px;
@@ -1152,6 +1415,10 @@ div.strategy_total_container {
     background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
+    color: #0978c9;
+    &:hover{
+      background-position: 31px -65px;
+    }
   }
   .sort_order_down {
     cursor: pointer;
@@ -1164,6 +1431,10 @@ div.strategy_total_container {
     background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
+    color: #0978c9;
+    &:hover{
+      background-position: 31px -65px;
+    }
   }
 
 
@@ -1172,10 +1443,16 @@ div.strategy_total_container {
     text-align: right;
     float: right;
     width: 100px;
-    font-size: 12px ;
+    font-size: 14px ;
     margin: 0;
     color: #313233;
-    text-transform: uppercase;
+  }
+  .strategy_total_container  {
+    div.each_col.seventh_col {
+      font-size: 14px ;
+      color: #57606d ;
+
+    }
   }
 }
 .viewability_details_outer_container , #reports_platform_viewability_block , .viewability_details_video_mode_outer_container {
@@ -1191,7 +1468,10 @@ div.strategy_total_container {
   .each_col{
     &.fifth_col{
       .sub_col span{
-        background-position: 31px -64px;
+        background-position: 31px -65px;
+        &:hover{
+          background-position: 31px 0px;
+        }
       }
     }
   }
@@ -1246,8 +1526,8 @@ div.strategy_total_container {
     > span {
       text-align: center;
       display: block;
-      text-transform: uppercase;
-      font-size: 12px ;
+      /*text-transform: uppercase;
+      font-size: 12px ;*/
     }
     .sub_col {
       span {
@@ -1346,14 +1626,14 @@ div.strategy_total_container {
   div.each_col.seventh_col {
     text-align: right;
     float: right;
-    width: 100px;
+    width: 115px;
     margin: 0;
   }
   .third_col {
     margin-left: 30px ;
   }
   .third_col , .forth_col {
-    width: 130px ;
+    width: 180px ;
   }
   .suspicious_col  {
     width: 90px ;
@@ -1365,6 +1645,9 @@ div.strategy_total_container {
     .each_col {
       padding-top: 0px;
       .ColHeadingFontColor() ;
+      &.active{
+        color:#0978c9;
+      }
     }
     .sec_col {
       .sub_col {
@@ -1393,7 +1676,7 @@ div.strategy_total_container {
         text-align: left;
         min-width: 130px;
         left: -8px;
-        font-size: 12px;
+        font-size: 14px;
       }
       .arrrow_img {
         background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 0px 0px ;
@@ -1422,6 +1705,119 @@ div.strategy_total_container {
     }
   }
 }
+.viewability_details_video_mode_outer_container{
+  .sort_order_down.active {
+    &:hover{
+      background-position: right -65px;
+    }
+  }
+  .sort_order_up.active {
+    &:hover{
+      background-position: right -65px;
+    }
+  }
+}
+
+.viewability_details_outer_container{
+  .sort_order_down.active {
+    &:hover{
+      background-position: right -65px;
+    }
+  }
+  .sort_order_up.active {
+    &:hover{
+      background-position: right -65px;
+    }
+  }
+
+  .each_col{
+    &.fifth_col{
+      .sub_col span.active{
+        &:hover{
+          background-position: 31px -65px;
+        }
+      }
+    }
+  }
+  .each_col{
+    &.forth_col{
+      .sub_col span.active{
+        &:hover{
+          background-position: right -65px;
+        }
+      }
+    }
+  }
+
+  .each_col{
+    &.third_col{
+      .sub_col span.active{
+        &:hover{
+          background-position: right -64px;
+        }
+      }
+    }
+  }
+
+  .each_col{
+    &.second_col{
+       .icon_text_holder.sort_order_up.active{
+        &:hover{
+          background-position: right -64px!important;
+        }
+      }
+    }
+  }
+
+
+}
+
+#reports_platform_viewability_block{
+  &.reports_video_mode_viewability_container{
+    .viewability_header{
+      .suspicious_col{
+        width: 80px;
+        .tooltip_holder{
+          margin-right: 0;
+          padding-right: 10px;
+          &.sort_order_up{
+            background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+            background-repeat: no-repeat;
+            &.active{
+              background-image: url("/assets/images/cdesk/sorting_arrows_down.png");
+            }
+          }
+          &.sort_order_down{
+            background-image: url("/assets/images/cdesk/sorting_arrows_down.png");
+            background-repeat: no-repeat;
+            &.active{
+              background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+            }
+          }
+          &.active{
+            background-position: 68px -64px;
+            &:hover{
+              background-position: 68px -64px;
+            }
+          }
+          &:hover{
+            background-position: 68px 1px;
+          }
+         }
+        }
+      }
+
+    .each_col{
+      &.forth_col {
+        span {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+
 .viewability_details_video_mode_outer_container {
   .viewability_header {
     .each_col {
@@ -1443,9 +1839,9 @@ div.strategy_total_container {
   margin-top: -20px;
   position: absolute;
   right: 1px;
-  top: 78px;
+  top: 96px;
   span {
-    float: left;  
+    float: left;
     display: inline-block;
   }
   .video_off_icon {
@@ -1497,6 +1893,11 @@ div.strategy_total_container {
   }
 
 }
+.platform_reports_container {
+  .view_mode_switch_container {
+    top : 145px ;
+  }
+}
 .video_tooltip {
   .video_tooltip_icon {
     display: inline-block;
@@ -1535,7 +1936,7 @@ div.strategy_total_container {
 .viewability_details_video_mode_outer_container {
   .viewability_header {
     .sec_col , .ad_col , .suspicious_act_col {
-        margin-top: 6px;
+     /* margin-top: 6px;*/
     }
 
     .vtc_col {
@@ -1559,7 +1960,7 @@ div.strategy_total_container {
     }
   }
   .tooltip_show_icon {
-    width: 15px; 
+    width: 15px;
   }
   .viewability_table_body {
     .each_col {
@@ -1571,6 +1972,13 @@ div.strategy_total_container {
     }
     .first_col {
       text-align: left;
+    }
+    .common-load-icon_viewability {
+      border: solid 1px #ccd9e3;
+      border-top: 0;
+      width: 100%;
+      margin: 0;
+      padding: 100px 0;
     }
   }
   .each_col>span.icon_text_holder {
@@ -1593,7 +2001,7 @@ div.strategy_total_container {
     margin-left: 0px ;
   }
   .ad_col {
-    width: 96px ;
+    width: 155px ;
     .tooltip_for_txt {
       width: 73% ;
       margin-right: 6px ;
@@ -1616,7 +2024,7 @@ div.strategy_total_container {
       left: -95px;
     }
     .common_tooltip:after {
-        left: 93px;
+      left: 93px;
     }
     .sub_col {
       span {
@@ -1648,7 +2056,7 @@ div.strategy_total_container {
     }
     .suspicious_col {
       .icon_text_holder:hover {
-          background-position: 110px 1px;
+        background-position: 110px 1px;
       }
     }
   }
@@ -1660,20 +2068,29 @@ div.strategy_total_container {
         display : none ;
       }
     }
-    .seventh_col {
+    div.seventh_col {
       padding-right: 10px ;
+      width: 105px ;
+      margin-top: 5px;
+      margin-bottom: 10px;
     }
     .each_col.first_col {
       color: #21252b;
       font-size: 18px;
       font-family: "Avenir";
       margin-bottom: 10px ;
+      .active{
+        color: #0978c9;
+      }
     }
     .each_strategy_holder {
       .first_col {
         color: #21252b;
         font-size: 14px;
         font-family: "Avenir-bold";
+        .active{
+          color: #0978c9;
+        }
       }
     }
   }
@@ -1682,29 +2099,43 @@ div.strategy_total_container {
     width: 140px;
     margin: 0 5px;
     .icon_text_holder{
-      background-position: 74px -64px;
+      background-position: 110px -65px;
       &:hover{
         background-position: 74px 1px;
       }
+    }
+
+
+    .icon_text_holder{
+      &.active{
+        &:hover{
+          background-position: 110px -65px;
+        }
+
+      }
 
     }
+
+
+
+
+
   }
 
   .each_col {
     padding-top: 0px ;
     padding-bottom: 0px ;
-    margin-top: 5px;
     margin-bottom: 10px;
   }
   .platform_name_col {
     text-align: left;
     margin-left: 0px ;
-    width: 160px ;
+    width: 205px ;
     margin-right: 0px ;
     padding-left: 15px ;
   }
   .third_col , .forth_col {
-    width: 140px ;
+    width: 160px ;
   }
   div.each_row_list {
     div.platform_aggregation_row {
@@ -1749,12 +2180,12 @@ div.strategy_total_container {
     }
     .common_tooltip:after {
       left: 92px ;
-    } 
+    }
   }
   .vtc_col {
     .common_tooltip {
-        width: 200px;
-        left: -90px;
+      width: 200px;
+      left: -90px;
     }
     .common_tooltip:after {
       left: 93px ;
@@ -1764,14 +2195,14 @@ div.strategy_total_container {
 /**************** reports performance table styling ***********/
 
 .reports_tabs_content_container {
-  margin-top: 50px ;
+  margin-top: 15px ;
   .common-load-icon {
     text-align: center;
     text-indent: -99999;
     height: 40px;
     width: 40px;
     background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-    margin: 20px auto 0 ;
+    margin: 60px auto  ;
     display: block;
   }
 
@@ -1791,6 +2222,7 @@ div.strategy_total_container {
       background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -1805,6 +2237,7 @@ div.strategy_total_container {
       background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
       cursor: pointer;
       padding-right: 17px;
+      color: #0978c9;
     }
   }
 
@@ -1824,6 +2257,7 @@ div.strategy_total_container {
         background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll 97px -64px;
         cursor: pointer;
         padding-right: 17px;
+        color: #0978c9;
       }
     }
 
@@ -1837,6 +2271,7 @@ div.strategy_total_container {
         background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 97px -64px;
         cursor: pointer;
         padding-right: 17px;
+        color: #0978c9;
       }
     }
   }
@@ -1935,10 +2370,10 @@ div.strategy_total_container {
       }
     }
     &.quar_data {
-    .each_col{
-      width:69px; border:1px none #ff6600;
+      .each_col{
+        width:69px; border:1px none #ff6600;
       }
-     }
+    }
     min-height: 100px ;
     font-family: "Avenir" ;
     color: #313233 ;
@@ -2037,9 +2472,7 @@ div.strategy_total_container {
   .vid_none {
     width: 125px !important;
   }
-  .vid_none_hdr {
-    width: 125px !important; border:1px none #FF6600;
-  }
+
   .vid_none_hdr_hide {
     display:none;
   }
@@ -2079,6 +2512,10 @@ div.strategy_total_container {
   // For the purpose of aligning the tabular data in the new platforms page
   // I think the  markup should be refactored as tabular data
   #reports_platform_cost_block,#reports_platform_viewability_block,#reports_platform_performance_block{
+    .each_col {
+      line-height: 17px ;/*
+      margin-top: 10px ;*/
+    }
     .plat_name{
       margin-left:10px;
       white-space: normal;
@@ -2111,14 +2548,22 @@ div.strategy_total_container {
     }*/
     .platform_aggregation_row{
       font-size:15px;
-      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 9px;
       height: 25px;
       margin-top: 1px;
       font-family: "Avenir-bold" ;
+      div.row_open {
+        background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat scroll -2px 2px ;
+        margin-left: 0px;
+        padding-left: 15px;
+        cursor: default;
+      }
 
     }
     .collapseRow .platform_aggregation_row {
-      background-image : url("/assets/images/cdesk/common_side_arrow.png")
+      div.row_open {
+        background-image : url("/assets/images/cdesk/common_side_arrow.png")  ;
+        background-position: -2px 2px ;
+      }
     }
   }
   /*  #reports_platform_cost_block {
@@ -2249,6 +2694,156 @@ div.strategy_total_container {
     }*/
   // end of temporary styling
 
+  #reports_byadsizes_block{
+    .vid_data_hdr {
+      margin-left:1px
+    width: 297px;
+    }
+    .reports_details_outer_container{
+      .each_col{
+        width:120px;
+        margin-left:20px;
+      }
+    }
+  }
+  #reports_bycreatives_block{
+    .vid_data_hdr{
+      margin-left:1px;
+      padding-left:0;
+      width:297px;
+    }
+    .vid_sub_col_hdr , .vid_quartile_data{
+      width: 65px ;
+    }
+    .each_col{
+      width:125px;
+      word-wrap : break-word;
+      text-align: right;
+      &.first_col{
+        width:100%;
+        text-align: left;
+      }
+      &.sec_col{
+        text-align: left;
+      }
+    }
+    &.reports_block  {
+      &.quar_data{
+        .each_col{
+          width:102px;
+
+          text-align: right;
+          &.first_col{
+            width:100%;
+            text-align: left;
+            margin-left:0;
+          }
+          &.sec_col{
+            text-align: left;
+            /*width:124px;*/
+            margin-left: 0;
+          }
+          &.four_col{
+            margin-left: 0;
+            width:83px;
+          }
+        }
+        .vid_data_hdr{
+          margin-left:11px;
+        }
+      }
+    }
+
+    .reports_block{
+      .reports_performance_header{
+        .vid_data_hdr{
+          margin-right:22px;
+          margin-left:0;
+        }
+        .each_col{
+          /*      text-align: left;
+                width:120px!important;*/
+        }
+      }
+    }
+    div.reports_details_outer_container {
+      div.reports_performance_header , div.strategy_total_container  {
+        div.each_col {
+          width : 75px  ;
+        }
+        div.each_col.first_col {
+          width : 100% ;
+        }
+        div.last_col .dropdown {
+          padding-right: 0px ;
+        }
+        div.each_col.sec_col {
+          width: 100px ;
+        }
+        .vid_data_hdr {
+          padding-left: 30px ;
+        }
+      }
+    }
+  }
+
+  /**/
+
+  #reports_byadsizes_block{
+    .each_col{
+      width:149px;
+      text-align: right;
+      &.first_col{
+        width:100%;
+        text-align: left;
+      }
+      &.sec_col{
+        text-align: left;
+      }
+    }
+    &.reports_block  {
+      &.quar_data{
+        .each_col{
+          width:72px;
+
+          text-align: right;
+          &.first_col{
+            width:100%;
+            text-align: left;
+            margin-left:0;
+          }
+          &.sec_col{
+            text-align: left;
+            width:124px;
+            margin-left: 0;
+          }
+          &.four_col{
+            margin-left: 0;
+            width:83px;
+          }
+        }
+        .vid_data_hdr{
+          margin-left:11px;
+          padding-left:2px;
+          width:300px;
+        }
+      }
+    }
+
+    .reports_block{
+      .reports_performance_header{
+        .vid_data_hdr{
+          margin-right:22px;
+          margin-left:0;
+        }
+        .each_col{
+          /*      text-align: left;
+                width:120px!important;*/
+        }
+      }
+    }
+  }
+
   #reports_byplatforms_block  {
     .each_col {
       width: 110px ;
@@ -2339,6 +2934,12 @@ div.strategy_total_container {
           width: 130px ;
         }
       }
+      div.sec_col.row_open {
+        width: 195px ;
+        &.vid_show{
+          width: 145px ;
+        }
+      }
       div.each_col.first_col {
         float: none;
         width: 100% !important;
@@ -2360,7 +2961,6 @@ div.strategy_total_container {
       div.sec_col {
         margin-left: 0px ;
         width: 214px;
-        padding-top: 10px;
         &.vid_show{
           width: 149px ;
           padding-top: 10px;
@@ -2393,7 +2993,7 @@ div.strategy_total_container {
   }
 }
 .reports_cost_header_holder {
-  margin-top: 40px ;
+  margin-top: 15px ;
   .cost_header_holder {
     .each_cost_col.three_col {
       min-width: 70px;
@@ -2413,6 +3013,9 @@ div.strategy_total_container {
   color: #a9a8a8 ;
   font-family: "Avenir" ;
 }
+
+
+
 .reports_cost_header_holder , #reports_platform_cost_block {
   color: #313233 ;
   .common-load-icon {
@@ -2432,6 +3035,7 @@ div.strategy_total_container {
     }
     &.active{
       background-position: 52px -64px;
+      color: #0978c9;
     }
   }
 
@@ -2441,6 +3045,7 @@ div.strategy_total_container {
     }
     &.active {
       background-position: 52px -64px;
+      color: #0978c9;
     }
   }
 
@@ -2456,17 +3061,34 @@ div.strategy_total_container {
         width:110px;
         min-width:53px;
         margin-right: 10px;
+
       }
       &.eight_col{
         margin-right: 2px;
         width: 114px;
       }
       &.sev_col{
-        background-position: 66px -64px;
+        background-position: 64px -64px;
+        &.active{
+          &:hover{
+            background-position: 64px -64px;
+          }
+        }
+        &:hover{
+          background-position: 64px 1px;
+        }
       }
 
       &.six_col{
         background-position: 64px -64px;
+        &.active{
+          &:hover{
+            background-position: 64px -64px;
+          }
+        }
+        &:hover{
+          background-position: 64px 1px;
+        }
       }
 
       &.tenth_col.total_cost{
@@ -2480,6 +3102,9 @@ div.strategy_total_container {
   .platform_aggregation_row {
     .each_cost_col {
       font-family: "Avenir-bold" ;
+      &.active{
+        color:#0978c9;
+      }
     }
   }
   .cost_header_holder{
@@ -2492,6 +3117,10 @@ div.strategy_total_container {
     }
     .each_cost_col {
       .ColHeadingFontColor();
+      line-height: 17px ;
+      &.active{
+        color:#0978c9;
+      }
     }
 
     .more_options {
@@ -2518,6 +3147,9 @@ div.strategy_total_container {
   .each_cost_col {
     font-family: "Avenir" ;
     .ReportDataFontColor();
+    &.active{
+      color:#0978c9;
+    }
   }
   .each_cost_heading {
     .AvenirBold() ;
@@ -2608,12 +3240,29 @@ div.strategy_total_container {
     clear: both;
   }
 }
+
+#reports_platform_cost_block .reports_details_outer_container .reports_platform_header .each_cost_col.sec_col.active{
+  color:#0978c9;
+}
+
+
+
+
 #reports_platform_cost_block {
   .dropdown {
     cursor: default;
   }
 
-
+  .platform_row {
+    margin: 10px 0;
+    .platform_logo {
+      padding-left: 12px ;
+      .plat_name {
+        max-width: 60%;
+        line-height: 17px ;
+      }
+    }
+  }
   .reports_platform_header{
     .each_cost_col {
       &.fifth_col{
@@ -2625,6 +3274,7 @@ div.strategy_total_container {
         &.sort_order_down {
           &.active {
             background-position: 98px -64px;
+            color: #0978c9;
 
           }
           &:hover {
@@ -2636,6 +3286,7 @@ div.strategy_total_container {
         &.sort_order_up {
           &.active {
             background-position: 98px -64px;
+            color: #0978c9;
 
           }
           &:hover {
@@ -2652,11 +3303,14 @@ div.strategy_total_container {
       }
 
       &.ninth_col{
-        white-space:nowrap;
-        background-position: 105px 1px;
+        background-position: 108px 1px;
         margin-right: 8px;
-        padding-right: 0;
+        padding-right: 12px;
+        white-space: nowrap;
         width: 119px;
+        &.active{
+          background-position: 108px -63px;
+        }
       }
 
 
@@ -2742,64 +3396,12 @@ div.strategy_total_container {
   }
   .external_chkbox {
     float: right;
-    margin-top: 34px;
     color: #666;
     font-size: 12px;
-    .squaredFour {
-      width: 20px;
-      margin: 0px 5px 0 0;
-      position: relative;
-      float: left;
-      input[type="checkbox"] {
-        visibility: hidden;
-      }
-      input[type="checkbox"]:focus {
-        outline: 0px ;
-      }
-      label {
-        cursor: pointer;
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 0;
-        left: 0px;
-        border-radius: 2px;
-        border: solid 1px #d9d9d9;
-      }
-      label:after {
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-        filter: alpha(opacity=0);
-        opacity: 0;
-        content: '';
-        position: absolute;
-        width: 12px;
-        height: 5px;
-        background: transparent;
-        top: 1px;
-        left: 3px;
-        border: 2px solid #4eabef;
-        border-top: none;
-        border-right: none;
-        -webkit-transform: rotate(-45deg);
-        -moz-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        transform: rotate(-45deg);
-      }
-      label:hover::after {
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-        filter: alpha(opacity=30);
-        opacity: 0.5;
-      }
-      input[type=checkbox]:checked + label:after {
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-        filter: alpha(opacity=100);
-        opacity: 1;
-      }
-    }
     .squaredFourTxt {
       float: left;
       font-family: "Avenir" ;
+      margin-top: 2px ;
     }
   }
 }
@@ -2853,7 +3455,7 @@ div.strategy_total_container {
   color: #0978c9;
   height: 26px;
   line-height: 26px;
-  margin: 0 82px 10px 0;
+  margin: 0 82px 25px 0;
   font-size: 12px ;
   .AvenirBold() ;
   a {
@@ -3128,15 +3730,78 @@ div.strategy_total_container {
     }
   }
   .dropdown_ul_text {
+
+    .dropdown.kpi-dd-holder.cpc,.dropdown.kpi-dd-holder.cpa,.dropdown.kpi-dd-holder.cpm{
+      color:#0978c9!important;
+    }
+
+
+    .dropdown{
+      &.kpi-dd-holder{
+        &.cpc{
+          color:#0978c9;
+        }
+        &.cpc{
+          color:#0978c9;
+        }
+        &.cpc{
+          color:#0978c9;
+        }
+      }
+    }
+
+
+
+
+
     display: inline-block;
+    white-space: nowrap;
     .default-kpi-header-icon  {
       float: left;
     }
   }
 }
-.kpi-dd-holder {
+
+.viewability_header{
+  .kpi-dd-holder {
+    padding-right: 13px;
+    &.active {
+      /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 92px -64px;*/
+      padding-right: 13px;
+      .dd_txt{
+        color:#0978c9;
+      }
+    }
+  }
+}
+
+.cost_container{
+
+  .reports_main_page_holder .direction_arrows div {
+    height: 25px;
+  }
+}
+
+#reports_platform_cost_block{
+  .reports_main_page_holder .direction_arrows div {
+    height: 25px;
+  }
+
+}
+
+.kpi-dd-holder,#kpi_dropdown {
+  padding-right: 13px;
+  &.active{
+
+    /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat scroll 56px -64px;*/
+    padding-right: 13px;
+    .dd_txt{
+      color:#0978c9;
+    }
+  }
   .dropdown_ul_text {
     display: inline-block;
+    white-space: nowrap;
   }
   .default-kpi-dropdown-icon {
     display: inline-block;
@@ -3146,6 +3811,7 @@ div.strategy_total_container {
   .default-kpi-header-icon  {
     float: left;
     background-position: left top;
+
   }
 }
 /*  end of reports login page */
@@ -3230,7 +3896,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
   }
   .suspicious_col , .vtc_col {
-    width: 76px;
+    width: 52px;
   }
   .vtc_col {
     padding-right: 10px ;
@@ -3259,5 +3925,1347 @@ only screen and (min-device-pixel-ratio: 2) {
     }
   }
 }
+.report_generator_and_response {
+  background: #fff ;
+  .report_builder_container  {
+    margin-bottom: 30px ;
+    .container {
+      width: 1070px ;
+    }
+    .timeframe_selector {
+      padding-left: 0px ;
+      width: 160px ;
+    }
+    .common_dropdown .dropdown {
+      margin-right: 4px ;
+    }
+    ::-webkit-input-placeholder { 
+      color:  #939ead;
+      font-size: 14px;
+    }
+    ::-moz-placeholder { 
+      color:  #939ead;
+      font-size: 14px;
+    } /* firefox 19+ */
+    :-ms-input-placeholder { 
+      color:  #939ead;
+      font-size: 14px;
+    } /* ie */
+    input:-moz-placeholder { 
+      color:  #939ead;
+      font-size: 14px;
+    }
+    .left_border {
+      border-left: solid 1px #dde6eb ;
+      padding-left: 30px ;
+      padding-right: 0 ;
+    }
+    .each_section_custom_report {
+      margin: 0px 0 10px 0 ;
+      .each_measurable_col {
+          padding: 0;
+          margin-right: 70px;
+          width: 182px;
+      }
+      .each_measurable_col:last-child {
+        margin-right: 0px ;
+      }
+      .filter_input_txtbox {
+        input {
+          padding: 5px 10px ;
+          height: 32px;
+          border: solid 1px #dde6eb;
+          border-radius: 2px;
+          -moz-border-radius: 2px;
+          -webkit-border-radius: 2px;
+          color: #2d3941;
+          font-size: 14px;
+        }
+      }
+      .metrics_btns {
+        .title_row_separator {
+          margin-top: 0px ;
+          .metrics_edit_container , .secondary_txt {
+            margin-top: 10px ;
+          }
+        }
+      }
+    }
+    .each_section_custom_report.metrics_section {
+      margin-top: 60px ;
+    }
+    .create_report_title  {
+      font-family: "Avenir-bold" ;
+    }
+    .custom_report_col_title {
+      .external_chkbox {
+        float: none;
+        cursor: default;
+        .squaredFour {
+          height: 18px;
+          width: 18px;
+          margin: 2px 4px 0 0;
+          label {
+              height: 18px;
+              width: 18px;
+              border-radius: 1px;
+              -moz-border-radius: 1px;
+              -webkit-border-radius: 1px;
+              border-color: rgb(221, 230, 235);
+          }
+          label:after {
+            top: 4px;
+            left: 4px;
+            border-width: 2px;
+            border-color: #007ac9;
+          }
+        }
+        .squaredFourTxt {
+          font-family: "Avenir-bold"
+        }
+        .squaredFour.not_all_selected {
+          input[type=checkbox]+label:after {
+              opacity : 1 ;
+              border-left: 0;
+              top: 5px;
+              left: 5px;
+              width: 7px;
+              height: 4px;
+              -webkit-transform: rotate(0deg);
+              -moz-transform: rotate(0deg);
+              -o-transform: rotate(0deg);
+              -ms-transform: rotate(0deg);
+              transform: rotate(0deg);
+          }
+          input[type=checkbox]:checked+label:after {
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);  
+            border-left: solid 3px #007ac9;
+            width: 9px;
+            height: 5px;
+            top: 2px;
+            left: 2px;
+          }
+        }
+      }
+    }
+    .select_all_measures_holder {
+      .custom_report_col_title {
+        .squaredFourTxt {
+          font-family: "Avenir" ;
+        }
+      }
+    }
+    .search_input {
+      border: solid 1px #ccc;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      padding: 5px;
+      margin: 0 0 20px 0;
+      width: 90%;
+    }
+    .custom_report_col {
+      .each_option {
+        padding:1px 10px 1px 22px ;
+        border-radius: 4px ;
+        -moz-border-radius: 4px ;
+        -webkit-border-radius: 4px ;
+        border : solid 2px transparent ;
+        margin : 4px 0px ;
+        cursor: pointer;
+        transition : .2s ;
+        -webkit-transition : .2s ;
+        -moz-transition : .2s ;
+      }
+      .each_option.active {
+        border: solid 2px rgb(9, 120, 201);
+        color: rgb(9, 120, 201);
+        &:hover {
+          color : #21252b ; 
+        }
+      }
+      .each_option:hover {
+        border: solid 2px rgb(9, 120, 201); ;
+      }
+    }
+    
+    .add_breakdown_btn {
+      padding: 7px 10px 0 0;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      /* border: solid 1px #007ac9; */
+      color: #0978c9;
+      cursor: pointer;
+      margin: 6px 0;
+      float: left;
+    }
+    .filter_btn {
+      color: #0978c9 ;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .add_breakdown_line {
+      float: left;
+      width: 10px;
+      height: 22px;
+      border: dashed 1px #ccc;
+      border-right: 0;
+      border-top: 0;
+      border-radius: 0 0 0 10px;
+      -moz-border-radius: 0 0 0 10px;
+      -webkit-border-radius: 0 0 0 6px;
+      margin-left: 20px;
+    }
 
+  }
+  .custom_response_screenshot_container {
+    margin-bottom: 40px ;
+    background: #f5f9fd ;
+    padding: 60px 0;
+    border-top: solid 2px #ccd9e3 ;
+    .report-response-load {
+      background: url("/assets/images/cdesk/table_loading.png") no-repeat center top;
+      height: 150px;
+      width: 100%;
+      padding-top: 108px;
+      text-align: center;
+      font-size: 20px;
+      color: #c6c9cd;
+      margin: 20px 0 60px ;
+    }
+    .img_table_txt {
+      display: block;
+      font-size: 20px;
+      color: #c6c9cd;
+      text-align: center;
+    }
+    .img_table {
+      height: 200px ;
+      width : 300px ;
+      margin : 0 auto ;
+      background: url("/assets/images/cdesk/table_picture.png") no-repeat center center ;
+    }
+  }
+  .title_row_separator {
+      margin-top : 10px ;
+  }
+  .blue_txt {
+    color : #428bca ;
+    font-size: 14px ;
+    text-decoration: none;
+    float: left;
+  }
+  .metrics_edit_container {
+    .blue_txt {
+      background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center ;
+      padding-right: 20px ;
+    }
+  }
+  .dashed_txt {
+    border-bottom: dashed 1px #428bca ;
+  }
+  .additional_filters_label {
+    cursor: pointer;
+  }
+  .add_circle_symbol {
+      height: 17px;
+      width: 20px;
+      background: url("/assets/images/cdesk/add_circle.png") no-repeat left center ;
+    }
+    .total_metrics_container  {
+      .popup_heading {
+        font-size: 26px ;
+        font-family: "Avenir-bold" ;
+        margin: 0 0 28px 16px;
+      }
+      .select_all_measures_holder {
+          margin: 0 30px 0 0;
+      }
+    }
+    .about_popup {
+      width: 1000px;
+      height: 80%;
+      overflow: auto;
+      font-size: 14px ;
+      text-align: left;
+      color : rgb(33, 37, 43);
+      .common_primary_btn {
+        margin : 40px 15px 20px 0 ;
+      }
+      .secondary_txt {
+        margin : 48px 30px 0 0 ;
+      }
+    }
+}
+.common_primary_btn , .common_secondary_btn , .common_secondary_blue_btn {
+  color: #fff ;
+  height: 40px ;
+  text-align: center;
+  width: 150px ;
+  margin: 0px 20px 0px 0 ;
+  background: #0978c9 ;
+  font-size: 12px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px ;
+  border-radius: 4px;
+  float: left;
+  text-transform: uppercase;
+  line-height: 38px;
+  cursor: pointer;
+}
+.common_primary_btn {
+  text-decoration: none;
+  color: #fff ;
+  &:hover {
+    color : #fff ;
+    text-decoration: none;
+  }
+}
+.common_secondary_blue_btn {
+  border: solid 1px #0978c9 ;
+  color: #0978c9 ;
+  background: #fff ;
+}
+.common_secondary_btn {
+  background: #dee6eb ;
+  color: #a2acba ;
+}
+.secondary_txt {
+  color:  #939ead ;
+  cursor: pointer;
+  margin-right: 24px ;
+}
+
+.common-load-more {
+  margin: 60px auto 0;
+  width: 30px;
+  height : 30px ;
+  background: url("/assets/images/loading.gif") no-repeat ;
+}
+.common_dropdown {
+  .dropdown {
+    min-width: 120px;
+    border: solid 1px #dde6eb;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    min-height: 30px;
+    color: #2d3941;
+    font-size: 14px;
+    .dropdown_ul_text {
+      cursor: default;
+      padding: 5px 10px ;
+      display: block;
+    }
+    .arrow_img {
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+      height: 18px;
+      width: 10px;
+      display: inline-block;
+      float: right;
+      margin-left: 8px ;
+    }
+    .dropdown-menu {
+      padding: 0 ;
+      max-height: 200px;
+      overflow: auto;
+      li {
+        padding: 5px ;
+        cursor: default;
+      }
+      li:hover {
+        background: #d2dee7 ;
+      }
+    }
+  }
+}
+
+
+.custom_report_response_page {
+  width: 1040px;
+  margin: 0 auto ;
+  .back_arrow {
+    height: 30px ;
+    width: 30px ;
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -614px -238px ;
+    cursor: pointer;
+    margin-top: 30px ;
+  }
+  .custom_report_response_table {
+    min-height: 200px ;
+    border : solid 1px #ccc ;
+    margin-bottom: 50px ;
+    background: #fff ;
+    position: relative;
+    overflow: hidden;
+    .no-data-common {
+      margin: 100px auto 110px ;
+    }
+    .custom_report_scroll {
+      min-height: 200px ;
+      max-height: 500px;
+      overflow: auto ;
+    }
+    
+    .each_col.more_dimension_arrow {
+      display: none;
+      background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+      height: 11px;
+      width: 12px;
+      min-width: 12px;
+      max-width: 12px;
+      padding-bottom: 2px;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      margin-top : 3px ;
+    }
+
+    .second_dimension_row_holder {
+      margin-left: 5px;
+      display: block;
+      .second_dimension_row {
+        position: relative;
+        margin-top: 10px;
+        color: #5A5A5A ;
+        font-family: "Avenir" ;
+        .tree_dimension_col {
+          width: 290px;
+          min-width: 290px;
+          max-width: 290px;
+          padding: 6px 0 0 25px ;
+        }
+        .each_col.tree_string {
+          height: 15px;
+          width: 12px;
+          min-width: 12px;
+          max-width: 12px;
+          border-bottom: dashed 1px rgb(149, 161, 169) ;
+          border-radius: 0 0 0 4px ;
+          -moz-border-radius: 0 0 0 4px ;
+          -webkit-border-radius: 0 0 0 4px ;
+          display: inline-block;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          &:after {
+            content: "";
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            position: absolute;
+            top: 13px;
+            right: 0;
+            background-color: rgb(147, 158, 173);
+            width: 5px;
+            height: 5px;
+
+          }
+        }
+      }
+      .second_dimension_row:last-of-type {
+          background-color: #fff;
+          z-index: 2;
+          height: 13px;
+          border-left: dashed 1px rgb(149, 161, 169);
+      }
+    }
+    .vertical_scroll {
+      padding-top: 75px;
+      .heading_row {
+        position: absolute;
+        background-color: #fff;
+        top: 0;
+        left: 0px;
+        padding: 30px 0 0 50px ;
+        z-index: 4;
+
+      }
+    }
+    .horizontal_scroll {
+      background: #f5f5f5 ;
+      .each_row , .second_dimension_row {
+        position: static;
+      }
+      .tree_dimension_col {
+          position: absolute;
+          left: 0;
+          background-color: #fff;
+      }
+      .heading_row , .first_dimension_row_holder , .second_dimension_row_holder {
+        padding-left: 320px ;
+      }
+      .second_dimension_row_holder {
+        margin-left: 0px ;
+      }
+      .tree_string {
+        display: none !important;
+      }
+    }
+    .reportData.active {
+      .more_dimension_arrow  {
+        background-image: url("/assets/images/cdesk/common_down_arrow.png") ;
+        margin-top: 0px ;
+      }
+      .more_dimension_col {
+        cursor: pointer;
+        &:after {
+          content: "";
+          height: 100%;
+          width: 1px;
+          border-left: dashed 1px rgb(149, 161, 169) ;
+          position: absolute;
+          top: 0;
+          left: 5px;
+          z-index: 1;
+          margin-bottom: 30px;
+        }
+      }
+    }
+    .reportData.hasBreakdown {
+      font-family: "Avenir-bold" ;
+      .more_dimension_arrow {
+        display: block;
+      }
+      .more_dimension_col {
+        padding-left: 20px ;
+        cursor: pointer;
+      }
+    }
+    .heading_row {
+      font-family: "Avenir-bold" ;
+      margin-bottom: 20px ;
+      border-bottom: solid 1px #ccc ;
+      padding: 30px 30px 0 30px;
+
+    }
+    .first_dimension_row_holder {
+      padding: 20px 30px 0px 30px ;
+    }
+    .second_dimension_row_holder  {
+      margin-left: 5px ;
+    }
+    .each_row {
+      display: table ;
+      position: relative;
+      margin-bottom: 25px;
+      .common-load-more {
+        height: 30px;
+        background: url("/assets/images/loading.gif") no-repeat center center;
+        width: 1000px;
+        margin: 30px 0 50px;
+      }
+    }
+    .fixed_dimension_col {
+      position: absolute ;
+      top: 0px ;
+      left: 0px ;
+      min-height: 200px;
+      width: 300px;
+      background: #fff;
+      height: 100%;
+      z-index: 2;
+      overflow: auto;
+      box-shadow: 0px 0px 4px #ccc;/*
+      background: url("/assets/images/cdesk/right_table_divider.png") repeat scroll right 1px ;*/
+    }
+    .each_col {
+      display: table-cell;
+      width: 102px;
+      min-width: 102px;
+      max-width: 102px;
+      word-wrap: break-word;
+      padding-right: 20px;/*
+      padding-bottom: 15px;*/
+      text-align: right;
+    }
+
+    .tree_dimension_col {
+      width: 295px;
+      min-width: 295px;
+      max-width: 295px;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .filter_by_holder {
+    margin: 25px 0 40px ;
+    .filtered_by_txt {
+      background: #007ac9 ;
+      padding: 5px 10px ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
+      color: #fff ;
+    }
+  }
+  .heading_row.each_row {
+    margin-bottom: 0px ;
+     .each_col {
+        padding-bottom: 20px ;
+      }
+  }
+}
+
+div.reports_tabs_content_container {
+  div#reports_bycreatives_block {
+    div.reports_details_outer_container.strategy_video_disabled {
+      div.each_col.sec_col {
+        width: 220px ;
+      }
+      div.each_col {
+        margin-left: 15px ;
+        width: 110px ;
+      }
+    }
+  }
+}
+.custom_filter_breakdown {
+  margin-top: 10px ;
+}
+.dropdown_autoselect_box {
+  input {
+    border: 0;
+    border-bottom: solid 1px #ccc;
+    padding: 5px 6px;   
+    background: url("/assets/images/cdesk/search_input.png") no-repeat 135px center; 
+  }
+}
+
+.sort_order_down_new {
+  cursor: pointer ;
+  padding-right: 17px ;
+  &:hover {
+    background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px ;
+  }
+}
+.dropdown_ul_text{
+  &.active{
+    color:#0978c9;
+  }
+}
+.report_response_and_tabs {
+  .custom_report_response_tabs {
+    .each_tab {
+      float: left;
+      padding: 7px 5px;
+      text-align: center;
+      width: 120px;
+      border: solid 1px #ccc;
+      border-bottom: 0;
+      border-right: 0;
+      cursor: pointer;
+      position: relative;
+      height: 35px;
+      line-height: normal;
+      background: #f5f9fd ;
+      &:first-child {
+        border-radius:  4px 0 0 0 ;
+        -moz-border-radius:  4px 0 0 0 ;
+        -webkit-border-radius:  4px 0 0 0 ;
+      }
+      &:last-child {
+        border-right : solid 1px #ccc ;
+        border-radius: 0 4px 0 0 ;
+        -moz-border-radius: 0 4px 0 0 ;
+        -webkit-border-radius: 0 4px 0 0 ;
+      }
+
+    }
+    .each_tab.active {
+      span {
+        height: 36px;
+        background: #fff;
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        line-height: normal;
+        padding: 7px 5px;
+        border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+        cursor: default;
+        z-index: 2 ;
+      }
+    }
+  }
+  .sec_dimension_load_more {
+    text-align: center;
+    margin: 10px 0 20px;
+    display: block;
+  }
+}
+.heading_first_dimension {
+  color: #5C5C5C ;
+}
+.new_breakdown_div {
+  .filter_input_txtbox {
+    display: none;
+  }
+}
+.delete_row {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+  margin: 8px 0 0 10px;
+  background: url("/assets/images/cdesk/clear_entry.png") no-repeat center center ;
+}
+.report_generate_button.disabled {
+  opacity: .5 ;
+  cursor: default;
+}
+.page_top_header {
+  margin: 23px 0 20px;
+  .page_name {
+    color: #21252b ;
+    font-size: 26px ;
+    font-family: "Avenir-bold";
+  }
+}
+
+
+/* Reports upload page */
+.reports_upload_page , .reports_list_page{
+/*  .report_heading_dropdown_txt {
+    display: none;
+  }*/
+  .container {
+    width: 1040px ;
+  }
+  .upload_file_holder {
+    border:1px solid #dde6eb;
+    margin-bottom:8px; 
+    height:auto;
+    width:100%;
+    color: #57606d;
+  }
+  .table_header {
+    border:1px solid #dde6eb; 
+    padding:20px;
+    margin-top:10px ;
+    color:  #21252b;
+  }
+  .each-col {
+    float: left;
+    margin-right: 20px;
+    min-width: 10px;
+    min-height: 10px;
+  }
+  .about_file_row {
+    padding : 20px 5px 20px 20px ;
+    .file-name-col  , .file-size-col , .status-col {
+      line-height: 32px ;
+    }
+  }
+  input[type="text"] {
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 1px solid #dde6eb;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #939ead;
+    line-height: 18px;
+    padding: 8px;
+    margin: 0 8px;
+    border-radius: 2px ;
+    -moz-border-radius: 2px ;
+    -webkit-border-radius: 2px ;
+    &:hover {
+      border: 1px solid #ccd2da;
+    }
+  }
+  .dropdown {
+    .dropdown_txt {
+      padding: 5px 16px 5px 10px;
+      border: solid 1px #dde6eb;
+      background: url("/assets/images/cdesk/common-down-arrow-space.png") no-repeat right center;
+      max-width: 62px;
+      min-width: 62px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      line-height: normal;
+      &:hover {
+        border: 1px solid #ccd2da;
+      }
+    }
+    ul.dropdown-menu {
+      max-width: 400px;
+      min-height: 60px;
+      max-height: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0;
+      li {
+        padding: 5px 10px;
+        cursor: default;
+        &:hover {
+          background-color : rgb(238, 242, 245);
+        }
+      }
+    }
+  }
+  .description_row {
+    background: url("/assets/images/cdesk/comment.png") no-repeat 20px center #F5F9FD;
+    padding: 4px 5px 4px 40px ;
+    display: block;
+    font-size: 12px;
+    color: #57606C;
+    line-height: 16px;
+    .title {
+      font-size: 10px;
+      color: #939EAD;
+      text-transform: uppercase;
+      font-family: "Avenir-bold" ;
+      margin-left: 4px;
+      margin-right: 10px;
+    }
+    input {
+      font-size: 12px;
+      color: #57606C;
+      line-height: 16px;
+      width: 865px ;
+    }
+  }
+  .drop-box {
+    background: #f5f9fd;
+    border: 2px dashed #DDE6EB;
+    width: 1040px;
+    margin: 20px auto 0;
+    text-align: center;
+    padding: 100px 0px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+  }
+  .some_file_uploaded {
+    .drop-box {
+      padding: 40px 0px ;
+    }
+  }
+  input.report-type-name {
+    width: 140px;
+    margin-right: 0;
+    margin-left: 4px;
+    padding: 5px 8px;
+    font-size: 14px;
+    color: #57606d;
+    line-height: 16px;
+  }
+  .img_table_txt {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    color: #B4B8BD;
+    line-height: 27px;
+    a {
+      color: #0978C9;
+      text-decoration: underline;
+    }
+  }
+  .img_type_format {
+    text-align: center;
+    font-size: 14px;
+    color: #21252B;
+    line-height: 20px;
+  }
+  .img_type_format {
+    margin-top: 4px;
+    display: inline-block;
+  }
+  .dragover {
+    border: 2px dashed #3AA0E6;
+  }
+  .notes {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+    display: block;
+  }
+  .progress-box {
+    background: #f5f9fd;
+    width: 1040px;
+    margin: 20px auto 0;
+    text-align: center;
+    padding: 100px 0;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    min-height: 280px;
+    padding: 68px 0;
+  }
+  .progress_bar {
+    position: relative;
+    height: 8px;
+    background: #E9EDF2;
+    border-radius: 40px;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+    margin: 25px auto;
+    width: 680px;
+  }
+  .progress_area {
+    overflow: hidden;
+    height: 8px;
+    margin-bottom: 20px;
+    background-color: #3aa0e6;
+    width: 0;
+    background-image: linear-gradient(90deg, #2298EF 0%, #0978C9 100%);
+    border-radius: 40px;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+  }
+  .progress-upload-info {
+    opacity: 0.3;
+    font-size: 20px;
+    color: #21252B;
+    line-height: 27px;
+  }
+  .progress_percentage {
+    font-size: 26px ;
+    color: #21252b ;
+    font-family: "Avenir-bold" ;
+  }
+  .delete-col {
+    height: 16px ;
+    width: 16px ;
+    float: right;
+    margin: 5px 5px 0 0 ;
+    background: url('/assets/images/cdesk/delete.png') no-repeat center center;
+  }
+  .file-name-col {
+    width: 267px ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .file-size-col {
+    width: 62px ;
+  }
+  .status-col {
+    width : 62px ;
+  }
+  .report-type-col {
+    width: 140px ;
+    .dropdown {
+      float: left;
+      .dropdown_txt {
+        max-width: 140px;
+        min-width: 140px;
+      }
+    }
+  }
+  .campaign-col {
+    width: 448px;
+    margin-right: 14px;
+    .dropdown {
+      .dropdown_txt {
+        max-width: 100%;
+        min-width: 100%;
+      }
+    }
+  }
+  .btn_holder {
+    height: 60px; 
+    margin: 20px 0 ;
+    .common_primary_btn {
+      float: right;
+      margin-right: 0;
+      width: 120px;
+    }
+    .secondary_txt {
+      float: right;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+  }
+  .status-col {
+    display: none;
+  }
+  .some_status {
+    .file-name-col {
+      width: 240px ;
+    }
+    .status-col {
+      display: block;
+    }
+    .campaign-col {
+      width: 394px ;
+    }
+  }
+  .custom_report_type {
+    .report-type-col {
+      width: 284px ;
+    }
+    .campaign-col {
+      width :  296px ;
+    }
+
+  }
+  .custom_report_type.some_status {
+    .campaign-col {
+      width :  250px ;
+    }
+  }
+  .ready-status {
+    background: url('/assets/images/cdesk/success_icon.png') no-repeat left 8px;
+    padding-left: 18px;
+    color: #49C95E ;
+  }
+  .redo-status {
+    background: url('/assets/images/cdesk/failed_icon.png') no-repeat left 8px;
+    padding-left: 18px;
+    color: #0978C9;
+    span {
+      border-bottom: dashed 1px #C0E1FA;
+    }
+  }
+  .file_upload_container {
+    background: #f5f9fd;
+    padding: 0 0 20px 0;
+    border-top: solid 2px #ccd9e3;
+    .file_upload_icon {
+      height: 106px;
+      width: 300px;
+      margin: 0 auto;
+      background: url('/assets/images/cdesk/dragging_files.png') no-repeat center center;
+      margin-bottom: 40px;
+    }
+  }
+  .disabled_list {
+    opacity: 0.3 ;
+  }
+}
+.reports_upload_page {
+  .btn_holder .common_primary_btn.loading-icon {
+    margin-top : 0px ;
+  }
+}
+.reports_list_page { 
+  /*hided for now through css */
+  .breadcrumb_nav_strategy {
+    display: none;
+  }
+  .title1 { 
+    h3 {
+      margin-top: 28px;
+    }
+  }
+  /*end of hided for now through css */
+  .each-col {
+    margin-right: 35px ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow : ellipsis ;
+    cursor: pointer;
+    &:hover {
+      .common-sort-icon {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
+      }
+    }
+  }
+  .each-col.active , .each-col.active:hover {
+    color : #0978c9 ;
+  }
+  .nav_filters {
+    margin-bottom: 30px ;
+  }
+  .update-time-col {
+    width: 68px ;
+  }
+  .report-type-col {
+    width: 90px ;
+    
+  }
+  .campaign-col {
+    width : 506px ;
+  }
+  .author-col {
+    width: 140px ;
+    margin-right: 20px ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow : ellipsis ;
+  }
+  .description_row {
+    padding : 12px 5px 12px 42px ;
+    min-height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .about_file_row {
+    padding-bottom: 11px ;
+  }
+  .no_data {
+    border:1px solid #dde6eb; 
+    height:50px;
+    width:100%;
+    padding:100px;
+    text-align: center;
+    color: #939ead;
+    line-height: 20px;
+    font-size: 12px;
+    margin-bottom: 20px ;
+  }
+  .report_builder_container {
+    margin-bottom: 0px ;
+    .container {
+      width: 1040px ;
+    }
+  }
+  .upload_page_link {
+    float: right;
+    margin: 23px 0;
+    font-family: "Avenir-bold" ;
+    font-size: 12px;
+    color: #0978C9;
+    background-color: #fff;
+    border: solid 1px #0978C9;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    letter-spacing: .5px;
+    padding-left: 50px;
+    width: 178px;
+    margin: 23px 0;
+    background: url('/assets/images/cdesk/upload.png') no-repeat 20px center;
+    text-align: left;
+    line-height: 38px;
+  }
+  .options-button-col {
+    float: right;
+    margin-right: 0px ;
+    .btn-icon {
+      height: 20px ;
+      width: 16px ;
+      float: left;
+      display: inline-block;
+      cursor: pointer;
+      margin : 0px 12px 0 0 ;
+    }
+    .download-icon {
+      background: url('/assets/images/cdesk/download.png') no-repeat center center;
+    }
+    .delete-icon {
+      background: url('/assets/images/cdesk/delete.png') no-repeat center center;
+    }
+    .edit-icon {
+      background: url('/assets/images/cdesk/edit_blue.png') no-repeat center center;
+    }
+  }
+}
+.popup-holder {
+  font-size: 14px;
+  color: #21252B;
+  line-height: 20px;
+    input[type="text"] , textarea {
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 1px solid #dde6eb;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #939ead;
+    line-height: 18px;
+    padding: 8px;
+    margin: 0 8px;
+    border-radius: 2px ;
+    -moz-border-radius: 2px ;
+    -webkit-border-radius: 2px ;
+    &:hover {
+      border: 1px solid #ccd2da;
+    }
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    margin: 0;
+    height: 80px;
+    overflow: auto;
+    color: #21252b;
+    margin-top: 4px;
+  }
+  .dropdown {
+    margin-top: 4px ;
+    .dropdown_txt {
+      padding: 5px 16px 5px 10px;
+      border: solid 1px #dde6eb;
+      background: url("/assets/images/cdesk/common-down-arrow-space.png") no-repeat right center;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      line-height: normal;
+      &:hover {
+        border: 1px solid #ccd2da;
+      }
+    }
+    ul.dropdown-menu {
+      max-width: 400px;
+      min-height: 60px;
+      max-height: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0;
+      li {
+        padding: 5px 10px;
+        cursor: default;
+        &:hover {
+          background-color : rgb(238, 242, 245);
+        }
+      }
+    }
+  }
+  .modal-header {
+    border-bottom: 0px ;
+    padding: 30px 30px 0px 30px ;
+  }
+  .modal-body {
+    padding : 0 30px 30px ;
+  }
+  .modal-title {
+    font-size: 26px ;
+    font-family: "Avenir-bold" ;
+  }
+
+  .data_heading {
+    font-family: "Avenir-bold" ;
+    display: inline-block;
+    width: 100px ;
+  }
+  .data_value {
+    display: inline-block;
+  }
+  .popup-btns-holder {
+    background: #f5f9fd ;
+    padding: 20px 30px;
+    .common_primary_btn {
+      float: right;
+      margin: 0;
+      width: 100px;
+    }
+    .secondary_txt {
+      float: right;
+      margin: 10px 20px 0 0;
+    }
+    .delete-option {
+      color: #939ead; 
+      padding-left: 20px ;
+      background: url("/assets/images/cdesk/delete-grey.png") no-repeat left 2px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  }
+  .report-type-data {
+    width: 140px ;
+    margin-right: 20px ;
+  }
+  .campaign-dd-data {
+    width: 480px ;
+  }
+  .data_row {
+    margin-top: 20px ;
+    .bold-font {
+      font-family: "Avenir-bold" ;
+    }
+  }
+  .data_row.custom_report_type {
+      .report-type-data {
+          width: 284px ;
+          .dropdown {
+            width: 140px ;
+            float: left;
+          }
+          .report-type-name {
+            width: 140px;
+            display: inline-block;
+            margin: 4px 0 0 4px;
+            padding: 5px 8px 4px;
+          }
+      }
+      .campaign-dd-data {
+        width: 340px ;
+      }
+    }
+}
+
+.edit-dialog .modal-dialog {
+    width :710px ;
+}
+.delete-dialog .modal-dialog {
+    width :464px ;
+}
+
+/*common loading icon */
+.loading-icon {
+  text-align: center;
+  text-indent: -99999;
+  height: 40px;
+  width: 40px;
+  background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  margin: 20px auto 0 ;
+  display: block;
+}
+/* end of common loading icon */
+
+/*common disabled dropdowns layout */
+.disabled_dropdown_holder {
+  position: relative;
+  .disabled_dropdown {
+    height: 55px;
+    width: 100%;
+    cursor: default;
+    position: absolute;
+    top: -8px;
+    left: 0px;
+    z-index: 1;
+  }
+}
+/*end of common disabled dropdowns layout */
+
+
+/*common sort icon */
+.common-sort-icon {
+  display: inline-block;
+  height: 13px;
+  width: 10px;
+  margin-left: 5px;
+}
+/*.common-sort-icon.ascending {*/
+    /*background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;*/
+/*}*/
+/*.common-sort-icon.descending {*/
+    /*background : url("/assets/images/cdesk/sprites.png") no-repeat  -430px -351px;*/
+/*}*/
+.active , .active:hover {
+  .common-sort-icon.ascending {
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -414px;
+  }
+  .common-sort-icon.descending {
+    background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px;
+  }
+}
+/*end of common sort icon */
 
