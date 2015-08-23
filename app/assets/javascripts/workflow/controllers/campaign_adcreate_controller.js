@@ -368,7 +368,7 @@ var angObj = angObj || {};
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
         
-        $scope.closeBtnCreative=function(){
+        $scope.cancelBtn=function(){
             $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
         }
