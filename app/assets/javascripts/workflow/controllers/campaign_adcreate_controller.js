@@ -246,8 +246,8 @@ var angObj = angObj || {};
         });
 
         // Create AD Tab Animation
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            $('a[data-toggle="tab"]').parents("li").removeClass('active');
+        $('.leftNavLink').on('shown.bs.tab', function (e) {
+            $('.leftNavLink').parents("li").removeClass('active');
             $(this).parents('li').addClass('active');
 
             var target = $(this).attr('href');
@@ -368,7 +368,7 @@ var angObj = angObj || {};
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
         
-        $scope.closeBtnCreative=function(){
+        $scope.cancelBtn=function(){
             $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
         }
