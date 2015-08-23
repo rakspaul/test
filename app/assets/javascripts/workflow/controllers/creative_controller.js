@@ -100,7 +100,7 @@ var angObj = angObj || {};
                 if($location.path()==="/creative/add"){
                    $window.location.href = "/creative/list";
                 }else{
-                    $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%", marginLeft: "0px"}, 'slow');
+                    $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%", marginLeft: "0px"}, 'slow', function() {  $(this).hide();});
                     $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
                 }
         }
