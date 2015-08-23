@@ -23,26 +23,29 @@
 		
 		<div class="tableWrapper">
 		    <span class="miniLabel">RECENTLY CREATED/USED</span>
-		    <table class="table" id="selCheck">
-			<thead>
+		    <div class="table" id="selCheck">
+			<!-- <thead>
 			<tr>
 			    <th></th>
 			    <th></th>
 			</tr>
-			</thead>
-			<tbody>
+			</thead> -->
+			<!-- <tbody> -->
 			<!--Test 1   | filter : {{sizeSearchVal}}  -->
-			<tr ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal | orderBy: 'name'">
-			    <td>
-				<span class="col-md-1 "><input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/></span>
-				<div class="col-md-11">
-				    <p class="col-md-12">{{data.size.size}}</p>
-				</div>
-			    </td>
-			    <td>{{data.name}}</td>
-			</tr>
-			</tbody>
-		    </table>
+			<div ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal | orderBy: 'name'">
+			    <div class="clearfix row-gap" >
+					<span class="col-md-1">
+						<input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/>
+					</span>
+					<span class="col-md-3">
+					    {{data.size.size}}
+					</span>
+					<span class="col-md-8">{{data.name}}</span>
+			    </div>
+			    
+			</div>
+			<!-- </tbody> -->
+		    </div>
 		    <div ng-if="dataFromCreativeLibraryNotFound" class="dataFromCreativeLibraryNotFound">
 			<span>Data Not Found</span>
 		    </div>
