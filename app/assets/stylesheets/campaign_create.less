@@ -849,9 +849,8 @@
       position: relative;
       width: 800px;
       min-height: 250px;
-      max-height: 450px;
       left: 50%;
-      top: 80px;
+      top: 55px;
       margin-left: -400px;
       background: white;
       border-radius: 5px;
@@ -859,20 +858,56 @@
       -webkit-box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
       -moz-box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
       box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
-      .table {
-        margin-bottom: 0;
-        overflow: scroll;
-      }
       .table>thead>tr>th {
         border-width: 0;
       }
       .table>tbody>tr:first-child td {
         border-width: 0;
       }
-      .col-md-7 {
-        background-color: #F3F3F3;
+      .tableWrapper {
+        float: left;
+        width: 100%;
         overflow: scroll;
         height: 300px;
+        margin-top: 25px;
+        border-right: 1px solid #dde6eb;
+        .miniLabel {
+          float: left;
+          width: 100%;
+          margin-bottom: 15px;
+        }
+        .dataFromCreativeLibraryNotFound {
+          float: left;
+          width: 100%;
+          background: #f5f9fd;
+          span {
+            float: left;
+            width: 100%;
+            text-align: center;
+            color: #939eb6;
+            padding: 30px 0;
+          }
+        }
+      }
+      .table {
+        margin-bottom: 0;
+        thead {
+          display: none;
+        }
+        tbody {
+          tr {
+            td {
+              background: #fff !important;
+              border-width: 0px !important;
+              padding-top: 15px;
+              padding-bottom: 15px;
+            }
+          }
+        }
+      }
+      .col-md-7 {
+        min-height: 300px;
+        padding: 0 30px;
         h2 {
           font-size: 16px;
           float: left;
@@ -895,7 +930,7 @@
           margin: 7px 0 0 0;
         }
         #custom-search-input input{
-          border: 0;
+          border-width: 0 !important;
           box-shadow: none;
           font-size: 14px;
           padding: 7px;
@@ -922,10 +957,21 @@
       .col-md-5 {
         overflow: scroll;
         height: 300px;
+        padding: 0 30px;
+        padding-left: 0;
         h2 {
           font-size: 16px;
           float: left;
           width: 100%;
+        }
+        .table {
+          tbody {
+            tr {
+              td {
+                border-bottom: 1px solid #dde6eb !important;
+              }
+            }
+          }
         }
       }
       .closePopBtn {
@@ -937,10 +983,10 @@
         color: #fff;
       }
       .headerLib {
-        padding: 20px;
+        padding: 30px;
         float: left;
         width: 100%;
-        background: #E4E4E4;
+        background: #fff;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         .btn-default {
@@ -951,7 +997,6 @@
           float: left;
           color: #000;
           width: auto;
-          font-size: 16px;
           margin-top: 0;
         }
         a {
@@ -1325,6 +1370,45 @@
           }
         }
       }  
+    }
+  }
+  #creative {
+    .creativeTableTag {
+      margin-top: 30px;
+      .table {
+        margin-bottom: 0;
+        thead {
+          border: 1px solid #dde6eb;
+          border-bottom: 2px solid #dde6eb;
+          tr {
+            th {
+              padding-top: 18px;
+              height: 86px;
+              vertical-align: top;
+            }
+          }
+        }
+        tbody {
+          tr {
+            td {
+              background: #fff !important;
+            }
+          }
+        }
+      } 
+      .emptyCreativesFlag {
+        width: 100%;
+        float: left;
+        background: #f5f9fd;
+        span {
+          width: 100%;
+          float: left;
+          text-align: center;
+          margin-top: 60px;
+          margin-bottom: 30px;
+          color: #939eb6;
+        }
+      }
     }
   }
   .form-group {

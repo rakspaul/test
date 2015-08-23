@@ -3,47 +3,50 @@
         <div class="headerLib">
             <span class="glyphicon glyphicon-remove closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
             <h1>Add from Library</h1>
-            <a href="">Adding a Creative Tag to Your Ad (guided copy)</a>
+            <a href="">Adding a Creative to your Ad</a>
         </div>
         <div class="col-md-12 zeroPadding">
             <div class="col-md-7">
-                <h2 class="col-md-3 zeroPadding">Available</h2>
-                <div id="custom-search-input" class="col-md-9">
-                    <div class="input-group col-md-12">
-                        <input type="text" class="form-control input-lg" placeholder="Search..." ng-model="sizeSearchVal"/>
-			    <span class="input-group-btn">
-				<button class="btn btn-info btn-lg" type="button" ng-click="searchSize()">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
-			    </span>
-                    </div>
-                </div>
-
-                <table class="table" id="selCheck">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-show="dataFromCreativeLibraryNotFound">
-                        <td>
-                            <span class="label label-warning">Data Not Found</span>
-                        </td>
-                    </tr>
-                    <!--Test 1   | filter : {{sizeSearchVal}}  -->
-                    <tr ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal">
-                        <td>
-                            <span class="col-md-1 "><input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/></span>
-                            <div class="col-md-11">
-                                <p class="col-md-12">{{data.size.size}}</p>
-                            </div>
-                        </td>
-                        <td>{{data.name}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="col-md-12 zeroPadding">
+		    <h2 class="col-md-3 zeroPadding">Available</h2>
+		    <div id="custom-search-input" class="col-md-9">
+			<div class="input-group col-md-12">
+			    <input type="text" class="form-control input-lg" placeholder="Search..." ng-model="sizeSearchVal"/>
+				<span class="input-group-btn">
+				    <button class="btn btn-info btn-lg" type="button" ng-click="searchSize()">
+			<i class="glyphicon glyphicon-search"></i>
+		    </button>
+				</span>
+			</div>
+		    </div>
+		</div>
+		
+		<div class="tableWrapper">
+		    <span class="miniLabel">RECENTLY CREATED/USED</span>
+		    <table class="table" id="selCheck">
+			<thead>
+			<tr>
+			    <th></th>
+			    <th></th>
+			</tr>
+			</thead>
+			<tbody>
+			<!--Test 1   | filter : {{sizeSearchVal}}  -->
+			<tr ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal">
+			    <td>
+				<span class="col-md-1 "><input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/></span>
+				<div class="col-md-11">
+				    <p class="col-md-12">{{data.size.size}}</p>
+				</div>
+			    </td>
+			    <td>{{data.name}}</td>
+			</tr>
+			</tbody>
+		    </table>
+		    <div ng-show="dataFromCreativeLibraryNotFound" class="dataFromCreativeLibraryNotFound">
+			<span>Data Not Found</span>
+		    </div>
+		</div>
             </div>
             <div class="col-md-5">
                 <h2>Selected</h2>
