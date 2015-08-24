@@ -67,4 +67,32 @@
             }
         };
     });
+
+    angObj.directive('mediaCostCheck', function () {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, element, attr, ctrl) {
+                ctrl.$setValidity('mediaCostValidator', true);
+                function customValidator(ngModelValue) {
+                    var campaignData = scope.workflowData.campaignData;
+                    var campaignBuget = campaignData.bookedRevenue || 0;
+
+                    if(scope.adData.budgetType.toLowerCase() === 'cost') {
+                        var mediaCoat = Number(ngModelValue);
+                        if(campaignBuget >=  mediaCoat) {
+                            ctrl.$setValidity('mediaCostValidator', true);
+                        } else {
+                            ctrl.$setValidity('mediaCostValidator', false);
+                        }
+                    } else {
+                        ctrl.$setValidity('mediaCostValidator', true);
+                    }
+                    return ngModelValue;
+                }
+
+                ctrl.$parsers.push(customValidator);
+            }
+        };
+    });
 }());

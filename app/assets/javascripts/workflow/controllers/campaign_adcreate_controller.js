@@ -13,7 +13,7 @@ var angObj = angObj || {};
         $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.selectedArr = [];
-        $scope.dataFromCreativeLibraryNotFound = true;
+        $scope.dataFromCreativeLibraryNotFound = false;
         $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
         $scope.IsVisible = false;//To show hide view tag in creatives listing
@@ -363,22 +363,23 @@ var angObj = angObj || {};
 
 
         $scope.showCreateNewWindow=function(){
+            $("#formCreativeCreate")[0].reset();
             $scope.isAddCreativePopup = true;
-            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "50%" , marginLeft: "-307px"}, 'slow');
+            $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-307px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
-        
-        $scope.cancelBtn=function(){
-            $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, 'slow');
-            $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
-        }
 
+
+        $scope.creativeLibraryFilterFunction = function(element) {
+            console.log(element);
+        }
         function getfreqCapParams(formData) {
 
             var freq_cap = [];
-            var targetType =  formData.budgetType.toLowerCase === 'budget' ? 'ALL' : 'PER_USER';
+            var budgetType = formData.budgetType.toLowerCase() === 'cost' ? 'Budget' : formData.budgetType;
+            var targetType =  budgetType.toLowerCase === 'budget' ? 'ALL' : 'PER_USER';
             var freqDefaultCapObj = {'frequencyType':'DAILY','quantity':100};
-            freqDefaultCapObj['capType'] = formData.budgetType.toUpperCase();
+            freqDefaultCapObj['capType'] = budgetType.toUpperCase();
             freqDefaultCapObj['pacingType'] = formData.pacingType;
             freqDefaultCapObj['targetType'] = targetType;
             freqDefaultCapObj['quantity'] = 100;;
@@ -387,7 +388,7 @@ var angObj = angObj || {};
             var isSetCap = formData.setCap === 'true' ? true : false;
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
-                selectedfreqObj['capType'] = formData.budgetType.toUpperCase();
+                selectedfreqObj['capType'] = budgetType.toUpperCase();
                 selectedfreqObj['frequencyType'] = formData.frequencyType;
                 selectedfreqObj['quantity'] = Number(formData.quantity);
                 selectedfreqObj['targetType'] = targetType;
@@ -400,11 +401,15 @@ var angObj = angObj || {};
         $(function () {
 
 
-            $("#SaveAd").on('click', function () {
+           $("#SaveAd").on('click', function () {
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                var creativesData = $scope.creativeData['creativeInfo'];
+               if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
+                   return false;
+               }
+
+               var creativesData = $scope.creativeData['creativeInfo'];
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
                 postAdDataObj.campaignId = Number($scope.campaignId);

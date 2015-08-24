@@ -427,20 +427,29 @@ angObj.directive('truncateTextWithHover', function () {
 
   angObj.directive('wholeNumberOnly', function() {
     return {
-      require: 'ngModel',
+      restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        modelCtrl.$parsers.push(function (inputValue) {
-          // this next if is necessary for when using ng-required on your input.
-          // In such cases, when a letter is typed first, this parser will be called
-          // again, and the 2nd time, the value will be undefined
-          if (inputValue == undefined) return ''
-          var transformedInput = inputValue.replace(/[^0-9]/g, '');
-          if (transformedInput != inputValue) {
-            modelCtrl.$setViewValue(transformedInput);
-            modelCtrl.$render();
+        element.on('keydown', function (event) {
+          var $input = $(this);
+          var value = $input.val();
+          value = value.replace(/[^0-9]/g, '')
+          $input.val(value);
+          if (event.which == 64 || event.which == 16) {
+            // to allow numbers
+            return false;
+          } else if (event.which >= 48 && event.which <= 57) {
+            // to allow numbers
+            return true;
+          } else if (event.which >= 96 && event.which <= 105) {
+            // to allow numpad number
+            return true;
+          } else if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
+            // to allow backspace, enter, escape, arrows
+            return true;
+          } else {
+            event.preventDefault();
+            return false;
           }
-
-          return transformedInput;
         });
       }
     };
@@ -448,24 +457,43 @@ angObj.directive('truncateTextWithHover', function () {
 
   angObj.directive('fractionNumbers', function() {
     return {
-      require: 'ngModel',
+      restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        modelCtrl.$parsers.push(function (inputValue) {
-          // this next if is necessary for when using ng-required on your input.
-          // In such cases, when a letter is typed first, this parser will be called
-          // again, and the 2nd time, the value will be undefined
-          if (inputValue == undefined) return ''
-          var transformedInput = inputValue.replace(/[^0-9.]/g, '');
-          if (transformedInput != inputValue) {
-            modelCtrl.$setViewValue(transformedInput);
-            modelCtrl.$render();
+        element.on('keydown', function (event) {
+          var $input = $(this);
+          var value = $input.val();
+          value = value.replace(/[^0-9\.]/g, '')
+          var findsDot = new RegExp(/\./g)
+          var containsDot = value.match(findsDot)
+          if (containsDot != null && ([46, 110, 190].indexOf(event.which) > -1)) {
+            event.preventDefault();
+            return false;
           }
-
-          return transformedInput;
+          $input.val(value);
+          if (event.which == 64 || event.which == 16) {
+            // numbers
+            return false;
+          } if ([8, 13, 27, 37, 38, 39, 40, 110].indexOf(event.which) > -1) {
+            // backspace, enter, escape, arrows
+            return true;
+          } else if (event.which >= 48 && event.which <= 57) {
+            // numbers
+            return true;
+          } else if (event.which >= 96 && event.which <= 105) {
+            // numpad number
+            return true;
+          } else if ([46, 110, 190].indexOf(event.which) > -1) {
+            // dot and numpad dot
+            return true;
+          } else {
+            event.preventDefault();
+            return false;
+          }
         });
       }
     };
   })
+
 
   angObj.directive('removeSpecialCharacter', function() {
     return {
