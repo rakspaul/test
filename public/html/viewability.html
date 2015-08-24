@@ -1,6 +1,6 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container">
-         <div class="clearfix page_top_header">
+        <div class="clearfix page_top_header">
             <div class="pull-left page_name">
                 Quality Report
             </div>
@@ -8,7 +8,7 @@
                 <download-report></download-report>
             </div>
         </div>
-        
+
         <div class="clearfix">
             <filters-header reports="true"></filters-header>
         </div>
@@ -22,15 +22,9 @@
                 <download-report></download-report>
             </div>
         </div> -->
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         <!--      <div id="viewability_strategies_dd" ng-show="isStrategyDropDownShow">
                  <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
              </div> -->
-
 
         <div class="view_mode_switch_container" ng-show="adFormats.videoAds" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
@@ -190,28 +184,31 @@
             <div class="viewability_details_video_mode_outer_container" ng-show="adFormats.videoAds && videoMode">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col">
-                        <span class="icon_text_holder" ng-class="sortClassFunction('-view_metrics.video_viewability_metrics.videos_deliverable_imps',sortTypeForVidView,sortReverseDefaultSelection)" ng-click="sortTypeForVidView = '-view_metrics.video_viewability_metrics.videos_deliverable_imps'; sortReverse = sortReverseDefaultSelection; sortReverseDefaultSelection = !sortReverseDefaultSelection ;removeKpiActive();"  >{{textConstants.DELIVERED_IMPS}}</span>
+                        <!--<span class="icon_text_holder" ng-class="sortClassFunction('-view_metrics.video_viewability_metrics.videos_deliverable_imps',sortTypeForVideosForVidView,sortReverseDefaultSelection)" ng-click="sortTypeForVideosForVidView = '-view_metrics.video_viewability_metrics.videos_deliverable_imps'; sortReverse = sortReverseDefaultSelection; sortReverseDefaultSelection = !sortReverseDefaultSelection;removeActivesForVidSelect();"  >{{textConstants.DELIVERED_IMPS}}</span>-->
+                        <span class="icon_text_holder" ng-class="sortClassFunction('-view_metrics.video_viewability_metrics.videos_deliverable_imps',sortTypeForVideos,sortReverseForVidView)" ng-click="sortTypeForVideos = '-view_metrics.video_viewability_metrics.videos_deliverable_imps';sortReverse = sortReverseForVidView; sortReverseForVidView = !sortReverseForVidView;"  >{{textConstants.DELIVERED_IMPS}}</span>
+
                     </div>
                     <div class="each_col third_col">
                         <span>{{textConstants.MEASURABLE}}</span>
 
                         <div class="sub_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.video_measurable_imps'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_perc',sortType,sortReverse)" ng-click="sortType = 'view_metrics.video_viewability_metrics.video_measurable_perc'; sortReverse = !sortReverse;removeKpiActive();" >%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_imps',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_measurable_imps';sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_measurable_imps';  sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_measurable_perc'; sortReverse = !sortReverse;removeKpiActive();" >%</span>
                         </div>
                     </div>
                     <div class="each_col ad_col">
                         <span>{{textConstants.VIEWABLE}}</span>
 
                         <div class="sub_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_viewable_imps',sortType,sortReverse)" ng-click="sortType = 'view_metrics.ias_viewable_imps'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
-                                <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('view_metrics.viewable_imps_perc',sortType,sortReverse)" ng-click="sortType = 'view_metrics.viewable_imps_perc'; sortReverse = !sortReverse;removeKpiActive();" >
-                                    %<sup>*</sup>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.ias_viewable_imps',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.ias_viewable_imps'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+                                <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_viewable_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_viewable_perc'; sortReverse = !sortReverse;removeKpiActive();" >
+                                       %<sup>*</sup>
+
                                     <div class="common_tooltip">{{textConstants.BASED_ONLY_ON_VIEWABLE_IMPS}}</div>
                                 </span>
                         </div>
 
-                        <!-- <span class="clearfix icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.video_measurable_imps',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.video_measurable_imps'; sortReverse = !sortReverse;removeKpiActive();">
+                        <!-- <span class="clearfix icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.video_measurable_imps',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'video_viewability_metrics.video_measurable_imps'; sortReverse = !sortReverse;removeKpiActive();">
                              <span class="pull-left tooltip_for_txt" >{{textConstants.AD_START_IMPS}}</span>
                              <span class="pull-left tooltip_holder">
                                  <span class="tooltip_show_icon"></span>
@@ -242,15 +239,15 @@
                         </div>
 
                         <div class="sub_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_1q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_1q_completed'; sortReverse = !sortReverse;removeKpiActive();" >25%</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_2q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_2q_completed'; sortReverse = !sortReverse;removeKpiActive();" >50%</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_3q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_3q_completed'; sortReverse = !sortReverse;removeKpiActive();">75%</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.videos_4q_completed',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.videos_4q_completed'; sortReverse = !sortReverse;removeKpiActive();">100%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_1q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_1q_view_perc'; sortReverse = !sortReverse;removeKpiActive();" >25%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_2q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_2q_view_perc'; sortReverse = !sortReverse;removeKpiActive();" >50%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_3q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_3q_view_perc'; sortReverse = !sortReverse;removeKpiActive();">75%</span>
+                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_4q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_4q_view_perc'; sortReverse = !sortReverse;removeKpiActive();">100%</span>
                         </div>
                     </div>
 
                     <!--<div class="each_col vtc_col">
-                        <div class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.vtc',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.vtc'; sortReverse = !sortReverse;removeKpiActive();" >
+                        <div class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.vtc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'video_viewability_metrics.vtc'; sortReverse = !sortReverse;removeKpiActive();" >
                             <span class="pull-left " >{{ textConstants.VTC }}</span>
                                 <span class="pull-left tooltip_holder">
                                     <span class="tooltip_show_icon"></span>
@@ -262,7 +259,7 @@
                     </div>-->
 
                     <div class="each_col suspicious_act_col">
-                        <span class="icon_text_holder" ng-class="sortClassFunction('video_viewability_metrics.video_susp_activity_perc',sortType,sortReverse)" ng-click="sortType = 'video_viewability_metrics.video_susp_activity_perc'; sortReverse = !sortReverse;removeKpiActive();" >{{ textConstants.SUSPICIOUS_ACTIVITY }} %</span>
+                        <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.video_susp_activity_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_susp_activity_perc'; sortReverse = !sortReverse;removeKpiActive();" >{{ textConstants.SUSPICIOUS_ACTIVITY }} %</span>
                     </div>
                 </div>
                 <div class="viewability_table_body">
@@ -318,16 +315,16 @@
                                      <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_4q_view | nrFormat) : '-'}}</span>-->
                                 </div>
                             </div>
-                           <!-- <div class="each_col">
-                                {{viewData.view_metrics.video_viewability_metrics.vtc |number:2}}%
-                            </div>-->
+                            <!-- <div class="each_col">
+                                 {{viewData.view_metrics.video_viewability_metrics.vtc |number:2}}%
+                             </div>-->
                             <div class="each_col">
                                 {{viewData.view_metrics.video_viewability_metrics.video_susp_activity_perc |number:2}}%
                             </div>
                         </div>
 
                         <div class="all_strategies_holder">
-                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortTypeForVidView:sortReverse track by $index">
+                            <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tactics | orderBy:sortTypeForVideos:sortReverse track by $index">
                                 <div class="each_strategy clearfix">
                                     <div class="each_col first_col">
                                         {{tactic.tactic_name}}
@@ -359,7 +356,7 @@
                                             <span> {{tactic.view_metrics.video_viewability_metrics.videos_viewable_imps | nrFormat}}</span>
                                             <span>{{tactic.view_metrics.video_viewability_metrics.video_viewable_perc | number:0}}%</span>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="each_col sub_four_cols">
                                         <div class="sub_col">
@@ -369,7 +366,7 @@
                                             <span>{{tactic.view_metrics.video_viewability_metrics.videos_4q_view_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_4q_view_perc | number:0)+'%') : '-'}}</span>
                                         </div>
                                         <div class="sub_col next_val">
-                                            <!--<span>{{tactic.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>
+                                            <!--<span>{{tsortReverseForVidViewactic.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>
                                             <span>{{tactic.view_metrics.video_viewability_metrics.videos_2q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_2q_view  | nrFormat) : '-'}}</span>
                                             <span>{{tactic.view_metrics.video_viewability_metrics.videos_3q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_3q_view | nrFormat) : '-'}}</span>
                                             <span>{{tactic.view_metrics.video_viewability_metrics.videos_4q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_4q_view | nrFormat) : '-'}}</span>-->
