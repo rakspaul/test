@@ -18,14 +18,13 @@ h2 {color: #21252b; font-size: 20px; font-family: "Avenir-bold";}
 h3 {color: #21252b; font-size: 18px; font-family: "Avenir-bold";}
 h4 {color: #21252b; font-size: 16px; font-family: "Avenir-bold";}
 h5 {color: #21252b; font-size: 14px; font-family: "Avenir-bold";}
+a {text-decoration: none;}
 
 // Inputs
-/*commented as it is affecting all other places */
-/*input[type='text'] {
+.firstWrapper input[type='text'] {
   border: 1px solid #dbe8ef !important;
   border-radius: 0 !important;
-}*/
-/*end of commented as it is affecting all other places */
+}
 
 // Alert Message
 .successMessage {
@@ -81,7 +80,7 @@ h5 {color: #21252b; font-size: 14px; font-family: "Avenir-bold";}
 }
 
 // DDL
-select.form-control {
+.firstWrapper select.form-control {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
@@ -89,14 +88,13 @@ select.form-control {
   background-repeat: no-repeat;
   background-position-x: right;
   background-position-y: 6px;
+  border: 1px solid #dbe8ef !important;
 }
 
-/*Commented as it is affecting in every other page */
-/*.nav_filters {
+.firstWrapper .nav_filters {
   width: 100%;
   margin: 20px 0;
-}*/
-/*end of Commented as it is affecting in every other page */
+}
 
 // BTN
 .btn, select {border-radius: 2px !important; text-decoration: none;}
@@ -157,6 +155,14 @@ select.form-control {
   }
 }
 
+// Big Toggle CheckBox
+.bigChkBox.active {
+  background: #f5f9fd;
+  label {
+    color: #2c9aec;
+  }
+}
+
 // Big Toggle BTN
 .goalBtnGroup {
   .btn-primary {
@@ -196,7 +202,8 @@ select.form-control {
     height: 60px;
     margin-top : 10px;
     .hideRadioBtn {
-      background-color: #fff ;
+      background-color: #fff;
+      border: 1px solid #dde6eb;
       position: absolute;
       top: 0;
       left: 0;
@@ -212,8 +219,37 @@ select.form-control {
   label.active {
     .hideRadioBtn {
       background-color: #eff2f5;
-      border: 2px solid #2c9aec;
+      border: 1px solid #2c9aec;
+      border-radius: 2px !important;
     }
+  }
+}
+
+// Small Blue Switch Btn
+.btn-ani-toggle {
+  position: relative;
+  cursor: pointer;
+  .togBtnBg {
+    background: #0978c9;
+    border-radius: 40px;
+    width: 45px;
+    height: 17px;
+    float: left;
+    margin-top: 4px;
+  }
+  .btn {
+    height: 25px;
+    width: 25px;
+    border-radius: 25px !important;
+    position: absolute;
+    left: -2px;
+    top: 0;
+    background: #fff;
+    border: 1px solid #ccd2da;
+    margin: 0 !important;
+  }
+  .btn.active {
+    left: 22px;
   }
 }
 
