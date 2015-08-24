@@ -15,7 +15,6 @@ var angObj = angObj || {};
         if(redirectWidget) {
             $scope.videoMode = redirectWidget === "videoViewability";
         }
-
         $scope.sortType     = '-view_metrics.ias_imps_delivered'; // set the default sort type
         $scope.sortTypeForVidView     = '-view_metrics.video_viewability_metrics.videos_deliverable_imps'; // set the default sort type
         $scope.sortReverse  = false; // set the default sort order
@@ -169,6 +168,11 @@ var angObj = angObj || {};
           $scope.callBackKpiDurationChange('duration');
         });
 
+        $scope.removeActivesForVidSelect = function () {
+            $(".icon_text_holder").removeClass( "active" );
+            $(".viewability_header .sec_col .icon_text_holder").addClass( "active" );
+        }
+
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
@@ -183,6 +187,7 @@ var angObj = angObj || {};
         };
 
         $scope.removeKpiActive = function(){
+            $(".viewability_header .sec_col .icon_text_holder").removeClass( "active" );
             $('.dropdown_ul_text').removeClass( "active" );
             $(".kpi_arrow_sort").removeClass( "active" );
             $(".kpi-dd-holder").removeClass( "active" );
