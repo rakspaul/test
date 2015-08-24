@@ -55,7 +55,7 @@
     <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}
     </div>
     <!--Abi can you add the active class to the div element below-->
-    <div class="form-group col-md-3 btn_border "
+    <div class="form-group col-md-3 btn_border bigChkBox"
          ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
         <label for="screenTypeChkBox{{screenType.id}}">
             <input type="checkbox" name="screens" ng-model="screenType.active" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}"  class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);" ng-checked="screenType.active">

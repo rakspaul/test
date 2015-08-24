@@ -1,4 +1,5 @@
 <div class="col-md-7 zeroPadding">
+    <span class="col-md-12 zeroPadding adName">{{adData.adName}}</span>
     <h2 class="col-md-12 zeroPadding marginBottom">Select Your Target Audience <a>or Choose a saved preset</a></h2>
     <a href="javascript:void(0);">Which target audience should I choose for my ad?</a>
 </div>
@@ -6,6 +7,7 @@
     <a href="" class="addTargetBtn"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Targeting</a>
 </div>
 
+<!--=== Targeting Type ===-->
 <div class="col-md-12 zeroPadding">
     <div class="dropdown ddlSetTarget">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -24,7 +26,8 @@
     </div>
 </div>
 
-<div class="col-md-12 zeroPadding selectWrap">
+<!--=== Targeting Form ===-->
+<div class="col-md-12 zeroPadding targettingFormWrap">
     <div class="col-md-7 zeroPadding tabbable">
         <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
         <ul class="nav nav-tabs">
@@ -42,16 +45,29 @@
               </span>
             </div>
             
-            <div class="btn-group miniToggle">
-                <label class="btn btn-default active"><span>Region</span>
-                    <input type="radio" name="geoType" value="Region" class="btn_rad" hidden="hidden">
-                </label>
-                <label class="btn btn-default"><span>City</span>
-                    <input type="radio" name="geoType" value="City" class="btn_rad" hidden="hidden">
-                </label>
+            <div class="col-md-12 zeroPadding">
+                <div class="btn-group miniToggle pull-left">
+                    <label class="btn btn-default active"><span>Region</span>
+                        <input type="radio" name="geoType" value="Region" class="btn_rad" hidden="hidden">
+                    </label>
+                    <label class="btn btn-default"><span>City</span>
+                        <input type="radio" name="geoType" value="City" class="btn_rad" hidden="hidden">
+                    </label>
+                </div>
+                
+                <div class="col-md-4 zeroPadding switchWrap">
+                    <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+                    <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+                    
+                    <div class="btn-group btn-ani-toggle pull-right" ng-click="switchInclude()">
+                        <button class="btn btn-xs btn-success active"></button>
+                        <div class="togBtnBg"></div>
+                    </div>
+                </div>
             </div>
             
             <div class="col-md-12 zeroPadding">
+                <div class="col-md-1"></div>
                 <span class="geoTypeResult">Region</span>
             </div>
         </div>
@@ -167,16 +183,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Colorado (State)</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Colorado (State)</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> New York (State)</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> New York (State)</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                     <tr>
-                        <td><span class="glyphicon glyphicon-ban-circle child" aria-hidden="true"></span> Albany (City)</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany (City)</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                 </tbody>
             </table>
@@ -192,20 +208,20 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> 10001</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10001</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> 10012</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10012</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> 10038</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10038</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> 70301-70546</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 70301-70546</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                 </tbody>
             </table>
@@ -221,17 +237,49 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Albany, Georgia</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany, Georgia</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                     <tr>
-                        <td><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Austin, Texas</td>
-                        <td><a>X</a></td>
+                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Austin, Texas</td>
+                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+</div>
+
+<!--=== Selected Targeting ===-->
+<div class="col-md-12 targettingSelected">
+    <div class="col-md-12 tsHeader">
+        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <a href="javascript:void(0);"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>
+        <a href="javascript:void(0);"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
+        <div class="col-md-6 zeroPadding" style="clear: left;">
+            <span><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+        </div>
+        <div class="col-md-6 zeroPadding">
+            <span><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+        </div>
+    </div>
+
+    <div class="col-md-12 tsBody">
+        <div class="col-md-6 zeroPadding">
+            <span>Regions & Cities</span>
+            <span>California (State)</span>
+            <span>Colorado (State)</span>
+            <span>Florida (State)</span>
+            <a href="javascript:void(0);">+ 4 more</a>
+        </div>
+        <div class="col-md-6 zeroPadding">
+            <span>Regions & Cities</span>
+            <span>Aguaga, California (City)</span>
+            <span>Alamo, California (City)</span>
+            <span>Palm Springs, California (City)</span>
+            <a href="javascript:void(0);">+ 3 more</a>
+        </div>
+    </div>    
 </div>
 
 <!--=== Next Step Panel ===-->

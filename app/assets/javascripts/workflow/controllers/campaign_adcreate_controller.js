@@ -356,6 +356,30 @@ var angObj = angObj || {};
             $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-307px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
+        
+        
+        // Blue Switch Toggle Btn
+        function ani1 () {
+            $(".btn-ani-toggle .btn").animate({left: "22px"});
+            $(".btn-ani-toggle .togBtnBg").css({background: "#0978c9"});
+            $("#switchLabel1").show();
+            $("#switchLabel2").hide();
+        }
+        function ani2 () {
+            $(".btn-ani-toggle .btn").animate({left: "-2px"});
+            $(".btn-ani-toggle .togBtnBg").css({background: "#ccd2da"});
+            $("#switchLabel1").hide();
+            $("#switchLabel2").show();
+        }
+        
+        if ($(".btn-ani-toggle .active")[0]){
+            ani1();
+        } else {
+            ani2();
+        }
+        $scope.switchInclude=function(){
+            return (this.tog = !this.tog) ? ani1() : ani2();
+        }
 
 
         $scope.creativeLibraryFilterFunction = function(element) {
