@@ -11,7 +11,7 @@
         <div class="col-md-12 dateWrapper form-group zeroPadding">
             <div class="col-md-2 zeroPadding" style="width: 150px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                <input type="text" id="startDateInput"  placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-change="handleFlightDate(adData)"/>
+                <input type="text" id="startDateInput"  is-open="adData.startTime" ng-click="open($event, 'startTime')" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-change="handleFlightDate(adData)"/>
             </div>
             <div class="col-md-2" style="width: 150px; padding-left: 10px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
@@ -130,3 +130,12 @@
         <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
     </a>
 </div>
+<script>
+    $('.input-daterange').datepicker({
+        format: "mm/dd/yyyy",
+        orientation: "top auto",
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
+
