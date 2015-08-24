@@ -388,13 +388,6 @@ var angObj = angObj || {};
         }
 
         $(function () {
-            $('.input-daterange').datepicker({
-                format: "mm/dd/yyyy",
-                orientation: "top auto",
-                autoclose: true,
-                todayHighlight: true
-            });
-
            $("#SaveAd").on('click', function () {
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
