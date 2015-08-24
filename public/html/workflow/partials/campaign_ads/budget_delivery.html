@@ -11,7 +11,7 @@
         <div class="col-md-12 dateWrapper form-group zeroPadding">
             <div class="col-md-2 zeroPadding" style="width: 150px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-change="handleFlightDate(adData)"/>
+                <input type="text" id="startDateInput"  placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-change="handleFlightDate(adData)"/>
             </div>
             <div class="col-md-2" style="width: 150px; padding-left: 10px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
@@ -97,7 +97,7 @@
     <div class="col-md-4 zeroPadding symbolAbs"  ng-show="adData.setCap">
         <label class="col-sm-12 control-label greyTxt miniLabels">Impressions per user</label>
         <div class="form-group col-md-7 zeroPadding">
-            <span class="paddingTop">{{adData.budgetType === 'Impressions' ? '#' : '$'}}</span>
+            <span class="paddingTop">#</span>
             <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap">
         </div>
         <div class="form-group col-md-5">

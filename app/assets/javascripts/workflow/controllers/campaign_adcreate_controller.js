@@ -44,20 +44,11 @@ var angObj = angObj || {};
 
 
         var campaignOverView = {
-            initiateDatePicker : function() {
-                $('.input-daterange').datepicker({
-                    format: "mm/dd/yyyy",
-                    orientation: "top auto",
-                    autoclose: true,
-                    todayHighlight: true
-                });
-            },
             getCampaignData: function (campaignId) {
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
-                        campaignOverView.initiateDatePicker();
                         var startDateElem = $('#startDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
@@ -202,9 +193,6 @@ var angObj = angObj || {};
                 endDateElem.datepicker("update", changeDate);
             }
         }
-
-
-
 
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
@@ -378,13 +366,14 @@ var angObj = angObj || {};
             var freq_cap = [];
             var budgetType = formData.budgetType.toLowerCase() === 'cost' ? 'Budget' : formData.budgetType;
             var targetType =  budgetType.toLowerCase === 'budget' ? 'ALL' : 'PER_USER';
-            var freqDefaultCapObj = {'frequencyType':'DAILY','quantity':100};
-            freqDefaultCapObj['capType'] = budgetType.toUpperCase();
-            freqDefaultCapObj['pacingType'] = formData.pacingType;
-            freqDefaultCapObj['targetType'] = targetType;
-            freqDefaultCapObj['quantity'] = 100;;
-
-            freq_cap.push(freqDefaultCapObj);
+            if(formData.budgetAmount) {
+                var freqDefaultCapObj = {'frequencyType': 'LIFETIME'};
+                freqDefaultCapObj['quantity'] = Number(formData.budgetAmount);
+                freqDefaultCapObj['capType'] = budgetType.toUpperCase();
+                freqDefaultCapObj['pacingType'] = formData.pacingType;
+                freqDefaultCapObj['targetType'] = 'ALL';
+                freq_cap.push(freqDefaultCapObj);
+            }
             var isSetCap = formData.setCap === 'true' ? true : false;
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
@@ -399,7 +388,12 @@ var angObj = angObj || {};
         }
 
         $(function () {
-
+            $('.input-daterange').datepicker({
+                format: "mm/dd/yyyy",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true
+            });
 
            $("#SaveAd").on('click', function () {
                 var formElem = $("#formAdCreate");
