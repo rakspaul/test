@@ -80,12 +80,23 @@ var angObj = angObj || {};
                 postCrDataObj.sslEnable = "true";
                 console.log(postCrDataObj);
                 workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
+                    if (result.status === "OK" || result.status === "success") {console.log(result.data);
                         console.log("creative added");
                         $scope.addedSuccessfully = true;
                         $scope.Message = "Creative Added Successfully";
                         $scope.cancelBtn();// redirect user after successful saving
 
+                    }else if(result.data.data.message="Creative with this tag already exists. If you still want to save, use force save"){
+                        console.log(result.data.data.message);
+                        console.log("forceSave");
+                        workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
+                            if (result.status === "OK" || result.status === "success") {
+                                console.log("creative REsaved");
+                                $scope.addedSuccessfully = true;
+                                $scope.Message = "Creative RESaved Successfully";
+                                $scope.cancelBtn();
+                            }
+                         });
                     }
                     else {
                         $scope.addedSuccessfully = true;
@@ -96,7 +107,11 @@ var angObj = angObj || {};
 
 
         }
-        $scope.cancelBtn=function(){ 
+        $scope.cancelBtn=function(){
+               // $('#formCreativeCreate')[0].reset();
+                $scope.IncorrectTag = false;
+                $('.errorLabel').text("");
+                $('.form-control').removeClass('.has-error');
                 if($location.path()==="/creative/add"){
                    $window.location.href = "/creative/list";
                 }else{
