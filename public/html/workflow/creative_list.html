@@ -151,13 +151,17 @@
     <!--Modal View Starts Here-->
     <div class="popScriptUpdate" ng-show="showViewTagPopup">
 	<div class="popContainer">
-	    <h1 class="pull-left">{{popUpData.name}}</h1>
-	    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="cancelPopup()"></span>
-		<textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="popUpData.tag" ng-readonly="edittrue" required>{{popUpData.tag}}</textarea><div ng-show="IncorrectTag">{{incorrectTagMessage}}</div>
-		<span><div class="activity_edit" tooltip-placement="left" tooltip="Edit"  ng-click="editTrue()">EDIT</div> </span>
+		<div class="clearfix">
+		    <h1 class="pull-left">{{popUpData.name}}</h1>
+		    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="cancelPopup()"></span>
+	    </div>
+	    <div class="textarea_edit_holder">
+			<textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="popUpData.tag" ng-readonly="edittrue" required>{{popUpData.tag}}</textarea><div ng-show="IncorrectTag">{{incorrectTagMessage}}</div>
+			<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ng-click="editTrue()"></span>
+		</div>
 		<!--<pre>{{popUpData.tag}}</pre>-->
-	    <button type="button" class="btn btn-primary pull-right" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>
-	    <button type="button" class="btn btn-link pull-right" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>
+	    <button type="button" class="common_primary_btn pull-right" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>
+	    <button type="button" class="secondary_txt pull-right" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>
 	</div>
     </div>
 </div>

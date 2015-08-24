@@ -206,13 +206,13 @@
       margin-left: -300px;
       background: white;
       border-radius: 5px;
-      padding: 20px;
+      padding: 30px;
       display: inline-block;
       h1 {
-        float: left;
-        width: 100%;
+        width: 90%;
         margin: 0;
-        font-size: 16px;
+        font-size: 26px;
+        margin-bottom: 25px;
       }
       .glyphicon-remove {
         position: absolute;
@@ -220,6 +220,24 @@
         right: 20px;
         z-index: 10;
         cursor: pointer;
+      }
+      .textarea_edit_holder {
+        position: relative;
+        .activity_edit {
+          position: absolute;
+          top: 10px ;
+          right: 10px ;
+          cursor: pointer;
+          display: inline-block;
+          height: 20px ;
+          width: 20px ;
+          background: url("/assets/images/cdesk/edit_blue.png") no-repeat right top ;
+        }
+        textarea {
+          border: solid 1px #007ac9 ;
+          padding: 20px;
+          margin: 0px 0 20px;
+        }
       }
       pre {
         width: 100%;
