@@ -1,7 +1,7 @@
 <div class="clearfix each_campaign_list_container">
     <div class="clearfix">
         <div class="each_campaign_section">
-            <div class="campaign_status_icon  {{campaign.status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{campaign.status.toLowerCase() | toCamelCase}}"></div> 
+            <div class="campaign_status_icon  {{campaign.status.toLowerCase()}}_campaign_status_icon" tooltip-placement="left" tooltip="{{campaign.status.toLowerCase() | toCamelCase}}"></div>
         </div>
         <div class="each_campaign_section">
             <div class="main_heading">
@@ -16,8 +16,8 @@
     </div>
     <div class="each_campaign_section campaign_list_details">
        <!--  <div class="heading_holder">
-            
-            
+
+
         </div> -->
         <div class="days_left_holder">
             <div class="total_days_holder">
@@ -75,7 +75,7 @@
         </div>
         <div class="clearfix metric_graph_details">
             <div class="each_metric_graph_details">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].impressions | number}}</span>
+                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat}}</span>
                 <span>{{ textConstants.IMP_WITH_DOT }}</span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
@@ -111,8 +111,8 @@
                     {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
                 </span>
             </div>
-            
-            
+
+
         </div>
         <div class="graph_KPI_outer_holder">
             <span ng-switch="campaign.chart">
@@ -126,12 +126,12 @@
                     <div class="graph_KPI_holder" ng-if="!(campaign.chart && campaign.kpiType)" ng-bind-html="getMessageForDataNotAvailable(campaign)">
                     </div>
                 </span>
-            </span> 
+            </span>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip(); 
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
