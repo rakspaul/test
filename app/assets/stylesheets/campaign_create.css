@@ -1,0 +1,1641 @@
+#campaignCreate {
+  float: left;
+  width: 100%;
+}
+#campaignCreate .firstWrapper {
+  float: left;
+  width: 100%;
+  background: #fff;
+  position: relative;
+}
+#campaignCreate .firstWrapper .masterContainer {
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 30px;
+}
+#campaignCreate .firstWrapper .masterContainer .spacingInput {
+  height: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder {
+  padding: 4px 10px 0 50px;
+}
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder .submit_btn {
+  border: solid 1px #359eea;
+  background: #359eea;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 12px;
+  width: 130px;
+  padding: 10px 0;
+  border-radius: 5px;
+  display: block;
+  line-height: 12px;
+  text-align: center;
+  text-decoration: none;
+  float: left;
+}
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder #sortDDL {
+  width: 10%;
+}
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder .viewOne,
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder .viewTwo {
+  border: 1px solid #1467A3;
+  background: #fff;
+  border-radius: 5px;
+  padding: 6px 5px;
+}
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder .viewTwo {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .create_btn_holder .viewOne {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+  margin-left: 15px;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap {
+  border-left: 1px dashed #DBDBDB;
+  padding: 30px 30px 30px 25px;
+  width: 77%;
+  float: left;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap .isCollapsed .miniLabels {
+  padding: 5px 0px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .collapseHeader {
+  float: left;
+  width: 100%;
+  padding: 0 0 0 5px;
+  color: #0F66E4;
+  font-size: 17px;
+}
+#campaignCreate .firstWrapper .masterContainer .collapseHeader button {
+  margin: 5px 0;
+  float: left;
+  padding: 0px 5px;
+}
+#campaignCreate .firstWrapper .masterContainer .collapseHeader span {
+  margin: 0 0 8px 0;
+  float: left;
+  line-height: 100%;
+  color: #000;
+}
+#campaignCreate .firstWrapper .masterContainer .collapseHeader a {
+  float: left;
+  clear: left;
+}
+#campaignCreate .firstWrapper .masterContainer .collapseHeader b {
+  font-family: "Avenir-bold";
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed {
+  float: left;
+  width: 100%;
+  background: #fff;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .paddingRightNone,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .paddingRightNone {
+  padding: 0px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .greyTxt,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .greyTxt {
+  color: #b3b3b3 !important;
+  padding: 7px 0 0 2px !important;
+  text-align: left;
+  font-weight: lighter;
+  font-size: 13px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .labelQuestTxt,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .labelQuestTxt {
+  color: #000;
+  font-size: 15px;
+  text-align: left;
+  margin-top: 20px;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .currency,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .currency {
+  position: absolute;
+  z-index: 10;
+  top: 36px;
+  left: 15px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .goalBtn,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .goalBtn {
+  width: 125px;
+  text-align: left;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .accountBtn,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .accountBtn {
+  width: 135px;
+  text-align: left;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed #inputBudget,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed #inputBudget {
+  text-indent: 16px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-1,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-1,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-1,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-1,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-1,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-1,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-1,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-1,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-2,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-2,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-2,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-2,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-2,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-2,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-2,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-2,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-3,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-3,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-3,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-3,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-3,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-3,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-3,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-3,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-4,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-4,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-4,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-4,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-4,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-4,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-4,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-4,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-5,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-5,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-5,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-5,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-5,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-5,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-5,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-5,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-6,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-6,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-6,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-6,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-6,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-6,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-6,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-6,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-7,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-7,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-7,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-7,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-7,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-7,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-7,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-7,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-8,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-8,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-8,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-8,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-8,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-8,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-8,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-8,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-9,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-9,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-9,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-9,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-9,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-9,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-9,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-9,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-10,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-10,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-10,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-10,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-10,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-10,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-10,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-10,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-11,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-11,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-11,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-11,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-11,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-11,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-11,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-11,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-12,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-12,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-12,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-12,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-12,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-12,
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-12,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-12 {
+  padding: 0 5px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
+  margin: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .startTime,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime {
+  color: #838383;
+  width: 100%;
+  text-align: left;
+  padding-top: 6px;
+  display: block;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .startTime:last-child,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime:last-child {
+  padding-top: 19px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .dateWrapper,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .dateWrapper {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .dateWrapper input,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .dateWrapper input {
+  background: transparent;
+  border-radius: 3px !important;
+  text-align: left;
+  text-indent: 2px;
+  font-size: 12px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .dateWrapper #endDateInput,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .dateWrapper #endDateInput {
+  background: rgba(0, 0, 0, 0.07);
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon {
+  margin: 12px 0 0 0;
+  background-color: transparent;
+  border-width: 0;
+  width: 100%;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .glyphicon:last-child,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .glyphicon:last-child {
+  margin: 20px 9px 0 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .calenderIcon,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon {
+  float: left;
+  border-left: 1px solid #c3c3c3;
+  margin: 17px 0 0 105px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .calenderIcon img,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon img {
+  float: left;
+  margin: 10px 9px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader {
+  width: 100%;
+  margin-top: 10px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag {
+  float: left;
+  font-size: 12px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag img {
+  margin: -3px 10px 0 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader h1 {
+  font-weight: bold;
+  font-family: 'Arial';
+  font-size: 16px;
+  margin: 0 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap {
+  padding: 8px 0 1px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .glyphicon {
+  color: #ABABAB;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campIdTime {
+  font-size: 11px;
+  padding: 3px 0 15px 0;
+  color: #a5a5a5;
+  float: left;
+  clear: left;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView {
+  border-bottom: 1px dotted #B9B9B9;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView div[class^='col-md'],
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView div[class*=' col-md'] {
+  padding: 0 5px;
+  border-right: 1px dotted #B9B9B9;
+  height: 50px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView label {
+  font-size: 11px;
+  color: #888;
+  float: left;
+  width: 100%;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView span {
+  font-size: 11px;
+  font-family: 'Arial';
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .btn-group {
+  margin-left: 5px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .emptyValueTxt {
+  color: #f47e2a;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule {
+  padding: 0;
+  margin-top: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets {
+  float: right;
+  position: relative;
+  margin: 0 0 0 15px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets span {
+  position: absolute;
+  top: -7px;
+  right: -8px;
+  z-index: 10;
+  color: #0978c9;
+  font-size: 9px;
+  background: #fff;
+  border: 2px solid #0978c9;
+  padding: 0px 3px;
+  font-family: "Arial";
+  font-weight: bold;
+  line-height: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets img {
+  float: left;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap {
+  background: #fff;
+  width: 100%;
+  float: left;
+  margin-bottom: 85px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .collapseHeader {
+  float: left;
+  width: 100%;
+  padding: 13px;
+  color: #007ac9;
+  font-family: "Avenir-bold";
+  font-size: 17px;
+  display: inline-block;
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .collapseHeader button {
+  margin: 5px 0;
+  float: left;
+  padding: 0px 5px;
+  background: #fff;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .collapseHeader span {
+  margin: 8px 15px;
+  float: left;
+  line-height: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .collapseHeader span small {
+  font-weight: 100;
+  color: #717171;
+  font-family: 'Arial';
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer {
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup {
+  margin-bottom: 10px;
+  width: 100% !important;
+  min-height: 38px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn {
+  border: 2px dashed #dbdbdb !important;
+  cursor: pointer;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .text-center {
+  margin-top: 140px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .glyphicon {
+  width: 100%;
+  text-align: center;
+  padding: 0 !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn h1 {
+  margin-top: 0 !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid #dbdbdb;
+  width: 24.25%;
+  margin-right: 1%;
+  margin-bottom: 1%;
+  min-height: 371px;
+  background: #fff;
+  position: relative;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
+  padding: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle {
+  width: 100%;
+  padding: 20px 20px 15px 20px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adStatus {
+  text-align: center;
+  background: #6B6B6B;
+  color: #fff;
+  width: 50px;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 2px 0 1px 0;
+  margin-top: 3px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adIconWidget {
+  float: left;
+  padding-right: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTxtGray {
+  font-size: 12px;
+  color: #747474;
+  line-height: 22px;
+  font-weight: bold;
+  padding-left: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .dateAd {
+  color: #000;
+  font-size: 14px;
+  padding-bottom: 15px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule h1 {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Arial';
+  line-height: 18px;
+  padding: 0 10px;
+  margin: 0 0 15px 0;
+  text-decoration: none;
+  height: 54px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule h2 {
+  font-size: 12pt;
+  margin: 3px 0 7px 0;
+  color: #428bca;
+  font-weight: bold;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus {
+  background: #6B6B6B;
+  width: 100%;
+  text-align: left;
+  color: #fff;
+  text-indent: 20px;
+  padding: 3px 0;
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelPush {
+  background: #5cb85c;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelDraft {
+  background: #BDBDBD;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelNew {
+  background: #2D58E0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .spacer {
+  width: 100%;
+  padding: 0 0 15px 0;
+  float: left;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .spacer .col-md-12 {
+  padding: 0;
+  border-bottom: 1px solid #ddd;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .glyphicon {
+  font-size: 32px;
+  color: #B1B1B1;
+  padding-right: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:first-child {
+  background: rgba(255, 255, 255, 0.48);
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:nth-child(4n) {
+  margin-right: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adReady .adTitle {
+  background: #E4F9E4;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .addMaster {
+  cursor: pointer;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .addMaster span {
+  color: #D2D2D2;
+  font-size: 55px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .addMaster h1 {
+  width: 100%;
+  text-align: center;
+  font-weight: lighter !important;
+  color: #A9A9A9 !important;
+  margin-top: 10px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .popMess {
+  position: absolute;
+  z-index: 10;
+  top: 100px;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 29px -3px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 0px 0px 29px -3px rgba(0, 0, 0, 0.38);
+  box-shadow: 0px 0px 29px -3px rgba(0, 0, 0, 0.38);
+}
+#campaignCreate .firstWrapper .masterContainer .popMess span {
+  float: left;
+  width: 100%;
+  padding: 10px 0;
+  color: #000;
+  font-size: 14px;
+  text-align: center;
+}
+#campaignCreate .firstWrapper .masterContainer .succesfulPopMess {
+  border: 2px solid #2CB31C;
+}
+#campaignCreate .firstWrapper .masterContainer .errorPopMess {
+  display: none;
+  border: 2px solid #e83b05;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border {
+  border-radius: 2px;
+  background: #fff;
+  border-color: #dee6eb;
+  width: 150px;
+  height: 80px;
+  padding: 0px;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label {
+  float: left;
+  margin: 25px 0 0 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label img {
+  float: left;
+  margin: 0 10px;
+}
+#campaignCreate .firstWrapper .maxWidthAdj {
+  width: 100%;
+  float: left;
+  padding: 0px;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader {
+  width: 1200px;
+  margin: 10px auto 0 !important;
+  float: none;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView {
+  border-width: 0px;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .adWrap {
+  background: #eef5fc;
+  margin: 0px;
+  border-top: 2px solid #ccd2da;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer {
+  padding: 30px;
+  width: 1200px;
+  float: none;
+  margin: 0 auto;
+  display: table;
+}
+#campaignCreate .firstWrapper .campaignSave {
+  width: 100%;
+  float: left;
+  background-color: #fff;
+  padding: 13px 0;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  border-top: 3px solid #DDD;
+}
+#campaignCreate .firstWrapper .campaignSave .form-group {
+  width: 1040px;
+  margin: 0 auto;
+}
+#campaignCreate .campaignAdCreate {
+  float: left;
+  width: 77%;
+  border-left: 1px dotted #b9b9b9;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper {
+  width: 100%;
+  min-height: 500px;
+  padding: 30px 30px 0 30px;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .headerSteps {
+  padding: 0 0 15px 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .spacingInput {
+  height: 10px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps {
+  padding-top: 10px !important;
+  display: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps .col-md-3 {
+  padding-left: 0;
+  padding-right: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps .col-md-3 span {
+  color: #9B9B9B;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps .col-md-3 span span {
+  color: #000;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps .col-md-3 span strong {
+  color: #000;
+  margin-left: 5px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps .col-md-1 {
+  padding: 2px 0;
+  text-align: right;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .subHeaderSteps .editStepOne {
+  display: inline-block;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .hdr_ad {
+  padding: 8px 0px;
+  text-align: center;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adHeader {
+  padding: 0px;
+  font-family: "Avenir-roman";
+  font-size: 16px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adSubHeader {
+  color: #b3b3b3;
+  padding: 2px 0px 5px 0px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .hdr_paused {
+  padding-top: 8px;
+  padding-right: 10px;
+  border: 1px none #FF6600;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .create_ad {
+  float: left;
+  color: #333;
+  font-family: "Avenir-bold";
+  font-size: 20px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .addClose {
+  cursor: pointer;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .btn_border {
+  border: 1px solid #DDDDDD;
+  background-color: #FFF;
+  border-radius: 4px;
+  padding: 10px 0px 10px 10px;
+  margin-right: 1%;
+  width: 24.001%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .btn_border label {
+  float: left;
+  margin-bottom: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .btn_border input {
+  float: left;
+  margin-top: 5px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .btn_border .glyphicon {
+  font-size: 22px;
+  float: left;
+  padding: 0 7px 0 8px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .btn_border .btnLabel {
+  float: left;
+  padding: 3px 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .img_space {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .nextPanel {
+  margin: 20px 0;
+  position: relative;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .placementRadio {
+  padding-left: 198px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .placementRadio label {
+  float: left;
+  font-weight: bold;
+  font-family: 'Arial';
+  padding-right: 15px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .placementRadio span {
+  padding: 2px 30px 0 5px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox .btn-toggle {
+  margin: 6px 0 20px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .bgColor {
+  background-color: #FFFFFF;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adSave {
+  background-color: #fff;
+  border-top: 3px solid #F2F2F2;
+  float: right !important;
+  padding: 14px 0;
+  margin-top: 20px;
+  width: 100%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left,
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right {
+  border-bottom: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left {
+  border-right: 1px solid #ddd;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right {
+  border-left: 1px solid #ddd;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left > li,
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right > li {
+  float: none;
+  margin-bottom: 2px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left > li {
+  margin-right: -1px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right > li {
+  margin-left: -1px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left > li.active > a,
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left > li.active > a:hover,
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left > li.active > a:focus {
+  border-bottom-color: #ddd;
+  border-right-color: transparent;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right > li.active > a,
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right > li.active > a:hover,
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right > li.active > a:focus {
+  border-bottom: 1px solid #ddd;
+  border-left-color: transparent;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-left > li > a {
+  border-radius: 4px 0 0 4px;
+  margin-right: 0;
+  display: block;
+  color: #000;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .tabs-right > li > a {
+  border-radius: 0 4px 4px 0;
+  margin-right: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways {
+  margin-top: 50px;
+  border: none;
+  position: relative;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways > li {
+  height: 20px;
+  width: 120px;
+  margin-bottom: 100px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways > li > a {
+  border-bottom: 1px solid #ddd;
+  border-right-color: transparent;
+  text-align: center;
+  border-radius: 4px 4px 0px 0px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways > li.active > a,
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways > li.active > a:hover,
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways > li.active > a:focus {
+  border-bottom-color: transparent;
+  border-right-color: #ddd;
+  border-left-color: #ddd;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways.tabs-left {
+  left: -50px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways.tabs-right {
+  right: -50px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways.tabs-right > li {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sideways.tabs-left > li {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder {
+  border-radius: 4px;
+  border: 1px solid #DDD;
+  padding: 18px;
+  min-height: 151px;
+  text-align: center;
+  margin: 15px 30px 0 0 ;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder span {
+  height: 40px;
+  display: inline-block;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder img {
+  padding: 10px 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHeading {
+  border-bottom: 1px solid #DDD;
+  padding: 10px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .showImpressionCap {
+  background-color: #DDDDDD;
+  padding: 10px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adDisableRadio {
+  position: relative;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adDisableRadio .adDisableRadioWrap {
+  width: 100%;
+  height: 100%;
+  background: rgba(221, 221, 221, 0.68);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+#campaignCreate .table span,
+#campaignCreate .table a,
+#campaignCreate .table p {
+  padding: 0px;
+}
+#campaignCreate .table p {
+  margin-bottom: 3px;
+}
+#campaignCreate .table .row-gap {
+  margin-bottom: 10px ;
+}
+#campaignCreate .table .squareCreativeOne {
+  width: 24px;
+  height: 25px;
+  float: left;
+  border: 1px dashed #adadad;
+}
+#campaignCreate .table .squareCreativeTwo {
+  width: 17px;
+  height: 50px;
+  float: left;
+  border: 1px dashed #adadad;
+}
+#campaignCreate .table .squareCreativeThree {
+  width: 60px;
+  height: 17px;
+  float: left;
+  border: 1px dashed #adadad;
+}
+#campaignCreate .table tbody tr {
+  margin: 10px 0 20px;
+}
+#campaignCreate .popCreativeLib {
+  position: absolute;
+  left: 0;
+  top: 66px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+#campaignCreate .popCreativeLib .creativeLib {
+  position: relative;
+  width: 800px;
+  min-height: 250px;
+  left: 50%;
+  top: 55px;
+  margin-left: -400px;
+  background: white;
+  border-radius: 5px;
+  display: inline-block;
+  -webkit-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+}
+#campaignCreate .popCreativeLib .creativeLib .table > thead > tr > th {
+  border-width: 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .table > tbody > tr:first-child td {
+  border-width: 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .tableWrapper {
+  float: left;
+  width: 100%;
+  overflow: scroll;
+  height: 300px;
+  margin-top: 25px;
+  border-right: 1px solid #dde6eb;
+}
+#campaignCreate .popCreativeLib .creativeLib .tableWrapper .miniLabel {
+  float: left;
+  width: 100%;
+  margin-bottom: 15px;
+}
+#campaignCreate .popCreativeLib .creativeLib .tableWrapper .dataFromCreativeLibraryNotFound {
+  float: left;
+  width: 100%;
+  background: #f5f9fd;
+}
+#campaignCreate .popCreativeLib .creativeLib .tableWrapper .dataFromCreativeLibraryNotFound span {
+  float: left;
+  width: 100%;
+  text-align: center;
+  color: #939eb6;
+  padding: 30px 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .table {
+  margin-bottom: 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .table thead {
+  display: none;
+}
+#campaignCreate .popCreativeLib .creativeLib .table tbody tr td {
+  background: #fff !important;
+  border-width: 0px !important;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 {
+  min-height: 300px;
+  padding: 0 30px;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 h2 {
+  font-size: 16px;
+  float: left;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 h3 {
+  float: left;
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  color: #9A9A9A;
+  margin: 20px 0 0 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 #custom-search-input {
+  padding: 3px;
+  border: solid 1px #E4E4E4;
+  border-radius: 6px;
+  background-color: #fff;
+  float: left;
+  margin: 7px 0 0 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 #custom-search-input input {
+  border-width: 0 !important;
+  box-shadow: none;
+  font-size: 14px;
+  padding: 7px;
+  height: initial;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 #custom-search-input button {
+  margin: 2px 0 0 0;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  color: #666666;
+  padding: 0 8px 0 10px;
+  border-left: solid 1px #ccc;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 #custom-search-input button:hover {
+  border: 0;
+  box-shadow: none;
+  border-left: solid 1px #ccc;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-7 #custom-search-input .glyphicon-search {
+  font-size: 14px;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-5 {
+  overflow: scroll;
+  height: 300px;
+  padding: 0 30px;
+  padding-left: 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-5 h2 {
+  font-size: 16px;
+  float: left;
+  width: 100%;
+}
+#campaignCreate .popCreativeLib .creativeLib .col-md-5 .table tbody tr td {
+  border-bottom: 1px solid #dde6eb !important;
+}
+#campaignCreate .popCreativeLib .creativeLib .closePopBtn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  z-index: 10;
+  cursor: pointer;
+  color: #fff;
+}
+#campaignCreate .popCreativeLib .creativeLib .headerLib {
+  padding: 30px;
+  float: left;
+  width: 100%;
+  background: #fff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+#campaignCreate .popCreativeLib .creativeLib .headerLib .btn-default {
+  float: right;
+  margin: 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .headerLib h1 {
+  float: left;
+  color: #000;
+  width: auto;
+  margin-top: 0;
+}
+#campaignCreate .popCreativeLib .creativeLib .headerLib a {
+  float: left;
+  clear: left;
+}
+#campaignCreate .newCreativeSlide .hideRightPanel {
+  display: none !important;
+}
+#campaignCreate .newCreativeSlide .popCreativeLib {
+  background: #fff;
+  left: 100%;
+  width: 877px;
+  top: 128px;
+  display: none;
+}
+#campaignCreate .newCreativeSlide .closeBtnCreative {
+  float: left;
+  display: inline-block !important;
+  cursor: pointer;
+  clear: both;
+}
+#campaignCreate .newCreativeSlide .closeBtnCreative p {
+  float: left;
+  color: #0978c9;
+  margin: 2px 0 20px 10px;
+}
+#campaignCreate .newCreativeSlide .closeBtnCreative span {
+  margin: 0px 10px;
+  float: left;
+}
+#campaignCreate .newCreativeSlide .closeBtnCreative img {
+  margin: 0;
+  float: left;
+}
+#campaignCreate .newCreativeSlide .hiddenBlockerDDL {
+  display: block;
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.adCreateMaster .campTitleWrap h1 {
+  line-height: 18px !important;
+  font-size: 14px !important;
+  padding: 4px 0 0 0;
+  float: left;
+  width: 91%;
+}
+.adCreateMaster .campTitleWrap .label {
+  font-size: 9px !important;
+  float: left;
+  margin: 13px 3% 0 0;
+  width: 6%;
+  text-align: center;
+  padding: 4px 0;
+}
+.adCreateMaster .campTitleWrap .label-warning {
+  padding: 4px 4px 4px 5px;
+  overflow: hidden;
+  letter-spacing: 5px;
+  text-align: center;
+  margin-top: 6px ;
+}
+.adCreateMaster .page_header_container {
+  margin-top: 30px !important;
+}
+.adCreateMaster .page_header_container .campaign_name_holder {
+  padding-left: 5px;
+}
+.adCreateMaster .page_header_container .nav-tabs {
+  border-width: 0px;
+  width: 100% ;
+}
+.adCreateMaster .page_header_container .nav-tabs li.active {
+  background-image: url("../../assets/images/workflow/blueSelector.png");
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+.adCreateMaster .page_header_container .nav-tabs li.active a {
+  background: transparent;
+  color: #0978c9 !important;
+  font-size: 16px !important;
+}
+.adCreateMaster .page_header_container .col-md-5 {
+  width: 30%;
+}
+.adCreateMaster .page_header_container .col-md-7 {
+  width: 70%;
+}
+.adCreateMaster .platformWrap {
+  display: none;
+}
+.adCreateMaster .platformWrap .presetGreyBox {
+  background: #ddd;
+  padding: 10px 0 0 0;
+  margin-bottom: 10px;
+  display: none;
+}
+.adCreateMaster .tab-content .tab-pane {
+  position: relative;
+  float: left;
+  min-height: 530px;
+  width: 100%;
+}
+.adCreateMaster .tab-content .tab-pane .miniLabels {
+  padding: 5px 0px !important;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker input {
+  font-size: 12px;
+  text-indent: 2px;
+  width: 150px;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon {
+  margin: 12px 0 0 0;
+  background-color: transparent;
+  border-width: 0;
+  width: 100%;
+  padding: 0;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .glyphicon:last-child {
+  margin: 20px 9px 0 0;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon {
+  float: left;
+  border-left: 1px solid #c3c3c3;
+  margin: 17px 0 0 105px;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon img {
+  float: left;
+  margin: 10px 9px;
+}
+.adCreateMaster .tab-content .tab-pane .adName {
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-size: 14pt;
+  font-family: 'Avenir-bold';
+  padding-bottom: 30px;
+}
+.adCreateMaster .tab-content .tab-pane h2 {
+  color: #000;
+  font-size: 20px;
+  margin: 0 0 20px 0 !important;
+  font-family: "Avenir";
+}
+.adCreateMaster .tab-content .tab-pane .nextWrapper {
+  position: absolute;
+  left: 0;
+  bottom: -58px;
+  background: #fff;
+  border-top: 1px solid #D0D0D0;
+  height: 30px;
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+.adCreateMaster .tab-content .tab-pane .nextWrapper img {
+  width: 35px;
+  margin-top: -12px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
+  background: -moz-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ffffff), color-stop(37%, rgba(255, 255, 255, 0.81)), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0);
+  /* IE6-9 */
+}
+.adCreateMaster .tab-content .tab-pane #datepicker {
+  height: 54px;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .dateWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .dateWrapper input {
+  border-radius: 3px;
+  background: transparent;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon {
+  background: none;
+  border-width: 0;
+  width: 100%;
+  padding: 0;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .glyphicon {
+  margin: 36px 0 0 0;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .greyTxt {
+  color: #b3b3b3 !important;
+  padding: 7px 0 0 2px !important;
+  text-align: left;
+  font-weight: lighter;
+  font-size: 13px;
+  margin-bottom: 0;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker #endDateInput {
+  background: rgba(0, 0, 0, 0.07);
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 {
+  position: relative;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 span {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 input {
+  text-indent: 10px;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 {
+  position: relative;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 span {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 input {
+  text-indent: 10px;
+}
+.adCreateMaster #targetting h2 a {
+  font-family: 'Avenir';
+  font-size: 14px;
+  text-decoration: none;
+  color: rgba(66, 139, 202, 0.31);
+}
+.adCreateMaster #targetting h2 a:hover {
+  color: rgba(66, 139, 202, 0.31);
+}
+.adCreateMaster #targetting .addTargetBtn {
+  float: left;
+  color: #0978c9;
+  font-size: 15px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+.adCreateMaster #targetting .ddlSetTarget {
+  margin-top: 20px;
+}
+.adCreateMaster #targetting .targettingFormWrap {
+  border: 1px solid #E6E6E6;
+  padding: 20px !important;
+  margin-top: 20px;
+}
+.adCreateMaster #targetting .targettingFormWrap h2 {
+  float: left;
+  width: 100%;
+  margin: 0;
+  color: #21252b;
+  font-size: 18px;
+}
+.adCreateMaster #targetting .targettingFormWrap h2 span {
+  color: #939ead !important;
+  font-size: 14px;
+  margin: 0 5px;
+}
+.adCreateMaster #targetting .targettingFormWrap .searchInput {
+  float: left;
+  width: 100%;
+  border-left: 1px solid #dde6eb;
+  border-right: 1px solid #dde6eb;
+  padding: 20px;
+}
+.adCreateMaster #targetting .targettingFormWrap .searchInput .geoTypeResult {
+  float: left;
+  margin-top: 20px;
+  padding-left: 7px;
+}
+.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap {
+  float: right;
+  margin-top: 30px;
+}
+.adCreateMaster #targetting .targettingFormWrap .col-md-12 .btn {
+  margin-top: 20px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs {
+  margin-top: 20px;
+  float: left;
+  width: 100%;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li {
+  background: #f5f9fd;
+  border-radius: 0px;
+  border-top: 1px solid #dde6eb;
+  border-right: 1px solid #dde6eb;
+  border-bottom: 1px solid #dde6eb;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li a {
+  margin: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li.active {
+  background: #fff;
+  border-bottom: 0px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li.active a {
+  background: #fff;
+  margin-top: 1px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li:first-child {
+  border-top-left-radius: 2px;
+  border-left: 1px solid #dde6eb;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane {
+  border-left: 1px solid #dde6eb;
+  border-bottom: 1px solid #dde6eb;
+  border-right: 1px solid #dde6eb;
+  padding: 20px;
+  min-height: 300px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable textarea {
+  min-height: 300px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .btn-ani-toggle {
+  float: left;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #switchLabel1,
+.adCreateMaster #targetting .targettingFormWrap .tabbable #switchLabel2 {
+  float: right;
+  margin: 5px 0 0 5px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #switchLabel1 img,
+.adCreateMaster #targetting .targettingFormWrap .tabbable #switchLabel2 img {
+  margin: -3px 0 0 3px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #switchLabel2 {
+  display: none;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 {
+  padding-right: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table {
+  margin-top: 20px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead {
+  border-width: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead .col-md-8 {
+  color: #939ead;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead .col-md-4 a {
+  cursor: pointer;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table th,
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table td {
+  padding: 8px 0;
+  background: #fff !important;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table th:last-child,
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table td:last-child {
+  text-align: right;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table .child {
+  margin-left: 20px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table td a {
+  color: #939ead;
+  cursor: pointer;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table .glyphicon {
+  color: #0978c9;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table .glyphicon.child {
+  color: #939ead;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table tbody td {
+  padding: 10px 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table tbody td img {
+  margin: -3px 3px 0 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 h5 {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #21252b;
+  margin: 25px 0;
+  font-family: 'Avenir';
+}
+.adCreateMaster #targetting .targettingSelected {
+  border: 1px solid #CCD2DA;
+  padding: 0px !important;
+  margin-top: 20px;
+  -o-transition: border 0.2s ease-out, background 2s ease-in;
+  -ms-transition: border 0.2s ease-out, background 2s ease-in;
+  -moz-transition: border 0.2s ease-out, background 2s ease-in;
+  -webkit-transition: border 0.2s ease-out, background 2s ease-in;
+  /* ...and now for the proper property */
+  transition: border 0.2s ease-out, background 2s ease-in;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader {
+  border-bottom: 2px solid #CCD2DA;
+  padding: 25px 20px 20px 20px;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader h2 {
+  float: left;
+  margin: 0;
+  color: #21252b;
+  font-size: 18px;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader h2 span {
+  color: #939ead !important;
+  font-size: 14px;
+  margin: 0 5px;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader a {
+  float: right;
+  margin-left: 17px;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader .col-md-6 {
+  margin-top: 20px;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader .col-md-6 span {
+  color: #21252b;
+  float: left;
+}
+.adCreateMaster #targetting .targettingSelected .tsHeader .col-md-6 span img {
+  margin: -3px 3px 0 0;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody {
+  padding: 20px;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody span {
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-size: 14px;
+  padding: 5px 0;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody span:first-child {
+  color: #939ead;
+  padding-bottom: 20px;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody a {
+  float: left;
+  width: 100%;
+  color: #0978c9;
+  text-decoration: none;
+  padding-top: 20px;
+}
+.adCreateMaster #targetting .targettingSelected:hover {
+  border: 1px solid #0978c9;
+}
+.adCreateMaster #targetting .tab-pane {
+  padding-top: 0 !important;
+}
+.adCreateMaster #targetting .tab-pane .table thead {
+  display: none;
+}
+.adCreateMaster #targetting .tab-pane .table tbody tr td {
+  padding: 10px 0 10px 0px !important;
+  background: #fff !important;
+  border-width: 0px;
+}
+.adCreateMaster #targetting .tab-pane .table tbody tr td:first-child {
+  text-align: center;
+}
+.adCreateMaster #creative .creativeTableTag {
+  margin-top: 30px;
+}
+.adCreateMaster #creative .creativeTableTag .table {
+  margin-bottom: 0;
+}
+.adCreateMaster #creative .creativeTableTag .table thead {
+  border: 1px solid #dde6eb;
+  border-bottom: 2px solid #dde6eb;
+}
+.adCreateMaster #creative .creativeTableTag .table thead tr th {
+  padding-top: 14px;
+  height: 50px;
+  vertical-align: top;
+}
+.adCreateMaster #creative .creativeTableTag .table tbody tr td {
+  background: #fff !important;
+}
+.adCreateMaster #creative .creativeTableTag .emptyCreativesFlag {
+  width: 100%;
+  float: left;
+  background: #f5f9fd;
+}
+.adCreateMaster #creative .creativeTableTag .emptyCreativesFlag span {
+  width: 100%;
+  float: left;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  color: #939eb6;
+}
+.adCreateMaster .form-group {
+  margin-bottom: 0px;
+}
+.adCreateMaster .spacingInput {
+  height: 30px !important;
+}
+#datepicker .form-control[disabled],
+#datepicker .form-control[readonly],
+#datepicker fieldset[disabled] .form-control {
+  cursor: auto;
+  background: #fff;
+}
+.campaignAdCreatePage {
+  position: relative;
+}
+.campaignAdCreatePage .common-btns {
+  position: absolute;
+  top: 0px ;
+  right: 0px ;
+  z-index: 1 ;
+  width: 40% ;
+}
+.campaignAdCreatePage .paddingTop {
+  padding-top: 5px ;
+}
+.campaignAdCreatePage .tab-content .cancel-btn {
+  margin: 8px 10px;
+  display: inline-block;
+  text-decoration: none ;
+}
+.campaignAdCreatePage .tab-content .cancel-btn:hover {
+  text-decoration: none ;
+}
+.campaignAdCreatePage .tab-content .btn-primary {
+  margin: 0 10px 0 0 ;
+}
+.campaignAdCreatePage .marginBottom {
+  margin-bottom: 8px !important ;
+}
+.campaignAdCreatePage input,
+.campaignAdCreatePage select {
+  margin: 5px 0 0 0 ;
+}
+.campaignAdCreatePage .tab-pane .row {
+  margin: 0 0 30px;
+}
+.campaignAdCreatePage .tab-pane .btn_border {
+  margin-bottom: 0px ;
+}
+.campaignAdCreatePage .tab-pane input[type="text"] {
+  border: 1px solid #dbe8ef !important;
+  border-radius: 0px !important;
+}
+.campaignAdCreatePage .tab-pane .greyTxt {
+  color: #b3b3b3 !important;
+  padding: 7px 0 0 2px !important;
+  text-align: left;
+  font-weight: lighter;
+  font-size: 13px;
+  margin-bottom: 0;
+}
+.glyphicon {
+  font-family: 'Glyphicons Halflings' !important;
+}

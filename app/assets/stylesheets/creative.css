@@ -1,0 +1,249 @@
+#creative {
+  margin: 0 auto;
+  width: 1200px;
+}
+#creative .each_filter {
+  float: left;
+  width: 206px;
+  margin: 20px 30px 0 0;
+}
+#creative .page_header_container {
+  width: 100%;
+  margin-top: 30px;
+  float: left;
+}
+#creative .page_header_container .closeBtnCreative {
+  display: none;
+}
+#creative .page_header_container img {
+  margin: 2px 25px 0 0px;
+}
+#creative .page_header_container span {
+  font-size: 18px;
+}
+#creative .page_header_container span:last-child {
+  font-weight: bold;
+}
+#creative .page_header_container .glyphicon {
+  margin-left: 20px;
+}
+#creative .containerWrap {
+  padding: 0 0 0 35px;
+}
+#creative .containerWrap span {
+  float: left;
+}
+#creative .containerWrap span a {
+  text-decoration: none;
+}
+#creative .containerWrap img {
+  margin: 5px;
+  float: right;
+}
+#creative .containerWrap .nav_filters .dropdown {
+  border: 1px solid #d4d4d4;
+  padding: 5px 10px;
+}
+#creative .containerWrap .nav_filters .dropdown .dropdown-menu {
+  max-width: 220px;
+  border-radius: 0;
+  border-top: 0;
+  min-width: 206px;
+  margin-top: 0;
+  margin-left: -1px;
+  box-shadow: none;
+}
+#creative .containerWrap .nav_filters .dropdown .dropdown_name_selected {
+  margin-right: 0;
+  padding-right: 0;
+}
+#creative .creativeList {
+  width: 100%;
+  margin-top: 20px;
+  float: left;
+}
+#creative .creativeList .containerWrap {
+  padding: 0 0 0 35px;
+  margin-bottom: 20px;
+}
+#creative .creativeList .containerWrap .form-group {
+  clear: left;
+  padding: 0;
+  position: relative;
+}
+#creative .creativeList .containerWrap .form-group label {
+  color: #000;
+  font-size: 15px;
+  text-align: left;
+  margin-top: 20px;
+  font-weight: bold;
+}
+#creative .creativeList .containerWrap .form-group .previewBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+#creative .emptyCreativesFlag td {
+  border-width: 0;
+}
+#creative .hiddenBlockerDDL {
+  display: none;
+}
+#creativeList {
+  width: 100%;
+  float: left;
+}
+#creativeList h2 {
+  font-size: 16px;
+}
+#creativeList .spacingInput {
+  float: left;
+  width: 100%;
+  height: 10px;
+}
+#creativeList .mainWrap {
+  margin: 10px auto 0;
+  width: 1200px;
+  padding: 0 30px;
+  position: relative;
+}
+#creativeList .mainWrap .table span,
+#creativeList .mainWrap .table a,
+#creativeList .mainWrap .table p {
+  padding: 0px;
+}
+#creativeList .mainWrap .table p {
+  margin-bottom: 3px;
+}
+#creativeList .mainWrap .table .squareCreativeOne {
+  width: 24px;
+  height: 25px;
+  float: left;
+  border: 1px dashed #adadad;
+}
+#creativeList .mainWrap .table .squareCreativeTwo {
+  width: 17px;
+  height: 50px;
+  float: left;
+  border: 1px dashed #adadad;
+}
+#creativeList .mainWrap .table .squareCreativeThree {
+  width: 60px;
+  height: 17px;
+  float: left;
+  border: 1px dashed #adadad;
+}
+#creativeList .mainWrap .table tbody tr {
+  margin: 10px 0 20px;
+}
+#creativeList .mainWrap .bottomPagination {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  width: 1200px;
+  margin-left: -600px;
+}
+#creativeList .mainWrap .bottomPagination .pagination {
+  margin: 0;
+}
+#creativeList .mainWrap .script_tag {
+  width: 180px;
+  word-wrap: break-word;
+  display: none;
+}
+#creativeList .mainWrap .script_tag pre {
+  width: 250px ;
+  max-height: 60px ;
+  overflow: auto;
+}
+#creativeList .mainWrap .btn_list_filters {
+  margin-bottom: 20px;
+}
+#creativeList .each_filter {
+  float: left;
+  width: 175px;
+  margin: 0 20px 0 0;
+}
+#creativeList .each_filter .creativeDDL {
+  position: relative;
+  margin-bottom: 0;
+}
+#creativeList .each_filter .creativeDDL select {
+  border-width: 0;
+  box-shadow: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 6px 12px 6px 0;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: 15px;
+  background-color: transparent;
+}
+#creativeList .each_filter .creativeDDL img {
+  float: right;
+  margin: 26px 0 0 0;
+}
+#creativeList .popScriptUpdate {
+  position: absolute;
+  left: 0;
+  top: 66px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+#creativeList .popScriptUpdate .popContainer {
+  position: relative;
+  width: 600px;
+  min-height: 250px;
+  left: 50%;
+  top: 100px;
+  margin-left: -300px;
+  background: white;
+  border-radius: 5px;
+  padding: 30px;
+  display: inline-block;
+}
+#creativeList .popScriptUpdate .popContainer h1 {
+  width: 90%;
+  margin: 0;
+  font-size: 26px;
+  margin-bottom: 25px;
+}
+#creativeList .popScriptUpdate .popContainer .glyphicon-remove {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  cursor: pointer;
+}
+#creativeList .popScriptUpdate .popContainer .textarea_edit_holder {
+  position: relative;
+}
+#creativeList .popScriptUpdate .popContainer .textarea_edit_holder .activity_edit {
+  position: absolute;
+  top: 10px ;
+  right: 10px ;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px ;
+  width: 20px ;
+  background: url("/assets/images/cdesk/edit_blue.png") no-repeat right top;
+}
+#creativeList .popScriptUpdate .popContainer .textarea_edit_holder textarea {
+  border: solid 1px #007ac9 ;
+  padding: 20px;
+  margin: 0px 0 20px;
+}
+#creativeList .popScriptUpdate .popContainer pre {
+  width: 100%;
+  min-height: 200px;
+  padding: 10px;
+}
+.duplicate_tag .about_popup {
+  width: 500px ;
+}
