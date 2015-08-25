@@ -42,10 +42,7 @@ var angObj = angObj || {};
             $scope.campaignId = clientId;
             $scope.advertiserId = advertiserId;
             var campaignData = {'advertiserId' : advertiserId,'advertiserName' : advertiserName, 'clientId' : clientId, 'clientName' : clientName};
-            localStorage.setItem('campaignData',JSON.stringify(campaignData))
-
-
-            //creatives.getCreativeSizes(campaignId, advertiserId);
+            creatives.getCreativeSizes(clientId, advertiserId);
         }
         $(function () {
 
