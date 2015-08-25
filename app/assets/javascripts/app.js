@@ -23,6 +23,7 @@ var angObj = '';
       'ngLocale',
       'ngFileUpload',
       'lrInfiniteScroll',
+      'door3.css',
       'collectiveReportModule']
   );
 
@@ -59,6 +60,7 @@ var angObj = '';
                 templateUrl: assets.html_platform,
                 title :  'Reports - Platform',
                 controller: 'platformController'
+                //css: 'assets/stylesheets/platform.css'
             })
             .when('/customreport', {
                 templateUrl: assets.html_custom_report,
