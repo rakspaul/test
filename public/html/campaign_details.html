@@ -1,20 +1,23 @@
 <div class="main_container">
-
   <div id="campaignDetail" class="dashboard_outer_container campaign_details_page "> <!-- container -->
                   <div class="clearfix campaign_details_header">
                       <div class="pull-left campaign_name">
-                         <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="120"></truncate-text-with-hover>
-                          <div class="sub_title"> 
-                              {{campaign.brandName}}
-                          </div>
+                          Reports Overview
+                         <!--<truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="120"></truncate-text-with-hover>-->
+                          <!--<div class="sub_title"> -->
+                              <!--{{campaign.brandName}}-->
+                          <!--</div>-->
                       </div>
+
                       <a  id="details_view_report" ng-click="setGraphData(campaign,'view_report')">
                         <div class="pull-right view_report">
                             {{textConstants.VIEW_REPORT}}
                         </div>
                       </a>
                   </div>
-
+                  <div class="clearfix">
+                      <filters-header reports="true" strategies="false"></filters-header>
+                  </div>
                 <div ng-show="is_network_user">
                     <!-- action filter -->
                     <form  ng-controller="ActionsController" id="crActivityForm" >
