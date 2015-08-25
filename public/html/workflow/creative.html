@@ -1,9 +1,4 @@
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="creativeController">
-    <!-- delete it after implementation of the duplicate tag -->
-    <a class="blue_txt" href="#" data-toggle="modal" data-target=".duplicate_tag" style="display:none;">
-        <h3>duplicate_tag</h3>
-    </a>
-<!-- end of delete it after implementation of the duplicate tag -->
 <div id="creative" >
     <!-- Header Starts -->
     <div class="page_header_container">
@@ -98,8 +93,7 @@
     </div>
 
 
-<div class="duplicate_tag modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="about_popup popup-holder">
+    <div class="about_popup popup-holder" style="display:none;">
         <div class="modal-header">
             <!-- <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span> -->
             <h2 class="modal-title">Duplicate Tag</h2>
@@ -110,12 +104,8 @@
             </div>
         </div><!-- end of modal_body -->
         <div class="clearfix popup-btns-holder">
-            <span class="common_primary_btn">Save</span>
-            <span class="secondary_txt" data-dismiss="modal" aria-hidden="true" >
-                Cancel
-            </span>
+            <span class="common_primary_btn" id="saveDuplicate">Save</span>
+            <span class="secondary_txt" id="cancelDuplicate">Cancel</span>
         </div>
     </div> <!-- end of popup-holder -->
-
-</div>
 

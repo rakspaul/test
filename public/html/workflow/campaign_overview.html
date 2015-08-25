@@ -118,7 +118,7 @@
                             <span class="pull-left">ID: {{adsData.id}}</span><span ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>                        </div>
                         <div class="col-md-12" style="padding: 0px 10px 35px;">
                             <h1 class="col-md-10 adCamp">
-                                <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis}}</div>    </h1>                     </h1>
+                                <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>    </h1>                     </h1>
                             <span ng-if="adsData.adFormat"
                                   class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
                                   aria-hidden="true"></span>
