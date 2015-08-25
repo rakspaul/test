@@ -48,11 +48,13 @@ var angObj = angObj || {};
         }
 
 
-        $scope.prarentHandler = function(campaignId, advertiserId) {
+        $scope.prarentHandler = function(campaignId, campaignName, advertiserId, advertiserName) {
             $scope.creativeData= {};
             if(campaignId && advertiserId) {
                 $scope.creativeListLoading = true;
                 $scope.creativesNotFound = false;
+                var campaignData = {'advertiserId' : advertiserId,'advertiserName' : advertiserName, 'clientId' : campaignId, 'clientName' : campaignName};
+                localStorage.setItem('campaignData',JSON.stringify(campaignData))
                 creativeList.getCreativesList(campaignId, advertiserId);
             } else {
                 $scope.creativeListLoading = false;
