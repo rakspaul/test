@@ -115,6 +115,11 @@
             }
         }
 
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+            $location.path("/campaigns/" + $scope.selectedCampaign.id);
+        });
+
         //API call for campaign details
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
@@ -130,7 +135,7 @@
                     kpi : $scope.campaign.kpi_type.toLowerCase()
                 };
 
-                console.log($scope.adFormats);
+                //console.log($scope.adFormats);
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
                 campaignSelectModel.setSelectedCampaign(selectedCampaign);
 
@@ -199,7 +204,7 @@
                     $scope.setWidgetLoadedStatus();
 
                 }
-                
+
             }
         }, function(result) {
             console.log('call failed');
