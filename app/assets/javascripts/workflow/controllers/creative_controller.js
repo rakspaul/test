@@ -43,9 +43,7 @@ var angObj = angObj || {};
             $scope.advertiserId = advertiserId;
             var campaignData = {'advertiserId' : advertiserId,'advertiserName' : advertiserName, 'clientId' : clientId, 'clientName' : clientName};
             localStorage.setItem('campaignData',JSON.stringify(campaignData))
-
-
-            //creatives.getCreativeSizes(campaignId, advertiserId);
+            creatives.getCreativeSizes(clientId, advertiserId);
         }
         $(function () {
 
@@ -56,84 +54,83 @@ var angObj = angObj || {};
                     var formData = formElem.serializeArray();
                     formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
-                   var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-                   var PatternInside =  new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+                    var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+                    var PatternInside =  new RegExp(/<script.*(https:).*>.*<\/script>.*/);
                     var tagLower=formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm,'');
                     console.log(tagLower);
                     if (tagLower.match(PatternOutside)) {
-                            $scope.creativesave(formData);
+                        $scope.creativesave(formData);
                     }else if (tagLower.match(PatternInside)) {
-                            $scope.creativesave(formData);
+                        $scope.creativesave(formData);
                     }else {
-                            $scope.IncorrectTag = true;
-                            $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
-                            console.log("Incorrect tag");
+                        $scope.IncorrectTag = true;
+                        $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
+                        console.log("Incorrect tag");
                     }
                 }
             });
         });
         $scope.creativesave=function(formData){
             console.log(formData)
-                var postCrDataObj = {};
-                $scope.IncorrectTag = false;
-                postCrDataObj.name = formData.name;
-                postCrDataObj.tag = formData.tag;
-                postCrDataObj.sizeId = formData.creativeSize;
-                postCrDataObj.creativeFormat = formData.creativeFormat;
-                postCrDataObj.creativeType = formData.creativeType;
-                postCrDataObj.sslEnable = "true";
-                console.log(postCrDataObj);
-                $scope.CrDataObj=postCrDataObj;
-                workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {  console.log(result.data);
-                        console.log("creative added");
-                        $scope.addedSuccessfully = true;
-                        $scope.Message = "Creative Added Successfully";
-                        $scope.cancelBtn();// redirect user after successful saving
+            var postCrDataObj = {};
+            $scope.IncorrectTag = false;
+            postCrDataObj.name = formData.name;
+            postCrDataObj.tag = formData.tag;
+            postCrDataObj.sizeId = formData.creativeSize;
+            postCrDataObj.creativeFormat = formData.creativeFormat;
+            postCrDataObj.creativeType = formData.creativeType;
+            postCrDataObj.sslEnable = "true";
+            console.log(postCrDataObj);
+            $scope.CrDataObj=postCrDataObj;
+            workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {  console.log(result.data);
+                    console.log("creative added");
+                    $scope.addedSuccessfully = true;
+                    $scope.Message = "Creative Added Successfully";
+                    $scope.cancelBtn();// redirect user after successful saving
 
-                    }else if(result.data.data.message="Creative with this tag already exists. If you still want to save, use force save"){
-                        $(".popup-holder").css("display","block");
-                    }
-                    else {
-                        $scope.addedSuccessfully = true;
-                        $scope.Message = "Unable to create Creatives";
-                        console.log(result);
-                    }
-                });
+                }else if(result.data.data.message="Creative with this tag already exists. If you still want to save, use force save"){
+                    $(".popup-holder").css("display","block");
+                }
+                else {
+                    $scope.addedSuccessfully = true;
+                    $scope.Message = "Unable to create Creatives";
+                    console.log(result);
+                }
+            });
 
 
         }
         $scope.cancelBtn=function(){
-                $('#formCreativeCreate')[0].reset();
-                $scope.IncorrectTag = false;
-                $scope.addedSuccessfully=false;
-                $('.errorLabel').text("");
-                $('.form-control').removeClass('.has-error');
-                $('.form-control').css('border','1px solid #ccc');//added to remove red border after cancel
-                if($location.path()==="/creative/add"){
-                   $window.location.href = "/creative/list";
-                }else{
-                    $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%", marginLeft: "0px"}, 'slow', function() {  $(this).hide();});
-                    $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
-                }
+            $('#formCreativeCreate')[0].reset();
+            $scope.IncorrectTag = false;
+            $scope.addedSuccessfully=false;
+            $('.errorLabel').text("");
+            $('.form-control').removeClass('.has-error');
+            $('.form-control').css('border','1px solid #ccc');//added to remove red border after cancel
+            if($location.path()==="/creative/add"){
+                $window.location.href = "/creative/list";
+            }else{
+                $(".newCreativeSlide .popCreativeLib").delay( 300 ).animate({left: "100%", marginLeft: "0px"}, 'slow', function() {  $(this).hide();});
+                $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
+            }
         }
         $("#saveDuplicate").click(function() {
-                workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, $scope.CrDataObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        console.log("creative Resaved");
-                        $(".popup-holder").css("display","none");
-                        $scope.addedSuccessfully = true;
-                        $scope.Message = "Creative RESaved Successfully";
-                        $scope.cancelBtn();
-                    }
-                 });
+            workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, $scope.CrDataObj).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    console.log("creative Resaved");
+                    $(".popup-holder").css("display","none");
+                    $scope.addedSuccessfully = true;
+                    $scope.Message = "Creative RESaved Successfully";
+                    $scope.cancelBtn();
+                }
+            });
         });
         $("#cancelDuplicate").click(function() {
-                $(".popup-holder").css("display","none");
-                $scope.addedSuccessfully = true;
-                $scope.Message = "Unable to create Creatives";
+            $(".popup-holder").css("display","none");
+            $scope.addedSuccessfully = true;
+            $scope.Message = "Unable to create Creatives";
         });
     });
 
 })();
-
