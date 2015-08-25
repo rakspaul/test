@@ -23,6 +23,10 @@ var angObj = angObj || {};
         $scope.sortTypeForVideos    = '-view_metrics.video_viewability_metrics.videos_deliverable_imps';
         $scope.sortReverseForVidView  = true;
 
+
+
+
+
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
