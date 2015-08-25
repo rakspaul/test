@@ -17,6 +17,7 @@ var angObj = angObj || {};
         $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
         $scope.IsVisible = false;//To show hide view tag in creatives listing
+        $scope.currentTimeStamp = moment.utc().valueOf();
 
         $scope.ShowHide = function (context) {
             //If DIV is visible it will be hidden and vice versa.
@@ -42,6 +43,12 @@ var angObj = angObj || {};
             return platformMapper[platform.toLowerCase()];
         }
 
+        var saveDataInLocalStorage = function(data) {
+            localStorage.removeItem('campaignData');
+            var campaignData = {'advertiserId' : data.advertiserId,'advertiserName' : data.advertiserName, 'clientId' : data.clientId, 'clientName' : data.clientName};
+            localStorage.setItem('campaignData',JSON.stringify(campaignData))
+            console.log(data);
+        };
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -49,6 +56,7 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
+                        saveDataInLocalStorage(responseData);
                         var startDateElem = $('#startDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");

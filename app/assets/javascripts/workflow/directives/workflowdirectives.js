@@ -10,13 +10,29 @@
                 $scope.defaultAdvertiser.name = 'Loading..';
 
                 var creativeFilter = {
+
+                    setDefaultValues : function(obj, type) {
+                         var campaignData = JSON.parse(localStorage.getItem('campaignData'));
+                         if(type === 'clients') {
+                             $scope.defaultClientName = (campaignData && campaignData.clientName) ? campaignData.clientName : obj[0].name;
+                             $scope.defaultClientId = (campaignData && campaignData.clientId) ? campaignData.clientId : obj[0].id;
+                             $scope.defaultAdvertiserName = 'Loading..';
+                         }
+                         if(type === 'advertisers') {
+                             $scope.defaultAdvertiserName = (campaignData && campaignData.advertiserName) ? campaignData.advertiserName : obj[0].name;
+                             $scope.defaultAdvertiserId = (campaignData && campaignData.advertiserId) ? campaignData.advertiserId : obj[0].id;
+                         }
+                     },
+
                     clients :  function() {
                         workflowService.getClients().then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 var responseData = result.data.data;
                                 $scope.creativeFilterData['clients'] =  _.sortBy(responseData, 'name');
-                                $scope.defaultClient  = $scope.creativeFilterData['clients'][0];
-                                creativeFilter.fetchAdvertisers($scope.defaultClient.id)
+                                creativeFilter.setDefaultValues($scope.creativeFilterData['clients'], 'clients');
+                                var defaultClientId = $scope.creativeFilterData['clients'][0].id;
+                                var defaultClientName = $scope.creativeFilterData['clients'][0].name;
+                                creativeFilter.fetchAdvertisers(defaultClientId, defaultClientName)
                             }
                             else{
                                 creativeFilter.errorHandler(result);
@@ -24,13 +40,13 @@
                         }, creativeFilter.errorHandler);
                     },
 
-                    fetchAdvertisers :  function(clientId) {
-                        workflowService.getAdvertisers(clientId).then(function (result) {
+                    fetchAdvertisers :  function() {
+                        workflowService.getAdvertisers($scope.defaultClientId).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 var responseData = result.data.data;
                                 $scope.creativeFilterData['advertisers'] =  _.sortBy(responseData, 'name');
-                                $scope.defaultAdvertiser = $scope.creativeFilterData['advertisers'][0];
-                                $scope.$parent.prarentHandler(clientId, $scope.defaultAdvertiser ? $scope.defaultAdvertiser.id : null);
+                                creativeFilter.setDefaultValues($scope.creativeFilterData['advertisers'], 'advertisers')
+                                $scope.$parent.prarentHandler($scope.defaultClientId, $scope.defaultClientName, $scope.defaultAdvertiserId, $scope.defaultAdvertiserName);
                             }
                             else{
                                 creativeFilter.errorHandler(result);
@@ -45,19 +61,24 @@
                 }
 
                 creativeFilter.clients();
+                //delete localstorage
 
+                //localStorage.removeItem('campaignData');
 
                 $scope.selectClient = function(client) {
                     $("#client_name_selected").text(client.name);
-                    $scope.defaultAdvertiser.name = 'Loading..';
-                    $scope.clientId = client.id;
-                    creativeFilter.fetchAdvertisers(client.id);
+                    $scope.defaultClientId = client.id;
+                    $scope.defaultClientName = client.name;
+                    localStorage.removeItem('campaignData');
+                    $scope.defaultAdvertiserName = 'Loading..';
+                    creativeFilter.fetchAdvertisers();
                 };
 
 
                 $scope.selectAdvertisers = function(advertiser) {
-                    $("#advertiser_name_selected").text(advertiser.name);
-                    $scope.$parent.prarentHandler($scope.clientId, advertiser.id);
+                    localStorage.removeItem('campaignData');
+                    $scope.defaultAdvertiserName = advertiser.name;
+                    $scope.$parent.prarentHandler($scope.defaultClientId, $scope.defaultClientName, advertiser.id, advertiser.name);
                 };
             },
             restrict:'EAC',

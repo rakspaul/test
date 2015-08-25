@@ -38,10 +38,14 @@ var angObj = angObj || {};
                 console.log(errData);
             }
         }
-        $scope.prarentHandler = function(campaignId, advertiserId) {
-            $scope.campaignId = campaignId;
+        $scope.prarentHandler = function(clientId, clientName, advertiserId, advertiserName) {
+            $scope.campaignId = clientId;
             $scope.advertiserId = advertiserId;
-            creatives.getCreativeSizes(campaignId, advertiserId);
+            var campaignData = {'advertiserId' : advertiserId,'advertiserName' : advertiserName, 'clientId' : clientId, 'clientName' : clientName};
+            localStorage.setItem('campaignData',JSON.stringify(campaignData))
+
+
+            //creatives.getCreativeSizes(campaignId, advertiserId);
         }
         $(function () {
 
