@@ -103,7 +103,8 @@ var angObj = angObj || {};
 
              workflowService.updateCreative($scope.popUpData.clientId ,$scope.popUpData.advertiserId,$scope.popUpData.id,putCrDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        console.log("creative updated");
+                        $scope.popUpData.updatedAt=result.data.data.updatedAt;
+                        //console.log("creative updated");
                         $scope.showViewTagPopup=false;
                         $scope.edittrue=true;
 
