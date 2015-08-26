@@ -411,10 +411,10 @@ var angObj = angObj || {};
             var isSetCap = formData.setCap === 'true' ? true : false;
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
-                selectedfreqObj['capType'] = budgetType.toUpperCase();
+                selectedfreqObj['capType'] = "IMPRESSIONS";
                 selectedfreqObj['frequencyType'] = formData.frequencyType;
                 selectedfreqObj['quantity'] = Number(formData.quantity);
-                selectedfreqObj['targetType'] = targetType;
+                selectedfreqObj['targetType'] = "PER_USER";
                 selectedfreqObj['pacingType'] = formData.pacingType;
                 freq_cap.push(selectedfreqObj);
             }
