@@ -19,9 +19,11 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
 
-        $scope.ShowHide = function (context) {
+        $scope.ShowHide = function (obj) {
+        $scope.IsVisible = $scope.IsVisible ? false : true;
+        $scope.creativeObj=obj;
             //If DIV is visible it will be hidden and vice versa.
-            context.IsVisible = context.IsVisible ? false : true;
+            //context.IsVisible = context.IsVisible ? false : true;
         }
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {'display': 'display', 'video': 'video', 'rich media': 'mixedmedia', 'social': 'audience'}
