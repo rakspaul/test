@@ -32,13 +32,15 @@
                     </td>
                     <td>
                         <span class="col-md-8">{{creativeData.name}}</span>
-                        <a class="col-md-8" href="" ng-click="ShowHide(this)">View Tag</a>
-    
-                        <div style="width:350px;word-wrap:break-word;height:100px;">
-                            <div ng-show="IsVisible" class="ng-cloak">
-                                {{creativeData.tag}}
-                            </div>
-                        </div>
+                        <a class="col-md-8" href="" ng-click="ShowHide(creativeData)">View Tag</a>
+
+
+
+                        <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
+                            <!--<div ng-show="IsVisible" class="ng-cloak">-->
+                                <!--{{creativeData.tag}}-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </td>
                     <td>
                         <span class="col-md-12">{{creativeData.creativeType}}</span>
@@ -62,3 +64,16 @@
 <a href="#inventory" data-toggle="tab" class="nextWrapper">
     <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
 </a>
+
+<div class="popScriptUpdate" ng-show="IsVisible">
+    <div class="popContainer">
+        <div class="clearfix">
+
+            <h1 class="pull-left">{{creativeObj.name}}</h1>
+            <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="!IsVisible"></span>
+        </div>
+        <div class="textarea_edit_holder">
+            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="edittrue" required>{{creativeObj.tag}}</textarea>
+        </div>
+    </div>
+</div>
