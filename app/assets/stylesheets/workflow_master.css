@@ -90,10 +90,7 @@ a {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background-image: url('/assets/images/workflow/ddl_arrow.png');
-  background-repeat: no-repeat;
-  background-position-x: right;
-  background-position-y: 6px;
+  background: url('/assets/images/workflow/ddl_arrow.png') no-repeat right 6px;
   border: 1px solid #dbe8ef !important;
 }
 .firstWrapper .nav_filters {
