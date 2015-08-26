@@ -56,6 +56,66 @@
 }
 /*end of common sort icon */
 /*common popup styling */
+/*popup using modal */
+.modal-backdrop.in {
+  opacity: .8 ;
+}
+.about_popup,
+.popContainer {
+  background-color: #ffffff;
+  box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
+  width: 412px ;
+  font-family: Avenir;
+  color: #21252b;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  margin: 0 auto ;
+  z-index: 3000 ;
+}
+.about_popup .close,
+.popContainer .close {
+  margin: 10px;
+  opacity: 1;
+  color: #ccc;
+}
+.about_popup .close:hover,
+.popContainer .close:hover {
+  color: #bbb ;
+}
+.about_popup .logo,
+.popContainer .logo {
+  background: url("/assets/images/visto_logos/visto-new-logo-about.png") no-repeat center top;
+  width: 100% ;
+  height: 50px;
+  margin: 28px auto 24px;
+}
+.about_popup .copyright_section,
+.popContainer .copyright_section {
+  background: #f5f9fd;
+  padding: 15px;
+  margin-top: 24px;
+}
+.about_popup .copyright_section .rights_text,
+.popContainer .copyright_section .rights_text {
+  font-size: 14px ;
+}
+.about_popup .version_detail,
+.popContainer .version_detail {
+  color: #21252b;
+  font-size: 16px;
+  font-family: "Avenir-bold";
+  line-height: 28px;
+  text-align: center;
+}
+/*
+}*/
 .popup-holder {
   font-size: 14px;
   color: #21252B;
@@ -200,6 +260,69 @@
 .popup-holder .data_row.custom_report_type .campaign-dd-data {
   width: 340px ;
 }
+/*end of popup using modal */
+/*popup using css*/
+.popContainerHolder {
+  overflow: auto;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+}
+.popContainerHolder .popContainer {
+  text-align: left;
+  width: 600px;
+  min-height: 250px;
+  background: white;
+  border-radius: 5px;
+  padding: 30px;
+}
+.popContainerHolder .popContainer h1 {
+  width: 90%;
+  margin: 0;
+  font-size: 26px;
+  margin-bottom: 25px;
+}
+.popContainerHolder .popContainer .close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin: 0;
+  line-height: 10px;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  z-index: 1;
+  display: inline-block;
+}
+.popContainerHolder .popContainer .textarea_edit_holder {
+  position: relative;
+}
+.popContainerHolder .popContainer .textarea_edit_holder .activity_edit {
+  position: absolute;
+  top: 10px ;
+  right: 10px ;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px ;
+  width: 20px ;
+  background: url("/assets/images/cdesk/edit_blue.png") no-repeat right top;
+}
+.popContainerHolder .popContainer .textarea_edit_holder textarea {
+  border: solid 1px #007ac9 ;
+  padding: 20px;
+  margin: 0px 0 20px;
+  width: 100% ;
+}
+/*end of popup using css*/
 /*end of common popup styling */
 /*page title */
 .title1 h3 {
