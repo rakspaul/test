@@ -11,27 +11,23 @@
 <div class="col-md-12 zeroPadding">
     <div class="dropdown ddlSetTarget">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Select Target
+            {{geoTargetName ? geoTargetName : 'Select Target'}}
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Geography</a></li>
-            <li><a href="#">Behavior</a></li>
-            <li><a href="#">Demographics</a></li>
-            <li><a href="#">Interests</a></li>
-            <li><a href="#">Technology</a></li>
-            <li><a href="#">Context</a></li>
-            <li><a href="#">Other</a></li>
+            <li ng-repeat="geoTarget in geoTargetArr">
+                <a href="#" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}}</a>
+            </li>
         </ul>
     </div>
 </div>
 
 <!--=== Targeting Form ===-->
-<div class="col-md-12 zeroPadding targettingFormWrap">
+<div class="col-md-12 zeroPadding targettingFormWrap" ng-if="geoTargetName">
     <div class="col-md-7 zeroPadding tabbable">
-        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <h2>{{geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#region" data-toggle="tab">REGION & CITY</a></li>
+          <li class="active"><a href="#regioncity" data-toggle="tab">REGION & CITY</a></li>
           <li><a href="#dma" data-toggle="tab">DMA</a></li>
           <li><a href="#zip" data-toggle="tab">ZIP / POSTAL CODE</a></li>
         </ul>
@@ -47,12 +43,10 @@
             
             <div class="col-md-12 zeroPadding">
                 <div class="btn-group miniToggle pull-left">
-                    <label class="btn btn-default active"><span>Region</span>
-                        <input type="radio" name="geoType" value="Region" class="btn_rad" hidden="hidden">
-                    </label>
-                    <label class="btn btn-default"><span>City</span>
-                        <input type="radio" name="geoType" value="City" class="btn_rad" hidden="hidden">
-                    </label>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#region" data-toggle="tab">Region</a></li>
+                        <li><a href="#city" data-toggle="tab">City</a></li>
+                    </ul>
                 </div>
                 
                 <div class="col-md-4 zeroPadding switchWrap">
@@ -65,62 +59,56 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-12 zeroPadding">
-                <div class="col-md-1"></div>
-                <span class="geoTypeResult">Region</span>
-            </div>
         </div>
       
         <div class="tab-content">
-            <div id="region" class="tab-pane active">
-                <div class="col-md-12 zeroPadding">
-                    <div class="col-md-1"><input type="checkbox" value="" /></div>
-                    <div class="col-md-5">New York</div>
-                    <div class="col-md-6">Albany</div>
+            <!---- start region and city Container ---------->
+
+            <div id="regioncity" class="tab-pane active">
+
+                <!----- start region block ------------------->
+                <div id="region" class="tab-pane active">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1"></th>
+                                <th class="col-md-5"></th>
+                                <th class="col-md-6"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="region in regionsList">
+                                <td><input name="regionchkbox" id="{{region.id}}" type="checkbox" value="" /></td>
+                                <td>{{region.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <table class="table">
-                    <thead>
+                <!----- end region block ------------------->
+
+                <!----- start city block ------------------->
+                <div id="city" class="tab-pane">
+                    <table class="table">
+                        <thead>
                         <tr>
                             <th class="col-md-1"></th>
                             <th class="col-md-5"></th>
                             <th class="col-md-6"></th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>New York</td>
-                            <td>Albany</td>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="city in cityList">
+                            <td><input name="regionchkbox" id="{{city.id}}" type="checkbox" value="" /></td>
+                            <td>{{city.name}}</td>
                         </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>New York</td>
-                            <td>Albany</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>New York</td>
-                            <td>Albany</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>New York</td>
-                            <td>Albany</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>New York</td>
-                            <td>Albany</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>New York</td>
-                            <td>Albany</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <!----- end city block ------------------->
             </div>
+            <!---- end region and city block ---------->
+
+            <!---- start DMA container -------->
             <div id="dma" class="tab-pane">
                 <table class="table">
                     <thead>
@@ -131,39 +119,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>Massachussetts</td>
-                            <td>Boston</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>Massachussetts</td>
-                            <td>Boston</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>Massachussetts</td>
-                            <td>Boston</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>Massachussetts</td>
-                            <td>Boston</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>Massachussetts</td>
-                            <td>Boston</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" value="" /></td>
-                            <td>Massachussetts</td>
-                            <td>Boston</td>
+                        <tr ng-repeat="dma in dmasList">
+                            <td><input id="{{dma.id}}" type="checkbox" value="" /></td>
+                            <td>{{dma.dmaName}}</td>
+                            <td>{{dma.region}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <!----- end DMA container ----------->
+
+            <!---- start Zip Container ---------->
             <div id="zip" class="tab-pane">
                 <textarea class="form-control" rows="3"></textarea>
                 <div class="col-md-12 zeroPadding">
@@ -172,6 +138,9 @@
                     </a>
                 </div>
             </div>
+            <!---- end Zip Container ---------->
+
+
         </div>
     </div>
     <div class="col-md-5 zeroPadding selectedTables">
@@ -260,7 +229,7 @@
 </div>
 
 <!--=== Selected Targeting ===-->
-<div class="col-md-12 targettingSelected">
+<div class="col-md-12 targettingSelected" style="display:none;">
     <div class="col-md-12 tsHeader">
         <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
         <a href="javascript:void(0);"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>

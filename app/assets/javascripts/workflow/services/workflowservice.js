@@ -45,12 +45,14 @@
                 return dataService.fetch(url);
 
             },
+
             getTaggedCreatives : function(campaignId,adId){
 
             console.log("adID:"+adId+"CampaignID:"+campaignId);
                  var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
                  return dataService.fetch(url);
             },
+
             getCreativeSizes : function(){
                  var url= apiPaths.WORKFLOW_APIUrl +'/sizes';
                  return dataService.fetch(url);
@@ -61,16 +63,14 @@
                 var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
                 return dataService.fetch(url);
             },
+
             forceSaveCreatives:function(clientId,adId,data){
                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives?forceSave=true', data, {'Content-Type': 'application/json'})
-//               var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
-//               return dataService.fetch(url);
-           },
+            },
 
             getCreatives :  function(clientId, advertiserId) {
                 var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives';
                 return dataService.fetch(url);
-
             },
 
             getCreativesFromLibrary:function(clientId, advertiserId,format) {
@@ -79,9 +79,27 @@
                 console.log("url:"+url);
                 return dataService.fetch(url);
             },
+
             updateCreative : function(clientId,adId,id,data) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives/'+id, data, {'Content-Type': 'application/json'})
-            }
+            },
+
+            getRegionsList :  function(platformId, data) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/regions'+data;
+                return dataService.fetch(url);
+            },
+
+            getCitiesList :  function(platformId, data) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
+                return dataService.fetch(url);
+            },
+
+            getDMAsList :  function(platformId, data) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
+                return dataService.fetch(url);
+            },
+
+
 
         };
 

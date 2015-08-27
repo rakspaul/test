@@ -411,10 +411,10 @@ var angObj = angObj || {};
             var isSetCap = formData.setCap === 'true' ? true : false;
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
-                selectedfreqObj['capType'] = budgetType.toUpperCase();
+                selectedfreqObj['capType'] = "IMPRESSIONS";
                 selectedfreqObj['frequencyType'] = formData.frequencyType;
                 selectedfreqObj['quantity'] = Number(formData.quantity);
-                selectedfreqObj['targetType'] = targetType;
+                selectedfreqObj['targetType'] = "PER_USER";
                 selectedfreqObj['pacingType'] = formData.pacingType;
                 freq_cap.push(selectedfreqObj);
             }
@@ -476,11 +476,51 @@ var angObj = angObj || {};
 
                 }
                 campaignOverView.saveAds(postAdDataObj)
-
-
             })
         })
 
     });
+
+    angObj.controller('geoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+        $scope.showTargettingForm = false;
+        $scope.geoTargetArr = [{'name' : 'Geography', 'enable' : true}, {'name' : 'Behavior', 'enable' : false}, {'name' : 'Demographics', 'enable' : false}, {'name' : 'Interests', 'enable' : false}, {'name' : 'Technology', 'enable' : false}, {'name' : 'Context', 'enable' : false}, {'name' : 'Other', 'enable' : false}]
+        $scope.selectGeoTarget = function(geoTargetName) {
+            $scope.geoTargetName = geoTargetName;
+            var geoTargetingView = {
+                getRegionsList : function(platformId, pageNo, pageSize, sortOrder) {
+                    var params = '?sortBy=name&sortOrder='+sortOrder+'&pageNo='+pageNo+'&pageSize='+pageSize;
+                    workflowService.getRegionsList(platformId, params).then(function (result) {
+                        $scope.regionsList = result.data.data;
+
+                    });
+                },
+
+                getCitiesList : function(platformId, pageNo, pageSize, sortOrder) {
+                    var params = '?sortBy=name&sortOrder='+sortOrder+'&pageNo='+pageNo+'&pageSize='+pageSize;
+                    workflowService.getCitiesList(platformId, params).then(function (result) {
+                        $scope.cityList = result.data.data;
+                    });
+                },
+
+                getDMAsList : function(platformId, pageNo, pageSize, sortOrder) {
+                    var params = '?sortBy=name&sortOrder='+sortOrder+'&pageNo='+pageNo+'&pageSize='+pageSize;
+                    workflowService.getDMAsList(platformId, params).then(function (result) {
+                         var responseData= result.data.data;
+                        _.each(responseData, function(data) {
+                            data.region = data.name.split(" ")[1];
+                            data.dmaName = data.name.split(" ")[0];
+
+                        })
+                        $scope.dmasList = responseData;
+                    });
+                },
+
+            }
+            geoTargetingView.getRegionsList(2,1, 20, 'asc');
+            geoTargetingView.getCitiesList(2,1,20, 'asc');
+            geoTargetingView.getDMAsList(2,1,20, 'asc');
+        }
+    });
+
 })();
 
