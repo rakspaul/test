@@ -21,7 +21,9 @@ var angObj = angObj || {};
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;
         $scope.sortReverseForCostscpc  = true;
-        $scope.kpiDropdownActive = {}
+        $scope.kpiDropdownActive = {};
+
+        $scope.isStrategyDropDownShow = true;
 
         if ($scope.selected_tab == "performance") {
             $scope.sortType = 'platformType_aggregation.impressions';

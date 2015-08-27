@@ -20,10 +20,8 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
 
         $scope.ShowHide = function (obj) {
-        $scope.IsVisible = $scope.IsVisible ? false : true;
-        $scope.creativeObj=obj;
-            //If DIV is visible it will be hidden and vice versa.
-            //context.IsVisible = context.IsVisible ? false : true;
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+            $scope.creativeObj=obj;
         }
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {'display': 'display', 'video': 'video', 'rich media': 'mixedmedia', 'social': 'audience'}
@@ -415,7 +413,7 @@ var angObj = angObj || {};
                 selectedfreqObj['frequencyType'] = formData.frequencyType;
                 selectedfreqObj['quantity'] = Number(formData.quantity);
                 selectedfreqObj['targetType'] = "PER_USER";
-                selectedfreqObj['pacingType'] = formData.pacingType;
+                selectedfreqObj['pacingType'] = 'EVENLY';
                 freq_cap.push(selectedfreqObj);
             }
             return freq_cap;
