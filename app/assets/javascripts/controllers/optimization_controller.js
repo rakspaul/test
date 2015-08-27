@@ -12,6 +12,8 @@ var angObj = angObj || {};
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.api_return_code=200;
 
+        $scope.isStrategyDropDownShow = true;
+
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
