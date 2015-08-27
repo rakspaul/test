@@ -57,6 +57,8 @@ var angObj = angObj || {};
         $scope.sortReverseForCostscpcAdsizes  = true;
         $scope.sortReverseAddSizesAdsizes  = true;
 
+        $scope.isStrategyDropDownShow = true;
+
 
         $scope.characterLimit  = 50;
 
