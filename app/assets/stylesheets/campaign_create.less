@@ -1335,6 +1335,17 @@
           border-right: 1px solid #dde6eb;
           padding: 20px;
           min-height: 300px;
+          .tab-content {
+            .tab-pane {
+              max-height: 400px;
+              overflow: scroll;
+              padding-top: 20px !important;
+              padding-bottom: 10px;
+              .table {
+                margin-bottom: 0;
+              }
+            }
+          }
         }
         textarea {
           min-height: 300px;
@@ -1356,6 +1367,13 @@
       .selectedTables {
         .col-md-12 {
           padding-right: 0;
+          .selectedTablesWrap {
+            float: left;
+            width: 100%;
+            overflow: scroll;
+            min-height:200px;
+            max-height: 250px;
+          }
           .table {
             margin-top: 20px;
             thead {
