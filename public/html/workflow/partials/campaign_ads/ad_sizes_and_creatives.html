@@ -65,15 +65,17 @@
     <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
 </a>
 
-<div class="popScriptUpdate" ng-show="IsVisible">
+<div class="popContainerHolder" ng-show="IsVisible">
     <div class="popContainer">
         <div class="clearfix">
 
             <h1 class="pull-left">{{creativeObj.name}}</h1>
-            <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="!IsVisible"></span>
+            <span class="close unselectable" aria-hidden="true" ng-click="ShowHide();">x</span>
         </div>
         <div class="textarea_edit_holder">
-            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="edittrue" required>{{creativeObj.tag}}</textarea>
+            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" required>{{creativeObj.tag}}</textarea>
         </div>
     </div>
 </div>
+
+

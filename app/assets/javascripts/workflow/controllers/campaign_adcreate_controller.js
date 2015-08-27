@@ -20,10 +20,8 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
 
         $scope.ShowHide = function (obj) {
-        $scope.IsVisible = $scope.IsVisible ? false : true;
-        $scope.creativeObj=obj;
-            //If DIV is visible it will be hidden and vice versa.
-            //context.IsVisible = context.IsVisible ? false : true;
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+            $scope.creativeObj=obj;
         }
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {'display': 'display', 'video': 'video', 'rich media': 'mixedmedia', 'social': 'audience'}
