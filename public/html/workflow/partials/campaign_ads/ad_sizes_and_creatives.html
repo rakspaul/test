@@ -70,10 +70,10 @@
         <div class="clearfix">
 
             <h1 class="pull-left">{{creativeObj.name}}</h1>
-            <span class="close unselectable" aria-hidden="true" ng-click="!IsVisible">x</span>
+            <span class="close unselectable" aria-hidden="true" ng-click="ShowHide();">x</span>
         </div>
         <div class="textarea_edit_holder">
-            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="edittrue" required>{{creativeObj.tag}}</textarea>
+            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" required>{{creativeObj.tag}}</textarea>
         </div>
     </div>
 </div>
