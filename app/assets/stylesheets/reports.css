@@ -3365,9 +3365,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   }
   .main_navigation_holder .main_nav .main_logo {
     background: url("/assets/images/visto_logos/visto-new-header@2x.png") no-repeat top center !important;
-    -webkit-background-size: 91px 34px !important;
-    -moz-background-size: 91px 34px !important;
-    background-size: 91px 34px !important;
+    -webkit-background-size: 80px 30px !important;
+    -moz-background-size: 80px 30px !important;
+    background-size: 80px 30px !important;
   }
 }
 #reports_platform_viewability_block.reports_video_mode_viewability_container .tooltip_holder .tooltip_show_icon {

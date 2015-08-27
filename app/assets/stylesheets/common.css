@@ -913,9 +913,9 @@
 }
 .main_navigation_holder .main_nav .main_logo {
   display: block;
-  background: url("/assets/images/visto_logos/visto_logo.png") no-repeat top center;
-  width: 91px;
-  height: 40px;
+  background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat top center;
+  width: 80px;
+  height: 30px;
   margin-right: 70px;
 }
 .main_navigation_holder .main_nav .profile_menu {
