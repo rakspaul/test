@@ -413,7 +413,7 @@ var angObj = angObj || {};
                 selectedfreqObj['frequencyType'] = formData.frequencyType;
                 selectedfreqObj['quantity'] = Number(formData.quantity);
                 selectedfreqObj['targetType'] = "PER_USER";
-                selectedfreqObj['pacingType'] = formData.pacingType;
+                selectedfreqObj['pacingType'] = 'EVENLY';
                 freq_cap.push(selectedfreqObj);
             }
             return freq_cap;
