@@ -214,7 +214,6 @@
 
     this.CATEGORIES = "Categories";
     this.DOMAINS = "Domains";
-    this.URLS = "URLs";
     this.DELIVERED = "Delivered";
     this.DELIVERED_IMPS = "Delivered Imps";
     this.VIEW_MODE = "Media Type";
