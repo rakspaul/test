@@ -133,6 +133,8 @@
 
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
       'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-help_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-campaign_overview_controller': {deps: ['controllers-help_controller']},
       'controllers-campaign_overview_controller': {deps: ['controllers-campaign_create_controller']},
       'controllers-campaign_adcreate_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-creative_controller': {deps: ['controllers-campaign_adcreate_controller']},
@@ -314,6 +316,7 @@
 
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
+      'controllers-help_controller':'controllers/help_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
       'controllers-campaign_overview_controller':'workflow/controllers/campaign_overview_controller',
       'controllers-campaign_adcreate_controller':'workflow/controllers/campaign_adcreate_controller',
@@ -484,6 +487,7 @@
            'login-LoginController',
 
            'controllers-campaign_details_controller',
+           'controllers-help_controller',
            'controllers-campaign_create_controller',
            'controllers-campaign_overview_controller',
            'controllers-campaign_adcreate_controller',
