@@ -992,3 +992,67 @@
   color: #fff ;
 }
 /*end of Main top navigation*/
+/*common checkbox styling */
+.external_chkbox {
+  float: left;
+  margin-top: 4px;
+}
+.external_chkbox .squaredFour {
+  width: 20px;
+  margin: 0px 5px 0 0;
+  position: relative;
+  float: left;
+}
+.external_chkbox .squaredFour input[type="checkbox"] {
+  visibility: hidden;
+}
+.external_chkbox .squaredFour input[type="checkbox"]:focus {
+  outline: 0px ;
+}
+.external_chkbox .squaredFour label {
+  cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border: solid 1px #d9d9d9;
+}
+.external_chkbox .squaredFour label:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  opacity: 0;
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 5px;
+  background: transparent;
+  top: 5px;
+  left: 5px;
+  border: 3px solid #333;
+  border-top: none;
+  border-right: none;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.external_chkbox .squaredFour label:hover::after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+  filter: alpha(opacity=30);
+  opacity: 0.5;
+}
+.external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  opacity: 1;
+}
+.external_chkbox .squaredFourTxt {
+  float: left;
+  font-family: "Avenir";
+}
+/*end of common checkbox styling */

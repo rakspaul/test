@@ -228,87 +228,6 @@ button, i, input[type="submit"] {
       margin-bottom: 15px;
       .FontColor(@textHeadingColor, 20pt, @primaryFont);
     }
-/*    .search-cum-navbar {
-      height: 40px;
-      padding: 5px 20px;
-      border-radius: 5px;
-      background: #f9b537;
-      margin-bottom: 5px;
-      ul {
-        width: 100%;
-        li {
-          cursor: pointer;
-          border-right: 1px solid #e0a331;
-          .sort-image-inactive {
-            width: 10px;
-            height: 12px;
-            display: inline-block;
-            vertical-align: baseline;
-          }
-          .dropdown-menu {
-            padding: 0;
-            width: 200px;
-            border: none;
-            margin-top: 5px;
-            margin-left: -20px;
-            border-radius: 5px;
-            li {
-              border-right: none;
-              cursor: pointer;
-              a {
-                padding: 12px 15px 5px;
-                .FontColor(@textDarkGreyColor, 11pt, @secondaryFont);
-              }
-              &:first-child a {
-                margin: 15px 15px 0;
-                padding: 0 15px 10px 0;
-                border-bottom: 1px solid @textGreyColor;
-              }
-            }
-          }
-        }
-        .dwopdown-two {
-          padding-left: 20px;
-        }
-        li a {
-          padding: 5px 15px;
-          background: transparent;
-          .FontColor(#c68f2a, 11pt, @secondaryFont);
-          &:hover, &:focus {
-            padding: 5px 15px;
-            background: transparent;
-            .FontColor(#c68f2a, 11pt, @secondaryFont);
-          }
-          .caret {
-            color: #ae7e26;
-            margin-left: 10px;
-            margin-bottom: 3px;
-          }
-          &.active {
-            color: @textColorWhite;
-            text-shadow: 0px -1px 1px #bbbbbb;
-            &:hover, &:focus {
-              color: @textColorWhite;
-              text-shadow: 0px -1px 1px #bbbbbb;
-            }
-            .caret {
-              color: @textColorWhite;
-              box-shadow: 0px -1px 0px @textDarkGreyColor;
-            }
-          }
-        }
-      }
-      ul:first-child > li:first-child {
-        padding-right: 20px;
-        > input {
-          width: 80px;
-        }
-        > input::-webkit-input-placeholder { color: @textColorWhite; opacity: 1 ;}
-        > input::-moz-placeholder { color: @textColorWhite;opacity: 1 ; }
-        > input:-moz-placeholder { color: @textColorWhite; opacity: 1 ;}
-        > input:-ms-input-placeholder { color: @textColorWhite;opacity: 1 ; }
-      }
-    }*/
     .campaign {
       min-height: 220px;
       overflow: hidden;
@@ -627,7 +546,7 @@ button, i, input[type="submit"] {
           }
         }
       }
-      .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
+      /*.panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
         .col-md-4 {
           #tactics_accordion .tactics {
             width: 110px;
@@ -827,7 +746,7 @@ button, i, input[type="submit"] {
             margin-bottom: 10px;
           }
         }
-      }
+      }*/
     }
   }
   .load-more-strategies {
@@ -846,10 +765,10 @@ button, i, input[type="submit"] {
       }
     }
   }
-  .row-fluid .col-md-6.campaign-count {
+ /* .row-fluid .col-md-6.campaign-count {
     margin-bottom: 0;
     .FontColor(#f9b537, 12pt, @secondaryFont);
-  }
+  }*/
   .load-more {
     margin: 20px;
     text-align: center;
@@ -957,69 +876,6 @@ button, i, input[type="submit"] {
   }
 }
 
-
-.external_chkbox {
-  float: left;
-  margin-top: 4px;
-  .squaredFour {
-    width: 20px;
-    margin: 0px 5px 0 0;
-    position: relative;
-    float: left;
-    input[type="checkbox"] {
-      visibility: hidden;
-    }
-    input[type="checkbox"]:focus {
-      outline: 0px ;
-    }
-    label {
-      cursor: pointer;
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      top: 0;
-      left: 0px;
-      border-radius: 2px;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      border: solid 1px #d9d9d9;
-    }
-    label:after {
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-      filter: alpha(opacity=0);
-      opacity: 0;
-      content: '';
-      position: absolute;
-      width: 9px;
-      height: 5px;
-      background: transparent;
-      top: 5px;
-      left: 5px;
-      border: 3px solid #333;
-      border-top: none;
-      border-right: none;
-      -webkit-transform: rotate(-45deg);
-      -moz-transform: rotate(-45deg);
-      -o-transform: rotate(-45deg);
-      -ms-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-    }
-    label:hover::after {
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-      filter: alpha(opacity=30);
-      opacity: 0.5;
-    }
-    input[type=checkbox]:checked + label:after {
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-      filter: alpha(opacity=100);
-      opacity: 1;
-    }
-  }
-  .squaredFourTxt {
-    float: left;
-    font-family: "Avenir" ;
-  }
-}
 .actions_holder {
   width: 920px ;
   margin:  30px auto 20px ;
@@ -1034,40 +890,6 @@ button, i, input[type="submit"] {
   .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
     padding: 0px ;
   }
-/*  .action_dd {
-    float: left;
-    margin-right: 35px ;
-    overflow:hidden;
-    max-width:172px;
-    border: solid 1px #d9d9d9 ;
-    border-radius : 5px ;
-    -moz-border-radius : 5px ;
-    -webkit-border-radius : 5px ;
-    background: url("/assets/images/cdesk/arrow.png") no-repeat right center;
-    select {
-      padding: 5px 20px 5px 10px ;
-      -webkit-appearance: none;
-      max-width:198px;
-      -moz-appearance: none;
-      text-indent: 0.01px;
-      text-overflow: "";
-      background: transparent;
-      width: 100%;
-      -webkit-appearance: none;
-      border: 0px ;
-      font-family: "Avenir" ;
-    }
-    select:focus {
-      outline: 0px ;
-    }
-  }
-  .action_dd_third {
-    margin-right: 0px ;
-    max-width: 235px ;
-    select  {
-      max-width: 268px ;
-    }
-  }*/
   .action_filter_heading {
     .AvenirBold();
     text-transform: uppercase;
@@ -1076,13 +898,6 @@ button, i, input[type="submit"] {
     text-align: left !important;
     font-family: "trade-gothic-no-2-bold" ;
   }
-/*  .action_dd_last {
-    text-align: right;
-    float: none;
-    margin-bottom: 20px ;
-    width: 100% ;
-  }
-*/ 
  .note_area {
     position: relative;
     margin-top: 15px ;
@@ -1192,22 +1007,6 @@ button, i, input[type="submit"] {
       font-family: "Avenir" ;
     }
   }
-/*  .placeholder_grey::-webkit-input-placeholder {
-    color: @textGreyColor;
-    opacity: 1 ;
-  }
-  .placeholder_grey::-moz-placeholder {
-    color: @textGreyColor;
-    opacity: 1 ;
-  }
-  .placeholder_grey:-ms-input-placeholder {
-    color: @textGreyColor;
-    opacity: 1 ;
-  }
-  .placeholder_grey:-moz-placeholder {
-    color: @textGreyColor;
-    opacity: 1 ;
-  }*/
 }
 #campaignDetail.container {
   .camp-perf-graph {
@@ -1509,7 +1308,6 @@ button, i, input[type="submit"] {
   margin-right: 0;
 }
 .sortable {
-  /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px 2px ;*/
   background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -346px;
   display: inline-block;
   height: 15px;
@@ -1517,16 +1315,13 @@ button, i, input[type="submit"] {
 }
 .flight_date_li {
   .sortable {
-    /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
     background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
   }
 }
 .sortable.ascending {
-  /*background-image: url("/assets/images/cdesk/sorting_arrows_up.png");*/
   background: url("/assets/images/cdesk/sprites.png") no-repeat  -196px -346px ;
 }
 .sortable.descending {
-  /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
   background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
 }
 .dashboard_outer_container {
@@ -1615,18 +1410,15 @@ button, i, input[type="submit"] {
       a {
         color: #0978c9 ;
         span span {
-          /*background: url("/assets/images/cdesk/sorting_arrows_up.png") no-repeat -2px -66px ;*/
           background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px ;
           display: inline-block;
           height: 13px;
           width: 10px;
         }
         span span.descending {
-          /*background-image : url("/assets/images/cdesk/sorting_arrows_down.png");*/
           background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px  ;
         }
         span span.ascending {
-          /*background-image : url("/assets/images/cdesk/sorting_arrows_up.png");*/
           background: url("/assets/images/cdesk/sprites.png") no-repeat  -197px -414px ;
         }
       }
@@ -1743,7 +1535,6 @@ button, i, input[type="submit"] {
         }
         .graph_KPI_outer_holder {
           height:  150px ;
-          /*margin-top : 10px ;*/
           overflow: hidden;
           margin-left: -13px;
           .graph_KPI_holder {
@@ -1975,7 +1766,6 @@ button, i, input[type="submit"] {
     .total_days_holder {
       position: relative;
       height : 4px ;
-      /*max-width : 360px  ;*/
       background: #bdccd4 ;
       border-radius: 2px ;
       -moz-border-radius: 2px ;
@@ -2091,14 +1881,6 @@ button, i, input[type="submit"] {
           padding-right: 0px ;
           left: -6px ;
         }
-        /*.end_point_val:after {
-          top: 21px;
-          left: -4px;
-          border-right: solid 5px transparent;
-          border-bottom: solid 5px transparent;
-          border-top: solid 5px #c1ccd4;
-          border-left: solid 5px transparent;
-        }*/
       }
       .start_end_point {
         .end_point_line {
@@ -2108,13 +1890,6 @@ button, i, input[type="submit"] {
           left: auto;
           right: 0px;
         }
-        /*.end_point_val:after {
-          border-top: solid 5px rgba(0, 0, 0, 0);
-          border-right: solid 5px #C1CCD4;
-          border-bottom: solid 5px rgba(0, 0, 0, 0);
-          top: 16px;
-          left: -10px;
-        }*/
       }
       .start_beginning {
         left: 0px;
@@ -2124,14 +1899,6 @@ button, i, input[type="submit"] {
           -moz-border-radius: 4px 4px 4px 0px;
           -webkit-border-radius: 4px 4px 4px 0px;
         }
-        /*.end_point_val:after {
-          top: 16px;
-          left: 0px;
-          border-right: solid 5px transparent;
-          border-top: solid 5px transparent;
-          border-left: solid 5px #c1ccd4;
-          border-bottom: solid 5px transparent;
-        }*/
       }
       .graph_end_point {
         position: absolute;
@@ -2142,12 +1909,6 @@ button, i, input[type="submit"] {
           position: absolute;
           left: -25px;
         }
-        /*.end_point_val:after {
-          top: 10px;
-          left: -5px;
-          border: solid 5px transparent;
-          border-bottom: solid 5px #c1ccd4;
-        }*/
       }
 
       .completed_end_point {
@@ -2168,13 +1929,6 @@ button, i, input[type="submit"] {
           -webkit-border-radius: 4px 0px 4px 4px;
           padding : 0px ;
         }
-        /*.end_point_val:after {
-          top: 13px;
-          left: -9px;
-          border-top: solid 5px transparent;
-          border-right: solid 5px #c1ccd4;
-          border-bottom: solid 5px transparent;
-        }*/
       }
       .budget_graph_val {
         top: -3px;
@@ -2203,25 +1957,12 @@ button, i, input[type="submit"] {
           height: 21px;
           color: #21252b ;
           font-size: 12px ;
-          /*font-family: "TradeGothicLTStd";
-          padding: 2px 10px;*/
           border-radius: 4px;
           -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
           line-height: 20px ;
         }
       }
-      /*.end_point_val:after {
-        height: 0;
-        width: 0;
-        content: "";
-        display: block;
-        position: absolute;
-        top: 16px;
-        left: 0;
-        border: solid 5px transparent;
-        border-top: solid 5px #c1ccd4;
-      }*/
     }
   }
   .metric_graph.blue {
@@ -2284,17 +2025,14 @@ button, i, input[type="submit"] {
         display: block;
         cursor: pointer;
         float: left;
-        /*background: url("/assets/images/cdesk/sorting_arrows_down.png") no-repeat -4px 0 ;*/
         background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
         &:first-child {
           background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px ;
-          /*background-image : url("/assets/images/cdesk/sorting_arrows_up.png") ;*/
         }
       }
       &:hover {
         .dots {
           background-position : -433px -416px ;
-          /*background-position  : -4px -66px ;*/
           &:first-child {
             background-position : -197px -414px ;
           }
@@ -2597,13 +2335,11 @@ button, i, input[type="submit"] {
       margin : 5px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
-        /*background: url("/assets/images/cdesk/sprites.png") no-repeat 2px 2px  ;*/
         background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px  ;
         height: 30px ;
         width: 30px ;
         &:hover {
           background-position : -345px -266px ;
-          /*background-position : 2px -74px ;*/
         }
       }
       .dropdown-menu {
@@ -2677,36 +2413,6 @@ button, i, input[type="submit"] {
 
   }
 }
-
-/*.quartile_details_graph {
-  font-family: "Avenir" ;
-  margin-left: -8px ;
-  .axis path, .axis line{
-    fill: none;
-    shape-rendering:crispEdge;
-  }
-  .axis text{
-    fill :#939eaf;
-    font-size :11px;
-  }
-  .dots {
-    fill:  #0978c9;
-  }
-  .verticalGrid {
-    border-color: #dde6eb;
-    border-width: 1px;
-    border-style: dashed;
-  }
-  .area {
-    fill: #f5f9fd;
-    stroke-width: 0;
-  }
-  .labels {
-    fill :#21252b;
-    font-size :11px;
-  }
-}*/
-
 
 .quartile_details_graph {
   font-family: "Avenir";
@@ -3144,8 +2850,5 @@ button, i, input[type="submit"] {
     }
   }
 }
-.common_primary_btn.loading-icon {
-  background: url("/assets/images/cdesk/loading_white.gif") no-repeat  center center #0978c9;
-  opacity: 0.3;
-  font-size: 0;
-}
+
+

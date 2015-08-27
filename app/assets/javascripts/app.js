@@ -70,12 +70,14 @@ var angObj = '';
             .when('/reports/upload', {
                 templateUrl: assets.html_custom_report_upload,
                 title :  'Upload Custom Reports' ,
-                controller: 'customReportUploadController'
+                controller: 'customReportUploadController',
+                css: assets.css_custom_reports 
             })
             .when('/reports/list', {
                 templateUrl: assets.html_collective_report_listing,
                 title :  'collective report listing',
-                controller: 'CollectiveReportListingController'
+                controller: 'CollectiveReportListingController',
+                css: assets.css_custom_reports
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,
