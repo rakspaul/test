@@ -38,6 +38,13 @@ h5 {
 a {
   text-decoration: none;
 }
+.breadcrumbFlow {
+  color: #333;
+  text-decoration: none;
+}
+.breadcrumbFlow:hover {
+  color: #428bca;
+}
 .firstWrapper input[type='text'] {
   border: 1px solid #dbe8ef !important;
   border-radius: 0 !important;
@@ -172,7 +179,8 @@ select {
   border-bottom-left-radius: 0 !important;
 }
 .bigChkBox.active {
-  background: #f5f9fd;
+  background: #eff2f5 !important;
+  border: 1px solid #2c9aec !important;
 }
 .bigChkBox.active label {
   color: #2c9aec;

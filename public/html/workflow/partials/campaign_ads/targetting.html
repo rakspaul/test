@@ -15,6 +15,7 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <!--Abi to disable something in the DDL just add (class="disabled") to the li elements-->
             <li ng-repeat="geoTarget in geoTargetArr">
                 <a href="#" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}}</a>
             </li>
@@ -42,12 +43,7 @@
             </div>
             
             <div class="col-md-12 zeroPadding">
-                <div class="btn-group miniToggle pull-left">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#region" data-toggle="tab">Region</a></li>
-                        <li><a href="#city" data-toggle="tab">City</a></li>
-                    </ul>
-                </div>
+                
                 
                 <div class="col-md-4 zeroPadding switchWrap">
                     <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
@@ -65,46 +61,54 @@
             <!---- start region and city Container ---------->
 
             <div id="regioncity" class="tab-pane active">
-
-                <!----- start region block ------------------->
-                <div id="region" class="tab-pane active">
-                    <table class="table">
-                        <thead>
+                
+                <div class="col-md-12 zeroPadding tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#region" data-toggle="tab">Region</a></li>
+                        <li><a href="#city" data-toggle="tab">City</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <!----- start region block ------------------->
+                    <div id="region" class="tab-pane active">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-5"></th>
+                                    <th class="col-md-6"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="region in regionsList">
+                                    <td><input name="regionchkbox" id="{{region.id}}" type="checkbox" value="" /></td>
+                                    <td>{{region.name}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!----- end region block ------------------->
+    
+                    <!----- start city block ------------------->
+                    <div id="city" class="tab-pane">
+                        <table class="table">
+                            <thead>
                             <tr>
                                 <th class="col-md-1"></th>
                                 <th class="col-md-5"></th>
                                 <th class="col-md-6"></th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="region in regionsList">
-                                <td><input name="regionchkbox" id="{{region.id}}" type="checkbox" value="" /></td>
-                                <td>{{region.name}}</td>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="city in cityList">
+                                <td><input name="regionchkbox" id="{{city.id}}" type="checkbox" value="" /></td>
+                                <td>{{city.name}}</td>
                             </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!----- end city block ------------------->
                 </div>
-                <!----- end region block ------------------->
-
-                <!----- start city block ------------------->
-                <div id="city" class="tab-pane">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th class="col-md-1"></th>
-                            <th class="col-md-5"></th>
-                            <th class="col-md-6"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="city in cityList">
-                            <td><input name="regionchkbox" id="{{city.id}}" type="checkbox" value="" /></td>
-                            <td>{{city.name}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!----- end city block ------------------->
             </div>
             <!---- end region and city block ---------->
 
@@ -132,15 +136,15 @@
             <!---- start Zip Container ---------->
             <div id="zip" class="tab-pane">
                 <textarea class="form-control" rows="3"></textarea>
+                <div class="col-md-12 zeroPadding">
+                    <a href="" class="btn btn-default pull-right" role="button">
+                        <img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include
+                    </a>
+                </div>
             </div>
             <!---- end Zip Container ---------->
 
 
-        </div>
-        
-        <div class="col-md-12 zeroPadding">
-            <a href="" class="btn btn-default pull-right" role="button">Save Geography</a>
-            <a href="" class="btn btn-link pull-right" role="button">Cancel</a>
         </div>
     </div>
     <div class="col-md-5 zeroPadding selectedTables">
@@ -148,79 +152,89 @@
             <h2>Selected</h2>
         </div>
         <div class="col-md-12">
-            <table class="table regionTable">
-                <thead>
-                    <tr>
-                        <th class="col-md-8">Regions & Cities</th>
-                        <th class="col-md-4"><a>Remove All</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Colorado (State)</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> New York (State)</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany (City)</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="selectedTablesWrap">
+                <table class="table regionTable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-8">Regions & Cities</th>
+                            <th class="col-md-4"><a>Remove All</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Colorado (State)</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> New York (State)</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany (City)</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             
             <h5>AND</h5>
             
-            <table class="table zipTable">
-                <thead>
-                    <tr>
-                        <th class="col-md-8">Zip / Postal Codes</th>
-                        <th class="col-md-4"><a>Remove All</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10001</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10012</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10038</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 70301-70546</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="selectedTablesWrap">
+                <table class="table zipTable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-8">Zip / Postal Codes</th>
+                            <th class="col-md-4"><a>Remove All</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10001</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10012</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10038</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 70301-70546</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             
             <h5>AND</h5>
             
-            <table class="table dmaTable">
-                <thead>
-                    <tr>
-                        <th class="col-md-8">DMAs</th>
-                        <th class="col-md-4"><a>Remove All</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany, Georgia</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                    <tr>
-                        <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Austin, Texas</td>
-                        <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="selectedTablesWrap">
+                <table class="table dmaTable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-8">DMAs</th>
+                            <th class="col-md-4"><a>Remove All</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany, Georgia</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                        <tr>
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Austin, Texas</td>
+                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+    <div class="col-md-12 zeroPadding">
+        <a href="" class="btn btn-default pull-right" role="button">Save Geography</a>
+        <a href="" class="btn btn-link pull-right" role="button">Cancel</a>
     </div>
 </div>
 

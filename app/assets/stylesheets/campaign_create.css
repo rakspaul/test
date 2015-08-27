@@ -1397,6 +1397,15 @@
   padding: 20px;
   min-height: 300px;
 }
+.adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content .tab-pane {
+  max-height: 400px;
+  overflow: scroll;
+  padding-top: 20px !important;
+  padding-bottom: 10px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content .tab-pane .table {
+  margin-bottom: 0;
+}
 .adCreateMaster #targetting .targettingFormWrap .tabbable textarea {
   min-height: 300px;
 }
@@ -1417,6 +1426,13 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 {
   padding-right: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap {
+  float: left;
+  width: 100%;
+  overflow: scroll;
+  min-height: 200px;
+  max-height: 250px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table {
   margin-top: 20px;
