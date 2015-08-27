@@ -59,7 +59,7 @@
     <div ng-show='campaigns.costList[campaign.orderId].costDataLoading' class="load-more">&nbsp;</div>
     <div ng-hide='campaigns.costList[campaign.orderId].costDataLoading' ng-switch on="campaigns.costList[campaign.orderId].cost_transparency">
     <div ng-switch-when=true>
-        <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | formatCostData: '' : 0}}</div>
+        <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | nrFormat: '' : 0}}</div>
         <div class="each_cost_col second_col">{{campaigns.cdbDataMap[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType }}</div>
         <div class="each_cost_col three_col">{{campaigns.costList[campaign.orderId].getInventoryCost() | currency:undefined:0}}</div>
         <div class="each_cost_col four_col">{{campaigns.costList[campaign.orderId].getDataCost() | currency:undefined:0}}</div>
