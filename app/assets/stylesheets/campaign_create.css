@@ -338,8 +338,8 @@
   height: 50px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView label {
-  font-size: 11px;
-  color: #888;
+  font-size: 12px;
+  color: #939dac;
   float: left;
   width: 100%;
   padding: 0;
@@ -1361,6 +1361,32 @@
 .adCreateMaster #targetting .targettingFormWrap .col-md-12 .btn {
   margin-top: 20px;
 }
+.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip {
+  top: -70px;
+  left: 150px;
+  width: 250px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip span {
+  width: 100%;
+  color: #21252b;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip .btn {
+  width: auto;
+  padding: 6px 12px;
+  margin-right: 5px;
+  color: #fff;
+  background: #0978c9;
+  border-width: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip .btn:last-child {
+  color: #0978c9;
+  background: #fff;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip:before {
+  border-top-color: #A2A2A2;
+}
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs {
   margin-top: 20px;
   float: left;
@@ -1390,24 +1416,80 @@
   border-top-left-radius: 2px;
   border-left: 1px solid #dde6eb;
 }
-.adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane {
+.adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content {
   border-left: 1px solid #dde6eb;
   border-bottom: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
-  padding: 20px;
-  min-height: 300px;
+  border-top: 2px solid #dde6eb;
+  padding: 5px;
+  float: left;
+  width: 100%;
+  margin-top: -2px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content .tab-pane {
   max-height: 400px;
   overflow: scroll;
-  padding-top: 20px !important;
-  padding-bottom: 10px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content .tab-pane .table {
   margin-bottom: 0;
 }
-.adCreateMaster #targetting .targettingFormWrap .tabbable textarea {
-  min-height: 300px;
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav {
+  margin: -50px 0 20px 20px;
+  border-width: 0;
+  width: auto;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li {
+  border: 1px solid #0978c9;
+  width: 120px;
+  text-align: center;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background: #fff;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li a {
+  color: #0978c9;
+  padding: 6px 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li:hover {
+  background: #f5f9fd;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li.active {
+  background: #0978c9 !important;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li.active a {
+  color: #fff;
+  background: transparent;
+  margin: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li:first-child {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #dma {
+  max-height: 400px;
+  overflow: scroll;
+  border-left: 1px solid #dde6eb;
+  border-bottom: 1px solid #dde6eb;
+  border-right: 1px solid #dde6eb;
+  padding: 6px 0px !important;
+  float: left;
+  width: 100%;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #dma .searchInput {
+  padding: 14px 20px;
+  border-width: 0;
+  border-bottom: 2px solid #dde6eb;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #zip {
+  padding: 20px !important;
+  border-left: 1px solid #dde6eb;
+  border-bottom: 1px solid #dde6eb;
+  border-right: 1px solid #dde6eb;
+}
+.adCreateMaster #targetting .targettingFormWrap .tabbable #zip textarea {
+  min-height: 433px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .btn-ani-toggle {
   float: left;
@@ -1424,6 +1506,13 @@
 .adCreateMaster #targetting .targettingFormWrap .tabbable #switchLabel2 {
   display: none;
 }
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .emptyTableLabel {
+  float: left;
+  width: 100%;
+  color: #939ead;
+  font-size: 14px;
+  padding-left: 15px;
+}
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 {
   padding-right: 0;
 }
@@ -1433,6 +1522,27 @@
   overflow: scroll;
   min-height: 200px;
   max-height: 250px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip {
+  top: -40px;
+  right: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip span {
+  padding-right: 20px;
+  padding-top: 5px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip .btn {
+  margin: 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip .btn:last-child {
+  margin-left: 5px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip:after,
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip:before {
+  left: 85%;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip:before {
+  border-top-color: #A2A2A2;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table {
   margin-top: 20px;

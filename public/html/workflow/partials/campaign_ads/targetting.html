@@ -4,7 +4,7 @@
     <a href="javascript:void(0);">Which target audience should I choose for my ad?</a>
 </div>
 <div class="col-md-12 zeroPadding">
-    <a href="" class="addTargetBtn"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Targeting</a>
+    <a href="" class="addTargetBtn"><img ng-src="/assets/images/workflow/icon_add.svg" alt="" height="16" style="margin: -3px 3px 0 0;"/> Add Targeting</a>
 </div>
 
 <!--=== Targeting Type ===-->
@@ -25,43 +25,47 @@
 
 <!--=== Targeting Form ===-->
 <div class="col-md-12 zeroPadding targettingFormWrap" ng-if="geoTargetName">
-    <div class="col-md-7 zeroPadding tabbable">
+    <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
         <h2>{{geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <div class="tooltipWrap zipCodeTooltip">
+            <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
+            <a href="" class="btn btn-default pull-right" role="button">Continue</a>
+            <a href="" class="btn btn-link pull-right" role="button">Cancel</a>
+        </div>
         <ul class="nav nav-tabs">
           <li class="active"><a href="#regioncity" data-toggle="tab">REGION & CITY</a></li>
           <li><a href="#dma" data-toggle="tab">DMA</a></li>
           <li><a href="#zip" data-toggle="tab">ZIP / POSTAL CODE</a></li>
         </ul>
       
-        <!--Search Input-->
-        <div class="col-md-12 searchInput radioBtnToggle">
-            <div class="input-group">
-              <input type="text" class="form-control disabled" placeholder="Search for regions or cities">
-              <span class="input-group-btn">
-                <button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-              </span>
-            </div>
-            
-            <div class="col-md-12 zeroPadding">
-                
-                
-                <div class="col-md-4 zeroPadding switchWrap">
-                    <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
-                    <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
-                    
-                    <div class="btn-group btn-ani-toggle pull-right" ng-click="switchInclude()">
-                        <button class="btn btn-xs btn-success active"></button>
-                        <div class="togBtnBg"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      
         <div class="tab-content">
             <!---- start region and city Container ---------->
 
             <div id="regioncity" class="tab-pane active">
-                
+                <!--Search Input-->
+                <div class="col-md-12 searchInput radioBtnToggle">
+                    <div class="input-group">
+                      <input type="text" class="form-control disabled" placeholder="Search for regions or cities">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                      </span>
+                    </div>
+                    
+                    <div class="col-md-12 zeroPadding">
+                        
+                        
+                        <div class="col-md-4 zeroPadding switchWrap">
+                            <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+                            <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+                            
+                            <div class="btn-group btn-ani-toggle pull-right" ng-click="switchInclude()">
+                                <button class="btn btn-xs btn-success active"></button>
+                                <div class="togBtnBg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
                 <div class="col-md-12 zeroPadding tabbable">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#region" data-toggle="tab">Region</a></li>
@@ -114,6 +118,30 @@
 
             <!---- start DMA container -------->
             <div id="dma" class="tab-pane">
+                <!--Search Input-->
+                <div class="col-md-12 searchInput radioBtnToggle">
+                    <div class="input-group">
+                      <input type="text" class="form-control disabled" placeholder="Search for regions or cities">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                      </span>
+                    </div>
+                    
+                    <div class="col-md-12 zeroPadding">
+                        
+                        
+                        <div class="col-md-4 zeroPadding switchWrap">
+                            <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+                            <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+                            
+                            <div class="btn-group btn-ani-toggle pull-right" ng-click="switchInclude()">
+                                <button class="btn btn-xs btn-success active"></button>
+                                <div class="togBtnBg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <table class="table">
                     <thead>
                         <tr>
@@ -151,8 +179,14 @@
         <div class="col-md-12">
             <h2>Selected</h2>
         </div>
+        <span class="emptyTableLabel">Not Set</span>
         <div class="col-md-12">
             <div class="selectedTablesWrap">
+                <div class="tooltipWrap removeAllTooltip">
+                    <span>Are you sure?</span>
+                    <a class="btn">NO</a>
+                    <a class="btn">YES</a>
+                </div>
                 <table class="table regionTable">
                     <thead>
                         <tr>

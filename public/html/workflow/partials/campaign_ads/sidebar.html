@@ -2,8 +2,8 @@
     <div class="pull-left campaign_name_holder">
         <h1 class="campaign_name">Create Ad</h1>
         <ul class="nav nav-tabs tabs-left pull-left stepCompLabel" id="myTabs">
-            <li class="active">
-                <a href="#adType" role="tab" class="leftNavLink" data-toggle="tab" id="adType-tab" ng-click="closeBtnCreative()">1 Select Ad Type</a>
+            <li id="adType-tab" class="active">
+                <a href="#adType" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">1 Select Ad Type</a>
                 <div class="col-md-12 zeroPadding">
                     <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
                         <div class="col-md-12">
@@ -34,8 +34,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <a href="#setting" role="tab" class="leftNavLink" data-toggle="tab" id="setting-tab" ng-click="closeBtnCreative()">2 Budget & Delivery</a>
+            <li id="setting-tab">
+                <a href="#setting" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">2 Budget & Delivery</a>
 
                 <div>
                     <div class="statusLabel disabled"
@@ -68,8 +68,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <a href="#buying" role="tab" class="leftNavLink" data-toggle="tab" id="buying-tab" ng-click="closeBtnCreative()">3 Buying Platform</a>
+            <li id="buying-tab">
+                <a href="#buying" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">3 Buying Platform</a>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.platform">
                         <div class="col-md-12">
@@ -85,8 +85,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab" id="targetting-tab" ng-click="closeBtnCreative()">4 Targeting</a>
+            <li id="targetting-tab">
+                <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">4 Targeting</a>
                 <div>
                     <div class="statusLabel disabled">
                         <div class="col-md-12">
@@ -95,8 +95,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <a href="#creative" role="tab" class="leftNavLink" data-toggle="tab" id="creative-tab" ng-click="closeBtnCreative()">5 Ad Sizes /
+            <li id="creative-tab">
+                <a href="#creative" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">5 Ad Sizes /
                     Creatives</a>
                 <div>
                     <div class="statusLabel disabled">
@@ -106,8 +106,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <a href="#inventory" role="tab" class="leftNavLink" data-toggle="tab" id="inventory-tab" ng-click="closeBtnCreative()">6 Inventory Filters</a>
+            <li id="inventory-tab">
+                <a href="#inventoryView" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">6 Inventory Filters</a>
                 <div>
                     <div class="statusLabel disabled">
                         <div class="col-md-12">
