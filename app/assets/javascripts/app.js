@@ -109,6 +109,11 @@ var angObj = '';
                 title :  'Creative List',
                 controller: 'creativeListController'
             })
+            .when('/help', {
+                templateUrl: assets.html_help,
+                title :  'Help - Online',
+                controller: 'helpController'
+            })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }).config([
