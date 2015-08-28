@@ -178,7 +178,7 @@
       'services-platformservice':{deps: ['services-optimizationservice']},
       'services-momentService': {deps: ['login-LoginModel']},
       'common-directive-DataNotFound':{deps:['CommonModule']},
-
+      'common-services-zipCode' : {deps:['CommonModule']},
       'collectiveReport-CollectiveReportModule':{deps: ['angular']},
       'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
@@ -360,6 +360,7 @@
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
       'common-directive-DataNotFound':'common/directives/DataNotFound',
+      'common-services-zipCode' : 'common/services/zipCode',
       'angular-locale':'vendor/i18n/angular-locale_en-us',
       'jsRoutes': '/jsroutes'
     }
@@ -537,7 +538,8 @@
           'collectiveReport-CollectiveReportModel',
          // 'collectiveReport-CollectiveReportDirective',
           'collectiveReport-CollectiveEditReportController',
-          'collectiveReport-CollectiveDeleteReportController'
+          'collectiveReport-CollectiveDeleteReportController',
+          'common-services-zipCode'
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {

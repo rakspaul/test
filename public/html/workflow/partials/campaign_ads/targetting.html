@@ -16,7 +16,7 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <!--Abi to disable something in the DDL just add (class="disabled") to the li elements-->
-            <li ng-repeat="geoTarget in geoTargetArr">
+            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable}">
                 <a href="#" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}}</a>
             </li>
         </ul>
@@ -27,7 +27,7 @@
 <div class="col-md-12 zeroPadding targettingFormWrap" ng-if="geoTargetName">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
         <h2>{{geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
-        <div class="tooltipWrap zipCodeTooltip">
+        <div class="tooltipWrap zipCodeTooltip" style="display:none;">
             <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
             <a href="" class="btn btn-default pull-right" role="button">Continue</a>
             <a href="" class="btn btn-link pull-right" role="button">Cancel</a>
@@ -52,8 +52,6 @@
                     </div>
                     
                     <div class="col-md-12 zeroPadding">
-                        
-                        
                         <div class="col-md-4 zeroPadding switchWrap">
                             <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
                             <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
@@ -84,8 +82,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="region in regionsList">
-                                    <td><input name="regionchkbox" id="{{region.id}}" type="checkbox" value="" /></td>
+                                <tr ng-repeat="region in geoTargetingData.regions">
+                                    <td><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-change="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></td>
                                     <td>{{region.name}}</td>
                                 </tr>
                             </tbody>
@@ -104,8 +102,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="city in cityList">
-                                <td><input name="regionchkbox" id="{{city.id}}" type="checkbox" value="" /></td>
+                            <tr ng-repeat="city in geoTargetingData.cities">
+                                <td><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-change="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></td>
                                 <td>{{city.name}}</td>
                             </tr>
                             </tbody>
@@ -151,8 +149,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="dma in dmasList">
-                            <td><input id="{{dma.id}}" type="checkbox" value="" /></td>
+                        <tr ng-repeat="dma in geoTargetingData.dmas">
+                            <td><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-change="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></td>
                             <td>{{dma.dmaName}}</td>
                             <td>{{dma.region}}</td>
                         </tr>
@@ -163,12 +161,17 @@
 
             <!---- start Zip Container ---------->
             <div id="zip" class="tab-pane">
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" id="zipValues" rows="3"></textarea>
                 <div class="col-md-12 zeroPadding">
-                    <a href="" class="btn btn-default pull-right" role="button">
+                    <a href="javascript:void(0);" ng-click="addZipCode()" class="btn btn-default pull-right" role="button">
                         <img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include
                     </a>
                 </div>
+                <div class="message">
+                        <span class="info" ng-if="zipCodesObj.info.length > 0">{{zipCodesObj.info[0]}}</span>
+                        <span class="error" ng-if="zipCodesObj.error.length > 0">{{zipCodesObj.error[0]}}</span>
+                </div>
+
             </div>
             <!---- end Zip Container ---------->
 
@@ -179,10 +182,10 @@
         <div class="col-md-12">
             <h2>Selected</h2>
         </div>
-        <span class="emptyTableLabel">Not Set</span>
+
         <div class="col-md-12">
             <div class="selectedTablesWrap">
-                <div class="tooltipWrap removeAllTooltip">
+                <div class="tooltipWrap removeAllTooltip" style="display:none;">
                     <span>Are you sure?</span>
                     <a class="btn">NO</a>
                     <a class="btn">YES</a>
@@ -191,79 +194,66 @@
                     <thead>
                         <tr>
                             <th class="col-md-8">Regions & Cities</th>
-                            <th class="col-md-4"><a>Remove All</a></th>
+                            <th class="col-md-4"><a href="javascrpt:void(0);" ng-click="removeAll('regions')">Remove All</a></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Colorado (State)</td>
+                        <tr ng-repeat="region in geoTargetingData.selected.regions">
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{region.name}}</td>
                             <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                         </tr>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> New York (State)</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                        </tr>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany (City)</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        <tr ng-if="geoTargetingData.selected.regions.length === 0">
+                            <td class="emptyTableLabel">Not Set</td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
             
             <h5>AND</h5>
-            
-            <div class="selectedTablesWrap">
-                <table class="table zipTable">
-                    <thead>
-                        <tr>
-                            <th class="col-md-8">Zip / Postal Codes</th>
-                            <th class="col-md-4"><a>Remove All</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10001</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                        </tr>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10012</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                        </tr>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 10038</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                        </tr>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> 70301-70546</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <h5>AND</h5>
-            
             <div class="selectedTablesWrap">
                 <table class="table dmaTable">
                     <thead>
                         <tr>
                             <th class="col-md-8">DMAs</th>
-                            <th class="col-md-4"><a>Remove All</a></th>
+                            <th class="col-md-4"><a href="javascrpt:void(0);" ng-click="removeAll('dmas')" >Remove All</a></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Albany, Georgia</td>
+                        <tr ng-repeat="dma in geoTargetingData.selected.dmas">
+                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/>{{dma.name}}</td>
                             <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
                         </tr>
-                        <tr>
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Austin, Texas</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                        <tr ng-if="geoTargetingData.selected.dmas.length === 0">
+                            <td class="emptyTableLabel">Not Set</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <h5>AND</h5>
+            <div class="selectedTablesWrap">
+                <table class="table zipTable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-8">Zip / Postal Codes</th>
+                            <th class="col-md-4"><a href="javascript:void(0)" ng-click="removeAll('zip')">Remove All</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <table ng-repeat="zipCodeList in geoTargetingData.selected.zip">
+                            <tr ng-repeat="zipCode in zipCodeList.added">
+                                <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</td>
+                                <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem"/></td>
+                            </tr>
+                            <tr ng-if="geoTargetingData.selected.zip.length === 0">
+                                <td class="emptyTableLabel">Not Set</td>
+                            </tr>
+                        </table>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
     <div class="col-md-12 zeroPadding">
