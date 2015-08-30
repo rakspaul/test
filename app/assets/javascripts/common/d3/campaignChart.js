@@ -247,8 +247,8 @@
                                 });
 
                             //classes used to color the threshold clipping path
-                            var red = "clip-above",
-                                blue = "clip-below",
+                            var red = "clip-above-" + _config.versionTag,
+                                blue = "clip-below-" + _config.versionTag,
                                 //default settings - positive color is blue and is below and danger zone is red that is above
                                 aboveClass = blue,
                                 belowClass = red;
@@ -277,7 +277,7 @@
                                 .data(["above", "below"])
                                 .enter().append("path")
                                 .attr("class", function(d) { return "line " + d; })
-                                .attr("clip-path", function(d) { return "url(#clip-" + d + ")"; })
+                                .attr("clip-path", function(d) { return "url(#clip-" + d + "-"+_config.versionTag+")"; })
                                 .datum(data)
                                 .attr("d", line)
 
@@ -1211,7 +1211,7 @@
 
                 var dataObj = JSON.parse(attrs.chartData);
                 var chartCallFrom = attrs.chartLocation || null;
-
+                var versionTag = attrs.chartTag || Math.floor(Math.random()*10000000); //to fix firefox mozilla coloring issue for clip path tagging
                 var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from),
                     performanceChart = false;
 
@@ -1224,6 +1224,7 @@
                     threshold: dataObj.kpiValue,
                     isPerformanceChart: performanceChart,
                     chartCallFrom: chartCallFrom,
+                    versionTag: versionTag,
                     kpiType: dataObj.kpiType,
                     keys: {
                         xAxis: {
@@ -1268,6 +1269,7 @@
                     margin: lineData.margin,
                     threshold: lineData.threshold,
                     isPerformanceChart: lineData.isPerformanceChart,
+                    versionTag: lineData.versionTag,
                     chartCallFrom: lineData.chartCallFrom,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,
