@@ -42,6 +42,17 @@
         return moment.duration(d2.diff(d1)).asDays();
     }
 
+    this.isGreater = function(date1,date2) {
+      var d1 = moment(date1);
+      var d2 = moment(date2);
+
+      if(d2.diff(d1) < 0) {
+         return true;
+      }
+      return false;
+
+    }
+
 
   }]);
 }());

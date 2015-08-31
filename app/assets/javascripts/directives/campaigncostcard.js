@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCostCard', function (utils, constants) {
+    angObj.directive('campaignCostCard', function (utils, constants,momentService) {
         return {
             restrict:'EAC',
 
@@ -66,11 +66,11 @@
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = $scope.getSpendDifference(campaign);
-                        return $scope.getClassFromDiff(spendDifference);
+                        return $scope.getClassFromDiff(spendDifference,campaign.end_date);
                     }
                 };
         
-                $scope.getClassFromDiff = function(spendDifference) {
+/*                $scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
                         return 'blue';
                     }
@@ -81,7 +81,39 @@
                         return ' ';
                     }
                     return 'red';
+                }*/
+
+                $scope.getClassFromDiff = function(spendDifference,campaignEndDate) {
+                    var today = momentService.todayDate('YYYY-MM-DD');
+                    if (campaignEndDate != undefined) {
+                        var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
+                    }
+                    if (spendDifference <= -1 && spendDifference > -10) {
+                        return 'amber';
+                    }
+                    if (spendDifference == -999) { //fix for initial loading
+                        return '';
+                    }
+                    if(campaignEndDate != undefined) {
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == false) {
+                            if ((dateDiffInDays <= 7) && (spendDifference < 95 || spendDifference > 105)) {
+                                return 'red';
+                            }else if ((dateDiffInDays <= 7) && (spendDifference >= 95 && spendDifference <= 105)) {
+                                return 'blue';
+                            }
+                        }
+                    }
+                    if (spendDifference < 90 || spendDifference > 120) {
+                        return 'red';
+                    } else if (spendDifference >= 90 && spendDifference <= 120) {
+                        return 'blue';
+                    }
+                    return 'red';
                 }
+
+
+
+
                 $scope.getSpendWidth = function(campaign) {
                     if(campaign !== undefined) {
                         var actualWidth = 100 + $scope.getSpendTotalDifference(campaign);
