@@ -913,6 +913,7 @@
 }
 .main_navigation_holder .main_nav .main_logo {
   display: block;
+  cursor: default;
   background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat top center;
   width: 80px;
   height: 30px;
@@ -920,7 +921,7 @@
 }
 .main_navigation_holder .main_nav .profile_menu {
   height: 30px ;
-  width: 70px ;
+  width: 30px ;
   margin: 5px 0 0 40px ;
   cursor: default;
 }
