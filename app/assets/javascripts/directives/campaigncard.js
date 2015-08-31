@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCard', function (utils,constants) {
+    angObj.directive('campaignCard', function (utils,constants,momentService) {
         return {
             restrict:'EAC',
 
@@ -19,11 +19,15 @@
                     if(campaign !== undefined) {
                         var spendDifference = -999; //fix for initial loading
                         var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+                        console.log('campaign obj',campaign);
                         if (campaignCDBObj == undefined) {
                             return spendDifference;
                         }
+                        console.log("am here");
                         var spend = campaignCDBObj.getGrossRev();
+                       // console.log("Spend",spend);
                         var expectedSpend = campaign.expectedMediaCost;
+                        //console.log("expected spend",expectedSpend);
                         return $scope.getPercentDiff(expectedSpend, spend);
                     }
                 };
@@ -60,15 +64,20 @@
                     } else {
                         spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
                     }
-                    return spendDifference;
                 }
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = $scope.getSpendDifference(campaign);
-                        return $scope.getClassFromDiff(spendDifference);
+                        return $scope.getClassFromDiff(spendDifference,campaign.end_date);
                     }
                 };
-                $scope.getClassFromDiff = function(spendDifference) {
+                $scope.getClassFromDiff = function(spendDifference,campaignEndDate) {
+                    console.log('end date',campaignEndDate);
+                    var today = momentService.todayDate('YYYY-MM-DD');
+                    var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'),campaignEndDate);
+                    console.log('Today: ',today);
+                    console.log('Days: ',dateDiffInDays);
+
                     if (spendDifference > -1) {
                         return 'blue';
                     }
@@ -77,6 +86,20 @@
                     }
                     if (spendDifference == -999) { //fix for initial loading
                         return ' ';
+                    }
+
+                    if(dateDiffInDays <= 7) {
+                        if(spendDifference < 95 || spendDifference > 105) {
+                           return 'yellow';
+                        }else if(spendDifference >= 95 && spendDifference <= 105) {
+                            return '';
+                        }
+                    }else {
+                        if(spendDifference < 90 || spendDifference > 120) {
+                            return 'red';
+                        }else if(spendDifference >= 90 && spendDifference <= 120) {
+                            return '';
+                        }
                     }
                     return 'red';
                 }
