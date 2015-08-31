@@ -117,6 +117,9 @@
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+            if($routeParams.campaignId) {
+                $scope.selectedCampaign.id = $routeParams.campaignId;
+            }
             $location.path("/campaigns/" + $scope.selectedCampaign.id);
         });
 
