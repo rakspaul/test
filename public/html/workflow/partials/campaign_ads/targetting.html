@@ -3,15 +3,24 @@
     <h2 class="col-md-12 zeroPadding marginBottom">Select Your Target Audience <a>or Choose a saved preset</a></h2>
     <a href="javascript:void(0);">Which target audience should I choose for my ad?</a>
 </div>
-<div class="col-md-12 zeroPadding">
+<!-- <div class="col-md-12 zeroPadding">
     <a href="" class="addTargetBtn"><img ng-src="/assets/images/workflow/icon_add.svg" alt="" height="16" style="margin: -3px 3px 0 0;"/> Add Targeting</a>
-</div>
+</div> -->
 
 <!--=== Targeting Type ===-->
 <div class="col-md-12 zeroPadding">
-    <div class="dropdown ddlSetTarget">
+    <div class="dropdown ddlSetTarget msgPopupHolder">
+        <div class="msgPopup">
+            <div class="msg">
+                To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
+            </div>
+            <div class="btn-holder">
+                <div class="pull-right common_primary_btn">Select Platform</div>
+                <div class="pull-right secondary_txt">Cancel</div>
+            </div>
+        </div>
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            {{geoTargetName ? geoTargetName : 'Select Target'}}
+            {{geoTargetName ? geoTargetName : 'Add Targeting'}}
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -172,11 +181,11 @@
             <div id="zip" class="tab-pane">
                 <textarea class="form-control" id="zipValues" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
                 <div class="col-md-12 zeroPadding">
-                    <a href="javascript:void(0);" ng-click="addZipCode()" class="btn btn-default pull-right" role="button">
+                    <button type="button" ng-click="addZipCode()" class="btn btn-default pull-right">
                         <img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include
-                    </a>
+                    </button>
                 </div>
-                <div class="message">
+                <div class="clearfix message">
                         <span class="info" ng-if="zipCodesObj.info.length > 0">{{zipCodesObj.info[0]}}</span>
                         <span class="error" ng-if="zipCodesObj.error.length > 0">{{zipCodesObj.error[0]}}</span>
                 </div>
@@ -199,75 +208,108 @@
                     <a class="btn">NO</a>
                     <a class="btn">YES</a>
                 </div>
-                <table class="table regionTable">
-                    <thead>
-                        <tr>
-                            <th class="col-md-8">Regions & Cities</th>
-                            <th class="col-md-4"><a ng-href="#" ng-click="geoTargetingData.selected.regions=[];">Remove All</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="region in geoTargetingData.selected.regions">
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{region.name}}</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(region, 'regions')" /></td>
-                        </tr>
-                        <tr ng-if="geoTargetingData.selected.regions.length === 0">
-                            <td class="emptyTableLabel">Not Set</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table regionTable">
+                    <div>
+                        <div class="clearfix each-row" >
+                            <div class="pull-left">Regions & Cities</div>
+                            <div class="pull-right removeAll msgPopupHolder">
+                                <a ng-href="#" ng-click="geoTargetingData.selected.regions=[];">Remove All</a>
+                                <div class="msgPopup">
+                                    <div class="msg">
+                                        Are you sure?
+                                    </div>
+                                    <div class="btn-holder">
+                                        <div class="pull-right common_primary_btn">Yes</div>
+                                        <div class="pull-right secondary_txt">No</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="values-table">
+                        <div class="clearfix each-row"  ng-repeat="region in geoTargetingData.selected.regions">
+                            <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{region.name}}</div>
+                            <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(region, 'regions')" /></div>
+                        </div>
+                        <div ng-if="geoTargetingData.selected.regions.length === 0">
+                            <div class="emptyTableLabel">Not Set</div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             
-            <h5>AND</h5>
+            <h5>And</h5>
             <div>
-                <table class="table dmaTable">
-                    <thead>
-                        <tr>
-                            <th class="col-md-8">DMAs</th>
-                            <th class="col-md-4"><a ng-href="#" ng-click="geoTargetingData.selected.dmas = []" >Remove All</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="dma in geoTargetingData.selected.dmas">
-                            <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/>{{dma.name}}</td>
-                            <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(dma, 'dmas')" /></td>
-                        </tr>
-                        <tr ng-if="geoTargetingData.selected.dmas.length === 0">
-                            <td class="emptyTableLabel">Not Set</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table dmaTable">
+                    <div>
+                        <div class="clearfix each-row" >
+                            <div class="pull-left">DMAs</div>
+                            <div class="pull-right removeAll msgPopupHolder">
+                                <a ng-href="#" ng-click="geoTargetingData.selected.dmas = []" >Remove All</a>
+                                <div class="msgPopup">
+                                    <div class="msg">
+                                        Are you sure?
+                                    </div>
+                                    <div class="btn-holder">
+                                        <div class="pull-right common_primary_btn">Yes</div>
+                                        <div class="pull-right secondary_txt">No</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="values-table">
+                        <div class="clearfix each-row"  ng-repeat="dma in geoTargetingData.selected.dmas">
+                            <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/>{{dma.name}}</div>
+                            <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(dma, 'dmas')" /></div>
+                        </div>
+                        <div ng-if="geoTargetingData.selected.dmas.length === 0">
+                            <div class="emptyTableLabel">Not Set</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <h5>AND</h5>
+            <h5>And</h5>
             <div>
-                <table class="table zipTable">
-                    <thead>
-                        <tr>
-                            <th class="col-md-8">Zip / Postal Codes</th>
-                            <th class="col-md-4"><a ng-href="#" ng-click="geoTargetingData.selected.zip = []">Remove All</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <table ng-repeat="zipCodeList in geoTargetingData.selected.zip">
-                            <tr ng-repeat="zipCode in zipCodeList.added">
-                                <td><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</td>
-                                <td><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(zipCode, 'zip')"></td>
-                            </tr>
-                            <tr ng-if="geoTargetingData.selected.zip.length === 0">
-                                <td class="emptyTableLabel">Not Set</td>
-                            </tr>
-                        </table>
-                    </tbody>
-                </table>
+                <div class="table zipTable">
+                    <div>
+                        <div class="clearfix each-row" >
+                            <div class="pull-left">Zip / Postal Codes</div>
+                            <div class="pull-right removeAll msgPopupHolder">
+                                <a ng-href="#" ng-click="geoTargetingData.selected.zip = []">Remove All</a>
+                                <div class="msgPopup">
+                                    <div class="msg">
+                                        Are you sure?
+                                    </div>
+                                    <div class="btn-holder">
+                                        <div class="pull-right common_primary_btn">Yes</div>
+                                        <div class="pull-right secondary_txt">No</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="values-table">
+                        <div ng-repeat="zipCodeList in geoTargetingData.selected.zip">
+                            <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
+                                <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
+                                <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(zipCode, 'zip')"></div>
+                            </div>
+                            <div ng-if="geoTargetingData.selected.zip.length === 0">
+                                <div class="emptyTableLabel">Not Set</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
     <div class="col-md-12 zeroPadding">
-        <a href="" class="btn btn-default pull-right" role="button">Save Geography</a>
-        <a href="" class="btn btn-link pull-right" role="button">Cancel</a>
+        <a href="javascript:void(0);" class="pull-right common_primary_btn" >Save Geography</a>
+        <a href="javascript:void(0);" class="pull-right secondary_txt" >Cancel</a>
     </div>
 </div>
 
