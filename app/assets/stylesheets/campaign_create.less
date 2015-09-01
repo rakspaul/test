@@ -305,12 +305,59 @@
             }
           }
         }
+        .searchAds {
+          width: 1200px;
+          margin: 0 auto;
+          border-bottom: 1px solid #ccd2da;
+          display: table;
+          .col-md-10 {
+            float: left;
+            border-right: 1px solid #ccd2da;
+            input {
+              background-color: transparent;
+              border-width: 0px !important;
+              box-shadow: none;
+              margin-top: 2px;
+            }
+            button {
+              background: transparent;
+              border-width: 0px;
+              margin: 0;
+              padding: 15px 20px;
+            }
+            .glyphicon {
+              color: #000;
+            }
+          }
+          .col-md-2 {
+            float: left;
+            margin: 0;
+            .col-md-12 {
+              width: auto;
+              margin: 10px auto;
+              float: none;
+              display: table;
+              span {
+                float: left;
+                font-weight: bold;
+                margin: 6px 0 0 0;
+              }
+              select {
+                width: auto;
+                padding-right: 20px;
+                border-width: 0px !important;
+                box-shadow: none;
+              }
+            }
+          }
+        }
         .adContainer {
           padding: 0;
           .adGroup {
             margin-bottom: 10px;
             width: 100% !important;
             min-height: 38px !important;
+            background: #fff !important;
           }
           .adCreateBtn {
             border: 2px dashed #dbdbdb !important;
@@ -329,7 +376,6 @@
           }
           .adModule {
             padding: 0;
-            border-radius: 5px;
             border: 1px solid #dbdbdb;
             width: 24.25%;
             margin-right: 1%;
@@ -428,6 +474,26 @@
           }
           .adModule:nth-child(4n) {
             margin-right: 0;
+          }
+          .adGroupSelectionWrap {
+            float: left;
+            position: relative;
+            width: 100%;
+            border: 2px dashed #dbdbdb;
+            padding: 50px 10px 0px 10px;
+            margin-top: 30px;
+            .btnCreateGroup {
+              position: absolute;
+              z-index: 10;
+              left: 50%;
+              top: -17px;
+              background: #F7FAFF;
+              border: 2px dashed #dbdbdb;
+              text-align: center;
+              padding: 5px 0;
+              width: 150px;
+              margin-left: -75px;
+            }
           }
           .adReady {
             .adTitle {

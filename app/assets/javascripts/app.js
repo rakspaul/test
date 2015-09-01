@@ -87,27 +87,32 @@ var angObj = '';
             .when('/campaign/create', {
                 templateUrl: assets.html_campaign_create,
                 title :  'Create - Campaign',
-                controller: 'CreateCampaignController'
+                controller: 'CreateCampaignController',
+                css: assets.css_visto_application
             })
             .when('/campaign/:campaignId/overview', {
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
-                controller: 'CampaignOverViewController'
+                controller: 'CampaignOverViewController',
+                css: assets.css_visto_application
             })
             .when('/campaign/:campaignId/ads/create', {
                 templateUrl: assets.html_campaign_create_adBuild,
                 title :  'Campaign - Ad Create',
-                controller: 'CampaignAdsCreateController'
+                controller: 'CampaignAdsCreateController',
+                css: assets.css_visto_application
             })
             .when('/creative/add', {
                 templateUrl: assets.html_creative,
-                title :  'Add Creative'
+                title :  'Add Creative',
+                css: assets.css_visto_application
                 //controller: ''
             })
             .when('/creative/list', {
                 templateUrl: assets.html_creative_list,
                 title :  'Creative List',
-                controller: 'creativeListController'
+                controller: 'creativeListController',
+                css: assets.css_visto_application
             })
             .when('/help', {
                 templateUrl: assets.html_help,
