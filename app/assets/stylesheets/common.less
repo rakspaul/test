@@ -1146,3 +1146,118 @@
 
 
 
+/*for reports section common css styling */
+.common-load-more {
+  margin: 60px auto 0;
+  width: 30px;
+  height : 30px ;
+  background: url("/assets/images/loading.gif") no-repeat ;
+}
+.common_dropdown {
+  .dropdown {
+    min-width: 120px;
+    border: solid 1px #dde6eb;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    min-height: 30px;
+    color: #2d3941;
+    font-size: 14px;
+    .dropdown_ul_text {
+      cursor: default;
+      padding: 5px 10px ;
+      display: block;
+    }
+    .arrow_img {
+      background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+      height: 18px;
+      width: 10px;
+      display: inline-block;
+      float: right;
+      margin-left: 8px ;
+    }
+    .dropdown-menu {
+      padding: 0 ;
+      max-height: 200px;
+      overflow: auto;
+      li {
+        padding: 5px ;
+        cursor: default;
+      }
+      li:hover {
+        background: #d2dee7 ;
+      }
+    }
+  }
+}
+/*end of for reports section common css styling */
+
+
+/*legends for graphs*/
+.common_graph_legend {
+  margin: 0px auto 10px 165px ; 
+  width: 240px ;
+  .graph_legends {
+      float: left;
+      margin-right: 24px ;
+      line-height: 25px;
+      color: #0978c9 ;
+      .legend {
+        display: inline-block;
+        height: 10px ;
+        width: 10px  ;
+        border-radius: 10px  ;
+        -webkit-border-radius : 10px  ;
+        -moz-border-radius : 10px  ;
+        border : solid 2px #0072bc;
+        float: left;
+        margin-right: 6px ;
+        color: #0978c9 ;
+      }
+      .legend_text {
+        display: inline-block;
+        float: left;
+        line-height: 12px ;
+      }
+    }
+    .internal_legend {
+      color: #57606c ;
+        .legend {
+          border : solid 2px #57606c ;
+          color: #57606c ;
+        }
+      }
+  }
+/*end of legends for graphs*/
+
+
+
+/* Mulitiple select */
+/* Put your css in here */
+
+multiselect {
+    display:block;
+}
+multiselect .btn {
+    width: 100%;
+    background-color: #FFF;
+}
+multiselect .btn.error{
+    border: 1px solid #da4f49 !important;
+}
+multiselect .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+multiselect .dropdown-menu {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2px;
+}
+multiselect .dropdown-menu > li > a {
+    padding: 3px 10px;
+    cursor:pointer;
+}
+/* End Mulitiple select option */
+
+
