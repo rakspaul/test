@@ -47,7 +47,7 @@
                 };
                 $scope.getSpendClassForTactic = function(tactic) {
                     var spendDifference = $scope.getSpendDiffForTactic(tactic);
-                    return $scope.getClassFromDiff(spendDifference,tactic.end_date);
+                    return $scope.getClassFromDiff(spendDifference,tactic.endDate);
                 }
                 /*$scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
@@ -60,10 +60,10 @@
                 }*/
 
                 $scope.getClassFromDiff = function(spendDifference,endDate) {
-                    var today = momentService.todayDate('YYYY-MM-DD');
                     if (endDate != undefined) {
                         var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), endDate);
                     }
+
                     if (spendDifference <= -1 && spendDifference > -10) {
                         return 'amber';
                     }

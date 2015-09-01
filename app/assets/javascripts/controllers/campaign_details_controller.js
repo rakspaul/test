@@ -959,7 +959,6 @@
         };*/
 
         $scope.getClassFromDiff = function(spendDifference,endDate) {
-            var today = momentService.todayDate('YYYY-MM-DD');
             if (endDate != undefined) {
                 var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), endDate);
             }
