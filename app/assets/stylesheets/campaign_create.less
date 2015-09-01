@@ -1278,6 +1278,9 @@
           margin: 0 5px;
         }
       }
+      .loading-icon {
+        margin-top: 0px ;
+      } 
       .searchInput {
         float: left;
         width: 100%;
@@ -1433,6 +1436,12 @@
           textarea {
             min-height: 433px;
           }
+          .error {
+            word-wrap: break-word;
+            margin: 20px 0;
+            display: block;
+            color: red;
+          }
         }
         .btn-ani-toggle {
           float: left;
@@ -1455,6 +1464,36 @@
           color: #939ead;
           font-size: 14px;
           padding-left: 15px;
+        }
+        .emptyTableLabel {
+          text-align: center;
+          padding: 10px 0;
+          margin: 0px 0 30px;
+        }
+        .each-row {
+          padding: 10px 0 ;
+          img {
+            margin: -3px 3px 0 0;
+          }
+        }
+        .values-table {
+          max-height: 200px;
+          overflow-y: auto;
+          .each-row {
+            border-bottom : solid 2px #DDE6EB ;
+          }
+        }
+        .msgPopup {
+          left: -185px;
+          &:after {
+            left : 221px ;
+          }
+          &:before {
+            left : 220px ;
+          }
+        }
+        .cancel {
+          cursor: pointer;
         }
         .col-md-12 {
           padding-right: 0;
@@ -1486,7 +1525,7 @@
             }
           }
           .table {
-            margin-top: 20px;
+            margin : 20px 0 ;
             thead {
               border-width: 0;
               .col-md-8 {

@@ -1342,6 +1342,9 @@
   font-size: 14px;
   margin: 0 5px;
 }
+.adCreateMaster #targetting .targettingFormWrap .loading-icon {
+  margin-top: 0px ;
+}
 .adCreateMaster #targetting .targettingFormWrap .searchInput {
   float: left;
   width: 100%;
@@ -1491,6 +1494,12 @@
 .adCreateMaster #targetting .targettingFormWrap .tabbable #zip textarea {
   min-height: 433px;
 }
+.adCreateMaster #targetting .targettingFormWrap .tabbable #zip .error {
+  word-wrap: break-word;
+  margin: 20px 0;
+  display: block;
+  color: red;
+}
 .adCreateMaster #targetting .targettingFormWrap .tabbable .btn-ani-toggle {
   float: left;
 }
@@ -1512,6 +1521,36 @@
   color: #939ead;
   font-size: 14px;
   padding-left: 15px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .emptyTableLabel {
+  text-align: center;
+  padding: 10px 0;
+  margin: 0px 0 30px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .each-row {
+  padding: 10px 0 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .each-row img {
+  margin: -3px 3px 0 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row {
+  border-bottom: solid 2px #DDE6EB ;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup {
+  left: -185px;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup:after {
+  left: 221px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup:before {
+  left: 220px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .cancel {
+  cursor: pointer;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 {
   padding-right: 0;
@@ -1545,7 +1584,7 @@
   border-top-color: #A2A2A2;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table {
-  margin-top: 20px;
+  margin: 20px 0 ;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead {
   border-width: 0;
