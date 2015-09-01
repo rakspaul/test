@@ -79,9 +79,9 @@
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-8 zeroPadding"></div>
                     <div class="col-md-4 zeroPadding">
-                        <div ng-show="addedSuccessfully">{{Message}}</div>
-                        <a class="btn btn-link pull-left" role="button" ng-click="cancelBtn()">Cancel</a>
-                        <button type="submit" class="btn btn-primary pull-left" id="saveCreative">Save Tag</button>
+                        <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
+                        <a class="btn btn-link pull-left" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
+                        <button type="submit" class="btn btn-primary pull-left" ng-disabled="disableCancelSave" id="saveCreative"> Save Tag</button>
                     </div>
                 </div>
 
@@ -90,8 +90,6 @@
     </div>
     <!--=== List Ends ===-->
 </div>
-    </div>
-
 
     <div class="about_popup popup-holder" style="display:none;">
         <div class="modal-header">
@@ -100,12 +98,15 @@
         </div>
         <div class="modal-body">
             <div class="data_row">
-                This tag already exists in your Creative Tag Library. Save as a new Creative anyway? 
+                This tag already exists in your Creative Tag Library. Save as a new Creative anyway?
             </div>
         </div><!-- end of modal_body -->
         <div class="clearfix popup-btns-holder">
-            <span class="common_primary_btn" id="saveDuplicate">Save</span>
-            <span class="secondary_txt" id="cancelDuplicate">Cancel</span>
+            <span class="common_primary_btn"  ng-click="saveDuplicate()">Save</span>
+            <span class="secondary_txt"  ng-click="cancelDuplicate()">Cancel</span>
         </div>
     </div> <!-- end of popup-holder -->
+
+
+</div>
 

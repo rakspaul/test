@@ -11,7 +11,9 @@ var angObj = angObj || {};
         $scope.creativeSizeData = {};
         $scope.addedSuccessfully = false;
         $scope.IncorrectTag = false;
+        $scope.disableCancelSave=false;
         $scope.campaignId = $routeParams.campaignId;
+      //  var pristineFormTemplate = $('#formCreativeCreate').html();
         if($location.path() === '/creative/add') {
             $scope.isAddCreativePopup = true;
         }
@@ -91,6 +93,9 @@ var angObj = angObj || {};
 
                 }else if(result.data.data.message="Creative with this tag already exists. If you still want to save, use force save"){
                     $(".popup-holder").css("display","block");
+                    $scope.addedSuccessfully = false;
+                    $scope.disableCancelSave=true;
+
                 }
                 else {
                     $scope.addedSuccessfully = true;
@@ -102,6 +107,7 @@ var angObj = angObj || {};
 
         }
         $scope.cancelBtn=function(){
+            //$scope.formCreativeCreate.$setPristine(true);
             $('#formCreativeCreate')[0].reset();
             $scope.IncorrectTag = false;
             $scope.addedSuccessfully=false;
@@ -115,22 +121,33 @@ var angObj = angObj || {};
                 $("#creative").delay( 300 ).animate({minHeight: "530px"}, 'slow');
             }
         }
-        $("#saveDuplicate").click(function() {
+        $scope.saveDuplicate=function(){
             workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, $scope.CrDataObj).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    console.log("creative Resaved");
-                    $(".popup-holder").css("display","none");
-                    $scope.addedSuccessfully = true;
-                    $scope.Message = "Creative RESaved Successfully";
-                    $scope.cancelBtn();
-                }
-            });
-        });
-        $("#cancelDuplicate").click(function() {
-            $(".popup-holder").css("display","none");
-            $scope.addedSuccessfully = true;
-            $scope.Message = "Unable to create Creatives";
-        });
+                                        if (result.status === "OK" || result.status === "success") {
+                                            console.log("creative Resaved");
+                                            $(".popup-holder").css("display","none");
+                                            $scope.disableCancelSave=false;
+                                            //$scope.addedSuccessfully = true;
+                                            //$scope.Message = "Creative RESaved Successfully";
+                                            $scope.cancelBtn();
+                                        }else {
+                                             $scope.addedSuccessfully = true;
+                                             $scope.Message = "Unable to create Creatives";
+                                             console.log(result);
+                                        }
+                                    });
+
+
+        }
+        $scope.cancelDuplicate=function(){
+             $(".popup-holder").css("display","none");
+                                    $scope.addedSuccessfully = true;
+                                    $scope.Message = "Unable to create Creatives";
+                                    /*enable cancel, save button on cancel duplicate*/
+                                    $scope.disableCancelSave=false;
+
+        }
+
     });
 
 })();

@@ -100,6 +100,7 @@ var angObj = angObj || {};
              putCrDataObj.updatedAt= $scope.popUpData.updatedAt;
              console.log("data after forming json:");
              console.log(putCrDataObj);
+             $scope.updateForceSaveData=putCrDataObj;
 
              workflowService.updateCreative($scope.popUpData.clientId ,$scope.popUpData.advertiserId,$scope.popUpData.id,putCrDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -107,6 +108,11 @@ var angObj = angObj || {};
                         //console.log("creative updated");
                         $scope.showViewTagPopup=false;
                         $scope.edittrue=true;
+
+                    }else if(result.data.data.message="Creative with this tag already exists. If you still want to save, use force save"){
+                                         $(".popup-holder").css("display","block");
+                                         $scope.IncorrectTag = false;
+                                         $scope.disableUpdateCancel=true;
 
                     }
                     else {
@@ -119,12 +125,37 @@ var angObj = angObj || {};
         }
         $scope.editTrue=function(){
             $scope.edittrue=false;
+            $scope.disableUpdateCancel=false;
         }
 
         $scope.cancelPopup=function(){
             $scope.IncorrectTag = false;
             $scope.showViewTagPopup=false;
             $scope.edittrue=true;
+        }
+
+        $scope.saveDuplicate=function(){
+            workflowService.forceSaveCreatives($scope.popUpData.clientId, $scope.popUpData.advertiserId, $scope.updateForceSaveData).then(function (result) {
+            console.log(result);
+                if (result.status === "OK" || result.status === "success") {
+                    console.log("creative Resaved");
+                    $(".popup-holder").css("display","none");
+                    $scope.cancelPopup();
+                }else {
+                     $scope.IncorrectTag = true;
+                     $scope.incorrectTagMessage = "unable to forceSave creative";
+                     console.log(result);
+                }
+            });
+
+        }
+        $scope.cancelDuplicate=function(){
+            $(".popup-holder").css("display","none");
+            $scope.IncorrectTag = true;
+            $scope.incorrectTagMessage = "unable to update creative";
+            /*enable cancel, save button on cancel duplicate*/
+            $scope.disableUpdateCancel=false;
+
         }
 
     });
