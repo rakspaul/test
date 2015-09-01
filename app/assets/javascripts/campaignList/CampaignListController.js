@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel) {
+  campaignListModule.controller('campaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
@@ -11,6 +11,8 @@
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
     $scope.textConstants = constants;
+
+    $scope.userType =RoleBasedService.getUserRole();  console.log("isWorkflowUser:"+$scope.userType); //show "create campaign"for user.
 
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
