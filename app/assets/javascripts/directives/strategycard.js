@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService) {
+    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService,momentService) {
         return {
             restrict:'EAC',
 
@@ -40,14 +40,41 @@
                 };
                 $scope.getSpendClassForStrategy = function(strategy) {
                     var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-                    return $scope.getClassFromDiff(spendDifference);
+                    return $scope.getClassFromDiff(spendDifference,strategy.endDate);
                 };
-                $scope.getClassFromDiff = function(spendDifference) {
+/*                $scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
                         return 'blue';
                     }
                     if (spendDifference <= -1 && spendDifference > -10) {
                         return 'amber';
+                    }
+                    return 'red';
+                }*/
+                $scope.getClassFromDiff = function(spendDifference,strategyEndDate) {
+                    var today = momentService.todayDate('YYYY-MM-DD');
+                    if (strategyEndDate != undefined) {
+                        var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), strategyEndDate);
+                    }
+                    if (spendDifference <= -1 && spendDifference > -10) {
+                        return 'amber';
+                    }
+                    if (spendDifference == -999) { //fix for initial loading
+                        return '';
+                    }
+                    if(strategyEndDate != undefined) {
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), strategyEndDate) == false) {
+                            if ((dateDiffInDays <= 7) && (spendDifference < 95 || spendDifference > 105)) {
+                                return 'red';
+                            }else if ((dateDiffInDays <= 7) && (spendDifference >= 95 && spendDifference <= 105)) {
+                                return 'blue';
+                            }
+                        }
+                    }
+                    if (spendDifference < 90 || spendDifference > 120) {
+                        return 'red';
+                    } else if (spendDifference >= 90 && spendDifference <= 120) {
+                        return 'blue';
                     }
                     return 'red';
                 }
