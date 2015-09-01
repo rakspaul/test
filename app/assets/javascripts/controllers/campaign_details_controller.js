@@ -943,7 +943,7 @@
         };
         $scope.getSpendClassForStrategy = function(strategy) {
             var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-            return $scope.getClassFromDiff(spendDifference,strategy.end_date);
+            return $scope.getClassFromDiff(spendDifference,strategy.endDate);
         };
 /*        $scope.getClassFromDiff = function(spendDifference) {
             if (spendDifference > -1) {
