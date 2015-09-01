@@ -52,12 +52,8 @@
                     return 'red';
                 }*/
                 $scope.getClassFromDiff = function(spendDifference,strategyEndDate) {
-                    var today = momentService.todayDate('YYYY-MM-DD');
                     if (strategyEndDate != undefined) {
                         var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), strategyEndDate);
-                    }
-                    if (spendDifference <= -1 && spendDifference > -10) {
-                        return 'amber';
                     }
                     if (spendDifference == -999) { //fix for initial loading
                         return '';
