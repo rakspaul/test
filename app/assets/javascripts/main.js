@@ -130,7 +130,7 @@
       'login-LoginModel':{deps: ['login-LoginModule']},
       'login-LoginService':{deps: ['login-LoginModel']},
       'login-LoginController':{deps: ['login-LoginService']},
-
+      'common-services-RoleBasedService' :  {deps: ['login-LoginService']},//roleBased
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
       'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
       'controllers-help_controller':{deps: ['controllers-campaign_details_controller']},
@@ -158,7 +158,7 @@
       'directives-campaigncostsort':{deps: ['directives-campaignlistsort']},
       'directives-campaigndashboard':{deps: ['directives-campaigncostsort']},
      // 'directives-reportfilters':{deps: ['directives-campaigndashboard']},
-  //     'directives-strategylist':{deps: ['directives-reportfilters']},
+     // 'directives-strategylist':{deps: ['directives-reportfilters']},
       'multiselect':{deps: ['directives-campaigndashboard']},
       'models-domain_reports':{deps: ['multiselect']},
       'models-action_type':{deps: ['models-domain_reports']},
@@ -184,6 +184,7 @@
       //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
+
 
     },
     optimize: 'uglify2',
@@ -361,7 +362,9 @@
       'common-directive-DataNotFound':'common/directives/DataNotFound',
       'common-services-zipCode' : 'common/services/zipCode',
       'angular-locale':'vendor/i18n/angular-locale_en-us',
-      'jsRoutes': '/jsroutes'
+      'jsRoutes': '/jsroutes',
+
+      'common-services-RoleBasedService':'common/services/RoleBasedService' //roleBased
     }
 
   });
@@ -538,7 +541,8 @@
          // 'collectiveReport-CollectiveReportDirective',
           'collectiveReport-CollectiveEditReportController',
           'collectiveReport-CollectiveDeleteReportController',
-          'common-services-zipCode'
+          'common-services-zipCode',
+          'common-services-RoleBasedService'//roleBased
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {
