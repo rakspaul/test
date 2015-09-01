@@ -160,10 +160,30 @@
 				<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ng-click="editTrue()"></span>
 			</div>
 			<!--<pre>{{popUpData.tag}}</pre>-->
-		    <button type="button" class="common_primary_btn pull-right" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>
-		    <button type="button" class="secondary_txt pull-right" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>
+			<button type="button" class="common_primary_btn pull-right" ng-disabled="disableUpdateCancel" id="updateTag" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>
+			<button type="button" class="secondary_txt pull-right" ng-disabled="disableUpdateCancel" id="cancelUpdate" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>
+		    <!--<button type="button" class="common_primary_btn pull-right" id="updateTag" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>-->
+		    <!--<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>-->
 		</div>
     </div>
+
+	<div class="about_popup popup-holder" style="display:none;">
+		<div class="modal-header">
+			<!-- <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span> -->
+			<h2 class="modal-title">Duplicate Tag</h2>
+		</div>
+		<div class="modal-body">
+			<div class="data_row">
+				This tag already exists in your Creative Tag Library. Save as a new Creative anyway?
+			</div>
+		</div><!-- end of modal_body -->
+		<div class="clearfix popup-btns-holder">
+			<!--<span class="common_primary_btn" id="saveDuplicate">Save</span>-->
+			<!--<span class="secondary_txt" id="cancelDuplicate">Cancel</span>-->
+			<span class="common_primary_btn" ng-click="saveDuplicate()">Save</span>
+			<span class="secondary_txt" ng-click="cancelDuplicate()">Cancel</span>
+		</div>
+	</div> <!-- end of popup-holder -->
 </div>
 <img src="/assets/images/workflow/preloader.gif" ng-show="creativeListLoading" alt="Loading" width="31" class="preloader"/>
 
