@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce) {
+  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce,RoleBasedService) {
    $scope.textConstants = constants;
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;
@@ -21,10 +21,11 @@
             $scope.resetValidation();
             $scope.loadingClass = "loading";
             loginService.loginAction($scope.username, $scope.password, function (response) {
-                if (response.status == "success") {
+                if (response.status == "success") { //console.log(response.data.data);
                     var user = response.data.data;
                     user.login_name = $scope.username;
                     loginService.setCredentials(user);
+                    //RoleBasedService.setUserRole(response);//set the type of user here in RoleBasedService.js
                     if (loginModel.getIsNetworkUser() == true) {
                         localStorage.setItem('networkUser', true);
                     } else {
