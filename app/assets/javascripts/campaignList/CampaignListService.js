@@ -206,7 +206,9 @@
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
                                     kpiType: kpiType,
-                                    from: 'tactics'
+                                    from: 'tactics',
+                                    //for delivery kpi
+                                    totalImpressions: tacticsList[obj].totalImpressions, //TODO: fix this to total impressions
                                 };
                             }
                         }
@@ -326,7 +328,9 @@
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
                                     kpiType: sKpiType,
-                                    from: 'strategy'
+                                    from: 'strategy',
+                                    //for delivery kpi
+                                    totalImpressions: strategyList[obj].totalImpressions, //TODO: fix this to total impressions from API call
                                 };
                             }
                         }
@@ -463,7 +467,9 @@
                                     data: lineDate,
                                     kpiValue: parseFloat(campaignObject.kpiValue),
                                     kpiType: campaignObject.kpiType,
-                                    from: 'campaign'
+                                    from: 'campaign',
+                                    //for delivery kpi
+                                    totalImpressions: campaignObject.total_impressions,
                                 };
                             }
                         }
