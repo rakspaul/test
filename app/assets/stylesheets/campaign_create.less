@@ -1327,6 +1327,11 @@
     }
     .ddlSetTarget {
       margin-top: 20px;
+      .msgPopup {
+        bottom: 124%;
+        left: -80px;
+        top: auto ;
+      }
     }
     .targettingFormWrap {
       border: 1px solid #E6E6E6;
@@ -1347,6 +1352,17 @@
       .loading-icon {
         margin-top: 0px ;
       } 
+      .tooltip_holder {
+        #tab_region {
+          opacity: 0.5 ;
+        }
+        .common_tooltip {
+          width: 200px;
+          bottom: 45px;
+          left: -20px;
+          text-align: left;
+        }
+      }
       .searchInput {
         float: left;
         width: 100%;
@@ -1429,7 +1445,7 @@
             border-left: 1px solid #dde6eb;
             border-bottom: 1px solid #dde6eb;
             border-right: 1px solid #dde6eb;
-            border-top: 2px solid #dde6eb;
+            /*border-top: 2px solid #dde6eb;*/
             padding: 5px;
             float: left;
             width: 100%;
@@ -1467,7 +1483,7 @@
               background: #0978c9 !important;
               a {
                 color: #fff;
-                background: transparent;
+                background: #0978c9 ;
                 margin: 0;
               }
             }
@@ -1711,7 +1727,13 @@
       padding-top: 0 !important;
       .table {
         thead {
-          display: none;
+          tr {
+            border-bottom : 2px solid #dde6eb ;
+          }
+          border: 0px ;
+          th {
+            padding: 8px 0 ;
+          }
         }
         tbody {
           tr {

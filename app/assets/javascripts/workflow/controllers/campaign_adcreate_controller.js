@@ -224,6 +224,16 @@ var angObj = angObj || {};
 
 
         // Create AD Tab Animation
+        $(".masterContainer").on('shown.bs.tab', '.leftNavLink', function (e) {
+            $('.leftNavLink').parents("li").removeClass('active');
+            $(this).parents('li').addClass('active');
+
+            var target = $(this).attr('href');
+            $("#myTabs").find(target + "-tab").closest("li").addClass("active");
+            $(target).css('bottom', '-' + $(window).width() + 'px');
+            var bottom = $(target).offset().bottom;
+            $(target).css({bottom: bottom}).animate({"bottom": "0px"}, "10");
+        });
 
 
 
@@ -482,7 +492,13 @@ var angObj = angObj || {};
                 resetTargetingVariables();
                 $scope.listRegions();
             }
+            $scope.showRegionsTab = true;
+            $scope.showCitiesTab = true;
+            if($scope.isPlatformId === 1) {
+                $scope.showCitiesTab = false;
+            }
         });
+
         var geoTargetingView = {
             buildUrlParams: function (params) {
                 var queryString ='';
@@ -580,7 +596,7 @@ var angObj = angObj || {};
 
         //add zip code
         $scope.addZipCode =  function() {
-            var values = $("#zipValues").val();
+            var values = $scope.adData.zipCodes;
             var addedZipCodes = [];
             var zipCodeList = $scope.geoTargetingData['selected']['zip'];
 
@@ -608,7 +624,7 @@ var angObj = angObj || {};
 
             $scope.zipCodesObj = zipCodesObj;
             $scope.geoTargetingData['selected']['zip'].push(zipCodesObj);
-            $("#zipValues").val('');
+            $scope.adData.zipCodes = '';
         };
 
         $scope.showZipCodeBox =  function() {
@@ -654,6 +670,7 @@ var angObj = angObj || {};
 
         //display the cities
         $scope.listCities = function(defaults) {
+            $scope.selectedTab = 'cities'
             var regions = $scope.geoTargetingData['selected']['regions'];
             $scope.citiesListObj = {
                 platformId : $scope.isPlatformId,
@@ -686,6 +703,9 @@ var angObj = angObj || {};
             }
         }
         $scope.listRegions = function(defaults) {
+
+            $scope.selectedTab = 'regions';
+            $scope.geoTargetingData.selected.cities=[];
 
             $scope.regionListObj = {
                 platformId : $scope.isPlatformId,
@@ -767,21 +787,29 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.showRemoveConfirmBox = function(event) {
-            var target =  $(event.target);
-            var parentElem = target.parents('msgPopupHolder');
-            parentElem.append($("#confirmBox"));
+        $scope.showRemoveConfirmBox = function(event, type) {
+            $scope.boxType = type;
+            $scope.showConfirmBox = true;
+            var target = $(event.target);
+            var position = target.offset();
+            
+            var elem =  $("#confirmBox").find(".msgPopup");
+            var parentPos = $(".targettingFormWrap").offset();
+            var left_pos =  position.left - parentPos.left - target.width() -50 ;
+            var top_pos =  position.top - parentPos.top - target.height() + 14;
 
-            //$("#confirmBox").css( {position:"absolute", top:event.pageY, left: event.pageX}).show();
+            elem.css( {position:"absolute", top:top_pos, left: left_pos});
         }
 
-        $scope.selectZipCodeTab = function() {
-            var TabElem = $(".tabbable .nav-tabs")[0];
-            $(TabElem).find("li").removeClass("active")
-            $("#postalCode").parent().addClass('active');
-            $(".targettingFormWrap .tab-pane").hide()
-            $("#zip").show();
+        $scope.removeSelectedList = function(type) {
+            $scope.geoTargetingData.selected[type]=[];
+            $scope.showConfirmBox = false;
         }
+
+        $scope.hideConfirmBox = function() {
+            $scope.showConfirmBox = false;
+        }
+
 
         $scope.showGeographyTabsBox = function(event, tabType, showPopup) {
             if(tabType === 'zip' && showPopup) {
