@@ -21,7 +21,8 @@
                     if (expected == 0) {
                         spendDifference = 0;
                     } else {
-                        spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
+                        //spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
+                        spendDifference = utils.roundOff((actual * 100)/expected,2);
                     }
                     return spendDifference;
                 }

@@ -918,7 +918,8 @@
             }
         };
         $scope.getPercentDiff = function(expected, actual) {
-            return (expected > 0) ? utils.roundOff((actual - expected) * 100 / expected, 2) : 0;
+            //return (expected > 0) ? utils.roundOff((actual - expected) * 100 / expected, 2) : 0;
+            return (expected > 0) ? utils.roundOff((actual * 100)/expected,2) : 0;
         }
         $scope.getSpendDiffForStrategy = function(strategy) {
             if (typeof strategy == 'undefined') {
