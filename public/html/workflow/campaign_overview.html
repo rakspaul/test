@@ -110,13 +110,33 @@
                     <!--=== Group Ad ===-->
                     <div class="col-md-12 adModule adGroup">
                         <div class="col-md-12 adTitle">
-                            <span class="pull-left adGroupTxt">{{ textConstants.GROUP_TITLE }}</span>
-                            <span class="pull-right adGroupEditBtn">{{ textConstants.EDIT }}</span><br/>
+                            <a class="btn btn-primary collapseIcon" role="button" data-toggle="collapse" href="#collapseAdGroup" aria-expanded="false" aria-controls="collapseAdGroup">Expand</a>
+                            <span class="pull-left adGroupTxt">Acme Organics Dog Food New York Metro Area</span>
+                            <span class="pull-left adGroupTxt">Wed 01 Jul 2014 - Sat 01 Aug 2015 (30 Days)</span>
+                            
+                            <span class="adGroupTxtSecondary">Total Ads <p>0</p></span>
+                            <span class="adGroupTxtSecondary">Delivering <p>0</p></span>
+                            <span class="adGroupTxtSecondary">Ready <p>0</p></span>
+                            <span class="adGroupTxtSecondary">Drafts <p>0</p></span>
+                        </div>
+                        
+                        <div class="collapse" id="collapseAdGroup">
+                            <!--=== Create BTN Ad ===-->
+                            <div class="col-md-3 adModule adCreateBtn">
+                                <div class="col-md-12">
+                                    <a href="/campaign/{{workflowData.campaignData.id}}/ads/create"
+                                       class="col-md-12 text-center addMaster">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+        
+                                        <h1>Create Ad</h1>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="adGroupSelectionWrap">
-                        <div class="btnCreateGroup">Create Ad Group</div>
+                        <div class="btnCreateGroup"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
                         
                         <!--=== Create BTN Ad ===-->
                         <div class="col-md-3 adModule adCreateBtn">

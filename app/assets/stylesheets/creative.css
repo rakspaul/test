@@ -139,6 +139,11 @@
   float: left;
   border: 1px dashed #adadad;
 }
+#creativeList .mainWrap .table thead tr th {
+  vertical-align: top;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
 #creativeList .mainWrap .table tbody tr {
   margin: 10px 0 20px;
 }
@@ -168,7 +173,7 @@
 #creativeList .each_filter {
   float: left;
   width: 175px;
-  margin: 0 20px 0 0;
+  margin: 15px 20px 15px 0;
 }
 #creativeList .each_filter .creativeDDL {
   position: relative;
