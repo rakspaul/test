@@ -71,8 +71,8 @@
                 <div class="isCollapsed">
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is your Campaign name?</label>
-                            <div class="form-group col-sm-9" show-errors='{showSuccess: true}'>
+                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
+                            <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                                 <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" placeholder="Enter Campaign name. Up to 250 Characters" required/>
                                 <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
                             </div>
@@ -83,7 +83,7 @@
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">Who is the campaign for?</label>
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
+                            <div class="form-group col-sm-3 zeroPadding" show-errors='{showSuccess: true}'>
                                 <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
                                 <select ng-options="client.name for client in workflowData.clients track by client.id" class="form-control" id="accountDDL" ng-model="selectedCampaign.client" ng-change="selectHandler('client', selectedCampaign)" name="clientId" required>
                                     <option value="">Select Account</option>
@@ -113,7 +113,7 @@
                         <div class=" col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is the primary goal?</label>
                             <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">Select one goal</label>
-                            <div class="form-group col-sm-5">
+                            <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
                                     <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
@@ -134,7 +134,7 @@
                         <div class="col-md-12 zeroPadding" style="height: 96px;">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">When should the campaign run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                                <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
+                                <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}' style="margin-left: -5px;">
                                     <div class="col-md-2" style="width: 150px;">
                                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                         <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
@@ -161,7 +161,7 @@
                         <!--==== Row 5 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">How much do you want to spend?</label>
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
+                            <div class="form-group col-sm-3 zeroPadding" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12 control-label greyTxt miniLabels">Enter Whole Dollar Amount</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
                                 <input type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
