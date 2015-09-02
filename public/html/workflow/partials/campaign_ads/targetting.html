@@ -15,7 +15,7 @@
                 To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
             </div>
             <div class="btn-holder">
-                <div class="pull-right common_primary_btn">Select Platform</div>
+                <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
             </div>
         </div>
         <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -92,7 +92,6 @@
                                     <tr>
                                         <th class="col-md-1"></th>
                                         <th class="col-md-5">City</th>
-                                        <th class="col-md-6">Region</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,7 +139,7 @@
                 <!--Search Input-->
                 <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="input-group">
-                        <input type="text" class="form-control disabled searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
+                        <input type="text" class="form-control disabled searchBox" name="searchValue"  data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
                       <span class="input-group-btn">
                         <button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                       </span>
@@ -313,7 +312,7 @@
 </div>
 
 <!--=== Next Step Panel ===-->
-<a href="#creative" data-toggle="tab" class="nextWrapper leftNavLink">
+<a href="#inventoryView" data-toggle="tab" class="nextWrapper leftNavLink">
     <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
 </a>
 

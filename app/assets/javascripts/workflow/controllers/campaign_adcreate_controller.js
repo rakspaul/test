@@ -224,6 +224,16 @@ var angObj = angObj || {};
 
 
         // Create AD Tab Animation
+        $(".masterContainer").on('shown.bs.tab', '.leftNavLink', function (e) {
+            $('.leftNavLink').parents("li").removeClass('active');
+            $(this).parents('li').addClass('active');
+
+            var target = $(this).attr('href');
+            $("#myTabs").find(target + "-tab").closest("li").addClass("active");
+            $(target).css('bottom', '-' + $(window).width() + 'px');
+            var bottom = $(target).offset().bottom;
+            $(target).css({bottom: bottom}).animate({"bottom": "0px"}, "10");
+        });
 
 
 

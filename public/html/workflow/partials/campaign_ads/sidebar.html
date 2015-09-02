@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </li>
-            <li id="inventory-tab">
+            <li id="inventoryView-tab">
                 <a href="#inventoryView" role="tab" class="leftNavLink" data-toggle="tab" ng-click="closeBtnCreative()">5 Inventory Filters</a>
                 <div>
                     <div class="statusLabel disabled">
@@ -119,48 +119,3 @@
     </div>
 
 <!-- Left Menu Column Ends -->
-
-
-<script>
-    $(function() {
-        // Buying Platform Views
-        $('.clickCm, .clickCb, .clickNx').click(function () {
-            $('.buyingPlatformHolder').toggle();
-        });
-        // Collective Media-Buying Platform Views
-        $('.clickCm').click(function () {
-            $('.collectMediaScreenHolder').toggle();
-        });
-        // Collective Bidder-Buying Platform Views
-        $('.clickCb').click(function () {
-            $('.collectBidderScreenHolder').toggle();
-        });
-        // Nexus-Buying Platform Views
-        $('.clickNx').click(function () {
-            $('.collectNexusScreenHolder').toggle();
-        });
-        // Change-Buying Platform Views
-        $('.editPlatform').click(function () {
-            $('.buyingPlatformHolder').toggle();
-            $('.collectMediaScreenHolder, .collectBidderScreenHolder, .collectNexusScreenHolder').hide();
-        });
-        // Show Hide Preset Values
-        $('.showPreset').click(function () {
-            $('.presetGreyBox').slideToggle();
-        });
-
-
-        $('.leftNavLink').on('shown.bs.tab', function (e) {
-            $('.leftNavLink').parents("li").removeClass('active');
-            $(this).parents('li').addClass('active');
-
-            var target = $(this).attr('href');
-            $("#myTabs").find(target + "-tab").closest("li").addClass("active");
-            $(target).css('bottom', '-' + $(window).width() + 'px');
-            var bottom = $(target).offset().bottom;
-            $(target).css({bottom: bottom}).animate({"bottom": "0px"}, "10");
-        });
-
-    })
-
-</script>
