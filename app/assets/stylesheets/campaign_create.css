@@ -1495,6 +1495,11 @@
 .adCreateMaster #targetting .ddlSetTarget {
   margin-top: 20px;
 }
+.adCreateMaster #targetting .ddlSetTarget .msgPopup {
+  bottom: 124%;
+  left: -80px;
+  top: auto ;
+}
 .adCreateMaster #targetting .targettingFormWrap {
   border: 1px solid #E6E6E6;
   padding: 20px !important;
@@ -1514,6 +1519,15 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .loading-icon {
   margin-top: 0px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .tooltip_holder #tab_region {
+  opacity: 0.5 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .tooltip_holder .common_tooltip {
+  width: 200px;
+  bottom: 45px;
+  left: -20px;
+  text-align: left;
 }
 .adCreateMaster #targetting .targettingFormWrap .searchInput {
   float: left;
@@ -1593,7 +1607,7 @@
   border-left: 1px solid #dde6eb;
   border-bottom: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
-  border-top: 2px solid #dde6eb;
+  /*border-top: 2px solid #dde6eb;*/
   padding: 5px;
   float: left;
   width: 100%;
@@ -1631,7 +1645,7 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li.active a {
   color: #fff;
-  background: transparent;
+  background: #0978c9 ;
   margin: 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li:first-child {
@@ -1869,7 +1883,13 @@
   padding-top: 0 !important;
 }
 .adCreateMaster #targetting .tab-pane .table thead {
-  display: none;
+  border: 0px ;
+}
+.adCreateMaster #targetting .tab-pane .table thead tr {
+  border-bottom: 2px solid #dde6eb ;
+}
+.adCreateMaster #targetting .tab-pane .table thead th {
+  padding: 8px 0 ;
 }
 .adCreateMaster #targetting .tab-pane .table tbody tr td {
   padding: 10px 0 10px 0px !important;
