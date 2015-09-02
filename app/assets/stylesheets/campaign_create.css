@@ -414,6 +414,52 @@
   color: #717171;
   font-family: 'Arial';
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds {
+  width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid #ccd2da;
+  display: table;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 {
+  float: left;
+  border-right: 1px solid #ccd2da;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 input {
+  background-color: transparent;
+  border-width: 0px !important;
+  box-shadow: none;
+  margin-top: 2px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 button {
+  background: transparent;
+  border-width: 0px;
+  margin: 0;
+  padding: 15px 20px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 .glyphicon {
+  color: #000;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-2 {
+  float: left;
+  margin: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-2 .col-md-12 {
+  width: auto;
+  margin: 10px auto;
+  float: none;
+  display: table;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-2 .col-md-12 span {
+  float: left;
+  font-weight: bold;
+  margin: 6px 0 0 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-2 .col-md-12 select {
+  width: auto;
+  padding-right: 20px;
+  border-width: 0px !important;
+  box-shadow: none;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer {
   padding: 0;
 }
@@ -421,6 +467,7 @@
   margin-bottom: 10px;
   width: 100% !important;
   min-height: 38px !important;
+  background: #fff !important;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn {
   border: 2px dashed #dbdbdb !important;
@@ -439,7 +486,6 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   padding: 0;
-  border-radius: 5px;
   border: 1px solid #dbdbdb;
   width: 24.25%;
   margin-right: 1%;
@@ -537,6 +583,26 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:nth-child(4n) {
   margin-right: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap {
+  float: left;
+  position: relative;
+  width: 100%;
+  border: 2px dashed #dbdbdb;
+  padding: 50px 10px 0px 10px;
+  margin-top: 30px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: -17px;
+  background: #F7FAFF;
+  border: 2px dashed #dbdbdb;
+  text-align: center;
+  padding: 5px 0;
+  width: 150px;
+  margin-left: -75px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adReady .adTitle {
   background: #E4F9E4;
