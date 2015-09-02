@@ -22,8 +22,8 @@ var angObj = angObj || {};
         }
         var creativeList = {
 
-            getCreativesList : function(campaignId, advertiserId) {
-                workflowService.getCreatives(campaignId, advertiserId).then(function (result) {
+            getCreativesList : function(campaignId, advertiserId, query) {
+                workflowService.getCreatives(campaignId, advertiserId, query).then(function (result) {
                     if (result.status === "OK" || result.status === "success" && result.data.data.length >0) {
                         $scope.creativeListLoading = false;
                         $scope.creativesNotFound = false;
@@ -47,6 +47,19 @@ var angObj = angObj || {};
             return moment(date).format('MMM DD YYYY')
         }
 
+        $scope.creativeSearchFunc = function() {
+            var searchVal = $scope.creativeSearch;
+            var qryStr = '';
+            if(searchVal.length >2) {
+                qryStr += '?creativeFormat=VIDEO,display&query='+searchVal;
+                creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, qryStr);
+            }
+
+            if(searchVal.length === 0) {
+                creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, qryStr);
+            }
+
+        }
 
         $scope.prarentHandler = function(campaignId, campaignName, advertiserId, advertiserName) {
             $scope.creativeData= {};
@@ -54,7 +67,10 @@ var angObj = angObj || {};
                 $scope.creativeListLoading = true;
                 $scope.creativesNotFound = false;
                 var campaignData = {'advertiserId' : advertiserId,'advertiserName' : advertiserName, 'clientId' : campaignId, 'clientName' : campaignName};
-                localStorage.setItem('campaignData',JSON.stringify(campaignData))
+                localStorage.setItem('campaignData',JSON.stringify(campaignData));
+                $scope.campaignId = campaignId;
+                $scope.advertiserId = advertiserId;
+                $scope.creativeSearch = '';
                 creativeList.getCreativesList(campaignId, advertiserId);
             } else {
                 $scope.creativeListLoading = false;
