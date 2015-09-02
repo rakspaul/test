@@ -44,14 +44,15 @@
 			<table class="table table-striped">
 				<thead>
 				  <tr>
-					<th style="text-indent: 27px;">Size<br/><br/></th>
+					<th style="text-indent: 37px;">Size<br/><br/></th>
 					<th>Format<br/><br/></th>
-					<th>Tag<br/><br/></th>
-					<th>Type <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><br/>SSL</th>
+					<th style="padding-left: 20px;">Creative Name<br/><br/></th>
+					<th>Type</th>
+					<th style="padding-left: 17px;">SSL</th>
 					<th>Status<br/><br/></th>
 					<th>Associated<br/>Campaigns</th>
 					<th>Associated<br/>Ads</th>
-					<th>Created<br/><br/></th>
+					<th style="padding-left: 20px;">Created<br/><br/></th>
 				  </tr>
 				</thead>
 				<tbody>
@@ -80,21 +81,24 @@
 					<!--Column 4-->
 					<td>
 						<span class="col-md-12">{{creativeData.creativeType}}</span>
-						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 					</td>
 					<!--Column 5-->
 					<td>
-						<span> - </span>
+						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 					</td>
 					<!--Column 6-->
 					<td>
-						<span>{{creativeData.noOfCampaigns}}</span>
+						<span> - </span>
 					</td>
 					<!--Column 7-->
 					<td>
-						<span>{{creativeData.noOfAds}}</span>
+						<span>{{creativeData.noOfCampaigns}}</span>
 					</td>
 					<!--Column 8-->
+					<td>
+						<span>{{creativeData.noOfAds}}</span>
+					</td>
+					<!--Column 9-->
 					<td>
 						<span>{{formatDate(creativeData.createdAt)}}</span>
 					</td>
