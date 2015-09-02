@@ -1219,11 +1219,7 @@ multiselect .dropdown-menu > li > a {
 }
 /* End Mulitiple select option */
 /*Small Message popup*/
-.msgPopupHolder {
-  position: relative;
-}
 .msgPopupHolder .msgPopup {
-  display: none;
   padding: 20px 20px 30px 20px;
   position: absolute;
   bottom: 124%;

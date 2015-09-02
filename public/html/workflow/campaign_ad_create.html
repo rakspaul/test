@@ -4,7 +4,7 @@
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader" ng-include="'/assets/html/workflow/partials/campaign_ads/campain_header.html'"></div>
             <!-- Header Ends -->
-            <div class="clearfix left_column_nav" ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'"> </div>
+            <div class="clearfix left_column_nav" ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'" ng-init="loadSideBar()"> </div>
             <!--=== Steps ===-->
             <div class="campaignAdCreate campaignAdCreatePage">
                 <div class="adMainWrapper">
@@ -33,7 +33,7 @@
                                         <!-- Tab1 Setting Ends -->
 
                                         <!-- Tabs Buying Platform -->
-                                        <div class="tab-pane fade" id="buying" ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'"></div>
+                                        <div class="tab-pane fade" id="buying" ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'" ng-controller="buyingPlatformController"></div>
                                         <!-- Tabs Buying Platform Ends -->
 
                                         <!-- Tabs Targeting -->
