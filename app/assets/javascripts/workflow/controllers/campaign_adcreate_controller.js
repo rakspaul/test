@@ -479,7 +479,13 @@ var angObj = angObj || {};
                 resetTargetingVariables();
                 $scope.listRegions();
             }
+            $scope.showRegionsTab = true;
+            $scope.showCitiesTab = true;
+            if($scope.isPlatformId === 1) {
+                $scope.showCitiesTab = false;
+            }
         });
+
         var geoTargetingView = {
             buildUrlParams: function (params) {
                 var queryString ='';
@@ -577,7 +583,7 @@ var angObj = angObj || {};
 
         //add zip code
         $scope.addZipCode =  function() {
-            var values = $("#zipValues").val();
+            var values = $scope.adData.zipCodes;
             var addedZipCodes = [];
             var zipCodeList = $scope.geoTargetingData['selected']['zip'];
 
@@ -605,7 +611,7 @@ var angObj = angObj || {};
 
             $scope.zipCodesObj = zipCodesObj;
             $scope.geoTargetingData['selected']['zip'].push(zipCodesObj);
-            $("#zipValues").val('');
+            $scope.adData.zipCodes = '';
         };
 
         $scope.showZipCodeBox =  function() {
@@ -764,21 +770,24 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.showRemoveConfirmBox = function(event) {
-            var target =  $(event.target);
-            var parentElem = target.parents('msgPopupHolder');
-            parentElem.append($("#confirmBox"));
-
-            //$("#confirmBox").css( {position:"absolute", top:event.pageY, left: event.pageX}).show();
+        $scope.showRemoveConfirmBox = function(event, type) {
+            $scope.boxType = type;
+            $scope.showConfirmBox = true;
+            var target = $(event.target);
+            var position = target.position();
+            var elem =  $("#confirmBox");
+            elem.css( {position:"absolute", top:position.top, left: position.left});
         }
 
-        $scope.selectZipCodeTab = function() {
-            var TabElem = $(".tabbable .nav-tabs")[0];
-            $(TabElem).find("li").removeClass("active")
-            $("#postalCode").parent().addClass('active');
-            $(".targettingFormWrap .tab-pane").hide()
-            $("#zip").show();
+        $scope.removeSelectedList = function(type) {
+            $scope.geoTargetingData.selected[type]=[];
+            $scope.showConfirmBox = false;
         }
+
+        $scope.hideConfirmBox = function() {
+            $scope.showConfirmBox = false;
+        }
+
 
         $scope.showGeographyTabsBox = function(event, tabType, showPopup) {
             if(tabType === 'zip' && showPopup) {
