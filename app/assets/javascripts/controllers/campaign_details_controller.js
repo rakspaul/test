@@ -244,6 +244,8 @@
                                     kpiValue: parseFloat($scope.campaign.kpiValue),
                                     kpiType: $scope.campaign.kpiType,
                                     from: 'action_performance',
+                                    //for delivery kpi
+                                    totalImpressions: campaign.total_impressions,
                                     //customisation
                                     activityList: activityList.data.data,
                                     showExternal: showExternal
