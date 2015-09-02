@@ -10,23 +10,22 @@
 <!--=== Targeting Type ===-->
 <div class="col-md-12 zeroPadding">
     <div class="dropdown ddlSetTarget msgPopupHolder">
-        <div class="msgPopup">
+        <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
             <div class="msg">
                 To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
             </div>
             <div class="btn-holder">
                 <div class="pull-right common_primary_btn">Select Platform</div>
-                <div class="pull-right secondary_txt">Cancel</div>
             </div>
         </div>
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{geoTargetName ? geoTargetName : 'Add Targeting'}}
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <!--Abi to disable something in the DDL just add (class="disabled") to the li elements-->
             <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable}">
-                <a href="#" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}}</a>
+                <a ng-href="javascript:void(0);" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}}</a>
             </li>
         </ul>
     </div>
@@ -36,21 +35,23 @@
 <div class="col-md-12 zeroPadding targettingFormWrap" ng-if="geoTargetName">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
         <h2>{{geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
-        <div class="tooltipWrap zipCodeTooltip" style="display:none;">
+
+        <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCode">
             <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
-            <a href="" class="btn btn-default pull-right" role="button">Continue</a>
-            <a href="" class="btn btn-link pull-right" role="button">Cancel</a>
+            <a ng-href="javascript:void(0);" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false); enableZipCode = false;" role="button">Continue</a>
+            <a href="javascript:void(0);" ng-click="enableZipCode = false;" class="btn btn-link pull-right"  role="button">Cancel</a>
         </div>
+
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#regioncity" data-toggle="tab">REGION & CITY</a></li>
-          <li><a href="#dma" ng-click ="listDmas(); selectedTab = 'dmas'" data-toggle="tab">DMA</a></li>
-          <li><a href="#zip" data-toggle="tab">ZIP / POSTAL CODE</a></li>
+          <li class="active"><a ng-click="showGeographyTabsBox($event, 'regioncity')" ng-href="javascript:void(0);" >REGION & CITY</a></li>
+          <li><a ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'dma')" >DMA</a></li>
+          <li><a  id="zipCodeTab" ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'zip', true); enableZipCode = true;">ZIP / POSTAL CODE</a></li>
         </ul>
       
         <div class="tab-content">
             <!---- start region and city Container ---------->
 
-            <div id="regioncity" class="tab-pane active">
+            <div id="regioncity" class="tab-pane active contentBox">
                 <!--Search Input-->
                 <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="input-group">
@@ -131,7 +132,7 @@
             <!---- end region and city block ---------->
 
             <!---- start DMA container -------->
-            <div id="dma" class="tab-pane">
+            <div id="dma" class="tab-pane contentBox">
                 <!--Search Input-->
                 <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="input-group">
@@ -178,7 +179,7 @@
             <!----- end DMA container ----------->
 
             <!---- start Zip Container ---------->
-            <div id="zip" class="tab-pane">
+            <div id="zip" class="tab-pane contentBox">
                 <textarea class="form-control" id="zipValues" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
                 <div class="col-md-12 zeroPadding">
                     <button type="button" ng-click="addZipCode()" class="btn btn-default pull-right">
@@ -213,16 +214,7 @@
                         <div class="clearfix each-row" >
                             <div class="pull-left">Regions & Cities</div>
                             <div class="pull-right removeAll msgPopupHolder">
-                                <a ng-href="#" ng-click="geoTargetingData.selected.regions=[];">Remove All</a>
-                                <div class="msgPopup">
-                                    <div class="msg">
-                                        Are you sure?
-                                    </div>
-                                    <div class="btn-holder">
-                                        <div class="pull-right common_primary_btn">Yes</div>
-                                        <div class="pull-right secondary_txt">No</div>
-                                    </div>
-                                </div>
+                                <a ng-href="#" ng-click="geoTargetingData.selected.regions=[]; showRemoveConfirmBox($event);">Remove All</a>
                             </div>
                         </div>
                     </div>
@@ -246,16 +238,7 @@
                         <div class="clearfix each-row" >
                             <div class="pull-left">DMAs</div>
                             <div class="pull-right removeAll msgPopupHolder">
-                                <a ng-href="#" ng-click="geoTargetingData.selected.dmas = []" >Remove All</a>
-                                <div class="msgPopup">
-                                    <div class="msg">
-                                        Are you sure?
-                                    </div>
-                                    <div class="btn-holder">
-                                        <div class="pull-right common_primary_btn">Yes</div>
-                                        <div class="pull-right secondary_txt">No</div>
-                                    </div>
-                                </div>
+                                <a ng-href="#" ng-click="geoTargetingData.selected.dmas = []; showRemoveConfirmBox($event);" >Remove All</a>
                             </div>
                         </div>
                     </div>
@@ -278,16 +261,7 @@
                         <div class="clearfix each-row" >
                             <div class="pull-left">Zip / Postal Codes</div>
                             <div class="pull-right removeAll msgPopupHolder">
-                                <a ng-href="#" ng-click="geoTargetingData.selected.zip = []">Remove All</a>
-                                <div class="msgPopup">
-                                    <div class="msg">
-                                        Are you sure?
-                                    </div>
-                                    <div class="btn-holder">
-                                        <div class="pull-right common_primary_btn">Yes</div>
-                                        <div class="pull-right secondary_txt">No</div>
-                                    </div>
-                                </div>
+                                <a ng-href="#" ng-click="geoTargetingData.selected.zip = []; showRemoveConfirmBox($event);">Remove All</a>
                             </div>
                         </div>
                     </div>
@@ -311,6 +285,19 @@
         <a href="javascript:void(0);" class="pull-right common_primary_btn" >Save Geography</a>
         <a href="javascript:void(0);" class="pull-right secondary_txt" >Cancel</a>
     </div>
+
+    <div class="msgPopupHolder" style="display:none;">
+        <div class="msgPopup" id="confirmBox" >
+            <div class="msg">
+                Are you sure?
+            </div>
+            <div class="btn-holder">
+                <div class="pull-right common_primary_btn">Yes</div>
+                <div class="pull-right secondary_txt">No</div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!--=== Selected Targeting ===-->
