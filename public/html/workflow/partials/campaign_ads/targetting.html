@@ -76,20 +76,23 @@
         
                 <div class="col-md-12 zeroPadding tabbable">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#region" data-toggle="tab" ng-click="geoTargetingData.selected.cities=[]; selectedTab = 'regions' ;">Region</a></li>
+                        <li class="active "> <!-- add tooltip_holder when you want the tooltip to be visible -->
+                            <a href="#region" id="tab_region" data-toggle="tab" ng-click="geoTargetingData.selected.cities=[]; selectedTab = 'regions' ;">Region</a>
+                            <span class="common_tooltip" style="display:none;">Once you include or exclude a city, regions are not available for further inclusion or exclusion.</span>
+                        </li>
                         <li ng-show="showCitiesTab"><a href="#city" ng-click ="listCities(); selectedTab = 'cities' ;" data-toggle="tab">City</a></li>
                     </ul>
                 </div>
                 <div class="tab-content">
-                    <!----- start region block ------------------->
+                    <!-- --- start region block ----------------- -->
                     <div id="region" class="tab-pane active" lr-infinite-scroll="loadMoreRegions" time-threshold="100">
                         <div>
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th class="col-md-1"></th>
-                                        <th class="col-md-5"></th>
-                                        <th class="col-md-6"></th>
+                                        <th class="col-md-5">City</th>
+                                        <th class="col-md-6">Region</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,17 +105,17 @@
                         </div>
                         <div ng-if="regionFetching" class="common-load-more"></div>
                     </div>
-                    <!----- end region block ------------------->
+                    <!-- --- end region block ----------------- -->
     
-                    <!----- start city block ------------------->
+                    <!-- --- start city block ----------------- -->
                     <div id="city" class="tab-pane" lr-infinite-scroll="loadMoreCities" time-threshold="100" >
                         <div>
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-5"></th>
-                                    <th class="col-md-6"></th>
+                                    <th class="col-md-5">City</th>
+                                    <th class="col-md-6">Region</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -159,8 +162,8 @@
                         <thead>
                             <tr>
                                 <th class="col-md-1"></th>
-                                <th class="col-md-5"></th>
-                                <th class="col-md-6"></th>
+                                <th class="col-md-5">City</th>
+                                <th class="col-md-6">Region</th>
                             </tr>
                         </thead>
                         <tbody>
