@@ -199,7 +199,6 @@
         <div class="col-md-12">
             <h2>Selected</h2>
         </div>
-{{showConfirmBox}}
         <div class="col-md-12" ng-if="geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.dmas.length >0 || geoTargetingData.selected.zip.length >0">
             <div class="table regionTable" ng-if="geoTargetingData.selected.regions.length >0">
                 <div>
@@ -222,7 +221,6 @@
             </div>
 
             <div class="table dmaTable" ng-if="geoTargetingData.selected.dmas.length >0">
-                <h5>And</h5>
                 <div>
                     <div class="clearfix each-row" >
                         <div class="pull-left">DMAs</div>
@@ -244,7 +242,6 @@
 
 
             <div class="table zipTable" ng-if="geoTargetingData.selected.zip.length >0">
-                <h5>And</h5>
                 <div>
                     <div class="clearfix each-row" >
                         <div class="pull-left">Zip / Postal Codes</div>
@@ -265,8 +262,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.dmas.length === 0 && geoTargetingData.selected.zip.length === 0" class="emptyTableLabel">Not Set</div>
+
     </div>
     <div class="col-md-12 zeroPadding">
         <a href="javascript:void(0);" class="pull-right common_primary_btn" >Save Geography</a>
