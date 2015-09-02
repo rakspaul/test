@@ -536,6 +536,10 @@
 #campaignCreate li.active {
   font-family: "Avenir-bold";
 }
+.nav_filters .dropdown-menu,
+#campaignCreate .dropdown-menu {
+  max-height: none ;
+}
 .nav_filters .dropdown-menu .dropdown_list_scroll,
 #campaignCreate .dropdown-menu .dropdown_list_scroll {
   max-height: 200px;
@@ -580,7 +584,7 @@
 }
 .nav_filters .each_filter #brandsList .brandsList_ul,
 #campaignCreate .each_filter #brandsList .brandsList_ul {
-  max-height: 300px;
+  max-height: 200px;
   overflow: auto ;
 }
 .nav_filters .each_filter #brandsList .brand_search_highlight,
