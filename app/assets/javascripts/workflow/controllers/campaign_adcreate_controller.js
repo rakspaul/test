@@ -660,6 +660,7 @@ var angObj = angObj || {};
 
         //display the cities
         $scope.listCities = function(defaults) {
+            $scope.selectedTab = 'cities'
             var regions = $scope.geoTargetingData['selected']['regions'];
             $scope.citiesListObj = {
                 platformId : $scope.isPlatformId,
@@ -692,6 +693,9 @@ var angObj = angObj || {};
             }
         }
         $scope.listRegions = function(defaults) {
+
+            $scope.selectedTab = 'regions';
+            $scope.geoTargetingData.selected.cities=[];
 
             $scope.regionListObj = {
                 platformId : $scope.isPlatformId,
