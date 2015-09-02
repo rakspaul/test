@@ -90,7 +90,10 @@ var angObj = angObj || {};
             },
 
             fetchUnitTypes: function () {
-                $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}, {id: 2, name: 'CPC'}, {id: 3, name: 'CPA'}];
+               if(localStorage.getItem("networkUser")=="true")
+                    $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}, {id: 2, name: 'CPC'}, {id: 3, name: 'CPA'}];
+                else
+                    $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}];
             },
 
             fetchPlatforms: function () {
