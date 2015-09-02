@@ -76,8 +76,8 @@
         
                 <div class="col-md-12 zeroPadding tabbable">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#region" data-toggle="tab" ng-click="geoTargetingData.selected.cities=[]; selectedTab = 'regions' ;">Region</a></li>
-                        <li ng-show="showCitiesTab"><a href="#city" ng-click ="listCities(); selectedTab = 'cities' ;" data-toggle="tab">City</a></li>
+                        <li class="active"><a href="#region" data-toggle="tab" ng-click="listRegions();">Region</a></li>
+                        <li ng-show="showCitiesTab"><a href="#city" ng-click ="listCities();" data-toggle="tab">City</a></li>
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -120,6 +120,7 @@
                                     {{city}}
                                     <td><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-change="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></td>
                                     <td>{{city.name}}</td>
+                                    <td>{{city.parent.name}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -199,8 +200,8 @@
         <div class="col-md-12">
             <h2>Selected</h2>
         </div>
-        <div class="col-md-12" ng-if="geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.dmas.length >0 || geoTargetingData.selected.zip.length >0">
-            <div class="table regionTable" ng-if="geoTargetingData.selected.regions.length >0">
+        <div class="col-md-12" ng-if="geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length >0 || geoTargetingData.selected.dmas.length >0 || geoTargetingData.selected.zip.length >0">
+            <div class="table regionTable" ng-if="geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length >0">
                 <div>
                     <div class="clearfix each-row" >
                         <div class="pull-left">Regions & Cities</div>
@@ -214,7 +215,11 @@
                         <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{region.name}}</div>
                         <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(region, 'regions')" /></div>
                     </div>
-                    <div ng-if="geoTargetingData.selected.regions.length === 0">
+                    <div class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{city.name}}({{city.parent.name}})</div>
+                        <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(city, 'cities')" /></div>
+                    </div>
+                    <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
                         <div class="emptyTableLabel">Not Set</div>
                     </div>
                 </div>
@@ -263,7 +268,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.dmas.length === 0 && geoTargetingData.selected.zip.length === 0" class="emptyTableLabel">Not Set</div>
+        <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length ===0 && geoTargetingData.selected.dmas.length === 0 && geoTargetingData.selected.zip.length === 0" class="emptyTableLabel">Not Set</div>
 
     </div>
     <div class="col-md-12 zeroPadding">
