@@ -76,7 +76,7 @@
                             <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
                         </div>
                     </div>
-                    <div class="col-md-2 borderZero">
+                    <div class="col-md-2 zeroPadding borderZero">
                         <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">PUSH CAMPAIGN</button>
                     </div>
                 </div>
@@ -107,17 +107,77 @@
                 </div>
                 
                 <div class="col-md-12 adContainer">
+                    <!--=== Create Ad Group ===-->
+                    <div class="col-md-12 adGroupCreate">
+                        <div class="adGroupCreateForm">
+                            <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
+                            <div class="col-md-6 zeroPadding">
+                                <label for="nameTitleAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
+                                <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
+                                <div class="form-group col-sm-9 zeroPadding">
+                                    <input type="text" class="form-control" id="nameTitleAdGroup" name="adGroupName" maxlength="256" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
+                                    <label class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 zeroPadding">
+                                <label for="dateTitleAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
+                                <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+                                    <div class="col-md-12 dateWrapper form-group zeroPadding" style="margin-left: -5px;">
+                                        <div class="col-md-2" style="width: 150px; padding: 0 5px;">
+                                            <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                                            <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" required/>
+                                        </div>
+                                        <div class="col-md-2" style="width: 150px; padding: 0 5px;">
+                                            <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                                            <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" name="endTime" required/>
+                                        </div>
+                                        <label class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                                    </div>
+                                    <span class="col-md-12 input-group-addon">
+                                        <div class="calenderIcon">
+                                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                        </div>
+                                        <div class="calenderIcon" style="margin-left: 119px;">
+                                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="adGroupCreateModules">
+                            <!--=== Create BTN Ad ===-->
+                            <div class="col-md-3 adModule adCreateBtn">
+                                <div class="col-md-12">
+                                    <a href="/campaign/{{workflowData.campaignData.id}}/ads/create"
+                                       class="col-md-12 text-center addMaster">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+        
+                                        <h1>Create Ad</h1>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!--=== Group Ad ===-->
                     <div class="col-md-12 adModule adGroup">
-                        <div class="col-md-12 adTitle">
-                            <a class="btn btn-primary collapseIcon" role="button" data-toggle="collapse" href="#collapseAdGroup" aria-expanded="false" aria-controls="collapseAdGroup">Expand</a>
-                            <span class="pull-left adGroupTxt">Acme Organics Dog Food New York Metro Area</span>
-                            <span class="pull-left adGroupTxt">Wed 01 Jul 2014 - Sat 01 Aug 2015 (30 Days)</span>
+                        <div class="adTitle">
+                            <a class="collapseIcon" role="button" data-toggle="collapse" href="#collapseAdGroup" aria-expanded="false" aria-controls="collapseAdGroup">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>    
+                            </a>
                             
-                            <span class="adGroupTxtSecondary">Total Ads <p>0</p></span>
-                            <span class="adGroupTxtSecondary">Delivering <p>0</p></span>
-                            <span class="adGroupTxtSecondary">Ready <p>0</p></span>
-                            <span class="adGroupTxtSecondary">Drafts <p>0</p></span>
+                            <div class="col-md-5 zeroPadding">
+                                <h2 class="pull-left adGroupTxt">Acme Organics Dog Food New York Metro Area</h2>
+                                <span class="pull-left adGroupTxt">Wed 01 Jul 2014 - Sat 01 Aug 2015 (30 Days)</span>
+                            </div>
+                            
+                            <div class="col-md-6 zeroPadding pull-right">
+                                <span class="adGroupTxtSecondary">Drafts <p class="active">1</p></span>
+                                <span class="adGroupTxtSecondary">Ready <p>0</p></span>
+                                <span class="adGroupTxtSecondary">Delivering <p>0</p></span>
+                                <span class="adGroupTxtSecondary">Total Ads <p>0</p></span>
+                            </div>
                         </div>
                         
                         <div class="collapse" id="collapseAdGroup">

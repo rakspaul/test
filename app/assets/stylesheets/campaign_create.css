@@ -67,7 +67,6 @@
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
   width: 100%;
-  padding: 0 0 0 5px;
   color: #0F66E4;
   font-size: 17px;
 }
@@ -107,14 +106,6 @@
   text-align: left;
   font-weight: lighter;
   font-size: 13px;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .labelQuestTxt,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .labelQuestTxt {
-  color: #000;
-  font-size: 15px;
-  text-align: left;
-  margin-top: 20px;
-  padding: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .currency,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .currency {
@@ -291,7 +282,7 @@
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon {
   float: left;
   border-left: 1px solid #c3c3c3;
-  margin: 17px 0 0 105px;
+  margin: 19px 0 0 102px;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .calenderIcon img,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon img {
@@ -311,7 +302,6 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader h1 {
   font-weight: bold;
-  font-family: 'Arial';
   font-size: 16px;
   margin: 0 10px;
 }
@@ -338,14 +328,14 @@
   height: 50px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView label {
-  font-size: 12px;
+  font-size: 11px;
   color: #939dac;
   float: left;
   width: 100%;
   padding: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView span {
-  font-size: 11px;
+  font-size: 12px;
   font-family: 'Arial';
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .btn-group {
@@ -469,6 +459,120 @@
   min-height: 38px !important;
   background: #fff !important;
   padding-left: .75% !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle {
+  float: left;
+  width: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon {
+  float: left;
+  border: 1px solid #000;
+  border-radius: 2px;
+  padding: 0;
+  margin-right: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .glyphicon {
+  color: #000;
+  float: left;
+  padding: 5px;
+  font-size: 14px;
+  top: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
+  color: #000;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary {
+  float: right;
+  padding: 0 15px;
+  border-right: 1px solid #000;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p {
+  float: right;
+  padding-left: 10px;
+  margin-bottom: 0;
+  color: #f47e2a;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p.active {
+  color: #2c9aec;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:first-child {
+  padding-right: 0;
+  border-width: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:last-child {
+  border-width: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate {
+  float: left;
+  width: 100%;
+  background: #fff;
+  margin-bottom: 30px;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .adGroupCreateForm {
+  float: left;
+  padding: 30px;
+  border: 1px solid #dbdbdb;
+  border-bottom: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate h1 {
+  margin-top: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .startTime {
+  color: #838383;
+  width: 100%;
+  text-align: left;
+  padding-top: 6px;
+  display: block;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .startTime:last-child {
+  padding-top: 19px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .dateWrapper {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .dateWrapper input {
+  background: transparent;
+  border-radius: 3px !important;
+  text-align: left;
+  text-indent: 2px;
+  font-size: 12px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .dateWrapper #endDateInput {
+  background: rgba(0, 0, 0, 0.07);
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon {
+  margin: 12px 0 0 0;
+  background-color: transparent;
+  border-width: 0;
+  width: 100%;
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon .glyphicon:last-child {
+  margin: 20px 9px 0 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon .calenderIcon {
+  float: left;
+  border-left: 1px solid #c3c3c3;
+  margin: 19px 0 0 102px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon .calenderIcon img {
+  float: left;
+  margin: 10px 9px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .adGroupCreateModules {
+  background: #fff;
+  padding: .75% 0 0 .75%;
+  width: 100%;
+  float: left;
+  border: 1px solid #dbdbdb;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .adGroupCreateModules .adModule {
+  margin-bottom: .75%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn {
   border: 2px dashed #dbdbdb !important;
@@ -673,7 +777,7 @@
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader {
   width: 1200px;
-  margin: 10px auto 0 !important;
+  margin: 15px auto !important;
   float: none;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView {
@@ -682,7 +786,7 @@
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap {
   background: #eef5fc;
   margin: 0px;
-  border-top: 2px solid #ccd2da;
+  border-top: 1px solid #ccd2da;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer {
   padding: 30px;
