@@ -311,12 +311,14 @@
 
 <div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
     <div class="msgPopup">
-        <div class="msg">
-            Are you sure?
-        </div>
-        <div class="btn-holder">
-            <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType);">Yes</div>
-            <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()">No</div>
+        <div>
+            <div class="msg">
+                Are you sure?
+            </div>
+            <div class="clearfix btn-holder">
+                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType);">Yes</div>
+                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()">No</div>
+            </div>
         </div>
     </div>
 </div>

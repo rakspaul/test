@@ -777,9 +777,14 @@ var angObj = angObj || {};
             $scope.boxType = type;
             $scope.showConfirmBox = true;
             var target = $(event.target);
-            var position = target.position();
-            var elem =  $("#confirmBox");
-            elem.css( {position:"absolute", top:position.top, left: position.left});
+            var position = target.offset();
+            
+            var elem =  $("#confirmBox").find(".msgPopup");
+            var parentPos = $(".targettingFormWrap").offset();
+            var left_pos =  position.left - parentPos.left - target.width() -50 ;
+            var top_pos =  position.top - parentPos.top - target.height() + 14;
+
+            elem.css( {position:"absolute", top:top_pos, left: left_pos});
         }
 
         $scope.removeSelectedList = function(type) {
