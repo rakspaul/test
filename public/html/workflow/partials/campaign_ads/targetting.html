@@ -91,7 +91,7 @@
                                 <thead>
                                     <tr>
                                         <th class="col-md-1"></th>
-                                        <th class="col-md-5">City</th>
+                                        <th class="col-md-5">Region</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -170,7 +170,7 @@
                             <tr ng-repeat="dma in geoTargetingData.dmas">
                                 <td><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-click="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></td>
                                 <td>{{dma.dmaName}}</td>
-                                <td>{{dma.region}}</td>
+                                <td>{{dma.parent.name}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -214,11 +214,11 @@
                 </div>
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="region in geoTargetingData.selected.regions">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{region.name}}</div>
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{region.regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
                         <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(region, 'regions')" /></div>
                     </div>
                     <div class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{city.name}}({{city.parent.name}})</div>
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}({{city.parent.name}})</div>
                         <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(city, 'cities')" /></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
@@ -238,7 +238,7 @@
                 </div>
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="dma in geoTargetingData.selected.dmas">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/>{{dma.name}}</div>
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.name}}</div>
                         <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(dma, 'dmas')" /></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.dmas.length === 0">
@@ -274,7 +274,7 @@
 
     </div>
     <div class="col-md-12 zeroPadding">
-        <a href="javascript:void(0);" class="pull-right common_primary_btn" >Save Geography</a>
+        <a href="javascript:void(0);" class="pull-right common_primary_btn" ng-click="saveGeography()">Save Geography</a>
         <a href="javascript:void(0);" class="pull-right secondary_txt" >Cancel</a>
     </div>
 </div>
@@ -284,7 +284,7 @@
     <div class="col-md-12 tsHeader">
         <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
         <a href="javascript:void(0);"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>
-        <a href="javascript:void(0);"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
+        <a href="javascript:void(0);" ng-click="editGeography()"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
         <div class="col-md-6 zeroPadding" style="clear: left;">
             <span><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
         </div>
