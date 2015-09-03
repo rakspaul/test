@@ -1485,6 +1485,92 @@
 .adCreateMaster #targetting h2 a:hover {
   color: rgba(66, 139, 202, 0.31);
 }
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs {
+  margin: 26px 0 20px 0px ;
+  border-width: 0;
+  width: auto;
+}
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li {
+  border: 1px solid #0978c9;
+  width: 120px;
+  text-align: center;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background: #fff;
+}
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li a {
+  color: #0978c9;
+  padding: 6px 0;
+}
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:hover {
+  background: #f5f9fd;
+}
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active {
+  background: #0978c9 ;
+  border: 1px solid #0978c9;
+}
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active a {
+  color: #fff;
+  background: #0978c9 ;
+  margin: 0;
+  font-family: "Avenir";
+}
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:first-child {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-left: 1px solid #0978c9;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs {
+  margin-top: 20px;
+  /*
+            float: left;*/
+  width: 100%;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li {
+  background: #f5f9fd;
+  border-radius: 0px;
+  border-top: 1px solid #dde6eb;
+  border-right: 1px solid #dde6eb;
+  border-bottom: 1px solid #dde6eb;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li a {
+  margin: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li.active {
+  background: #fff;
+  border-bottom: 0px;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li.active a {
+  background: #fff;
+  margin-top: 1px;
+}
+.adCreateMaster #targetting .regionCityTab .nav-tabs li:first-child {
+  border-top-left-radius: 2px;
+  border-left: 1px solid #dde6eb;
+}
+.adCreateMaster #targetting .list_head {
+  border-bottom: solid 2px #ccc ;
+  padding: 10px 0 10px 12px ;
+}
+.adCreateMaster #targetting .list_row_holder {
+  max-height: 450px;
+  overflow: scroll;
+}
+.adCreateMaster #targetting .list_val_col {
+  margin-left: 10px ;
+  min-width: 170px ;
+  max-width: 170px ;
+}
+.adCreateMaster #targetting .list_holder {
+  padding: 0 20px ;
+}
+.adCreateMaster #targetting .list_holder .list_row {
+  margin: 10px 0 ;
+}
 .adCreateMaster #targetting .addTargetBtn {
   float: left;
   color: #0978c9;
@@ -1506,7 +1592,7 @@
   margin-top: 20px;
 }
 .adCreateMaster #targetting .targettingFormWrap h2 {
-  float: left;
+  /*float: left;*/
   width: 100%;
   margin: 0;
   color: #21252b;
@@ -1534,7 +1620,7 @@
   width: 100%;
   border-left: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
-  padding: 20px;
+  padding: 20px 20px 0 20px ;
 }
 .adCreateMaster #targetting .targettingFormWrap .searchInput .geoTypeResult {
   float: left;
@@ -1549,7 +1635,7 @@
   margin-top: 20px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip {
-  top: -70px;
+  top: -90px;
   left: 150px;
   width: 250px;
 }
@@ -1576,7 +1662,8 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs {
   margin-top: 20px;
-  float: left;
+  /*
+          float: left;*/
   width: 100%;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li {
@@ -1613,46 +1700,8 @@
   width: 100%;
   margin-top: -2px;
 }
-.adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content .tab-pane {
-  max-height: 400px;
-  overflow: scroll;
-}
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content .tab-pane .table {
   margin-bottom: 0;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav {
-  margin: -50px 0 20px 20px;
-  border-width: 0;
-  width: auto;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li {
-  border: 1px solid #0978c9;
-  width: 120px;
-  text-align: center;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  background: #fff;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li a {
-  color: #0978c9;
-  padding: 6px 0;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li:hover {
-  background: #f5f9fd;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li.active {
-  background: #0978c9 !important;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li.active a {
-  color: #fff;
-  background: #0978c9 ;
-  margin: 0;
-}
-.adCreateMaster #targetting .targettingFormWrap .tabbable #regioncity .nav li:first-child {
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable #dma {
   max-height: 400px;
