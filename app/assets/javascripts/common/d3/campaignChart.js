@@ -67,7 +67,7 @@
                             })
                             .y(function(d) {
                                 return yScale(d[ykeyVal]);
-                            })
+                            });
 
                         this.updateConfig({
                             'xScale': xScale,
@@ -77,7 +77,7 @@
                             //'area' :area,
                             'lineFun': lineFun,
 
-                        })
+                        });
                     },
 
                     drawPath: function(data, index) {
@@ -122,7 +122,7 @@
                             return d[ykeyVal];
                         });
 
-                        if (threshold != 0) {
+                         if (threshold !== 0) {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
                             //if threshold is out of view i.e greater than data view
@@ -132,7 +132,18 @@
                             }
 
                             //resize domain of y-axis 20% extra spacing
-                            updateDomain(maxData, 20);
+                            if(kpiType.toLowerCase() === "delivery") {
+                                //delivery as kpi
+                                //***
+                                var maxUpperThreshold = d3.max(data, function(d) {
+                                    return d['upperPacing'];
+                                });
+                                if(maxUpperThreshold>maxData) {
+                                  updateDomain(maxUpperThreshold, 20);
+                                }
+                            } else {
+                              updateDomain(maxData, 20);
+                            }
 
                             var imageSize = "11",
                                 imagePosition = 5;
@@ -279,7 +290,7 @@
                                 .attr("class", function(d) { return "line " + d; })
                                 .attr("clip-path", function(d) { return "url(#clip-" + d + "-"+_config.versionTag+")"; })
                                 .datum(data)
-                                .attr("d", line)
+                                .attr("d", line);
 
                         } else { //if no threshold
 
@@ -291,8 +302,58 @@
                                 .attr({
                                     d: _config.lineFun(data),
                                     "class": "path" + index
-                                })
+                                });
+
                         }
+
+                        if(kpiType.toLowerCase() === "delivery") {
+                          //delivery as kpi
+                          //***
+                          var maxUpperThreshold = d3.max(data, function(d) {
+                              return d['upperPacing'];
+                          });
+                          if(maxUpperThreshold>maxData) {
+                              updateDomain(maxUpperThreshold, 20);
+                          }
+
+                              var upperPacingLine = d3.svg.line()
+                                  .interpolate("basis")
+                                  .x(function(d) {
+                                      return _config.xScale(d.date);
+                                  })
+                                  .y(function(d) {
+                                      return _config.yScale(d.upperPacing);
+                                  });
+                            //TODO:
+                            //if(kpiType.toLowerCase() === "delivery") {
+                              //render default color to the path
+                              svg.append("svg:path")
+                                  .attr({
+                                      d: upperPacingLine(data),
+                                      "class": "upper_pacing"
+                                  })
+                                  .style({"stroke":'#666', "stroke-dasharray":5, "fill":'none'});
+
+                                  var lowerPacingLine = d3.svg.line()
+                                      .interpolate("basis")
+                                      .x(function(d) {
+                                          return _config.xScale(d.date);
+                                      })
+                                      .y(function(d) {
+                                          return _config.yScale(d.lowerPacing);
+                                      });
+                                //TODO:
+
+                                  svg.append("svg:path")
+                                      .attr({
+                                          d: lowerPacingLine(data),
+                                          "class": "upper_pacing"
+                                      })
+                                      .style({"stroke":'#666', "stroke-dasharray":5, "fill":'none'});
+                            //}
+
+                         }
+
 
                         svg.append("rect")
                           .attr("class", "overlay")
@@ -915,7 +976,7 @@
                         return (key != undefined ? key.toUpperCase() : value.toUpperCase());
                     },
 
-                    chartDataFun: function(lineData, threshold, kpiType, chartFrom) {
+                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, totalImpressions) {
                         var _config = this.lineChartConfig;
                         var kpiType = kpiType != 'null' ? kpiType : 'NA';
                         var kpiMap = {
@@ -927,14 +988,48 @@
                             kpiType = lineChartService.findKey(kpiMap, kpiType);
                         }
                         _config.kpiType = kpiType;
-                        var data = [];
+                        var data = [],
+                            lowerPacingThreshold = [], //lower line
+                            higherPacingThreshold = [], //upper line
+                            dailyPacing, upperPacing, lowerPacing;
 
-                        for (var i = 0; i < lineData.length; i++) {
-                            data.push({
-                                date: lineData[i]['date'],
-                                values: lineData[i]['y']
-                            });
+                        //for delivery as KPI
+                        if(kpiType.toLowerCase() === "delivery") {
+
+                            dailyPacing = totalImpressions/lineData.length;
+                            //generate pacing data from impressions
+                            for (var i = 0; i < lineData.length; i++) {
+
+                                if((i+1) > (lineData.length-7)) {
+                                    //105 + 95
+                                    upperPacing = (dailyPacing * (i+1)) * (1.05);
+                                    lowerPacing = (dailyPacing * (i+1)) * (0.95);
+                                } else {
+                                    //120 + 90
+                                    upperPacing = (dailyPacing * (i+1)) * (1.2);
+                                    lowerPacing = (dailyPacing * (i+1)) * (0.9);
+                                }
+                                data.push({
+                                    date: lineData[i]['date'],
+                                    values: lineData[i]['y'],
+                                    upperPacing: upperPacing, //(dailyPacing * (i+1)) * (1.2), //120%
+                                    lowerPacing: lowerPacing //(dailyPacing * (i+1)) * (0.9) //90%
+                                });
+
+                            }
+                      
+
+                        } else { //for other kpi types
+                            for (var i = 0; i < lineData.length; i++) {
+                                data.push({
+                                    date: lineData[i]['date'],
+                                    values: lineData[i]['y']
+                                });
+                            }
                         }
+
+
+
                         return data;
                     }
                 }
@@ -1212,7 +1307,8 @@
                 var dataObj = JSON.parse(attrs.chartData);
                 var chartCallFrom = attrs.chartLocation || null;
                 var versionTag = attrs.chartTag || Math.floor(Math.random()*10000000); //to fix firefox mozilla coloring issue for clip path tagging
-                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from),
+
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, dataObj.totalImpressions),
                     performanceChart = false;
 
                 if(dataObj.from =="action_performance") {

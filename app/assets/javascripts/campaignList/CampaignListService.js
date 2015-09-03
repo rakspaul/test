@@ -191,6 +191,13 @@
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
                                     var kpiTypeLower = angular.lowercase(kpiType);
+
+                                    //if kpiType is delivery, plot impressions on the graph
+                                    //picking up impressions from perf bydays data call
+                                    if(kpiTypeLower === "delivery") {
+                                        kpiTypeLower = "impressions";
+                                    }
+
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
@@ -199,7 +206,9 @@
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
                                     kpiType: kpiType,
-                                    from: 'tactics'
+                                    from: 'tactics',
+                                    //for delivery kpi
+                                    totalImpressions: tacticsList[obj].totalImpressions, //TODO: fix this to total impressions
                                 };
                             }
                         }
@@ -304,6 +313,13 @@
                                     maxDays[i]['ctr'] *= 100
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiTypeLower = angular.lowercase(kpiType);
+
+                                    //if kpiType is delivery, plot impressions on the graph
+                                    //picking up impressions from perf bydays data call
+                                    if(kpiTypeLower === "delivery") {
+                                        kpiTypeLower = "impressions";
+                                    }
+
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
@@ -312,7 +328,9 @@
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
                                     kpiType: sKpiType,
-                                    from: 'strategy'
+                                    from: 'strategy',
+                                    //for delivery kpi
+                                    totalImpressions: strategyList[obj].totalImpressions, //TODO: fix this to total impressions from API call
                                 };
                             }
                         }
@@ -431,6 +449,13 @@
 
                                     var kpiType = (campaignObject.kpiType),
                                         kpiTypeLower = angular.lowercase(kpiType);
+
+                                        //if kpiType is delivery, plot impressions on the graph
+                                        //picking up impressions from perf bydays data call
+                                        if(kpiTypeLower === "delivery") {
+                                            kpiTypeLower = "impressions";
+                                        }
+
                                     lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 cdData = _.last(maxDays);
@@ -442,7 +467,9 @@
                                     data: lineDate,
                                     kpiValue: parseFloat(campaignObject.kpiValue),
                                     kpiType: campaignObject.kpiType,
-                                    from: 'campaign'
+                                    from: 'campaign',
+                                    //for delivery kpi
+                                    totalImpressions: campaignObject.total_impressions,
                                 };
                             }
                         }
@@ -500,6 +527,7 @@
                         campaign.toSuffix = utils.formatDate(this.end_date);
                         campaign.setVariables();
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
+                        //TODO: set default to DELIVERY if null or undefined
                         if (campaign.kpi_type == 'null') {
                             campaign.kpi_type = 'CTR';
                             campaign.kpiType = 'CTR';

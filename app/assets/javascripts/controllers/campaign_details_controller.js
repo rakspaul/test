@@ -225,6 +225,13 @@
                             for (var i = 0; i < maxDays.length; i++) {
                                 maxDays[i]['ctr'] *= 100;
                                 maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
+
+                                //if kpiType is delivery, plot impressions on the graph
+                                //picking up impressions from perf bydays data call
+                                if(kpiTypeLower === "delivery") {
+                                    kpiTypeLower = "impressions";
+                                }
+
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
@@ -237,6 +244,8 @@
                                     kpiValue: parseFloat($scope.campaign.kpiValue),
                                     kpiType: $scope.campaign.kpiType,
                                     from: 'action_performance',
+                                    //for delivery kpi
+                                    totalImpressions: campaign.total_impressions,
                                     //customisation
                                     activityList: activityList.data.data,
                                     showExternal: showExternal
