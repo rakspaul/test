@@ -65,7 +65,6 @@
       .collapseHeader {
         float: left;
         width: 100%;
-        padding: 0 0 0 5px;
         color: #0F66E4;
         font-size: 17px;
         button {
@@ -101,13 +100,6 @@
           text-align: left;
           font-weight: lighter;
           font-size: 13px;
-        }
-        .labelQuestTxt {
-          color: #000;
-          font-size: 15px;
-          text-align: left;
-          margin-top: 20px;
-          padding: 0;
         }
         .currency {
           position: absolute;
@@ -182,7 +174,7 @@
             .calenderIcon {
               float: left;
               border-left: 1px solid #c3c3c3;
-              margin: 17px 0 0 105px;
+              margin: 19px 0 0 102px;
               img {
                 float: left;
                 margin: 10px 9px;
@@ -203,7 +195,6 @@
         }
         h1 {
           font-weight: bold;
-          font-family: 'Arial';
           font-size: 16px;
           margin: 0 10px;
         }
@@ -228,14 +219,14 @@
               height: 50px;
           }
           label {
-            font-size: 12px;
+            font-size: 11px;
             color: #939dac;
             float: left;
             width: 100%;
             padding: 0;
           }
           span {
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'Arial';
           }
           .btn-group {
@@ -359,6 +350,122 @@
             min-height: 38px !important;
             background: #fff !important;
             padding-left: .75% !important;
+            .adTitle {
+              float: left;
+              width: 100%;
+              .collapseIcon {
+                float: left;
+                border: 1px solid #000;
+                border-radius: 2px;
+                padding: 0;
+                margin-right: 10px;
+                .glyphicon {
+                  color: #000;
+                  float: left;
+                  padding: 5px;
+                  font-size: 14px;
+                  top: 0;
+                }
+              }
+              h2.adGroupTxt {
+                color: #000;  
+              }
+              .adGroupTxtSecondary {
+                float: right;
+                padding: 0 15px;
+                border-right: 1px solid #000;
+                p {
+                  float: right;
+                  padding-left: 10px;
+                  margin-bottom: 0;
+                  color: #f47e2a;
+                }
+                p.active {
+                  color: #2c9aec;
+                }
+              }
+              .adGroupTxtSecondary:first-child {
+                padding-right: 0;
+                border-width: 0;
+              }
+              .adGroupTxtSecondary:last-child {
+                border-width: 0;
+              }
+            }
+          }
+          .adGroupCreate {
+            float: left;
+            width: 100%;
+            background: #fff;
+            margin-bottom: 30px;
+            padding: 0;
+            .adGroupCreateForm {
+              float: left;
+              padding: 30px;
+              border: 1px solid #dbdbdb;
+              border-bottom: 0;
+            }
+            h1 {
+              margin-top: 0;
+            }
+            .startTime {
+              color: #838383;
+              width: 100%;
+              text-align: left;
+              padding-top: 6px;
+              display: block;
+            }
+            .startTime:last-child {
+              padding-top: 19px
+            }
+            .date {
+              .dateWrapper {
+                position: absolute;
+                z-index: 10;
+                top: 0;
+                left: 0;
+                padding: 0;
+                input {
+                  background: transparent;
+                  border-radius: 3px !important;
+                  text-align: left;
+                  text-indent: 2px;
+                  font-size: 12px;
+                }
+                #endDateInput {
+                  background: rgba(0, 0, 0, 0.07);
+                }
+              }
+              .input-group-addon {
+                margin: 12px 0 0 0;
+                background-color: transparent;
+                border-width: 0;
+                width: 100%;
+                padding: 0;
+                .glyphicon:last-child {
+                  margin: 20px 9px 0 0;
+                }
+                .calenderIcon {
+                  float: left;
+                  border-left: 1px solid #c3c3c3;
+                  margin: 19px 0 0 102px;
+                  img {
+                    float: left;
+                    margin: 10px 9px;
+                  }
+                }
+              }
+            }
+            .adGroupCreateModules {
+              background: #fff;
+              padding: .75% 0 0 .75%;
+              width: 100%;
+              float: left;
+              border: 1px solid #dbdbdb;
+              .adModule {
+                margin-bottom: .75%;
+              }
+            }
           }
           .adCreateBtn {
             border: 2px dashed #dbdbdb !important;
@@ -571,7 +678,7 @@
       padding: 0px;
       .campAdHeader {
         width: 1200px;
-        margin: 10px auto 0 !important;
+        margin: 15px auto !important;
         float: none;
         .campSettingOverView {
           border-width: 0px;
@@ -580,7 +687,7 @@
       .adWrap {
         background: #eef5fc;
         margin: 0px;
-        border-top: 2px solid #ccd2da;
+        border-top: 1px solid #ccd2da;
         .adContainer {
           padding: 30px;
           width: 1200px;
