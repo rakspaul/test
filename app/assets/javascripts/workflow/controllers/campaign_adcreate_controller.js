@@ -827,6 +827,12 @@ var angObj = angObj || {};
             var tabContentElem = tabElems.siblings('.tab-content');
             tabContentElem.find('.contentBox').hide();
             tabContentElem.find("#"+tabType).show();
+            if(tabType == 'zip') {
+                $(".searchInput").hide();
+            } else {
+                $(".searchInput").show();
+            }
+            
 
             if(tabType == 'dma') {
                 $scope.listDmas();

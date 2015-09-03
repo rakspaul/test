@@ -50,9 +50,7 @@
       
         <div class="tab-content">
             <!---- start region and city Container ---------->
-
-            <div id="regioncity" class="tab-pane active contentBox">
-                <!--Search Input-->
+            <!--Search Input-->
                 <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="input-group">
                       <input type="text" class="form-control disabled searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
@@ -62,6 +60,15 @@
                     </div>
                     
                     <div class="col-md-12 zeroPadding">
+                        <div class="pull-left zeroPadding regionCityTab">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><!-- add tooltip_holder when you want the tooltip to be visible -->
+                                    <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions();">Region</a>
+                                    <span class="common_tooltip" style="display:none;">Once you include or exclude a city, regions are not available for further inclusion or exclusion.</span>
+                                </li>
+                                <li ng-show="showCitiesTab"><a href="#city" ng-click ="listCities();" data-toggle="tab">City</a></li>
+                            </ul>
+                        </div>
                         <div class="col-md-4 zeroPadding switchWrap">
                             <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
                             <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
@@ -72,62 +79,51 @@
                             </div>
                         </div>
                     </div>
+                
+                    <div class="clearfix list_head">
+                        <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col">City</div>
+                        <div class="pull-left list_val_col">Region</div>
+                    </div>
                 </div>
+            <div id="regioncity" class="tab-pane active contentBox">
+                
         
-                <div class="col-md-12 zeroPadding tabbable">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><!-- add tooltip_holder when you want the tooltip to be visible -->
-                            <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions();">Region</a>
-                            <span class="common_tooltip" style="display:none;">Once you include or exclude a city, regions are not available for further inclusion or exclusion.</span>
-                        </li>
-                        <li ng-show="showCitiesTab"><a href="#city" ng-click ="listCities();" data-toggle="tab">City</a></li>
-                    </ul>
-                </div>
+                
                 <div class="tab-content">
                     <!-- --- start region block ----------------- -->
-                    <div id="region" class="tab-pane active" lr-infinite-scroll="loadMoreRegions" time-threshold="100">
+                    <div id="region" class="tab-pane active">
                         <div>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="col-md-1"></th>
-                                        <th class="col-md-5">Region</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="region in geoTargetingData.regions">
-                                        <td><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></td>
-                                        <td>{{region.name}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="list_holder">
+                                
+                                <div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
+                                    <div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
+                                        <div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
+                                        <div class="pull-left list_val_col">{{region.name}}</div>
+                                    </div>
+                                    <div ng-if="regionFetching" class="common-load-more"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div ng-if="regionFetching" class="common-load-more"></div>
+                        
                     </div>
                     <!-- --- end region block ----------------- -->
     
                     <!-- --- start city block ----------------- -->
-                    <div id="city" class="tab-pane" lr-infinite-scroll="loadMoreCities" time-threshold="100" >
+                    <div id="city" class="tab-pane"  >
                         <div>
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th class="col-md-1"></th>
-                                    <th class="col-md-5">City</th>
-                                    <th class="col-md-6">Region</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="city in geoTargetingData.cities track by $index">
-                                    {{city}}
-                                    <td><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-change="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></td>
-                                    <td>{{city.name}}</td>
-                                    <td>{{city.parent.name}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div class="list_holder">
+                                
+                                <div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
+                                    <div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
+                                        <div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-change="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
+                                        <div class="pull-left list_val_col">{{city.name}}</div>
+                                        <div class="pull-left list_val_col">{{city.parent.name}}</div>
+                                    </div>
+                                    <div ng-if="cityFetching" class="common-load-more"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div ng-if="cityFetching" class="common-load-more"></div>
+                        
                     </div>
                     <!----- end city block ------------------->
                 </div>
@@ -137,7 +133,7 @@
             <!---- start DMA container -------->
             <div id="dma" class="tab-pane contentBox">
                 <!--Search Input-->
-                <div class="col-md-12 searchInput radioBtnToggle">
+                <!-- <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="input-group">
                         <input type="text" class="form-control disabled searchBox" name="searchValue"  data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
                       <span class="input-group-btn">
@@ -156,26 +152,21 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <div  >
+                    <div class="list_holder">
+                       
+                        <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
+                            <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
+                                <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-click="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
+                                <div class="pull-left list_val_col">{{dma.dmaName}}</div>
+                                <div class="pull-left list_val_col">{{dma.parent.name}}</div>
+                            </div>
+                            <div ng-show="dmasFetching" class="loading-icon"></div>
+                        </div>
+                    </div>
                 </div>
-                <div lr-infinite-scroll="loadMoreDmas" time-threshold="100" >
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="col-md-1"></th>
-                                <th class="col-md-5">City</th>
-                                <th class="col-md-6">Region</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="dma in geoTargetingData.dmas">
-                                <td><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-click="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></td>
-                                <td>{{dma.dmaName}}</td>
-                                <td>{{dma.parent.name}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div ng-show="dmasFetching" class="loading-icon"></div>
+                
             </div>
             <!----- end DMA container ----------->
 
