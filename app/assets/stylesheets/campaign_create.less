@@ -1720,6 +1720,20 @@
           overflow-y: auto;
           .each-row {
             border-bottom : solid 2px #DDE6EB ;
+            .group {
+              float: left;
+              clear: left;
+              width: 100%;
+              .ng-scope {
+                float: left;
+                clear: left;
+                width: 100%;
+                padding: 5px 0 0 0;
+                .pull-left {
+                  padding-left: 30px;
+                }
+              }
+            }
           }
         }
         .msgPopup {
@@ -1857,6 +1871,16 @@
       }
       .tsBody {
         padding: 20px;
+        .regioncity, .zipCode, .dmas {
+          width: 100%;
+          border-top: 1px solid #dbdbdb;
+          padding-top: 15px;
+          margin-top: 15px;
+          width: 93%;
+        }
+        .regioncity {
+          margin: 0;
+        }
         span {
           float: left;
           width: 100%;

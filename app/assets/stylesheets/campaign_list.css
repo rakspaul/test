@@ -1400,6 +1400,9 @@ input[type="submit"] {
   margin-top: 10px;
   display: inline-block;
 }
+.dashboard_outer_container .page_header_container .campaign_name_holder .create_btn_holder a.btn-primary {
+  margin: 5px 0 0 30px;
+}
 .dashboard_outer_container .campaign_list_header {
   margin-right: 0px ;
 }
