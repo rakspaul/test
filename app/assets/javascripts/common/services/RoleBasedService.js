@@ -11,8 +11,8 @@
         };
 
         var setUserRole = function(response) {
-            localStorage.setItem('userType', false); //called on login
-           // localStorage.setItem('userType', response.data.data.isWorkflowUser);  //take from API
+            //localStorage.setItem('userType', false); //called on login
+            localStorage.setItem('userType', response.data.data.is_workflow_user);  //take from API
 
         };
 
