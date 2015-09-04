@@ -1773,6 +1773,20 @@
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row {
   border-bottom: solid 2px #DDE6EB ;
 }
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group {
+  float: left;
+  clear: left;
+  width: 100%;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group .ng-scope {
+  float: left;
+  clear: left;
+  width: 100%;
+  padding: 5px 0 0 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group .ng-scope .pull-left {
+  padding-left: 30px;
+}
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup {
   left: -185px;
 }
@@ -1906,6 +1920,18 @@
 }
 .adCreateMaster #targetting .targettingSelected .tsBody {
   padding: 20px;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody .regioncity,
+.adCreateMaster #targetting .targettingSelected .tsBody .zipCode,
+.adCreateMaster #targetting .targettingSelected .tsBody .dmas {
+  width: 100%;
+  border-top: 1px solid #dbdbdb;
+  padding-top: 15px;
+  margin-top: 15px;
+  width: 93%;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody .regioncity {
+  margin: 0;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody span {
   float: left;
