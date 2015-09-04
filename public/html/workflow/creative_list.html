@@ -103,11 +103,11 @@
 						<span>{{formatDate(creativeData.createdAt)}}</span>
 					</td>
 					</tr>
-					<tr ng-show="creativesNotFound">
-						<td>Data not available</td>
-					</tr>
 				</tbody>
 			</table>
+			<div ng-show="creativesNotFound" class="emptyCreativeList">
+			    <span>Data not available</span>
+			</div>
 			</div>
 		</div>
 
