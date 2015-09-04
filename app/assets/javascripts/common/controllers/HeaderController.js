@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel ) {
+    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel ,RoleBasedService) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -8,6 +8,7 @@
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.isNetworkUser = loginModel.getIsNetworkUser();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+        $scope.isWorkFlowUser=RoleBasedService.getUserRole(); //console.log("isWorkFLowUser:"+RoleBasedService.getUserRole());
 
         if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
             campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {

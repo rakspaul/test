@@ -4,8 +4,8 @@
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name">{{campaigns.marketerName}}</span>
             <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span>
-            <!--<div class="pull-left create_btn_holder" ng-show="{{userType}}">-->
-            <div class="pull-left create_btn_holder" ng-show="false">
+            <div class="pull-left create_btn_holder" ng-show="{{userType}}">
+            <!--<div class="pull-left create_btn_holder" ng-show="false">-->
             <a href="/create" class="submit_btn">{{ textConstants.WF_CREATE_CAMPAIGN }}</a>
             </div>
         </div>
