@@ -147,6 +147,19 @@
 #creativeList .mainWrap .table tbody tr {
   margin: 10px 0 20px;
 }
+#creativeList .mainWrap .emptyCreativeList {
+  width: 100%;
+  background: #f5f9fd;
+  float: left;
+}
+#creativeList .mainWrap .emptyCreativeList span {
+  width: 100%;
+  float: left;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  color: #939eb6;
+}
 #creativeList .mainWrap .bottomPagination {
   position: fixed;
   bottom: 10px;
