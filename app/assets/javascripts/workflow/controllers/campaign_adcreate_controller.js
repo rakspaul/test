@@ -9,11 +9,9 @@ var angObj = angObj || {};
         $scope.adData.screenTypes = [];
         $scope.creativeData = {};
         $scope.creativesLibraryData = {};
-        $scope.emptyCreativesFlag = true;
         $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.selectedArr = [];
-        $scope.dataFromCreativeLibraryNotFound = false;
         $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
         $scope.IsVisible = false;//To show hide view tag in creatives listing
@@ -236,111 +234,6 @@ var angObj = angObj || {};
         });
 
 
-
-        var addFromLibrary = {
-            modifyCreativesData : function(respData) {
-                var arr;
-                _.each(respData, function(data) {
-                    if($scope.selectedArr.length >0) {
-                        arr = _.filter($scope.selectedArr, function (obj) {
-                            return obj.id === data.id
-                        });
-                        if(arr.length >0) {
-                            data['checked'] = arr[0].checked;
-                        }
-                    } else {
-                        data['checked'] = false;
-                    }
-                });
-                return respData;
-            },
-
-            getCreativesFromLibrary: function (clientID, adID, format) {
-                workflowService.getCreativesFromLibrary(clientID, adID, format).then(function (result) {
-                    if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
-                        var responseData = result.data.data;
-                        $scope.creativesLibraryData['creativesData'] = addFromLibrary.modifyCreativesData(responseData);
-                        if($scope.creativesLibraryData.creativesData.length>0)
-                            $scope.dataFromCreativeLibraryNotFound = false;
-                        else
-                            $scope.dataFromCreativeLibraryNotFound = true;
-                    }
-                    else {
-                        addFromLibrary.errorHandler(result);
-                    }
-                }, addFromLibrary.errorHandler);
-            },
-            errorHandler: function (errData) {
-                $scope.dataFromCreativeLibraryNotFound =  true;
-                $scope.emptyCreativesFlag = true;
-            }
-        };
-
-        $scope.showPopup = function () {
-            $scope.showHidePopup = true;
-            addFromLibrary.getCreativesFromLibrary($scope.workflowData['campaignData'].clientId, $scope.workflowData['campaignData'].advertiserId, $scope.adData.adFormat.toUpperCase());
-        };
-
-        $scope.saveCreativeTags = function () {
-            $scope.showHidePopup = false;
-            $scope.updateCreativeData($scope.selectedArr)
-        };
-
-        $scope.closePop = function () {
-            $scope.showHidePopup = false;
-        };
-
-        $scope.updateCreativeData = function(data) {
-            $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
-            if($scope.creativeData.creativeInfo.creatives.length>0)
-                $scope.emptyCreativesFlag=false;
-            else
-                $scope.emptyCreativesFlag=true;
-
-        };
-
-        $scope.removeCreativeTags =  function(clickedTagData, actionFrom) {
-            var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) { return obj.id === clickedTagData.id});
-            if (selectedCreativeTag.length > 0) {
-                var idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
-                $scope.selectedArr.splice(idx, 1);
-                if(actionFrom !== 'popup') {
-                    $scope.updateCreativeData($scope.selectedArr)
-                }
-            }
-            var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
-            $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
-            $("#"+clickedTagData.id).removeAttr("checked");
-            /*Enable save button of popup library if elements exists*/
-            if($scope.selectedArr.length >0)
-                $scope.enableSaveBtn = false;
-            else
-                $scope.enableSaveBtn = true;
-        };
-
-        $scope.stateChanged = function ($event, screenTypeObj) {
-            var checkbox = $event.target;
-            screenTypeObj['checked'] = checkbox.checked;
-
-            var selectedChkBox = _.filter($scope.selectedArr, function (obj) {
-                return obj.name === screenTypeObj.name
-            });
-
-            if (selectedChkBox.length > 0) {
-                var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
-                $scope.selectedArr.splice(idx, 1);
-
-            } else {
-                $scope.selectedArr.push(screenTypeObj);
-            }
-            /*Enable save button of popup library if elements exists*/
-            if($scope.selectedArr.length >0)
-                $scope.enableSaveBtn = false;
-            else
-                $scope.enableSaveBtn = true;
-        };
-
-
         $scope.showCreateNewWindow=function(){
             $("#formCreativeCreate")[0].reset();
             $scope.isAddCreativePopup = true;
@@ -431,27 +324,32 @@ var angObj = angObj || {};
                     postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
 
                 }
-               postAdDataObj['targets'] ={};
-               var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
 
-                var buildGeoTargetingParams = function(data, type) {
-                    var obj= {};
-                    obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
-                    obj['geoTargetList'] = _.pluck(data, 'id');
-                    return obj;
-                }
 
-                var geoTargetData =  $scope.adData.geoTargetingData;
-                if(geoTargetData.regions.length>0) {
-                    postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
-                }
+                if($scope.adData.geoTargetingData) {
 
-                if(geoTargetData.cities.length>0) {
-                    postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
-                }
+                    postAdDataObj['targets'] ={};
+                    var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
 
-                if(geoTargetData.dmas.length>0) {
-                    postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                    var buildGeoTargetingParams = function(data, type) {
+                        var obj= {};
+                        obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
+                        obj['geoTargetList'] = _.pluck(data, 'id');
+                        return obj;
+                    }
+
+                    var geoTargetData = $scope.adData.geoTargetingData;
+                    if (geoTargetData.regions.length > 0) {
+                        postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                    }
+
+                    if (geoTargetData.cities.length > 0) {
+                        postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                    }
+
+                    if (geoTargetData.dmas.length > 0) {
+                        postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                    }
                 }
 
                 campaignOverView.saveAds(postAdDataObj)
@@ -463,6 +361,119 @@ var angObj = angObj || {};
             $scope.$broadcast('renderTargetingUI', platformId)
         };
 
+        $scope.showPopup = function () {
+            $scope.$broadcast('showCreativeLibrary');
+        };
+
+        $scope.removeCreativeTags =  function(clickedTagData, actionFrom) {
+            var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) { return obj.id === clickedTagData.id});
+            $("#"+clickedTagData.id).removeAttr("checked");
+            $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
+        };
+
+    });
+
+    angObj.controller('creativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+        $scope.emptyCreativesFlag = true;
+
+        var addFromLibrary = {
+            modifyCreativesData : function(respData) {
+                var arr;
+                _.each(respData, function(data) {
+                    if($scope.selectedArr.length >0) {
+                        arr = _.filter($scope.selectedArr, function (obj) {
+                            return obj.id === data.id
+                        });
+                        if(arr.length >0) {
+                            data['checked'] = arr[0].checked;
+                        }
+                    } else {
+                        data['checked'] = false;
+                    }
+                });
+                return respData;
+            },
+
+            getCreativesFromLibrary: function (clientID, adID, format, query) {
+                workflowService.getCreatives(clientID, adID, format, query).then(function (result) {
+                    if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
+                        var responseData = result.data.data;
+                        $scope.creativesLibraryData['creativesData'] = addFromLibrary.modifyCreativesData(responseData);
+                    }
+                    else {
+                        addFromLibrary.errorHandler(result);
+                    }
+                }, addFromLibrary.errorHandler);
+            },
+            errorHandler: function (errData) {
+                $scope.creativesLibraryData['creativesData'] = [];
+            }
+        };
+
+        $scope.creativeSearchFunc = function() {
+            var campaignId = $scope.workflowData['campaignData'].clientId;
+            var advertiserId = $scope.workflowData['campaignData'].advertiserId;
+            var searchVal = $scope.adData.creativeSearch;
+            var qryStr = '';
+            var formats = 'VIDEO,DISPLAY'
+            if(searchVal.length >0) {
+                qryStr += '&query='+searchVal;
+            }
+            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr);
+        }
+
+        $scope.$on('showCreativeLibrary', function() {
+            var campaignId = $scope.workflowData['campaignData'].clientId;
+            var advertiserId = $scope.workflowData['campaignData'].advertiserId;
+            $scope.showHidePopup = true;
+            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, $scope.adData.adFormat.toUpperCase());
+        })
+
+        $scope.saveCreativeTags = function () {
+            $scope.showHidePopup = false;
+            $scope.updateCreativeData($scope.selectedArr)
+        };
+
+        $scope.closePop = function () {
+            $scope.showHidePopup = false;
+        };
+
+        $scope.updateCreativeData = function(data) {
+            $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
+        };
+
+        $scope.$on('removeCreativeTags', function($event, arg){
+            var selectedCreativeTag = arg[0]
+            var actionFrom = arg[1];
+            if (selectedCreativeTag.length > 0) {
+                var idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
+                $scope.selectedArr.splice(idx, 1);
+                if(actionFrom !== 'popup') {
+                    $scope.updateCreativeData($scope.selectedArr)
+                }
+            }
+            var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
+            $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
+            /*Enable save button of popup library if elements exists*/
+        })
+
+        $scope.stateChanged = function ($event, screenTypeObj) {
+            var checkbox = $event.target;
+            screenTypeObj['checked'] = checkbox.checked;
+
+            var selectedChkBox = _.filter($scope.selectedArr, function (obj) {
+                return obj.name === screenTypeObj.name
+            });
+
+            if (selectedChkBox.length > 0) {
+                var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
+                $scope.selectedArr.splice(idx, 1);
+
+            } else {
+                $scope.selectedArr.push(screenTypeObj);
+            }
+            /*Enable save button of popup library if elements exists*/
+        };
     });
 
     angObj.controller('buyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
@@ -583,38 +594,6 @@ var angObj = angObj || {};
             return match;
         };
 
-        $scope.includeorExcludeCityOnly = function(type) {
-            if(type === 'cities') {
-                var selectedCities = $scope.geoTargetingData.selected[type];
-                var selectedRegions = $scope.geoTargetingData.selected['regions'];
-                var selectedCities = $scope.geoTargetingData.selected['cities'];
-                $scope.showCitiesOnly = true;
-                if(selectedRegions.length === 0  && selectedCities.length > 0) {
-                    $scope.isRegionSelected =  false;
-                } else {
-
-                    _.each(selectedRegions, function(regionsObj) {
-                        var tmpArr= [];
-                        _.each(selectedCities, function(citiesObj, idx) {
-                            if(citiesObj.parent.id === regionsObj.id) {
-                                $scope.showCitiesOnly = false;
-                                tmpArr.push(citiesObj);
-                                regionsObj.cities = tmpArr;
-                            }
-                        })
-                    })
-                    $scope.isRegionSelected =  true;
-                    var regionTab = $("#tab_region").parent();
-                    regionTab.removeClass('tooltip_holder');
-                    regionTab.find('.common_tooltip').hide();
-                }
-
-
-            }
-        }
-
-
-
         $scope.sync = function(bool, item, type){
             if(bool){
                 item[type+'Included'] = $scope[type+'Included'];
@@ -681,15 +660,67 @@ var angObj = angObj || {};
             $scope.adData.zipCodes = '';
         };
 
+        $scope.includeorExcludeCityOnly = function(type) {
+            if(type === 'cities') {
+                var selectedCities = $scope.geoTargetingData.selected[type];
+                var selectedRegions = $scope.geoTargetingData.selected['regions'];
+                var selectedCities = $scope.geoTargetingData.selected['cities'];
+                $scope.showCitiesOnly = true;
+                if(selectedRegions.length === 0  && selectedCities.length > 0) {
+                    $scope.isRegionSelected =  false;
+                } else {
+
+                    _.each(selectedRegions, function(regionsObj) {
+                        var tmpArr= [];
+                        _.each(selectedCities, function(citiesObj, idx) {
+                            if(citiesObj.parent.id === regionsObj.id) {
+                                $scope.showCitiesOnly = false;
+                                tmpArr.push(citiesObj);
+                                regionsObj.cities = tmpArr;
+                            }
+                        })
+                    })
+                    $scope.isRegionSelected =  true;
+                    var regionTab = $("#tab_region").parent();
+                    regionTab.removeClass('tooltip_holder');
+                    regionTab.find('.common_tooltip').hide();
+                }
+
+
+            }
+        }
+
+
         $scope.removeItem =  function(item, type) {
             var selectedItem = $scope.geoTargetingData['selected'][type];
-            for(var i=0 ; i < selectedItem.length; i++) {
-                if(selectedItem[i].id == item.id){
-                    selectedItem.splice(i,1);
+            for (var i = 0; i < selectedItem.length; i++) {
+                if (selectedItem[i].id == item.id) {
+                    selectedItem.splice(i, 1);
                 }
             }
-            if($scope.geoTargetingData['selected'][type].length ===0) {
+            if ($scope.geoTargetingData['selected'][type].length === 0) {
                 $scope.includeorExcludeCityOnly(type);
+            }
+            if (type === 'regions') {
+                citiesListArray.length =0;
+                $scope.listCities();
+
+                var removeFromSelectedCityArr =  function(cityObj) {
+                    var selectedCities = $scope.geoTargetingData['selected']['cities'];
+                    var pos = _.findIndex(selectedCities, cityObj);
+                    selectedCities.splice(pos, 1);
+                }
+
+                for (var j = 0; j < selectedItem.length; j++) {
+                    if(selectedItem[j].cities && selectedItem[j].cities.length >0) {
+                        for(var k=0; k < selectedItem[j].cities.length>0; k++) {
+                            removeFromSelectedCityArr(selectedItem[j].cities[k]);
+                            if (selectedItem[j].cities[k].id == item.id) {
+                                selectedItem[j].cities.splice(k, 1);
+                            }
+                        }
+                    }
+                }
             }
         };
 
@@ -716,6 +747,7 @@ var angObj = angObj || {};
 
         $scope.removeSelectedList = function(type, subtype) {
             $scope.hideConfirmBox();
+
             if(type === 'regions' && subtype === 'cities') {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.geoTargetingData.selected[subtype]=[];
@@ -726,7 +758,17 @@ var angObj = angObj || {};
                 $scope.includeorExcludeCityOnly(type);
             }
 
+            if($scope.selectedTab === 'regions') {
+                $scope.listRegions();
+            }
 
+            if($scope.selectedTab === 'cities') {
+                $scope.listCities();
+            }
+
+            if($scope.selectedTab === 'dmas') {
+                $scope.listDmas();
+            }
         };
 
         $scope.listDmas = function(defaults) {

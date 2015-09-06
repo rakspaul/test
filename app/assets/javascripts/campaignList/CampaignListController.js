@@ -12,7 +12,7 @@
 
     $scope.textConstants = constants;
 
-    $scope.userType =RoleBasedService.getUserRole(); // console.log("isWorkflowUser:"+$scope.userType); //show "create campaign"for user.
+    $scope.isWorkflowUser =RoleBasedService.getUserRole().workFlowUser;
 
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());

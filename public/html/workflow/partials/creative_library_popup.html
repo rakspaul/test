@@ -8,48 +8,37 @@
         <div class="col-md-12 zeroPadding">
             <div class="col-md-7">
                 <div class="col-md-12 zeroPadding">
-		    <h2 class="col-md-3 zeroPadding">Available</h2>
-		    <div id="custom-search-input" class="col-md-9">
-				<div class="input-group col-md-12">
-					<input type="text" class="form-control input-lg" placeholder="Search..." ng-model="sizeSearchVal"/>
+                    <h2 class="col-md-3 zeroPadding">Available</h2>
+                    <div id="custom-search-input" class="col-md-9">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="form-control" name="creativeSearch" ng-model="adData.creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
 					<span class="input-group-btn">
-						<button class="btn btn-info btn-lg" type="button" ng-click="searchSize()">
-							<i class="glyphicon glyphicon-search"></i>
-						</button>
+						<button class="btn btn-default disabled" ng-disabled="!creativeSearch" ng-click="creativeSearchFunc()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 					</span>
-				</div>
-		    </div>
-		</div>
-		
-		<div class="tableWrapper">
-		    <span class="miniLabel">RECENTLY CREATED/USED</span>
-		    <div class="table" id="selCheck">
-			<!-- <thead>
-			<tr>
-			    <th></th>
-			    <th></th>
-			</tr>
-			</thead> -->
-			<!-- <tbody> -->
-			<!--Test 1   | filter : {{sizeSearchVal}}  -->
-			<div ng-repeat="data in creativesLibraryData.creativesData | filter:sizeSearchVal | orderBy: 'name'">
-			    <div class="clearfix row-gap" >
-					<span class="col-md-1">
-						<input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/>
-					</span>
-					<span class="col-md-3">
-					    {{data.size.size}}
-					</span>
-					<span class="col-md-8">{{data.name}}</span>
-			    </div>
-			    
-			</div>
-			<!-- </tbody> -->
-		    </div>
-		    <div ng-if="dataFromCreativeLibraryNotFound" class="dataFromCreativeLibraryNotFound">
-			<span>Data Not Found</span>
-		    </div>
-		</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tableWrapper">
+                    <span class="miniLabel">RECENTLY CREATED/USED</span>
+                    <div class="table" id="selCheck">
+                        <div ng-repeat="data in creativesLibraryData.creativesData | orderBy: 'name'">
+                            <div class="clearfix row-gap" >
+                                <span class="col-md-1">
+                                    <input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/>
+                                </span>
+                                <span class="col-md-3">
+                                    {{data.size.size}}
+                                </span>
+                                <span class="col-md-8">{{data.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    111--- >{{creativesLibraryData.creativesData}}
+                    <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0" class="dataFromCreativeLibraryNotFound">
+                        <span>Data Not Found</span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-5">
                 <h2>Selected</h2>
@@ -61,14 +50,12 @@
                     </tr>
                     </thead>
                     <tbody>
-
-                    <!--Test 3-->
                     <tr ng-repeat="data in selectedArr">
                         <td>
                             <span class="col-md-12">{{data.size.size}}</span>
                         </td>
                         <td>
-			    <span class="col-md-11">{{data.name}}</span>
+                            <span class="col-md-11">{{data.name}}</span>
                             <span class="glyphicon glyphicon-remove col-md-1" ng-click="removeCreativeTags(data, 'popup')" ng-model="_tmp1" aria-hidden="true"></span>
                         </td>
                     </tr>
@@ -77,7 +64,7 @@
             </div>
 
             <div class="col-md-12" style="margin-bottom: 15px;">
-                <button type="button" class="btn btn-primary pull-right" ng-disabled="enableSaveBtn"   ng-click="saveCreativeTags()">Save</button>
+                <button type="button" class="btn btn-primary pull-right" ng-disabled="selectedArr && selectedArr.length === 0"   ng-click="saveCreativeTags()">Save</button>
                 <button type="button" class="btn btn-link pull-right" ng-click="closePop()">Cancel</button>
             </div>
 

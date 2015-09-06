@@ -55,7 +55,7 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-show="emptyCreativesFlag" class="emptyCreativesFlag">
+        <div ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0" class="emptyCreativesFlag">
             <span>You haven't added any Creative Tags for your Ad yet</span>
         </div>
     </div>
