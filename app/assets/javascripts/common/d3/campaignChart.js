@@ -1443,6 +1443,11 @@
                   //lineData.margin.right = 0;
                 }
 
+                if((dataObj.kpiType).toLowerCase() === "delivery") {
+                  //disabling ticks for y axis when kpi is delivery
+                    lineData.keys.yAxis.ticks = 0;
+                }
+
                 //JSON.parse(attrs.chartData).data ;//scope[attrs.chartData].data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
