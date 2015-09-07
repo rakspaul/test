@@ -15,7 +15,7 @@
         <!--<a href="/creative">Creative</a>-->
       <!--</div>-->
       <div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">
-        <a href="/performance" ng-click="setDefaultReport('Performance');">{{textConstants.REPORTS}}</a>
+        <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')">{{textConstants.REPORTS}}</a>
         <div class="reports_header_tabs_holder clearfix">
               <report-tabs></report-tabs>
         </div>
