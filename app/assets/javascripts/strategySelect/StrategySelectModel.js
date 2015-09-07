@@ -16,7 +16,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
                 var strategyData = (resp && resp.data) ? resp.data : [];
                 strategyData.unshift(constants.ALL_STRATEGIES_OBJECT);
                 strategyObj.strategies =  (strategyData !== undefined) ? strategyData : {} ;
-                if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && (strategyObj.selectedStrategy.id == -1 || strategyObj.selectedStrategy.id == -99)) {
+                if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && strategyObj.selectedStrategy.id == -1) {
                     strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
                     strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
                 }
