@@ -16,7 +16,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
                 var strategyData = (resp && resp.data) ? resp.data : [];
                 strategyData.unshift(constants.ALL_STRATEGIES_OBJECT);
                 strategyObj.strategies =  (strategyData !== undefined) ? strategyData : {} ;
-                if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && strategyObj.selectedStrategy.id == -1 ) {
+                if(strategyObj.strategies.length !== undefined && strategyObj.strategies.length >0 && (strategyObj.selectedStrategy.id == -1 || strategyObj.selectedStrategy.id == -99)) {
                     strategyObj.selectedStrategy.id = strategyObj.strategies[0].id;
                     strategyObj.selectedStrategy.name = strategyObj.strategies[0].name;
                 }
@@ -25,7 +25,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
             return dataService.fetchCancelable(url , canceller , function(response) {
                 modifyStrategiesData((response.status == 'OK' || response.status == 'success') ? response.data : errorHandler);
                 return strategyObj ;
-            }, errorHandler);
+            });
         },
         setSelectedStrategy: function (_strategy) {
             strategyObj.selectedStrategy.id = _strategy.id ;
