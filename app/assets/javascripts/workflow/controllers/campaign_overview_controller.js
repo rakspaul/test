@@ -75,6 +75,10 @@ var angObj = angObj || {};
 
         })
 
+        $scope.navigateToAdCreatePage = function() {
+            window.location.href='/campaign/'+$scope.workflowData.campaignData.id+'/ads/create';
+        }
+
         $scope.appendSizes=function(creative){
             //console.log(creative);
             if(typeof creative!='undefined'){

@@ -11,13 +11,13 @@
         <div class="col-md-12 dateWrapper form-group zeroPadding">
             <div class="col-md-2 zeroPadding" style="width: 150px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                <input type="text" id="startDateInput"  placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(campaignEndTime)" ng-change="handleFlightDate(adData)"/>
+                <input type="text" id="startDateInput"  placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" ng-change="handleFlightDate(adData)"/>
             </div>
             <div class="col-md-2" style="width: 150px; padding-left: 10px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                 <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required/>
             </div>
-            <div ng-show="checkForPastDate(campaignEndTime)" class="col-md-4 customErrorLabel" style="margin-left: 23px;margin-top: 38px !important;">Campaign flight date has passed</div>
+            <div ng-show="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" class="col-md-4 customErrorLabel" style="margin-left: 23px;margin-top: 38px !important;">Campaign flight date has passed</div>
         </div>
         <span class="col-md-12 input-group-addon">
             <div class="calenderIcon" style="margin: 19px 0 0 117px;">
