@@ -122,7 +122,7 @@
                             return d[ykeyVal];
                         });
 
-                         if (threshold !== 0) {
+                         if (threshold !== 0 && kpiType.toLowerCase() !== "delivery") {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
                             //if threshold is out of view i.e greater than data view
@@ -132,18 +132,8 @@
                             }
 
                             //resize domain of y-axis 20% extra spacing
-                            if(kpiType.toLowerCase() === "delivery") {
-                                //delivery as kpi
-                                //***
-                                var maxUpperThreshold = d3.max(data, function(d) {
-                                    return d['upperPacing'];
-                                });
-                                if(maxUpperThreshold>maxData) {
-                                  updateDomain(maxUpperThreshold, 20);
-                                }
-                            } else {
-                              updateDomain(maxData, 20);
-                            }
+                            updateDomain(maxData, 20);
+
 
                             var imageSize = "11",
                                 imagePosition = 5;
@@ -294,65 +284,113 @@
 
                         } else { //if no threshold
 
-                            //resize domain of y-axis 20% extra spacing
-                            updateDomain(maxData, 20);
+                          if(kpiType.toLowerCase() === "delivery") {
+                            //delivery as kpi
+                            //***
+                            var maxUpperThreshold = d3.max(data, function(d) {
+                                return d['upperPacing'];
+                            });
+                            if(maxUpperThreshold>maxData) {
+                                updateDomain(maxUpperThreshold, 20);
+                            }
 
-                            //render default color to the path
-                            svg.append("svg:path")
-                                .attr({
-                                    d: _config.lineFun(data),
-                                    "class": "path" + index
-                                });
+                                var upperPacingLine = d3.svg.line()
+                                    .interpolate("basis")
+                                    .x(function(d) {
+                                        return _config.xScale(d.date);
+                                    })
+                                    .y(function(d) {
+                                        return _config.yScale(d.upperPacing);
+                                    });
 
-                        }
 
-                        if(kpiType.toLowerCase() === "delivery") {
-                          //delivery as kpi
-                          //***
-                          var maxUpperThreshold = d3.max(data, function(d) {
-                              return d['upperPacing'];
-                          });
-                          if(maxUpperThreshold>maxData) {
-                              updateDomain(maxUpperThreshold, 20);
-                          }
+                                svg.append("svg:path")
+                                    .attr({
+                                        d: upperPacingLine(data),
+                                        "class": "upper_pacing"
+                                    })
+                                    .style({"stroke":'#DDE6EB', "stroke-dasharray":5, "fill":'none'});
 
-                              var upperPacingLine = d3.svg.line()
-                                  .interpolate("basis")
-                                  .x(function(d) {
-                                      return _config.xScale(d.date);
-                                  })
-                                  .y(function(d) {
-                                      return _config.yScale(d.upperPacing);
-                                  });
-                            //TODO:
-                            //if(kpiType.toLowerCase() === "delivery") {
+                                    var lowerPacingLine = d3.svg.line()
+                                        .interpolate("basis")
+                                        .x(function(d) {
+                                            return _config.xScale(d.date);
+                                        })
+                                        .y(function(d) {
+                                            return _config.yScale(d.lowerPacing);
+                                        });
+
+
+                                    svg.append("svg:path")
+                                        .attr({
+                                            d: lowerPacingLine(data),
+                                            "class": "upper_pacing"
+                                        })
+                                        .style({"stroke":'#DDE6EB', "stroke-dasharray":5, "fill":'none'});
+
+                                  //CREATE DEFINITION FOR COLOR CLIPPING
+                                  var defs = svg.append("svg:defs");
+
+                                  var clippath = defs.append("svg:clipPath")
+                                  .attr("id", "delivery-clip-"+_config.versionTag);
+
+                                  var draw_clip_poly = function(d) {
+                                    return draw_polygon(_config.reverseUpperPacing).replace('M', '');
+                                  };
+
+                                  var draw_polygon = d3.svg.line()
+                                    .x(function(d) { return _config.xScale(_config.parseDate(d.date)); })
+                                    .y(function(d) {  return _config.yScale(d.pacing); })
+                                    .interpolate(function (points) { return points.join(' '); });
+
+
+                                  //POLYGON TO CLIP COLOR
+                                  clippath.append("svg:polygon")
+                                  .attr("class", "area_clip")
+                                  .attr("points", draw_clip_poly);
+
+                                  var reversePacingLine = d3.svg.line()
+                                      .interpolate("basis")
+                                      .x(function(d) {
+                                          return _config.xScale(_config.parseDate(d.date));
+                                      })
+                                      .y(function(d) {
+                                          return _config.yScale(d.pacing);
+                                      });
+
+
+                                  //DRAW IMPRESSIONS PATH
+                                  svg.append("svg:path")
+                                      .attr({
+                                          d: _config.lineFun(data),
+                                          "class": "path" + index
+                                      }) .style({"stroke":'#f24444', "stroke-width": 2, "fill":'none'});
+                                      var clipId = "url(#delivery-clip-"+versionTag+")";
+
+                                  //DRAW CLIPPED PATH
+                                  svg.append("svg:path")
+                                    .attr("clip-path", clipId)
+                                      .attr({
+                                          d: _config.lineFun(data),
+                                          "class": "path" + index
+                                      });
+
+
+                           } else {
+                              //resize domain of y-axis 20% extra spacing
+                              updateDomain(maxData, 20);
+
                               //render default color to the path
                               svg.append("svg:path")
                                   .attr({
-                                      d: upperPacingLine(data),
-                                      "class": "upper_pacing"
-                                  })
-                                  .style({"stroke":'#666', "stroke-dasharray":5, "fill":'none'});
+                                      d: _config.lineFun(data),
+                                      "class": "path" + index
+                                  });
+                            } //END OF KPI
 
-                                  var lowerPacingLine = d3.svg.line()
-                                      .interpolate("basis")
-                                      .x(function(d) {
-                                          return _config.xScale(d.date);
-                                      })
-                                      .y(function(d) {
-                                          return _config.yScale(d.lowerPacing);
-                                      });
-                                //TODO:
+                        }//END OF NO THRESHOLD CHECK
 
-                                  svg.append("svg:path")
-                                      .attr({
-                                          d: lowerPacingLine(data),
-                                          "class": "upper_pacing"
-                                      })
-                                      .style({"stroke":'#666', "stroke-dasharray":5, "fill":'none'});
-                            //}
 
-                         }
 
 
                         svg.append("rect")
@@ -976,7 +1014,7 @@
                         return (key != undefined ? key.toUpperCase() : value.toUpperCase());
                     },
 
-                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, totalImpressions) {
+                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, deliveryData) {
                         var _config = this.lineChartConfig;
                         var kpiType = kpiType != 'null' ? kpiType : 'NA';
                         var kpiMap = {
@@ -991,16 +1029,32 @@
                         var data = [],
                             lowerPacingThreshold = [], //lower line
                             higherPacingThreshold = [], //upper line
-                            dailyPacing, upperPacing, lowerPacing;
+                            dailyPacing, upperPacing, lowerPacing,
+                            weekStart = undefined,
+                            weekEnd = undefined,
+                            totalImpressions = undefined,
+                            deliveryDays = undefined;
 
                         //for delivery as KPI
                         if(kpiType.toLowerCase() === "delivery") {
 
-                            dailyPacing = totalImpressions/lineData.length;
+
+                          if(deliveryData) {
+                              totalImpressions = deliveryData.bookedImpressions;
+                              deliveryDays = deliveryData.deliveryDays;
+                              weekStart = moment(deliveryData.endDate).subtract(6,'days'); // 1 WEEK
+                              weekEnd = moment(deliveryData.endDate);
+                          }
+
+                            dailyPacing = totalImpressions/deliveryDays;
                             //generate pacing data from impressions
                             for (var i = 0; i < lineData.length; i++) {
 
-                                if((i+1) > (lineData.length-7)) {
+                              if(moment(lineData[i].date).format('YYYY-MM-DD') >= weekStart.format('YYYY-MM-DD')
+                                && moment(lineData[i].date).format('YYYY-MM-DD') <= weekEnd.format('YYYY-MM-DD')) {
+                              //     console.log("***"+lineData[i].date);
+                              // }
+                              //   if((i+1) > (deliveryDays-7)) {
                                     //105 + 95
                                     upperPacing = (dailyPacing * (i+1)) * (1.05);
                                     lowerPacing = (dailyPacing * (i+1)) * (0.95);
@@ -1017,7 +1071,7 @@
                                 });
 
                             }
-                      
+
 
                         } else { //for other kpi types
                             for (var i = 0; i < lineData.length; i++) {
@@ -1308,8 +1362,41 @@
                 var chartCallFrom = attrs.chartLocation || null;
                 var versionTag = attrs.chartTag || Math.floor(Math.random()*10000000); //to fix firefox mozilla coloring issue for clip path tagging
 
-                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, dataObj.totalImpressions),
+                var deliveryData = dataObj.deliveryData || null;
+
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, deliveryData),
                     performanceChart = false;
+
+                var reverseUpperPacing =[], pacing = [];
+                if((dataObj.kpiType).toLowerCase() === "delivery") {
+
+                      //create reverse line for delivery polygon
+                      _.each(chartDataset, function(d){
+                        pacing.push (
+                          {
+                            "pacing": d.lowerPacing,
+                            "date": d.date
+                          }
+                        );
+                        reverseUpperPacing.push(
+                          {
+                            "pacing": d.upperPacing,
+                            "date": d.date
+                          }
+                        )
+                      });
+                      reverseUpperPacing.reverse();
+                      _.each(reverseUpperPacing, function(p){
+                        pacing.push(
+                          {
+                            "pacing": p.pacing,
+                            "date": p.date
+                          }
+                        );
+                      });
+
+                }
+
 
                 if(dataObj.from =="action_performance") {
                    performanceChart = true;
@@ -1317,6 +1404,7 @@
 
                 var lineData = {
                     json: [chartDataset],
+                    reverseUpperPacing: pacing,
                     threshold: dataObj.kpiValue,
                     isPerformanceChart: performanceChart,
                     chartCallFrom: chartCallFrom,
@@ -1355,6 +1443,11 @@
                   //lineData.margin.right = 0;
                 }
 
+                if((dataObj.kpiType).toLowerCase() === "delivery") {
+                  //disabling ticks for y axis when kpi is delivery
+                    lineData.keys.yAxis.ticks = 0;
+                }
+
                 //JSON.parse(attrs.chartData).data ;//scope[attrs.chartData].data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
@@ -1366,6 +1459,7 @@
                     threshold: lineData.threshold,
                     isPerformanceChart: lineData.isPerformanceChart,
                     versionTag: lineData.versionTag,
+                    reverseUpperPacing: lineData.reverseUpperPacing,
                     chartCallFrom: lineData.chartCallFrom,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,

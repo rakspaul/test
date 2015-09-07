@@ -245,7 +245,12 @@
                                     kpiType: $scope.campaign.kpiType,
                                     from: 'action_performance',
                                     //for delivery kpi
-                                    totalImpressions: campaign.total_impressions,
+                                    deliveryData: {
+                                      "startDate" : $scope.campaign.startDate,
+                                      "endDate" : $scope.campaign.endDate,
+                                      "deliveryDays": momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate),
+                                      "bookedImpressions": $scope.campaign.total_impressions
+                                    },
                                     //customisation
                                     activityList: activityList.data.data,
                                     showExternal: showExternal
