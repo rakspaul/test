@@ -2869,12 +2869,15 @@ button, i, input[type="submit"] {
     .quick_filter {
       position: relative;
       .sliding_dropdown_btn {
-        border: solid 1px #d2dee7 ;
-        padding: 10px ;
+        border: solid 1px #d2dee7;
+        padding: 5px;
         cursor: pointer;
-        border-radius: 4px ;
-        -moz-border-radius: 4px ;
-        -webkit-border-radius: 4px ;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        width: 30px;
+        text-align: center;
+        height: 30px;
       }
       .sliding_dropdown_container {
         position: absolute;
@@ -2900,10 +2903,13 @@ button, i, input[type="submit"] {
             text-transform: uppercase;
             margin-bottom: 10px;
           }
+          .close_sliding_dropdown {
+            cursor: pointer;
+          }
           .section_filter_list {
             .each_filter {
-              margin-bottom: 16px ;
-              padding: 0px 14px ;
+              margin-bottom: 5px;
+              padding: 5px 14px ;
               .number {
                   text-align: center;
                   font-size: 12px;
@@ -2920,6 +2926,10 @@ button, i, input[type="submit"] {
                 color: #0978c9 ;
                 background: #f5f9fd ;
               }
+            }
+            .each_filter.active  {
+              color: #0978c9 ;
+              background: #f5f9fd ;
             }
           }
           &:last-child {
