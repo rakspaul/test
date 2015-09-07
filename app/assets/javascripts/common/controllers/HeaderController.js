@@ -27,12 +27,16 @@
         };
 
         $scope.NavigateToTab =  function(url, event, page) {
+            $(".header_tab_dropdown").removeClass('active_tab');
             if(page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
-                url = '/campaigns/'+ $scope.selectedCampaign
+                url = '/campaigns/'+ $scope.selectedCampaign ;
+                $("#reports_overview_tab").addClass("active_tab") ;
             }
-            $(".header_tab_dropdown").removeClass('active_tab');
-            $(event.currentTarget).parent().addClass('active_tab');
+            if(event) {
+                $(event.currentTarget).parent().addClass('active_tab');
+            }
+
             $location.url(url);
         };
 
@@ -47,10 +51,12 @@
             $scope.removeUserData();
             $location.url('/login');
         };
+
         $scope.setDefaultReport = function(reportTitle){
-           $(".header_tab_dropdown").removeClass('active_tab');
-           $( "a[reportTitle='"+reportTitle+"']").parent().addClass('active_tab')
+            $(".header_tab_dropdown").removeClass('active_tab');
+            $( "a[reportTitle='"+reportTitle+"']").parent().addClass('active_tab')
         }
+
         var callSetDefaultReport = $rootScope.$on("callSetDefaultReport",function(event,args){
             $scope.setDefaultReport(args);
         });

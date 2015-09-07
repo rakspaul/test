@@ -2404,6 +2404,10 @@ input[type="submit"] {
   position: relative;
   height: 40px ;
 }
+.main_navigation_holder .main_nav .main_navigation #reports_nav_link a {
+  position: relative;
+  z-index: 1003 ;
+}
 .main_navigation_holder .main_nav .main_navigation #reports_nav_link:hover a {
   color: #fff !important ;
 }
