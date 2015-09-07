@@ -10,7 +10,7 @@
 
         var setUserRole = function(response) {
             var userRoleObj = {
-                'workFlowUser' : response.data.data.is_workflow_user === 'true' ? true : false
+                'workFlowUser' : response.data.data.is_workflow_user === true ? true : false
             };
             localStorage.setItem('userRoleObj', JSON.stringify(userRoleObj));
         };
