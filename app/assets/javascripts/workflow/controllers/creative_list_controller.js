@@ -5,26 +5,26 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.creativeData = {};
-        $scope.adData= {}
-        $scope.adData.screenTypes =[];
+        $scope.adData = {}
+        $scope.adData.screenTypes = [];
         $scope.creativeListLoading = true;
         $scope.creativesNotFound = false;
-        $scope.showViewTagPopup=false;
-        $scope.edittrue=true;
+        $scope.showViewTagPopup = false;
+        $scope.edittrue = true;
         $scope.IncorrectTag = false;
+        $scope.showDuplicateTagPopup = false;
 
         //$scope.popUpData.tag="";
 
-        $scope.getAdFormatIconName = function(adFormat) {
-            adFormat =  adFormat || 'display';
-            var adFormatMapper = {'display' : 'picture', 'video' : 'film', 'rich media' : 'paperclip', 'social' : 'user' }
+        $scope.getAdFormatIconName = function (adFormat) {
+            adFormat = adFormat || 'display';
+            var adFormatMapper = {'display': 'picture', 'video': 'film', 'rich media': 'paperclip', 'social': 'user'}
             return adFormatMapper[adFormat.toLowerCase()];
         }
         var creativeList = {
-
-            getCreativesList : function(campaignId, advertiserId, formats, query) {
+            getCreativesList: function (campaignId, advertiserId, formats, query) {
                 workflowService.getCreatives(campaignId, advertiserId, formats, query).then(function (result) {
-                    if (result.status === "OK" || result.status === "success" && result.data.data.length >0) {
+                    if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
                         $scope.creativeListLoading = false;
                         $scope.creativesNotFound = false;
                         $scope.creativeData['creatives'] = result.data.data;
@@ -35,7 +35,7 @@ var angObj = angObj || {};
                 }, creativeList.errorHandler);
             },
 
-            errorHandler : function() {
+            errorHandler: function () {
                 $scope.creativesNotFound = true;
                 $scope.creativeListLoading = false;
                 $scope.creativeData['creatives'] = [];
@@ -45,27 +45,32 @@ var angObj = angObj || {};
 
         $scope.campaignId = $routeParams.campaignId;
 
-        $scope.formatDate = function(date) {
+        $scope.formatDate = function (date) {
             return moment(date).format('MMM DD YYYY')
         }
 
-        $scope.creativeSearchFunc = function() {
+        $scope.creativeSearchFunc = function () {
             var searchVal = $scope.creativeSearch;
             var qryStr = '';
             var formats = 'VIDEO,DISPLAY'
-            if(searchVal.length >0) {
-                qryStr += '&query='+searchVal;
+            if (searchVal.length > 0) {
+                qryStr += '&query=' + searchVal;
             }
             creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, formats, qryStr);
         }
 
-        $scope.prarentHandler = function(campaignId, campaignName, advertiserId, advertiserName) {
-            $scope.creativeData= {};
-            if(campaignId && advertiserId) {
+        $scope.prarentHandler = function (campaignId, campaignName, advertiserId, advertiserName) {
+            $scope.creativeData = {};
+            if (campaignId && advertiserId) {
                 $scope.creativeListLoading = true;
                 $scope.creativesNotFound = false;
-                var campaignData = {'advertiserId' : advertiserId,'advertiserName' : advertiserName, 'clientId' : campaignId, 'clientName' : campaignName};
-                localStorage.setItem('campaignData',JSON.stringify(campaignData));
+                var campaignData = {
+                    'advertiserId': advertiserId,
+                    'advertiserName': advertiserName,
+                    'clientId': campaignId,
+                    'clientName': campaignName
+                };
+                localStorage.setItem('campaignData', JSON.stringify(campaignData));
                 $scope.campaignId = campaignId;
                 $scope.advertiserId = advertiserId;
                 $scope.creativeSearch = '';
@@ -75,101 +80,90 @@ var angObj = angObj || {};
                 $scope.creativesNotFound = true;
             }
         }
-        // Success Message Show/Hide
-        // If tag was added successfully run this
-        //$(".successMessage").delay( 300 ).animate({opacity: 1}, 'slow').delay( 1500 ).animate({opacity: 0}, 'slow');
 
-
-        $scope.ShowHideTag=function(obj){
-                        $scope.showViewTagPopup=true;
-                        $scope.popUpData=obj;
-                        //console.log(obj);
-        }
-
-        $scope.updateTag=function(context){ //console.log($scope.popUpData);
-
-            var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-            var PatternInside =  new RegExp(/<script.*(https:).*>.*<\/script>.*/);
-            var tagLower=$scope.popUpData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm,'');
-            console.log(tagLower);
-            if (tagLower.match(PatternOutside)) {
-                    $scope.updateCreative();
-            }else if (tagLower.match(PatternInside)) {
-                    $scope.updateCreative();
-            }else{
-                context.IncorrectTag = true;
-                context.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
-                console.log("Incorrect tag");
-          }
-
-        }
-        $scope.updateCreative=function(){
-             var putCrDataObj = {};
-             putCrDataObj.name = $scope.popUpData.name;
-             putCrDataObj.tag = $scope.popUpData.tag;
-             putCrDataObj.sizeId = $scope.popUpData.size.id;
-             putCrDataObj.creativeFormat = $scope.popUpData.creativeFormat;
-             putCrDataObj.creativeType = $scope.popUpData.creativeType;
-             putCrDataObj.sslEnable = "true";
-             putCrDataObj.updatedAt= $scope.popUpData.updatedAt;
-             console.log("data after forming json:");
-             console.log(putCrDataObj);
-             $scope.updateForceSaveData=putCrDataObj;
-
-             workflowService.updateCreative($scope.popUpData.clientId ,$scope.popUpData.advertiserId,$scope.popUpData.id,putCrDataObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        $scope.popUpData.updatedAt=result.data.data.updatedAt;
-                        //console.log("creative updated");
-                        $scope.showViewTagPopup=false;
-                        $scope.edittrue=true;
-
-                    }else if(result.data.data.message="Creative with this tag already exists. If you still want to save, use force save"){
-                                         $(".popup-holder").css("display","block");
-                                         $scope.IncorrectTag = false;
-                                         $scope.disableUpdateCancel=true;
-
-                    }
-                    else {
-                        $scope.IncorrectTag = true;
-                        $scope.incorrectTagMessage = "unable to update creative";
-                        console.log(result);
-                    }
-             });
-
-        }
-        $scope.editTrue=function(){
-            $scope.edittrue=false;
-            $scope.disableUpdateCancel=false;
-        }
-
-        $scope.cancelPopup=function(){
-            $scope.IncorrectTag = false;
-            $scope.showViewTagPopup=false;
-            $scope.edittrue=true;
-        }
-
-        $scope.saveDuplicate=function(){
-            workflowService.forceSaveCreatives($scope.popUpData.clientId, $scope.popUpData.advertiserId, $scope.updateForceSaveData).then(function (result) {
-            console.log(result);
+        $scope.updateCreative = function () {
+            var putCrDataObj = {};
+            putCrDataObj.name = $scope.selectedCreativeData.name;
+            putCrDataObj.tag = $scope.editableTag;
+            putCrDataObj.sizeId = $scope.selectedCreativeData.size.id;
+            putCrDataObj.creativeFormat = $scope.selectedCreativeData.creativeFormat;
+            putCrDataObj.creativeType = $scope.selectedCreativeData.creativeType;
+            putCrDataObj.sslEnable = "true";
+            putCrDataObj.updatedAt = $scope.selectedCreativeData.updatedAt;
+            $scope.updateForceSaveData = putCrDataObj;
+            workflowService.updateCreative($scope.selectedCreativeData.clientId, $scope.selectedCreativeData.advertiserId, $scope.selectedCreativeData.id, putCrDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    console.log("creative Resaved");
-                    $(".popup-holder").css("display","none");
-                    $scope.cancelPopup();
-                }else {
-                     $scope.IncorrectTag = true;
-                     $scope.incorrectTagMessage = "unable to forceSave creative";
-                     console.log(result);
+                    $scope.selectedCreativeData.updatedAt = result.data.data.updatedAt;
+                    $scope.creativeData.creatives[$scope.selectedCreativePos] = result.data.data;
+
+                    $scope.showViewTagPopup = false;
+                } else if (result.data.data.message = 'Creative with this tag already exists. If you still want to save, use force save') {
+                    $scope.showDuplicateTagPopup = true;
+                    $scope.IncorrectTag = false;
+                }
+                else {
+                    $scope.IncorrectTag = true;
+                    $scope.incorrectTagMessage = $scope.textConstants.WF_CREATIVE_TAG_UPDATE_ERROR;
                 }
             });
 
         }
-        $scope.cancelDuplicate=function(){
-            $(".popup-holder").css("display","none");
-            $scope.IncorrectTag = true;
-            $scope.incorrectTagMessage = "unable to update creative";
-            /*enable cancel, save button on cancel duplicate*/
-            $scope.disableUpdateCancel=false;
 
+        $scope.updateTag = function (context) { //console.log($scope.popUpData);
+            var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+            var PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+            var tagLower = $scope.editableTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+            if (tagLower.match(PatternOutside)) {
+                $scope.updateCreative();
+            } else if (tagLower.match(PatternInside)) {
+                $scope.updateCreative();
+            } else {
+                context.IncorrectTag = true;
+                context.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG;
+            }
+
+        }
+
+        $scope.ShowHideTag = function (obj, pos) {
+            $scope.selectedCreativeData = obj;
+            $scope.selectedCreativePos = pos;
+            $scope.showViewTagPopup = true;
+            $scope.editorEnabled = false;
+            $scope.creativeTag = obj.tag;
+        }
+
+        $scope.enableEditor = function () {
+            $scope.editorEnabled = true;
+            $scope.editableTag =  $scope.creativeTag;
+        }
+
+        $scope.disableEditor = function () {
+            $scope.IncorrectTag = false;
+            $scope.showViewTagPopup = false;
+            $scope.editorEnabled = false;
+        }
+
+        $scope.saveDuplicate = function () {
+            workflowService.forceSaveCreatives($scope.selectedCreativeData.clientId, $scope.selectedCreativeData.advertiserId, $scope.updateForceSaveData).then(function (result) {
+                console.log(result);
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.showDuplicateTagPopup = false;
+                    $scope.creativeData.creatives[$scope.selectedCreativePos] = result.data.data;
+                    $scope.disableEditor();
+                } else {
+                    $scope.IncorrectTag = true;
+                    $scope.incorrectTagMessage = $scope.textConstants.WF_CREATIVE_FORCESAVE;
+                    console.log(result);
+                }
+            });
+
+        }
+        $scope.cancelDuplicate = function () {
+            $scope.showDuplicateTagPopup = false;
+            $scope.IncorrectTag = true;
+            $scope.incorrectTagMessage = $scope.textConstants.WF_CREATIVE_TAG_UPDATE_ERROR;
+            /*enable cancel, save button on cancel duplicate*/
+            $scope.disableUpdateCancel = false;
         }
 
     });
