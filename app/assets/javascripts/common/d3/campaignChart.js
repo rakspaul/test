@@ -976,7 +976,7 @@
                         return (key != undefined ? key.toUpperCase() : value.toUpperCase());
                     },
 
-                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, totalImpressions) {
+                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, deliveryData) {
                         var _config = this.lineChartConfig;
                         var kpiType = kpiType != 'null' ? kpiType : 'NA';
                         var kpiMap = {
@@ -991,16 +991,32 @@
                         var data = [],
                             lowerPacingThreshold = [], //lower line
                             higherPacingThreshold = [], //upper line
-                            dailyPacing, upperPacing, lowerPacing;
+                            dailyPacing, upperPacing, lowerPacing,
+                            weekStart = undefined,
+                            weekEnd = undefined,
+                            totalImpressions = undefined,
+                            deliveryDays = undefined;
 
                         //for delivery as KPI
                         if(kpiType.toLowerCase() === "delivery") {
 
-                            dailyPacing = totalImpressions/lineData.length;
+
+                          if(deliveryData) {
+                              totalImpressions = deliveryData.bookedImpressions;
+                              deliveryDays = deliveryData.deliveryDays;
+                              weekStart = moment(deliveryData.endDate).subtract(6,'days'); // 1 WEEK
+                              weekEnd = moment(deliveryData.endDate);
+                          }
+
+                            dailyPacing = totalImpressions/deliveryDays;
                             //generate pacing data from impressions
                             for (var i = 0; i < lineData.length; i++) {
 
-                                if((i+1) > (lineData.length-7)) {
+                              if(moment(lineData[i].date).format('YYYY-MM-DD') >= weekStart.format('YYYY-MM-DD')
+                                && moment(lineData[i].date).format('YYYY-MM-DD') <= weekEnd.format('YYYY-MM-DD')) {
+                              //     console.log("***"+lineData[i].date);
+                              // }
+                              //   if((i+1) > (deliveryDays-7)) {
                                     //105 + 95
                                     upperPacing = (dailyPacing * (i+1)) * (1.05);
                                     lowerPacing = (dailyPacing * (i+1)) * (0.95);
@@ -1308,7 +1324,9 @@
                 var chartCallFrom = attrs.chartLocation || null;
                 var versionTag = attrs.chartTag || Math.floor(Math.random()*10000000); //to fix firefox mozilla coloring issue for clip path tagging
 
-                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, dataObj.totalImpressions),
+                var deliveryData = dataObj.deliveryData || null;
+
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, deliveryData),
                     performanceChart = false;
 
                 if(dataObj.from =="action_performance") {

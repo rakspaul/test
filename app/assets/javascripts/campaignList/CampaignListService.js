@@ -208,7 +208,12 @@
                                     kpiType: kpiType,
                                     from: 'tactics',
                                     //for delivery kpi
-                                    totalImpressions: tacticsList[obj].totalImpressions, //TODO: fix this to total impressions
+                                    deliveryData: {
+                                      "startDate" : tacticsList[obj].startDate,
+                                      "endDate" : tacticsList[obj].endDate,
+                                      "deliveryDays": momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate),
+                                      "bookedImpressions": tacticsList[obj].totalImpressions
+                                    }
                                 };
                             }
                         }
@@ -330,7 +335,12 @@
                                     kpiType: sKpiType,
                                     from: 'strategy',
                                     //for delivery kpi
-                                    totalImpressions: strategyList[obj].totalImpressions, //TODO: fix this to total impressions from API call
+                                    deliveryData: {
+                                      "startDate" : strategyList[obj].startDate,
+                                      "endDate" : strategyList[obj].endDate,
+                                      "deliveryDays": momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate),
+                                      "bookedImpressions": strategyList[obj].totalImpressions
+                                    }
                                 };
                             }
                         }
@@ -469,7 +479,12 @@
                                     kpiType: campaignObject.kpiType,
                                     from: 'campaign',
                                     //for delivery kpi
-                                    totalImpressions: campaignObject.total_impressions,
+                                    deliveryData: {
+                                      "startDate" : campaignObject.startDate,
+                                      "endDate" : campaignObject.endDate,
+                                      "deliveryDays": momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate),
+                                      "bookedImpressions": campaignObject.total_impressions
+                                    }
                                 };
                             }
                         }
@@ -529,8 +544,8 @@
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
                         //TODO: set default to DELIVERY if null or undefined
                         if (campaign.kpi_type == 'null') {
-                            campaign.kpi_type = 'CTR';
-                            campaign.kpiType = 'CTR';
+                            campaign.kpi_type = 'DELIVERY';
+                            campaign.kpiType = 'DELIVERY';
                             campaign.kpi_value = 0;
                             campaign.kpiValue = 0;
                         }
