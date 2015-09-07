@@ -94,10 +94,11 @@ a {
   font-weight: lighter;
   display: block;
 }
-.main_navigation_holder .main_nav {
+/*Commented because it is getting affected in Reporting as well*/
+/*.main_navigation_holder .main_nav {
   width: 1200px;
   padding: 0 30px;
-}
+}*/
 .preloader {
   position: absolute;
   top: 48%;

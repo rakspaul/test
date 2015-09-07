@@ -2820,3 +2820,87 @@ input[type="submit"] {
 .nav_filters .dropdown-menu li:hover {
   background: #F5F9FD;
 }
+.dropdown_filters_holder {
+  margin: 10px 0 ;
+}
+.quick_filters_holder .filters_selection_holder {
+  padding: 10px 0 ;
+  border-top: solid 1px #d2dee7 ;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter {
+  position: relative;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_btn {
+  border: solid 1px #d2dee7 ;
+  padding: 10px ;
+  cursor: pointer;
+  border-radius: 4px ;
+  -moz-border-radius: 4px ;
+  -webkit-border-radius: 4px ;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container {
+  position: absolute;
+  top: -10px;
+  left: 0px;
+  width: 207px;
+  border: solid 1px #ccc;
+  z-index: 100;
+  background-color: #fff;
+  min-height: 300px;
+  padding: 14px 0;
+  box-shadow: 2px 0 4px #ccc;
+  -moz-box-shadow: 2px 0 4px #ccc;
+  -webkit-box-shadow: 2px 0 4px #ccc;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section {
+  border-bottom: solid 1px #ccc ;
+  padding: 10px 0 ;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .filter_title {
+  font-family: "Avenir-bold";
+  color: #939eae;
+  font-size: 12px;
+  padding: 0px 10px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter {
+  margin-bottom: 16px ;
+  padding: 0px 14px ;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter .number {
+  text-align: center;
+  font-size: 12px;
+  border-radius: 30%;
+  -moz-border-radius: 30%;
+  -webkit-border-radius: 20px;
+  border: solid 1px #ccc;
+  min-width: 30px;
+  height: 16px;
+  line-height: 14px;
+  margin-top: 2px;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter:hover {
+  color: #0978c9 ;
+  background: #f5f9fd ;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section:last-child {
+  border-bottom: 0px ;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .main_title {
+  font-size: 18px;
+  font-family: "Avenir-bold";
+  padding: 0 18px 10px 14px;
+}
+.quick_filters_holder .filters_selected_holder {
+  background: #f5f9fd ;
+  padding: 6px 0 ;
+  border-top: solid 1px #d2dee7 ;
+  border-bottom: solid 1px #d2dee7 ;
+}
+.quick_filters_holder .filters_selected_holder .each_selected_filter {
+  margin-right: 20px ;
+}
+.quick_filters_holder .filters_selected_holder .each_selected_filter .heading {
+  color: #57606d ;
+}
