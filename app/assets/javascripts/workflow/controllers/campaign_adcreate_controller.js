@@ -47,8 +47,10 @@ var angObj = angObj || {};
             localStorage.setItem('campaignData',JSON.stringify(campaignData))
         };
 
-        $scope.checkForPastDate = function(date) {
-            return moment().isAfter(date, 'day');
+        $scope.checkForPastDate = function(startDate, endDate) {
+            var startDate = moment(startDate).format("MM/DD/YYYY");
+            var endDate = moment(endDate).format("MM/DD/YYYY");
+            return moment().isAfter(startDate, 'day') || moment().isAfter(endDate, 'day')
         };
 
         var campaignOverView = {
@@ -63,8 +65,6 @@ var angObj = angObj || {};
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
-                        $scope.campaignEndTime = campaignEndTime;
-                        //campaignOverView.getTaggedCreatives(campaignId, responseData.id);
                     }
                     else {
                         campaignOverView.errorHandler(result);
