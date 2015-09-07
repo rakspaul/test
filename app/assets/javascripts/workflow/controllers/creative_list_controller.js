@@ -22,8 +22,8 @@ var angObj = angObj || {};
         }
         var creativeList = {
 
-            getCreativesList : function(campaignId, advertiserId, query) {
-                workflowService.getCreatives(campaignId, advertiserId, query).then(function (result) {
+            getCreativesList : function(campaignId, advertiserId, formats, query) {
+                workflowService.getCreatives(campaignId, advertiserId, formats, query).then(function (result) {
                     if (result.status === "OK" || result.status === "success" && result.data.data.length >0) {
                         $scope.creativeListLoading = false;
                         $scope.creativesNotFound = false;
@@ -38,6 +38,8 @@ var angObj = angObj || {};
             errorHandler : function() {
                 $scope.creativesNotFound = true;
                 $scope.creativeListLoading = false;
+                $scope.creativeData['creatives'] = [];
+                $scope.creativeData['creatives_count'] = 0;
             }
         };
 
@@ -50,15 +52,11 @@ var angObj = angObj || {};
         $scope.creativeSearchFunc = function() {
             var searchVal = $scope.creativeSearch;
             var qryStr = '';
-            if(searchVal.length >2) {
-                qryStr += '?creativeFormat=VIDEO,display&query='+searchVal;
-                creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, qryStr);
+            var formats = 'VIDEO,DISPLAY'
+            if(searchVal.length >0) {
+                qryStr += '&query='+searchVal;
             }
-
-            if(searchVal.length === 0) {
-                creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, qryStr);
-            }
-
+            creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, formats, qryStr);
         }
 
         $scope.prarentHandler = function(campaignId, campaignName, advertiserId, advertiserName) {

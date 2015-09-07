@@ -68,16 +68,10 @@
                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives?forceSave=true', data, {'Content-Type': 'application/json'})
             },
 
-            getCreatives :  function(clientId, advertiserId, query) {
+            getCreatives :  function(clientId, advertiserId, formats, query) {
                 var queryStr = query ? query : '';
-                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives'+queryStr;
-                return dataService.fetch(url);
-            },
-
-            getCreativesFromLibrary:function(clientId, advertiserId,format) {
-                console.log("clientID:"+clientId+"advertiserId:"+advertiserId);
-                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives?creativeFormat='+format;
-                console.log("url:"+url);
+                var creativeFormats = formats ? '?creativeFormat='+formats : ''
+                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives'+ creativeFormats+ queryStr;
                 return dataService.fetch(url);
             },
 

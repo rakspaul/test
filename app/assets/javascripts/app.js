@@ -88,31 +88,71 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create,
                 title :  'Create - Campaign',
                 controller: 'CreateCampaignController',
-                css: assets.css_visto_application
+                css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
             })
             .when('/campaign/:campaignId/overview', {
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
                 controller: 'CampaignOverViewController',
-                css: assets.css_visto_application
+                css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
             })
             .when('/campaign/:campaignId/ads/create', {
                 templateUrl: assets.html_campaign_create_adBuild,
                 title :  'Campaign - Ad Create',
                 controller: 'CampaignAdsCreateController',
-                css: assets.css_visto_application
+                css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
             })
             .when('/creative/add', {
                 templateUrl: assets.html_creative,
                 title :  'Add Creative',
-                css: assets.css_visto_application
-                //controller: ''
+                css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
             })
             .when('/creative/list', {
                 templateUrl: assets.html_creative_list,
                 title :  'Creative List',
                 controller: 'creativeListController',
-                css: assets.css_visto_application
+                css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
+
             })
             .when('/help', {
                 templateUrl: assets.html_help,
@@ -131,12 +171,12 @@ var angObj = '';
         }
     ]);
 
-   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
+   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService) {
         $rootScope.version = version;
 
 
 
-        var handleLoginRedirection = function(isNetworkUser) {
+        var handleLoginRedirection = function(isNetworkUser, isWorkflowUser) {
             var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
 
             if($cookieStore.get(constants.COOKIE_SESSION)) {
@@ -144,11 +184,11 @@ var angObj = '';
                 if(cookieRedirect) {
                     cookieRedirect = cookieRedirect.replace("/", '');
                 }
-                if(isNetworkUser && cookieRedirect && cookieRedirect !== 'dashboard')  {
+                if((isNetworkUser || isWorkflowUser) && cookieRedirect && cookieRedirect !== 'dashboard')  {
                     $location.url(cookieRedirect);
                     $cookieStore.remove(constants.COOKIE_REDIRECT);
                 } else {
-                    setDefaultPage = isNetworkUser ? 'campaigns' : 'dashboard';
+                    setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard';
                     $location.url(setDefaultPage);
                 }
             }
@@ -156,6 +196,9 @@ var angObj = '';
 
         var loginCheckFunc = function() {
             var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
+            if( RoleBasedService.getUserRole()) {
+                var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+            }
             var isNetworkUser = (networkUser === 'true' || networkUser === true);
             var locationPath = $location.path();
 
@@ -171,7 +214,7 @@ var angObj = '';
             /* if  cost modal is opaque and some one trying to access cost direclty from the url */
             var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
             if(!isAgencyCostModelTransparent && locationPath === '/cost') {
-                $location.url(isNetworkUser ? 'campaigns' : 'dashboard');
+                $location.url((isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard');
             }
 
             /* if some one try to change the authorization key or delete the key manually*/
@@ -184,7 +227,7 @@ var angObj = '';
              case- submit login button, cookie expire aur unauthorize */
 
             if (locationPath === '/login' || locationPath === '/') {
-                handleLoginRedirection(isNetworkUser);
+                handleLoginRedirection(isNetworkUser, isWorkflowUser);
             }
 
             /*
@@ -192,7 +235,7 @@ var angObj = '';
              will check from cookie if its a network user then will redirect to deafult page which in this is campaign;
              */
 
-            if(isNetworkUser && locationPath === '/dashboard') {
+            if((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') {
                 $location.url('campaigns');
             }
         }

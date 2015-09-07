@@ -3,17 +3,16 @@
  */
 (function() {
     commonModule.factory("RoleBasedService", [function () {
-        //var userRole;
         var getUserRole = function() {
-
-            var userType = localStorage.getItem('userType');// stored onto local storage on login api call response
+            var userType = JSON.parse(localStorage.getItem('userRoleObj'));
             return userType;
         };
 
         var setUserRole = function(response) {
-            //localStorage.setItem('userType', false); //called on login
-            localStorage.setItem('userType', response.data.data.is_workflow_user);  //take from API
-
+            var userRoleObj = {
+                'workFlowUser' : true//response.data.data.is_workflow_user === 'true' ? true : false
+            };
+            localStorage.setItem('userRoleObj', JSON.stringify(userRoleObj));
         };
 
         return {
