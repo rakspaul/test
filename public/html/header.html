@@ -11,9 +11,9 @@
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
         <a href="/campaigns">{{textConstants.CAMPAIGNS}}</a>
       </div>
-      <!--<div class="pull-left each_nav_link" id="creative_nav_link">-->
-        <!--<a href="/creative">Creative</a>-->
-      <!--</div>-->
+      <div class="pull-left each_nav_link" id="creative_nav_link" ng-show="isWorkFlowUser">
+        <a href="/creative/list">{{textConstants.CREATIVES}}</a>
+      </div>
       <div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">
         <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')">{{textConstants.REPORTS}}</a>
         <div class="reports_header_tabs_holder clearfix">

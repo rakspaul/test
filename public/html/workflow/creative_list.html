@@ -98,6 +98,9 @@
 			<div ng-show="creativesNotFound" class="emptyCreativeList">
 			    <span>Data not available</span>
 			</div>
+
+			<div ng-show="creativeListLoading" class="common-load-more"></div>
+
 			</div>
 		</div>
 
@@ -144,6 +147,6 @@
 		</div>
 	</div> <!-- end of popup-holder -->
 </div>
-<img src="/assets/images/workflow/preloader.gif" ng-show="creativeListLoading" alt="Loading" width="31" class="preloader"/>
+
 
 
