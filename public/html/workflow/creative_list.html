@@ -109,8 +109,8 @@
 			    <h1 class="pull-left">{{selectedCreativeData.name}}</h1>
 			    <span class="close unselectable" aria-hidden="true" ng-click="disableEditor()">x</span>
 		    </div>
-			<div class="textarea_edit_holder">
-				<div ng-hide="editorEnabled" ng-click="enableEditor()">
+			<div class="textarea_editable_holder"  ng-click="enableEditor()">
+				<div ng-hide="editorEnabled">
 					{{creativeTag}}
 					<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ></span>
 				</div>
@@ -118,10 +118,14 @@
 				<div ng-show="editorEnabled">
 					<textarea rows="15" name="tag" id="tag" ng-model="editableTag" required ng-show="editorEnabled">{{editableTag}}</textarea>
 					<div ng-show="IncorrectTag" class="customErrorLabel">{{incorrectTagMessage}}</div>
-					<button type="button" class="common_primary_btn pull-right"  id="updateTag" ng-click="updateTag(this)">Update Tag</button>
-					<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
+
 				</div>
 			</div>
+			<div class="clearfix"  ng-show="editorEnabled">
+				<button type="button" class="common_primary_btn pull-right"  id="updateTag" ng-click="updateTag(this)">Update Tag</button>
+				<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
+			</div>
+
 		</div>
     </div>
 
