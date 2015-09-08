@@ -159,7 +159,7 @@
 
         var checkZipCodes =  function(zipCodes, codeList) {
             codeList = codeList || [];
-            var zipCode = zipCodes.split(" ");
+            var zipCode = zipCodes.split(/[ ,]+/);
             var inValidCode = [];
             var validCode = [];
             _.each(zipCode, function(code) {
