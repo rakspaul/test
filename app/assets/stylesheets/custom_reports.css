@@ -383,25 +383,23 @@
   overflow: hidden;
   text-overflow: ellipsis ;
   cursor: pointer;
-}
-.reports_list_page .each-col:hover .common-sort-icon {
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
-}
-.reports_list_page .each-col.active,
-.reports_list_page .each-col.active:hover {
-  color: #0978c9 ;
+  /*    &:hover {
+      .common-sort-icon {
+          background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
+      }
+    }*/
 }
 .reports_list_page .nav_filters {
   margin-bottom: 30px ;
 }
 .reports_list_page .update-time-col {
-  width: 68px ;
+  width: 70px ;
 }
 .reports_list_page .report-type-col {
-  width: 90px ;
+  width: 94px ;
 }
 .reports_list_page .campaign-col {
-  width: 506px ;
+  width: 500px ;
 }
 .reports_list_page .author-col {
   width: 140px ;
