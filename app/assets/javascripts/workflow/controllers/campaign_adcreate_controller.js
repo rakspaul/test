@@ -231,6 +231,7 @@ var angObj = angObj || {};
             $(target).css('bottom', '-' + $(window).width() + 'px');
             var bottom = $(target).offset().bottom;
             $(target).css({bottom: bottom}).animate({"bottom": "0px"}, "10");
+            $scope.$broadcast('closeAddCreativePage');
         });
 
 

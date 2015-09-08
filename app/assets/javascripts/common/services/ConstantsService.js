@@ -367,6 +367,9 @@
     this.WF_CREATIVE_FORCESAVE = 'Unable to forceSave creative';
     this.WF_VIEW_TAG_LABEL ='View Tag';
     this.WF_ADD_TARGETING_LABEL ='Add Targeting';
+    this.WF_CREATIVE_FORMAT_LABEL ='Creative Format'
+    this.WF_MANDATORY_CREATIVE_FORMAT ="Please select the creative format.";
+    this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";
