@@ -56,49 +56,39 @@
 				  </tr>
 				</thead>
 				<tbody>
-					<!--Test 1-->
 					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives">
-					<!--Column 1-->
 					<td>
 						<span class="col-md-1"><input type="checkbox" value="{{$index+1}}" /></span>
 						<div class="col-md-11">
 							<p class="col-md-12">{{creativeData.size.size}}</p>
 						</div>
 					</td>
-					<!--Column 2-->
 					<td>
 						<span class="glyphicon glyphicon-{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
 					</td>
-					<!--Column 3-->
 					<td>
 						<span class="col-md-8">{{creativeData.name}}</span>
-						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData)">View Tag</a>
+						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{textConstants.WF_VIEW_TAG_LABEL}}</a>
 						<div class="script_tag">
 							<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
 							<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
 						</div>
 					</td>
-					<!--Column 4-->
 					<td>
 						<span class="col-md-12">{{creativeData.creativeType}}</span>
 					</td>
-					<!--Column 5-->
 					<td>
 						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 					</td>
-					<!--Column 6-->
 					<td>
 						<span> - </span>
 					</td>
-					<!--Column 7-->
 					<td>
 						<span>{{creativeData.noOfCampaigns}}</span>
 					</td>
-					<!--Column 8-->
 					<td>
 						<span>{{creativeData.noOfAds}}</span>
 					</td>
-					<!--Column 9-->
 					<td>
 						<span>{{formatDate(creativeData.createdAt)}}</span>
 					</td>
@@ -112,78 +102,43 @@
 		</div>
 
 		<div class="spacingInput"></div>
-
-		<!--<div class="bottomPagination">
-			<div class="col-md-6 zeroPadding">
-			<span class="pull-left" style="padding: 6px 10px 0 0">Show</span>
-			<div class="col-md-3 zeroPadding">
-				<select class="form-control">
-				<option>50 rows</option>
-				<option>75 rows</option>
-				<option>100 rows</option>
-				<option>200 rows</option>
-				<option>300 rows</option>
-				</select>
-			</div>
-			</div>
-
-			<div class="col-md-6 zeroPadding">
-			<nav class="pull-right">
-				<ul class="pagination">
-				  <li>
-				<a href="#" aria-label="Previous">
-				  <span aria-hidden="true">&laquo;</span>
-				</a>
-				  </li>
-				  <li class="active"><a href="#">1</a></li>
-				  <li><a href="#">2</a></li>
-				  <li><a href="#">3</a></li>
-				  <li><a href="#">4</a></li>
-				  <li><a href="#">5</a></li>
-				  <li>
-				<a href="#" aria-label="Next">
-				  <span aria-hidden="true">&raquo;</span>
-				</a>
-				  </li>
-				</ul>
-			</nav>
-			<span class="pull-right" style="padding: 6px 10px 0 0">1-50 of 364</span>
-			</div>
-		</div>-->
-    </div>
-    
     <!--Modal View Starts Here-->
     <div class="popContainerHolder" ng-show="showViewTagPopup">
 		<div class="popContainer">
 			<div class="clearfix">
-			    <h1 class="pull-left">{{popUpData.name}}</h1>
-			    <span class="close unselectable" aria-hidden="true" ng-click="cancelPopup()">x</span>
+			    <h1 class="pull-left">{{selectedCreativeData.name}}</h1>
+			    <span class="close unselectable" aria-hidden="true" ng-click="disableEditor()">x</span>
 		    </div>
-		    <div class="textarea_edit_holder">
-				<textarea rows="15" name="tag" id="tag" data-ng-model="popUpData.tag" ng-readonly="edittrue" required>{{popUpData.tag}}</textarea><div ng-show="IncorrectTag">{{incorrectTagMessage}}</div>
-				<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ng-click="editTrue()"></span>
+			<div class="textarea_editable_holder"  ng-click="enableEditor()">
+				<div ng-hide="editorEnabled">
+					{{creativeTag}}
+					<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ></span>
+				</div>
+
+				<div ng-show="editorEnabled">
+					<textarea rows="15" name="tag" id="tag" ng-model="editableTag" required ng-show="editorEnabled">{{editableTag}}</textarea>
+					<div ng-show="IncorrectTag" class="customErrorLabel">{{incorrectTagMessage}}</div>
+
+				</div>
 			</div>
-			<!--<pre>{{popUpData.tag}}</pre>-->
-			<button type="button" class="common_primary_btn pull-right" ng-disabled="disableUpdateCancel" id="updateTag" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>
-			<button type="button" class="secondary_txt pull-right" ng-disabled="disableUpdateCancel" id="cancelUpdate" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>
-		    <!--<button type="button" class="common_primary_btn pull-right" id="updateTag" ng-click="updateTag(this)" ng-hide="edittrue">Update Tag</button>-->
-		    <!--<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="cancelPopup()" ng-hide="edittrue">Cancel</button>-->
+			<div class="clearfix"  ng-show="editorEnabled">
+				<button type="button" class="common_primary_btn pull-right"  id="updateTag" ng-click="updateTag(this)">Update Tag</button>
+				<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
+			</div>
+
 		</div>
     </div>
 
-	<div class="about_popup popup-holder" style="display:none;">
+	<div class="about_popup popup-holder" ng-show="showDuplicateTagPopup">
 		<div class="modal-header">
-			<!-- <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span> -->
-			<h2 class="modal-title">Duplicate Tag</h2>
+			<h2 class="modal-title">{{textConstant.WF_DUPLICATE_TAG}}</h2>
 		</div>
 		<div class="modal-body">
 			<div class="data_row">
-				This tag already exists in your Creative Tag Library. Save as a new Creative anyway?
+				{{textConstants.WF_CREATIVE_TAG_ALREADY_EXISTS}}
 			</div>
 		</div><!-- end of modal_body -->
 		<div class="clearfix popup-btns-holder">
-			<!--<span class="common_primary_btn" id="saveDuplicate">Save</span>-->
-			<!--<span class="secondary_txt" id="cancelDuplicate">Cancel</span>-->
 			<span class="common_primary_btn" ng-click="saveDuplicate()">Save</span>
 			<span class="secondary_txt" ng-click="cancelDuplicate()">Cancel</span>
 		</div>

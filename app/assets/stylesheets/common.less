@@ -318,7 +318,7 @@
       z-index: 1;
       display: inline-block;
     }
-    .textarea_edit_holder {
+    .textarea_edit_holder , .textarea_editable_holder {
       position: relative;
       .activity_edit {
         position: absolute;
@@ -330,11 +330,24 @@
         width: 20px ;
         background: url("/assets/images/cdesk/edit_blue.png") no-repeat right top ;
       }
+    }
+    .textarea_edit_holder {
       textarea {
         border: solid 1px #007ac9 ;
         padding: 20px;
         margin: 0px 0 20px;
         width: 100% ;
+      }
+    }
+    .textarea_editable_holder {
+      border: solid 1px #007ac9 ;
+      padding: 20px;
+      margin: 0px 0 20px;
+      width: 100% ;
+      min-height : 415px ;
+      textarea {
+        border: 0;
+        width: 100%;
       }
     }
   }

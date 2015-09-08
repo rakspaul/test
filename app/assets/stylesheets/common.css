@@ -303,10 +303,12 @@
   z-index: 1;
   display: inline-block;
 }
-.popContainerHolder .popContainer .textarea_edit_holder {
+.popContainerHolder .popContainer .textarea_edit_holder,
+.popContainerHolder .popContainer .textarea_editable_holder {
   position: relative;
 }
-.popContainerHolder .popContainer .textarea_edit_holder .activity_edit {
+.popContainerHolder .popContainer .textarea_edit_holder .activity_edit,
+.popContainerHolder .popContainer .textarea_editable_holder .activity_edit {
   position: absolute;
   top: 10px ;
   right: 10px ;
@@ -321,6 +323,17 @@
   padding: 20px;
   margin: 0px 0 20px;
   width: 100% ;
+}
+.popContainerHolder .popContainer .textarea_editable_holder {
+  border: solid 1px #007ac9 ;
+  padding: 20px;
+  margin: 0px 0 20px;
+  width: 100% ;
+  min-height: 415px ;
+}
+.popContainerHolder .popContainer .textarea_editable_holder textarea {
+  border: 0;
+  width: 100%;
 }
 /*end of popup using css*/
 /*end of common popup styling */
