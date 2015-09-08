@@ -554,6 +554,9 @@
   opacity: 0.3;
   font-size: 0;
 }
+.common_primary_btn.disabled {
+  opacity: 0.65;
+}
 /*end of primary button changing to loading */
 /*end of common buttons i.e primary,secondary,etc */
 /*Navigation filters which contains Brands, Campaigns, and Strategy*/
