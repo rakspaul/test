@@ -399,6 +399,7 @@ var angObj = angObj || {};
                 workflowService.getCreatives(clientID, adID, format, query).then(function (result) {
                     if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
                         var responseData = result.data.data;
+                        $scope.creativeListLoading = false;
                         $scope.creativesLibraryData['creativesData'] = addFromLibrary.modifyCreativesData(responseData);
                     }
                     else {
@@ -408,6 +409,7 @@ var angObj = angObj || {};
             },
             errorHandler: function (errData) {
                 $scope.creativesLibraryData['creativesData'] = [];
+                $scope.creativeListLoading = false;
             }
         };
 
@@ -427,6 +429,7 @@ var angObj = angObj || {};
             var campaignId = $scope.workflowData['campaignData'].clientId;
             var advertiserId = $scope.workflowData['campaignData'].advertiserId;
             $scope.showHidePopup = true;
+            $scope.creativeListLoading = true;
             addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, $scope.adData.adFormat.toUpperCase());
         })
 
