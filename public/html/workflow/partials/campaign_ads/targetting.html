@@ -87,7 +87,10 @@
                 
                     <div class="clearfix list_head">
                         <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col">City</div>
-                        <div class="pull-left list_val_col">Region</div>
+                        <div class="pull-left list_val_col"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
+                            <span class="pull-left">Region</span>
+                            <span class="common-sort-icon" style="display:none;"></span> <!-- add "descending" or "ascending" whenever sorted  and remove display:none -->
+                        </div>
                     </div>
                 </div>
             <div id="regions" class="tab-pane active contentBox">

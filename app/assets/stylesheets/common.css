@@ -40,18 +40,39 @@
   width: 10px;
   margin-left: 5px;
 }
-/*.common-sort-icon.ascending {*/
-/*background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;*/
-/*}*/
-/*.common-sort-icon.descending {*/
-/*background : url("/assets/images/cdesk/sprites.png") no-repeat  -430px -351px;*/
-/*}*/
-.active .common-sort-icon.ascending,
-.active:hover .common-sort-icon.ascending {
+.sort-icon-holder {
+  cursor: pointer;
+}
+.sort-icon-holder .common-sort-icon.ascending,
+.sort-icon-holder .common-sort-icon.descending {
+  display: none;
+}
+.sort-icon-holder .common-sort-icon.ascending {
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
+}
+.sort-icon-holder .common-sort-icon.descending {
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -430px -351px;
+}
+.sort-icon-holder:hover > .common-sort-icon.ascending,
+.sort-icon-holder:hover > .common-sort-icon.descending {
+  display: inline-block;
+}
+.sort-icon-holder.active,
+.sort-icon-holder.active:hover {
+  color: #0978c9;
+}
+.sort-icon-holder.active .common-sort-icon.ascending,
+.sort-icon-holder.active:hover .common-sort-icon.ascending,
+.sort-icon-holder.active .common-sort-icon.descending,
+.sort-icon-holder.active:hover .common-sort-icon.descending {
+  display: inline-block;
+}
+.sort-icon-holder.active .common-sort-icon.ascending,
+.sort-icon-holder.active:hover .common-sort-icon.ascending {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -414px;
 }
-.active .common-sort-icon.descending,
-.active:hover .common-sort-icon.descending {
+.sort-icon-holder.active .common-sort-icon.descending,
+.sort-icon-holder.active:hover .common-sort-icon.descending {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px;
 }
 /*end of common sort icon */
