@@ -19,14 +19,12 @@
             </div>
         </div>
         <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            {{geoTargetName ? geoTargetName : 'Add Targeting'}}
+            {{textConstants.WF_ADD_TARGETING_LABEL}}
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <!--Abi to disable something in the DDL just add (class="disabled") to the li elements-->
-            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable}">
-                <a ng-href="javascript:void(0);" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}}</a>
-            </li>
+            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="geoTargetName === geoTarget.name"> (Added)</span></li>
         </ul>
     </div>
 </div>
