@@ -30,20 +30,20 @@
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 
                 <div class="form-group col-md-2">
-                    <label for="sel1">Creative Format</label>
+                    <label for="sel1">{{textConstants.WF_CREATIVE_FORMAT_LABEL}}</label>
                     <select class="form-control" id="sel1" name="creativeFormat">
                         <option selected="selected" value="display">Display</option>
                         <option disabled="disabled" value="video">Video</option>
                         <option disabled="disabled" value="richMedia">Rich Media</option>
                         <option disabled="disabled" value="social">Social</option>
                     </select>
-                    <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the creative format.</label>
+                    <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>
                 </div>
 
                 <div class="form-group col-md-8" show-errors='{showSuccess: true}'>
                     <label for="name">Name</label>
                     <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" required>
-                    <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the creative.</label>
+                    <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                 </div>
 
                 <div class="form-group col-md-12" show-errors='{showSuccess: true}'>
@@ -55,7 +55,7 @@
                     <span class="col-md-4 previewBtn">Preview</span>
 
                     <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a comment for the creative.</label>
-                    <div ng-show="IncorrectTag">{{incorrectTagMessage}}</div>
+                    <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
 
                 </div>
 
