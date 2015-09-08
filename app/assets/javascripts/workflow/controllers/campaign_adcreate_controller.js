@@ -1006,8 +1006,8 @@ var angObj = angObj || {};
         };
 
         $scope.deleteGeography = function() {
-            $(".targettingSelected").slideDown();
-            $(".targettingFormWrap").show();
+            $(".targettingSelected").hide();
+            $(".targettingFormWrap").slideDown();
             resetTargetingVariables();
             $scope.resetSwitch();
         };

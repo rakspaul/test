@@ -366,6 +366,7 @@
     this.WF_CREATIVE_TAG_UPDATE_ERROR = 'Unable to update creative';
     this.WF_CREATIVE_FORCESAVE = 'Unable to forceSave creative';
     this.WF_VIEW_TAG_LABEL ='View Tag';
+    this.WF_ADD_TARGETING_LABEL ='Add Targeting';
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";

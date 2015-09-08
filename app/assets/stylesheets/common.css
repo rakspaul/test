@@ -819,6 +819,14 @@
 #campaignCreate .dropdown-menu li:hover {
   background: #F5F9FD;
 }
+.nav_filters .dropdown-menu li.disabled,
+#campaignCreate .dropdown-menu li.disabled {
+  color: #999 ;
+}
+.nav_filters .dropdown-menu li.disabled:hover,
+#campaignCreate .dropdown-menu li.disabled:hover {
+  background: transparent;
+}
 /*End of Navigation filters which contains Brands, Campaigns, and Strategy*/
 /*Main top navigation*/
 .main_navigation_holder {
