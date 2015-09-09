@@ -1441,11 +1441,20 @@ button, i, input[type="submit"] {
         .common_tooltip {
           color: #fff ;
           font-size: 14px ;
-          width: 180px;
-          padding: 14px 18px 10px;
+          width: 200px;
+          padding: 18px 18px 15px;
           text-align: left;
           bottom: 28px;
-          left: -80px;
+          left: -92px;
+          .target_zone {
+            margin-bottom: 18px;
+            .target_zone_lines {
+              height: 10px ;
+              border-bottom : dashed 1px #DDE6EB ;
+              border-top : dashed 1px #DDE6EB ;
+              margin-bottom: 5px;
+            }
+          }
           .legend_line {
             border-top : solid 2px #0978c9 ;
             padding-top: 3px ;
@@ -1453,11 +1462,11 @@ button, i, input[type="submit"] {
           }
           .underperformance_line {
             border-color: #ef4649 ;
-            margin-top: 12px ;
+            margin-top: 18px ;
           }
         }
         .common_tooltip:after {
-            left: 78px;
+            left: 90px;
         }
       }
     }
