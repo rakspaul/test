@@ -11,6 +11,7 @@ var angObj = angObj || {};
         $scope.creativesLibraryData = {};
         $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
+        $scope.adGroupId = $routeParams.adGroupId;
         $scope.selectedArr = [];
         $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
@@ -99,6 +100,13 @@ var angObj = angObj || {};
             },
 
             saveAds: function (postDataObj) {
+                    //console.log(window.location.href);
+                if(window.location.href.indexOf("adGroup")>-1)
+                {
+                    postDataObj.adGroupId=$scope.adGroupId;console.log(postDataObj);
+                }//save adGroup Ad
+
+
                 if ($scope.adId) {
                     postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
