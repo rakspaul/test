@@ -596,7 +596,7 @@
   margin-right: .75%;
   margin-bottom: 1%;
   min-height: 371px;
-  background: #fff;
+  background: #F7FAFF;
   position: relative;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
@@ -1246,6 +1246,12 @@
 #campaignCreate .popCreativeLib .creativeLib .headerLib a {
   float: left;
   clear: left;
+}
+#campaignCreate .popCreativeLib .creativeLib .popFooter {
+  padding: 20px 30px;
+  background: #F5F9FD;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 #campaignCreate .newCreativeSlide .hideRightPanel {
   display: none !important;
