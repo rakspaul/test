@@ -1950,6 +1950,9 @@
 .adCreateMaster #targetting .targettingSelected .tsBody .data_list {
   margin: 4px 0 ;
 }
+.adCreateMaster #targetting .targettingSelected .tsBody .total_data_holder:last-child {
+  border: 0 ;
+}
 .adCreateMaster #targetting .targettingSelected .tsBody .less_data .data_list {
   display: none;
 }
