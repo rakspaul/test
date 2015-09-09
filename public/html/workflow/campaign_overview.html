@@ -119,7 +119,7 @@
                         <div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
 <!--Start of group individual ads into groups-->
                         <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
-                        <form id="createIndividualAdGrp">
+                        <form id="createIndependantAdsGroup">
                             <div class="adGroupCreateForm">
                                 <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
                                 <div class="col-md-6 zeroPadding">
@@ -136,12 +136,11 @@
                                         <div class="col-md-12 dateWrapper form-group zeroPadding" style="margin-left: -5px;">
                                             <div class="col-md-2" style="width: 150px; padding: 0 5px;">
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                                <input type="text" id="adGrpStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="workflowData.campaignData.startTime" ng-disabled="checkForPastDate(campaignEndTime)" ng-change="handleFlightDate(workflowData.campaignData)" required/>
+                                                <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="lowestStartTime" required/>
                                             </div>
                                             <div class="col-md-2" style="width: 150px; padding: 0 5px;">
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                                                <input type="text" id="adGrpEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  disabled="disabled" name="endTime" required/>
-                                            </div>
+                                                <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="endTime" ng-model="highestEndTime"  required/>                                            </div>
                                             <label class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                         </div>
                                         <span class="col-md-12 input-group-addon">
@@ -156,7 +155,7 @@
                                 </div>
 
                                 <div class="col-md-6 zeroPadding">
-                                    <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-click="createAdGroup()">Create Ad Group</button>
+                                    <button type="submit" class="btn btn-primary pull-right" id="groupIndividual" ng-click="createIndependantAdsGroup()">Create Ad Group</button>
                                 </div>
                             </div>
                         </form>
