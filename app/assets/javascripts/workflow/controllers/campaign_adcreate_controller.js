@@ -49,9 +49,8 @@ var angObj = angObj || {};
         };
 
         $scope.checkForPastDate = function(startDate, endDate) {
-            var startDate = moment(startDate).format("MM/DD/YYYY");
             var endDate = moment(endDate).format("MM/DD/YYYY");
-            return moment().isAfter(startDate, 'day') || moment().isAfter(endDate, 'day')
+            return  moment().isAfter(endDate, 'day')
         };
 
         var campaignOverView = {
@@ -63,6 +62,9 @@ var angObj = angObj || {};
                         saveDataInLocalStorage(responseData);
                         var startDateElem = $('#startDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
+                        if(moment().isAfter(campaignStartTime, 'day')) {
+                            campaignStartTime = moment().format('DD/MM/YYYY');
+                        }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
