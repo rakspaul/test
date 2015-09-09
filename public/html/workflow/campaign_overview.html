@@ -106,15 +106,29 @@
                     </div>
                 </div>
                 
+                <!--Abi this is just a copy of the empty container you requested-->
                 <div class="col-md-12 adContainer">
                     <div id="createAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'" ng-controller="createAdGroups"></div>
                     <!--=== Group Ad ===-->
                     <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "getAdgroupsController"></div>
 
+                    <div class="adGroupSelectionWrap">
+                        <div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
+                        <!--=== Create BTN Ad ===-->
+                        <div class="col-md-3 adModule adCreateBtn">
+                            <div class="col-md-12">
+                                <a ng-href="#" ng-click="navigateToAdCreatePage()"
+                                   class="col-md-12 text-center addMaster">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    <h1>Create Ad</h1>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="adGroupSelectionWrap">
                         <div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
-<!--Start of group individual ads into groups-->
+                        <!--Start of group individual ads into groups-->
                         <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
                         <form id="createIndependantAdsGroup">
                             <div class="adGroupCreateForm">
@@ -157,7 +171,7 @@
                             </div>
                         </form>
                         </div>
-<!--END of group individual ads into groups-->
+                        <!--END of group individual ads into groups-->
 
                         <!--=== Create BTN Ad ===-->
                         <div class="col-md-3 adModule adCreateBtn">
@@ -165,7 +179,6 @@
                                 <a ng-href="#" ng-click="navigateToAdCreatePage()"
                                    class="col-md-12 text-center addMaster">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-    
                                     <h1>Create Ad</h1>
                                 </a>
                             </div>
