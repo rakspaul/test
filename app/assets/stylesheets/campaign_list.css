@@ -1471,11 +1471,20 @@ input[type="submit"] {
 .dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip {
   color: #fff ;
   font-size: 14px ;
-  width: 180px;
-  padding: 14px 18px 10px;
+  width: 200px;
+  padding: 18px 18px 15px;
   text-align: left;
   bottom: 28px;
-  left: -80px;
+  left: -92px;
+}
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone {
+  margin-bottom: 18px;
+}
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone .target_zone_lines {
+  height: 10px ;
+  border-bottom: dashed 1px #DDE6EB ;
+  border-top: dashed 1px #DDE6EB ;
+  margin-bottom: 5px;
 }
 .dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .legend_line {
   border-top: solid 2px #0978c9 ;
@@ -1483,10 +1492,10 @@ input[type="submit"] {
 }
 .dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .underperformance_line {
   border-color: #ef4649 ;
-  margin-top: 12px ;
+  margin-top: 18px ;
 }
 .dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip:after {
-  left: 78px;
+  left: 90px;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container {
   border: solid 1px #d2dee7 ;
