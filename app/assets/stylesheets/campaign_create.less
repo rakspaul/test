@@ -1856,8 +1856,8 @@
           float: right;
           margin-left: 17px;
         }
-        .col-md-6 {
-          margin-top: 20px;
+        .col-md-6 {/*
+          margin-top: 10px;*/
           span {
             color: #21252b;
             float: left;
@@ -1869,6 +1869,10 @@
       }
       .tsBody {
         padding: 20px;
+        h5 {
+          color: #939ead ;
+          font-family: "Avenir" ;
+        }
         .regioncity, .zipCode, .dmas {
           width: 100%;
           border-bottom: 1px solid #dbdbdb;
@@ -1891,8 +1895,20 @@
           padding-bottom: 20px;
         }
         .data_list {
-          float: none;
-          display: block;
+          margin: 4px 0 ;
+        }
+        .less_data {
+          .data_list {
+            display: none;
+          }
+          .data_list:nth-child(1) , .data_list:nth-child(2)  {
+            display: block;
+          }
+        }
+        .show_more_less {
+          color: #0978c9 ;
+          cursor: pointer;
+          margin: 5px 0 10px ;
         }
         a {
           float: left;

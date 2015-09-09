@@ -1907,7 +1907,8 @@
   margin-left: 17px;
 }
 .adCreateMaster #targetting .targettingSelected .tsHeader .col-md-6 {
-  margin-top: 20px;
+  /*
+          margin-top: 10px;*/
 }
 .adCreateMaster #targetting .targettingSelected .tsHeader .col-md-6 span {
   color: #21252b;
@@ -1921,6 +1922,10 @@
   /*.regioncity {
           margin: 0;
         }*/
+}
+.adCreateMaster #targetting .targettingSelected .tsBody h5 {
+  color: #939ead ;
+  font-family: "Avenir";
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .regioncity,
 .adCreateMaster #targetting .targettingSelected .tsBody .zipCode,
@@ -1943,8 +1948,19 @@
   padding-bottom: 20px;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .data_list {
-  float: none;
+  margin: 4px 0 ;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody .less_data .data_list {
+  display: none;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody .less_data .data_list:nth-child(1),
+.adCreateMaster #targetting .targettingSelected .tsBody .less_data .data_list:nth-child(2) {
   display: block;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody .show_more_less {
+  color: #0978c9 ;
+  cursor: pointer;
+  margin: 5px 0 10px ;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody a {
   float: left;

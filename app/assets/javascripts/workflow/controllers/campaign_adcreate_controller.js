@@ -752,6 +752,18 @@ var angObj = angObj || {};
             $scope.citiesIncludeSwitchLabel =  true;
             $scope.regionsIncludeSwitchLabel = true;
         }
+        $scope.show_more_less_list = function(event) {
+            var elem = $(event.target);
+            var list_number =  elem.closest(".total_data_holder").find(".data_list").length - 2  ;
+
+            if( elem.closest(".total_data_holder").find(".data_list_holder").hasClass("less_data")  ) {
+                elem.closest(".total_data_holder").find(".data_list_holder").removeClass("less_data") ;
+                elem.text("Show less") ;
+            } else {
+                elem.closest(".total_data_holder").find(".data_list_holder").addClass("less_data") ;
+                elem.text("+ " + list_number + " more") ;
+            }
+        }
 
         $scope.removeSelectedList = function(type, subtype) {
             $scope.hideConfirmBox();

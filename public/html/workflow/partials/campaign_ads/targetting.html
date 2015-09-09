@@ -285,31 +285,49 @@
 
     <div class="col-md-12 tsBody">
         <div class="col-md-6 zeroPadding">
-            {{geoTargetingData.selected.previewData.include.regions.length}}
-            <div class="regioncity" ng-if="geoTargetingData.selected.previewData.include.regions.length>0 || geoTargetingData.selected.previewData.include.cities.length>0">
+            <div class="total_data_holder regioncity" ng-if="geoTargetingData.selected.previewData.include.regions.length>0 || geoTargetingData.selected.previewData.include.cities.length>0">
                 <h5>Regions & Cities</h5>
-                <span class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.regions" >{{regioncity.name}}</span>
-                <span class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.cities" >{{regioncity.parent.name}}, {{regioncity.name}}</span>
-                <span class="show_more" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2">Show more</span>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.regions" >{{regioncity.name}}</div>
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.cities" >{{regioncity.parent.name}}, {{regioncity.name}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2" ng-click="show_more_less_list($event);">+ 
+                    {{ (geoTargetingData.selected.previewData.include.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.include.cities.length-2):(geoTargetingData.selected.previewData.include.regions.length-2)}} 
+                    more
+                </div>
             </div>
-            <div class="zipCode" ng-if="geoTargetingData.selected.previewData.include.zipCodes[0].values.length>0">
+            <div class="total_data_holder zipCode" ng-if="geoTargetingData.selected.previewData.include.zipCodes[0].values.length>0">
                 <h5>Zip / Postal Codes</h5>
-                <span class="data_list" ng-repeat="zipCode in geoTargetingData.selected.previewData.include.zipCodes[0].values">{{zipCode}}</span>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="zipCode in geoTargetingData.selected.previewData.include.zipCodes[0].values">{{zipCode}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.zipCodes[0].values.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.include.zipCodes[0].values.length-2}} more</div>
             </div>
-            <div class="dmas" ng-if="geoTargetingData.selected.previewData.include.dmas.length>0">
+            <div class="total_data_holder dmas" ng-if="geoTargetingData.selected.previewData.include.dmas.length>0">
                 <h5>DMAs</h5>
-                <span class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.include.dmas" >{{dma.name}}</span>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.include.dmas" >{{dma.name}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.include.dmas.length-2}} more</div>
             </div>
         </div>
         <div class="col-md-6 zeroPadding">
-            <div class="regioncity" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>0 || geoTargetingData.selected.previewData.exclude.cities.length>0">
+            <div class="total_data_holder regioncity" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>0 || geoTargetingData.selected.previewData.exclude.cities.length>0">
                 <h5>Regions & Cities</h5>
-                <span class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.regions" >{{regioncity.name}}</span>
-                <span class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.cities">{{regioncity.parent.name}}, {{regioncity.name}}</span>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.regions" >{{regioncity.name}}</div>
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>2 || geoTargetingData.selected.previewData.exclude.cities.length>2" ng-click="show_more_less_list($event);">
+                    + {{ (geoTargetingData.selected.previewData.exclude.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.exclude.cities.length-2):(geoTargetingData.selected.previewData.exclude.regions.length-2)}}  more
+                </div>
             </div>
-            <div class="dmas" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>0">
+            <div class="total_data_holder dmas" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>0">
                 <h5>DMAs</h5>
-                <span class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.exclude.dmas" >{{dma.name}}</span>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.exclude.dmas" >{{dma.name}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.exclude.dmas.length-2}} more</div>
             </div>
         </div>
     </div>    

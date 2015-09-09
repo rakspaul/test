@@ -831,6 +831,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: default;
 }
 .nav_filters .dropdown-menu li span.menuItemText,
 #campaignCreate .dropdown-menu li span.menuItemText {
@@ -846,6 +847,7 @@
 .nav_filters .dropdown-menu li.disabled,
 #campaignCreate .dropdown-menu li.disabled {
   color: #999 ;
+  cursor: text;
 }
 .nav_filters .dropdown-menu li.disabled:hover,
 #campaignCreate .dropdown-menu li.disabled:hover {
