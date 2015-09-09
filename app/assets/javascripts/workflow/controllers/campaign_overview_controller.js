@@ -44,7 +44,7 @@ var angObj = angObj || {};
                 workflowService.getAdsForCampaign(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
-                        $scope.extractor(responseData);
+                        if(responseData.length>0){$scope.extractor(responseData);}// call extract method if
                         $scope.workflowData['campaignAdsData'] = responseData;
                         for (var index in responseData) {
                             if (responseData[index].state.toLowerCase() == "draft") {
