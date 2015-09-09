@@ -179,7 +179,7 @@ var angObj = angObj || {};
                                           return moment().isAfter(date, 'day');
                               }
                               $scope.handleFlightDate = function (data) {
-                                          var startTime = data.startTime;
+                                          var startTime = data;
                                           var endDateElem = $('#adGrpEndDateInput');
                                           var campaignEndTime = moment($scope.$parent.workflowData['campaignData'].endTime).format("MM/DD/YYYY");console.log(campaignEndTime);
                                           var changeDate;

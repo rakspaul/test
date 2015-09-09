@@ -16,7 +16,7 @@
                 <div class="col-md-12 dateWrapper form-group zeroPadding" style="margin-left: -5px;">
                     <div class="col-md-2" style="width: 150px; padding: 0 5px;">
                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                        <input type="text" id="adGrpStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-disabled="checkForPastDate(campaignEndTime)" ng-change="handleFlightDate(workflowData.campaignData)" required/>
+                        <input type="text" id="adGrpStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-disabled="checkForPastDate(campaignEndTime)" ng-change="handleFlightDate(startTime)" required/>
                     </div>
                     <div class="col-md-2" style="width: 150px; padding: 0 5px;">
                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
