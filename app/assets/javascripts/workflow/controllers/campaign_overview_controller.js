@@ -23,8 +23,8 @@ var angObj = angObj || {};
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
                                                var startDateElem = $('#adGrpStartDateInput');
-                                                var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");console.log(campaignStartTime);
-                                                var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");console.log(campaignEndTime);
+                                                var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");//console.log(campaignStartTime);
+                                                var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");//console.log(campaignEndTime);
                                                 startDateElem.datepicker("setStartDate",campaignStartTime);
                                                 startDateElem.datepicker("setEndDate", campaignEndTime);
                                                 $scope.startTimeFormated=campaignStartTime;
@@ -144,13 +144,44 @@ var angObj = angObj || {};
 
                 }
                 $scope.extractor=function(IndividualAdsData){
-
+                        $scope.independantAdData=IndividualAdsData;
                         var ascending=_.sortBy(IndividualAdsData, function(o) { return o.startTime; })
                         $scope.lowestStartTime=ascending[0].startTime;
 
                         var descending=_.sortBy(IndividualAdsData, function(o) { return -o.endTime; })
-                        $scope.highestEndTime=descending[0].endTime;
+                        $scope.highestEndTime=descending[0].endTime;//console.log(descending);
 
+                        var startDateElem = $('#individualAdsStartDateInput');
+                        var campaignstartTime = moment($scope.lowestStartTime).format("MM/DD/YYYY");
+                        startDateElem.datepicker("setEndDate", campaignstartTime);
+                        var endDateElem=$('#individualAdsEndDateInput');
+                        var campaignEndTime = moment($scope.highestEndTime).format("MM/DD/YYYY");
+                        endDateElem.datepicker("setStartDate",campaignEndTime);
+                }
+                $scope.createIndependantAdsGroup=function(){
+                            //api call here to group individual ads into a group
+                            var formElem = $("#createIndependantAdsGroup");
+                            var formData = formElem.serializeArray();
+                            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                            var postCreateAdObj = {}
+                            postCreateAdObj.name=formData.adGroupName;
+                            postCreateAdObj.startTime=moment(formData.startTime).format('YYYY-MM-DD');
+                            postCreateAdObj.endTime=moment(formData.endTime).format('YYYY-MM-DD');
+                            postCreateAdObj.createdAt="";
+                            postCreateAdObj.updatedAt="";
+                            postCreateAdObj.data=$scope.independantAdData;
+                            console.log(postCreateAdObj);
+
+//                            workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
+//                                    if (result.status === "OK" || result.status === "success") {
+//                                        console.log("ad group created");
+//                                        //keep the campaignID and adGroupID from here
+//
+//                                    }else {
+//                                         console.log("ERROR! adgroup not created");
+//                                         console.log(result);
+//                                    }
+//                            });
                 }
                         // Switch BTN Animation
                 $('.btn-toggle').click(function() {
