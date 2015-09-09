@@ -9,7 +9,7 @@
 
 <!--=== Targeting Type ===-->
 <div class="col-md-12 zeroPadding">
-    <div class="dropdown ddlSetTarget msgPopupHolder">
+    <div class="dropdown ddlSetTarget msgPopupHolder" ng-show="addedTargeting">
         <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
             <div class="msg">
                 To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
@@ -22,8 +22,7 @@
             {{textConstants.WF_ADD_TARGETING_LABEL}}
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <!--Abi to disable something in the DDL just add (class="disabled") to the li elements-->
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
             <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="geoTargetName === geoTarget.name"> (Added)</span></li>
         </ul>
     </div>
@@ -266,7 +265,7 @@
     </div>
     <div class="col-md-12 zeroPadding">
         <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right common_primary_btn" ng-click="saveGeography()">Save Geography</button>
-        <a href="javascript:void(0);" class="pull-right secondary_txt" >Cancel</a>
+        <a ng-href="#" class="pull-right secondary_txt" ng-click="resetTargetingVariables();">Cancel</a>
     </div>
 </div>
 

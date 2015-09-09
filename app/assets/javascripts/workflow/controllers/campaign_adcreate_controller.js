@@ -483,6 +483,7 @@ var angObj = angObj || {};
     angObj.controller('buyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
+
         })
 
     });
@@ -497,14 +498,15 @@ var angObj = angObj || {};
         $scope.isRegionSelected = true;
         $scope.citiesIncluded = true;
         $scope.dmasIncluded = true;
+        $scope.addedTargeting = true;
 
         $scope.$on('renderTargetingUI', function(event, platformId) {
             $scope.isPlatformId = platformId;
             $scope.isPlatformSelected = platformId ? true : false;
-            if($scope.geoTargetName && $scope.geoTargetName.toLowerCase() ==='geography') {
+            //if($scope.geoTargetName && $scope.geoTargetName.toLowerCase() ==='geography') {
                 resetTargetingVariables();
-                $scope.listRegions();
-            }
+                //$scope.listRegions();
+            //}
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
             if($scope.isPlatformId === 1) {
@@ -621,7 +623,9 @@ var angObj = angObj || {};
             $scope.dmasIncludeSwitchLabel =  true;
             $scope.isRegionSelected = true;
             $scope.citiesIncluded = true;
+            $scope.addedTargeting = true;
             $scope.dmasIncluded = true;
+            $scope.geoTargetName = null;
             citiesListArray.length = 0;
             regionsListArray.length = 0;
             dmasListArray.length =0;
@@ -884,8 +888,9 @@ var angObj = angObj || {};
         }
 
         $scope.selectGeoTarget = function(geoTargetName) {
-            if(geoTargetName.toLowerCase() === 'geography') {
+            if(geoTargetName.toLowerCase() === 'geography' && !$scope.geoTargetName) {
                 $scope.geoTargetName = geoTargetName;
+                $scope.addedTargeting = false;
                 $scope.listRegions();
             }
         }
@@ -972,6 +977,7 @@ var angObj = angObj || {};
         };
 
         $scope.saveGeography =  function() {
+            $scope.addedTargeting = true;
             var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected);
             selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
 
@@ -999,6 +1005,7 @@ var angObj = angObj || {};
             });
             $scope.geoTargetingData.selected['previewData'] = obj;
             $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
+
             $(".targettingFormWrap").slideUp();
             $(".targettingSelected").show();
 
@@ -1007,6 +1014,7 @@ var angObj = angObj || {};
         $scope.editGeography =  function() {
             $(".targettingFormWrap").slideDown();
             $(".targettingSelected").hide();
+            $scope.addedTargeting = false;
         };
 
         $scope.deleteGeography = function() {
@@ -1068,6 +1076,11 @@ var angObj = angObj || {};
         $scope.switchInclude=function(){
             (this.tog = !this.tog) ? $scope.excludeSelectedItems() : $scope.includeSelectedItems();
             $scope.includeorExcludeSelectedItems();
+        }
+
+        $scope.resetTargeting = function() {
+            $scope.geoTargetName = null;
+            $scope.addedTargeting = true;
         }
 
     });
