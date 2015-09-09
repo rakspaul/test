@@ -481,6 +481,9 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
   color: #000;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle span.adGroupTxt {
+  clear: left;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary {
   float: right;
   padding: 0 15px;
@@ -707,6 +710,14 @@
   margin-left: -75px;
   cursor: pointer;
   color: #939ead;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active {
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  padding-top: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .adGroupCreateForm {
+  border-width: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adReady .adTitle {
   background: #E4F9E4;
