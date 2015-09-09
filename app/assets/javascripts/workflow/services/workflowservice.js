@@ -28,8 +28,25 @@
             },
 
             getAdsForCampaign : function(campaignId) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ads';
+                //var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ads';
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/no_ad_group/ads';
                 return dataService.fetch(url);
+            },
+            getAdgroups : function(campaignId){
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups';
+                return dataService.fetch(url);
+
+            },
+            createAdGroups:function(campaignId,data){
+                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId+'/ad_groups', data, {'Content-Type': 'application/json'})
+
+            },
+            getAdsInAdGroup :function(campaignId,adGroupID){
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads';
+                return dataService.fetch(url);
+            },
+            createAdGroupOfIndividualAds:function(){
+
             },
 
             createAd : function(data) {
@@ -92,8 +109,7 @@
             getDMAsList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
                 return dataService.fetch(url);
-            },
-
+            }
 
 
         };

@@ -126,6 +126,20 @@ var angObj = '';
                     }
                 }
             })
+            .when('/campaign/:campaignId/adGroup/:adGroupId/ads/create', {
+                            templateUrl: assets.html_campaign_create_adBuild,
+                            title :  'Campaign - Ad Create',
+                            controller: 'CampaignAdsCreateController',
+                            css: assets.css_visto_application,
+                            resolve:{
+                                "check":function($location, RoleBasedService){
+                                    var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                                    if(!isWorkflowUser){
+                                        $location.path('/');
+                                    }
+                                }
+                            }
+            })
             .when('/creative/add', {
                 templateUrl: assets.html_creative,
                 title :  'Add Creative',
