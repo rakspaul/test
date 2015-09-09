@@ -1918,18 +1918,18 @@
 }
 .adCreateMaster #targetting .targettingSelected .tsBody {
   padding: 20px;
+  /*.regioncity {
+          margin: 0;
+        }*/
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .regioncity,
 .adCreateMaster #targetting .targettingSelected .tsBody .zipCode,
 .adCreateMaster #targetting .targettingSelected .tsBody .dmas {
   width: 100%;
-  border-top: 1px solid #dbdbdb;
-  padding-top: 15px;
-  margin-top: 15px;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 0 0 15px 0 ;
+  margin: 0 0 15px 0;
   width: 93%;
-}
-.adCreateMaster #targetting .targettingSelected .tsBody .regioncity {
-  margin: 0;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody span {
   float: left;
@@ -1941,6 +1941,10 @@
 .adCreateMaster #targetting .targettingSelected .tsBody span:first-child {
   color: #939ead;
   padding-bottom: 20px;
+}
+.adCreateMaster #targetting .targettingSelected .tsBody .data_list {
+  float: none;
+  display: block;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody a {
   float: left;
