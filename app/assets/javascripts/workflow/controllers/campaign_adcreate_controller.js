@@ -758,7 +758,7 @@ var angObj = angObj || {};
 
             if( elem.closest(".total_data_holder").find(".data_list_holder").hasClass("less_data")  ) {
                 elem.closest(".total_data_holder").find(".data_list_holder").removeClass("less_data") ;
-                elem.text("Show less") ;
+                elem.text("Show Less") ;
             } else {
                 elem.closest(".total_data_holder").find(".data_list_holder").addClass("less_data") ;
                 elem.text("+ " + list_number + " more") ;
