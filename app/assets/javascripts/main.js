@@ -92,6 +92,7 @@
       'campaignList-CampaignListModel':{deps: ['campaignList-CampaignListModule']},
       'campaignList-CampaignListService':{deps: ['campaignList-CampaignListModel']},
       'campaignList-CampaignListController':{deps: ['campaignList-CampaignListService']},
+      'campaignList-CampaignListFilterDirective':{deps: ['campaignList-CampaignListModule']},
 
 
       'editActions-EditActionsModule':{deps: ['campaignList-CampaignListController']},
@@ -268,6 +269,7 @@
       'campaignList-CampaignListModel':'campaignList/CampaignListModel',
       'campaignList-CampaignListService':'campaignList/CampaignListService',
       'campaignList-CampaignListController':'campaignList/CampaignListController',
+      'campaignList-CampaignListFilterDirective':'campaignList/campaignListFilterDirective',
 
 
       'editActions-EditActionsModule':'editActions/EditActionsModule',
@@ -450,6 +452,7 @@
            'campaignList-CampaignListModel',
            'campaignList-CampaignListService',
            'campaignList-CampaignListController',
+           'campaignList-CampaignListFilterDirective',
 
 
            'editActions-EditActionsModule',
