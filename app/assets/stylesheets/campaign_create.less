@@ -370,6 +370,9 @@
               h2.adGroupTxt {
                 color: #000;  
               }
+              span.adGroupTxt {
+                clear: left;
+              }
               .adGroupTxtSecondary {
                 float: right;
                 padding: 0 15px;
@@ -600,6 +603,17 @@
               margin-left: -75px;
               cursor: pointer;
               color: #939ead;
+            }
+          }
+          .adGroupSelectionWrap.active {
+            background: #fff;
+            border: 1px solid #dbdbdb;
+            padding-top: 0;
+            .btnCreateGroup {
+              //display: none;
+            }
+            .adGroupCreateForm {
+              border-width: 0;
             }
           }
           .adReady {
