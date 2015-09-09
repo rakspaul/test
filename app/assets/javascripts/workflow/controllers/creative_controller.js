@@ -2,7 +2,11 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('creativeController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
-        $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
+
+        if ($location.path() === '/creative/add') {
+            $scope.isAddCreativePopup = true;
+            $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
+        }
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {}
@@ -14,9 +18,7 @@ var angObj = angObj || {};
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
         //  var pristineFormTemplate = $('#formCreativeCreate').html();
-        if ($location.path() === '/creative/add') {
-            $scope.isAddCreativePopup = true;
-        }
+
 
         var creatives = {
             /*Function to get creatives sizes*/

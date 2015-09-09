@@ -1000,6 +1000,9 @@ var angObj = angObj || {};
 
         $scope.saveGeography =  function() {
             $scope.addedTargeting = true;
+            $scope.zipCodesObj.info = [];
+            $scope.zipCodesObj.error = [];
+            $scope.adData.zipCodes = '';
             var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected);
             selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
 
