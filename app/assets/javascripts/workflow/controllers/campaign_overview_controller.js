@@ -144,6 +144,7 @@ var angObj = angObj || {};
         }
         $scope.groupIndividualAds = function () {
             $scope.showIndividualAds = !$scope.showIndividualAds;
+            $('.adGroupSelectionWrap').toggleClass('active');
 
 
         }
