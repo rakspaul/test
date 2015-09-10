@@ -254,6 +254,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.busy = true;
                         var self = this,
                             url = _campaignServiceUrl.call(this);
+                        console.log('fetch campaigns url:',url);
                         //console.log('url:',url);
                         campaignListService.getCampaigns(url, function(result) {
                             requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
@@ -626,16 +627,21 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 },
                 dashboardSelectedAll = function() {
                     this.nextPage = 1;
-                    //this.dashboard.filterSelectAll=true;
+                    this.dashboard.filterSelectAll=true;
                     //this. dashboardSelectedAllResetFilter(true);
                     this.resetDasboard();
-                    if (this.dashboard.filterSelectAll == false) {
+                    /*if (this.dashboard.filterSelectAll == false) {
                         this.dashboard.filterSelectAll = true;
                         this.dashboardSelectedAllResetFilter(true);
                     } else {
                         this.dashboard.filterSelectAll = false;
                         this.dashboardSelectedAllResetFilter(false);
-                    }
+                    }*/
+                    this.dashboard.status.active.bothItem = 'active';
+                    this.campaignList = [];
+                    this.scrollFlag = 1;
+                    this.resetCostBreakdown.call(this);
+                    fetchData.call(this);
                 }, //This function will be reseting the dashboard filter based on the top filter selection
                 setTopFiltersStatus = function(from, status, selectedElement) {
 
