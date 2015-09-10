@@ -26,10 +26,10 @@ var angObj = angObj || {};
                         var startDateElem = $('#adGrpStartDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");//console.log(campaignStartTime);
                         if(moment().isAfter(campaignStartTime, 'day')) {
-                            campaignStartTime = moment().format('DD/MM/YYYY');
+                            campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");//console.log(campaignEndTime);
-                        startDateElem.datepicker("setStartDate", campaignStartTime);
+                        startDateElem.datepicker("setStartDate", campaignStartTime);console.log(campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
@@ -46,7 +46,20 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         if(responseData.length>0){$scope.extractor(responseData);}// call extract method if
-                        $scope.workflowData['campaignAdsData'] = responseData;
+                        //$scope.workflowData['campaignAdsData'] = responseData;
+                        //console.log(responseData)
+                        var newData =responseData;
+                        for(var i in newData){
+                                if(newData[i].state == "NEW"){
+                                    newData[i].state="INCOMPLETE";
+                                }else if(newData[i].state=="DRAFT"){
+                                    newData[i].state="READY";
+                                }else if(newData[i].state=="READY"){
+                                    newData[i].state="SCHEDULED";
+                                }
+                        }$scope.workflowData['campaignAdsData']=newData;
+                        console.log($scope.workflowData['campaignAdsData']);
+
                         for (var index in responseData) {
                             if (responseData[index].state.toLowerCase() == "draft") {
                                 $scope.disablePushBtn = false;
@@ -153,22 +166,24 @@ var angObj = angObj || {};
             var ascending = _.sortBy(IndividualAdsData, function (o) {
                 return o.startTime;
             })
-            $scope.lowestStartTime = ascending[0].startTime;
+            $scope.lowestStartTime = moment(ascending[0].startTime).format("MM/DD/YYYY");
 
             var descending = _.sortBy(IndividualAdsData, function (o) {
                 return -o.endTime;
             })
-            $scope.highestEndTime = descending[0].endTime;//console.log(descending);
+            $scope.highestEndTime = moment(descending[0].endTime).format("MM/DD/YYYY");//console.log(descending);
 
             var startDateElem = $('#individualAdsStartDateInput');
-            var campaignstartTime = moment($scope.lowestStartTime).format("MM/DD/YYYY");
-            startDateElem.datepicker("setEndDate", campaignstartTime);
+           // var campaignstartTime = moment($scope.lowestStartTime).format("MM/DD/YYYY");
+            startDateElem.datepicker("setEndDate", $scope.lowestStartTime);
             var endDateElem = $('#individualAdsEndDateInput');
-            var campaignEndTime = moment($scope.highestEndTime).format("MM/DD/YYYY");
-            endDateElem.datepicker("setStartDate", campaignEndTime);
+           // var campaignEndTime = moment($scope.highestEndTime).format("MM/DD/YYYY");
+            endDateElem.datepicker("setStartDate", $scope.highestEndTime);
         }
         $scope.createIndependantAdsGroup = function () {
             //api call here to group individual ads into a group
+            //$scope.$broadcast('show-errors-check-validity');
+            //if ($scope.createIndependantAdsGroup.$valid){
             var formElem = $("#createIndependantAdsGroup");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
@@ -178,7 +193,13 @@ var angObj = angObj || {};
             postCreateAdObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
             postCreateAdObj.createdAt = "";
             postCreateAdObj.updatedAt = "";
-            postCreateAdObj.data = $scope.independantAdData;
+
+            var dataArray = new Array;
+            for(var i in $scope.independantAdData) {
+                dataArray.push($scope.independantAdData[i].id);
+            }
+            //console.log(dataArray);
+            postCreateAdObj.data = dataArray;
             console.log(postCreateAdObj);
 
 //                            workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
@@ -191,6 +212,7 @@ var angObj = angObj || {};
 //                                         console.log(result);
 //                                    }
 //                            });
+        //}
         }
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
@@ -215,9 +237,9 @@ var angObj = angObj || {};
     });
     angObj.controller('createAdGroups', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
 
-        $scope.checkForPastDate = function (date) {
-            return moment().isAfter(date, 'day');
-        }
+//        $scope.checkForPastDate = function (date) {
+//            return moment().isAfter(date, 'day');
+//        }
         $scope.handleFlightDate = function (data) {
             var startTime = data;
             var endDateElem = $('#adGrpEndDateInput');
@@ -235,29 +257,32 @@ var angObj = angObj || {};
         }
 
         $scope.createAdGroup = function () {
-            var formElem = $("#createAdGrp");
-            var formData = formElem.serializeArray();
-            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-            var postCreateAdObj = {}
-            postCreateAdObj.name = formData.adGroupName;
-            postCreateAdObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
-            postCreateAdObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
-            postCreateAdObj.createdAt = "";
-            postCreateAdObj.updatedAt = "";
-            console.log(postCreateAdObj);
+           // $scope.$broadcast('show-errors-check-validity');
+               // if ($scope.adGroupCreateForm.$valid){
+                var formElem = $("#createAdGrp");
+                var formData = formElem.serializeArray();
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                var postCreateAdObj = {}
+                postCreateAdObj.name = formData.adGroupName;
+                postCreateAdObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
+                postCreateAdObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
+                postCreateAdObj.createdAt = "";
+                postCreateAdObj.updatedAt = "";
+                console.log(postCreateAdObj);
 
-            workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    console.log("ad group created");
-                    //keep the campaignID and adGroupID from here
+                workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        console.log("ad group created");
+                        //keep the campaignID and adGroupID from here
 
-                } else {
-                    console.log("ERROR! adgroup not created");
-                    console.log(result);
-                }
-            });
+                    } else {
+                        console.log("ERROR! adgroup not created");
+                        console.log(result);
+                    }
+                });
 
 
+        //}
         }
 
 
