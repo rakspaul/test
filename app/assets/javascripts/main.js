@@ -269,7 +269,7 @@
       'campaignList-CampaignListModel':'campaignList/CampaignListModel',
       'campaignList-CampaignListService':'campaignList/CampaignListService',
       'campaignList-CampaignListController':'campaignList/CampaignListController',
-      'campaignList-CampaignListFilterDirective':'campaignList/campaignListFilterDirective',
+      'campaignList-CampaignListFilterDirective':'campaignList/CampaignListFilterDirective',
 
 
       'editActions-EditActionsModule':'editActions/EditActionsModule',
