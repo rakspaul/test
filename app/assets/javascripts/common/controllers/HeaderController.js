@@ -88,9 +88,10 @@
                   if(regionTooltip.is(':visible') && event.target.id != "cityTab") {
                       regionTooltip.hide();
                   }
-                  if(quickFilters.is(':visible') && ( (event.target.id != "sliding_dropdown_container") || (event.target.id != "sliding_dropdown_btn") ) ) {
 
-                     // quickFilters.hide();
+                  var quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr("id");
+                  if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
+                     $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
                   }
                   
               }
