@@ -30,6 +30,16 @@ var angObj = '';
 
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider
+            $routeProvider.when('/campaigns', {
+                templateUrl: function() {
+                    var isWorkFlowUser = JSON.parse(localStorage.userRoleObj).workFlowUser
+                    var htmlTpl = assets.html_campaign_list;
+                    if(isWorkFlowUser) {
+                        htmlTpl = assets.html_workflow_campaign_list;
+                    }
+                    return htmlTpl;
+                }
+            })
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
                 title : 'Campaign Details',
@@ -167,10 +177,6 @@ var angObj = '';
                     }
                 }
 
-            })
-            .when('/campaignsList', {
-                templateUrl: assets.html_campaign_list_table,
-                controller: 'campaignListTableController'
             })
             .when('/help', {
                 templateUrl: assets.html_help,

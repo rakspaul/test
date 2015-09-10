@@ -2960,7 +2960,7 @@ input[type="submit"] {
   word-wrap: break-word;
 }
 .campaignListContainer .campaignListHolder .data_holder {
-  height: 400px ;
+  height: 550px ;
   overflow: auto;
 }
 .campaignListContainer .campaignListHolder .each-row {

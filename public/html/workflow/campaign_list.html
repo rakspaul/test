@@ -1,4 +1,15 @@
-<div id="campaignListContainer" class="common_outer_container campaignListContainer">
+<div id="campaignListContainer" class="dashboard_outer_container campaignListContainer" ng-controller="workFlowCampaignListController">
+    <div class="clearfix page_header_container campaign_list_header">
+        <div class="pull-left campaign_name_holder">
+            <span class="campaign_name">Campaign List</span>
+            <span class="campaign_name_details" ng-if="campaignData">( {{campaignData.length}})</span>
+        </div>
+        <div class="pull-right">
+            <div class="pull-left create_btn_holder">
+                <a href="/campaign/create" class="submit_btn common_primary_btn">{{ textConstants.WF_CREATE_CAMPAIGN }}</a>
+            </div>
+        </div>
+    </div>
     <div class="campaignListHolder">
         <div class="clearfix each-row list-head">
             <div class="column">Advertiser Name</div>
