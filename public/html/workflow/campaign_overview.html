@@ -108,7 +108,7 @@
                 
                 <div class="col-md-12 adContainer">
                     <!--Abi I comment this ng-include I dont know why is showing-->
-                    <!--<div id="createAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'" ng-controller="createAdGroups"></div>-->
+                    <div id="createAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'" ng-controller="createAdGroups"></div>
                     <!--=== Group Ad ===-->
                     <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "getAdgroupsController"></div>
 
@@ -137,9 +137,9 @@
                                 <div class="col-md-6 zeroPadding">
                                     <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
                                     <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
-                                    <div class="form-group col-sm-9 zeroPadding" >
+                                    <div class="form-group col-sm-9 zeroPadding">
                                         <input type="text" class="form-control" id="nameIndividualAdGroup" name="adGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
-                                        <label class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
+                                        <label  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 zeroPadding">
@@ -150,10 +150,10 @@
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                                 <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="lowestStartTime" required/>
                                             </div>
-                                            <div class="col-md-2" style="width: 150px; padding: 0 5px;">
+                                            <div class="col-md-2" style="width: 150px; padding: 0 5px;>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                                 <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="endTime" ng-model="highestEndTime"  required/>                                            </div>
-                                            <label class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                                            <label  class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                                         </div>
                                         <span class="col-md-12 input-group-addon">
                                             <div class="calenderIcon">
