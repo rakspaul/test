@@ -30,7 +30,7 @@ var angObj = angObj || {};
                             campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");//console.log(campaignEndTime);
-                        startDateElem.datepicker("setStartDate", campaignStartTime);console.log(campaignStartTime);
+                        startDateElem.datepicker("setStartDate", campaignStartTime);//console.log(campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
@@ -65,7 +65,7 @@ var angObj = angObj || {};
                                     newData[i].state="SCHEDULED";
                                 }
                         }$scope.workflowData['campaignAdsData']=newData;
-                        console.log($scope.workflowData['campaignAdsData']);
+                        //console.log($scope.workflowData['campaignAdsData']);
 
 
                     }
@@ -169,22 +169,34 @@ var angObj = angObj || {};
 
         }
         $scope.extractor = function (IndividualAdsData) {
-            $scope.independantAdData = IndividualAdsData;
-            var ascending = _.sortBy(IndividualAdsData, function (o) {
+        //find lowest startDate
+            var startDatelow=new Array;
+            for(var i in IndividualAdsData){
+                if(IndividualAdsData[i].startTime){
+                    startDatelow.push(IndividualAdsData[i]);
+
+                }
+            }
+            var ascending = _.sortBy(startDatelow, function (o) {
                 return o.startTime;
             })
             $scope.lowestStartTime = moment(ascending[0].startTime).format("MM/DD/YYYY");
-
-            var descending = _.sortBy(IndividualAdsData, function (o) {
-                return -o.endTime;
-            })
-            $scope.highestEndTime = moment(descending[0].endTime).format("MM/DD/YYYY");//console.log(descending);
-
             var startDateElem = $('#individualAdsStartDateInput');
-           // var campaignstartTime = moment($scope.lowestStartTime).format("MM/DD/YYYY");
             startDateElem.datepicker("setEndDate", $scope.lowestStartTime);
+
+        //find highest end date.
+            var endDateHigh= new Array;
+            for(var ind in IndividualAdsData){
+                if(IndividualAdsData[ind].endTime){
+                endDateHigh.push(IndividualAdsData[ind]);
+
+                }
+            }
+            var descending = _.sortBy(endDateHigh, function (o) {
+                return o.endTime;
+            });descending.reverse();
+            $scope.highestEndTime = moment(descending[0].endTime).format("MM/DD/YYYY");
             var endDateElem = $('#individualAdsEndDateInput');
-           // var campaignEndTime = moment($scope.highestEndTime).format("MM/DD/YYYY");
             endDateElem.datepicker("setStartDate", $scope.highestEndTime);
         }
         $scope.createIndependantAdsGroup = function () {
