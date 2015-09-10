@@ -121,7 +121,7 @@
                         <span class="icon_KPI"></span>
                     </span>
                     <span class="pull-right cumulative_val">
-                        {{textConstants.CUMULATIVE_VALUE}} <span>{{strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
+                        {{textConstants.CUMULATIVE_VALUE}} <span>{{ (campaign.kpiType.toLowerCase()=="delivery")?(strategy.totalImpressions|  kpiFormatter:campaign.kpiType:1): (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)}}</span>
                     </span>
                 </div>
 
