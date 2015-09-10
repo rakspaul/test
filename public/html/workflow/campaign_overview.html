@@ -113,18 +113,18 @@
                     <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "getAdgroupsController"></div>
 
                     <!--Abi this is just a copy of the empty container you requested-->
-                    <!--<div class="adGroupSelectionWrap">
-                        <div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
-                        <div class="col-md-3 adModule adCreateBtn">
-                            <div class="col-md-12">
-                                <a ng-href="#" ng-click="navigateToAdCreatePage()"
-                                   class="col-md-12 text-center addMaster">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <h1>Create Ad</h1>
-                                </a>
-                            </div>
-                        </div>
-                    </div>-->
+                    <!--<div class="adGroupSelectionWrap">-->
+                        <!--<div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>-->
+                        <!--<div class="col-md-3 adModule adCreateBtn">-->
+                            <!--<div class="col-md-12">-->
+                                <!--<a ng-href="#" ng-click="navigateToAdCreatePage()"-->
+                                   <!--class="col-md-12 text-center addMaster">-->
+                                    <!--<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>-->
+                                    <!--<h1>Create Ad</h1>-->
+                                <!--</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
                     <!--Abi below I added a class. This .active class gets initiated on click when clicking (Create Ad Group)-->
                     <div class="adGroupSelectionWrap active">
@@ -137,7 +137,7 @@
                                 <div class="col-md-6 zeroPadding">
                                     <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
                                     <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
-                                    <div class="form-group col-sm-9 zeroPadding">
+                                    <div class="form-group col-sm-9 zeroPadding" >
                                         <input type="text" class="form-control" id="nameIndividualAdGroup" name="adGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
                                         <label class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
                                     </div>
@@ -236,7 +236,7 @@
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                            <span class="pull-right adStatus">{{adsData.state}}</span>
+                            <span class="pull-right adStatus {{adsData.state.toLowerCase()}}">{{adsData.state}}</span>
                         </div>
                     </div>
                 </div>
