@@ -2,8 +2,8 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'dimension'; sortReverse = !sortReverse;removeKpiActive();specialSort('dimension');" >{{textConstants.SCREEN}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypeScreens,!sortReverse)" ng-click="sortTypeScreens = '-impressions'; sortReverse = !sortReverse;removeKpiActive();specialSort('-impressions');" >{{textConstants.IMP_WITH_DOT}}</span>
-</div>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypeScreens,!sortReverse)" ng-click="sortTypeScreens = '-impressions'; sortReverse = !sortReverse;removeKpiActive();specialSort('-impressions');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+</div>{{selected_filters.campaign_default_kpi_type.toLowerCase()}}
 <div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
         <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.ad_starts');" >{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>

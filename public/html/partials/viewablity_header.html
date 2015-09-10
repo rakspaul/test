@@ -3,7 +3,7 @@
         {{textConstants.PLATFORM_NAME}}
     </div>
     <div class="each_col third_col delivered_col">
-            <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.ias_imps_delivered',sortTypebyViewability,sortReverseForQualImps)" ng-click="sortTypebyViewability = '-platformType_aggregation.ias_imps_delivered'; sortTypebyViewabilitySubSort='-ias_imps_delivered'; sortReverse = sortReverseForQualImps; sortReverseForQualImps = !sortReverseForQualImps; removeKpiActive();" >{{textConstants.DELIVERED_IMPS}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('-platformType_aggregation.ias_imps_delivered',sortTypebyViewability,sortReverseForQualImps)" ng-click="sortTypebyViewability = '-platformType_aggregation.ias_imps_delivered'; sortTypebyViewabilitySubSort='-ias_imps_delivered'; sortReverse = sortReverseForQualImps; sortReverseForQualImps = !sortReverseForQualImps; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>{{textConstants.DELIVERED_IMPS}}</span>
     </div>
     <div class="each_col third_col measurable_col" >
         <span>{{textConstants.MEASURABLE}}</span>

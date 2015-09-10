@@ -2412,7 +2412,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .cost_header_holder .each_cost_col.first_col {
   margin-right: 41px;
   min-width: 53px;
-  width: 51px;
+  width: 70px;
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col.ninth_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col.ninth_col {
