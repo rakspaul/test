@@ -2944,3 +2944,31 @@ input[type="submit"] {
 .quick_filters_holder .filters_selected_holder .each_selected_filter .heading {
   color: #57606d ;
 }
+.campaignListContainer .campaignListHolder {
+  border: 1px solid #ccd2da ;
+  margin: 50px 0;
+}
+.campaignListContainer .campaignListHolder .list-head.each-row {
+  border-bottom: 2px solid #ccd2da  ;
+  padding: 20px 0 ;
+  font-family: "Avenir-bold";
+}
+.campaignListContainer .campaignListHolder .column {
+  float: left;
+  width: 108px;
+  margin-left: 20px;
+  word-wrap: break-word;
+}
+.campaignListContainer .campaignListHolder .data_holder {
+  height: 550px ;
+  overflow: auto;
+}
+.campaignListContainer .campaignListHolder .each-row {
+  padding: 10px 0 ;
+}
+.campaignListContainer .campaignListHolder .each-row:nth-child(even) {
+  background: #F5FAFD ;
+}
+.campaignListContainer .campaignListHolder .common-load-more {
+  margin: 150px auto 110px ;
+}

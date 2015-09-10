@@ -1,17 +1,11 @@
-<div id="detailedPage" class="dashboard_outer_container">
+<div id="detailedPage" class="dashboard_outer_container" ng-controller="campaignListController">
  <!-- header-->
     <div class="clearfix page_header_container campaign_list_header"> 
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name">Campaign List</span>
             <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span>
         </div>
-        <div class="pull-right">
-            <div class="pull-left create_btn_holder" ng-show="isWorkflowUser">
-            <!--<div class="pull-left create_btn_holder" ng-show="false">-->
-                <a href="/campaign/create" class="submit_btn common_primary_btn">{{ textConstants.WF_CREATE_CAMPAIGN }}</a>
-             </div>
-        </div>
-    </div>
+     </div>
     <div class="dropdown_filters_holder">
         <filters-header></filters-header>
     </div>
