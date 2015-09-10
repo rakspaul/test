@@ -63,7 +63,7 @@ var angObj = angObj || {};
                         var startDateElem = $('#startDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
                         if(moment().isAfter(campaignStartTime, 'day')) {
-                            campaignStartTime = moment().format('DD/MM/YYYY');
+                            campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
                         startDateElem.datepicker("setStartDate", campaignStartTime);
