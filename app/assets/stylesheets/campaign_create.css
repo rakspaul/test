@@ -1621,10 +1621,11 @@
 .adCreateMaster #targetting .targettingFormWrap .loading-icon {
   margin-top: 0px ;
 }
-.adCreateMaster #targetting .targettingFormWrap .tooltip_holder #tab_region {
+.adCreateMaster #targetting .targettingFormWrap .show_tooltip #tab_region {
   opacity: 0.5 ;
+  cursor: default;
 }
-.adCreateMaster #targetting .targettingFormWrap .tooltip_holder .common_tooltip {
+.adCreateMaster #targetting .targettingFormWrap .show_tooltip .common_tooltip {
   width: 200px;
   bottom: 45px;
   left: -20px;
