@@ -63,7 +63,7 @@ var angObj = angObj || {};
                         var startDateElem = $('#startDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
                         if(moment().isAfter(campaignStartTime, 'day')) {
-                            campaignStartTime = moment().format('DD/MM/YYYY');
+                            campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
                         startDateElem.datepicker("setStartDate", campaignStartTime);
@@ -513,10 +513,7 @@ var angObj = angObj || {};
         $scope.$on('renderTargetingUI', function(event, platformId) {
             $scope.isPlatformId = platformId;
             $scope.isPlatformSelected = platformId ? true : false;
-            //if($scope.geoTargetName && $scope.geoTargetName.toLowerCase() ==='geography') {
-                resetTargetingVariables();
-                //$scope.listRegions();
-            //}
+            $scope.resetTargetingVariables();
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
             if($scope.isPlatformId === 1) {
@@ -624,7 +621,7 @@ var angObj = angObj || {};
             $scope.includeorExcludeCityOnly(type);
         };
 
-        var resetTargetingVariables = function() {
+        $scope.resetTargetingVariables = function() {
             $scope.geoTargetingData['selected'] = {};
             $scope.geoTargetingData['selected']['regions']=[];
             $scope.geoTargetingData['selected']['cities']=[];
@@ -635,14 +632,14 @@ var angObj = angObj || {};
             $scope.citiesIncluded = true;
             $scope.addedTargeting = true;
             $scope.dmasIncluded = true;
-            $scope.geoTargetName = null;
+            $scope.adData.geoTargetName = null;
             citiesListArray.length = 0;
             regionsListArray.length = 0;
             dmasListArray.length =0;
             getSwitchElem('on');
         }
 
-        resetTargetingVariables();
+        $scope.resetTargetingVariables();
 
         var getAllAddedZipCode =  function(zipCodeList) {
             var addedZipCodes = [];
@@ -700,7 +697,7 @@ var angObj = angObj || {};
                     })
                     $scope.isRegionSelected =  true;
                     var regionTab = $("#tab_region").parent();
-                    regionTab.removeClass('tooltip_holder');
+                    regionTab.removeClass('show_tooltip');
                     regionTab.find('.common_tooltip').hide();
                 }
 
@@ -739,6 +736,10 @@ var angObj = angObj || {};
                         }
                     }
                 }
+            }
+
+            if(type ==='zip') {
+                if($scope.zipCodesObj)  $scope.zipCodesObj = [];
             }
         };
 
@@ -806,7 +807,7 @@ var angObj = angObj || {};
                  platformId : $scope.isPlatformId,
                  sortOrder :'asc',
                  pageNo :1,
-                 pageSize : 15
+                 pageSize : 25
              }
 
             _.extend($scope.dmasListObj, defaults)
@@ -824,7 +825,7 @@ var angObj = angObj || {};
         $scope.loadMoreDmas = function() {
             if($scope.dmasListObj) {
                 $scope.dmasFetching = true;
-                $scope.dmasListObj = $scope.dmasListObj['pageNo'] + 1;
+                $scope.dmasListObj['pageNo'] = $scope.dmasListObj['pageNo'] + 1;
                 $scope.listDmas($scope.dmasListObj);
             }
         }
@@ -840,7 +841,7 @@ var angObj = angObj || {};
             $scope.citiesListObj = {
                 platformId : $scope.isPlatformId,
                 sortOrder :'asc',
-                pageSize :15,
+                pageSize :25,
                 pageNo : 1
             }
 
@@ -874,7 +875,7 @@ var angObj = angObj || {};
             $scope.showSwitch = true;
             var regionTab = $("#tab_region").parent();
             if(!$scope.isRegionSelected) {
-                regionTab.addClass('tooltip_holder');
+                regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
                 event.preventDefault();
                 event.stopImmediatePropagation();
@@ -886,7 +887,7 @@ var angObj = angObj || {};
             $scope.regionListObj = {
                 platformId : $scope.isPlatformId,
                 sortOrder :'asc',
-                pageSize : 15,
+                pageSize : 25,
                 pageNo : 1
             }
 
@@ -910,8 +911,8 @@ var angObj = angObj || {};
         }
 
         $scope.selectGeoTarget = function(geoTargetName) {
-            if(geoTargetName.toLowerCase() === 'geography' && !$scope.geoTargetName) {
-                $scope.geoTargetName = geoTargetName;
+            if(geoTargetName.toLowerCase() === 'geography' && !$scope.adData.geoTargetName) {
+                $scope.adData.geoTargetName = geoTargetName;
                 $scope.addedTargeting = false;
                 $scope.listRegions();
             }
@@ -1000,8 +1001,9 @@ var angObj = angObj || {};
 
         $scope.saveGeography =  function() {
             $scope.addedTargeting = true;
-            $scope.zipCodesObj.info = [];
-            $scope.zipCodesObj.error = [];
+            if($scope.zipCodesObj) {
+                $scope.zipCodesObj = [];
+            }
             $scope.adData.zipCodes = '';
             var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected);
             selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
@@ -1045,7 +1047,7 @@ var angObj = angObj || {};
         $scope.deleteGeography = function() {
             $(".targettingSelected").hide();
             $(".targettingFormWrap").slideDown();
-            resetTargetingVariables();
+            $scope.resetTargetingVariables();
             $scope.resetSwitch();
         };
 
@@ -1104,7 +1106,7 @@ var angObj = angObj || {};
         }
 
         $scope.resetTargeting = function() {
-            $scope.geoTargetName = null;
+            $scope.adData.geoTargetName = null;
             $scope.addedTargeting = true;
         }
 

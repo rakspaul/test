@@ -69,6 +69,8 @@
                     var brandsListId = $("#brandsList");
                     var profileDropdownId = $("#profileDropdown");
                     var reportTypeDropdownId = $("#reportTypeDropdown");
+                    var regionTooltip = $(".regionCityTab").find(".common_tooltip");
+                    var quickFilters = $(".sliding_dropdown_container") ;
                   if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                       cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                       cdbDropdownId.hide();
@@ -83,6 +85,15 @@
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
                   }
+                  if(regionTooltip.is(':visible') && event.target.id != "cityTab") {
+                      regionTooltip.hide();
+                  }
+
+                  var quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr("id");
+                  if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
+                     $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
+                  }
+                  
               }
 
               $( document ).click(function(event) {

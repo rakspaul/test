@@ -1,135 +1,23 @@
-<div id="detailedPage" class="dashboard_outer_container">
+<div id="detailedPage" class="dashboard_outer_container" ng-controller="campaignListController">
  <!-- header-->
     <div class="clearfix page_header_container campaign_list_header"> 
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name">Campaign List</span>
             <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span>
         </div>
-        <div class="pull-right">
-            <div class="pull-left create_btn_holder" ng-show="isWorkflowUser">
-            <!--<div class="pull-left create_btn_holder" ng-show="false">-->
-                <a href="/campaign/create" class="submit_btn common_primary_btn">{{ textConstants.WF_CREATE_CAMPAIGN }}</a>
-             </div>
-        </div>
-    </div>
+     </div>
     <div class="dropdown_filters_holder">
         <filters-header></filters-header>
     </div>
-    <div class="quick_filters_holder" style="display:none;" >
-        <div class="clearfix filters_selection_holder">
-            <div class="pull-left quick_filter " >
-                <div class="sliding_dropdown_btn" >></div>
-                <div class="sliding_dropdown_container" style="display:none;">
-                    <div class="clearfix each_section main_title">
-                        <div class="pull-left">Quick Filters</div>
-                        <div class="pull-right close_sliding_dropdown" ><</div>
-                    </div>
-                    <div class="each_section">
-                        <div class="filter_title">
-                            Campaigns
-                        </div>
-                        <div class="section_filter_list">
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    My Campaigns
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">55</div>
-                                </div>
-                            </div>
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    My Campaigns
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">55</div>
-                                </div>
-                            </div>
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    My Campaigns
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">55</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="each_section">
-                        <div class="filter_title">
-                            Performance
-                        </div>
-                        <div class="section_filter_list">
-                            <div class="clearfix each_filter active"><!-- add active when it is selected -->
-                                <div class="pull-left">
-                                    On Track
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">11</div>
-                                </div>
-                            </div>
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    Not on Track
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">2</div>
-                                </div>
-                            </div>
-                    
-                        </div>
-                    </div>
-                    <div class="each_section">
-                        <div class="filter_title">
-                            Status
-                        </div>
-                        <div class="section_filter_list">
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    Active
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">55</div>
-                                </div>
-                            </div>
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    paused
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">25</div>
-                                </div>
-                            </div>
-                            <div class="clearfix each_filter">
-                                <div class="pull-left">
-                                    Complete
-                                </div>
-                                <div class="pull-right">
-                                    <div class="number">5</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      <!--   <div class="filters_selected_holder">
-            <div class="each_selected_filter">
-                <div class="heading">
-                    Status
-                </div>
-                <div class="value">
+    <div campaign-list-filter-directive campaigns="campaigns"></div>
 
-                </div>
-            </div>
-        </div> -->
-    </div>
  <!-- header ends-->
 
     <div class="fixed_line"></div>
     <div class="fixed_container">
         <!--dashboard (status bar) partial view-->
-        <div campaign-dashboard campaigns="campaigns"></div>
+       <!--<div campaign-dashboard campaigns="campaigns"></div>-->
+
         <!--dashboard (status bar) partial view ends-->
         <div class="cost_col_header_tabs_holder">
             <div class="clearfix cost_tabs_margin">
@@ -201,8 +89,6 @@
         $(".dropdown_ul li").click( function() {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
         }) ;
-        $(".sliding_dropdown_btn , .close_sliding_dropdown ").click( function() {
-            $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
-        }) ;
+
     });
 </script>

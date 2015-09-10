@@ -555,6 +555,15 @@
               left: 0;
               bottom: 0;
             }
+            .adStatus.incomplete {
+              background : #939ead ;
+            }
+            .adStatus.ready {
+              background : #6abdfa ;
+            }
+            .adStatus.scheduled {
+              background : #2c9aec ;
+            }
 
             .labelPush {
               background: #5cb85c;
@@ -1609,9 +1618,10 @@
       .loading-icon {
         margin-top: 0px ;
       } 
-      .tooltip_holder {
+      .show_tooltip {
         #tab_region {
           opacity: 0.5 ;
+          cursor: default;
         }
         .common_tooltip {
           width: 200px;

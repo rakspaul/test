@@ -92,6 +92,8 @@
       'campaignList-CampaignListModel':{deps: ['campaignList-CampaignListModule']},
       'campaignList-CampaignListService':{deps: ['campaignList-CampaignListModel']},
       'campaignList-CampaignListController':{deps: ['campaignList-CampaignListService']},
+      'campaignList-CampaignListFilterDirective':{deps: ['campaignList-CampaignListModule']},
+      'workflow-controllers-CampaignListController':{deps: ['campaignList-CampaignListService']},
 
 
       'editActions-EditActionsModule':{deps: ['campaignList-CampaignListController']},
@@ -268,6 +270,8 @@
       'campaignList-CampaignListModel':'campaignList/CampaignListModel',
       'campaignList-CampaignListService':'campaignList/CampaignListService',
       'campaignList-CampaignListController':'campaignList/CampaignListController',
+      'campaignList-CampaignListFilterDirective':'campaignList/CampaignListFilterDirective',
+      'workflow-controllers-CampaignListController':'workflow/controllers/CampaignListController',
 
 
       'editActions-EditActionsModule':'editActions/EditActionsModule',
@@ -450,6 +454,8 @@
            'campaignList-CampaignListModel',
            'campaignList-CampaignListService',
            'campaignList-CampaignListController',
+           'campaignList-CampaignListFilterDirective',
+           'workflow-controllers-CampaignListController',
 
 
            'editActions-EditActionsModule',

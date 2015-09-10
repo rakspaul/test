@@ -2,7 +2,10 @@
     "use strict";
     angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, $cookieStore) {
         return {
-
+            fetchCampaigns : function() {
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns';
+                return dataService.fetch(url);
+            },
             getClients: function () {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);

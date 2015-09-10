@@ -2,6 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
+        $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.workflowData['getADsForGroupData'] = {}
@@ -10,6 +11,7 @@ var angObj = angObj || {};
         $scope.sizeString = "";
         $scope.showHideToggle = false;
         $scope.showIndividualAds = false;
+        $scope.showCreateAdGrp=false;
         var campaignOverView = {
 
             modifyCampaignData: function () {
@@ -25,10 +27,10 @@ var angObj = angObj || {};
                         var startDateElem = $('#adGrpStartDateInput');
                         var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");//console.log(campaignStartTime);
                         if(moment().isAfter(campaignStartTime, 'day')) {
-                            campaignStartTime = moment().format('DD/MM/YYYY');
+                            campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");//console.log(campaignEndTime);
-                        startDateElem.datepicker("setStartDate", campaignStartTime);
+                        startDateElem.datepicker("setStartDate", campaignStartTime);//console.log(campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
@@ -45,13 +47,27 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         if(responseData.length>0){$scope.extractor(responseData);}// call extract method if
-                        $scope.workflowData['campaignAdsData'] = responseData;
+                        //$scope.workflowData['campaignAdsData'] = responseData;
+                        //console.log(responseData)
                         for (var index in responseData) {
                             if (responseData[index].state.toLowerCase() == "draft") {
                                 $scope.disablePushBtn = false;
                                 break;
                             }
                         }
+                        var newData =responseData;
+                        for(var i in newData){
+                                if(newData[i].state == "NEW"){
+                                    newData[i].state="INCOMPLETE";
+                                }else if(newData[i].state=="DRAFT"){
+                                    newData[i].state="READY";
+                                }else if(newData[i].state=="READY"){
+                                    newData[i].state="SCHEDULED";
+                                }
+                        }$scope.workflowData['campaignAdsData']=newData;
+                        //console.log($scope.workflowData['campaignAdsData']);
+
+
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -148,27 +164,46 @@ var angObj = angObj || {};
 
 
         }
+        $scope.createAdGrp = function () {
+                    $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
+
+
+        }
         $scope.extractor = function (IndividualAdsData) {
-            $scope.independantAdData = IndividualAdsData;
-            var ascending = _.sortBy(IndividualAdsData, function (o) {
+        //find lowest startDate
+            var startDatelow=new Array;
+            for(var i in IndividualAdsData){
+                if(IndividualAdsData[i].startTime){
+                    startDatelow.push(IndividualAdsData[i]);
+
+                }
+            }
+            var ascending = _.sortBy(startDatelow, function (o) {
                 return o.startTime;
             })
-            $scope.lowestStartTime = ascending[0].startTime;
-
-            var descending = _.sortBy(IndividualAdsData, function (o) {
-                return -o.endTime;
-            })
-            $scope.highestEndTime = descending[0].endTime;//console.log(descending);
-
+            $scope.lowestStartTime = moment(ascending[0].startTime).format("MM/DD/YYYY");
             var startDateElem = $('#individualAdsStartDateInput');
-            var campaignstartTime = moment($scope.lowestStartTime).format("MM/DD/YYYY");
-            startDateElem.datepicker("setEndDate", campaignstartTime);
+            startDateElem.datepicker("setEndDate", $scope.lowestStartTime);
+
+        //find highest end date.
+            var endDateHigh= new Array;
+            for(var ind in IndividualAdsData){
+                if(IndividualAdsData[ind].endTime){
+                endDateHigh.push(IndividualAdsData[ind]);
+
+                }
+            }
+            var descending = _.sortBy(endDateHigh, function (o) {
+                return o.endTime;
+            });descending.reverse();
+            $scope.highestEndTime = moment(descending[0].endTime).format("MM/DD/YYYY");
             var endDateElem = $('#individualAdsEndDateInput');
-            var campaignEndTime = moment($scope.highestEndTime).format("MM/DD/YYYY");
-            endDateElem.datepicker("setStartDate", campaignEndTime);
+            endDateElem.datepicker("setStartDate", $scope.highestEndTime);
         }
         $scope.createIndependantAdsGroup = function () {
             //api call here to group individual ads into a group
+            //$scope.$broadcast('show-errors-check-validity');
+            //if ($scope.createIndependantAdsGroup.$valid){
             var formElem = $("#createIndependantAdsGroup");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
@@ -178,7 +213,13 @@ var angObj = angObj || {};
             postCreateAdObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
             postCreateAdObj.createdAt = "";
             postCreateAdObj.updatedAt = "";
-            postCreateAdObj.data = $scope.independantAdData;
+
+            var dataArray = new Array;
+            for(var i in $scope.independantAdData) {
+                dataArray.push($scope.independantAdData[i].id);
+            }
+            //console.log(dataArray);
+            postCreateAdObj.data = dataArray;
             console.log(postCreateAdObj);
 
 //                            workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
@@ -191,6 +232,7 @@ var angObj = angObj || {};
 //                                         console.log(result);
 //                                    }
 //                            });
+        //}
         }
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
@@ -215,9 +257,9 @@ var angObj = angObj || {};
     });
     angObj.controller('createAdGroups', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
 
-        $scope.checkForPastDate = function (date) {
-            return moment().isAfter(date, 'day');
-        }
+//        $scope.checkForPastDate = function (date) {
+//            return moment().isAfter(date, 'day');
+//        }
         $scope.handleFlightDate = function (data) {
             var startTime = data;
             var endDateElem = $('#adGrpEndDateInput');
@@ -235,29 +277,32 @@ var angObj = angObj || {};
         }
 
         $scope.createAdGroup = function () {
-            var formElem = $("#createAdGrp");
-            var formData = formElem.serializeArray();
-            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-            var postCreateAdObj = {}
-            postCreateAdObj.name = formData.adGroupName;
-            postCreateAdObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
-            postCreateAdObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
-            postCreateAdObj.createdAt = "";
-            postCreateAdObj.updatedAt = "";
-            console.log(postCreateAdObj);
+           // $scope.$broadcast('show-errors-check-validity');
+               // if ($scope.adGroupCreateForm.$valid){
+                var formElem = $("#createAdGrp");
+                var formData = formElem.serializeArray();
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                var postCreateAdObj = {}
+                postCreateAdObj.name = formData.adGroupName;
+                postCreateAdObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
+                postCreateAdObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
+                postCreateAdObj.createdAt = "";
+                postCreateAdObj.updatedAt = "";
+                console.log(postCreateAdObj);
 
-            workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    console.log("ad group created");
-                    //keep the campaignID and adGroupID from here
+                workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        console.log("ad group created");
+                        //keep the campaignID and adGroupID from here
 
-                } else {
-                    console.log("ERROR! adgroup not created");
-                    console.log(result);
-                }
-            });
+                    } else {
+                        console.log("ERROR! adgroup not created");
+                        console.log(result);
+                    }
+                });
 
 
+        //}
         }
 
 

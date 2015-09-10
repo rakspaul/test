@@ -8,6 +8,10 @@
   font-family: "Avenir-bold";
   src: url("/assets/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/assets/fonts/Avenir/Avenir_bold.woff2") format("woff2"), url("/assets/fonts/Avenir/Avenir.ttf") format("truetype");
 }
+.common_outer_container {
+  width: 1040px;
+  margin: 0 auto;
+}
 /*common loading icon */
 .loading-icon {
   text-align: center;
@@ -457,7 +461,13 @@
   position: relative;
   cursor: default;
 }
-.tooltip_holder .common_tooltip {
+.tooltip_holder .tooltip_show_icon {
+  height: 18px;
+  width: 20px;
+  display: block;
+  background: url("/assets/images/cdesk/info_icon.png") no-repeat center left;
+}
+.common_tooltip {
   display: none;
   position: absolute;
   background: rgba(0, 0, 0, 0.8);
@@ -472,7 +482,7 @@
   font-family: "Avenir";
   z-index: 100 ;
 }
-.tooltip_holder .common_tooltip:after {
+.common_tooltip:after {
   content: " ";
   height: 0px;
   width: 0px;
@@ -486,12 +496,6 @@
   border-top: solid 10px #000;
   border-top-color: rgba(0, 0, 0, 0.8);
   left: 70px ;
-}
-.tooltip_holder .tooltip_show_icon {
-  height: 18px;
-  width: 20px;
-  display: block;
-  background: url("/assets/images/cdesk/info_icon.png") no-repeat center left;
 }
 .tooltip_holder:hover .common_tooltip {
   display: block;
@@ -930,7 +934,7 @@
   text-transform: none;
   cursor: pointer;
   text-align: center;
-  margin: 98px auto 0;
+  margin: 120px auto 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   text-shadow: 0px 0px 0px transparent;
   transition: .  1s ;
