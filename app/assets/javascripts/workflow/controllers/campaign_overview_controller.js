@@ -51,11 +51,11 @@ var angObj = angObj || {};
                         var newData =responseData;
                         for(var i in newData){
                                 if(newData[i].state == "NEW"){
-                                    newData[i].state="INCOMPLETE";continue;
+                                    newData[i].state="INCOMPLETE";
                                 }else if(newData[i].state=="DRAFT"){
-                                    newData[i].state="READY";continue;
+                                    newData[i].state="READY";
                                 }else if(newData[i].state=="READY"){
-                                    newData[i].state="SCHEDULED";continue;
+                                    newData[i].state="SCHEDULED";
                                 }
                         }$scope.workflowData['campaignAdsData']=newData;
                         console.log($scope.workflowData['campaignAdsData']);
