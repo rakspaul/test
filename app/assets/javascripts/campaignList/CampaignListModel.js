@@ -68,15 +68,17 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     ontrack: true,
                     active: true
                 },
-                filterActive: '(active,underperforming)',
+               // filterActive: '(active,underperforming)',
+                filterActive: '(active)',
                 filterReady: undefined,
                 filterDraft: undefined,
                 filterCompleted: undefined,
                 status: {
                     active: {
                         bothItem: '',
-                        underperforming: 'active',
-                        ontrack: ''
+                        underperforming: '',
+                        ontrack: '',
+                        endingSoon:''
                     },
                     pending: {
                         draft: '',
@@ -125,6 +127,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     this.dashboard.filterActive = undefined;
                     this.dashboard.status.active.underperforming = undefined;
                     this.dashboard.status.active.ontrack = undefined;
+                    this.dashboard.status.active.endingSoon = undefined;
                 }
                 if (type != 'paused') {
                     setTopFiltersStatus.call(this, "others", false, {
@@ -251,7 +254,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.busy = true;
                         var self = this,
                             url = _campaignServiceUrl.call(this);
-
+                        console.log('fetch campaigns url:',url);
+                        //console.log('url:',url);
                         campaignListService.getCampaigns(url, function(result) {
                             requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
@@ -303,7 +307,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.busy = true;
                         var self = this,
                             url = _campaignServiceUrl.call(this, 'costBreakdown');
-
+                            //console.log('cost breakdown url: ',url);
                         campaignListService.getCampaigns(url, function(result) {
                             requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
@@ -407,11 +411,13 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                                 }
                             } else if (self.dashboard.total > 3) {
                                 self.dashboard.displayFilterSection = true;
-                                if (self.dashboard.active.underperforming == 0) {
+                                /*if (self.dashboard.active.underperforming == 0) {
                                     loadActiveOntrack();
                                 } else {
+                                    console.log('load active underperforming');
                                     loadActiveUnderperforming();
-                                }
+                                }*/
+                                loadActive();
                             } else {
                                 self.dashboard.displayFilterSection = false;
                                 self.dashboard.filterTotal = result.data.data.total;
@@ -440,6 +446,14 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         self.dashboard.filterActive = constants.ACTIVE_UNDERPERFORMING;
                         self.dashboard.status.active.ontrack = '';
                         self.dashboard.status.active.underperforming = constants.ACTIVE;
+                    }
+
+                    function loadActive() {
+                        self.dashboardFilter(constants.ACTIVE)
+                        self.dashboard.filterActive = constants.ACTIVE;
+                        self.dashboard.status.active.ontrack = '';
+                        self.dashboard.status.active.underperforming = '';
+                        self.dashboard.status.active.bothItem = constants.ACTIVE;
                     }
 
                 },
@@ -476,6 +490,10 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     this.resetDasboardFilter(type, state);
                     this.dashboardRemoveSelectedAll(type, state);
                     this.setDashboardSelection(type, state);
+                    if(state == 'endingSoon'){
+                        this.sortParam = 'end_date';
+                        this.sortDirection = 'asc';
+                    }
                     //get the campaign list
                     this.campaignList = [];
                     this.costBreakdownList = [];
@@ -598,10 +616,10 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
 
                     if (filters.brand != undefined) {
                         this.dashboard.filterSelectAll = false;
-                        this.dashboard.status.active.underperforming = 'active';
-                        this.dashboard.filterActive = '(active,underperforming)';
+                        this.dashboard.status.active.bothItem = 'active';
+                        this.dashboard.filterActive = '(active)';
                         setTopFiltersStatus.call(this, "others", false, null);
-                        this.dashboard.status.active.bothItem = undefined;
+                        this.dashboard.status.active.underperforming = undefined;
                         this.dashboard.status.active.ontrack = undefined;
                     }
 
@@ -609,18 +627,25 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 },
                 dashboardSelectedAll = function() {
                     this.nextPage = 1;
-                    //this.dashboard.filterSelectAll=true;
+                    this.dashboard.filterSelectAll=true;
                     //this. dashboardSelectedAllResetFilter(true);
                     this.resetDasboard();
-                    if (this.dashboard.filterSelectAll == false) {
+                    /*if (this.dashboard.filterSelectAll == false) {
                         this.dashboard.filterSelectAll = true;
                         this.dashboardSelectedAllResetFilter(true);
                     } else {
                         this.dashboard.filterSelectAll = false;
                         this.dashboardSelectedAllResetFilter(false);
-                    }
+                    }*/
+                    this.dashboard.status.active.bothItem = 'active';
+                    this.campaignList = [];
+                    this.scrollFlag = 1;
+                    this.resetCostBreakdown.call(this);
+                    fetchData.call(this);
                 }, //This function will be reseting the dashboard filter based on the top filter selection
                 setTopFiltersStatus = function(from, status, selectedElement) {
+
+
                     var data = this.dashboard.topDisplayFilter,
                         self = this,
                         setFieldValue = status == true ? 'active' : undefined; // if true set as active else undefined
@@ -632,6 +657,10 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     }
                     _.each(data, function(subData, fieldName) {
                         if (from == 'activeAll') {
+                            if(fieldName == 'bothItem') {
+                                self.dashboard['status']['active']['ontrack'] = undefined;
+                                self.dashboard['status']['active']['underperforming'] = undefined;
+                            }
                             self.dashboard['status']['active'][fieldName] = setFieldValue;
                         } else {
                             if (fieldName != 'active') {
@@ -650,19 +679,29 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             this.dashboard.status[type] = 'active';
                             this.dashboard.filterTotal = this.dashboard[type];
                             break;
-                        case ((type == 'active') && (state == "ontrack" || state == "underperforming")):
+                        case ((type == 'active') && (state == "ontrack" || state == "underperforming" || state == "endingSoon")):
                             this.dashboard.filterActive = '(active,' + state + ')';
                             this.dashboard.status.active[state] = 'active';
                             if (state == "ontrack") {
                                 this.dashboard.status.active.underperforming = '';
+                                this.dashboard.status.active.endingSoon = '';
+                            } else if(state == "underperforming")  {
+                                this.dashboard.status.active.ontrack = '';
+                                this.dashboard.status.active.endingSoon = '';
                             } else {
+                                this.dashboard.status.active.underperforming = '';
                                 this.dashboard.status.active.ontrack = '';
                             }
-                            this.dashboard.filterTotal = this.dashboard.active[state];
+                            if(state == 'endingSoon') {
+                                this.dashboard.filterActive = '(active)';
+                                this.dashboard.filterTotal = this.dashboard.active.total;
+                            } else {
+                                this.dashboard.filterTotal = this.dashboard.active[state];
+                            }
                             break;
                         case (type == 'activeAll'):
                             this.dashboard.filterActive = '(active)';
-                            setTopFiltersStatus.call(this, type, true, null);
+                           setTopFiltersStatus.call(this, type, true, null);
                             this.dashboard.filterTotal = this.dashboard.active.total;
                             break;
                     }

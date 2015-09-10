@@ -1,0 +1,109 @@
+<div class="quick_filters_holder">
+    <div class="clearfix filters_selection_holder">
+        <div class="pull-left quick_filter " >
+            <div class="sliding_dropdown_btn" >></div>
+            <div class="sliding_dropdown_container" style="display:none;">
+                <div class="clearfix each_section main_title">
+                    <div class="pull-left">Quick Filters</div>
+                    <div class="pull-right close_sliding_dropdown" ><</div>
+                </div>
+                <div class="each_section">
+                    <div class="filter_title">
+                        Campaign Status
+                    </div>
+                    <div class="section_filter_list">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.draft}}" ng-click="campaigns.dashboard.status.draft || campaigns.dashboardFilter('draft','')">
+                            <div class="pull-left">
+                                Draft
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.draft}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.ready}}" ng-click="campaigns.dashboard.status.ready || campaigns.dashboardFilter('ready','')">
+                            <div class="pull-left">
+                                Ready
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.ready}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.bothItem}}" ng-click="campaigns.dashboard.status.active.bothItem || campaigns.dashboardFilter('activeAll','')">
+                            <div class="pull-left">
+                                Active
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.active.total}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.paused }}" ng-click="campaigns.dashboard.status.paused || campaigns.dashboardFilter('paused','')">
+                            <div class="pull-left">
+                                Paused
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.paused}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.completed }}" ng-click="campaigns.dashboard.status.completed || campaigns.dashboardFilter('completed','')">
+                            <div class="pull-left">
+                                Completed
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.completed}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="each_section">
+                    <div class="filter_title">
+                        Performance
+                    </div>
+                    <div class="section_filter_list">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.ontrack}}" ng-click="campaigns.dashboard.status.active.ontrack || campaigns.dashboardFilter('active','ontrack')"><!-- add active when it is selected -->
+                            <div class="pull-left">
+                                On Track
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.active.ontrack}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.underperforming }}" ng-click="(campaigns.dashboard.status.active.underperforming) || campaigns.dashboardFilter('active','underperforming')">
+                            <div class="pull-left" >
+                                Underperforming
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.active.underperforming}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="each_section">
+                    <div class="filter_title">
+                        Campaigns
+                    </div>
+                    <div class="section_filter_list">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.endingSoon }}" ng-click="campaigns.dashboard.status.endingSoon || campaigns.dashboardFilter('active','endingSoon')">
+                            <div class="pull-left">
+                                Ending soon
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.active.total}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--   <div class="filters_selected_holder">
+          <div class="each_selected_filter">
+              <div class="heading">
+                  Status
+              </div>
+              <div class="value">
+
+              </div>
+          </div>
+      </div> -->
+</div>
