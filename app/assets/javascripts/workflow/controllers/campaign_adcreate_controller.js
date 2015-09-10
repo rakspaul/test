@@ -632,7 +632,7 @@ var angObj = angObj || {};
             $scope.citiesIncluded = true;
             $scope.addedTargeting = true;
             $scope.dmasIncluded = true;
-            $scope.geoTargetName = null;
+            $scope.adData.geoTargetName = null;
             citiesListArray.length = 0;
             regionsListArray.length = 0;
             dmasListArray.length =0;
@@ -911,8 +911,8 @@ var angObj = angObj || {};
         }
 
         $scope.selectGeoTarget = function(geoTargetName) {
-            if(geoTargetName.toLowerCase() === 'geography' && !$scope.geoTargetName) {
-                $scope.geoTargetName = geoTargetName;
+            if(geoTargetName.toLowerCase() === 'geography' && !$scope.adData.geoTargetName) {
+                $scope.adData.geoTargetName = geoTargetName;
                 $scope.addedTargeting = false;
                 $scope.listRegions();
             }
@@ -1106,7 +1106,7 @@ var angObj = angObj || {};
         }
 
         $scope.resetTargeting = function() {
-            $scope.geoTargetName = null;
+            $scope.adData.geoTargetName = null;
             $scope.addedTargeting = true;
         }
 

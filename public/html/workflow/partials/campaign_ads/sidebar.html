@@ -85,12 +85,19 @@
                     </div>
                 </div>
             </li>
+
             <li id="targetting-tab">
                 <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab">4 Targeting</a>
                 <div>
-                    <div class="statusLabel disabled">
+                    <div class="statusLabel disabled" ng-if="!adData.geoTargetName">
                         <div class="col-md-12">
                             <span>Not Set</span>
+                        </div>
+                    </div>
+
+                    <div class="statusLabel disabled" ng-if="adData.geoTargetName">
+                        <div class="col-md-12">
+                            <span>{{adData.geoTargetName}}</span>
                         </div>
                     </div>
                 </div>

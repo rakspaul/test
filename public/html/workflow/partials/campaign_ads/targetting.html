@@ -23,16 +23,16 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
-            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="geoTargetName === geoTarget.name"> (Added)</span></li>
+            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></li>
         </ul>
     </div>
 </div>
 
 
 <!--=== Targeting Form ===-->
-<div class="col-md-12 zeroPadding targettingFormWrap" ng-if="geoTargetName">
+<div class="col-md-12 zeroPadding targettingFormWrap" ng-if="adData.geoTargetName">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
-        <h2>{{geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
 
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCode">
             <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
