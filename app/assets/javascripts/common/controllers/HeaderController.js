@@ -69,6 +69,7 @@
                     var brandsListId = $("#brandsList");
                     var profileDropdownId = $("#profileDropdown");
                     var reportTypeDropdownId = $("#reportTypeDropdown");
+                    var regionTooltip = $(".regionCityTab").find(".common_tooltip");
                   if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                       cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                       cdbDropdownId.hide();
@@ -82,6 +83,9 @@
                   }
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
+                  }
+                  if(regionTooltip.is(':visible') && event.target.id != "cityTab") {
+                      regionTooltip.hide();
                   }
               }
 

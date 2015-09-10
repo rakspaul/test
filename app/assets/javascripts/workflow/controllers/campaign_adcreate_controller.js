@@ -697,7 +697,7 @@ var angObj = angObj || {};
                     })
                     $scope.isRegionSelected =  true;
                     var regionTab = $("#tab_region").parent();
-                    regionTab.removeClass('tooltip_holder');
+                    regionTab.removeClass('show_tooltip');
                     regionTab.find('.common_tooltip').hide();
                 }
 
@@ -875,7 +875,7 @@ var angObj = angObj || {};
             $scope.showSwitch = true;
             var regionTab = $("#tab_region").parent();
             if(!$scope.isRegionSelected) {
-                regionTab.addClass('tooltip_holder');
+                regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
                 event.preventDefault();
                 event.stopImmediatePropagation();
