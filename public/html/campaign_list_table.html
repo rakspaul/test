@@ -1,0 +1,36 @@
+<div id="campaignListContainer" class="common_outer_container campaignListContainer">
+    <div class="campaignListHolder">
+        <div class="clearfix each-row list-head">
+            <div class="column">Advertiser Name</div>
+            <div class="column">Brand Name</div>
+            <div class="column">Campaign Id</div>
+            <div class="column">Campaign Name</div>
+            <div class="column">Budget</div>
+            <div class="column">Status</div>
+            <div class="column">Start Date</div>
+            <div class="column">End Date</div>
+        </div>
+        <div class="data_holder">
+            <div class="common-load-more" ng-show="campaignData == undefined">
+            </div>
+            <div class="clearfix each-row" ng-repeat="campaign in campaignData " ng-show="campaignData != ''">
+                <div class="column">{{campaign.advertiserName}}</div>
+                <div class="column" ng-if="campaign.hasOwnProperty('brandName')">{{ campaign.brandName }}</div>
+                <div class="column" ng-if="!campaign.hasOwnProperty('brandName')"> - </div>
+
+                <div class="column">{{campaign.clientId}}</div>
+                <div class="column">{{campaign.clientName}}</div>
+
+                <div class="column" ng-if="campaign.hasOwnProperty('bookedRevenue')">
+                    <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
+                    <span id="budgetAmount"  class="">{{campaign.bookedRevenue | number}}</span>
+                </div>
+                <div class="column" ng-if="!campaign.hasOwnProperty('bookedRevenue')"> - </div>
+
+                <div class="column">{{campaign.status}}</div>
+                <div class="column">{{ utc(campaign.startTime) | date : 'yyyy-MM-dd'}}</div>
+                <div class="column">{{utc(campaign.endTime) | date : 'yyyy-MM-dd'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

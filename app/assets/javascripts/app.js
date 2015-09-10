@@ -168,6 +168,10 @@ var angObj = '';
                 }
 
             })
+            .when('/campaignsList', {
+                templateUrl: assets.html_campaign_list_table,
+                controller: 'campaignListTableController'
+            })
             .when('/help', {
                 templateUrl: assets.html_help,
                 title :  'Help - Online',
