@@ -227,3 +227,199 @@
     width: 500px ;
   }
 }
+
+// Inventory Filters Styles
+#inventoryFilters {
+  margin: 0 auto;
+  width: 1200px;
+  .col-md-10 {
+    padding: 0 0 0 35px;
+  }
+  .each_filter{
+    float: left;
+    width: 206px;
+    margin: 20px 30px 0 0;
+  }
+  .page_header_container {
+    width: 100%;
+    margin-top: 30px;
+    float: left;
+    .containerWrap {
+      span {
+        float: left;
+        font-size: 18px;
+      }
+      a {
+        text-decoration: none;
+        float: left;
+        clear: left;
+      }
+      img {
+        margin: 5px;
+        float: right;
+      }
+      .nav_filters {
+        .dropdown {
+          border: 1px solid #d4d4d4;
+          padding: 5px 10px;
+          .dropdown-menu {
+            max-width: 220px;
+            border-radius: 0;
+            border-top: 0;
+            min-width: 206px;
+            margin-top: 0;
+            margin-left: -1px;
+            box-shadow: none;
+          }
+          .dropdown_name_selected {
+            margin-right: 0;
+            padding-right: 0;
+          }
+        }
+      }
+      .accountTitleTag {
+        float: left;
+        font-size: 12px;
+      }
+      button {
+        float: left;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+    }
+  }
+  .filterList {
+    border: 1px solid #dde6eb;
+    float: left;
+    width: 100%;
+    margin-bottom: 30px;
+    .filterHead {
+      float: left;
+      width: 100%;
+      border-bottom: 3px solid #dde6eb;
+      padding: 20px;
+      h1 {
+        float: left;
+        width: 100%;
+        color: #21252b;
+        font-size: 18px;
+        line-height: 25px;
+        margin: 0 0 20px 0;
+      }
+      span {
+        font-size: 14px;
+        width: 100%;
+        float: left;
+      }
+    }
+    .filterBody {
+      float: left;
+      width: 100%;
+      padding: 20px;
+      span {
+        color: #21212b;
+        float: left;
+        width: 100%;
+        font-size: 14px;
+        line-height: 30px;
+      }
+      a {
+        float: left;
+        clear: left;
+        font-size: 14px;
+        margin-top: 30px;
+      }
+    }
+  }
+}
+// Inventory Modal
+.popInventoryLib {
+  position: absolute;
+  left: 0;
+  top: 66px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.50);
+  .inventoryLib {
+    position: relative;
+    width: 800px;
+    min-height: 250px;
+    left: 50%;
+    top: 55px;
+    margin-left: -400px;
+    background: white;
+    border-radius: 5px;
+    display: inline-block;
+    -webkit-box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
+    .closePopBtn {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      z-index: 10;
+      cursor: pointer;
+      color: #fff;
+      font-size: 30px;
+    }
+    .headerLib {
+      padding: 30px 30px 17px 30px;
+      float: left;
+      width: 100%;
+      background: #fff;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border-bottom: 3px solid #dde6eb;
+      .btn-default {
+        float: right;
+        margin: 0;
+      }
+      h1 {
+        float: left;
+        color: #000;
+        width: auto;
+        margin-top: 0;
+      }
+      a {
+        float: left;
+        clear: left;
+      }
+    }
+    .popBody {
+      float: left;
+      width: 100%;
+      padding: 17px 30px 30px 30px;
+      .popList {
+        float: left;
+        width: 100%;
+        margin-bottom: 20px;
+        span {
+          float: left;
+          width: 100%;
+          line-height: 30px;
+        }
+      }
+      .categoryDDL {
+        float: left;
+        width: 30%;
+        margin-top: 20px;
+      }
+      .radioBtnToggle {
+        float: left;
+        width: 40%;
+        margin-left: 20px;
+        margin-top: 20px;
+        .miniToggle {
+          margin: 0;
+        }
+      }
+    }
+    .popFooter {
+      padding: 20px 30px;
+      background: #F5F9FD;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}

@@ -212,3 +212,192 @@
 .duplicate_tag .about_popup {
   width: 500px ;
 }
+#inventoryFilters {
+  margin: 0 auto;
+  width: 1200px;
+}
+#inventoryFilters .col-md-10 {
+  padding: 0 0 0 35px;
+}
+#inventoryFilters .each_filter {
+  float: left;
+  width: 206px;
+  margin: 20px 30px 0 0;
+}
+#inventoryFilters .page_header_container {
+  width: 100%;
+  margin-top: 30px;
+  float: left;
+}
+#inventoryFilters .page_header_container .containerWrap span {
+  float: left;
+  font-size: 18px;
+}
+#inventoryFilters .page_header_container .containerWrap a {
+  text-decoration: none;
+  float: left;
+  clear: left;
+}
+#inventoryFilters .page_header_container .containerWrap img {
+  margin: 5px;
+  float: right;
+}
+#inventoryFilters .page_header_container .containerWrap .nav_filters .dropdown {
+  border: 1px solid #d4d4d4;
+  padding: 5px 10px;
+}
+#inventoryFilters .page_header_container .containerWrap .nav_filters .dropdown .dropdown-menu {
+  max-width: 220px;
+  border-radius: 0;
+  border-top: 0;
+  min-width: 206px;
+  margin-top: 0;
+  margin-left: -1px;
+  box-shadow: none;
+}
+#inventoryFilters .page_header_container .containerWrap .nav_filters .dropdown .dropdown_name_selected {
+  margin-right: 0;
+  padding-right: 0;
+}
+#inventoryFilters .page_header_container .containerWrap .accountTitleTag {
+  float: left;
+  font-size: 12px;
+}
+#inventoryFilters .page_header_container .containerWrap button {
+  float: left;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+#inventoryFilters .filterList {
+  border: 1px solid #dde6eb;
+  float: left;
+  width: 100%;
+  margin-bottom: 30px;
+}
+#inventoryFilters .filterList .filterHead {
+  float: left;
+  width: 100%;
+  border-bottom: 3px solid #dde6eb;
+  padding: 20px;
+}
+#inventoryFilters .filterList .filterHead h1 {
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-size: 18px;
+  line-height: 25px;
+  margin: 0 0 20px 0;
+}
+#inventoryFilters .filterList .filterHead span {
+  font-size: 14px;
+  width: 100%;
+  float: left;
+}
+#inventoryFilters .filterList .filterBody {
+  float: left;
+  width: 100%;
+  padding: 20px;
+}
+#inventoryFilters .filterList .filterBody span {
+  color: #21212b;
+  float: left;
+  width: 100%;
+  font-size: 14px;
+  line-height: 30px;
+}
+#inventoryFilters .filterList .filterBody a {
+  float: left;
+  clear: left;
+  font-size: 14px;
+  margin-top: 30px;
+}
+.popInventoryLib {
+  position: absolute;
+  left: 0;
+  top: 66px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+.popInventoryLib .inventoryLib {
+  position: relative;
+  width: 800px;
+  min-height: 250px;
+  left: 50%;
+  top: 55px;
+  margin-left: -400px;
+  background: white;
+  border-radius: 5px;
+  display: inline-block;
+  -webkit-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+}
+.popInventoryLib .inventoryLib .closePopBtn {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  z-index: 10;
+  cursor: pointer;
+  color: #fff;
+  font-size: 30px;
+}
+.popInventoryLib .inventoryLib .headerLib {
+  padding: 30px 30px 17px 30px;
+  float: left;
+  width: 100%;
+  background: #fff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 3px solid #dde6eb;
+}
+.popInventoryLib .inventoryLib .headerLib .btn-default {
+  float: right;
+  margin: 0;
+}
+.popInventoryLib .inventoryLib .headerLib h1 {
+  float: left;
+  color: #000;
+  width: auto;
+  margin-top: 0;
+}
+.popInventoryLib .inventoryLib .headerLib a {
+  float: left;
+  clear: left;
+}
+.popInventoryLib .inventoryLib .popBody {
+  float: left;
+  width: 100%;
+  padding: 17px 30px 30px 30px;
+}
+.popInventoryLib .inventoryLib .popBody .popList {
+  float: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.popInventoryLib .inventoryLib .popBody .popList span {
+  float: left;
+  width: 100%;
+  line-height: 30px;
+}
+.popInventoryLib .inventoryLib .popBody .categoryDDL {
+  float: left;
+  width: 30%;
+  margin-top: 20px;
+}
+.popInventoryLib .inventoryLib .popBody .radioBtnToggle {
+  float: left;
+  width: 40%;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.popInventoryLib .inventoryLib .popBody .radioBtnToggle .miniToggle {
+  margin: 0;
+}
+.popInventoryLib .inventoryLib .popFooter {
+  padding: 20px 30px;
+  background: #F5F9FD;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
