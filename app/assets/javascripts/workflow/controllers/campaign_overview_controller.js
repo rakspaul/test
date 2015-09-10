@@ -11,6 +11,7 @@ var angObj = angObj || {};
         $scope.sizeString = "";
         $scope.showHideToggle = false;
         $scope.showIndividualAds = false;
+        $scope.showCreateAdGrp=false;
         var campaignOverView = {
 
             modifyCampaignData: function () {
@@ -48,6 +49,12 @@ var angObj = angObj || {};
                         if(responseData.length>0){$scope.extractor(responseData);}// call extract method if
                         //$scope.workflowData['campaignAdsData'] = responseData;
                         //console.log(responseData)
+                        for (var index in responseData) {
+                            if (responseData[index].state.toLowerCase() == "draft") {
+                                $scope.disablePushBtn = false;
+                                break;
+                            }
+                        }
                         var newData =responseData;
                         for(var i in newData){
                                 if(newData[i].state == "NEW"){
@@ -60,12 +67,7 @@ var angObj = angObj || {};
                         }$scope.workflowData['campaignAdsData']=newData;
                         console.log($scope.workflowData['campaignAdsData']);
 
-                        for (var index in responseData) {
-                            if (responseData[index].state.toLowerCase() == "draft") {
-                                $scope.disablePushBtn = false;
-                                break;
-                            }
-                        }
+
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -158,6 +160,11 @@ var angObj = angObj || {};
         }
         $scope.groupIndividualAds = function () {
             $scope.showIndividualAds = !$scope.showIndividualAds;
+
+
+        }
+        $scope.createAdGrp = function () {
+                    $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
 
 
         }
