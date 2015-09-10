@@ -513,10 +513,7 @@ var angObj = angObj || {};
         $scope.$on('renderTargetingUI', function(event, platformId) {
             $scope.isPlatformId = platformId;
             $scope.isPlatformSelected = platformId ? true : false;
-            //if($scope.geoTargetName && $scope.geoTargetName.toLowerCase() ==='geography') {
-                resetTargetingVariables();
-                //$scope.listRegions();
-            //}
+            $scope.resetTargetingVariables();
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
             if($scope.isPlatformId === 1) {
@@ -624,7 +621,7 @@ var angObj = angObj || {};
             $scope.includeorExcludeCityOnly(type);
         };
 
-        var resetTargetingVariables = function() {
+        $scope.resetTargetingVariables = function() {
             $scope.geoTargetingData['selected'] = {};
             $scope.geoTargetingData['selected']['regions']=[];
             $scope.geoTargetingData['selected']['cities']=[];
@@ -642,7 +639,7 @@ var angObj = angObj || {};
             getSwitchElem('on');
         }
 
-        resetTargetingVariables();
+        $scope.resetTargetingVariables();
 
         var getAllAddedZipCode =  function(zipCodeList) {
             var addedZipCodes = [];
@@ -810,7 +807,7 @@ var angObj = angObj || {};
                  platformId : $scope.isPlatformId,
                  sortOrder :'asc',
                  pageNo :1,
-                 pageSize : 15
+                 pageSize : 25
              }
 
             _.extend($scope.dmasListObj, defaults)
@@ -828,7 +825,7 @@ var angObj = angObj || {};
         $scope.loadMoreDmas = function() {
             if($scope.dmasListObj) {
                 $scope.dmasFetching = true;
-                $scope.dmasListObj = $scope.dmasListObj['pageNo'] + 1;
+                $scope.dmasListObj['pageNo'] = $scope.dmasListObj['pageNo'] + 1;
                 $scope.listDmas($scope.dmasListObj);
             }
         }
@@ -844,7 +841,7 @@ var angObj = angObj || {};
             $scope.citiesListObj = {
                 platformId : $scope.isPlatformId,
                 sortOrder :'asc',
-                pageSize :15,
+                pageSize :25,
                 pageNo : 1
             }
 
@@ -890,7 +887,7 @@ var angObj = angObj || {};
             $scope.regionListObj = {
                 platformId : $scope.isPlatformId,
                 sortOrder :'asc',
-                pageSize : 15,
+                pageSize : 25,
                 pageNo : 1
             }
 
@@ -1050,7 +1047,7 @@ var angObj = angObj || {};
         $scope.deleteGeography = function() {
             $(".targettingSelected").hide();
             $(".targettingFormWrap").slideDown();
-            resetTargetingVariables();
+            $scope.resetTargetingVariables();
             $scope.resetSwitch();
         };
 
