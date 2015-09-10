@@ -249,7 +249,7 @@
                                       "startDate" : $scope.campaign.startDate,
                                       "endDate" : $scope.campaign.endDate,
                                       "deliveryDays": momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate),
-                                      "bookedImpressions": $scope.campaign.total_impressions
+                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
                                     },
                                     //customisation
                                     activityList: activityList.data.data,

@@ -216,7 +216,7 @@
                                       "startDate" : tacticsList[obj].startDate,
                                       "endDate" : tacticsList[obj].endDate,
                                       "deliveryDays": momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate),
-                                      "bookedImpressions": tacticsList[obj].totalImpressions
+                                      "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
                                     }
                                 };
                             }
@@ -347,7 +347,7 @@
                                       "startDate" : strategyList[obj].startDate,
                                       "endDate" : strategyList[obj].endDate,
                                       "deliveryDays": momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate),
-                                      "bookedImpressions": strategyList[obj].totalImpressions
+                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
                                 };
                             }
@@ -497,7 +497,7 @@
                                       "startDate" : campaignObject.startDate,
                                       "endDate" : campaignObject.endDate,
                                       "deliveryDays": momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate),
-                                      "bookedImpressions": campaignObject.total_impressions
+                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
                                     }
                                 };
                             }
