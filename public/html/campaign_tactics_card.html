@@ -123,8 +123,8 @@
                     <div class="graph_details_KPI">
                         <div class="clearfix details_KPI_row1">
                             <span class="details_KPI_title">{{campaign.kpiType !='null' ?  campaign.kpiType : 'NA' | toUpperCase}}</span>
-                            <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue">
-                                <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                            <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || tactic.targetKPIImpressions">
+                                <span>{{campaign.kpiType.toLowerCase()=="delivery"?( tactic.targetKPIImpressions | nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
                                 <span class="icon_KPI"></span>
                             </span>
                             <span class="pull-right cumulative_val">
