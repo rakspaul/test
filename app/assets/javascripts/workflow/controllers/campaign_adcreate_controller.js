@@ -740,6 +740,10 @@ var angObj = angObj || {};
                     }
                 }
             }
+
+            if(type ==='zip') {
+                if($scope.zipCodesObj)  $scope.zipCodesObj = [];
+            }
         };
 
         $scope.showRemoveConfirmBox = function(event, type, subtype) {
@@ -1000,8 +1004,9 @@ var angObj = angObj || {};
 
         $scope.saveGeography =  function() {
             $scope.addedTargeting = true;
-            $scope.zipCodesObj.info = [];
-            $scope.zipCodesObj.error = [];
+            if($scope.zipCodesObj) {
+                $scope.zipCodesObj = [];
+            }
             $scope.adData.zipCodes = '';
             var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected);
             selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
