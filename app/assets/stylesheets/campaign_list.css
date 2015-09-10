@@ -2843,12 +2843,13 @@ input[type="submit"] {
   border: solid 1px #d2dee7;
   padding: 5px;
   cursor: pointer;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  width: 30px;
+  border-radius: 2px ;
+  -moz-border-radius: 2px ;
+  -webkit-border-radius: 2px ;
+  width: 32px;
   text-align: center;
-  height: 30px;
+  height: 32px;
+  background: url("/assets/images/cdesk/right_slide_in.png") no-repeat center center;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container {
   position: absolute;
@@ -2863,6 +2864,7 @@ input[type="submit"] {
   box-shadow: 2px 0 4px #ccc;
   -moz-box-shadow: 2px 0 4px #ccc;
   -webkit-box-shadow: 2px 0 4px #ccc;
+  overflow: auto;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section {
   border-bottom: solid 1px #ccc ;
@@ -2878,10 +2880,16 @@ input[type="submit"] {
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .close_sliding_dropdown {
   cursor: pointer;
+  background: url("/assets/images/cdesk/left_slide_in.png") no-repeat right center;
+  height: 20px;
+  width: 20px;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter {
-  margin-bottom: 5px;
-  padding: 5px 14px ;
+  padding: 7px 14px ;
+  cursor: pointer;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter div {
+  cursor: pointer;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter .number {
   text-align: center;
@@ -2894,14 +2902,27 @@ input[type="submit"] {
   height: 16px;
   line-height: 14px;
   margin-top: 2px;
+  padding: 0 5px ;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter:hover {
   color: #0978c9 ;
   background: #f5f9fd ;
 }
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter:hover .number {
+  border-color: #0978c9 ;
+  cursor: pointer;
+}
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter.active {
   color: #0978c9 ;
-  background: #f5f9fd ;
+  background: #E6F2FA ;
+  cursor: default;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter.active div {
+  cursor: default;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter.active .number {
+  border-color: #0978c9 ;
+  cursor: default;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section:last-child {
   border-bottom: 0px ;
