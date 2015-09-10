@@ -168,6 +168,10 @@ var angObj = '';
                 }
 
             })
+            .when('/inventory', {
+                templateUrl: assets.html_inventory_filters,
+                title :  'Inventory Filters'
+            })
             .when('/help', {
                 templateUrl: assets.html_help,
                 title :  'Help - Online',

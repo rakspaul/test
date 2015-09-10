@@ -1070,6 +1070,50 @@
   left: 0;
   z-index: 10;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters {
+  float: left;
+  width: 100%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .hideRightPanel {
+  display: none !important;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters #inventoryFilters {
+  float: left;
+  width: 100%;
+  margin: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters #inventoryFilters .col-md-10 {
+  width: 100%;
+  padding: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative {
+  float: left;
+  display: inline-block !important;
+  cursor: pointer;
+  clear: both;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative p {
+  float: left;
+  color: #0978c9;
+  margin: 2px 0 20px 10px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative span {
+  margin: 0px 10px;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative img {
+  margin: 0;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .hiddenBlockerDDL {
+  display: block;
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 #campaignCreate .table span,
 #campaignCreate .table a,
 #campaignCreate .table p {
