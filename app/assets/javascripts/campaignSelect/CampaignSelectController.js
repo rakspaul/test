@@ -14,6 +14,8 @@
             }
         };
 
+        console.log("in contrl file index: ",$scope.fileIndex);
+
         //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
         $scope.exhausted = false;
         //This prevents from making too many calls during rapid scroll down.
@@ -56,8 +58,8 @@
             if(selectedBrand.id !== -1) {
                 selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
             }
-
-            campaignSelectModel.setSelectedCampaign(selectedCampaign);
+console.log('in controller');
+            campaignSelectModel.setSelectedCampaign(selectedCampaign,$scope.fileIndex);
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
         };
 
@@ -118,7 +120,7 @@
 
 
         //Function called when the user clicks on the campaign dropdown
-        $('#campaigns_list').on('click', 'li', function (e) {
+        $('.campaigns_list').on('click', 'li', function (e) { console.log('u clicked me',e);
             $scope.$parent.strategyLoading = true ;
             //$scope.$parent.isFetchStrategiesCalled = false;
             var selectedCampaign = {
@@ -131,9 +133,12 @@
             };
             $scope.setCampaign(selectedCampaign );
 
-            $('#campaigns_list').hide();
+            $('.campaigns_list').hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
         });
         // $(function() {
         //   $("#campaignsDropdownDiv").on('click',  function(){
