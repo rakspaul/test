@@ -122,7 +122,7 @@ var angObj = angObj || {};
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
                         $scope.updatedAt = responseData.updatedAt;
-                        if ($scope.state && $scope.state.toLowerCase() === 'draft') {
+                        if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
                             $window.location.href = url;
                         }

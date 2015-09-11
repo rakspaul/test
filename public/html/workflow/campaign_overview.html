@@ -130,30 +130,32 @@
                         <div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
                         <!--Start of group individual ads into groups-->
                         <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
-                        <form id="createIndependantAdsGroup">
+                        <form id="createIndependantAdsGroup" name="createIndependantAdsGrp"  novalidate>
                             <div class="adGroupCreateForm">
                                 <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
                                 <div class="col-md-6 zeroPadding">
                                     <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
                                     <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
-                                    <div class="form-group col-sm-9 zeroPadding">
-                                        <input type="text" class="form-control" id="nameIndividualAdGroup" name="adGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
-                                        <label  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
+                                    <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
+                                        <input type="text" class="form-control" id="nameIndividualAdGroup" name="adIGroupName" ng-model="adIGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
+                                        <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 zeroPadding">
                                     <label for="dateIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
                                     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerIndividual">
-                                        <div class="col-md-12 dateWrapper form-group zeroPadding" style="margin-left: -5px;">
-                                            <div class="col-md-2" style="width: 150px; padding: 0 5px;">
+                                        <div class="form-group col-md-12 dateWrapper form-group zeroPadding" style="margin-left: -5px;" show-errors='{showSuccess: true}' >
+                                            <div class=" col-md-2" style="width: 150px; padding: 0 5px;">
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                                <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="lowestStartTime" required/>
+                                                <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime" ng-model="lowestStartTime" required/>
                                             </div>
                                             <div class="col-md-2" style="width: 150px; padding: 0 5px;">
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                                                <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="endTime" ng-model="highestEndTime"  required/>
+                                                <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
                                             </div>
-                                            <label  class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                                            <label ng-if="createIndependantAdsGrp.lowestStartTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                                            <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the end Date.</label>
+
                                         </div>
                                         <span class="col-md-12 input-group-addon">
                                             <div class="calenderIcon">
@@ -169,6 +171,7 @@
                                 <div class="col-md-6 zeroPadding">
                                     <button type="submit" class="btn btn-primary pull-right" id="groupIndividual" ng-click="createIndependantAdsGroup()">Save</button>
                                 </div>
+                                <div id="independantMessage">{{independantGroupMessage}}</div>
                             </div>
                         </form>
                         </div>
