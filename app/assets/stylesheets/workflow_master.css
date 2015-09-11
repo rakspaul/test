@@ -410,6 +410,9 @@ select {
   background: #F5FAFD;
   padding: 20px;
 }
+.table tbody tr th {
+  padding: 20px;
+}
 .table tbody tr:nth-child(odd) td {
   background: #fff;
 }

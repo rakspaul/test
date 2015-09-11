@@ -16,7 +16,7 @@
                 <tr>
                     <th class="col-md-1"></th>
                     <th class="col-md-2">Size</th>
-                    <th class="col-md-5">Tag</th>
+                    <th class="col-md-5">Creative Name</th>
                     <th class="col-md-2">Type</th>
                     <th class="col-md-2">SSL</th>
                 </tr>
@@ -31,11 +31,8 @@
                         </div>
                     </td>
                     <td>
-                        <span class="col-md-8">{{creativeData.name}}</span>
-                        <a class="col-md-8" href="" ng-click="ShowHide(creativeData)">View Tag</a>
-
-
-
+                        <a class="col-md-8" href="javascript:void(0);" ng-click="ShowHide(creativeData)">{{creativeData.name}}</a>
+                        
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
                             <!--<div ng-show="IsVisible" class="ng-cloak">-->
                                 <!--{{creativeData.tag}}-->
