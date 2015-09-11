@@ -2966,6 +2966,9 @@ input[type="submit"] {
 .campaignListContainer .campaignListHolder .each-row {
   padding: 10px 0 ;
 }
+.campaignListContainer .campaignListHolder .each-row a {
+  color: #000;
+}
 .campaignListContainer .campaignListHolder .each-row:nth-child(even) {
   background: #F5FAFD ;
 }
