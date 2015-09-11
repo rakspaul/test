@@ -85,8 +85,9 @@
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
                   }
-                  if(regionTooltip.is(':visible') && event.target.id != "cityTab") {
-                      regionTooltip.hide();
+                  var regionTooltipId = $(event.target).closest('li').attr("id") ;
+                  if(regionTooltip.is(':visible') && regionTooltipId != "cityTab"  && event.target.id != "tab_region" ) {
+                    regionTooltip.hide();
                   }
 
                   var quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr("id");
