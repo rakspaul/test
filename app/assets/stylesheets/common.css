@@ -331,6 +331,7 @@
 .popContainerHolder .popContainer .textarea_edit_holder,
 .popContainerHolder .popContainer .textarea_editable_holder {
   position: relative;
+  word-wrap: break-word;
 }
 .popContainerHolder .popContainer .textarea_edit_holder .activity_edit,
 .popContainerHolder .popContainer .textarea_editable_holder .activity_edit {
