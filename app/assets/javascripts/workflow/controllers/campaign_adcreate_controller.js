@@ -1112,5 +1112,11 @@ var angObj = angObj || {};
 
     });
 
+    angObj.controller('InventoryFiltersController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+            $scope.prarentHandler = function() {
+                console.log("IN");
+            };
+    });
+
 })();
 
