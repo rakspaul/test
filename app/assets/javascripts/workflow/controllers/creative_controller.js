@@ -68,9 +68,22 @@ var angObj = angObj || {};
                     var tagLower = formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
                     console.log(tagLower);
                     if (tagLower.match(PatternOutside)) {
-                        $scope.creativesave(formData);
+                        if( (tagLower.indexOf('%%tracker%%') > -1)){
+                            $scope.creativesave(formData);
+                        }
+                        else{
+                            $scope.IncorrectTag = true;
+                            $scope.incorrectTagMessage =$scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                        }
+
                     } else if (tagLower.match(PatternInside)) {
-                        $scope.creativesave(formData);
+                        if( (tagLower.indexOf('%%tracker%%') > -1)){
+                            $scope.creativesave(formData);
+                        }
+                        else{
+                            $scope.IncorrectTag = true;
+                            $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                        }
                     } else {
                         $scope.IncorrectTag = true;
                         $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";

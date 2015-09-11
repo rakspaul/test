@@ -114,9 +114,21 @@ var angObj = angObj || {};
             var PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
             var tagLower = $scope.editableTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
             if (tagLower.match(PatternOutside)) {
-                $scope.updateCreative();
+                   if( (tagLower.indexOf('%%tracker%%') > -1)){
+                       $scope.updateCreative();
+                   }
+                   else{
+                       $scope.IncorrectTag = true;
+                       $scope.incorrectTagMessage =$scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                   }
             } else if (tagLower.match(PatternInside)) {
-                $scope.updateCreative();
+                    if( (tagLower.indexOf('%%tracker%%') > -1)){
+                       $scope.updateCreative();
+                   }
+                   else{
+                       $scope.IncorrectTag = true;
+                       $scope.incorrectTagMessage =$scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                   }
             } else {
                 context.IncorrectTag = true;
                 context.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG;
