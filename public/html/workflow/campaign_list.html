@@ -29,8 +29,8 @@
                 <div class="column" ng-if="campaign.hasOwnProperty('brandName')">{{ campaign.brandName }}</div>
                 <div class="column" ng-if="!campaign.hasOwnProperty('brandName')"> - </div>
 
-                <div class="column">{{campaign.clientId}}</div>
-                <div class="column">{{campaign.clientName}}</div>
+                <div class="column">{{campaign.id}}</div>
+                <div class="column">{{campaign.name}}</div>
 
                 <div class="column" ng-if="campaign.hasOwnProperty('bookedRevenue')">
                     <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
