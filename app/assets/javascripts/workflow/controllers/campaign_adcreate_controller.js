@@ -112,9 +112,9 @@ var angObj = angObj || {};
                 if ($scope.adId) {
                     postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
+                    postDataObj['state'] = $scope.state;
 
                 }
-                postDataObj['adId'] = $scope.adId ? $scope.adId : '';
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -292,7 +292,7 @@ var angObj = angObj || {};
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
                 postAdDataObj.campaignId = Number($scope.campaignId);
-                postAdDataObj.state = $scope.workflowData['campaignData'].status;
+                //postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
 
                 if (formData.adFormat)
