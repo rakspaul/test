@@ -112,9 +112,16 @@
             getDMAsList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
                 return dataService.fetch(url);
+            },
+
+            getAdvertisersDomainList :  function(clientId, advertiserId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists';
+                return dataService.fetch(url);
+            },
+
+            createAdvertiseDomainList :  function(clientId, advertiserId) {
+                return apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists/upload';
             }
-
-
         };
 
     });

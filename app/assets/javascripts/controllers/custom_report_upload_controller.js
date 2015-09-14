@@ -5,8 +5,6 @@ var angObj = angObj || {};
 
       $scope.textConstants = constants;
       $scope.completed = false;
-    //  $scope.campaignList = [];
-      //$scope.brandId = "-1";
       $scope.successMsg = false;
       $scope.errorMsg = false;
       $scope.deleteSuccessMsg = false;

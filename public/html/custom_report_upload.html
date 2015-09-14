@@ -11,7 +11,7 @@
 
 	<div class="file_upload_container  {{(reportsUploadList.length) ? 'some_file_uploaded' : ''}}"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
 			 <!-- ng-show="!progress || !reportsUploadList.length" -->
-			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
+			<div  ng-show="!`" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
 	    <!-- ngf-accept="'.pdf,.xls'"
 	   ngf-max-size='1000000000000' -->
 	            <div class="file_upload_icon" >
