@@ -155,14 +155,13 @@ var angObj = angObj || {};
             $(".metric_popup").modal('hide');
         };
 
-        _customctrl.getSelectedAdditionalFilter = function() {
+        _customctrl.getSelectedAdditionalFilter = function(dimensionIds) {
             var filterArr =[];
             var elem =$(".custom_filter_breakdown");
             _.each(elem, function(el) {
-                var fdimesnion =  $.trim($(el).find(".dropdown_ul_text").text());
                 var ftext = $(el).find(".reportFilter").val()
 
-                var fstr = (fdimesnion + (ftext ? (':' + ftext) : ''))
+                var fstr = (dimensionIds[0] + (ftext ? (':' + ftext) : ''))
                 filterArr.push(fstr)
             });
             filterArr = _.filter(filterArr, function(val) { return val !== 'Choose filter'});
@@ -171,7 +170,7 @@ var angObj = angObj || {};
 
         _customctrl.getTimeFrame =  function() {
             var dateWrapper = $(".dateWrapper").find(".timeframe")
-            return '&startdate='+dateWrapper[0].value +"&endDate="+dateWrapper[1].value;
+            return '&start_date='+dateWrapper[0].value +"&end_date="+dateWrapper[1].value;
         };
 
         _customctrl.enableGenerateButton =  function() {
@@ -207,7 +206,7 @@ var angObj = angObj || {};
                 str += "&filter=" + dimensionIds[0] + (filterText !== '' ? (':' + filterText) : '');
             } else {
                 str =  dimensionIds[0] + (reportFilterList[0] !== '' ?  (':' + reportFilterList[0]) : '');
-                additonalFilter = _customctrl.getSelectedAdditionalFilter();
+                additonalFilter = _customctrl.getSelectedAdditionalFilter(dimensionIds);
                 if(additonalFilter.length >0)
                     str += "&filter=" + additonalFilter;
             }
