@@ -99,6 +99,9 @@
   width: 100%;
   float: left;
 }
+#creativeList .external_chkbox {
+  margin: 0 ;
+}
 #creativeList h2 {
   font-size: 16px;
 }
@@ -145,6 +148,7 @@
   padding-bottom: 18px;
 }
 #creativeList .mainWrap .table tbody tr {
+  color: #57606d ;
   margin: 10px 0 20px;
 }
 #creativeList .mainWrap .emptyCreativeList {
