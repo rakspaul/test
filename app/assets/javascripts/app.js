@@ -227,6 +227,8 @@ var angObj = '';
             if( RoleBasedService.getUserRole()) {
                 var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
             }
+            $rootScope.productType = isWorkflowUser ? 'workflow' : 'reporting';
+
             var isNetworkUser = (networkUser === 'true' || networkUser === true);
             var locationPath = $location.path();
 
