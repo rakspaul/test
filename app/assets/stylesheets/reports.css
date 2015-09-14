@@ -3210,7 +3210,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   /* ie */
 }
 .report_generator_and_response .report_builder_container .container {
-  width: 1070px ;
+  width: 1040px ;
+  padding: 0 ;
 }
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding-left: 0px ;
@@ -3237,8 +3238,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response .report_builder_container .left_border {
   border-left: solid 1px #dde6eb ;
-  padding-left: 30px ;
-  padding-right: 0 ;
+  /*padding-left: 30px ;
+      padding-right: 0 ;*/
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report {
   margin: 0px 0 10px 0 ;
