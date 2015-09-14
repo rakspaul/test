@@ -1,7 +1,8 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, Upload, $timeout, utils, $location) {
+
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService,Upload, $timeout, utils, $location,campaignListService,requestCanceller) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
@@ -560,29 +561,35 @@ var angObj = angObj || {};
 
             getRegionsList : function(parmas, callback) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getRegionsList(parmas.platformId, qryStr).then(function (result) {
+                workflowService.getRegionsList(parmas.platformId, qryStr , function (result) {
                     var responseData = result.data.data;
                     callback && callback(responseData);
+                }, function(error) {
+                    console.log("error");
                 });
             },
 
             getCitiesList : function(parmas, callback) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getCitiesList(parmas.platformId, qryStr).then(function (result) {
+                workflowService.getCitiesList(parmas.platformId, qryStr,function (result) {
                     var responseData = result.data.data;
                     callback && callback(responseData);
+                },function(error){
+                    console.log("error")
                 });
             },
 
             getDMAsList : function(parmas, callback) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getDMAsList(parmas.platformId, qryStr).then(function (result) {
+                workflowService.getDMAsList(parmas.platformId, qryStr,function (result) {
                     var responseData= result.data.data;
                     _.each(responseData, function(data) {
                         data.region = $.trim(data.name.substring(data.name.lastIndexOf(" ")))
                         data.dmaName = $.trim(data.name.substring(0, data.name.lastIndexOf(" ")) )
                     })
                     callback && callback(responseData);
+                },function(error){
+                    console.log("error")
                 });
             },
 
@@ -826,6 +833,7 @@ var angObj = angObj || {};
 
             geoTargetingView.getDMAsList($scope.dmasListObj, function(responseData) {
                  $scope.dmasFetching = false;
+                 dmasListArray = [];
                  dmasListArray.push(responseData);
                  var flatArr = _.flatten(dmasListArray);
                  $scope.geoTargetingData['dmas'] = _.uniq(flatArr, function(item, key, id) {
@@ -884,6 +892,8 @@ var angObj = angObj || {};
 
             geoTargetingView.getCitiesList($scope.citiesListObj, function (responseData) {
                 $scope.cityFetching = false;
+                citiesListArray = [];
+                flatArr = [];
                 citiesListArray.push(responseData);
                 var flatArr = _.flatten(citiesListArray);
                 $scope.geoTargetingData['cities'] = _.uniq(flatArr, function(item, key, id) {
@@ -937,6 +947,7 @@ var angObj = angObj || {};
 
             geoTargetingView.getRegionsList($scope.regionListObj, function(responseData) {
                 $scope.regionFetching = false;
+                regionsListArray = [];
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {

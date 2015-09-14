@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, $cookieStore) {
+    angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, $cookieStore,requestCanceller,constants) {
         return {
             fetchCampaigns : function() {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns';
@@ -99,20 +99,24 @@
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives/'+id, data, {'Content-Type': 'application/json'})
             },
 
-            getRegionsList :  function(platformId, data) {
+            getRegionsList :  function(platformId, data, success, failure) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/regions'+data;
-                return dataService.fetch(url);
+                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
             },
 
-            getCitiesList :  function(platformId, data) {
+            getCitiesList :  function(platformId, data,success,failure) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
-                return dataService.fetch(url);
+                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
             },
 
-            getDMAsList :  function(platformId, data) {
+            getDMAsList :  function(platformId, data,success,failure) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
-                return dataService.fetch(url);
+                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
             },
+
 
             getAdvertisersDomainList :  function(clientId, advertiserId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists';
