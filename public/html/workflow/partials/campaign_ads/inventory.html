@@ -13,8 +13,8 @@
                 <div class="col-md-12 zeroPadding clearfix nav_filters">
                     <creative-drop-down></creative-drop-down>
                 </div>
-                    <button id="fileUpload" type="file" class="btn btn-default" ngf-select ng-model="files" ngf-multiple="false" name="files"
-                            accept="image/*" required >Upload File</button>
+                <button class="btn btn-default" ngf-select="selectFiles($files)" multiple
+                        accept="image/*">Upload File</button>
             </div>
         </div>
         <!-- Header Ends -->
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="popInventoryLib" ng-show="showHidePopup">
+    <div class="popInventoryLib" ng-show="showDomainListPopup">
         <div class="inventoryLib">
             <div class="headerLib">
                 <span class="icon-clear closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
@@ -49,35 +49,21 @@
             </div>
             <div class="popBody">
                 <div class="popList">
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
-                    <span>bringfido.com</span>
+                    <span ng-repeat="file in files">{{file.name}}</span>
                 </div>
 
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-12 zeroPadding">
                         <label class="col-sm-12 control-label greyTxt miniLabels">List Name</label>
-                        <input type="text" name="listName" class="form-control" id="listName" placeholder="Enter List Name">
+                        <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-model="adData.listName" id="listName" placeholder="Enter List Name">
                     </div>
 
                     <div class="categoryDDL">
                         <label class="col-sm-12 control-label greyTxt miniLabels">Category</label>
                         <div class="form-group col-md-12 zeroPadding">
-                            <select class="form-control" id="inventoryCat">
+                            <select class="form-control" id="inventoryCat" disabled>
                                 <option value="">Domain List</option>
-                                <option value="">Domain List 2</option>
-                                <option value="">Domain List 3</option>
-                                <option value="">Domain List 4</option>
                             </select>
-                            <input type="hidden" name="inventoryCat">
                         </div>
                     </div>
 
@@ -85,19 +71,17 @@
                         <label class="col-sm-12 control-label greyTxt miniLabels">Type</label>
                         <div class="btn-group miniToggle">
                             <label class="btn btn-default active"><span>Whitelist</span>
-                                <input type="radio" name="inventoryType" value="Whitelist" checked class="btn_rad" hidden="hidden">
+                                <input type="radio" name="inventoryType" value="Whitelist" ng-model="adData.inventoryType" checked class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
                             </label>
                             <label class="btn btn-default"><span>Blacklist</span>
-                                <input type="radio" name="inventoryType" value="Blacklist" hidden="hidden" class="btn_rad">
+                                <input type="radio" name="inventoryType" value="Blacklist" ng-model="adData.inventoryType" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
                             </label>
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div class="col-md-12 popFooter">
-                <button type="button" class="btn btn-primary pull-right" ng-disabled="selectedArr && selectedArr.length === 0"   ng-click="saveCreativeTags()">Import</button>
+                <button type="button" class="btn btn-primary pull-right" ng-disabled="files && files.length === 0"  ng-click="uploadDomain()">Import</button>
                 <button type="button" class="btn btn-link pull-right" ng-click="closePop()">Cancel</button>
             </div>
         </div>

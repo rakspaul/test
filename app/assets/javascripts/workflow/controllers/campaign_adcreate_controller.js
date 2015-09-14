@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService,Upload, $timeout, utils, $location,campaignListService,requestCanceller) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
@@ -18,13 +18,6 @@ var angObj = angObj || {};
         $scope.isAddCreativePopup = false;
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
-
-        $scope.$watch('files', function () {
-            if ($scope.files != null) {
-                alert($scope.files);
-                //$scope.upload([$scope.file]);
-            }
-        });
 
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
@@ -1220,13 +1213,15 @@ var angObj = angObj || {};
 
     });
 
-    angObj.controller('InventoryFiltersController', function($scope, $window, $routeParams, constants, workflowService, $timeout,  utils, $location) {
+    angObj.controller('InventoryFiltersController', function($scope, $window, $routeParams, constants, workflowService, Upload, $timeout,  utils, $location) {
 
         $scope.prarentHandler = function(clientId, clientName, advertiserId, advertiserName) {
-            $scope.campaignId = clientId;
+            $scope.clientId = clientId;
             $scope.advertiserId =  advertiserId;
             InventoryFiltersView.getAdvertisersDomainList(clientId, advertiserId)
         };
+
+        $scope.showDomainListPopup = false;
 
         $scope.inventoryAdsData = {};
 
@@ -1238,9 +1233,15 @@ var angObj = angObj || {};
               },
           }
 
+        $scope.selectFiles = function(files) {
+            if(files != null) {
+                $scope.showDomainListPopup = true;
+                $scope.files = files;
+            }
+        }
 
-
-        $scope.upload = function (files) {
+        $scope.uploadDomain = function () {
+            var files  = $scope.files;
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
@@ -1248,16 +1249,17 @@ var angObj = angObj || {};
                         Upload.upload({
                             url: workflowService.createAdvertiseDomainList($scope.clientId, $scope.advertiserId),
                             fields: {
-                                'name': $scope.username
+                                'name': $scope.adData.listName,
+                                'domainAction' : $scope.adData.inventoryType.toLowerCase() === 'blacklist' ? 'EXCLUDE' : 'INCLUDE'
                             },
-                            file: file
+                            domainList: file
                         }).progress(function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             $scope.log = 'progress: ' + progressPercentage + '% ' +
-                                evt.config.file.name + '\n' + $scope.log;
+                                evt.config.domainList.name + '\n' + $scope.log;
                         }).success(function (data, status, headers, config) {
                             $timeout(function() {
-                                $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+                                $scope.log = 'file: ' + config.domainList.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
                             });
                         });
                     }
