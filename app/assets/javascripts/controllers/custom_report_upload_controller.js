@@ -157,19 +157,16 @@ var angObj = angObj || {};
 
      $scope.upload = function (type, file) {
         if(type != "retry") {
-            var arr = [];
             var campaignSelectedName = $(".campaign_name_selected");
-            _.each(campaignSelectedName, function(elem, idx) {
-                var obj = {
-                    'campaignId': $(elem).attr("campaignid")
-                }
-                arr.push(obj)
-            });
-            console.log(arr);
 
             $scope.progress= true;
             var files = reportsUploadList.list
             if (files && files.length) {
+                var j = 0;
+                _.each(campaignSelectedName, function(elem, idx) {
+                    files[j].campaignId = $(elem).attr("campaignid");
+                    j++;
+                });
                 $scope.loaded =0;
                 $scope.uploadedCount = 0;
                 $scope.errorCount = 0;
@@ -188,7 +185,7 @@ var angObj = angObj || {};
                                     'reportName': file.reportName,
                                     'notes': file.notes,
                                     'fileName': file.name,
-                                    'campaignId': arr[i].campaignId,//file.campaignId,
+                                    'campaignId': file.campaignId,
                                 },
                                 fileFormDataName : 'report',
                                 file: file

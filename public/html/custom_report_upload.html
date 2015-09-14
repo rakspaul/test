@@ -94,20 +94,11 @@
 		<!-- TODO: get campaignId and need many instances -->
 									<div class="each-col campaign-col disabled_dropdown_holder">
 											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
-div<!--								            <div class="dropdown">
-								                <span data-toggle="dropdown" class="dropdown_txt" style="{{isDisabled(file.campaignId)}}" ng-click="close_other_dropdown();">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
-								                <ul class="dropdown-menu">
-								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
-								                </ul>
-								             </div>-->
-
-										<div class="dropdown">
+										<div class="clearfix nav_filters">
 											<div class="pull-left dropdown breadcrumb_nav_campaign">
-												<campaign-drop-down selected-obj=selectedCampaign file-index="index"> </campaign-drop-down>
+												<campaign-drop-down selected-obj=selectedCampaign file-index="index" multi-campaign="yes"> </campaign-drop-down>
 											</div>
 										</div>
-
-
 									</div>
 
 									<span  ng-click="localDeletetModal(index)" ng-show="file.status!='success'" style="cursor:pointer" class="each-col delete-col" title="Delete"></span>
