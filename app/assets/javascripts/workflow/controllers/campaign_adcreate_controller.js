@@ -826,6 +826,7 @@ var angObj = angObj || {};
 
             geoTargetingView.getDMAsList($scope.dmasListObj, function(responseData) {
                  $scope.dmasFetching = false;
+                 dmasListArray = [];
                  dmasListArray.push(responseData);
                  var flatArr = _.flatten(dmasListArray);
                  $scope.geoTargetingData['dmas'] = _.uniq(flatArr, function(item, key, id) {
@@ -884,6 +885,7 @@ var angObj = angObj || {};
 
             geoTargetingView.getCitiesList($scope.citiesListObj, function (responseData) {
                 $scope.cityFetching = false;
+                citiesListArray = [];
                 citiesListArray.push(responseData);
                 var flatArr = _.flatten(citiesListArray);
                 $scope.geoTargetingData['cities'] = _.uniq(flatArr, function(item, key, id) {
@@ -937,6 +939,7 @@ var angObj = angObj || {};
 
             geoTargetingView.getRegionsList($scope.regionListObj, function(responseData) {
                 $scope.regionFetching = false;
+                regionsListArray = [];
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
