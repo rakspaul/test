@@ -56,8 +56,7 @@
             if(selectedBrand.id !== -1) {
                 selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
             }
-
-            campaignSelectModel.setSelectedCampaign(selectedCampaign);
+            campaignSelectModel.setSelectedCampaign(selectedCampaign,$scope.fileIndex);
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
         };
 
@@ -84,9 +83,13 @@
 
         };
 
-        $scope.search = function(){
+        $scope.search = function(fileIndex){
             resetSearchCriteria();
-            var search = $("#campaignDropdown").val();
+            if($scope.multiCampaign == undefined) {
+                var search = $("#campaignDropdown").val();
+            }else{
+                var search = $($(".campaignDropdown")[fileIndex]).val();
+            }
             searchCriteria.key = search;
             $scope.fetchCampaigns(true,false);
             $scope.exhausted = false;
@@ -118,7 +121,7 @@
 
 
         //Function called when the user clicks on the campaign dropdown
-        $('#campaigns_list').on('click', 'li', function (e) {
+        $('.campaigns_list').on('click', 'li', function (e) {
             $scope.$parent.strategyLoading = true ;
             //$scope.$parent.isFetchStrategiesCalled = false;
             var selectedCampaign = {
@@ -131,9 +134,12 @@
             };
             $scope.setCampaign(selectedCampaign );
 
-            $('#campaigns_list').hide();
+            $('.campaigns_list').hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
         });
         // $(function() {
         //   $("#campaignsDropdownDiv").on('click',  function(){

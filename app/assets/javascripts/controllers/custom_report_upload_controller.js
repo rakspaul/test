@@ -157,10 +157,16 @@ var angObj = angObj || {};
 
      $scope.upload = function (type, file) {
         if(type != "retry") {
+            var campaignSelectedName = $(".campaign_name_selected");
 
             $scope.progress= true;
             var files = reportsUploadList.list
             if (files && files.length) {
+                var j = 0;
+                _.each(campaignSelectedName, function(elem, idx) {
+                    files[j].campaignId = $(elem).attr("campaignid");
+                    j++;
+                });
                 $scope.loaded =0;
                 $scope.uploadedCount = 0;
                 $scope.errorCount = 0;

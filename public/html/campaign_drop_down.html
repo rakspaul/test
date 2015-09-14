@@ -1,16 +1,16 @@
 <!-- <div class="breadcrumb_campaign"><a href="/campaigns/{{selectedObj.id}}" onclick="removeHighLightedReport()">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
-<div class="clearfix dropdown_type1_holder pull-left active" >
+<div class="clearfix dropdown_type1_holder pull-left active " >
 
-    <div class="report_heading_dropdown_txt nav_filters_heading">{{ textConstants.CAMPAIGN }}</div>
-    <div class="campaign_name_selected" title="{{selectedObj.name}}" id="campaign_name_selected" ng-model="selectedObj.name">{{selectedObj.name }}</div>
+    <div class="report_heading_dropdown_txt nav_filters_heading">{{ headerText }}</div>
+    <div class="campaign_name_selected" title="{{selectedObj.name}} campaign_name_selected" id="campaign_name_selected" ng-model="selectedObj.name">{{selectedObj.name }}</div>
     <div class="clearfix dropdown dropdown_type1">
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
               <ul class="nav navbar-nav">
                 <li class="dropdown" >
-                    <ul class="dropdown-menu" role="menu"  id="campaigns_list" >
+                    <ul class="dropdown-menu campaigns_list" role="menu"  id="campaigns_list" >
                         <div id="campaignsDropdownDiv">
-                            <input class="dropdown-toggle inactive dd_txt" id="campaignDropdown" ng-keyup="search()" placeHolder="Select Campaign" />
+                            <input class="dropdown-toggle inactive dd_txt campaignDropdown" id="campaignDropdown" ng-keyup="search(fileIndex)" placeHolder="Select Campaign" />
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
                             <span class="campaign_name_length">{{selectedObj.name}}</span>
                         </div>
