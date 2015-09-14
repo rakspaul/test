@@ -9,14 +9,14 @@
         $scope.campaignData = {
             campaigns : {},
             selectedCampaign :  {
-                id: -1,
+                id: 0,
                 name : 'Loading...',
                 kpi : 'ctr',
                 startDate : '-1',
                 endDate : '-1'
             }
         };
-        $scope.campAll = [{id:-1,name:'All Campaign'}];
+        $scope.campAll = [{id:0,name:'All Campaign',kpi : 'ctr',startDate : '-1',endDate : '-1'}];
 
         //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
         $scope.exhausted = false;
@@ -45,12 +45,12 @@
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
 
-            console.log(selectedCampaign.id);
-            if (selectedCampaign == undefined || selectedCampaign.id == -1) {
+            //console.log("Selected camapign id",selectedCampaign.id);
+            if (selectedCampaign == undefined || selectedCampaign.id == 0) {
 
                 selectedCampaign = {
-                    id: -1,
-                    name: 'All',
+                    id: 0,
+                    name: 'All Campaign',
                     kpi: 'ctr',
                     startDate: '-1',
                     endDate: '-1'
@@ -61,27 +61,27 @@
             if(selectedBrand.id !== -1) {
                 selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
             }
-
             campaignSelectWithAllModel.setSelectedCampaign(selectedCampaign);
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
+            $('#campaign_name_selected').prop('title', selectedCampaign.name);
         };
 
         $scope.fetchCampaigns = function(search,set_campaign,fn){
+           // console.log('search criteria: ',searchCriteria);
             campaignSelectWithAllModel.getCampaigns(brandsModel.getSelectedBrand().id,searchCriteria).then(function(){
 
                 //TODO : rewrite what to do in search condiiton
 
                 var campObj = campaignSelectWithAllModel.getCampaignObj();
                 var campArrObj = campObj.campaigns
-
+                $scope.campaignData.campaigns = [];
+               // console.log('search: ',search)
                 if(search) {
-
                     campArrObj.unshift.apply(campArrObj, $scope.campAll);
-                    $scope.campaignData.campaigns = [];//campArrObj;//campObj.campaigns;
-                    console.log(campObj.campaigns.length);
-                }else
+                    $scope.campaignData.campaigns = campArrObj;//campObj.campaigns;
+                }else {
                     $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
-
+                }
                 if(set_campaign)
                     $scope.setCampaign(campObj.campaigns[0]);
 
@@ -102,7 +102,9 @@
             resetSearchCriteria();
             var search = $("#campaignDropdown").val();
             searchCriteria.key = search;
-            $scope.fetchCampaigns(true,false,function(campaignArrObjs) {$scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);});
+            $scope.fetchCampaigns(true,false,function(campaignArrObjs) {
+            //    $scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);
+            });
             $scope.exhausted = false;
             $scope.fetching = true;
         };
@@ -115,20 +117,14 @@
         };
 
         $scope.init = function(){
-            if(campaignSelectWithAllModel.getSelectedCampaign().id == -1){
-                $scope.fetchCampaigns(true,true,function(campaignArrObjs) {
-
-                    $scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);});
-            }
-            else {
-                $scope.setCampaign(campaignSelectWithAllModel.getCampaignObj().selectedCampaign);
+                //$scope.setCampaign(campaignSelectWithAllModel.getCampaignObj().selectedCampaign);
+                $scope.setCampaign($scope.selectedObj);
                 $scope.fetchCampaigns(true,false,function(campaignArrObjs) {
-                    console.log("Before data: ",$scope.campaignData.campaigns);
                     $scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);});
 
                 //  $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
                 $scope.campaignData.campaigns = campaignSelectWithAllModel.getCampaignObj().selectedCampaign;
-            }
+
 
             localStorage.setItem('isNavigationFromCampaigns', false);
 

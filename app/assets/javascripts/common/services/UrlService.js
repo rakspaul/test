@@ -89,8 +89,8 @@
           return url ;
       };
 
-      this.APIReportList = function(campaignId) {
-          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/listreports/'+campaignId;
+      this.APIReportList = function(brandId,campaignId) {
+          var url = apiPaths.apiSerivicesUrl +'/uploadedreports/listreports/'+brandId+'/'+campaignId;
           console.log('UrlService url: ',url);
           return url;
       }

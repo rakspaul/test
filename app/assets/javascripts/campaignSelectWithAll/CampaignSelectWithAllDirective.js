@@ -10,6 +10,10 @@
             templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
                 $scope.textConstants = constants;
+                $scope.headerText = $scope.textConstants.CAMPAIGN;
+                if($scope.multiCampaign != undefined) {
+                    $scope.headerText = "";
+                }
                 $('.dropdown_list_scroll').scrollWithInDiv();
                 var campaignName = '';
                 var localStorageCampaignData;
@@ -39,7 +43,7 @@
                     $(".dropdown_type1_holder").addClass("active");
                 };
 
-                $(document).click(function(event) {
+                $(document).click(function(event) { console.log('am called');
                     localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
                     if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
                         $("#campaigns_list").hide();
@@ -49,6 +53,7 @@
                             if(inputValue) {
                                 $('#campaignDropdown').attr('placeholder', '');
                                 $(".campaign_name_selected").text(inputValue) ;
+                                $('#campaign_name_selected').prop('title', inputValue);
                                 $('#campaignDropdown').val(inputValue);
                             }
                         } else {
@@ -56,10 +61,10 @@
                             if(inputValue) {
                                 $('#campaignDropdown').attr('placeholder', '');
                                 $(".campaign_name_selected").text(inputValue) ;
+                                $('#campaign_name_selected').attr('title', inputValue);
                                 $('#campaignDropdown').val(inputValue);
                             }
                         }
-
                         // $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 );
 
                     }
