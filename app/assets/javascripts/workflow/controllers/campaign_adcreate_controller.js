@@ -917,8 +917,8 @@ var angObj = angObj || {};
             if(!$scope.isRegionSelected) {
                 regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
-                // event.preventDefault();
-                // event.stopImmediatePropagation();
+                 event.preventDefault();
+                event.stopPropagation();
                 return false;
             }
             $scope.selectedTab = 'regions';
