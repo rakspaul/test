@@ -13,36 +13,41 @@
                 <div class="col-md-12 zeroPadding clearfix nav_filters">
                     <creative-drop-down></creative-drop-down>
                 </div>
-                <button class="btn btn-default" ngf-select="selectFiles($files)" multiple
-                        accept="image/*">Upload File</button>
+
+                <div class="form-group col-md-2" ng-if="workflowData.inventoryData.length >0" >
+                    <select name = "inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control">
+                        <option value="">Select Domain List</option>
+                    </select>
+                </div>
+                    <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)" multiple
+                        accept="*">Upload File</button>
             </div>
         </div>
         <!-- Header Ends -->
         <!-- Body Starts -->
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10">
-            <div class="filterList">
-                <div class="filterHead">
+            <div class="filterList" ng-if="adData.inventory.domainList.length>0">
+                <div class="filterHead" >
                     <h1>Domain List</h1>
-                    <span>Whitelist</span>
-                    <span>{{workflowData.inventoryData[0].name}} ({{workflowData.inventoryData[0].domainList.length}})</span>
+                    <span>{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
+                    <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
                     <a>Domain</a>
                 </div>
 
                 <div class="filterBody">
-                    <span ng-repeat="domain in workflowData.inventoryData[0].domainList">{{domain}}</span>
+                    <span ng-repeat="domain in adData.inventory.domainList">{{domain}}</span>
                 </div>
             </div>
         </div>
         <!-- Body Ends -->
-
     </div>
 
     <!-- Modal -->
     <div class="popInventoryLib" ng-show="showDomainListPopup">
         <div class="inventoryLib">
             <div class="headerLib">
-                <span class="icon-clear closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
+                <span class="icon-clear closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
                 <h1>Upload List</h1>
                 <button type="file" class="btn btn-default">Upload New</button>
                 <a href="">Domain</a>
@@ -55,6 +60,7 @@
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-12 zeroPadding">
                         <label class="col-sm-12 control-label greyTxt miniLabels">List Name</label>
+                        {{adData.inventory}}
                         <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-model="adData.listName" id="listName" placeholder="Enter List Name">
                     </div>
 
@@ -71,7 +77,7 @@
                         <label class="col-sm-12 control-label greyTxt miniLabels">Type</label>
                         <div class="btn-group miniToggle">
                             <label class="btn btn-default active"><span>Whitelist</span>
-                                <input type="radio" name="inventoryType" value="Whitelist" ng-model="adData.inventoryType" checked class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
+                                <input type="radio" name="inventoryType" value="Whitelist" ng-model="adData.inventoryType" checked="checked" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
                             </label>
                             <label class="btn btn-default"><span>Blacklist</span>
                                 <input type="radio" name="inventoryType" value="Blacklist" ng-model="adData.inventoryType" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
@@ -82,7 +88,7 @@
             </div>
             <div class="col-md-12 popFooter">
                 <button type="button" class="btn btn-primary pull-right" ng-disabled="files && files.length === 0"  ng-click="uploadDomain()">Import</button>
-                <button type="button" class="btn btn-link pull-right" ng-click="closePop()">Cancel</button>
+                <button type="button" class="btn btn-link pull-right" ng-click="closeDomainListPop()">Cancel</button>
             </div>
         </div>
     </div>

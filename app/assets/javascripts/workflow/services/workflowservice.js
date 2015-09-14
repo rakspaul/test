@@ -123,8 +123,9 @@
                 return dataService.fetch(url);
             },
 
-            createAdvertiseDomainList :  function(clientId, advertiserId) {
-                return apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists/upload';
+            createAdvertiseDomainList :  function(clientId, advertiserId, domainId) {
+                var domainIdstr =  domainId ? '/'+domainId : '';
+                return apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists/upload'+domainIdstr;
             }
         };
 

@@ -1222,6 +1222,7 @@ var angObj = angObj || {};
         };
 
         $scope.showDomainListPopup = false;
+        $scope.adData.inventoryType = 'Whitelist';
 
         $scope.inventoryAdsData = {};
 
@@ -1234,38 +1235,50 @@ var angObj = angObj || {};
           }
 
         $scope.selectFiles = function(files) {
-            if(files != null) {
+            if(files  != null && files.length >0) {
                 $scope.showDomainListPopup = true;
+                $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
                 $scope.files = files;
             }
         }
 
         $scope.uploadDomain = function () {
+            var domainId =  $scope.adData.inventory && $scope.adData.inventory.id || null;
             var files  = $scope.files;
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     if (!file.$error) {
                         Upload.upload({
-                            url: workflowService.createAdvertiseDomainList($scope.clientId, $scope.advertiserId),
+                            url: workflowService.createAdvertiseDomainList($scope.clientId, $scope.advertiserId, domainId),
                             fields: {
                                 'name': $scope.adData.listName,
-                                'domainAction' : $scope.adData.inventoryType.toLowerCase() === 'blacklist' ? 'EXCLUDE' : 'INCLUDE'
+                                'domainAction' : $scope.adData.inventoryType.toLowerCase() === 'blacklist' ? 'EXCLUDE' : 'INCLUDE',
+                                'updatedAt' : $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
                             },
-                            domainList: file
+                            fileFormDataName : 'domainList',
+                            file: file,
+                            method : domainId ? 'PUT' : "POST"
                         }).progress(function (evt) {
-                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                            $scope.log = 'progress: ' + progressPercentage + '% ' +
-                                evt.config.domainList.name + '\n' + $scope.log;
-                        }).success(function (data, status, headers, config) {
-                            $timeout(function() {
-                                $scope.log = 'file: ' + config.domainList.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
-                            });
+                            $scope.domainUploadInProgress =  true;
+                        }).success(function (response, status, headers, config) {
+                            if(config.method === 'PUT') {
+                                $scope.adData.inventory.domainList = response.data.domainList;
+                            } else {
+                                $scope.workflowData['inventoryData'].push(response.data);
+                            }
+                            $scope.domainUploadInProgress = false;
+                            $scope.showDomainListPopup = false;
                         });
                     }
                 }
             }
         };
+
+
+        $scope.closeDomainListPop = function() {
+            $scope.showDomainListPopup = false;
+        }
     });
 
 })();
