@@ -102,6 +102,7 @@
               });
 
               $(document).on('click', ".dropdown_ul_text ", function (event) {
+                console.log("")
                   var campaignDropdownId = $("#campaignDropdown");
                   var campaignsListId = $("#campaigns_list");
                   closeMenuPopUs(event);

@@ -366,6 +366,23 @@
 .reports_upload_page .btn_holder .common_primary_btn.loading-icon {
   margin-top: 0px ;
 }
+.reports_upload_page .nav_filters {
+  width: 100% ;
+}
+.reports_upload_page .nav_filters .breadcrumb_nav_campaign {
+  width: 100% ;
+  margin-left: 0px ;
+}
+.reports_upload_page .nav_filters .breadcrumb_nav_campaign .dropdown_type1_holder {
+  max-width: 100%;
+}
+.reports_upload_page .nav_filters .breadcrumb_nav_campaign .campaign_name_selected {
+  min-width: 100%;
+  max-width: 100%;
+  font-family: "Avenir";
+  margin-top: 5px;
+  height: 25px;
+}
 /* Reports listing page */
 .reports_list_page {
   /*hided for now through css */
