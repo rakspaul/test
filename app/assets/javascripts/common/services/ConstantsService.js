@@ -88,6 +88,9 @@
     this.VIDEO_PLAYS = "Video Plays";
     this.AD_SIZES = "Ad Sizes";
 
+    this.COLLECTIVE_INSIGHTS = "Collective Insights";
+    this.UPLOAD_REPORT = "Upload Report";
+
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
     this.DATA_NOT_AVAILABLE= 204;

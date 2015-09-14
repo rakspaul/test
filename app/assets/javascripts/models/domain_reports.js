@@ -46,7 +46,7 @@
                 var tabs  =  [
                     {
                         href:'reports/list',
-                        title: 'Collective'
+                        title: 'Collective Insights'
                     }
                 ];
                 return {
