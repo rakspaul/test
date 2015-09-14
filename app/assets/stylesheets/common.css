@@ -893,7 +893,7 @@
 .main_navigation_holder div.main_navigation div.reports_header_tabs_holder .reports_sub_menu_dd_holder .reports_sub_menu_dd {
   display: table-cell;
   padding: 16px 0 13px ;
-  min-width: 172px ;
+  min-width: 200px ;
 }
 .main_navigation_holder div.main_navigation div.reports_header_tabs_holder .custom_container {
   background-color: #004478 ;

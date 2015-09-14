@@ -16,6 +16,8 @@ var angObj = angObj || {};
         $scope.count =0;
         $scope.secondDimensionReportLoading = {};
         $scope.metrics_text = 'Default';
+        
+        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
