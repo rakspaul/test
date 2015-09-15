@@ -6,7 +6,8 @@
             scope: {
                 selectedObj: "=",
                 fileIndex: "=",
-                multiCampaign: '@'
+                multiCampaign: '@',
+                allCampaign: '@'
             },
             controller: 'campaignSelectController',
             templateUrl: assets.html_campaign_drop_down,
@@ -20,12 +21,16 @@
                 var campaignName = '';
                 var localStorageCampaignData;
                 $scope.$watch('selectedObj.name', function(v) {
-                    localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
                      //$(".campaignDropdown").width($(".campaign_name_length").width() + 14 );
+                    if($scope.allCampaign == "true") {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
+                        $scope.selectedObj.name = localStorageCampaignData.name;
+                    } else {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    }
                 });
 
                 $('.campaign_name_selected').click(function (event) {
-
                     if($scope.multiCampaign == undefined) {
                         if ($('#campaigns_list').css('display') === 'block') {
                          $('#campaigns_list').hide();
@@ -35,9 +40,12 @@
 
                          var inputValue = $('#campaignDropdown').val();
                          if(inputValue) {
-                         $('#campaignDropdown').attr('placeholder', inputValue);
-                         $('#campaignDropdown').val('');
-
+                            $('#campaignDropdown').attr('placeholder', inputValue);
+                            $('#campaignDropdown').val('');
+                            if($scope.allCampaign == "true") {
+                                $('#campaign_name_selected').val(inputValue);
+                                $scope.selectedObj.name = inputValue;
+                             }
                          }
                     } else {
                         var target = $(event.target);
@@ -59,7 +67,11 @@
                 };
 
                 $(document).click(function(event) {
-                    localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    if($scope.allCampaign == "true") {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
+                    } else {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    }
                     if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
                         $("#campaigns_list").hide();
                         var inputValue;

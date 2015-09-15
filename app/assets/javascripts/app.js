@@ -24,8 +24,8 @@ var angObj = '';
       'ngFileUpload',
       'lrInfiniteScroll',
       'door3.css',
-      'collectiveReportModule',
-      'campaignSelectWithAllModule']
+      'collectiveReportModule'
+    ]
   );
 
 

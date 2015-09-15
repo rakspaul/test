@@ -4,7 +4,7 @@
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['brands', 'campaignList', 'campaignSelect','campaignSelectWithAll', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
+    packages: ['brands', 'campaignList', 'campaignSelect','strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
 
     shim: {
       'jsRoutes': {
@@ -113,11 +113,6 @@
       'campaignSelect-CampaignSelectDirective':{deps: ['campaignSelect-CampaignSelectModule']},
       'campaignSelect-CampaignSelectModel':{deps: ['campaignSelect-CampaignSelectDirective']},
       'campaignSelect-CampaignSelectController':{deps: ['campaignSelect-CampaignSelectModel']},
-
-      'campaignSelectWithAll-CampaignSelectWithAllModule':{deps: ['brands-BrandsModel','angular']},
-      'campaignSelectWithAll-CampaignSelectWithAllDirective':{deps: ['campaignSelectWithAll-CampaignSelectWithAllModule']},
-      'campaignSelectWithAll-CampaignSelectWithAllModel':{deps: ['campaignSelectWithAll-CampaignSelectWithAllDirective']},
-      'campaignSelectWithAll-CampaignSelectWithAllController':{deps: ['campaignSelectWithAll-CampaignSelectWithAllModel']},
 
       'strategySelect-StrategySelectModule':{deps: ['campaignSelect-CampaignSelectController']},
       'strategySelect-StrategySelectDirective':{deps: ['strategySelect-StrategySelectModule']},
@@ -297,12 +292,6 @@
       'campaignSelect-CampaignSelectController':'campaignSelect/CampaignSelectController',
       'campaignSelect-CampaignSelectDirective':'campaignSelect/CampaignSelectDirective',
       'campaignSelect-CampaignSelectModel':'campaignSelect/CampaignSelectModel',
-
-      'campaignSelectWithAll-CampaignSelectWithAllModule':'campaignSelectWithAll/CampaignSelectWithAllModule',
-      'campaignSelectWithAll-CampaignSelectWithAllController':'campaignSelectWithAll/CampaignSelectWithAllController',
-      'campaignSelectWithAll-CampaignSelectWithAllDirective':'campaignSelectWithAll/CampaignSelectWithAllDirective',
-      'campaignSelectWithAll-CampaignSelectWithAllModel':'campaignSelectWithAll/CampaignSelectWithAllModel',
-
 
       'strategySelect-StrategySelectModule':'strategySelect/StrategySelectModule',
       'strategySelect-StrategySelectController':'strategySelect/StrategySelectController',
@@ -488,11 +477,6 @@
           'campaignSelect-CampaignSelectController',
           'campaignSelect-CampaignSelectDirective',
           'campaignSelect-CampaignSelectModel',
-
-          'campaignSelectWithAll-CampaignSelectWithAllModule',
-          'campaignSelectWithAll-CampaignSelectWithAllController',
-          'campaignSelectWithAll-CampaignSelectWithAllDirective',
-          'campaignSelectWithAll-CampaignSelectWithAllModel',
 
           'strategySelect-StrategySelectModule',
           'strategySelect-StrategySelectController',

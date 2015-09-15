@@ -77,8 +77,6 @@
                     }
                 }
             });
-
-
         }
 
         //Delete report Pop up
