@@ -105,6 +105,9 @@ var angObj = angObj || {};
 
             pushSavedCampaign: function (campaignId) {
                 workflowService.pushCampaign(campaignId).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        location.reload();
+                    }
                 });
             },
 
