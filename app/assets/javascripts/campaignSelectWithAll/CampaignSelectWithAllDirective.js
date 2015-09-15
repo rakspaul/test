@@ -43,7 +43,7 @@
                     $(".dropdown_type1_holder").addClass("active");
                 };
 
-                $(document).click(function(event) { console.log('am called');
+                $(document).click(function(event) {
                     localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
                     if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
                         $("#campaigns_list").hide();

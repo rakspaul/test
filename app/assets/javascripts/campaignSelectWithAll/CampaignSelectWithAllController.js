@@ -74,7 +74,7 @@
 
                 var campObj = campaignSelectWithAllModel.getCampaignObj();
                 var campArrObj = campObj.campaigns
-                $scope.campaignData.campaigns = [];
+
                // console.log('search: ',search)
                 if(search) {
                     campArrObj.unshift.apply(campArrObj, $scope.campAll);
@@ -82,9 +82,11 @@
                 }else {
                     $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
                 }
-                if(set_campaign)
+                _.uniq($scope.campaignData.campaigns);
+                if(set_campaign) {
+                   // console.log('iniital setting',campaigns[0])
                     $scope.setCampaign(campObj.campaigns[0]);
-
+                }
                 $scope.fetching = false;
 
                 if( $scope.campaignData.campaigns.length < searchCriteria.limit )
@@ -117,16 +119,22 @@
         };
 
         $scope.init = function(){
+            if(campaignSelectWithAllModel.getSelectedCampaign().id == 0){
+               // console.log('init if',$scope.selectedObj);
+                $scope.fetchCampaigns(true,true,function(campaignArrObjs) {
+
+                    $scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);});
+            }
+            else {
                 //$scope.setCampaign(campaignSelectWithAllModel.getCampaignObj().selectedCampaign);
                 $scope.setCampaign($scope.selectedObj);
-                $scope.fetchCampaigns(true,false,function(campaignArrObjs) {
-                    $scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);});
+                $scope.fetchCampaigns(true, false, function (campaignArrObjs) {
+                    $scope.campaignData.campaigns.push.apply($scope.campaignData.campaigns, campaignArrObjs);
+                });
 
                 //  $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
                 $scope.campaignData.campaigns = campaignSelectWithAllModel.getCampaignObj().selectedCampaign;
-
-
-            localStorage.setItem('isNavigationFromCampaigns', false);
+            }
 
         };
 

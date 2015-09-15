@@ -4,7 +4,7 @@ campaignSelectWithAllModule.factory("campaignSelectWithAllModel", ['urlService',
     campaign.campaigns = {};
     campaign.selectedCampaign = (localStorage.getItem('selectedCampaignAll') == undefined) ? { id: -1,name : 'Loading...', kpi : 'ctr', startDate : '-1', endDate : '-1' } : (JSON.parse( localStorage.getItem('selectedCampaignAll') )) ;
 
-    campaign.setSelectedCampaign = function (_campaign) { console.log('in set seleceted camp: ',_campaign);
+    campaign.setSelectedCampaign = function (_campaign) {
         if (!$.isEmptyObject(_campaign)) {
             campaign.selectedCampaign.id = (_campaign.id == undefined) ? _campaign.campaign_id : _campaign.id;
             campaign.selectedCampaign.name = _campaign.name;
