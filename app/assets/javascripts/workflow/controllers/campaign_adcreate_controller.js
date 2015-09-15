@@ -627,7 +627,9 @@ var angObj = angObj || {};
                         $scope.geoTargetingData.selected[type].splice(i,1);
                     }
                 }
+
             }
+            console.log($scope.geoTargetingData.selected);
             $scope.includeorExcludeCityOnly(type);
         };
 
@@ -697,13 +699,19 @@ var angObj = angObj || {};
 
                     _.each(selectedRegions, function(regionsObj) {
                         var tmpArr= [];
-                        _.each(selectedCities, function(citiesObj, idx) {
-                            if(citiesObj.parent.id === regionsObj.id) {
-                                $scope.showCitiesOnly = false;
-                                tmpArr.push(citiesObj);
-                                regionsObj.cities = tmpArr;
-                            }
-                        })
+                        if(selectedCities.length > 0){
+                            _.each(selectedCities, function(citiesObj, idx) {
+                                if(citiesObj.parent.id === regionsObj.id) {
+                                    $scope.showCitiesOnly = false;
+                                    tmpArr.push(citiesObj);
+                                    regionsObj.cities = tmpArr;
+                                }
+                            })
+                        }
+                        else{
+                            regionsObj.cities = [];
+                        }
+
                     })
                     $scope.isRegionSelected =  true;
                     var regionTab = $("#tab_region").parent();
