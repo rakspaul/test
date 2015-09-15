@@ -16,40 +16,39 @@
                 <tr>
                     <th class="col-md-1"></th>
                     <th class="col-md-2">Size</th>
-                    <th class="col-md-5">Tag</th>
+                    <th class="col-md-5">Creative Name</th>
                     <th class="col-md-2">Type</th>
-                    <th class="col-md-2">SSL</th>
+                    <th class="col-md-1">SSL</th>
+                    <th class="col-md-1"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
-                    <td>
-                        <span class="col-md-3">{{$index+1}}</span>
-    
-                        <div class="col-md-9">
-                            <p class="col-md-12">{{creativeData.size.size}}</p>
-                        </div>
+                    <td class="col-md-1">
+                         <span >{{$index+1}}</span>
                     </td>
-                    <td>
-                        <span class="col-md-8">{{creativeData.name}}</span>
-                        <a class="col-md-8" href="" ng-click="ShowHide(creativeData)">View Tag</a>
-
-
-
+                    <td class="col-md-2">
+                        
+                            <span>{{creativeData.size.size}}</span>
+                        
+                    </td>
+                    <td class="col-md-5">
+                        <a class="col-md-8" href="javascript:void(0);" ng-click="ShowHide(creativeData)">{{creativeData.name}}</a>
+                        
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
                             <!--<div ng-show="IsVisible" class="ng-cloak">-->
                                 <!--{{creativeData.tag}}-->
                             <!--</div>-->
                         <!--</div>-->
                     </td>
-                    <td>
-                        <span class="col-md-12">{{creativeData.creativeType}}</span>
+                    <td class="col-md-2">
+                        <span>{{creativeData.creativeType}}</span>
                     </td>
-                    <td>
-                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    <td class="col-md-1">
+                        <span class="common-ok" aria-hidden="true"></span><!-- glyphicon glyphicon-ok-circle -->
                     </td>
-                    <td>
-                        <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="removeCreativeTags(creativeData)"></span>
+                    <td class="col-md-1">
+                        <span class="pull-right common-close" aria-hidden="true" ng-click="removeCreativeTags(creativeData)">x</span><!-- glyphicon glyphicon-remove  -->
                     </td>
     
                 </tr>
