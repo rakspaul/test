@@ -22,7 +22,7 @@
             {{textConstants.WF_ADD_TARGETING_LABEL}}
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 131px;">
             <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></li>
         </ul>
     </div>

@@ -38,7 +38,7 @@ a {text-decoration: none;}
         
 // Inputs
 .firstWrapper input[type='text'] {
-  border: 1px solid #dbe8ef !important;
+  border: 1px solid #dbe8ef;
   border-radius: 0 !important;
 }
 
@@ -56,16 +56,19 @@ a {text-decoration: none;}
 
 // Labels
 .errorLabel {
-  color: #E83B05 !important;
+  color: #F24444 !important;
   padding: 2px 0 0 4px !important;
   margin-top: 0 !important;
   margin-left: 0;
-  font-size: 13px;
-  font-weight: lighter;
+  font-size: 14px;
+  font-family: 'Avenir';
   display: none;
 }
 .has-error .errorLabel {
   display: block;
+}
+.ng-invalid, .firstWrapper .has-error .form-control {
+  border-color:  #f24444;
 }
 
 .customErrorLabel {

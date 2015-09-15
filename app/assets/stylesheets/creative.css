@@ -44,15 +44,6 @@
   border: 1px solid #d4d4d4;
   padding: 5px 10px;
 }
-#creative .containerWrap .nav_filters .dropdown .dropdown-menu {
-  max-width: 220px;
-  border-radius: 0;
-  border-top: 0;
-  min-width: 206px;
-  margin-top: 0;
-  margin-left: -1px;
-  box-shadow: none;
-}
 #creative .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;
   padding-right: 0;
@@ -247,15 +238,6 @@
 #inventoryFilters .page_header_container .containerWrap .nav_filters .dropdown {
   border: 1px solid #d4d4d4;
   padding: 5px 10px;
-}
-#inventoryFilters .page_header_container .containerWrap .nav_filters .dropdown .dropdown-menu {
-  max-width: 220px;
-  border-radius: 0;
-  border-top: 0;
-  min-width: 206px;
-  margin-top: 0;
-  margin-left: -1px;
-  box-shadow: none;
 }
 #inventoryFilters .page_header_container .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;

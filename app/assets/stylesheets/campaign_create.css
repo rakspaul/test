@@ -99,7 +99,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .greyTxt,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .greyTxt {
-  color: #b3b3b3 !important;
+  color: #b3b3b3;
   padding: 7px 0 0 2px !important;
   text-align: left;
   font-weight: lighter;
@@ -692,6 +692,7 @@
   font-size: 32px;
   color: #B1B1B1;
   padding-right: 10px;
+  width: 40px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:first-child {
   background: rgba(255, 255, 255, 0.48);
@@ -1092,6 +1093,11 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters #inventoryFilters .col-md-10 {
   width: 100%;
   padding: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters #inventoryFilters .col-md-10 .msgPopup {
+  bottom: 70px;
+  top: initial;
+  left: -100px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative {
   float: left;
@@ -1515,7 +1521,7 @@
   margin: 36px 0 0 0;
 }
 .adCreateMaster .tab-content .tab-pane #datepicker .greyTxt {
-  color: #b3b3b3 !important;
+  color: #b3b3b3;
   padding: 7px 0 0 2px !important;
   text-align: left;
   font-weight: lighter;

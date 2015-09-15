@@ -2932,9 +2932,6 @@ input[type="submit"] {
   white-space: nowrap;
   border: 0;
 }
-.nav_filters .dropdown-menu {
-  max-width: 220px ;
-}
 .nav_filters .dropdown-menu li {
   font-size: 14px;
   color: #21252B;
