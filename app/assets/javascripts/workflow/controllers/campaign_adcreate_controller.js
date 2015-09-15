@@ -337,11 +337,10 @@ var angObj = angObj || {};
 
                 }
 
-
+               postAdDataObj['targets'] ={};
                 if($scope.adData.geoTargetingData) {
-
-                    postAdDataObj['targets'] ={};
                     var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
+
 
                     var buildGeoTargetingParams = function(data, type) {
                         var obj= {};
@@ -363,6 +362,14 @@ var angObj = angObj || {};
                         postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
                     }
                 }
+
+                if($scope.adData.inventory) {
+                    var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
+                    //domainTargetObj['domainList'] = $scope.adData.inventory.domainList;
+                    domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
+                    postAdDataObj['domainInherit'] = 'APPEND';
+                }
+
 
                 campaignOverView.saveAds(postAdDataObj)
             })
@@ -1205,12 +1212,7 @@ var angObj = angObj || {};
                     $scope.listDmas();
                 }
             }
-
-
-
-
         }
-
     });
 
     angObj.controller('InventoryFiltersController', function($scope, $window, $routeParams, constants, workflowService, Upload, $timeout,  utils, $location) {
