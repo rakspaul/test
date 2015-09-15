@@ -355,10 +355,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_sub_menu_dd_holder:before {
   content: "";
   display: block;
-  height: 50px;
-  width: 350px;
+  height: 70px;
+  width: 400px;
   position: absolute;
-  top: -50px;
+  top: -60px;
   left: 0;
 }
 .reports_sub_menu_dd_holder:after {

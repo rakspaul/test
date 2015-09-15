@@ -413,56 +413,57 @@ var angObj = angObj || {};
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
             elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
-            
-            var startDate,endDate;
+            if( arg ){
+                var startDate,endDate;
 
-            switch(arg) {
-                case 'yesterday':
-                    startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
-                    break;
-                case 'weekToDate':
-                    startDate = moment().startOf('week').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
-                    break;
-                case 'last7Days':
-                    startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
-                    break;
-                case 'lastWeek': 
-                    startDate = moment().subtract(1,'week').startOf('week').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(1,'week').endOf('week').format('YYYY-MM-DD');  
-                    break;
-                case 'monthToDate': 
-                    startDate = moment().format('YYYY-MM')+'-01';
-                    endDate   = moment().format('YYYY-M-DD');  
-                    break;
-                case 'lastMonth': 
-                    startDate = moment().subtract(1,'months').endOf('month').format('YYYY-MM') + '-01';
-                    endDate   = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');  
-                    break;
-                case 'quarterToDate': 
-                    startDate = moment().startOf('quarter').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
-                    break;
-                case 'lastQuarter': 
-                    startDate = moment().subtract(1,'quarter').startOf('quarter').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(1,'quarter').endOf('quarter').format('YYYY-MM-DD');  
-                    break;
-                case 'yearToDate': 
-                    startDate = moment().format('YYYY')+'-01-01';
-                    endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
-                    break;
-                case 'customDates': 
-                    startDate = moment().subtract(0, 'days').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
-                    break;
-                default:
-                    startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
-                    endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                switch(arg) {
+                    case 'yesterday':
+                        startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'weekToDate':
+                        startDate = moment().startOf('week').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
+                        break;
+                    case 'last7Days':
+                        startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
+                        break;
+                    case 'lastWeek': 
+                        startDate = moment().subtract(1,'week').startOf('week').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(1,'week').endOf('week').format('YYYY-MM-DD');  
+                        break;
+                    case 'monthToDate': 
+                        startDate = moment().format('YYYY-MM')+'-01';
+                        endDate   = moment().format('YYYY-M-DD');  
+                        break;
+                    case 'lastMonth': 
+                        startDate = moment().subtract(1,'months').endOf('month').format('YYYY-MM') + '-01';
+                        endDate   = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');  
+                        break;
+                    case 'quarterToDate': 
+                        startDate = moment().startOf('quarter').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
+                        break;
+                    case 'lastQuarter': 
+                        startDate = moment().subtract(1,'quarter').startOf('quarter').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(1,'quarter').endOf('quarter').format('YYYY-MM-DD');  
+                        break;
+                    case 'yearToDate': 
+                        startDate = moment().format('YYYY')+'-01-01';
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
+                        break;
+                    case 'customDates': 
+                        startDate = moment().subtract(0, 'days').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
+                        break;
+                    default:
+                        startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                        endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                }
+                $('#startDateInput').datepicker('update', startDate);
+                $('#endDateInput').datepicker('update', endDate);
             }
-            $('#startDateInput').datepicker('update', startDate);
-            $('#endDateInput').datepicker('update', endDate);
         };
        
         $scope.show_respective_table = function(id) {
