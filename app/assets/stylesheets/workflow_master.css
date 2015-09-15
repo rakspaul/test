@@ -95,13 +95,13 @@ a {
   display: block;
 }
 .workflow .bodyWrap {
-  width: 1200px;
+  width: 100%;
   margin: 0 auto ;
-  padding: 0 30px;
+  padding: 0;
 }
 .workflow .main_navigation_holder .main_nav {
   width: 1200px;
-  padding: 0 30px;
+  padding: 0;
 }
 .preloader {
   position: absolute;
