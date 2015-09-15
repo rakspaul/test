@@ -46,19 +46,34 @@
 				  <tr>
 					<th class="col-md-1" style="text-indent: 37px;">Size<br/><br/></th>
 					<th class="col-md-1">Format<br/><br/></th>
-					<th class="col-md-4" style="padding-left: 20px;">Creative Name<br/><br/></th>
+					<th class="col-md-3" style="padding-left: 20px;">Creative Name<br/><br/></th>
 					<th class="col-md-1">Type</th>
 					<th class="col-md-1" style="padding-left: 17px;">SSL</th>
 					<th class="col-md-1">Status<br/><br/></th>
 					<th class="col-md-1">Associated<br/>Campaigns</th>
 					<th class="col-md-1">Associated<br/>Ads</th>
-					<th class="col-md-1" style="padding-left: 20px;">Created<br/><br/></th>
+					<th class="col-md-2" style="padding-left: 20px;">Created<br/><br/></th>
 				  </tr>
 				</thead>
 				<tbody>
-					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives">
+					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="creative-row">
+						
 					<td>
-						<span class="col-md-1"><input type="checkbox" value="{{$index+1}}" /></span>
+						<span class="col-md-1">
+							<!-- 
+							PLS DONT REMOVE 
+							CHECKBOX FOR FUTURE IMPLEMENTATION 
+						    -->
+							<!-- <div class="pull-right external_chkbox">
+                                  <div class="external_chkbox clearfix">
+                                    <div class="squaredFour">
+                                      <input type="checkbox" value="{{$index+1}}" class="squaredFourChkbox" id="creative_squaredFour_{{$index+1}}" />
+                                      <label for="creative_squaredFour_{{$index+1}}"></label>
+                                    </div>
+                                  </div>
+                              </div> -->
+							
+						</span>
 						<div class="col-md-11">
 							<p class="col-md-12">{{creativeData.size.size}}</p>
 						</div>
@@ -67,8 +82,7 @@
 						<span class="glyphicon glyphicon-{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
 					</td>
 					<td>
-						<span class="col-md-8">{{creativeData.name}}</span>
-						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{textConstants.WF_VIEW_TAG_LABEL}}</a>
+						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
 						<div class="script_tag">
 							<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
 							<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
@@ -78,7 +92,7 @@
 						<span class="col-md-12">{{creativeData.creativeType}}</span>
 					</td>
 					<td>
-						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+						<span class="common-ok" aria-hidden="true"></span>
 					</td>
 					<td>
 						<span> - </span>
