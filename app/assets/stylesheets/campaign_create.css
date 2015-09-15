@@ -1354,6 +1354,10 @@
   width: 100%;
   height: 100%;
 }
+.workflow .bodyWrapOverview {
+  width: 100%;
+  padding: 0px;
+}
 .adCreateMaster .campTitleWrap h1 {
   line-height: 18px !important;
   font-size: 14px !important;
