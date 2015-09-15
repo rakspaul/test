@@ -768,6 +768,7 @@ var angObj = angObj || {};
                         $scope.geoTargetingData.selected[type].splice(i,1);
                     }
                 }
+
             }
             $scope.includeorExcludeCityOnly(type);
         };
@@ -846,7 +847,6 @@ var angObj = angObj || {};
                                     regionsObj.cities = tmpArr;
                                 }
                             })
-                            console.log(regionsObj);
                         }
                         else{
                             regionsObj.cities = [];
