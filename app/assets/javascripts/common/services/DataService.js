@@ -170,20 +170,22 @@
                 return url;
             },
 
-            fetch: function (url, isCache) {
-                isCache = isCache || true;
+            fetch: function (url, cacheObj) {
+                cacheObj = _.extend({cache:true}, cacheObj);
                 loginModel.checkCookieExpiry();
-                var cachedResponse = dataStore.getCachedByUrl(url);
-                if(cachedResponse != undefined) {
-                    var defer = $q.defer();
-                    var promise = defer.promise.then(function () {
-                        //here we always return a clone of original object, so that if any modifications are done it will be done on clone and original will remain unchanged
-                        return utils.clone(cachedResponse.value);
-                    });
-                    defer.resolve();
-                    return promise;
+                if(cacheObj.cache) {
+                    var cachedResponse = dataStore.getCachedByUrl(url);
+                    if (cachedResponse != undefined) {
+                        var defer = $q.defer();
+                        var promise = defer.promise.then(function () {
+                            //here we always return a clone of original object, so that if any modifications are done it will be done on clone and original will remain unchanged
+                            return utils.clone(cachedResponse.value);
+                        });
+                        defer.resolve();
+                        return promise;
+                    }
                 }
-                return $http({url: url, method: 'GET', cache: isCache}).then(
+                return $http({url: url, method: 'GET'}).then(
                     function (response) {
                         var urlIndex = utils.getParameterByName(url, 'urlIndex');
                         var objOnSuccess = {
