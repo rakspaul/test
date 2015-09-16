@@ -13,11 +13,11 @@
                         <div class="col-md-12 campTitleWrap">
                             <span class="label pull-left label-warning">{{workflowData.campaignData.status}}</span>
 
-                            <h1 class="pull-left">{{workflowData.campaignData.name}}</h1>
+                            <h1 class="pull-left" style="word-wrap: break-word;" tooltip="{{workflowData.campaignData.name}}">{{workflowData.campaignData.name | textEllipsis: 60}}</h1>
                             <span class="pull-left glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy : HH:mm"}}</span>
+                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-3 borderZero">
                         <label>Flight Dates</label>
-                        <span ng-if="workflowData.campaignData.startTime">{{utc(workflowData.campaignData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'MMM dd, yyyy'}}  <span
+                        <span ng-if="workflowData.campaignData.startTime">{{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}  <span
                                 ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
                     </div>
                     <div class="col-md-2">
@@ -147,10 +147,9 @@
                                     <label for="dateIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
                                     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerIndividual">
                                         <div class="col-md-12 dateWrapper zeroPadding" style="margin-left: -5px;" >
-                                            <div class="form-group col-md-2" style="width: 150px; padding: 0 5px;" show-errors='{showSuccess: true}'>
+                                            <div class="col-md-2" style="width: 150px; padding: 0 5px;">
                                                 <label class=" col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                                <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime" ng-model="lowestStartTime" required/>
-                                                <label ng-if="createIndependantAdsGrp.lowestStartTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                                                <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime"  required/>
                                             </div>
                                             <div class="form-group col-md-2" style="width: 150px; padding: 0 5px;" show-errors='{showSuccess: true}'>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
@@ -207,7 +206,7 @@
                                     <button class="btn btn-xs btn-default">ON</button>
                                     <button class="btn btn-xs btn-success active">OFF</button>
                                 </div>-->
-                                <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(adsData.endTime) | date : 'MMM dd, yyyy'}}</span>
+                                <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'dd MMM yyyy'}} - {{utc(adsData.endTime) | date : 'dd MMM yyyy'}}</span>
     
                                 <div class="spacer" ng-if="adsData.startTime && adsData.endTime">
                                     <div class="col-md-12"></div>

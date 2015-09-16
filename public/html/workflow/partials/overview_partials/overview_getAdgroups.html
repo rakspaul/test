@@ -1,4 +1,4 @@
-<div class="col-md-12 adModule adGroup"ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
+<div class="col-md-12 adModule adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
         <a class="collapseIcon" role="button" id="{{$index+1}}" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1)" href="">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -6,13 +6,13 @@
 
         <div class="col-md-5 zeroPadding">
             <h2 class="pull-left adGroupTxt">{{adGroupsData.adGroup.name}}</h2>
-            <span class="pull-left adGroupTxt">{{utc(adGroupsData.adGroup.startTime) | date : 'dd ,MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'dd ,MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
+            <span class="pull-left adGroupTxt">{{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
         </div>
 
         <div class="col-md-6 zeroPadding pull-right">
-            <span class="adGroupTxtSecondary">Drafts <p class="active">{{adGroupsData.noOfAds}}</p></span>
-            <span class="adGroupTxtSecondary">Ready <p>0</p></span>
-            <span class="adGroupTxtSecondary">Delivering <p>0</p></span>
+            <span class="adGroupTxtSecondary">Ready <p class="active">0</p></span>
+            <span class="adGroupTxtSecondary">Incomplete <p>0</p></span>
+            <span class="adGroupTxtSecondary">Scheduled <p>0</p></span>
             <span class="adGroupTxtSecondary">Total Ads <p>{{adGroupsData.noOfAds}}</p></span>
         </div>
     </div>
