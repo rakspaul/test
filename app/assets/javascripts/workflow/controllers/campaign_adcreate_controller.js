@@ -422,7 +422,7 @@ var angObj = angObj || {};
             },
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
-                workflowService.getCreatives(clientID, adID, format, query).then(function (result) { $scope.creativesLibraryData['creativesData']= [];
+                workflowService.getCreatives(clientID, adID, format, query, {cache:false}).then(function (result) { $scope.creativesLibraryData['creativesData']= [];
                     if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
                         var responseData = result.data.data;
                         $scope.creativeListLoading = false;
