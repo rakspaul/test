@@ -733,13 +733,20 @@ var angObj = angObj || {};
 
                     _.each(selectedRegions, function(regionsObj) {
                         var tmpArr= [];
-                        _.each(selectedCities, function(citiesObj, idx) {
-                            if(citiesObj.parent.id === regionsObj.id) {
-                                $scope.showCitiesOnly = false;
-                                tmpArr.push(citiesObj);
-                                regionsObj.cities = tmpArr;
-                            }
-                        })
+                        if(selectedCities.length > 0 ){
+                            _.each(selectedCities, function(citiesObj, idx) {
+                                if(citiesObj.parent.id === regionsObj.id) {
+                                    $scope.showCitiesOnly = false;
+                                    tmpArr.push(citiesObj);
+                                    regionsObj.cities = tmpArr;
+                                }
+                            })
+                            console.log(regionsObj);
+                        }
+                        else{
+                            regionsObj.cities = [];
+                        }
+
                     })
                     $scope.isRegionSelected =  true;
                     var regionTab = $("#tab_region").parent();
@@ -1147,7 +1154,13 @@ var angObj = angObj || {};
             var len = item.length;
             for(var i=0 ; i < len; i++) {
                 item[i][type+'Included'] = $scope[type+'Included'];
+                if(item[i].hasOwnProperty('cities')){
+                    for(var j = 0 ; j < item[i]['cities'].length ; j++){
+                        item[i]['cities'][j]['citiesIncluded'] = ($scope[type+'Included'])?false:true;
+                    }
+                }
             }
+
         };
 
         $scope.logic = function() {
@@ -1175,6 +1188,7 @@ var angObj = angObj || {};
             elem.find(".btn").animate({left: "22px"});
             elem.find(".togBtnBg").css({background: "#0978c9"});
             $scope[$scope.selectedTab+'Included'] = true;
+
         }
 
         $scope.excludeSelectedItems = function() {
@@ -1182,6 +1196,7 @@ var angObj = angObj || {};
             elem.find(".btn").animate({left: "-2px"});
             elem.find(".togBtnBg").css({background: "#ccd2da"});
             $scope[$scope.selectedTab+'Included'] = false;
+
         }
 
         if ($(".btn-ani-toggle .active")[0]){
