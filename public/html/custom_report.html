@@ -136,8 +136,7 @@
 				           			</a>
 
 			           			</div>
-
-								<div class="pull-right common_primary_btn report_generate_button disabled" ng-click="generateReport()" >
+								<div class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}" ng-click="generateReport()" >
 						    		Generate
 						    	</div>
 						    	<!-- <div class="pull-right common_secondary_blue_btn" >
@@ -154,7 +153,6 @@
 						    <div class="about_popup">
 						        <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span>
 						        <div class="col-md-12 each_section_custom_report" >
-								           		
 						       		<div class="total_metrics_container" >
 						       			<input style="display:none" type="text" placeHolder="Search" class="search_input" />
 						       			<div class="clearfix">
