@@ -170,7 +170,8 @@
                 return url;
             },
 
-            fetch: function (url) {
+            fetch: function (url, isCache) {
+                isCache = isCache || true;
                 loginModel.checkCookieExpiry();
                 var cachedResponse = dataStore.getCachedByUrl(url);
                 if(cachedResponse != undefined) {
@@ -182,7 +183,7 @@
                     defer.resolve();
                     return promise;
                 }
-                return $http({url: url, method: 'GET'}).then(
+                return $http({url: url, method: 'GET', cache: isCache}).then(
                     function (response) {
                         var urlIndex = utils.getParameterByName(url, 'urlIndex');
                         var objOnSuccess = {

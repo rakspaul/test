@@ -16,7 +16,7 @@ var angObj = angObj || {};
         $scope.count =0;
         $scope.secondDimensionReportLoading = {};
         $scope.metrics_text = 'Default';
-        
+        $scope.generateBtnDisabled = true;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         $scope.getMessageForDataNotAvailable = function () {
@@ -159,9 +159,10 @@ var angObj = angObj || {};
             var filterArr =[];
             var elem =$(".custom_filter_breakdown");
             _.each(elem, function(el) {
+                var fdimesnion =  $.trim($(el).find(".dropdown_ul_text .dd_txt").attr('id'));
                 var ftext = $(el).find(".reportFilter").val()
 
-                var fstr = (dimensionIds[0] + (ftext ? (':' + ftext) : ''))
+                var fstr = (fdimesnion + (ftext ? (':' + ftext) : ''))
                 filterArr.push(fstr)
             });
             filterArr = _.filter(filterArr, function(val) { return val !== 'Choose filter'});
@@ -206,7 +207,7 @@ var angObj = angObj || {};
                 str += "&filter=" + dimensionIds[0] + (filterText !== '' ? (':' + filterText) : '');
             } else {
                 str =  dimensionIds[0] + (reportFilterList[0] !== '' ?  (':' + reportFilterList[0]) : '');
-                additonalFilter = _customctrl.getSelectedAdditionalFilter(dimensionIds);
+                additonalFilter = _customctrl.getSelectedAdditionalFilter();
                 if(additonalFilter.length >0)
                     str += "&filter=" + additonalFilter;
             }
@@ -219,9 +220,11 @@ var angObj = angObj || {};
         _customctrl.errorHandler = function() {
             $scope.reportDataLoading = false;
             $scope.reportDataNotFound = true;
+            $scope.generateBtnDisabled = false;
         };
 
         _customctrl.fetchReportData = function(selectedMetricsList, params, idx, callback)  {
+            $scope.generateBtnDisabled = true;
             dataService.getCustomReportData($scope.campaign, params).then(function(result) {
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
                 if(result && result.data.data) {
@@ -235,6 +238,7 @@ var angObj = angObj || {};
         _customctrl.getReportData = function() {
             _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(null, $scope.firstDimensionoffset), null, function(respData) {
                 $scope.fetching = false;
+                $scope.generateBtnDisabled = false;
                 if(respData && respData.length >0) {
                     $scope.reportDataLoading = false;
                     $scope.reportDataNotFound = false;
@@ -251,11 +255,11 @@ var angObj = angObj || {};
 
         $scope.generateReport = function() {
             if(!_customctrl.enableGenerateButton()) {
-                $(".report_generate_button").addClass("disabled") ;
+                $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide() ;
                 return false;
             }
-            $(".report_generate_button").removeClass("disabled") ;
+            $scope.generateBtnDisabled = false;
             $scope.metricValues = [];
             $scope.reportMetaData={};
             $scope.hideReportsTabs = false;
@@ -276,9 +280,9 @@ var angObj = angObj || {};
         };
         $scope.enable_generate_btn = function() {
             if(_customctrl.enableGenerateButton()) {
-                $(".report_generate_button").removeClass("disabled") ;
+                $scope.generateBtnDisabled = false;
             } else {
-                $(".report_generate_button").addClass("disabled") ;
+                $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide() ;
             }
         }
