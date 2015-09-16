@@ -910,11 +910,11 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.listRegions = function(defaults) {
+        $scope.listRegions = function(defaults, event) {
             var searchVal = $('.searchBox').val();
             $scope.showSwitch = true;
             var regionTab = $("#tab_region").parent();
-            if(!$scope.isRegionSelected) {
+            if(!$scope.isRegionSelected && event) {
                 regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
                  event.preventDefault();
