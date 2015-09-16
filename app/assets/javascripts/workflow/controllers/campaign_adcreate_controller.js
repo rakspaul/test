@@ -607,8 +607,11 @@ var angObj = angObj || {};
             } else {
                 if(type == 'on') {
                     $scope.regionsIncludeSwitchLabel=  true;
+                    $scope.citiesIncludeSwitchLabel =  true;
                 } else {
                     $scope.regionsIncludeSwitchLabel=  false;
+                    $scope.citiesIncludeSwitchLabel =  false;
+
                 }
             }
             return el;
@@ -1162,7 +1165,8 @@ var angObj = angObj || {};
         }
 
         $scope.switchInclude=function(){
-            (this.tog = !this.tog) ? $scope.excludeSelectedItems() : $scope.includeSelectedItems();
+            this.tog = !this.tog;
+            (this.tog) ? $scope.excludeSelectedItems() : $scope.includeSelectedItems();
             $scope.includeorExcludeSelectedItems();
         }
 
