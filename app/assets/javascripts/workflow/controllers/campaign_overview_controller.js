@@ -96,6 +96,12 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['getADsForGroupData'][index] = responseData;
+                        for (var idx in responseData) {
+                            if (responseData[idx].state.toLowerCase() == "ready") {
+                                $scope.disablePushBtn = false;
+                                break;
+                            }
+                        }
                         console.log($scope.workflowData);
                     }
                     else {
