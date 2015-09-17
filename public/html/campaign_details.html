@@ -111,7 +111,7 @@
                                     </div>
                                   </div>
                                   <div class="item active">
-                                        <div class="col-xs-3 platform_widget">
+                                        <div class="col-xs-3 platform_widget" ng-hide="usrRole && !usrRole.showplatform">
                                             <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
                                                     {{ textConstants.PLATFORM }} ({{campaign.kpiType | uppercase}})

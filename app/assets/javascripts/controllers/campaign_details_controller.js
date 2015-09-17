@@ -2,7 +2,7 @@
 (function() {
     'use strict';
                                                             
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService,momentService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService,momentService,RoleBasedService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -36,13 +36,16 @@
 
         $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
+        $scope.usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
         $scope.details.sortDirection = 'desc';
         $scope.details.toggleSortDirection = function(dir) {
             return (dir == 'asc' ? 'desc' : 'asc');
         };
-        
+
+
         $scope.details.resetSortParams = function() {
             $scope.details.sortParam = undefined;
             $scope.details.sortDirection = undefined;
