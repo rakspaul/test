@@ -20,7 +20,8 @@ var angObj = '';
       'ngSanitize',
       'ui.bootstrap',
       'uiSwitch',
-      'ngLocale',
+      //'ngLocale',
+        'tmh.dynamicLocale',
       'ngFileUpload',
       'lrInfiniteScroll',
       'door3.css',
@@ -194,11 +195,12 @@ var angObj = '';
             }).hashPrefix("!"); // enable the new HTML5 routing and history API
             // return $locationProvider.html5Mode(true).hashPrefix("!"); // enable the new HTML5 routing and history API
         }
-    ]);
+    ]).config(function(tmhDynamicLocaleProvider) {
+            tmhDynamicLocaleProvider.localeLocationPattern('assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
+    });
 
-   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService) {
+   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, $locale, tmhDynamicLocale) {
         $rootScope.version = version;
-
 
 
         var handleLoginRedirection = function(isNetworkUser, isWorkflowUser) {
@@ -223,6 +225,9 @@ var angObj = '';
             var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
             if( RoleBasedService.getUserRole()) {
                 var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                var locale = RoleBasedService.getUserRole().locale || 'en-us';
+                tmhDynamicLocale.set(locale)
+                $rootScope.$locale = 'locale';
             }
             $rootScope.productType = isWorkflowUser ? 'workflow' : 'reporting';
 

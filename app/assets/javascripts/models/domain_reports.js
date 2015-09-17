@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ['loginModel', function (loginModel) {
+    angObj.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
 
         return {
             getReportsTabs : function() {
@@ -36,6 +36,13 @@
                 if(!isAgencyCostModelTransparent) { //if agency level cost model is opaque
                     tabs =  _.filter(tabs, function(obj, idx) {  return obj.href !== 'cost'});
                 }
+
+                var usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+                if(usrRole && usrRole.ui_modules) {
+                    tabs =  _.filter(tabs, function(obj, idx) {  return _.indexOf(usrRole.ui_modules, obj.href) == -1 });
+                }
+                console.log(usrRole);
+
 
                 return {
                     'tabs' :  tabs,
