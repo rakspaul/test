@@ -15,7 +15,7 @@
             };
 
             var uiExclusion =  function(uiElements) {
-                if(uiElements && userRoleObj.locale === 'UK') {
+                if(uiElements && userRoleObj.locale === 'en-gb') {
                     var obj= {};
                     var modules = uiElements.split(",");
                     _.each(modules, function(module) {
