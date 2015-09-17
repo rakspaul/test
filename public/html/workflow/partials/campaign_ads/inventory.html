@@ -24,8 +24,10 @@
                         </select>
                     </div>
                 </div>
-            
-                <div class="col-md-12 zeroPadding msgPopupHolder">
+
+                <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)" multiple
+                        accept="*">Upload File</button>
+                <!--<div class="col-md-12 zeroPadding msgPopupHolder">
                     <div class="msgPopup">
                         <div class="msg">
                             The new list will affect all campaigns/ads under the same advertiser. <br/> Continue?
@@ -35,9 +37,8 @@
                             <a class="pull-right btn btn-link">Cancel</a>
                         </div>
                     </div>
-                    <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)" multiple
-                        accept="*">Upload File</button>
-                </div>
+
+                </div>-->
             </div>
         </div>
         <!-- Header Ends -->
