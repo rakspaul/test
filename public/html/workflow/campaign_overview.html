@@ -66,6 +66,7 @@
                     </div>
                     <div class="col-md-3 borderZero">
                         <label>Flight Dates</label>
+
                         <span ng-if="workflowData.campaignData.startTime">
                             <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
                             {{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}  <span
@@ -157,7 +158,7 @@
                                         <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6 zeroPadding">
+                                <div class="col-md-4 zeroPadding">
                                     <label for="dateIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
                                     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerIndividual">
                                         <div class="col-md-12 dateWrapper zeroPadding" style="margin-left: -5px;" >
@@ -183,9 +184,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 zeroPadding">
+                                <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
                                     <button type="submit" class="btn btn-primary pull-right" id="groupIndividual" ng-disabled="createIndependantAdsGrp.$invalid" ng-click="createIndependantAdsGroup()">Save</button>
-                                    <span class="pull-right secondary_txt" ng-click="groupIndividualAds()">Cancel</span>
+                                    <button type="submit" class="btn btn-link pull-right" ng-click="groupIndividualAds()">Cancel</button>
                                 </div>
                                 <div id="independantMessage">{{independantGroupMessage}}</div>
                             </div>
