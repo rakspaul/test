@@ -10,14 +10,17 @@ var angObj = angObj || {};
         $scope.adData.screenTypes = [];
         $scope.creativeData = {};
         $scope.creativesLibraryData = {};
+        $scope.creativesLibraryData['creativesData']= [];
         $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.adGroupId = $routeParams.adGroupId;
         $scope.selectedArr = [];
+        $scope.unchecking=false;
         $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
+        $scope.adData.setSizes=constants.WF_NOT_SET;
 
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
@@ -381,6 +384,11 @@ var angObj = angObj || {};
         };
 
         $scope.showPopup = function () {
+            if($scope.selectedArr.length>0){
+                $scope.unchecking=true;
+            }else{
+                $scope.unchecking=false;
+            }
             $scope.$broadcast('showCreativeLibrary');
         };
 
@@ -414,7 +422,7 @@ var angObj = angObj || {};
             },
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
-                workflowService.getCreatives(clientID, adID, format, query).then(function (result) {
+                workflowService.getCreatives(clientID, adID, format, query, {cache:false}).then(function (result) { $scope.creativesLibraryData['creativesData']= [];
                     if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
                         var responseData = result.data.data;
                         $scope.creativeListLoading = false;
@@ -462,7 +470,25 @@ var angObj = angObj || {};
 
         $scope.updateCreativeData = function(data) {
             $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
+            $scope.setSizes($scope.creativeData['creativeInfo']);// set sizes on side bar.
         };
+        $scope.setSizes = function (selectedcreatives) {
+            if (typeof selectedcreatives.creatives != 'undefined') {
+                if (selectedcreatives.creatives.length == 1) {
+                    $scope.sizeString = selectedcreatives.creatives[0].size.size;
+                } else if (selectedcreatives.creatives.length > 1) {
+                    $scope.sizeString = "";
+                    for (var i in selectedcreatives.creatives) {
+                        $scope.sizeString += selectedcreatives.creatives[i].size.size + ",";
+                    }
+                    $scope.sizeString = $scope.sizeString.substring(0, $scope.sizeString.length - 1);
+                }
+            } else {
+                $scope.sizeString = constants.WF_NOT_SET;
+            }   console.log($scope.sizeString)
+            $scope.adData.setSizes = $scope.sizeString;
+//            return $scope.sizeString;
+        }
 
         $scope.$on('removeCreativeTags', function($event, arg){
             var selectedCreativeTag = arg[0]
@@ -607,8 +633,11 @@ var angObj = angObj || {};
             } else {
                 if(type == 'on') {
                     $scope.regionsIncludeSwitchLabel=  true;
+                    $scope.citiesIncludeSwitchLabel =  true;
                 } else {
                     $scope.regionsIncludeSwitchLabel=  false;
+                    $scope.citiesIncludeSwitchLabel =  false;
+
                 }
             }
             return el;
@@ -634,7 +663,9 @@ var angObj = angObj || {};
                         $scope.geoTargetingData.selected[type].splice(i,1);
                     }
                 }
+
             }
+            console.log($scope.geoTargetingData.selected);
             $scope.includeorExcludeCityOnly(type);
         };
 
@@ -704,13 +735,19 @@ var angObj = angObj || {};
 
                     _.each(selectedRegions, function(regionsObj) {
                         var tmpArr= [];
-                        _.each(selectedCities, function(citiesObj, idx) {
-                            if(citiesObj.parent.id === regionsObj.id) {
-                                $scope.showCitiesOnly = false;
-                                tmpArr.push(citiesObj);
-                                regionsObj.cities = tmpArr;
-                            }
-                        })
+                        if(selectedCities.length > 0){
+                            _.each(selectedCities, function(citiesObj, idx) {
+                                if(citiesObj.parent.id === regionsObj.id) {
+                                    $scope.showCitiesOnly = false;
+                                    tmpArr.push(citiesObj);
+                                    regionsObj.cities = tmpArr;
+                                }
+                            })
+                        }
+                        else{
+                            regionsObj.cities = [];
+                        }
+
                     })
                     $scope.isRegionSelected =  true;
                     var regionTab = $("#tab_region").parent();
@@ -910,11 +947,11 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.listRegions = function(defaults) {
+        $scope.listRegions = function(defaults, event) {
             var searchVal = $('.searchBox').val();
             $scope.showSwitch = true;
             var regionTab = $("#tab_region").parent();
-            if(!$scope.isRegionSelected) {
+            if(!$scope.isRegionSelected && event) {
                 regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
                  event.preventDefault();
@@ -1162,7 +1199,8 @@ var angObj = angObj || {};
         }
 
         $scope.switchInclude=function(){
-            (this.tog = !this.tog) ? $scope.excludeSelectedItems() : $scope.includeSelectedItems();
+            this.tog = !this.tog;
+            (this.tog) ? $scope.excludeSelectedItems() : $scope.includeSelectedItems();
             $scope.includeorExcludeSelectedItems();
         }
 
