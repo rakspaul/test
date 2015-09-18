@@ -20,7 +20,7 @@
 	    	</div>
 	    </div>
 	</div>
-    <filters-header reports="true" strategy=false></filters-header>
+    <filters-header reports="true" strategy=false all-campaign=true></filters-header>
 
   	<div>
         <div ng-class="{'loading-icon':screenBusy}"></div>
@@ -36,7 +36,7 @@
                 <div class="clearfix about_file_row">
                   <span class="each-col update-time-col">{{rlist.updatedAt | reportDateFilter}}</span>
                   <span class="each-col report-type-col">{{rlist.reportType}}</span>
-                  <span class="each-col campaign-col ">{{selectedCampaign.name}}</span>
+                  <span class="each-col campaign-col ">{{rlist.campaignName}}</span>
                   <span class="each-col author-col">{{rlist.createdBy}}</span>
                   <span class="each-col options-button-col" >
                       <a  ng-click="downloadCollectiveReport(rlist.id)" href="javascript:void(0);" title="{{ rlist.fileName }}" class="btn-icon download-icon"></a>

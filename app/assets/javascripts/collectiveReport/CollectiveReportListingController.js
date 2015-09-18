@@ -34,6 +34,7 @@
             collectiveReportModel.reportList(function (response) {
                 if (response.data !== undefined && response.data.length > 0) {
                     $scope.reportList = response.data;
+                   // console.log('Get Reports: ',$scope.reportList);
                     $scope.sortReport($scope.sort.column);
                     $scope.screenBusy = false;
                 } else {
@@ -76,8 +77,6 @@
                     }
                 }
             });
-
-
         }
 
         //Delete report Pop up

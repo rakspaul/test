@@ -88,11 +88,11 @@
                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives?forceSave=true', data, {'Content-Type': 'application/json'})
             },
 
-            getCreatives :  function(clientId, advertiserId, formats, query) {
+            getCreatives :  function(clientId, advertiserId, formats, query, cacheObj) {
                 var queryStr = query ? query : '';
                 var creativeFormats = formats ? '?creativeFormat='+formats : ''
                 var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives'+ creativeFormats+ queryStr;
-                return dataService.fetch(url);
+                return dataService.fetch(url, cacheObj);
             },
 
             updateCreative : function(clientId,adId,id,data) {

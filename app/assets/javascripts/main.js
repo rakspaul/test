@@ -4,7 +4,7 @@
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
+    packages: ['brands', 'campaignList', 'campaignSelect','strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
 
     shim: {
       'jsRoutes': {

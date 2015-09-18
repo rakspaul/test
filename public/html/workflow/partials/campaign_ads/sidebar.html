@@ -115,9 +115,9 @@
             <li id="creative-tab">
                 <a href="#creative" role="tab" class="leftNavLink" data-toggle="tab">6 Creative Tag</a>
                 <div>
-                    <div class="statusLabel disabled">
+                    <div class="statusLabel disabled" ng-if="adData.setSizes">
                         <div class="col-md-12">
-                            <span>Not Set</span>
+                            <span>{{adData.setSizes}}</span>
                         </div>
                     </div>
                 </div>

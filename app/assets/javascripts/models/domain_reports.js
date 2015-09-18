@@ -269,12 +269,18 @@
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/filters_header.html',
-            link: function(scope, element, attrs) { 
+            link: function(scope, element, attrs) {
                 scope.reportFilter = attrs.reports ;
                 scope.textConstants = constants;
+                scope.allCampaign = attrs.allCampaign;
+                if(scope.allCampaign == "true") {
+                    scope.selectedCampaign = { id: 0, name: 'All Campaigns', kpi: 'ctr', startDate: '-1', endDate: '-1'};
+                }
             }
         };
     }]);
+
+
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
