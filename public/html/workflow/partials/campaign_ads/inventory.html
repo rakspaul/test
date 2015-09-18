@@ -5,41 +5,39 @@
 <div class="newInventoryFilters">
     <div id="inventoryFilters" >
         <!-- Header Starts -->
-        <div class="page_header_container">
-            <div class="col-md-2 zeroPadding hideRightPanel"></div>
-            <div class="col-md-10 containerWrap">
-                <span>Inventory Filters</span>
-                <a href="">How do I manage my Inventory Filters?</a>
-                <div class="col-md-12 zeroPadding clearfix nav_filters">
-                    <creative-drop-down></creative-drop-down>
-                </div>
-
-                <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
-                    <div class="each_filter" style="margin-bottom: 20px;">
-                        
-                    
-                        <div class="nav_filters_heading">List Name</div>
-                        <select name = "inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
-                            <option value="">Select Domain List</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)" multiple
-                        accept="*">Upload File</button>
-                <!--<div class="col-md-12 zeroPadding msgPopupHolder">
-                    <div class="msgPopup">
-                        <div class="msg">
-                            The new list will affect all campaigns/ads under the same advertiser. <br/> Continue?
-                        </div>
-                        <div class="btn-holder">
-                            <a class="pull-right common_primary_btn">Continue</a>
-                            <a class="pull-right btn btn-link">Cancel</a>
-                        </div>
-                    </div>
-
-                </div>-->
+        <div class="col-md-2 zeroPadding hideRightPanel"></div>
+        <div class="col-md-10 containerWrap">
+            <h2 class="col-md-12 zeroPadding marginBottom">Inventory Filters</h2>
+            <a href="">How do I manage my Inventory Filters?</a>
+            <div class="col-md-12 zeroPadding clearfix nav_filters">
+                <creative-drop-down></creative-drop-down>
             </div>
+
+            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
+                <div class="each_filter" style="margin-bottom: 20px;">
+                    
+                
+                    <div class="nav_filters_heading">List Name</div>
+                    <select name = "inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
+                        <option value="">Select Domain List</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)" multiple
+                    accept="*">Upload File</button>
+            <!--<div class="col-md-12 zeroPadding msgPopupHolder">
+                <div class="msgPopup">
+                    <div class="msg">
+                        The new list will affect all campaigns/ads under the same advertiser. <br/> Continue?
+                    </div>
+                    <div class="btn-holder">
+                        <a class="pull-right common_primary_btn">Continue</a>
+                        <a class="pull-right btn btn-link">Cancel</a>
+                    </div>
+                </div>
+
+            </div>-->
         </div>
         <!-- Header Ends -->
         <!-- Body Starts -->
