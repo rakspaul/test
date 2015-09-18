@@ -694,6 +694,10 @@
   padding-right: 10px;
   width: 40px;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
+  background-color: #D7E9F7;
+  border: 1px solid #0978C9;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:first-child {
   background: rgba(255, 255, 255, 0.48);
 }
