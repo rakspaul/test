@@ -1191,7 +1191,7 @@ var angObj = angObj || {};
         $scope.logic = function() {
             var regions = $scope.geoTargetingData['selected']['regions'];
             if($scope.selectedTab === 'cities') {
-                //$scope.citiesIncludeSwitchLabel =  true;
+                $scope.citiesIncludeSwitchLabel =  true;
                 if(regions.length >0) {
                     $scope.showSwitch = false;
                     if($scope.regionsIncludeSwitchLabel) {
