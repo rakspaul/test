@@ -6,6 +6,7 @@
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
+        var onCampaignCount = 0;
         $scope.activityLogFlag = false;
         brandsModel.disable();
         $scope.api_return_code = 200;
@@ -119,11 +120,10 @@
         }
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-            if($routeParams.campaignId) {
-                $scope.selectedCampaign.id = $routeParams.campaignId;
+            onCampaignCount++
+            if(onCampaignCount > 2) {
+                $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
             }
-            $location.path("/campaigns/" + $scope.selectedCampaign.id);
         });
 
         //API call for campaign details
@@ -276,7 +276,7 @@
                 }
             });
         };
-    
+
         var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function(event, args) {
             var callbackFunctionName = args.loadingFlag == 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
