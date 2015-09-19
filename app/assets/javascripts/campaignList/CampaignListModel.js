@@ -254,8 +254,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.busy = true;
                         var self = this,
                             url = _campaignServiceUrl.call(this);
-                        console.log('fetch campaigns url:',url);
-                        //console.log('url:',url);
+                        //console.log('fetch campaigns url:',url);
                         campaignListService.getCampaigns(url, function(result) {
                             requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
@@ -698,6 +697,10 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             } else {
                                 this.dashboard.filterTotal = this.dashboard.active[state];
                             }
+                            break;
+                        case ((type == 'active') && (state == undefined)):
+                            this.dashboard.filterActive = '(active)';
+                            this.dashboard.filterTotal = this.dashboard.active.total;
                             break;
                         case (type == 'activeAll'):
                             this.dashboard.filterActive = '(active)';
