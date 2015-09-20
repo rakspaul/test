@@ -122,6 +122,25 @@
                             return d[ykeyVal];
                         });
 
+                        if(_config.isPerformanceChart) {
+                            var adjustY;
+                            if(chartCallFrom == 'action_optimization') {
+                                adjustY = 10;
+                            } else if(_config.kpiType.toLowerCase() == "delivery") {
+                                adjustY = 14;
+                            } else {
+                                adjustY = 20;
+                            }
+
+                            svg.append("text")
+                                .attr("id", "kpi_type_text")
+                                .attr("x", -15)
+                                .attr("y", adjustY)
+                                .style("font-size","12px")
+                                .style("fill", "#57595b")
+                                .text(_config.kpiType.toLowerCase()!=="delivery"?_config.kpiType:"Delivery");
+                         }
+
                          if (threshold !== 0 && kpiType.toLowerCase() !== "delivery") {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
@@ -142,14 +161,6 @@
                             if(_config.isPerformanceChart) {
                                 imageSize = "13";
                                 imagePosition = -30;
-
-                                svg.append("text")
-                                    .attr("id", "kpi_type_text")
-                                    .attr("x", -15)
-                                    .attr("y", (chartCallFrom == 'action_optimization') ? 10 : 20)
-                                    .style("font-size","12px")
-                                    .style("fill", "#57595b")
-                                    .text(_config.kpiType);
 
                                  var addCrossHair = function(xCoord, yCoord) {
                                       // Update vertical cross hair
