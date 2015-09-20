@@ -1191,7 +1191,11 @@ var angObj = angObj || {};
         $scope.logic = function() {
             var regions = $scope.geoTargetingData['selected']['regions'];
             if($scope.selectedTab === 'cities') {
-                $scope.citiesIncludeSwitchLabel =  true;
+                //$scope.citiesIncludeSwitchLabel =  true;
+                //$scope.includeSelectedItems();
+                //elem.find(".btn").animate({left: "22px"});
+                //elem.find(".togBtnBg").css({background: "#0978c9"});
+                //
                 if(regions.length >0) {
                     $scope.showSwitch = false;
                     if($scope.regionsIncludeSwitchLabel) {
@@ -1199,9 +1203,12 @@ var angObj = angObj || {};
                         $scope[$scope.selectedTab+'Included'] = false;
                     } else {
                         $scope.citiesIncludeSwitchLabel =  true;
+                        elem.find(".btn").animate({left: "22px"});
+                        elem.find(".togBtnBg").css({background: "#0978c9"});
                         $scope[$scope.selectedTab+'Included'] = true;
                     }
                 }
+
             }
         };
 
