@@ -471,7 +471,7 @@
         $scope.getInventoryGraphData  = function(campaign){
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var inventoryData;
                     $scope.chartDataInventory = [];
@@ -572,7 +572,7 @@
         $scope.getScreenGraphData  = function(campaign){
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var screensData;
                     $scope.chartDataScreen = [];
@@ -616,7 +616,7 @@
         $scope.getAdSizeGraphData  = function(campaign){
             dataService.getAdSizeData($scope.campaign).then(function(result) {
                 $scope.loadingAdSizeFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var adSizeData;
                     $scope.chartDataAdSize = [];
@@ -659,7 +659,7 @@
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
-            var kpiModel = kpiSelectModel.selectedKpi;
+            var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
                 $scope.chartDataPlatform = [];
@@ -710,7 +710,7 @@
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 $scope.loadingFormatFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var formatData;
                     $scope.chartDataFormat = [];
