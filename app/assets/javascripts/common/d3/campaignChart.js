@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angObj.directive('campaignChart', function($window, constants, analytics, loginModel) {
+    angObj.directive('campaignChart', function($window, constants, analytics, loginModel, $filter) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -492,6 +492,7 @@
                                  if(kpiType.toLowerCase() == "delivery") {
                                    //delivery in tooltips shown as integer
                                    formatY = parseInt(d.values);
+                                   formatY = $filter('nrFormat')(formatY, 0);
                                  }
 
                                 svg.selectAll(".tooltip_line")
