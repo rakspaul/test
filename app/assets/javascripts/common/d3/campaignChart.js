@@ -29,6 +29,20 @@
                             .tickFormat(d3.time.format("%_d %b"))
                             .tickSize(0);
 
+                        //tick control
+                        if(!_config.isPerformanceChart && data !== null) {
+                            var timeExtent = d3.extent(data, function(d) {return Date.parse(d.date)});
+                            var median = d3.median(timeExtent);
+
+                            xAxisGen.tickValues([
+                                new Date(timeExtent[0]), //begin
+                                new Date(median), //median
+                                new Date(timeExtent[1]) //end
+                            ]);
+
+                        }
+
+
                         //.tickValues(_config.keys.xAxis.tickValues)
                         /*.tickFormat(function(d){
                             return d ==0 ? d : (d +'%');
@@ -936,6 +950,17 @@
                                     .text((s[0]!="")?s[1]:s[2]);
                                     })
                                 });
+                        } else { //end of type check
+                            xTicks.selectAll('.x .tick text').each(function(d,i){
+                                //fixing tick positions
+                                  var self = d3.select(this);
+                                  if(i==0){
+                                      self.attr("x","15")
+                                  }
+                                  if(i==2){
+                                      self.attr("x","-15")
+                                  }
+                            });
                         } //end of type check
 
                         svg.append("svg:g")
