@@ -145,9 +145,9 @@
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
-                if(typeof data !== 'undefined') {
+                //if(typeof data !== 'undefined') {
                     screenWidgetData['responseData'] = data;
-                }
+                //}
             });
         };
 
