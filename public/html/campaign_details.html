@@ -110,8 +110,8 @@
                                         </div>
                                     </div>
                                   </div>
-                                  <div class="item active">
-                                        <div class="col-xs-3 platform_widget" ng-hide="usrRole && !usrRole.showplatform">
+                                  <div class="item active" ng-hide="usrRole && !usrRole.showplatform">
+                                        <div class="col-xs-3 platform_widget" >
                                             <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
                                                     {{ textConstants.PLATFORM }} ({{campaign.kpiType | uppercase}})
@@ -155,7 +155,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                <div class="item">
+                                <div class="item" ng-hide="usrRole && !usrRole.showinventory">
                                     <div class="col-xs-3">
                                         <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                             <div class="graph_heading">
@@ -167,7 +167,7 @@
                                     </div>
                                 </div>
                                   
-                                   <div class="item" ng-if="adFormats.displayAds">
+                                   <div class="item" ng-if="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                                             <div class="graph_heading">
