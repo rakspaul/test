@@ -489,6 +489,11 @@
                                      formatY = parseFloat(d.values).toFixed(2),
                                      formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
+                                 if(kpiType.toLowerCase() == "delivery") {
+                                   //delivery in tooltips shown as integer
+                                   formatY = parseInt(d.values);
+                                 }
+
                                 svg.selectAll(".tooltip_line")
                                     .remove();
                                 svg.selectAll(".tooltip_box")
