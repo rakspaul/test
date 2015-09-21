@@ -3394,14 +3394,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border-top: solid 2px #ccd9e3 ;
 }
 .report_generator_and_response .custom_response_screenshot_container .report-response-load {
-  background: url("/assets/images/cdesk/table_loading.png") no-repeat center top;
+  background: url("/assets/images/loading.gif") no-repeat center 20px;
   height: 150px;
   width: 100%;
   padding-top: 108px;
   text-align: center;
   font-size: 20px;
   color: #c6c9cd;
-  margin: 20px 0 60px ;
+  margin: 60px 0 20px ;
 }
 .report_generator_and_response .custom_response_screenshot_container .img_table_txt {
   display: block;
@@ -3487,6 +3487,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   min-height: 200px ;
   max-height: 500px;
   overflow: auto ;
+}
+.custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .heading_row {
+  position: absolute;
+  top: 0px ;
+  left: 0px ;
+}
+.custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .first_dimension_row_holder {
+  margin-top: 20px ;
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;

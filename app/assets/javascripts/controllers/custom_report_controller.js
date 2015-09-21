@@ -409,6 +409,9 @@ var angObj = angObj || {};
         $scope.delete_level = function(event) {
             var elem = $(event.target);
             elem.closest(".breakdown_div").remove();
+            if( $("#breakdown_row").find(".breakdown_div").length == 0 ) {
+                $(".add_breakdown_btn").closest(".row").show() ;
+            } 
         };
 
         $scope.select_dropdown_option = function(event , arg ) {
@@ -496,6 +499,18 @@ var angObj = angObj || {};
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );
+
+
+            var lastScrollLeft = 0;
+            $(".custom_report_scroll").scroll(function() {
+                var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
+                if (lastScrollLeft != documentScrollLeft) {
+                    $(".custom_report_scroll").removeClass("vertical_scroll");
+                    lastScrollLeft = documentScrollLeft;
+                } else {
+                    $(".custom_report_scroll").addClass("vertical_scroll").scrollLeft(0);
+                }
+            });
         });
 
     });

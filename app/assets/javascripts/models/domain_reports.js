@@ -113,8 +113,6 @@
         return {
             restrict:'EAC',
             link: function($scope, element, attrs) {
-                console.log(attrs);
-                console.log(element);
                 var template;
                 element.bind('click', function() {
                     $http.get(assets.html_add_report_filter).then(function (tmpl) {
@@ -137,13 +135,16 @@
         return {
             restrict:'EAC',
             link: function($scope, element, attrs) {
-                console.log(attrs);
-                console.log(element);
                 var template;
                 element.bind('click', function() {
                     $http.get(assets.html_add_report_dimension).then(function (tmpl) {
                         template = $compile(tmpl.data)($scope);
                         angular.element(document.getElementById('breakdown_row')).append(template);
+                        if( $("#breakdown_row").find(".breakdown_div").length >= 0 ) {
+                            $(".add_breakdown_btn").closest(".row").hide() ;
+                        } else {
+                            $(".add_breakdown_btn").closest(".row").show() ;
+                        }
                     });
                 });
             }
