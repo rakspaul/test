@@ -24,6 +24,7 @@
     this.ACTIVE_ONTRACK = '(active,ontrack)';
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
+    this.ENDING_SOON = 'Ending Soon';
     this.ACTIVE = 'active';
     this.DASHBOARD_STATUS_ACTIVE = "Active";
     this.DASHBOARD_STATUS_COMPLETED = "Completed";
