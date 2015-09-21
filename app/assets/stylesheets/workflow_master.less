@@ -63,14 +63,18 @@ a {text-decoration: none;}
   font-size: 14px;
   font-family: 'Avenir';
   display: none;
+  font-weight: normal !important;
 }
 .has-error .errorLabel {
   display: block;
 }
 .ng-invalid, .firstWrapper .has-error .form-control {
-  border-color:  #f24444;
+  border-color:  #f24444 !important ;
+  box-shadow: 0px 0px 0px transparent !important ;
 }
-
+.has-error .form-control:focus {
+  box-shadow: 0px 0px 0px transparent !important ;
+}
 .customErrorLabel {
   color: #E83B05 !important;
   padding: 2px 0 0 4px !important;
