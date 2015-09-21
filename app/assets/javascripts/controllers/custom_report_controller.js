@@ -503,15 +503,12 @@ var angObj = angObj || {};
 
             var lastScrollLeft = 0;
             $(".custom_report_scroll").scroll(function() {
-                console.log($(".custom_report_scroll").scrollLeft()) ;
                 var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
                 if (lastScrollLeft != documentScrollLeft) {
                     $(".custom_report_scroll").removeClass("vertical_scroll");
-                    console.log("x");
                     lastScrollLeft = documentScrollLeft;
                 } else {
                     $(".custom_report_scroll").addClass("vertical_scroll").scrollLeft(0);
-                    console.log("y");
                 }
             });
         });
