@@ -364,6 +364,31 @@ var angObj = angObj || {};
                     if (geoTargetData.dmas.length > 0) {
                         postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
                     }
+
+                    if($scope.adData.geoTargetingData.zip.length > 0) {
+                        var zipObj = $scope.adData.geoTargetingData.zip;
+                        var zipPostArr = [];
+                        _.each(zipObj, function(zipArr) {
+                            if(zipArr.added) {
+                                _.each(zipArr.added, function(obj) {
+                                    var arr = obj.split("-");
+                                    if(arr.length > 1) {
+                                        var start = Number(arr[0]), end = Number(arr[1]);
+                                        for(var i=start; i<=end;i++) {
+                                            zipPostArr.push(String(i));
+                                        }
+                                    } else {
+                                        zipPostArr.push(arr[0]);
+                                    }
+                                })
+                            }
+                        })
+                        postGeoTargetObj['ZIPCODE'] = {
+                            "isIncluded" :  true,
+                            "geoTargetList" : zipPostArr
+
+                        }
+                    }
                 }
 
                 if($scope.adData.inventory) {
