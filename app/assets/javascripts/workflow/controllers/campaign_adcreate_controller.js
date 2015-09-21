@@ -787,6 +787,10 @@ var angObj = angObj || {};
 
 
             }
+            else if(type === 'regions' && $scope.geoTargetingData.selected['regions'].length == 0 && $scope.geoTargetingData.selected['cities'].length > 0){
+                $scope.showCitiesOnly = true;
+                $scope.geoTargetingData.selected['cities'] = []
+            }
         }
 
 
