@@ -65,7 +65,7 @@
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
-                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
+                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
-                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
+                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
                         </div>
                     </div>
                     <div class="col-md-2 zeroPadding borderZero">
