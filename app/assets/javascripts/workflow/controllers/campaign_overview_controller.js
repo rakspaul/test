@@ -300,11 +300,13 @@ var angObj = angObj || {};
             $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
             return $scope.numofdays;
         }
-        $scope.createAdforAdGroup=function(stTime,edTime){
+        $scope.createAdforAdGroup=function(campid,stTime,edTime){
             if(typeof(Storage) !== "undefined") {
-                localStorage.setItem("stTime", stTime);
-                localStorage.setItem("edTime", edTime);
+                            localStorage.setItem("stTime", stTime);
+                            localStorage.setItem("edTime", edTime);
             }
+            window.location.href="/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
+
 
         }
 
