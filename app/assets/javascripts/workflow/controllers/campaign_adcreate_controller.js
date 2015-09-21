@@ -70,8 +70,16 @@ var angObj = angObj || {};
                             campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
-                        startDateElem.datepicker("setStartDate", campaignStartTime);
-                        startDateElem.datepicker("setEndDate", campaignEndTime);
+                        //startDateElem.datepicker("setStartDate", campaignStartTime);
+                        //startDateElem.datepicker("setEndDate", campaignEndTime);
+                        if(window.location.href.indexOf("adGroup")>-1)
+                        {
+                            startDateElem.datepicker("setStartDate", moment(localStorage.getItem("stTime")).format('MM/DD/YYYY'));
+                            startDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                        }else{
+                            startDateElem.datepicker("setStartDate", campaignStartTime);
+                            startDateElem.datepicker("setEndDate", campaignEndTime);
+                        }
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -216,7 +224,12 @@ var angObj = angObj || {};
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                 changeDate = moment(startTime).format('MM/DD/YYYY')
                 endDateElem.datepicker("setStartDate", changeDate);
-                endDateElem.datepicker("setEndDate", campaignEndTime);
+                 if(window.location.href.indexOf("adGroup")>-1)
+                {
+                    endDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                }else{
+                    endDateElem.datepicker("setEndDate", campaignEndTime);
+                }
                 endDateElem.datepicker("update", changeDate);
             }
         }
@@ -485,12 +498,14 @@ var angObj = angObj || {};
         })
 
         $scope.saveCreativeTags = function () {
-            $scope.showHidePopup = false;
-            $scope.updateCreativeData($scope.selectedArr)
+            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.updateCreativeData($scope.selectedArr);
         };
 
         $scope.closePop = function () {
-            $scope.showHidePopup = false;
+            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            //console.log("selectedArr:");  //console.log($scope.selectedArr);
+           // $scope.updateCreativeData($scope.xyz);
         };
 
         $scope.updateCreativeData = function(data) {
@@ -510,12 +525,13 @@ var angObj = angObj || {};
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
-            }   console.log($scope.sizeString)
+            }
             $scope.adData.setSizes = $scope.sizeString;
 //            return $scope.sizeString;
         }
 
         $scope.$on('removeCreativeTags', function($event, arg){
+            //$scope.xyz=$scope.selectedArr;
             var selectedCreativeTag = arg[0]
             var actionFrom = arg[1];
             if (selectedCreativeTag.length > 0) {
@@ -530,7 +546,9 @@ var angObj = angObj || {};
             /*Enable save button of popup library if elements exists*/
         })
 
-        $scope.stateChanged = function ($event, screenTypeObj) {
+        $scope.stateChanged = function ($event, screenTypeObj) { // console.log("selected array in state Changed: ");console.log($scope.selectedArr);
+                                                                 // console.log("xyz array in state Changed: ");console.log($scope.xyz);
+
             var checkbox = $event.target;
             screenTypeObj['checked'] = checkbox.checked;
 

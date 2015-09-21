@@ -11,8 +11,8 @@
 
         <div class="col-md-6 zeroPadding pull-right">
             <span class="adGroupTxtSecondary">Ready <p class="active">0</p></span>
-            <span class="adGroupTxtSecondary">Incomplete <p>0</p></span>
             <span class="adGroupTxtSecondary">Scheduled <p>0</p></span>
+            <span class="adGroupTxtSecondary">Delivering <p>0</p></span>
             <span class="adGroupTxtSecondary">Total Ads <p>{{adGroupsData.noOfAds}}</p></span>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="col-md-3 adModule adCreateBtn">
             <div class="col-md-12">
                 <a href="/campaign/{{workflowData.campaignData.id}}/adGroup/{{adGroupsData.adGroup.id}}/ads/create"
-                   class="col-md-12 text-center addMaster">
+                   class="col-md-12 text-center addMaster" ng-click="createAdforAdGroup(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 
                     <h1>Create Ad</h1>
