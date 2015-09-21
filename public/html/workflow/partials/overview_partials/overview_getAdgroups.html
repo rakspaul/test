@@ -10,9 +10,9 @@
         </div>
 
         <div class="col-md-6 zeroPadding pull-right">
-            <span class="adGroupTxtSecondary">Ready <p class="active">0</p></span>
-            <span class="adGroupTxtSecondary">Scheduled <p>0</p></span>
-            <span class="adGroupTxtSecondary">Delivering <p>0</p></span>
+            <span class="adGroupTxtSecondary">Ready <p class="active">{{(adGroupsData.READY || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">Scheduled <p>{{(adGroupsData.SCHEDULED || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">In Flight <p>{{(adGroupsData.DELIVERING ||0)}}</p></span>
             <span class="adGroupTxtSecondary">Total Ads <p>{{adGroupsData.noOfAds}}</p></span>
         </div>
     </div>
