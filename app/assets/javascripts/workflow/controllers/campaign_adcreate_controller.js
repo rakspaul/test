@@ -393,11 +393,10 @@ var angObj = angObj || {};
 
                 if($scope.adData.inventory) {
                     var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
-                    //domainTargetObj['domainList'] = $scope.adData.inventory.domainList;
                     domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
                     postAdDataObj['domainInherit'] = 'APPEND';
+                    postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                 }
-
 
                 campaignOverView.saveAds(postAdDataObj)
             })
