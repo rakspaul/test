@@ -481,8 +481,15 @@
                              var x0 = _config.xScale.invert(d3.mouse(this)[0]),
                                  i = bisectDate(data, x0, 1),
                                  d0 = data[i - 1],
-                                 d1 = data[i],
-                                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                                 d1 = data[i];
+
+                                 var d = undefined;
+
+                                 if(d0 && d1) {
+                                   d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                                 } else {
+                                   return false;
+                                 }
 
                                  var svg = d3.select(_config.rawSvg[0]),
                                      mousePos = d3.mouse(this),
