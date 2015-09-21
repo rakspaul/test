@@ -16,6 +16,7 @@ var angObj = angObj || {};
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
 
+
         var campaignOverView = {
 
             modifyCampaignData: function () {
@@ -82,7 +83,6 @@ var angObj = angObj || {};
                         if (result.status === "OK" || result.status === "success") {
                             var responseData = result.data.data;
                             $scope.workflowData['campaignGetAdGroupsData'] = responseData;
-
                         }
                         else {
                             campaignOverView.errorHandler(result);
@@ -91,7 +91,7 @@ var angObj = angObj || {};
                 //$scope.getAdgroups(campaignId);
             },
             getAdsInAdGroup: function (campaignId, adGroupId, index) {
-                console.log(index);
+                //console.log(index);
                 workflowService.getAdsInAdGroup(campaignId, adGroupId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -102,7 +102,9 @@ var angObj = angObj || {};
                                 break;
                             }
                         }
-                        console.log($scope.workflowData);
+                       // console.log($scope.workflowData);
+                       // $scope.getAdStatesCount($scope.workflowData['getADsForGroupData'][index],index);
+                        //console.log($scope.workflowData['getADsForGroupData'][index]);
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -189,7 +191,7 @@ var angObj = angObj || {};
             $scope.createGroupMessage=false;
         }
 
-        $scope.extractor = function (IndividualAdsData) {console.log($scope.setStartdateIndependant);
+        $scope.extractor = function (IndividualAdsData) { //console.log($scope.setStartdateIndependant);
         $scope.independantAdData=IndividualAdsData;
         //find lowest startDate
             var startDatelow=new Array;
@@ -297,6 +299,13 @@ var angObj = angObj || {};
         $scope.numOfDays = function (startTime, endTime) {
             $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
             return $scope.numofdays;
+        }
+        $scope.createAdforAdGroup=function(stTime,edTime){
+            if(typeof(Storage) !== "undefined") {
+                localStorage.setItem("stTime", stTime);
+                localStorage.setItem("edTime", edTime);
+            }
+
         }
 
     });
