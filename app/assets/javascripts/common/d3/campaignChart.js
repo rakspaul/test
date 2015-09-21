@@ -1052,16 +1052,16 @@
                             for (var i = 0; i < lineData.length; i++) {
                               //days passed
                               days = i+1;
-                              if(moment(lineData[i].date).format('YYYY-MM-DD') >= weekStart.format('YYYY-MM-DD')
-                                && moment(lineData[i].date).format('YYYY-MM-DD') <= weekEnd.format('YYYY-MM-DD')) {
+                              // if(moment(lineData[i].date).format('YYYY-MM-DD') >= weekStart.format('YYYY-MM-DD')
+                              //   && moment(lineData[i].date).format('YYYY-MM-DD') <= weekEnd.format('YYYY-MM-DD')) {
                                     //105 + 95
-                                    upperPacing = (dailyPacing * (days)) * (1.05) + (bookedImpressions * 0.05);
-                                    lowerPacing = (dailyPacing * (days)) * (0.95) - (bookedImpressions * 0.05);
-                                } else {
-                                    //120 + 90
-                                    upperPacing = (dailyPacing * (days)) * (1.2) + (bookedImpressions * 0.05);
-                                    lowerPacing = (dailyPacing * (days)) * (0.9) - (bookedImpressions * 0.05);
-                                }
+                                    upperPacing = (dailyPacing * (days))  + (bookedImpressions * 0.05);
+                                    lowerPacing = (dailyPacing * (days))  - (bookedImpressions * 0.05);
+                                // } else {
+                                //     //120 + 90
+                                //     upperPacing = (dailyPacing * (days)) * (1.2) + (bookedImpressions * 0.05);
+                                //     lowerPacing = (dailyPacing * (days)) * (0.9) - (bookedImpressions * 0.05);
+                                // }
                                 //REVIEW:
                                 // https://jira.collective.com/browse/CRPT-3474
                                 // The boundaries are calculated with the following assumptions:
