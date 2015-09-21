@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angObj.directive('campaignChart', function($window, constants, analytics, loginModel) {
+    angObj.directive('campaignChart', function($window, constants, analytics, loginModel, $filter) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -488,6 +488,12 @@
                                      mousePos = d3.mouse(this),
                                      formatY = parseFloat(d.values).toFixed(2),
                                      formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+
+                                 if(kpiType.toLowerCase() == "delivery") {
+                                   //delivery in tooltips shown as integer
+                                   formatY = parseInt(d.values);
+                                   formatY = $filter('nrFormat')(formatY, 0);
+                                 }
 
                                 svg.selectAll(".tooltip_line")
                                     .remove();
