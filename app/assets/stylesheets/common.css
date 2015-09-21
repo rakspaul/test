@@ -442,10 +442,10 @@
 }
 /*for error messages only*/
 .red_msg span.msg_box {
-  border: solid 1px #b96a6a ;
+  border: solid 1px #F24444 ;
 }
 .red_msg span.msg_box .msg_icon {
-  background: #b96a6a;
+  background: #F24444;
   color: #f2dede;
   font-size: 18px;
   line-height: 17px;
@@ -1378,3 +1378,6 @@ multiselect .dropdown-menu > li > a {
   -moz-transform: rotate(-50deg);
 }
 /*end of ok icon with circle*/
+.bold-font {
+  font-family: "Avenir-bold";
+}
