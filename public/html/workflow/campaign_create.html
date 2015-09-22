@@ -73,7 +73,7 @@
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
                             <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                <input type="text" class="form-control ng-pristine ng-valid" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" placeholder="Enter Campaign name. Up to 250 Characters" required/>
+                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" placeholder="Enter Campaign name. Up to 250 Characters" required/>
                                 <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
                             </div>
                         </div>

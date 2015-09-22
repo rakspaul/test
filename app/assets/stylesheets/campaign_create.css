@@ -479,6 +479,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
   color: #000;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtName {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle span.adGroupTxt {
   clear: left;
 }

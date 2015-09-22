@@ -86,7 +86,6 @@ a {
 .has-error .errorLabel {
   display: block;
 }
-.ng-invalid,
 .firstWrapper .has-error .form-control {
   border-color: #f24444 !important ;
   box-shadow: 0px 0px 0px transparent !important ;
