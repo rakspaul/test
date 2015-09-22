@@ -503,15 +503,7 @@ var angObj = angObj || {};
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );
-
-            var prevLeft = 0;
-            $(document).scroll( function(evt) {
-                var currentLeft = $(this).scrollLeft();
-                if(prevLeft != currentLeft) {
-                    prevLeft = currentLeft;
-                    console.log("I scrolled horizontally.");
-                }
-            });
+            
 
             var lastScrollLeft = 0;
             var lastScrollTop = 0;
