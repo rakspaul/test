@@ -92,8 +92,10 @@
     this.COLLECTIVE_INSIGHTS = "Collective Insights";
     this.UPLOAD_REPORT = "Upload Report";
 
-    this.AD_CREATED_SUCCESS = 'Ad Successfully Created';
-    this.CAMPAIGN_CREATED_SUCCESS = 'Campaign Successfully Created';
+    this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
+    this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
+    this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
+    this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
