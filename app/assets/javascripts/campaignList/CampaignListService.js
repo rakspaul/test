@@ -29,11 +29,11 @@
                 var today = momentInNetworkTZ.today();
                 var startDate = momentInNetworkTZ.newMoment(startDate);
                 var endDate = momentInNetworkTZ.newMoment(endDate);
-                //var totalDays = endDate.diff(startDate, 'days') + 1,
-                var daysOver = Math.round(today.diff(startDate, 'days', true));
-                return daysOver;
-            };
 
+                var totalDays = endDate.diff(startDate, 'days') + 1,
+                    daysOver = Math.round(today.diff(startDate, 'days', true));
+                return Math.round((daysOver / totalDays) * 100);
+            };
 
             var createTacticObject = function(tacticData, timePeriod, campaign, strategyId, kpiType, kpiValue) {
                 var tacticObj = [],
