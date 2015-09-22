@@ -7,8 +7,8 @@ var angObj = angObj || {};
         var _customctrl = this;
         var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
 
-        var metricKey = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
-        var metricKey1 = ['dimension', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
+        var metricKey = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
+        var metricKey1 = ['dimension', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
         $scope.activeTab = "delivery_metrics";
@@ -39,6 +39,7 @@ var angObj = angObj || {};
             var tmpObj = {}; tmpObj[typeofDimension] ={};
             var activeTabDataObj;
             var data;
+            var tabData;
             if(typeof currIdx !== 'undefined' && currIdx >=0) {
                 tmpObj[typeofDimension][currIdx] = {};
                 activeTabDataObj = tmpObj[typeofDimension][currIdx][activeTab] = [];
@@ -48,17 +49,20 @@ var angObj = angObj || {};
                 data = $scope.reportMetaData[typeofDimension];
             }
 
-
             _.each(data, function(d, index) {
                 d.dimension.level = typeofDimension
                 d.dimension.idx = index
-                _.extend(d[activeTab], d['dimension']);
-                activeTabDataObj.push(d[activeTab]);
+                if(activeTab === 'display_quality_metrics') {
+                    tabData = d['quality_data']['display_data'];
+                } else  if(activeTab === 'video_quality_metrics') {
+                    tabData = d['quality_data']['video_data'];
+                } else {
+                    tabData =  d[activeTab];
+                }
+                _.extend(tabData, d['dimension']);
+                activeTabDataObj.push(tabData);
             });
-
             $.extend(true, $scope.metricValues, tmpObj);
-
-            console.log($scope.metricValues);
         };
 
         _customctrl.getDataBasedOnMetricSelected =  function(newData, selectedMetrics, typeofDimension, currIdx) {
@@ -500,15 +504,29 @@ var angObj = angObj || {};
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );
 
+            var prevLeft = 0;
+            $(document).scroll( function(evt) {
+                var currentLeft = $(this).scrollLeft();
+                if(prevLeft != currentLeft) {
+                    prevLeft = currentLeft;
+                    console.log("I scrolled horizontally.");
+                }
+            });
 
             var lastScrollLeft = 0;
+            var lastScrollTop = 0;
+
             $(".custom_report_scroll").scroll(function() {
-                var documentScrollLeft = $(".custom_report_scroll").scrollLeft();
+                var documentScrollLeft = $(this).scrollLeft();
                 if (lastScrollLeft != documentScrollLeft) {
-                    $(".custom_report_scroll").removeClass("vertical_scroll");
                     lastScrollLeft = documentScrollLeft;
-                } else {
-                    $(".custom_report_scroll").addClass("vertical_scroll").scrollLeft(0);
+                    $(".custom_report_scroll").removeClass("vertical_scroll");
+                }
+
+                var documentScrollTop = $(this).scrollTop();
+                if(lastScrollTop !== documentScrollTop) {
+                    lastScrollTop = documentScrollTop;
+                    $(".custom_report_scroll").addClass("vertical_scroll");
                 }
             });
         });
