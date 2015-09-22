@@ -107,11 +107,10 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 this.busy = false;
                 this.timePeriod = 'life_time';
                 this.nextPage = 1;
-                //this.brandId = 0;
                 this.sortParam = 'start_date';
                 this.sortDirection = 'desc';
                 this.totalPages = undefined;
-                //this.costMargin = undefined;
+                this.dashboard.status.completed = '';
                 this.setActiveSortElement(this.sortParam);
             };
             this.resetDasboardFilter = function(type, state) {
@@ -265,6 +264,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             self.totalPages = data.total_pages;
                             self.periodStartDate = data.period_start_date;
                             self.periodEndDate = data.period_end_date;
+                            self.dashboard.filterTotal = data.total_count;
 
                             self.busy = false;
                             if (data.orders.length > 0) {
