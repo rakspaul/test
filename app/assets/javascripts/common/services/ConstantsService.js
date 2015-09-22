@@ -96,6 +96,7 @@
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
     this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
     this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
+    this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;

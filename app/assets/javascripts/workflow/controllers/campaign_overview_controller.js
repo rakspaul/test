@@ -18,10 +18,15 @@ var angObj = angObj || {};
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
-        $timeout(function(){
-            $scope.resetAlertMessage() ;     
-        }, 3000);
+        
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetAlertMessage() ;     
+            }, 3000);
+        }
 
+        $scope.msgtimeoutReset() ;
+        
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
@@ -276,8 +281,10 @@ var angObj = angObj || {};
                                         $scope.independantMessage=!$scope.independantMessage;
                                         $scope.independantGroupMessage="Successfully grouped Ads";
                                         location.reload();
+                                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
+                                        $scope.msgtimeoutReset() ;
 
-                                    }else {
+                                    } else {
                                          console.log("ERROR! adgroup not created");
                                          console.log(result);
                                          $scope.independantMessage=!$scope.independantMessage;

@@ -22,13 +22,14 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
-
+        
+        
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;     
             }, 3000);
         }
-
+        $scope.msgtimeoutReset() ;
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
