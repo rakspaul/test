@@ -121,7 +121,7 @@
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
             onCampaignCount++
-            if(onCampaignCount > 2) {
+            if(onCampaignCount > 1) {
                 $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
             }
         });
