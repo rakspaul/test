@@ -18,9 +18,14 @@ var angObj = angObj || {};
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
-        $timeout(function(){
-            $scope.resetAlertMessage() ;     
-        }, 3000);
+        
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetAlertMessage() ;     
+            }, 3000);
+        }
+
+        $scope.msgtimeoutReset() ;
 
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
@@ -275,9 +280,11 @@ var angObj = angObj || {};
                                         $scope.showIndividualAds = !$scope.showIndividualAds;
                                         $scope.independantMessage=!$scope.independantMessage;
                                         $scope.independantGroupMessage="Successfully grouped Ads";
+                                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                                         location.reload();
+                                        $scope.msgtimeoutReset() ;
 
-                                    }else {
+                                    } else {
                                          console.log("ERROR! adgroup not created");
                                          console.log(result);
                                          $scope.independantMessage=!$scope.independantMessage;
@@ -363,7 +370,9 @@ var angObj = angObj || {};
                         $scope.createAdGroupMessage="Ad Group Created Successfully";
                         //$scope.workflowData['campaignGetAdGroupsData'] = [];
                         //$scope.getAdgroups($routeParams.campaignId);
+                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                         location.reload();
+                        $scope.msgtimeoutReset() ;
                     } else {
                         $scope.createGroupMessage=!$scope.createGroupMessage;
                         $scope.createAdGroupMessage="Ad Group not Created ";
