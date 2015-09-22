@@ -15,7 +15,24 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
+        $scope.campaignCreateMessage = 0 ;
 
+        var campaignCreated  = localStorage.getItem('campaignCreateSuccess');
+        if( campaignCreated == 1 ) {
+            $scope.campaignCreateMessage = 1 ;
+        }
+
+        $timeout(function(){
+               localStorage.removeItem('campaignCreateSuccess');
+               $scope.campaignCreateMessage = 0 ;
+        }, 3000);
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            localStorage.removeItem('campaignCreateSuccess');
+            $scope.campaignCreateMessage = 0 ;
+        };
 
         var campaignOverView = {
 

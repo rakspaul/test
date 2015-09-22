@@ -1,3 +1,17 @@
+<div class="top_message_box" ng-show="campaignCreateMessage">
+    <span class="msg_box">
+        <span class="msg_icon">x</span>
+        <span class="msg_txt" >
+         {{ textConstants.CAMPAIGN_CREATED }}
+    </span>
+    <span class="close_msg_box_holder">
+      <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+    </span>
+    </span>
+</div>
+
+
+
 <div id="campaignCreate">
     <div class="firstWrapper">
         <div class="masterContainer maxWidthAdj">
