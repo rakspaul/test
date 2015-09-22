@@ -3,7 +3,7 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore , $timeout ) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore , $timeout,utils ) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
@@ -16,6 +16,7 @@
         $scope.screenBusy = false;
         $scope.flashMessage = {'message':'','isErrorMsg':''};
         $scope.isNetworkUser = loginModel.getIsNetworkUser();
+        var browserInfo = utils.detectBrowserInfo();
 
         //close messages in 3 seconds
         $scope.timeoutReset = function(){
@@ -128,7 +129,9 @@
                     //$scope.reportDownloadBusy = false;
                     $scope.screenBusy = false;
                     saveAs(response.file, response.fileName);
-                    $scope.flashMessage.message = constants.reportDownloadSuccess;
+                    if(browserInfo.browserName != 'Firefox') {
+                        $scope.flashMessage.message = constants.reportDownloadSuccess;
+                    }
                     //reset errors after 3 seconds
                     $scope.timeoutReset();
                 } else {
