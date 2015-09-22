@@ -557,7 +557,7 @@
                         campaign.setVariables();
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
                         //TODO: set default to DELIVERY if null or undefined
-                        if (campaign.kpi_type == 'null') {
+                        if (campaign.kpi_type == 'null' || campaign.kpi_type == '') {
                             campaign.kpi_type = 'DELIVERY';
                             campaign.kpiType = 'DELIVERY';
                             campaign.kpi_value = 0;
