@@ -137,6 +137,7 @@ var angObj = angObj || {};
                         if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
                             $location.url(url);
+                            localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
                         }
                     }
                 });

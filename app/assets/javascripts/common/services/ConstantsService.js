@@ -92,6 +92,9 @@
     this.COLLECTIVE_INSIGHTS = "Collective Insights";
     this.UPLOAD_REPORT = "Upload Report";
 
+    this.AD_CREATED_SUCCESS = 'Ad Successfully Created';
+    this.CAMPAIGN_CREATED_SUCCESS = 'Campaign Successfully Created';
+
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
     this.DATA_NOT_AVAILABLE= 204;
@@ -140,8 +143,6 @@
     this.BUDGET_WITH_COLON = "Budget:";
     this.CUMULATIVE_VALUE = "Cumulative Value";
     this.ACTION_RATE_R_CAPS = "Action Rate";
-    
-    this.CAMPAIGN_CREATED = "Campaign Successfully Created";
 
     this.SELECT_ALL = "Select All";
     this.DRAFT = "Draft";

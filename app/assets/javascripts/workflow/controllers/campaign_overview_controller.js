@@ -15,25 +15,24 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
-        $scope.campaignCreateMessage = 0 ;
 
-        var campaignCreated  = localStorage.getItem('campaignCreateSuccess');
-        if( campaignCreated == 1 ) {
-            $scope.campaignCreateMessage = 1 ;
-        }
+        $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
         $timeout(function(){
-               localStorage.removeItem('campaignCreateSuccess');
-               $scope.campaignCreateMessage = 0 ;
+            $scope.resetAlertMessage() ;     
         }, 3000);
 
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
-            localStorage.removeItem('campaignCreateSuccess');
-            $scope.campaignCreateMessage = 0 ;
+            $scope.resetAlertMessage() ; 
         };
 
+        $scope.resetAlertMessage = function(){
+           localStorage.removeItem('topAlertMessage');
+           $scope.alertMessage = "" ;
+        }
+        
         var campaignOverView = {
 
             modifyCampaignData: function () {
