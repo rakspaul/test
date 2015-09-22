@@ -21,6 +21,24 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
+        $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
+
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetPartialSaveAlertMessage() ;     
+            }, 3000);
+        }
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetPartialSaveAlertMessage() ; 
+        };
+
+        $scope.resetPartialSaveAlertMessage = function(){
+           $scope.partialSaveAlertMessage.message = '' ;
+           $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+        }
 
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
@@ -134,12 +152,19 @@ var angObj = angObj || {};
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
                         $scope.updatedAt = responseData.updatedAt;
+                        $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS ;
+                        $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+                        $scope.msgtimeoutReset() ;
                         if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
                             $location.url(url);
                             localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
                         }
                     }
+                }, function() {
+                    $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE ;
+                    $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+                    $scope.msgtimeoutReset() ;
                 });
             },
             /*Function to get creatives for list view*/
