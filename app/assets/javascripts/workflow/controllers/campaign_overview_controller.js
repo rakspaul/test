@@ -58,6 +58,9 @@ var angObj = angObj || {};
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
+                        if ($scope.workflowData['campaignData'].pushable) {
+                            $scope.disablePushBtn = false;
+                        }
                         campaignOverView.modifyCampaignData();
                     }
                     else {
@@ -81,12 +84,7 @@ var angObj = angObj || {};
                         // call extract method if
                         $scope.workflowData['campaignAdsData'] = responseData;
                         //console.log(responseData)
-                        for (var index in responseData) {
-                            if (responseData[index].state.toLowerCase() == "ready") {//ready
-                                $scope.disablePushBtn = false;
-                                break;
-                            }
-                        }
+
 
                     }
                     else {
@@ -113,15 +111,6 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['getADsForGroupData'][index] = responseData;
-                        for (var idx in responseData) {
-                            if (responseData[idx].state.toLowerCase() == "ready") {
-                                $scope.disablePushBtn = false;
-                                break;
-                            }
-                        }
-                       // console.log($scope.workflowData);
-                       // $scope.getAdStatesCount($scope.workflowData['getADsForGroupData'][index],index);
-                        //console.log($scope.workflowData['getADsForGroupData'][index]);
                     }
                     else {
                         campaignOverView.errorHandler(result);

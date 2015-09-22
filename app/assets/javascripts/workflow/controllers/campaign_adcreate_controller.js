@@ -136,7 +136,7 @@ var angObj = angObj || {};
                         $scope.updatedAt = responseData.updatedAt;
                         if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
-                            $window.location.href = url;
+                            $location.url(url);
                         }
                     }
                 });
