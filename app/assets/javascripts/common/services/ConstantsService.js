@@ -140,8 +140,6 @@
     this.BUDGET_WITH_COLON = "Budget:";
     this.CUMULATIVE_VALUE = "Cumulative Value";
     this.ACTION_RATE_R_CAPS = "Action Rate";
-    
-    this.CAMPAIGN_CREATED = "Campaign Successfully Created";
 
     this.SELECT_ALL = "Select All";
     this.DRAFT = "Draft";
