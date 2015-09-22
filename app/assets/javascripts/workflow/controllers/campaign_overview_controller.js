@@ -26,7 +26,7 @@ var angObj = angObj || {};
         }
 
         $scope.msgtimeoutReset() ;
-        
+
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
@@ -280,8 +280,8 @@ var angObj = angObj || {};
                                         $scope.showIndividualAds = !$scope.showIndividualAds;
                                         $scope.independantMessage=!$scope.independantMessage;
                                         $scope.independantGroupMessage="Successfully grouped Ads";
-                                        location.reload();
                                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
+                                        location.reload();
                                         $scope.msgtimeoutReset() ;
 
                                     } else {
@@ -370,7 +370,9 @@ var angObj = angObj || {};
                         $scope.createAdGroupMessage="Ad Group Created Successfully";
                         //$scope.workflowData['campaignGetAdGroupsData'] = [];
                         //$scope.getAdgroups($routeParams.campaignId);
+                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                         location.reload();
+                        $scope.msgtimeoutReset() ;
                     } else {
                         $scope.createGroupMessage=!$scope.createGroupMessage;
                         $scope.createAdGroupMessage="Ad Group not Created ";
