@@ -7,8 +7,22 @@
                 <span ng-if="kpiData.selectedKpi == 'cpm'||kpiData.selectedKpi == 'cpa' ||kpiData.selectedKpi == 'cpc'" class="dd_txt">
                 {{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}
                </span>
+                  <!--  -->
+                    <span ng-if="kpiData.selectedKpi == 'delivery'"  ng-init="changeClickedSelectedKpiAlt('cpm')">
+                        {{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}
+                        </span>
+                  <!-- -->
                </span>
-               <span ng-if="!whichCaller.changedrpval" class="dd_txt" ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">{{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}</span>
+               <span ng-if="!whichCaller.changedrpval" class="dd_txt" ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
+                    <span ng-if="kpiData.selectedKpi != 'delivery'" >
+                   {{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}
+                    </span>
+                   <!-- -->
+                   <span ng-if="kpiData.selectedKpi == 'delivery'"  ng-init="changeClickedSelectedKpiAlt('ctr')">
+                   {{kpiData.selectedKpi == 'action_rate' ? textConstants.ACTION_RATE : kpiData.selectedKpi.toUpperCase()}}
+                    </span>
+                   <!-- -->
+               </span>
                 <span class="arrrow_img"></span>
  </span>
 <div class="dropdown_ul dropdown-menu kpi_indicator_ul" ng-class="{kpi_indicator_ul2:whichCaller.changedrpval == 'yes'}"|>
