@@ -46,6 +46,7 @@
 .main_dashboard .dashboard_main_heading_row .nav_filters #brandsList {
   right: -12px;
   left: auto;
+  border-top: solid 1px #ccc;
 }
 .main_dashboard .dropdown {
   cursor: default;
