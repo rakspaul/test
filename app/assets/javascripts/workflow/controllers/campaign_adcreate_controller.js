@@ -466,7 +466,7 @@ var angObj = angObj || {};
 
     angObj.controller('creativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.emptyCreativesFlag = true;
-        $scope.userMessage = "Loading ... ";
+        $scope.loadingFlag = true; //loading flag
 
         var addFromLibrary = {
             modifyCreativesData : function(respData) {
@@ -495,7 +495,7 @@ var angObj = angObj || {};
                     }
                     else {
                         addFromLibrary.errorHandler(result);
-                        $scope.userMessage = "Data Not Found";
+                        $scope.loadingFlag = false;
 
                     }
                 }, addFromLibrary.errorHandler);
