@@ -1132,6 +1132,14 @@
                                 //   a = booked imps/campaign length
                                 //   b = booked imps * 0.05
                                 //   x = time
+
+                                //Fixes for pacing lines going out of the chart
+                                if(upperPacing < 0) {
+                                  upperPacing = 0;
+                                }
+                                if(lowerPacing < 0) {
+                                  lowerPacing = 0;
+                                }
                                 data.push({
                                     date: lineData[i]['date'],
                                     values: lineData[i]['y'],
