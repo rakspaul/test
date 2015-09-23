@@ -526,9 +526,11 @@ var angObj = angObj || {};
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
             $scope.preDeleteArr = [];
-            _.each($scope.selectedArr,function(obj){
-                obj['checked'] = obj['userSelectedEvent'];
-            })
+            //_.each($scope.selectedArr,function(obj){
+            //    obj['checked'] = obj['userSelectedEvent'];
+            //})
+
+            $scope.changeStatus();
 
             $scope.updateCreativeData($scope.selectedArr);
         };
@@ -538,9 +540,10 @@ var angObj = angObj || {};
 
 
             //$scope.preDeleteAr;
-            _.each($scope.selectedArr,function(obj){
-                obj['checked'] = obj['userSelectedEvent'];
-            })
+            //_.each($scope.selectedArr,function(obj){
+            //    obj['checked'] = obj['userSelectedEvent'];
+            //})
+            $scope.changeStatus();
 
             if($scope.preDeleteArr.length > 0){
                 _.each($scope.preDeleteArr,function(obj){
@@ -551,9 +554,13 @@ var angObj = angObj || {};
 
             $scope.preDeleteArr = [];
             $scope.updateCreativeData($scope.selectedArr);
-
-
         };
+
+        $scope.changeStatus = function(){
+            _.each($scope.selectedArr,function(obj){
+                obj['checked'] = obj['userSelectedEvent'];
+            })
+        }
 
         $scope.updateCreativeData = function(data) {
             $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
