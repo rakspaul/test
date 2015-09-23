@@ -526,23 +526,12 @@ var angObj = angObj || {};
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
             $scope.preDeleteArr = [];
-            //_.each($scope.selectedArr,function(obj){
-            //    obj['checked'] = obj['userSelectedEvent'];
-            //})
-
             $scope.changeStatus();
-
             $scope.updateCreativeData($scope.selectedArr);
         };
 
         $scope.closePop = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
-
-
-            //$scope.preDeleteAr;
-            //_.each($scope.selectedArr,function(obj){
-            //    obj['checked'] = obj['userSelectedEvent'];
-            //})
             $scope.changeStatus();
 
             if($scope.preDeleteArr.length > 0){
