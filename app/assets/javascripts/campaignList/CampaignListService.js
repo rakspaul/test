@@ -95,7 +95,7 @@
                         name: tactic.name,
                         startDate: momentInNetworkTZ.newMoment(tactic.start_date).format('YYYY-MM-DD'),
                         endDate: momentInNetworkTZ.newMoment(tactic.end_date).format('YYYY-MM-DD'),
-                        ad_size: tactic.ad_size,
+                        ad_size: _.uniq(tactic.ad_size),
                         platform_name: tactic.platform_name,
                         platform_icon: tactic.platform_icon_url,
                         status: status,
