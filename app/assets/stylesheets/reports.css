@@ -3642,7 +3642,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   height: 30px;
   background: url("/assets/images/loading.gif") no-repeat center center;
   width: 1000px;
-  margin: 30px 0 50px;
+  margin: 50px 0 30px;
 }
 .custom_report_response_page .custom_report_response_table .fixed_dimension_col {
   position: absolute ;

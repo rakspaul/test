@@ -510,7 +510,7 @@
 
 <script type="text/ng-template" id="customeReportTpl">
 
-	<div class="each_col {{customeReportData.level === 'first_dimension'?  'more_dimension_arrow' : 'tree_string'}}"></div>
+	<div class="each_col {{customeReportData.level === 'first_dimension'?  'more_dimension_arrow' : 'tree_string'}}" ng-click="showDataForClikedDimension($event, customeReportData.value); $event.stopPropagation();" ></div>
 
 	<!---- Dimension report data ------------------------>
 	<div class="each_col tree_dimension_col {{customeReportData.level === 'first_dimension'?  'more_dimension_col' : ' '}}" ng-click="showDataForClikedDimension($event, customeReportData.value); $event.stopPropagation();" ng-if="customeReportData.value">{{customeReportData.value}}</div>
