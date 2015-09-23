@@ -335,7 +335,10 @@ var angObj = angObj || {};
                 });
             } else {
                 //hide the second dimension data for clcked row
-                _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
+                
+                if( $(ev.target).closest(".second_dimension_row").length == 0 ) {
+                    _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
+                }
             }
         };
 
