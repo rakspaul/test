@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0" class="dataFromCreativeLibraryNotFound">
-                        <span>Data Not Found</span>
+                        <span>{{userMessage}}</span>
                     </div>
                     <div ng-show="creativeListLoading" class="common-load-more"></div>
                 </div>
