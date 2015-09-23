@@ -183,6 +183,7 @@
 
                                 <div class="col-md-6 zeroPadding">
                                     <button type="submit" class="btn btn-primary pull-right" id="groupIndividual" ng-disabled="createIndependantAdsGrp.$invalid" ng-click="createIndependantAdsGroup()">Save</button>
+                                    <span class="pull-right secondary_txt" ng-click="groupIndividualAds()">Cancel</span>
                                 </div>
                                 <div id="independantMessage">{{independantGroupMessage}}</div>
                             </div>
@@ -243,7 +244,7 @@
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
     
-                                    <p style="margin: 0;">{{appendSizes(adsData.creatives)}}</p>
+                                    <span class="ellipsis-text" title="{{appendSizes(adsData.creatives)}}">{{appendSizes(adsData.creatives)}}</span>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
