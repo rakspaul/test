@@ -357,6 +357,9 @@ select {
   color: #939ead;
   padding-left: 3px;
 }
+.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
+  padding-left: 0px ;
+}
 .left_column_nav .stepCompLabel li {
   width: 100%;
   margin-bottom: 2px;
@@ -411,6 +414,9 @@ select {
   border-width: 0px;
   color: #0978c9;
   background: transparent;
+}
+.left_column_nav .creative_tab_sizes {
+  word-wrap: break-word;
 }
 .table thead {
   border: 1px solid #d2dee7;
