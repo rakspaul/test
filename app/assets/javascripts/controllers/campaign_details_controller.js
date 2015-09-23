@@ -241,17 +241,20 @@
                            // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
 
+				var today = moment(new Date()).format('YYYY-MM-DD');
+				var chartEnd = (today < $scope.campaign.endDate ? today : $scope.campaign.endDate);
                                 //D3 chart object for action performance chart
                                 $scope.details.lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat($scope.campaign.kpiValue),
                                     kpiType: $scope.campaign.kpiType,
                                     from: 'action_performance',
+				    
                                     //for delivery kpi
                                     deliveryData: {
                                       "startDate" : $scope.campaign.startDate,
                                       "endDate" : $scope.campaign.endDate,
-                                      "deliveryDays": momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate),
+                                      "deliveryDays": momentService.dateDiffInDays($scope.campaign.startDate, chartEnd),
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
                                     },
                                     //customisation
