@@ -25,7 +25,7 @@
                         var xAxisGen = d3.svg.axis()
                             .scale(xScale)
                             .orient("bottom")
-                            .ticks(_config.keys.xAxis.ticks)
+                            .ticks(_config.isPerformanceChart ? data.length-1 :_config.keys.xAxis.ticks)
                             .tickFormat(d3.time.format("%_d %b"))
                             .tickSize(0);
 
