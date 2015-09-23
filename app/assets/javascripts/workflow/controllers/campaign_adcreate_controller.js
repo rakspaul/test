@@ -22,8 +22,8 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
-        
-        
+        $scope.preDeleteArr = [];
+
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;     
@@ -525,14 +525,31 @@ var angObj = angObj || {};
 
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.preDeleteArr = [];
+            $scope.changeStatus();
             $scope.updateCreativeData($scope.selectedArr);
         };
 
         $scope.closePop = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
-            //console.log("selectedArr:");  //console.log($scope.selectedArr);
-           // $scope.updateCreativeData($scope.xyz);
+            $scope.changeStatus();
+
+            if($scope.preDeleteArr.length > 0){
+                _.each($scope.preDeleteArr,function(obj){
+                    $scope.selectedArr.push(obj);
+                    $("#"+obj.id).attr('checked',true);
+                })
+            }
+
+            $scope.preDeleteArr = [];
+            $scope.updateCreativeData($scope.selectedArr);
         };
+
+        $scope.changeStatus = function(){
+            _.each($scope.selectedArr,function(obj){
+                obj['checked'] = obj['userSelectedEvent'];
+            })
+        }
 
         $scope.updateCreativeData = function(data) {
             $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
@@ -576,19 +593,24 @@ var angObj = angObj || {};
                                                                  // console.log("xyz array in state Changed: ");console.log($scope.xyz);
 
             var checkbox = $event.target;
-            screenTypeObj['checked'] = checkbox.checked;
+            screenTypeObj.userSelectedEvent =  checkbox.checked; // temporary user old selected status before cancel
+            //screenTypeObj['checked'] = checkbox.checked;
 
             var selectedChkBox = _.filter($scope.selectedArr, function (obj) {
-                return obj.name === screenTypeObj.name
+                return obj.id === screenTypeObj.id
             });
 
             if (selectedChkBox.length > 0) {
-                var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
+                var idx = _.findIndex($scope.selectedArr, function(item) {
+                    return item.id == screenTypeObj.id })
+
                 $scope.selectedArr.splice(idx, 1);
+                $scope.preDeleteArr.push(screenTypeObj);
 
             } else {
                 $scope.selectedArr.push(screenTypeObj);
             }
+
             /*Enable save button of popup library if elements exists*/
         };
     });
