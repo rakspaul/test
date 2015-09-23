@@ -230,12 +230,12 @@
                                     </div>
                                     <div ng-switch-when="IMPRESSIONS">
                                         <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
-                                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
+                                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | nrFormat}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4 zeroPadding">
                                     <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
-                                    <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue}}</span>
+                                    <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue | currency:undefined:0}}</span>
                                 </div>
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
