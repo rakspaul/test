@@ -526,6 +526,9 @@ var angObj = angObj || {};
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
             $scope.preDeleteArr = [];
+            _.each($scope.selectedArr,function(obj){
+                obj['checked'] = obj['userSelectedEvent'];
+            })
 
             $scope.updateCreativeData($scope.selectedArr);
         };
@@ -533,17 +536,22 @@ var angObj = angObj || {};
         $scope.closePop = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
 
+
+            //$scope.preDeleteAr;
             _.each($scope.selectedArr,function(obj){
                 obj['checked'] = obj['userSelectedEvent'];
             })
 
-            $scope.updateCreativeData($scope.selectedArr)
+            if($scope.preDeleteArr.length > 0){
+                _.each($scope.preDeleteArr,function(obj){
+                    $scope.selectedArr.push(obj);
+                    $("#"+obj.id).attr('checked',true);
+                })
+            }
 
-            $scope.selectedArr = $scope.preDeleteArr;
-            _.each($scope.preDeleteArr,function(obj){
-                $("#"+obj.id).attr('checked',true);
-            })
             $scope.preDeleteArr = [];
+            $scope.updateCreativeData($scope.selectedArr);
+
 
         };
 
@@ -597,7 +605,9 @@ var angObj = angObj || {};
             });
 
             if (selectedChkBox.length > 0) {
-                var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
+                var idx = _.findIndex($scope.selectedArr, function(item) {
+                    return item.id == screenTypeObj.id })
+
                 $scope.selectedArr.splice(idx, 1);
                 $scope.preDeleteArr.push(screenTypeObj);
 
