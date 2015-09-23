@@ -354,7 +354,7 @@
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
                 //$scope.campaign.campaignStrategies.apply();
             }
-            $scope.applySortStrategies();
+            //$scope.applySortStrategies();
         };
 
         $scope.loadMoreTactics = function(strategyId, campaignId) {
