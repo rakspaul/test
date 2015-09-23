@@ -506,7 +506,7 @@ var angObj = angObj || {};
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );
-            
+        
 
             var lastScrollLeft = 0;
             var lastScrollTop = 0;
