@@ -15,17 +15,21 @@
                         var margin = _config.margin;
                         var width = _config.width;
                         var height = _config.height;
-
-
                         var xScale = d3.time.scale().domain([data[0][xkeyVal], data[data.length - 1][xkeyVal]]).range([margin.left, width]);
                         var yScale = d3.scale.linear().domain([0, d3.max(data, function(d) {
                             return d[ykeyVal];
                         })]).range([height, margin.left]);
+                        var ticksData;
+                        if(_config.isPerformanceChart) {
+                            ticksData = data.length > 7 ? 5 : data.length-1;
+                        } else {
+                            ticksData = _config.keys.xAxis.ticks;
+                        }
 
                         var xAxisGen = d3.svg.axis()
                             .scale(xScale)
                             .orient("bottom")
-                            .ticks(_config.isPerformanceChart ? data.length-1 :_config.keys.xAxis.ticks)
+                            .ticks(ticksData)
                             .tickFormat(d3.time.format("%_d %b"))
                             .tickSize(0);
 
@@ -1078,31 +1082,32 @@
                         var data = [],
                             lowerPacingThreshold = [], //lower line
                             higherPacingThreshold = [], //upper line
-                            dailyPacing, upperPacing, lowerPacing,
+                            goalPerDay, upperPacing, lowerPacing,
                             weekStart = undefined,
                             weekEnd = undefined,
                             bookedImpressions = undefined,
-                            deliveryDays = undefined;
+                            deliveryDays = undefined,
+                            totalDays, totalImps;
 
                         //for delivery as KPI
                         if(kpiType.toLowerCase() === "delivery") {
-
-
                           if(deliveryData) {
                               bookedImpressions = deliveryData.bookedImpressions;
                               deliveryDays = deliveryData.deliveryDays;
                               weekStart = moment(deliveryData.endDate).subtract(6,'days'); // 1 WEEK
                               weekEnd = moment(deliveryData.endDate);
-                          }
+                              totalDays = deliveryData.totalDays;
 
-                            dailyPacing = bookedImpressions/deliveryDays;
+                          }
+                            goalPerDay = bookedImpressions/deliveryDays;
+                            totalImps = goalPerDay * totalDays;
                             //generate pacing data from impressions
                             var days;
                             for (var i = 0; i < lineData.length; i++) {
                               //days passed
                               days = i+1;
-                                    upperPacing = (dailyPacing * (days))  + (bookedImpressions * 0.05);
-                                    lowerPacing = (dailyPacing * (days))  - (bookedImpressions * 0.05);
+                                    upperPacing = (goalPerDay * (days))  + (totalImps * 0.05);
+                                    lowerPacing = (goalPerDay * (days))  - (totalImps * 0.05);
                                 //Fixes for pacing lines going out of the chart
                                 if(upperPacing < 0) {
                                   upperPacing = 0;

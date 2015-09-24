@@ -232,6 +232,7 @@
                                     deliveryData: {
                                       "startDate" : tacticsList[obj].startDate,
                                       "endDate" : tacticsList[obj].endDate,
+                                       "totalDays" :  momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) +1,
                                       "deliveryDays": noOfdaysCampaignRun(tacticsList[obj].startDate, tacticsList[obj].endDate),
                                       "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
                                     }
@@ -364,6 +365,7 @@
                                     deliveryData: {
                                       "startDate" : strategyList[obj].startDate,
                                       "endDate" : strategyList[obj].endDate,
+                                      "totalDays" :  momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) +1,
                                       "deliveryDays": noOfdaysCampaignRun(strategyList[obj].startDate, strategyList[obj].endDate),
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
@@ -515,6 +517,7 @@
                                     deliveryData: {
                                       "startDate" : campaignObject.startDate,
                                       "endDate" : campaignObject.endDate,
+                                      "totalDays" :  momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) +1,
                                       "deliveryDays": noOfdaysCampaignRun(campaignObject.startDate, campaignObject.endDate),
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
                                     }
