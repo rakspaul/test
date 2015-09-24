@@ -294,6 +294,9 @@ var angObj = '';
                             currentRoute.title = 'Dashboard';
                             $rootScope.bodyclass = 'dashboard_body';
                         break;
+                        case '/customreport' :
+                            $rootScope.bodyclass = 'custom_report_page';
+                        break;
                     }
                     $rootScope.title = currentRoute.title;
                 }
