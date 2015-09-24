@@ -3,10 +3,13 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('helpController', function ($rootScope, $scope, $window) {
         
-        $(".main_navigation").find(".each_nav_link").removeClass("active"); 
+        $(".main_navigation").find(".each_nav_link").removeClass("active");
+        
+        
         
        /*    $scope.helpLink = function() {
-             $location.url('/help');
+             $location.url('help');
+             
           };
           
         var loc = window.location.toString(), 
