@@ -257,6 +257,8 @@
     this.MEASURABLE = "Measurable";
     this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
 
+    this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
+
     this.STRATEGY = "Strategy";
 
     this.PLATFORM_NAME = "Platform Name";
