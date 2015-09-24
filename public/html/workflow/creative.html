@@ -54,7 +54,7 @@
                     <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                     <span class="col-md-4 previewBtn">Preview</span>
 
-                    <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a SSL compatible tag.</label>
+                    <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                     <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
 
                 </div>
