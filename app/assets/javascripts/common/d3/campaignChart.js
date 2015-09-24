@@ -1101,38 +1101,8 @@
                             for (var i = 0; i < lineData.length; i++) {
                               //days passed
                               days = i+1;
-                              // if(moment(lineData[i].date).format('YYYY-MM-DD') >= weekStart.format('YYYY-MM-DD')
-                              //   && moment(lineData[i].date).format('YYYY-MM-DD') <= weekEnd.format('YYYY-MM-DD')) {
-                                    //105 + 95
                                     upperPacing = (dailyPacing * (days))  + (bookedImpressions * 0.05);
                                     lowerPacing = (dailyPacing * (days))  - (bookedImpressions * 0.05);
-                                // } else {
-                                //     //120 + 90
-                                //     upperPacing = (dailyPacing * (days)) * (1.2) + (bookedImpressions * 0.05);
-                                //     lowerPacing = (dailyPacing * (days)) * (0.9) - (bookedImpressions * 0.05);
-                                // }
-                                //REVIEW:
-                                // https://jira.collective.com/browse/CRPT-3474
-                                // The boundaries are calculated with the following assumptions:
-                                //   Constant or linear pacing
-                                //   Upper boundary target (end of campaign target) is 105% of booked impressions
-                                //   Lower Boundary Target (End of campaign target) is 95% of total booked impressions
-                                //   Both the upper and lower boundary are linear functions
-                                //   X axis is time
-                                //   Y axis is IMPs
-                                //   The upper boundary can be calculated using the following formulae:
-                                //   Form ax+b
-                                //   where
-                                //   a = booked imps/campaign length (days)
-                                //   b = booked imps * 0.05
-                                //   x = time
-                                //   The lower boundary can be calculated using the following formulae:
-                                //   Form ax - b
-                                //   where
-                                //   a = booked imps/campaign length
-                                //   b = booked imps * 0.05
-                                //   x = time
-
                                 //Fixes for pacing lines going out of the chart
                                 if(upperPacing < 0) {
                                   upperPacing = 0;
