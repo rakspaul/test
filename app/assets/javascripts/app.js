@@ -100,7 +100,7 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create,
                 title :  'Create - Campaign',
                 controller: 'CreateCampaignController',
-                css: assets.css_visto_application,
+             //   css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
@@ -114,7 +114,7 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
                 controller: 'CampaignOverViewController',
-                css: assets.css_visto_application,
+           //     css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -128,7 +128,7 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create_adBuild,
                 title :  'Campaign - Ad Create',
                 controller: 'CampaignAdsCreateController',
-                css: assets.css_visto_application,
+              //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -142,7 +142,7 @@ var angObj = '';
                             templateUrl: assets.html_campaign_create_adBuild,
                             title :  'Campaign - Ad Create',
                             controller: 'CampaignAdsCreateController',
-                            css: assets.css_visto_application,
+                          //  css: assets.css_visto_application,
                             resolve:{
                                 "check":function($location, RoleBasedService){
                                     var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -155,7 +155,7 @@ var angObj = '';
             .when('/creative/add', {
                 templateUrl: assets.html_creative,
                 title :  'Add Creative',
-                css: assets.css_visto_application,
+               // css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -169,7 +169,7 @@ var angObj = '';
                 templateUrl: assets.html_creative_list,
                 title :  'Creative List',
                 controller: 'creativeListController',
-                css: assets.css_visto_application,
+              //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
