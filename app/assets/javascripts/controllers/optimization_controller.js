@@ -222,6 +222,7 @@ var angObj = angObj || {};
                                         deliveryData: {
                                             "startDate" : $scope.selectedCampaign.startDate,
                                             "endDate" : $scope.selectedCampaign.endDate,
+                                            "totalDays" :  momentService.dateDiffInDays($scope.selectedCampaign.startDate, $scope.selectedCampaign.endDate) +1,
                                             "deliveryDays": momentService.dateDiffInDays($scope.selectedCampaign.startDate, chartEnd) +1,
                                             "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
                                         },
