@@ -241,8 +241,8 @@
                            // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
 
-				var today = moment(new Date()).format('YYYY-MM-DD');
-				var chartEnd = (today < $scope.campaign.endDate ? today : $scope.campaign.endDate);
+				                var today = moment(new Date()).format('YYYY-MM-DD');
+				                var chartEnd = (today < $scope.campaign.endDate ? today : $scope.campaign.endDate);
                                 //D3 chart object for action performance chart
                                 $scope.details.lineChart = {
                                     data: lineData,

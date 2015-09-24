@@ -353,6 +353,7 @@
     this.WF_MEDIA_COST = "Media Cost";
     this.WF_BUDGET = "Budget";
     this.WF_UNIT_COST = "Unit Cost";
+    this.WF_PUSH_CAMPAIGN = "Push Campaign";
 
     this.WF_HEADER_BUYING_PLATFORM ="Here are the available buying platform based on your goals & ad settings";
     this.WF_HEADER_BUYING_PLATFORM_SUB ="Guided Copy Here - Which platform should i choose?";
