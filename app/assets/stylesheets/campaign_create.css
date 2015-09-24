@@ -605,6 +605,7 @@
   min-height: 371px;
   background: #F7FAFF;
   position: relative;
+  max-width: 1200px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
   padding: 10px;
