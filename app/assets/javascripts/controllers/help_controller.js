@@ -8,7 +8,7 @@ var angObj = angObj || {};
         
         
        /*    $scope.helpLink = function() {
-             $location.url('help');
+             $location.url("help");
              
           };
           
