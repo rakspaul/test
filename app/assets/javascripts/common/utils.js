@@ -574,6 +574,20 @@ angObj.directive('truncateTextWithHover', function () {
       });
     }
   });
+  angObj.filter('displayToCamelCase', function (toCamelCaseFilter,toTitleCaseFilter) {
+    return function (input) {
+      if (input == undefined) {
+        return '';
+      }
+
+      if(input.toLowerCase() == 'delivery'){
+        return toTitleCaseFilter(input);
+      }
+
+      return input.toUpperCase();
+
+    }
+  });
   angObj.filter('toTitleCase', function () {
     return function (input) {
       if (input == undefined) {
