@@ -16,6 +16,28 @@ var angObj = angObj || {};
 
         //$scope.popUpData.tag="";
 
+        $scope.alertMessage  = localStorage.getItem('topAlertMessage');
+
+        
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetAlertMessage() ;     
+            }, 3000);
+        }
+
+        $scope.msgtimeoutReset() ;
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetAlertMessage() ; 
+        };
+
+        $scope.resetAlertMessage = function(){
+           localStorage.removeItem('topAlertMessage');
+           $scope.alertMessage = "" ;
+        }
+
         $scope.getAdFormatIconName = function (adFormat) {
             adFormat = adFormat || 'display';
             var adFormatMapper = {'display': 'picture', 'video': 'film', 'rich media': 'paperclip', 'social': 'user'}
