@@ -25,7 +25,6 @@
                         } else {
                             ticksData = _config.keys.xAxis.ticks;
                         }
-                        console.log("ticksData", ticksData);
 
                         var xAxisGen = d3.svg.axis()
                             .scale(xScale)
