@@ -233,8 +233,9 @@
                                       "startDate" : tacticsList[obj].startDate,
                                       "endDate" : tacticsList[obj].endDate,
                                        "totalDays" :  momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) +1,
-                                      "deliveryDays": noOfdaysCampaignRun(tacticsList[obj].startDate, tacticsList[obj].endDate),
-                                      "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
+//                                      "deliveryDays": noOfdaysCampaignRun(tacticsList[obj].startDate, tacticsList[obj].endDate),
+                                        "deliveryDays": maxDays.length,
+                                        "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
                                     }
                                 };
                             }
@@ -366,7 +367,8 @@
                                       "startDate" : strategyList[obj].startDate,
                                       "endDate" : strategyList[obj].endDate,
                                       "totalDays" :  momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) +1,
-                                      "deliveryDays": noOfdaysCampaignRun(strategyList[obj].startDate, strategyList[obj].endDate),
+//                                      "deliveryDays": noOfdaysCampaignRun(strategyList[obj].startDate, strategyList[obj].endDate),
+                                        "deliveryDays": maxDays.length,
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
                                 };
@@ -518,8 +520,9 @@
                                       "startDate" : campaignObject.startDate,
                                       "endDate" : campaignObject.endDate,
                                       "totalDays" :  momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) +1,
-                                      "deliveryDays": noOfdaysCampaignRun(campaignObject.startDate, campaignObject.endDate),
-                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
+//                                      "deliveryDays": noOfdaysCampaignRun(campaignObject.startDate, campaignObject.endDate),
+                                        "deliveryDays": maxDays.length,
+                                        "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
                                     }
                                 };
                             }
