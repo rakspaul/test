@@ -1470,7 +1470,7 @@
   color: #21252b;
   font-size: 14pt;
   font-family: 'Avenir-bold';
-  padding-bottom: 30px;
+  margin-bottom: 30px;
 }
 .adCreateMaster .tab-content .tab-pane h2 {
   color: #000;
@@ -1673,6 +1673,23 @@
   left: -80px;
   top: auto ;
 }
+.adCreateMaster #targetting .ddlSetTarget .dropdown-toggle {
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+  width: 140px;
+  text-align: left;
+}
+.adCreateMaster #targetting .ddlSetTarget .dropdown-toggle .caret {
+  float: right;
+  margin-top: 9px;
+}
+.adCreateMaster #targetting .ddlSetTarget .dropdown-menu {
+  width: 280px;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+}
 .adCreateMaster #targetting .targettingFormWrap {
   border: 1px solid #E6E6E6;
   padding: 20px !important;
@@ -1844,8 +1861,8 @@
   padding-left: 15px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .emptyTableLabel {
-  text-align: center;
-  padding: 10px 0;
+  text-align: left;
+  padding: 10px 15px;
   margin: 0px 0 30px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .each-row {
