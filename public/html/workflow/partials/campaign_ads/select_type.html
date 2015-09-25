@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6 zeroPadding">
         <h2 class="col-md-12 zeroPadding marginBottom">Select Ad Type</h2>
-        <a href="javascript:void(0);">Learn more about Ad Types</a>
+        <!--<a href="javascript:void(0);">Learn more about Ad Types</a>-->
     </div>
 </div>
 
@@ -55,7 +55,7 @@
     <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}
     </div>
     <!--Abi can you add the active class to the div element below-->
-    <div class="form-group col-md-3 btn_border bigChkBox active"
+    <div class="form-group col-md-3 btn_border bigChkBox {{screenType.active ? 'active' : '' }}"
          ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
         <label for="screenTypeChkBox{{screenType.id}}">
             <input type="checkbox" name="screens" ng-model="screenType.active" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}"  class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);" ng-checked="screenType.active">

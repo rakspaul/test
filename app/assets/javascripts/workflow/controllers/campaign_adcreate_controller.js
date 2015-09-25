@@ -210,10 +210,13 @@ var angObj = angObj || {};
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
                 return obj.name === screenTypeObj.name
             });
+            var idx;
             if (screenTypeFound.length > 0) {
-                var idx = _.findLastIndex($scope.adData.screenTypes, screenTypeObj);
+                for(var k in $scope.adData.screenTypes){
+                    if($scope.adData.screenTypes[k].name==screenTypeObj.name)
+                    idx=k;
+                }
                 $scope.adData.screenTypes.splice(idx, 1);
-
             } else {
                 $scope.adData.screenTypes.push(screenTypeObj);
             }
