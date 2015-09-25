@@ -179,7 +179,7 @@
 #creativeList .each_filter {
   float: left;
   width: 175px;
-  margin: 15px 20px 15px 0;
+  margin: 15px 20px 20px 0;
 }
 #creativeList .each_filter .creativeDDL {
   position: relative;
@@ -413,4 +413,7 @@
   background: #F5F9FD;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+.creative_filter_dropdowns .dropdown-menu {
+  border-top: solid 1px #ccc ;
 }
