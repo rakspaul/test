@@ -138,8 +138,11 @@ var angObj = angObj || {};
             $scope.init();
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.createDownloadReportUrl();
             $scope.videoMode = false;
+        });
+
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){

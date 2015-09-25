@@ -179,9 +179,14 @@ var angObj = angObj || {};
 
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
+
+
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign) {
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
+        });
+
+        $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
         });
 
