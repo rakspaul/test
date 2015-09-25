@@ -171,8 +171,10 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.createDownloadReportUrl();
+        });
 
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
