@@ -3064,6 +3064,12 @@ input[type="submit"] {
 .quick_filters_holder .filters_selected_holder .each_selected_filter .heading {
   color: #57606d ;
 }
+.campaignListContainer .campaign_list_header .common_primary_btn {
+  text-transform: none;
+  height: 35px;
+  line-height: 34px;
+  width: 120px;
+}
 .campaignListContainer .campaignListHolder {
   border: 1px solid #ccd2da ;
   margin: 20px 0 30px ;

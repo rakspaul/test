@@ -312,7 +312,7 @@
 					<div class="each_tab" ng-click="show_respective_table('video_quality')" id="video_quality_tab"><span>Quality Video</span></div>
 				</div>
 				<div class="custom_report_response_table" id="delivery_table">
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100"><!-- add vertical_scroll class when scrolled vertically -->
+					<div class="custom_report_scroll"><!-- add vertical_scroll class when scrolled vertically -->
 
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
@@ -328,15 +328,16 @@
 							<div class="each_row reportData {{showhasBreakdown}}"  data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics track by $index" ><!-- add active when the next dimension is open --><!-- add hasBreakdown when the next dimension is available -->
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
-								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
-								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
-									<div>
+								<div ng-show='secondDimensionReportLoading["delivery_metrics"][customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading["delivery_metrics"][customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div ng-if="metricValues.second_dimension[customeReportData.idx].delivery_metrics.length >0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].delivery_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
 										<span class="sec_dimension_load_more" ng-click="fetchMoreSecondDimensionData($event)" style="display:none;" >
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
+									<span ng-if="metricValues.second_dimension[customeReportData.idx].delivery_metrics.length === 0" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 									<!-- end of load more for second dimension -->
 								</div>
 								<!-- end of second dimension div-->
@@ -347,7 +348,7 @@
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="booked_table" style="display:none;">
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
+					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
 								<div class="each_col tree_dimension_col">{{reportTitle}}</div>
@@ -364,13 +365,14 @@
 								<!-- second dimension div-->
 								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
 								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
-									<div>
+									<div ng-if="metricValues.second_dimension[customeReportData.idx].booked_metrics.length > 0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].booked_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
 										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
+									<span ng-if="metricValues.second_dimension[customeReportData.idx].booked_metrics.length === 0" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 									<!-- end of load more for second dimension -->
 								</div>
 								<!-- end of second dimension div-->
@@ -380,7 +382,7 @@
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="engagement_table" style="display:none;">
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
+					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
 								<div class="each_col tree_dimension_col">{{reportTitle}}</div>
@@ -395,15 +397,16 @@
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
-								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
-								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
-									<div>
+								<div ng-show='secondDimensionReportLoading["engagement_metrics"][customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading["engagement_metrics"][customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div ng-if="metricValues.second_dimension[customeReportData.idx].engagement_metrics.length >0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].engagement_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
 										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
+									<span ng-if="metricValues.second_dimension[customeReportData.idx].engagement_metrics.length ===0" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 									<!-- end of load more for second dimension -->
 								</div>
 								<!-- end of second dimension div-->
@@ -413,7 +416,7 @@
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="video_table" style="display:none;">
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
+					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
 								<div class="each_col tree_dimension_col">{{reportTitle}}</div>
@@ -428,15 +431,16 @@
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.video_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
-								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
-								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
-									<div>
+								<div ng-show='secondDimensionReportLoading["video_metrics"][customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading["video_metrics"][customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div ng-if="metricValues.second_dimension[customeReportData.idx].video_metrics.length >0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].video_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
 										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
+									<span ng-if="metricValues.second_dimension[customeReportData.idx].video_metrics.length === 0" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 									<!-- end of load more for second dimension -->
 								</div>
 								<!-- end of second dimension div-->
@@ -446,7 +450,7 @@
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
 				<div class="custom_report_response_table" id="display_quality_table" style="display:none;">
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
+					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
 								<div class="each_col tree_dimension_col">{{reportTitle}}</div>
@@ -461,15 +465,16 @@
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.display_quality_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
-								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
-								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
-									<div>
+								<div ng-show='secondDimensionReportLoading["display_quality_metrics"][customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading["display_quality_metrics"][customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div ng-if="metricValues.second_dimension[customeReportData.idx].display_quality_metrics.length >0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].display_quality_metrics	 track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
 										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
+									<span ng-if="metricValues.second_dimension[customeReportData.idx].display_quality_metrics.length === 0" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 									<!-- end of load more for second dimension -->
 								</div>
 								<!-- end of second dimension div-->
@@ -480,7 +485,7 @@
 				</div>
 
 				<div class="custom_report_response_table" id="video_quality_table" style="display:none;">
-					<div class="custom_report_scroll" lr-infinite-scroll="loadMoreItems" time-threshold="100">
+					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
 								<div class="each_col tree_dimension_col">{{reportTitle}}</div>
@@ -495,15 +500,16 @@
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.video_quality_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
 								<!-- second dimension div-->
-								<div ng-show='secondDimensionReportLoading[customeReportData.idx]' class="common-load-more"></div>
-								<div ng-if='!secondDimensionReportLoading[customeReportData.idx]' class="clearfix second_dimension_row_holder">
-									<div>
+								<div ng-show='secondDimensionReportLoading["video_quality_metrics"][customeReportData.idx]' class="common-load-more"></div>
+								<div ng-if='!secondDimensionReportLoading["video_quality_metrics"][customeReportData.idx]' class="clearfix second_dimension_row_holder">
+									<div ng-if="metricValues.second_dimension[customeReportData.idx].video_quality_metrics.length >0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].video_quality_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
 										<!-- load more for second dimension -->
 										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
+									<span ng-if="metricValues.second_dimension[customeReportData.idx].video_quality_metrics.length === 0" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 									<!-- end of load more for second dimension -->
 								</div>
 								<!-- end of second dimension div-->
