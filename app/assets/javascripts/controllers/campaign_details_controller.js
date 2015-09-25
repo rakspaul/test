@@ -238,6 +238,7 @@
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
+                            $scope.details.maxDays =  maxDays;
                            // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
 
@@ -891,6 +892,14 @@
                 kpiValue: parseFloat($scope.campaign.kpiValue),
                 kpiType: $scope.campaign.kpiType,
                 from: 'action_performance',
+                deliveryData: {
+                    "startDate" : $scope.campaign.startDate,
+                    "endDate" : $scope.campaign.endDate,
+                    "totalDays" :  momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate) +1,
+                    "deliveryDays": $scope.details.maxDays.length,
+                    "bookedImpressions": $scope.details.maxDays[$scope.details.maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
+
+                },
                 //customisation
                 activityList: activityList.data.data,
                 showExternal: showExternal
@@ -1040,6 +1049,14 @@
                 kpiValue: parseFloat($scope.campaign.kpiValue),
                 kpiType: $scope.campaign.kpiType,
                 from: 'action_performance',
+                deliveryData: {
+                    "startDate" : $scope.campaign.startDate,
+                    "endDate" : $scope.campaign.endDate,
+                    "totalDays" :  momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate) +1,
+                    "deliveryDays": $scope.details.maxDays.length,
+                    "bookedImpressions": $scope.details.maxDays[$scope.details.maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
+
+                },
                 //customisation
                 activityList: activityList.data.data,
                 showExternal: showExternal

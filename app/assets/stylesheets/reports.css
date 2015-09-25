@@ -3525,6 +3525,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 5px;
   display: block;
 }
+.custom_report_response_page .custom_report_response_table .second_dimension_row_holder .no-data-common {
+  margin: 50px 0 50px 408px;
+  font-family: "Avenir";
+}
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder .second_dimension_row {
   position: relative;
   margin-top: 10px;
