@@ -404,7 +404,6 @@ var angObj = angObj || {};
 
         $scope.callBackCampaignsSuccess = function () {
             $scope.getCampaignDetails($scope.callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
-            $scope.createDownloadReportUrl();
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
@@ -412,6 +411,10 @@ var angObj = angObj || {};
             $scope.paramObj = {isCampaignChanged: true};
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ; //update the selected Campaign
             $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
+        });
+
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {
