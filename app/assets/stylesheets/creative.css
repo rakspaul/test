@@ -212,10 +212,19 @@
 #inventoryFilters .col-md-10 {
   padding: 0 0 0 35px;
 }
+#inventoryFilters .nav_filters {
+  margin-bottom: 15px ;
+}
 #inventoryFilters .each_filter {
   float: left;
   width: 206px;
-  margin: 20px 30px 0 0;
+  margin: 0px 30px 0 0;
+}
+#inventoryFilters .each_filter .nav_filters_heading {
+  font-size: 14px ;
+}
+#inventoryFilters .each_filter .select {
+  margin-top: 0px ;
 }
 #inventoryFilters .page_header_container {
   width: 100%;
@@ -251,6 +260,20 @@
   float: left;
   margin-top: 20px;
   margin-bottom: 30px;
+}
+#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn {
+  margin-bottom: 30px ;
+}
+#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn button {
+  margin-bottom: 10px ;
+  margin-top: 0px;
+}
+#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn .grey_txt {
+  font-size: 12px ;
+  margin: 6px 0 0 5px;
+}
+#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn .note {
+  font-size: 12px ;
 }
 #inventoryFilters .filterList {
   border: 1px solid #dde6eb;
@@ -326,6 +349,11 @@
   cursor: pointer;
   color: #fff;
   font-size: 30px;
+}
+.popInventoryLib .inventoryLib .close {
+  position: absolute;
+  top: 2px;
+  right: 12px;
 }
 .popInventoryLib .inventoryLib .headerLib {
   padding: 30px 30px 17px 30px;

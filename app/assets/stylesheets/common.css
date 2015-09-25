@@ -1386,3 +1386,6 @@ multiselect .dropdown-menu > li > a {
   width: 100%;
   text-overflow: ellipsis;
 }
+.grey_txt {
+  color: #939dac ;
+}
