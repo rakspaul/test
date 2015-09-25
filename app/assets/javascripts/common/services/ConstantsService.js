@@ -24,6 +24,7 @@
     this.ACTIVE_ONTRACK = '(active,ontrack)';
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
+    this.ENDING_SOON = 'Ending Soon';
     this.ACTIVE = 'active';
     this.DASHBOARD_STATUS_ACTIVE = "Active";
     this.DASHBOARD_STATUS_COMPLETED = "Completed";
@@ -91,6 +92,13 @@
 
     this.COLLECTIVE_INSIGHTS = "Collective Insights";
     this.UPLOAD_REPORT = "Upload Report";
+
+    this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
+    this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
+    this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
+    this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
+    this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
+    this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
@@ -251,6 +259,8 @@
     this.MEASURABLE = "Measurable";
     this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
 
+    this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
+
     this.STRATEGY = "Strategy";
 
     this.PLATFORM_NAME = "Platform Name";
@@ -345,6 +355,7 @@
     this.WF_MEDIA_COST = "Media Cost";
     this.WF_BUDGET = "Budget";
     this.WF_UNIT_COST = "Unit Cost";
+    this.WF_PUSH_CAMPAIGN = "Push Campaign";
 
     this.WF_HEADER_BUYING_PLATFORM ="Here are the available buying platform based on your goals & ad settings";
     this.WF_HEADER_BUYING_PLATFORM_SUB ="Guided Copy Here - Which platform should i choose?";

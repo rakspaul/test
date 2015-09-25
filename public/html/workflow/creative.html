@@ -1,5 +1,16 @@
+
+
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="creativeController">
 <div id="creative" >
+    <div class="top_message_box" ng-show="createAlertMessage.message">
+        <span class="msg_box">
+            <span class="msg_icon">x</span>
+            <span class="msg_txt" ng-bind-html="createAlertMessage.message"></span>
+            <span class="close_msg_box_holder">
+              <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+            </span>
+        </span>
+    </div>
     <!-- Header Starts -->
     <div class="page_header_container">
 	<div class="col-md-2 zeroPadding hideRightPanel"></div>
@@ -42,7 +53,7 @@
 
                 <div class="form-group col-md-8" show-errors='{showSuccess: true}'>
                     <label for="name">Name</label>
-                    <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" required>
+                    <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Enter Creative name. Up to 250 Characters" required>
                     <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                 </div>
 
@@ -54,7 +65,7 @@
                     <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                     <span class="col-md-4 previewBtn">Preview</span>
 
-                    <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a comment for the creative.</label>
+                    <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                     <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
 
                 </div>
@@ -81,7 +92,7 @@
                     <div class="col-md-4 zeroPadding">
                         <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
                         <a class="btn btn-link pull-left" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
-                        <button type="submit" class="btn btn-primary pull-left" ng-disabled="disableCancelSave" id="saveCreative"> Save Tag</button>
+                        <button type="submit" class="btn btn-primary pull-left" ng-disabled="disableCancelSave" id="saveCreative" > Save Tag</button>
                     </div>
                 </div>
 

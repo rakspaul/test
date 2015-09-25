@@ -25,6 +25,22 @@
                 return str.substring(0, str.length - 1);
             };
 
+            var noOfdaysCampaignRun = function(startDate, endDate) {
+                var today = momentInNetworkTZ.today();
+                var startDate = momentInNetworkTZ.newMoment(startDate);
+                var endDate = momentInNetworkTZ.newMoment(endDate);
+
+		/*
+                var totalDays = endDate.diff(startDate, 'days') + 1,
+                    daysOver = Math.round(today.diff(startDate, 'days', true));
+                return Math.round((daysOver / totalDays) * 100);
+		*/
+		if (endDate > today) {
+		    endDate = today;
+		}
+		return endDate.diff(startDate, 'days') + 1;
+            };
+
             var createTacticObject = function(tacticData, timePeriod, campaign, strategyId, kpiType, kpiValue) {
                 var tacticObj = [],
                     status = '',
@@ -79,7 +95,7 @@
                         name: tactic.name,
                         startDate: momentInNetworkTZ.newMoment(tactic.start_date).format('YYYY-MM-DD'),
                         endDate: momentInNetworkTZ.newMoment(tactic.end_date).format('YYYY-MM-DD'),
-                        ad_size: tactic.ad_size,
+                        ad_size: _.uniq(tactic.ad_size),
                         platform_name: tactic.platform_name,
                         platform_icon: tactic.platform_icon_url,
                         status: status,
@@ -204,7 +220,8 @@
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
                                 if(angular.lowercase(kpiType) === "delivery") {
-                                  tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) * (maxDays.length-1);
+                                  //tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) * (maxDays.length-1);
+                                  tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
                                 }
                                 tacticsList[obj].lineChart = {
                                     data: lineData,
@@ -215,8 +232,10 @@
                                     deliveryData: {
                                       "startDate" : tacticsList[obj].startDate,
                                       "endDate" : tacticsList[obj].endDate,
-                                      "deliveryDays": momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate),
-                                      "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
+                                       "totalDays" :  momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) +1,
+//                                      "deliveryDays": noOfdaysCampaignRun(tacticsList[obj].startDate, tacticsList[obj].endDate),
+                                        "deliveryDays": maxDays.length,
+                                        "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
                                     }
                                 };
                             }
@@ -335,7 +354,8 @@
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
                                 if(angular.lowercase(kpiType) === "delivery") {
-                                  strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) * (maxDays.length-1);
+                                    //strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) * (maxDays.length-1);
+                                    strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
                                 }
                                 strategyList[obj].lineChart = {
                                     data: lineData,
@@ -346,7 +366,9 @@
                                     deliveryData: {
                                       "startDate" : strategyList[obj].startDate,
                                       "endDate" : strategyList[obj].endDate,
-                                      "deliveryDays": momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate),
+                                      "totalDays" :  momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) +1,
+//                                      "deliveryDays": noOfdaysCampaignRun(strategyList[obj].startDate, strategyList[obj].endDate),
+                                        "deliveryDays": maxDays.length,
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
                                 };
@@ -483,7 +505,8 @@
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
                                 if(angular.lowercase(kpiType) === "delivery") {
-                                  campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) * (maxDays.length-1);
+                                    //campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) * (maxDays.length-1);
+                                    campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
                                 }
 
 
@@ -496,8 +519,10 @@
                                     deliveryData: {
                                       "startDate" : campaignObject.startDate,
                                       "endDate" : campaignObject.endDate,
-                                      "deliveryDays": momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate),
-                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
+                                      "totalDays" :  momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) +1,
+//                                      "deliveryDays": noOfdaysCampaignRun(campaignObject.startDate, campaignObject.endDate),
+                                        "deliveryDays": maxDays.length,
+                                        "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
                                     }
                                 };
                             }
@@ -557,7 +582,7 @@
                         campaign.setVariables();
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
                         //TODO: set default to DELIVERY if null or undefined
-                        if (campaign.kpi_type == 'null') {
+                        if (campaign.kpi_type == 'null' || campaign.kpi_type == '') {
                             campaign.kpi_type = 'DELIVERY';
                             campaign.kpiType = 'DELIVERY';
                             campaign.kpi_value = 0;

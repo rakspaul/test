@@ -7,8 +7,8 @@ var angObj = angObj || {};
         var _customctrl = this;
         var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
 
-        var metricKey = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
-        var metricKey1 = ['dimension', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics'];
+        var metricKey = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
+        var metricKey1 = ['dimension', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
         $scope.activeTab = "delivery_metrics";
@@ -39,6 +39,7 @@ var angObj = angObj || {};
             var tmpObj = {}; tmpObj[typeofDimension] ={};
             var activeTabDataObj;
             var data;
+            var tabData;
             if(typeof currIdx !== 'undefined' && currIdx >=0) {
                 tmpObj[typeofDimension][currIdx] = {};
                 activeTabDataObj = tmpObj[typeofDimension][currIdx][activeTab] = [];
@@ -48,17 +49,20 @@ var angObj = angObj || {};
                 data = $scope.reportMetaData[typeofDimension];
             }
 
-
             _.each(data, function(d, index) {
                 d.dimension.level = typeofDimension
                 d.dimension.idx = index
-                _.extend(d[activeTab], d['dimension']);
-                activeTabDataObj.push(d[activeTab]);
+                if(activeTab === 'display_quality_metrics') {
+                    tabData = d['quality_data']['display_data'];
+                } else  if(activeTab === 'video_quality_metrics') {
+                    tabData = d['quality_data']['video_data'];
+                } else {
+                    tabData =  d[activeTab];
+                }
+                _.extend(tabData, d['dimension']);
+                activeTabDataObj.push(tabData);
             });
-
             $.extend(true, $scope.metricValues, tmpObj);
-
-            console.log($scope.metricValues);
         };
 
         _customctrl.getDataBasedOnMetricSelected =  function(newData, selectedMetrics, typeofDimension, currIdx) {
@@ -317,7 +321,8 @@ var angObj = angObj || {};
                 }
                 var value = escape($.trim(value));
                 var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
-                $scope.secondDimensionReportLoading[currentRowIndex] = true;
+                $scope.secondDimensionReportLoading[$scope.activeTab] ={}
+                $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
                 _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(value, $scope.secondDimensionOffset), currentRowIndex, function (respData, currentRowIndex) {
                     currFirtDimensionElem.addClass('active');
                     var resultLen = respData.length;
@@ -325,13 +330,16 @@ var angObj = angObj || {};
                         currSecondDimensionElem.find('.sec_dimension_load_more').show().attr("offset", resultLen);
                     }
                     if (respData.length > 0) {
-                        $scope.secondDimensionReportLoading[currentRowIndex] = false;
+                        $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
                     }
                 });
             } else {
                 //hide the second dimension data for clcked row
-                _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
+                
+                if( $(ev.target).closest(".second_dimension_row").length == 0 ) {
+                    _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
+                }
             }
         };
 
@@ -409,6 +417,9 @@ var angObj = angObj || {};
         $scope.delete_level = function(event) {
             var elem = $(event.target);
             elem.closest(".breakdown_div").remove();
+            if( $("#breakdown_row").find(".breakdown_div").length == 0 ) {
+                $(".add_breakdown_btn").closest(".row").show() ;
+            } 
         };
 
         $scope.select_dropdown_option = function(event , arg ) {
@@ -496,6 +507,24 @@ var angObj = angObj || {};
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );
+        
+
+            var lastScrollLeft = 0;
+            var lastScrollTop = 0;
+
+            $(".custom_report_scroll").scroll(function() {
+                var documentScrollLeft = $(this).scrollLeft();
+                if (lastScrollLeft != documentScrollLeft) {
+                    lastScrollLeft = documentScrollLeft;
+                    $(".custom_report_scroll").removeClass("vertical_scroll");
+                }
+
+                var documentScrollTop = $(this).scrollTop();
+                if(lastScrollTop !== documentScrollTop) {
+                    lastScrollTop = documentScrollTop;
+                    $(".custom_report_scroll").addClass("vertical_scroll");
+                }
+            });
         });
 
     });

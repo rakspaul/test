@@ -137,6 +137,7 @@ var angObj = angObj || {};
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.sucessHandler(result);
+                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.CAMPAIGN_CREATED_SUCCESS );
                     }
                 });
             }

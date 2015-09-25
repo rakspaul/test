@@ -69,6 +69,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     active: true
                 },
                // filterActive: '(active,underperforming)',
+                quickFilterSelected: getCapitalizeString(constants.ACTIVE),
+                quickFilterSelectedCount:0,
                 filterActive: '(active)',
                 filterReady: undefined,
                 filterDraft: undefined,
@@ -107,11 +109,10 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 this.busy = false;
                 this.timePeriod = 'life_time';
                 this.nextPage = 1;
-                //this.brandId = 0;
                 this.sortParam = 'start_date';
                 this.sortDirection = 'desc';
                 this.totalPages = undefined;
-                //this.costMargin = undefined;
+                this.dashboard.status.completed = '';
                 this.setActiveSortElement(this.sortParam);
             };
             this.resetDasboardFilter = function(type, state) {
@@ -254,8 +255,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.busy = true;
                         var self = this,
                             url = _campaignServiceUrl.call(this);
-                        console.log('fetch campaigns url:',url);
-                        //console.log('url:',url);
+                        //console.log('fetch campaigns url:',url);
                         campaignListService.getCampaigns(url, function(result) {
                             requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
@@ -266,6 +266,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             self.totalPages = data.total_pages;
                             self.periodStartDate = data.period_start_date;
                             self.periodEndDate = data.period_end_date;
+                            self.dashboard.filterTotal = data.total_count;
 
                             self.busy = false;
                             if (data.orders.length > 0) {
@@ -673,6 +674,9 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 },
                 setDashboardSelection = function(type, state) {
                     var filterType = "filter" + getCapitalizeString(type);
+                    this.dashboard.quickFilterSelected = getCapitalizeString(type);
+                    this.dashboard.quickFilterSelectedCount = this.dashboard[type];
+
                     switch (true) {
                         case ((type == 'paused' || type == 'completed' || type == 'draft' || type == 'ready') && state == ""):
                             this.dashboard[filterType] = '(' + type + ')';
@@ -682,12 +686,17 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         case ((type == 'active') && (state == "ontrack" || state == "underperforming" || state == "endingSoon")):
                             this.dashboard.filterActive = '(active,' + state + ')';
                             this.dashboard.status.active[state] = 'active';
+                            this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             if (state == "ontrack") {
                                 this.dashboard.status.active.underperforming = '';
                                 this.dashboard.status.active.endingSoon = '';
+                                this.dashboard.quickFilterSelected = getCapitalizeString(constants.ONTRACK);
+                                this.dashboard.quickFilterSelectedCount = this.dashboard.active.ontrack;
                             } else if(state == "underperforming")  {
                                 this.dashboard.status.active.ontrack = '';
                                 this.dashboard.status.active.endingSoon = '';
+                                this.dashboard.quickFilterSelected = getCapitalizeString(constants.UNDERPERFORMING);
+                                this.dashboard.quickFilterSelectedCount = this.dashboard.active.underperforming;
                             } else {
                                 this.dashboard.status.active.underperforming = '';
                                 this.dashboard.status.active.ontrack = '';
@@ -695,14 +704,24 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             if(state == 'endingSoon') {
                                 this.dashboard.filterActive = '(active)';
                                 this.dashboard.filterTotal = this.dashboard.active.total;
+                                this.dashboard.quickFilterSelected = constants.ENDING_SOON;
+                                this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             } else {
                                 this.dashboard.filterTotal = this.dashboard.active[state];
                             }
+                            break;
+                        case ((type == 'active') && (state == undefined)):
+                            this.dashboard.filterActive = '(active)';
+                            this.dashboard.filterTotal = this.dashboard.active.total;
+                            this.dashboard.quickFilterSelected = 'Active';
+                            this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             break;
                         case (type == 'activeAll'):
                             this.dashboard.filterActive = '(active)';
                            setTopFiltersStatus.call(this, type, true, null);
                             this.dashboard.filterTotal = this.dashboard.active.total;
+                            this.dashboard.quickFilterSelected = 'Active';
+                            this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             break;
                     }
                 },

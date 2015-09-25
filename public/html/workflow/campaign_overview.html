@@ -1,3 +1,15 @@
+<div class="top_message_box" ng-show="alertMessage">
+    <span class="msg_box">
+        <span class="msg_icon">x</span>
+        <span class="msg_txt" ng-bind-html="alertMessage"></span>
+        <span class="close_msg_box_holder">
+          <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+        </span>
+    </span>
+</div>
+
+
+
 <div id="campaignCreate">
     <div class="firstWrapper">
         <div class="masterContainer maxWidthAdj">
@@ -65,7 +77,7 @@
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
-                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
+                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Ads</label>
@@ -73,11 +85,11 @@
                         </div>
                         <div class="col-md-4 zeroPadding borderZero">
                             <label class="col-md-12 zeroPadding text-center">Creatives</label>
-                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">0</span>
+                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
                         </div>
                     </div>
                     <div class="col-md-2 zeroPadding borderZero">
-                        <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">PUSH CAMPAIGN</button>
+                        <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
                     </div>
                 </div>
             </div>
@@ -171,7 +183,11 @@
 
                                 <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
                                     <button type="submit" class="btn btn-primary pull-right" id="groupIndividual" ng-disabled="createIndependantAdsGrp.$invalid" ng-click="createIndependantAdsGroup()">Save</button>
+<<<<<<< HEAD
                                     <button type="submit" class="btn btn-link pull-right">Cancel</button>
+=======
+                                    <span class="pull-right secondary_txt" ng-click="groupIndividualAds()">Cancel</span>
+>>>>>>> sprint-1538
                                 </div>
                                 <div id="independantMessage">{{independantGroupMessage}}</div>
                             </div>
@@ -219,12 +235,12 @@
                                     </div>
                                     <div ng-switch-when="IMPRESSIONS">
                                         <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
-                                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue}}</span>
+                                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | nrFormat}}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4 zeroPadding">
                                     <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
-                                    <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue}}</span>
+                                    <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue | currency:undefined:0}}</span>
                                 </div>
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
@@ -232,7 +248,7 @@
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
     
-                                    <p style="margin: 0;">{{appendSizes(adsData.creatives)}}</p>
+                                    <span class="ellipsis-text" title="{{appendSizes(adsData.creatives)}}">{{appendSizes(adsData.creatives)}}</span>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>

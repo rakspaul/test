@@ -18,7 +18,23 @@ var angObj = angObj || {};
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
         //  var pristineFormTemplate = $('#formCreativeCreate').html();
+        $scope.createAlertMessage = {'message':'','isErrorMsg':0};
 
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetAlertMessage() ;     
+            }, 3000);
+        }
+        $scope.msgtimeoutReset() ;
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetAlertMessage() ; 
+        };
+
+        $scope.resetAlertMessage = function(){
+           $scope.createAlertMessage.message = '' ;
+        }
 
         var creatives = {
             /*Function to get creatives sizes*/
@@ -111,7 +127,10 @@ var angObj = angObj || {};
                     $scope.addedSuccessfully = true;
                     $scope.Message = "Creative Added Successfully";
                     $scope.cancelBtn();// redirect user after successful saving
-
+                    $scope.createAlertMessage.message = $scope.textConstants.CREATIVE_SAVE_SUCCESS ;
+                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS );
+                    
+                    $scope.msgtimeoutReset() ;
                 } else if (result.data.data.message = "Creative with this tag already exists. If you still want to save, use force save") {
                     $(".popup-holder").css("display", "block");
                     $scope.addedSuccessfully = false;

@@ -114,7 +114,7 @@
         <div class="each_campaign_section campaign_section_KPI">
             <div class="graph_details_KPI">
                 <div class="clearfix details_KPI_row1">
-                    <span class="details_KPI_title">{{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | toUpperCase}}</span>
+                    <span class="details_KPI_title">{{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}</span>
 
                     <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
                         <span>{{campaign.kpiType.toLowerCase()=="delivery"?( strategy.targetKPIImpressions | nrFormat ): ( campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>

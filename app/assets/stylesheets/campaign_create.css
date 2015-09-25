@@ -100,7 +100,7 @@
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .greyTxt,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .greyTxt {
   color: #b3b3b3;
-  padding: 7px 0 0 2px !important;
+  padding: 7px 0 0 2px ;
   text-align: left;
   font-weight: lighter;
   font-size: 13px;
@@ -286,6 +286,10 @@
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon img {
   float: left;
   margin: 10px 9px;
+}
+#campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
+  top: 37px;
+  left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   width: 100%;
@@ -479,6 +483,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
   color: #000;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtName {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle span.adGroupTxt {
   clear: left;
 }
@@ -599,6 +609,7 @@
   min-height: 371px;
   background: #F7FAFF;
   position: relative;
+  max-width: 1200px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
   padding: 10px;
@@ -817,6 +828,9 @@
   float: none;
   margin: 0 auto;
   display: table;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer .secondary_txt {
+  margin-top: 8px;
 }
 #campaignCreate .firstWrapper .campaignSave {
   width: 100%;

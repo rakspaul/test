@@ -5,14 +5,14 @@
         </a>
 
         <div class="col-md-5 zeroPadding">
-            <h2 class="pull-left adGroupTxt">{{adGroupsData.adGroup.name}}</h2>
+            <h2 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}">{{adGroupsData.adGroup.name}}</h2>
             <span class="pull-left adGroupTxt">{{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
         </div>
 
         <div class="col-md-6 zeroPadding pull-right">
-            <span class="adGroupTxtSecondary">Ready <p class="active">0</p></span>
-            <span class="adGroupTxtSecondary">Incomplete <p>0</p></span>
-            <span class="adGroupTxtSecondary">Scheduled <p>0</p></span>
+            <span class="adGroupTxtSecondary">Ready <p class="active">{{(adGroupsData.READY || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">Scheduled <p>{{(adGroupsData.SCHEDULED || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">In Flight <p>{{(adGroupsData.DELIVERING ||0)}}</p></span>
             <span class="adGroupTxtSecondary">Total Ads <p>{{adGroupsData.noOfAds}}</p></span>
         </div>
     </div>
@@ -21,8 +21,8 @@
         <!--=== Create BTN Ad ===-->
         <div class="col-md-3 adModule adCreateBtn">
             <div class="col-md-12">
-                <a href="/campaign/{{workflowData.campaignData.id}}/adGroup/{{adGroupsData.adGroup.id}}/ads/create"
-                   class="col-md-12 text-center addMaster">
+                <a href="#"
+                   class="col-md-12 text-center addMaster" ng-click="createAdforAdGroup(adGroupsData.adGroup.id,adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 
                     <h1>Create Ad</h1>

@@ -94,7 +94,7 @@
         }
         .greyTxt {
           color: rgb(179, 179, 179);
-          padding: 7px 0 0 2px !important;
+          padding: 7px 0 0 2px ;
           text-align: left;
           font-weight: lighter;
           font-size: 13px;
@@ -179,6 +179,12 @@
               }
             }
           }
+        }
+      }
+      .dollar_value {
+        .currency {
+            top: 37px;
+            left: 10px;
         }
       }
       .campAdHeader {
@@ -368,6 +374,12 @@
               h2.adGroupTxt {
                 color: #000;  
               }
+              .adGroupTxtName {
+                white-space: nowrap;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
               span.adGroupTxt {
                 clear: left;
               }
@@ -492,6 +504,7 @@
             min-height: 371px;
             background: #F7FAFF;
             position: relative;
+            max-width: 1200px ;
             .col-md-12 {
               padding: 10px;
             }
@@ -720,6 +733,9 @@
           float: none;
           margin: 0 auto;
           display: table;
+          .secondary_txt {
+            margin-top: 8px;
+          }
         }
       }
     }

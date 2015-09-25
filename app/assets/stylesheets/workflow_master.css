@@ -81,13 +81,17 @@ a {
   font-size: 14px;
   font-family: 'Avenir';
   display: none;
+  font-weight: normal !important;
 }
 .has-error .errorLabel {
   display: block;
 }
-.ng-invalid,
 .firstWrapper .has-error .form-control {
-  border-color: #f24444;
+  border-color: #f24444 !important ;
+  box-shadow: 0px 0px 0px transparent !important ;
+}
+.has-error .form-control:focus {
+  box-shadow: 0px 0px 0px transparent !important ;
 }
 .customErrorLabel {
   color: #E83B05 !important;
@@ -358,6 +362,9 @@ select {
   color: #939ead;
   padding-left: 3px;
 }
+.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
+  padding-left: 0px ;
+}
 .left_column_nav .stepCompLabel li {
   width: 100%;
   margin-bottom: 2px;
@@ -412,6 +419,9 @@ select {
   border-width: 0px;
   color: #0978c9;
   background: transparent;
+}
+.left_column_nav .creative_tab_sizes {
+  word-wrap: break-word;
 }
 .table thead {
   border: 1px solid #d2dee7;

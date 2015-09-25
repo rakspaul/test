@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angObj.directive('campaignChart', function($window, constants, analytics, loginModel) {
+    angObj.directive('campaignChart', function($window, constants, analytics, loginModel, $filter) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -15,19 +15,37 @@
                         var margin = _config.margin;
                         var width = _config.width;
                         var height = _config.height;
-
-
                         var xScale = d3.time.scale().domain([data[0][xkeyVal], data[data.length - 1][xkeyVal]]).range([margin.left, width]);
                         var yScale = d3.scale.linear().domain([0, d3.max(data, function(d) {
                             return d[ykeyVal];
                         })]).range([height, margin.left]);
+                        var ticksData;
+                        if(_config.isPerformanceChart) {
+                            ticksData = data.length > 7 ? 5 : data.length-1;
+                        } else {
+                            ticksData = _config.keys.xAxis.ticks;
+                        }
 
                         var xAxisGen = d3.svg.axis()
                             .scale(xScale)
                             .orient("bottom")
-                            .ticks(_config.keys.xAxis.ticks)
+                            .ticks(ticksData)
                             .tickFormat(d3.time.format("%_d %b"))
                             .tickSize(0);
+
+                        //tick control
+                        if(!_config.isPerformanceChart && data !== null) {
+                            var timeExtent = d3.extent(data, function(d) {return Date.parse(d.date)});
+                            var median = d3.median(timeExtent);
+
+                            xAxisGen.tickValues([
+                                new Date(timeExtent[0]), //begin
+                                new Date(median), //median
+                                new Date(timeExtent[1]) //end
+                            ]);
+
+                        }
+
 
                         //.tickValues(_config.keys.xAxis.tickValues)
                         /*.tickFormat(function(d){
@@ -122,6 +140,25 @@
                             return d[ykeyVal];
                         });
 
+                        if(_config.isPerformanceChart) {
+                            var adjustY;
+                            if(chartCallFrom == 'action_optimization') {
+                                adjustY = 10;
+                            } else if(_config.kpiType.toLowerCase() == "delivery") {
+                                adjustY = 14;
+                            } else {
+                                adjustY = 20;
+                            }
+
+                            svg.append("text")
+                                .attr("id", "kpi_type_text")
+                                .attr("x", -15)
+                                .attr("y", adjustY)
+                                .style("font-size","12px")
+                                .style("fill", "#57595b")
+                                .text(_config.kpiType.toLowerCase()!=="delivery"?_config.kpiType:"Delivery");
+                         }
+
                          if (threshold !== 0 && kpiType.toLowerCase() !== "delivery") {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
@@ -142,14 +179,6 @@
                             if(_config.isPerformanceChart) {
                                 imageSize = "13";
                                 imagePosition = -30;
-
-                                svg.append("text")
-                                    .attr("id", "kpi_type_text")
-                                    .attr("x", -15)
-                                    .attr("y", (chartCallFrom == 'action_optimization') ? 10 : 20)
-                                    .style("font-size","12px")
-                                    .style("fill", "#57595b")
-                                    .text(_config.kpiType);
 
                                  var addCrossHair = function(xCoord, yCoord) {
                                       // Update vertical cross hair
@@ -481,13 +510,26 @@
                              var x0 = _config.xScale.invert(d3.mouse(this)[0]),
                                  i = bisectDate(data, x0, 1),
                                  d0 = data[i - 1],
-                                 d1 = data[i],
-                                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                                 d1 = data[i];
+
+                                 var d = undefined;
+
+                                 if(d0 && d1) {
+                                   d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                                 } else {
+                                   return false;
+                                 }
 
                                  var svg = d3.select(_config.rawSvg[0]),
                                      mousePos = d3.mouse(this),
                                      formatY = parseFloat(d.values).toFixed(2),
                                      formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+
+                                 if(kpiType.toLowerCase() == "delivery") {
+                                   //delivery in tooltips shown as integer
+                                   formatY = parseInt(d.values);
+                                   formatY = $filter('nrFormat')(formatY, 0);
+                                 }
 
                                 svg.selectAll(".tooltip_line")
                                     .remove();
@@ -936,6 +978,17 @@
                                     .text((s[0]!="")?s[1]:s[2]);
                                     })
                                 });
+                        } else { //end of type check
+                            xTicks.selectAll('.x .tick text').each(function(d,i){
+                                //fixing tick positions
+                                  var self = d3.select(this);
+                                  if(i==0){
+                                      self.attr("x","15")
+                                  }
+                                  if(i==2){
+                                      self.attr("x","-15")
+                                  }
+                            });
                         } //end of type check
 
                         svg.append("svg:g")
@@ -1029,39 +1082,38 @@
                         var data = [],
                             lowerPacingThreshold = [], //lower line
                             higherPacingThreshold = [], //upper line
-                            dailyPacing, upperPacing, lowerPacing,
+                            goalPerDay, upperPacing, lowerPacing,
                             weekStart = undefined,
                             weekEnd = undefined,
-                            totalImpressions = undefined,
-                            deliveryDays = undefined;
+                            bookedImpressions = undefined,
+                            deliveryDays = undefined,
+                            totalDays, totalImps;
 
                         //for delivery as KPI
                         if(kpiType.toLowerCase() === "delivery") {
-
-
                           if(deliveryData) {
-                              totalImpressions = deliveryData.bookedImpressions;
+                              bookedImpressions = deliveryData.bookedImpressions;
                               deliveryDays = deliveryData.deliveryDays;
                               weekStart = moment(deliveryData.endDate).subtract(6,'days'); // 1 WEEK
                               weekEnd = moment(deliveryData.endDate);
+                              totalDays = deliveryData.totalDays;
+
                           }
-
-                            dailyPacing = totalImpressions/deliveryDays;
+                            goalPerDay = bookedImpressions/deliveryDays;
+                            totalImps = goalPerDay * totalDays;
                             //generate pacing data from impressions
+                            var days;
                             for (var i = 0; i < lineData.length; i++) {
-
-                              if(moment(lineData[i].date).format('YYYY-MM-DD') >= weekStart.format('YYYY-MM-DD')
-                                && moment(lineData[i].date).format('YYYY-MM-DD') <= weekEnd.format('YYYY-MM-DD')) {
-                              //     console.log("***"+lineData[i].date);
-                              // }
-                              //   if((i+1) > (deliveryDays-7)) {
-                                    //105 + 95
-                                    upperPacing = (dailyPacing * (i+1)) * (1.05);
-                                    lowerPacing = (dailyPacing * (i+1)) * (0.95);
-                                } else {
-                                    //120 + 90
-                                    upperPacing = (dailyPacing * (i+1)) * (1.2);
-                                    lowerPacing = (dailyPacing * (i+1)) * (0.9);
+                              //days passed
+                              days = i+1;
+                                    upperPacing = (goalPerDay * (days))  + (totalImps * 0.05);
+                                    lowerPacing = (goalPerDay * (days))  - (totalImps * 0.05);
+                                //Fixes for pacing lines going out of the chart
+                                if(upperPacing < 0) {
+                                  upperPacing = 0;
+                                }
+                                if(lowerPacing < 0) {
+                                  lowerPacing = 0;
                                 }
                                 data.push({
                                     date: lineData[i]['date'],

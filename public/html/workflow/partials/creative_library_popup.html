@@ -35,7 +35,8 @@
                         </div>
                     </div>
                     <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0" class="dataFromCreativeLibraryNotFound">
-                        <span>Data Not Found</span>
+                        <span ng-if="!loadingFlag">Data Not Found</span>
+                        <div ng-if="loadingFlag" class="loading-icon"></div>
                     </div>
                     <div ng-show="creativeListLoading" class="common-load-more"></div>
                 </div>

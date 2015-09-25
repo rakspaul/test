@@ -16,6 +16,28 @@ var angObj = angObj || {};
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
 
+        $scope.alertMessage  = localStorage.getItem('topAlertMessage');
+
+        
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetAlertMessage() ;     
+            }, 3000);
+        }
+
+        $scope.msgtimeoutReset() ;
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetAlertMessage() ; 
+        };
+
+        $scope.resetAlertMessage = function(){
+           localStorage.removeItem('topAlertMessage');
+           $scope.alertMessage = "" ;
+        }
+        
         var campaignOverView = {
 
             modifyCampaignData: function () {
@@ -40,6 +62,9 @@ var angObj = angObj || {};
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
+                        if ($scope.workflowData['campaignData'].pushable) {
+                            $scope.disablePushBtn = false;
+                        }
                         campaignOverView.modifyCampaignData();
                     }
                     else {
@@ -63,12 +88,7 @@ var angObj = angObj || {};
                         // call extract method if
                         $scope.workflowData['campaignAdsData'] = responseData;
                         //console.log(responseData)
-                        for (var index in responseData) {
-                            if (responseData[index].state.toLowerCase() == "ready") {//ready
-                                $scope.disablePushBtn = false;
-                                break;
-                            }
-                        }
+
 
                     }
                     else {
@@ -82,7 +102,6 @@ var angObj = angObj || {};
                         if (result.status === "OK" || result.status === "success") {
                             var responseData = result.data.data;
                             $scope.workflowData['campaignGetAdGroupsData'] = responseData;
-
                         }
                         else {
                             campaignOverView.errorHandler(result);
@@ -91,18 +110,11 @@ var angObj = angObj || {};
                 //$scope.getAdgroups(campaignId);
             },
             getAdsInAdGroup: function (campaignId, adGroupId, index) {
-                console.log(index);
+                //console.log(index);
                 workflowService.getAdsInAdGroup(campaignId, adGroupId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['getADsForGroupData'][index] = responseData;
-                        for (var idx in responseData) {
-                            if (responseData[idx].state.toLowerCase() == "ready") {
-                                $scope.disablePushBtn = false;
-                                break;
-                            }
-                        }
-                        console.log($scope.workflowData);
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -189,7 +201,7 @@ var angObj = angObj || {};
             $scope.createGroupMessage=false;
         }
 
-        $scope.extractor = function (IndividualAdsData) {console.log($scope.setStartdateIndependant);
+        $scope.extractor = function (IndividualAdsData) { //console.log($scope.setStartdateIndependant);
         $scope.independantAdData=IndividualAdsData;
         //find lowest startDate
             var startDatelow=new Array;
@@ -268,9 +280,11 @@ var angObj = angObj || {};
                                         $scope.showIndividualAds = !$scope.showIndividualAds;
                                         $scope.independantMessage=!$scope.independantMessage;
                                         $scope.independantGroupMessage="Successfully grouped Ads";
+                                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                                         location.reload();
+                                        $scope.msgtimeoutReset() ;
 
-                                    }else {
+                                    } else {
                                          console.log("ERROR! adgroup not created");
                                          console.log(result);
                                          $scope.independantMessage=!$scope.independantMessage;
@@ -297,6 +311,15 @@ var angObj = angObj || {};
         $scope.numOfDays = function (startTime, endTime) {
             $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
             return $scope.numofdays;
+        }
+        $scope.createAdforAdGroup=function(campid,stTime,edTime){
+            if(typeof(Storage) !== "undefined") {
+                            localStorage.setItem("stTime", stTime);
+                            localStorage.setItem("edTime", edTime);
+            }
+            window.location.href="/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
+
+
         }
 
     });
@@ -347,7 +370,9 @@ var angObj = angObj || {};
                         $scope.createAdGroupMessage="Ad Group Created Successfully";
                         //$scope.workflowData['campaignGetAdGroupsData'] = [];
                         //$scope.getAdgroups($routeParams.campaignId);
+                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                         location.reload();
+                        $scope.msgtimeoutReset() ;
                     } else {
                         $scope.createGroupMessage=!$scope.createGroupMessage;
                         $scope.createAdGroupMessage="Ad Group not Created ";

@@ -545,7 +545,7 @@ angObj.directive('truncateTextWithHover', function () {
           return $filter('number')(input, 2) + '%';
         } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
           return constants.currencySymbol + $filter('number')(input, 2);
-        } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
+        } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions' || kpiType.toLowerCase() == 'delivery') {
           return $filter('number')(input, 0);
         } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
           return $filter('number')(input, 0) + '%';
@@ -556,7 +556,10 @@ angObj.directive('truncateTextWithHover', function () {
           return $filter('number')(input, 0);
         }
       } else {
-        return 'NA';
+          if(kpiType.toLowerCase() == 'delivery') {
+            return 0;
+          }
+          return 'NA';
       }
     }
   });
@@ -569,6 +572,20 @@ angObj.directive('truncateTextWithHover', function () {
       return input.replace(/(\-[a-z])/g, function ($1) {
         return $1.toUpperCase().replace('-', '');
       });
+    }
+  });
+  angObj.filter('displayToCamelCase', function (toCamelCaseFilter,toTitleCaseFilter) {
+    return function (input) {
+      if (input == undefined) {
+        return '';
+      }
+
+      if(input.toLowerCase() == 'delivery'){
+        return toTitleCaseFilter(input);
+      }
+
+      return input.toUpperCase();
+
     }
   });
   angObj.filter('toTitleCase', function () {
@@ -776,6 +793,10 @@ angObj.directive('truncateTextWithHover', function () {
   angObj.filter("nrFormat", function () {
     return function (value, key) {
       var y = Math.abs(value);
+      if(y <= 0) {
+        return y;
+      }
+
       key =  key || 0;
       if(y < 9999) {
         return value.toFixed(key);

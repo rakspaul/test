@@ -20,7 +20,8 @@ var angObj = '';
       'ngSanitize',
       'ui.bootstrap',
       'uiSwitch',
-      'ngLocale',
+      //'ngLocale',
+        'tmh.dynamicLocale',
       'ngFileUpload',
       'lrInfiniteScroll',
       'door3.css',
@@ -99,7 +100,7 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create,
                 title :  'Create - Campaign',
                 controller: 'CreateCampaignController',
-                css: assets.css_visto_application,
+             //   css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
@@ -113,7 +114,7 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
                 controller: 'CampaignOverViewController',
-                css: assets.css_visto_application,
+           //     css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -127,7 +128,7 @@ var angObj = '';
                 templateUrl: assets.html_campaign_create_adBuild,
                 title :  'Campaign - Ad Create',
                 controller: 'CampaignAdsCreateController',
-                css: assets.css_visto_application,
+              //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -141,7 +142,7 @@ var angObj = '';
                             templateUrl: assets.html_campaign_create_adBuild,
                             title :  'Campaign - Ad Create',
                             controller: 'CampaignAdsCreateController',
-                            css: assets.css_visto_application,
+                          //  css: assets.css_visto_application,
                             resolve:{
                                 "check":function($location, RoleBasedService){
                                     var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -154,7 +155,7 @@ var angObj = '';
             .when('/creative/add', {
                 templateUrl: assets.html_creative,
                 title :  'Add Creative',
-                css: assets.css_visto_application,
+               // css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -168,7 +169,7 @@ var angObj = '';
                 templateUrl: assets.html_creative_list,
                 title :  'Creative List',
                 controller: 'creativeListController',
-                css: assets.css_visto_application,
+              //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
                         var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
@@ -194,11 +195,12 @@ var angObj = '';
             }).hashPrefix("!"); // enable the new HTML5 routing and history API
             // return $locationProvider.html5Mode(true).hashPrefix("!"); // enable the new HTML5 routing and history API
         }
-    ]);
+    ]).config(function(tmhDynamicLocaleProvider) {
+            tmhDynamicLocaleProvider.localeLocationPattern('assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
+    });
 
-   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService) {
+   angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, $locale, tmhDynamicLocale) {
         $rootScope.version = version;
-
 
 
         var handleLoginRedirection = function(isNetworkUser, isWorkflowUser) {
@@ -223,6 +225,9 @@ var angObj = '';
             var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
             if( RoleBasedService.getUserRole()) {
                 var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                var locale = RoleBasedService.getUserRole().locale || 'en-us';
+                tmhDynamicLocale.set(locale)
+                $rootScope.$locale = 'locale';
             }
             $rootScope.productType = isWorkflowUser ? 'workflow' : 'reporting';
 
@@ -288,6 +293,9 @@ var angObj = '';
                         case '/dashboard' :
                             currentRoute.title = 'Dashboard';
                             $rootScope.bodyclass = 'dashboard_body';
+                        break;
+                        case '/customreport' :
+                            $rootScope.bodyclass = 'custom_report_page';
                         break;
                     }
                     $rootScope.title = currentRoute.title;

@@ -2,10 +2,11 @@
 (function() {
     'use strict';
                                                             
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService,momentService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService, momentService, RoleBasedService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
+        var onCampaignCount = 0;
         $scope.activityLogFlag = false;
         brandsModel.disable();
         $scope.api_return_code = 200;
@@ -36,13 +37,16 @@
 
         $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
+        $scope.usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
         $scope.details.sortDirection = 'desc';
         $scope.details.toggleSortDirection = function(dir) {
             return (dir == 'asc' ? 'desc' : 'asc');
         };
-        
+
+
         $scope.details.resetSortParams = function() {
             $scope.details.sortParam = undefined;
             $scope.details.sortDirection = undefined;
@@ -116,11 +120,10 @@
         }
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-            if($routeParams.campaignId) {
-                $scope.selectedCampaign.id = $routeParams.campaignId;
+            onCampaignCount++
+            if(onCampaignCount > 1) {
+                $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
             }
-            $location.path("/campaigns/" + $scope.selectedCampaign.id);
         });
 
         //API call for campaign details
@@ -235,21 +238,27 @@
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
+                            $scope.details.maxDays =  maxDays;
                            // $timeout(function() {
                                 $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 450, 330, null, undefined, showExternal);
 
+				                var today = moment(new Date()).format('YYYY-MM-DD');
+				                var chartEnd = (today < $scope.campaign.endDate ? today : $scope.campaign.endDate);
                                 //D3 chart object for action performance chart
                                 $scope.details.lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat($scope.campaign.kpiValue),
                                     kpiType: $scope.campaign.kpiType,
                                     from: 'action_performance',
+				    
                                     //for delivery kpi
                                     deliveryData: {
                                       "startDate" : $scope.campaign.startDate,
                                       "endDate" : $scope.campaign.endDate,
-                                      "deliveryDays": momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate),
+                                      "totalDays" :  momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate) +1,
+                                      "deliveryDays": maxDays.length,
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
+
                                     },
                                     //customisation
                                     activityList: activityList.data.data,
@@ -273,7 +282,7 @@
                 }
             });
         };
-    
+
         var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function(event, args) {
             var callbackFunctionName = args.loadingFlag == 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
@@ -348,7 +357,7 @@
                 $scope.campaign.campaignStrategies.push.apply($scope.campaign.campaignStrategies,tmpCampaignStrategiesArr);
                 //$scope.campaign.campaignStrategies.apply();
             }
-            $scope.applySortStrategies();
+            //$scope.applySortStrategies();
         };
 
         $scope.loadMoreTactics = function(strategyId, campaignId) {
@@ -468,7 +477,7 @@
         $scope.getInventoryGraphData  = function(campaign){
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var inventoryData;
                     $scope.chartDataInventory = [];
@@ -569,7 +578,7 @@
         $scope.getScreenGraphData  = function(campaign){
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var screensData;
                     $scope.chartDataScreen = [];
@@ -613,7 +622,7 @@
         $scope.getAdSizeGraphData  = function(campaign){
             dataService.getAdSizeData($scope.campaign).then(function(result) {
                 $scope.loadingAdSizeFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var adSizeData;
                     $scope.chartDataAdSize = [];
@@ -656,7 +665,7 @@
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
-            var kpiModel = kpiSelectModel.selectedKpi;
+            var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.loadingPlatformFlag = false;
                 $scope.chartDataPlatform = [];
@@ -707,7 +716,7 @@
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 $scope.loadingFormatFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi;
+                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var formatData;
                     $scope.chartDataFormat = [];
@@ -883,6 +892,14 @@
                 kpiValue: parseFloat($scope.campaign.kpiValue),
                 kpiType: $scope.campaign.kpiType,
                 from: 'action_performance',
+                deliveryData: {
+                    "startDate" : $scope.campaign.startDate,
+                    "endDate" : $scope.campaign.endDate,
+                    "totalDays" :  momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate) +1,
+                    "deliveryDays": $scope.details.maxDays.length,
+                    "bookedImpressions": $scope.details.maxDays[$scope.details.maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
+
+                },
                 //customisation
                 activityList: activityList.data.data,
                 showExternal: showExternal
@@ -1032,6 +1049,14 @@
                 kpiValue: parseFloat($scope.campaign.kpiValue),
                 kpiType: $scope.campaign.kpiType,
                 from: 'action_performance',
+                deliveryData: {
+                    "startDate" : $scope.campaign.startDate,
+                    "endDate" : $scope.campaign.endDate,
+                    "totalDays" :  momentService.dateDiffInDays($scope.campaign.startDate, $scope.campaign.endDate) +1,
+                    "deliveryDays": $scope.details.maxDays.length,
+                    "bookedImpressions": $scope.details.maxDays[$scope.details.maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
+
+                },
                 //customisation
                 activityList: activityList.data.data,
                 showExternal: showExternal
@@ -1054,6 +1079,9 @@
 
         $(document).ready(function() {
             $('.carousel a.left').hide();
+            if(RoleBasedService.getUserRole().locale === 'en-gb') {
+                $('.carousel a.right').hide();
+            }
             var ItemsShown = 4;
             var nextIndex;
             var prevIndex;

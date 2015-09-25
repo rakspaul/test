@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, RoleBasedService, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
 
@@ -56,6 +56,8 @@ var angObj = angObj || {};
 
         //set default api return code 200
         $scope.api_return_code = 200;
+
+        $scope.usrRole  = RoleBasedService.getUserRole().ui_exclusions;
 
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {

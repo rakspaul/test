@@ -12,10 +12,10 @@
     </div>
     <div class="campaignListHolder">
         <div class="clearfix each-row list-head">
-            <div class="column">Advertiser Name</div>
-            <div class="column">Brand Name</div>
             <div class="column">Campaign Id</div>
             <div class="column">Campaign Name</div>
+            <div class="column">Advertiser Name</div>
+            <div class="column">Brand Name</div>
             <div class="column">Budget</div>
             <div class="column">Status</div>
             <div class="column">Start Date</div>
@@ -26,12 +26,12 @@
             </div>
             <div class="clearfix each-row" ng-repeat="campaign in campaignData " ng-show="campaignData != ''">
                 <a ng-href="/campaign/{{campaign.id}}/overview">
+                    <div class="column">{{campaign.id}}</div>
+                    <div class="column">{{campaign.name}}</div>
                     <div class="column">{{campaign.advertiserName}}</div>
                     <div class="column" ng-if="campaign.hasOwnProperty('brandName')">{{ campaign.brandName }}</div>
                     <div class="column" ng-if="!campaign.hasOwnProperty('brandName')"> - </div>
 
-                    <div class="column">{{campaign.id}}</div>
-                    <div class="column">{{campaign.name}}</div>
 
                     <div class="column" ng-if="campaign.hasOwnProperty('bookedRevenue')">
                         <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>

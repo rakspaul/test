@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce,RoleBasedService) {
+  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce, RoleBasedService) {
    $scope.textConstants = constants;
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;
@@ -32,6 +32,8 @@
                         localStorage.setItem('networkUser', false);
                     }
                     localStorage.setItem('authorizationKey', user.auth_token);
+
+
                     document.location = '/';
                 } else {
                     $scope.error = response.data.message;

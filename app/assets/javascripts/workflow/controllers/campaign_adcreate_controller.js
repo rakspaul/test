@@ -21,6 +21,25 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
+        $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
+        $scope.preDeleteArr = [];
+
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetPartialSaveAlertMessage() ;     
+            }, 3000);
+        }
+        $scope.msgtimeoutReset() ;
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetPartialSaveAlertMessage() ; 
+        };
+
+        $scope.resetPartialSaveAlertMessage = function(){
+           $scope.partialSaveAlertMessage.message = '' ;
+           $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+        }
 
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
@@ -70,8 +89,16 @@ var angObj = angObj || {};
                             campaignStartTime = moment().format('MM/DD/YYYY');
                         }
                         var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
-                        startDateElem.datepicker("setStartDate", campaignStartTime);
-                        startDateElem.datepicker("setEndDate", campaignEndTime);
+                        //startDateElem.datepicker("setStartDate", campaignStartTime);
+                        //startDateElem.datepicker("setEndDate", campaignEndTime);
+                        if(window.location.href.indexOf("adGroup")>-1)
+                        {
+                            startDateElem.datepicker("setStartDate", moment(localStorage.getItem("stTime")).format('MM/DD/YYYY'));
+                            startDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                        }else{
+                            startDateElem.datepicker("setStartDate", campaignStartTime);
+                            startDateElem.datepicker("setEndDate", campaignEndTime);
+                        }
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -126,11 +153,19 @@ var angObj = angObj || {};
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
                         $scope.updatedAt = responseData.updatedAt;
+                        $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS ;
+                        $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+                        $scope.msgtimeoutReset() ;
                         if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
-                            $window.location.href = url;
+                            $location.url(url);
+                            localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
                         }
                     }
+                }, function() {
+                    $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE ;
+                    $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+                    $scope.msgtimeoutReset() ;
                 });
             },
             /*Function to get creatives for list view*/
@@ -216,7 +251,12 @@ var angObj = angObj || {};
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                 changeDate = moment(startTime).format('MM/DD/YYYY')
                 endDateElem.datepicker("setStartDate", changeDate);
-                endDateElem.datepicker("setEndDate", campaignEndTime);
+                 if(window.location.href.indexOf("adGroup")>-1)
+                {
+                    endDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                }else{
+                    endDateElem.datepicker("setEndDate", campaignEndTime);
+                }
                 endDateElem.datepicker("update", changeDate);
             }
         }
@@ -364,15 +404,39 @@ var angObj = angObj || {};
                     if (geoTargetData.dmas.length > 0) {
                         postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
                     }
+
+                    if($scope.adData.geoTargetingData.zip.length > 0) {
+                        var zipObj = $scope.adData.geoTargetingData.zip;
+                        var zipPostArr = [];
+                        _.each(zipObj, function(zipArr) {
+                            if(zipArr.added) {
+                                _.each(zipArr.added, function(obj) {
+                                    var arr = obj.split("-");
+                                    if(arr.length > 1) {
+                                        var start = Number(arr[0]), end = Number(arr[1]);
+                                        for(var i=start; i<=end;i++) {
+                                            zipPostArr.push(String(i));
+                                        }
+                                    } else {
+                                        zipPostArr.push(arr[0]);
+                                    }
+                                })
+                            }
+                        })
+                        postGeoTargetObj['ZIPCODE'] = {
+                            "isIncluded" :  true,
+                            "geoTargetList" : zipPostArr
+
+                        }
+                    }
                 }
 
                 if($scope.adData.inventory) {
                     var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
-                    //domainTargetObj['domainList'] = $scope.adData.inventory.domainList;
                     domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
                     postAdDataObj['domainInherit'] = 'APPEND';
+                    postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                 }
-
 
                 campaignOverView.saveAds(postAdDataObj)
             })
@@ -402,6 +466,7 @@ var angObj = angObj || {};
 
     angObj.controller('creativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.emptyCreativesFlag = true;
+        $scope.loadingFlag = true; //loading flag
 
         var addFromLibrary = {
             modifyCreativesData : function(respData) {
@@ -430,6 +495,8 @@ var angObj = angObj || {};
                     }
                     else {
                         addFromLibrary.errorHandler(result);
+                        $scope.loadingFlag = false;
+
                     }
                 }, addFromLibrary.errorHandler);
             },
@@ -460,13 +527,32 @@ var angObj = angObj || {};
         })
 
         $scope.saveCreativeTags = function () {
-            $scope.showHidePopup = false;
-            $scope.updateCreativeData($scope.selectedArr)
+            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.preDeleteArr = [];
+            $scope.changeStatus();
+            $scope.updateCreativeData($scope.selectedArr);
         };
 
         $scope.closePop = function () {
-            $scope.showHidePopup = false;
+            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.changeStatus();
+
+            if($scope.preDeleteArr.length > 0){
+                _.each($scope.preDeleteArr,function(obj){
+                    $scope.selectedArr.push(obj);
+                    $("#"+obj.id).attr('checked',true);
+                })
+            }
+
+            $scope.preDeleteArr = [];
+            $scope.updateCreativeData($scope.selectedArr);
         };
+
+        $scope.changeStatus = function(){
+            _.each($scope.selectedArr,function(obj){
+                obj['checked'] = obj['userSelectedEvent'];
+            })
+        }
 
         $scope.updateCreativeData = function(data) {
             $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
@@ -485,12 +571,13 @@ var angObj = angObj || {};
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
-            }   console.log($scope.sizeString)
+            }
             $scope.adData.setSizes = $scope.sizeString;
 //            return $scope.sizeString;
         }
 
         $scope.$on('removeCreativeTags', function($event, arg){
+            //$scope.xyz=$scope.selectedArr;
             var selectedCreativeTag = arg[0]
             var actionFrom = arg[1];
             if (selectedCreativeTag.length > 0) {
@@ -505,21 +592,28 @@ var angObj = angObj || {};
             /*Enable save button of popup library if elements exists*/
         })
 
-        $scope.stateChanged = function ($event, screenTypeObj) {
+        $scope.stateChanged = function ($event, screenTypeObj) { // console.log("selected array in state Changed: ");console.log($scope.selectedArr);
+                                                                 // console.log("xyz array in state Changed: ");console.log($scope.xyz);
+
             var checkbox = $event.target;
-            screenTypeObj['checked'] = checkbox.checked;
+            screenTypeObj.userSelectedEvent =  checkbox.checked; // temporary user old selected status before cancel
+            //screenTypeObj['checked'] = checkbox.checked;
 
             var selectedChkBox = _.filter($scope.selectedArr, function (obj) {
-                return obj.name === screenTypeObj.name
+                return obj.id === screenTypeObj.id
             });
 
             if (selectedChkBox.length > 0) {
-                var idx = _.findLastIndex($scope.selectedArr, screenTypeObj);
+                var idx = _.findIndex($scope.selectedArr, function(item) {
+                    return item.id == screenTypeObj.id })
+
                 $scope.selectedArr.splice(idx, 1);
+                $scope.preDeleteArr.push(screenTypeObj);
 
             } else {
                 $scope.selectedArr.push(screenTypeObj);
             }
+
             /*Enable save button of popup library if elements exists*/
         };
     });
@@ -630,16 +724,22 @@ var angObj = angObj || {};
                 } else {
                     $scope.dmasIncludeSwitchLabel =  false;
                 }
-            } else {
+            } else if($scope.selectedTab === 'regions'){
                 if(type == 'on') {
                     $scope.regionsIncludeSwitchLabel=  true;
-                    $scope.citiesIncludeSwitchLabel =  true;
                 } else {
                     $scope.regionsIncludeSwitchLabel=  false;
-                    $scope.citiesIncludeSwitchLabel =  false;
+                }
+            }
+            else{
+                if(type == 'on') {
+                    $scope.citiesIncludeSwitchLabel=  true;
+                } else {
+                     $scope.citiesIncludeSwitchLabel =  false;
 
                 }
             }
+
             return el;
         }
 
@@ -735,7 +835,8 @@ var angObj = angObj || {};
 
                     _.each(selectedRegions, function(regionsObj) {
                         var tmpArr= [];
-                        if(selectedCities.length > 0){
+
+                        if(selectedCities.length > 0 ){
                             _.each(selectedCities, function(citiesObj, idx) {
                                 if(citiesObj.parent.id === regionsObj.id) {
                                     $scope.showCitiesOnly = false;
@@ -743,6 +844,7 @@ var angObj = angObj || {};
                                     regionsObj.cities = tmpArr;
                                 }
                             })
+                            console.log(regionsObj);
                         }
                         else{
                             regionsObj.cities = [];
@@ -756,6 +858,10 @@ var angObj = angObj || {};
                 }
 
 
+            }
+            else if(type === 'regions' && $scope.geoTargetingData.selected['regions'].length == 0 && $scope.geoTargetingData.selected['cities'].length > 0){
+                $scope.showCitiesOnly = true;
+                $scope.geoTargetingData.selected['cities'] = []
             }
         }
 
@@ -866,11 +972,11 @@ var angObj = angObj || {};
 
             _.extend($scope.dmasListObj, defaults)
 
-            $scope.geoTargetingData['dmas'] = [];
+            //$scope.geoTargetingData['dmas'] = [];
 
             geoTargetingView.getDMAsList($scope.dmasListObj, function(responseData) {
                  $scope.dmasFetching = false;
-                 dmasListArray = [];
+                 //dmasListArray = [];
                  dmasListArray.push(responseData);
                  var flatArr = _.flatten(dmasListArray);
                  $scope.geoTargetingData['dmas'] = _.uniq(flatArr, function(item, key, id) {
@@ -894,6 +1000,12 @@ var angObj = angObj || {};
         $scope.listCities = function(event, defaults) {
             var searchVal = $('.searchBox').val();
             $scope.selectedTab = 'cities';
+            if($scope.citiesIncludeSwitchLabel == true){
+                $scope.includeSelectedItems();
+            }
+            else{
+                $scope.excludeSelectedItems();
+            }
             regionsListArray.length =0;
             var regions = $scope.geoTargetingData['selected']['regions'];
 
@@ -925,11 +1037,11 @@ var angObj = angObj || {};
 
             $scope.logic();
 
-            $scope.geoTargetingData['cities'] = [];
+            //$scope.geoTargetingData['cities'] = [];
 
             geoTargetingView.getCitiesList($scope.citiesListObj, function (responseData) {
                 $scope.cityFetching = false;
-                citiesListArray = [];
+                // citiesListArray = [];
                 flatArr = [];
                 citiesListArray.push(responseData);
                 var flatArr = _.flatten(citiesListArray);
@@ -949,6 +1061,7 @@ var angObj = angObj || {};
 
         $scope.listRegions = function(defaults, event) {
             var searchVal = $('.searchBox').val();
+
             $scope.showSwitch = true;
             var regionTab = $("#tab_region").parent();
             if(!$scope.isRegionSelected && event) {
@@ -959,6 +1072,15 @@ var angObj = angObj || {};
                 return false;
             }
             $scope.selectedTab = 'regions';
+
+            if($scope.regionsIncludeSwitchLabel == true){
+                $scope.includeSelectedItems();
+            }
+            else{
+                $scope.excludeSelectedItems();
+            }
+
+
             citiesListArray.length = 0;
 
             $scope.regionListObj = {
@@ -978,13 +1100,13 @@ var angObj = angObj || {};
                 }
             }
 
-            $scope.geoTargetingData['regions'] = [];
+            //$scope.geoTargetingData['regions'] = [];
 
             _.extend($scope.regionListObj, defaults);
 
             geoTargetingView.getRegionsList($scope.regionListObj, function(responseData) {
                 $scope.regionFetching = false;
-                regionsListArray = [];
+                //regionsListArray = [];
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
@@ -1155,24 +1277,33 @@ var angObj = angObj || {};
             var len = item.length;
             for(var i=0 ; i < len; i++) {
                 item[i][type+'Included'] = $scope[type+'Included'];
+                if(item[i].hasOwnProperty('cities')){
+                    for(var j = 0 ; j < item[i]['cities'].length ; j++){
+                        item[i]['cities'][j]['citiesIncluded'] = ($scope[type+'Included'])?false:true;
+                    }
+                }
             }
+
         };
 
         $scope.logic = function() {
             var regions = $scope.geoTargetingData['selected']['regions'];
             if($scope.selectedTab === 'cities') {
                 $scope.citiesIncludeSwitchLabel =  true;
+
                 if(regions.length >0) {
                     $scope.showSwitch = false;
                     if($scope.regionsIncludeSwitchLabel) {
                         $scope.citiesIncludeSwitchLabel =  false;
                         $scope[$scope.selectedTab+'Included'] = false;
-                    } else {
-                        $scope.citiesIncludeSwitchLabel =  true;
-                        $scope[$scope.selectedTab+'Included'] = true;
+                    }
+                    else {
+                        $scope.citiesIncludeSwitchLabel =  true; // may not be required
                     }
                 }
+
             }
+
         };
 
 
@@ -1183,6 +1314,7 @@ var angObj = angObj || {};
             elem.find(".btn").animate({left: "22px"});
             elem.find(".togBtnBg").css({background: "#0978c9"});
             $scope[$scope.selectedTab+'Included'] = true;
+
         }
 
         $scope.excludeSelectedItems = function() {
@@ -1190,6 +1322,7 @@ var angObj = angObj || {};
             elem.find(".btn").animate({left: "-2px"});
             elem.find(".togBtnBg").css({background: "#ccd2da"});
             $scope[$scope.selectedTab+'Included'] = false;
+
         }
 
         if ($(".btn-ani-toggle .active")[0]){

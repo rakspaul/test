@@ -125,7 +125,7 @@
             } else if((campaignSelectModel.getSelectedCampaign().id == -1) ){
                 $scope.fetchCampaigns(true,true);
             } else {
-                $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+               // $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
                 $scope.fetchCampaigns(true,false);
                 $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
