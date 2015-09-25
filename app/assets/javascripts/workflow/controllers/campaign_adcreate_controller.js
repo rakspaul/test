@@ -536,15 +536,14 @@ var angObj = angObj || {};
         $scope.closePop = function () {
             $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
             $scope.changeStatus();
-
             if($scope.preDeleteArr.length > 0){
                 _.each($scope.preDeleteArr,function(obj){
+                    obj.checked = true;
                     $scope.selectedArr.push(obj);
                     $("#"+obj.id).attr('checked',true);
                 })
             }
-
-            $scope.preDeleteArr = [];
+            $scope.selectedArr = _.uniq($scope.selectedArr);
             $scope.updateCreativeData($scope.selectedArr);
         };
 
@@ -605,10 +604,13 @@ var angObj = angObj || {};
 
             if (selectedChkBox.length > 0) {
                 var idx = _.findIndex($scope.selectedArr, function(item) {
-                    return item.id == screenTypeObj.id })
+                    return item.id == screenTypeObj.id });
+                var preidx = _.findIndex($scope.preDeleteArr, function(item) {
+                    return item.id == screenTypeObj.id });
 
                 $scope.selectedArr.splice(idx, 1);
-                $scope.preDeleteArr.push(screenTypeObj);
+                if(preidx == -1)
+                    $scope.preDeleteArr.push(screenTypeObj);
 
             } else {
                 $scope.selectedArr.push(screenTypeObj);
