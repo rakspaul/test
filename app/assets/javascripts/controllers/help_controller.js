@@ -1,11 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('helpController', function ($rootScope, $scope, $window) {
+    angObj.controller('helpController', function ($rootScope, $scope, $window, $sce) {
         
         $(".main_navigation").find(".each_nav_link").removeClass("active");
-        
-        
+        $scope.help_domain_url = $sce.trustAsResourceUrl(window.help_domain_url);
         
        /*    $scope.helpLink = function() {
              $location.url("help");
