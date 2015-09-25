@@ -16,8 +16,6 @@
 
                 <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
                     <div class="each_filter" style="margin-bottom: 20px;">
-                        
-                    
                         <div class="nav_filters_heading">List Name</div>
                         <select name = "inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
                             <option value="">Select Domain List</option>
@@ -27,10 +25,10 @@
                 <div class="col-md-12 zeroPadding inventory_upload_btn">
                     <div class="clearfix">
                         <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
-                                ngf-accept="'.csv'" ngf-multiple="false" ngf-allow-dir="false">Upload File</button>
+                                ngf-accept="'.csv'" ngf-multiple="false" ngf-allow-dir="false">Upload Domain List</button>
                         <span class="grey_txt">(.csv file)</span>
                     </div>
-                    <div class="note">The list will affect all campaigns/ads under the same advertiser.<br>Only 1 list is supported at this moment.</div>
+                    <div class="note">Only 1 list is supported at this moment.</div>
                 </div>
                 <!--<div class="col-md-12 zeroPadding msgPopupHolder">
                     <div class="msgPopup">
@@ -55,7 +53,7 @@
                     <h1>Domain List</h1>
                     <span style="color: #939eaf;">{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
                     <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
-                    <a class="pull-left clearfix" style="margin-top: 20px;">Domain</a>
+                    <!--<a class="pull-left clearfix" style="margin-top: 20px;">Domain</a>-->
                 </div>
 
                 <div class="filterBody">
@@ -74,7 +72,7 @@
             <span class="close" aria-hidden="true" ng-click="closeDomainListPop()">x</span>
             <h1>Upload List</h1>
             <!--<button type="file" class="btn btn-default">Upload New</button>-->
-            <a href="">File Name</a>
+            <span>File Name</span>
         </div>
         <div class="popBody">
             <div class="popList">
