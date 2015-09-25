@@ -24,9 +24,14 @@
                         </select>
                     </div>
                 </div>
-
-                <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
-                        ngf-accept="'.csv'" ngf-multiple="false" ngf-allow-dir="false">Upload File</button>
+                <div class="col-md-12 zeroPadding inventory_upload_btn">
+                    <div class="clearfix">
+                        <button class="btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
+                                ngf-accept="'.csv'" ngf-multiple="false" ngf-allow-dir="false">Upload File</button>
+                        <span class="grey_txt">(.csv file)</span>
+                    </div>
+                    <div class="note">The list will affect all campaigns/ads under the same advertiser.<br>Only 1 list is supported at this moment.</div>
+                </div>
                 <!--<div class="col-md-12 zeroPadding msgPopupHolder">
                     <div class="msgPopup">
                         <div class="msg">
@@ -66,7 +71,7 @@
 <div class="popInventoryLib" ng-show="showDomainListPopup">
     <div class="inventoryLib">
         <div class="headerLib">
-            <span class="icon-clear closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
+            <span class="close" aria-hidden="true" ng-click="closeDomainListPop()">x</span>
             <h1>Upload List</h1>
             <!--<button type="file" class="btn btn-default">Upload New</button>-->
             <a href="">File Name</a>
