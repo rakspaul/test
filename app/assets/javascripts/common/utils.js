@@ -398,12 +398,13 @@
       }
     };
   });
-angObj.directive('truncateTextWithHover', function () {
+angObj.directive('truncateTextWithHover', function (campaignListService) {
     return{
       restrict: 'AE',
       scope: {
         txt: "@txt",
-        txtLength: "@txtlength"
+        txtLength: "@txtlength",
+        lstCampaign:"="
       },
       /*template: '<span data-toggle="tooltip" data-placement="top" data-original-title="{{txt}}" ng-show="(txt.length > txtLength)">' +
       '{{txt |limitTo:txtLength}} ...</span>'+
@@ -411,7 +412,15 @@ angObj.directive('truncateTextWithHover', function () {
       '{{txt}}</span>'*/
         template:'<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" >{{txt|limitTo:txtLength}} ...</span>' +
       '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
-      '{{txt}}</span>'
+      '{{txt}}</span>',
+      link: function (scope, element, attrs, modelCtrl) {
+
+
+        element.on('click', function (event) {
+          campaignListService.setListCampaign(scope.lstCampaign);
+        });
+      }
+
     };
   });
 

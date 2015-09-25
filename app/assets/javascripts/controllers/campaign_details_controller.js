@@ -24,7 +24,7 @@
         $scope.loadingAdSizeFlag = true;
         $scope.activityLogFilterByStatus = true;
 
-        //Hot fix to show the campaign tab selected
+            //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = loginModel.getIsNetworkUser();
@@ -120,11 +120,36 @@
             }
         }
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
-            onCampaignCount++
-            if(onCampaignCount > 1) {
-                $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
+
+
+
+        $scope.init = function() {
+
+            console.log('init',$rootScope.isFromCampaignList);
+            if($rootScope.isFromCampaignList == true) {
+                console.log('am inside 123',campaignListService.getListCampaign());
+                var listCampaign = campaignListService.getListCampaign();
+                        var campListCampaign = {
+                            id : listCampaign.id,
+                            name : listCampaign.name,
+                            startDate : listCampaign.start_date,
+                            endDate : listCampaign.end_date,
+                            kpi : listCampaign.kpi_type
+                        };
+//console.log(campListCampaign);
+                        campaignSelectModel.setSelectedCampaign(campListCampaign);
+                $location.path("/campaigns/" + listCampaign.id);
+  //                 }
+
+                }
             }
+
+
+        $scope.init();
+
+        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
+            console.log('on called');
+            $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
         });
 
         //API call for campaign details
@@ -1110,5 +1135,14 @@
 
         });
         
-    });
+    }).run(function($rootScope,$route){$rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
+        //console.log('success', evt, absNewUrl, absOldUrl);
+        var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
+        var paramsObj = $route.current.params;
+        console.log(paramsObj.campaignId);
+        if(prevUrl =='/campaigns') {
+              console.log('u came from camapign list',paramsObj);
+            $rootScope.isFromCampaignList = true;
+        }
+    });});
 }());
