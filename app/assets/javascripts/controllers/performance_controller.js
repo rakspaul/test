@@ -187,7 +187,6 @@ var angObj = angObj || {};
         });
 
         $scope.$watch('selectedCampaign', function() {
-            console.log('called');
             $scope.createDownloadReportUrl();
         });
 
