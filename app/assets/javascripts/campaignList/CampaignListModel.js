@@ -69,6 +69,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     active: true
                 },
                // filterActive: '(active,underperforming)',
+                quickFilterSelected: getCapitalizeString(constants.ACTIVE),
+                quickFilterSelectedCount:0,
                 filterActive: '(active)',
                 filterReady: undefined,
                 filterDraft: undefined,
@@ -672,6 +674,9 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 },
                 setDashboardSelection = function(type, state) {
                     var filterType = "filter" + getCapitalizeString(type);
+                    this.dashboard.quickFilterSelected = getCapitalizeString(type);
+                    this.dashboard.quickFilterSelectedCount = this.dashboard[type];
+
                     switch (true) {
                         case ((type == 'paused' || type == 'completed' || type == 'draft' || type == 'ready') && state == ""):
                             this.dashboard[filterType] = '(' + type + ')';
@@ -681,12 +686,17 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         case ((type == 'active') && (state == "ontrack" || state == "underperforming" || state == "endingSoon")):
                             this.dashboard.filterActive = '(active,' + state + ')';
                             this.dashboard.status.active[state] = 'active';
+                            this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             if (state == "ontrack") {
                                 this.dashboard.status.active.underperforming = '';
                                 this.dashboard.status.active.endingSoon = '';
+                                this.dashboard.quickFilterSelected = getCapitalizeString(constants.ONTRACK);
+                                this.dashboard.quickFilterSelectedCount = this.dashboard.active.ontrack;
                             } else if(state == "underperforming")  {
                                 this.dashboard.status.active.ontrack = '';
                                 this.dashboard.status.active.endingSoon = '';
+                                this.dashboard.quickFilterSelected = getCapitalizeString(constants.UNDERPERFORMING);
+                                this.dashboard.quickFilterSelectedCount = this.dashboard.active.underperforming;
                             } else {
                                 this.dashboard.status.active.underperforming = '';
                                 this.dashboard.status.active.ontrack = '';
@@ -694,6 +704,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             if(state == 'endingSoon') {
                                 this.dashboard.filterActive = '(active)';
                                 this.dashboard.filterTotal = this.dashboard.active.total;
+                                this.dashboard.quickFilterSelected = constants.ENDING_SOON;
+                                this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             } else {
                                 this.dashboard.filterTotal = this.dashboard.active[state];
                             }
@@ -701,11 +713,15 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         case ((type == 'active') && (state == undefined)):
                             this.dashboard.filterActive = '(active)';
                             this.dashboard.filterTotal = this.dashboard.active.total;
+                            this.dashboard.quickFilterSelected = 'Active';
+                            this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             break;
                         case (type == 'activeAll'):
                             this.dashboard.filterActive = '(active)';
                            setTopFiltersStatus.call(this, type, true, null);
                             this.dashboard.filterTotal = this.dashboard.active.total;
+                            this.dashboard.quickFilterSelected = 'Active';
+                            this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             break;
                     }
                 },
