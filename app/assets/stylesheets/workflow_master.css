@@ -506,10 +506,3 @@ select {
   border-width: 11px;
   margin-left: -11px;
 }
-.creative_filter_dropdowns .nav_filters .dropdown-menu {
-  border-top: solid 1px #ccc ;
-}
-.creative_filter_dropdowns .nav_filters .nav_filters_heading {
-  font-size: 14px;
-  color: #21252B;
-}
