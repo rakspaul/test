@@ -66,7 +66,9 @@
                     </div>
                     <div class="col-md-3 borderZero">
                         <label>Flight Dates</label>
-                        <span ng-if="workflowData.campaignData.startTime">{{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}  <span
+                        <span ng-if="workflowData.campaignData.startTime">
+                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                            {{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}  <span
                                 ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
                     </div>
                     <div class="col-md-2">

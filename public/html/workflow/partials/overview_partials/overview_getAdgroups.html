@@ -6,7 +6,9 @@
 
         <div class="col-md-5 zeroPadding">
             <h2 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}">{{adGroupsData.adGroup.name}}</h2>
-            <span class="pull-left adGroupTxt">{{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
+            <span class="pull-left adGroupTxt">
+                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                {{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
         </div>
 
         <div class="col-md-6 zeroPadding pull-right">
