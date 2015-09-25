@@ -321,7 +321,8 @@ var angObj = angObj || {};
                 }
                 var value = escape($.trim(value));
                 var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
-                $scope.secondDimensionReportLoading[currentRowIndex] = true;
+                $scope.secondDimensionReportLoading[$scope.activeTab] ={}
+                $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
                 _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(value, $scope.secondDimensionOffset), currentRowIndex, function (respData, currentRowIndex) {
                     currFirtDimensionElem.addClass('active');
                     var resultLen = respData.length;
@@ -329,7 +330,7 @@ var angObj = angObj || {};
                         currSecondDimensionElem.find('.sec_dimension_load_more').show().attr("offset", resultLen);
                     }
                     if (respData.length > 0) {
-                        $scope.secondDimensionReportLoading[currentRowIndex] = false;
+                        $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
                     }
                 });
