@@ -1415,7 +1415,7 @@
       color: #21252b;
       font-size: 14pt;
       font-family: 'Avenir-bold';
-      padding-bottom: 30px;
+      margin-bottom: 30px;
     }
     h2 {
       color: #000;
@@ -1618,6 +1618,23 @@
         left: -80px;
         top: auto ;
       }
+      .dropdown-toggle {
+        border: 1px solid #ccd2da;
+        border-radius: 1px;
+        width: 140px;
+        text-align: left;
+        .caret {
+          float: right;
+          margin-top: 9px;
+        }
+      }
+      .dropdown-menu {
+        width: 280px;
+        margin-top: 3px;
+        margin-left: 0;
+        border: 1px solid #ccd2da;
+        border-radius: 1px;
+      }
     }
     .targettingFormWrap {
       border: 1px solid #E6E6E6;
@@ -1797,8 +1814,8 @@
           padding-left: 15px;
         }
         .emptyTableLabel {
-          text-align: center;
-          padding: 10px 0;
+          text-align: left;
+          padding: 10px 15px;
           margin: 0px 0 30px;
         }
         .each-row {
