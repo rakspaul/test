@@ -151,7 +151,7 @@
                                     <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
                                     <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
                                     <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                        <input type="text" class="form-control" id="nameIndividualAdGroup" name="adIGroupName" ng-model="adIGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
+                                        <input type="text" class="form-control" id="nameIndividualAdGroup" remove-special-character ='remove-special-character' name="adIGroupName" ng-model="adIGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
                                         <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
                                     </div>
                                 </div>

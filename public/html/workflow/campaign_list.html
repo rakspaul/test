@@ -27,8 +27,8 @@
             <div class="clearfix each-row" ng-repeat="campaign in campaignData " ng-show="campaignData != ''">
                 <a ng-href="/campaign/{{campaign.id}}/overview">
                     <div class="column">{{campaign.id}}</div>
-                    <div class="column">{{campaign.name}}</div>
-                    <div class="column">{{campaign.advertiserName}}</div>
+                    <div class="column" style="word-wrap: break-word;" tooltip="{{campaign.name}}">{{campaign.name | textEllipsis: 20}}</div>
+                    <div class="column" style="word-wrap: break-word;" tooltip="{{campaign.advertiserName}}">{{campaign.advertiserName | textEllipsis: 20}}</div>
                     <div class="column" ng-if="campaign.hasOwnProperty('brandName')">{{ campaign.brandName }}</div>
                     <div class="column" ng-if="!campaign.hasOwnProperty('brandName')"> - </div>
 
