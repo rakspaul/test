@@ -287,6 +287,10 @@
   float: left;
   margin: 10px 9px;
 }
+#campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
+  top: 37px;
+  left: 10px;
+}
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   width: 100%;
   margin-top: 10px !important;
