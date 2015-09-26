@@ -58,6 +58,11 @@
                                 return 'blue';
                             }
                         }
+
+                        //  past a campaign end date
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), strategyEndDate) == true) {
+                            return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
+                        }
                     }
                     if (spendDifference < -10 || spendDifference > 20) {
                         return 'red';
