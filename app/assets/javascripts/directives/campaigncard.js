@@ -58,8 +58,7 @@
                     if (expected == 0) {
                         spendDifference = 0;
                     } else {
-                        //spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
-                        spendDifference = utils.roundOff((actual * 100)/expected,2);
+                        spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
                     }
                     return spendDifference;
                 }
@@ -69,43 +68,33 @@
                         return $scope.getClassFromDiff(spendDifference,campaign.end_date);
                     }
                 };
-                /*$scope.getClassFromDiff = function(spendDifference) {
-                    if (spendDifference > -1) {
-                        return 'blue';
-                    }
-                    if (spendDifference <= -1 && spendDifference > -10) {
-                        return 'amber';
-                    }
-                    if (spendDifference == -999) { //fix for initial loading
-                        return ' ';
-                    }
-                    return 'red';
-                }*/
+
                 $scope.getClassFromDiff = function(spendDifference,campaignEndDate) {
-                    if (campaignEndDate != undefined) {
-                        var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
-                    }
-                 //console.log('end date',campaignEndDate);
-                 //console.log('Today: ',today);
-                 //console.log('Days: ',dateDiffInDays);
-                 //console.log('Spend Difference: ',spendDifference);
-                 //console.log("isgreater",momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),campaignEndDate));
+                 if (campaignEndDate != undefined) {
+                    var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
+                 }
 
                  if (spendDifference == -999) { //fix for initial loading
                     return '';
                  }
-                if(campaignEndDate != undefined) {
+
+                 if(campaignEndDate != undefined) {
                     if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == false) {
-                        if ((dateDiffInDays <= 7) && (spendDifference < 95 || spendDifference > 105)) {
+                        if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
                             return 'red';
-                        }else if ((dateDiffInDays <= 7) && (spendDifference >= 95 && spendDifference <= 105)) {
+                        }else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
                                 return 'blue';
-                            }
+                        }
+                    }
+                    //  past a campaign end date
+                    if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == true) {
+                        return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
                     }
                 }
-                if (spendDifference < 90 || spendDifference > 120) {
+
+                if (spendDifference < -10 || spendDifference > 20) {
                      return 'red';
-                     } else if (spendDifference >= 90 && spendDifference <= 120) {
+                     } else if (spendDifference >= -10 && spendDifference <= 20) {
                      return 'blue';
                 }
                 return 'red';
