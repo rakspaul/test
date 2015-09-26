@@ -88,7 +88,6 @@
                     }
                     //  past a campaign end date
                     if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == true) {
-                        console.log("campaignEndDate", campaignEndDate , "spendDifference", spendDifference);
                         return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
                     }
                 }
