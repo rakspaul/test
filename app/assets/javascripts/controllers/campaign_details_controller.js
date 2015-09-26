@@ -120,14 +120,8 @@
             }
         }
 
-
-
-
         $scope.init = function() {
-
-            console.log('init',$rootScope.isFromCampaignList);
             if($rootScope.isFromCampaignList == true) {
-                console.log('am inside 123',campaignListService.getListCampaign());
                 var listCampaign = campaignListService.getListCampaign();
                         var campListCampaign = {
                             id : listCampaign.id,
@@ -136,19 +130,13 @@
                             endDate : listCampaign.end_date,
                             kpi : listCampaign.kpi_type
                         };
-//console.log(campListCampaign);
-                        campaignSelectModel.setSelectedCampaign(campListCampaign);
+                campaignSelectModel.setSelectedCampaign(campListCampaign);
                 $location.path("/campaigns/" + listCampaign.id);
-  //                 }
-
                 }
             }
-
-
         $scope.init();
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
-            console.log('on called');
             $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
         });
 
@@ -1136,13 +1124,12 @@
         });
         
     }).run(function($rootScope,$route){$rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
-        //console.log('success', evt, absNewUrl, absOldUrl);
         var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
         var paramsObj = $route.current.params;
-        console.log(paramsObj.campaignId);
         if(prevUrl =='/campaigns') {
-              console.log('u came from camapign list',paramsObj);
             $rootScope.isFromCampaignList = true;
+        } else {
+            $rootScope.isFromCampaignList = false;
         }
     });});
 }());
