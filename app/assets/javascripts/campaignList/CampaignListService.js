@@ -429,8 +429,8 @@
             var getStrategyData = function(campaign, timePeriod, data) {
                 //this requests strategy data - invoked when requestStrategiesData is called from controller
                 var dataObj = createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
-                var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
-                return campaignStrategies;
+               // var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                return dataObj;
             };
 
             var vtcMetricsJsonModifier =  function(vtcMetricJson) {
