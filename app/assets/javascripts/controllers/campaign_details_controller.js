@@ -38,6 +38,7 @@
         $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+        $scope.isLocaleSupportUk = RoleBasedService.getUserRole().i18n.locale === 'en-gb';
 
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
