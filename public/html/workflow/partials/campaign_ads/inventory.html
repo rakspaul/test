@@ -79,7 +79,8 @@
             <div class="col-md-12 zeroPadding">
                 <div class="col-md-12 zeroPadding">
                     <label class="col-sm-12 control-label greyTxt miniLabels">List Name</label>
-                    <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-disabled="adData.listName ? true : false" ng-model="adData.listName" id="listName" placeholder="Enter List Name">
+                    adData.inventory ---> {{adData.inventory.name}}
+                    <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-disabled="adData.inventory.name ? true : false" ng-model="adData.listName" id="listName" placeholder="Enter List Name">
                 </div>
 
                 <div class="categoryDDL">
