@@ -72,6 +72,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 quickFilterSelected: getCapitalizeString(constants.ACTIVE),
                 quickFilterSelectedCount:0,
                 filterActive: '(active)',
+                filterSelected: '(active)',
                 filterReady: undefined,
                 filterDraft: undefined,
                 filterCompleted: undefined,
@@ -126,6 +127,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 }
                 if (type != 'active') {
                     this.dashboard.filterActive = undefined;
+                    this.dashboard.filterSelected = undefined;
                     this.dashboard.status.active.underperforming = undefined;
                     this.dashboard.status.active.ontrack = undefined;
                     this.dashboard.status.active.endingSoon = undefined;
@@ -438,6 +440,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     function loadActiveOntrack() {
                         self.dashboardFilter(constants.ACTIVE, constants.ONTRACK);
                         self.dashboard.filterActive = constants.ACTIVE_ONTRACK;
+                        self.dashboard.filterSelected = constants.ACTIVE_ONTRACK;
                         self.dashboard.status.active.ontrack = constants.ACTIVE;
                         self.dashboard.status.active.underperforming = '';
                     };
@@ -445,6 +448,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     function loadActiveUnderperforming() {
                         self.dashboardFilter(constants.ACTIVE, constants.UNDERPERFORMING)
                         self.dashboard.filterActive = constants.ACTIVE_UNDERPERFORMING;
+                        self.dashboard.filterSelected = constants.ACTIVE_UNDERPERFORMING;
                         self.dashboard.status.active.ontrack = '';
                         self.dashboard.status.active.underperforming = constants.ACTIVE;
                     }
@@ -452,6 +456,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     function loadActive() {
                         self.dashboardFilter(constants.ACTIVE)
                         self.dashboard.filterActive = constants.ACTIVE;
+                        self.dashboard.filterSelected = constants.ACTIVE;
                         self.dashboard.status.active.ontrack = '';
                         self.dashboard.status.active.underperforming = '';
                         self.dashboard.status.active.bothItem = constants.ACTIVE;
@@ -616,12 +621,33 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     filters.timePeriod && (this.timePeriod = filters.timePeriod);
 
                     if (filters.brand != undefined) {
-                        this.dashboard.filterSelectAll = false;
+                        console.log('in camp list',this.dashboard.quickFilterSelected);
+                        /*this.dashboard.filterSelectAll = false;
                         this.dashboard.status.active.bothItem = 'active';
                         this.dashboard.filterActive = '(active)';
-                        setTopFiltersStatus.call(this, "others", false, null);
+                        this.dashboard.filterSelected = '(active)';
+                            setTopFiltersStatus.call(this, "others", false, null);
                         this.dashboard.status.active.underperforming = undefined;
-                        this.dashboard.status.active.ontrack = undefined;
+                        this.dashboard.status.active.ontrack = undefined;*/
+
+                       /* if(this.dashboard.filterReady != undefined) {
+
+                        } else if(this.dashboard.filterDraft != undefined) {
+
+                        } else if(this.dashboard.filterCompleted != undefined) {
+
+                        } else if(this.dashboard.filterPaused != undefined) {
+
+                        } else if(this.dashboard.status.active.ontrack != undefined) {
+
+                        } else if(this.dashboard.status.active.underperforming != undefined) {
+
+                        } else if(this.dashboard.status.active.bothItem  != undefined) {
+
+                        } else if(this.dashboard.status.active.endingSoon   != undefined) {
+
+                        }*/
+
                     }
 
                     fetchDashboardData.call(this); //populating dashboard filter with new data
@@ -685,6 +711,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             break;
                         case ((type == 'active') && (state == "ontrack" || state == "underperforming" || state == "endingSoon")):
                             this.dashboard.filterActive = '(active,' + state + ')';
+                            this.dashboard.filterSelected = '(active,' + state + ')';
                             this.dashboard.status.active[state] = 'active';
                             this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                             if (state == "ontrack") {
@@ -703,6 +730,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             }
                             if(state == 'endingSoon') {
                                 this.dashboard.filterActive = '(active)';
+                                this.dashboard.filterSelected = '(active)';
                                 this.dashboard.filterTotal = this.dashboard.active.total;
                                 this.dashboard.quickFilterSelected = constants.ENDING_SOON;
                                 this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
@@ -718,7 +746,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             break;
                         case (type == 'activeAll'):
                             this.dashboard.filterActive = '(active)';
-                           setTopFiltersStatus.call(this, type, true, null);
+                            this.dashboard.filterSelected = '(active)';
+                            setTopFiltersStatus.call(this, type, true, null);
                             this.dashboard.filterTotal = this.dashboard.active.total;
                             this.dashboard.quickFilterSelected = 'Active';
                             this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
@@ -751,17 +780,20 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     if (status == true) {
                         setTopFiltersStatus.call(this, "activeAll", status, null);
                         this.dashboard.filterActive = undefined;
+                        this.dashboard.filterSelected = undefined;
                         this.dashboard.filterTotal = this.dashboard.total;
                     } else {
                         this.dashboard.status.active.bothItem = undefined;
                         this.dashboard.status.active.ontrack = undefined;
                         if (this.dashboard.active.underperforming == 0) {
                             this.dashboard.filterActive = '(active,ontrack)';
+                            this.dashboard.filterSelected = '(active,ontrack)';
                             this.dashboard.status.active.ontrack = 'active';
                             this.dashboard.status.active.underperforming = undefined;
                             this.dashboard.filterTotal = this.dashboard.active.ontrack;
                         } else {
                             this.dashboard.filterActive = '(active,underperforming)';
+                            this.dashboard.filterSelected = '(active,underperforming)';
                             this.dashboard.status.active.underperforming = 'active';
                             this.dashboard.status.active.ontrack = undefined;
                             this.dashboard.filterTotal = this.dashboard.active.underperforming;
@@ -788,6 +820,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     this.dashboard.filterDraft && params.push('conditions=' + this.dashboard.filterDraft);
                     this.dashboard.filterCompleted && params.push('conditions=' + this.dashboard.filterCompleted);
                     this.dashboard.filterPaused && params.push('conditions=' + this.dashboard.filterPaused);
+                    console.log(apiPaths.apiSerivicesUrl + '/campaigns/bystate?' + params.join('&'));
                     return apiPaths.apiSerivicesUrl + '/campaigns/bystate?' + params.join('&');
                 },
                 toggleSortDirection = function(dir) {
