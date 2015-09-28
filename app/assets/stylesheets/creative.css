@@ -247,27 +247,27 @@
   margin-right: 0;
   padding-right: 0;
 }
-#inventoryFilters .containerWrap .accountTitleTag {
+#inventoryFilters .containerWrap .nav_filters .accountTitleTag {
   float: left;
   font-size: 12px;
 }
-#inventoryFilters .containerWrap button {
+#inventoryFilters .containerWrap .nav_filters button {
   float: left;
   margin-top: 20px;
   margin-bottom: 30px;
 }
-#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn {
+#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn {
   margin-bottom: 30px ;
 }
-#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn button {
+#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn button {
   margin-bottom: 10px ;
   margin-top: 0px;
 }
-#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn .grey_txt {
+#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn .grey_txt {
   font-size: 12px ;
   margin: 6px 0 0 5px;
 }
-#inventoryFilters .page_header_container .containerWrap .inventory_upload_btn .note {
+#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn .note {
   font-size: 12px ;
 }
 #inventoryFilters .filterList {
