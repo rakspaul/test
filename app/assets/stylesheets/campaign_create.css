@@ -705,6 +705,10 @@
   padding-right: 10px;
   width: 40px;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
+  background-color: #D7E9F7;
+  border: 1px solid #0978C9;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:first-child {
   background: rgba(255, 255, 255, 0.48);
 }
@@ -851,7 +855,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper {
   width: 100%;
   min-height: 500px;
-  padding: 30px 30px 0 30px;
+  padding: 30px 0 0 0;
   float: left;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .headerSteps {
@@ -1058,23 +1062,105 @@
   transform: rotate(-90deg);
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder {
-  border-radius: 4px;
+  border-radius: 1px;
   border: 1px solid #DDD;
-  padding: 18px;
-  min-height: 151px;
-  text-align: center;
-  margin: 15px 30px 0 0 ;
+  padding: 16px 30px 0 30px;
+  height: 80px;
+  margin: 18px 1% 30px 0 ;
+  width: 49%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder span {
-  height: 40px;
-  display: inline-block;
+  float: left;
+  margin: 14px 0 0 15px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder img {
-  padding: 10px 0;
+  float: left;
+  margin-top: 8px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder input {
+  float: right;
+  margin: 17px 0 0 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child {
+  float: right;
+  margin-right: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .moreComingSoon {
+  float: left;
+  width: 100%;
+  border: 1px dotted #DDD;
+  padding: 30px 0;
+  margin-bottom: 50px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .moreComingSoon span,
+#campaignCreate .campaignAdCreate .adMainWrapper .moreComingSoon a {
+  float: left;
+  text-align: center;
+  width: 100%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .moreComingSoon span {
+  margin-bottom: 4px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHeading {
   border-bottom: 1px solid #DDD;
   padding: 10px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap {
+  float: left;
+  width: 100%;
+  margin-top: 30px;
+  background: #F8F9FA;
+  padding-bottom: 85px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap h2 {
+  float: left;
+  width: 100%;
+  text-align: center;
+  margin: 21px 0 38px 0 !important;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container {
+  width: 100%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
+  padding: 0 40px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
+  display: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
+  background-image: none;
+  width: auto;
+  top: 45px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .glyphicon {
+  color: #000;
+  text-shadow: none;
+  font-size: 15px;
+  float: left;
+  margin: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap {
+  width: 31.68%;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 25px;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .title {
+  float: left;
+  width: 100%;
+  font-family: "Avenir-bold";
+  font-size: 12px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .descrip {
+  float: left;
+  width: 100%;
+  font-size: 12px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sliderSpacing {
+  float: left;
+  width: 2.48%;
+  height: 19px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .showImpressionCap {
   background-color: #DDDDDD;
@@ -1440,6 +1526,7 @@
   float: left;
   min-height: 530px;
   width: 100%;
+  padding: 0 30px;
 }
 .adCreateMaster .tab-content .tab-pane .miniLabels {
   padding: 5px 0px !important;
