@@ -196,7 +196,7 @@ var angObj = '';
             // return $locationProvider.html5Mode(true).hashPrefix("!"); // enable the new HTML5 routing and history API
         }
     ]).config(function(tmhDynamicLocaleProvider) {
-            tmhDynamicLocaleProvider.localeLocationPattern('assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
+            tmhDynamicLocaleProvider.localeLocationPattern('/assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
     });
 
    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, $locale, tmhDynamicLocale) {
