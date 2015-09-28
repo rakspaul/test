@@ -9,6 +9,8 @@
                   campaignModel, dataStore, apiPaths, requestCanceller,
                   constants, momentInNetworkTZ, domainReports) {
 
+            var listCampaign = "";
+
             var appendStrategyData = function(obj, key) {
                 var str = '';
                 for(var c in obj){
@@ -24,6 +26,14 @@
                 }
                 return str.substring(0, str.length - 1);
             };
+
+            var setListCampaign = function(campaign) {
+                listCampaign = campaign;
+            }
+
+            var getListCampaign = function() {
+                return listCampaign;
+            }
 
             var noOfdaysCampaignRun = function(startDate, endDate) {
                 var today = momentInNetworkTZ.today();
@@ -391,7 +401,6 @@
                 // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
                 var url = '/campaigns/' + campaign.orderId + '/strategies' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
-
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
                         if(data.length >= 0) {
@@ -548,6 +557,10 @@
                     var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure)
                 },
+
+                setListCampaign:setListCampaign,
+
+                getListCampaign:getListCampaign,
 
                 getCdbLineChart : getCdbLineChart,
                 vtcMetricsJsonModifier :vtcMetricsJsonModifier,
