@@ -4,6 +4,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
+        $("html").css({'background-color':'#eef5fc'});
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.workflowData['getADsForGroupData'] = {}

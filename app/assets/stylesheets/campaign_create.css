@@ -298,49 +298,93 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag {
   float: left;
   font-size: 12px;
+  margin-bottom: 20px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag span {
+  float: left;
+  font-size: 16px;
+  color: #21252b;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag span.tagTitle {
+  margin-left: 50px;
+  margin-right: 10px;
+  color: #949ead;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag .tagTitle:first-child {
+  margin-left: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag img {
   margin: -3px 10px 0 10px;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader h1 {
-  font-weight: bold;
-  font-size: 16px;
-  margin: 0 10px;
+#campaignCreate .firstWrapper .masterContainer .campAdHeader h4 {
+  margin: 6px 0 0 10px;
+  word-wrap: break-word;
+  float: left;
+  font-family: "Avenir";
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap {
-  padding: 8px 0 1px;
+  padding: 5px 0 0 0 !important;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .label {
+  float: left;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  font-size: 0 !important;
+  margin-top: 6px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .activeLabel {
+  background-color: #70d43d;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .inActiveLabel {
+  background-color: #939eae;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .glyphicon {
   color: #ABABAB;
 }
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap h1 {
+  word-wrap: break-word;
+  float: left;
+  color: #21252b;
+  font-size: 26px;
+  font-family: "Avenir-bold";
+  margin: 0 10px;
+}
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campIdTime {
-  font-size: 11px;
+  font-size: 12px;
   padding: 3px 0 15px 0;
-  color: #a5a5a5;
+  color: #939ead;
   float: left;
   clear: left;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView {
-  border-bottom: 1px dotted #B9B9B9;
+  border-bottom: 1px solid #ccd2da;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView div[class^='col-md'],
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView div[class*=' col-md'] {
-  padding: 0 5px;
-  border-right: 1px dotted #B9B9B9;
-  height: 50px;
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap {
+  padding: 0;
+  margin: 0 auto;
+  width: 1200px;
+  float: none;
+  display: block;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView label {
-  font-size: 11px;
-  color: #939dac;
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap div[class^='col-md'],
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap div[class*=' col-md'] {
+  padding: 0 0 0 5px;
+  height: 45px;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap label {
+  font-size: 12px;
+  color: #939ead;
   float: left;
   width: 100%;
   padding: 0;
+  margin: 0;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView span {
-  font-size: 12px;
-  font-family: 'Arial';
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap span {
+  font-size: 14px;
+  color: #57606c;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .btn-group {
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap .btn-group {
   margin-left: 5px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .emptyValueTxt {
@@ -348,12 +392,11 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule {
   padding: 0;
-  margin-top: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets {
   float: right;
   position: relative;
-  margin: 0 0 0 15px;
+  margin: 0 0 0 30px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets span {
   position: absolute;
@@ -371,6 +414,17 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets img {
   float: left;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a {
+  float: right;
+  color: #787878;
+  font-size: 23px;
+  cursor: pointer;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:active,
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:focus,
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:hover {
+  text-decoration: none;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap {
   background: #fff;
@@ -468,17 +522,25 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon {
   float: left;
-  border: 1px solid #000;
+  border: 1px solid #C6C9CE;
   border-radius: 2px;
   padding: 0;
   margin-right: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .glyphicon {
-  color: #000;
+  color: #57606d;
   float: left;
-  padding: 5px;
+  padding: 5px 5px 6px 6px;
   font-size: 14px;
   top: 0;
+  width: auto;
+  margin: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover {
+  border: 1px solid rgba(87, 96, 109, 0.3);
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover .glyphicon {
+  color: #2c9aec;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle h2.adGroupTxt {
   color: #000;
@@ -590,7 +652,7 @@
   cursor: pointer;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .text-center {
-  margin-top: 140px;
+  margin-top: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn .glyphicon {
   width: 100%;
@@ -599,6 +661,10 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn h1 {
   margin-top: 0 !important;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover .glyphicon,
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2 {
+  color: #2c9aec;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   padding: 0;
@@ -644,21 +710,22 @@
   font-size: 14px;
   padding-bottom: 15px;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule h1 {
-  font-size: 14px;
-  font-weight: bold;
-  font-family: 'Arial';
-  line-height: 18px;
-  padding: 0 10px;
-  margin: 0 0 15px 0;
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster {
   text-decoration: none;
-  height: 54px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule h2 {
-  font-size: 12pt;
+  font-size: 20px;
+  padding: 0 10px;
+  margin: 0;
+  text-decoration: none;
+  height: 54px;
+  font-family: 'Avenir';
+  color: #57606d;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule h4 {
+  font-size: 16px;
   margin: 3px 0 7px 0;
-  color: #428bca;
-  font-weight: bold;
+  font-family: 'Avenir';
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus {
   background: #6B6B6B;
@@ -701,8 +768,9 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .glyphicon {
   font-size: 32px;
-  color: #B1B1B1;
+  color: #57606d;
   padding-right: 10px;
+  margin-bottom: 15px;
   width: 40px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
@@ -817,6 +885,43 @@
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView {
   border-width: 0px;
 }
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView label {
+  font-size: 12px;
+  color: #939ead;
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView span {
+  float: left;
+  clear: left;
+  color: #57606c;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left {
+  padding: 0 0 0 30px;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left .glyphicon {
+  float: left;
+  margin-right: 8px;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left .counterCol {
+  width: 65px;
+  text-align: center;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left .counterCol span {
+  width: 100%;
+  text-align: center;
+  float: left;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left .counterCol label {
+  width: 100%;
+  text-align: center;
+  float: left;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left:first-child {
+  padding-left: 0;
+}
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap {
   background: #eef5fc;
   margin: 0px;
@@ -847,10 +952,13 @@
   width: 1040px;
   margin: 0 auto;
 }
+#campaignCreate .campaignAdCreateWrap {
+  margin: 0 auto;
+  width: 1200px;
+}
 #campaignCreate .campaignAdCreate {
   float: left;
   width: 77%;
-  border-left: 1px dotted #b9b9b9;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper {
   width: 100%;
@@ -960,6 +1068,17 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .placementRadio span {
   padding: 2px 30px 0 5px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .selectTypeTitle {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  padding-left: 30px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox {
+  margin-top: 60px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox .btn-toggle {
   margin: 6px 0 20px;
@@ -1131,6 +1250,20 @@
   background-image: none;
   width: auto;
   top: 45px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .leftCtrl {
+  background: url("/assets/images/cdesk/calendar_arrow_left.png") no-repeat center center;
+  height: 45px;
+  width: 38px;
+  float: left;
+  margin-top: 115px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .rightCtrl {
+  background: url("/assets/images/cdesk/calendar_arrow_right.png") no-repeat center center;
+  height: 45px;
+  width: 38px;
+  float: right;
+  margin-top: 115px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .glyphicon {
   color: #000;
@@ -1472,19 +1605,17 @@
   width: 91%;
 }
 .adCreateMaster .campTitleWrap .label {
-  font-size: 9px !important;
   float: left;
-  margin: 13px 3% 0 0;
-  width: 6%;
-  text-align: center;
-  padding: 4px 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  font-size: 0 !important;
 }
-.adCreateMaster .campTitleWrap .label-warning {
-  padding: 4px 4px 4px 5px;
-  overflow: hidden;
-  letter-spacing: 5px;
-  text-align: center;
-  margin-top: 6px ;
+.adCreateMaster .campTitleWrap .activeLabel {
+  background-color: #70d43d;
+}
+.adCreateMaster .campTitleWrap .inActiveLabel {
+  background-color: #939eae;
 }
 .adCreateMaster .page_header_container {
   margin-top: 30px !important;
@@ -1526,7 +1657,7 @@
   float: left;
   min-height: 530px;
   width: 100%;
-  padding: 0 30px;
+  padding: 30px 30px 0 30px;
 }
 .adCreateMaster .tab-content .tab-pane .miniLabels {
   padding: 5px 0px !important;
@@ -1555,19 +1686,15 @@
   float: left;
   margin: 10px 9px;
 }
-.adCreateMaster .tab-content .tab-pane .adName {
-  float: left;
-  width: 100%;
-  color: #21252b;
-  font-size: 14pt;
-  font-family: 'Avenir-bold';
-  margin-bottom: 30px;
-}
 .adCreateMaster .tab-content .tab-pane h2 {
   color: #000;
   font-size: 20px;
   margin: 0 0 20px 0 !important;
   font-family: "Avenir";
+}
+.adCreateMaster .tab-content .tab-pane .helpLink {
+  opacity: .3;
+  text-decoration: none !important;
 }
 .adCreateMaster .tab-content .tab-pane .nextWrapper {
   position: absolute;
@@ -1760,9 +1887,26 @@
   margin-top: 20px;
 }
 .adCreateMaster #targetting .ddlSetTarget .msgPopup {
-  bottom: 124%;
   left: -80px;
-  top: auto ;
+  top: 46px;
+}
+.adCreateMaster #targetting .ddlSetTarget .msgPopup:after,
+.adCreateMaster #targetting .ddlSetTarget .msgPopup:before {
+  bottom: 168px;
+  left: 140px;
+  border-bottom: initial;
+  border: solid 7px #fff;
+  border-left: solid 7px transparent;
+  border-right: solid 7px transparent;
+  border-top: 0;
+}
+.adCreateMaster #targetting .ddlSetTarget .msgPopup:before {
+  bottom: 170px;
+  border-bottom: initial;
+  border: solid 7px #DDE6EB;
+  border-left: solid 7px transparent;
+  border-right: solid 7px transparent;
+  border-top: 0;
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle {
   border: 1px solid #ccd2da;
@@ -2245,7 +2389,16 @@
   top: 0px ;
   right: 0px ;
   z-index: 1 ;
-  width: 40% ;
+  width: 100% ;
+  padding-left: 30px;
+}
+.campaignAdCreatePage .common-btns .adName {
+  float: left;
+  width: 100%;
+  color: #21252b;
+  font-size: 14pt;
+  font-family: 'Avenir-bold';
+  margin-bottom: 30px;
 }
 .campaignAdCreatePage .paddingTop {
   padding-top: 5px ;
@@ -2275,8 +2428,12 @@
   margin-bottom: 0px ;
 }
 .campaignAdCreatePage .tab-pane input[type="text"] {
-  border: 1px solid #dbe8ef !important;
+  border: 1px solid #ccd2da !important;
   border-radius: 0px !important;
+}
+.campaignAdCreatePage .tab-pane input[type="text"]:focus {
+  border: 1px solid #0978c9 !important;
+  box-shadow: none;
 }
 .campaignAdCreatePage .tab-pane .greyTxt {
   color: #b3b3b3 !important;

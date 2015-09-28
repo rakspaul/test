@@ -166,6 +166,8 @@ select {
 }
 .radioBtnToggle .miniToggle label {
   position: relative;
+  padding: 8px 15px;
+  border: 1px solid #ccd2da;
 }
 .radioBtnToggle .miniToggle label span {
   width: 100%;
@@ -178,7 +180,6 @@ select {
   border: 1px solid #0978c9 !important;
 }
 .radioBtnToggle .miniToggle .btn-default {
-  border: 1px solid #0978c9 !important;
   border-radius: 2px !important;
   width: 120px;
 }
@@ -216,6 +217,7 @@ select {
 }
 .bigChkBox.active label {
   color: #2c9aec;
+  font-weight: normal;
 }
 .goalBtnGroup .btn-primary {
   border-radius: 2px;
@@ -227,13 +229,14 @@ select {
   background-color: #fff;
   border-color: #dee6eb;
   padding: 11px 0;
+  border-width: 0;
 }
 .goalBtnGroup .btn-primary span {
   width: 100%;
   float: left;
   text-align: center;
   color: #21252b;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 10px;
 }
 .goalBtnGroup .btn-primary:hover {
@@ -243,11 +246,10 @@ select {
 .goalBtnGroup .btn-primary.active {
   color: #2c9aec;
   background-color: #eff2f5;
-  border-color: #2c9aec;
+  border: #2c9aec;
 }
 .goalBtnGroup .btn-primary.active span {
   color: #2c9aec;
-  font-weight: bold;
 }
 .goalBtnGroup label {
   position: relative;
@@ -268,10 +270,16 @@ select {
   margin: 35px auto 0;
   display: block;
 }
+.goalBtnGroup label .hideRadioBtn:hover {
+  background-color: #dde6eb;
+}
 .goalBtnGroup label.active .hideRadioBtn {
   background-color: #eff2f5;
   border: 1px solid #2c9aec;
   border-radius: 2px !important;
+}
+.goalBtnGroup label.active .hideRadioBtn:hover {
+  background-color: #eff2f5;
 }
 .btn-ani-toggle {
   position: relative;
@@ -303,16 +311,18 @@ select {
   border-left: 1px solid #dbe8ef !important;
 }
 .left_column_nav {
-  margin: 30px 0 0 0;
+  padding: 22px 0 0 0;
   width: 23%;
   float: left;
+  border-right: 1px solid #ccd2da;
+  height: 100%;
 }
 .left_column_nav .campaign_name {
   font-family: "Avenir-bold";
   display: inline-block;
   float: left;
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 .left_column_nav .stepCompLabel {
   border-width: 0;
@@ -329,7 +339,7 @@ select {
   float: left;
   width: 100%;
   clear: left;
-  margin: 10px 0 0 0;
+  margin: 4px 0 0 0;
 }
 .left_column_nav .stepCompLabel .statusLabel .errorTxt {
   color: #e83b05;
@@ -352,7 +362,7 @@ select {
   margin: -3px 5px 0 0;
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-12 .txtLabel {
-  margin: 10px 0 0 0;
+  margin: 4px 0 0 0;
 }
 .left_column_nav .stepCompLabel .statusLabel:first-child {
   margin: 0;

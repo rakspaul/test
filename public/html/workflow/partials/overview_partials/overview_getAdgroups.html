@@ -27,7 +27,7 @@
                    class="col-md-12 text-center addMaster" ng-click="createAdforAdGroup(adGroupsData.adGroup.id,adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 
-                    <h1>Create Ad</h1>
+                    <h2>Create Ad</h2>
                 </a>
             </div>
         </div>
@@ -42,9 +42,9 @@
                 <span class="pull-left">ID: {{adsData.id}}</span><span ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
             </div>
             <div class="col-md-12" style="padding: 0px 10px 35px;">
-                <h1 class="col-md-10 adCamp">
+                <h4 class="col-md-10 adCamp">
                     <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
-                </h1>
+                </h4>
                 <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
                 <!--Abi for some reason toggle switch doesnt work here but above it those?-->
                 <!--<div class="btn-group btn-toggle pull-left">
