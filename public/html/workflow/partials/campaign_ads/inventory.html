@@ -16,7 +16,7 @@
             <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
                 <div class="each_filter" style="margin-bottom: 20px;">
                     <div class="nav_filters_heading">List Name</div>
-                    <select name = "inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
+                    <select id="inventory" name="inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
                         <option value="">Select Domain List</option>
                     </select>
                 </div>

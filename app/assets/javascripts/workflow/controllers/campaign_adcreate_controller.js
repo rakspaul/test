@@ -1401,6 +1401,7 @@ var angObj = angObj || {};
         $scope.adData.inventoryType = 'Whitelist';
 
         $scope.inventoryAdsData = {};
+        $scope.adData.inventoryName = '';
 
           var InventoryFiltersView = {
               getAdvertisersDomainList : function(clientId, advertiserId) {
@@ -1413,7 +1414,7 @@ var angObj = angObj || {};
         $scope.selectFiles = function(files) {
             if(files  != null && files.length >0) {
                 $scope.showDomainListPopup = true;
-                $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
+                $scope.adData.listName =  $scope.adData.inventory && $scope.adData.inventory.name;
                 $scope.files = files;
             }
         }
@@ -1438,11 +1439,20 @@ var angObj = angObj || {};
                         }).progress(function (evt) {
                             $scope.domainUploadInProgress =  true;
                         }).success(function (response, status, headers, config) {
-                            if(config.method === 'PUT') {
-                                $scope.adData.inventory.domainList = response.data.domainList;
-                            } else {
-                                $scope.workflowData['inventoryData'].push(response.data);
-                            }
+                            var inventoryData = $scope.workflowData['inventoryData'];
+                            _.each(inventoryData, function(obj, idx) {
+                                if(obj.id ===response.data.id) {
+                                    inventoryData[idx] = response.data;
+                                }
+                            })
+                            $scope.workflowData['inventoryData'] = inventoryData;
+
+                            
+                            $scope.adData.inventory = response.data;
+                            //$scope.adData.inventory = response.data.name;
+
+                            //$scope.adData.inventory.domainList = response.data.domainList;
+                            //$scope.adData.inventory.name = response.data.name;
                             $scope.domainUploadInProgress = false;
                             $scope.showDomainListPopup = false;
                         });
