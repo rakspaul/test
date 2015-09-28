@@ -108,7 +108,7 @@
                     <span class="icon_KPI"></span>
                 </span>
                 <span class="pull-right cumulative_val">
-                    {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=="delivery"?"impressions":campaign.kpiType.toLowerCase())] | nrFormat}}</span>
+                    {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=="delivery"?"impressions":campaign.kpiType.toLowerCase())] | kpiFormatter:campaign.kpiType}}</span>
                 </span>
             </div>
 
