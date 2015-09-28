@@ -134,7 +134,7 @@
                 $location.path("/campaigns/" + listCampaign.id);
                 }
             }
-        $scope.init();
+        //$scope.init();
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
             $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
