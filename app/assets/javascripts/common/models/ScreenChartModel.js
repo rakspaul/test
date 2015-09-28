@@ -14,7 +14,7 @@
             'action rate' : 'action_rate'
         }
 
-        var screenTypeMap = {
+            var screenTypeMap = {
             'smartphone' : 'mobile_graph',
             'tv' : 'display_graph',
             'tablet' : 'tablet_graph',
@@ -109,10 +109,9 @@
 
                     var type = data.dimension || data.platform;
                     var cls = '';
-                    if (screenWidgetFormat.toLowerCase() === 'screens') {
-                        cls = screenTypeMap[data.dimension.toLowerCase()];
-                    } else if (screenWidgetFormat.toLowerCase() === 'formats') {
-                        cls = data.dimension.toLowerCase() + "_graph"
+                    cls = screenTypeMap[data.dimension.toLowerCase()];
+                    if (screenWidgetFormat.toLowerCase() === 'formats' && !cls) {
+                        cls = data.dimension.toLowerCase() + '_graph';
                     }
                     chartDataScreen.push({className: cls, 'icon_url': data.icon_url, 'type': type, 'value': Number(kpiData)});
                 });

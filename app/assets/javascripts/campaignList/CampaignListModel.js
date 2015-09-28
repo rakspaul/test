@@ -472,7 +472,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         }
                     })
                     campaignListService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD"), function(result) {
-                        if (result.status == "success" && !angular.isString(result.data)) {
+                        if (result.status == "success" && !angular.isString(result.data) && result.data.data.length >0) {
                             angular.forEach(result.data.data, function(cost) {
                                 self.costList[cost.id] = modelTransformer.transform(cost, campaignCost);
                                 hideLoader();
