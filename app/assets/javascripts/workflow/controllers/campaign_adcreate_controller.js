@@ -770,9 +770,8 @@ var angObj = angObj || {};
                         $scope.geoTargetingData.selected[type].splice(i,1);
                     }
                 }
-
             }
-            console.log($scope.geoTargetingData.selected);
+            //console.log($scope.geoTargetingData.selected);
             $scope.includeorExcludeCityOnly(type);
         };
 
