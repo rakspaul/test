@@ -123,18 +123,22 @@
         $scope.init = function() {
             if($rootScope.isFromCampaignList == true) {
                 var listCampaign = campaignListService.getListCampaign();
-                        var campListCampaign = {
-                            id : listCampaign.id,
-                            name : listCampaign.name,
-                            startDate : listCampaign.start_date,
-                            endDate : listCampaign.end_date,
-                            kpi : listCampaign.kpi_type
-                        };
-                campaignSelectModel.setSelectedCampaign(campListCampaign);
-                $location.path("/campaigns/" + listCampaign.id);
+                if(angular.isObject(listCampaign)) {
+                    var campListCampaign = {
+                        id: listCampaign.id,
+                        name: listCampaign.name,
+                        startDate: listCampaign.start_date,
+                        endDate: listCampaign.end_date,
+                        kpi: listCampaign.kpi_type
+                    };
+                    campaignSelectModel.setSelectedCampaign(campListCampaign);
+                    campaignListService.setListCampaign('');
+                    $location.path("/campaigns/" + listCampaign.id);
+                }
                 }
             }
-        //$scope.init();
+        //init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
+        $scope.init();
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
             $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
@@ -1123,7 +1127,8 @@
 
         });
         
-    }).run(function($rootScope,$route){$rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
+    }).run(function($rootScope,$route){
+        $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
         var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
         var paramsObj = $route.current.params;
         if((prevUrl =='/campaigns') && (absNewUrl != '/campaigns')) {
