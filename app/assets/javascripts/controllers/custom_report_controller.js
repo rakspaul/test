@@ -273,6 +273,7 @@ var angObj = angObj || {};
             $scope.fetching = false;
             $(".img_table_container").hide();
             $(".custom_report_response_page").show();
+            $(".hasBreakdown").removeClass("active").removeClass("treeOpen") ;
             $("html, body").animate({ scrollTop: 0 });
             if($scope.selectedMetricsList && $scope.selectedMetricsList.length >0) {
                 $scope.hideReportsTabs = true;
@@ -280,6 +281,7 @@ var angObj = angObj || {};
             _customctrl.reset();
             _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
             _customctrl.getReportData();
+
 
         };
         $scope.enable_generate_btn = function() {
@@ -333,7 +335,10 @@ var angObj = angObj || {};
                         $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
                     }
+                    
                 });
+                $scope.generateBtnDisabled = false ;
+                   
             } else {
                 //hide the second dimension data for clcked row
                 
