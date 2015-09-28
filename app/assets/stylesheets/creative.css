@@ -256,18 +256,18 @@
   margin-top: 20px;
   margin-bottom: 30px;
 }
-#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn {
+#inventoryFilters .containerWrap .inventory_upload_btn {
   margin-bottom: 30px ;
 }
-#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn button {
+#inventoryFilters .containerWrap .inventory_upload_btn button {
   margin-bottom: 10px ;
   margin-top: 0px;
 }
-#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn .grey_txt {
+#inventoryFilters .containerWrap .inventory_upload_btn .grey_txt {
   font-size: 12px ;
-  margin: 6px 0 0 5px;
+  margin: 8px 0 0 5px;
 }
-#inventoryFilters .containerWrap .nav_filters .inventory_upload_btn .note {
+#inventoryFilters .containerWrap .inventory_upload_btn .note {
   font-size: 12px ;
 }
 #inventoryFilters .filterList {

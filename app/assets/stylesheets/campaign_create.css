@@ -681,6 +681,9 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.scheduled {
   background: #2c9aec ;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.inflight {
+  background: #70d43d ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelPush {
   background: #5cb85c;
 }
