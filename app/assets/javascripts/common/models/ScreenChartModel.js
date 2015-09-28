@@ -109,9 +109,13 @@
 
                     var type = data.dimension || data.platform;
                     var cls = '';
-                    cls = screenTypeMap[data.dimension.toLowerCase()];
-                    if (screenWidgetFormat.toLowerCase() === 'formats' && !cls) {
-                        cls = data.dimension.toLowerCase() + '_graph';
+                    if (screenWidgetFormat.toLowerCase() === 'screens') {
+                        cls = screenTypeMap[data.dimension.toLowerCase()];
+                    } else if (screenWidgetFormat.toLowerCase() === 'formats') {
+                        cls = screenTypeMap[data.dimension.toLowerCase()];
+                        if(!cls) {
+                            cls = data.dimension.toLowerCase() + "_graph"
+                        }
                     }
                     chartDataScreen.push({className: cls, 'icon_url': data.icon_url, 'type': type, 'value': Number(kpiData)});
                 });
