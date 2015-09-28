@@ -855,7 +855,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper {
   width: 100%;
   min-height: 500px;
-  padding: 30px 30px 0 30px;
+  padding: 30px 0 0 0;
   float: left;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .headerSteps {
@@ -1071,9 +1071,15 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder span {
   float: left;
+  margin: 14px 0 0 15px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder img {
   float: left;
+  margin-top: 8px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder input {
+  float: right;
+  margin: 17px 0 0 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child {
   float: right;
@@ -1104,12 +1110,57 @@
   width: 100%;
   margin-top: 30px;
   background: #F8F9FA;
+  padding-bottom: 85px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap h2 {
   float: left;
   width: 100%;
   text-align: center;
-  margin: 21px 0 38px 0;
+  margin: 21px 0 38px 0 !important;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container {
+  width: 100%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
+  padding: 0 40px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
+  display: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
+  background-image: none;
+  width: auto;
+  top: 45px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .glyphicon {
+  color: #000;
+  text-shadow: none;
+  font-size: 15px;
+  float: left;
+  margin: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap {
+  width: 31.68%;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 25px;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .title {
+  float: left;
+  width: 100%;
+  font-family: "Avenir-bold";
+  font-size: 12px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .descrip {
+  float: left;
+  width: 100%;
+  font-size: 12px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .sliderSpacing {
+  float: left;
+  width: 2.48%;
+  height: 19px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .showImpressionCap {
   background-color: #DDDDDD;
@@ -1475,6 +1526,7 @@
   float: left;
   min-height: 530px;
   width: 100%;
+  padding: 0 30px;
 }
 .adCreateMaster .tab-content .tab-pane .miniLabels {
   padding: 5px 0px !important;
