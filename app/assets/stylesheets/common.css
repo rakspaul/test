@@ -765,7 +765,6 @@
 #campaignCreate .nav_filters_heading {
   color: #939eaf ;
   font-size: 12px ;
-  text-transform: capitalize;
 }
 .nav_filters .brand_name_selected,
 #campaignCreate .brand_name_selected {

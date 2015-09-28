@@ -748,6 +748,9 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.scheduled {
   background: #2c9aec ;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.inflight {
+  background: #70d43d ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelPush {
   background: #5cb85c;
 }
@@ -1003,7 +1006,8 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adHeader {
   padding: 0px;
-  font-family: "Avenir-roman";
+  /*
+        font-family:"Avenir-roman";*/
   font-size: 16px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adSubHeader {
@@ -1242,9 +1246,17 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
   padding: 0 40px;
+  height: 300px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
   display: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-inner {
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  margin: 0px 40px;
+  width: 770px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
   background-image: none;
@@ -1862,7 +1874,7 @@
   padding: 10px 0 10px 12px ;
 }
 .adCreateMaster #targetting .list_row_holder {
-  max-height: 450px;
+  max-height: 505px;
   overflow: scroll;
 }
 .adCreateMaster #targetting .list_val_col {
@@ -1871,7 +1883,7 @@
   max-width: 170px ;
 }
 .adCreateMaster #targetting .list_holder {
-  padding: 0 20px ;
+  /*padding: 0 20px ;*/
 }
 .adCreateMaster #targetting .list_holder .list_row {
   margin: 10px 0 ;
@@ -1916,7 +1928,7 @@
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle .caret {
   float: right;
-  margin-top: 9px;
+  margin-top: 5px;
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-menu {
   width: 280px;
@@ -2336,6 +2348,17 @@
 }
 .adCreateMaster #targetting .tab-pane .table tbody tr td:first-child {
   text-align: center;
+}
+.adCreateMaster #targetting #regions {
+  padding: 0 ;
+}
+.adCreateMaster #targetting #dmas {
+  border: 1px solid #dde6eb;
+  border-top: 0;
+  padding-left: 20px;
+}
+.adCreateMaster #targetting #city {
+  padding: 0 0 0 15px;
 }
 .adCreateMaster #creative .creativeTableTag {
   margin-top: 30px;

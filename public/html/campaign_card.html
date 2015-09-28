@@ -5,7 +5,7 @@
         </div>
         <div class="each_campaign_section">
             <div class="main_heading">
-                <a ng-href="/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75"></truncate-text-with-hover></a>
+                <a ng-href="/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
                     {{ textConstants.VIEW_REPORT }}
                 </div>
             </a>
-            <a href="/campaigns/{{campaign.orderId}}" ng-click="campaigns.findShortCutKey(campaign,$event)" class="action_bubble_holder" id="campaigns_activity_btn">
+            <a href="/campaigns/{{campaign.orderId}}" class="action_bubble_holder" id="campaigns_activity_btn">
                 <div class="campaign_btn actions_btn">
                     <span>{{ textConstants.ACTIVITY }}</span>
                     <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
@@ -108,7 +108,7 @@
                     <span class="icon_KPI"></span>
                 </span>
                 <span class="pull-right cumulative_val">
-                    {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=="delivery"?"impressions":campaign.kpiType.toLowerCase())] | nrFormat}}</span>
+                    {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=="delivery"?"impressions":campaign.kpiType.toLowerCase())] | kpiFormatter:campaign.kpiType}}</span>
                 </span>
             </div>
 

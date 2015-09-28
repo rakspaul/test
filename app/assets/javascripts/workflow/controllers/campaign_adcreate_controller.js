@@ -533,14 +533,14 @@ var angObj = angObj || {};
         })
 
         $scope.saveCreativeTags = function () {
-            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.showHidePopup = false;
             $scope.preDeleteArr = [];
             $scope.changeStatus();
             $scope.updateCreativeData($scope.selectedArr);
         };
 
         $scope.closePop = function () {
-            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.showHidePopup = false;
             $scope.changeStatus();
             if($scope.preDeleteArr.length > 0){
                 _.each($scope.preDeleteArr,function(obj){
@@ -596,8 +596,7 @@ var angObj = angObj || {};
             /*Enable save button of popup library if elements exists*/
         })
 
-        $scope.stateChanged = function ($event, screenTypeObj) { // console.log("selected array in state Changed: ");console.log($scope.selectedArr);
-                                                                 // console.log("xyz array in state Changed: ");console.log($scope.xyz);
+        $scope.stateChanged = function ($event, screenTypeObj) {
 
             var checkbox = $event.target;
             screenTypeObj.userSelectedEvent =  checkbox.checked; // temporary user old selected status before cancel
@@ -834,20 +833,20 @@ var angObj = angObj || {};
 
         $scope.includeorExcludeCityOnly = function(type) {
             if(type === 'cities') {
-                var selectedCities = $scope.geoTargetingData.selected[type];
                 var selectedRegions = $scope.geoTargetingData.selected['regions'];
                 var selectedCities = $scope.geoTargetingData.selected['cities'];
                 $scope.showCitiesOnly = true;
+                //when only cities are selected
                 if(selectedRegions.length === 0  && selectedCities.length > 0) {
                     $scope.isRegionSelected =  false;
-                } else {
-
+                } else { //when region is selected first and then we are selecting cities
                     _.each(selectedRegions, function(regionsObj) {
                         var tmpArr= [];
                         if(selectedCities.length > 0){
                             _.each(selectedCities, function(citiesObj, idx) {
                                 if(citiesObj.parent.id === regionsObj.id) {
                                     $scope.showCitiesOnly = false;
+                                    citiesObj.citiesIncluded = false;
                                     tmpArr.push(citiesObj);
                                     regionsObj.cities = tmpArr;
                                 }
@@ -880,13 +879,12 @@ var angObj = angObj || {};
                     selectedItem.splice(i, 1);
                 }
             }
+
             if ($scope.geoTargetingData['selected'][type].length === 0) {
                 $scope.includeorExcludeCityOnly(type);
             }
-            if (type === 'regions') {
-                citiesListArray.length =0;
-                $scope.listCities();
 
+            if (type === 'regions' && $scope.showCitiesTab) {
                 var removeFromSelectedCityArr =  function(cityObj) {
                     var selectedCities = $scope.geoTargetingData['selected']['cities'];
                     var pos = _.findIndex(selectedCities, cityObj);
@@ -896,8 +894,8 @@ var angObj = angObj || {};
                 for (var j = 0; j < selectedItem.length; j++) {
                     if(selectedItem[j].cities && selectedItem[j].cities.length >0) {
                         for(var k=0; k < selectedItem[j].cities.length>0; k++) {
-                            removeFromSelectedCityArr(selectedItem[j].cities[k]);
                             if (selectedItem[j].cities[k].id == item.id) {
+                                removeFromSelectedCityArr(selectedItem[j].cities[k]);
                                 selectedItem[j].cities.splice(k, 1);
                             }
                         }
@@ -1297,22 +1295,14 @@ var angObj = angObj || {};
             var regions = $scope.geoTargetingData['selected']['regions'];
             if($scope.selectedTab === 'cities') {
                 $scope.citiesIncludeSwitchLabel =  true;
-
                 if(regions.length >0) {
                     $scope.showSwitch = false;
                     if($scope.regionsIncludeSwitchLabel) {
-                        $scope.citiesIncludeSwitchLabel =  false;
-                        $scope[$scope.selectedTab+'Included'] = false;
-                    }
-                    else {
-                        $scope.citiesIncludeSwitchLabel =  true; // may not be required
+                        $scope.citiesIncludeSwitchLabel = false;
                     }
                 }
-
             }
-
         };
-
 
 
         $scope.dmasIncludeSwitchLabel =  true;
@@ -1405,6 +1395,7 @@ var angObj = angObj || {};
         $scope.adData.inventoryType = 'Whitelist';
 
         $scope.inventoryAdsData = {};
+        $scope.adData.inventoryName = '';
 
           var InventoryFiltersView = {
               getAdvertisersDomainList : function(clientId, advertiserId) {
@@ -1417,7 +1408,7 @@ var angObj = angObj || {};
         $scope.selectFiles = function(files) {
             if(files  != null && files.length >0) {
                 $scope.showDomainListPopup = true;
-                $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
+                $scope.adData.listName =  $scope.adData.inventory && $scope.adData.inventory.name;
                 $scope.files = files;
             }
         }
@@ -1442,11 +1433,20 @@ var angObj = angObj || {};
                         }).progress(function (evt) {
                             $scope.domainUploadInProgress =  true;
                         }).success(function (response, status, headers, config) {
-                            if(config.method === 'PUT') {
-                                $scope.adData.inventory.domainList = response.data.domainList;
-                            } else {
-                                $scope.workflowData['inventoryData'].push(response.data);
-                            }
+                            var inventoryData = $scope.workflowData['inventoryData'];
+                            _.each(inventoryData, function(obj, idx) {
+                                if(obj.id ===response.data.id) {
+                                    inventoryData[idx] = response.data;
+                                }
+                            })
+                            $scope.workflowData['inventoryData'] = inventoryData;
+
+                            
+                            $scope.adData.inventory = response.data;
+                            //$scope.adData.inventory = response.data.name;
+
+                            //$scope.adData.inventory.domainList = response.data.domainList;
+                            //$scope.adData.inventory.name = response.data.name;
                             $scope.domainUploadInProgress = false;
                             $scope.showDomainListPopup = false;
                         });
