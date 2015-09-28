@@ -254,7 +254,7 @@ var angObj = angObj || {};
                 } else {
                     _customctrl.errorHandler();
                 }
-            });
+            }, _customctrl.errorHandler);
         }
 
         $scope.generateReport = function() {
