@@ -20,6 +20,7 @@
         console.log('filterDraft',$scope.campaigns.dashboard.filterDraft);
         console.log('filterCompleted',$scope.campaigns.dashboard.filterCompleted);
         console.log('filterPaused',$scope.campaigns.dashboard.filterPaused);
+        console.log($scope.campaigns.dashboard.type);
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
     });
 
