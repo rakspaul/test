@@ -119,6 +119,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
             this.resetDasboardFilter = function(type, state) {
                 if (type == 'active') {
                     if (this.dashboard.status.active.bothItem == 'active') {
+                        console.log(1);
                         setTopFiltersStatus.call(this, "activeAll", false, null);
                     }
                 }
@@ -378,6 +379,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
                         self = this;
                     //applying brand filter if active
+                    console.log('url',url);
                     if (this.brandId > 0) {
                         url += '&advertiser_filter=' + this.brandId;
                     }
@@ -405,6 +407,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             self.dashboard.displayStatus.completed = self.dashboard.completed > 0 ? true : false;
                             self.dashboard.displayStatus.underperforming = self.dashboard.active.underperforming > 0 ? true : false;
                             self.dashboard.displayStatus.ontrack = self.dashboard.active.ontrack > 0 ? true : false;
+                            console.log('active status 1',self.dashboard.status.active);
                             if (forceLoadFilter !== undefined) {
                                 self.dashboard.displayFilterSection = true;
                                 if (forceLoadFilter === constants.ACTIVE_ONTRACK) {
@@ -422,6 +425,9 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                                 }*/
                                 loadActive();
                             } else {
+                                console.log('am coming here');
+                                console.log('active status 2',self.dashboard.status.active);
+                                console.log('active status 2',self.dashboard.status.completed);
                                 self.dashboard.displayFilterSection = false;
                                 self.dashboard.filterTotal = result.data.data.total;
                                 if (self.dashboard.total > 0) {
@@ -431,6 +437,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                                     //Note: This call is not required as call already initiated by dashboardSelectedAll method.
                                     //fetchCampaigns.call(self);
                                 }
+                                console.log('active status',self.dashboard.status.active);
                             }
                             self.totalCount = result.data.data.total;
                         }
@@ -490,13 +497,16 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     });
                 },
                 dashboardFilter = function(type, state) {
+                    console.log('type state',type,state);
                     requestCanceller.cancelLastRequest(constants.CAMPAIGN_LIST_CANCELLER);
                     this.resetDasboard();
                     this.resetTabActivation();
                     this.resetDasboardFilter(type, state);
                     this.dashboardRemoveSelectedAll(type, state);
                     this.setDashboardSelection(type, state);
-                    if(state == 'endingSoon'){
+
+                    if((state == 'endingSoon') || (this.dashboard.status.active.endingSoon == 'active')){
+                        console.log('u r coming here');
                         this.sortParam = 'end_date';
                         this.sortDirection = 'asc';
                     }
@@ -621,33 +631,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     filters.timePeriod && (this.timePeriod = filters.timePeriod);
 
                     if (filters.brand != undefined) {
-                        console.log('in camp list',this.dashboard.quickFilterSelected);
-                        /*this.dashboard.filterSelectAll = false;
-                        this.dashboard.status.active.bothItem = 'active';
-                        this.dashboard.filterActive = '(active)';
-                        this.dashboard.filterSelected = '(active)';
-                            setTopFiltersStatus.call(this, "others", false, null);
-                        this.dashboard.status.active.underperforming = undefined;
-                        this.dashboard.status.active.ontrack = undefined;*/
-
-                       /* if(this.dashboard.filterReady != undefined) {
-
-                        } else if(this.dashboard.filterDraft != undefined) {
-
-                        } else if(this.dashboard.filterCompleted != undefined) {
-
-                        } else if(this.dashboard.filterPaused != undefined) {
-
-                        } else if(this.dashboard.status.active.ontrack != undefined) {
-
-                        } else if(this.dashboard.status.active.underperforming != undefined) {
-
-                        } else if(this.dashboard.status.active.bothItem  != undefined) {
-
-                        } else if(this.dashboard.status.active.endingSoon   != undefined) {
-
-                        }*/
-
+                        this.setQuickFilterSelection();
                     }
 
                     fetchDashboardData.call(this); //populating dashboard filter with new data
@@ -664,12 +648,36 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.dashboard.filterSelectAll = false;
                         this.dashboardSelectedAllResetFilter(false);
                     }*/
-                    this.dashboard.status.active.bothItem = 'active';
-                    this.campaignList = [];
+                   // this.dashboard.status.active.bothItem = 'active';
+                    console.log('am fired',this.dashboard.quickFilterSelected);
+                   this.setQuickFilterSelection();
+                        this.campaignList = [];
                     this.scrollFlag = 1;
                     this.resetCostBreakdown.call(this);
                     fetchData.call(this);
                 }, //This function will be reseting the dashboard filter based on the top filter selection
+
+                setQuickFilterSelection = function() {
+                    if((this.dashboard.quickFilterSelected == 'Completed') || (this.dashboard.quickFilterSelected == 'completed') ) {
+                        this.dashboard.status.completed = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard['completed'];
+                    } else if((this.dashboard.quickFilterSelected == 'draft') || (this.dashboard.quickFilterSelected == 'Draft') ) {
+                        this.dashboard.status.draft = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard['draft'];
+                    } else if((this.dashboard.quickFilterSelected == 'ready') || (this.dashboard.quickFilterSelected == 'Ready') ) {
+                        this.dashboard.status.ready = 'active';
+                    } else if((this.dashboard.quickFilterSelected == 'ontrack') || (this.dashboard.quickFilterSelected == 'Ontrack') ) {
+                        this.dashboard.status.active.ontrack = 'active';
+                    } else if((this.dashboard.quickFilterSelected == 'underperforming') || (this.dashboard.quickFilterSelected == 'Underperforming') ) {
+                        this.dashboard.status.active.underperforming = 'active';
+                    }else if((this.dashboard.quickFilterSelected == 'active') || (this.dashboard.quickFilterSelected == 'Active') ) {
+                        this.dashboard.status.active.bothItem = 'active';
+                    }else if((this.dashboard.quickFilterSelected == 'ending Soon') || (this.dashboard.quickFilterSelected == 'Ending Soon') ) {
+                        this.dashboard.status.active.endingSoon = 'active';
+                    }
+                    this.dashboard.quickFilterSelected = getCapitalizeString(this.dashboard.quickFilterSelected);
+                }
+
                 setTopFiltersStatus = function(from, status, selectedElement) {
 
 
@@ -708,6 +716,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             this.dashboard[filterType] = '(' + type + ')';
                             this.dashboard.status[type] = 'active';
                             this.dashboard.filterTotal = this.dashboard[type];
+                            console.log('am coming here as',type);
                             break;
                         case ((type == 'active') && (state == "ontrack" || state == "underperforming" || state == "endingSoon")):
                             this.dashboard.filterActive = '(active,' + state + ')';
@@ -767,6 +776,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         }
                         switch (type) {
                             case (type == "paused" || type == "completed" || type == "draft" || type == "ready"):
+                                console.log('123');
                                 this.dashboard.status[type] = undefined;
                                 break;
                             case "activeAll":
@@ -897,7 +907,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 fetchData: fetchData,
                 resetCostBreakdown: resetCostBreakdown,
                 getData: getData,
-                findScrollerFromContainer: findScrollerFromContainer
+                findScrollerFromContainer: findScrollerFromContainer,
+                setQuickFilterSelection: setQuickFilterSelection
 
                 //resetSortParams : this.resetSortParams
             }
