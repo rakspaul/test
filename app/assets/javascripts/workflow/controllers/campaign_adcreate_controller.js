@@ -530,14 +530,14 @@ var angObj = angObj || {};
         })
 
         $scope.saveCreativeTags = function () {
-            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.showHidePopup = false;
             $scope.preDeleteArr = [];
             $scope.changeStatus();
             $scope.updateCreativeData($scope.selectedArr);
         };
 
         $scope.closePop = function () {
-            $scope.showHidePopup = false; //console.log("xyzData:");console.log($scope.xyz);
+            $scope.showHidePopup = false;
             $scope.changeStatus();
             if($scope.preDeleteArr.length > 0){
                 _.each($scope.preDeleteArr,function(obj){
@@ -593,8 +593,7 @@ var angObj = angObj || {};
             /*Enable save button of popup library if elements exists*/
         })
 
-        $scope.stateChanged = function ($event, screenTypeObj) { // console.log("selected array in state Changed: ");console.log($scope.selectedArr);
-                                                                 // console.log("xyz array in state Changed: ");console.log($scope.xyz);
+        $scope.stateChanged = function ($event, screenTypeObj) {
 
             var checkbox = $event.target;
             screenTypeObj.userSelectedEvent =  checkbox.checked; // temporary user old selected status before cancel
