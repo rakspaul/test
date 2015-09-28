@@ -2539,6 +2539,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .each_cost_row_holder .each_cost_row .total_cost {
   font-family: "Avenir-bold";
 }
+.reports_cost_header_holder .cost_transparency_container .cost_cols_holder .first_col,
+#reports_platform_cost_block .cost_transparency_container .cost_cols_holder .first_col {
+  color: #57606d;
+}
+.reports_cost_header_holder .cost_transparency_container .cost_cols_holder .second_col,
+#reports_platform_cost_block .cost_transparency_container .cost_cols_holder .second_col {
+  color: #57606d;
+}
 .reports_cost_header_holder .cost_transparency_container .strategy_total_row,
 #reports_platform_cost_block .cost_transparency_container .strategy_total_row {
   position: relative;
