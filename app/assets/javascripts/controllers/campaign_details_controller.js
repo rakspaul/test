@@ -1126,7 +1126,7 @@
     }).run(function($rootScope,$route){$rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
         var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
         var paramsObj = $route.current.params;
-        if(prevUrl =='/campaigns') {
+        if((prevUrl =='/campaigns') && (absNewUrl != '/campaigns')) {
             $rootScope.isFromCampaignList = true;
         } else {
             $rootScope.isFromCampaignList = false;
