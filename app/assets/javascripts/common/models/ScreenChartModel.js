@@ -112,10 +112,7 @@
                     if (screenWidgetFormat.toLowerCase() === 'screens') {
                         cls = screenTypeMap[data.dimension.toLowerCase()];
                     } else if (screenWidgetFormat.toLowerCase() === 'formats') {
-                        cls = screenTypeMap[data.dimension.toLowerCase()];
-                        if(!cls) {
-                            cls = data.dimension.toLowerCase() + "_graph"
-                        }
+                        cls = data.dimension.toLowerCase() + "_graph"
                     }
                     chartDataScreen.push({className: cls, 'icon_url': data.icon_url, 'type': type, 'value': Number(kpiData)});
                 });
