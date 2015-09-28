@@ -898,7 +898,8 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adHeader {
   padding: 0px;
-  font-family: "Avenir-roman";
+  /*
+        font-family:"Avenir-roman";*/
   font-size: 16px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adSubHeader {
