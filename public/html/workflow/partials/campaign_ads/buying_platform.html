@@ -1,4 +1,4 @@
-<div class="col-md-6 zeroPadding">
+<div class="col-md-6" style="padding: 0 30px;">
     <span class="col-md-12 zeroPadding adName" tooltip="{{adData.adName}}">{{adData.adName | textEllipsis: 55}}</span>
     <h2 class="col-md-12 zeroPadding marginBottom">Buying Platform</h2>
     <span>Self Service</span>
@@ -6,7 +6,7 @@
 </div>
 
 <div class="buyingPlatformHolder">
-    <div class="col-md-12 zeroPadding">
+    <div class="col-md-12" style="padding: 0 30px;">
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
             <img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png"/>
             <span>{{platform.name}}</span>
@@ -16,12 +16,15 @@
     </div>
     <input type="hidden" name="platformId" value="{{adData.platformId }}">
 
-    <div class="moreComingSoon">
-        <span>More Self Services Coming Soon</span>
-        <a href="">Can't find what your looking for?</a>
+    <div class="col-md-12" style="padding: 0 30px;">
+        <div class="moreComingSoon">
+            <span>More Self Services Coming Soon</span>
+            <a href="">Can't find what your looking for?</a>
+        </div>
     </div>
     
-    <div class="col-md-12 zeroPadding">
+    
+    <div class="col-md-12" style="padding: 0 30px;">
         <span>Managed Service</span>
         <div class="nav_filters_heading">More Platforms Available through Collective Desk</div>
     </div>
@@ -33,29 +36,157 @@
             <br>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
               <!-- Indicators -->
-              <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-                <li data-target="#myCarousel" data-slide-to="3"></li>
-              </ol>
+              <!--<ol class="carousel-indicators">-->
+              <!--  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>-->
+              <!--  <li data-target="#myCarousel" data-slide-to="1"></li>-->
+              <!--  <li data-target="#myCarousel" data-slide-to="2"></li>-->
+              <!--  <li data-target="#myCarousel" data-slide-to="3"></li>-->
+              <!--</ol>-->
           
               <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                  <img src="img_chania.jpg" alt="Chania" width="460" height="345">
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/placemedia.png" alt="Place Media" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Place Media</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/xad-logo-mobile.png" alt="xAd" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">xAd</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/Telemetry_Company_Logo.jpg" alt="Telemetry" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Telemetry</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing" style="width: 100%;"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/TwitterLogo.png" alt="Twitter" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Twitter</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/adtheorent.png" alt="Ad Theorent" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Ad Theorent</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/grfxLogoDstillery.png" alt="Dstillery" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Dstillery</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
                 </div>
-          
+                
                 <div class="item">
-                  <img src="img_chania2.jpg" alt="Chania" width="460" height="345">
-                </div>
-              
-                <div class="item">
-                  <img src="img_flower.jpg" alt="Flower" width="460" height="345">
-                </div>
-          
-                <div class="item">
-                  <img src="img_flower2.jpg" alt="Flower" width="460" height="345">
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/Adaptv-logo.png" alt="Adap.tv" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Adap.tv</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/youtube.png" alt="youtube" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">YouTube</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/br-logo_0.png" alt="BrightRoll" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">BrightRoll</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing" style="width: 100%;"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/doubleclick-google-logo-wide-white.svg" alt="DoubleClick" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">DoubleClick</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/Facebook-Exchange-Logo.png" alt="FB Exchnage" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">FB Exchnage</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sliderSpacing"></div>
+                    
+                    <div class="offeringWrap">
+                        <div class="col-md-3 zeroPadding">
+                            <img src="/assets/images/workflow/platform_icons/yahoo.png" alt="Yahoo" width="50">
+                        </div>
+                        <div class="col-md-9">
+                            <span class="title">Yahoo</span>
+                            <span class="descrip">All-in-one customer support application</span>
+                        </div>
+                    </div>
                 </div>
               </div>
           
