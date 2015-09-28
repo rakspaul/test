@@ -1126,9 +1126,17 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
   padding: 0 40px;
+  height: 300px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
   display: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-inner {
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  margin: 0px 40px;
+  width: 770px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
   background-image: none;
