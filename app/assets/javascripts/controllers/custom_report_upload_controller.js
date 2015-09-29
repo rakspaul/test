@@ -426,7 +426,7 @@ var angObj = angObj || {};
 
     $scope.goToReportList = function() {
         var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
-        var url = urlService.APIReportList(selectedCampaginObj.id);
+        var url = urlService.APIReportList(0,0);
         if(url) {
             dataStore.deleteFromCache(url);
         }
