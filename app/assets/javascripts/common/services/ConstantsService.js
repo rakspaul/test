@@ -14,6 +14,7 @@
     this.STRATEGY_LIST_CANCELLER =10;
     this.GANTT_CHART_CANCELLER = 6;
     this.GANTT_CHART_BRAND_CANCELLER = 7;
+    this.NEW_REPORT_RESULT_CANCELLER = 3;
     this.PERIOD_LIFE_TIME = 'life_time';
     this.PERIOD_LAST_7_DAYS = 'last_7_days';
     this.PERIOD_LAST_30_DAYS = 'last_30_days';
@@ -82,6 +83,10 @@
     this.ACTION_RATE = "Action rate";
     this.SCREENS = "Screens";
     this.FORMATS = "Formats";
+    this.PLATFORMS = "Platforms";
+    this.CREATIVES = "Creatives";
+    this.VIDEO_PLAYS = "Video Plays";
+    this.AD_SIZES = "Ad Sizes";
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
@@ -156,8 +161,11 @@
     this.SCREENS = "Screens";
     this.PLATFORM = "Platforms";
     this.TOP_THREE = "Top 3";
-    this.VIEWABILITY = "Viewability";
+    this.QUALITY = "Quality";
+    this.VIEWABILITY = 'Viewability';
     this.INVENTORY = "Inventory";
+    this.AD_SIZE = "Ad Size";
+
     this.TOP = "Top";
     this.NO_LINKED_STRATEGIES = "No Linked Strategies";
     this.ALL = "All";
@@ -209,11 +217,11 @@
     this.URLS = "URLs";
     this.DELIVERED = "Delivered";
     this.DELIVERED_IMPS = "Delivered Imps";
-    this.VIEW_MODE = "View Mode";
+    this.VIEW_MODE = "Media Type";
     this.VIDEO_PLAYS = "Video Plays";
     this.VIDEO_VIEWS = "Video Views";
     this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START = "Measured as 100% Video played divided by Ad start " ;
-    this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video play completion and Video Viewability at the various quartiles of the Ad" ;
+    this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video Viewability at various quartiles of the Ad" ;
     this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = "Insufficient data points to render graph";
     this.VIDEO_VIEWABILITY = "Video Viewability" ;
     this.VIEWABLE_IMPS = "Viewable Imps." ;
@@ -235,6 +243,7 @@
 
     this.COST = "Cost";
     this.BASED_ONLY_ON_MEASURABLE_IMPS ="Based only on Measurable Imps";
+    this.BASED_ONLY_ON_VIEWABLE_IMPS ="Based only on Viewable Imps";
     this.VIEWABLE = "Viewable";
     this.MEASURABLE = "Measurable";
     this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
@@ -276,6 +285,92 @@
     this.SYMBOL_DOLLAR = "$";
 
     this.QUARTILE_DATA = "Quartile Data";
+
+    //workflow related variables
+    this.WF_CREATE_CAMPAIGN = "Create Campaign";
+    this.UPLOAD_TEMPLATE = "Upload Template";
+    this.CREATE = "Create";
+    this.WF_SETTINGS = "Settings";
+    this.ACCOUNT = "Account";
+    this.WF_BRAND = "Brands";
+    this.ADVERTISERS = "Advertiser";
+    this.SELECT_ACCOUNT = "Select Account";
+    this.WF_GOAL = "Goal";
+    this.SELECT_GOAL = "Select Goal";
+    this.BUDGET = "Budget";
+    this.DOLLAR = "$";
+    this.START_DATE = "Start Date";
+    this.END_DATE = "End Date";
+    this.SELECT_TIME = "Select Time";
+    this.ADS = "Ads";
+    this.UNTITLED_CAMPAIGN = "Untitled Campaign";
+    this.SAVE_CAMPAIGN = "Save Campaign";
+    this.PUSH_CAMPAIGN = "Push Campaign";
+    this.CANCEL = "Cancel";
+    this.GROUP_TITLE = "Group Title";
+    this.EDIT = "Edit";
+    this.DFP_DISPLAY = "DFP Display";
+    this.DFP_PRE_ROLL = "DFP Pre-roll";
+    this.DRAFT = "Draft";
+    this.READY = "Ready";
+    this.IMPRESSIONS = "Impressions";
+    this.CREATIVES = "Creatives";
+    this.TARGETING = "Targeting";
+
+    this.WF_GUIDED_COPY ="Guided Copy Here - What should i choose?";
+    this.WF_HEADER_CREATIVES ="What type of creatives are you using?";
+    this.WF_AD_FORMAT = "Ad Format";
+    this.WF_DISPLAY = "Display";
+    this.WF_VIDEO = "Video";
+    this.WF_RICH_MEDIA = "Rich Media";
+    this.WF_SOCIAL = "Social";
+    this.WF_HEADER_PRIMARY_GOAL = "What is your primary goal?";
+    this.WF_AD_GOAL = "Ad Goal";
+    this.WF_PERFORMANCE = "Performance";
+    this.WF_BRAND = "Brand";
+    this.WF_HEADER_SCREENS = "What device screens are you targeting?";
+    this.WF_SCREEN_TYPE = "Screen Type";
+    this.WF_DESKTOP = "Desktop";
+    this.WF_MOBILE = "Mobile";
+    this.WF_TABLET = "Tablet";
+
+    this.WF_HEADER_SETTINGS ="Guided Copy Here - Setting up your ad...";
+    this.WF_AD_SIZE = "Ad Size";
+    this.WF_FLIGHT_DATE = "Flight Date";
+    this.WF_IMPRESSIONS = "Impressions";
+    this.WF_MEDIA_COST = "Media Cost";
+    this.WF_BUDGET = "Budget";
+    this.WF_UNIT_COST = "Unit Cost";
+
+    this.WF_HEADER_BUYING_PLATFORM ="Here are the available buying platform based on your goals & ad settings";
+    this.WF_HEADER_BUYING_PLATFORM_SUB ="Guided Copy Here - Which platform should i choose?";
+    this.WF_COLLECTIVE_MEDIA = "Collective Media";
+    this.WF_COLLECTIVE_BIDDER = "Collective Bidder";
+    this.WF_APPNEXUS= "Appnexus";
+    this.WF_MORE_PLATFORM = "More platform coming soon!";
+
+    this.WF_CHANGE_PLATFORM = "Change Platform";
+    this.WF_DELIVERY_PACING = "Delivery Pacing";
+    this.WF_HEADER_DELIVERY_FREQUENCY = "Guided Copy Here - Setting up delivery and frequency...";
+    this.WF_PRIORITY = "Priority";
+    this.WF_DELIVER_IMPRESSIONS = "Deliver Impressions";
+    this.WF_FREQUENCY = "Frequency";
+    this.WF_SET_FREQUENCY_CAP = "Set per User frequency cap";
+    this.WF_IMPRESSION_PER = "Impression per";
+
+    this.YESTERDAY = "Yesterday";
+    this.WF_NOT_SET="Not Set";
+
+    this.reportDownloadSuccess = "Report Downloaded Successfully";
+    this.reportDownloadFailed = "Report Download Failed";
+
+    this.reportEditSuccess = "Edited Report Successfully";
+    this.reportEditFailed = "Edit Report Failed";
+
+    this.reportDeleteSuccess = "Deleted Report Successfully";
+    this.reportDeleteFailed = "Deleting Report Failed";
+    this.deleteReportHeader = "Delete Report";
+
   };
 
   commonModule.service("constants", constants);

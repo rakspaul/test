@@ -23,8 +23,8 @@
                         title: 'Inventory'
                     },
                     {
-                        href:'viewability',
-                        title: 'Viewability'
+                        href:'quality',
+                        title: 'Quality'
                     },
                     {
                         href:'optimization',
@@ -42,10 +42,51 @@
                      activeTab : document.location.pathname.substring(1)
                 }
             },
+            getCustomReportsTabs : function() {
+                var tabs  =  [
+                    {
+                        href:'reports/list',
+                        title: 'Collective'
+                    }
+                ];
+                return {
+                    'tabs' :  tabs,
+                     activeTab : document.location.pathname.substring(1)
+                }
+            },
             highlightHeaderMenu : function() {
                 //Hot fix to show the campaign tab selected
                 $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
+            },
+            highlightSubHeaderMenu: function() {
+                $(".reports_sub_menu_dd").find('.active_tab').removeClass('active_tab').end().find('#'+document.location.pathname.substring(1)).addClass('active_tab');
+            },
+
+
+            checkForCampaignFormat :  function(adFormats) {
+                var adSupportVideo = false;
+                var adSupportDisplay = true;
+
+                var videoAds =  function() {
+                    return _.indexOf(adFormats, 'Video') != -1;
+                }
+                if(adFormats && adFormats.length >0) {
+                    if (videoAds() && adFormats.length > 1) {
+                        adSupportVideo = true;
+                        adSupportDisplay = true;
+                    } else {
+                        if (videoAds() && adFormats.length === 1) {
+                            adSupportVideo = true;
+                            adSupportDisplay = false;
+                        } else {
+                            adSupportDisplay = true;
+                        }
+                    }
+                }
+
+                return {'videoAds' : adSupportVideo, 'displayAds': adSupportDisplay}
             }
+
         };
     }]);
 
@@ -55,12 +96,53 @@
             },
             restrict:'EAC',
 
-            templateUrl: '/assets/html/partials/reports_header_tab.html',
+            templateUrl: assets.html_report_header_tab,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
         };
     }]);
+
+    angObj.directive("addfilter", function($http, $compile) {
+        return {
+            restrict:'EAC',
+            link: function($scope, element, attrs) {
+                console.log(attrs);
+                console.log(element);
+                var template;
+                element.bind('click', function() {
+                    $http.get(assets.html_add_report_filter).then(function (tmpl) {
+                        $scope.dimensionQuery ='';
+                        template = $compile(tmpl.data)($scope);
+                        angular.element(document.getElementById('filter_breakdown_row')).append(template);
+                        $(".custom_filter_dropdown .dropdown-menu").find('input').on('click', function (e) {
+                            e.stopPropagation();
+                        });
+                    });
+                });
+            },
+            controller: function($scope, $cookieStore, $location){
+
+            },
+        };
+    });
+
+    angObj.directive("addmore", function($http, $compile) {
+        return {
+            restrict:'EAC',
+            link: function($scope, element, attrs) {
+                console.log(attrs);
+                console.log(element);
+                var template;
+                element.bind('click', function() {
+                    $http.get(assets.html_add_report_dimension).then(function (tmpl) {
+                        template = $compile(tmpl.data)($scope);
+                        angular.element(document.getElementById('breakdown_row')).append(template);
+                    });
+                });
+            }
+        };
+    });
 
     angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
         return {
@@ -68,7 +150,7 @@
 
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/download_report.html',
+            templateUrl: assets.html_download_report,
             link: function($scope, element, attrs) {
                 $scope.textConstants = constants;
                 element.bind('click', function() {
@@ -114,7 +196,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/screen_header.html',
+            templateUrl: assets.html_screen_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -126,7 +208,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/daysofweek_header.html',
+            templateUrl: assets.html_daysofweek_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -138,7 +220,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/format_header.html',
+            templateUrl: assets.html_format_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -151,7 +233,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/performance_header.html',
+            templateUrl: assets.html_performance_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -163,7 +245,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/cost_header.html',
+            templateUrl: assets.html_cost_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -175,11 +257,48 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/viewablity_header.html',
+            templateUrl: assets.html_viewablity_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
         };
     }]);
+    angObj.directive('filtersHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: '/assets/html/partials/filters_header.html',
+            link: function(scope, element, attrs) { 
+                scope.reportFilter = attrs.reports ;
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+    angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_creatives_header,
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+
+    angObj.directive('adsizesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_adsizes_header,
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+
+
 
 }());

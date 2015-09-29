@@ -68,7 +68,160 @@
                       </form>
                       <!-- end of action filter -->
                 </div>
-                
+
+
+
+                <!-- graph holder-->
+                <div class="clearfix campaign_details_graphs_holder">
+
+                  <div class="clearfix">
+                        <div class="col-md-12">
+                              <div class="carousel slide" id="myCarousel">
+                                <div class="carousel-inner">
+                                  <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
+                                    <div class="col-xs-3">
+                                       <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
+                                            <div class="graph_heading">
+                                                {{ textConstants.COST_BREAKDOWN }}
+                                            </div>
+                                             <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
+                                              <div  ng-if="costBreakDownPieChartConfig" pie-chart chart-data="{{costBreakDownPieChartConfig}}"></div>
+                                             <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'costs')"></div>
+                                            <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
+                                                <div class="pull-right section_graph_details"  >
+                                                    <div class="each_detail" ng-repeat="data in costBreakdownChartInfo track by $index" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
+                                                        <span class="graph_color {{data.className}}"></span>
+                                                        {{data.name}}: {{data.value | formatCostData: '' : 0}}%
+                                                    </div>
+                                                     <div class="each_detail" ng-repeat="data in costBreakdownChartInfo track by $index " ng-if="(data.value >= 0.5 && data.name =='Other')">
+                                                        <span class="graph_color {{data.className}}"></span>
+                                                        {{data.name}}: {{data.value | formatCostData: '' : 0}}%
+                                                    </div>
+                                                </div>
+                                                <div class="top_layer_graph"></div>
+                                            </div>
+                                            <div class="graph_summary totalCostLabel"  ng-if="(details.totalCostBreakdown > 0)">
+                                                Total <span class="graph_val">{{details.totalCostBreakdown | currency:undefined: 0}} </span>
+                                            </div>
+                                             <div id="costBreakdownWidget"></div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="item active">
+                                        <div class="col-xs-3 platform_widget">
+                                            <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                                <div class="graph_heading">
+                                                    {{ textConstants.PLATFORM }} ({{campaign.kpiType | uppercase}})
+                                                </div>
+                                                <div ng-show="loadingPlatformFlag" class="load-more">&nbsp;</div>
+                                                <div ng-if="platformBarChartConfig" bar-chart chart-data="{{platformBarChartConfig}}"></div>
+                                            </div>
+                                        </div>
+                                  </div>
+                                  <div class="item active">
+                                    <div class="col-xs-3 screens_widget">
+                                        <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                            <div class="graph_heading">
+                                                {{ textConstants.SCREENS }} ({{campaign.kpiType | uppercase}})
+                                            </div>
+                                            <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
+                                            <div ng-if="screenBarChartConfig" bar-chart chart-data="{{screenBarChartConfig}}"></div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="item active">
+                                        <div class="col-xs-3">
+                                            <div ng-click="setGraphData(campaign,'adsizes')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                                <div class="graph_heading">
+                                                    {{ textConstants.AD_SIZES }} ({{campaign.kpiType | uppercase}})
+                                                </div>
+                                                <div ng-show="loadingAdSizeFlag" class="load-more">&nbsp;</div>
+                                                <div ng-if="adSizenBarChartConfig" bar-chart chart-data="{{adSizenBarChartConfig}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="item {{isCostModelTransparent ? '' : 'active'}}">
+                                        <div class="col-xs-3 formats_widget">
+                                            <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                                <div class="graph_heading">
+                                                    {{ textConstants.FORMATS }} ({{campaign.kpiType | uppercase}})
+                                                </div>
+
+                                                <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
+                                                <div ng-if="formatBarChartConfig" bar-chart chart-data="{{formatBarChartConfig}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="item">
+                                    <div class="col-xs-3">
+                                        <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
+                                            <div class="graph_heading">
+                                                {{ textConstants.INVENTORY }} ({{campaign.kpiType | uppercase}})
+                                            </div>
+                                            <div ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
+                                            <div ng-if="inventoryBarChartConfig" bar-chart chart-data="{{inventoryBarChartConfig}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  
+                                   <div class="item" ng-if="adFormats.displayAds">
+                                    <div class="col-xs-3">
+                                      <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
+                                            <div class="graph_heading">
+                                                {{textConstants.VIEWABILITY}}
+                                            </div>
+                                            <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
+                                            <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  ng-bind-html="getMessageForDataNotAvailable(campaign,'viewability')"></div>
+                                            <div class="clearfix each_section_graph graph_holding_section">
+                                                <div class="pull-left section_graph">
+                                                    <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
+                                                </div>
+                                                <div class="pull-right section_graph_details"  ng-if="(details.getCostViewability)">
+                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_display >=0 )"><span class="graph_color color2"></span>> Display: {{details.getCostViewability.pct_display  | formatCostData: '' : 0}}% </div>
+                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_video >=0 )"><span class="graph_color color3"></span>> Video: {{details.getCostViewability.pct_video  | formatCostData: '' : 0}}%</div>
+                                                </div>
+                                                <div class="top_layer_graph"></div>
+                                            </div>
+                                            <!--<div class="graph_summary"  ng-if="(details.getCostViewability)">
+                                                Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}&lt;!&ndash; </span><span> &ndash;&gt; ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                    <!-- Video viewability widget commented for now -->
+                                    <!--
+                                    <div class="item" ng-show="adFormats.videoAds">
+                                        <div class="col-xs-3">
+                                            <div ng-click="setGraphData(campaign,'videoViewability')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
+                                                <div class="graph_heading">
+                                                    {{ textConstants.VIDEO_VIEWABILITY }}
+                                                </div>
+                                                <div ng-show="loadingVideoViewabilityFlag" class="load-more">&nbsp;</div>
+                                                <div class="clearfix each_section_graph" ng-if="!loadingVideoViewabilityFlag">
+                                                    <div class="sub_headings">
+                                                        <div>{{ textConstants.VIEWABLE_IMPS }}</div>
+                                                        <div>{{videoViewData.totalImps | nrFormat}}</div>
+                                                    </div>
+                                                    <div class="quartile_details_graph" width='250' height='120' quartiles-graph chart-data="{{videoViewData.graphData}}"></div>
+                                                    <div class="absolute graphTooltip">&nbsp;</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>-->
+                                <!-- end of ... Video viewability widget commented for now -->
+                                <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                                <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+        
+                              </div> <!-- mycarousel ends -->
+                        </div>                  
+                  </div>
+                </div>
+
+                <!--graph holder ends-->
+
 
                 <!--activity log-->
                 <div class="clearfix activity_log_holder" ng-controller="editActionsController" >
@@ -134,7 +287,9 @@
                             <span ng-switch-when="false" class="no-data-available no-chart" ng-bind-html="getMessageForDataNotAvailable(campaign,'campaign')"></span>
                             <span ng-switch-default>
                                 <div ng-if="details.actionChart && campaign.kpiType" class="highcharts" id="details_chart">
-                                    <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
+                                    <div class="line_tooltip"></div>
+                                    <div class="campaign_details_graph performance" width='450' height='330' campaign-chart chart-data="{{details.lineChart}}" chart-location="action_performance"></div>
+                                    <!-- <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart> -->
                                 </div>
                                 <div ng-if="!(details.actionChart && campaign.kpiType)" class="highcharts" id="details_chart" ng-bind-html="getMessageForDataNotAvailable(campaign,'campaign')">
                                 </div>
@@ -209,13 +364,13 @@
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
                                   <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
                                   </div>
-                                  <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
+                                  <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()">
                                   </div>
                               </div>
                           </div>
 
 
-                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId)"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
+                          <div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">
 
                               <div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}</div>
                               <div class="pull-left activity_points">
@@ -254,169 +409,7 @@
             </div>
               <!--activity log ends-->
 
-              <!-- graph holder-->
-                <div class="clearfix campaign_details_graphs_holder">
 
-                  <div class="clearfix">
-                        <div class="col-md-12">
-                              <div class="carousel slide" id="myCarousel">
-                                <div class="carousel-inner">
-
-                                  <div class="item active" id="costWidget" ng-if="isCostModelTransparent">
-                                    <div class="col-xs-3">
-                                       <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_cost">
-                                            <div class="graph_heading">
-                                                {{ textConstants.COST_BREAKDOWN }}
-                                            </div>
-                                             <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
-                                             <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'costs')"></div>
-                                            <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
-                                                <div class="pull-left section_graph">
-                                                    <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
-                                                </div>
-                                                <div class="pull-right section_graph_details"  >
-                                                    <div class="each_detail" ng-repeat="data in getCostBreakdownInfo track by $index |orderBy:'-value':reverse" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
-                                                        <span class="graph_color {{data.className}}"></span>
-                                                        {{data.name}}: {{data.value | formatCostData: '' : 0}}%
-                                                    </div>
-                                                     <div class="each_detail" ng-repeat="data in getCostBreakdownInfo track by $index |orderBy:'-value':reverse" ng-if="(data.value >= 0.5 && data.name =='Other')">
-                                                        <span class="graph_color {{data.className}}"></span>
-                                                        {{data.name}}: {{data.value | formatCostData: '' : 0}}%
-                                                    </div>
-                                                </div>
-                                                <div class="top_layer_graph"></div>
-                                            </div>
-                                            <div class="graph_summary" ng-if="(details.totalCostBreakdown > 0)">
-                                                Total <span class="graph_val">{{details.totalCostBreakdown | currency:undefined: 0}} </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                  </div>
-                                  <div class="item active">
-                                        <div class="col-xs-3">
-                                            <!-- Platform Widget Starts Here -->
-                                            <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_platform" >
-                                                <div class="graph_heading">
-                                                    {{ textConstants.PLATFORM }}  ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                                </div>
-                                                <div ng-show="loadingPlatformFlag" class="load-more" >&nbsp;</div>
-                                                <div  ng-if="((chartData && chartData.length === 0) || campaign.kpiType =='null' ) && loadingPlatformFlag == false" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'platform')"></div>
-                                                <div class="clearfix each_section_graph" >
-                                                    <div class="platform_number" ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
-                                                        <span ng-style="disableLabel"> {{ textConstants.TOP_THREE }}</span>
-                                                    </div>
-                                                    <div class="dataPlatformIconsText" ng-if="campaign.kpiType !='null' && chartData && chartData.length>0">
-                                                        <div class="widgetPlatformString" ng-repeat="pdata in chartDataPlatform track by $index" >
-                                                            <div class="imgContainer"><img ng-src="{{pdata.icon_url==='Unknown' ? '/assets/images/platform_logos/platform_logo.png':pdata.icon_url}}" height='15'/></div>
-                                                            <span>{{pdata.platform}}</span>
-                                                            <span>&nbsp;{{pdata.value |kpiFormatter:campaign.kpiType }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div id="platformWidget"></div>
-                                                </div>
-                                                <!-- Platform Widget Ends Here -->
-                                            </div>
-                                        </div>
-                                  </div>
-                                  <div class="item active">
-                                    <div class="col-xs-3">
-
-                                      <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
-                                          <div class="graph_heading">
-                                              Screens ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                          </div>
-                                          <div class="clearfix each_section_graph format_section_graph dataScreenIconsText"  ng-if="(details.screens.length > 0 &&  campaign.kpiType !='null' && screenTotal > 0 )">
-                                              <div ng-repeat="screen in details.screens track by $index" class="each_bar_section_holder {{screen.icon}}">
-                                                <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')">{{screen.dimension}}{{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? ':':'' }} {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) !='NA' ? (screen[details.kpiType] | kpiFormatter : campaign.kpiType):'' }}</div>
-                                                <!--
-                                                <div ng-if="(screen.dimension == 'Smartphone' || screen.dimension == 'Tablet' || screen.dimension == 'Desktop')" class="each_bar_graph {{(screen[details.kpiType] | kpiFormatter : campaign.kpiType) =='NA' ? 'each_bar_graph_na':'' }} " ng-style="{'width':100-((details.screenTop-screen[details.kpiType])*100/details.screenTop) +'%'};">
-                                                </div>
-                                                -->
-                                              </div>
-                                          </div>
-                                           <div id="screenWidget"></div>
-
-                                           <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
-                                           <div  ng-if="(( screenTotal == 0 || details.screens.length == 0 || campaign.kpiType =='null' || !(details.screens) ) && loadingScreenFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'screens')"></div>
-                                      </div>
-
-                                    </div>
-                                  </div>
-                                  <div class="item active">
-                                        <div class="col-xs-3">
-                                            <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_inventory" >
-                                                <div class="graph_heading">
-                                                    {{ textConstants.INVENTORY }} ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
-                                                </div>
-                                                <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
-                                                <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'inventory')"></div>
-                                                <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
-                                                    <div class="inventory_number">
-                                                        {{ textConstants.TOP }} {{details.inventory.length}}
-                                                    </div>
-                                                    <div ng-repeat="data in details.inventory track by $index" class="each_bar_section_holder">
-                                                        <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
-                                                        <div class="each_bar_graph" ng-style="{'width':100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value) +'%'};"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                   <div class="item {{isCostModelTransparent ? '' : 'active'}}">
-                                    <div class="col-xs-3">
-                                      <div ng-click="setGraphData(campaign,'viewability')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
-                                            <div class="graph_heading">
-                                                Viewability
-                                            </div>
-                                            <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
-                                            <div ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  ng-bind-html="getMessageForDataNotAvailable(campaign,'viewability')"></div>
-                                            <div class="clearfix each_section_graph graph_holding_section">
-                                                <div class="pull-left section_graph">
-                                                    <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
-                                                </div>
-                                                <div class="pull-right section_graph_details"  ng-if="(details.getCostViewability)">
-                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_1s >=0 )"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
-                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_5s >=0 )"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
-                                                    <div class="each_detail" ng-if="(details.getCostViewability.pct_15s >=0 )"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
-                                                </div>
-                                                <div class="top_layer_graph"></div>
-                                            </div>
-                                            <div class="graph_summary"  ng-if="(details.getCostViewability)">
-                                                Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}<!-- </span><span> --> ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                  </div>
-                                    <!-- Video viewability widget commented for now -->
-                                    <div class="item" ng-if="videoViewData.hasVideoAds">
-                                        <div class="col-xs-3">
-                                            <div ng-click="setGraphData(campaign,'videoViewability')" tooltip-placement="{{ textConstants.TOP }}" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_video_viewability" >
-                                                <div class="graph_heading">
-                                                    {{ textConstants.VIDEO_VIEWABILITY }}
-                                                </div>
-                                                <div class="clearfix each_section_graph" >
-                                                    <div class="sub_headings">
-                                                        <div>{{ textConstants.VIEWABLE_IMPS }}</div>
-                                                        <div>{{videoViewData.totalImps | nrFormat}}</div>
-                                                    </div>
-                                                    <div class="quartile_details_graph" width='250' height='120' quartiles-graph chart-data="{{videoViewData.graphData}}"></div>
-                                                    <div class="absolute graphTooltip">&nbsp;</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end of ... Video viewability widget commented for now -->
-                                </div>
-                                <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-                                <a class="right carousel-control" href="#myCarousel" ng-show="isCostModelTransparent" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-        
-                              </div> <!-- mycarousel ends -->
-                        </div>                  
-                  </div>
-                </div>
-
-                <!--graph holder ends-->
 
     <br><!--TODO - remove break and add spacing-->
     <div id="detailedPage" class="campaigns_details_holder">
@@ -446,14 +439,14 @@
                                 {{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%
                             </div>
                         </div>
-                        <div class="each_col col_fifth" ng-if="!campaigns.cdbDataMap[campaign.orderId].hasVTCMetric || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
+                        <div class="each_col col_fifth" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
                             <div class="col_heading">{{ textConstants.ACTION_RATE }}</div>
                             <div class="col_val">
                                 {{campaigns.cdbDataMap[campaign.orderId].action_rate*100 | number:2}}%
                             </div>
                         </div>
 
-                        <div class="each_col col_fifth" ng-if="campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
+                        <div class="each_col col_fifth" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                             <div class="col_heading">{{ textConstants.VTC }}</div>
                             <div class="col_val">
                                 {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 2}}%
@@ -462,7 +455,7 @@
                     </div>
                 </div>
                 <!-- add campaign_overview_graphs_with_vtc when vtc is present -->
-                <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
+                <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
                     <div class="each_col col_first">
                         <div class="col_heading"></div>
                         <div class="days_left_holder">
@@ -485,7 +478,7 @@
                     
                     <div class="each_col col_spend">
                         <div class="col_heading clearfix">{{ textConstants.SPEND }}
-                            <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:3 }}</span>
+                            <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2 }}</span>
                         </div>
                         <div class="metric_graph {{getSpendClass(campaign)}}">
                                 <div class="full_metric_graph">
@@ -493,7 +486,7 @@
                                     </div>
                                     <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 70) ? 'start_end_point' : ''}}" ng-style="{'left': getSpendTickWidth(campaign) +'%'};"><!-- put start_beginning when at start -->
                                         <div class="end_point_val">
-                                            <span class="icon_KPI"> {{campaign.expectedMediaCost | currency:undefined:2}}</span>
+                                            <span class="icon_KPI"> {{campaign.expectedMediaCost | nrFormatWithCurrency}}</span>
                                             <div class="end_point_line"></div>
                                         </div>
                                     </div>
@@ -506,7 +499,7 @@
                                 </div>
                             </div>
                     </div>
-                    <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
+                    <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                         <div class="col_heading clearfix">{{ textConstants.QUARTILE_DETAILS }}
                         </div>
                         <div class="quartile_details_graph" width='365' height='74' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].modified_vtc_metrics}}"></div>

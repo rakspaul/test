@@ -27,10 +27,9 @@ var angObj = angObj || {};
                 return constants.MSG_DATA_NOT_AVAILABLE;
             }
         };
-
+        $scope.strategyLoading =  true;
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
-        $scope.strategyLoading =  true;
         $scope.selected_filters = {};
         $scope.selected_filters.time_filter = 'life_time'; //
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
@@ -46,6 +45,7 @@ var angObj = angObj || {};
 
             $scope.campaignActionList = [];
             $scope.chartForStrategy = true;
+            $scope.strategyLoading =  true;
 
             $scope.tacticNotFound = false;
             $scope.tacticLoading = true;
@@ -189,6 +189,7 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
             dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
+                $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if(param.orderId === Number($scope.selectedCampaign.id)){
 
@@ -207,6 +208,20 @@ var angObj = angObj || {};
                                     }
 
                                     $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType.toUpperCase(), actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
+
+                                    //D3 chart object for action performance chart
+                                    $scope.lineChart = {
+                                        data: lineData,
+                                        kpiValue: parseFloat(kpiValue),
+                                        kpiType: kpiType.toUpperCase(),
+                                        from: 'action_performance',
+                                        //customisation
+                                        defaultGrey: true,
+                                        activityList: actionItems,
+                                        showExternal: $scope.clicked,
+                                        selected: $scope.actionId
+
+                                    };
 
                                 }
                                 else {
@@ -428,6 +443,12 @@ var angObj = angObj || {};
         $scope.$on('$destroy', function() {
             eventKpiChanged();
         });
+         // hot fix for the enabling the active link in the reports dropdown
+        setTimeout(function(){ 
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#optimization").addClass("active_tab") ; 
+        }, 200);
+        // end of hot fix for the enabling the active link in the reports dropdown
 
     });
 }());

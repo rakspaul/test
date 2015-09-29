@@ -82,13 +82,12 @@
                 <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%</span>
                 <span>{{ textConstants.CTR }}</span>
             </div>
-
-            <div class="each_metric_graph_details metric_graph_details_action" ng-if="!campaigns.cdbDataMap[campaign.orderId].hasVTCMetric || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate < 0">
+            <div class="each_metric_graph_details metric_graph_details_action" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
                 <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].action_rate*100 | number:2}}%</span>
                 <span>{{ textConstants.ACTION_RATE_R_CAPS }}</span>
             </div>
 
-             <div class="each_metric_graph_details metric_graph_details_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].hasVTCMetric && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >= 0">
+             <div class="each_metric_graph_details metric_graph_details_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
                 <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event,1)" ng-mouseout="VTCpopup($event,0)" >
                     <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :2}}%</span>
                     <span>{{ textConstants.VTC }}</span>
@@ -121,6 +120,7 @@
                 <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(campaign)"></span>
                 <span ng-switch-default>
                     <div class="graph_KPI_holder" ng-if="campaign.chart && campaign.kpiType">
+                        <!-- <div class="campaign_details_graph" width='355' height='111' campaign-chart chart-data="{{campaign.lineChart}}" chart-location="campaign"></div> -->
                         <highchart id="" class="graph_KPI_holder" config="campaign.chart" chartTitle=""></highchart>
                     </div>
                     <div class="graph_KPI_holder" ng-if="!(campaign.chart && campaign.kpiType)" ng-bind-html="getMessageForDataNotAvailable(campaign)">

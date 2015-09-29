@@ -7,14 +7,65 @@ var angObj = angObj || {};
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        $scope.sortType     = ''; // set the default sort type
+        domainReports.highlightSubHeaderMenu();
+        $scope.sortType     = 'impressions'; 
+
+        $scope.sortTypebyformats     = '-impressions';
+        $scope.sortTypebyplatforms     = '-impressions';
+        $scope.sortTypebydaysofweek     = '-impressions';
+        $scope.sortTypebycreatives     = '-impressions';
+        $scope.sortTypebyadsizes     = '-impressions';
+        $scope.sortTypeScreens     = '-impressions';
+
+        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
+
+
         $scope.sortReverse  = false; // set the default sort order
+        $scope.sortReverseFormatTab  = false;
+        $scope.sortReverseAdSizeTab  = false;
+        $scope.sortReverseCreativesTab  = false;
+        $scope.sortReverseDaysTab  = false;
+
+
+        $scope.sortReverseForCostscpm  = true;
+        $scope.sortReverseForCostscpa  = true;
+        $scope.sortReverseForCostscpc  = true;
+        $scope.sortReverseAddSizes  = false;
+
+        $scope.sortReverseForCostscpmFormats  = true;
+        $scope.sortReverseForCostscpaFormats  = true;
+        $scope.sortReverseForCostscpcFormats  = true;
+        $scope.sortReverseAddSizesFormats  = true;
+
+        $scope.sortReverseForCostscpmPlatforms  = true;
+        $scope.sortReverseForCostscpaPlatforms   = true;
+        $scope.sortReverseForCostscpcPlatforms    = true;
+        $scope.sortReverseAddSizesPlatforms    = true;
+
+        $scope.sortReverseForCostscpmDaysofweek  = true;
+        $scope.sortReverseForCostscpaDaysofweek  = true;
+        $scope.sortReverseForCostscpcDaysofweek  = true;
+        $scope.sortReverseAddSizesDaysofweek  = true;
+
+        $scope.sortReverseForCostscpmCreatives  = true;
+        $scope.sortReverseForCostscpaCreatives  = true;
+        $scope.sortReverseForCostscpcCreatives  = true;
+        $scope.sortReverseAddSizesCreatives  = true;
+
+        $scope.sortReverseForCostscpmAdsizes  = true;
+        $scope.sortReverseForCostscpaAdsizes  = true;
+        $scope.sortReverseForCostscpcAdsizes  = true;
+        $scope.sortReverseAddSizesAdsizes  = true;
+
+
+        $scope.characterLimit  = 50;
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy(); //domainReports.intValues()['strategy'];
 
         $scope.api_return_code = 200;
 
+        $scope.redirectWidget = $scope.selectedCampaign.redirectWidget;
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
@@ -29,15 +80,38 @@ var angObj = angObj || {};
             else
                 return constants.MSG_DATA_NOT_AVAILABLE;
         };
-
         $scope.filters = domainReports.getReportsTabs();
         // We should not keep selected tab in $scope.selected_filters object because it is altered by directive_controller in callBackCampaingSuccess and then tab info is not set
-        $scope.selected_tab = 'byscreens';
-        $scope.sortByColumn = 'name';
+
+            if($scope.redirectWidget && $scope.redirectWidget == 'adsizes') {
+                $scope.sortByColumn = 'dimension';
+                $scope.activeAdSizeClass = 'active';
+                $scope.defaultDisplayAdSize = 'display : block';
+                $scope.defaultDisplayFormat = 'display : none';
+                $scope.defaultDisplayScreen = 'display : none';
+                $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
+            }
+            else if($scope.redirectWidget == 'formats') {
+                $scope.sortByColumn = 'dimension';
+                $scope.activeFormatClass = 'active';
+                $scope.defaultDisplayFormat = 'display : block';
+                $scope.defaultDisplayAdSize = 'display : none';
+                $scope.defaultDisplayScreen = 'display : none';
+                $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
+            } else {
+                $scope.selected_tab = 'byscreens'
+                $scope.sortByColumn = 'name';
+                $scope.activeScreenClass = 'active';
+                $scope.defaultDisplayScreen = 'display : block'
+                $scope.defaultDisplayAdSize = 'display : none';
+                $scope.defaultDisplayFormat = 'display : none';
+            }
+
+
 
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
-        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}];
+        var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
 
         $scope.download_urls = {
             screens: null,
@@ -63,6 +137,8 @@ var angObj = angObj || {};
             $scope.screenBusy = true;
             $scope.formatBusy = true;
             $scope.dowBusy = true;
+            $scope.creativeBusy = true;
+            $scope.adSizesBusy = true;
 
             var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
 
@@ -70,11 +146,15 @@ var angObj = angObj || {};
                 $scope.dataNotFoundForScreen = true;
                 $scope.dataNotFoundForFormat = true;
                 $scope.dataNotFoundForDOW = true;
+                $scope.dataNotFoundForCreative = true;
+                $scope.dataNotFoundForAdSizes = true;
+
             }
 
             $scope.api_return_code=200;
 
             performanceService.getStrategyPerfData(param).then(function (result) {
+                $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
                     if($scope.hidePerformanceReportTab) {
@@ -83,14 +163,18 @@ var angObj = angObj || {};
                         $scope.screenBusy = false;
                         $scope.formatBusy = false;
                         $scope.dowBusy = false;
+                        $scope.creativeBusy = false;
+                        $scope.adSizesBusy = false;
+
                         $scope['strategyPerfDataBy'+tab]  = result.data.data[0];
+                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     }
                 } else {
                     errorHandlerForPerformanceTab(result);
                 }
             }, errorHandlerForPerformanceTab);
-            
-            
+
+
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
@@ -121,6 +205,16 @@ var angObj = angObj || {};
                     'report_url' : urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'by_days_of_week',
                     'label' : 'Performance by Days Of Week'
+                },
+                {
+                    'report_url' : urlPath + 'creatives/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_creatives',
+                    'label' : 'Performance by Creatives'
+                },
+                {
+                    'report_url' : urlPath + 'adsizes/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_name' : 'by_adsizes',
+                    'label' : 'Performance by Ad Sizes'
                 }
             ];
         };
@@ -137,33 +231,28 @@ var angObj = angObj || {};
             }
         };
 
-        //Binding click event on tab and fetch strategy method.
-        $(function() {
-            $(".each_tab").click(function (event) {
-                var tab_id = $(this).attr("id").split("_tab")
-                $scope.selected_tab = tab_id[0];
-                $(".reports_tabs_holder").find(".active").removeClass("active");
-                $(this).addClass("active");
-                $(".reports_block").hide();
-                $("#reports_" + tab_id[0] + "_block").show();
-                $scope.strategyChangeHandler();
-                event.preventDefault();
-            });
-        });
-
         //resetting the variable
         $scope.resetVariables =  function() {
             $scope.screenBusy = false;
             $scope.formatBusy = false;
             $scope.dowBusy = false;
+            $scope.creativeBusy = true;
+            $scope.adSizesBusy = true;
 
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
+            $scope.strategyPerfDataByCreatives = [];
+            $scope.strategyPerfDataByCreative = [];
+            $scope.strategyPerfDataByAdsizes = [];
+
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
+            $scope.dataNotFoundForCreative = false;
+            $scope.dataNotFoundForAdSizes = false;
+
         };
 
         //Initializing the variable.
@@ -172,6 +261,7 @@ var angObj = angObj || {};
             $scope.api_return_code = 200;
             $scope.isStrategyDataEmpty = false;
             $scope.hidePerformanceReportTab = false;
+            $scope.strategyLoading =  true;
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};
@@ -200,11 +290,90 @@ var angObj = angObj || {};
                 $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+
+        $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
+            if ($scope.selected_tab == 'byformats') {
+                $scope.sortTypebyformats = args;
+            }
+            else if ($scope.selected_tab == 'bydaysofweek') {
+                $scope.sortTypebydaysofweek = args;
+            }
+            else if ($scope.selected_tab == 'bycreatives') {
+                $scope.sortTypebycreatives = args;
+            }
+            else if ($scope.selected_tab == 'byadsizes') {
+                $scope.sortTypebyadsizes = args;
+            }
+            else if ($scope.selected_tab == 'byplatforms') {
+                $scope.sortTypebyplatforms = args;
+            }
+            else if ($scope.selected_tab == 'byscreens') {
+                $scope.sortTypeScreens = args;
+                if (args === 'cpm') {
+                    $scope.sortReverseForCostscpm = sortorder;
+                }
+                else if (args === 'cpc') {
+                    $scope.sortReverseForCostscpc = sortorder;
+                }
+                else {
+                    $scope.sortReverseForCostscpa = sortorder;
+                }
+            }
+            $scope.sortType = args;
+            $scope.sortTypeSubSort = 'tactic.' + args;
+            $scope.sortReverse = sortorder;
+            $scope.kpiDropdownActive = true;
+        });
+
+        $scope.removeKpiActive = function(){
+            $('.kpi-dd-holder').removeClass( "active" );
+            $('.dropdown_ul_text').removeClass( "active" );
+            $('.drop_list li').removeClass( "active" );
+            $(".drop_list li").css("color", "#57606d");
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+            $('.direction_arrows div.kpi_arrow_sort').removeClass("active");
+        };
+        $scope.specialSort = function(passedSortype){
+            $scope.sortType = passedSortype;
+        };
+
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+            if($('.kpi-dd-holder').hasClass( "active" )){
+                $('.each_cost_col').removeClass( "active" );
+                return sortDirection;
+            }
+            else{
+                return isActive + " " + sortDirection;
+            }
             return isActive + " " + sortDirection;
         };
+
+
+        //Binding click event on tab and fetch strategy method.
+        $(function() {
+            $(".each_tab").click(function (event) {
+                var tab_id = $(this).attr("id").split("_tab");
+                if($scope.kpiDropdownActive == true){
+                    $('.icon_text_holder').removeClass( "active" );
+                }
+                $scope.selected_tab = tab_id[0];
+                $(".reports_tabs_holder").find(".active").removeClass("active");
+                $(this).addClass("active");
+                $(".reports_block").hide();
+                $("#reports_" + tab_id[0] + "_block").show();
+                $scope.strategyChangeHandler();
+                event.preventDefault();
+            });
+            // hot fix for the enabling the active link in the reports dropdown
+       
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#performance").addClass("active_tab") ; 
+        
+            // end of hot fix for the enabling the active link in the reports dropdown
+        });
 
     });
 }());

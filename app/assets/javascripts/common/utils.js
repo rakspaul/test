@@ -9,6 +9,7 @@
       var suf = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
       return suf;
     };
+    var reportTypeOptions = function() {return [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}]};
     var makeTitle = function (input) {
       var title = '<div id="legend">';
       for (var i = 0; i < input.length; i++) {
@@ -211,6 +212,7 @@
       getParameterByName : getParameterByName,
       detectBrowserInfo : detectBrowserInfo,
       VTCpopupfunc : VTCpopupfunc,
+      reportTypeOptions:reportTypeOptions
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -412,6 +414,7 @@ angObj.directive('truncateTextWithHover', function () {
       '{{txt}}</span>'
     };
   });
+
   angObj.directive('targetingIconWithHover', function () {
     return{
       restrict: 'AE',
@@ -422,12 +425,91 @@ angObj.directive('truncateTextWithHover', function () {
       template:'<span ng-show="(txt.length > 0 )" tooltip-placement="bottom" tooltip="{{txt}}" class="{{className}}"></span>'
     };
   });
+
+
+  angObj.directive('wholeNumberOnly', function() {
+    return {
+      require: 'ngModel',
+      link: function (scope, element, attrs, modelCtrl) {
+        modelCtrl.$parsers.push(function (inputValue) {
+          // this next if is necessary for when using ng-required on your input.
+          // In such cases, when a letter is typed first, this parser will be called
+          // again, and the 2nd time, the value will be undefined
+          if (inputValue == undefined) return ''
+          var transformedInput = inputValue.replace(/[^0-9]/g, '');
+          if (transformedInput != inputValue) {
+            modelCtrl.$setViewValue(transformedInput);
+            modelCtrl.$render();
+          }
+
+          return transformedInput;
+        });
+      }
+    };
+  })
+
+  angObj.directive('fractionNumbers', function() {
+    return {
+      require: 'ngModel',
+      link: function (scope, element, attrs, modelCtrl) {
+        modelCtrl.$parsers.push(function (inputValue) {
+          // this next if is necessary for when using ng-required on your input.
+          // In such cases, when a letter is typed first, this parser will be called
+          // again, and the 2nd time, the value will be undefined
+          if (inputValue == undefined) return ''
+          var transformedInput = inputValue.replace(/[^0-9.]/g, '');
+          if (transformedInput != inputValue) {
+            modelCtrl.$setViewValue(transformedInput);
+            modelCtrl.$render();
+          }
+
+          return transformedInput;
+        });
+      }
+    };
+  })
+
+  angObj.directive('removeSpecialCharacter', function() {
+    return {
+      require: 'ngModel',
+      link: function (scope, element, attrs, modelCtrl) {
+        modelCtrl.$parsers.push(function (inputValue) {
+          if (inputValue == undefined) return ''
+          var transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '')
+          if (transformedInput != inputValue) {
+            modelCtrl.$setViewValue(transformedInput);
+            modelCtrl.$render();
+          }
+
+          return transformedInput;
+        });
+      }
+    };
+  })
+
   angObj.filter('spliter', function () {
     return function (input, splitIndex) {
 // do some bounds checking here to ensure it has that index
       return input.split(' ')[splitIndex];
     }
   });
+
+  angObj.filter('dashboardKpiFormatter', function ($filter,constants) {
+    return function (input, kpiType) {
+      if(input && kpiType) {
+        if (kpiType.toLowerCase() == 'ctr' || kpiType.toLowerCase() === 'action_rate') {
+          return input+ '%';
+        } else if(kpiType.toLowerCase() == 'vtc') {
+          return input + '%';
+        } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+          return constants.currencySymbol + input;
+        } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
+          return input + '%';
+        }
+      }
+    }
+  });
+
   angObj.filter('kpiFormatter', function ($filter,constants) {
     return function (input, kpiType, precision) {
       if (input && kpiType) {
@@ -738,5 +820,25 @@ angObj.directive('truncateTextWithHover', function () {
       return "1T+";
     };
   });
+
+  angObj.filter("reportDateFilter", function ($filter,momentService) {
+    return function (value, key) {
+      return momentService.reportDateFormat(value);
+    };
+  });
+
+   angObj.filter('textEllipsis', function () {
+      return function (input) {
+        if (input == undefined) {
+          return '';
+        }
+        var dispname = input;
+        if(input.length >60) {
+            dispname =input.substring(0,60) + "...";
+        }
+
+        return dispname;
+      }
+    });
 
 }());

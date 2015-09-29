@@ -97,6 +97,21 @@
                 return this.fetch(url);
             },
 
+            getCustomReportMetrics :  function(campaign) {
+                var url = apiPaths.apiSerivicesUrl + '/reports/custom/meta';
+                return this.fetch(url);
+            },
+
+            getCustomReportData :  function(campaign, params) {
+                var url = apiPaths.apiSerivicesUrl + '/reports/custom/'+params;
+                return this.fetch(url);
+            },
+
+            getAdSizeData: function(campaign) {
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byadsizes/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+                return this.fetch(url);
+            },
+
             getVideoViewabilityData: function(campaign) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/viewReport';
                 return this.fetch(url);
@@ -122,6 +137,11 @@
                 }
                 var url = api + '/campaigns/' + campaign.orderId + '/perf' + qs;
                 return this.fetch(url);
+            },
+
+            getReportListData: function (url) {
+                return this.fetch(url);
+
             },
 
             createAction: function (data) {
@@ -203,10 +223,10 @@
                 );
             },
 
-            downloadFile: function (url) {
+            downloadFile: function (url) { console.log("Download File: ",url);
                 $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
                 return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
-                    function (response) {
+                    function (response) { console.log("Data service response: ",response);
                         if (response.status === 401) {
                             loginModel.unauthorized();
                             return errorObject;
@@ -358,7 +378,48 @@
                         };
                     }
                 );
+            },
+
+            delete: function (url, data, header) {
+                loginModel.checkCookieExpiry();
+                $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
+                  return $http({url: url, method: 'DELETE', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
+                    function (response) {
+                        if(response.status === 401) {
+                            loginModel.unauthorized();
+                            return errorObject;
+                        } else if(response.status === 403) {
+                            loginModel.forbidden();
+                            return errorObject;
+                        }
+                        return {
+                            status: "success",
+                            data: response.data
+                        };
+                    },
+                    function (error) {
+                        if(error.status === 401) {
+                            errorObject.data.message = error.data.message
+                            loginModel.unauthorized();
+                            return errorObject;
+                        } else if(error.status === 403) {
+                            loginModel.forbidden();
+                            return errorObject;
+                        } else if(error.status === 404) {
+                            errorObject.data.message = 'Network error.  Please contact support.'
+                            return errorObject;
+                        }
+                        return {
+                            status: "error",
+                            data: error
+                        };
+                    }
+                );
             }
+
+
+
+
         };
     });
 }());

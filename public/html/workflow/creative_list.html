@@ -1,0 +1,162 @@
+<div id="creativeList">
+    <!-- Creative -->
+    <div class="mainWrap">
+		<div class="col-md-12 zeroPadding clearfix nav_filters">
+				<creative-drop-down></creative-drop-down>
+		</div>
+		<div class="col-md-12 zeroPadding">
+			<h2 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h2>
+			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
+		</div>
+
+		<div class="spacingInput"></div>
+
+		<div class="col-md-12 zeroPadding">
+			<a href="/creative/add" class="btn btn-default" role="button">Create New</a>
+			<button type="button" class="btn btn-default disabled">Bulk Upload</button>
+			<div class="dropdown" style="display: inline-block;">
+			<button class="btn btn-default dropdown-toggle disabled" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			  Actions
+			  <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  <li><a href="#">1</a></li>
+			  <li><a href="#">2</a></li>
+			  <li><a href="#">3</a></li>
+			</ul>
+			</div>
+
+			<!--Search Input-->
+			<div class="col-md-3 pull-right zeroPadding">
+			<div class="input-group">
+			  <input type="text" class="form-control disabled" placeholder="Search for an existing Creative Tag">
+			  <span class="input-group-btn">
+				<button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+			  </span>
+			</div>
+			</div>
+		</div>
+
+		<div class="spacingInput"></div>
+
+		<div class="col-md-12 zeroPadding">
+			<div class="table-responsive">
+			<table class="table">
+				<thead>
+				  <tr>
+					<th style="text-indent: 27px;">Size<br/><br/></th>
+					<th>Format<br/><br/></th>
+					<th>Tag<br/><br/></th>
+					<th>Type <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><br/>SSL</th>
+					<th>Status<br/><br/></th>
+					<th>Associated<br/>Campaigns</th>
+					<th>Associated<br/>Ads</th>
+					<th>Created<br/><br/></th>
+				  </tr>
+				</thead>
+				<tbody>
+					<!--Test 1-->
+					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives">
+					<!--Column 1-->
+					<td>
+						<span class="col-md-1"><input type="checkbox" value="{{$index+1}}" /></span>
+						<div class="col-md-11">
+							<p class="col-md-12">{{creativeData.size.size}}</p>
+						</div>
+					</td>
+					<!--Column 2-->
+					<td>
+						<span class="glyphicon glyphicon-{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
+					</td>
+					<!--Column 3-->
+					<td>
+						<span class="col-md-8">{{creativeData.name}}</span>
+						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag($event)">View Tag</a>
+						<div class="script_tag">
+							<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
+							<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
+						</div>
+					</td>
+					<!--Column 4-->
+					<td>
+						<span class="col-md-12">{{creativeData.creativeType}}</span>
+						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+					</td>
+					<!--Column 5-->
+					<td>
+						<span> - </span>
+					</td>
+					<!--Column 6-->
+					<td>
+						<span>{{creativeData.noOfCampaigns}}</span>
+					</td>
+					<!--Column 7-->
+					<td>
+						<span>{{creativeData.noOfAds}}</span>
+					</td>
+					<!--Column 8-->
+					<td>
+						<span>{{formatDate(creativeData.createdAt)}}</span>
+					</td>
+					</tr>
+					<tr ng-show="creativesNotFound">
+						<td>Data not available</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+
+		<div class="spacingInput"></div>
+
+		<!--<div class="bottomPagination">
+			<div class="col-md-6 zeroPadding">
+			<span class="pull-left" style="padding: 6px 10px 0 0">Show</span>
+			<div class="col-md-3 zeroPadding">
+				<select class="form-control">
+				<option>50 rows</option>
+				<option>75 rows</option>
+				<option>100 rows</option>
+				<option>200 rows</option>
+				<option>300 rows</option>
+				</select>
+			</div>
+			</div>
+
+			<div class="col-md-6 zeroPadding">
+			<nav class="pull-right">
+				<ul class="pagination">
+				  <li>
+				<a href="#" aria-label="Previous">
+				  <span aria-hidden="true">&laquo;</span>
+				</a>
+				  </li>
+				  <li class="active"><a href="#">1</a></li>
+				  <li><a href="#">2</a></li>
+				  <li><a href="#">3</a></li>
+				  <li><a href="#">4</a></li>
+				  <li><a href="#">5</a></li>
+				  <li>
+				<a href="#" aria-label="Next">
+				  <span aria-hidden="true">&raquo;</span>
+				</a>
+				  </li>
+				</ul>
+			</nav>
+			<span class="pull-right" style="padding: 6px 10px 0 0">1-50 of 364</span>
+			</div>
+		</div>-->
+    </div>
+    
+    <!--Modal View Starts Here-->
+    <!--<div class="popScriptUpdate">
+	<div class="popContainer">
+	    <h1 class="pull-left">Title</h1>
+	    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+	    <pre></pre>
+	    <button type="button" class="btn btn-primary pull-right">Update Tag</button>
+	    <button type="button" class="btn btn-link pull-right">Cancel</button>
+	</div>
+    </div>-->
+</div>
+<img src="/assets/images/workflow/preloader.gif" ng-show="creativeListLoading" alt="Loading" width="31" class="preloader"/>
