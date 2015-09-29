@@ -136,9 +136,9 @@
 				           			</a>
 
 			           			</div>
-								<div class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}" ng-click="generateReport()" >
+								<button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}" ng-disabled="generateBtnDisabled ? true : false" ng-click="generateReport()" >
 						    		Generate
-						    	</div>
+						    	</button>
 						    	<!-- <div class="pull-right common_secondary_blue_btn" >
 						    		Schedule
 						    	</div> -->
