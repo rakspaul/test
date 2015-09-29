@@ -83,13 +83,14 @@
                     <div class="radioBtnToggle">
                         <label class="col-sm-12 control-label greyTxt miniLabels">Type</label>
                         <div class="btn-group miniToggle">
-                            <label class="btn btn-default active"><span>Whitelist</span>
-                                <input type="radio" name="inventoryType" value="Whitelist" ng-model="adData.inventoryType" checked="checked" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
+                            <label class="btn btn-default {{adData.inventory.domainAction === 'INCLUDE' ? 'active' : ''}}"><span>Whitelist</span>
+                                <input type="radio" name="inventoryType" value="INCLUDE" ng-disabled="workflowData.inventoryData.length >0  ?  true : false"  ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
                             </label>
-                            <label class="btn btn-default"><span>Blacklist</span>
-                                <input type="radio" name="inventoryType" value="Blacklist" ng-model="adData.inventoryType" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
+                            <label class="btn btn-default {{adData.inventory.domainAction === 'EXCLUDE' ? 'active' : ''}}"><span>Blacklist</span>
+                                <input type="radio" name="inventoryType" value="EXCLUDE" ng-disabled="workflowData.inventoryData.length > 0 ?  true : false"  ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
                             </label>
                         </div>
+                        <div class="grey_txt note" style="margin-top: 4px;" ng-if="workflowData.inventoryData.length >0">List type cannot be modified. </div>
                     </div>
                 </div>
             </div>

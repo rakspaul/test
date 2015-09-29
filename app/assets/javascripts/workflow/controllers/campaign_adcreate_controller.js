@@ -1392,7 +1392,7 @@ var angObj = angObj || {};
         };
 
         $scope.showDomainListPopup = false;
-        $scope.adData.inventoryType = 'Whitelist';
+
 
         $scope.inventoryAdsData = {};
         $scope.adData.inventoryName = '';
@@ -1410,6 +1410,10 @@ var angObj = angObj || {};
                 $scope.showDomainListPopup = true;
                 $scope.adData.listName =  $scope.adData.inventory && $scope.adData.inventory.name;
                 $scope.files = files;
+                if(!$scope.adData.inventory) {
+                    $scope.adData.inventory = {};
+                    $scope.adData.inventory.domainAction = 'INCLUDE';
+                }
             }
         }
 
@@ -1424,7 +1428,7 @@ var angObj = angObj || {};
                             url: workflowService.createAdvertiseDomainList($scope.clientId, $scope.advertiserId, domainId),
                             fields: {
                                 'name': $scope.adData.listName,
-                                'domainAction' : $scope.adData.inventoryType.toLowerCase() === 'blacklist' ? 'EXCLUDE' : 'INCLUDE',
+                                'domainAction' : $scope.adData.inventory.domainAction,
                                 'updatedAt' : $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
                             },
                             fileFormDataName : 'domainList',
