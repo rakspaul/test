@@ -687,7 +687,7 @@ var angObj = angObj || {};
 
             getRegionsList : function(parmas, callback) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getRegionsList(parmas.platformId, qryStr , function (result) {
+                workflowService.getRegionsList(parmas.platformId, qryStr).then( function (result) {
                     var responseData = result.data.data;
                     callback && callback(responseData);
                 }, function(error) {
@@ -697,7 +697,7 @@ var angObj = angObj || {};
 
             getCitiesList : function(parmas, callback) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getCitiesList(parmas.platformId, qryStr,function (result) {
+                workflowService.getCitiesList(parmas.platformId, qryStr).then(function (result) {
                     var responseData = result.data.data;
                     callback && callback(responseData);
                 },function(error){
@@ -707,7 +707,7 @@ var angObj = angObj || {};
 
             getDMAsList : function(parmas, callback) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getDMAsList(parmas.platformId, qryStr,function (result) {
+                workflowService.getDMAsList(parmas.platformId, qryStr).then(function (result) {
                     var responseData= result.data.data;
                     _.each(responseData, function(data) {
                         data.region = $.trim(data.name.substring(data.name.lastIndexOf(" ")))
@@ -972,7 +972,7 @@ var angObj = angObj || {};
                  platformId : $scope.isPlatformId,
                  sortOrder : dmaListSortOrder,
                  pageNo :1,
-                 pageSize : 25
+                 pageSize : 200
              }
 
             _.extend($scope.dmasListObj, defaults)
@@ -1017,7 +1017,7 @@ var angObj = angObj || {};
             $scope.citiesListObj = {
                 platformId : $scope.isPlatformId,
                 sortOrder :cityListSortOrder,
-                pageSize :25,
+                pageSize :200,
                 pageNo : 1
             }
 
@@ -1025,7 +1025,7 @@ var angObj = angObj || {};
                 $scope.citiesListObj = {
                     platformId : $scope.isPlatformId,
                     sortOrder :cityListSortOrder,
-                    pageSize :25,
+                    pageSize :200,
                     pageNo : 1,
                     query: searchVal
                 }
@@ -1091,7 +1091,7 @@ var angObj = angObj || {};
             $scope.regionListObj = {
                 platformId : $scope.isPlatformId,
                 sortOrder : regionListSortOrder,
-                pageSize : 25,
+                pageSize : 200,
                 pageNo : 1
             }
 
@@ -1099,7 +1099,7 @@ var angObj = angObj || {};
                 $scope.regionListObj = {
                     platformId : $scope.isPlatformId,
                     sortOrder :regionListSortOrder,
-                    pageSize :25,
+                    pageSize : 200,
                     pageNo : 1,
                     query: searchVal
                 }
