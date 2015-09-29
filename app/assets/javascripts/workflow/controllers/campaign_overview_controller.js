@@ -176,10 +176,13 @@ var angObj = angObj || {};
             }
             return $scope.sizeString;
         }
-        $scope.ToggleAdGroups = function (context, adGrpId, index) {
+        $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
+            var elem = $(event.target);
             if (context.showHideToggle) {
+                elem.removeClass("glyphicon-minus").addClass("glyphicon-plus") ;
                 context.showHideToggle = !context.showHideToggle
             } else {
+                elem.removeClass("glyphicon-plus").addClass("glyphicon-minus") ;
                 context.showHideToggle = !context.showHideToggle
                 campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
             }
