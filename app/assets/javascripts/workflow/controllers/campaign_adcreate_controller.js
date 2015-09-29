@@ -465,7 +465,10 @@ var angObj = angObj || {};
         $scope.removeCreativeTags =  function(clickedTagData, actionFrom) {
             var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) { return obj.id === clickedTagData.id});
             $("#"+clickedTagData.id).removeAttr("checked");
-            $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
+            if(selectedCreativeTag.length > 0 && selectedCreativeTag)
+                $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
+            else
+                $scope.$broadcast('removeCreativeTags', [[clickedTagData], 'special']); //special case when we remove tag from selected list
         };
 
     });
@@ -597,14 +600,22 @@ var angObj = angObj || {};
             var selectedCreativeTag = arg[0]
             var actionFrom = arg[1];
             if (selectedCreativeTag.length > 0) {
+
                 var idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
                 $scope.selectedArr.splice(idx, 1);
+
                 if(actionFrom !== 'popup') {
+
                     $scope.updateCreativeData($scope.selectedArr)
                 }
+                else{
+                    //insert into predelete array
+                    $scope.preDeleteArr.push(selectedCreativeTag[0]);
+                }
+                var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
+                $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
             }
-            var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
-            $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
+
             /*Enable save button of popup library if elements exists*/
         })
 
