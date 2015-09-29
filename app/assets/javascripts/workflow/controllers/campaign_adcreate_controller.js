@@ -26,6 +26,7 @@ var angObj = angObj || {};
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
+        $scope.preSelectArr = [];
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -454,6 +455,8 @@ var angObj = angObj || {};
         };
 
         $scope.showPopup = function () {
+            $scope.creativeListLoading = false
+            $scope.creativesLibraryData['creativesData'] = [];
             if($scope.selectedArr.length>0){
                 $scope.unchecking=true;
             }else{
@@ -535,6 +538,7 @@ var angObj = angObj || {};
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false;
             $scope.preDeleteArr = [];
+            $scope.preSelectArr = [];
             $scope.changeStatus();
             $scope.updateCreativeData($scope.selectedArr);
         };
@@ -549,6 +553,16 @@ var angObj = angObj || {};
                     $("#"+obj.id).attr('checked',true);
                 })
             }
+            if($scope.preSelectArr.length > 0){
+                _.each($scope.preSelectArr,function(obj){
+                    var idx = _.findIndex($scope.selectedArr, function(item) {
+                        return item.id == obj.id });
+
+                    $scope.selectedArr.splice(idx,1);
+                    $("#"+obj.id).attr('checked',false);
+                })
+            }
+            $scope.preSelectArr = [];
             $scope.selectedArr = _.uniq($scope.selectedArr);
             $scope.updateCreativeData($scope.selectedArr);
         };
@@ -618,6 +632,7 @@ var angObj = angObj || {};
 
             } else {
                 $scope.selectedArr.push(screenTypeObj);
+                $scope.preSelectArr.push(screenTypeObj);
             }
 
             /*Enable save button of popup library if elements exists*/
