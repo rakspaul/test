@@ -550,6 +550,7 @@ var angObj = angObj || {};
             $scope.showHidePopup = false;
             $scope.changeStatus();
             if($scope.preDeleteArr.length > 0){
+                $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
                 _.each($scope.preDeleteArr,function(obj){
                     obj.checked = true;
                     $scope.selectedArr.push(obj);
@@ -557,6 +558,7 @@ var angObj = angObj || {};
                 })
             }
             if($scope.preSelectArr.length > 0){
+                $scope.preSelectArr = _.uniq($scope.preSelectArr);
                 _.each($scope.preSelectArr,function(obj){
                     var idx = _.findIndex($scope.selectedArr, function(item) {
                         return item.id == obj.id });
