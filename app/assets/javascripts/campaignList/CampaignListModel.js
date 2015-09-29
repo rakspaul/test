@@ -410,16 +410,17 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                                 } else if (forceLoadFilter === constants.ACTIVE_UNDERPERFORMING) {
                                     loadActiveUnderperforming();
                                 }
-                            } else if (self.dashboard.total > 3) {
+                            } /*else if (self.dashboard.total > 3) {
+                                console.log('222');
                                 self.dashboard.displayFilterSection = true;
-                                /*if (self.dashboard.active.underperforming == 0) {
+                                /!*if (self.dashboard.active.underperforming == 0) {
                                     loadActiveOntrack();
                                 } else {
                                     console.log('load active underperforming');
                                     loadActiveUnderperforming();
-                                }*/
+                                }*!/
                                 loadActive();
-                            } else {
+                            } */else {
                                 self.dashboard.displayFilterSection = false;
                                 self.dashboard.filterTotal = result.data.data.total;
                                 if (self.dashboard.total > 0) {
@@ -491,7 +492,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     this.resetDasboardFilter(type, state);
                     this.dashboardRemoveSelectedAll(type, state);
                     this.setDashboardSelection(type, state);
-                    if(state == 'endingSoon'){
+
+                    if((state == 'endingSoon') || (this.dashboard.status.active.endingSoon == 'active')){
                         this.sortParam = 'end_date';
                         this.sortDirection = 'asc';
                     }
@@ -616,12 +618,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     filters.timePeriod && (this.timePeriod = filters.timePeriod);
 
                     if (filters.brand != undefined) {
-                        this.dashboard.filterSelectAll = false;
-                        this.dashboard.status.active.bothItem = 'active';
-                        this.dashboard.filterActive = '(active)';
-                        setTopFiltersStatus.call(this, "others", false, null);
-                        this.dashboard.status.active.underperforming = undefined;
-                        this.dashboard.status.active.ontrack = undefined;
+                        this.setQuickFilterSelection();
                     }
 
                     fetchDashboardData.call(this); //populating dashboard filter with new data
@@ -638,12 +635,42 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                         this.dashboard.filterSelectAll = false;
                         this.dashboardSelectedAllResetFilter(false);
                     }*/
-                    this.dashboard.status.active.bothItem = 'active';
-                    this.campaignList = [];
+                   // this.dashboard.status.active.bothItem = 'active';
+                   this.setQuickFilterSelection();
+                        this.campaignList = [];
                     this.scrollFlag = 1;
                     this.resetCostBreakdown.call(this);
                     fetchData.call(this);
                 }, //This function will be reseting the dashboard filter based on the top filter selection
+
+                setQuickFilterSelection = function() {
+                    if((this.dashboard.quickFilterSelected == 'Completed') || (this.dashboard.quickFilterSelected == 'completed') ) {
+                        this.dashboard.status.completed = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard['completed'];
+                    } else if((this.dashboard.quickFilterSelected == 'draft') || (this.dashboard.quickFilterSelected == 'Draft') ) {
+                        this.dashboard.status.draft = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard['draft'];
+                    } else if((this.dashboard.quickFilterSelected == 'ready') || (this.dashboard.quickFilterSelected == 'Ready') ) {
+                        this.dashboard.status.ready = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard['ready'];
+                    } else if((this.dashboard.quickFilterSelected == 'ontrack') || (this.dashboard.quickFilterSelected == 'Ontrack') ) {
+                        this.dashboard.status.active.ontrack = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard.active['ontrack'];
+                    } else if((this.dashboard.quickFilterSelected == 'underperforming') || (this.dashboard.quickFilterSelected == 'Underperforming') ) {
+                        this.dashboard.status.active.underperforming = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard.active['underperforming'];
+                    }else if((this.dashboard.quickFilterSelected == 'active') || (this.dashboard.quickFilterSelected == 'Active') ) {
+                        this.dashboard.status.active.bothItem = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+                    }else if((this.dashboard.quickFilterSelected == 'ending Soon') || (this.dashboard.quickFilterSelected == 'Ending Soon') ) {
+                        this.dashboard.status.active.endingSoon = 'active';
+                        this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+                        this.sortParam = 'end_date';
+                        this.sortDirection = 'asc';
+                    }
+                    this.dashboard.quickFilterSelected = getCapitalizeString(this.dashboard.quickFilterSelected);
+                }
+
                 setTopFiltersStatus = function(from, status, selectedElement) {
 
 
@@ -718,7 +745,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                             break;
                         case (type == 'activeAll'):
                             this.dashboard.filterActive = '(active)';
-                           setTopFiltersStatus.call(this, type, true, null);
+                            setTopFiltersStatus.call(this, type, true, null);
                             this.dashboard.filterTotal = this.dashboard.active.total;
                             this.dashboard.quickFilterSelected = 'Active';
                             this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
@@ -864,7 +891,8 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                 fetchData: fetchData,
                 resetCostBreakdown: resetCostBreakdown,
                 getData: getData,
-                findScrollerFromContainer: findScrollerFromContainer
+                findScrollerFromContainer: findScrollerFromContainer,
+                setQuickFilterSelection: setQuickFilterSelection
 
                 //resetSortParams : this.resetSortParams
             }
