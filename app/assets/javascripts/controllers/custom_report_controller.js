@@ -274,7 +274,7 @@ var angObj = angObj || {};
             $scope.fetching = false;
             $(".img_table_container").hide();
             $(".custom_report_response_page").show();
-            $(".hasBreakdown").removeClass("active").removeClass("treeOpen") ;
+            $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen") ;
             $("html, body").animate({ scrollTop: 0 });
             if($scope.selectedMetricsList && $scope.selectedMetricsList.length >0) {
                 $scope.hideReportsTabs = true;
@@ -302,7 +302,7 @@ var angObj = angObj || {};
 
         _customctrl.hideSecondDimensionData = function(firtDimensionElem, secondDimensionElem) {
             secondDimensionElem.hide();
-            firtDimensionElem.removeClass('active treeOpen');
+            firtDimensionElem.removeClass('active treeOpen noDataOpen');
         };
 
         $scope.fetchMoreSecondDimensionData = function(event) {
@@ -339,9 +339,11 @@ var angObj = angObj || {};
                     }
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                     if (respData.length > 0) {
+                        currFirtDimensionElem.removeClass('noDataOpen');
                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
                     } else {
                         $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
+                        currFirtDimensionElem.addClass('noDataOpen');
                     }
 
                 });
