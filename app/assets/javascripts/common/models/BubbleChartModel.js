@@ -24,7 +24,7 @@
                                 slice(0,5).
                                 value();
 
-                if(data != undefined ){
+                if(data.length > 0){
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['brandData'] = data ;
                     bubbleWidgetData['budget_top_title'] =  (total_brands >5) ? "(Top 5 brands)" : "(All Brands)";
