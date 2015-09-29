@@ -4,6 +4,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
+        $("html").css({'background-color':'#eef5fc'});
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.workflowData['getADsForGroupData'] = {}
@@ -175,10 +176,13 @@ var angObj = angObj || {};
             }
             return $scope.sizeString;
         }
-        $scope.ToggleAdGroups = function (context, adGrpId, index) {
+        $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
+            var elem = $(event.target);
             if (context.showHideToggle) {
+                elem.removeClass("glyphicon-minus").addClass("glyphicon-plus") ;
                 context.showHideToggle = !context.showHideToggle
             } else {
+                elem.removeClass("glyphicon-plus").addClass("glyphicon-minus") ;
                 context.showHideToggle = !context.showHideToggle
                 campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
             }

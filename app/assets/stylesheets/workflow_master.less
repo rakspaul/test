@@ -141,6 +141,8 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
     margin-top: 5px;
     label {
       position: relative;
+      padding: 8px 15px;
+      border: 1px solid #ccd2da;
       span {
         width: 100%;
         text-align: center;
@@ -153,7 +155,6 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
       border: 1px solid #0978c9 !important;
     }
     .btn-default {
-      border: 1px solid #0978c9 !important;
       border-radius: 2px !important;
       width: 120px;
       span {
@@ -190,6 +191,7 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
   border: 1px solid #2c9aec !important;
   label {
     color: #2c9aec;
+    font-weight: normal;
   }
 }
 
@@ -205,12 +207,13 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
     background-color: #fff;
     border-color: #dee6eb;
     padding: 11px 0;
+    border-width: 0;
     span {
       width: 100%;
       float: left;
       text-align: center;
       color: #21252b;
-      font-size: 12px;
+      font-size: 14px;
       margin-top: 10px;
     }
   }
@@ -221,10 +224,9 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
   .btn-primary.active {
     color: #2c9aec;
     background-color: #eff2f5;
-    border-color: #2c9aec;
+    border: #2c9aec;
     span {
       color: #2c9aec;
-      font-weight: bold;
     }
   }
   label {
@@ -245,12 +247,18 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
         display: block;
       }
     }
+    .hideRadioBtn:hover {
+      background-color: #dde6eb;
+    }
   }
   label.active {
     .hideRadioBtn {
       background-color: #eff2f5;
       border: 1px solid #2c9aec;
       border-radius: 2px !important;
+    }
+    .hideRadioBtn:hover {
+      background-color: #eff2f5;
     }
   }
 }
@@ -290,15 +298,17 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
 
 // Left Column Nav
 .left_column_nav {
-  margin: 30px 0 0 0;
+  padding: 22px 0 0 0;
   width: 23%;
   float: left;
+  border-right: 1px solid #ccd2da;
+  height: 100%;
   .campaign_name {
     font-family: "Avenir-bold";
     display: inline-block;
     float: left;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   .stepCompLabel {
     border-width: 0;
@@ -314,7 +324,7 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
       float: left;
       width: 100%;
       clear: left;
-      margin: 10px 0 0 0;
+      margin: 4px 0 0 0;
       .errorTxt {
         color: #e83b05;
       }
@@ -335,7 +345,7 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
           margin: -3px 5px 0 0;
         }
         .txtLabel {
-          margin: 10px 0 0 0;
+          margin: 4px 0 0 0;
         }
       }
     }

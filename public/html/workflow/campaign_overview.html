@@ -17,16 +17,28 @@
             <div class="clearfix page_header_container campAdHeader">
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
-                        <span class="accountTitleTag" ng-if="workflowData.campaignData.clientName">{{workflowData.campaignData.clientName}}  <img
-                                src="/assets/images/workflow/arrowBreadcrumbs.png" alt="" width="7"/>  {{workflowData.campaignData.advertiserName}}  <span
-                                ng-if="workflowData.campaignData.brandName"> <img
-                                src="/assets/images/workflow/arrowBreadcrumbs.png" alt="" width="7"/>  {{workflowData.campaignData.brandName}}</span></span>
+                        <div class="accountTitleTag" ng-if="workflowData.campaignData.clientName">
+                            <span class="tagTitle">Client</span>
+                            <span>{{workflowData.campaignData.clientName}}</span>
+                            <span class="tagTitle">Advertiser</span>
+                            <span>{{workflowData.campaignData.advertiserName}}</span>
+                            <div class="pull-left" ng-if="workflowData.campaignData.brandName">
+                                <span class="tagTitle">Brand</span>
+                                <span>{{workflowData.campaignData.brandName}}</span>
+                            </div>
+                        </div>
 
                         <div class="col-md-12 campTitleWrap">
-                            <span class="label pull-left label-warning">{{workflowData.campaignData.status}}</span>
+                            <!-- Abi this will show either active or inactive state only
+                            thing you have to do is add either class for color
+                            "inActiveLabel" or "activeLabel" -->
+                            <span class="label pull-left inActiveLabel">
+                                <!--{{workflowData.campaignData.status}}-->
+                            </span>
 
-                            <h1 class="pull-left" style="word-wrap: break-word;" tooltip="{{workflowData.campaignData.name}}">{{workflowData.campaignData.name | textEllipsis: 60}}</h1>
-                            <span class="pull-left glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            <h1 tooltip="{{workflowData.campaignData.name}}">
+                                {{workflowData.campaignData.name | textEllipsis: 60}}
+                            </h1>
                         </div>
                         <div class="col-md-12 zeroPadding">
                             <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}}</span>
@@ -34,64 +46,66 @@
                     </div>
                     <div class="col-md-3 widgetModule">
                         <div class="campWidgets">
-                            <span class="badge">2</span>
-                            <img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>
+                            <!--<span class="badge">2</span>-->
+                            <!--<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>-->
+                            <a class="icon-message"></a>
                         </div>
                         <div class="campWidgets">
-                            <span class="badge">2</span>
-                            <img src="/assets/images/workflow/activity.svg" alt="" width="20"/>
+                            <!--<span class="badge">2</span>-->
+                            <!--<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>-->
+                            <a class="icon-activity"></a>
                         </div>
                         <div class="campWidgets">
-                            <span class="badge">2</span>
-                            <img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>
+                            <!--<span class="badge">2</span>-->
+                            <!--<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>-->
+                            <a class="icon-attach"></a>
                         </div>
                         <div class="campWidgets">
-                            <span class="badge">2</span>
-                            <img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>
+                            <!--<span class="badge">2</span>-->
+                            <!--<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>-->
+                            <a class="icon-task"></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12 zeroPadding campSettingOverView">
-                    <div class="col-md-1 borderZero zeroPadding">
+                    <div class="pull-left">
                         <label>Goal</label>
-
-                        <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}"
-                             aria-hidden="true"></div>
-                        <span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
+                        <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true"></div>
+                        <span style="clear: none;">{{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
                     </div>
-                    <div class="col-md-2 borderZero">
+                    <div class="pull-left">
                         <label>Total Budget</label>
                         <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
                     </div>
-                    <div class="col-md-3 borderZero">
+                    <div class="pull-left">
                         <label>Flight Dates</label>
-
                         <span ng-if="workflowData.campaignData.startTime">
-                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
-                            {{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}  <span
-                                ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span></span>
+                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13" style="float: left; margin: 3px 8px 0 0;"/>
+                            <span style="float: left; clear: none;">{{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}</span>
+                            <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
+                        </span>
                     </div>
-                    <div class="col-md-2">
+                    <div class="pull-left">
                         <label>Pricing Model</label>
                         <span class="disabledTxt">Cost Per Viewable Impression</span>
                     </div>
-                    <div class="col-md-2 borderZero">
-                        <div class="col-md-4 zeroPadding borderZero">
-                            <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
+                    <div class="pull-left">
+                        <div class="pull-left counterCol">
+                            <label>Ad Groups</label>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
-                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
+                            <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
                         </div>
-                        <div class="col-md-4 zeroPadding borderZero">
-                            <label class="col-md-12 zeroPadding text-center">Ads</label>
-                            <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount || 0}}</span>
+                        <div class="pull-left counterCol">
+                            <label>Ads</label>
+                            <span class="col-md-12 zeroPadding">{{workflowData.campaignData.adsCount || 0}}</span>
                         </div>
-                        <div class="col-md-4 zeroPadding borderZero">
-                            <label class="col-md-12 zeroPadding text-center">Creatives</label>
-                            <span class="col-md-12 zeroPadding text-center emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
+                        <div class="pull-left counterCol">
+                            <label>Creatives</label>
+                            <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
                         </div>
                     </div>
-                    <div class="col-md-2 zeroPadding borderZero">
+                    <div class="pull-right">
                         <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
                     </div>
                 </div>
@@ -135,7 +149,7 @@
                             <div class="col-md-12">
                                 <a ng-href="#" ng-click="navigateToAdCreatePage()" class="col-md-12 text-center addMaster">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <h1>Create Ad</h1>
+                                    <h2>Create Ad</h2>
                                 </a>
                             </div>
                         </div>
@@ -200,7 +214,7 @@
                                 <a ng-href="#" ng-click="navigateToAdCreatePage()"
                                    class="col-md-12 text-center addMaster">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <h1>Create Ad</h1>
+                                    <h2>Create Ad</h2>
                                 </a>
                             </div>
                         </div>
@@ -213,9 +227,9 @@
                                 <span class="pull-left">ID: {{adsData.id}}</span><span ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
                             </div>
                             <div class="col-md-12" style="padding: 0px 10px 35px;">
-                                <h1 class="col-md-10 adCamp">
+                                <h4 class="col-md-10 adCamp">
                                     <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
-                                </h1>
+                                </h4>
                                 <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
                                 <!--Abi for some reason toggle switch doesnt work here but above it those?-->
                                 <!--<div class="btn-group btn-toggle pull-left">

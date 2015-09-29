@@ -15,59 +15,69 @@
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader" ng-include="'/assets/html/workflow/partials/campaign_ads/campain_header.html'"></div>
             <!-- Header Ends -->
-            <div class="clearfix left_column_nav" ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'" ng-init="loadSideBar()"> </div>
-            <!--=== Steps ===-->
-            <div class="campaignAdCreate campaignAdCreatePage">
-                <div class="adMainWrapper">
-                    <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
-                        <div class="adCreateConsole">
-                            <div class="col-md-12 zeroPadding adStepOne">
-                                <div class="col-md-12 zeroPadding tabContent">
-                                    <!-- Tab panes -->
-                                    <div class="tab-content">
-                                        <div class="common-btns">
-                                            <button type="submit" ng-disabled="!adData.adName" id="SaveAd"
-                                                    class="btn btn-primary pull-right">Save
-                                            </button>
-                                            <a ng-href="/campaign/{{workflowData.campaignData.id}}/overview"
-                                               class="pull-right cancel-btn">Cancel</a>
+            
+            <div class="campaignAdCreateWrap">
+                <div class="clearfix left_column_nav" ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'" ng-init="loadSideBar()"> </div>
+                <!--=== Steps ===-->
+                <div class="campaignAdCreate campaignAdCreatePage">
+                    <div class="adMainWrapper">
+                        <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
+                            <div class="adCreateConsole">
+                                <div class="col-md-12 zeroPadding adStepOne">
+                                    <div class="col-md-12 zeroPadding tabContent">
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <div class="common-btns">
+                                                <div class="col-md-6 zeroPadding">
+                                                    <span class="col-md-12 zeroPadding adName" tooltip="{{adData.adName}}">
+                                                        {{adData.adName | textEllipsis: 55}}
+                                                    </span>
+                                                </div>
+                                                
+                                                <button type="submit" ng-disabled="!adData.adName" id="SaveAd"
+                                                        class="btn btn-primary pull-right">Save
+                                                </button>
+                                                <a ng-href="/campaign/{{workflowData.campaignData.id}}/overview"
+                                                   class="pull-right cancel-btn">Cancel</a>
+                                            </div>
+    
+    
+                                            <!-- Tab1 Setting start-->
+                                            <div class="tab-pane fade in active" id="adType" ng-include="'/assets/html/workflow/partials/campaign_ads/select_type.html'"></div>
+                                            <!-- Tab1 Setting end-->
+    
+                                            <!-- Tab2 Setting start-->
+                                            <div class="tab-pane fade" id="setting"  ng-include="'/assets/html/workflow/partials/campaign_ads/budget_delivery.html'"></div>
+                                            <!-- Tab1 Setting Ends -->
+    
+                                            <!-- Tabs Buying Platform -->
+                                            <div class="tab-pane fade" id="buying" style="padding: 30px 0 0 0;" ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'" ng-controller="buyingPlatformController"></div>
+                                            <!-- Tabs Buying Platform Ends -->
+    
+                                            <!-- Tabs Targeting -->
+                                            <div class="tab-pane fade" id="targetting" ng-include="'/assets/html/workflow/partials/campaign_ads/targetting.html'" ng-controller="geoTargettingController"></div>
+                                            <!-- Tabs Targetting Platform -->
+    
+                                            <!-- Tabs Creative -->
+                                            <div class="tab-pane fade" id="creative" style="width:100%;" ng-include="'/assets/html/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'"></div>
+                                            <!-- Tabs Creative -->
+    
+                                            <!-- Tabs Inventory Filters -->
+                                            <div class="tab-pane fade" id="inventoryView" ng-include="'/assets/html/workflow/partials/campaign_ads/inventory.html'" ng-controller="InventoryFiltersController"></div>
+                                            <!-- Tabs Inventory Filters -->
+    
                                         </div>
-
-
-                                        <!-- Tab1 Setting start-->
-                                        <div class="tab-pane fade in active" id="adType" ng-include="'/assets/html/workflow/partials/campaign_ads/select_type.html'"></div>
-                                        <!-- Tab1 Setting end-->
-
-                                        <!-- Tab2 Setting start-->
-                                        <div class="tab-pane fade" id="setting"  ng-include="'/assets/html/workflow/partials/campaign_ads/budget_delivery.html'"></div>
-
-                                        <!-- Tab1 Setting Ends -->
-
-                                        <!-- Tabs Buying Platform -->
-                                        <div class="tab-pane fade" id="buying" style="padding: 0;" ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'" ng-controller="buyingPlatformController"></div>
-                                        <!-- Tabs Buying Platform Ends -->
-
-                                        <!-- Tabs Targeting -->
-                                        <div class="tab-pane fade" id="targetting" ng-include="'/assets/html/workflow/partials/campaign_ads/targetting.html'" ng-controller="geoTargettingController"></div>
-                                        <!-- Tabs Targetting Platform -->
-
-                                        <!-- Tabs Creative -->
-                                        <div class="tab-pane fade" id="creative" style="width:100%;" ng-include="'/assets/html/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'"></div>
-                                        <!-- Tabs Creative -->
-
-                                        <!-- Tabs Inventory Filters -->
-                                        <div class="tab-pane fade" id="inventoryView" ng-include="'/assets/html/workflow/partials/campaign_ads/inventory.html'" ng-controller="InventoryFiltersController"></div>
-                                        <!-- Tabs Inventory Filters -->
-
+                                        <!-- Tab Panes Ends -->
                                     </div>
-                                    <!-- Tab Panes Ends -->
                                 </div>
+                                <!--###=== STEP 1 Ends ===###-->
                             </div>
-                            <!--###=== STEP 1 Ends ===###-->
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
+            
+        
         </div>
     </div>
     <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'" ng-controller="creativeTagController"> </div>

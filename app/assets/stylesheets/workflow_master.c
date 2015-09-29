@@ -60,7 +60,7 @@ a {
   font-size: 13px;
 }
 .firstWrapper input[type='text'] {
-  border: 1px solid #dbe8ef !important;
+  border: 1px solid #dbe8ef;
   border-radius: 0 !important;
 }
 .successMessage {
@@ -74,16 +74,24 @@ a {
   opacity: 0;
 }
 .errorLabel {
-  color: #E83B05 !important;
+  color: #F24444 !important;
   padding: 2px 0 0 4px !important;
   margin-top: 0 !important;
   margin-left: 0;
-  font-size: 13px;
-  font-weight: lighter;
+  font-size: 14px;
+  font-family: 'Avenir';
   display: none;
+  font-weight: normal !important;
 }
 .has-error .errorLabel {
   display: block;
+}
+.firstWrapper .has-error .form-control {
+  border-color: #f24444 !important ;
+  box-shadow: 0px 0px 0px transparent !important ;
+}
+.has-error .form-control:focus {
+  box-shadow: 0px 0px 0px transparent !important ;
 }
 .customErrorLabel {
   color: #E83B05 !important;
@@ -94,9 +102,14 @@ a {
   font-weight: lighter;
   display: block;
 }
-.main_navigation_holder .main_nav {
+.workflow .bodyWrap {
   width: 1200px;
+  margin: 0 auto ;
   padding: 0 30px;
+}
+.workflow .main_navigation_holder .main_nav {
+  width: 1200px;
+  padding: 0px;
 }
 .preloader {
   position: absolute;
@@ -111,7 +124,7 @@ a {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background: url('/assets/images/workflow/ddl_arrow.png') no-repeat right 6px;
+  background: url('/assets/images/cdesk/common-down-arrow-space.png') no-repeat right 10px;
   border: 1px solid #dbe8ef !important;
 }
 .firstWrapper .nav_filters {
@@ -122,6 +135,11 @@ a {
 select {
   border-radius: 2px !important;
   text-decoration: none;
+  padding: 10px 15px 10px 15px;
+  text-align: center;
+  line-height: 16px;
+  font-size: 14px;
+  width: auto;
 }
 .btn-primary {
   background: #0978C9;
@@ -311,7 +329,7 @@ select {
   float: left;
   width: 100%;
   clear: left;
-  margin: 10px 0 0 0;
+  margin: 8px 0 0 0;
 }
 .left_column_nav .stepCompLabel .statusLabel .errorTxt {
   color: #e83b05;
@@ -343,6 +361,9 @@ select {
 .left_column_nav .stepCompLabel .statusLabel.disabled span {
   color: #939ead;
   padding-left: 3px;
+}
+.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
+  padding-left: 0px ;
 }
 .left_column_nav .stepCompLabel li {
   width: 100%;
@@ -399,12 +420,16 @@ select {
   color: #0978c9;
   background: transparent;
 }
+.left_column_nav .creative_tab_sizes {
+  word-wrap: break-word;
+}
 .table thead {
-  border: 1px solid #ccd2da;
-  border-bottom: 2px solid #ccd2da;
+  border: 1px solid #d2dee7;
+  border-bottom: 2px solid #d2dee7;
 }
 .table thead tr th {
   border-width: 0;
+  font-weight: normal;
 }
 .table tbody tr td {
   background: #F5FAFD;

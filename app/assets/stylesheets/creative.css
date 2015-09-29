@@ -218,7 +218,7 @@
 #inventoryFilters .each_filter {
   float: left;
   width: 206px;
-  margin: 0px 30px 0 0;
+  margin: 0px 10px 0 0;
 }
 #inventoryFilters .each_filter .nav_filters_heading {
   font-size: 14px ;
@@ -242,6 +242,7 @@
 #inventoryFilters .containerWrap .nav_filters .dropdown {
   border: 1px solid #d4d4d4;
   padding: 5px 10px;
+  margin-top: 5px;
 }
 #inventoryFilters .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;
@@ -255,20 +256,6 @@
   float: left;
   margin-top: 20px;
   margin-bottom: 30px;
-}
-#inventoryFilters .containerWrap .inventory_upload_btn {
-  margin-bottom: 30px ;
-}
-#inventoryFilters .containerWrap .inventory_upload_btn button {
-  margin-bottom: 10px ;
-  margin-top: 0px;
-}
-#inventoryFilters .containerWrap .inventory_upload_btn .grey_txt {
-  font-size: 12px ;
-  margin: 8px 0 0 5px;
-}
-#inventoryFilters .containerWrap .inventory_upload_btn .note {
-  font-size: 12px ;
 }
 #inventoryFilters .filterList {
   border: 1px solid #dde6eb;
@@ -312,6 +299,23 @@
   clear: left;
   font-size: 14px;
   margin-top: 30px;
+}
+#inventoryFilters .inventory_upload_btn {
+  margin-bottom: 30px ;
+}
+#inventoryFilters .inventory_upload_btn button {
+  margin-bottom: 10px ;
+  margin-top: 0px;
+  float: left;
+}
+#inventoryFilters .inventory_upload_btn .grey_txt {
+  font-size: 14px ;
+  margin: 10px 0 0 15px;
+  float: left;
+}
+#inventoryFilters .inventory_upload_btn .note {
+  font-size: 12px ;
+  margin: 0;
 }
 .popInventoryLib {
   position: fixed;
