@@ -228,16 +228,16 @@ var angObj = angObj || {};
             $scope.generateBtnDisabled = false;
         };
 
-        _customctrl.fetchReportData = function(selectedMetricsList, params, idx, callback)  {
+        _customctrl.fetchReportData = function(selectedMetricsList, params, idx, sucessCallbackHandler, errorCallbackHandler)  {
             $scope.generateBtnDisabled = true;
             dataService.getCustomReportData($scope.campaign, params).then(function(result) {
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
                 if(result && result.data.data) {
-                    callback(result.data.data.report_data, idx)
+                    sucessCallbackHandler(result.data.data.report_data, idx)
                 } else {
-                    _customctrl.errorHandler();
+                    errorCallbackHandler();
                 }
-            }, _customctrl.errorHandler);
+            }, errorCallbackHandler);
         };
 
         _customctrl.getReportData = function() {
@@ -255,7 +255,9 @@ var angObj = angObj || {};
                 } else {
                     _customctrl.errorHandler();
                 }
-            }, _customctrl.errorHandler);
+            }, function() {
+                _customctrl.errorHandler();
+            });
         }
 
         $scope.generateReport = function() {
@@ -267,6 +269,7 @@ var angObj = angObj || {};
             $scope.generateBtnDisabled = false;
             $scope.metricValues = [];
             $scope.reportMetaData={};
+            $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
             $scope.hideReportsTabs = false;
             $scope.reportDataNotFound = false;
             $scope.showhasBreakdown = '';
@@ -346,8 +349,13 @@ var angObj = angObj || {};
                         currFirtDimensionElem.addClass('noDataOpen');
                     }
 
+                }, function() {
+                    $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
+                    $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
+                    currFirtDimensionElem.addClass('noDataOpen');
                 });
                 $scope.generateBtnDisabled = false ;
+
                    
             } else {
                 //hide the second dimension data for clcked row
