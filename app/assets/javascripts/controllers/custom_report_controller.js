@@ -15,6 +15,7 @@ var angObj = angObj || {};
         $scope.filters = domainReports.getReportsTabs();
         $scope.count =0;
         $scope.secondDimensionReportLoading = {};
+        $scope.secondDimensionReportDataNotFound = {};
         $scope.metrics_text = 'Default';
         $scope.generateBtnDisabled = true;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -325,17 +326,24 @@ var angObj = angObj || {};
                 var currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
                 $scope.secondDimensionReportLoading[$scope.activeTab] ={}
                 $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
+
+
+                $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
+                $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
+
                 _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(value, $scope.secondDimensionOffset), currentRowIndex, function (respData, currentRowIndex) {
                     currFirtDimensionElem.addClass('active');
                     var resultLen = respData.length;
                     if(resultLen >= $scope.limit) {
                         currSecondDimensionElem.find('.sec_dimension_load_more').show().attr("offset", resultLen);
                     }
+                    $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                     if (respData.length > 0) {
-                        $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                         _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
+                    } else {
+                        $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
                     }
-                    
+
                 });
                 $scope.generateBtnDisabled = false ;
                    
