@@ -3633,6 +3633,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   z-index: 1;
   margin-bottom: 30px;
 }
+.custom_report_response_page .custom_report_response_table .reportData.noDataOpen .more_dimension_arrow {
+  margin-top: 3px ;
+}
+.custom_report_response_page .custom_report_response_table .reportData.noDataOpen .more_dimension_col:after {
+  display: none ;
+}
 .custom_report_response_page .custom_report_response_table .reportData.hasBreakdown {
   font-family: "Avenir-bold";
 }
