@@ -54,7 +54,7 @@
   margin-left: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .settingWrap {
-  border-left: 1px dashed #DBDBDB;
+  border-left: 1px solid #ccd2da;
   padding: 30px 30px 30px 25px;
   width: 77%;
   float: left;
@@ -231,6 +231,16 @@
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
   margin: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group input[type="text"],
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group input[type="text"] {
+  border: 1px solid #ccd2da !important;
+  border-radius: 0px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group input[type="text"]:focus,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group input[type="text"]:focus {
+  border: 1px solid #0978c9 !important;
+  box-shadow: none;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .startTime,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime {
