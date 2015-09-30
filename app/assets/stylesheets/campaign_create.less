@@ -50,7 +50,7 @@
         }
       }
       .settingWrap{
-        border-left: 1px dashed #DBDBDB;
+        border-left: 1px solid #ccd2da;
         padding: 30px 30px 30px 25px;
         width: 77%;
         float: left;
@@ -131,6 +131,14 @@
         }
         .form-group {
           margin: 0;
+          input[type="text"] {
+            border: 1px solid #ccd2da !important;
+            border-radius: 0px !important;
+          }
+          input[type="text"]:focus {
+            border: 1px solid #0978c9 !important;
+            box-shadow: none;
+          }
         }
         .startTime {
           color: #838383;
