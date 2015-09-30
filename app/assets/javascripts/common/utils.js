@@ -398,12 +398,13 @@
       }
     };
   });
-angObj.directive('truncateTextWithHover', function () {
+angObj.directive('truncateTextWithHover', function (campaignListService) {
     return{
       restrict: 'AE',
       scope: {
         txt: "@txt",
-        txtLength: "@txtlength"
+        txtLength: "@txtlength",
+        lstCampaign:"="
       },
       /*template: '<span data-toggle="tooltip" data-placement="top" data-original-title="{{txt}}" ng-show="(txt.length > txtLength)">' +
       '{{txt |limitTo:txtLength}} ...</span>'+
@@ -411,7 +412,15 @@ angObj.directive('truncateTextWithHover', function () {
       '{{txt}}</span>'*/
         template:'<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" >{{txt|limitTo:txtLength}} ...</span>' +
       '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
-      '{{txt}}</span>'
+      '{{txt}}</span>',
+      link: function (scope, element, attrs, modelCtrl) {
+
+
+        element.on('click', function (event) {
+          campaignListService.setListCampaign(scope.lstCampaign);
+        });
+      }
+
     };
   });
 
@@ -429,20 +438,29 @@ angObj.directive('truncateTextWithHover', function () {
 
   angObj.directive('wholeNumberOnly', function() {
     return {
-      require: 'ngModel',
+      restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        modelCtrl.$parsers.push(function (inputValue) {
-          // this next if is necessary for when using ng-required on your input.
-          // In such cases, when a letter is typed first, this parser will be called
-          // again, and the 2nd time, the value will be undefined
-          if (inputValue == undefined) return ''
-          var transformedInput = inputValue.replace(/[^0-9]/g, '');
-          if (transformedInput != inputValue) {
-            modelCtrl.$setViewValue(transformedInput);
-            modelCtrl.$render();
+        element.on('keydown', function (event) {
+          var $input = $(this);
+          var value = $input.val();
+          value = value.replace(/[^0-9]/g, '')
+          $input.val(value);
+          if (event.which == 64 || event.which == 16) {
+            // to allow numbers
+            return false;
+          } else if (event.which >= 48 && event.which <= 57) {
+            // to allow numbers
+            return true;
+          } else if (event.which >= 96 && event.which <= 105) {
+            // to allow numpad number
+            return true;
+          } else if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
+            // to allow backspace, enter, escape, arrows
+            return true;
+          } else {
+            event.preventDefault();
+            return false;
           }
-
-          return transformedInput;
         });
       }
     };
@@ -450,24 +468,43 @@ angObj.directive('truncateTextWithHover', function () {
 
   angObj.directive('fractionNumbers', function() {
     return {
-      require: 'ngModel',
+      restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        modelCtrl.$parsers.push(function (inputValue) {
-          // this next if is necessary for when using ng-required on your input.
-          // In such cases, when a letter is typed first, this parser will be called
-          // again, and the 2nd time, the value will be undefined
-          if (inputValue == undefined) return ''
-          var transformedInput = inputValue.replace(/[^0-9.]/g, '');
-          if (transformedInput != inputValue) {
-            modelCtrl.$setViewValue(transformedInput);
-            modelCtrl.$render();
+        element.on('keydown', function (event) {
+          var $input = $(this);
+          var value = $input.val();
+          value = value.replace(/[^0-9\.]/g, '')
+          var findsDot = new RegExp(/\./g)
+          var containsDot = value.match(findsDot)
+          if (containsDot != null && ([46, 110, 190].indexOf(event.which) > -1)) {
+            event.preventDefault();
+            return false;
           }
-
-          return transformedInput;
+          $input.val(value);
+          if (event.which == 64 || event.which == 16) {
+            // numbers
+            return false;
+          } if ([8, 13, 27, 37, 38, 39, 40, 110].indexOf(event.which) > -1) {
+            // backspace, enter, escape, arrows
+            return true;
+          } else if (event.which >= 48 && event.which <= 57) {
+            // numbers
+            return true;
+          } else if (event.which >= 96 && event.which <= 105) {
+            // numpad number
+            return true;
+          } else if ([46, 110, 190].indexOf(event.which) > -1) {
+            // dot and numpad dot
+            return true;
+          } else {
+            event.preventDefault();
+            return false;
+          }
         });
       }
     };
   })
+
 
   angObj.directive('removeSpecialCharacter', function() {
     return {
@@ -517,7 +554,7 @@ angObj.directive('truncateTextWithHover', function () {
           return $filter('number')(input, 2) + '%';
         } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
           return constants.currencySymbol + $filter('number')(input, 2);
-        } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
+        } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions' || kpiType.toLowerCase() == 'delivery') {
           return $filter('number')(input, 0);
         } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
           return $filter('number')(input, 0) + '%';
@@ -528,7 +565,10 @@ angObj.directive('truncateTextWithHover', function () {
           return $filter('number')(input, 0);
         }
       } else {
-        return 'NA';
+          if(kpiType.toLowerCase() == 'delivery') {
+            return 0;
+          }
+          return 'NA';
       }
     }
   });
@@ -541,6 +581,20 @@ angObj.directive('truncateTextWithHover', function () {
       return input.replace(/(\-[a-z])/g, function ($1) {
         return $1.toUpperCase().replace('-', '');
       });
+    }
+  });
+  angObj.filter('displayToCamelCase', function (toCamelCaseFilter,toTitleCaseFilter) {
+    return function (input) {
+      if (input == undefined) {
+        return '';
+      }
+
+      if(input.toLowerCase() == 'delivery'){
+        return toTitleCaseFilter(input);
+      }
+
+      return input.toUpperCase();
+
     }
   });
   angObj.filter('toTitleCase', function () {
@@ -748,6 +802,10 @@ angObj.directive('truncateTextWithHover', function () {
   angObj.filter("nrFormat", function () {
     return function (value, key) {
       var y = Math.abs(value);
+      if(y <= 0) {
+        return y;
+      }
+
       key =  key || 0;
       if(y < 9999) {
         return value.toFixed(key);
@@ -828,13 +886,13 @@ angObj.directive('truncateTextWithHover', function () {
   });
 
    angObj.filter('textEllipsis', function () {
-      return function (input) {
+      return function (input,len) {
         if (input == undefined) {
           return '';
         }
         var dispname = input;
-        if(input.length >60) {
-            dispname =input.substring(0,60) + "...";
+        if(input.length >len) {
+            dispname =input.substring(0,len) + "...";
         }
 
         return dispname;

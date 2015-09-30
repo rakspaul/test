@@ -15,17 +15,18 @@
     <script>
       window.scala_api                = '@Play.current.configuration.getString("application.scala_api")';
       window.workflow_api             = '@Play.current.configuration.getString("application.workflow_api")';
-      window.workflowCreate_api          = '@Play.current.configuration.getString("application.workflowCreate_api")';
+      window.workflowCreate_api       = '@Play.current.configuration.getString("application.workflowCreate_api")';
       window.version                  = '@Play.current.configuration.getString("application.version")';
       window.i18nlanguage             = '@Play.current.configuration.getString("application.language")';
+      window.help_domain_url          = '@Play.current.configuration.getString("application.help_domain_url")';
     </script>
 
 </head>
-<body class={{bodyclass}} >
+<body class="{{bodyclass}} {{productType}} {{customReport}}">
 <header></header>
 @content
 @versions()
-<script data-main='@routes.Assets.versioned("javascripts/main.js")' type='text/javascript' src='@routes.Assets.versioned("javascripts/vendor/require.min.js")'></script>
+<script data-main='@routes.Assets.versioned("javascripts/main.js")' type='text/javascript' src='@routes.Assets.versioned("javascripts/vendor/require.min.js")' defer></script>
 @about()
 @ga()
 </body>

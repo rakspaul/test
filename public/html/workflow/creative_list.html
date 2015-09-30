@@ -1,17 +1,30 @@
+
+<div class="top_message_box" ng-show="alertMessage">
+    <span class="msg_box">
+        <span class="msg_icon">x</span>
+        <span class="msg_txt" ng-bind-html="alertMessage"></span>
+        <span class="close_msg_box_holder">
+          <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+        </span>
+    </span>
+</div>
+
 <div id="creativeList">
     <!-- Creative -->
-    <div class="mainWrap">
+    <div class="clearfix mainWrap">
+		<div class="alert alert-success successMessage" role="alert">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> New Creative has been created successfully.
+		</div>
+		
+		<div class="col-md-12 zeroPadding">
+			<h1 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h1>
+			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
+		</div>
 		<div class="col-md-12 zeroPadding clearfix nav_filters">
 				<creative-drop-down></creative-drop-down>
 		</div>
-		<div class="col-md-12 zeroPadding">
-			<h2 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h2>
-			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
-		</div>
-
-		<div class="spacingInput"></div>
-
-		<div class="col-md-12 zeroPadding">
+		
+		<div class="col-md-12 zeroPadding btn_list_filters">
 			<a href="/creative/add" class="btn btn-default" role="button">Create New</a>
 			<button type="button" class="btn btn-default disabled">Bulk Upload</button>
 			<div class="dropdown" style="display: inline-block;">
@@ -29,134 +42,136 @@
 			<!--Search Input-->
 			<div class="col-md-3 pull-right zeroPadding">
 			<div class="input-group">
-			  <input type="text" class="form-control disabled" placeholder="Search for an existing Creative Tag">
+			  <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
 			  <span class="input-group-btn">
-				<button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+				<button class="btn btn-default disabled" ng-disabled="!creativeSearch" ng-click="creativeSearchFunc()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 			  </span>
 			</div>
 			</div>
 		</div>
 
-		<div class="spacingInput"></div>
-
 		<div class="col-md-12 zeroPadding">
 			<div class="table-responsive">
-			<table class="table">
+			<table class="table table-striped">
 				<thead>
 				  <tr>
-					<th style="text-indent: 27px;">Size<br/><br/></th>
-					<th>Format<br/><br/></th>
-					<th>Tag<br/><br/></th>
-					<th>Type <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><br/>SSL</th>
-					<th>Status<br/><br/></th>
-					<th>Associated<br/>Campaigns</th>
-					<th>Associated<br/>Ads</th>
-					<th>Created<br/><br/></th>
+					<th class="col-md-1" style="text-indent: 37px;">Size<br/><br/></th>
+					<th class="col-md-1">Format<br/><br/></th>
+					<th class="col-md-3" style="padding-left: 20px;">Creative Name<br/><br/></th>
+					<th class="col-md-1">Type</th>
+					<th class="col-md-1" style="padding-left: 17px;">SSL</th>
+					<th class="col-md-1">Status<br/><br/></th>
+					<th class="col-md-1">Associated<br/>Campaigns</th>
+					<th class="col-md-1">Associated<br/>Ads</th>
+					<th class="col-md-2" style="padding-left: 20px;">Created<br/><br/></th>
 				  </tr>
 				</thead>
 				<tbody>
-					<!--Test 1-->
-					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives">
-					<!--Column 1-->
+					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="creative-row">
+						
 					<td>
-						<span class="col-md-1"><input type="checkbox" value="{{$index+1}}" /></span>
+						<span class="col-md-1">
+							<!-- 
+							PLS DONT REMOVE 
+							CHECKBOX FOR FUTURE IMPLEMENTATION 
+						    -->
+							<!-- <div class="pull-right external_chkbox">
+                                  <div class="external_chkbox clearfix">
+                                    <div class="squaredFour">
+                                      <input type="checkbox" value="{{$index+1}}" class="squaredFourChkbox" id="creative_squaredFour_{{$index+1}}" />
+                                      <label for="creative_squaredFour_{{$index+1}}"></label>
+                                    </div>
+                                  </div>
+                              </div> -->
+							
+						</span>
 						<div class="col-md-11">
 							<p class="col-md-12">{{creativeData.size.size}}</p>
 						</div>
 					</td>
-					<!--Column 2-->
 					<td>
 						<span class="glyphicon glyphicon-{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
 					</td>
-					<!--Column 3-->
 					<td>
-						<span class="col-md-8">{{creativeData.name}}</span>
-						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag($event)">View Tag</a>
+						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
 						<div class="script_tag">
 							<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
 							<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
 						</div>
 					</td>
-					<!--Column 4-->
 					<td>
 						<span class="col-md-12">{{creativeData.creativeType}}</span>
-						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 					</td>
-					<!--Column 5-->
+					<td>
+						<span class="common-ok" aria-hidden="true"></span>
+					</td>
 					<td>
 						<span> - </span>
 					</td>
-					<!--Column 6-->
 					<td>
 						<span>{{creativeData.noOfCampaigns}}</span>
 					</td>
-					<!--Column 7-->
 					<td>
 						<span>{{creativeData.noOfAds}}</span>
 					</td>
-					<!--Column 8-->
 					<td>
 						<span>{{formatDate(creativeData.createdAt)}}</span>
 					</td>
 					</tr>
-					<tr ng-show="creativesNotFound">
-						<td>Data not available</td>
-					</tr>
 				</tbody>
 			</table>
+			<div ng-show="creativesNotFound" class="emptyCreativeList">
+			    <span>Data not available</span>
+			</div>
+
+			<div ng-show="creativeListLoading" class="common-load-more"></div>
+
 			</div>
 		</div>
 
 		<div class="spacingInput"></div>
-
-		<!--<div class="bottomPagination">
-			<div class="col-md-6 zeroPadding">
-			<span class="pull-left" style="padding: 6px 10px 0 0">Show</span>
-			<div class="col-md-3 zeroPadding">
-				<select class="form-control">
-				<option>50 rows</option>
-				<option>75 rows</option>
-				<option>100 rows</option>
-				<option>200 rows</option>
-				<option>300 rows</option>
-				</select>
-			</div>
-			</div>
-
-			<div class="col-md-6 zeroPadding">
-			<nav class="pull-right">
-				<ul class="pagination">
-				  <li>
-				<a href="#" aria-label="Previous">
-				  <span aria-hidden="true">&laquo;</span>
-				</a>
-				  </li>
-				  <li class="active"><a href="#">1</a></li>
-				  <li><a href="#">2</a></li>
-				  <li><a href="#">3</a></li>
-				  <li><a href="#">4</a></li>
-				  <li><a href="#">5</a></li>
-				  <li>
-				<a href="#" aria-label="Next">
-				  <span aria-hidden="true">&raquo;</span>
-				</a>
-				  </li>
-				</ul>
-			</nav>
-			<span class="pull-right" style="padding: 6px 10px 0 0">1-50 of 364</span>
-			</div>
-		</div>-->
-    </div>
-    
     <!--Modal View Starts Here-->
-    <!--<div class="popScriptUpdate">
-	<div class="popContainer">
-	    <h1 class="pull-left">Title</h1>
-	    <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
-	    <pre></pre>
-	    <button type="button" class="btn btn-primary pull-right">Update Tag</button>
-	    <button type="button" class="btn btn-link pull-right">Cancel</button>
-	</div>
-    </div>-->
+    <div class="popContainerHolder" ng-show="showViewTagPopup">
+		<div class="popContainer">
+			<div class="clearfix">
+			    <h1 class="pull-left">{{selectedCreativeData.name}}</h1>
+			    <span class="close unselectable" aria-hidden="true" ng-click="disableEditor()">x</span>
+		    </div>
+			<div class="textarea_editable_holder"  ng-click="enableEditor()">
+				<div ng-hide="editorEnabled">
+					{{creativeTag}}
+					<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ></span>
+				</div>
+
+				<div ng-show="editorEnabled">
+					<textarea rows="15" name="tag" id="tag" ng-model="editableTag" required ng-show="editorEnabled">{{editableTag}}</textarea>
+					<div ng-show="IncorrectTag" class="customErrorLabel">{{incorrectTagMessage}}</div>
+
+				</div>
+			</div>
+			<div class="clearfix"  ng-show="editorEnabled">
+				<button type="button" class="common_primary_btn pull-right {{editableTag === creativeTag ? 'disabled' : ''}}" id="updateTag" ng-click="updateTag(this)">Update Tag</button>
+				<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
+			</div>
+
+		</div>
+    </div>
+
+	<div class="about_popup popup-holder" ng-show="showDuplicateTagPopup">
+		<div class="modal-header">
+			<h2 class="modal-title">{{textConstant.WF_DUPLICATE_TAG}}</h2>
+		</div>
+		<div class="modal-body">
+			<div class="data_row">
+				{{textConstants.WF_CREATIVE_TAG_ALREADY_EXISTS}}
+			</div>
+		</div><!-- end of modal_body -->
+		<div class="clearfix popup-btns-holder">
+			<span class="common_primary_btn" ng-click="saveDuplicate()">Save</span>
+			<span class="secondary_txt" ng-click="cancelDuplicate()">Cancel</span>
+		</div>
+	</div> <!-- end of popup-holder -->
 </div>
-<img src="/assets/images/workflow/preloader.gif" ng-show="creativeListLoading" alt="Loading" width="31" class="preloader"/>
+
+
+

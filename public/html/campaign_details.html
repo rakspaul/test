@@ -1,20 +1,23 @@
 <div class="main_container">
-
   <div id="campaignDetail" class="dashboard_outer_container campaign_details_page "> <!-- container -->
                   <div class="clearfix campaign_details_header">
                       <div class="pull-left campaign_name">
-                         <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="120"></truncate-text-with-hover>
-                          <div class="sub_title"> 
-                              {{campaign.brandName}}
-                          </div>
+                          Reports Overview
+                         <!--<truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="120"></truncate-text-with-hover>-->
+                          <!--<div class="sub_title"> -->
+                              <!--{{campaign.brandName}}-->
+                          <!--</div>-->
                       </div>
+
                       <a  id="details_view_report" ng-click="setGraphData(campaign,'view_report')">
                         <div class="pull-right view_report">
                             {{textConstants.VIEW_REPORT}}
                         </div>
                       </a>
                   </div>
-
+                  <div class="clearfix">
+                      <filters-header reports="true" strategies="false"></filters-header>
+                  </div>
                 <div ng-show="is_network_user">
                     <!-- action filter -->
                     <form  ng-controller="ActionsController" id="crActivityForm" >
@@ -107,11 +110,11 @@
                                         </div>
                                     </div>
                                   </div>
-                                  <div class="item active">
-                                        <div class="col-xs-3 platform_widget">
+                                  <div class="item active" ng-hide="usrRole && !usrRole.showplatform">
+                                        <div class="col-xs-3 platform_widget" >
                                             <div ng-click="setGraphData(campaign,'platform')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
-                                                    {{ textConstants.PLATFORM }} ({{campaign.kpiType | uppercase}})
+                                                    {{ textConstants.PLATFORM }} ({{campaign.kpiType | displayToCamelCase}})
                                                 </div>
                                                 <div ng-show="loadingPlatformFlag" class="load-more">&nbsp;</div>
                                                 <div ng-if="platformBarChartConfig" bar-chart chart-data="{{platformBarChartConfig}}"></div>
@@ -122,7 +125,7 @@
                                     <div class="col-xs-3 screens_widget">
                                         <div ng-click="setGraphData(campaign,'screens')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                             <div class="graph_heading">
-                                                {{ textConstants.SCREENS }} ({{campaign.kpiType | uppercase}})
+                                                {{ textConstants.SCREENS }} ({{campaign.kpiType | displayToCamelCase}})
                                             </div>
                                             <div ng-show="loadingScreenFlag" class="load-more">&nbsp;</div>
                                             <div ng-if="screenBarChartConfig" bar-chart chart-data="{{screenBarChartConfig}}"></div>
@@ -133,18 +136,18 @@
                                         <div class="col-xs-3">
                                             <div ng-click="setGraphData(campaign,'adsizes')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
-                                                    {{ textConstants.AD_SIZES }} ({{campaign.kpiType | uppercase}})
+                                                    {{ textConstants.AD_SIZES }} ({{campaign.kpiType | displayToCamelCase}})
                                                 </div>
                                                 <div ng-show="loadingAdSizeFlag" class="load-more">&nbsp;</div>
                                                 <div ng-if="adSizenBarChartConfig" bar-chart chart-data="{{adSizenBarChartConfig}}"></div>
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="item {{isCostModelTransparent ? '' : 'active'}}">
+                                     <div class="item {{isCostModelTransparent && !isLocaleSupportUk ? '' : 'active'}}">
                                         <div class="col-xs-3 formats_widget">
                                             <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
-                                                    {{ textConstants.FORMATS }} ({{campaign.kpiType | uppercase}})
+                                                    {{ textConstants.FORMATS }} ({{campaign.kpiType | displayToCamelCase}})
                                                 </div>
 
                                                 <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
@@ -152,11 +155,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                <div class="item">
+                                <div class="item" ng-hide="usrRole && !usrRole.showinventory">
                                     <div class="col-xs-3">
                                         <div ng-click="setGraphData(campaign,'inventory')" tooltip-placement="top" tooltip="{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                             <div class="graph_heading">
-                                                {{ textConstants.INVENTORY }} ({{campaign.kpiType | uppercase}})
+                                                {{ textConstants.INVENTORY }} ({{campaign.kpiType | displayToCamelCase}})
                                             </div>
                                             <div ng-show="loadingInventoryFlag" class="load-more">&nbsp;</div>
                                             <div ng-if="inventoryBarChartConfig" bar-chart chart-data="{{inventoryBarChartConfig}}"></div>
@@ -164,7 +167,7 @@
                                     </div>
                                 </div>
                                   
-                                   <div class="item" ng-if="adFormats.displayAds">
+                                   <div class="item" ng-if="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
                                             <div class="graph_heading">
@@ -288,7 +291,7 @@
                             <span ng-switch-default>
                                 <div ng-if="details.actionChart && campaign.kpiType" class="highcharts" id="details_chart">
                                     <div class="line_tooltip"></div>
-                                    <div class="campaign_details_graph performance" width='450' height='330' campaign-chart chart-data="{{details.lineChart}}" chart-location="action_performance"></div>
+                                    <div class="campaign_details_graph performance" width='450' height='330' campaign-chart chart-data="{{details.lineChart}}" chart-location="action_performance" chart-tag="{{campaign.id}}"></div>
                                     <!-- <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart> -->
                                 </div>
                                 <div ng-if="!(details.actionChart && campaign.kpiType)" class="highcharts" id="details_chart" ng-bind-html="getMessageForDataNotAvailable(campaign,'campaign')">
@@ -424,13 +427,13 @@
                         <div class="each_col col_sec">
                             <div class="col_heading">{{ textConstants.KPI }}</div>
                             <div class="col_val">
-                                 <span ng-if="(campaign.kpiValue > 0)"> {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} </span>{{campaign.kpiType !='null' ? campaign.kpiType : 'NA' | toUpperCase}}
+                                 <span ng-if="(campaign.kpiValue > 0)"> {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} </span>{{campaign.kpiType !='null' ? campaign.kpiType : 'NA' | displayToCamelCase}}
                             </div>
                         </div>
                         <div class="each_col col_third">
                             <div class="col_heading">{{ textConstants.IMP_WITH_DOT }}</div>
                             <div class="col_val">
-                                {{campaigns.cdbDataMap[campaign.orderId].impressions | number}}
+                                {{campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat}}
                             </div>
                         </div>
                         <div class="each_col col_forth">
@@ -517,7 +520,7 @@
                     <div campaign-strategy-card campaign="campaign" campaigns="campaigns"></div>
                 </div>
         </div>
-        <campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"> </campaign-drop-down>
+        <!--<campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"> </campaign-drop-down>-->
     </div>
   </div>
 </div>

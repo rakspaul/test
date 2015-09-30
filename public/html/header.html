@@ -2,27 +2,31 @@
   
   <div class="main_nav clearfix">
     <div class="pull-left">
-      <a href="/" class="main_logo" id="logo"></a>
+      <a href="javascript:void(0);" class="main_logo" id="logo"></a>
     </div>
     <div class="pull-left main_navigation clearfix" >
-      <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser">
+      <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-hide="isWorkFlowUser" ng-if="!dashboard.isNetworkUser" >
         <a href="/dashboard">{{textConstants.DASHBOARD}}</a>
       </div>
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
         <a href="/campaigns">{{textConstants.CAMPAIGNS}}</a>
       </div>
-      <!--<div class="pull-left each_nav_link" id="creative_nav_link">-->
-        <!--<a href="/creative">Creative</a>-->
+      <!--<div class="pull-left each_nav_link" id="creative_nav_link" ng-show="isWorkFlowUser">-->
+        <!--<a href="/creative/list">{{textConstants.CREATIVES}}</a>-->
       <!--</div>-->
-      <div class="pull-left each_nav_link" id="reports_nav_link">
-        <a href="/performance" ng-click="setDefaultReport('Performance');">{{textConstants.REPORTS}}</a>
+      <div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">
+        <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')">{{textConstants.REPORTS}}</a>
         <div class="reports_header_tabs_holder clearfix">
               <report-tabs></report-tabs>
         </div>
       </div>
     </div>
     <div class="pull-right profile_menu">
-      <div class="dropdown dropdown-two">
+      <div style="float:left;">
+        <a href="/help"><img src="/assets/images/cdesk/help_hdr.png" height="30" width="30"></a>
+      </div>
+      
+      <div style="float:right;" class="dropdown dropdown-two">
         <div class="dropdown-toggle profile_account_icon" id="profileItem" ng-click="showProfileMenu()"></div>
         <ul class="dropdown-menu" role="menu" id="profileDropdown">
           <li>
@@ -42,7 +46,13 @@
           </li>
         </ul>
       </div>
+      
     </div>
+    
+    
+    
+    
+    
   </div>
 </div>
 <!-- <div class="breadcrumb_nav_holder nav_filters">

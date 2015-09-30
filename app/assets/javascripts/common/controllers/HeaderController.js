@@ -1,13 +1,17 @@
 (function () {
   'use strict';
-    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel ) {
+    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.filters = domainReports.getReportsTabs();
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.isNetworkUser = loginModel.getIsNetworkUser();
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+
+        if(RoleBasedService.getUserRole()) {
+            $scope.isWorkFlowUser = RoleBasedService.getUserRole().workFlowUser;
+        }
 
         if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
             campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
@@ -23,12 +27,16 @@
         };
 
         $scope.NavigateToTab =  function(url, event, page) {
+            $(".header_tab_dropdown").removeClass('active_tab');
             if(page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
-                url = '/campaigns/'+ $scope.selectedCampaign
+                url = '/campaigns/'+ $scope.selectedCampaign ;
+                $("#reports_overview_tab").addClass("active_tab") ;
             }
-            $(".header_tab_dropdown").removeClass('active_tab');
-            $(event.currentTarget).parent().addClass('active_tab');
+            if(event) {
+                $(event.currentTarget).parent().addClass('active_tab');
+            }
+
             $location.url(url);
         };
 
@@ -43,10 +51,12 @@
             $scope.removeUserData();
             $location.url('/login');
         };
+
         $scope.setDefaultReport = function(reportTitle){
-           $(".header_tab_dropdown").removeClass('active_tab');
-           $( "a[reportTitle='"+reportTitle+"']").parent().addClass('active_tab')
+            $(".header_tab_dropdown").removeClass('active_tab');
+            $( "a[reportTitle='"+reportTitle+"']").parent().addClass('active_tab')
         }
+
         var callSetDefaultReport = $rootScope.$on("callSetDefaultReport",function(event,args){
             $scope.setDefaultReport(args);
         });
@@ -59,6 +69,8 @@
                     var brandsListId = $("#brandsList");
                     var profileDropdownId = $("#profileDropdown");
                     var reportTypeDropdownId = $("#reportTypeDropdown");
+                    var regionTooltip = $(".regionCityTab").find(".common_tooltip");
+                    var quickFilters = $(".sliding_dropdown_container") ;
                   if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                       cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                       cdbDropdownId.hide();
@@ -73,6 +85,16 @@
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
                   }
+                  var regionTooltipId = $(event.target).closest('li').attr("id") ;
+                  if(regionTooltip.is(':visible') && regionTooltipId != "cityTab"  && event.target.id != "tab_region" ) {
+                    regionTooltip.hide();
+                  }
+
+                  var quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr("id");
+                  if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
+                     $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
+                  }
+                  
               }
 
               $( document ).click(function(event) {

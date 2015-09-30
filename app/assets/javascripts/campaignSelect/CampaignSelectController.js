@@ -13,6 +13,7 @@
                 endDate : '-1'
             }
         };
+        $scope.campAll = [{id:0,name:'All Campaigns',kpi : 'ctr',startDate : '-1',endDate : '-1'}];
 
         //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
         $scope.exhausted = false;
@@ -50,14 +51,21 @@
                     startDate: '-1',
                     endDate: '-1'
                 };
+            } else if(selectedCampaign.id == 0) {
+                selectedCampaign = {
+                    id: 0,
+                    name: 'All Campaigns',
+                    kpi: 'ctr',
+                    startDate: '-1',
+                    endDate: '-1'
+                };
             }
 
             var selectedBrand = brandsModel.getSelectedBrand();
             if(selectedBrand.id !== -1) {
                 selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
             }
-
-            campaignSelectModel.setSelectedCampaign(selectedCampaign);
+            campaignSelectModel.setSelectedCampaign(selectedCampaign,$scope.fileIndex,$scope.allCampaign);
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
         };
 
@@ -67,15 +75,22 @@
                 //TODO : rewrite what to do in search condiiton
 
                 var campObj = campaignSelectModel.getCampaignObj();
+                var campArrObj = campObj.campaigns
 
-                if(search)
-                    $scope.campaignData.campaigns = campObj.campaigns;
-                else
+                if(search) {
+                    if($scope.allCampaign == "true") {
+                        campArrObj.unshift.apply(campArrObj, $scope.campAll);
+                        $scope.campaignData.campaigns = campArrObj;
+                    } else {
+                        $scope.campaignData.campaigns = campObj.campaigns;
+                    }
+                } else {
                     $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
-
-                if(set_campaign)
+                }
+                _.uniq($scope.campaignData.campaigns);
+                if(set_campaign) {
                     $scope.setCampaign(campObj.campaigns[0]);
-
+                }
                 $scope.fetching = false;
 
                 if( $scope.campaignData.campaigns.length < searchCriteria.limit )
@@ -84,9 +99,13 @@
 
         };
 
-        $scope.search = function(){
+        $scope.search = function(fileIndex){
             resetSearchCriteria();
-            var search = $("#campaignDropdown").val();
+            if($scope.multiCampaign == undefined) {
+                var search = $("#campaignDropdown").val();
+            }else{
+                var search = $($(".campaignDropdown")[fileIndex]).val();
+            }
             searchCriteria.key = search;
             $scope.fetchCampaigns(true,false);
             $scope.exhausted = false;
@@ -101,11 +120,12 @@
         };
 
         $scope.init = function(){
-            if(campaignSelectModel.getSelectedCampaign().id == -1){
+            if($scope.allCampaign == "true") {
                 $scope.fetchCampaigns(true,true);
-            }
-            else {
-                $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+            } else if((campaignSelectModel.getSelectedCampaign().id == -1) ){
+                $scope.fetchCampaigns(true,true);
+            } else {
+               // $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
                 $scope.fetchCampaigns(true,false);
                 $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
@@ -118,7 +138,7 @@
 
 
         //Function called when the user clicks on the campaign dropdown
-        $('#campaigns_list').on('click', 'li', function (e) {
+        $('.campaigns_list').on('click', 'li', function (e) {
             $scope.$parent.strategyLoading = true ;
             //$scope.$parent.isFetchStrategiesCalled = false;
             var selectedCampaign = {
@@ -131,9 +151,12 @@
             };
             $scope.setCampaign(selectedCampaign );
 
-            $('#campaigns_list').hide();
+            $('.campaigns_list').hide();
             //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
         });
         // $(function() {
         //   $("#campaignsDropdownDiv").on('click',  function(){

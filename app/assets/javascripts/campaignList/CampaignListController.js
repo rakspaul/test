@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel) {
+  campaignListModule.controller('campaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
@@ -11,6 +11,8 @@
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
 
     $scope.textConstants = constants;
+
+    $scope.isWorkflowUser =RoleBasedService.getUserRole().workFlowUser;
 
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
@@ -94,10 +96,10 @@
      $(function() {
         $( "#cost_block,#performance_block" ).scroll(function(){
              var window_scrollTop = $(window).scrollTop();
-             var scroll_to_element= $(".squaredFour").offset().top -15;
+/*             var scroll_to_element= $(".squaredFour").offset().top -15;
              if(scroll_to_element < window_scrollTop){
                 window.scrollTo(0,scroll_to_element);
-             }
+             }*/
              if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
                   var test_height = parseInt($(this).height())+1;
                   $(this).height(test_height);

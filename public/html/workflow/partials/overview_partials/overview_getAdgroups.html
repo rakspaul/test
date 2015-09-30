@@ -1,0 +1,92 @@
+<div class="col-md-12 adModule adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
+    <div class="adTitle" >
+        <a class="collapseIcon" role="button" id="{{$index+1}}" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)" href="">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
+
+        <div class="col-md-5 zeroPadding">
+            <h2 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}">{{adGroupsData.adGroup.name}}</h2>
+            <span class="pull-left adGroupTxt">
+                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                {{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
+        </div>
+
+        <div class="col-md-6 zeroPadding pull-right">
+            <span class="adGroupTxtSecondary">Ready <p class="active">{{(adGroupsData.READY || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">Scheduled <p>{{(adGroupsData.SCHEDULED || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">In Flight <p>{{(adGroupsData.DELIVERING ||0)}}</p></span>
+            <span class="adGroupTxtSecondary">Total Ads <p>{{adGroupsData.noOfAds}}</p></span>
+        </div>
+    </div>
+
+    <div id="collapseAdGroup" ng-show="showHideToggle">
+        <!--=== Create BTN Ad ===-->
+        <div class="col-md-3 adModule adCreateBtn">
+            <div class="col-md-12">
+                <a href="#"
+                   class="col-md-12 text-center addMaster" ng-click="createAdforAdGroup(adGroupsData.adGroup.id,adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+
+                    <h2>Create Ad</h2>
+                </a>
+            </div>
+        </div>
+        <!--=== Single Ad Ready ===-->
+        <!--<div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData track by adsData.id ">-->
+        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id">
+
+        <!--<div ng-repeat="index in adsData">-->
+            <div class="col-md-12 adTitle">
+                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.name}}"/>
+                <!--<span class="pull-left adDisplay">Collective Media</span>-->
+                <span class="pull-left">ID: {{adsData.id}}</span><span ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
+            </div>
+            <div class="col-md-12" style="padding: 0px 10px 35px;">
+                <h4 class="col-md-10 adCamp">
+                    <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
+                </h4>
+                <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
+                <!--Abi for some reason toggle switch doesnt work here but above it those?-->
+                <!--<div class="btn-group btn-toggle pull-left">
+                    <button class="btn btn-xs btn-default">ON</button>
+                    <button class="btn btn-xs btn-success active">OFF</button>
+                </div>-->
+                <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(adsData.endTime) | date : 'MMM dd, yyyy'}}</span>
+
+                <div class="spacer" ng-if="adsData.startTime && adsData.endTime">
+                    <div class="col-md-12"></div>
+                </div>
+                <div class="col-md-4 zeroPadding" ng-switch on="adsData.budgetType">
+                    <div ng-switch-when="COST">
+                        <span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
+                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | currency:undefined:0}}</span>
+                    </div>
+                    <div ng-switch-when="IMPRESSIONS">
+                        <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
+                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | nrFormat}}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 zeroPadding">
+                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
+                    <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue | currency:undefined:2}}</span>
+                </div>
+                <div class="spacer">
+                    <div class="col-md-12"></div>
+                </div>
+                <div class="col-md-12" style="padding: 0px 10px;">
+                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
+
+                    <p style="margin: 0;">{{appendSizes(adsData.creatives)}}</p>
+                </div>
+                <div class="col-md-12" style="padding: 0px 10px;">
+                    <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
+
+                    <p style="margin: 0;">Not Set</p>
+                </div>
+            </div>
+            <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
+            <span class="pull-right adStatus {{adsData.state.toLowerCase()}}">{{adsData.state}}</span>
+        <!--</div>-->
+        </div>
+    </div>
+</div>

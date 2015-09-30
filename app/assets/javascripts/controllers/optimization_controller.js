@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics, momentService) {
 
         $scope.textConstants = constants;
 
@@ -11,6 +11,8 @@ var angObj = angObj || {};
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.api_return_code=200;
+
+        $scope.isStrategyDropDownShow = true;
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >= 500) {
@@ -203,18 +205,27 @@ var angObj = angObj || {};
                                     for (var i = 0; i < maxDays.length; i++) {
                                         maxDays[i]['ctr'] *= 100;
                                         var kpiTypeLower = angular.lowercase(kpiType);
+                                        kpiTypeLower = (kpiTypeLower === 'delivery' ? 'impressions' : kpiTypeLower);
                                         kpiTypeLower =  ((kpiTypeLower == 'null' || kpiTypeLower == undefined)? 'ctr' : kpiTypeLower );
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }
 
                                     $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType.toUpperCase(), actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
-
+                                    var today = moment(new Date()).format('YYYY-MM-DD');
+                                    var chartEnd = (today < $scope.selectedCampaign.endDate ? today : $scope.selectedCampaign.endDate);
                                     //D3 chart object for action performance chart
                                     $scope.lineChart = {
                                         data: lineData,
                                         kpiValue: parseFloat(kpiValue),
                                         kpiType: kpiType.toUpperCase(),
                                         from: 'action_performance',
+                                        deliveryData: {
+                                            "startDate" : $scope.selectedCampaign.startDate,
+                                            "endDate" : $scope.selectedCampaign.endDate,
+                                            "totalDays" :  momentService.dateDiffInDays($scope.selectedCampaign.startDate, $scope.selectedCampaign.endDate) +1,
+                                            "deliveryDays": momentService.dateDiffInDays($scope.selectedCampaign.startDate, chartEnd) +1,
+                                            "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: $scope.campaign.total_impressions
+                                        },
                                         //customisation
                                         defaultGrey: true,
                                         activityList: actionItems,
@@ -393,7 +404,6 @@ var angObj = angObj || {};
 
         $scope.callBackCampaignsSuccess = function () {
             $scope.getCampaignDetails($scope.callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
-            $scope.createDownloadReportUrl();
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
@@ -401,6 +411,10 @@ var angObj = angObj || {};
             $scope.paramObj = {isCampaignChanged: true};
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ; //update the selected Campaign
             $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
+        });
+
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {

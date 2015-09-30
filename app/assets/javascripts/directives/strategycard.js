@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService) {
+    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService,momentService) {
         return {
             restrict:'EAC',
 
@@ -40,14 +40,34 @@
                 };
                 $scope.getSpendClassForStrategy = function(strategy) {
                     var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-                    return $scope.getClassFromDiff(spendDifference);
+                    return $scope.getClassFromDiff(spendDifference,strategy.endDate);
                 };
-                $scope.getClassFromDiff = function(spendDifference) {
-                    if (spendDifference > -1) {
-                        return 'blue';
+
+                $scope.getClassFromDiff = function(spendDifference,strategyEndDate) {
+                    if (strategyEndDate != undefined) {
+                        var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), strategyEndDate);
                     }
-                    if (spendDifference <= -1 && spendDifference > -10) {
-                        return 'amber';
+                    if (spendDifference == -999) { //fix for initial loading
+                        return '';
+                    }
+                    if(strategyEndDate != undefined) {
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), strategyEndDate) == false) {
+                            if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
+                                return 'red';
+                            }else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
+                                return 'blue';
+                            }
+                        }
+
+                        //  past a campaign end date
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), strategyEndDate) == true) {
+                            return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
+                        }
+                    }
+                    if (spendDifference < -10 || spendDifference > 20) {
+                        return 'red';
+                    } else if (spendDifference >= -10 && spendDifference <= 20) {
+                        return 'blue';
                     }
                     return 'red';
                 }

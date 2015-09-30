@@ -11,13 +11,13 @@
 
 	<div class="file_upload_container  {{(reportsUploadList.length) ? 'some_file_uploaded' : ''}}"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
 			 <!-- ng-show="!progress || !reportsUploadList.length" -->
-			<div  ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
+			<div  ng-show="!progress || !reportsUploadList.length" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
 	    <!-- ngf-accept="'.pdf,.xls'"
 	   ngf-max-size='1000000000000' -->
 	            <div class="file_upload_icon" >
 	            </div>
       			<span class="img_table_txt">
-      				Simple drag and drop files to add or  <a id="fileupload" href="javscript:void(0);" >Browse</a>
+      				Simple drag and drop files to add or  <a id="fileupload" href="javascript:void(0);" >Browse</a>
       			</span>
             	<span class="img_type_format">(ppt, pptx, pdf, xls, xlsx)</span>
 			</div>
@@ -94,12 +94,11 @@
 		<!-- TODO: get campaignId and need many instances -->
 									<div class="each-col campaign-col disabled_dropdown_holder">
 											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
-								            <div class="dropdown">
-								                <span data-toggle="dropdown" class="dropdown_txt" style="{{isDisabled(file.campaignId)}}" ng-click="close_other_dropdown();">{{(file.campaignName)?file.campaignName:"Select Campaign"}}</span>
-								                <ul class="dropdown-menu">
-								                    <li ng-repeat="cl in campaignList" ng-click="file.campaignId = ''+cl.campaign_id; file.campaignName= ''+cl.name">{{cl.name}}</li>
-								                </ul>
-								             </div>
+										<div class="clearfix nav_filters">
+											<div class="pull-left dropdown breadcrumb_nav_campaign">
+												<campaign-drop-down selected-obj=selectedCampaign file-index="index" multi-campaign="yes"> </campaign-drop-down>
+											</div>
+										</div>
 									</div>
 
 									<span  ng-click="localDeletetModal(index)" ng-show="file.status!='success'" style="cursor:pointer" class="each-col delete-col" title="Delete"></span>
@@ -167,18 +166,20 @@
 	<span class="msg_box">
 		<span class="msg_icon">x</span>
 		<span class="msg_txt">
-				<span ng-show="successMsg">You have sucessfully uploaded {{uploadedCount}} file(s)</span>
-				<span ng-show="errorMsg">Error in uploading {{errorCount}} file(s)</span>
-				<span ng-show="deleteSuccessMsg">File successfully deleted</span>
-				<span ng-show="deleteErrorMsg">Error in deletig file</span>
-				<span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg">Cannot upload files bigger than 10MB / Unsupported file format</span>
+				<span ng-show="successMsg"><span class="bold-font">Success. </span> You have sucessfully uploaded {{uploadedCount}} file(s)</span>
+				<span ng-show="errorMsg"><span class="bold-font">Error. </span> Error in uploading {{errorCount}} file(s)</span>
+				<span ng-show="deleteSuccessMsg"><span class="bold-font">Success. </span> File successfully deleted</span>
+				<span ng-show="deleteErrorMsg"><span class="bold-font">Error. </span> Error in deleting file</span>
+				<span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg"><span class="bold-font">Error. </span> Cannot upload files bigger than 10MB / Unsupported file format</span>
 
 			<!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
 			<div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">
 				- {{r.name}} ( {{r.size/1000000 | number:2}} MB. )
 			</div>
 		</span>
-		<span class="close_msg_box" ng-click="closeMessage()">x</span> <!--ng-click="close_msg_box($event);"-->
+		<span class="close_msg_box_holder">
+			<span class="close_msg_box" ng-click="closeMessage()">x</span> <!--ng-click="close_msg_box($event);"-->
+		</span>
 	</span>
 </div>
 <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
