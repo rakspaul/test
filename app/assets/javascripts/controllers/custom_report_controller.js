@@ -334,19 +334,22 @@ var angObj = angObj || {};
                 $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
                 $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
 
-                _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(value, $scope.secondDimensionOffset), currentRowIndex, function (respData, currentRowIndex) {
+                var paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset);
+                _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function(respData, currentRowIndex) {
                     currFirtDimensionElem.addClass('active');
-                    var resultLen = respData.length;
-                    if(resultLen >= $scope.limit) {
-                        currSecondDimensionElem.find('.sec_dimension_load_more').show().attr("offset", resultLen);
-                    }
-                    $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
-                    if (respData.length > 0) {
-                        currFirtDimensionElem.removeClass('noDataOpen');
-                        _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
-                    } else {
-                        $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
-                        currFirtDimensionElem.addClass('noDataOpen');
+                    if(respData) {
+                        var resultLen = respData.length;
+                        if (resultLen >= $scope.limit) {
+                            currSecondDimensionElem.find('.sec_dimension_load_more').show().attr("offset", resultLen);
+                        }
+                        $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
+                        if (resultLen > 0) {
+                            currFirtDimensionElem.removeClass('noDataOpen');
+                            _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
+                        } else {
+                            $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
+                            currFirtDimensionElem.addClass('noDataOpen');
+                        }
                     }
 
                 }, function() {
