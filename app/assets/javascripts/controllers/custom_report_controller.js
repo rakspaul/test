@@ -235,9 +235,11 @@ var angObj = angObj || {};
                 if(result && result.data.data) {
                     sucessCallbackHandler(result.data.data.report_data, idx)
                 } else {
-                    errorCallbackHandler();
+                    errorCallbackHandler(idx);
                 }
-            }, errorCallbackHandler);
+            }, function(idx) {
+                errorCallbackHandler(idx)
+            });
         };
 
         _customctrl.getReportData = function() {
@@ -352,7 +354,7 @@ var angObj = angObj || {};
                         }
                     }
 
-                }, function() {
+                }, function(currentRowIndex) {
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
                     $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
                     currFirtDimensionElem.addClass('noDataOpen');
