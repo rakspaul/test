@@ -32,7 +32,7 @@
                             <!-- Abi this will show either active or inactive state only
                             thing you have to do is add either class for color
                             "inActiveLabel" or "activeLabel" -->
-                            <span class="label pull-left inActiveLabel">
+                            <span class="label pull-left {{disablePushBtn ? 'inActiveLabel' : 'activeLabel'}}">
                                 <!--{{workflowData.campaignData.status}}-->
                             </span>
 
@@ -265,8 +265,8 @@
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
-    
-                                    <p style="margin: 0;">Not Set</p>
+
+                                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 ? 'Geo': 'Not Set'}}</span>
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
