@@ -1342,6 +1342,9 @@
     height: 100%;
     z-index: 10;
     background: rgba(0, 0, 0, 0.50);
+    #creative {
+      width: 100%;
+    }
     .creativeLib {
       position: relative;
       width: 800px;
@@ -1514,9 +1517,12 @@
     .popCreativeLib {
       background: #fff;
       left: 100%;
-      width: 877px;
-      top: 128px;
+      width: 920px;
+      top: 122px;
       display:none;
+      -webkit-box-shadow: -3px 0px 0px 0px rgba(0,0,0,0.19);
+      -moz-box-shadow: -3px 0px 0px 0px rgba(0,0,0,0.19);
+      box-shadow: -3px 0px 0px 0px rgba(0,0,0,0.19);
     }
     .closeBtnCreative {
       float: left;
@@ -1652,10 +1658,6 @@
       font-size: 20px;
       margin: 0 0 20px 0 !important;
       font-family:"Avenir";
-    }
-    .helpLink {
-      opacity: .3;
-      text-decoration: none !important;;
     }
     .nextWrapper {
       position: absolute;
@@ -1871,7 +1873,7 @@
       .dropdown-toggle {
         border: 1px solid #ccd2da;
         border-radius: 1px;
-        width: 140px;
+        width: 140px !important;
         text-align: left;
         .caret {
           float: right;

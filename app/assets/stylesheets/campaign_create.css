@@ -1424,6 +1424,9 @@
   z-index: 10;
   background: rgba(0, 0, 0, 0.5);
 }
+#campaignCreate .popCreativeLib #creative {
+  width: 100%;
+}
 #campaignCreate .popCreativeLib .creativeLib {
   position: relative;
   width: 800px;
@@ -1583,9 +1586,12 @@
 #campaignCreate .newCreativeSlide .popCreativeLib {
   background: #fff;
   left: 100%;
-  width: 877px;
-  top: 128px;
+  width: 920px;
+  top: 122px;
   display: none;
+  -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative {
   float: left;
@@ -1713,10 +1719,6 @@
   font-size: 20px;
   margin: 0 0 20px 0 !important;
   font-family: "Avenir";
-}
-.adCreateMaster .tab-content .tab-pane .helpLink {
-  opacity: .3;
-  text-decoration: none !important;
 }
 .adCreateMaster .tab-content .tab-pane .nextWrapper {
   position: absolute;
@@ -1933,7 +1935,7 @@
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle {
   border: 1px solid #ccd2da;
   border-radius: 1px;
-  width: 140px;
+  width: 140px !important;
   text-align: left;
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle .caret {

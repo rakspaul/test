@@ -195,6 +195,11 @@ var angObj = angObj || {};
             $scope.disableCancelSave = false;
 
         }
+        
+        $(".dropdown-menu li a").click(function(){
+            var selText = $(this).text();
+            $(this).parents('.btn-group').find('.dropdown-toggle').html('<span>'+selText+'</span> <span class="caret"></span>');
+        });
 
     });
 

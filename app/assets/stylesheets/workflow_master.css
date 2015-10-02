@@ -42,9 +42,6 @@ a {
   color: #333;
   text-decoration: none;
 }
-.breadcrumbFlow:hover {
-  color: #428bca;
-}
 .labelQuestTxt {
   color: #000;
   font-size: 15px;
@@ -53,15 +50,50 @@ a {
   padding: 0 !important;
 }
 .greyTxt {
-  color: #b3b3b3 !important;
+  color: #939ead !important;
   padding: 7px 0 0 2px !important;
   text-align: left;
-  font-weight: lighter;
-  font-size: 13px;
+  font-size: 12px;
 }
-.firstWrapper input[type='text'] {
+.helpLink {
+  opacity: .3;
+  text-decoration: none !important;
+}
+input[type='text'] {
   border: 1px solid #dbe8ef;
   border-radius: 0 !important;
+}
+textarea {
+  resize: none;
+  border: 1px solid #dbe8ef;
+  border-radius: 0 !important;
+}
+select {
+  border-radius: 1px;
+  border: 1px solid #ccd2da;
+}
+.dropdown-toggle {
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+  width: 100% !important;
+  text-align: left;
+  background: #fff;
+}
+.dropdown-toggle .caret {
+  float: right !important;
+  margin-top: 5px;
+}
+.dropdown-menu {
+  width: 280px;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+}
+.form-control {
+  border-radius: 1px !important;
+  border: 1px solid #ccd2da;
+  -webkit-appearance: none;
 }
 .successMessage {
   width: 400px;

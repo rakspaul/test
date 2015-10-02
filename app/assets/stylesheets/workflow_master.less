@@ -20,7 +20,6 @@ h4 {color: #21252b; font-size: 16px; font-family: "Avenir-bold";}
 h5 {color: #21252b; font-size: 14px; font-family: "Avenir-bold";}
 a {text-decoration: none;}
 .breadcrumbFlow {color: #333; text-decoration: none;}
-.breadcrumbFlow:hover {color: #428bca;}
 .labelQuestTxt {
   color: #000;
   font-size: 15px;
@@ -29,17 +28,52 @@ a {text-decoration: none;}
   padding: 0 !important;
 }
 .greyTxt {
-  color: #b3b3b3 !important;
+  color: #939ead !important;
   padding: 7px 0 0 2px !important;
   text-align: left;
-  font-weight: lighter;
-  font-size: 13px;
+  font-size: 12px;
+}
+.helpLink {
+  opacity: .3;
+  text-decoration: none !important;
 }
         
 // Inputs
-.firstWrapper input[type='text'] {
+input[type='text'] {
   border: 1px solid #dbe8ef;
   border-radius: 0 !important;
+}
+textarea {
+  resize: none;
+  border: 1px solid #dbe8ef;
+  border-radius: 0 !important;
+}
+select {
+  border-radius: 1px;
+  border: 1px solid #ccd2da;
+}
+.dropdown-toggle {
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+  width: 100% !important;
+  text-align: left;
+  background: #fff;
+  .caret {
+    float: right !important;
+    margin-top: 5px;
+  }
+}
+.dropdown-menu {
+  width: 280px;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+}
+.form-control {
+  border-radius: 1px !important;
+  border: 1px solid #ccd2da;
+  -webkit-appearance: none;
 }
 
 // Alert Message
