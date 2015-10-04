@@ -26,6 +26,7 @@ var angObj = angObj || {};
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
+        $scope.preSelectArr = [];
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -454,6 +455,8 @@ var angObj = angObj || {};
         };
 
         $scope.showPopup = function () {
+            $scope.creativeListLoading = false
+            $scope.creativesLibraryData['creativesData'] = [];
             if($scope.selectedArr.length>0){
                 $scope.unchecking=true;
             }else{
@@ -465,7 +468,10 @@ var angObj = angObj || {};
         $scope.removeCreativeTags =  function(clickedTagData, actionFrom) {
             var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) { return obj.id === clickedTagData.id});
             $("#"+clickedTagData.id).removeAttr("checked");
-            $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
+            if(selectedCreativeTag.length > 0 && selectedCreativeTag)
+                $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
+            else
+                $scope.$broadcast('removeCreativeTags', [[clickedTagData], 'special']); //special case when we remove tag from selected list
         };
 
     });
@@ -535,6 +541,7 @@ var angObj = angObj || {};
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false;
             $scope.preDeleteArr = [];
+            $scope.preSelectArr = [];
             $scope.changeStatus();
             $scope.updateCreativeData($scope.selectedArr);
         };
@@ -543,12 +550,24 @@ var angObj = angObj || {};
             $scope.showHidePopup = false;
             $scope.changeStatus();
             if($scope.preDeleteArr.length > 0){
+                $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
                 _.each($scope.preDeleteArr,function(obj){
                     obj.checked = true;
                     $scope.selectedArr.push(obj);
                     $("#"+obj.id).attr('checked',true);
                 })
             }
+            if($scope.preSelectArr.length > 0){
+                $scope.preSelectArr = _.uniq($scope.preSelectArr);
+                _.each($scope.preSelectArr,function(obj){
+                    var idx = _.findIndex($scope.selectedArr, function(item) {
+                        return item.id == obj.id });
+
+                    $scope.selectedArr.splice(idx,1);
+                    $("#"+obj.id).attr('checked',false);
+                })
+            }
+            $scope.preSelectArr = [];
             $scope.selectedArr = _.uniq($scope.selectedArr);
             $scope.updateCreativeData($scope.selectedArr);
         };
@@ -585,14 +604,22 @@ var angObj = angObj || {};
             var selectedCreativeTag = arg[0]
             var actionFrom = arg[1];
             if (selectedCreativeTag.length > 0) {
+
                 var idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
                 $scope.selectedArr.splice(idx, 1);
+
                 if(actionFrom !== 'popup') {
+
                     $scope.updateCreativeData($scope.selectedArr)
                 }
+                else{
+                    //insert into predelete array
+                    $scope.preDeleteArr.push(selectedCreativeTag[0]);
+                }
+                var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
+                $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
             }
-            var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
-            $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
+
             /*Enable save button of popup library if elements exists*/
         })
 
@@ -618,6 +645,7 @@ var angObj = angObj || {};
 
             } else {
                 $scope.selectedArr.push(screenTypeObj);
+                $scope.preSelectArr.push(screenTypeObj);
             }
 
             /*Enable save button of popup library if elements exists*/
