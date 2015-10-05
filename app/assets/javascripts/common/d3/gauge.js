@@ -184,8 +184,8 @@
           this.svgText = createText(this.myContainer, this.config.cx-12, this.config.cy +10, "0", "sans-serif", 30, "bold", "black");
           this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
           this.leftDotText = createText(this.myContainer, leftDotPt.x + 10, leftDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
-
-          this.pctX = this.config.cx; /*This had "this.config.cx + 10" which was moving the percentage right*/
+          
+          this.pctX = this.config.cx + 6; /*This had "this.config.cx + 10" which was moving the percentage right*/
           this.pctTxt = this.myContainer.append("text")
             .attr("x", this.pctX)
             .attr("y", this.config.cy+5)
