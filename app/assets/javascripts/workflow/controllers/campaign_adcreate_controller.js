@@ -27,6 +27,7 @@ var angObj = angObj || {};
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
         $scope.preSelectArr = [];
+        $scope.sortDomain=false;
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -1486,6 +1487,19 @@ var angObj = angObj || {};
                 }
             }
         };
+        $scope.sort=function(){
+        $scope.sortDomain=!$scope.sortDomain;
+        if($(".common-sort-icon").hasClass('ascending')){
+                        $(".common-sort-icon").removeClass('ascending');
+                        $(".common-sort-icon").addClass('descending');
+                        }
+                    else{
+                        $(".common-sort-icon").removeClass('descending');
+                        $(".common-sort-icon").addClass('ascending');
+                        }
+
+
+        }
 
 
         $scope.closeDomainListPop = function() {
