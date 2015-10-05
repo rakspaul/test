@@ -101,17 +101,6 @@ var angObj = angObj || {};
         }
 
         $scope.sucessHandler = function(result) {
-            /*var $elem = $(".succesfulPopMess");
-            $elem.show();
-            $scope.reset();
-            var goalElem = $('.goalBtnGroup').find('label');
-            goalElem.find('label').removeClass('active').find('input').removeAttr('checked');
-            $(goalElem[0]).find("input").attr("checked", "checked");
-            $(goalElem[0]).addClass('active');
-            $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
-            $timeout(function(){
-                $elem.hide();
-            }, 1000)*/
             var url = '/campaign/'+ result.data.data.id + '/overview';
             $location.url(url);
         }
@@ -148,6 +137,7 @@ var angObj = angObj || {};
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.sucessHandler(result);
+                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.CAMPAIGN_CREATED_SUCCESS );
                     }
                 });
             }

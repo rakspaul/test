@@ -56,8 +56,7 @@ var angObj = angObj || {};
         //URL for download
         $scope.download_urls = {
             category: null,
-            domain: null,
-            fullURL: null
+            domain: null
         };
 
         $scope.init = function () {
@@ -161,12 +160,14 @@ var angObj = angObj || {};
             $scope.init();
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.createDownloadReportUrl();
             $scope.inventoryChart = true;
             if ($scope.tacticList[$scope.tacticList.show][0]) {
                 $scope.tacticList[$scope.tacticList.show][0].chart = true;
             }
+        });
 
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
@@ -350,11 +351,6 @@ var angObj = angObj || {};
                     'report_url' : urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
                     'report_name' : 'transparency_by_domain',
                     'label' : 'Inventory Transparency by Domain'
-                },
-                {
-                    'report_url' : urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter,
-                    'report_name' : 'transparency_by_url',
-                    'label' : 'Inventory Transparency by URL'
                 }
             ];
         };

@@ -1,0 +1,132 @@
+<!-- Left Menu Column Starts -->
+    <div class="campaign_name_holder">
+        <h1 class="campaign_name">Create Ad</h1>
+        <ul class="nav nav-tabs tabs-left stepCompLabel" id="myTabs">
+            <li id="adType-tab" class="active">
+                <a href="#adType" role="tab" class="leftNavLink" data-toggle="tab">1 Select Ad Type</a>
+                <div class="col-md-12 zeroPadding">
+                    <div class="statusLabel disabled" ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
+                        <div class="col-md-12">
+                            <span style="color: #000;">Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.adFormat">
+                        <div class="col-md-12">
+                            <img ng-src="/assets/images/workflow/{{getAdFormatIconName(adData.adFormat)}}.svg" alt="" width="12" class="statusIcon"/>
+                            <span>{{adData.adFormat}}</span>
+                            <span>(Format)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.goal">
+                        <div class="col-md-12">
+                            <img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg" alt="" width="12" class="statusIcon"/>
+                            <span>{{adData.goal}}</span>
+                            <span>(Goal)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
+                        <div class="col-md-12">
+                            <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
+                                <img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="12" class="statusIcon"/>
+                                <span>{{screenType.name}}</span><span>(Screen)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="setting-tab">
+                <a href="#setting" role="tab" class="leftNavLink" data-toggle="tab">2 Budget & Delivery</a>
+
+                <div>
+                    <div class="statusLabel disabled"
+                         ng-if="!adData.startTime && !adData.unitCost && !adData.unitType && !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType && !adData.ImpressionsValue && !adData.budgetAmount">
+                        <div class="col-md-12">
+                            <span style="color: #000;">Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="adData.startTime">
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            <span>{{adData.startTime}} - {{adData.endTime}}</span>
+                            <span>(Flight)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="(adData.unitCost  &&  adData.unitType.name)">
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                            <span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
+                            <span>(Unit Cost)</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel" ng-if="(adData.budgetType && adData.budgetAmount)">
+                        <div class="col-md-12">
+                            <span>{{adData.budgetType === 'Impressions' ? '#' : '$'}}</span>
+                            <span>{{adData.budgetAmount | number }}</span>
+                            <span>{{adData.budgetType}} </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="buying-tab">
+                <a href="#buying" role="tab" class="leftNavLink" data-toggle="tab">3 Buying Platform</a>
+                <div>
+                    <div class="statusLabel disabled" ng-if="!adData.platform">
+                        <div class="col-md-12">
+                            <span style="color: #000;">Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel disabled" ng-if="adData.platform">
+                        <div class="col-md-12">
+                            <img ng-src="/assets/images/cdesk/{{getPlatformIconName(adData.platform)}}.png" width="12" class="statusIcon"/>
+                            <span>{{adData.platform}}</span>
+                            <span>(Platform)</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li id="targetting-tab">
+                <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab">4 Targeting</a>
+                <div>
+                    <div class="statusLabel disabled" ng-if="!adData.geoTargetName">
+                        <div class="col-md-12">
+                            <span style="color: #000;">Not Set</span>
+                        </div>
+                    </div>
+
+                    <div class="statusLabel disabled" ng-if="adData.geoTargetName">
+                        <div class="col-md-12">
+                            <span>{{adData.geoTargetName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="inventoryView-tab">
+                <a href="#inventoryView" role="tab" class="leftNavLink" data-toggle="tab">5 Inventory Filters</a>
+                <div>
+                    <div class="statusLabel disabled" ng-if="!adData.inventory.domainAction">
+                        <div class="col-md-12">
+                            <span style="color: #000;">Not Set</span>
+                        </div>
+                    </div>
+                    <div class="statusLabel disabled" ng-if="adData.inventory.domainAction">
+                        <div class="col-md-12">
+                            <span>{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="creative-tab">
+                <a href="#creative" role="tab" class="leftNavLink" data-toggle="tab">6 Creative Tag</a>
+                <div>
+                    <div class="statusLabel disabled" ng-if="adData.setSizes">
+                        <div class="col-md-12">
+                            <span class="creative_tab_sizes" style="color: #000;">{{adData.setSizes}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+<!-- Left Menu Column Ends -->

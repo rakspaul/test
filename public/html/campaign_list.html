@@ -1,20 +1,24 @@
-<div id="detailedPage" class="dashboard_outer_container">
+<div id="detailedPage" class="dashboard_outer_container" ng-controller="campaignListController">
  <!-- header-->
     <div class="clearfix page_header_container campaign_list_header"> 
         <div class="pull-left campaign_name_holder">
-            <span class="campaign_name">{{campaigns.marketerName}}</span>
-            <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span>
+            <span class="campaign_name">Campaign List</span>
+            <!-- <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span> -->
+            <!--<span class="campaign_name_details">({{campaigns.totalCount}})</span>-->
         </div>
-        <div class="pull-right">
-            <filters-header></filters-header>
-        </div>
+     </div>
+    <div class="dropdown_filters_holder">
+        <filters-header></filters-header>
     </div>
- <!-- header ends-->
+    <div campaign-list-filter-directive campaigns="campaigns"></div>
 
+ <!-- header ends-->
+<div>{{campaigns.dashboard.quickFilterSelected}} Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results</div>
     <div class="fixed_line"></div>
     <div class="fixed_container">
         <!--dashboard (status bar) partial view-->
-        <div campaign-dashboard campaigns="campaigns"></div>
+       <!--<div campaign-dashboard campaigns="campaigns"></div>-->
+
         <!--dashboard (status bar) partial view ends-->
         <div class="cost_col_header_tabs_holder">
             <div class="clearfix cost_tabs_margin">
@@ -86,5 +90,6 @@
         $(".dropdown_ul li").click( function() {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
         }) ;
+
     });
 </script>

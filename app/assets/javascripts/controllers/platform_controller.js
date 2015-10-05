@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, RoleBasedService, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
 
@@ -21,7 +21,9 @@ var angObj = angObj || {};
         $scope.sortReverseForCostscpm  = true;
         $scope.sortReverseForCostscpa  = true;
         $scope.sortReverseForCostscpc  = true;
-        $scope.kpiDropdownActive = {}
+        $scope.kpiDropdownActive = {};
+
+        $scope.isStrategyDropDownShow = true;
 
         if ($scope.selected_tab == "performance") {
             $scope.sortType = 'platformType_aggregation.impressions';
@@ -54,6 +56,8 @@ var angObj = angObj || {};
 
         //set default api return code 200
         $scope.api_return_code = 200;
+
+        $scope.usrRole  = RoleBasedService.getUserRole().ui_exclusions;
 
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
@@ -141,8 +145,10 @@ var angObj = angObj || {};
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function (event, campaign) {
             $scope.init();
-
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
+        });
+
+        $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
         });
 

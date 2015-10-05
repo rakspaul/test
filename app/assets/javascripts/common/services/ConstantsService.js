@@ -2,6 +2,7 @@
   var constants = function ($locale) {
     this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
     this.CAMPAIGN_LIST_CANCELLER = 1;
+    this.CAMPAIGN_FILTER_CANCELLER = 1;
     this.COST_CANCELLER = 2;
     this.DASHBOARD_CANCELLER = 3;
     this.GAUGE_CANCELLER = 4;
@@ -23,6 +24,7 @@
     this.ACTIVE_ONTRACK = '(active,ontrack)';
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
+    this.ENDING_SOON = 'Ending Soon';
     this.ACTIVE = 'active';
     this.DASHBOARD_STATUS_ACTIVE = "Active";
     this.DASHBOARD_STATUS_COMPLETED = "Completed";
@@ -87,6 +89,16 @@
     this.CREATIVES = "Creatives";
     this.VIDEO_PLAYS = "Video Plays";
     this.AD_SIZES = "Ad Sizes";
+
+    this.COLLECTIVE_INSIGHTS = "Collective Insights";
+    this.UPLOAD_REPORT = "Upload Report";
+
+    this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
+    this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
+    this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
+    this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
+    this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
+    this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
@@ -214,7 +226,6 @@
 
     this.CATEGORIES = "Categories";
     this.DOMAINS = "Domains";
-    this.URLS = "URLs";
     this.DELIVERED = "Delivered";
     this.DELIVERED_IMPS = "Delivered Imps";
     this.VIEW_MODE = "Media Type";
@@ -248,6 +259,8 @@
     this.MEASURABLE = "Measurable";
     this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
 
+    this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
+
     this.STRATEGY = "Strategy";
 
     this.PLATFORM_NAME = "Platform Name";
@@ -274,6 +287,7 @@
 
     this.CATEGORIZED_DATA_TOOLTIP = "% computed from categorized data only. Screen categorization of media started in March 2014, hence data prior to that is uncategorized";
 
+    this.TARGET_ZONE = "Target Zone";
     this.KPI_ON_TARGET = "KPI on target";
     this.KPI_UNDERPERFORMANCE = "KPI Underperformance";
     this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "Graph represents campaigns which have set KPI values only";
@@ -341,6 +355,7 @@
     this.WF_MEDIA_COST = "Media Cost";
     this.WF_BUDGET = "Budget";
     this.WF_UNIT_COST = "Unit Cost";
+    this.WF_PUSH_CAMPAIGN = "Push Campaign";
 
     this.WF_HEADER_BUYING_PLATFORM ="Here are the available buying platform based on your goals & ad settings";
     this.WF_HEADER_BUYING_PLATFORM_SUB ="Guided Copy Here - Which platform should i choose?";
@@ -360,6 +375,18 @@
 
     this.YESTERDAY = "Yesterday";
     this.WF_NOT_SET="Not Set";
+
+    this.WF_CREATIVE_TAG_ALREADY_EXISTS = "This tag already exists in your Creative Tag Library. Save a Creative anyway?";
+    this.WF_DUPLICATE_TAG = 'Duplicate Tag';
+    this.WF_INVALID_CREATIVE_TAG= 'You have entered an invalid Javascript tag.Please review carefully and try again';
+    this.WF_INVALID_CREATIVE_TAG_TRACKER="Please include the %%TRACKER%% macro to save the tag";
+    this.WF_CREATIVE_TAG_UPDATE_ERROR = 'Unable to update creative';
+    this.WF_CREATIVE_FORCESAVE = 'Unable to forceSave creative';
+    this.WF_VIEW_TAG_LABEL ='View Tag';
+    this.WF_ADD_TARGETING_LABEL ='Add Targeting';
+    this.WF_CREATIVE_FORMAT_LABEL ='Creative Format'
+    this.WF_MANDATORY_CREATIVE_FORMAT ="Please select the creative format.";
+    this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";

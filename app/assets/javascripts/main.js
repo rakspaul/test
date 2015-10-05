@@ -4,7 +4,7 @@
   // -- RequireJS config --
   requirejs.config({
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['brands', 'campaignList', 'campaignSelect', 'strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
+    packages: ['brands', 'campaignList', 'campaignSelect','strategySelect', 'kpiSelect','common', 'controllers', 'dashboard', 'directives', 'editActions', 'login', 'models', 'services', 'timePeriod','tmp'],
 
     shim: {
       'jsRoutes': {
@@ -21,10 +21,12 @@
         },
       'angular-cache': {deps: ['angular']},
       'angular-switch': {deps: ['angular']},
+      'angular-css': {deps: ['angular']},
       'date-picker': {deps: ['jquery', 'bootstrap']},
       'angular-cookies': {deps: ['angular-cache']},
       'angular-resource': {deps: ['angular-cookies']},
       'angular-route': {deps: ['angular-resource']},
+      'tmhDynamicLocale'   : {deps: ['angular']},
       'ng-infinite-scroll': {deps: ['angular-route']},
       'highcharts-ng': {deps: ['ng-infinite-scroll']},
       'highcharts': {deps: ['highcharts-ng']},
@@ -38,11 +40,11 @@
       'angulartics': {deps: ['angular']},
       'angulartics-ga': {deps: ['angulartics']},
       'd3': {deps: ['angulartics-ga']},
-      'angular-locale' : {deps:['angular']},
       'angular-sanitize': {deps: ['d3']},
       'filesaver': {deps: ['angular-sanitize']},
       'ui-bootstrap-tpls': {deps: ['filesaver']},
       'lrInfiniteScroll': {deps: ['ui-bootstrap-tpls']},
+      'jquer_table_sorter_scroller' : {deps: ['ui-bootstrap-tpls']},
       'app': {deps: ['lrInfiniteScroll']},
       'CommonModule': {deps: ['app']},
       'common-charts-line':{deps: ['CommonModule']},
@@ -91,6 +93,8 @@
       'campaignList-CampaignListModel':{deps: ['campaignList-CampaignListModule']},
       'campaignList-CampaignListService':{deps: ['campaignList-CampaignListModel']},
       'campaignList-CampaignListController':{deps: ['campaignList-CampaignListService']},
+      'campaignList-CampaignListFilterDirective':{deps: ['campaignList-CampaignListModule']},
+      'workflow-controllers-CampaignListController':{deps: ['campaignList-CampaignListService']},
 
 
       'editActions-EditActionsModule':{deps: ['campaignList-CampaignListController']},
@@ -129,9 +133,10 @@
       'login-LoginModel':{deps: ['login-LoginModule']},
       'login-LoginService':{deps: ['login-LoginModel']},
       'login-LoginController':{deps: ['login-LoginService']},
-
+      'common-services-RoleBasedService' :  {deps: ['login-LoginService']},//roleBased
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
       'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
+      'controllers-help_controller':{deps: ['controllers-campaign_details_controller']},
       'controllers-campaign_overview_controller': {deps: ['controllers-campaign_create_controller']},
       'controllers-campaign_adcreate_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-creative_controller': {deps: ['controllers-campaign_adcreate_controller']},
@@ -156,7 +161,7 @@
       'directives-campaigncostsort':{deps: ['directives-campaignlistsort']},
       'directives-campaigndashboard':{deps: ['directives-campaigncostsort']},
      // 'directives-reportfilters':{deps: ['directives-campaigndashboard']},
-  //     'directives-strategylist':{deps: ['directives-reportfilters']},
+     // 'directives-strategylist':{deps: ['directives-reportfilters']},
       'multiselect':{deps: ['directives-campaigndashboard']},
       'models-domain_reports':{deps: ['multiselect']},
       'models-action_type':{deps: ['models-domain_reports']},
@@ -175,13 +180,14 @@
       'services-platformservice':{deps: ['services-optimizationservice']},
       'services-momentService': {deps: ['login-LoginModel']},
       'common-directive-DataNotFound':{deps:['CommonModule']},
-
+      'common-services-zipCode' : {deps:['CommonModule']},
       'collectiveReport-CollectiveReportModule':{deps: ['angular']},
-      'collectiveReport-CollectiveReportListingController':{deps: ['angular']},
+      'collectiveReport-CollectiveReportListingController':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
       //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
+
 
     },
     optimize: 'uglify2',
@@ -196,7 +202,9 @@
       'angular': 'vendor/angular.min',
       'angular-resource': 'vendor/angular-resource.min',
       'angular-route': 'vendor/angular-route.min',
+      'tmhDynamicLocale': 'vendor/tmhDynamicLocale.min',
       'angular-switch':'vendor/angular-ui-switch.min',
+      'angular-css':'vendor/angular-css.min',
       'angular-cookies': 'vendor/angular-cookies',
       'angular-cache': 'vendor/angular-cache-2.3.7',
       'angular-sanitize': 'vendor/angular-sanitize',
@@ -215,6 +223,7 @@
       'underscore': 'vendor/underscore-min',
       'ng-infinite-scroll': 'vendor/ng-infinite-scroll.min',
       'lrInfiniteScroll': 'vendor/lrInfiniteScroll',
+      'jquer_table_sorter_scroller' : 'vendor/jquer_table_sorter_scroller',
       'ui-bootstrap-tpls': 'vendor/ui-bootstrap-tpls-0.12.1.min',
       'd3': 'vendor/d3',
       'filesaver': 'vendor/filesaver',
@@ -264,6 +273,8 @@
       'campaignList-CampaignListModel':'campaignList/CampaignListModel',
       'campaignList-CampaignListService':'campaignList/CampaignListService',
       'campaignList-CampaignListController':'campaignList/CampaignListController',
+      'campaignList-CampaignListFilterDirective':'campaignList/CampaignListFilterDirective',
+      'workflow-controllers-CampaignListController':'workflow/controllers/CampaignListController',
 
 
       'editActions-EditActionsModule':'editActions/EditActionsModule',
@@ -312,6 +323,7 @@
 
 
       'controllers-campaign_details_controller':'controllers/campaign_details_controller',
+      'controllers-help_controller':'controllers/help_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
       'controllers-campaign_overview_controller':'workflow/controllers/campaign_overview_controller',
       'controllers-campaign_adcreate_controller':'workflow/controllers/campaign_adcreate_controller',
@@ -355,8 +367,9 @@
       'services-optimizationservice':'services/optimizationservice',
       'services-momentService': 'common/MomentUtils',
       'common-directive-DataNotFound':'common/directives/DataNotFound',
-      'angular-locale':'vendor/i18n/angular-locale_en-us',
-      'jsRoutes': '/jsroutes'
+      'common-services-zipCode' : 'common/services/zipCode',
+      'jsRoutes': '/jsroutes',
+      'common-services-RoleBasedService':'common/services/RoleBasedService' //roleBased
     }
 
   });
@@ -372,8 +385,9 @@
            'bootstrap',
           'angular',
           'angular-switch',
+          'angular-css',
           'angular-resource',
-          'angular-route',
+          'tmhDynamicLocale',
           'angular-cookies',
           'angular-cache',
           'ng-infinite-scroll',
@@ -394,6 +408,7 @@
            'filesaver',
            'ui-bootstrap-tpls',
            'lrInfiniteScroll',
+           'jquer_table_sorter_scroller',
            'app',
            'CommonModule',
            'common-charts-line',
@@ -441,6 +456,8 @@
            'campaignList-CampaignListModel',
            'campaignList-CampaignListService',
            'campaignList-CampaignListController',
+           'campaignList-CampaignListFilterDirective',
+           'workflow-controllers-CampaignListController',
 
 
            'editActions-EditActionsModule',
@@ -481,6 +498,7 @@
            'login-LoginController',
 
            'controllers-campaign_details_controller',
+           'controllers-help_controller',
            'controllers-campaign_create_controller',
            'controllers-campaign_overview_controller',
            'controllers-campaign_adcreate_controller',
@@ -523,14 +541,13 @@
            'services-optimizationservice',
            'services-momentService',
            'common-directive-DataNotFound',
-           'angular-locale',
-
           'collectiveReport-CollectiveReportModule',
           'collectiveReport-CollectiveReportListingController',
           'collectiveReport-CollectiveReportModel',
-         // 'collectiveReport-CollectiveReportDirective',
           'collectiveReport-CollectiveEditReportController',
-          'collectiveReport-CollectiveDeleteReportController'
+          'collectiveReport-CollectiveDeleteReportController',
+          'common-services-zipCode',
+          'common-services-RoleBasedService'//roleBased
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {

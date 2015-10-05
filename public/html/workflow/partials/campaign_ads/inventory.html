@@ -1,0 +1,109 @@
+<div class="newInventoryFilters">
+    <div id="inventoryFilters" >
+        <!-- Header Starts -->
+        <div class="col-md-2 zeroPadding hideRightPanel"></div>
+        <div class="col-md-10 containerWrap">
+            <h2 class="col-md-12 zeroPadding marginBottom">Set Inventory Filters</h2>
+            <a href="javascript:void(0);" class="helpLink">How do I manage my Inventory Filters?</a>
+            <div class="col-md-12 zeroPadding clearfix nav_filters">
+                <creative-drop-down></creative-drop-down>
+            </div>
+
+            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
+                <div class="each_filter" style="margin-bottom: 20px;">
+                    <div class="nav_filters_heading">List Name</div>
+                    <select id="inventory" name="inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
+                        <option value="">Select Domain List</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12 zeroPadding inventory_upload_btn">
+                <div class="clearfix">
+                    <button class="pull-left btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
+                            ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false">Upload Domain List</button>
+                    <span class="grey_txt">(.csv, .txt file)</span>
+                </div>
+                <div class="grey_txt note">Only 1 list is supported at this moment.</div>
+            </div>
+        </div>
+        <!-- Header Ends -->
+        <!-- Body Starts -->
+        <div class="col-md-2 zeroPadding hideRightPanel"></div>
+        <div class="col-md-10">
+            <div class="filterList" ng-if="adData.inventory.domainList.length>0">
+                <div class="filterHead" >
+                    <h1>Domain List</h1>
+                    <span style="color: #939eaf;">{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
+                    <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
+                    <!--<a class="pull-left clearfix" style="margin-top: 20px;">Domain</a>-->
+                </div>
+
+                <div class="filterBody">
+                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : domain">{{domain}}</span>
+                </div>
+            </div>
+        </div>
+        <!-- Body Ends -->
+    </div>
+</div>
+
+<!-- Modal Start -->
+<div class="popInventoryLib" ng-show="showDomainListPopup">
+    <form id="inventoryForm" name="inventoryForm" novalidate>
+        <div class="inventoryLib">
+            <div class="headerLib">
+                <span class="close" aria-hidden="true" ng-click="closeDomainListPop()">x</span>
+                <h1>Upload List</h1>
+                <!--<button type="file" class="btn btn-default">Upload New</button>-->
+                <span>File Name</span>
+            </div>
+            <div class="popBody">
+                <div class="popList">
+                    <span ng-repeat="file in files">{{file.name}}</span>
+                </div>
+
+                <div class="col-md-12 zeroPadding">
+                    <div class="col-md-12 zeroPadding">
+                        <label class="col-sm-12 control-label greyTxt miniLabels">List Name</label>
+                        <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
+                            <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-model="adData.listName" id="listName" placeholder="Enter List Name" required>
+                            <label class="col-sm-12 control-label greyTxt errorLabel">Please enter list name.</label>
+                        </div>
+                    </div>
+
+                    <div class="categoryDDL">
+                        <label class="col-sm-12 control-label greyTxt miniLabels">Category</label>
+                        <div class="form-group col-md-12 zeroPadding">
+                            <select class="form-control" id="inventoryCat" disabled>
+                                <option value="">Domain List</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="radioBtnToggle">
+                        <label class="col-sm-12 control-label greyTxt miniLabels">Type</label>
+                        <div class="btn-group miniToggle">
+                            <label class="btn btn-default {{adData.inventory.domainAction === 'INCLUDE' ? 'active' : ''}}"><span>Whitelist</span>
+                                <input type="radio" name="inventoryType" value="INCLUDE" ng-disabled="workflowData.inventoryData.length >0  ?  true : false"  ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
+                            </label>
+                            <label class="btn btn-default {{adData.inventory.domainAction === 'EXCLUDE' ? 'active' : ''}}"><span>Blacklist</span>
+                                <input type="radio" name="inventoryType" value="EXCLUDE" ng-disabled="workflowData.inventoryData.length > 0 ?  true : false"  ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
+                            </label>
+                        </div>
+                        <div class="grey_txt note" style="margin-top: 4px;" ng-if="workflowData.inventoryData.length >0">List type cannot be modified. </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 popFooter">
+                <button type="button" class="btn btn-primary pull-right" ng-disabled="!adData.listName.length || (files && files.length === 0)"  ng-click="uploadDomain()">Import</button>
+                <button type="button" class="btn btn-link pull-right" ng-click="closeDomainListPop()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal End -->
+
+<!--=== Next Step Panel ===-->
+<a href="#creative" data-toggle="tab" class="nextWrapper leftNavLink">
+    <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+</a>

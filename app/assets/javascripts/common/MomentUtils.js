@@ -30,6 +30,29 @@
 
     }
 
+    //function can be called as momentService.todayDate('YYYY-MM-DD')
+    this.todayDate = function(dateFormat) {
+      return moment().format(dateFormat);
+    }
+
+    this.dateDiffInDays = function(date1,date2) {
+        var d1 = moment(date1);
+        var d2 = moment(date2);
+
+        return moment.duration(d2.diff(d1)).asDays();
+    }
+
+    this.isGreater = function(date1,date2) {
+      var d1 = moment(date1);
+      var d2 = moment(date2);
+
+      if(d2.diff(d1) < 0) {
+         return true;
+      }
+      return false;
+
+    }
+
 
   }]);
 }());

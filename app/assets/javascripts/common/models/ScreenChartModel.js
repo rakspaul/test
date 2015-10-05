@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel) {
+    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
@@ -14,11 +14,19 @@
             'action rate' : 'action_rate'
         }
 
-        var screenTypeMap = {
+            var screenTypeMap = {
             'smartphone' : 'mobile_graph',
             'tv' : 'display_graph',
             'tablet' : 'tablet_graph',
             'desktop' : 'display_graph'
+        }
+
+        var usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+        if(usrRole && usrRole.ui_modules) {
+            screenWidgetData.formatDropDown =  _.filter(screenWidgetData.formatDropDown, function(obj, idx) {
+                obj = obj.slice(0, obj.length-1);
+                return _.indexOf(usrRole.ui_modules, obj.toLowerCase()) == -1
+            });
         }
 
         this.dataModifyForPlatform =  function(data, kpiModel, screenWidgetFormat) {
@@ -137,9 +145,9 @@
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
-                if(typeof data !== 'undefined') {
+                //if(typeof data !== 'undefined') {
                     screenWidgetData['responseData'] = data;
-                }
+                //}
             });
         };
 
@@ -167,5 +175,5 @@
 
 
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', screenChartData]);
+    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService', screenChartData]);
 }());

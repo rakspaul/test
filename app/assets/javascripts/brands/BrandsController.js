@@ -53,9 +53,9 @@
 
 
         $scope.brandsDropdownClicked = function () {
-            if (brandsModel.getBrand().enable === false) {
+/*            if (brandsModel.getBrand().enable === false) {
                 return;
-            }
+            }*/
             $("#brandsList").toggle();
             $("#cdbMenu").closest(".each_filter").removeClass("filter_dropdown_open");
             $("#brandsList").closest(".each_filter").toggleClass("filter_dropdown_open");

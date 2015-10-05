@@ -4,7 +4,7 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
     campaign.campaigns = {};
     campaign.selectedCampaign = (localStorage.getItem('selectedCampaign') == undefined) ? { id: -1,name : 'Loading...', kpi : 'ctr', startDate : '-1', endDate : '-1' } : (JSON.parse( localStorage.getItem('selectedCampaign') )) ;
 
-    campaign.setSelectedCampaign = function (_campaign) {
+    campaign.setSelectedCampaign = function (_campaign,fileIndex,allCampaign) {
         if (!$.isEmptyObject(_campaign)) {
             campaign.selectedCampaign.id = (_campaign.id == undefined) ? _campaign.campaign_id : _campaign.id;
             campaign.selectedCampaign.name = _campaign.name;
@@ -17,13 +17,23 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
             if (campaign.selectedCampaign !== undefined && (campaign.selectedCampaign.kpi == 'null' || campaign.selectedCampaign.kpi == null || campaign.selectedCampaign.kpi == undefined || campaign.selectedCampaign.kpi == 'NA')) {
                 campaign.selectedCampaign.kpi = 'ctr'; // set default kpi as ctr if it is coming as null or NA from backend.
             }
-
-
-            localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign));
+            if(allCampaign == "true") {
+                localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
+            } else {
+                localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign));
+            }
             kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
             if (campaign.selectedCampaign.name){
-                $(".campaign_name_selected").text(campaign.selectedCampaign.name);
-                $("#campaignDropdown").val(campaign.selectedCampaign.name);
+                if(fileIndex == undefined) {
+                    $(".campaign_name_selected").text(campaign.selectedCampaign.name);
+                    $(".campaign_name_selected").prop('title',campaign.selectedCampaign.name);
+                    $("#campaignDropdown").val(campaign.selectedCampaign.name);
+                } else {
+                    var campaignElems = $($(".campaign_name_selected")[fileIndex]);
+                    campaignElems.text(campaign.selectedCampaign.name);
+                    campaignElems.attr('campaignId', campaign.selectedCampaign.id)
+                    $(".campaignDropdown").val(campaign.selectedCampaign.name);
+                }
             }
         }
     };

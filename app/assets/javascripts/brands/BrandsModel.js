@@ -23,12 +23,17 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
         success.call(this, brands);
       })
     },
-    setSelectedBrand: function (_brand) {
-      brand.selectedBrand = _brand;
-    },
-    getSelectedBrand: function() {
-      return brand.selectedBrand;
-    },
+      setSelectedBrand: function (_brand) {
+          brand.selectedBrand = _brand;
+          localStorage.setItem('setFrmLocStore', JSON.stringify(_brand));
+      },
+      getSelectedBrand: function() {
+          var fromLocStore = JSON.parse(localStorage.getItem('setFrmLocStore'));
+          if(fromLocStore !== null){
+              brand.selectedBrand = fromLocStore;
+          }
+          return brand.selectedBrand;
+      },
     getBrand: function() {
       return brand;
     },
@@ -37,7 +42,7 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
     },
     disable: function() {
       brand.enable = false;
-      brand.cssClass = "brands_filter_disabled"; 
+      brand.cssClass = "brands_filter_disabled";
     },
     enable: function() {
       brand.enable = true;

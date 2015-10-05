@@ -4,34 +4,61 @@
         return {
             restrict: 'AE',
             scope: {
-                selectedObj: "="
+                selectedObj: "=",
+                fileIndex: "=",
+                multiCampaign: '@',
+                allCampaign: '@'
             },
             controller: 'campaignSelectController',
             templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
                 $scope.textConstants = constants;
+                $scope.headerText = $scope.textConstants.CAMPAIGN;
+                if($scope.multiCampaign != undefined) {
+                    $scope.headerText = "";
+                }
                 $('.dropdown_list_scroll').scrollWithInDiv();
                 var campaignName = '';
                 var localStorageCampaignData;
                 $scope.$watch('selectedObj.name', function(v) {
-                    localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
-                    // $("#campaignDropdown").width($(".campaign_name_length").width() + 14 );
+                     //$(".campaignDropdown").width($(".campaign_name_length").width() + 14 );
+                    if($scope.allCampaign == "true") {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
+                        $scope.selectedObj.name = localStorageCampaignData.name;
+                    } else {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    }
                 });
 
-                $('#campaign_name_selected').click(function (event) {
-                    
-                    if ($('#campaigns_list').css('display') === 'block') {
-                        $('#campaigns_list').hide();
-                    } else {
-                        $('#campaigns_list').show();
-                    }
-                    
-                    var inputValue = $('#campaignDropdown').val();
-                    if(inputValue) {
-                        $('#campaignDropdown').attr('placeholder', inputValue);
-                        $('#campaignDropdown').val('');
+                $('.campaign_name_selected').click(function (event) {
+                    if($scope.multiCampaign == undefined) {
+                        if ($('#campaigns_list').css('display') === 'block') {
+                         $('#campaigns_list').hide();
+                         } else {
+                         $('#campaigns_list').show();
+                         }
 
+                         var inputValue = $('#campaignDropdown').val();
+                         if(inputValue) {
+                            $('#campaignDropdown').attr('placeholder', inputValue);
+                            $('#campaignDropdown').val('');
+                            if($scope.allCampaign == "true") {
+                                $('#campaign_name_selected').val(inputValue);
+                                $scope.selectedObj.name = inputValue;
+                             }
+                         }
+                    } else {
+                        var target = $(event.target);
+                        var campaignListElem = target.parent().find(".campaigns_list");
+                        if (campaignListElem.css('display') === 'block') {
+                            campaignListElem.hide();
+                        } else {
+                            campaignListElem.show();
+                        }
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
                     }
+
                 });
 
                 $scope.add_active_selection = function() {
@@ -40,7 +67,11 @@
                 };
 
                 $(document).click(function(event) {
-                    localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    if($scope.allCampaign == "true") {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
+                    } else {
+                        localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
+                    }
                     if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
                         $("#campaigns_list").hide();
                         var inputValue;

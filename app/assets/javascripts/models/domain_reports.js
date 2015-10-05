@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ['loginModel', function (loginModel) {
+    angObj.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
 
         return {
             getReportsTabs : function() {
@@ -37,6 +37,12 @@
                     tabs =  _.filter(tabs, function(obj, idx) {  return obj.href !== 'cost'});
                 }
 
+                var usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
+                if(usrRole && usrRole.ui_modules) {
+                    tabs =  _.filter(tabs, function(obj, idx) {  return _.indexOf(usrRole.ui_modules, obj.href) == -1 });
+                }
+
+
                 return {
                     'tabs' :  tabs,
                      activeTab : document.location.pathname.substring(1)
@@ -46,7 +52,7 @@
                 var tabs  =  [
                     {
                         href:'reports/list',
-                        title: 'Collective'
+                        title: 'Collective Insights'
                     }
                 ];
                 return {
@@ -107,8 +113,6 @@
         return {
             restrict:'EAC',
             link: function($scope, element, attrs) {
-                console.log(attrs);
-                console.log(element);
                 var template;
                 element.bind('click', function() {
                     $http.get(assets.html_add_report_filter).then(function (tmpl) {
@@ -131,13 +135,16 @@
         return {
             restrict:'EAC',
             link: function($scope, element, attrs) {
-                console.log(attrs);
-                console.log(element);
                 var template;
                 element.bind('click', function() {
                     $http.get(assets.html_add_report_dimension).then(function (tmpl) {
                         template = $compile(tmpl.data)($scope);
                         angular.element(document.getElementById('breakdown_row')).append(template);
+                        if( $("#breakdown_row").find(".breakdown_div").length >= 0 ) {
+                            $(".add_breakdown_btn").closest(".row").hide() ;
+                        } else {
+                            $(".add_breakdown_btn").closest(".row").show() ;
+                        }
                     });
                 });
             }
@@ -269,12 +276,18 @@
             },
             restrict:'EAC',
             templateUrl: '/assets/html/partials/filters_header.html',
-            link: function(scope, element, attrs) { 
+            link: function(scope, element, attrs) {
                 scope.reportFilter = attrs.reports ;
                 scope.textConstants = constants;
+                scope.allCampaign = attrs.allCampaign;
+                if(scope.allCampaign == "true") {
+                    scope.selectedCampaign = { id: 0, name: 'All Campaigns', kpi: 'ctr', startDate: '-1', endDate: '-1'};
+                }
             }
         };
     }]);
+
+
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){

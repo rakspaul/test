@@ -107,7 +107,7 @@ var angObj = angObj || {};
                     $scope.strategyLoading =  false;
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data ;
-                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null){
+                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0){
                             $scope.dataNotFound = false;
                             $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
                             if($scope.isCostModelTransparent ===  false) {
@@ -171,8 +171,10 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.createDownloadReportUrl();
+        });
 
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){

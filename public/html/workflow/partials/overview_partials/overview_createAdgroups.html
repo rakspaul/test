@@ -1,0 +1,54 @@
+<div class="col-md-12 adGroupCreate" ng-show="showCreateAdGrp">
+<form id="createNewAdGrp" name="createNewAdGrp" novalidate>
+    <div class="adGroupCreateForm">
+        <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
+        <div class="col-md-6 zeroPadding">
+            <label for="nameTitleAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
+            <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
+            <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
+                <input type="text" class="form-control" id="nameTitleAdGroup" remove-special-character ='remove-special-character' name="adGroupName" ng-model="adGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
+                <label ng-if="createNewAdGrp.adGroupName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
+            </div>
+        </div>
+        <div class="col-md-6 zeroPadding">
+            <label for="dateTitleAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
+            <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+                <div class="form-group col-md-12 dateWrapper zeroPadding" style="margin-left: -5px;" show-errors='{showSuccess: true}'>
+                    <div class="col-md-2" style="width: 150px; padding: 0 5px;" >
+                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                        <input type="text" id="adGrpStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-change="handleFlightDate(startTime)" required/>
+                    </div>
+                    <div class="col-md-2" style="width: 150px; padding: 0 5px;">
+                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                        <input type="text" id="adGrpEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  disabled="disabled" name="endTime" required/>
+                    </div>
+                    <label ng-if="createNewAdGrp.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                </div>
+                    <span class="col-md-12 input-group-addon">
+                        <div class="calenderIcon">
+                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                        </div>
+                        <div class="calenderIcon" style="margin-left: 119px;">
+                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                        </div>
+                    </span>
+            </div>
+        </div>
+        <div class="col-md-6 zeroPadding">
+            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid" ng-click="createAdGroup(createNewAdGrp)">Save</button>
+            <span class="pull-right secondary_txt" ng-click="createAdGrp();">Cancel</span>
+        </div>
+        <div id="createGroupMessage">{{createAdGroupMessage}}</div>
+    </div>
+</form>
+</div>
+<script>
+    $(function() {
+        $('.input-daterange').datepicker({
+            format: "mm/dd/yyyy",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true
+        });
+    })
+</script>

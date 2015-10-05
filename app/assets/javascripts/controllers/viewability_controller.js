@@ -20,6 +20,13 @@ var angObj = angObj || {};
         $scope.sortReverse  = false; // set the default sort order
         $scope.sortReverseDefaultSelection  = true;
 
+        $scope.sortTypeForVideos    = '-view_metrics.video_viewability_metrics.videos_deliverable_imps';
+        $scope.sortReverseForVidView  = true;
+
+
+
+
+
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
             if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
@@ -131,8 +138,11 @@ var angObj = angObj || {};
             $scope.init();
             //update the selected Campaign
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-            $scope.createDownloadReportUrl();
             $scope.videoMode = false;
+        });
+
+        $scope.$watch('selectedCampaign', function() {
+            $scope.createDownloadReportUrl();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
@@ -165,6 +175,11 @@ var angObj = angObj || {};
           $scope.callBackKpiDurationChange('duration');
         });
 
+        $scope.removeActivesForVidSelect = function () {
+            $(".icon_text_holder").removeClass( "active" );
+            $(".viewability_header .sec_col .icon_text_holder").addClass( "active" );
+        }
+
         $scope.sortClassFunction = function (a,b,c) {
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
@@ -179,6 +194,7 @@ var angObj = angObj || {};
         };
 
         $scope.removeKpiActive = function(){
+            $(".viewability_header .sec_col .icon_text_holder").removeClass( "active" );
             $('.dropdown_ul_text').removeClass( "active" );
             $(".kpi_arrow_sort").removeClass( "active" );
             $(".kpi-dd-holder").removeClass( "active" );

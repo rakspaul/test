@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angObj.directive('campaignChart', function($window, constants, analytics, loginModel) {
+    angObj.directive('campaignChart', function($window, constants, analytics, loginModel, $filter) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -15,19 +15,37 @@
                         var margin = _config.margin;
                         var width = _config.width;
                         var height = _config.height;
-
-
                         var xScale = d3.time.scale().domain([data[0][xkeyVal], data[data.length - 1][xkeyVal]]).range([margin.left, width]);
                         var yScale = d3.scale.linear().domain([0, d3.max(data, function(d) {
                             return d[ykeyVal];
                         })]).range([height, margin.left]);
+                        var ticksData;
+                        if(_config.isPerformanceChart) {
+                            ticksData = data.length > 7 ? 5 : data.length-1;
+                        } else {
+                            ticksData = _config.keys.xAxis.ticks;
+                        }
 
                         var xAxisGen = d3.svg.axis()
                             .scale(xScale)
                             .orient("bottom")
-                            .ticks(_config.keys.xAxis.ticks)
+                            .ticks(ticksData)
                             .tickFormat(d3.time.format("%_d %b"))
                             .tickSize(0);
+
+                        //tick control
+                        if(!_config.isPerformanceChart && data !== null) {
+                            var timeExtent = d3.extent(data, function(d) {return Date.parse(d.date)});
+                            var median = d3.median(timeExtent);
+
+                            xAxisGen.tickValues([
+                                new Date(timeExtent[0]), //begin
+                                new Date(median), //median
+                                new Date(timeExtent[1]) //end
+                            ]);
+
+                        }
+
 
                         //.tickValues(_config.keys.xAxis.tickValues)
                         /*.tickFormat(function(d){
@@ -67,7 +85,7 @@
                             })
                             .y(function(d) {
                                 return yScale(d[ykeyVal]);
-                            })
+                            });
 
                         this.updateConfig({
                             'xScale': xScale,
@@ -77,7 +95,7 @@
                             //'area' :area,
                             'lineFun': lineFun,
 
-                        })
+                        });
                     },
 
                     drawPath: function(data, index) {
@@ -122,7 +140,26 @@
                             return d[ykeyVal];
                         });
 
-                        if (threshold != 0) {
+                        if(_config.isPerformanceChart) {
+                            var adjustY;
+                            if(chartCallFrom == 'action_optimization') {
+                                adjustY = 10;
+                            } else if(_config.kpiType.toLowerCase() == "delivery") {
+                                adjustY = 14;
+                            } else {
+                                adjustY = 20;
+                            }
+
+                            svg.append("text")
+                                .attr("id", "kpi_type_text")
+                                .attr("x", -15)
+                                .attr("y", adjustY)
+                                .style("font-size","12px")
+                                .style("fill", "#57595b")
+                                .text(_config.kpiType.toLowerCase()!=="delivery"?_config.kpiType:"Delivery");
+                         }
+
+                         if (threshold !== 0 && kpiType.toLowerCase() !== "delivery") {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
                             //if threshold is out of view i.e greater than data view
@@ -134,6 +171,7 @@
                             //resize domain of y-axis 20% extra spacing
                             updateDomain(maxData, 20);
 
+
                             var imageSize = "11",
                                 imagePosition = 5;
 
@@ -141,14 +179,6 @@
                             if(_config.isPerformanceChart) {
                                 imageSize = "13";
                                 imagePosition = -30;
-
-                                svg.append("text")
-                                    .attr("id", "kpi_type_text")
-                                    .attr("x", -15)
-                                    .attr("y", (chartCallFrom == 'action_optimization') ? 10 : 20)
-                                    .style("font-size","12px")
-                                    .style("fill", "#57595b")
-                                    .text(_config.kpiType);
 
                                  var addCrossHair = function(xCoord, yCoord) {
                                       // Update vertical cross hair
@@ -247,8 +277,8 @@
                                 });
 
                             //classes used to color the threshold clipping path
-                            var red = "clip-above",
-                                blue = "clip-below",
+                            var red = "clip-above-" + _config.versionTag,
+                                blue = "clip-below-" + _config.versionTag,
                                 //default settings - positive color is blue and is below and danger zone is red that is above
                                 aboveClass = blue,
                                 belowClass = red;
@@ -277,22 +307,120 @@
                                 .data(["above", "below"])
                                 .enter().append("path")
                                 .attr("class", function(d) { return "line " + d; })
-                                .attr("clip-path", function(d) { return "url(#clip-" + d + ")"; })
+                                .attr("clip-path", function(d) { return "url(#clip-" + d + "-"+_config.versionTag+")"; })
                                 .datum(data)
-                                .attr("d", line)
+                                .attr("d", line);
 
                         } else { //if no threshold
 
-                            //resize domain of y-axis 20% extra spacing
-                            updateDomain(maxData, 20);
+                          if(kpiType.toLowerCase() === "delivery") {
+                            //delivery as kpi
+                            //***
+                            var maxUpperThreshold = d3.max(data, function(d) {
+                                return d['upperPacing'];
+                            });
+                            if(maxUpperThreshold>maxData) {
+                                updateDomain(maxUpperThreshold, 20);
+                            }
 
-                            //render default color to the path
-                            svg.append("svg:path")
-                                .attr({
-                                    d: _config.lineFun(data),
-                                    "class": "path" + index
-                                })
-                        }
+                                var upperPacingLine = d3.svg.line()
+                                    .interpolate("basis")
+                                    .x(function(d) {
+                                        return _config.xScale(d.date);
+                                    })
+                                    .y(function(d) {
+                                        return _config.yScale(d.upperPacing);
+                                    });
+
+
+                                svg.append("svg:path")
+                                    .attr({
+                                        d: upperPacingLine(data),
+                                        "class": "upper_pacing"
+                                    })
+                                    .style({"stroke":'#DDE6EB', "stroke-dasharray":5, "fill":'none'});
+
+                                    var lowerPacingLine = d3.svg.line()
+                                        .interpolate("basis")
+                                        .x(function(d) {
+                                            return _config.xScale(d.date);
+                                        })
+                                        .y(function(d) {
+                                            return _config.yScale(d.lowerPacing);
+                                        });
+
+
+                                    svg.append("svg:path")
+                                        .attr({
+                                            d: lowerPacingLine(data),
+                                            "class": "upper_pacing"
+                                        })
+                                        .style({"stroke":'#DDE6EB', "stroke-dasharray":5, "fill":'none'});
+
+                                  //CREATE DEFINITION FOR COLOR CLIPPING
+                                  var defs = svg.append("svg:defs");
+
+                                  var clippath = defs.append("svg:clipPath")
+                                  .attr("id", "delivery-clip-"+_config.versionTag);
+
+                                  var draw_clip_poly = function(d) {
+                                    return draw_polygon(_config.reverseUpperPacing).replace('M', '');
+                                  };
+
+                                  var draw_polygon = d3.svg.line()
+                                    .x(function(d) { return _config.xScale(_config.parseDate(d.date)); })
+                                    .y(function(d) {  return _config.yScale(d.pacing); })
+                                    .interpolate(function (points) { return points.join(' '); });
+
+
+                                  //POLYGON TO CLIP COLOR
+                                  clippath.append("svg:polygon")
+                                  .attr("class", "area_clip")
+                                  .attr("points", draw_clip_poly);
+
+                                  var reversePacingLine = d3.svg.line()
+                                      .interpolate("basis")
+                                      .x(function(d) {
+                                          return _config.xScale(_config.parseDate(d.date));
+                                      })
+                                      .y(function(d) {
+                                          return _config.yScale(d.pacing);
+                                      });
+
+
+                                  //DRAW IMPRESSIONS PATH
+                                  svg.append("svg:path")
+                                      .attr({
+                                          d: _config.lineFun(data),
+                                          "class": "path" + index
+                                      }) .style({"stroke":'#f24444', "stroke-width": 2, "fill":'none'});
+                                      var clipId = "url(#delivery-clip-"+versionTag+")";
+
+                                  //DRAW CLIPPED PATH
+                                  svg.append("svg:path")
+                                    .attr("clip-path", clipId)
+                                      .attr({
+                                          d: _config.lineFun(data),
+                                          "class": "path" + index
+                                      });
+
+
+                           } else {
+                              //resize domain of y-axis 20% extra spacing
+                              updateDomain(maxData, 20);
+
+                              //render default color to the path
+                              svg.append("svg:path")
+                                  .attr({
+                                      d: _config.lineFun(data),
+                                      "class": "path" + index
+                                  });
+                            } //END OF KPI
+
+                        }//END OF NO THRESHOLD CHECK
+
+
+
 
                         svg.append("rect")
                           .attr("class", "overlay")
@@ -382,13 +510,26 @@
                              var x0 = _config.xScale.invert(d3.mouse(this)[0]),
                                  i = bisectDate(data, x0, 1),
                                  d0 = data[i - 1],
-                                 d1 = data[i],
-                                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                                 d1 = data[i];
+
+                                 var d = undefined;
+
+                                 if(d0 && d1) {
+                                   d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                                 } else {
+                                   return false;
+                                 }
 
                                  var svg = d3.select(_config.rawSvg[0]),
                                      mousePos = d3.mouse(this),
                                      formatY = parseFloat(d.values).toFixed(2),
                                      formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
+
+                                 if(kpiType.toLowerCase() == "delivery") {
+                                   //delivery in tooltips shown as integer
+                                   formatY = parseInt(d.values);
+                                   formatY = $filter('nrFormat')(formatY, 0);
+                                 }
 
                                 svg.selectAll(".tooltip_line")
                                     .remove();
@@ -837,6 +978,17 @@
                                     .text((s[0]!="")?s[1]:s[2]);
                                     })
                                 });
+                        } else { //end of type check
+                            xTicks.selectAll('.x .tick text').each(function(d,i){
+                                //fixing tick positions
+                                  var self = d3.select(this);
+                                  if(i==0){
+                                      self.attr("x","15")
+                                  }
+                                  if(i==2){
+                                      self.attr("x","-15")
+                                  }
+                            });
                         } //end of type check
 
                         svg.append("svg:g")
@@ -915,7 +1067,7 @@
                         return (key != undefined ? key.toUpperCase() : value.toUpperCase());
                     },
 
-                    chartDataFun: function(lineData, threshold, kpiType, chartFrom) {
+                    chartDataFun: function(lineData, threshold, kpiType, chartFrom, deliveryData) {
                         var _config = this.lineChartConfig;
                         var kpiType = kpiType != 'null' ? kpiType : 'NA';
                         var kpiMap = {
@@ -927,14 +1079,63 @@
                             kpiType = lineChartService.findKey(kpiMap, kpiType);
                         }
                         _config.kpiType = kpiType;
-                        var data = [];
+                        var data = [],
+                            lowerPacingThreshold = [], //lower line
+                            higherPacingThreshold = [], //upper line
+                            goalPerDay, upperPacing, lowerPacing,
+                            weekStart = undefined,
+                            weekEnd = undefined,
+                            bookedImpressions = undefined,
+                            deliveryDays = undefined,
+                            totalDays, totalImps;
 
-                        for (var i = 0; i < lineData.length; i++) {
-                            data.push({
-                                date: lineData[i]['date'],
-                                values: lineData[i]['y']
-                            });
+                        //for delivery as KPI
+                        if(kpiType.toLowerCase() === "delivery") {
+                          if(deliveryData) {
+                              bookedImpressions = deliveryData.bookedImpressions;
+                              deliveryDays = deliveryData.deliveryDays;
+                              weekStart = moment(deliveryData.endDate).subtract(6,'days'); // 1 WEEK
+                              weekEnd = moment(deliveryData.endDate);
+                              totalDays = deliveryData.totalDays;
+
+                          }
+                            goalPerDay = bookedImpressions/deliveryDays;
+                            totalImps = goalPerDay * totalDays;
+                            //generate pacing data from impressions
+                            var days;
+                            for (var i = 0; i < lineData.length; i++) {
+                              //days passed
+                              days = i+1;
+                                    upperPacing = (goalPerDay * (days))  + (totalImps * 0.05);
+                                    lowerPacing = (goalPerDay * (days))  - (totalImps * 0.05);
+                                //Fixes for pacing lines going out of the chart
+                                if(upperPacing < 0) {
+                                  upperPacing = 0;
+                                }
+                                if(lowerPacing < 0) {
+                                  lowerPacing = 0;
+                                }
+                                data.push({
+                                    date: lineData[i]['date'],
+                                    values: lineData[i]['y'],
+                                    upperPacing: upperPacing, //(dailyPacing * (i+1)) * (1.2), //120%
+                                    lowerPacing: lowerPacing //(dailyPacing * (i+1)) * (0.9) //90%
+                                });
+
+                            }
+
+
+                        } else { //for other kpi types
+                            for (var i = 0; i < lineData.length; i++) {
+                                data.push({
+                                    date: lineData[i]['date'],
+                                    values: lineData[i]['y']
+                                });
+                            }
                         }
+
+
+
                         return data;
                     }
                 }
@@ -1211,9 +1412,43 @@
 
                 var dataObj = JSON.parse(attrs.chartData);
                 var chartCallFrom = attrs.chartLocation || null;
+                var versionTag = attrs.chartTag || Math.floor(Math.random()*10000000); //to fix firefox mozilla coloring issue for clip path tagging
 
-                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from),
+                var deliveryData = dataObj.deliveryData || null;
+
+                var chartDataset = lineChartService.chartDataFun(dataObj.data, dataObj.kpiValue, dataObj.kpiType, dataObj.from, deliveryData),
                     performanceChart = false;
+
+                var reverseUpperPacing =[], pacing = [];
+                if((dataObj.kpiType).toLowerCase() === "delivery") {
+
+                      //create reverse line for delivery polygon
+                      _.each(chartDataset, function(d){
+                        pacing.push (
+                          {
+                            "pacing": d.lowerPacing,
+                            "date": d.date
+                          }
+                        );
+                        reverseUpperPacing.push(
+                          {
+                            "pacing": d.upperPacing,
+                            "date": d.date
+                          }
+                        )
+                      });
+                      reverseUpperPacing.reverse();
+                      _.each(reverseUpperPacing, function(p){
+                        pacing.push(
+                          {
+                            "pacing": p.pacing,
+                            "date": p.date
+                          }
+                        );
+                      });
+
+                }
+
 
                 if(dataObj.from =="action_performance") {
                    performanceChart = true;
@@ -1221,9 +1456,11 @@
 
                 var lineData = {
                     json: [chartDataset],
+                    reverseUpperPacing: pacing,
                     threshold: dataObj.kpiValue,
                     isPerformanceChart: performanceChart,
                     chartCallFrom: chartCallFrom,
+                    versionTag: versionTag,
                     kpiType: dataObj.kpiType,
                     keys: {
                         xAxis: {
@@ -1258,6 +1495,11 @@
                   //lineData.margin.right = 0;
                 }
 
+                if((dataObj.kpiType).toLowerCase() === "delivery") {
+                  //disabling ticks for y axis when kpi is delivery
+                    lineData.keys.yAxis.ticks = 0;
+                }
+
                 //JSON.parse(attrs.chartData).data ;//scope[attrs.chartData].data;
                 var rawSvg = elem.find('svg');
                 rawSvg.attr("width", attrs.width);
@@ -1268,6 +1510,8 @@
                     margin: lineData.margin,
                     threshold: lineData.threshold,
                     isPerformanceChart: lineData.isPerformanceChart,
+                    versionTag: lineData.versionTag,
+                    reverseUpperPacing: lineData.reverseUpperPacing,
                     chartCallFrom: lineData.chartCallFrom,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,

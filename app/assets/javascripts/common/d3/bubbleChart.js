@@ -1,19 +1,15 @@
 (function() {
     "use strict";
-    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel, loginModel, analytics) {
+    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel, loginModel, analytics, $locale) {
 
         var brands_svg = {},
             campaigns_svg = {} ,
             chartData = {},
             node = {} , blueGradient = {}, orangeGradient = {}, greenGradient = {} ,  greyGradient = {};
 
-
+        constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
 
         var tooltipBackGroundColor = "#FEFFFE";
-
-
-
-
 
         var colors = {
             brands : {

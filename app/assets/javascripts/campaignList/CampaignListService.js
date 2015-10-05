@@ -9,6 +9,8 @@
                   campaignModel, dataStore, apiPaths, requestCanceller,
                   constants, momentInNetworkTZ, domainReports) {
 
+            var listCampaign = "";
+
             var appendStrategyData = function(obj, key) {
                 var str = '';
                 for(var c in obj){
@@ -23,6 +25,30 @@
                     str += obj[c] + ', ';
                 }
                 return str.substring(0, str.length - 1);
+            };
+
+            var setListCampaign = function(campaign) {
+                listCampaign = campaign;
+            }
+
+            var getListCampaign = function() {
+                return listCampaign;
+            }
+
+            var noOfdaysCampaignRun = function(startDate, endDate) {
+                var today = momentInNetworkTZ.today();
+                var startDate = momentInNetworkTZ.newMoment(startDate);
+                var endDate = momentInNetworkTZ.newMoment(endDate);
+
+		/*
+                var totalDays = endDate.diff(startDate, 'days') + 1,
+                    daysOver = Math.round(today.diff(startDate, 'days', true));
+                return Math.round((daysOver / totalDays) * 100);
+		*/
+		if (endDate > today) {
+		    endDate = today;
+		}
+		return endDate.diff(startDate, 'days') + 1;
             };
 
             var createTacticObject = function(tacticData, timePeriod, campaign, strategyId, kpiType, kpiValue) {
@@ -79,7 +105,7 @@
                         name: tactic.name,
                         startDate: momentInNetworkTZ.newMoment(tactic.start_date).format('YYYY-MM-DD'),
                         endDate: momentInNetworkTZ.newMoment(tactic.end_date).format('YYYY-MM-DD'),
-                        ad_size: tactic.ad_size,
+                        ad_size: _.uniq(tactic.ad_size),
                         platform_name: tactic.platform_name,
                         platform_icon: tactic.platform_icon_url,
                         status: status,
@@ -191,15 +217,36 @@
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
                                     var kpiTypeLower = angular.lowercase(kpiType);
+
+                                    //if kpiType is delivery, plot impressions on the graph
+                                    //picking up impressions from perf bydays data call
+                                    if(kpiTypeLower === "delivery") {
+                                        kpiTypeLower = "impressions";
+                                    }
+
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
                                 //d3 chart data
+                                //REVIEW: TARGET -DELIVERY
+                                if(angular.lowercase(kpiType) === "delivery") {
+                                  //tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) * (maxDays.length-1);
+                                  tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
+                                }
                                 tacticsList[obj].lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
                                     kpiType: kpiType,
-                                    from: 'tactics'
+                                    from: 'tactics',
+                                    //for delivery kpi
+                                    deliveryData: {
+                                      "startDate" : tacticsList[obj].startDate,
+                                      "endDate" : tacticsList[obj].endDate,
+                                       "totalDays" :  momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) +1,
+//                                      "deliveryDays": noOfdaysCampaignRun(tacticsList[obj].startDate, tacticsList[obj].endDate),
+                                        "deliveryDays": maxDays.length,
+                                        "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
+                                    }
                                 };
                             }
                         }
@@ -304,15 +351,36 @@
                                     maxDays[i]['ctr'] *= 100
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiTypeLower = angular.lowercase(kpiType);
+
+                                    //if kpiType is delivery, plot impressions on the graph
+                                    //picking up impressions from perf bydays data call
+                                    if(kpiTypeLower === "delivery") {
+                                        kpiTypeLower = "impressions";
+                                    }
+
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
                                 //d3 chart data
+                                //REVIEW: TARGET -DELIVERY
+                                if(angular.lowercase(kpiType) === "delivery") {
+                                    //strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) * (maxDays.length-1);
+                                    strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
+                                }
                                 strategyList[obj].lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
                                     kpiType: sKpiType,
-                                    from: 'strategy'
+                                    from: 'strategy',
+                                    //for delivery kpi
+                                    deliveryData: {
+                                      "startDate" : strategyList[obj].startDate,
+                                      "endDate" : strategyList[obj].endDate,
+                                      "totalDays" :  momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) +1,
+//                                      "deliveryDays": noOfdaysCampaignRun(strategyList[obj].startDate, strategyList[obj].endDate),
+                                        "deliveryDays": maxDays.length,
+                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
+                                    }
                                 };
                             }
                         }
@@ -333,7 +401,6 @@
                 // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
                 var url = '/campaigns/' + campaign.orderId + '/strategies' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
-
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
                         if(data.length >= 0) {
@@ -371,8 +438,8 @@
             var getStrategyData = function(campaign, timePeriod, data) {
                 //this requests strategy data - invoked when requestStrategiesData is called from controller
                 var dataObj = createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
-                var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
-                return campaignStrategies;
+               // var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+                return dataObj;
             };
 
             var vtcMetricsJsonModifier =  function(vtcMetricJson) {
@@ -431,6 +498,13 @@
 
                                     var kpiType = (campaignObject.kpiType),
                                         kpiTypeLower = angular.lowercase(kpiType);
+
+                                        //if kpiType is delivery, plot impressions on the graph
+                                        //picking up impressions from perf bydays data call
+                                        if(kpiTypeLower === "delivery") {
+                                            kpiTypeLower = "impressions";
+                                        }
+
                                     lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 cdData = _.last(maxDays);
@@ -438,11 +512,27 @@
                                 callback && callback(cdData);
                                 campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
                                 //d3 chart data
+                                //REVIEW: TARGET -DELIVERY
+                                if(angular.lowercase(kpiType) === "delivery") {
+                                    //campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) * (maxDays.length-1);
+                                    campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
+                                }
+
+
                                 campaignObject.lineChart = {
                                     data: lineDate,
                                     kpiValue: parseFloat(campaignObject.kpiValue),
                                     kpiType: campaignObject.kpiType,
-                                    from: 'campaign'
+                                    from: 'campaign',
+                                    //for delivery kpi
+                                    deliveryData: {
+                                      "startDate" : campaignObject.startDate,
+                                      "endDate" : campaignObject.endDate,
+                                      "totalDays" :  momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) +1,
+//                                      "deliveryDays": noOfdaysCampaignRun(campaignObject.startDate, campaignObject.endDate),
+                                        "deliveryDays": maxDays.length,
+                                        "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
+                                    }
                                 };
                             }
                         }
@@ -467,6 +557,10 @@
                     var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure)
                 },
+
+                setListCampaign:setListCampaign,
+
+                getListCampaign:getListCampaign,
 
                 getCdbLineChart : getCdbLineChart,
                 vtcMetricsJsonModifier :vtcMetricsJsonModifier,
@@ -500,9 +594,10 @@
                         campaign.toSuffix = utils.formatDate(this.end_date);
                         campaign.setVariables();
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
-                        if (campaign.kpi_type == 'null') {
-                            campaign.kpi_type = 'CTR';
-                            campaign.kpiType = 'CTR';
+                        //TODO: set default to DELIVERY if null or undefined
+                        if (campaign.kpi_type == 'null' || campaign.kpi_type == '') {
+                            campaign.kpi_type = 'DELIVERY';
+                            campaign.kpiType = 'DELIVERY';
                             campaign.kpi_value = 0;
                             campaign.kpiValue = 0;
                         }
