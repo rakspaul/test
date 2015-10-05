@@ -276,7 +276,7 @@
   line-height: 25px;
   margin: 0 0 20px 0;
 }
-#inventoryFilters .filterList .filterHead span {
+#inventoryFilters .filterList .filterHead > span {
   font-size: 14px;
   width: 100%;
   float: left;

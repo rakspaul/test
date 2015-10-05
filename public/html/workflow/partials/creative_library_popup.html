@@ -51,7 +51,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="data in selectedArr">
+                    <tr ng-repeat="data in selectedArr" ng-show="!creativeListLoading">
                         <td>
                             <span class="col-md-12">{{data.size.size}}</span>
                         </td>
