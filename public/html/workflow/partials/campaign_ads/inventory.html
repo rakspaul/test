@@ -33,13 +33,14 @@
             <div class="filterList" ng-if="adData.inventory.domainList.length>0">
                 <div class="filterHead" >
                     <h1>Domain List</h1>
-                    <span style="color: #939eaf;">{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
                     <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
-                    <!--<a class="pull-left clearfix" style="margin-top: 20px;">Domain</a>-->
+                    <div class="pull-left sort-icon-holder active list_val_col" ng-click="sort();" style="display:inline-block;">
+                        <span class="pull-left">Domain</span>
+                        <span class="pull-left common-sort-icon ascending"></span>
+                    </div>
                 </div>
-
                 <div class="filterBody">
-                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : domain">{{domain}}</span>
+                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : $index:sortDomain ">{{domain}}</span>
                 </div>
             </div>
         </div>
