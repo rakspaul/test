@@ -300,7 +300,7 @@ var angObj = angObj || {};
             $scope.isAddCreativePopup = true;
             /*enable cancel, save button on load*/
             $scope.disableCancelSave=false;
-            $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-307px"}, 'slow');
+            $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-325px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
 
