@@ -2,6 +2,10 @@
   float: left;
   width: 100%;
 }
+#campaignCreate .campaign-name-edit.edit-icon {
+  display: inline-block;
+  margin-top: 4px;
+}
 #campaignCreate .firstWrapper {
   float: left;
   width: 100%;

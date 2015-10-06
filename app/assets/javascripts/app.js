@@ -34,7 +34,7 @@ var angObj = '';
         $routeProvider
             $routeProvider.when('/campaigns', {
                 templateUrl: function() {
-                    var isWorkFlowUser = JSON.parse(localStorage.userRoleObj).workFlowUser
+                    var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
                     var htmlTpl = assets.html_campaign_list;
                     if(isWorkFlowUser) {
                         htmlTpl = assets.html_workflow_campaign_list;
@@ -103,7 +103,7 @@ var angObj = '';
              //   css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -117,7 +117,7 @@ var angObj = '';
            //     css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -131,7 +131,7 @@ var angObj = '';
               //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -145,7 +145,7 @@ var angObj = '';
                           //  css: assets.css_visto_application,
                             resolve:{
                                 "check":function($location, RoleBasedService){
-                                    var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                                    var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                                     if(!isWorkflowUser){
                                         $location.path('/');
                                     }
@@ -158,7 +158,7 @@ var angObj = '';
                // css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser = RoleBasedService.getUserRole() &&  RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -172,7 +172,7 @@ var angObj = '';
               //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
