@@ -34,7 +34,7 @@ var angObj = '';
         $routeProvider
             $routeProvider.when('/campaigns', {
                 templateUrl: function() {
-                    var isWorkFlowUser = JSON.parse(localStorage.userRoleObj).workFlowUser
+                    var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
                     var htmlTpl = assets.html_campaign_list;
                     if(isWorkFlowUser) {
                         htmlTpl = assets.html_workflow_campaign_list;
