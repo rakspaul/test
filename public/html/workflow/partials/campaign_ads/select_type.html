@@ -9,14 +9,14 @@
 <div class="row zeroPadding adNameBox">
     <div class="col-md-12 adHeader">What is your Ad name?</div>
     <div class="col-md-12 zeroPadding">
-        <input type="text" class="form-control" name="adName" placeholder="Enter Ad Name. 250 chars max" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
+        <input type="text" class="form-control" name="adName" placeholder="Max 250 characters. No symbols or punctuation" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
     </div>
 </div>
 
 <!--=== AD Format ===-->
 <div class="row zeroPadding adFormatChkBox">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES}}</div>
-    <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_FORMAT }}</div>
+    <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_FORMAT }}</div>
     <div class="btn-group goalBtnGroup zeroPadding"
          ng-repeat="adformat in workflowData.adFormats track by adformat.id">
         <!--Abi toggle active class for label below on click-->
@@ -33,7 +33,7 @@
 <!--=== AD Goal ===-->
 <div class="row zeroPadding adGoalChkBox">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL}}</div>
-    <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
+    <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_GOAL }}</div>
 
     <div class="btn-group goalBtnGroup zeroPadding" ng-repeat="goal in workflowData.goals track by goal.id">
         <!--Abi toggle active class for label below on click-->
@@ -52,7 +52,7 @@
 <div class="row zeroPadding screenChkSelection">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}
     </div>
-    <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}
+    <div class="col-md-12 greyTxt">{{ textConstants.WF_SCREEN_TYPE }}
     </div>
     <!--Abi can you add the active class to the div element below-->
     <div class="form-group col-md-3 btn_border bigChkBox {{screenType.active ? 'active' : '' }}"

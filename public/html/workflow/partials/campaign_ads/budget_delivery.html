@@ -4,7 +4,7 @@
         <a class="col-md-12 zeroPadding helpLink" href="javascript:void(0);">Learn more about Ad Settings</a>
     </div>
 </div>
-<div class="row zeroPadding">
+<div class="col-md-12 zeroPadding">
     <div class="col-md-12 adHeader">When would you like your Ad to run?</div>
     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
         <div class="col-md-12 dateWrapper form-group zeroPadding">
@@ -19,20 +19,25 @@
             <div ng-show="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" class="col-md-4 customErrorLabel" style="margin-left: 23px;margin-top: 38px !important;">Campaign flight date has passed</div>
         </div>
         <span class="col-md-12 input-group-addon">
-            <div class="calenderIcon" style="margin: 19px 0 0 117px;">
-                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+            <div class="calenderIcon">
+                <span class="icon-calendar"></span>
             </div>
-            <div class="calenderIcon" style="margin: 19px 0 0 128px;">
-                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+            <div class="calenderIcon">
+                <span class="icon-calendar"></span>
             </div>
         </span>
     </div>
 </div>
 
-<div class="row zeroPadding unitCost symbolAbs">
-    <label class="col-sm-12 control-label greyTxt miniLabels">What is the Unit Cost?</label>
+
+
+<div class="row zeroPadding budgetWrap radioBtnToggle">
+    <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
+    
+    <div class="col-md-12 zeroPadding unitCost symbolAbs">
+    <label class="col-sm-12 control-label greyTxt miniLabels">Unit Cost</label>
     <div class="form-group col-md-3 zeroPadding">
-        <span class="paddingTop">$</span>
+        <span>$</span>
         <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
     </div>
     <div class="form-group col-md-2">
@@ -42,10 +47,8 @@
         <input type="hidden" name="unitType" value="{{adData.unitType.name}}">
     </div>
 </div>
-
-<div class="row zeroPadding budgetWrap radioBtnToggle">
-    <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
-    <label class="col-sm-12 control-label greyTxt miniLabels">Choose how we calculate your budget</label>
+    
+    <label class="col-sm-12 control-label greyTxt miniLabels">Budget Calculation</label>
     <div class="btn-group miniToggle" ng-init="adData.budgetType='Impressions'">
         <label class="btn btn-default active"><span>Impressions</span>
             <input type="radio" name="budgetType" value="Impressions" checked ng-model="adData.budgetType" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
@@ -60,7 +63,7 @@
 
 <div class="row zeroPadding unitCostTwo radioBtnToggle">
     <div class="col-md-2 zeroPadding">
-        <label class="col-sm-12 control-label greyTxt miniLabels">Set up Cap</label>
+        <label class="col-sm-12 control-label greyTxt miniLabels">Frequency Cap</label>
         <div class="btn-group miniToggle" ng-init="adData.setCap=false">
             <label class="btn btn-default" style="width: auto;"><span>Yes</span>
                 <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event); adData.setCap = true;">

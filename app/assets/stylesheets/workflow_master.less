@@ -29,9 +29,10 @@ a {text-decoration: none;}
 }
 .greyTxt {
   color: #939ead !important;
-  padding: 7px 0 0 2px !important;
+  padding: 10px 0 5px 0 !important;
   text-align: left;
   font-size: 12px;
+  margin: 0;
 }
 .helpLink {
   opacity: .3;
@@ -69,6 +70,9 @@ select {
   margin-left: 0;
   border: 1px solid #ccd2da;
   border-radius: 1px;
+}
+.datepicker-dropdown {
+  width: auto;
 }
 .form-control {
   border-radius: 1px !important;
@@ -168,11 +172,19 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
 .btn-default {color: #57606d; font-size: 14px; border: 1px solid #dde6eb;}
 .btn-default:hover {background: #eef2f5;}
 .btn-default:active {color: #57606d;}
+.btn {
+  .icon-arrow-down {
+    float: right;
+    font-size: 10px;
+    margin-top: 3px;
+    height: 11px;
+    color: #000;
+  }
+}
 
 // Small Toggle BTN
 .radioBtnToggle {
   .miniToggle {
-    margin-top: 5px;
     label {
       position: relative;
       padding: 8px 15px;
@@ -332,7 +344,7 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
 
 // Left Column Nav
 .left_column_nav {
-  padding: 22px 0 0 0;
+  padding: 25px 0 0 0;
   width: 23%;
   float: left;
   border-right: 1px solid #ccd2da;

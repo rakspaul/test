@@ -63,9 +63,6 @@
   width: 77%;
   float: left;
 }
-#campaignCreate .firstWrapper .masterContainer .settingWrap .isCollapsed .miniLabels {
-  padding: 5px 0px !important;
-}
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
   width: 100%;
@@ -100,14 +97,6 @@
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .paddingRightNone,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .paddingRightNone {
   padding: 0px !important;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .greyTxt,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .greyTxt {
-  color: #b3b3b3;
-  padding: 7px 0 0 2px ;
-  text-align: left;
-  font-weight: lighter;
-  font-size: 13px;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .currency,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .currency {
@@ -280,7 +269,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon {
-  margin: 12px 0 0 0;
+  margin: 10px 0 0 0;
   background-color: transparent;
   border-width: 0;
   width: 100%;
@@ -1019,7 +1008,7 @@
   text-align: center;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adHeader {
-  padding: 0px;
+  padding: 30px 0 0 0;
   /*
         font-family:"Avenir-roman";*/
   font-size: 16px;
@@ -1097,7 +1086,7 @@
   min-width: 500px ;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox {
-  margin-top: 60px;
+  margin-top: 10px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox .btn-toggle {
   margin: 6px 0 20px;
@@ -1386,6 +1375,8 @@
   left: 0;
   width: 100%;
   height: 100%;
+  background: #fff;
+  opacity: .7;
 }
 #campaignCreate .table span,
 #campaignCreate .table a,
@@ -1620,7 +1611,7 @@
 #campaignCreate .newCreativeSlide .hiddenBlockerDDL {
   display: block;
   position: absolute;
-  z-index: 20;
+  z-index: 18;
   top: 0;
   left: 0;
   width: 100%;
@@ -1695,9 +1686,6 @@
   width: 100%;
   padding: 30px 30px 0 30px;
 }
-.adCreateMaster .tab-content .tab-pane .miniLabels {
-  padding: 5px 0px !important;
-}
 .adCreateMaster .tab-content .tab-pane #datepicker input {
   font-size: 12px;
   text-indent: 2px;
@@ -1716,7 +1704,11 @@
 .adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon {
   float: left;
   border-left: 1px solid #c3c3c3;
-  margin: 17px 0 0 105px;
+  margin: 24px 13px 0 111px;
+}
+.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon .icon-calendar {
+  padding: 9px 11px 3px 11px;
+  float: left;
 }
 .adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon img {
   float: left;
@@ -1725,7 +1717,7 @@
 .adCreateMaster .tab-content .tab-pane h2 {
   color: #000;
   font-size: 20px;
-  margin: 0 0 20px 0 !important;
+  margin: 0 0 10px 0 !important;
   font-family: "Avenir";
 }
 .adCreateMaster .tab-content .tab-pane .nextWrapper {
@@ -1779,14 +1771,6 @@
 }
 .adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .glyphicon {
   margin: 36px 0 0 0;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .greyTxt {
-  color: #b3b3b3;
-  padding: 7px 0 0 2px !important;
-  text-align: left;
-  font-weight: lighter;
-  font-size: 13px;
-  margin-bottom: 0;
 }
 .adCreateMaster .tab-content .tab-pane #datepicker #endDateInput {
   background: rgba(0, 0, 0, 0.07);
@@ -1943,7 +1927,7 @@
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle {
   border: 1px solid #ccd2da;
   border-radius: 1px;
-  width: 140px !important;
+  width: 150px !important;
   text-align: left;
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle .caret {
@@ -1951,7 +1935,7 @@
   margin-top: 5px;
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-menu {
-  width: 280px;
+  max-width: 280px;
   margin-top: 3px;
   margin-left: 0;
   border: 1px solid #ccd2da;
@@ -2462,10 +2446,10 @@
 }
 .campaignAdCreatePage input,
 .campaignAdCreatePage select {
-  margin: 5px 0 0 0 ;
+  margin: 0;
 }
 .campaignAdCreatePage .tab-pane .row {
-  margin: 0 0 30px;
+  margin: 0;
 }
 .campaignAdCreatePage .tab-pane .btn_border {
   margin-bottom: 0px ;
@@ -2477,14 +2461,6 @@
 .campaignAdCreatePage .tab-pane input[type="text"]:focus {
   border: 1px solid #0978c9 !important;
   box-shadow: none;
-}
-.campaignAdCreatePage .tab-pane .greyTxt {
-  color: #b3b3b3 !important;
-  padding: 7px 0 0 2px !important;
-  text-align: left;
-  font-weight: lighter;
-  font-size: 13px;
-  margin-bottom: 0;
 }
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;

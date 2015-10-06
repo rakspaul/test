@@ -241,7 +241,6 @@
 #inventoryFilters .containerWrap .nav_filters .dropdown {
   border: 1px solid #d4d4d4;
   padding: 5px 10px;
-  margin-top: 5px;
 }
 #inventoryFilters .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;
@@ -266,7 +265,7 @@
   float: left;
   width: 100%;
   border-bottom: 3px solid #dde6eb;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
 }
 #inventoryFilters .filterList .filterHead h1 {
   float: left;
@@ -274,7 +273,7 @@
   color: #21252b;
   font-size: 18px;
   line-height: 25px;
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
 }
 #inventoryFilters .filterList .filterHead > span {
   font-size: 14px;
@@ -284,7 +283,7 @@
 #inventoryFilters .filterList .filterBody {
   float: left;
   width: 100%;
-  padding: 20px;
+  padding: 10px 20px;
 }
 #inventoryFilters .filterList .filterBody span {
   color: #21212b;

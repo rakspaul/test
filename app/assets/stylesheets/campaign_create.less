@@ -58,11 +58,6 @@
         padding: 30px 30px 30px 25px;
         width: 77%;
         float: left;
-        .isCollapsed {
-          .miniLabels {
-            padding: 5px 0px !important;
-          }
-        }
       }
       .collapseHeader {
         float: left;
@@ -95,13 +90,6 @@
         padding: 0;
         .paddingRightNone {
           padding: 0px !important;
-        }
-        .greyTxt {
-          color: rgb(179, 179, 179);
-          padding: 7px 0 0 2px ;
-          text-align: left;
-          font-weight: lighter;
-          font-size: 13px;
         }
         .currency {
           position: absolute;
@@ -173,7 +161,7 @@
             }
           }
           .input-group-addon {
-            margin: 12px 0 0 0;
+            margin: 10px 0 0 0;
             background-color: transparent;
             border-width: 0;
             width: 100%;
@@ -923,7 +911,7 @@
         text-align: center;
       }
       .adHeader {
-        padding:0px;/*
+        padding:30px 0 0 0;/*
         font-family:"Avenir-roman";*/
         font-size:16px;
       }
@@ -1003,7 +991,7 @@
           min-width: 500px ;
         }
         .adNameBox {
-          margin-top: 60px;
+          margin-top: 10px;
           .btn-toggle {
             margin: 6px 0 20px;
           }
@@ -1300,6 +1288,8 @@
           left: 0;
           width: 100%;
           height: 100%;
+          background: #fff;
+          opacity: .7;
         }
       }
     }
@@ -1551,7 +1541,7 @@
     .hiddenBlockerDDL {
       display: block;
       position: absolute;
-      z-index: 20;
+      z-index: 18;
       top: 0;
       left: 0;
       width: 100%;
@@ -1632,9 +1622,6 @@
     min-height: 530px;
     width: 100%;
     padding: 30px 30px 0 30px;
-    .miniLabels {
-      padding: 5px 0px !important;
-    }
     #datepicker {
       input {
         font-size: 12px;
@@ -1653,7 +1640,11 @@
         .calenderIcon {
           float: left;
           border-left: 1px solid #c3c3c3;
-          margin: 17px 0 0 105px;
+          margin: 24px 13px 0 111px;
+          .icon-calendar {
+            padding: 9px 11px 3px 11px;
+            float: left;
+          }
           img {
             float: left;
             margin: 10px 9px;
@@ -1664,7 +1655,7 @@
     h2 {
       color: #000;
       font-size: 20px;
-      margin: 0 0 20px 0 !important;
+      margin: 0 0 10px 0 !important;
       font-family:"Avenir";
     }
     .nextWrapper {
@@ -1710,14 +1701,6 @@
         .glyphicon {
           margin: 36px 0 0 0;
         }
-      }
-      .greyTxt {
-        color: #b3b3b3;
-        padding: 7px 0 0 2px !important;
-        text-align: left;
-        font-weight: lighter;
-        font-size: 13px;
-        margin-bottom: 0;
       }
       #endDateInput {
         background: rgba(0,0,0,0.07);
@@ -1881,7 +1864,7 @@
       .dropdown-toggle {
         border: 1px solid #ccd2da;
         border-radius: 1px;
-        width: 140px !important;
+        width: 150px !important;
         text-align: left;
         .caret {
           float: right;
@@ -1889,7 +1872,7 @@
         }
       }
       .dropdown-menu {
-        width: 280px;
+        max-width: 280px;
         margin-top: 3px;
         margin-left: 0;
         border: 1px solid #ccd2da;
@@ -2425,11 +2408,11 @@
     margin-bottom: 8px !important ;
   }
   input , select {
-    margin : 5px 0 0 0 ;
+    margin : 0;
   }
   .tab-pane {
     .row {
-      margin : 0 0 30px; 
+      margin : 0; 
     }
     .btn_border {
       margin-bottom: 0px ;
@@ -2441,14 +2424,6 @@
     input[type="text"]:focus {
       border: 1px solid #0978c9 !important;
       box-shadow: none;
-    }
-    .greyTxt {
-      color: #b3b3b3 !important;
-      padding: 7px 0 0 2px !important;
-      text-align: left;
-      font-weight: lighter;
-      font-size: 13px;
-      margin-bottom: 0;
     }
   }
 }

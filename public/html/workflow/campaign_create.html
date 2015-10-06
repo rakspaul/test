@@ -73,7 +73,7 @@
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
                             <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Enter Campaign name. Up to 250 Characters" required/>
+                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
                                 <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
                             </div>
                         </div>
@@ -123,6 +123,8 @@
                                             <img ng-src="/assets/images/workflow/{{getGoalIconName(goal.name)}}.svg" alt="" width="25"/>
                                         </span>
                                     </label>
+                                    <!--<span class="icon-brand"></span>#############-->
+                                    <!--<span class="icon-performance"></span>#############-->
                                 </div>
                                 <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select a goal.</label>
                             </div>
@@ -148,9 +150,11 @@
                                 <span class="col-md-12 input-group-addon">
                                     <div class="calenderIcon">
                                         <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                        <!--<span class="icon-calendar"></span>###########-->
                                     </div>
                                     <div class="calenderIcon" style="margin-left: 119px;">
                                         <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                        <!--<span class="icon-calendar"></span>###########-->
                                     </div>
                                 </span>
                             </div>
