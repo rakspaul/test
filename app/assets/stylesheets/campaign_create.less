@@ -1625,7 +1625,7 @@
     float: left;
     min-height: 530px;
     width: 100%;
-    padding: 30px 30px 0 30px;
+    padding: 50px 30px 0 30px;
     .miniLabels {
       padding: 5px 0px !important;
     }
@@ -1765,7 +1765,7 @@
             border-width: 0;
             width: auto;
             li {
-              border: 1px solid #0978c9;
+              border: 1px solid #ccd2da;
               width: 120px;
               text-align: center;
               border-top-right-radius: 2px;
@@ -1794,7 +1794,6 @@
               border-bottom-left-radius: 2px;
               border-top-right-radius: 0px;
               border-bottom-right-radius: 0px;
-              border-left: 1px solid #0978c9;
             }
           }
           .nav-tabs {
@@ -1832,13 +1831,16 @@
       padding: 10px 0 10px 12px ;
     }
     .list_row_holder {
-      max-height: 505px;
+      max-height: 525px;
       overflow: scroll;
     }
     .list_val_col {
         margin-left : 10px ; 
         min-width: 170px ;
         max-width: 170px ;
+    }
+    .list_val_col:last-child {
+      margin-left: 28px;
     }
     .list_holder {
       /*padding: 0 20px ;*/
@@ -1930,7 +1932,7 @@
         width: 100%;
         border-left: 1px solid #dde6eb;
         border-right: 1px solid #dde6eb;
-        padding: 20px 20px 0 20px ;
+        padding: 20px 0 0 0 ;
         .geoTypeResult {
           float: left;
           margin-top: 20px;
@@ -1959,7 +1961,7 @@
           }
           .btn {
             width: auto;
-            padding: 6px 12px;
+            padding: 8px 12px;
             margin-right: 5px;
             color: #fff;
             background: #0978c9;
@@ -1978,7 +1980,7 @@
           float: left;*/
           width: 100%;
           li {
-            background: #f5f9fd;
+            background: #F5F9FD;
             border-radius: 0px;
             border-top: 1px solid #dde6eb;
             border-right: 1px solid #dde6eb;
@@ -1987,6 +1989,8 @@
               margin: 0;
               border-width: 0;
               background-color: transparent;
+              color: #21252b;
+              text-decoration: none;
             }
           }
           li.active {
@@ -1995,6 +1999,9 @@
             a {
               background: #fff;
               margin-top: 1px;
+              color: #21252b;
+              text-decoration: none;
+              font-family: 'Avenir';
             }
           }
           li:first-child {
@@ -2145,7 +2152,7 @@
             }
           }
           .table {
-            margin : 20px 0 ;
+            margin : 0 0 20px 0 ;
             thead {
               border-width: 0;
               .col-md-8 {
@@ -2295,7 +2302,7 @@
       border: 1px solid #0978c9;
     }
     .tab-pane {
-      padding-top: 0 !important;
+      padding: 0 10px;
       .table {
         thead {
           tr {
@@ -2398,7 +2405,7 @@
       float: left;
       width: 100%;
       color: #21252b;
-      font-size: 14pt;
+      font-size: 18px;
       font-family: 'Avenir-bold';
       margin-bottom: 30px;
     }
