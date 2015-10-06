@@ -1090,6 +1090,7 @@
   left: 0;
   background-color: #fff;
   padding-left: 30px;
+  min-width: 500px ;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox {
   margin-top: 60px;
@@ -1583,9 +1584,12 @@
 #campaignCreate .newCreativeSlide .popCreativeLib {
   background: #fff;
   left: 100%;
-  width: 877px;
-  top: 128px;
+  width: 920px;
+  top: 122px;
   display: none;
+  -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative {
   float: left;
@@ -1933,7 +1937,7 @@
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle {
   border: 1px solid #ccd2da;
   border-radius: 1px;
-  width: 140px;
+  width: 140px !important;
   text-align: left;
 }
 .adCreateMaster #targetting .ddlSetTarget .dropdown-toggle .caret {

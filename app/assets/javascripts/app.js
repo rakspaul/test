@@ -34,7 +34,7 @@ var angObj = '';
         $routeProvider
             $routeProvider.when('/campaigns', {
                 templateUrl: function() {
-                    var isWorkFlowUser = JSON.parse(localStorage.userRoleObj).workFlowUser
+                    var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
                     var htmlTpl = assets.html_campaign_list;
                     if(isWorkFlowUser) {
                         htmlTpl = assets.html_workflow_campaign_list;
@@ -103,7 +103,7 @@ var angObj = '';
              //   css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -117,7 +117,7 @@ var angObj = '';
            //     css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -131,7 +131,7 @@ var angObj = '';
               //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -145,7 +145,7 @@ var angObj = '';
                           //  css: assets.css_visto_application,
                             resolve:{
                                 "check":function($location, RoleBasedService){
-                                    var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                                    var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                                     if(!isWorkflowUser){
                                         $location.path('/');
                                     }
@@ -158,7 +158,7 @@ var angObj = '';
                // css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser = RoleBasedService.getUserRole() &&  RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -172,7 +172,7 @@ var angObj = '';
               //  css: assets.css_visto_application,
                 resolve:{
                     "check":function($location, RoleBasedService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        var isWorkflowUser =  RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -224,6 +224,9 @@ var angObj = '';
         var loginCheckFunc = function() {
             var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
             if( RoleBasedService.getUserRole()) {
+                if(!RoleBasedService.getUserRole().i18n) { //if i18n is not there in json.forcing to logout.
+                    loginModel.unauthorized();
+                }
                 var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
                 var locale = RoleBasedService.getUserRole().locale || 'en-us';
                 tmhDynamicLocale.set(locale)

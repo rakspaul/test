@@ -700,6 +700,7 @@ campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$locati
                     });
                 },
                 setDashboardSelection = function(type, state) {
+                    state = state && state.toLowerCase();
                     var filterType = "filter" + getCapitalizeString(type);
                     this.dashboard.quickFilterSelected = getCapitalizeString(type);
                     this.dashboard.quickFilterSelectedCount = this.dashboard[type];
