@@ -3081,9 +3081,13 @@ input[type="submit"] {
 }
 .campaignListContainer .campaignListHolder .column {
   float: left;
-  width: 120px;
+  width: 115px;
   margin-left: 20px;
   word-wrap: break-word;
+}
+.campaignListContainer .campaignListHolder .column.edit-icon {
+  margin-left: 10px;
+  width: 20px ;
 }
 .campaignListContainer .campaignListHolder .data_holder {
   height: 550px ;

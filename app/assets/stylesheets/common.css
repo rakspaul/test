@@ -1388,3 +1388,11 @@ multiselect .dropdown-menu > li > a {
 .grey_txt {
   color: #939dac ;
 }
+/* for edit icon */
+.edit-icon {
+  cursor: pointer;
+  width: 20px ;
+  height: 20px ;
+  margin-left: 10px;
+  background: url("/assets/images/cdesk/edit_blue.png") no-repeat center center;
+}
