@@ -71,10 +71,10 @@
                 <div class="isCollapsed">
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
                             <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
-                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
+                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
                             </div>
                         </div>
 
@@ -82,25 +82,25 @@
 
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">Who is the campaign for?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the campaign for?</label>
                             <div class="form-group col-sm-3 zeroPadding" show-errors='{showSuccess: true}'>
-                                <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
+                                <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
                                 <select ng-options="client.name for client in workflowData.clients track by client.id" class="form-control" id="accountDDL" ng-model="selectedCampaign.client" ng-change="selectHandler('client', selectedCampaign)" name="clientId" required>
                                     <option value="">Select Account</option>
                                 </select>
-                                <label ng-if="createCampaignForm.clientId.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the account.</label>
+                                <label ng-if="createCampaignForm.clientId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the account.</label>
                             </div>
 
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
-                                <label for="advertiserDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
+                                <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
                                 <select ng-options="advertiser.name for advertiser in workflowData.advertisers track by advertiser.id" class="form-control" id="advertiserDDL"  ng-model="selectedCampaign.advertiser" ng-change="selectHandler('advertiser', selectedCampaign)" name="advertiserId" required>
                                     <option value="">Select Advertiser</option>
                                 </select>
-                                <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the Advertiser.</label>
+                                <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
                             </div>
 
                             <div class="form-group col-sm-3">
-                                <label for="brandDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.BRAND }}</label>
+                                <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
                                 <select ng-options="brand.name for brand in workflowData.brands track by brand.id" class="form-control" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">
                                     <option value="">Select Brand</option>
                                 </select>
@@ -111,8 +111,8 @@
 
                         <!--==== Row 3 ====-->
                         <div class=" col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is the primary goal?</label>
-                            <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">Select one goal</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What is the primary goal?</label>
+                            <label for="accountDDL" class="col-sm-12 greyTxt miniLabels">Select one goal</label>
                             <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
@@ -126,7 +126,7 @@
                                     <!--<span class="icon-brand"></span>#############-->
                                     <!--<span class="icon-performance"></span>#############-->
                                 </div>
-                                <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select a goal.</label>
+                                <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">Please select a goal.</label>
                             </div>
                         </div>
 
@@ -134,27 +134,25 @@
 
                         <!--==== Row 4 ====-->
                         <div class="col-md-12 zeroPadding" style="height: 96px;">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">When should the campaign run?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When should the campaign run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
                                 <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}' style="margin-left: -5px;">
                                     <div class="col-md-2" style="width: 150px;">
-                                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                         <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
                                     </div>
                                     <div class="col-md-2" style="width: 150px;">
-                                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                         <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
                                     </div>
-                                    <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
+                                    <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
                                 </div>
                                 <span class="col-md-12 input-group-addon">
                                     <div class="calenderIcon">
-                                        <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
-                                        <!--<span class="icon-calendar"></span>###########-->
+                                        <span class="icon-calendar"></span>
                                     </div>
                                     <div class="calenderIcon" style="margin-left: 119px;">
-                                        <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
-                                        <!--<span class="icon-calendar"></span>###########-->
+                                        <span class="icon-calendar"></span>
                                     </div>
                                 </span>
                             </div>
@@ -164,12 +162,12 @@
 
                         <!--==== Row 5 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">How much do you want to spend?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">How much do you want to spend?</label>
                             <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-                                <label for="inputBudget" class="col-sm-12 control-label greyTxt miniLabels">Enter Whole Dollar Amount</label>
+                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
                                 <input type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
-                                <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12 control-label greyTxt errorLabel">You must enter whole dollar amounts.</label>
+                                <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                             </div>
                         </div>
                 </div>
