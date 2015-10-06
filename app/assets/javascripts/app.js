@@ -110,6 +110,20 @@ var angObj = '';
                     }
                 }
             })
+            .when('/campaign/:campaignId/edit', {
+                            templateUrl: assets.html_campaign_create,
+                            title :  'Create - Campaign',
+                            controller: 'CreateCampaignController',
+                         //   css: assets.css_visto_application,
+                            resolve:{
+                                "check":function($location, RoleBasedService){
+                                    var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
+                                    if(!isWorkflowUser){
+                                        $location.path('/');
+                                    }
+                                }
+                            }
+             })
             .when('/campaign/:campaignId/overview', {
                 templateUrl: assets.html_campaign_create_ad,
                 title :  'Campaign - Overview',
