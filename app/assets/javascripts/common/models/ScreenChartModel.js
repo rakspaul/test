@@ -21,7 +21,7 @@
             'desktop' : 'display_graph'
         }
 
-        var usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+        var usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
         if(usrRole && usrRole.ui_modules) {
             screenWidgetData.formatDropDown =  _.filter(screenWidgetData.formatDropDown, function(obj, idx) {
                 obj = obj.slice(0, obj.length-1);

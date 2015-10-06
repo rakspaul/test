@@ -224,6 +224,9 @@ var angObj = '';
         var loginCheckFunc = function() {
             var networkUser =  $cookieStore.get(constants.COOKIE_SESSION)  && $cookieStore.get(constants.COOKIE_SESSION).is_network_user;
             if( RoleBasedService.getUserRole()) {
+                if(!RoleBasedService.getUserRole().i18n) { //if i18n is not there in json.forcing to logout.
+                    loginModel.unauthorized();
+                }
                 var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
                 var locale = RoleBasedService.getUserRole().locale || 'en-us';
                 tmhDynamicLocale.set(locale)
