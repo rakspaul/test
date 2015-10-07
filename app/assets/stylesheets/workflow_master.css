@@ -346,6 +346,7 @@ select {
   background: #fff;
   border: 1px solid #ccd2da;
   margin: 0 !important;
+  padding: 0;
 }
 .btn-ani-toggle .btn.active {
   left: 22px;
