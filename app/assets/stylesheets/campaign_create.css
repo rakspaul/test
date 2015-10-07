@@ -954,6 +954,12 @@
   width: 1040px;
   margin: 0 auto;
 }
+#campaignCreate .adMasterContainer .campTitleWrap h4 {
+  max-width: 330px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 #campaignCreate .campaign-name-edit.blue-edit-icon {
   display: inline-block;
   margin-top: -4px;
