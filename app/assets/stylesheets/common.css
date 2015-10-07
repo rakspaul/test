@@ -1391,8 +1391,13 @@ multiselect .dropdown-menu > li > a {
 /* for edit icon */
 .edit-icon {
   cursor: pointer;
-  width: 20px ;
-  height: 20px ;
+  width: 18px;
+  height: 18px;
   margin-left: 10px;
-  background: url("/assets/images/cdesk/edit_blue.png") no-repeat center center;
+  mask: url("/assets/images/workflow/edit.svg") no-repeat center center;
+  -webkit-mask: url("/assets/images/workflow/edit.svg") no-repeat center center;
+  -webkit-mask-size: 14px 14px;
+  mask-size: 14px 14px;
+  background-color: #3276b1;
+  padding: 7px;
 }
