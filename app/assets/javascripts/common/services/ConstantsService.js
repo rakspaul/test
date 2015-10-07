@@ -301,7 +301,7 @@
     this.QUARTILE_DATA = "Quartile Data";
 
     //workflow related variables
-    this.WF_CREATE_CAMPAIGN = "Create Campaign";
+    this.WF_CREATE_CAMPAIGN = "Campaign Set-Up";
     this.UPLOAD_TEMPLATE = "Upload Template";
     this.CREATE = "Create";
     this.WF_SETTINGS = "Settings";
