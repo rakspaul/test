@@ -19,9 +19,9 @@
         </div>
       </div>
       
-      <div class="pull-right dropdown" id="dashboard_allocation_dd">
+      <div class="pull-right dropdown" id="dashboard_allocation_dd" >
               <span class="metrics_text">{{textConstants.METRICS}}</span>
-              <span class="dropdown_ul_text" data-toggle="dropdown">
+              <span class="dropdown_ul_text" data-toggle="{{!screenBusy ?  'dropdown' : ''}}" ng-disabled="screenBusy">
                 <span>{{screenWidgetData.selectedMetric}}</span>
                 <span class="arrow_img"></span>
               </span>
