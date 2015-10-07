@@ -42,26 +42,65 @@ a {
   color: #333;
   text-decoration: none;
 }
-.breadcrumbFlow:hover {
-  color: #428bca;
-}
 .labelQuestTxt {
   color: #000;
   font-size: 15px;
   text-align: left !important;
-  margin-top: 20px !important;
+  margin: 20px 0 0 0 !important;
   padding: 0 !important;
 }
 .greyTxt {
-  color: #b3b3b3 !important;
-  padding: 7px 0 0 2px !important;
+  color: #939ead !important;
+  padding: 10px 0 5px 0 !important;
   text-align: left;
-  font-weight: lighter;
-  font-size: 13px;
+  font-size: 12px;
+  margin: 0;
 }
-.firstWrapper input[type='text'] {
+.helpLink {
+  opacity: .3;
+  text-decoration: none !important;
+}
+input[type='text'] {
   border: 1px solid #dbe8ef;
   border-radius: 0 !important;
+}
+input[type='text']:focus {
+  border: 1px solid #0978c9 !important;
+}
+textarea {
+  resize: none;
+  border: 1px solid #dbe8ef;
+  border-radius: 0 !important;
+}
+select {
+  border-radius: 1px;
+  border: 1px solid #ccd2da;
+}
+.dropdown-toggle {
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+  width: 100% !important;
+  text-align: left;
+  background: #fff;
+}
+.dropdown-toggle .caret {
+  float: right !important;
+  margin-top: 5px;
+}
+.dropdown-menu {
+  width: 280px;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+}
+.datepicker-dropdown {
+  width: auto;
+}
+.form-control {
+  border-radius: 1px !important;
+  border: 1px solid #ccd2da;
+  -webkit-appearance: none;
 }
 .successMessage {
   width: 400px;
@@ -161,8 +200,12 @@ select {
 .btn-default:active {
   color: #57606d;
 }
-.radioBtnToggle .miniToggle {
-  margin-top: 5px;
+.btn .icon-arrow-down {
+  float: right;
+  font-size: 10px;
+  margin-top: 3px;
+  height: 11px;
+  color: #000;
 }
 .radioBtnToggle .miniToggle label {
   position: relative;
@@ -312,7 +355,7 @@ select {
   border-left: 1px solid #dbe8ef !important;
 }
 .left_column_nav {
-  padding: 22px 0 0 0;
+  padding: 25px 0 0 0;
   width: 23%;
   float: left;
   border-right: 1px solid #ccd2da;

@@ -19,7 +19,7 @@
         </div>
         <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <span class="pull-left">{{textConstants.WF_ADD_TARGETING_LABEL}}</span>
-            <span class="caret"></span>
+            <span class="icon-arrow-down"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></li>

@@ -67,11 +67,7 @@
   position: relative;
 }
 #creative .creativeList .containerWrap .form-group label {
-  color: #000;
-  font-size: 15px;
-  text-align: left;
   margin-top: 20px;
-  font-weight: bold;
 }
 #creative .creativeList .containerWrap .form-group .previewBtn {
   position: absolute;
@@ -79,6 +75,9 @@
   right: 0;
   z-index: 10;
   cursor: pointer;
+}
+#creative .creativeList .creative_filter_dropdowns {
+  opacity: .3;
 }
 #creative .emptyCreativesFlag td {
   border-width: 0;
@@ -242,7 +241,6 @@
 #inventoryFilters .containerWrap .nav_filters .dropdown {
   border: 1px solid #d4d4d4;
   padding: 5px 10px;
-  margin-top: 5px;
 }
 #inventoryFilters .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;
@@ -267,7 +265,7 @@
   float: left;
   width: 100%;
   border-bottom: 3px solid #dde6eb;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
 }
 #inventoryFilters .filterList .filterHead h1 {
   float: left;
@@ -275,7 +273,7 @@
   color: #21252b;
   font-size: 18px;
   line-height: 25px;
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
 }
 #inventoryFilters .filterList .filterHead > span {
   font-size: 14px;
@@ -285,7 +283,7 @@
 #inventoryFilters .filterList .filterBody {
   float: left;
   width: 100%;
-  padding: 20px;
+  padding: 10px 20px;
 }
 #inventoryFilters .filterList .filterBody span {
   color: #21212b;

@@ -20,8 +20,8 @@
 				<p class="">Back</p>
 			</div>
 			<div class="col-md-12 zeroPadding">
-				<span><a href="/creative/list" class="breadcrumbFlow">Creative Tag Library</a></span>
-				<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>
+				<!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
+				<!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
 				<span style="font-family: 'Avenir-bold';">Add Creative Tag</span>
 			</div>
         </div>
@@ -32,7 +32,7 @@
     <div class="creativeList">
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
-            <a href="" class="col-md-12 zeroPadding">Adding third party Creative Tag</a>
+            <a href="javascript:void(0);" class="col-md-12 zeroPadding helpLink">Adding third party Creative Tag</a>
 
 	    <div class="col-md-12 zeroPadding clearfix nav_filters">
 		<creative-drop-down></creative-drop-down>
@@ -41,48 +41,76 @@
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 
                 <div class="form-group col-md-2">
-                    <label for="sel1">{{textConstants.WF_CREATIVE_FORMAT_LABEL}}</label>
-                    <select class="form-control" id="sel1" name="creativeFormat">
-                        <option selected="selected" value="display">Display</option>
-                        <option disabled="disabled" value="video">Video</option>
-                        <option disabled="disabled" value="richMedia">Rich Media</option>
-                        <option disabled="disabled" value="social">Social</option>
-                    </select>
+                    <label for="sel1" class="greyTxt">Format</label>
+					<div class="col-md-12 zeroPadding btn-group">
+						<button class="btn dropdown-toggle" data-toggle="dropdown" name="creativeFormat" id="sel1">
+						<span>Display</span>
+						<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							  <li><a href="#">Display</a></li>
+							  <li class="disabled"><a href="#">Video</a></li>
+							  <li class="disabled"><a href="#">Rich Media</a></li>
+							  <li class="disabled"><a href="#">Social</a></li>
+						</ul>
+					</div>
+					
                     <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>
                 </div>
 
                 <div class="form-group col-md-8" show-errors='{showSuccess: true}'>
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Enter Creative name. Up to 250 Characters" required>
+                    <label for="name" class="greyTxt">Tag Name</label>
+                    <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
                     <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                 </div>
 
                 <div class="form-group col-md-12" show-errors='{showSuccess: true}'>
-                    <label for="tag" class="col-md-12 zeroPadding">
-			    <span>Secure Tag (SSL compatible) & Macro Tracker</span>
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    </label>
+                    <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
                     <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
-                    <span class="col-md-4 previewBtn">Preview</span>
+                    <span class="col-md-4 previewBtn helpLink">Preview</span>
 
                     <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                     <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
 
                 </div>
 
-                <div class="form-group col-md-12 zeroPadding">
-                    <label class="radio-inline"><input type="radio" name="creativeType" value="JS" checked="checked"
-                                                       required>Javascript</label>
-                    <label class="radio-inline"><input type="radio" name="creativeType" value="HTML">HTML</label>
+                <div class="form-group col-md-12 zeroPadding radioBtnToggle">
+					<div class="col-md-4 zeroPadding">
+					    <label for="sel1" class="greyTxt">Tag Type</label><br/>
+						<div class="btn-group miniToggle">
+							<label class="btn btn-default" style="width: auto; margin-top: 0;"><span>Javascript</span>
+								<input type="radio" name="creativeType" value ="true"  hidden="hidden" class="btn_rad">
+							</label>
+							<label class="btn btn-default active" style="width: auto; margin-top: 0;"><span>HTML</span>
+								<input type="radio" name="creativeType" checked  value ="false"  hidden="hidden" class="btn_rad">
+							</label>
+						</div>
+					</div>
+					
+                    <!--<label class="radio-inline"><input type="radio" name="creativeType" value="JS" checked="checked" required>Javascript</label>-->
+                    <!--<label class="radio-inline"><input type="radio" name="creativeType" value="HTML">HTML</label>-->
+					
                     <!--<label ng-if="formCreativeCreate.creativeType.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select type the creative.</label>-->
                 </div>
 
                 <div class="form-group col-md-2" show-errors='{showSuccess: true}'>
-                    <label for="sel1">Creative Size</label>
-                    <select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"
-                            ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>
-                        <option value="">Select Size</option>
-                    </select>
+                    <label for="sel1" class="greyTxt">Size</label>
+                    <!--<select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"-->
+                    <!--        ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>-->
+                    <!--    <option value="">Select Size</option>-->
+                    <!--</select>-->
+					
+					<div class="col-md-12 zeroPadding btn-group">
+						<button class="btn dropdown-toggle" data-toggle="dropdown" name="creativeFormat" id="sel1">
+						<span>Select Size</span>
+						<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							  <li><a href="#">100X72</a></li>
+						</ul>
+					</div>
+					
+					
                     <label ng-if="formCreativeCreate.creativeSize.$error.required"
                            class="col-sm-12 control-label greyTxt errorLabel">Please select the creative size.</label>
                 </div>

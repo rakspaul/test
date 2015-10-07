@@ -65,11 +65,7 @@
         padding: 0;
         position: relative;
         label {
-          color: #000;
-          font-size: 15px;
-          text-align: left;
           margin-top: 20px;
-          font-weight: bold;
         }
         .previewBtn {
           position: absolute;
@@ -79,6 +75,9 @@
           cursor: pointer;
         }
       }
+    }
+    .creative_filter_dropdowns {
+      opacity: .3;
     }
   }
   .emptyCreativesFlag {
@@ -260,7 +259,6 @@
       .dropdown {
         border: 1px solid #d4d4d4;
         padding: 5px 10px;
-        margin-top: 5px;
         .dropdown_name_selected {
           margin-right: 0;
           padding-right: 0;
@@ -286,14 +284,14 @@
       float: left;
       width: 100%;
       border-bottom: 3px solid #dde6eb;
-      padding: 20px;
+      padding: 20px 20px 10px 20px;
       h1 {
         float: left;
         width: 100%;
         color: #21252b;
         font-size: 18px;
         line-height: 25px;
-        margin: 0 0 20px 0;
+        margin: 0 0 10px 0;
       }
       > span {
         font-size: 14px;
@@ -304,7 +302,7 @@
     .filterBody {
       float: left;
       width: 100%;
-      padding: 20px;
+      padding: 10px 20px;
       span {
         color: #21212b;
         float: left;
