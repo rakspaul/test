@@ -174,11 +174,12 @@ select {
 select {
   border-radius: 2px !important;
   text-decoration: none;
-  padding: 10px 15px 10px 15px;
-  text-align: center;
-  line-height: 16px;
-  font-size: 14px;
-  width: auto;
+  /*commented manny's changes here as it was reflecting all other places*/
+  /*padding: 10px 15px 10px 15px;
+  text-align: center; 
+  line-height: 16px; 
+  font-size: 14px; 
+  width: auto;*/
 }
 .btn-primary {
   background: #0978C9;
