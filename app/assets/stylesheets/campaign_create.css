@@ -2,10 +2,6 @@
   float: left;
   width: 100%;
 }
-#campaignCreate .campaign-name-edit.edit-icon {
-  display: inline-block;
-  margin-top: 4px;
-}
 #campaignCreate .firstWrapper {
   float: left;
   width: 100%;
@@ -957,6 +953,22 @@
 #campaignCreate .firstWrapper .campaignSave .form-group {
   width: 1040px;
   margin: 0 auto;
+}
+#campaignCreate .campaign-name-edit.edit-icon {
+  display: inline-block;
+  margin-top: -4px;
+  margin-left: -5px;
+  -webkit-mask-size: 18px 18px;
+  mask-size: 18px 18px;
+  padding: 18px;
+}
+#campaignCreate .campaign-ad-name-edit {
+  display: inline-block;
+  margin-top: -3px;
+  -webkit-mask-size: 14px 14px;
+  mask-size: 14px 14px;
+  padding: 16px;
+  margin-left: 5px;
 }
 #campaignCreate .campaignAdCreateWrap {
   margin: 0 auto;
