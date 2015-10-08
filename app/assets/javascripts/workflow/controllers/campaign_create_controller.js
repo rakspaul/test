@@ -196,7 +196,7 @@ var angObj = angObj || {};
         $(function() {
             $('.input-daterange').datepicker({
                 format: "mm/dd/yyyy",
-                orientation: "top auto",
+                orientation: "auto",
                 autoclose: true,
                 todayHighlight: true
             });
