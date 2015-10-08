@@ -1,12 +1,12 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService,$timeout, $location) {
+    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, constants, workflowService,$timeout, $location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.selectedCampaign = {};
-        if(localStorage.getItem('campaignData').length>0){  console.log("fjefje");
+        if(localStorage.getItem('campaignData').length>0){
         $scope.editCampaignData=JSON.parse(localStorage.getItem('campaignData'));
         $scope.dataLength = $scope.editCampaignData.length > 0 ? false : true;
         console.log($scope.editCampaignData);
@@ -91,6 +91,9 @@ var angObj = angObj || {};
                 case 'advertiser' :
                     $scope.workflowData['brands'] = {};
                     $scope.selectedCampaign.brand = '';
+                    if(window.location.href.indexOf("edit")>-1){
+                        createCampaign.fetchBrands(data.advertiserId);
+                    }
                     if(data.advertiser) {
                         createCampaign.fetchBrands(data.advertiser.id);
                     }
@@ -156,8 +159,11 @@ var angObj = angObj || {};
 
                 if(window.location.href.indexOf("edit")>-1)
                 {
+                    //popUp message Box
+                    //error message for budget exceeding the min Budget.
                     postDataObj.clientId = $scope.editCampaignData.clientId;
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
+                    postDataObj.campaignId=$routeParams.campaignId;
                     workflowService.updateCampaign(postDataObj).then(function (result) { console.log(postDataObj);
                         if (result.status === "OK" || result.status === "success") {
                             $scope.sucessHandler(result);

@@ -71,7 +71,7 @@
                 <div class="isCollapsed">
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
                             <span ng-if="dataLength">
                             <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="256"   required/>
@@ -90,7 +90,7 @@
 
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">Who is the campaign for?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the campaign for?</label>
                             <span ng-if="dataLength">
                             <div class="form-group col-sm-3 zeroPadding" show-errors='{showSuccess: true}'>
                                 <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
@@ -112,7 +112,7 @@
                             <span ng-if="dataLength">
                                 <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
                                     <label for="advertiserDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
-                                    <select class="form-control" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" required>
+                                    <select class="form-control" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" ng-init="selectHandler('advertiser', editCampaignData)" required>
                                         <option value="{{editCampaignData.advertiserName}}">{{editCampaignData.advertiserName}}</option>
                                     </select>
                                 </div>
@@ -188,13 +188,14 @@
 
                         <!--==== Row 5 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">How much do you want to spend?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
                             <span ng-if="dataLength">
                             <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12 control-label greyTxt miniLabels">Enter Whole Dollar Amount</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
-                                <input type="text" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required/>
+                                <input type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="15" name="budget" required/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12 control-label greyTxt errorLabel">You must enter whole dollar amounts.</label>
+                                <label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12 control-label greyTxt errorLabel">Budget must be greater than min budget</label>
                             </div>
                             </span>
                             <span ng-if="!dataLength">
