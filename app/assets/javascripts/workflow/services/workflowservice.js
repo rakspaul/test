@@ -67,6 +67,10 @@
                 var url = apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId;
                 return dataService.fetch(url);
             },
+            getDetailedAdsInAdGroup :function(campaignId,adGroupID,adId){
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads/'+adId;
+                return dataService.fetch(url);
+            },
 
             pushCampaign : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/push';

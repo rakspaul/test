@@ -97,89 +97,101 @@ var angObj = angObj || {};
 
         //edit mode data population
         if($scope.mode === 'edit'){
-            if($scope.adId)
-                workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function(result) {
-                    var responseData = result.data.data;
-                    workflowService.setAdsDetails(responseData);
-                    $scope.adData.adName = responseData.name;
-                    $scope.adData.adFormat = responseData.adFormat; // talk to abhimanyu regarding the different formats the server will send
-                    $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
-                    $scope.adData.goal = responseData.goal;
-                    $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
-                    if(responseData.screens){
-                        for(var i = 0; i < responseData.screens.length; i++){
-                            var index = _.findIndex($scope.workflowData.screenTypes, function(item) {
-                                return item.id == responseData.screens[i].id });
-                            $scope.workflowData.screenTypes[i].active = true;
-                            $scope.screenTypeSelection($scope.workflowData.screenTypes[i]);
-                        }
-                    }
-
-                    //budget tab - no data
-                    if(responseData.budgetType){
-                        $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType); // need to work on highlighting the UI
-                        //$scope.adData.budgetType = "Cost";
-                        //console.log($(".budget_type[value='$scope.adData.budgetType']"));
-                        //$(".budget_type[value='$scope.adData.budgetType']").trigger('click');
-                        //$scope.toggleBtn($(".budget_type[value='$scope.adData.budgetType']"));
-
-                    }
-                    if(responseData.startTime)
-                        $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
-
-                    if(responseData.endTime){
-                        $scope.adData.endTime = moment(responseData.endTime).format("MM/DD/YYYY");
-                        $('#endDateInput').prop('disabled',false);
-                        $('#endDateInput').css('background','none');
-                    }
-                    if(responseData.rateValue){
-                        $scope.adData.unitCost = responseData.rateValue;
-                    }
-                    if(responseData.budgetValue){
-                        $scope.adData.budgetAmount = responseData.budgetValue;
-                    }
-                    if(responseData.rateType){
-                        var idx =  _.findIndex($scope.workflowData.unitTypes, function(item) {
-                            return item.name == responseData.rateType });
-
-                        $scope.adData.unitType = $scope.workflowData.unitTypes[idx]['name']
-                        console.log($scope.adData.unitType);  // work on this to select dropdown
-                    }
-                    if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
-                        $scope.adData.setCap = true;
-                        $scope.adData.unitType = responseData.rateType;
-                        //$('.cap_yes input').trigger('click');
-
-
-                        $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
-                        $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
-                        var pacingType = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['pacingType'];
-                        //if(pacingType == "EVENLY")
-                        //    angular.element('#evenly').trigger('click');
-                        //else
-                        //    $('#asap').trigger('click');
-
-
-                    }
-
-
-
-                    //platform tab
-                    if(responseData.platform){ // need to work on selecting radio button
-                        $scope.changePlatform(responseData.platform.id);
-                        $scope.adData.platform = responseData.platform.name;
-                        if(responseData.pushStatus != "UNPUSHED")
-                            $scope.isAdsPushed = true;
-                    }
-
-                    //inventory files
-
-                    //creative tags
-
-
-                    console.log(responseData);
-
+            if(!$scope.adGroupId) {
+                workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
+                    processEditMode(result);
                 })
+            }
+            else{
+                workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
+                    processEditMode(result);
+                })
+            }
+        }
+        function processEditMode(result){
+            var responseData = result.data.data;
+            workflowService.setAdsDetails(responseData);
+            $scope.adData.adName = responseData.name;
+            $scope.adData.adFormat = responseData.adFormat; // talk to abhimanyu regarding the different formats the server will send
+            $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
+            $scope.adData.goal = responseData.goal;
+            $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
+            if(responseData.screens){
+                for(var i = 0; i < responseData.screens.length; i++){
+                    var index = _.findIndex($scope.workflowData.screenTypes, function(item) {
+                        return item.id == responseData.screens[i].id });
+                    $scope.workflowData.screenTypes[i].active = true;
+                    $scope.screenTypeSelection($scope.workflowData.screenTypes[i]);
+                }
+            }
+
+            //budget tab - no data
+            if(responseData.budgetType){
+                $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType); // need to work on highlighting the UI
+                //$scope.adData.budgetType = "Cost";
+                //console.log($(".budget_type[value='$scope.adData.budgetType']"));
+                //$(".budget_type[value='$scope.adData.budgetType']").trigger('click');
+                //$scope.toggleBtn($(".budget_type[value='$scope.adData.budgetType']"));
+
+            }
+            if(responseData.startTime)
+                $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
+
+            if(responseData.endTime){
+                $scope.adData.endTime = moment(responseData.endTime).format("MM/DD/YYYY");
+                $('#endDateInput').prop('disabled',false);
+                $('#endDateInput').css('background','none');
+            }
+            if(responseData.rateValue){
+                $scope.adData.unitCost = responseData.rateValue;
+            }
+            if(responseData.budgetValue){
+                $scope.adData.budgetAmount = responseData.budgetValue;
+            }
+            if(responseData.rateType){
+                var idx =  _.findIndex($scope.workflowData.unitTypes, function(item) {
+                    return item.name == responseData.rateType });
+
+                $scope.adData.unitType = $scope.workflowData.unitTypes[idx]['name']
+                console.log($scope.adData.unitType);  // work on this to select dropdown
+            }
+            if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
+                $scope.adData.setCap = true;
+                $scope.adData.unitType = responseData.rateType;
+                //$('.cap_yes input').trigger('click');
+
+
+                $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
+                $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
+                var pacingType = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['pacingType'];
+                //if(pacingType == "EVENLY")
+                //    angular.element('#evenly').trigger('click');
+                //else
+                //    $('#asap').trigger('click');
+
+
+            }
+
+
+
+            //platform tab
+            if(responseData.platform){ // need to work on selecting radio button
+                $scope.changePlatform(responseData.platform.id);
+                $scope.adData.platform = responseData.platform.name;
+                if(responseData.pushStatus != "UNPUSHED")
+                    $scope.isAdsPushed = true;
+            }
+
+            //inventory files
+
+            //creative tags
+            if(responseData.creatives)
+                $scope.selectedArr = responseData.creatives
+    //console.log($scope.selectedArr)
+            $scope.$broadcast('updateCreativeTags');
+
+            console.log(responseData);
+
         }
 
         var campaignOverView = {
@@ -581,7 +593,23 @@ var angObj = angObj || {};
 
     angObj.controller('creativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.emptyCreativesFlag = true;
+        //$scope.mode = workflowService.getMode();
         $scope.loadingFlag = true; //loading flag
+
+
+        $scope.$on('updateCreativeTags',function(){
+            if($scope.mode === 'edit'){
+                var responseData = workflowService.getAdsDetails();
+                //creative tags
+                if(responseData.creatives)
+                    $scope.selectedArr = responseData.creatives;
+
+
+
+                $scope.changeStatus();
+                $scope.updateCreativeData($scope.selectedArr);
+            }
+        })
 
         var addFromLibrary = {
             modifyCreativesData : function(respData) {
@@ -607,6 +635,20 @@ var angObj = angObj || {};
                         var responseData = result.data.data;
                         $scope.creativeListLoading = false;
                         $scope.creativesLibraryData['creativesData'] = addFromLibrary.modifyCreativesData(responseData);
+
+                        if($scope.mode === 'edit'){
+                            _.each($scope.selectedArr,function(obj){
+                                obj.checked = true;
+                                $("#"+obj.id).attr('checked',true);
+                                var idx = _.findIndex( $scope.creativesLibraryData['creativesData'], function(item) {
+                                    return item.id == obj.id });
+                                $scope.creativesLibraryData['creativesData'][idx]['checked'] = true;
+
+
+                            })
+                        }
+
+
                     }
                     else {
                         addFromLibrary.errorHandler(result);

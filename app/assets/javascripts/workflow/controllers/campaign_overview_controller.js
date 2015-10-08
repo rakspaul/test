@@ -313,9 +313,10 @@ var angObj = angObj || {};
         }
         }
 
-        $scope.goEdit = function ( campaignId, adsId,isGroup ) {
+        $scope.goEdit = function ( campaignId, adsId,groupId ) {
             var path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
-
+            if(groupId)
+                path = "/campaign/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
             $location.path( path );
         };
 
