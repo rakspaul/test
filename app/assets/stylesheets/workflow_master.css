@@ -77,9 +77,7 @@ select {
   border: 1px solid #ccd2da;
 }
 .dropdown-toggle {
-  border: 1px solid #ccd2da;
   border-radius: 1px;
-  width: 100% !important;
   text-align: left;
   background: #fff;
 }
