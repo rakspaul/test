@@ -17,12 +17,12 @@
 
         fetchAllCampaigns();
         $scope.editCampaign=function(event, campaign){  //console.log(campaign);
-            event.preventDefault();
-            $location.url('/campaign/'+campaign.id+'/edit')
-            localStorage.setItem('campaignData',JSON.stringify(campaign));
-            console.log(localStorage.getItem('campaignData'));
+                    event.preventDefault();
+                    $location.url('/campaign/'+campaign.id+'/edit')
+                    localStorage.setItem('campaignData',JSON.stringify(campaign));
+                    console.log(localStorage.getItem('campaignData'));
 
-        }
+                }
     });
 
 }());

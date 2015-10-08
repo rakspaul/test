@@ -22,10 +22,10 @@ var angObj = angObj || {};
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
         $scope.editCampaign=function(workflowcampaignData){
-            window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-            localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-            console.log(localStorage.getItem('campaignData'));
-        }
+                    window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
+                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
+                    console.log(localStorage.getItem('campaignData'));
+                }
         
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
