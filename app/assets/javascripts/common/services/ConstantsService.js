@@ -95,6 +95,7 @@
 
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
+    this.CAMPAIGN_UPDATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully updated';
     this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
     this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
     this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
