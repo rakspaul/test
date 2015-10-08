@@ -381,10 +381,6 @@ select {
   color: #939ead;
   cursor: default;
 }
-.left_column_nav .stepCompLabel .active.titleLabel {
-  color: #0978c9 ;
-  font-family: "Avenir-bold";
-}
 .left_column_nav .stepCompLabel .statusLabel {
   float: left;
   width: 100%;
