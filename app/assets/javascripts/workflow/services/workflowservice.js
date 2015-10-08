@@ -10,21 +10,20 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);
             },
-
             getAdvertisers: function (clientId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';
                 return dataService.fetch(url);
             },
-
             getBrands: function (advertiserId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/advertisers/' + advertiserId + '/brands';
                 return dataService.fetch(url);
             },
-
             saveCampaign: function (data) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns', data, {'Content-Type': 'application/json'})
             },
-
+            updateCampaign : function(data,id) {
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+id, data, {'Content-Type': 'application/json'})
+            },
             getCampaignData : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId;
                 return dataService.fetch(url, {cache:false});
@@ -39,14 +38,17 @@
                 return dataService.fetch(url);
 
             },
+
             createAdGroups:function(campaignId,data){
                  return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId+'/ad_groups', data, {'Content-Type': 'application/json'})
 
             },
+
             getAdsInAdGroup :function(campaignId,adGroupID){
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads';
                 return dataService.fetch(url);
             },
+
             createAdGroupOfIndividualAds:function(){
 
             },

@@ -208,8 +208,16 @@ select {
 }
 
 // BTN
-.btn, select {border-radius: 2px !important; text-decoration: none; padding: 10px 15px 10px 15px;
-text-align: center; line-height: 16px; font-size: 14px; width: auto;}
+.btn, select {
+  border-radius: 2px !important;
+  text-decoration: none;
+  /*commented manny's changes here as it was reflecting all other places*/ 
+  /*padding: 10px 15px 10px 15px;
+  text-align: center; 
+  line-height: 16px; 
+  font-size: 14px; 
+  width: auto;*/
+}
 .btn-primary {background: #0978C9;}
 .btn-primary:hover {background: #2c9aec;}
 .btn-primary:active {background: #0564a9;}
@@ -411,6 +419,7 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
     .titleLabel {
       font-size: 14px;
       color: #939ead;
+      cursor: default;
     }
     .statusLabel {
       float: left;
@@ -509,6 +518,24 @@ text-align: center; line-height: 16px; font-size: 14px; width: auto;}
   }
   .creative_tab_sizes {
     word-wrap : break-word ;
+  }
+}
+.campaign-create-left-nav {
+  .campaign_name {
+    float: none;
+  }
+  .active {
+    .titleLabel {
+      font-family: "Avenir-bold" ;
+      color: #0978c9 ;
+    }
+  }
+  .eachStepCompLabel {
+    margin-bottom: 20px ;
+    p {
+     margin: 0 ;
+     float: none; 
+    }
   }
 }
 

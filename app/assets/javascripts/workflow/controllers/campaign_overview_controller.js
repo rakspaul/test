@@ -4,7 +4,8 @@ var angObj = angObj || {};
     angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
-        $("html").css({'background-color':'#eef5fc'});
+        //commenting this as this is persisting across other pages
+        //$("html").css({'background-color':'#eef5fc'});
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.workflowData['getADsForGroupData'] = {}
@@ -16,9 +17,15 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
+        localStorage.setItem('campaignData','');
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
+        $scope.editCampaign=function(workflowcampaignData){
+                    window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
+                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
+                    console.log(localStorage.getItem('campaignData'));
+                }
         
         $scope.msgtimeoutReset = function(){
             $timeout(function(){

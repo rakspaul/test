@@ -42,7 +42,7 @@
                     <div class="column">{{campaign.status}}</div>
                     <div class="column">{{ utc(campaign.startTime) | date : 'yyyy-MM-dd'}}</div>
                     <div class="column">{{utc(campaign.endTime) | date : 'yyyy-MM-dd'}}</div>
-                    <div class="column edit-icon" title="Edit"></div>
+                    <div class="column blue-edit-icon" title="Edit" ng-click="editCampaign($event,campaign)"></div>
                 </a>
             </div>
         </div>

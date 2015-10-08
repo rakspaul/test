@@ -2,10 +2,6 @@
   float: left;
   width: 100%;
 }
-#campaignCreate .campaign-name-edit.edit-icon {
-  display: inline-block;
-  margin-top: 4px;
-}
 #campaignCreate .firstWrapper {
   float: left;
   width: 100%;
@@ -201,6 +197,13 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .inActiveLabel {
   background-color: #939eae;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .overview-camp-name {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 820px;
+  text-overflow: ellipsis;
+  height: 35px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .glyphicon {
   color: #ABABAB;
@@ -781,6 +784,25 @@
 #campaignCreate .firstWrapper .campaignSave .form-group {
   width: 1040px;
   margin: 0 auto;
+}
+#campaignCreate .adMasterContainer .campTitleWrap h4 {
+  max-width: 330px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#campaignCreate .campaign-name-edit.blue-edit-icon {
+  display: inline-block;
+  margin-top: -4px;
+  margin-left: -5px;
+  padding: 18px;
+  background-size: 18px;
+}
+#campaignCreate .campaign-ad-name-edit.blue-edit-icon {
+  display: inline-block;
+  margin-top: -2px;
+  padding: 16px;
+  margin-left: 5px;
 }
 #campaignCreate .campaignAdCreateWrap {
   margin: 0 auto;

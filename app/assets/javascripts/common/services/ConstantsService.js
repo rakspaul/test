@@ -95,6 +95,7 @@
 
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
+    this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Campaign has been successfully updated';
     this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
     this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
     this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
@@ -301,7 +302,7 @@
     this.QUARTILE_DATA = "Quartile Data";
 
     //workflow related variables
-    this.WF_CREATE_CAMPAIGN = "Create Campaign";
+    this.WF_CREATE_CAMPAIGN = "Campaign Set-Up";
     this.UPLOAD_TEMPLATE = "Upload Template";
     this.CREATE = "Create";
     this.WF_SETTINGS = "Settings";

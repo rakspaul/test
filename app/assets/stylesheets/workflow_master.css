@@ -217,11 +217,12 @@ select {
 select {
   border-radius: 2px !important;
   text-decoration: none;
-  padding: 10px 15px 10px 15px;
-  text-align: center;
-  line-height: 16px;
-  font-size: 14px;
-  width: auto;
+  /*commented manny's changes here as it was reflecting all other places*/
+  /*padding: 10px 15px 10px 15px;
+  text-align: center; 
+  line-height: 16px; 
+  font-size: 14px; 
+  width: auto;*/
 }
 .btn-primary {
   background: #0978C9;
@@ -421,6 +422,7 @@ select {
 .left_column_nav .stepCompLabel .titleLabel {
   font-size: 14px;
   color: #939ead;
+  cursor: default;
 }
 .left_column_nav .stepCompLabel .statusLabel {
   float: left;
@@ -519,6 +521,20 @@ select {
 }
 .left_column_nav .creative_tab_sizes {
   word-wrap: break-word;
+}
+.campaign-create-left-nav .campaign_name {
+  float: none;
+}
+.campaign-create-left-nav .active .titleLabel {
+  font-family: "Avenir-bold";
+  color: #0978c9 ;
+}
+.campaign-create-left-nav .eachStepCompLabel {
+  margin-bottom: 20px ;
+}
+.campaign-create-left-nav .eachStepCompLabel p {
+  margin: 0 ;
+  float: none;
 }
 .table thead {
   border: 1px solid #d2dee7;

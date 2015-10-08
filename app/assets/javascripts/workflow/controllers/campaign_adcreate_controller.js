@@ -30,8 +30,15 @@ var angObj = angObj || {};
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
-        $scope.preSelectArr = [];
-        $scope.sortDomain=false;
+                $scope.preSelectArr = [];
+                $scope.sortDomain=false;
+                localStorage.setItem('campaignData','');
+
+                $scope.editCampaign=function(workflowcampaignData){
+                    window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
+                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
+                    console.log(localStorage.getItem('campaignData'));
+                }
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
