@@ -136,13 +136,13 @@
                         <div class="col-md-12 zeroPadding" style="height: 96px;">
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When should the campaign run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                                <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}' style="margin-left: -5px;">
-                                    <div class="col-md-2" style="width: 150px;">
-                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                                <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
+                                    <div class="dateContainer">
+                                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                         <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
                                     </div>
-                                    <div class="col-md-2" style="width: 150px;">
-                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                                    <div class="dateContainer" style="padding-left: 10px;">
+                                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                         <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
@@ -151,7 +151,7 @@
                                     <div class="calenderIcon">
                                         <span class="icon-calendar"></span>
                                     </div>
-                                    <div class="calenderIcon" style="margin-left: 119px;">
+                                    <div class="calenderIcon">
                                         <span class="icon-calendar"></span>
                                     </div>
                                 </span>

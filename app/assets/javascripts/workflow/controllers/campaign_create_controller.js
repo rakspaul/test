@@ -3,6 +3,12 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('CreateCampaignController', function ($scope, $window, constants, workflowService,$timeout, $location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
+        // This sets dynamic width to line to take 100% height
+        function colResize() {
+            var winHeight = $(window).height() - 66;
+            $("#campaignCreate .settingWrap").css('height', winHeight+'px');
+        } colResize();
+        $(window).resize(function(){ colResize(); });
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.selectedCampaign = {}

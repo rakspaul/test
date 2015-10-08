@@ -58,6 +58,7 @@
         padding: 30px 30px 30px 25px;
         width: 77%;
         float: left;
+        min-height: 730px;
       }
       .collapseHeader {
         float: left;
@@ -112,15 +113,6 @@
         #inputBudget {
           text-indent: 16px;
         }
-        .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2,
-        .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4,
-        .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6,
-        .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
-        .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9,
-        .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11,
-        .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-          padding: 0 5px;
-        }
         .form-group {
           margin: 0;
           input[type="text"] {
@@ -141,44 +133,6 @@
         }
         .startTime:last-child {
           padding-top: 19px
-        }
-        .date {
-          .dateWrapper {
-            position: absolute;
-            z-index: 10;
-            top: 0;
-            left: 0;
-            padding: 0;
-            input {
-              background: transparent;
-              border-radius: 3px !important;
-              text-align: left;
-              text-indent: 2px;
-              font-size: 12px;
-            }
-            #endDateInput {
-              background: rgba(0, 0, 0, 0.07);
-            }
-          }
-          .input-group-addon {
-            margin: 10px 0 0 0;
-            background-color: transparent;
-            border-width: 0;
-            width: 100%;
-            padding: 0;
-            .glyphicon:last-child {
-              margin: 20px 9px 0 0;
-            }
-            .calenderIcon {
-              float: left;
-              border-left: 1px solid #c3c3c3;
-              margin: 19px 0 0 102px;
-              img {
-                float: left;
-                margin: 10px 9px;
-              }
-            }
-          }
         }
       }
       .dollar_value {
@@ -490,44 +444,6 @@
             }
             .startTime:last-child {
               padding-top: 19px
-            }
-            .date {
-              .dateWrapper {
-                position: absolute;
-                z-index: 10;
-                top: 0;
-                left: 0;
-                padding: 0;
-                input {
-                  background: transparent;
-                  border-radius: 3px !important;
-                  text-align: left;
-                  text-indent: 2px;
-                  font-size: 12px;
-                }
-                #endDateInput {
-                  background: rgba(0, 0, 0, 0.07);
-                }
-              }
-              .input-group-addon {
-                margin: 12px 0 0 0;
-                background-color: transparent;
-                border-width: 0;
-                width: 100%;
-                padding: 0;
-                .glyphicon:last-child {
-                  margin: 20px 9px 0 0;
-                }
-                .calenderIcon {
-                  float: left;
-                  border-left: 1px solid #c3c3c3;
-                  margin: 19px 0 0 102px;
-                  img {
-                    float: left;
-                    margin: 10px 9px;
-                  }
-                }
-              }
             }
             .adGroupCreateModules {
               background: #fff;
@@ -866,6 +782,7 @@
   .campaignAdCreateWrap {
     margin: 0 auto;
     width: 1200px;
+    min-height: 703px;
   }
   .campaignAdCreate{
     float: left;
@@ -1622,36 +1539,6 @@
     min-height: 530px;
     width: 100%;
     padding: 30px 30px 0 30px;
-    #datepicker {
-      input {
-        font-size: 12px;
-        text-indent: 2px;
-        width: 150px;
-      }
-      .input-group-addon {
-        margin: 12px 0 0 0;
-        background-color: transparent;
-        border-width: 0;
-        width: 100%;
-        padding: 0;
-        .glyphicon:last-child {
-          margin: 20px 9px 0 0;
-        }
-        .calenderIcon {
-          float: left;
-          border-left: 1px solid #c3c3c3;
-          margin: 24px 13px 0 111px;
-          .icon-calendar {
-            padding: 9px 11px 3px 11px;
-            float: left;
-          }
-          img {
-            float: left;
-            margin: 10px 9px;
-          }
-        }
-      }
-    }
     h2 {
       color: #000;
       font-size: 20px;
@@ -1679,31 +1566,6 @@
         background: -ms-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* IE10+ */
         background: linear-gradient(to bottom,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* W3C */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
-      }
-    }
-    #datepicker {
-      height: 54px;
-      .dateWrapper {
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 10;
-        input {
-          border-radius: 3px;
-          background: transparent;
-        }
-      }
-      .input-group-addon {
-        background: none;
-        border-width: 0;
-        width: 100%;
-        padding: 0;
-        .glyphicon {
-          margin: 36px 0 0 0;
-        }
-      }
-      #endDateInput {
-        background: rgba(0,0,0,0.07);
       }
     }
     .symbolAbs {
@@ -2369,12 +2231,6 @@
   }
   .spacingInput {
     height: 30px !important;
-  }
-}
-#datepicker {
-  .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-    cursor: auto;
-    background: #fff;
   }
 }
 .campaignAdCreatePage {
