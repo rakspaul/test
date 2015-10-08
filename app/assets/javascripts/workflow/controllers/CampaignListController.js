@@ -16,8 +16,7 @@
         }
 
         fetchAllCampaigns();
-
-        $scope.editCampaign=function(event, campaign){  console.log(campaign);
+        $scope.editCampaign=function(event, campaign){  //console.log(campaign);
             event.preventDefault();
             $location.url('/campaign/'+campaign.id+'/edit')
             localStorage.setItem('campaignData',JSON.stringify(campaign));

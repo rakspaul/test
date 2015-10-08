@@ -17,7 +17,7 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
-        //localStorage.setItem('campaignData','');
+        localStorage.setItem('campaignData','');
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 

@@ -12,6 +12,7 @@ var angObj = angObj || {};
         console.log($scope.editCampaignData);
         console.log($scope.dataLength);
         }
+        $scope.repushCampaignEdit=false;
 
         $scope.getGoalIconName = function (goal) {
             var goalMapper = {'performance': 'signal', 'brand': 'record'}
@@ -156,21 +157,13 @@ var angObj = angObj || {};
                 postDataObj.name = formData.campaignName;
                 postDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
                 postDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
-
                 if(window.location.href.indexOf("edit")>-1)
                 {
-                    //popUp message Box
-                    //error message for budget exceeding the min Budget.
                     postDataObj.clientId = $scope.editCampaignData.clientId;
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.campaignId=$routeParams.campaignId;
-                    workflowService.updateCampaign(postDataObj).then(function (result) { console.log(postDataObj);
-                        if (result.status === "OK" || result.status === "success") {
-                            $scope.sucessHandler(result);
-                            localStorage.setItem( 'topAlertMessage', $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS);
-
-                        }localStorage.setItem('campaignData','');
-                    });
+                    $scope.repushCampaignEdit=true;
+                    $scope.repushData=postDataObj;
                 }else{
                     postDataObj.clientId = Number(formData.clientId);
                     postDataObj.advertiserId = Number(formData.advertiserId);
@@ -183,7 +176,22 @@ var angObj = angObj || {};
                 }
             }
         };
+        $scope.repushCampaign=function(){
+             $scope.repushCampaignEdit=false;
+             workflowService.updateCampaign($scope.repushData).then(function (result) { console.log("Json for update");console.log($scope.repushData);
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.sucessHandler(result);
+                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS);
+                    localStorage.setItem('campaignData','');
+                }
+             });
 
+        }
+        $scope.cancelRepushCampaign=function(){
+            $scope.repushCampaignEdit=false;
+            //$('#createCampaignForm')[0].reset();
+            localStorage.setItem('campaignData','');
+        }
         $scope.reset = function() {
             $scope.$broadcast('show-errors-reset');
             $scope.selectedCampaign = { };
