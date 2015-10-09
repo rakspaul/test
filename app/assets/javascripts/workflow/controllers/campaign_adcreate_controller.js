@@ -5,8 +5,12 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
-        var winHeight = $(document).height() - 122;
-        $(".campaignAdCreateWrap").css('height', winHeight+'px');
+        // This sets dynamic width to line to take 100% height
+        function colResize() {
+            var winHeight = $(window).height() - 126;
+            $(".campaignAdCreateWrap").css('height', winHeight+'px');
+        } colResize();
+        $(window).resize(function(){ colResize(); });
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {}

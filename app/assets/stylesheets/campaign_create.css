@@ -58,6 +58,7 @@
   padding: 30px 30px 30px 25px;
   width: 77%;
   float: left;
+  min-height: 730px;
 }
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
@@ -119,104 +120,6 @@
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed #inputBudget {
   text-indent: 16px;
 }
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-1,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-1,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-1,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-1,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-1,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-1,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-1,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-1,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-2,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-2,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-2,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-2,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-2,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-2,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-2,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-2,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-3,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-3,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-3,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-3,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-3,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-3,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-3,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-3,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-4,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-4,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-4,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-4,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-4,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-4,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-4,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-4,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-5,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-5,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-5,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-5,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-5,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-5,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-5,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-5,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-6,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-6,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-6,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-6,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-6,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-6,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-6,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-6,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-7,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-7,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-7,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-7,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-7,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-7,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-7,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-7,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-8,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-8,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-8,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-8,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-8,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-8,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-8,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-8,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-9,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-9,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-9,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-9,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-9,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-9,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-9,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-9,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-10,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-10,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-10,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-10,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-10,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-10,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-10,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-10,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-11,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-11,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-11,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-11,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-11,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-11,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-11,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-11,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-xs-12,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-xs-12,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-sm-12,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-sm-12,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-md-12,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-md-12,
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .col-lg-12,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .col-lg-12 {
-  padding: 0 5px;
-}
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
   margin: 0;
@@ -243,51 +146,8 @@
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime:last-child {
   padding-top: 19px;
 }
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .dateWrapper,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .dateWrapper {
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  padding: 0;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .dateWrapper input,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .dateWrapper input {
-  background: transparent;
-  border-radius: 3px !important;
-  text-align: left;
-  text-indent: 2px;
-  font-size: 12px;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .dateWrapper #endDateInput,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .dateWrapper #endDateInput {
-  background: rgba(0, 0, 0, 0.07);
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon {
-  margin: 10px 0 0 0;
-  background-color: transparent;
-  border-width: 0;
-  width: 100%;
-  padding: 0;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .glyphicon:last-child,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .glyphicon:last-child {
-  margin: 20px 9px 0 0;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .calenderIcon,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon {
-  float: left;
-  border-left: 1px solid #c3c3c3;
-  margin: 19px 0 0 102px;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .date .input-group-addon .calenderIcon img,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .date .input-group-addon .calenderIcon img {
-  float: left;
-  margin: 10px 9px;
-}
 #campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
-  top: 37px;
+  top: 43px;
   left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
@@ -606,42 +466,6 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .startTime:last-child {
   padding-top: 19px;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .dateWrapper {
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  padding: 0;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .dateWrapper input {
-  background: transparent;
-  border-radius: 3px !important;
-  text-align: left;
-  text-indent: 2px;
-  font-size: 12px;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .dateWrapper #endDateInput {
-  background: rgba(0, 0, 0, 0.07);
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon {
-  margin: 12px 0 0 0;
-  background-color: transparent;
-  border-width: 0;
-  width: 100%;
-  padding: 0;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon .glyphicon:last-child {
-  margin: 20px 9px 0 0;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon .calenderIcon {
-  float: left;
-  border-left: 1px solid #c3c3c3;
-  margin: 19px 0 0 102px;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .date .input-group-addon .calenderIcon img {
-  float: left;
-  margin: 10px 9px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .adGroupCreateModules {
   background: #fff;
@@ -983,6 +807,7 @@
 #campaignCreate .campaignAdCreateWrap {
   margin: 0 auto;
   width: 1200px;
+  min-height: 703px;
 }
 #campaignCreate .campaignAdCreate {
   float: left;
@@ -1708,34 +1533,6 @@
   width: 100%;
   padding: 30px 30px 0 30px;
 }
-.adCreateMaster .tab-content .tab-pane #datepicker input {
-  font-size: 12px;
-  text-indent: 2px;
-  width: 150px;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon {
-  margin: 12px 0 0 0;
-  background-color: transparent;
-  border-width: 0;
-  width: 100%;
-  padding: 0;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .glyphicon:last-child {
-  margin: 20px 9px 0 0;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon {
-  float: left;
-  border-left: 1px solid #c3c3c3;
-  margin: 24px 13px 0 111px;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon .icon-calendar {
-  padding: 9px 11px 3px 11px;
-  float: left;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .calenderIcon img {
-  float: left;
-  margin: 10px 9px;
-}
 .adCreateMaster .tab-content .tab-pane h2 {
   color: #000;
   font-size: 20px;
@@ -1771,31 +1568,6 @@
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0);
   /* IE6-9 */
-}
-.adCreateMaster .tab-content .tab-pane #datepicker {
-  height: 54px;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .dateWrapper {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 10;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .dateWrapper input {
-  border-radius: 3px;
-  background: transparent;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon {
-  background: none;
-  border-width: 0;
-  width: 100%;
-  padding: 0;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker .input-group-addon .glyphicon {
-  margin: 36px 0 0 0;
-}
-.adCreateMaster .tab-content .tab-pane #datepicker #endDateInput {
-  background: rgba(0, 0, 0, 0.07);
 }
 .adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 {
   position: relative;
@@ -2430,12 +2202,6 @@
 }
 .adCreateMaster .spacingInput {
   height: 30px !important;
-}
-#datepicker .form-control[disabled],
-#datepicker .form-control[readonly],
-#datepicker fieldset[disabled] .form-control {
-  cursor: auto;
-  background: #fff;
 }
 .campaignAdCreatePage {
   position: relative;

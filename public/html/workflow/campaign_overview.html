@@ -177,12 +177,12 @@
                                 <div class="col-md-4 zeroPadding">
                                     <label for="dateIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
                                     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerIndividual">
-                                        <div class="col-md-12 dateWrapper zeroPadding" style="margin-left: -5px;" >
-                                            <div class="col-md-2" style="width: 150px; padding: 0 5px;">
-                                                <label class=" col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                                        <div class="col-md-12 dateWrapper zeroPadding">
+                                            <div class="dateContainer">
+                                                <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                                 <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime"  required/>
                                             </div>
-                                            <div class="form-group col-md-2" style="width: 150px; padding: 0 5px;" show-errors='{showSuccess: true}'>
+                                            <div class="dateContainer" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                                 <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
                                                 <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the end Date.</label>
@@ -191,10 +191,10 @@
                                         </div>
                                         <span class="col-md-12 input-group-addon">
                                             <div class="calenderIcon">
-                                                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                                <span class="icon-calendar"></span>
                                             </div>
-                                            <div class="calenderIcon" style="margin-left: 119px;">
-                                                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                            <div class="calenderIcon">
+                                                <span class="icon-calendar"></span>
                                             </div>
                                         </span>
                                     </div>
