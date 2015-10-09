@@ -9,6 +9,16 @@ var angObj = angObj || {};
             $("#campaignCreate .settingWrap").css('height', winHeight+'px');
         } colResize();
         $(window).resize(function(){ colResize(); });
+        // This is for the drop down list. Perhaps adding this to a more general controller
+        $(document).on('click','.dropdown-menu li a', function() {
+            $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+            $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+        });
+        $('.dropdown-workflow a').each(function(){
+            var text=$(this).text()
+            if (text.length>14)
+            $(this).val(text).text(text.substr(0,20)+'…')
+        });
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.selectedCampaign = {};
