@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, loginModel, $timeout, utils, $location,campaignListService,requestCanceller) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         // This sets dynamic width to line to take 100% height
@@ -138,7 +138,7 @@ var angObj = angObj || {};
             },
 
             fetchUnitTypes: function () {
-               if(localStorage.getItem("networkUser")=="true")
+               if(loginModel.getIsNetworkUser())
                     $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}, {id: 2, name: 'CPC'}, {id: 3, name: 'CPA'}];
                 else
                     $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}];

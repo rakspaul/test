@@ -5,6 +5,7 @@
       data.user_id = undefined;
       data.user_name ='';
       data.is_network_user = false;
+      data.is_workflow_user = false;
       data.auth_token = undefined;
       data.expiry_secs = undefined;
       data.login_name = undefined;
@@ -19,6 +20,7 @@
     deleteData : function () {
       data = {};
       data.is_network_user = false;
+      data.is_workflow_user = false;
     },
 
     getUserRole : function() {
@@ -52,7 +54,6 @@
         if(data.is_network_user) {
             data.cost_transparency = true;
         }
-//        console.log(data);
         if(data.cost_transparency) {
             return data.cost_transparency;
         } else if($cookieStore.get('cdesk_session')) {
@@ -102,8 +103,17 @@
         return data.is_network_user;
        } else if($cookieStore.get('cdesk_session')) {
         data.is_network_user = $cookieStore.get('cdesk_session').is_network_user;
-        return $cookieStore.get('cdesk_session').is_network_user;
+        return data.is_network_user === 'true' || data.is_network_user === true;
       }
+    },
+
+    getIsWorkflowUser : function() {
+        if(data.is_workflow_user) {
+            return data.is_workflow_user;
+        } else if($cookieStore.get('cdesk_session')) {
+            data.is_workflow_user = $cookieStore.get('cdesk_session').is_workflow_user;
+            return data.is_workflow_user === 'true' || data.is_workflow_user === true;
+        }
     },
 
     getExpirySecs : function() {
@@ -157,7 +167,7 @@
     }
 
     } //return
-   
+
   }; //loginModel
   angObj.service('loginModel', ['$cookieStore', '$location', 'constants', loginModel]);
 
