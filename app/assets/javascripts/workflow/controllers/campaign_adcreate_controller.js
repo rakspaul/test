@@ -14,7 +14,8 @@ var angObj = angObj || {};
         $scope.mode = workflowService.getMode();
         $scope.textConstants = constants;
         $scope.workflowData = {};
-        $scope.adData = {}
+        $scope.adData = {};
+        $scope.unitType = '' ;
         $scope.adData.screenTypes = [];
         $scope.creativeData = {};
         $scope.creativesLibraryData = {};
@@ -58,6 +59,7 @@ var angObj = angObj || {};
         $scope.resetPartialSaveAlertMessage = function(){
            $scope.partialSaveAlertMessage.message = '' ;
            $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+           $scope.partialSaveAlertMessage.isMsg = 0 ;
         }
 
         $scope.ShowHide = function (obj) {
@@ -125,14 +127,9 @@ var angObj = angObj || {};
                 }
             }
 
-            //budget tab - no data
+            //budget tab
             if(responseData.budgetType){
-                $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType); // need to work on highlighting the UI
-                //$scope.adData.budgetType = "Cost";
-                //console.log($(".budget_type[value='$scope.adData.budgetType']"));
-                //$(".budget_type[value='$scope.adData.budgetType']").trigger('click');
-                //$scope.toggleBtn($(".budget_type[value='$scope.adData.budgetType']"));
-
+                $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
             }
             if(responseData.startTime)
                 $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
@@ -151,31 +148,32 @@ var angObj = angObj || {};
             if(responseData.rateType){
                 var idx =  _.findIndex($scope.workflowData.unitTypes, function(item) {
                     return item.name == responseData.rateType });
-
-                $scope.adData.unitType = $scope.workflowData.unitTypes[idx]['name']
+                $scope.adData.unitType = {};
+                $scope.adData.unitType.name = $scope.workflowData.unitTypes[idx]['name']; // cpm ..... dropdown
+                //var rateTypeId = $scope.workflowData.unitTypes[idx]['id'];
+                //$scope.adData.unitType = rateTypeId;
+                $scope.unitType = $scope.adData.unitType.name;
+                $('#unitcostType').val($scope.workflowData.unitTypes[idx]['id']);
                 console.log($scope.adData.unitType);  // work on this to select dropdown
             }
+
             if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
                 $scope.adData.setCap = true;
+                $('.cap_yes').addClass('active');
+                $('.cap_no').removeClass('active');
+
                 $scope.adData.unitType = responseData.rateType;
-                //$('.cap_yes input').trigger('click');
-
-
                 $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
                 $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
                 var pacingType = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['pacingType'];
-                //if(pacingType == "EVENLY")
-                //    angular.element('#evenly').trigger('click');
-                //else
-                //    $('#asap').trigger('click');
-
-
+                if(pacingType != "EVENLY"){
+                    $('.spend_asap').addClass('active');
+                    $('.spend_evenly').removeClass('active');
+                }
             }
 
-
-
             //platform tab
-            if(responseData.platform){ // need to work on selecting radio button
+            if(responseData.platform){
                 $scope.changePlatform(responseData.platform.id);
                 $scope.adData.platform = responseData.platform.name;
                 if(responseData.pushStatus != "UNPUSHED")
@@ -183,14 +181,18 @@ var angObj = angObj || {};
             }
 
             //inventory files
-
+            if(responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
+                $scope.$broadcast('updateInventory');
             //creative tags
             if(responseData.creatives)
-                $scope.selectedArr = responseData.creatives
-    //console.log($scope.selectedArr)
+                $scope.selectedArr = responseData.creatives;
+
             $scope.$broadcast('updateCreativeTags');
 
             console.log(responseData);
+
+            //geotargets
+            $scope.$broadcast("updateGeoTags");
 
         }
 
@@ -266,13 +268,14 @@ var angObj = angObj || {};
                 }
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
+                    var responseData = result.data.data;
                     if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
                         $scope.updatedAt = responseData.updatedAt;
                         $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS ;
                         $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+                        $scope.partialSaveAlertMessage.isMsg = 1;
                         $scope.msgtimeoutReset() ;
                         if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
@@ -280,9 +283,17 @@ var angObj = angObj || {};
                             localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
                         }
                     }
-                }, function() {
+                    else{
+                        $scope.partialSaveAlertMessage.message = responseData.message ;
+                        $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+                        $scope.partialSaveAlertMessage.isMsg = 1;
+                        $scope.msgtimeoutReset() ;
+                    }
+                }, function(errorObj) {
+                    console.log(errorObj);
                     $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE ;
                     $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+                    $scope.partialSaveAlertMessage.isMsg = 1;
                     $scope.msgtimeoutReset() ;
                 });
             },
@@ -356,7 +367,6 @@ var angObj = angObj || {};
 
         $scope.toggleBtn = function(event) {
             var target = $(event.target);
-            console.log(target)
             var parentElem =  target.parents('.miniToggle')
             parentElem.find("label").removeClass('active');
             target.parent().addClass('active');
@@ -819,6 +829,44 @@ var angObj = angObj || {};
         $scope.citiesIncluded = true;
         $scope.dmasIncluded = true;
         $scope.addedTargeting = true;
+
+        $scope.$on('updateGeoTags',function(){
+            if($scope.mode === 'edit'){
+
+                //$scope.geoTargetingData['selected'] = {};
+                var responseData = workflowService.getAdsDetails();
+
+                if(responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0){
+                    $scope.selectGeoTarget('Geography'); // ask from where it comes
+
+                    //region targets
+                    if(responseData.targets && responseData.targets.geoTargets && responseData.targets.geoTargets.REGION){
+                        regionsListArray = responseData.targets.geoTargets.REGION.geoTargetList;
+                        $scope.geoTargetingData['selected']['regions'] = regionsListArray;
+                    }
+                    //city targets
+                    if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.CITY){
+                        citiesListArray = responseData.targets.geoTargets.CITY.geoTargetList;
+                        $scope.citiesIncluded = responseData.targets.geoTargets.CITY.isIncluded;
+                        $scope.geoTargetingData['selected']['cities'] = citiesListArray;
+                        //$scope.listCities()
+                    }
+
+
+                    //DMAS targets
+                    if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.DMA){
+                        dmasListArray = responseData.targets.geoTargets.REGION.geoTargetList;
+                        $scope.geoTargetingData['selected']['dmas'] = dmasListArray;
+                    }
+
+                    console.log($scope.geoTargetingData );
+                }
+
+
+                //$scope.geoTargetingData['selected']['zip'] = [];
+
+            }
+        })
 
         $scope.$on('renderTargetingUI', function(event, platformId) {
             $scope.isPlatformId = platformId;
@@ -1563,6 +1611,12 @@ var angObj = angObj || {};
             $scope.advertiserId =  advertiserId;
             InventoryFiltersView.getAdvertisersDomainList(clientId, advertiserId)
         };
+
+        $scope.$on('updateInventory',function(){
+            var responseData = workflowService.getAdsDetails();
+            $scope.adData.inventory = responseData.targets.domainTargets.inheritedList.ADVERTISER;
+            $('#inventory option[value="' + $scope.adData.inventory + '"]').html();
+        })
 
         $scope.showDomainListPopup = false;
 
