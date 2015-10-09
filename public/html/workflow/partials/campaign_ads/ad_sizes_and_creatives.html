@@ -4,7 +4,7 @@
     <br/>
 
     <div class="spacingInput"></div>
-    <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()">Add from Library</button>
+    <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()">Add from Existing</button>
     <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;">Create New</button>
 </div>
 
@@ -13,25 +13,24 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="col-md-1"></th>
                     <th class="col-md-2">Size</th>
-                    <th class="col-md-5">Creative Name</th>
-                    <th class="col-md-2">Type</th>
+                    <th class="col-md-6">Tag Name</th>
+                    <th class="col-md-2">Tag Type</th>
                     <th class="col-md-1">SSL</th>
                     <th class="col-md-1"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
-                    <td class="col-md-1">
+                    <!-- <td class="col-md-1">
                          <span >{{$index+1}}</span>
-                    </td>
+                    </td> -->
                     <td class="col-md-2">
                         
                             <span>{{creativeData.size.size}}</span>
                         
                     </td>
-                    <td class="col-md-5">
+                    <td class="col-md-6">
                         <a class="col-md-8" href="javascript:void(0);" ng-click="ShowHide(creativeData)">{{creativeData.name}}</a>
                         
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
