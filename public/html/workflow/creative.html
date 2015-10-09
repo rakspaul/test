@@ -32,28 +32,31 @@
     <div class="creativeList">
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
-            <a href="javascript:void(0);" class="col-md-12 zeroPadding helpLink">Adding third party Creative Tag</a>
-
+		<div class="col-md-12 zeroPadding">
+			<a href="javascript:void(0);" class="helpLink">Adding third party Creative Tag</a>
+		</div>
 	    <div class="col-md-12 zeroPadding clearfix nav_filters">
 		<creative-drop-down></creative-drop-down>
 	    </div>
 	    
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                     <label for="sel1" class="greyTxt">Format</label>
-					<div class="col-md-12 zeroPadding btn-group">
-						<button class="btn dropdown-toggle" data-toggle="dropdown" name="creativeFormat" id="sel1">
-						<span>Display</span>
-						<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							  <li><a href="#">Display</a></li>
-							  <li class="disabled"><a href="#">Video</a></li>
-							  <li class="disabled"><a href="#">Rich Media</a></li>
-							  <li class="disabled"><a href="#">Social</a></li>
-						</ul>
-					</div>
+					<div class="col-md-12 zeroPadding dropdown-workflow">
+						<div class="dropdown">
+							 <button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								  <span class="text">Select Format</span>
+								  <span class="icon-arrow-down"></span>
+							 </button>
+							 <ul class="dropdown-menu" aria-labelledby="formatType">
+								<li><a href="#">Display</a></li>
+								<li class="disabled"><a href="#">Video</a></li>
+								<li class="disabled"><a href="#">Rich Media</a></li>
+								<li class="disabled"><a href="#">Social</a></li>
+							 </ul>
+						</div>
+				   </div>
 					
                     <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>
                 </div>
@@ -95,24 +98,25 @@
 
                 <div class="form-group col-md-2" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Size</label>
-                    <!--<select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"-->
-                    <!--        ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>-->
-                    <!--    <option value="">Select Size</option>-->
-                    <!--</select>-->
+					<div class="col-md-12 zeroPadding dropdown-workflow">
+						<div class="dropdown">
+							 <button class="btn btn-default dropdown-toggle" type="button" id="sel1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								  <span class="text">Select Size</span>
+								  <span class="icon-arrow-down"></span>
+							 </button>
+							 <ul class="dropdown-menu" aria-labelledby="sel1" ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"
+							ng-model="creativeSize" id="sel1" name="creativeSize" required>
+								  <li><a data-value="">100x72</a></li>
+							 </ul>
+						</div>
+				   </div>
 					
-					<div class="col-md-12 zeroPadding btn-group">
-						<button class="btn dropdown-toggle" data-toggle="dropdown" name="creativeFormat" id="sel1">
-						<span>Select Size</span>
-						<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							  <li><a href="#">100X72</a></li>
-						</ul>
-					</div>
+					<!--<select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"-->
+					<!--		ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>-->
+					<!--	<option value="">Select Size</option>-->
+					<!--</select>-->
 					
-					
-                    <label ng-if="formCreativeCreate.creativeSize.$error.required"
-                           class="col-sm-12 control-label greyTxt errorLabel">Please select the creative size.</label>
+                    <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the creative size.</label>
                 </div>
 
                 <div class="col-md-12 zeroPadding">

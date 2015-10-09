@@ -30,9 +30,6 @@
 #creative .containerWrap {
   padding: 0 0 0 35px;
 }
-#creative .containerWrap span {
-  float: left;
-}
 #creative .containerWrap span a {
   text-decoration: none;
 }
@@ -224,10 +221,6 @@
 }
 #inventoryFilters .each_filter .select {
   margin-top: 0px ;
-}
-#inventoryFilters .containerWrap span {
-  float: left;
-  font-size: 18px;
 }
 #inventoryFilters .containerWrap a {
   text-decoration: none;

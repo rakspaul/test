@@ -98,46 +98,112 @@
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the campaign for?</label>
+                            
                             <span ng-if="dataLength">
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
-                                <select class="form-control" id="accountDDL" ng-model="editCampaignData.clientName"  name="clientId" required>
-                                    <option value="{{editCampaignData.clientName}}">{{editCampaignData.clientName}}</option>
-                                </select>
+                                
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="accountDDL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">Select Account</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="accountDDL" id="accountDDL" ng-model="editCampaignData.clientName"  name="clientId" required>
+                                            <li><a data-value="{{editCampaignData.clientName}}">{{editCampaignData.clientName}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!--<select class="form-control" id="accountDDL" ng-model="editCampaignData.clientName"  name="clientId" required>-->
+                                <!--    <option value="{{editCampaignData.clientName}}">{{editCampaignData.clientName}}</option>-->
+                                <!--</select>-->
                             </div>
                             </span>
                             <span ng-if="!dataLength">
-                            <div class="form-group col-sm-3 zeroPadding" show-errors='{showSuccess: true}'>
+                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
-                                <select ng-options="client.name for client in workflowData.clients track by client.id" class="form-control" id="accountDDL" ng-model="selectedCampaign.client" ng-change="selectHandler('client', selectedCampaign)" name="clientId" required>
-                                    <option value="">Select Account</option>
-                                </select>
+                                
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="accountDDL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">Select Account</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="accountDDL" ng-options="client.name for client in workflowData.clients track by client.id" id="accountDDL" ng-model="selectedCampaign.client" ng-change="selectHandler('client', selectedCampaign)" name="clientId" required>
+                                            <li><a data-value="">Select Account</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!--<select ng-options="client.name for client in workflowData.clients track by client.id" class="form-control" id="accountDDL" ng-model="selectedCampaign.client" ng-change="selectHandler('client', selectedCampaign)" name="clientId" required>-->
+                                <!--    <option value="">Select Account</option>-->
+                                <!--</select>-->
                                 <label ng-if="createCampaignForm.clientId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the account.</label>
                             </div>
                             </span>
 
                             <span ng-if="dataLength">
-                                <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
+                                <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                     <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
-                                    <select class="form-control" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" ng-init="selectHandler('advertiser', editCampaignData)" required>
-                                         <option value="{{editCampaignData.advertiserName}}">{{editCampaignData.advertiserName}}</option>
-                                    </select>
+                                    
+                                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="advertiserDDL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <span class="text">Select Advertiser</span>
+                                                <span class="icon-arrow-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="advertiserDDL" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" ng-init="selectHandler('advertiser', editCampaignData)" required>
+                                                <li><a data-value="{{editCampaignData.advertiserName}}">{{editCampaignData.advertiserName}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--<select class="form-control" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" ng-init="selectHandler('advertiser', editCampaignData)" required>-->
+                                    <!--     <option value="{{editCampaignData.advertiserName}}">{{editCampaignData.advertiserName}}</option>-->
+                                    <!--</select>-->
                                 </div>
                             </span>
                             <span ng-if="!dataLength">
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
+                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
-                                <select ng-options="advertiser.name for advertiser in workflowData.advertisers track by advertiser.id" class="form-control" id="advertiserDDL"  ng-model="selectedCampaign.advertiser" ng-change="selectHandler('advertiser', selectedCampaign)" name="advertiserId" required>
-                                    <option value="">Select Advertiser</option>
-                                </select>
+                                
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="advertiserDDL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">Select Advertiser</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="advertiserDDL" ng-options="advertiser.name for advertiser in workflowData.advertisers track by advertiser.id" id="advertiserDDL"  ng-model="selectedCampaign.advertiser" ng-change="selectHandler('advertiser', selectedCampaign)" name="advertiserId" required>
+                                            <li><a data-value="">Select Advertiser</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!--<select ng-options="advertiser.name for advertiser in workflowData.advertisers track by advertiser.id" class="form-control" id="advertiserDDL"  ng-model="selectedCampaign.advertiser" ng-change="selectHandler('advertiser', selectedCampaign)" name="advertiserId" required>-->
+                                <!--    <option value="">Select Advertiser</option>-->
+                                <!--</select>-->
                                 <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
                             </div>
                             </span>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3" style="padding-left: 0;">
                                 <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
-                                <select ng-options="brand.name for brand in workflowData.brands track by brand.id" class="form-control" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">
-                                    <option value="">Select Brand</option>
-                                </select>
+                                
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="brandDDL" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">Select Brand</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="brandDDL" ng-options="brand.name for brand in workflowData.brands track by brand.id" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">
+                                            <li><a data-value="">Select Brand</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!--<select ng-options="brand.name for brand in workflowData.brands track by brand.id" class="form-control" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">-->
+                                <!--    <option value="">Select Brand</option>-->
+                                <!--</select>-->
                             </div>
                         </div>
 
@@ -146,7 +212,7 @@
                         <!--==== Row 3 ====-->
                         <div class=" col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What is the primary goal?</label>
-                            <label for="accountDDL" class="col-sm-12 greyTxt miniLabels">Select one goal</label>
+                            <label class="col-sm-12 greyTxt miniLabels">Select one goal</label>
                             <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
