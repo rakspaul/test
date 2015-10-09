@@ -506,6 +506,7 @@
   background: #F7FAFF;
   position: relative;
   max-width: 1200px ;
+  cursor: pointer;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
   padding: 10px;
@@ -609,6 +610,10 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
   background-color: #D7E9F7;
   border: 1px solid #0978C9;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:not(.adCreateBtn):hover {
+  background: url('/assets/images/workflow/edit.svg') no-repeat 98% 1%;
+  background-size: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:first-child {
   background: rgba(255, 255, 255, 0.48);
