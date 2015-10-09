@@ -7,23 +7,27 @@
 </div> -->
 
 <!--=== Targeting Type ===-->
-<div class="col-md-12 zeroPadding">
-    <div class="dropdown ddlSetTarget msgPopupHolder" ng-show="addedTargeting">
-        <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
-            <div class="msg">
-                To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
+<div class="col-md-12 zeroPadding dropdown-workflow">
+    <div class="col-md-3 zeroPadding">
+        <div class="dropdown ddlSetTarget msgPopupHolder" ng-show="addedTargeting">
+            <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
+                <div class="msg">
+                    To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
+                </div>
+                <div class="btn-holder">
+                    <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
+                </div>
             </div>
-            <div class="btn-holder">
-                <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
-            </div>
+            <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="pull-left">{{textConstants.WF_ADD_TARGETING_LABEL}}</span>
+                <span class="icon-arrow-down"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">
+                    <a>{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></a>
+                </li>
+            </ul>
         </div>
-        <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="pull-left">{{textConstants.WF_ADD_TARGETING_LABEL}}</span>
-            <span class="icon-arrow-down"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></li>
-        </ul>
     </div>
 </div>
 
