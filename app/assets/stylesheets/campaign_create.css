@@ -579,7 +579,7 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.scheduled {
   background: #2c9aec ;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.inflight {
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.in_flight {
   background: #70d43d ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelPush {
