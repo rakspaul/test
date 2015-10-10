@@ -15,6 +15,8 @@ var angObj = angObj || {};
                 if(localStorage.getItem('campaignData').length>0){
                 $scope.editCampaignData=JSON.parse(localStorage.getItem('campaignData'));
                 $scope.dataLength = $scope.editCampaignData.length > 0 ? false : true;
+                $scope.editStartDate=moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
+                $scope.editEndDate=moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
                 console.log($scope.editCampaignData);
                 console.log($scope.dataLength);
                 }
@@ -120,13 +122,9 @@ var angObj = angObj || {};
             endDateElem.attr("disabled","disabled").css({'background':'#eee'});
             if(startTime) {
                 endDateElem.removeAttr("disabled").css({'background':'transparent'});
-                if($scope.dataLength){
-                    endDateElem.datepicker("setStartDate", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
-                }else{
-                    changeDate =  moment(startTime).format('MM/DD/YYYY')
-                    endDateElem.datepicker("setStartDate", changeDate);
-                    endDateElem.datepicker("update", changeDate);
-                }
+                changeDate =  moment(startTime).format('MM/DD/YYYY')
+                endDateElem.datepicker("setStartDate", changeDate);
+                endDateElem.datepicker("update", changeDate);
             }
 
         }
@@ -161,16 +159,27 @@ var angObj = angObj || {};
                         postDataObj.goal = formData.goal.toUpperCase();
                         postDataObj.bookedRevenue = Number(formData.budget);
                         postDataObj.name = formData.campaignName;
-                        postDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
-                        postDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
+
                         if(window.location.href.indexOf("edit")>-1)
                         {
+                            if(moment(formData.startTime).format('YYYY-MM-DD')===moment($scope.editCampaignData.startTime).format('YYYY-MM-DD'))
+                                postDataObj.startTime = moment($scope.editCampaignData.startTime).format('YYYY-MM-DD HH:mm:ss.SSS');
+                            else
+                                postDataObj.startTime=moment(formData.startTime).format('YYYY-MM-DD HH:mm:ss.SSS');
+                            if(moment(formData.endTime).format('YYYY-MM-DD')===moment($scope.editCampaignData.endTime).format('YYYY-MM-DD'))
+                                postDataObj.endTime = moment($scope.editCampaignData.endTime).format('YYYY-MM-DD HH:mm:ss.SSS');
+                            else
+                                postDataObj.endTime=moment(formData.endTime).format('YYYY-MM-DD 23:59:59.999');
+
                             postDataObj.clientId = $scope.editCampaignData.clientId;
                             postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
+                            postDataObj.updatedAt=$scope.editCampaignData.updatedAt;
                             postDataObj.campaignId=$routeParams.campaignId;
                             $scope.repushCampaignEdit=true;
                             $scope.repushData=postDataObj;
                         }else{
+                            postDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD HH:mm:ss.SSS');
+                            postDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD HH:mm:ss.SSS');
                             postDataObj.clientId = Number(formData.clientId);
                             postDataObj.advertiserId = Number(formData.advertiserId);
                             workflowService.saveCampaign(postDataObj).then(function (result) {
@@ -189,6 +198,8 @@ var angObj = angObj || {};
                     $scope.sucessHandler(result);
                     localStorage.setItem( 'topAlertMessage', $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS);
                     localStorage.setItem('campaignData','');
+                }else{
+                    console.log(result);
                 }
              });
 
@@ -216,7 +227,17 @@ var angObj = angObj || {};
                     });
                     if($scope.dataLength){
                         var startDateElem = $('#startDateInput');
-                        startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                        var endDateElem = $('#endDateInput');
+                        var today = new Date();
+                        console.log(moment(today).format("MM/DD/YYYY"));
+                        if(moment(today).format("MM/DD/YYYY") > moment($scope.editCampaignData.startTime).format("MM/DD/YYYY")){
+                            startDateElem.datepicker("setStartDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                            startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                        }else{
+                            startDateElem.datepicker("setStartDate", moment(today).format("MM/DD/YYYY"));
+                            startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                        }
+                        endDateElem.datepicker("setStartDate", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
                     }else{
                         var startDateElem = $('#startDateInput');
                         var today =  moment().format("MM/DD/YYYY");

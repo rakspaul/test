@@ -77,20 +77,19 @@
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
-
-
                             <span ng-if="dataLength">
                             <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="256"   required/>
-                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
                             </div>
                             </span>
-                            <span ng-if="!dataLength">
-                            <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
+                                <span ng-if="!dataLength">
+                                <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
                                 <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
-                            </div>
-                            </span>
+                                </div>
+                                </span>
+
                         </div>
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
@@ -99,7 +98,7 @@
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the campaign for?</label>
                             <span ng-if="dataLength">
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
+                            <div class="form-group col-sm-3" style="padding-left: 0;">
                                 <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
                                 <select class="form-control" id="accountDDL" ng-model="editCampaignData.clientName"  name="clientId" required>
                                     <option value="{{editCampaignData.clientName}}">{{editCampaignData.clientName}}</option>
@@ -117,7 +116,7 @@
                             </span>
 
                             <span ng-if="dataLength">
-                                <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
+                                <div class="form-group col-sm-3">
                                     <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
                                     <select class="form-control" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" ng-init="selectHandler('advertiser', editCampaignData)" required>
                                          <option value="{{editCampaignData.advertiserName}}">{{editCampaignData.advertiserName}}</option>
@@ -170,17 +169,34 @@
                         <div class="col-md-12 zeroPadding" style="height: 96px;">
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When should the campaign run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                                <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
+
+                                    <span ng-if="dataLength">
+                                    <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
                                     <div class="dateContainer">
                                         <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
+                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="editStartDate" required />
+                                    </div>
+                                    <div class="dateContainer" style="padding-left: 10px;">
+                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="editEndDate" required/>
+                                    </div>
+                                        <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
+                                    </div>
+                                    </span>
+                                    <span ng-if="!dataLength">
+                                    <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
+                                    <div class="dateContainer">
+                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change=" handleFlightDate(selectedCampaign)"/>
                                     </div>
                                     <div class="dateContainer" style="padding-left: 10px;">
                                         <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                         <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
                                     </div>
-                                    <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
-                                </div>
+                                        <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
+                                    </div>
+                                    </span>
+
                                 <span class="col-md-12 input-group-addon">
                                     <div class="calenderIcon">
                                         <span class="icon-calendar"></span>
@@ -197,24 +213,23 @@
                         <!--==== Row 5 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
-                            <!--<span ng-if="dataLength">-->
-                            <!--<div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>-->
-                                <!--<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>-->
-                                <!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
-                                <!--<input type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="15" name="budget" required/>-->
-                                <!--<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>-->
-                                <!--<label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than min budget</label>-->
-
-                            <!--</div>-->
-                            <!--</span>-->
-                            <!--<span ng-if="!dataLength">-->
+                            <span ng-if="dataLength">
+                            <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
+                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
+                                <span class="currency">{{ textConstants.DOLLAR }}</span>
+                                <input type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required/>
+                                <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
+                                <label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>
+                            </div>
+                            </span>
+                            <span ng-if="!dataLength">
                             <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
                                 <input type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                             </div>
-                            <!--</span>-->
+                            </span>
                         </div>
                 </div>
                 </form>

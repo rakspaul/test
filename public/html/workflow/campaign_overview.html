@@ -43,7 +43,7 @@
                             <span class="campaign-name-edit blue-edit-icon" title="Edit" ng-click="editCampaign(workflowData.campaignData)"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}}</span>
+                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}} by {{workflowData.campaignData.updatedByUser}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
