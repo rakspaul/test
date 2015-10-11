@@ -120,7 +120,7 @@ var angObj = '';
                          //   css: assets.css_visto_application,
                             resolve:{
                                 "check":function($location, loginModel){
-                                    var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser
+                                    var isWorkflowUser = loginModel.getIsWorkflowUser();
                                     if(!isWorkflowUser){
                                         $location.path('/');
                                     }
