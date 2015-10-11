@@ -170,33 +170,17 @@
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When should the campaign run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
 
-                                    <span ng-if="dataLength">
                                     <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
                                     <div class="dateContainer">
                                         <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="editStartDate" required />
+                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
                                     </div>
                                     <div class="dateContainer" style="padding-left: 10px;">
                                         <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="editEndDate" required/>
+                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="selectedCampaign.endTime"  required/>
                                     </div>
                                         <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
                                     </div>
-                                    </span>
-                                    <span ng-if="!dataLength">
-                                    <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
-                                    <div class="dateContainer">
-                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change=" handleFlightDate(selectedCampaign)"/>
-                                    </div>
-                                    <div class="dateContainer" style="padding-left: 10px;">
-                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
-                                    </div>
-                                        <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
-                                    </div>
-                                    </span>
-
                                 <span class="col-md-12 input-group-addon">
                                     <div class="calenderIcon">
                                         <span class="icon-calendar"></span>
