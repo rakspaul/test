@@ -22,6 +22,13 @@
     this.SORT_DESC = 'desc';
     this.ACTIVE_UNDERPERFORMING = '(active,underperforming)';
     this.ACTIVE_ONTRACK = '(active,ontrack)';
+    this.ACTIVE_CONDITION = '(active)';
+    this.DRAFT_CONDITION = '(draft)';
+    this.READY_CONDITION = '(ready)';
+    this.COMPLETED_CONDITION = '(completed)';
+    this.PAUSED_CONDITION = '(paused)';
+    this.ENDING_SOON_CONDITION = '(active,endingSoon)';
+
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
     this.ENDING_SOON = 'Ending Soon';
