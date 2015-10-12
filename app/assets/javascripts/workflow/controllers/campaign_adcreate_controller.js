@@ -113,11 +113,21 @@ var angObj = angObj || {};
         function processEditMode(result){
             var responseData = result.data.data;
             workflowService.setAdsDetails(responseData);
-            $scope.adData.adName = responseData.name;
-            $scope.adData.adFormat = responseData.adFormat; // talk to abhimanyu regarding the different formats the server will send
-            $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
-            $scope.adData.goal = responseData.goal;
-            $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
+            $scope.updatedAt = responseData.updatedAt;
+            $scope.state = responseData.state;
+            if(responseData.name)
+                $scope.adData.adName = responseData.name;
+
+            if(responseData.adFormat){
+                $scope.adData.adFormat = responseData.adFormat;
+                $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
+            }
+
+            if(responseData.goal){
+                $scope.adData.goal = responseData.goal;
+                $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
+            }
+
             if(responseData.screens){
                 for(var i = 0; i < responseData.screens.length; i++){
                     var index = _.findIndex($scope.workflowData.screenTypes, function(item) {
@@ -131,6 +141,7 @@ var angObj = angObj || {};
             if(responseData.budgetType){
                 $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
             }
+
             if(responseData.startTime)
                 $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
 
@@ -139,29 +150,29 @@ var angObj = angObj || {};
                 $('#endDateInput').prop('disabled',false);
                 $('#endDateInput').css('background','none');
             }
+
             if(responseData.rateValue){
                 $scope.adData.unitCost = responseData.rateValue;
             }
+
             if(responseData.budgetValue){
                 $scope.adData.budgetAmount = responseData.budgetValue;
             }
+
             if(responseData.rateType){
                 var idx =  _.findIndex($scope.workflowData.unitTypes, function(item) {
                     return item.name == responseData.rateType });
                 $scope.adData.unitType = {};
-                $scope.adData.unitType.name = $scope.workflowData.unitTypes[idx]['name']; // cpm ..... dropdown
-                //var rateTypeId = $scope.workflowData.unitTypes[idx]['id'];
-                //$scope.adData.unitType = rateTypeId;
+                $scope.adData.unitType = $scope.workflowData.unitTypes[idx]; // cpm ..... dropdown
                 $scope.unitType = $scope.adData.unitType.name;
                 $('#unitcostType').val($scope.workflowData.unitTypes[idx]['id']);
-                console.log($scope.adData.unitType);  // work on this to select dropdown
             }
 
             if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
-
+                console.log(responseData);
                 $scope.adData.unitType = responseData.rateType;
                 $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
                 $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
@@ -183,6 +194,7 @@ var angObj = angObj || {};
             //inventory files
             if(responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
                 $scope.$broadcast('updateInventory');
+
             //creative tags
             if(responseData.creatives)
                 $scope.selectedArr = responseData.creatives;
@@ -266,6 +278,7 @@ var angObj = angObj || {};
                     postDataObj['state'] = $scope.state;
 
                 }
+                console.log(postDataObj);
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
                     var responseData = result.data.data;
@@ -469,7 +482,6 @@ var angObj = angObj || {};
                 postAdDataObj.name = formData.adName;
                 postAdDataObj.campaignId = Number($scope.campaignId);
                 //postAdDataObj.state = $scope.workflowData['campaignData'].status;
-
 
                 if (formData.adFormat)
                     postAdDataObj.adFormat = formData.adFormat.toUpperCase();
@@ -842,24 +854,26 @@ var angObj = angObj || {};
                     //region targets
                     if(responseData.targets && responseData.targets.geoTargets && responseData.targets.geoTargets.REGION){
                         regionsListArray = responseData.targets.geoTargets.REGION.geoTargetList;
-                        $scope.geoTargetingData['selected']['regions'] = regionsListArray;
+                        _.each(regionsListArray,function(item){
+                            $scope.sync(true,item,'regions')
+                        })
                     }
                     //city targets
                     if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.CITY){
                         citiesListArray = responseData.targets.geoTargets.CITY.geoTargetList;
-                        $scope.citiesIncluded = responseData.targets.geoTargets.CITY.isIncluded;
-                        $scope.geoTargetingData['selected']['cities'] = citiesListArray;
-                        //$scope.listCities()
+                        _.each(citiesListArray,function(item){
+                            $scope.sync(true,item,'cities')
+                        })
                     }
 
 
                     //DMAS targets
                     if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.DMA){
                         dmasListArray = responseData.targets.geoTargets.REGION.geoTargetList;
-                        $scope.geoTargetingData['selected']['dmas'] = dmasListArray;
+                        _.each(dmasListArray,function(item){
+                            $scope.sync(true,item,'dmas')
+                        })
                     }
-
-                    console.log($scope.geoTargetingData );
                 }
 
 
@@ -1612,12 +1626,6 @@ var angObj = angObj || {};
             InventoryFiltersView.getAdvertisersDomainList(clientId, advertiserId)
         };
 
-        $scope.$on('updateInventory',function(){
-            var responseData = workflowService.getAdsDetails();
-            $scope.adData.inventory = responseData.targets.domainTargets.inheritedList.ADVERTISER;
-            $('#inventory option[value="' + $scope.adData.inventory + '"]').html();
-        })
-
         $scope.showDomainListPopup = false;
 
 
@@ -1628,6 +1636,10 @@ var angObj = angObj || {};
               getAdvertisersDomainList : function(clientId, advertiserId) {
                   workflowService.getAdvertisersDomainList(clientId, advertiserId).then(function (result) {
                       $scope.workflowData['inventoryData'] = result.data.data;
+
+                      if($scope.mode == 'edit'){
+                            $scope.adData.inventory = $scope.workflowData['inventoryData'][0]
+                      }
                   });
               },
           }
