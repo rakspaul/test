@@ -209,7 +209,7 @@ var angObj = angObj || {};
             console.log(responseData);
 
             //geotargets
-            $scope.$broadcast("updateGeoTags");
+            //$scope.$broadcast("updateGeoTags");
 
         }
 
