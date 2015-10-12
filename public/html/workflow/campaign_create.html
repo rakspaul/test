@@ -101,7 +101,7 @@
                             <div class="form-group col-sm-3" style="padding-left: 0;">
                                 <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
                                 <select class="form-control" id="accountDDL" ng-model="editCampaignData.clientName"  name="clientId" required>
-                                    <option value="{{editCampaignData.clientName}}">{{editCampaignData.clientName}}</option>
+                                    <option value="{{editCampaignData.clientName}}" selected="selected">{{editCampaignData.clientName}}</option>
                                 </select>
                             </div>
                             </span>
@@ -119,7 +119,7 @@
                                 <div class="form-group col-sm-3">
                                     <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
                                     <select class="form-control" id="advertiserDDL"  ng-model="editCampaignData.advertiserName" name="advertiserId" ng-init="selectHandler('advertiser', editCampaignData)" required>
-                                         <option value="{{editCampaignData.advertiserName}}">{{editCampaignData.advertiserName}}</option>
+                                         <option value="{{editCampaignData.advertiserName}}" selected="selected">{{editCampaignData.advertiserName}}</option>
                                     </select>
                                 </div>
                             </span>
@@ -135,7 +135,8 @@
                             <div class="form-group col-sm-3">
                                 <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
                                 <select ng-options="brand.name for brand in workflowData.brands track by brand.id" class="form-control" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">
-                                    <option value="">Select Brand</option>
+                                    <option ng-if="{{editCampaignData.brandName}}" value="{{editCampaignData.brandName}}" selected="selected">{{editCampaignData.brandName}}</option>
+                                    <option ng-if="!editCampaignData.brandName" value="">Select Brand</option>
                                 </select>
                             </div>
                         </div>
