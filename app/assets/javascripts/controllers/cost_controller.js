@@ -188,6 +188,7 @@ var angObj = angObj || {};
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
             $scope.selected_filters.time_filter = strategy;
+            $scope.createDownloadReportUrl();
             $scope.callBackStrategyChange();
         });
 

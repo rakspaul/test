@@ -379,7 +379,9 @@ var angObj = angObj || {};
 /*           $scope.selected_filters.time_filter = strategy;
            $scope.showPerformance();
            $scope.getStrategyChart();
-           $scope.getTacticList();*/
+           $scope.getTacticList();
+           $scope.createDownloadReportUrl();
+        */
         });
 
         // hot fix for the enabling the active link in the reports dropdown

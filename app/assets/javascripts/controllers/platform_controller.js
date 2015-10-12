@@ -312,15 +312,10 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
-
-
-
-            $scope.selected_filters.time_filter = strategy;
-
-
+          /*  $scope.selected_filters.time_filter = strategy;
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
-
+            $scope.createDownloadReportUrl();*/
         });
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function (e) {
