@@ -40,16 +40,8 @@
             $location.url(url);
         };
 
-        $scope.removeUserData = function() {
-            $cookieStore.remove('cdesk_session');
-            $http.defaults.headers.common.Authorization = '';
-            localStorage.clear();
-            loginModel.deleteData();
-        };
-
         $scope.logout = function() {
-            $scope.removeUserData();
-            $location.url('/login');
+            loginModel.logout();
         };
 
         $scope.setDefaultReport = function(reportTitle){
