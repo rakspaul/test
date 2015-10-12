@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
+    angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,$location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         //commenting this as this is persisting across other pages
@@ -312,6 +312,13 @@ var angObj = angObj || {};
                             });
         }
         }
+
+        $scope.goEdit = function ( campaignId, adsId,isGroup ) {
+            var path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
+
+            $location.path( path );
+        };
+
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');

@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, loginModel, $timeout, utils, $location,campaignListService,requestCanceller) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         // This sets dynamic width to line to take 100% height
@@ -11,6 +11,7 @@ var angObj = angObj || {};
             $(".campaignAdCreateWrap").css('height', winHeight+'px');
         } colResize();
         $(window).resize(function(){ colResize(); });
+        $scope.mode = workflowService.getMode();
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {}
@@ -21,6 +22,7 @@ var angObj = angObj || {};
         $scope.showHidePopup = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.adGroupId = $routeParams.adGroupId;
+        $scope.adId = $routeParams.adId;
         $scope.selectedArr = [];
         $scope.unchecking=false;
         $scope.enableSaveBtn=true;
@@ -30,16 +32,17 @@ var angObj = angObj || {};
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
-                $scope.preSelectArr = [];
-                $scope.sortDomain=false;
-                localStorage.setItem('campaignData','');
 
-                $scope.editCampaign=function(workflowcampaignData){
-                    window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-                    console.log(localStorage.getItem('campaignData'));
-                }
+        $scope.preSelectArr = [];
+        $scope.sortDomain=false;
+        //$scope.isAdsPushed = false;
+        localStorage.setItem('campaignData','');
 
+        $scope.editCampaign=function(workflowcampaignData){
+            window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
+            localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
+            console.log(localStorage.getItem('campaignData'));
+        }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;     
@@ -91,6 +94,93 @@ var angObj = angObj || {};
             var endDate = moment(endDate).format("MM/DD/YYYY");
             return  moment().isAfter(endDate, 'day')
         };
+
+        //edit mode data population
+        if($scope.mode === 'edit'){
+            if($scope.adId)
+                workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function(result) {
+                    var responseData = result.data.data;
+                    workflowService.setAdsDetails(responseData);
+                    $scope.adData.adName = responseData.name;
+                    $scope.adData.adFormat = responseData.adFormat; // talk to abhimanyu regarding the different formats the server will send
+                    $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
+                    $scope.adData.goal = responseData.goal;
+                    $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
+                    if(responseData.screens){
+                        for(var i = 0; i < responseData.screens.length; i++){
+                            var index = _.findIndex($scope.workflowData.screenTypes, function(item) {
+                                return item.id == responseData.screens[i].id });
+                            $scope.workflowData.screenTypes[i].active = true;
+                            $scope.screenTypeSelection($scope.workflowData.screenTypes[i]);
+                        }
+                    }
+
+                    //budget tab - no data
+                    if(responseData.budgetType){
+                        $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType); // need to work on highlighting the UI
+                        //$scope.adData.budgetType = "Cost";
+                        //console.log($(".budget_type[value='$scope.adData.budgetType']"));
+                        //$(".budget_type[value='$scope.adData.budgetType']").trigger('click');
+                        //$scope.toggleBtn($(".budget_type[value='$scope.adData.budgetType']"));
+
+                    }
+                    if(responseData.startTime)
+                        $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
+
+                    if(responseData.endTime){
+                        $scope.adData.endTime = moment(responseData.endTime).format("MM/DD/YYYY");
+                        $('#endDateInput').prop('disabled',false);
+                        $('#endDateInput').css('background','none');
+                    }
+                    if(responseData.rateValue){
+                        $scope.adData.unitCost = responseData.rateValue;
+                    }
+                    if(responseData.budgetValue){
+                        $scope.adData.budgetAmount = responseData.budgetValue;
+                    }
+                    if(responseData.rateType){
+                        var idx =  _.findIndex($scope.workflowData.unitTypes, function(item) {
+                            return item.name == responseData.rateType });
+
+                        $scope.adData.unitType = $scope.workflowData.unitTypes[idx]['name']
+                        console.log($scope.adData.unitType);  // work on this to select dropdown
+                    }
+                    if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
+                        $scope.adData.setCap = true;
+                        $scope.adData.unitType = responseData.rateType;
+                        //$('.cap_yes input').trigger('click');
+
+
+                        $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
+                        $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
+                        var pacingType = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['pacingType'];
+                        //if(pacingType == "EVENLY")
+                        //    angular.element('#evenly').trigger('click');
+                        //else
+                        //    $('#asap').trigger('click');
+
+
+                    }
+
+
+
+                    //platform tab
+                    if(responseData.platform){ // need to work on selecting radio button
+                        $scope.changePlatform(responseData.platform.id);
+                        $scope.adData.platform = responseData.platform.name;
+                        if(responseData.pushStatus != "UNPUSHED")
+                            $scope.isAdsPushed = true;
+                    }
+
+                    //inventory files
+
+                    //creative tags
+
+
+                    console.log(responseData);
+
+                })
+        }
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -254,6 +344,7 @@ var angObj = angObj || {};
 
         $scope.toggleBtn = function(event) {
             var target = $(event.target);
+            console.log(target)
             var parentElem =  target.parents('.miniToggle')
             parentElem.find("label").removeClass('active');
             target.parent().addClass('active');
