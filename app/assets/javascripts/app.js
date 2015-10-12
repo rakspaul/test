@@ -31,10 +31,10 @@ var angObj = '';
 
 
     angObj.config(function ($routeProvider, $httpProvider) {
-            $routeProvider.when('/login', {
-                templateUrl: assets.html_reports_login,
-                controller: 'loginController'
-            })
+        $routeProvider.when('/login', {
+            templateUrl: assets.html_reports_login,
+            controller: 'loginController'
+        })
             .when('/campaigns', {
                 templateUrl: function () {
                     var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
@@ -114,19 +114,19 @@ var angObj = '';
                 }
             })
             .when('/campaign/:campaignId/edit', {
-                            templateUrl: assets.html_campaign_create,
-                            title :  'Create - Campaign',
-                            controller: 'CreateCampaignController',
-                         //   css: assets.css_visto_application,
-                            resolve:{
-                                "check":function($location, loginModel){
-                                    var isWorkflowUser = loginModel.getIsWorkflowUser();
-                                    if(!isWorkflowUser){
-                                        $location.path('/');
-                                    }
-                                }
-                            }
-             })
+                templateUrl: assets.html_campaign_create,
+                title :  'Create - Campaign',
+                controller: 'CreateCampaignController',
+                //   css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, loginModel){
+                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
+            })
             .when('/campaign/:campaignId/overview', {
                 templateUrl: assets.html_campaign_create_ad,
                 title: 'Campaign - Overview',
@@ -164,6 +164,38 @@ var angObj = '';
                     "check": function ($location, loginModel) {
                         var isWorkflowUser = loginModel.getIsWorkflowUser();
                         if (!isWorkflowUser) {
+                            $location.path('/');
+                        }
+                    }
+                }
+            })
+            .when('/campaign/:campaignId/ads/:adId/edit', {
+                templateUrl: assets.html_campaign_create_adBuild,
+                title :  'Campaign - Ad Edit',
+                controller: 'CampaignAdsCreateController',
+                //  css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService,workflowService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        workflowService.setMode('edit');
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
+            })
+
+
+            .when('/campaign/:campaignId/adGroup/:adGroupId/ads/:adId/edit', {
+                templateUrl: assets.html_campaign_create_adBuild,
+                title :  'Campaign - Ad Edit',
+                controller: 'CampaignAdsCreateController',
+                //  css: assets.css_visto_application,
+                resolve:{
+                    "check":function($location, RoleBasedService,workflowService){
+                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                        workflowService.setMode('edit');
+                        if(!isWorkflowUser){
                             $location.path('/');
                         }
                     }

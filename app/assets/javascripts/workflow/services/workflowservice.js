@@ -1,6 +1,9 @@
 (function () {
     "use strict";
     angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, $cookieStore,requestCanceller,constants) {
+        var mode;
+        var adDetails;
+
         return {
             fetchCampaigns : function() {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns';
@@ -59,6 +62,14 @@
 
             updateAd : function(data) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId, data, {'Content-Type': 'application/json'})
+            },
+            getAd : function(data) {
+                var url = apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId;
+                return dataService.fetch(url);
+            },
+            getDetailedAdsInAdGroup :function(campaignId,adGroupID,adId){
+                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads/'+adId;
+                return dataService.fetch(url);
             },
 
             pushCampaign : function(campaignId) {
@@ -124,6 +135,19 @@
             createAdvertiseDomainList :  function(clientId, advertiserId, domainId) {
                 var domainIdstr =  domainId ? '/'+domainId : '';
                 return apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists/upload'+domainIdstr;
+            },
+            setMode :  function(m) {
+                mode = m;
+            },
+            getMode: function(){
+                return mode;
+            },
+
+            setAdsDetails :  function(ad) {
+                adDetails = ad;
+            },
+            getAdsDetails: function(){
+                return adDetails;
             }
         };
 
