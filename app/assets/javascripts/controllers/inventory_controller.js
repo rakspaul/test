@@ -376,11 +376,10 @@ var angObj = angObj || {};
 
 
        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
-            //alert('time changed'+event +strategy);
-            $scope.selected_filters.time_filter = strategy;
+/*           $scope.selected_filters.time_filter = strategy;
            $scope.showPerformance();
            $scope.getStrategyChart();
-           $scope.getTacticList();
+           $scope.getTacticList();*/
         });
 
         // hot fix for the enabling the active link in the reports dropdown

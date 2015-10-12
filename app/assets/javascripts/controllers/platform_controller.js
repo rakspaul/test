@@ -312,14 +312,15 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+
+
+
             $scope.selected_filters.time_filter = strategy;
-            $scope.getPlatformData();
+
+
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
-            $scope.createDownloadReportUrl();
-            $scope.isStrategyDataEmpty = false;
-            $scope.resetVariables();
-            $scope.strategyChangeHandler();
+
         });
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function (e) {

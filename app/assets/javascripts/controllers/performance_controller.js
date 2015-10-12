@@ -281,8 +281,6 @@ var angObj = angObj || {};
                 $scope.selected_filters.time_filter = 'life_time';
             }
 
-
-
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
             $scope.selected_filters.kpi_type = 'cpm';
             $scope.selected_filters2 = {};
