@@ -162,23 +162,27 @@ var angObj = angObj || {};
             if(responseData.rateType){
                 var idx =  _.findIndex($scope.workflowData.unitTypes, function(item) {
                     return item.name == responseData.rateType });
-                $scope.adData.unitType = {};
+
                 $scope.adData.unitType = $scope.workflowData.unitTypes[idx]; // cpm ..... dropdown
-                $scope.unitType = $scope.adData.unitType.name;
-                $('#unitcostType').val($scope.workflowData.unitTypes[idx]['id']);
+                console.log($scope.adData.unitType);
+                //$scope.unitType = $scope.adData.unitType;
+                //$('#unitcostType').val($scope.workflowData.unitTypes[idx]['id']);
             }
 
+            $('.cap_no input').attr("checked", "checked");
+            $('.spend_evenly input').attr("checked", "checked");
             if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
-                console.log(responseData);
-                $scope.adData.unitType = responseData.rateType;
+                $('.cap_yes input').attr("checked", "checked");
+                $scope.adData.budgetAmount = responseData.frequencyCaps[0]['quantity'];
                 $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
                 $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
-                var pacingType = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['pacingType'];
+                var pacingType = responseData.frequencyCaps[0]['pacingType'];
                 if(pacingType != "EVENLY"){
                     $('.spend_asap').addClass('active');
+                    $('.spend_asap input').attr("checked", "checked");
                     $('.spend_evenly').removeClass('active');
                 }
             }
@@ -187,7 +191,8 @@ var angObj = angObj || {};
             if(responseData.platform){
                 $scope.changePlatform(responseData.platform.id);
                 $scope.adData.platform = responseData.platform.name;
-                if(responseData.pushStatus != "UNPUSHED")
+                $scope.adData.platformId = responseData.platform.id;
+                if(responseData.state != "UNPUSHED")
                     $scope.isAdsPushed = true;
             }
 
@@ -278,7 +283,6 @@ var angObj = angObj || {};
                     postDataObj['state'] = $scope.state;
 
                 }
-                console.log(postDataObj);
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
                     var responseData = result.data.data;
@@ -456,6 +460,7 @@ var angObj = angObj || {};
                 freq_cap.push(freqDefaultCapObj);
             }
             var isSetCap = formData.setCap === 'true' ? true : false;
+            console.log("issetcap = "+isSetCap);
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
                 selectedfreqObj['capType'] = "IMPRESSIONS";
@@ -476,7 +481,7 @@ var angObj = angObj || {};
                if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
                    return false;
                }
-
+                console.log("formdata = ",formData);
                var creativesData = $scope.creativeData['creativeInfo'];
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
