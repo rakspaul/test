@@ -312,7 +312,8 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
-          /*  $scope.selected_filters.time_filter = strategy;
+           /* commented out for now as the api isn't set up for this currently, and when i change the dropdown the UI seems to hang
+            $scope.selected_filters.time_filter = strategy;
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
             $scope.createDownloadReportUrl();*/

@@ -16,7 +16,6 @@
       $("#cdbMenu").closest(".each_filter").toggleClass("filter_dropdown_open");
       $("#brandsList").hide();
       $("#profileDropdown").hide();
-
         $('#cdbDropdown').click(
             function(e){
                 var clickedDateRange = e.target.id;
