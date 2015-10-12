@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var loginModel = function($cookieStore, $location, constants) {
+  var loginModel = function($cookieStore, $location, constants, $http) {
     var data = {};
       data.user_id = undefined;
       data.user_name ='';
@@ -154,8 +154,17 @@
       }
     },
 
+    logout : function() {
+        $cookieStore.remove('cdesk_session');
+        $http.defaults.headers.common.Authorization = '';
+        localStorage.clear();
+        this.deleteData();
+        $location.url('/login');
+    },
+
     unauthorized : function() {
       $cookieStore.remove('cdesk_session');
+      localStorage.clear();
       if($location.$$path !== '/login') {
         updateRedirectUrl($location.$$path);
       }
@@ -169,6 +178,6 @@
     } //return
 
   }; //loginModel
-  angObj.service('loginModel', ['$cookieStore', '$location', 'constants', loginModel]);
+  angObj.service('loginModel', ['$cookieStore', '$location', 'constants', '$http', loginModel]);
 
 }());
