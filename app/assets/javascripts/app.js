@@ -175,8 +175,8 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, RoleBasedService,workflowService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                    "check":function($location, loginModel, workflowService){
+                        var isWorkflowUser = loginModel.getIsWorkflowUser();
                         workflowService.setMode('edit');
                         if(!isWorkflowUser){
                             $location.path('/');
@@ -192,8 +192,8 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, RoleBasedService,workflowService){
-                        var isWorkflowUser = RoleBasedService.getUserRole().workFlowUser;
+                    "check":function($location, loginModel, workflowService){
+                        var isWorkflowUser = loginModel.getIsWorkflowUser();
                         workflowService.setMode('edit');
                         if(!isWorkflowUser){
                             $location.path('/');
