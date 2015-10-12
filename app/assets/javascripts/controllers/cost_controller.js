@@ -84,9 +84,15 @@ var angObj = angObj || {};
             $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+            var fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+            if(fromLocStore !== null){
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else{
+                $scope.selected_filters.time_filter = 'life_time';
+            }
         };
 
        $scope.init();
@@ -177,6 +183,14 @@ var angObj = angObj || {};
             $scope.createDownloadReportUrl();
         });
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.selected_filters.time_filter = strategy;
+            $scope.callBackStrategyChange();
+        });
+
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
@@ -230,9 +244,6 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-          $scope.callBackKpiDurationChange('duration');
-        });
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();

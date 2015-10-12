@@ -48,7 +48,7 @@ var angObj = angObj || {};
         $scope.download_urls = {
             tactics: null,
             domains: null,
-            publishers: null,
+            publishers: null
         };
         $scope.strategyLoading =  true;
 
@@ -69,6 +69,7 @@ var angObj = angObj || {};
         $scope.init();
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
+          //  console.log('this is param from controller'+JSON.stringify(param));
             var strategiesList = {};
             $scope.strategyBusy = true;
             var errorHandler = function() {
@@ -152,6 +153,15 @@ var angObj = angObj || {};
             $scope.callBackStrategyChange();
         });
 
+
+
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+
+            $scope.selected_filters.time_filter = strategy;
+
+            $scope.callBackStrategyChange();
+        });
+
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
@@ -171,9 +181,9 @@ var angObj = angObj || {};
             $scope.viewabilityBusy = false ;
         };
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+      /*  $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
-        });
+        });*/
 
         $scope.removeActivesForVidSelect = function () {
             $(".icon_text_holder").removeClass( "active" );

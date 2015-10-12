@@ -374,8 +374,13 @@ var angObj = angObj || {};
             analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
-            $scope.callBackKpiDurationChange('duration');
+
+       $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            //alert('time changed'+event +strategy);
+            $scope.selected_filters.time_filter = strategy;
+           $scope.showPerformance();
+           $scope.getStrategyChart();
+           $scope.getTacticList();
         });
 
         // hot fix for the enabling the active link in the reports dropdown
