@@ -85,6 +85,10 @@ var angObj = angObj || {};
                 workflowService.getAdsForCampaign(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
+                        for(var i in responseData){
+                            if(responseData[i].state==="IN_FLIGHT")
+                            responseData[i].state="IN FLIGHT";
+                        }
                         if(responseData.length>0){
                             $scope.noIndependantAds=false;
                             $scope.$watch('setStartdateIndependant', function() {
@@ -121,7 +125,11 @@ var angObj = angObj || {};
                 //console.log(index);
                 workflowService.getAdsInAdGroup(campaignId, adGroupId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
+                    var responseData = result.data.data;
+                        for(var i in responseData){
+                            if(responseData[i].state==="IN_FLIGHT")
+                            responseData[i].state="IN FLIGHT";
+                        }
                         $scope.workflowData['getADsForGroupData'][index] = responseData;
                     }
                     else {
