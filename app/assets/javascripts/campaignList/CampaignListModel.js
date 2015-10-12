@@ -98,6 +98,7 @@
                     this.sortParam = 'start_date';
                     this.sortDirection = 'desc';
                     this.totalPages = undefined;
+                    this.dashboard.quickFilterSelectedCount = 0;
                     //this.brandId = brandsModel.getSelectedBrand().id;
                     this.resetCostBreakdown.call(this);
                 };
@@ -309,7 +310,6 @@
                                 self.dashboard.paused = result.data.data.paused;
                                 self.dashboard.allOtherTotal = result.data.data.na.total != undefined ? result.data.data.na.total : 0;
                                 self.dashboard.total = result.data.data.total;
-
                                 //forceLoadFilter - is used to identify whether the user has come from dashboard by clicking campaign performance widget's ontrack or performance section.
                                 if (forceLoadFilter !== undefined) {
                                     self.dashboard.displayFilterSection = true;
@@ -325,6 +325,8 @@
                                         self.dashboard.filterSelectAll = false;
                                         self.resetFilters();
                                         self.setQuickFilter(self.appliedQuickFilter);
+                                    } else {
+                                        self.resetFilters();
                                     }
                                 }
                                 self.totalCount = result.data.data.total;
