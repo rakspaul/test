@@ -13,13 +13,22 @@ var angObj = angObj || {};
         $scope.workflowData = {};
         $scope.selectedCampaign = {};
         $scope.repushCampaignEdit=false;
-        /*Camapign Edit, set model for datePicker*/
-        if(localStorage.getItem('campaignData').length>0){
-        $scope.editCampaignData=JSON.parse(localStorage.getItem('campaignData'));
-        $scope.dataLength = $scope.editCampaignData.length > 0 ? false : true;
-        $scope.selectedCampaign.startTime=moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
-        $scope.selectedCampaign.endTime=moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
+        $scope.campaignId = $routeParams.campaignId;
+        $scope.mode = workflowService.getMode();
+        $scope.dataLength=false;
+        $scope.processEditCampaignData=function(){
+           workflowService.getCampaignData($scope.campaignId).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                   $scope.editCampaignData=result.data.data;console.log($scope.editCampaignData);
+                   $scope.selectedCampaign.startTime=moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
+                   $scope.selectedCampaign.endTime=moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
+                   $scope.dataLength=true;
+                   $scope.initiateDatePicker();
+                   createCampaign.fetchGoals();
+                }
+           });
         }
+
 
 
         $scope.getGoalIconName = function (goal) {
@@ -66,7 +75,7 @@ var angObj = angObj || {};
             },
 
             fetchGoals :  function() {
-                      if($scope.dataLength)
+                      if($scope.mode=='edit')
                       {   if($scope.editCampaignData.goal=="BRAND")
                               $scope.workflowData['goals'] = [{id : 1, name : 'Performance', 'active' : false}, {id : 2, name : 'Brand', 'active' : true}]
                           else
@@ -115,7 +124,7 @@ var angObj = angObj || {};
             var startTime = data.startTime;
             var endDateElem = $('#endDateInput')
             var changeDate;
-            if(!$scope.dataLength){
+            if(!$scope.mode=='edit'){
             endDateElem.attr("disabled","disabled").css({'background':'#eee'});
             if(startTime) {
                 endDateElem.removeAttr("disabled").css({'background':'transparent'});
@@ -161,11 +170,11 @@ var angObj = angObj || {};
                         if(window.location.href.indexOf("edit")>-1)
                         {
                             if(moment(formData.startTime).format('YYYY-MM-DD')===moment($scope.editCampaignData.startTime).format('YYYY-MM-DD'))
-                                postDataObj.startTime = moment($scope.editCampaignData.startTime).format(WF_DATE_FORMAT);
+                                postDataObj.startTime = moment($scope.editCampaignData.startTime).format($scope.textConstants.WF_DATE_FORMAT);
                             else
-                                postDataObj.startTime=moment(formData.startTime).format(WF_DATE_FORMAT);
+                                postDataObj.startTime=moment(formData.startTime).format($scope.textConstants.WF_DATE_FORMAT);
                             if(moment(formData.endTime).format('YYYY-MM-DD')===moment($scope.editCampaignData.endTime).format('YYYY-MM-DD'))
-                                postDataObj.endTime = moment($scope.editCampaignData.endTime).format(WF_DATE_FORMAT);
+                                postDataObj.endTime = moment($scope.editCampaignData.endTime).format($scope.textConstants.WF_DATE_FORMAT);
                             else
                                 postDataObj.endTime=moment(formData.endTime).format('YYYY-MM-DD 23:59:59.999');
 
@@ -176,8 +185,8 @@ var angObj = angObj || {};
                             $scope.repushCampaignEdit=true;
                             $scope.repushData=postDataObj;
                         }else{
-                            postDataObj.startTime = moment(formData.startTime).format(WF_DATE_FORMAT);
-                            postDataObj.endTime = moment(formData.endTime).format(WF_DATE_FORMAT);
+                            postDataObj.startTime = moment(formData.startTime).format($scope.textConstants.WF_DATE_FORMAT);
+                            postDataObj.endTime = moment(formData.endTime).format($scope.textConstants.WF_DATE_FORMAT);
                             postDataObj.clientId = Number(formData.clientId);
                             postDataObj.advertiserId = Number(formData.advertiserId);
                             workflowService.saveCampaign(postDataObj).then(function (result) {
@@ -217,7 +226,8 @@ var angObj = angObj || {};
             return Math.floor((Math.random()*6)+1);
         },
         $scope.initiateDatePicker=function(){
-            if($scope.dataLength){
+            if($scope.mode=='edit'){
+
                 var startDateElem = $('#startDateInput');
                 var endDateElem = $('#endDateInput');
                 var today = new Date();
@@ -236,8 +246,10 @@ var angObj = angObj || {};
 
             }else{
                 var startDateElem = $('#startDateInput');
+                var endDateElem = $('#endDateInput');
                 var today =  moment().format("MM/DD/YYYY");
                 startDateElem.datepicker("setStartDate", today);
+                endDateElem.datepicker("setStartDate", today);
                 startDateElem.datepicker("update", today);
                 $scope.selectedCampaign.startTime=moment(today).format('MM/DD/YYYY');
                 $scope.selectedCampaign.endTime=moment(today).format('MM/DD/YYYY');
@@ -252,12 +264,20 @@ var angObj = angObj || {};
                         autoclose: true,
                         todayHighlight: true
                     });
+                    if($scope.mode=='edit')
+                        $scope.processEditCampaignData();
+                    else
+                        $scope.initiateDatePicker();
 
-                    $scope.initiateDatePicker();
+
                 })
 
         createCampaign.clients();
-        createCampaign.fetchGoals();
+        if(!$scope.mode=='edit'){
+            createCampaign.fetchGoals();
+
+        }
+
     });
 })();
 

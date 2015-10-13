@@ -135,8 +135,9 @@
                             <div class="form-group col-sm-3">
                                 <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
                                 <select ng-options="brand.name for brand in workflowData.brands track by brand.id" class="form-control" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">
+                                    <!--<option ng-if="!editCampaignData.brandName" value="">Select Brand</option>-->
+                                    <option value="">Select Brand</option>
                                     <option ng-if="{{editCampaignData.brandName}}" value="{{editCampaignData.brandName}}" selected="selected">{{editCampaignData.brandName}}</option>
-                                    <option ng-if="!editCampaignData.brandName" value="">Select Brand</option>
                                 </select>
                             </div>
                         </div>
@@ -231,7 +232,7 @@
                     <div class="popup-header-body">
                         <div class="clearfix">
                             <h1 class="pull-left">Campaign Update</h1>
-                            <span class="close unselectable" aria-hidden="true" >x</span>
+                            <span class="close unselectable" aria-hidden="true" ng-click="cancelRepushCampaign()" >x</span>
                         </div>
                         <div class="popup-content">
                             Save changes to campaign set-up and repush to execution <br> platform(s)?
