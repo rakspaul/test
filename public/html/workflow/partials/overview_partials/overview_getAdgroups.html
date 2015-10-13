@@ -5,10 +5,13 @@
         </a>
 
         <div class="col-md-5 zeroPadding">
-            <h2 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}">{{adGroupsData.adGroup.name}}</h2>
+            <h4 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}">{{adGroupsData.adGroup.name}}</h4>
             <span class="pull-left adGroupTxt">
-                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
-                {{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)</span>
+                <span class="icon-calendar"></span>
+                <span class="pull-left">
+                    {{utc(adGroupsData.adGroup.startTime) | date : 'EEE dd MMM yyyy'}} - {{utc(adGroupsData.adGroup.endTime) | date : 'EEE dd MMM yyyy'}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)
+                </span>
+            </span>
         </div>
 
         <div class="col-md-6 zeroPadding pull-right">
@@ -38,10 +41,11 @@
         <!--<div ng-repeat="index in adsData">-->
             <div class="col-md-12 adTitle">
                 <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.name}}"/>
-                <!--<span class="pull-left adDisplay">Collective Media</span>-->
-                <span class="pull-left">ID: {{adsData.id}}</span><span ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
+                <span class="greyTxt adDisplay">{{adsData.platform.name}}</span>
+                <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
+                <span class="greyTxt adDisplay" ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
             </div>
-            <div class="col-md-12" style="padding: 0px 10px 35px;">
+            <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                 <h4 class="col-md-10 adCamp">
                     <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
                 </h4>
@@ -73,12 +77,12 @@
                 <div class="spacer">
                     <div class="col-md-12"></div>
                 </div>
-                <div class="col-md-12" style="padding: 0px 10px;">
+                <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
 
                     <p style="margin: 0;">{{appendSizes(adsData.creatives)}}</p>
                 </div>
-                <div class="col-md-12" style="padding: 0px 10px;">
+                <div class="col-md-12 zeroPadding">
                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
 
                     <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 || adsData.targets.geoTargets.DMA.geoTargetList.length > 0|| adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ? 'Geo': 'Not Set'}}</span>

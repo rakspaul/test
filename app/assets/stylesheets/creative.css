@@ -66,6 +66,9 @@
 #creative .creativeList .containerWrap .form-group label {
   margin-top: 20px;
 }
+#creative .creativeList .containerWrap .form-group .errorLabel {
+  margin: 0;
+}
 #creative .creativeList .containerWrap .form-group .previewBtn {
   position: absolute;
   bottom: 0;
