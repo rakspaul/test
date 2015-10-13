@@ -31,6 +31,7 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
+        //$scope.showDropDown=false;
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
 
@@ -41,8 +42,8 @@ var angObj = angObj || {};
 
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-            localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-            console.log(localStorage.getItem('campaignData'));
+//            localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
+//            console.log(localStorage.getItem('campaignData'));
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -1643,8 +1644,10 @@ var angObj = angObj || {};
                       $scope.workflowData['inventoryData'] = result.data.data;
 
                       if($scope.mode == 'edit'){
-                            $scope.adData.inventory = $scope.workflowData['inventoryData'][0]
-                      }
+                            $scope.adData.inventory = $scope.workflowData['inventoryData'][0];}
+//                      if($scope.workflowData['inventoryData'].length>0){
+//                        $scope.showDropDown=true;
+//                      }
                   });
               },
           }
@@ -1688,9 +1691,11 @@ var angObj = angObj || {};
                                 }
                             })
                             $scope.workflowData['inventoryData'] = inventoryData;
-
-                            
                             $scope.adData.inventory = response.data;
+//                            if(domainId===null){
+//                                $("#dropDownDomain").siblings('select').append("<option value=" +$scope.adData.inventory.name+ ">" + $scope.adData.inventory.name + "</option>");
+//                                $scope.showDropDown=true;
+//                            }
                             //$scope.adData.inventory = response.data.name;
 
                             //$scope.adData.inventory.domainList = response.data.domainList;

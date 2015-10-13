@@ -9,9 +9,10 @@
                 <creative-drop-down></creative-drop-down>
             </div>
 
-            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
-                <div class="each_filter" style="margin-bottom: 20px;">
-                    <div class="greyTxt">Select from Existing</div>
+            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0">
+            <!--<div class="form-group col-md-12 zeroPadding" ng-show="showDropDown">-->
+            <div class="each_filter" style="margin-bottom: 20px;">
+                    <div class="greyTxt" id="dropDownDomain">Select from Existing</div>
                     <select id="inventory" name="inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
                         <option value="">Select Domain List</option>
                     </select>

@@ -23,8 +23,8 @@ var angObj = angObj || {};
 
         $scope.editCampaign=function(workflowcampaignData){
                     window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-                    console.log(localStorage.getItem('campaignData'));
+//                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
+//                    console.log(localStorage.getItem('campaignData'));
                 }
         
         $scope.msgtimeoutReset = function(){
