@@ -619,7 +619,7 @@ var angObj = angObj || {};
 
     });
 
-    angObj.controller('creativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('CreativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.emptyCreativesFlag = true;
         //$scope.mode = workflowService.getMode();
         $scope.loadingFlag = true; //loading flag
@@ -825,7 +825,7 @@ var angObj = angObj || {};
         };
     });
 
-    angObj.controller('buyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
 
@@ -833,7 +833,7 @@ var angObj = angObj || {};
 
     });
 
-    angObj.controller('geoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode) {
+    angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode) {
         $scope.showTargettingForm = false;
         $scope.geoTargetArr = [{'name' : 'Geography', 'enable' : true}, {'name' : 'Behavior', 'enable' : false}, {'name' : 'Demographics', 'enable' : false}, {'name' : 'Interests', 'enable' : false}, {'name' : 'Technology', 'enable' : false}, {'name' : 'Content', 'enable' : false}, {'name' : 'Other', 'enable' : false}]
         $scope.geoTargetingData = {};

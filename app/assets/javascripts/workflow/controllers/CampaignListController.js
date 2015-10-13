@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    campaignListModule.controller('workFlowCampaignListController', function($scope, $location, workflowService) {
+    campaignListModule.controller('WorkFlowCampaignListController', function($scope, $location, workflowService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         localStorage.setItem('campaignData','');
 

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
+  campaignListModule.controller('CampaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();

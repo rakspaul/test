@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce, RoleBasedService) {
+  loginModule.controller('LoginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce, RoleBasedService) {
    $scope.textConstants = constants;
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;

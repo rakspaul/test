@@ -334,7 +334,7 @@ var angObj = angObj || {};
 
     });
 
-    angObj.controller('getAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.numOfDays = function (startTime, endTime) {
             $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
             return $scope.numofdays;
@@ -350,7 +350,7 @@ var angObj = angObj || {};
         }
 
     });
-    angObj.controller('createAdGroups', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
 
 //        $scope.checkForPastDate = function (date) {
 //            return moment().isAfter(date, 'day');

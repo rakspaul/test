@@ -31,10 +31,31 @@ var angObj = '';
 
 
     angObj.config(function ($routeProvider, $httpProvider) {
-        $routeProvider.when('/login', {
-            templateUrl: assets.html_reports_login,
-            controller: 'loginController'
-        })
+            $routeProvider.when('/login', {
+                templateUrl: assets.html_reports_login,
+                title : 'Login',
+                controller: 'LoginController'
+            })
+            .when('/dashboard', {
+                templateUrl: assets.html_dashboard,
+                controller: 'DashboardController',
+                title : 'Dashboard',
+                bodyclass : 'dashboard_body',
+                resolve:{
+                    "check":function($location, loginModel){
+                        var isWorkflowUser, isNetworkUser, locationPath;
+                        isWorkflowUser = loginModel.getIsWorkflowUser();
+                        isNetworkUser = loginModel.getIsNetworkUser();
+                        locationPath = $location.path();
+                        if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') { 
+                            $location.url('campaigns'); 
+                        }
+                        if(!isWorkflowUser){
+                            $location.path('/');
+                        }
+                    }
+                }
+            })
             .when('/campaigns', {
                 templateUrl: function () {
                     var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
@@ -43,7 +64,8 @@ var angObj = '';
                         htmlTpl = assets.html_workflow_campaign_list;
                     }
                     return htmlTpl;
-                }
+                },
+                title : 'Campaign List'
             })
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
@@ -64,40 +86,54 @@ var angObj = '';
             .when('/quality', {
                 templateUrl: assets.html_viewability,
                 title: 'Reports - Quality',
-                controller: 'viewabilityController'
+                controller: 'ViewabilityController'
             })
             .when('/cost', {
                 templateUrl: assets.html_cost,
                 title: 'Reports - Cost',
-                controller: 'costController'
+                controller: 'CostController',
+                resolve: {
+                    "check": function ($location, loginModel) {
+                        /* if  cost modal is opaque and some one trying to access cost direclty from the url */
+                        var isWorkflowUser, isNetworkUser, locationPath, isAgencyCostModelTransparent;
+                        isWorkflowUser = loginModel.getIsWorkflowUser();
+                        isNetworkUser = loginModel.getIsNetworkUser();
+                        isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+                        locationPath = $location.path();
+                        if (!isAgencyCostModelTransparent && locationPath === '/cost') {
+                            $location.url((isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard');
+                        }
+                    }
+                }
             })
             .when('/platform', {
                 templateUrl: assets.html_platform,
                 title: 'Reports - Platform',
-                controller: 'platformController'
+                controller: 'PlatformController'
                 //css: 'assets/stylesheets/platform.css'
             })
             .when('/customreport', {
                 templateUrl: assets.html_custom_report,
                 title: 'Custom Report',
-                controller: 'customReportController'
+                controller: 'CustomReportController',
+                bodyclass : 'custom_report_page'
             })
             .when('/reports/upload', {
                 templateUrl: assets.html_custom_report_upload,
                 title: 'Upload Custom Reports',
-                controller: 'customReportUploadController',
+                controller: 'CustomReportUploadController',
                 css: assets.css_custom_reports
             })
             .when('/reports/list', {
                 templateUrl: assets.html_collective_report_listing,
-                title: 'collective report listing',
+                title: 'Collective Report Listing',
                 controller: 'CollectiveReportListingController',
                 css: assets.css_custom_reports
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,
                 title: 'Reports - Performance',
-                controller: 'performanceController'
+                controller: 'PerformanceController'
             })
             .when('/campaign/create', {
                 templateUrl: assets.html_campaign_create,
@@ -218,7 +254,7 @@ var angObj = '';
             .when('/creative/list', {
                 templateUrl: assets.html_creative_list,
                 title: 'Creative List',
-                controller: 'creativeListController',
+                controller: 'CreativeListController',
                 //  css: assets.css_visto_application,
                 resolve: {
                     "check": function ($location, loginModel) {
@@ -233,7 +269,7 @@ var angObj = '';
             .when('/help', {
                 templateUrl: assets.html_help,
                 title: 'Help - Online',
-                controller: 'helpController'
+                controller: 'HelpController'
             })
             .otherwise({redirectTo: '/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -266,13 +302,12 @@ var angObj = '';
                     $cookieStore.remove(constants.COOKIE_REDIRECT);
                 } else {
                     setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard';
-                    $location.url(setDefaultPage);
+                     $location.url(setDefaultPage);
                 }
             }
         }
 
         var loginCheckFunc = function () {
-
             if (RoleBasedService.getUserRole()) {
                 if (!RoleBasedService.getUserRole().i18n) { //if i18n is not there in json.forcing to logout.
                     loginModel.unauthorized();
@@ -296,11 +331,6 @@ var angObj = '';
             if (!$cookieStore.get(constants.COOKIE_SESSION)) {
                 $location.url('/login');
             }
-            /* if  cost modal is opaque and some one trying to access cost direclty from the url */
-            var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-            if (!isAgencyCostModelTransparent && locationPath === '/cost') {
-                $location.url((isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard');
-            }
 
             /* if some one try to change the authorization key or delete the key manually*/
             // this is getting after successful login.
@@ -314,49 +344,20 @@ var angObj = '';
             if (locationPath === '/login' || locationPath === '/') {
                 handleLoginRedirection(isNetworkUser, isWorkflowUser);
             }
-
-            /*
-             if some one manually try to change the url when logged in as network user
-             will check from cookie if its a network user then will redirect to deafult page which in this is campaign;
-             */
-
-            if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') {
-                $location.url('campaigns');
-            }
         }
 
         var locationChangeStartFunc = $rootScope.$on('$locationChangeStart', function () {
-            $rootScope.bodyclass = '';
             loginCheckFunc();
         });
 
         var routeChangeSuccessFunc = $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
             var locationPath = $location.path();
-            $rootScope.bodyclass = '';
-
-            var setPageTitle = function () {
-                var currentRoute = current.$$route;
-                if (currentRoute) {
-                    switch (locationPath) {
-                        case '/login' :
-                            currentRoute.title = 'Login';
-                            break;
-                        case '/campaigns' :
-                            currentRoute.title = 'Campaign List';
-                            break;
-                        case '/dashboard' :
-                            currentRoute.title = 'Dashboard';
-                            $rootScope.bodyclass = 'dashboard_body';
-                            break;
-                        case '/customreport' :
-                            $rootScope.bodyclass = 'custom_report_page';
-                            break;
-                    }
-                    $rootScope.title = currentRoute.title;
-                }
+            var currentRoute = current.$$route;
+            if(currentRoute) {
+                $rootScope.title = currentRoute.title;
+                $rootScope.bodyclass = currentRoute.bodyclass || '';
             }
 
-            setPageTitle();
             if (loginModel.getLoginName()) {
                 ga('set', 'dimension1', loginModel.getLoginName());
             }

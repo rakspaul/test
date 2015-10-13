@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;

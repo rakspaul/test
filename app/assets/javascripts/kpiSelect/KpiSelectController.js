@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    kpiSelectModule.controller('kpiSelectController', function ($scope, $rootScope , kpiSelectModel, campaignSelectModel , constants , analytics, loginModel) {
+    kpiSelectModule.controller('KpiSelectController', function ($scope, $rootScope , kpiSelectModel, campaignSelectModel , constants , analytics, loginModel) {
 
         $scope.kpiData = {};
         $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;

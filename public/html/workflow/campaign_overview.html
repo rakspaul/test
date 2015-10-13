@@ -139,14 +139,14 @@
                 
                 <div class="col-md-12 adContainer">
                     <!--===Start get ad groups ===-->
-                    <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "getAdgroupsController"></div>
+                    <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "GetAdgroupsController"></div>
                     <!--===END get ad groups ===-->
 
                     <!--Start of create groups / create independant ad box-->
                     <div class="adGroupSelectionWrap" ng-show="noIndependantAds">
                         <div class="btnCreateGroup" ng-click="createAdGrp()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
                         <!--ng-include of create Ad groups-->
-                        <div id="createAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'" ng-controller="createAdGroups"></div>
+                        <div id="createAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'" ng-controller="CreateAdGroupsController"></div>
                         <div class="col-md-3 adModule adCreateBtn">
                             <div class="col-md-12">
                                 <a ng-href="#" ng-click="navigateToAdCreatePage()" class="col-md-12 text-center addMaster">
