@@ -236,13 +236,16 @@ var angObj = angObj || {};
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};
-            var fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-            if(fromLocStore !== null){
-                $scope.selected_filters.time_filter = fromLocStore; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
             }
-            else{
-                $scope.selected_filters.time_filter = 'life_time'; //
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
             }
+
             $scope.selected_filters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
@@ -312,11 +315,10 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
-           /* commented out for now as the api isn't set up for this currently, and when i change the dropdown the UI seems to hang
             $scope.selected_filters.time_filter = strategy;
-            $scope.init();
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
-            $scope.createDownloadReportUrl();*/
+            $scope.resetVariables();
+            $scope.strategyChangeHandler();
+
         });
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function (e) {

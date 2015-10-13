@@ -273,11 +273,12 @@ var angObj = angObj || {};
             $scope.resetVariables();
             $scope.selected_filters = {};
 
-            var fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-            if(fromLocStore !== null){
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
                 $scope.selected_filters.time_filter = fromLocStore;
             }
-            else{
+            else {
                 $scope.selected_filters.time_filter = 'life_time';
             }
 

@@ -86,13 +86,15 @@ var angObj = angObj || {};
             $scope.selected_filters = {};
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-            var fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-            if(fromLocStore !== null){
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+             if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
                 $scope.selected_filters.time_filter = fromLocStore;
-            }
-            else{
+             }
+             else {
                 $scope.selected_filters.time_filter = 'life_time';
-            }
+             }
         };
 
        $scope.init();
