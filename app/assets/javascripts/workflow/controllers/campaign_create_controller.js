@@ -161,11 +161,11 @@ var angObj = angObj || {};
                         if(window.location.href.indexOf("edit")>-1)
                         {
                             if(moment(formData.startTime).format('YYYY-MM-DD')===moment($scope.editCampaignData.startTime).format('YYYY-MM-DD'))
-                                postDataObj.startTime = moment($scope.editCampaignData.startTime).format(DATE_FORMAT);
+                                postDataObj.startTime = moment($scope.editCampaignData.startTime).format(WF_DATE_FORMAT);
                             else
-                                postDataObj.startTime=moment(formData.startTime).format(DATE_FORMAT);
+                                postDataObj.startTime=moment(formData.startTime).format(WF_DATE_FORMAT);
                             if(moment(formData.endTime).format('YYYY-MM-DD')===moment($scope.editCampaignData.endTime).format('YYYY-MM-DD'))
-                                postDataObj.endTime = moment($scope.editCampaignData.endTime).format(DATE_FORMAT);
+                                postDataObj.endTime = moment($scope.editCampaignData.endTime).format(WF_DATE_FORMAT);
                             else
                                 postDataObj.endTime=moment(formData.endTime).format('YYYY-MM-DD 23:59:59.999');
 
@@ -176,8 +176,8 @@ var angObj = angObj || {};
                             $scope.repushCampaignEdit=true;
                             $scope.repushData=postDataObj;
                         }else{
-                            postDataObj.startTime = moment(formData.startTime).format(DATE_FORMAT);
-                            postDataObj.endTime = moment(formData.endTime).format(DATE_FORMAT);
+                            postDataObj.startTime = moment(formData.startTime).format(WF_DATE_FORMAT);
+                            postDataObj.endTime = moment(formData.endTime).format(WF_DATE_FORMAT);
                             postDataObj.clientId = Number(formData.clientId);
                             postDataObj.advertiserId = Number(formData.advertiserId);
                             workflowService.saveCampaign(postDataObj).then(function (result) {
