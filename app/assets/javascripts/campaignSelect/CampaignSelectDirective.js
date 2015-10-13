@@ -9,7 +9,7 @@
                 multiCampaign: '@',
                 allCampaign: '@'
             },
-            controller: 'campaignSelectController',
+            controller: 'CampaignSelectController',
             templateUrl: assets.html_campaign_drop_down,
             link: function ($scope, element, attrs) {
                 $scope.textConstants = constants;

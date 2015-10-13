@@ -227,7 +227,7 @@
 
 
                 <!--activity log-->
-                <div class="clearfix activity_log_holder" ng-controller="editActionsController" >
+                <div class="clearfix activity_log_holder" ng-controller="EditActionsController" >
                 <!--edit popup-->
                 <!-- edit activity log container -->
                 <div ng-controller="editActionsController" class="edit_activity_log_holder" ng-show="showList.show">
@@ -365,7 +365,7 @@
 
 
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
-                                  <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
+                                  <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="EditActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
                                   </div>
                                   <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()">
                                   </div>

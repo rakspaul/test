@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('creativeController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('CreativeController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
 
         if ($location.path() === '/creative/add') {
             $scope.isAddCreativePopup = true;

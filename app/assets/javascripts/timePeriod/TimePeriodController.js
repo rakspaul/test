@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  timePeriodModule.controller('timePeriodController', function ($scope, timePeriodModel, constants, $rootScope, loginModel, analytics) {
+  timePeriodModule.controller('TimePeriodController', function ($scope, timePeriodModel, constants, $rootScope, loginModel, analytics) {
 
     $scope.timeData = timePeriodModel.timeData;
 

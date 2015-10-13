@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
         var _customctrl = this;
