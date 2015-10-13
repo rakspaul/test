@@ -41,23 +41,26 @@
 	    
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Format</label>
-					<div class="col-md-12 zeroPadding dropdown-workflow">
+
+                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">
 						<div class="dropdown">
 							 <button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								  <span class="text">Select Format</span>
+								  <span class="text">{{adData.selectedItem.format ? adData.selectedItem.format.name :  'Select Format'}}</span>
 								  <span class="icon-arrow-down"></span>
 							 </button>
 							 <ul class="dropdown-menu" aria-labelledby="formatType">
-								<li><a href="#">Display</a></li>
-								<li class="disabled"><a href="#">Video</a></li>
-								<li class="disabled"><a href="#">Rich Media</a></li>
-								<li class="disabled"><a href="#">Social</a></li>
+								<li ng-class="{disabled : !adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="adFormatelected(adformat, 'format')">{{adformat.name}}</a></li>
 							 </ul>
 						</div>
-				   </div>
-					
+                        <input type="hidden" name="creativeFormat" ng-model="adData.selectedItem.format"  value="{{adData.selectedItem.format.name}}" required/>
+				   </div>-->
+
+                    <select ng-options="adFormats.name for adFormats in creativeSizeData.adFormats track by adFormats.id" ng-model="creativeFormat" class="form-control" id="sel1" name="creativeFormat" required>
+                        <option value="">Select Size</option>
+                    </select>
+
                     <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>
                 </div>
 
@@ -82,18 +85,14 @@
 					    <label for="sel1" class="greyTxt">Tag Type</label><br/>
 						<div class="btn-group miniToggle">
 							<label class="btn btn-default" style="width: auto; margin-top: 0;"><span>Javascript</span>
-								<input type="radio" name="creativeType" value ="true"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
+								<input type="radio" name="creativeType" value ="JS"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
 							</label>
 							<label class="btn btn-default active" style="width: auto; margin-top: 0;"><span>HTML</span>
-								<input type="radio" name="creativeType" checked  value ="false"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
+								<input type="radio" name="creativeType" checked  value ="HTML"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
 							</label>
 						</div>
 					</div>
 					
-                    <!--<label class="radio-inline"><input type="radio" name="creativeType" value="JS" checked="checked" required>Javascript</label>-->
-                    <!--<label class="radio-inline"><input type="radio" name="creativeType" value="HTML">HTML</label>-->
-					
-                    <!--<label ng-if="formCreativeCreate.creativeType.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select type the creative.</label>-->
                 </div>
 
                 <div class="form-group col-md-3" show-errors='{showSuccess: true}'>

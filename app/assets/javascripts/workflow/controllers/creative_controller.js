@@ -54,6 +54,12 @@ var angObj = angObj || {};
                 }, creatives.errorHandler);
 
             },
+
+            fetchAdFormats: function () {
+                $scope.creativeSizeData['adFormats'] = [{id: 1, name: 'Display', active: true}, {id: 2,name: 'Video',active: false}, {id: 3, name: 'Rich Media', active: false}, {id: 4, name: 'Social', active: false}]
+                $scope.adData.adFormat = 'Display'; //default value
+            },
+
             errorHandler: function (errData) {
                 console.log(errData);
             }
@@ -69,6 +75,7 @@ var angObj = angObj || {};
             };
             localStorage.setItem('campaignData', JSON.stringify(campaignData))
             creatives.getCreativeSizes(clientId, advertiserId);
+            creatives.fetchAdFormats();
         }
         $(function () {
 
@@ -187,6 +194,11 @@ var angObj = angObj || {};
 
 
         }
+        $scope.adData.selectedItem = {};
+        $scope.dropBoxItemSelected =  function(item, type) {
+            $scope.adData.selectedItem[type] = item;
+        }
+
         $scope.cancelDuplicate = function () {
             $(".popup-holder").css("display", "none");
             $scope.addedSuccessfully = true;
