@@ -589,16 +589,28 @@
               margin-bottom: 15px;
               width: 40px;
             }
+            .icon-settings {
+              position: absolute;
+              top: 3px;
+              right: 3px;
+              z-index: 10;
+              color: #0978C9;
+              cursor: pointer;
+              display: none;
+            }
           }
           .adModule:hover {
             background-color: #D7E9F7;
             border: 1px solid #0978C9;
+            .icon-settings {
+              display: block;
+            }
             
           }
           .adModule:not(.adCreateBtn) {
             &:hover {
-              background : url('/assets/images/workflow/edit.svg') no-repeat 98% 1%;
-              background-size: 15px;
+              //background : url('/assets/images/workflow/edit.svg') no-repeat 98% 1%;
+              //background-size: 15px;
             }
           }
           .adModule:first-child {
@@ -803,13 +815,12 @@
     display: inline-block;
     margin-top: -4px;
     margin-left: -5px;
-    padding: 18px;
     background-size: 18px;
   }
   .campaign-ad-name-edit.blue-edit-icon {
     display: inline-block;
-    margin-top: -2px;
-    padding: 16px;
+    //margin-top: -2px;
+    //padding: 16px;
     margin-left: 5px;
   }
   // Campaign Create Ad POP Starts Here
