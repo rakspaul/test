@@ -48,7 +48,7 @@ var angObj = angObj || {};
         $scope.download_urls = {
             tactics: null,
             domains: null,
-            publishers: null,
+            publishers: null
         };
         $scope.strategyLoading =  true;
 
@@ -61,7 +61,16 @@ var angObj = angObj || {};
             $scope.isStrategyDropDownShow = true;
             $scope.strategyLoading =  true;
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
+            }
+
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         };
@@ -69,6 +78,7 @@ var angObj = angObj || {};
         $scope.init();
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
+          //  console.log('this is param from controller'+JSON.stringify(param));
             var strategiesList = {};
             $scope.strategyBusy = true;
             var errorHandler = function() {
@@ -152,6 +162,13 @@ var angObj = angObj || {};
             $scope.callBackStrategyChange();
         });
 
+
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selected_filters.time_filter = strategy;
+            $scope.callBackStrategyChange();
+            $scope.createDownloadReportUrl();
+        });
+
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
@@ -171,9 +188,6 @@ var angObj = angObj || {};
             $scope.viewabilityBusy = false ;
         };
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-          $scope.callBackKpiDurationChange('duration');
-        });
 
         $scope.removeActivesForVidSelect = function () {
             $(".icon_text_holder").removeClass( "active" );

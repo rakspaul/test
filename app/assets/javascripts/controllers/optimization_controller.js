@@ -33,7 +33,16 @@ var angObj = angObj || {};
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
         $scope.selected_filters = {};
-        $scope.selected_filters.time_filter = 'life_time'; //
+
+        var fromLocStore = localStorage.getItem('timeSetLocStore');
+        if(fromLocStore) {
+            fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+            $scope.selected_filters.time_filter = fromLocStore;
+        }
+        else {
+            $scope.selected_filters.time_filter = 'life_time';
+        }
+
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
         $scope.selected_filters.kpi_type =  kpiSelectModel.getSelectedKpi();;
 
@@ -450,8 +459,10 @@ var angObj = angObj || {};
 
 
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-            $scope.callBackKpiDurationChange('duration');
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event,strategy) {
+            $scope.selected_filters.time_filter = strategy;
+            $scope.callBackCampaignsSuccess();
+
         });
 
         $scope.$on('$destroy', function() {

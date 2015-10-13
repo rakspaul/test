@@ -73,7 +73,16 @@ var angObj = angObj || {};
             $scope.isStrategyDropDownShow = true;
 
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
+            }
+
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
 
@@ -374,14 +383,17 @@ var angObj = angObj || {};
             analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
-            $scope.callBackKpiDurationChange('duration');
+
+       $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+           $scope.selected_filters.time_filter = strategy;
+           $scope.callBackStrategyChange();
+           $scope.createDownloadReportUrl();
         });
 
         // hot fix for the enabling the active link in the reports dropdown
-        setTimeout(function(){ 
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#inventory").addClass("active_tab") ; 
+        setTimeout(function(){
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#inventory").addClass("active_tab") ;
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
 

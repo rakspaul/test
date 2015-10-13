@@ -101,10 +101,10 @@ var angObj = angObj || {};
                 $scope.defaultDisplayScreen = 'display : none';
                 $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
             } else {
-                $scope.selected_tab = 'byscreens'
+                $scope.selected_tab = 'byscreens';
                 $scope.sortByColumn = 'name';
                 $scope.activeScreenClass = 'active';
-                $scope.defaultDisplayScreen = 'display : block'
+                $scope.defaultDisplayScreen = 'display : block';
                 $scope.defaultDisplayAdSize = 'display : none';
                 $scope.defaultDisplayFormat = 'display : none';
             }
@@ -272,7 +272,16 @@ var angObj = angObj || {};
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
+            }
+
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
             $scope.selected_filters.kpi_type = 'cpm';
             $scope.selected_filters2 = {};
@@ -281,11 +290,13 @@ var angObj = angObj || {};
 
         };
 
-
         $scope.init();
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-            $scope.callBackKpiDurationChange('duration');
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selected_filters.time_filter = strategy;
+            $scope.resetVariables();
+            $scope.createDownloadReportUrl();
+            $scope.strategyChangeHandler();
         });
 
 
