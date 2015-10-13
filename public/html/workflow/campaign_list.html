@@ -45,7 +45,7 @@
                     <div class="column" ng-if="!campaign.hasOwnProperty('startTime')"> - </div>
                     <div class="column" ng-if="campaign.hasOwnProperty('endTime')">{{utc(campaign.endTime) | date : 'yyyy-MM-dd'}}</div>
                     <div class="column" ng-if="!campaign.hasOwnProperty('endTime')"> - </div>
-                    <div class="column blue-edit-icon" title="Edit" ng-click="editCampaign($event,campaign)"></div>
+                    <div class="column blue-edit-icon" tooltip="Edit Campaign" ng-click="editCampaign($event,campaign)"></div>
                 </a>
             </div>
         </div>
