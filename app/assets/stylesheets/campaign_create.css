@@ -377,10 +377,16 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup {
   margin-bottom: 10px;
-  width: 100% !important;
-  min-height: 38px !important;
-  background: #fff !important;
-  padding-left: .75% !important;
+  width: 100%;
+  min-height: 38px;
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #dbdbdb;
+  margin-right: .75%;
+  margin-bottom: 1%;
+  position: relative;
+  max-width: 1200px;
+  cursor: pointer;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle {
   float: left;
@@ -416,6 +422,7 @@
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle span.adGroupTxt {
   clear: left;
