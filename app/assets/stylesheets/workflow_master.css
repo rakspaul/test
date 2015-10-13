@@ -43,14 +43,14 @@ a {
   text-decoration: none;
 }
 .labelQuestTxt {
-  color: #000;
-  font-size: 15px;
+  color: #21252b;
+  font-size: 16px;
   text-align: left !important;
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
 }
 .greyTxt {
-  color: #939ead !important;
+  color: #939eae !important;
   padding: 10px 0 5px 0 !important;
   text-align: left;
   font-size: 12px;

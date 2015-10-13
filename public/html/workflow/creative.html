@@ -96,7 +96,7 @@
                     <!--<label ng-if="formCreativeCreate.creativeType.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select type the creative.</label>-->
                 </div>
 
-                <div class="form-group col-md-2" show-errors='{showSuccess: true}'>
+                <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Size</label>
 
                     <select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id" ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>
@@ -116,16 +116,13 @@
 				<!--		</div>-->
 				<!--   </div>-->
 					
-                    <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the creative size.</label>
+                    <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
                 </div>
-
+			
                 <div class="col-md-12 zeroPadding">
-                    <div class="col-md-8 zeroPadding"></div>
-                    <div class="col-md-4 zeroPadding">
                         <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
-                        <a class="btn btn-link pull-left" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
-                        <button type="submit" class="btn btn-primary pull-left" ng-disabled="disableCancelSave" id="saveCreative" > Save Tag</button>
-                    </div>
+						<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Tag</button>
+                        <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
 
             </form>
