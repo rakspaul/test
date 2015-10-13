@@ -607,13 +607,21 @@
   margin-bottom: 15px;
   width: 40px;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .icon-settings {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+  color: #0978C9;
+  cursor: pointer;
+  display: none;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
   background-color: #D7E9F7;
   border: 1px solid #0978C9;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:not(.adCreateBtn):hover {
-  background: url('/assets/images/workflow/edit.svg') no-repeat 98% 1%;
-  background-size: 15px;
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover .icon-settings {
+  display: block;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:first-child {
   background: rgba(255, 255, 255, 0.48);
@@ -800,13 +808,10 @@
   display: inline-block;
   margin-top: -4px;
   margin-left: -5px;
-  padding: 18px;
   background-size: 18px;
 }
 #campaignCreate .campaign-ad-name-edit.blue-edit-icon {
   display: inline-block;
-  margin-top: -2px;
-  padding: 16px;
   margin-left: 5px;
 }
 #campaignCreate .campaignAdCreateWrap {
