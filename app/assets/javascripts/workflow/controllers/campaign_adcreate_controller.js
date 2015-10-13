@@ -209,7 +209,7 @@ var angObj = angObj || {};
             console.log(responseData);
 
             //geotargets
-            //$scope.$broadcast("updateGeoTags");
+            $scope.$broadcast("updateGeoTags");
 
         }
 
@@ -849,12 +849,12 @@ var angObj = angObj || {};
 
         $scope.$on('updateGeoTags',function(){
             if($scope.mode === 'edit'){
-
+                console.log(constants);
                 //$scope.geoTargetingData['selected'] = {};
                 var responseData = workflowService.getAdsDetails();
 
                 if(responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0){
-                    $scope.selectGeoTarget('Geography'); // ask from where it comes
+                    $scope.selectGeoTarget('Geography');
 
                     //region targets
                     if(responseData.targets && responseData.targets.geoTargets && responseData.targets.geoTargets.REGION){
