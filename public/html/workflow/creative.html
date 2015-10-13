@@ -82,10 +82,10 @@
 					    <label for="sel1" class="greyTxt">Tag Type</label><br/>
 						<div class="btn-group miniToggle">
 							<label class="btn btn-default" style="width: auto; margin-top: 0;"><span>Javascript</span>
-								<input type="radio" name="creativeType" value ="true"  hidden="hidden" class="btn_rad">
+								<input type="radio" name="creativeType" value ="true"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
 							</label>
 							<label class="btn btn-default active" style="width: auto; margin-top: 0;"><span>HTML</span>
-								<input type="radio" name="creativeType" checked  value ="false"  hidden="hidden" class="btn_rad">
+								<input type="radio" name="creativeType" checked  value ="false"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
 							</label>
 						</div>
 					</div>
@@ -98,18 +98,19 @@
 
                 <div class="form-group col-md-2" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Size</label>
-					<div class="col-md-12 zeroPadding dropdown-workflow">
-						<div class="dropdown">
-							 <button class="btn btn-default dropdown-toggle" type="button" id="sel1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								  <span class="text">Select Size</span>
-								  <span class="icon-arrow-down"></span>
-							 </button>
-							 <ul class="dropdown-menu" aria-labelledby="sel1" ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"
-							ng-model="creativeSize" id="sel1" name="creativeSize" required>
-								  <li><a data-value="">100x72</a></li>
-							 </ul>
-						</div>
-				   </div>
+                    <select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id" ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>
+                        <option value="">Select Size</option>
+                    </select>
+					
+					<!--<div class="col-md-12 zeroPadding btn-group">
+						<button class="btn dropdown-toggle" data-toggle="dropdown" name="creativeFormat" id="sel1">
+                            <span>Select Size</span>
+                            <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							  <li ><a href="#">100X72</a></li>
+						</ul>
+					</div>-->
 					
 					<!--<select ng-options="creativeSize.size for creativeSize in creativeSizeData.creativeSize track by creativeSize.id"-->
 					<!--		ng-model="creativeSize" class="form-control" id="sel1" name="creativeSize" required>-->

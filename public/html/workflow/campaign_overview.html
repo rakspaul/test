@@ -22,8 +22,8 @@
                             <span>{{workflowData.campaignData.clientName}}</span>
                             <span class="tagTitle">Advertiser</span>
                             <span>{{workflowData.campaignData.advertiserName}}</span>
-                            <div class="pull-left" ng-if="workflowData.campaignData.brandName">
-                                <span class="tagTitle">Brand</span>
+                            <div class="pull-left tagTitle" ng-if="workflowData.campaignData.brandName">
+                                <span class="tagTitle" style="margin: 0;">Brand</span>
                                 <span>{{workflowData.campaignData.brandName}}</span>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <span class="campaign-name-edit blue-edit-icon" title="Edit" ng-click="editCampaign(workflowData.campaignData)"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}}</span>
+                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}} by {{workflowData.campaignData.updatedByUser}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
@@ -222,7 +222,7 @@
                         </div>
                         
                         <!--=== Single Ad Ready ===-->
-                        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id">
+                        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id" ng-click='goEdit(adsData.campaignId,adsData.id,false)'>
                             <div class="col-md-12 adTitle">
                                 <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.name}}"/>
                                 <!--<span class="pull-left adDisplay">Collective Media</span>-->
@@ -272,7 +272,7 @@
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                            <span class="pull-right adStatus {{adsData.state.toLowerCase()}}">{{adsData.state}}</span>
+                            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}</span>
                         </div>
                     </div>
                     <!--End of independant ads block-->

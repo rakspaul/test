@@ -12,15 +12,18 @@
                 var creativeFilter = {
 
                     setDefaultValues : function(obj, type) {
-                         var campaignData = JSON.parse(localStorage.getItem('campaignData'));
-                         if(type === 'clients') {
-                             $scope.defaultClientName = (campaignData && campaignData.clientName) ? campaignData.clientName : obj[0].name;
-                             $scope.defaultClientId = (campaignData && campaignData.clientId) ? campaignData.clientId : obj[0].id;
-                             $scope.defaultAdvertiserName = 'Loading..';
-                         }
-                         if(type === 'advertisers') {
-                             $scope.defaultAdvertiserName = (campaignData && campaignData.advertiserName) ? campaignData.advertiserName : obj[0].name;
-                             $scope.defaultAdvertiserId = (campaignData && campaignData.advertiserId) ? campaignData.advertiserId : obj[0].id;
+                         var campaignData = localStorage.getItem('campaignData');
+                         if( campaignData) {
+                             campaignData = JSON.parse(campaignData);
+                             if (type === 'clients') {
+                                 $scope.defaultClientName = (campaignData && campaignData.clientName) ? campaignData.clientName : obj[0].name;
+                                 $scope.defaultClientId = (campaignData && campaignData.clientId) ? campaignData.clientId : obj[0].id;
+                                 $scope.defaultAdvertiserName = 'Loading..';
+                             }
+                             if (type === 'advertisers') {
+                                 $scope.defaultAdvertiserName = (campaignData && campaignData.advertiserName) ? campaignData.advertiserName : obj[0].name;
+                                 $scope.defaultAdvertiserId = (campaignData && campaignData.advertiserId) ? campaignData.advertiserId : obj[0].id;
+                             }
                          }
                      },
 

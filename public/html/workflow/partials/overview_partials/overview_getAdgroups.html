@@ -33,7 +33,7 @@
         </div>
         <!--=== Single Ad Ready ===-->
         <!--<div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData track by adsData.id ">-->
-        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id">
+        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click='goEdit(adsData.campaignId,adsData.id,adsData.adGroupId)'>
 
         <!--<div ng-repeat="index in adsData">-->
             <div class="col-md-12 adTitle">
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-            <span class="pull-right adStatus {{adsData.state.toLowerCase()}}">{{adsData.state}}</span>
+            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}</span>
         <!--</div>-->
         </div>
     </div>

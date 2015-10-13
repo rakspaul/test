@@ -88,8 +88,8 @@
                                 } else {
                                     // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
                                     // values till decimal 4 places.
-                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' + constants.currencySymbol + yVal  ) ;
-
+                                   // return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' + constants.currencySymbol + yVal  ) ;
+                                     return_val = ((kpIType === 'CTR' || kpIType.toLowerCase() === 'ctr'|| kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate'|| kpIType.toLowerCase() === 'vtc')) ? (this.key.y +' : ' + yVal + constants.SYMBOL_PERCENT) : (this.key.y +' : ' + constants.SYMBOL_DOLLAR  + yVal);                               
                                 }
                                 return "<div id='inventory_tooltip' class='inventory-tool-tip'>" +return_val+ "</div>";
                             } else {
@@ -196,9 +196,15 @@
                             },
                             formatter: function() {
                                // if (!isNaN(this.value)) {
-                                    var currency =(kpIType === 'CTR')? '' : constants.currencySymbol;
-                                    var $returnLabel =  currency + Highcharts.numberFormat(this.value, 2);
-                                    return $returnLabel;
+                                   // var currency =(kpIType === 'CTR')? '' : constants.currencySymbol;
+                                   // var $returnLabel =  currency + Highcharts.numberFormat(this.value, 2);
+                                   //   var currency = ((kpIType === 'CTR' || kpIType.toLowerCase() === 'ctr'|| kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?
+                                   //  constants.SYMBOL_PERCENT : constants.SYMBOL_DOLLAR;
+                                  //   var $returnLabel =  Highcharts.numberFormat(this.value, 2) + currency;                              
+                                   //    return $returnLabel;
+ 
+                                 var currency = ((kpIType === 'CTR' || kpIType.toLowerCase() === 'ctr'|| kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate'|| kpIType.toLowerCase() === 'vtc')) ? (Highcharts.numberFormat(this.value, 2) + constants.SYMBOL_PERCENT) :(constants.SYMBOL_DOLLAR  + Highcharts.numberFormat(this.value, 2));     
+                                 return currency;
                                /* } else {
                                     return '';
                                 }*/

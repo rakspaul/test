@@ -10,7 +10,7 @@
             <img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png"/>
             <span>{{platform.name}}</span>
             
-            <input type="radio" name="platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click="adData.platformId = platform.id">
+            <input type="radio" name="platform" ng-checked="(platform.name).toUpperCase() == adData.platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click="adData.platformId = platform.id" ng-disabled="(mode === 'edit' && isAdsPushed)?true:false">
         </div>
     </div>
     <input type="hidden" name="platformId" value="{{adData.platformId }}">

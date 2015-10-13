@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout) {
+    angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,$location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         //commenting this as this is persisting across other pages
@@ -85,6 +85,10 @@ var angObj = angObj || {};
                 workflowService.getAdsForCampaign(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
+                        for(var i in responseData){
+                            if(responseData[i].state==="IN_FLIGHT")
+                            responseData[i].state="IN FLIGHT";
+                        }
                         if(responseData.length>0){
                             $scope.noIndependantAds=false;
                             $scope.$watch('setStartdateIndependant', function() {
@@ -121,7 +125,11 @@ var angObj = angObj || {};
                 //console.log(index);
                 workflowService.getAdsInAdGroup(campaignId, adGroupId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
+                    var responseData = result.data.data;
+                        for(var i in responseData){
+                            if(responseData[i].state==="IN_FLIGHT")
+                            responseData[i].state="IN FLIGHT";
+                        }
                         $scope.workflowData['getADsForGroupData'][index] = responseData;
                     }
                     else {
@@ -304,6 +312,14 @@ var angObj = angObj || {};
                             });
         }
         }
+
+        $scope.goEdit = function ( campaignId, adsId,groupId ) {
+            var path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
+            if(groupId)
+                path = "/campaign/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
+            $location.path( path );
+        };
+
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');

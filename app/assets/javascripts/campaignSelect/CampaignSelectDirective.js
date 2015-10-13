@@ -24,7 +24,9 @@
                      //$(".campaignDropdown").width($(".campaign_name_length").width() + 14 );
                     if($scope.allCampaign == "true") {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
-                        $scope.selectedObj.name = localStorageCampaignData.name;
+                        if(localStorageCampaignData != undefined) {
+                            $scope.selectedObj.name = localStorageCampaignData.name;
+                        }
                     } else {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
                     }
