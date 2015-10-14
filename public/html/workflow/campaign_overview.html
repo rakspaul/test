@@ -268,7 +268,7 @@
                                 <div class="col-md-12" style="padding: 0px 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
 
-                                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 ? 'Geo': 'Not Set'}}</span>
+                                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 || adsData.targets.geoTargets.DMA.geoTargetList.length > 0 || adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ? 'Geo': 'Not Set'}}</span>
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
