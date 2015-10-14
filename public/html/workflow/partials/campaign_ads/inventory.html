@@ -10,14 +10,20 @@
             </div>
 
             <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0">
-            <!--<div class="form-group col-md-12 zeroPadding" ng-show="showDropDown">-->
-            <div class="each_filter" style="margin-bottom: 20px;">
-                    <div class="greyTxt" id="dropDownDomain">Select from Existing</div>
-                    <select id="inventory" name="inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
-                        <option value="">Select Domain List</option>
-                    </select>
+                <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-bottom: 10px;">
+                    <div class="dropdown">
+                         <button class="btn btn-default dropdown-toggle" type="button" id="inventory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                              <span class="text">{{adData.inventory ? adData.inventory.name :  'Select Domain List'}}</span>
+                              <span class="icon-arrow-down"></span>
+                         </button>
+                         <ul class="dropdown-menu" name="inventory">
+                              <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id"><a ng-click="dropBoxItemSelected(inventory, 'inventory')">{{inventory.name}}</a></li>
+                         </ul>
+                        <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
+                    </div>
                 </div>
             </div>
+
             <div class="col-md-12 zeroPadding inventory_upload_btn">
                 <div class="clearfix">
                     <button class="pull-left btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"

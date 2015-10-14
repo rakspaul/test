@@ -17,7 +17,6 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
-        //  var pristineFormTemplate = $('#formCreativeCreate').html();
         $scope.createAlertMessage = {'message':'','isErrorMsg':0};
 
         $scope.msgtimeoutReset = function(){
@@ -54,6 +53,12 @@ var angObj = angObj || {};
                 }, creatives.errorHandler);
 
             },
+
+            fetchAdFormats: function () {
+                $scope.creativeSizeData['adFormats'] = [{id: 1, name: 'Display', active: true}, {id: 2,name: 'Video',active: false}, {id: 3, name: 'Rich Media', active: false}, {id: 4, name: 'Social', active: false}]
+                $scope.adData.adFormat = 'Display'; //default value
+            },
+
             errorHandler: function (errData) {
                 console.log(errData);
             }
@@ -69,6 +74,7 @@ var angObj = angObj || {};
             };
             localStorage.setItem('campaignData', JSON.stringify(campaignData))
             creatives.getCreativeSizes(clientId, advertiserId);
+            creatives.fetchAdFormats();
         }
         $(function () {
 
@@ -82,7 +88,6 @@ var angObj = angObj || {};
                     var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
                     var PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
                     var tagLower = formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-                    console.log(tagLower);
                     if (tagLower.match(PatternOutside)) {
                         if( (tagLower.indexOf('%%tracker%%') > -1)){
                             $scope.creativesave(formData);
@@ -115,7 +120,7 @@ var angObj = angObj || {};
             postCrDataObj.name = formData.name;
             postCrDataObj.tag = formData.tag;
             postCrDataObj.sizeId = formData.creativeSize;
-            postCrDataObj.creativeFormat = formData.creativeFormat;
+            postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.toUpperCase();
             postCrDataObj.creativeType = formData.creativeType;
             postCrDataObj.sslEnable = "true";
             console.log(postCrDataObj);
@@ -149,10 +154,9 @@ var angObj = angObj || {};
             $('#formCreativeCreate')[0].reset();
             $scope.IncorrectTag = false;
             $scope.addedSuccessfully = false;
+            $("#formatType").html("Select Format<span class='icon-arrow-down'></span>");
+            $("#creativeSize").html("Select Size<span class='icon-arrow-down'></span>");
             $scope.$broadcast('show-errors-reset');
-            //$('.errorLabel').text("");
-            //$('.form-control').removeClass('.has-error');
-            //$('.form-control').css('border', '1px solid #ccc');//added to remove red border after cancel
             if ($location.path() === "/creative/add") {
                 $window.location.href = "/creative/list";
             } else {
@@ -175,18 +179,18 @@ var angObj = angObj || {};
                     console.log("creative Resaved");
                     $(".popup-holder").css("display", "none");
                     $scope.disableCancelSave = false;
-                    //$scope.addedSuccessfully = true;
-                    //$scope.Message = "Creative RESaved Successfully";
                     $scope.cancelBtn();
                 } else {
                     $scope.addedSuccessfully = true;
                     $scope.Message = "Unable to create Creatives";
-                    console.log(result);
                 }
             });
-
-
         }
+
+        $scope.dropBoxItemSelected =  function(item, type, event) {
+            $scope.adData[type] = item;
+        }
+
         $scope.cancelDuplicate = function () {
             $(".popup-holder").css("display", "none");
             $scope.addedSuccessfully = true;

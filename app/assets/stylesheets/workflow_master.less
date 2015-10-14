@@ -21,14 +21,14 @@ h5 {color: #21252b; font-size: 14px; font-family: "Avenir-bold";}
 a {text-decoration: none;}
 .breadcrumbFlow {color: #333; text-decoration: none;}
 .labelQuestTxt {
-  color: #000;
-  font-size: 15px;
+  color: #21252b;
+  font-size: 16px;
   text-align: left !important;
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
 }
 .greyTxt {
-  color: #939ead !important;
+  color: #939eae !important;
   padding: 10px 0 5px 0 !important;
   text-align: left;
   font-size: 12px;
@@ -45,7 +45,7 @@ input[type='text'] {
   border-radius: 0 !important;
 }
 input[type='text']:focus {
-  border: 1px solid #0978c9 !important;
+  border: 1px solid #0978c9;
 }
 textarea {
   resize: none;
@@ -63,6 +63,75 @@ select {
   .caret {
     float: right !important;
     margin-top: 5px;
+  }
+}
+.dropdown-workflow {
+  .btn {
+    padding: 10px 15px 10px 15px;
+    box-shadow: none !important;
+    text-align: left;
+    line-height: 16px;
+    font-size: 14px;
+    height: 36px;
+    width: 100%;
+    .icon-arrow-down {
+      font-size: 10px;
+      color: #363D49;
+      height: 4px;
+      width: 2px;
+      line-height: 16px;
+      margin-right: 5px;
+      float: right;
+      margin-top: 2px;
+    }
+  }
+  .btn:focus, .btn:active:focus, .btn.active:focus {
+      outline: 0 none;
+      background-color:#DCE6F1 !important;
+  }
+  .btn-default {
+    color:#363D49;
+    background-color:#ffffff;
+    font-family: Avenir;
+    border-radius: 2px;
+    border: 1px solid #BFC9D7 !important;
+    
+  }
+  .btn-default:hover {
+    background-color: #E1EDF9 !important;
+    border: 1px solid #BFC9D7 !important;
+  }
+  .btn-default:active {
+    background-color: #DCEDF1 !important;
+    border: 1px solid #BFC9D7 !important;
+    box-shadow: none;
+  }
+  .dropdown-menu>li>a {
+    color: #21252b;
+    font-family: Avenir;
+    font-size: 14px;
+    overflow: hidden;
+  }
+  
+  .dropdown-menu {
+    box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
+    -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
+    width: 100%;
+    .active {
+      a {
+        color: #21252b;
+        text-decoration: none;
+        background-color: #E1EDF9;
+      }
+    }
+  }
+  
+  .dropdown-menu > li > a:hover,
+  .dropdown-menu > li > a:focus,
+  .dropdown-menu > li > .active > a{
+    color: #21252b;
+    text-decoration: none;
+    background-color: #E1EDF9;
   }
 }
 .dropdown-menu {
@@ -113,7 +182,7 @@ select {
     .calenderIcon {
       float: left;
       border-left: 1px solid #dbe8ef;
-      margin: 24px 13px 0 111px;
+      margin: 21px 13px 0 111px;
       .icon-calendar {
         padding: 9px 11px 3px 11px;
         float: left;
@@ -223,15 +292,6 @@ select {
 .btn-default {color: #57606d; font-size: 14px; border: 1px solid #dde6eb;}
 .btn-default:hover {background: #eef2f5;}
 .btn-default:active {color: #57606d;}
-.btn {
-  .icon-arrow-down {
-    float: right;
-    font-size: 10px;
-    margin-top: 3px;
-    height: 11px;
-    color: #000;
-  }
-}
 
 // Small Toggle BTN
 .radioBtnToggle {

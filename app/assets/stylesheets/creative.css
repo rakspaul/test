@@ -30,9 +30,6 @@
 #creative .containerWrap {
   padding: 0 0 0 35px;
 }
-#creative .containerWrap span {
-  float: left;
-}
 #creative .containerWrap span a {
   text-decoration: none;
 }
@@ -68,6 +65,9 @@
 }
 #creative .creativeList .containerWrap .form-group label {
   margin-top: 20px;
+}
+#creative .creativeList .containerWrap .form-group .errorLabel {
+  margin: 0;
 }
 #creative .creativeList .containerWrap .form-group .previewBtn {
   position: absolute;
@@ -225,10 +225,6 @@
 #inventoryFilters .each_filter .select {
   margin-top: 0px ;
 }
-#inventoryFilters .containerWrap span {
-  float: left;
-  font-size: 18px;
-}
 #inventoryFilters .containerWrap a {
   text-decoration: none;
   float: left;
@@ -321,7 +317,7 @@
   top: 0px;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 999;
   background: rgba(0, 0, 0, 0.5);
 }
 .popInventoryLib .inventoryLib {

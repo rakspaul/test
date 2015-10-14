@@ -567,8 +567,7 @@
 /*end of primary button changing to loading */
 /*end of common buttons i.e primary,secondary,etc */
 /*Navigation filters which contains Brands, Campaigns, and Strategy*/
-.nav_filters,
-#campaignCreate {
+.nav_filters {
   width: 1040px;
   margin: 0 auto;
   font-size: 14px;
@@ -576,106 +575,85 @@
   line-height: 20px;
   /*}*/
 }
-.nav_filters li.active,
-#campaignCreate li.active {
+.nav_filters li.active {
   font-family: "Avenir-bold";
 }
-.nav_filters .dropdown-menu,
-#campaignCreate .dropdown-menu {
+.nav_filters .dropdown-menu {
   max-height: none ;
 }
-.nav_filters .dropdown-menu .dropdown_list_scroll,
-#campaignCreate .dropdown-menu .dropdown_list_scroll {
+.nav_filters .dropdown-menu .dropdown_list_scroll {
   max-height: 200px;
   overflow-y: auto;
 }
-.nav_filters .dropdown .dropdown_name_selected,
-#campaignCreate .dropdown .dropdown_name_selected {
+.nav_filters .dropdown .dropdown_name_selected {
   padding-right: 20px;
   cursor: default;
   margin: 0;
   position: relative;
 }
-.nav_filters .dropdown .dropdown_name_selected p,
-#campaignCreate .dropdown .dropdown_name_selected p {
+.nav_filters .dropdown .dropdown_name_selected p {
   margin: 0;
   padding-right: 10px;
 }
-.nav_filters .dropdown .dropdown_name_selected img,
-#campaignCreate .dropdown .dropdown_name_selected img {
+.nav_filters .dropdown .dropdown_name_selected img {
   margin: 0px !important;
   position: absolute;
   z-index: 10;
   top: 5px;
   right: -3px;
 }
-.nav_filters .dropdown_type1_holder.active .campaign_name_selected,
-#campaignCreate .dropdown_type1_holder.active .campaign_name_selected {
+.nav_filters .dropdown_type1_holder.active .campaign_name_selected {
   font-family: "Avenir-bold";
 }
-.nav_filters .dropdown_type2.active #strategy_dropdown,
-#campaignCreate .dropdown_type2.active #strategy_dropdown {
+.nav_filters .dropdown_type2.active #strategy_dropdown {
   font-family: "Avenir-bold";
 }
-.nav_filters .timeline_dd,
-#campaignCreate .timeline_dd {
+.nav_filters .timeline_dd {
   background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat right 4px;
   padding-right: 20px ;
 }
-.nav_filters .each_filter,
-#campaignCreate .each_filter {
+.nav_filters .each_filter {
   margin-top: 0px ;
 }
-.nav_filters .each_filter .header_filter_arrow_dropdown,
-#campaignCreate .each_filter .header_filter_arrow_dropdown {
+.nav_filters .each_filter .header_filter_arrow_dropdown {
   display: inline-block;
   height: 18px;
 }
-.nav_filters .each_filter #brandsList,
-#campaignCreate .each_filter #brandsList {
+.nav_filters .each_filter #brandsList {
   width: 280px;
   left: 0px ;
   padding: 0 ;
 }
-.nav_filters .each_filter #brandsList .brandsList_ul,
-#campaignCreate .each_filter #brandsList .brandsList_ul {
+.nav_filters .each_filter #brandsList .brandsList_ul {
   max-height: 200px;
   overflow: auto ;
 }
-.nav_filters .each_filter #brandsList .brand_search_highlight,
-#campaignCreate .each_filter #brandsList .brand_search_highlight {
+.nav_filters .each_filter #brandsList .brand_search_highlight {
   border-bottom: solid 1px #fff ;
 }
-.nav_filters .each_filter #brandsList li,
-#campaignCreate .each_filter #brandsList li {
+.nav_filters .each_filter #brandsList li {
   padding: 0;
 }
-.nav_filters .each_filter #brandsList li:hover,
-#campaignCreate .each_filter #brandsList li:hover {
+.nav_filters .each_filter #brandsList li:hover {
   background: #F5F9FD ;
 }
-.nav_filters .each_filter #brandsList li.active,
-#campaignCreate .each_filter #brandsList li.active {
+.nav_filters .each_filter #brandsList li.active {
   background: url("/assets/images/cdesk/sprites-2.png") no-repeat -535px 9px;
 }
-.nav_filters .each_filter #brandsList li.active a,
-#campaignCreate .each_filter #brandsList li.active a {
+.nav_filters .each_filter #brandsList li.active a {
   font-family: "Avenir-bold";
 }
-.nav_filters .each_filter #brandsList a,
-#campaignCreate .each_filter #brandsList a {
+.nav_filters .each_filter #brandsList a {
   white-space: normal;
   word-wrap: break-word;
   padding: 6px 10px ;
   display: block;
 }
-.nav_filters .each_filter a,
-#campaignCreate .each_filter a {
+.nav_filters .each_filter a {
   font-family: "Avenir";
   text-decoration: none;
 }
-.nav_filters .disabled_brand_list,
-#campaignCreate .disabled_brand_list {
+.nav_filters .disabled_brand_list {
   display: none;
   position: absolute;
   top: -15px;
@@ -685,29 +663,23 @@
   cursor: default;
   z-index: 1;
 }
-.nav_filters .brands_filter.brands_filter_disabled .disabled_brand_list,
-#campaignCreate .brands_filter.brands_filter_disabled .disabled_brand_list {
+.nav_filters .brands_filter.brands_filter_disabled .disabled_brand_list {
   display: block;
 }
-.nav_filters .brands_filter:hover .brands_dd_icon,
-#campaignCreate .brands_filter:hover .brands_dd_icon {
+.nav_filters .brands_filter:hover .brands_dd_icon {
   background-position: -200px -211px;
 }
-.nav_filters .brands_filter.brands_filter_disabled:hover .brands_dd_icon,
-#campaignCreate .brands_filter.brands_filter_disabled:hover .brands_dd_icon {
+.nav_filters .brands_filter.brands_filter_disabled:hover .brands_dd_icon {
   background-position: -200px -150px;
 }
-.nav_filters .lifetime_filter:hover .header_filter_arrow_dropdown,
-#campaignCreate .lifetime_filter:hover .header_filter_arrow_dropdown {
+.nav_filters .lifetime_filter:hover .header_filter_arrow_dropdown {
   background-position: 65px -46px;
 }
-.nav_filters .lifetime_filter .dropdown-menu,
-#campaignCreate .lifetime_filter .dropdown-menu {
+.nav_filters .lifetime_filter .dropdown-menu {
   left: -35px;
   padding: 0 ;
 }
-.nav_filters .lifetime_filter .dropdown-menu .time_dropdown_disabled,
-#campaignCreate .lifetime_filter .dropdown-menu .time_dropdown_disabled {
+.nav_filters .lifetime_filter .dropdown-menu .time_dropdown_disabled {
   height: 55px;
   width: 160px;
   position: absolute;
@@ -716,61 +688,47 @@
   cursor: default;
 }
 .nav_filters .lifetime_filter #cdbMenu:hover,
-#campaignCreate .lifetime_filter #cdbMenu:hover,
-.nav_filters .lifetime_filter #cdbMenu:focus,
-#campaignCreate .lifetime_filter #cdbMenu:focus {
+.nav_filters .lifetime_filter #cdbMenu:focus {
   color: #333 ;
 }
 .nav_filters .lifetime_filter .cdbMenu_options li:first-child a,
-#campaignCreate .lifetime_filter .cdbMenu_options li:first-child a,
-.nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a,
-#campaignCreate .lifetime_filter .cdbMenu_options li:nth-child(2) a {
+.nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a {
   color: #817F7F;
   font-style: italic;
 }
-.nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu,
-#campaignCreate .lifetime_filter div.timeline_dd.open #cdbMenu {
+.nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu {
   color: #333 ;
 }
 .nav_filters .each_filter a,
-#campaignCreate .each_filter a,
 .nav_filters .each_filter a:hover,
-#campaignCreate .each_filter a:hover,
-.nav_filters .each_filter a:focus,
-#campaignCreate .each_filter a:focus {
+.nav_filters .each_filter a:focus {
   color: #333 ;
   background: transparent;
   padding: 0;
   cursor: pointer;
 }
-.nav_filters #brandsDropdown,
-#campaignCreate #brandsDropdown {
+.nav_filters #brandsDropdown {
   min-width: 50px ;
   width: 100% ;
   text-overflow: ellipsis;
   font-size: 14px;
   font-family: "Avenir";
 }
-.nav_filters .filter_dropdown_open .header_filter_arrow_dropdown,
-#campaignCreate .filter_dropdown_open .header_filter_arrow_dropdown {
+.nav_filters .filter_dropdown_open .header_filter_arrow_dropdown {
   background-image: url("/assets/images/cdesk/up_arrow_filter.png");
 }
-.nav_filters #brandsDropdown:focus,
-#campaignCreate #brandsDropdown:focus {
+.nav_filters #brandsDropdown:focus {
   color: #333 ;
 }
-.nav_filters .lifetime_filter,
-#campaignCreate .lifetime_filter {
+.nav_filters .lifetime_filter {
   padding-left: 30px;
   border-left: solid 1px #DDE6EB;
 }
-.nav_filters .nav_filters_heading,
-#campaignCreate .nav_filters_heading {
+.nav_filters .nav_filters_heading {
   color: #939eaf ;
   font-size: 12px ;
 }
-.nav_filters .brand_name_selected,
-#campaignCreate .brand_name_selected {
+.nav_filters .brand_name_selected {
   cursor: pointer;
   padding-right: 20px ;
   max-width: 140px;
@@ -779,8 +737,7 @@
   white-space: nowrap;
   background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat right center;
 }
-.nav_filters .campaign_name_selected,
-#campaignCreate .campaign_name_selected {
+.nav_filters .campaign_name_selected {
   height: 30px ;
   min-width: 120px ;
   padding-right: 20px ;
@@ -791,39 +748,32 @@
   cursor: pointer;
   background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat right 2px;
 }
-.nav_filters .brandsDropdownSearch,
-#campaignCreate .brandsDropdownSearch {
+.nav_filters .brandsDropdownSearch {
   position: relative;
 }
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv,
-#campaignCreate .brandsDropdownSearch #brandsDropdownDiv {
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv {
   width: 100%;
   border-bottom: solid 1px #ccc;
   padding: 0px 10px;
 }
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
-#campaignCreate .brandsDropdownSearch #brandsDropdownDiv input {
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv input {
   font-family: "Avenir";
   padding-right: 20px;
   background: url("/assets/images/cdesk/search_input.png") no-repeat right center;
 }
-.nav_filters #strategy_dropdown,
-#campaignCreate #strategy_dropdown {
+.nav_filters #strategy_dropdown {
   background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat right 2px;
   padding-right: 20px ;
 }
-.nav_filters #campaignsDropdownDiv,
-#campaignCreate #campaignsDropdownDiv {
+.nav_filters #campaignsDropdownDiv {
   width: 100%;
   border-bottom: solid 1px #ccc;
   padding: 0 10px ;
 }
-.nav_filters #campaignsDropdownDiv .campaign_name_length,
-#campaignCreate #campaignsDropdownDiv .campaign_name_length {
+.nav_filters #campaignsDropdownDiv .campaign_name_length {
   display: none;
 }
-.nav_filters #campaignsDropdownDiv input,
-#campaignCreate #campaignsDropdownDiv input {
+.nav_filters #campaignsDropdownDiv input {
   float: none;
   width: 100% ;
   background: url("/assets/images/cdesk/search_input.png") no-repeat right center;
@@ -836,8 +786,7 @@
   white-space: nowrap;
   border: 0;
 }
-.nav_filters .dropdown-menu,
-#campaignCreate .dropdown-menu {
+.nav_filters .dropdown-menu {
   border-radius: 0;
   border-top: 0;
   width: 206px;
@@ -846,8 +795,7 @@
   box-shadow: none;
   min-width: inherit;
 }
-.nav_filters .dropdown-menu li,
-#campaignCreate .dropdown-menu li {
+.nav_filters .dropdown-menu li {
   font-size: 14px;
   color: #21252B;
   padding: 5px 10px;
@@ -856,24 +804,20 @@
   text-overflow: ellipsis;
   cursor: default;
 }
-.nav_filters .dropdown-menu li span.menuItemText,
-#campaignCreate .dropdown-menu li span.menuItemText {
+.nav_filters .dropdown-menu li span.menuItemText {
   display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.nav_filters .dropdown-menu li:hover,
-#campaignCreate .dropdown-menu li:hover {
+.nav_filters .dropdown-menu li:hover {
   background: #F5F9FD;
 }
-.nav_filters .dropdown-menu li.disabled,
-#campaignCreate .dropdown-menu li.disabled {
+.nav_filters .dropdown-menu li.disabled {
   color: #999 ;
   cursor: text;
 }
-.nav_filters .dropdown-menu li.disabled:hover,
-#campaignCreate .dropdown-menu li.disabled:hover {
+.nav_filters .dropdown-menu li.disabled:hover {
   background: transparent;
 }
 /*End of Navigation filters which contains Brands, Campaigns, and Strategy*/
@@ -1394,12 +1338,13 @@ multiselect .dropdown-menu > li > a {
 /* for edit icon */
 .blue-edit-icon {
   cursor: pointer;
-  width: 18px;
-  height: 18px;
   margin-left: 10px;
-  background: url("/assets/images/workflow/edit.svg") no-repeat center center;
-  background-size: 14px;
   padding: 7px;
+  font-size: 16px;
+  color: #57606D;
+}
+.blue-edit-icon:hover {
+  color: #0978C9;
 }
 /*common poup container */
 .common-popup-container {

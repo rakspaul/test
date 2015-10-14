@@ -11,6 +11,16 @@ var angObj = angObj || {};
             $(".campaignAdCreateWrap").css('height', winHeight+'px');
         } colResize();
         $(window).resize(function(){ colResize(); });
+        // This is for the drop down list. Perhaps adding this to a more general controller
+        $(document).on('click','.dropdown-menu li a', function() {
+            $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+            $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+        });
+        $('.dropdown-workflow a').each(function(){
+            var text=$(this).text()
+            if (text.length>14)
+            $(this).val(text).text(text.substr(0,20)+'…')
+        });
         $scope.mode = workflowService.getMode();
         $scope.textConstants = constants;
         $scope.workflowData = {};
@@ -61,6 +71,10 @@ var angObj = angObj || {};
            $scope.partialSaveAlertMessage.message = '' ;
            $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
            $scope.partialSaveAlertMessage.isMsg = 0 ;
+        }
+
+        $scope.dropBoxItemSelected =  function(item, type, event) {
+            $scope.adData[type] = item;
         }
 
         $scope.ShowHide = function (obj) {
@@ -1692,14 +1706,6 @@ var angObj = angObj || {};
                             })
                             $scope.workflowData['inventoryData'] = inventoryData;
                             $scope.adData.inventory = response.data;
-//                            if(domainId===null){
-//                                $("#dropDownDomain").siblings('select').append("<option value=" +$scope.adData.inventory.name+ ">" + $scope.adData.inventory.name + "</option>");
-//                                $scope.showDropDown=true;
-//                            }
-                            //$scope.adData.inventory = response.data.name;
-
-                            //$scope.adData.inventory.domainList = response.data.domainList;
-                            //$scope.adData.inventory.name = response.data.name;
                             $scope.domainUploadInProgress = false;
                             $scope.showDomainListPopup = false;
                         });
