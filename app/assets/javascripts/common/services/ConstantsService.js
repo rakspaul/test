@@ -356,6 +356,7 @@
     this.WF_DESKTOP = "Desktop";
     this.WF_MOBILE = "Mobile";
     this.WF_TABLET = "Tablet";
+    this.WF_UNTITLED_AD="Untitled Ad"
 
     this.WF_HEADER_SETTINGS ="Guided Copy Here - Setting up your ad...";
     this.WF_AD_SIZE = "Ad Size";
