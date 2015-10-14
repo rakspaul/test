@@ -386,21 +386,21 @@
                 float: left;
                 border: 1px solid #C6C9CE;
                 border-radius: 2px;
-                padding: 0;
+                padding: 6px;
                 margin-right: 10px;
-                .glyphicon {
+                .icon-plus, .icon-minus {
                   color: #57606d;
                   float: left;
-                  padding: 5px 5px 6px 6px;
-                  font-size: 14px;
+                  font-size: 12px;
                   top: 0;
-                  width: auto;
+                  width: 12px;
+                  height: 12px;
                   margin: 0;
                 }
               }
               .collapseIcon:hover {
                 border: 1px solid rgba(87,96,109,0.3);
-                .glyphicon {
+                .icon-plus, .icon-minus {
                   color: #2c9aec;
                 }
               }
@@ -745,9 +745,9 @@
           label {
             float: left;
             margin: 25px 0 0 10px;
-            img {
+            [class^="icon-"], [class*=" icon-"] {
               float: left;
-              margin: 0 10px;
+              margin: 3px 10px;
             }
           }
         }

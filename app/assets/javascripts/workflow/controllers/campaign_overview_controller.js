@@ -193,10 +193,10 @@ var angObj = angObj || {};
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
             if (context.showHideToggle) {
-                elem.removeClass("glyphicon-minus").addClass("glyphicon-plus") ;
+                elem.removeClass("icon-minus").addClass("icon-plus") ;
                 context.showHideToggle = !context.showHideToggle
             } else {
-                elem.removeClass("glyphicon-plus").addClass("glyphicon-minus") ;
+                elem.removeClass("icon-plus").addClass("icon-minus") ;
                 context.showHideToggle = !context.showHideToggle
                 campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
             }

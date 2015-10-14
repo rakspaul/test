@@ -17,17 +17,17 @@
 <div class="row zeroPadding adFormatChkBox">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES}}</div>
     <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_FORMAT }}</div>
-    <div class="btn-group goalBtnGroup zeroPadding"
-         ng-repeat="adformat in workflowData.adFormats track by adformat.id">
-        <!--Abi toggle active class for label below on click-->
+    
+    <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
         <label class="btn btn-primary {{adformat.active ? 'active' : '' }}">
             <input type="radio" name="adFormat" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat"  ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
-            <span class="hideRadioBtn">
+            <div class="hideRadioBtn">
+                <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
                 <span>{{adformat.name}}</span>
-                <img ng-src="/assets/images/workflow/{{getAdFormatIconName(adformat.name)}}.svg" alt="" width="25"/>
-            </span>
-    </label>
+            </div>
+        </label>
     </div>
+    
 </div>
 
 <!--=== AD Goal ===-->
@@ -35,15 +35,15 @@
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL}}</div>
     <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_GOAL }}</div>
 
-    <div class="btn-group goalBtnGroup zeroPadding" ng-repeat="goal in workflowData.goals track by goal.id">
+    <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id">
         <!--Abi toggle active class for label below on click-->
         <label class="btn btn-primary {{goal.active ? 'active' : '' }}">
             <input type="radio" name="goal" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal" ng-click="goalSelection(goal.name)" ng-checked="goal.active">
-                <span class="hideRadioBtn">
+                <div class="hideRadioBtn">
+                    <!--<div class="icon-{{getGoalIconName(adData.goal)}}" class="statusIcon" style="width: 12px; text-align: center;"></div>-->
+                    <div class="icon-{{getGoalIconName(goal.name)}}"></div>
                     <span>{{goal.name}}</span>
-                    <img ng-src="/assets/images/workflow/{{getGoalIconName(goal.name)}}.svg"
-                         alt="" width="25"/>
-                </span>
+                </div>
         </label>
     </div>
 </div>
@@ -59,7 +59,8 @@
          ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
         <label for="screenTypeChkBox{{screenType.id}}">
             <input type="checkbox" name="screens" ng-model="screenType.active" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}"  class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);" ng-checked="screenType.active">
-            <img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>
+            <!--<img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>-->
+            <div class="icon-{{screenType.name | lowercase}}"></div>
 
             <div class="btnLabel">{{screenType.name}}</div>
         </label>

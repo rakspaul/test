@@ -3085,9 +3085,12 @@ input[type="submit"] {
   margin-left: 20px;
   word-wrap: break-word;
 }
-.campaignListContainer .campaignListHolder .column.blue-edit-icon {
-  margin-left: 10px;
-  width: 20px ;
+.campaignListContainer .campaignListHolder .column.icon-settings {
+  margin: 0;
+  text-align: center;
+}
+.campaignListContainer .campaignListHolder .column.icon-settings:hover {
+  color: #0978C9;
 }
 .campaignListContainer .campaignListHolder .data_holder {
   height: 550px ;

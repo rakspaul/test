@@ -82,17 +82,17 @@ var angObj = angObj || {};
             $scope.creativeObj=obj;
         }
         $scope.getAdFormatIconName = function (adFormat) {
-            var adFormatMapper = {'display': 'display', 'video': 'video', 'rich media': 'mixedmedia', 'social': 'audience'}
+            var adFormatMapper = {'display': 'image', 'video': 'video', 'rich media': 'rich-media', 'social': 'social'}
             return adFormatMapper[adFormat.toLowerCase()];
         }
 
         $scope.getScreenTypeIconName = function (screenType) {
-            var screenTypeMapper = {'desktop': 'phone', 'mobile': 'phone', 'tablet': 'phone'}
+            var screenTypeMapper = {'desktop': 'desktop', 'mobile': 'mobile', 'tablet': 'tablet'}
             return screenTypeMapper[screenType.toLowerCase()];
         }
 
         $scope.getGoalIconName = function (goal) {
-            var goalMapper = {'performance': 'signal', 'brand': 'record'}
+            var goalMapper = {'performance': 'performance', 'brand': 'brand'}
             return goalMapper[goal.toLowerCase()];
         }
 
