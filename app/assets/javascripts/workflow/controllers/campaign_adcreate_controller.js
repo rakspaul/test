@@ -73,6 +73,10 @@ var angObj = angObj || {};
            $scope.partialSaveAlertMessage.isMsg = 0 ;
         }
 
+        $scope.dropBoxItemSelected =  function(item, type, event) {
+            $scope.adData[type] = item;
+        }
+
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
             $scope.creativeObj=obj;
@@ -1702,14 +1706,6 @@ var angObj = angObj || {};
                             })
                             $scope.workflowData['inventoryData'] = inventoryData;
                             $scope.adData.inventory = response.data;
-//                            if(domainId===null){
-//                                $("#dropDownDomain").siblings('select').append("<option value=" +$scope.adData.inventory.name+ ">" + $scope.adData.inventory.name + "</option>");
-//                                $scope.showDropDown=true;
-//                            }
-                            //$scope.adData.inventory = response.data.name;
-
-                            //$scope.adData.inventory.domainList = response.data.domainList;
-                            //$scope.adData.inventory.name = response.data.name;
                             $scope.domainUploadInProgress = false;
                             $scope.showDomainListPopup = false;
                         });

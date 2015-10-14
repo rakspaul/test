@@ -43,23 +43,18 @@
 
     <div class="form-group col-md-2" style="padding-right: 0;">
         
-        <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-        <!--     <div class="dropdown">-->
-        <!--          <button class="btn btn-default dropdown-toggle" type="button" id="unitcostType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-        <!--               <span class="text">Select Type</span>-->
-        <!--               <span class="icon-arrow-down"></span>-->
-        <!--          </button>-->
-        <!--          <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType" ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id" id="unitcostType">-->
-        <!--               <li><a data-value="">Select</a></li>-->
-        <!--          </ul>-->
-        <!--     </div>-->
-        <!--</div>-->
-        
-        <select ng-model="adData.unitType" ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id"  class="form-control" id="unitcostType">
-            <option value="">Select</option>
-        </select>
-        
-        <input type="hidden" name="unitType" value="{{adData.unitType.name}}">
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+             <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                       <span class="text">Select Type</span>
+                       <span class="icon-arrow-down"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
+                       <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id"><a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a></li>
+                  </ul>
+                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+             </div>
+        </div>
     </div>
 </div>
     
