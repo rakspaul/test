@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="col-md-6 zeroPadding">
-                        <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save</a>
+                        <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-click="saveCampaign()">Save</a>
                         <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
                     </div>
                 </div>
@@ -76,18 +76,13 @@
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
-                            <span ng-if="dataLength">
-                            <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+                            <div ng-if=(mode=='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="250"   required/>
                             </div>
-                            </span>
-                                <span ng-if="!dataLength">
-                                <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+                            <div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
                                 <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
-                                </div>
-                                </span>
-
+                            </div>
                         </div>
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
@@ -200,23 +195,19 @@
                         <!--==== Row 5 ====-->
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
-                            <span ng-if="dataLength">
-                            <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
+                            <div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
                                 <input type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                                 <label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>
                             </div>
-                            </span>
-                            <span ng-if="!dataLength">
-                            <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
+                            <div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
                                 <input type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                             </div>
-                            </span>
                         </div>
                 </div>
                 </form>
