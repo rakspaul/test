@@ -203,7 +203,7 @@ var angObj = angObj || {};
 
             //platform tab
             if(responseData.platform){
-                $scope.changePlatform(responseData.platform.id);
+                //$scope.changePlatform(responseData.platform.id);
                 $scope.adData.platform = responseData.platform.name;
                 $scope.adData.platformId = responseData.platform.id;
                 $scope.isPlatformSelected = true;
@@ -224,10 +224,9 @@ var angObj = angObj || {};
             //$q.defer()
 
             //geotargets
-
-            //$timeout(function(){
-            //    $scope.$broadcast("updateGeoTags");
-            //},2000)
+            $timeout(function(){
+                $scope.$broadcast("updateGeoTags");
+            },2000)
 
         }
 
