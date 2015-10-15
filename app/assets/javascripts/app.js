@@ -141,8 +141,9 @@ var angObj = '';
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel) {
+                    "check": function ($location, loginModel, workflowService) {
                         var isWorkflowUser = loginModel.getIsWorkflowUser();
+                        workflowService.setMode('create');
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
