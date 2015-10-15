@@ -23,6 +23,7 @@ a {text-decoration: none;}
 .labelQuestTxt {
   color: #21252b;
   font-size: 16px;
+  font-weight: normal;
   text-align: left !important;
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
@@ -32,6 +33,7 @@ a {text-decoration: none;}
   padding: 10px 0 5px 0 !important;
   text-align: left;
   font-size: 12px;
+  font-weight: normal;
   margin: 0;
 }
 .helpLink {
@@ -89,9 +91,14 @@ select {
       height: 4px;
       width: 2px;
       line-height: 16px;
-      margin-right: 5px;
-      float: right;
-      margin-top: 2px;
+      //margin-right: 5px;
+      //float: right;
+      //margin-top: 2px;
+      
+      position: absolute;
+      z-index: 10;
+      top: 11px;
+      right: 20px;
     }
   }
   .btn:focus, .btn:active:focus, .btn.active:focus {
@@ -104,7 +111,10 @@ select {
     font-family: Avenir;
     border-radius: 2px;
     border: 1px solid #BFC9D7 !important;
-    
+    position: relative;
+    .text {
+      float: left;
+    }
   }
   .btn-default:hover {
     background-color: #E1EDF9 !important;
@@ -355,21 +365,11 @@ select {
   }
 }
 
-// Big Toggle CheckBox
-.bigChkBox.active {
-  background: #eff2f5 !important;
-  border: 1px solid #2c9aec !important;
-  label {
-    color: #2c9aec;
-    font-weight: normal;
-  }
-}
-
 // Big Toggle BTN
 .goalBtnGroup {
   .btn-primary {
     border-radius: 0px;
-    width: 135px;
+    width: auto;
     height: 36px;
     float: left;
     margin: 0 !important;
@@ -379,17 +379,21 @@ select {
     font-family: Avenir;
     border: 1px solid #BFC9D7;
     border-left: 0;
+    position: relative;
+    padding: 6px 15px;
     span {
       float: left;
       color: #21252b;
       font-size: 14px;
-      margin: -1px 0 0 6px;
+      margin: -1px 0 0 10px;
+    }
+    input {
+      opacity: 0;
     }
   }
   .btn-primary:hover {
     background-color: #E1EDF9;
     color:#363D49;
-    border: 1px solid #BFC9D7;
   }
   .btn-primary.active {
     background-color: #0978C9;
@@ -409,14 +413,13 @@ select {
     height: 60px;
     margin-top : 10px;
     .hideRadioBtn {
-      background-color: #fff;
-      position: absolute;
       top: 0;
       left: 0;
-      width: 100% ;
+      width: auto ;
       height: 100%;
-      margin-top: 0;
-      padding: 10px 15px 10px 15px;
+      margin-top: -26px;
+      padding: 10px 0;
+      margin-bottom: 0;
       img, [class^="icon-"], [class*=" icon-"] {
         float: left;
       }

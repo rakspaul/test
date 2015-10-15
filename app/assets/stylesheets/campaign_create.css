@@ -743,19 +743,51 @@
 #campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border {
   border-radius: 2px;
   background: #fff;
-  border-color: #dee6eb;
-  width: 150px;
-  height: 80px;
-  padding: 0px;
+  border: 1px solid #BFC9D7;
+  width: auto;
+  padding: 10px 15px;
+  float: left;
 }
 #campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label {
   float: left;
-  margin: 25px 0 0 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label [class^="icon-"],
 #campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label [class*=" icon-"] {
   float: left;
-  margin: 3px 10px;
+  margin: 0 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label input[type="checkbox"] {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  margin: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label .btnLabel {
+  float: left;
+  margin-top: 2px;
+  line-height: 100%;
+  padding: 0;
+  font-weight: normal;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border:hover {
+  background: #E1EDF9;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active {
+  border: 1px solid #0978c9;
+  background: #0978c9;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active [class*=" icon-"],
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active .btnLabel {
+  color: #fff;
+  font-weight: normal;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active input[type="checkbox"] {
+  background: #fff;
+  color: #0978C9;
+}
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border.active:hover {
+  background: #0978c9;
 }
 #campaignCreate .firstWrapper .maxWidthAdj {
   width: 100%;
