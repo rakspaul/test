@@ -69,7 +69,7 @@ var angObj = '';
             })
             .when('/campaigns/:campaignId', {
                 templateUrl: assets.html_campaign_details,
-                title: 'Campaign Details',
+                title: 'Reports Overview',
                 controller: 'CampaignDetailsController'
             })
             .when('/optimization', {
@@ -114,7 +114,7 @@ var angObj = '';
             })
             .when('/customreport', {
                 templateUrl: assets.html_custom_report,
-                title: 'Custom Report',
+                title: 'Report Builder',
                 controller: 'CustomReportController',
                 bodyclass : 'custom_report_page'
             })
@@ -126,7 +126,7 @@ var angObj = '';
             })
             .when('/reports/list', {
                 templateUrl: assets.html_collective_report_listing,
-                title: 'Collective Report Listing',
+                title: 'Collective Insights',
                 controller: 'CollectiveReportListingController',
                 css: assets.css_custom_reports
             })
