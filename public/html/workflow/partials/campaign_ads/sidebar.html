@@ -48,14 +48,14 @@
                     </div>
                     <div class="statusLabel" ng-if="adData.startTime">
                         <div class="col-md-12">
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            <div class="statusIcon icon-calendar"></div>
                             <span>{{adData.startTime}} - {{adData.endTime}}</span>
                             <span>(Flight)</span>
                         </div>
                     </div>
                     <div class="statusLabel" ng-if="(adData.unitCost  &&  adData.unitType.name)">
                         <div class="col-md-12">
-                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                            <span>$</span>
                             <span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
                             <span>(Unit Cost)</span>
                         </div>
@@ -64,7 +64,7 @@
                         <div class="col-md-12">
                             <span>{{adData.budgetType === 'Impressions' ? '#' : '$'}}</span>
                             <span>{{adData.budgetAmount | number }}</span>
-                            <span>{{adData.budgetType}} </span>
+                            <span>({{adData.budgetType}})</span>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="statusLabel disabled" ng-if="adData.platform">
                         <div class="col-md-12">
-                            <img ng-src="/assets/images/cdesk/{{getPlatformIconName(adData.platform)}}.png" width="12" class="statusIcon"/>
+                            <img ng-src="/assets/images/cdesk/{{getPlatformIconNameSideBar(adData.platform)}}.png" width="12" class="statusIcon" style="margin-top: 1px;"/>
                             <span>{{adData.platform}}</span>
                             <span>(Platform)</span>
                         </div>

@@ -1154,8 +1154,9 @@
         img {
           margin: 30px auto 10px;
           display: table;
+          max-height: 30px;
         }
-        input {
+        input[type="button"] {
           float: left;
           position: relative;
           left: 50%;
@@ -1173,7 +1174,7 @@
       .platformHolder:last-child {
         border: 1px dashed #939EAE;
         span {
-          margin-top: 85px;
+          margin: 85px 0 10px 0;
         }
       }
       .moreComingSoon {
@@ -1222,7 +1223,7 @@
             top: 70px;
             left: 0px;
             margin: 0px 40px;
-            width: 770px;
+            width: 815px;
           }
           .carousel-control {
             background-image: none;
@@ -1555,6 +1556,21 @@
         border-bottom-right-radius: 5px;
       }
     }
+  }
+  .platformSlide {
+    .platform-custom {
+      background: #fff;
+      left: 100%;
+      width: 920px;
+      height: 1035px;
+      top: 122px;
+      display:none;
+      -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+      -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+      box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+      position: absolute;
+      z-index: 10;
+    } 
   }
   .newCreativeSlide {
     .hideRightPanel {

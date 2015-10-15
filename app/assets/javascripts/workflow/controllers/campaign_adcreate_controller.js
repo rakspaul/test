@@ -38,6 +38,7 @@ var angObj = angObj || {};
         $scope.unchecking=false;
         $scope.enableSaveBtn=true;
         $scope.isAddCreativePopup = false;
+        $scope.isBuyPlatformPopup = false;
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
@@ -123,8 +124,13 @@ var angObj = angObj || {};
             var goalMapper = {'performance': 'performance', 'brand': 'brand'}
             return goalMapper[goal.toLowerCase()];
         }
-
+        
         $scope.getPlatformIconName = function (platform) {
+            var platformMapper = {'collective bidder': 'plat-collective', 'appnexus': 'plat-nexus'}
+            return platformMapper[platform.toLowerCase()];
+        }
+        
+        $scope.getPlatformIconNameSideBar = function (platform) {
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus'}
             return platformMapper[platform.toLowerCase()];
         }
@@ -490,7 +496,7 @@ var angObj = angObj || {};
             $scope.$broadcast('closeAddCreativePage');
         });
 
-
+        // Create Tag Slide Page
         $scope.showCreateNewWindow=function(){
             $("#formCreativeCreate")[0].reset();
             $scope.isAddCreativePopup = true;
@@ -498,6 +504,12 @@ var angObj = angObj || {};
             $scope.disableCancelSave=false;
             $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-325px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
+        }
+        
+        // Buying Platform Slide Page
+        $scope.showBuyingPlatformWindow=function(){
+            $scope.isBuyPlatformPopup = true;
+            $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-325px"}, 'slow');
         }
 
         function getfreqCapParams(formData) {
