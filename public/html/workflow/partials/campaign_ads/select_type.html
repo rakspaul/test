@@ -40,7 +40,6 @@
         <label class="btn btn-primary {{goal.active ? 'active' : '' }}">
             <input type="radio" name="goal" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal" ng-click="goalSelection(goal.name)" ng-checked="goal.active">
                 <div class="hideRadioBtn">
-                    <!--<div class="icon-{{getGoalIconName(adData.goal)}}" class="statusIcon" style="width: 12px; text-align: center;"></div>-->
                     <div class="icon-{{getGoalIconName(goal.name)}}"></div>
                     <span>{{goal.name}}</span>
                 </div>
