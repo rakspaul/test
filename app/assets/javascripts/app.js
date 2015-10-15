@@ -147,8 +147,9 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel) {
+                    "check": function ($location, loginModel,workflowService) {
                         var isWorkflowUser = loginModel.getIsWorkflowUser();
+                        workflowService.setMode('create');
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -161,8 +162,9 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel) {
+                    "check": function ($location, loginModel,workflowService) {
                         var isWorkflowUser = loginModel.getIsWorkflowUser();
+                        workflowService.setMode('create');
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }

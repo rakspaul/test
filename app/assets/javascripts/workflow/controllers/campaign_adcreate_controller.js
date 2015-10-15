@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         // This sets dynamic width to line to take 100% height
@@ -112,6 +112,8 @@ var angObj = angObj || {};
         }
         function processEditMode(result){
             var responseData = result.data.data;
+            console.log(responseData);
+
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -164,9 +166,6 @@ var angObj = angObj || {};
                     return item.name == responseData.rateType });
 
                 $scope.adData.unitType = $scope.workflowData.unitTypes[idx]; // cpm ..... dropdown
-                console.log($scope.adData.unitType);
-                //$scope.unitType = $scope.adData.unitType;
-                //$('#unitcostType').val($scope.workflowData.unitTypes[idx]['id']);
             }
 
             $('.cap_no input').attr("checked", "checked");
@@ -192,6 +191,7 @@ var angObj = angObj || {};
                 $scope.changePlatform(responseData.platform.id);
                 $scope.adData.platform = responseData.platform.name;
                 $scope.adData.platformId = responseData.platform.id;
+                $scope.isPlatformSelected = true;
                 if(responseData.state != "UNPUSHED")
                     $scope.isAdsPushed = true;
             }
@@ -206,10 +206,13 @@ var angObj = angObj || {};
 
             $scope.$broadcast('updateCreativeTags');
 
-            console.log(responseData);
+            //$q.defer()
 
             //geotargets
-            $scope.$broadcast("updateGeoTags");
+
+            //$timeout(function(){
+            //    $scope.$broadcast("updateGeoTags");
+            //},2000)
 
         }
 
@@ -460,7 +463,6 @@ var angObj = angObj || {};
                 freq_cap.push(freqDefaultCapObj);
             }
             var isSetCap = formData.setCap === 'true' ? true : false;
-            console.log("issetcap = "+isSetCap);
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
                 selectedfreqObj['capType'] = "IMPRESSIONS";
@@ -481,7 +483,6 @@ var angObj = angObj || {};
                if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
                    return false;
                }
-                console.log("formdata = ",formData);
                var creativesData = $scope.creativeData['creativeInfo'];
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
@@ -827,7 +828,6 @@ var angObj = angObj || {};
     angObj.controller('buyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
-
         })
 
     });
@@ -849,38 +849,38 @@ var angObj = angObj || {};
 
         $scope.$on('updateGeoTags',function(){
             if($scope.mode === 'edit'){
-                console.log(constants);
                 //$scope.geoTargetingData['selected'] = {};
-                var responseData = workflowService.getAdsDetails();
+                $scope.selectGeoTarget('Geography');
 
-                if(responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0){
-                    $scope.selectGeoTarget('Geography');
-
-                    //region targets
-                    if(responseData.targets && responseData.targets.geoTargets && responseData.targets.geoTargets.REGION){
-                        regionsListArray = responseData.targets.geoTargets.REGION.geoTargetList;
-                        _.each(regionsListArray,function(item){
-                            $scope.sync(true,item,'regions')
-                        })
-                    }
-                    //city targets
-                    if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.CITY){
-                        citiesListArray = responseData.targets.geoTargets.CITY.geoTargetList;
-                        _.each(citiesListArray,function(item){
-                            $scope.sync(true,item,'cities')
-                        })
-                    }
-
-
-                    //DMAS targets
-                    if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.DMA){
-                        dmasListArray = responseData.targets.geoTargets.REGION.geoTargetList;
-                        _.each(dmasListArray,function(item){
-                            $scope.sync(true,item,'dmas')
-                        })
-                    }
-                }
-
+                $scope.listCities()
+                //var responseData = angular.copy(workflowService.getAdsDetails());
+                //
+                //if(responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0){
+                //
+                //    //region targets
+                //    if(responseData.targets && responseData.targets.geoTargets && responseData.targets.geoTargets.REGION){
+                //        regionsListArray = responseData.targets.geoTargets.REGION.geoTargetList;
+                //        _.each(regionsListArray,function(item){
+                //            $scope.sync(true,item,'regions')
+                //        })
+                //    }
+                //    //city targets
+                //    if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.CITY){
+                //        citiesListArray = responseData.targets.geoTargets.CITY.geoTargetList;
+                //        _.each(citiesListArray,function(item){
+                //            $scope.sync(true,item,'cities')
+                //        })
+                //    }
+                //
+                //
+                //    //DMAS targets
+                //    if(responseData.targets &&  responseData.targets.geoTargets && responseData.targets.geoTargets.DMA){
+                //        dmasListArray = responseData.targets.geoTargets.REGION.geoTargetList;
+                //        _.each(dmasListArray,function(item){
+                //            $scope.sync(true,item,'dmas')
+                //        })
+                //    }
+                //}
 
                 //$scope.geoTargetingData['selected']['zip'] = [];
 
@@ -1370,7 +1370,8 @@ var angObj = angObj || {};
 
         $scope.selectGeoTarget = function(geoTargetName) {
             if(geoTargetName.toLowerCase() === 'geography' && !$scope.adData.geoTargetName) {
-                $scope.adData.geoTargetName = geoTargetName;
+                $scope.adData['geoTargetName'] = geoTargetName;
+             //  Object.defineProperty($scope.adData,'geoTargetName',{'geoTargetName':geoTargetName});
                 $scope.addedTargeting = false;
                 $scope.listRegions();
             }
