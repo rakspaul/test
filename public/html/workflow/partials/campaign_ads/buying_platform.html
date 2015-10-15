@@ -1,34 +1,51 @@
 <div class="col-md-6" style="padding: 0 30px;">
     <h2 class="col-md-12 zeroPadding marginBottom">Buying Platform</h2>
     <span>Self Service</span>
-    <div class="nav_filters_heading">Select a Buying Platform</div>
+    <div class="greyTxt" style="padding: 1px 0 0 0 !important;">Select a Buying Platform</div>
 </div>
 
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
             <img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png"/>
-            <span>{{platform.name}}</span>
-            
-            <input type="radio" name="platform" ng-checked="(platform.name).toUpperCase() == adData.platform" value="{{platform.name}}" class="btn_rad" ng-model="adData.platform" ng-click="adData.platformId = platform.id" ng-disabled="(mode === 'edit' && isAdsPushed)?true:false">
+            <p>{{platform.name}}</p>
+            <span>{{getPlatformDesc(platform.name)}}</span>
+            <input type="button" name="platform" ng-checked="(platform.name).toUpperCase() == adData.platform" value="Select" class="btn btn-default" ng-model="adData.platform" ng-click="adData.platformId = platform.id" ng-disabled="(mode === 'edit' && isAdsPushed)?true:false">
+        </div>
+        
+        <div class="col-md-6 platformHolder">
+            <img ng-src="/assets/images/cdesk/logo_C_bidder.png"/>
+            <p>Facebook</p>
+            <span>All-in-one customer<br />support application</span>
+            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
+        </div>
+        
+        <div class="col-md-6 platformHolder">
+            <img ng-src="/assets/images/cdesk/logo_C_bidder.png"/>
+            <p>DBM</p>
+            <span>All-in-one customer<br />support application</span>
+            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
+        </div>
+        
+        <div class="col-md-6 platformHolder">
+            <img ng-src="/assets/images/cdesk/logo_C_bidder.png"/>
+            <p>DFP</p>
+            <span>A revenue management<br />solution for publishers</span>
+            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
+        </div>
+        
+        <div class="col-md-6 platformHolder">
+            <span>More Self Service options coming soon</span>
+            <a href="">Can't find what your looking for?</a>
         </div>
     </div>
     <input type="hidden" name="platformId" value="{{adData.platformId }}">
-
-    <div class="col-md-12" style="padding: 0 30px;">
-        <div class="moreComingSoon">
-            <span>More Self Service options coming soon</span>
-        </div>
-    </div>
-    
-    
-    <div class="col-md-12" style="padding: 0 30px;">
-        <span>Full Service</span>
-        <div class="nav_filters_heading">Please contact your Collective account representative if you would like to place ads through any of the following platforms.</div>
-    </div>
     
     <div class="offeringsWrap">
-        <h2>Collective Desk</h2>
+        <div class="col-md-12" style="padding: 30px;">
+            <span>Managed Service</span> <br />
+            <span class="greyTxt">More Platforms Available</span>
+        </div>
         
         <div class="container">
             <br>

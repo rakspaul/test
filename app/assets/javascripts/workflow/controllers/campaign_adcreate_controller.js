@@ -100,6 +100,14 @@ var angObj = angObj || {};
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus'}
             return platformMapper[platform.toLowerCase()];
         }
+        
+        $scope.getPlatformDesc = function (platform) {
+            var platformMapper = {
+                'collective bidder': 'The programmactic solution for all screens and formats.',
+                'appnexus': 'The programmactic solution for all screens and formats'
+                }
+            return platformMapper[platform.toLowerCase()];
+        }
 
         var saveDataInLocalStorage = function(data) {
             localStorage.removeItem('campaignData');
