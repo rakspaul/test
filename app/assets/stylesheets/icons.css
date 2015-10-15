@@ -3,11 +3,11 @@
 /* visto-con */
 @font-face {
   font-family: "visto-con";
-  src:url("fonts/1441822003.eot");
-  src:url("fonts/1441822003.eot?#iefix") format("embedded-opentype"),
-    url("fonts/1441822003.woff") format("woff"),
-    url("fonts/1441822003.ttf") format("truetype"),
-    url("fonts/1441822003.svg#1441822003") format("svg");
+  src:url("https://fontastic.s3.amazonaws.com/orZcghhFzdTquzKceSzhAR/fonts/1444836801.eot");
+  src:url("https://fontastic.s3.amazonaws.com/orZcghhFzdTquzKceSzhAR/fonts/1444836801.eot?#iefix") format("embedded-opentype"),
+    url("https://fontastic.s3.amazonaws.com/orZcghhFzdTquzKceSzhAR/fonts/1444836801.woff") format("woff"),
+    url("https://fontastic.s3.amazonaws.com/orZcghhFzdTquzKceSzhAR/fonts/1444836801.ttf") format("truetype"),
+    url("https://fontastic.s3.amazonaws.com/orZcghhFzdTquzKceSzhAR/fonts/1444836801.svg#1444836801") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -68,7 +68,7 @@
 .icon-download:before {
   content: "k";
 }
-.icon-edit:before {
+.icon-inline-edit:before {
   content: "l";
 }
 .icon-error:before {
@@ -134,9 +134,6 @@
 .icon-social:before {
   content: "I";
 }
-.icon-success:before {
-  content: "J";
-}
 .icon-tablet:before {
   content: "K";
 }
@@ -160,9 +157,6 @@
 }
 .icon-video:before {
   content: "T";
-}
-.icon-warning:before {
-  content: "U";
 }
 .icon-unlock:before {
   content: "Q";
@@ -199,4 +193,19 @@
 }
 .icon-arrow-down:before {
   content: "1";
+}
+.icon-more-options:before {
+  content: "2";
+}
+.icon-warning:before {
+  content: "U";
+}
+.icon-success:before {
+  content: "J";
+}
+.icon-minus:before {
+  content: "3";
+}
+.icon-plus:before {
+  content: "4";
 }

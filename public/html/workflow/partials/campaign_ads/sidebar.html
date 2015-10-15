@@ -1,6 +1,6 @@
 <!-- Left Menu Column Starts -->
     <div class="campaign_name_holder">
-        <h1 class="campaign_name">{{mode |toTitleCase}} Ad</h1>
+        <h1 class="campaign_name">Ad Setup</h1>
         <ul class="nav nav-tabs tabs-left stepCompLabel" id="myTabs">
             <li id="adType-tab" class="active">
                 <a href="#adType" role="tab" class="leftNavLink" data-toggle="tab">1 Ad Type</a>
@@ -12,14 +12,16 @@
                     </div>
                     <div class="statusLabel" ng-if="adData.adFormat">
                         <div class="col-md-12">
-                            <img ng-src="/assets/images/workflow/{{getAdFormatIconName(adData.adFormat)}}.svg" alt="" width="12" class="statusIcon"/>
+                            <!--<img ng-src="/assets/images/workflow/{{getAdFormatIconName(adData.adFormat)}}.svg" alt="" width="12" class="statusIcon"/>-->
+                            <div class="statusIcon icon-{{getAdFormatIconName(adData.adFormat)}}"></div>
                             <span>{{adData.adFormat}}</span>
                             <span>(Format)</span>
                         </div>
                     </div>
                     <div class="statusLabel" ng-if="adData.goal">
                         <div class="col-md-12">
-                            <img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg" alt="" width="12" class="statusIcon"/>
+                            <!--<img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg" alt="" width="12" class="statusIcon"/>-->
+                            <div class="statusIcon icon-{{getGoalIconName(adData.goal)}}"></div>
                             <span>{{adData.goal}}</span>
                             <span>(Goal)</span>
                         </div>
@@ -27,7 +29,7 @@
                     <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
                         <div class="col-md-12">
                             <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
-                                <img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="12" class="statusIcon"/>
+                                <div class="statusIcon icon-{{screenType.name | lowercase}}"></div>
                                 <span>{{screenType.name}}</span><span>(Screen)</span>
                             </div>
                         </div>

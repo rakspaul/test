@@ -15,7 +15,7 @@
                             </div>
                             <div class="statusLabel" ng-if="selectedCampaign.goal.name">
                                 <div class="col-md-12">
-                                    <img class="statusIcon" ng-src="/assets/images/workflow/{{getGoalIconName(selectedCampaign.goal.name)}}.svg" alt="" width="12"/>
+                                    <div class="statusIcon icon-{{getGoalIconName(selectedCampaign.goal.name)}}"></div>
                                     <span>{{selectedCampaign.goal.name}}</span>
                                     <span>(Goal)</span>
                                 </div>
@@ -23,7 +23,7 @@
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
-                                    <img class="statusIcon" ng-src="/assets/images/workflow/calendar.svg" alt="" width="12"/>
+                                    <div class="statusIcon icon-calendar"></div>
                                     <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
                                     <span>(flight)</span>
                                 </div>
@@ -78,7 +78,7 @@
                             <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
                             <span ng-if="dataLength">
                             <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
-                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="256"   required/>
+                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="250"   required/>
                             </div>
                             </span>
                                 <span ng-if="!dataLength">
@@ -156,12 +156,12 @@
                             <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
+                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
                                       <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>
-                                        <span class="hideRadioBtn">
+                                        <div class="hideRadioBtn">
+                                            <div class="icon-{{goal.name | lowercase}}"></div>
                                             <span>{{goal.name}}</span>
-                                            <span class="icon-{{goal.name | lowercase}}"></span>
-                                        </span>
+                                        </div>
                                     </label>
                                 </div>
                                 <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">Please select a goal.</label>

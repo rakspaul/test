@@ -50,7 +50,7 @@ var angObj = angObj || {};
 
 
         $scope.getGoalIconName = function (goal) {
-            var goalMapper = {'performance': 'signal', 'brand': 'record'}
+            var goalMapper = {'performance': 'performance', 'brand': 'brand'}
             return goalMapper[goal.toLowerCase()];
         }
 
