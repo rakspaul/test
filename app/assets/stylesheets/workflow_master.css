@@ -322,10 +322,10 @@ select {
   border: 1px solid #dde6eb;
 }
 .btn-default:hover {
-  background: #eef2f5;
+  background: #e1edf9;
 }
 .btn-default:active {
-  color: #57606d;
+  background: #dce6f1;
 }
 .radioBtnToggle .miniToggle label {
   position: relative;
@@ -532,7 +532,7 @@ select {
   float: left;
   width: 100%;
   clear: left;
-  margin: 4px 0 0 0;
+  margin: 8px 0 0 0;
 }
 .left_column_nav .stepCompLabel .statusLabel .errorTxt {
   color: #e83b05;
@@ -556,7 +556,7 @@ select {
   float: left;
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-12 .txtLabel {
-  margin: 2px 0;
+  margin: 8px 0 0 0;
   float: left;
   clear: left;
 }

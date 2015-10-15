@@ -6,29 +6,32 @@
 
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
+        
+        <!--Abi below we are using radio buttons to select platform. But the designs calls for a regular btn can you you update-->
+        
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
-            <img ng-src="/assets/images/cdesk/{{getPlatformIconName(platform.name)}}.png"/>
+            <img ng-src="/assets/images/workflow/platform_icons/{{getPlatformIconName(platform.name)}}.png"/>
             <p>{{platform.name}}</p>
             <span>{{getPlatformDesc(platform.name)}}</span>
-            <input type="button" name="platform" ng-checked="(platform.name).toUpperCase() == adData.platform" value="Select" class="btn btn-default" ng-model="adData.platform" ng-click="adData.platformId = platform.id" ng-disabled="(mode === 'edit' && isAdsPushed)?true:false">
+            <input type="radio" name="platform" ng-checked="(platform.name).toUpperCase() == adData.platform" value="{{platform.name}}" class="btn btn-default" ng-model="adData.platform" ng-click="adData.platformId = platform.id" ng-disabled="(mode === 'edit' && isAdsPushed)?true:false">
         </div>
         
         <div class="col-md-6 platformHolder">
-            <img ng-src="/assets/images/cdesk/logo_C_bidder.png"/>
+            <img ng-src="/assets/images/workflow/platform_icons/plat-facebook.png"/>
             <p>Facebook</p>
             <span>All-in-one customer<br />support application</span>
-            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
+            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable ng-click="showBuyingPlatformWindow()">
         </div>
         
         <div class="col-md-6 platformHolder">
-            <img ng-src="/assets/images/cdesk/logo_C_bidder.png"/>
+            <img ng-src="/assets/images/workflow/platform_icons/plat-dbclick.png"/>
             <p>DBM</p>
             <span>All-in-one customer<br />support application</span>
             <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
         </div>
         
         <div class="col-md-6 platformHolder">
-            <img ng-src="/assets/images/cdesk/logo_C_bidder.png"/>
+            <img ng-src="/assets/images/workflow/platform_icons/plat-dbclick.png"/>
             <p>DFP</p>
             <span>A revenue management<br />solution for publishers</span>
             <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
@@ -171,7 +174,7 @@
                     
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/doubleclick-google-logo-wide-white.svg" alt="DoubleClick" width="50">
+                            <img src="/assets/images/workflow/platform_icons/plat-dbclick.png" alt="DoubleClick" width="50">
                         </div>
                         <div class="col-md-9">
                             <span class="title">DoubleClick</span>
