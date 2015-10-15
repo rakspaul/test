@@ -45,6 +45,7 @@ a {
 .labelQuestTxt {
   color: #21252b;
   font-size: 16px;
+  font-weight: normal;
   text-align: left !important;
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
@@ -54,6 +55,7 @@ a {
   padding: 10px 0 5px 0 !important;
   text-align: left;
   font-size: 12px;
+  font-weight: normal;
   margin: 0;
 }
 .helpLink {
@@ -110,9 +112,10 @@ select {
   height: 4px;
   width: 2px;
   line-height: 16px;
-  margin-right: 5px;
-  float: right;
-  margin-top: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 11px;
+  right: 20px;
 }
 .dropdown-workflow .btn:focus,
 .dropdown-workflow .btn:active:focus,
@@ -126,6 +129,10 @@ select {
   font-family: Avenir;
   border-radius: 2px;
   border: 1px solid #BFC9D7 !important;
+  position: relative;
+}
+.dropdown-workflow .btn-default .text {
+  float: left;
 }
 .dropdown-workflow .btn-default:hover {
   background-color: #E1EDF9 !important;
@@ -367,17 +374,9 @@ select {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
-.bigChkBox.active {
-  background: #eff2f5 !important;
-  border: 1px solid #2c9aec !important;
-}
-.bigChkBox.active label {
-  color: #2c9aec;
-  font-weight: normal;
-}
 .goalBtnGroup .btn-primary {
   border-radius: 0px;
-  width: 135px;
+  width: auto;
   height: 36px;
   float: left;
   margin: 0 !important;
@@ -387,17 +386,21 @@ select {
   font-family: Avenir;
   border: 1px solid #BFC9D7;
   border-left: 0;
+  position: relative;
+  padding: 6px 15px;
 }
 .goalBtnGroup .btn-primary span {
   float: left;
   color: #21252b;
   font-size: 14px;
-  margin: -1px 0 0 6px;
+  margin: -1px 0 0 10px;
+}
+.goalBtnGroup .btn-primary input {
+  opacity: 0;
 }
 .goalBtnGroup .btn-primary:hover {
   background-color: #E1EDF9;
   color: #363D49;
-  border: 1px solid #BFC9D7;
 }
 .goalBtnGroup .btn-primary.active {
   background-color: #0978C9;
@@ -418,14 +421,13 @@ select {
   margin-top: 10px;
 }
 .goalBtnGroup label .hideRadioBtn {
-  background-color: #fff;
-  position: absolute;
   top: 0;
   left: 0;
-  width: 100% ;
+  width: auto ;
   height: 100%;
-  margin-top: 0;
-  padding: 10px 15px 10px 15px;
+  margin-top: -26px;
+  padding: 10px 0;
+  margin-bottom: 0;
 }
 .goalBtnGroup label .hideRadioBtn img,
 .goalBtnGroup label .hideRadioBtn [class^="icon-"],
