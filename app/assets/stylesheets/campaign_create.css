@@ -1118,27 +1118,52 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder {
   border-radius: 1px;
-  border: 1px solid #DDD;
-  padding: 16px 30px 0 30px;
-  height: 80px;
-  margin: 18px 1% 30px 0 ;
-  width: 49%;
+  border: 1px solid #bfc9d7;
+  padding: 0 10px;
+  min-height: 230px;
+  width: 24.25%;
+  margin-right: .75%;
+  margin-top: 1%;
+  float: left;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder span {
   float: left;
-  margin: 14px 0 0 15px;
+  margin: 14px 0 0 0;
+  width: 100%;
+  text-align: center;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder p {
+  color: #21252b;
+  font-family: "Avenir-black";
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder img {
-  float: left;
-  margin-top: 8px;
+  margin: 30px auto 10px;
+  display: table;
+  max-height: 30px;
 }
-#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder input {
-  float: right;
-  margin: 17px 0 0 0;
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder input[type="button"] {
+  float: left;
+  position: relative;
+  left: 50%;
+  margin-left: -32px;
+  margin-top: 20px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder a {
+  color: #2c9aec;
+  font-size: 12px;
+  float: left;
+  width: 100%;
+  text-align: center;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child {
-  float: right;
-  margin-right: 0;
+  border: 1px dashed #939EAE;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child span {
+  margin: 85px 0 10px 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .moreComingSoon {
   float: left;
@@ -1185,10 +1210,10 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-inner {
   position: absolute;
-  top: 60px;
+  top: 70px;
   left: 0px;
   margin: 0px 40px;
-  width: 770px;
+  width: 815px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
   background-image: none;
@@ -1504,6 +1529,19 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+#campaignCreate .platformSlide .platform-custom {
+  background: #fff;
+  left: 100%;
+  width: 920px;
+  height: 1035px;
+  top: 122px;
+  display: none;
+  -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  position: absolute;
+  z-index: 10;
+}
 #campaignCreate .newCreativeSlide .hideRightPanel {
   display: none !important;
 }
@@ -1618,7 +1656,7 @@
 .adCreateMaster .tab-content .tab-pane h2 {
   color: #000;
   font-size: 20px;
-  margin: 0 0 10px 0 !important;
+  margin: 0 0 20px 0 !important;
   font-family: "Avenir";
 }
 .adCreateMaster .tab-content .tab-pane .nextWrapper {
