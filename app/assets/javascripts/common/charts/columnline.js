@@ -35,20 +35,14 @@
                 kpiColumn = [];
 
             for (var i = 0; i < chartData.length; i++) {
-                var kpi_value=0;
-                if(kpIType.toLowerCase() === 'ctr')
-                    kpi_value=chartData[i].ctr;
-                else if (kpIType.toLowerCase() === 'action_rate') 
-                    kpi_value=chartData[i].action_rate;
-                else if (kpIType.toLowerCase() === 'cpm')
-                    kpi_value=chartData[i].cpm;
-                else if (kpIType.toLowerCase() === 'cpa')
-                    kpi_value=chartData[i].cpa;
-                else if (kpIType.toLowerCase() === 'cpc')
-                    kpi_value=chartData[i].cpc;
-                else if (kpIType.toLowerCase() === 'vtc')
-                    kpi_value=chartData[i].video_metrics.vtc_rate;
-                
+            var kpi_value=0;
+            kpIType = kpIType.toLowerCase();
+                if(kpIType === 'vtc') {
+                         kpi_value=chartData[i].video_metrics.vtc_rate;
+                    } else {
+                            kpi_value=chartData[i][kpIType]
+                }
+
                 if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate'){
                     kpi_value = parseFloat((kpi_value*100).toFixed(4));
                 }  
