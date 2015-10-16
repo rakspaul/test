@@ -408,7 +408,7 @@ var angObj = angObj || {};
         $scope.setStrategyInScope = function() {
             var selectedStrategyID =  $scope.selectedStrategy.id =  Number(strategySelectModel.getSelectedStrategy().id);
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = selectedStrategyID === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.strategyHeading = selectedStrategyID === 0 ? 'Campaign total' : 'Ad Group total';
         };
 
         $scope.callBackCampaignsSuccess = function () {

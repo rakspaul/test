@@ -719,7 +719,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       if (url === undefined || url == "") {
         return url;
       }
-      if (url === "No Campaign Found" || url == "No Strategy Found") {
+      if (url === "No Campaign Found" || url == "No Ad Group Found") {
         return url;
       }
       if (l === undefined) {
