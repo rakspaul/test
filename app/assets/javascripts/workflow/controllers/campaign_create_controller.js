@@ -29,7 +29,7 @@ var angObj = angObj || {};
         $scope.repushCampaignEdit = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.mode = workflowService.getMode();
-        $scope.dataLength = false;
+
 
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
@@ -40,7 +40,6 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
                     $scope.selectedCampaign.endTime = moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
-                    $scope.dataLength = true;
                     $scope.initiateDatePicker();
                     createCampaign.fetchGoals();
                     $scope.mode ==='edit' &&  createCampaign.fetchBrands($scope.selectedCampaign.advertiserId);
