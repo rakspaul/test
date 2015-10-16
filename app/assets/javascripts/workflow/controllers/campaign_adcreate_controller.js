@@ -856,9 +856,9 @@ var angObj = angObj || {};
                 console.log("respnse dta1 =",storedResponse);
 
                 //populate all lists
-                $scope.listRegions();
-                $scope.listCities();
-                $scope.listDmas();
+                //$scope.listRegions();
+                //$scope.listCities();
+                //$scope.listDmas();
 
 
                 //if(responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0){
@@ -943,9 +943,6 @@ var angObj = angObj || {};
                 workflowService.getRegionsList(parmas.platformId, qryStr).then( function (result) {
                     var responseData = result.data.data;
                     callback && callback(responseData);
-
-
-
                 }, function(error) {
                     console.log("error");
                 });
@@ -1021,7 +1018,11 @@ var angObj = angObj || {};
         $scope.sync = function(bool, item, type){
             if(bool){
                 item[type+'Included'] = $scope[type+'Included'];
-                $scope.geoTargetingData.selected[type].push(item);
+                var index = _.findIndex($scope.geoTargetingData.selected[type], function(obj) {
+                    return item.id ==  obj.id});
+                if(index == -1)
+                    $scope.geoTargetingData.selected[type].push(item);
+
             } else {
                 for(var i=0 ; i < $scope.geoTargetingData.selected[type].length; i++) {
                     if($scope.geoTargetingData.selected[type][i].id == item.id){
@@ -1243,6 +1244,8 @@ var angObj = angObj || {};
                  $scope.geoTargetingData['dmas'] = _.uniq(flatArr, function(item, key, id) {
                      return item.id;
                  });
+
+
              });
         }
 
@@ -1309,6 +1312,19 @@ var angObj = angObj || {};
                 $scope.geoTargetingData['cities'] = _.uniq(flatArr, function(item, key, id) {
                     return item.id;
                 });
+
+                //edit mode
+                if($scope.mode === 'edit'){
+                    if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.REGION) {
+                        var citiesEditable = angular.copy(storedResponse.targets.geoTargets.CITY.geoTargetList);
+                        _.each(citiesEditable, function (item) {
+                            var index = _.findIndex(flatArr, function(region) {
+                                return item.id ==  region.id});
+                            if(index != -1)
+                                $scope.sync(true, flatArr[index], 'cities')
+                        })
+                    }
+                }
             });
         }
 
@@ -1378,6 +1394,7 @@ var angObj = angObj || {};
                 if($scope.mode === 'edit'){
                     if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.REGION) {
                         var regionsEditable = angular.copy(storedResponse.targets.geoTargets.REGION.geoTargetList);
+                        console.log(regionsEditable);
                         _.each(regionsEditable, function (item) {
                             var index = _.findIndex(flatArr, function(region) {
                                 return item.id ==  region.id});
