@@ -35,11 +35,28 @@
                 kpiColumn = [];
 
             for (var i = 0; i < chartData.length; i++) {
-                var kpi_value = chartData[i].kpi_value ;
-                if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate' ||  kpIType.toLowerCase() === 'vtc'){
+                var kpi_value=0;
+                if(kpIType.toLowerCase() === 'ctr')
+                    kpi_value=chartData[i].ctr;
+                else if (kpIType.toLowerCase() === 'action_rate') 
+                    kpi_value=chartData[i].action_rate;
+                else if (kpIType.toLowerCase() === 'cpm')
+                    kpi_value=chartData[i].cpm;
+                else if (kpIType.toLowerCase() === 'cpa')
+                    kpi_value=chartData[i].cpa;
+                else if (kpIType.toLowerCase() === 'cpc')
+                    kpi_value=chartData[i].cpc;
+                else if (kpIType.toLowerCase() === 'vtc')
+                    kpi_value=chartData[i].video_metrics.vtc_rate;
+                
+                if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate'){
                     kpi_value = parseFloat((kpi_value*100).toFixed(4));
+                }  
+                if(kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc' || kpIType.toLowerCase() === 'vtc'){
+                    kpi_value = parseFloat((kpi_value*1).toFixed(2));
                 }
-                xData.push({custom: i, y: chartData[i].domain_data });
+                
+                xData.push({custom: i, y: chartData[i].dimension });
                 impLine.push(chartData[i].impressions);
                 kpiColumn.push(kpi_value);
                // kpiColumn.push(chartData[i].kpi_value);
