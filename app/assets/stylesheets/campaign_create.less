@@ -50,7 +50,7 @@
         }
       }
       .settingWrap{
-        border-left: 1px solid #ccd2da;
+        border-left: 1px solid #BFC9D7;
         padding: 30px 30px 30px 25px;
         width: 77%;
         float: left;
@@ -111,14 +111,6 @@
         }
         .form-group {
           margin: 0;
-          input[type="text"] {
-            border: 1px solid #ccd2da !important;
-            border-radius: 0px !important;
-          }
-          input[type="text"]:focus {
-            border: 1px solid #0978c9 !important;
-            box-shadow: none;
-          }
         }
         .startTime {
           color: #838383;
@@ -133,7 +125,7 @@
       }
       .dollar_value {
         .currency {
-            top: 40px;
+            top: 42px;
             left: 10px;
         }
       }
@@ -221,7 +213,7 @@
           clear: left;
         }
         .campSettingOverView {
-          border-bottom: 1px solid #ccd2da;
+          border-bottom: 1px solid #BFC9D7;
           .campBodyWrap {
             padding: 0;
             margin: 0 auto;
@@ -242,7 +234,7 @@
             }
             span {
               font-size: 14px;
-              color: #57606c;
+              color: #57606d;
             }
             .btn-group {
               margin-left: 5px;
@@ -323,11 +315,11 @@
         .searchAds {
           width: 1200px;
           margin: 0 auto;
-          border-bottom: 1px solid #ccd2da;
+          border-bottom: 1px solid #BFC9D7;
           display: table;
           .col-md-10 {
             float: left;
-            border-right: 1px solid #ccd2da;
+            border-right: 1px solid #BFC9D7;
             input {
               background-color: transparent;
               border-width: 0px !important;
@@ -755,6 +747,9 @@
               position: relative;
               margin: 0;
             }
+            input[type="checkbox"]:checked {
+              background: #fff;
+            }
             .btnLabel {
               float: left;
               margin-top: 2px;
@@ -836,7 +831,7 @@
       .adWrap {
         background: #eef5fc;
         margin: 0px;
-        border-top: 1px solid #ccd2da;
+        border-top: 1px solid #BFC9D7;
         .adContainer {
           padding: 30px;
           width: 1200px;
@@ -1018,7 +1013,6 @@
           min-width: 500px ;
         }
         .adNameBox {
-          margin-top: 10px;
           .btn-toggle {
             margin: 6px 0 20px;
           }
@@ -1561,15 +1555,65 @@
     .platform-custom {
       background: #fff;
       left: 100%;
-      width: 920px;
-      height: 1035px;
-      top: 122px;
+      width: 930px;
+      height: auto;
+      min-height: 600px;
+      top: 187px;
       display:none;
-      -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
-      -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
-      box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+      //-webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+      //-moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+      //box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
       position: absolute;
       z-index: 10;
+      padding: 10px 0px 30px 30px;
+      .breadcrumbs {
+        h5 {
+          float: left;
+        }
+        img {
+          float: left;
+          height: 36px;
+        }
+        .icon-arrow-down {
+          float: left;
+          -ms-transform: rotate(270deg); /* IE 9 */
+          -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+          transform: rotate(270deg);
+          margin: 10px;
+        }
+        a {
+          float: left;
+          margin: 9px 30px;
+        }
+      }
+      .adHeader {
+        margin: 20px 0 10px;
+      }
+      .helpLink {
+        float: left;
+        margin-bottom: 10px;
+      }
+      .greyTxt {
+        float: left;
+        padding: 15px 0 5px 0 !important;
+      }
+      .resetCustomForm {
+        float: left;
+        cursor: pointer;
+        margin-top: 9px;
+      }
+      .percentageAbs {
+        position: absolute;
+        z-index: 10;
+        top: 10px;
+        right: 10px;
+      }
+      input[type='text'] {
+        text-align: right;
+      }
+      .col-md-1 {
+        width: 10%;
+      }
     } 
   }
   .newCreativeSlide {
@@ -1689,11 +1733,11 @@
     float: left;
     min-height: 530px;
     width: 100%;
-    padding: 30px 10px 0 30px;
+    padding: 46px 10px 0 30px;
     h2 {
       color: #000;
       font-size: 20px;
-      margin: 0 0 20px 0 !important;
+      margin: 0 0 10px 0 !important;
       font-family:"Avenir";
     }
     .nextWrapper {
@@ -1763,7 +1807,7 @@
             border-width: 0;
             width: auto;
             li {
-              border: 1px solid #ccd2da;
+              border: 1px solid #BFC9D7;
               width: 120px;
               text-align: center;
               border-top-right-radius: 2px;
@@ -2186,7 +2230,7 @@
       }
     }
     .targettingSelected {
-      border: 1px solid #CCD2DA;
+      border: 1px solid #BFC9D7;
       padding: 0px !important;
       margin-top: 20px;
       -o-transition:border .2s ease-out, background 2s ease-in;
@@ -2196,7 +2240,7 @@
       /* ...and now for the proper property */
       transition:border .2s ease-out, background 2s ease-in;
       .tsHeader {
-        border-bottom: 2px solid #CCD2DA;
+        border-bottom: 2px solid #BFC9D7;
         padding: 25px 20px 20px 20px;
         h2 {
           float: left;
@@ -2380,8 +2424,8 @@
       float: left;
       width: 100%;
       color: #21252b;
-      font-size: 18px;
-      font-family: 'Avenir-bold';
+      font-size: 20px;
+      font-family: 'Avenir';
       margin-bottom: 30px;
     }
   }
@@ -2413,14 +2457,6 @@
     }
     .btn_border {
       margin-bottom: 0px ;
-    }
-    input[type="text"] {
-      border: 1px solid #ccd2da !important;
-      border-radius: 0px !important;
-    }
-    input[type="text"]:focus {
-      border: 1px solid #0978c9 !important;
-      box-shadow: none;
     }
   }
 }

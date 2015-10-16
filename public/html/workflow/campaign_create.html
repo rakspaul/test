@@ -69,7 +69,7 @@
                     <div class="col-md-6 zeroPadding">
                         <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a>
                         <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-click="saveCampaign()">Save</a>
-                        <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
+                        <a href="/campaigns" class="btn btn-link pull-right" role="button">Cancel</a>
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the campaign for?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the Campaign for?</label>
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -146,14 +146,14 @@
 
                         <!--==== Row 3 ====-->
                         <div class=" col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What is the primary goal?</label>
-                            <label class="col-sm-12 greyTxt miniLabels">Select one goal</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What is your Campaign Objective?</label>
+                            <label class="col-sm-12 greyTxt miniLabels">Primary Goal</label>
                             <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
                                     <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
                                       <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>
-                                        <div class="hideRadioBtn">
+                                        <div class="hideRadioBtn" style="margin-top: -18px;">
                                             <div class="icon-{{goal.name | lowercase}}"></div>
                                             <span>{{goal.name}}</span>
                                         </div>
@@ -167,7 +167,7 @@
 
                         <!--==== Row 4 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When should the campaign run?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When would you like your Campaign to run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
 
                                     <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
@@ -198,16 +198,16 @@
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
                             <div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
+                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
-                                <input type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required/>
+                                <input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                                 <label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>
                             </div>
                             <div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Enter Whole Dollar Amount</label>
+                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
-                                <input type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
+                                <input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                             </div>
                         </div>
