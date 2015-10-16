@@ -67,6 +67,7 @@
                     </div>
 
                     <div class="col-md-6 zeroPadding">
+                        <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a>
                         <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-click="saveCampaign()">Save</a>
                         <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
                     </div>
@@ -244,6 +245,24 @@
                 <span>Please correct the {{errorAmount}} error(s) to continue.</span>
             </div>-->
             <!-- Message Pop End -->
+            <div class="common-popup-container" ng-show="campaignArchive">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Campaign Update</h1>
+                            <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
+                        </div>
+                        <div class="popup-content">
+                           {{archiveMessage}}
+                        </div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button type="button" ng-click="archiveCampaign()" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Okay</button>
+                        <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
     </div>

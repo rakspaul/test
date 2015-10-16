@@ -9,6 +9,7 @@
 </div>
 
 
+
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer adMasterContainer">
@@ -33,7 +34,9 @@
                                                         {{adData.adName.length>0 ? (adData.adName | textEllipsis: 40 ) :textConstants.WF_UNTITLED_AD}}
                                                     </span>
                                                 </div>
-                                                
+                                                <button type="button" ng-hide="(mode!='edit')" id="archiveAdbtn" ng-click="cancelAdArchive()"
+                                                        class="btn btn-primary pull-right">Archive
+                                                </button>
                                                 <button type="submit" ng-disabled="!adData.adName" id="SaveAd"
                                                         class="btn btn-primary pull-right">Save
                                                 </button>
@@ -80,4 +83,23 @@
     </div>
     <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'" ng-controller="CreativeTagController"> </div>
     <div ng-include="'/assets/html/workflow/creative.html'" class="newCreativeSlide"></div>
+    <!-- Modal Start -->
+    <div class="common-popup-container" ng-show="adArchive">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left">Campaign Update</h1>
+                    <span class="close unselectable" aria-hidden="true" ng-click="cancelAdArchive()" >x</span>
+                </div>
+                <div class="popup-content">
+                    {{archiveMessage}}
+                </div>
+            </div>
+            <div class="clearfix popup-footer" >
+                <button type="button" ng-click="archiveAd($event)" class="common_primary_btn pull-right">Okay</button>
+                <button type="button" ng-click="cancelAdArchive()"class="secondary_txt pull-right">Cancel</button>
+            </div>
+
+        </div>
+    </div>
 </div>
