@@ -42,6 +42,9 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
         //$scope.showDropDown=false;
+        $scope.adArchive=false;
+//        $scope.deleteFailed=false;
+        $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
 
@@ -52,13 +55,38 @@ var angObj = angObj || {};
 
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-//            localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-//            console.log(localStorage.getItem('campaignData'));
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;     
             }, 3000);
+        }
+        $scope.archiveAd=function(event){
+                var errorAchiveAdHandler =  function() {
+                           $scope.adArchive=false;
+                           $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_ARCHIVE_FAILURE ;
+                           $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+                           $scope.partialSaveAlertMessage.isMsg = 1;
+                       }
+            event.preventDefault();
+            workflowService.deleteAd($scope.campaignId,$scope.adId).then(function (result) {
+                            if (result.status === "OK" || result.status === "success") {
+                                $scope.adArchive=false;
+                                var url = '/campaign/' + $scope.campaignId + '/overview';
+                                $location.url(url);
+                                localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
+                            }else{
+                                errorAchiveAdHandler();
+                            }
+            }, errorAchiveAdHandler);
+
+
+        }
+
+
+
+        $scope.cancelAdArchive=function(){
+            $scope.adArchive=!$scope.adArchive;
         }
         $scope.msgtimeoutReset() ;
         $scope.close_msg_box = function(event) {

@@ -63,6 +63,12 @@
             updateAd : function(data) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId, data, {'Content-Type': 'application/json'})
             },
+            deleteAd : function(campaignId,adId) {
+                return dataService.delete(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId+'/ads/'+adId, {'Content-Type': 'application/json'})
+            },
+            deleteCampaign : function(campaignId) {
+                return dataService.delete(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId, {'Content-Type': 'application/json'})
+            },
             getAd : function(data) {
                 var url = apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId;
                 return dataService.fetch(url);

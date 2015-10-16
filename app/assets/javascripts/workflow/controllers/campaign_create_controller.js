@@ -29,6 +29,28 @@ var angObj = angObj || {};
         $scope.repushCampaignEdit = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.mode = workflowService.getMode();
+        $scope.campaignArchive=false;
+        $scope.deleteCampaignFailed=false;
+        $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
+
+        $scope.archiveCampaign=function(){
+            workflowService.deleteCampaign($scope.campaignId).then(function (result) {
+                                        if (result.status === "OK" || result.status === "success") {
+                                            $scope.adArchive=false;
+                                            var url = '/campaigns';// + $scope.campaignId + '/overview';
+                                            $location.url(url);
+                                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_SUCCESS);
+                                        }else{
+                                            $scope.adArchive=false;
+                                            console.log("failed");
+                                           // $scope.archiveMessage="Unable to delete Campaign.";
+                                           // $scope.deleteCampaignFailed=true;
+                                        }
+            });
+        }
+        $scope.cancelArchiveCampaign=function(){
+            $scope.campaignArchive=!$scope.campaignArchive;
+        }
 
 
         $scope.processEditCampaignData = function () {
@@ -93,11 +115,7 @@ var angObj = angObj || {};
             },
 
             fetchGoals: function () {
-                var goals = $scope.workflowData['goals'] = [{id: 1, name: 'Performance', 'active': true}, {
-                    id: 2,
-                    name: 'Brand',
-                    'active': false
-                }];
+                var goals = $scope.workflowData['goals'] = [{id: 1, name: 'Performance', 'active': true}, {id: 2,name: 'Brand','active': false}];
                 if ($scope.mode == 'edit') {
                     _.each(goals, function (goal) {
                         if (goal.name.toLowerCase() == $scope.editCampaignData.goal.toLowerCase()) {
