@@ -40,6 +40,8 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
                     $scope.selectedCampaign.endTime = moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
+
+                    $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
                     $scope.initiateDatePicker();
                     createCampaign.fetchGoals();
                     $scope.mode ==='edit' &&  createCampaign.fetchBrands($scope.selectedCampaign.advertiserId);
@@ -100,10 +102,13 @@ var angObj = angObj || {};
                     _.each(goals, function (goal) {
                         if (goal.name.toLowerCase() == $scope.editCampaignData.goal.toLowerCase()) {
                             goal['active'] = true;
+                            $scope.selectedCampaign.goal = goal;
                         } else {
                             goal['active'] = false;
                         }
                     })
+                } else {
+                    $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
                 }
             },
 
@@ -172,6 +177,7 @@ var angObj = angObj || {};
 
         $scope.saveCampaign = function () {
             $scope.$broadcast('show-errors-check-validity');
+            console.log($scope.createCampaignForm)
             if ($scope.createCampaignForm.$valid) {
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
@@ -276,13 +282,14 @@ var angObj = angObj || {};
                 todayHighlight: true
             });
 
+
+            createCampaign.clients();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {
                 $scope.initiateDatePicker();
                 createCampaign.fetchGoals();
             }
-            createCampaign.clients();
         })
     });
 })();
