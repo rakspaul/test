@@ -11,14 +11,20 @@
 .disabledTxt {
   color: #BBBBBB !important;
 }
+.clearLeft {
+  clear: left;
+}
+.clearBoth {
+  clear: both;
+}
 
 // Text Reset
-h1 {color: #21252b; font-size: 26px; font-family: "Avenir-bold";}
-h2 {color: #21252b; font-size: 20px; font-family: "Avenir-bold";}
-h3 {color: #21252b; font-size: 18px; font-family: "Avenir-bold";}
+h1 {color: #21252b; font-size: 24px; font-family: "Avenir";}
+h2 {color: #21252b; font-size: 20px; font-family: "Avenir";}
+h3 {color: #21252b; font-size: 18px; font-family: "Avenir";}
 h4 {color: #21252b; font-size: 16px; font-family: "Avenir-bold";}
 h5 {color: #21252b; font-size: 14px; font-family: "Avenir-bold";}
-a {text-decoration: none;}
+a {text-decoration: none; cursor: pointer; font-weight: normal;} a:hover {text-decoration: none;}
 .breadcrumbFlow {color: #333; text-decoration: none;}
 .labelQuestTxt {
   color: #21252b;
@@ -51,11 +57,16 @@ a {text-decoration: none;}
         
 // Inputs
 input[type='text'] {
-  border: 1px solid #dbe8ef;
-  border-radius: 0 !important;
+  border: 1px solid #BFC9D7;
+  border-radius: 2px !important;
+  line-height: normal;
+  padding: 10px 12px 7px 12px;
+  height: auto;
+  box-shadow: none;
 }
 input[type='text']:focus {
   border: 1px solid #0978c9;
+  box-shadow: none;
 }
 textarea {
   resize: none;
@@ -87,7 +98,7 @@ select {
     overflow: hidden;
     .icon-arrow-down {
       font-size: 10px;
-      color: #363D49;
+      color: #000;
       height: 4px;
       width: 2px;
       line-height: 16px;
@@ -301,6 +312,9 @@ select {
 .btn, select {
   border-radius: 2px;
   text-decoration: none;
+  font-family: "Avenir";
+  line-height: 100%;
+  padding: 10px 15px;
   /*commented manny's changes here as it was reflecting all other places*/ 
   /*padding: 10px 15px 10px 15px;
   text-align: center; 
@@ -309,8 +323,8 @@ select {
   width: auto;*/
 }
 .btn-primary {background: #0978C9;}
-.btn-primary:hover {background: #2c9aec;}
-.btn-primary:active {background: #0564a9;}
+.btn-primary:hover {background: #0564A9;}
+.btn-primary:active {background: #004D86;}
 /////
 .btn-default {color: #57606d; font-size: 14px; border: 1px solid #dde6eb;}
 .btn-default:hover {background: #e1edf9;}
@@ -321,7 +335,7 @@ select {
   .miniToggle {
     label {
       position: relative;
-      padding: 8px 15px;
+      padding: 10px 15px;
       border: 1px solid #ccd2da;
       span {
         width: 100%;
@@ -329,29 +343,31 @@ select {
       }
     }
     input[type="text"] {
-      width: 150px;
       margin: 0px 15px;
       float: left;
-      border: 1px solid #0978c9 !important;
     }
     .btn-default {
       border-radius: 2px !important;
-      width: 120px;
+      box-shadow: none;
       span {
-        color: #0978c9;
-      }
-    }
-    .btn-default.active, .btn-default.active:hover, .btn-default:hover {
-      border: 1px solid #0978c9;
-      background-color: #0978c9;
-      span {
-        color: #fff;
+        color: #363D49;
       }
     }
     .btn-default:hover {
-      background-color: #f5f9fd;
+      background-color: #E1EDF9;
+      color:#363D49;
+      border: 1px solid #BFC9D7;
       span {
-        color: #0978c9;
+        color: #363D49;
+      }
+    }
+    .btn-default.active, .btn-default.active:hover {
+      background-color: #0978C9;
+      border: 1px solid #0978C9;
+      color:#ffffff;
+      box-shadow: none;
+      span {
+        color: #fff;
       }
     }
     .btn-default:first-child {
@@ -380,12 +396,12 @@ select {
     border: 1px solid #BFC9D7;
     border-left: 0;
     position: relative;
-    padding: 6px 15px;
+    padding: 10px 15px;
     span {
       float: left;
       color: #21252b;
       font-size: 14px;
-      margin: -1px 0 0 10px;
+      margin: 2px 0 0 10px;
     }
     input {
       opacity: 0;
@@ -397,7 +413,7 @@ select {
   }
   .btn-primary.active {
     background-color: #0978C9;
-    border: 1px solid #0978C9;
+    border: 1px solid #0978C9 !important;
     color:#ffffff;
     box-shadow: none;
     span {
@@ -417,8 +433,7 @@ select {
       left: 0;
       width: auto ;
       height: 100%;
-      margin-top: -26px;
-      padding: 10px 0;
+      margin-top: -15px;
       margin-bottom: 0;
       img, [class^="icon-"], [class*=" icon-"] {
         float: left;
@@ -512,7 +527,7 @@ select {
   border-right: 1px solid #ccd2da;
   height: 100%;
   .campaign_name {
-    font-family: "Avenir-bold";
+    font-family: "Avenir";
     display: inline-block;
     float: left;
     margin-top: 0;
@@ -756,3 +771,59 @@ select {
 	margin-left: -11px;
 }
 
+// Switch Toggle
+.switch-workflow{
+  .cmn-toggle {
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+  }
+  .cmn-toggle + label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+  }
+  input.cmn-toggle-round + label {
+    padding: 2px;
+    width: 72px;
+    height: 36px;
+    background-color: #BFC9D7;
+    border-radius: 2px;
+  }
+  input.cmn-toggle-round + label:before,
+  input.cmn-toggle-round + label:after {
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    bottom: 1px;
+    content: "";
+  }
+  input.cmn-toggle-round + label:before {
+    right: 1px;
+    background-color: #fdfdfd;
+    border-radius: 2px;
+    //transition: background 0.4s;
+  }
+  input.cmn-toggle-round + label:after {
+    width: 20px;
+    background-color: #DCE6F1;
+    border-radius: 2px;
+    //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: margin 0.4s;
+    height: 32px;
+    margin: 1px 0 0 1px;
+  }
+  input.cmn-toggle-round:checked + label:before {
+    background-color: #0978C9;
+    background-image: url("../../assets/images/workflow/checkMark.svg");
+    background-repeat: no-repeat;
+    background-position-x: 15px;
+    background-position-y: 11px;
+  }
+  input.cmn-toggle-round:checked + label:after {
+    margin-left: 49px;
+  }
+}

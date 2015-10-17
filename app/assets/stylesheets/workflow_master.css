@@ -10,20 +10,26 @@
 .disabledTxt {
   color: #BBBBBB !important;
 }
+.clearLeft {
+  clear: left;
+}
+.clearBoth {
+  clear: both;
+}
 h1 {
   color: #21252b;
-  font-size: 26px;
-  font-family: "Avenir-bold";
+  font-size: 24px;
+  font-family: "Avenir";
 }
 h2 {
   color: #21252b;
   font-size: 20px;
-  font-family: "Avenir-bold";
+  font-family: "Avenir";
 }
 h3 {
   color: #21252b;
   font-size: 18px;
-  font-family: "Avenir-bold";
+  font-family: "Avenir";
 }
 h4 {
   color: #21252b;
@@ -36,6 +42,11 @@ h5 {
   font-family: "Avenir-bold";
 }
 a {
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: normal;
+}
+a:hover {
   text-decoration: none;
 }
 .breadcrumbFlow {
@@ -72,11 +83,16 @@ a {
   color: #57606D;
 }
 input[type='text'] {
-  border: 1px solid #dbe8ef;
-  border-radius: 0 !important;
+  border: 1px solid #BFC9D7;
+  border-radius: 2px !important;
+  line-height: normal;
+  padding: 10px 12px 7px 12px;
+  height: auto;
+  box-shadow: none;
 }
 input[type='text']:focus {
   border: 1px solid #0978c9;
+  box-shadow: none;
 }
 textarea {
   resize: none;
@@ -108,7 +124,7 @@ select {
 }
 .dropdown-workflow .btn .icon-arrow-down {
   font-size: 10px;
-  color: #363D49;
+  color: #000;
   height: 4px;
   width: 2px;
   line-height: 16px;
@@ -300,6 +316,9 @@ select {
 select {
   border-radius: 2px;
   text-decoration: none;
+  font-family: "Avenir";
+  line-height: 100%;
+  padding: 10px 15px;
   /*commented manny's changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
   text-align: center; 
@@ -311,10 +330,10 @@ select {
   background: #0978C9;
 }
 .btn-primary:hover {
-  background: #2c9aec;
+  background: #0564A9;
 }
 .btn-primary:active {
-  background: #0564a9;
+  background: #004D86;
 }
 .btn-default {
   color: #57606d;
@@ -329,7 +348,7 @@ select {
 }
 .radioBtnToggle .miniToggle label {
   position: relative;
-  padding: 8px 15px;
+  padding: 10px 15px;
   border: 1px solid #ccd2da;
 }
 .radioBtnToggle .miniToggle label span {
@@ -337,34 +356,34 @@ select {
   text-align: center;
 }
 .radioBtnToggle .miniToggle input[type="text"] {
-  width: 150px;
   margin: 0px 15px;
   float: left;
-  border: 1px solid #0978c9 !important;
 }
 .radioBtnToggle .miniToggle .btn-default {
   border-radius: 2px !important;
-  width: 120px;
+  box-shadow: none;
 }
 .radioBtnToggle .miniToggle .btn-default span {
-  color: #0978c9;
+  color: #363D49;
+}
+.radioBtnToggle .miniToggle .btn-default:hover {
+  background-color: #E1EDF9;
+  color: #363D49;
+  border: 1px solid #BFC9D7;
+}
+.radioBtnToggle .miniToggle .btn-default:hover span {
+  color: #363D49;
 }
 .radioBtnToggle .miniToggle .btn-default.active,
-.radioBtnToggle .miniToggle .btn-default.active:hover,
-.radioBtnToggle .miniToggle .btn-default:hover {
-  border: 1px solid #0978c9;
-  background-color: #0978c9;
+.radioBtnToggle .miniToggle .btn-default.active:hover {
+  background-color: #0978C9;
+  border: 1px solid #0978C9;
+  color: #ffffff;
+  box-shadow: none;
 }
 .radioBtnToggle .miniToggle .btn-default.active span,
-.radioBtnToggle .miniToggle .btn-default.active:hover span,
-.radioBtnToggle .miniToggle .btn-default:hover span {
+.radioBtnToggle .miniToggle .btn-default.active:hover span {
   color: #fff;
-}
-.radioBtnToggle .miniToggle .btn-default:hover {
-  background-color: #f5f9fd;
-}
-.radioBtnToggle .miniToggle .btn-default:hover span {
-  color: #0978c9;
 }
 .radioBtnToggle .miniToggle .btn-default:first-child {
   border-top-right-radius: 0 !important;
@@ -387,13 +406,13 @@ select {
   border: 1px solid #BFC9D7;
   border-left: 0;
   position: relative;
-  padding: 6px 15px;
+  padding: 10px 15px;
 }
 .goalBtnGroup .btn-primary span {
   float: left;
   color: #21252b;
   font-size: 14px;
-  margin: -1px 0 0 10px;
+  margin: 2px 0 0 10px;
 }
 .goalBtnGroup .btn-primary input {
   opacity: 0;
@@ -404,7 +423,7 @@ select {
 }
 .goalBtnGroup .btn-primary.active {
   background-color: #0978C9;
-  border: 1px solid #0978C9;
+  border: 1px solid #0978C9 !important;
   color: #ffffff;
   box-shadow: none;
 }
@@ -425,8 +444,7 @@ select {
   left: 0;
   width: auto ;
   height: 100%;
-  margin-top: -26px;
-  padding: 10px 0;
+  margin-top: -15px;
   margin-bottom: 0;
 }
 .goalBtnGroup label .hideRadioBtn img,
@@ -510,7 +528,7 @@ select {
   height: 100%;
 }
 .left_column_nav .campaign_name {
-  font-family: "Avenir-bold";
+  font-family: "Avenir";
   display: inline-block;
   float: left;
   margin-top: 0;
@@ -731,4 +749,55 @@ select {
   border-top-color: #E6E6E6;
   border-width: 11px;
   margin-left: -11px;
+}
+.switch-workflow .cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.switch-workflow .cmn-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+.switch-workflow input.cmn-toggle-round + label {
+  padding: 2px;
+  width: 72px;
+  height: 36px;
+  background-color: #BFC9D7;
+  border-radius: 2px;
+}
+.switch-workflow input.cmn-toggle-round + label:before,
+.switch-workflow input.cmn-toggle-round + label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: "";
+}
+.switch-workflow input.cmn-toggle-round + label:before {
+  right: 1px;
+  background-color: #fdfdfd;
+  border-radius: 2px;
+}
+.switch-workflow input.cmn-toggle-round + label:after {
+  width: 20px;
+  background-color: #DCE6F1;
+  border-radius: 2px;
+  transition: margin 0.4s;
+  height: 32px;
+  margin: 1px 0 0 1px;
+}
+.switch-workflow input.cmn-toggle-round:checked + label:before {
+  background-color: #0978C9;
+  background-image: url("../../assets/images/workflow/checkMark.svg");
+  background-repeat: no-repeat;
+  background-position-x: 15px;
+  background-position-y: 11px;
+}
+.switch-workflow input.cmn-toggle-round:checked + label:after {
+  margin-left: 49px;
 }

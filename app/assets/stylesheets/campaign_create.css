@@ -54,7 +54,7 @@
   margin-left: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .settingWrap {
-  border-left: 1px solid #ccd2da;
+  border-left: 1px solid #BFC9D7;
   padding: 30px 30px 30px 25px;
   width: 77%;
   float: left;
@@ -124,16 +124,6 @@
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
   margin: 0;
 }
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group input[type="text"],
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group input[type="text"] {
-  border: 1px solid #ccd2da !important;
-  border-radius: 0px !important;
-}
-#campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group input[type="text"]:focus,
-#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group input[type="text"]:focus {
-  border: 1px solid #0978c9 !important;
-  box-shadow: none;
-}
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .startTime,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime {
   color: #838383;
@@ -147,7 +137,7 @@
   padding-top: 19px;
 }
 #campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
-  top: 40px;
+  top: 42px;
   left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
@@ -234,7 +224,7 @@
   clear: left;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView {
-  border-bottom: 1px solid #ccd2da;
+  border-bottom: 1px solid #BFC9D7;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap {
   padding: 0;
@@ -258,7 +248,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap span {
   font-size: 14px;
-  color: #57606c;
+  color: #57606d;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap .btn-group {
   margin-left: 5px;
@@ -339,12 +329,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .searchAds {
   width: 1200px;
   margin: 0 auto;
-  border-bottom: 1px solid #ccd2da;
+  border-bottom: 1px solid #BFC9D7;
   display: table;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 {
   float: left;
-  border-right: 1px solid #ccd2da;
+  border-right: 1px solid #BFC9D7;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 input {
   background-color: transparent;
@@ -762,6 +752,9 @@
   position: relative;
   margin: 0;
 }
+#campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label input[type="checkbox"]:checked {
+  background: #fff;
+}
 #campaignCreate .firstWrapper .masterContainer .screenChkSelection .btn_border label .btnLabel {
   float: left;
   margin-top: 2px;
@@ -842,7 +835,7 @@
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap {
   background: #eef5fc;
   margin: 0px;
-  border-top: 1px solid #ccd2da;
+  border-top: 1px solid #BFC9D7;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer {
   padding: 30px;
@@ -1012,9 +1005,6 @@
   background-color: #fff;
   padding-left: 30px;
   min-width: 500px ;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox {
-  margin-top: 10px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox .btn-toggle {
   margin: 6px 0 20px;
@@ -1532,15 +1522,62 @@
 #campaignCreate .platformSlide .platform-custom {
   background: #fff;
   left: 100%;
-  width: 920px;
-  height: 1035px;
-  top: 122px;
+  width: 930px;
+  height: auto;
+  min-height: 600px;
+  top: 187px;
   display: none;
-  -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
-  box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
   position: absolute;
   z-index: 10;
+  padding: 10px 0px 30px 30px;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs h5 {
+  float: left;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs img {
+  float: left;
+  height: 36px;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .icon-arrow-down {
+  float: left;
+  -ms-transform: rotate(270deg);
+  /* IE 9 */
+  -webkit-transform: rotate(270deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(270deg);
+  margin: 10px;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs a {
+  float: left;
+  margin: 9px 30px;
+}
+#campaignCreate .platformSlide .platform-custom .adHeader {
+  margin: 20px 0 10px;
+}
+#campaignCreate .platformSlide .platform-custom .helpLink {
+  float: left;
+  margin-bottom: 10px;
+}
+#campaignCreate .platformSlide .platform-custom .greyTxt {
+  float: left;
+  padding: 15px 0 5px 0 !important;
+}
+#campaignCreate .platformSlide .platform-custom .resetCustomForm {
+  float: left;
+  cursor: pointer;
+  margin-top: 9px;
+}
+#campaignCreate .platformSlide .platform-custom .percentageAbs {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  right: 10px;
+}
+#campaignCreate .platformSlide .platform-custom input[type='text'] {
+  text-align: right;
+}
+#campaignCreate .platformSlide .platform-custom .col-md-1 {
+  width: 10%;
 }
 #campaignCreate .newCreativeSlide .hideRightPanel {
   display: none !important;
@@ -1651,12 +1688,12 @@
   float: left;
   min-height: 530px;
   width: 100%;
-  padding: 30px 10px 0 30px;
+  padding: 46px 10px 0 30px;
 }
 .adCreateMaster .tab-content .tab-pane h2 {
   color: #000;
   font-size: 20px;
-  margin: 0 0 20px 0 !important;
+  margin: 0 0 10px 0 !important;
   font-family: "Avenir";
 }
 .adCreateMaster .tab-content .tab-pane .nextWrapper {
@@ -1726,7 +1763,7 @@
   width: auto;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li {
-  border: 1px solid #ccd2da;
+  border: 1px solid #BFC9D7;
   width: 120px;
   text-align: center;
   border-top-right-radius: 2px;
@@ -2139,7 +2176,7 @@
   font-family: 'Avenir';
 }
 .adCreateMaster #targetting .targettingSelected {
-  border: 1px solid #CCD2DA;
+  border: 1px solid #BFC9D7;
   padding: 0px !important;
   margin-top: 20px;
   -o-transition: border 0.2s ease-out, background 2s ease-in;
@@ -2150,7 +2187,7 @@
   transition: border 0.2s ease-out, background 2s ease-in;
 }
 .adCreateMaster #targetting .targettingSelected .tsHeader {
-  border-bottom: 2px solid #CCD2DA;
+  border-bottom: 2px solid #BFC9D7;
   padding: 25px 20px 20px 20px;
 }
 .adCreateMaster #targetting .targettingSelected .tsHeader h2 {
@@ -2321,8 +2358,8 @@
   float: left;
   width: 100%;
   color: #21252b;
-  font-size: 18px;
-  font-family: 'Avenir-bold';
+  font-size: 20px;
+  font-family: 'Avenir';
   margin-bottom: 30px;
 }
 .campaignAdCreatePage .paddingTop {
@@ -2351,14 +2388,6 @@
 }
 .campaignAdCreatePage .tab-pane .btn_border {
   margin-bottom: 0px ;
-}
-.campaignAdCreatePage .tab-pane input[type="text"] {
-  border: 1px solid #ccd2da !important;
-  border-radius: 0px !important;
-}
-.campaignAdCreatePage .tab-pane input[type="text"]:focus {
-  border: 1px solid #0978c9 !important;
-  box-shadow: none;
 }
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
