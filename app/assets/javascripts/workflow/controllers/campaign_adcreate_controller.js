@@ -511,6 +511,14 @@ var angObj = angObj || {};
                    $scope.msgtimeoutReset() ;
                    return false;
                }
+
+               if(!formData.startTime || !formData.endTime){
+                   $scope.partialSaveAlertMessage.message = "Please fill in the start and end dates" ;
+                   $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+                   $scope.partialSaveAlertMessage.isMsg = 1;
+                   $scope.msgtimeoutReset() ;
+                   return false;
+               }
                 if (formData.unitType && formData.unitCost) {
                     postAdDataObj.rateType = formData.unitType
                     postAdDataObj.rateValue = formData.unitCost;
