@@ -126,20 +126,24 @@ var angObj = angObj || {};
         }
         
         $scope.getPlatformIconName = function (platform) {
-            var platformMapper = {'collective bidder': 'plat-collective', 'appnexus': 'plat-nexus'}
+            var platformMapper = {'collective bidder': 'plat-collective', 'appnexus': 'plat-nexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
             return platformMapper[platform.toLowerCase()];
         }
         
         $scope.getPlatformIconNameSideBar = function (platform) {
-            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus'}
+            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'};
             return platformMapper[platform.toLowerCase()];
         }
-        
+
+
         $scope.getPlatformDesc = function (platform) {
             var platformMapper = {
                 'collective bidder': 'The programmactic solution for all screens and formats.',
-                'appnexus': 'The programmactic solution for all screens and formats'
-                }
+                'appnexus': 'The programmactic solution for all screens and formats',
+                'facebook' : 'All-in-one customer<br />support application',
+                'dbm' : 'All-in-one customer<br />support application',
+                'dfp' : 'A revenue management<br />solution for publishers'
+            }
             return platformMapper[platform.toLowerCase()];
         }
 
@@ -325,8 +329,12 @@ var angObj = angObj || {};
                     $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}];
             },
 
-            fetchPlatforms: function () {
-                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder'}, {id: 2, name: 'Appnexus'}];
+            fetchSelfServicePlatforms: function () {
+                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder', active: true}, {id: 2, name: 'Appnexus', active: true}, {id: 3, name: 'Facebook', active: false}, {id: 4, name: 'DBM', active: false}, {id: 5, name: 'DFP', active: false}];
+            },
+
+            fetchManagedServicePlatforms: function () {
+                $scope.workflowData['managed_platforms'] = [{imgName: 'placemedia', name: 'Place Media', desc: 'All-in-one customer support application'}, {imgName: 'xad-logo-mobile', name: 'xAd', desc: 'All-in-one customer support application'}, {imgName: 'Telemetry_Company_Logo', name: 'Telemetry', desc: 'All-in-one customer support application'}, {imgName: 'TwitterLogo', name: 'Twitter', desc: 'All-in-one customer support application'}, {imgName: 'adtheorent', name: 'Ad Theorent', desc: 'All-in-one customer support application'}, {imgName: 'grfxLogoDstillery', name: 'Dstillery', desc: 'All-in-one customer support application'}, {imgName: 'Adaptv-logo', name: 'Adap.tv', desc: 'All-in-one customer support application'}, {imgName: 'youtube', name: 'YouTube', desc: 'All-in-one customer support application'}, {imgName: 'br-logo_0', name: 'BrightRoll', desc: 'All-in-one customer support application'}, {imgName: 'plat-dbclick', name: 'DoubleClick', desc: 'All-in-one customer support application'}, {imgName: 'Facebook-Exchange-Logo', name: 'FB Exchnage', desc: 'All-in-one customer support application'}, {imgName: 'yahoo', name: 'Yahoo', desc: 'All-in-one customer support application'}];
             },
 
             saveAds: function (postDataObj) {
@@ -407,7 +415,8 @@ var angObj = angObj || {};
         campaignOverView.fetchGoals();
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
-        campaignOverView.fetchPlatforms();
+        campaignOverView.fetchSelfServicePlatforms();
+        //campaignOverView.fetchManagedServicePlatforms();
 
         //campaignOverView.getCreatives(3,10);
 
@@ -908,6 +917,12 @@ var angObj = angObj || {};
             $scope.$parent.changePlatform(newValue);
         })
 
+        $scope.selectPlatform =  function(event, platform) {
+            $scope.selectedPlatform = {};
+            $scope.adData.platform = platform.name;
+            $scope.adData.platformId = platform.id;
+            $scope.selectedPlatform[platform.name] = platform.name;
+        }
     });
 
     angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode) {
