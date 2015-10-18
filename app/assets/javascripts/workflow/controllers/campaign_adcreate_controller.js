@@ -228,6 +228,7 @@ var angObj = angObj || {};
                     return item.name == responseData.rateType });
 
                 $scope.adData.unitType = $scope.workflowData.unitTypes[idx]; // cpm ..... dropdown
+                $('#unitcostType').parents(".dropdown").find('.btn').html($scope.adData.unitType.name + ' <span class="icon-arrow-down"></span>');
             }
 
             $('.cap_no input').attr("checked", "checked");
