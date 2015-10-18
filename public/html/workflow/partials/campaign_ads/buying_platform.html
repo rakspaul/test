@@ -6,43 +6,21 @@
 
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
-        
-        <!--Abi below we are using radio buttons to select platform. But the designs calls for a regular btn can you you update-->
-        
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
             <img ng-src="/assets/images/workflow/platform_icons/{{getPlatformIconName(platform.name)}}.png"/>
             <p>{{platform.name}}</p>
-            <span>{{getPlatformDesc(platform.name)}}</span>
-            <input type="radio" name="platform" ng-checked="(platform.name).toUpperCase() == adData.platform" value="{{platform.name}}" class="btn btn-default" ng-model="adData.platform" ng-click="adData.platformId = platform.id" ng-disabled="(mode === 'edit' && isAdsPushed)?true:false">
+            <span ng-bind-html="getPlatformDesc(platform.name)"></span>
+            <span ng-if="selectedPlatform[platform.name]">Selected</span>
+            <input ng-if="!selectedPlatform[platform.name]" type="button" name="platform" value="Select" ng-disabled="!platform.active || (mode === 'edit' && isAdsPushed)?true:false" class="btn btn-default {{!platform.active ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
+            <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
-        
-        <div class="col-md-6 platformHolder">
-            <img ng-src="/assets/images/workflow/platform_icons/plat-facebook.png"/>
-            <p>Facebook</p>
-            <span>All-in-one customer<br />support application</span>
-            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable ng-click="showBuyingPlatformWindow()">
-        </div>
-        
-        <div class="col-md-6 platformHolder">
-            <img ng-src="/assets/images/workflow/platform_icons/plat-dbclick.png"/>
-            <p>DBM</p>
-            <span>All-in-one customer<br />support application</span>
-            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
-        </div>
-        
-        <div class="col-md-6 platformHolder">
-            <img ng-src="/assets/images/workflow/platform_icons/plat-dbclick.png"/>
-            <p>DFP</p>
-            <span>A revenue management<br />solution for publishers</span>
-            <input type="button" name="platform" value="Select" class="btn btn-default disable" disable>
-        </div>
-        
+
         <div class="col-md-6 platformHolder">
             <span>More Self Service options coming soon</span>
             <a href="">Can't find what your looking for?</a>
         </div>
     </div>
-    <input type="hidden" name="platformId" value="{{adData.platformId }}">
+
     
     <div class="offeringsWrap">
         <div class="col-md-12" style="padding: 30px;">
@@ -53,14 +31,6 @@
         <div class="container">
             <br>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
-              <!-- Indicators -->
-              <!--<ol class="carousel-indicators">-->
-              <!--  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>-->
-              <!--  <li data-target="#myCarousel" data-slide-to="1"></li>-->
-              <!--  <li data-target="#myCarousel" data-slide-to="2"></li>-->
-              <!--  <li data-target="#myCarousel" data-slide-to="3"></li>-->
-              <!--</ol>-->
-          
               <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
                 <div class="item active">
@@ -73,9 +43,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/xad-logo-mobile.png" alt="xAd" width="50">
@@ -85,9 +55,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/Telemetry_Company_Logo.jpg" alt="Telemetry" width="50">
@@ -97,9 +67,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing" style="width: 100%;"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/TwitterLogo.png" alt="Twitter" width="50">
@@ -109,9 +79,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/adtheorent.png" alt="Ad Theorent" width="50">
@@ -121,9 +91,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/grfxLogoDstillery.png" alt="Dstillery" width="50">
@@ -134,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="item">
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
@@ -145,9 +115,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/youtube.png" alt="youtube" width="50">
@@ -157,9 +127,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/br-logo_0.png" alt="BrightRoll" width="50">
@@ -169,9 +139,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing" style="width: 100%;"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/plat-dbclick.png" alt="DoubleClick" width="50">
@@ -181,9 +151,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/Facebook-Exchange-Logo.png" alt="FB Exchnage" width="50">
@@ -193,9 +163,9 @@
                             <span class="descrip">All-in-one customer support application</span>
                         </div>
                     </div>
-                    
+
                     <div class="sliderSpacing"></div>
-                    
+
                     <div class="offeringWrap">
                         <div class="col-md-3 zeroPadding">
                             <img src="/assets/images/workflow/platform_icons/yahoo.png" alt="Yahoo" width="50">
