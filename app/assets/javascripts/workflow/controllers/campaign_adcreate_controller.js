@@ -900,14 +900,15 @@ var angObj = angObj || {};
             }
         }
 
-        function dmasEdit(flatArr){
+        $scope.dmasEdit = function(flatArr){
             //edit mode
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.DMA) {
                 var dmasEditable = angular.copy(storedResponse.targets.geoTargets.DMA.geoTargetList);
+                $scope.dmasIncluded = storedResponse.targets.geoTargets.DMA.isIncluded;
+
                 _.each(dmasEditable, function (item) {
                     var index = _.findIndex(flatArr, function(region) {
                         return item.id ==  region.id});
-                    item.dmasIncluded = storedResponse.targets.geoTargets.DMA.isIncluded;
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
@@ -1274,7 +1275,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.listDmas = function(defaults,dmasEdit) {
+        $scope.listDmas = function(defaults) {
             $scope.dmasListObj = {
                  platformId : $scope.isPlatformId,
                  sortOrder : dmaListSortOrder,
@@ -1295,8 +1296,8 @@ var angObj = angObj || {};
                      return item.id;
                  });
 
-                if($scope.mode === 'edit' && dmasEdit){
-                    dmasEdit(flatArr);
+                if($scope.mode === 'edit'){
+                    $scope.dmasEdit(flatArr);
                 }
 
 
@@ -1370,7 +1371,7 @@ var angObj = angObj || {};
 
                 if($scope.mode === 'edit' ){
                     $scope.cityEdit(flatArr);
-                    //$scope.listDmas('',dmasEdit);
+                    $scope.listDmas();
                 }
 
             });
@@ -1439,8 +1440,7 @@ var angObj = angObj || {};
                 });
                 if($scope.mode === 'edit' ){
                     $scope.regionEdit(flatArr);
-                    //$scope.listCities();
-                    
+                    $scope.listCities();
                 }
 
 
