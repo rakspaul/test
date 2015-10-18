@@ -504,6 +504,13 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
 
+               if(!formData.startTime || !formData.endTime){
+                   $scope.partialSaveAlertMessage.message = "Please fill in the start and end dates" ;
+                   $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+                   $scope.partialSaveAlertMessage.isMsg = 1;
+                   $scope.msgtimeoutReset() ;
+                   return false;
+               }
                 if (formData.unitType && formData.unitCost) {
                     postAdDataObj.rateType = formData.unitType
                     postAdDataObj.rateValue = formData.unitCost;
@@ -848,28 +855,48 @@ var angObj = angObj || {};
         $scope.dmasIncluded = true;
         $scope.addedTargeting = true;
 
-        function regionEdit(flatArr){
+        $scope.regionEdit = function(flatArr){
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.REGION) {
                 var regionsEditable = angular.copy(storedResponse.targets.geoTargets.REGION.geoTargetList);
+                $scope.regionsIncluded = storedResponse.targets.geoTargets.REGION.isIncluded;
+
                 _.each(regionsEditable, function (item) {
                     var index = _.findIndex(flatArr, function(region) {
                         return item.id ==  region.id});
+
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'regions')
                 })
+                // toggle switch based on region settings
+                if(storedResponse.targets.geoTargets.REGION.isIncluded)
+                    $scope.includeSelectedItems();
+                else
+                    $scope.excludeSelectedItems();
+
+
+
             }
         }
 
-        function cityEdit(flatArr){
+        $scope.cityEdit = function(flatArr){
             //edit mode
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.CITY) {
                 var citiesEditable = angular.copy(storedResponse.targets.geoTargets.CITY.geoTargetList);
+                $scope.citiesIncluded = storedResponse.targets.geoTargets.CITY.isIncluded;
+
                 _.each(citiesEditable, function (item) {
                     var index = _.findIndex(flatArr, function(region) {
                         return item.id ==  region.id});
+
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'cities')
                 })
+
+                //// toggle switch based on region settings
+                //if(storedResponse.targets.geoTargets.CITY.isIncluded)
+                //    $scope.includeSelectedItems();
+                //else
+                //    $scope.excludeSelectedItems();
             }
         }
 
@@ -880,6 +907,7 @@ var angObj = angObj || {};
                 _.each(dmasEditable, function (item) {
                     var index = _.findIndex(flatArr, function(region) {
                         return item.id ==  region.id});
+                    item.dmasIncluded = storedResponse.targets.geoTargets.DMA.isIncluded;
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
@@ -891,11 +919,30 @@ var angObj = angObj || {};
                 $scope.selectGeoTarget('Geography');
 
                 storedResponse = angular.copy(workflowService.getAdsDetails());
-                $scope.showRegionsTab = true;
-                $scope.showCitiesTab = true;
+
+                //$scope.showCitiesTab = true;
+
 
                 //populate all lists
-                $scope.listRegions('',null,regionEdit);
+                //$scope.listRegions('',null,regionEdit);
+
+                $scope.showRegionsTab = true;
+                $scope.selectedTab = 'regions';
+               // $scope.resetSwitch();
+
+                //$scope.showSwitch = true;
+                //if(storedResponse.targets.geoTargets.REGION.isIncluded)
+                //    $scope.regionsIncludeSwitchLabel = true;
+                //else
+                //    $scope.regionsIncludeSwitchLabel = false;
+
+
+                //experiment to change the switch
+                //$scope.showSwitch = true;
+                //
+
+
+
 
             }
         })
@@ -1269,7 +1316,7 @@ var angObj = angObj || {};
             return $scope.geoTargetingData['selected']['cities'].length;
         }
         //display the cities
-        $scope.listCities = function(event, defaults,citiesEdit) {
+        $scope.listCities = function(event, defaults) {
             var searchVal = $('.searchBox').val();
             $scope.selectedTab = 'cities';
             if($scope.citiesIncludeSwitchLabel == true){
@@ -1321,9 +1368,9 @@ var angObj = angObj || {};
                     return item.id;
                 });
 
-                if($scope.mode === 'edit' && citiesEdit){
-                    citiesEdit(flatArr);
-                    $scope.listDmas('',dmasEdit);
+                if($scope.mode === 'edit' ){
+                    $scope.cityEdit(flatArr);
+                    //$scope.listDmas('',dmasEdit);
                 }
 
             });
@@ -1337,7 +1384,7 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.listRegions = function(defaults, event,regionEdit) {
+        $scope.listRegions = function(defaults, event) {
             var searchVal = $('.searchBox').val();
 
             $scope.showSwitch = true;
@@ -1390,10 +1437,9 @@ var angObj = angObj || {};
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
                     return item.code;
                 });
-                if($scope.mode === 'edit' && regionEdit){
-                    regionEdit(flatArr);
-                    $scope.listCities('',null,cityEdit);
-
+                if($scope.mode === 'edit' ){
+                    $scope.regionEdit(flatArr);
+                //    $scope.listCities('',null,cityEdit);
                 }
 
 
