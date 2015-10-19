@@ -33,20 +33,26 @@ var angObj = angObj || {};
         $scope.deleteCampaignFailed=false;
         $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
 
-        $scope.archiveCampaign=function(){
+        $scope.archiveCampaign=function(event){
+            event.preventDefault();
+            var campaignArchiveErrorHandler=function(){
+                $scope.adArchive=false;
+                console.log("failed");
+                localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE);
+            }
             workflowService.deleteCampaign($scope.campaignId).then(function (result) {
                                         if (result.status === "OK" || result.status === "success") {
                                             $scope.adArchive=false;
                                             var url = '/campaigns';// + $scope.campaignId + '/overview';
                                             $location.url(url);
-                                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_SUCCESS);
+                                                if($scope.editCampaignData.adsCount>0)
+                                                    localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
+                                                else
+                                                    localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+"has been archived");
                                         }else{
-                                            $scope.adArchive=false;
-                                            console.log("failed");
-                                           // $scope.archiveMessage="Unable to delete Campaign.";
-                                           // $scope.deleteCampaignFailed=true;
+                                            campaignArchiveErrorHandler();
                                         }
-            });
+            },campaignArchiveErrorHandler);
         }
         $scope.cancelArchiveCampaign=function(){
             $scope.campaignArchive=!$scope.campaignArchive;
@@ -62,7 +68,6 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
                     $scope.selectedCampaign.endTime = moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
-
                     $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
                     $scope.initiateDatePicker();
                     createCampaign.fetchGoals();
