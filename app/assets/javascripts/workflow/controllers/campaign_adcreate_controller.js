@@ -205,6 +205,7 @@ var angObj = angObj || {};
                 for(var i = 0; i < responseData.screens.length; i++){
                     var index = _.findIndex($scope.workflowData.screenTypes, function(item) {
                         return item.id == responseData.screens[i].id });
+
                     $scope.workflowData.screenTypes[index].active = true;
                     $scope.screenTypeSelection($scope.workflowData.screenTypes[index]);
                 }
@@ -325,8 +326,15 @@ var angObj = angObj || {};
             },
 
             fetchScreenType: function () {
-                $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: true}, {id: 2, name: 'Mobile', active: false}, {id: 3,name: 'Tablet', active: false}]
-                $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}] //default value
+                if($scope.mode != 'edit'){
+                    $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: true}, {id: 2, name: 'Mobile', active: false}, {id: 3,name: 'Tablet', active: false}]
+                    $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}] //default value
+                }
+                else{
+                    $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: false}, {id: 2, name: 'Mobile', active: false}, {id: 3,name: 'Tablet', active: false}]
+                    $scope.adData.screenTypes = [] //default value
+                }
+
             },
 
             fetchUnitTypes: function () {
@@ -584,21 +592,14 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
 
-               if(!formData.startTime || !formData.endTime){
-                   $scope.partialSaveAlertMessage.message = "Please fill in the start and end dates" ;
+               if(!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal){
+                   $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad" ;
                    $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
                    $scope.partialSaveAlertMessage.isMsg = 1;
                    $scope.msgtimeoutReset() ;
                    return false;
                }
 
-               if(!formData.startTime || !formData.endTime){
-                   $scope.partialSaveAlertMessage.message = "Please fill in the start and end dates" ;
-                   $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
-                   $scope.partialSaveAlertMessage.isMsg = 1;
-                   $scope.msgtimeoutReset() ;
-                   return false;
-               }
                 if (formData.unitType && formData.unitCost) {
                     postAdDataObj.rateType = formData.unitType
                     postAdDataObj.rateValue = formData.unitCost;
