@@ -55,14 +55,14 @@
                     </div>
                     <div class="statusLabel" ng-if="(adData.unitCost  &&  adData.unitType.name)">
                         <div class="col-md-12">
-                            <span>$</span>
+                            <span style="margin-right: 5px;">$</span>
                             <span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
                             <span>(Unit Cost)</span>
                         </div>
                     </div>
                     <div class="statusLabel" ng-if="(adData.budgetType && adData.budgetAmount)">
                         <div class="col-md-12">
-                            <span>{{adData.budgetType === 'Impressions' ? '#' : '$'}}</span>
+                            <span style="margin-right: 5px;">{{adData.budgetType === 'Impressions' ? '#' : '$'}}</span>
                             <span>{{adData.budgetAmount | number }}</span>
                             <span>({{adData.budgetType}})</span>
                         </div>

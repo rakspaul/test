@@ -167,6 +167,10 @@ select {
   cursor: pointer;
   width: 100%;
 }
+.dropdown-workflow .disabled a {
+  color: #21252b;
+  opacity: .4;
+}
 .dropdown-workflow .dropdown-menu {
   box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
@@ -185,6 +189,10 @@ select {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
+}
+.dropdown-workflow .dropdown {
+  display: inline-block;
+  width: 100%;
 }
 .dropdown-menu {
   width: 280px;

@@ -10,7 +10,7 @@
             <img ng-src="/assets/images/workflow/platform_icons/{{getPlatformIconName(platform.name)}}.png"/>
             <p>{{platform.name}}</p>
             <span ng-bind-html="getPlatformDesc(platform.name)"></span>
-            <span ng-if="selectedPlatform[platform.name]">Selected</span>
+            <span ng-if="selectedPlatform[platform.name]" class="btn btn-default active">Selected</span>
             <input ng-if="!selectedPlatform[platform.name]" type="button" name="platform" value="Select" ng-disabled="!platform.active || (mode === 'edit' && isAdsPushed)?true:false" class="btn btn-default {{!platform.active ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>

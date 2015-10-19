@@ -3081,7 +3081,7 @@ input[type="submit"] {
 }
 .campaignListContainer .campaignListHolder .column {
   float: left;
-  width: 112px;
+  width: 128px;
   margin-left: 20px;
   word-wrap: break-word;
 }
