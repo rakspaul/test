@@ -400,6 +400,7 @@
     this.WF_AD_ARCHIVE_SUCCESS="Ad Archived Successfully"
     this.WF_AD_ARCHIVE_FAILURE="Ad Archive Unsuccessful"
     this.WF_CAMPAIGN_ARCHIVE_SUCCESS="Campaign Archived Successfully"
+    this.WF_CAMPAIGN_ARCHIVE_FAILURE="Campaign Archive Unsuccessful"
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";

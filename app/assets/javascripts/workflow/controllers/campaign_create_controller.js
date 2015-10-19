@@ -33,7 +33,13 @@ var angObj = angObj || {};
         $scope.deleteCampaignFailed=false;
         $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
 
-        $scope.archiveCampaign=function(){
+        $scope.archiveCampaign=function(event){
+            event.preventDefault();
+            var campaignArchiveErrorHandler=function(){
+                $scope.adArchive=false;
+                console.log("failed");
+                localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE);
+            }
             workflowService.deleteCampaign($scope.campaignId).then(function (result) {
                                         if (result.status === "OK" || result.status === "success") {
                                             $scope.adArchive=false;
@@ -41,12 +47,9 @@ var angObj = angObj || {};
                                             $location.url(url);
                                             localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_SUCCESS);
                                         }else{
-                                            $scope.adArchive=false;
-                                            console.log("failed");
-                                           // $scope.archiveMessage="Unable to delete Campaign.";
-                                           // $scope.deleteCampaignFailed=true;
+                                            campaignArchiveErrorHandler();
                                         }
-            });
+            },campaignArchiveErrorHandler);
         }
         $scope.cancelArchiveCampaign=function(){
             $scope.campaignArchive=!$scope.campaignArchive;
@@ -62,7 +65,6 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
                     $scope.selectedCampaign.endTime = moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
-
                     $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
                     $scope.initiateDatePicker();
                     createCampaign.fetchGoals();
