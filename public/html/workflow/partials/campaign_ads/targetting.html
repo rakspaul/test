@@ -97,7 +97,7 @@
                         </div>
 
                         <div ng-show="selectedTab !=='regions'" class="pull-left sort-icon-holder active list_val_col" ng-click="changeSortingOrder(selectedTab)">
-                            <span class="pull-left">{{(selectedTab == 'cities')?'City':'DMA'}}</span>
+                            <span class="pull-left">{{(selectedTab == 'cities')?'City':'METRO'}}</span>
                             <span class="pull-left common-sort-icon ascending" style="display: block;"></span> <!-- add "descending" or "ascending" whenever sorted  and remove display:none -->
                         </div>
                         <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col " ><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
@@ -237,7 +237,7 @@
             <div class="table dmaTable" ng-if="geoTargetingData.selected.dmas.length >0">
                 <div>
                     <div class="clearfix each-row" >
-                        <div class="pull-left">DMAs</div>
+                        <div class="pull-left">METROs</div>
                         <div class="pull-right removeAll">
                             <a ng-href="#" ng-click="showRemoveConfirmBox($event, 'dmas');">Remove All</a>
                         </div>
