@@ -42,6 +42,8 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
+        $scope.numberOnlyPattern = /[^0-9]/g;
+
         //$scope.showDropDown=false;
         $scope.adArchive=false;
 //        $scope.deleteFailed=false;
@@ -84,7 +86,14 @@ var angObj = angObj || {};
 
         }
 
-
+        $scope.numbersOnly = function(scopeVar){
+            if(scopeVar === 'unitCost')
+                $scope.adData.unitCost = $scope.adData.unitCost.replace($scope.numberOnlyPattern, '');
+            if(scopeVar === 'budgetAmount')
+                $scope.adData.budgetAmount = $scope.adData.budgetAmount.replace($scope.numberOnlyPattern, '');
+            if(scopeVar === 'quantity')
+                $scope.adData.quantity = $scope.adData.quantity.replace($scope.numberOnlyPattern, '');
+        }
 
         $scope.cancelAdArchive=function(){
             $scope.adArchive=!$scope.adArchive;
