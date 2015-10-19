@@ -31,3 +31,11 @@ commonModule.constant('common', {
  //        useTempData:'tempdata' //null for actual api endpoint
  useTempData: null
  });
+
+/* I placed this here because it requires jquery to work and putting it in template was not working as JQUERY was not loaded yet */
+jQuery.ajax({
+    url: "https://jira.collective.com/s/29783063411b3c8863f79eec806183d1-T/en_USyk70h9/64022/80/1.4.26/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?locale=en-US&collectorId=93f8e7e5",
+    type: "get",
+    cache: true,
+    dataType: "script"
+});

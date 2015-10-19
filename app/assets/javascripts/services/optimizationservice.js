@@ -5,7 +5,7 @@
         return {
 
             getActionsForSelectedCampaign: function (param) {
-                var url = apiPaths.workflow_apiServicesUrl + "/campaigns/" +  param.campaignId + "/actions" + '?date_filter=' + param.time_filter;;
+                var url = apiPaths.workflow_apiServicesUrl + "/campaigns/" +  param.campaignId + "/actions" + '?date_filter=' + param.time_filter;
                 return dataService.fetch(url);
             }
 
