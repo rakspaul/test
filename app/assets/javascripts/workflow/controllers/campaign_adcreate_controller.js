@@ -260,10 +260,7 @@ var angObj = angObj || {};
 
             //platform tab
             if(responseData.platform){
-                //$scope.changePlatform(responseData.platform.id);
-                $scope.adData.platform = responseData.platform.name;
-                $scope.adData.platformId = responseData.platform.id;
-                $scope.isPlatformSelected = true;
+                $scope.$broadcast('updatePlatform',[responseData.platform]);
                 if(responseData.state != "UNPUSHED")
                     $scope.isAdsPushed = true;
             }
@@ -926,6 +923,10 @@ var angObj = angObj || {};
     angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
+        })
+
+        $scope.$on('updatePlatform',function(event,platform){
+            $scope.selectPlatform('',platform[0]);
         })
 
         $scope.selectPlatform =  function(event, platform) {
