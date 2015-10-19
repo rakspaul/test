@@ -1540,7 +1540,7 @@ var angObj = angObj || {};
                 });
                 if($scope.mode === 'edit' && flag){
                     $scope.regionEdit(flatArr);
-                    $scope.listCities();
+                    //$scope.listCities();
                 }
 
 
