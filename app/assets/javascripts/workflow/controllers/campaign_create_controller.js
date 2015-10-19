@@ -45,7 +45,10 @@ var angObj = angObj || {};
                                             $scope.adArchive=false;
                                             var url = '/campaigns';// + $scope.campaignId + '/overview';
                                             $location.url(url);
-                                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_SUCCESS);
+                                                if($scope.editCampaignData.adsCount>0)
+                                                    localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
+                                                else
+                                                    localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+"has been archived");
                                         }else{
                                             campaignArchiveErrorHandler();
                                         }
