@@ -38,7 +38,7 @@
     <label class="col-sm-12 control-label greyTxt miniLabels">Unit Cost</label>
     <div class="form-group col-md-3 zeroPadding">
         <span>$</span>
-        <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
+        <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-change="numbersOnly('unitCost')">
     </div>
 
     <div class="form-group col-md-2" style="padding-right: 0;">
@@ -66,7 +66,7 @@
         <label class="btn btn-default"><span>Media Cost</span>
             <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event); adData.budgetAmount ='';">
         </label>
-        <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" media-cost-check class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value">
+        <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" media-cost-check class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-change="numbersOnly('budgetAmount')">
         <label ng-if="formAdCreate.budgetAmount.$error.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>
     </div>
 </div>
@@ -111,7 +111,7 @@
         <label class="col-sm-12 control-label greyTxt miniLabels">Impressions per user</label>
         <div class="form-group col-md-7 zeroPadding">
             <span>#</span>
-            <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap">
+            <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-change="numbersOnly('quantity')">
         </div>
 
         <div class="form-group col-md-5">
