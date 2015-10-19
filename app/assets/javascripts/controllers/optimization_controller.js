@@ -198,7 +198,7 @@ var angObj = angObj || {};
 
             var strategyId = Number($scope.selectedStrategy.id);
             $scope.api_return_code=200;
-            dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
+            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
                 $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {

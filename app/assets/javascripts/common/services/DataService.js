@@ -31,7 +31,9 @@
             getCdbChartData: function (campaign, timePeriod, type, strategyId) {
                 var urlPath;
                 var campaignId= campaign.orderId ;// dataTransferService.getClickedCampaignId();
-                var  durationQuery= 'period=' + timePeriod;
+                /* this will not work untill API is set up to accomodate it*/
+                var  durationQuery= 'date_filter=' + timePeriod;
+                //var  durationQuery= 'period=' + timePeriod;
                 if(timePeriod === 'life_time') {
                     if(campaign.startDate != undefined && campaign.endDate != undefined) {
                         durationQuery = 'start_date=' + campaign.startDate + '&end_date=' + campaign.endDate
