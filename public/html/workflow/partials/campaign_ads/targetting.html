@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <div ng-if="showCitiesOnly" class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}({{city.parent.name}})</div>
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}} ({{city.parent.name}})</div>
                         <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(city, 'cities')" /></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
