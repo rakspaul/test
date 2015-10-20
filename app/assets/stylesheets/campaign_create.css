@@ -118,7 +118,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed #inputBudget,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed #inputBudget {
-  text-indent: 16px;
+  text-indent: 8px;
+  line-height: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
