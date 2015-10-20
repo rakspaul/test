@@ -987,6 +987,7 @@ var angObj = angObj || {};
         $scope.confirmChange = function(){
             $scope.setPlatform(tempPlatform);
             $scope.changePlatformPopup = false;
+
         }
     });
 
