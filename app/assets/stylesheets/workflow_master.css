@@ -758,6 +758,9 @@ select {
   border-width: 11px;
   margin-left: -11px;
 }
+.switch-workflow {
+  float: left;
+}
 .switch-workflow .cmn-toggle {
   position: absolute;
   margin-left: -9999px;
