@@ -42,6 +42,7 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
+        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
         $scope.numberOnlyPattern = /[^0-9]/g;
 
         //$scope.showDropDown=false;
@@ -53,7 +54,7 @@ var angObj = angObj || {};
 
         $scope.preSelectArr = [];
         $scope.sortDomain=false;
-        //$scope.isAdsPushed = false;
+        $scope.isAdsPushed = false;
         localStorage.setItem('campaignData','');
 
         $scope.editCampaign=function(workflowcampaignData){
@@ -262,8 +263,8 @@ var angObj = angObj || {};
             //platform tab
             if(responseData.platform){
                 $scope.$broadcast('updatePlatform',[responseData.platform]);
-                if(responseData.state != "UNPUSHED")
-                    $scope.isAdsPushed = true;
+                if(responseData.state == "PUSHED")
+                    $scope.isAdsPushed = false;
             }
 
             //inventory files
@@ -279,9 +280,11 @@ var angObj = angObj || {};
             //$q.defer()
 
             //geotargets
-            $timeout(function(){
-                $scope.$broadcast("updateGeoTags");
-            },2000)
+            if(responseData.targets && responseData.targets.geoTargets) {
+                $timeout(function () {
+                    $scope.$broadcast("updateGeoTags");
+                }, 2000)
+            }
 
         }
 
@@ -921,21 +924,69 @@ var angObj = angObj || {};
         };
     });
 
-    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
         })
+        var tempPlatform ;
+
 
         $scope.$on('updatePlatform',function(event,platform){
             $scope.selectPlatform('',platform[0]);
         })
 
         $scope.selectPlatform =  function(event, platform) {
+            var storedResponse = angular.copy(workflowService.getAdsDetails());
+            var settings = "";
+
+            if(storedResponse.targets.geoTargets)
+                settings = "Geography";
+
+            if($scope.mode === 'edit'){
+                if(storedResponse.platform.name === platform.name) {
+                    //directly set  the platform if it is the same
+                    console.log("simple");
+
+                    $scope.setPlatform(platform);
+                }
+                else {
+                    console.log("no tagets");
+                    //if the platform is changed but no targets were selected allow change
+                    if(_.size(storedResponse.targets.geoTargets) == 0 ){
+                        $scope.setPlatform(platform);
+                    }
+                    else{
+                        //display warnign popup
+                        console.log("warning popup");
+                        tempPlatform = platform;
+                        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(storedResponse.platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+                        $scope.changePlatformPopup = true;
+                    }
+
+                }
+            }
+            else{
+                $scope.setPlatform(platform);
+            }
+
+
+        }
+        $scope.setPlatform = function(platform){
             $scope.selectedPlatform = {};
-            $scope.adData.platform = platform.name;
+            var index = $filter('toPascalCase')(platform.name);
+            $scope.adData.platform =  platform.name;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[platform.name] = platform.name;
-            $scope.showBuyingPlatformWindow();
+            $scope.selectedPlatform[index] = platform.name;
+        }
+
+        $scope.cancelChangePlatform  = function(){
+            $scope.changePlatformPopup = !$scope.changePlatformPopup;
+            tempPlatform = [];
+        }
+
+        $scope.confirmChange = function(){
+            $scope.setPlatform(tempPlatform);
+            $scope.changePlatformPopup = false;
         }
     });
 

@@ -10,8 +10,9 @@
             <img ng-src="/assets/images/workflow/platform_icons/{{getPlatformIconName(platform.name)}}.png"/>
             <p>{{platform.name}}</p>
             <span ng-bind-html="getPlatformDesc(platform.name)"></span>
+
             <span ng-if="selectedPlatform[platform.name]" class="btn btn-default active">Selected</span>
-            <input ng-if="!selectedPlatform[platform.name]" type="button" name="platform" value="Select" ng-disabled="!platform.active || (mode === 'edit' && isAdsPushed)?true:false" class="btn btn-default {{!platform.active ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
+            <input ng-if="!selectedPlatform[platform.name]" type="button" name="platform" value="Select" ng-disabled="!platform.active  ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
 
@@ -404,3 +405,22 @@
 <a href="#targetting" data-toggle="tab" class="nextWrapper leftNavLink">
     <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
 </a>
+
+<!-- Modal Start -->
+<div class="common-popup-container" ng-show="changePlatformPopup">
+    <div class="popup">
+        <div class="popup-header-body">
+            <div class="clearfix">
+                <h1 class="pull-left">Change Platform?</h1>
+                <span class="close unselectable" aria-hidden="true" ng-click="cancelChangePlatform()" >x</span>
+            </div>
+            <div class="popup-content">
+                {{changePlatformMessage}}
+            </div>
+        </div>
+        <div class="clearfix popup-footer" >
+            <button type="button" ng-click="confirmChange()" class="common_primary_btn pull-right">Okay</button>
+            <button type="button" ng-click="cancelChangePlatform()"class="secondary_txt pull-right">Cancel</button>
+        </div>
+
+    </div>

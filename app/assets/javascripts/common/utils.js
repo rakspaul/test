@@ -606,6 +606,23 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       return input;
     }
   });
+  angObj.filter('toPascalCase', function (toTitleCaseFilter) {
+    return function (input) {
+      if (input == undefined) {
+        return '';
+      }
+      var splitStr =  input.split(' ');
+      var finalStr = '';
+      for(var i = 0 ; i < splitStr.length;i++){
+        finalStr += toTitleCaseFilter(splitStr[i]);
+        if(i+1 < splitStr.length){
+          finalStr += " ";
+        }
+      }
+
+      return finalStr;
+    }
+  });
   angObj.filter('toUpperCase', function () {
     return function (input) {
       if (input == undefined) {
