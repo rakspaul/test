@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="col-md-6 zeroPadding">
-                        <div class="zeroPadding dropdown-workflow pull-right" style="width: 80px; margin-left: 10px;">
+                        <div class="zeroPadding dropdown-workflow pull-right" style="width: 80px; margin-left: 10px;" ng-hide="(mode!='edit')">
                             <div class="dropdown">
                                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
                                       <span class="text">More</span>
@@ -76,7 +76,7 @@
                                  <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
                                     <li class="disabled"><a>Pause</a></li>
                                     <li class="disabled"><a>Resume</a></li>
-                                    <li><a ng-hide="(mode!='edit')" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a></li>
+                                    <li><a  id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a></li>
                                  </ul>
                             </div>
                        </div>
