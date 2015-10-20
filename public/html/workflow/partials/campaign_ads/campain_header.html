@@ -15,8 +15,8 @@
             <!--<span class="campaign-ad-name-edit blue-edit-icon icon-settings" tooltip="Edit Campaign" ng-click="editCampaign(workflowData.campaignData)"></span>-->
         </div>
         <div class="col-md-1" style="padding-left: 40px; border-left: 1px solid #ddd;">
-            <label>Goal</label>
-            <div class="icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'target' : 'performance'}}" style="width: 27px; text-align: center;"></div>
+            <label style="padding-bottom: 2px;">Goal</label>
+            <div class="icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}" style="width: 27px; text-align: center;"></div>
             <!--<span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>-->
         </div>
         <div class="col-md-1 borderZero">
