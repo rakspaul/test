@@ -43,17 +43,18 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.numberOnlyPattern = /[^0-9]/g;
-
         //$scope.showDropDown=false;
         $scope.adArchive=false;
-        //$scope.deleteFailed=false;
+        $scope.changePlatformPopup = false;
+//        $scope.deleteFailed=false;
         $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
+        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
 
         $scope.preSelectArr = [];
         $scope.sortDomain=false;
-        //$scope.isAdsPushed = false;
+        $scope.isAdsPushed = false;
         localStorage.setItem('campaignData','');
 
         $scope.editCampaign=function(workflowcampaignData){
@@ -205,6 +206,7 @@ var angObj = angObj || {};
                 for(var i = 0; i < responseData.screens.length; i++){
                     var index = _.findIndex($scope.workflowData.screenTypes, function(item) {
                         return item.id == responseData.screens[i].id });
+
                     $scope.workflowData.screenTypes[index].active = true;
                     $scope.screenTypeSelection($scope.workflowData.screenTypes[index]);
                 }
@@ -260,16 +262,13 @@ var angObj = angObj || {};
 
             //platform tab
             if(responseData.platform){
-                //$scope.changePlatform(responseData.platform.id);
-                $scope.adData.platform = responseData.platform.name;
-                $scope.adData.platformId = responseData.platform.id;
-                $scope.isPlatformSelected = true;
-                if(responseData.state != "UNPUSHED")
+                $scope.$broadcast('updatePlatform',[responseData.platform]);
+                if(responseData.state == "PUSHED")
                     $scope.isAdsPushed = true;
             }
 
             //inventory files
-            if(responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
+            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
                 $scope.$broadcast('updateInventory');
 
             //creative tags
@@ -281,9 +280,13 @@ var angObj = angObj || {};
             //$q.defer()
 
             //geotargets
-            $timeout(function(){
-                $scope.$broadcast("updateGeoTags");
-            },2000)
+
+            if(responseData.targets && responseData.targets.geoTargets) {
+                $timeout(function () {
+                    $scope.$broadcast("updateGeoTags");
+                }, 2000)
+            }
+
 
         }
 
@@ -328,8 +331,15 @@ var angObj = angObj || {};
             },
 
             fetchScreenType: function () {
-                $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: true}, {id: 2, name: 'Mobile', active: false}, {id: 3,name: 'Tablet', active: false}]
-                $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}] //default value
+                if($scope.mode != 'edit'){
+                    $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: true}, {id: 2, name: 'Mobile', active: false}, {id: 3,name: 'Tablet', active: false}]
+                    $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}] //default value
+                }
+                else{
+                    $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: false}, {id: 2, name: 'Mobile', active: false}, {id: 3,name: 'Tablet', active: false}]
+                    $scope.adData.screenTypes = [] //default value
+                }
+
             },
 
             fetchUnitTypes: function () {
@@ -587,21 +597,14 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
 
-               if(!formData.startTime || !formData.endTime){
-                   $scope.partialSaveAlertMessage.message = "Please fill in the start and end dates" ;
+               if(!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal){
+                   $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad" ;
                    $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
                    $scope.partialSaveAlertMessage.isMsg = 1;
                    $scope.msgtimeoutReset() ;
                    return false;
                }
 
-               if(!formData.startTime || !formData.endTime){
-                   $scope.partialSaveAlertMessage.message = "Please fill in the start and end dates" ;
-                   $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
-                   $scope.partialSaveAlertMessage.isMsg = 1;
-                   $scope.msgtimeoutReset() ;
-                   return false;
-               }
                 if (formData.unitType && formData.unitCost) {
                     postAdDataObj.rateType = formData.unitType
                     postAdDataObj.rateValue = formData.unitCost;
@@ -923,17 +926,68 @@ var angObj = angObj || {};
         };
     });
 
-    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
         })
+        var tempPlatform ;
+        var storedResponse;
+
+        $scope.$on('updatePlatform',function(event,platform){
+            $scope.selectPlatform('', platform[0]);
+        })
 
         $scope.selectPlatform =  function(event, platform) {
+            storedResponse = workflowService.getAdsDetails();
+            var settings = "";
+
+            if(storedResponse.targets.geoTargets)
+                settings = "Geography";
+
+            if($scope.mode === 'edit'){
+                if(storedResponse.platform.name === platform.name) {
+                    //directly set  the platform if it is the same
+                    $scope.setPlatform(platform);
+                }
+                else {
+                    //if the platform is changed but no targets were selected allow change
+                    if(_.size(storedResponse.targets.geoTargets) == 0 ){
+                        $scope.setPlatform(platform);
+                    }
+                    else{
+                        //display warnign popup
+                        tempPlatform = platform;
+                        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+                        $scope.changePlatformPopup = true;
+                    }
+
+                }
+            }
+            else{
+                $scope.setPlatform(platform);
+            }
+
+
+        }
+        $scope.setPlatform = function(platform){
             $scope.selectedPlatform = {};
-            $scope.adData.platform = platform.name;
+            var index = $filter('toPascalCase')(platform.name);
+            $scope.adData.platform =  platform.name;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[platform.name] = platform.name;
-            $scope.showBuyingPlatformWindow();
+            $scope.selectedPlatform[index] = platform.name;
+        }
+
+        $scope.cancelChangePlatform  = function(){
+            $scope.changePlatformPopup = !$scope.changePlatformPopup;
+            tempPlatform = [];
+        }
+
+        $scope.confirmChange = function() {
+            $scope.setPlatform(tempPlatform);
+            $scope.changePlatformPopup = false;
+            storedResponse.targets.geoTargets = {};
+            workflowService.setAdsDetails(storedResponse);
+            $scope.$broadcast('resetGeoTags');
         }
     });
 
@@ -954,6 +1008,7 @@ var angObj = angObj || {};
         $scope.addedTargeting = true;
 
         $scope.regionEdit = function(flatArr){
+            storedResponse = angular.copy(workflowService.getAdsDetails());
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.REGION) {
                 var regionsEditable = angular.copy(storedResponse.targets.geoTargets.REGION.geoTargetList);
                 $scope.regionsIncluded = storedResponse.targets.geoTargets.REGION.isIncluded;
@@ -977,6 +1032,7 @@ var angObj = angObj || {};
         }
 
         $scope.cityEdit = function(flatArr){
+            storedResponse = angular.copy(workflowService.getAdsDetails());
             //edit mode
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.CITY) {
                 var citiesEditable = angular.copy(storedResponse.targets.geoTargets.CITY.geoTargetList);
@@ -999,6 +1055,7 @@ var angObj = angObj || {};
         }
 
         $scope.dmasEdit = function(flatArr){
+            storedResponse = angular.copy(workflowService.getAdsDetails());
             //edit mode
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.DMA) {
                 var dmasEditable = angular.copy(storedResponse.targets.geoTargets.DMA.geoTargetList);
@@ -1016,34 +1073,14 @@ var angObj = angObj || {};
         $scope.$on('updateGeoTags',function(){
             if($scope.mode === 'edit'){
                 $scope.selectGeoTarget('Geography');
-
                 storedResponse = angular.copy(workflowService.getAdsDetails());
-
-                //$scope.showCitiesTab = true;
-
-
-                //populate all lists
-                //$scope.listRegions('',null,regionEdit);
-
                 $scope.showRegionsTab = true;
                 $scope.selectedTab = 'regions';
-               // $scope.resetSwitch();
-
-                //$scope.showSwitch = true;
-                //if(storedResponse.targets.geoTargets.REGION.isIncluded)
-                //    $scope.regionsIncludeSwitchLabel = true;
-                //else
-                //    $scope.regionsIncludeSwitchLabel = false;
-
-
-                //experiment to change the switch
-                //$scope.showSwitch = true;
-                //
-
-
-
-
             }
+        })
+
+        $scope.$on('resetGeoTags',function(){
+            $scope.resetTargetingVariables();
         })
 
 
@@ -1252,7 +1289,8 @@ var angObj = angObj || {};
                             _.each(selectedCities, function(citiesObj, idx) {
                                 if(citiesObj.parent.id === regionsObj.id) {
                                     $scope.showCitiesOnly = false;
-                                    //citiesObj.citiesIncluded = false;
+                                    
+                                    citiesObj.citiesIncluded = false;
                                     tmpArr.push(citiesObj);
                                     regionsObj.cities = tmpArr;
                                 }
@@ -1483,7 +1521,7 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.listRegions = function(defaults, event) {
+        $scope.listRegions = function(defaults, event,flag) {
             var searchVal = $('.searchBox').val();
 
             $scope.showSwitch = true;
@@ -1536,9 +1574,9 @@ var angObj = angObj || {};
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
                     return item.code;
                 });
-                if($scope.mode === 'edit' ){
+                if($scope.mode === 'edit' && flag){
                     $scope.regionEdit(flatArr);
-                    $scope.listCities();
+                    //$scope.listCities();
                 }
 
 
@@ -1558,7 +1596,10 @@ var angObj = angObj || {};
                 $scope.adData['geoTargetName'] = geoTargetName;
              //  Object.defineProperty($scope.adData,'geoTargetName',{'geoTargetName':geoTargetName});
                 $scope.addedTargeting = false;
-                $scope.listRegions();
+                if($scope.mode == 'edit')
+                    $scope.listRegions('','',true);
+                else
+                    $scope.listRegions();
             }
         }
 
