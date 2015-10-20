@@ -2,127 +2,217 @@
     <div class="col-md-12 zeroPadding breadcrumbs">
         <h5>Buying Platform</h5>
         <span class="icon-arrow-down"></span>
-        <img ng-src="/assets/images/workflow/platform_icons/plat-collective.png"/>
+        <img ng-src="/assets/images/workflow/platform_icons/{{getPlatformIconName(adData.platform)}}.png"/>
         <a ng-click="cancelBtn()">Switch Platform</a>
     </div>
     
-    <div class="col-md-12 zeroPadding adHeader">Bidding Strategy</div>
-    <a href="javascript:void(0);" class="helpLink">How to define your strategy</a>
-    
-    <div class="col-md-12 zeroPadding">
-        <span class="greyTxt">Buying Method</span>
+    <!--Collective Bidder Form-->
+    <div class="col-md-12 zeroPadding platWrap {{getPlatformIconName(adData.platform)}}">
+        <div class="col-md-12 zeroPadding adHeader">Bidding Strategy</div>
+        <a href="javascript:void(0);" class="helpLink">How to define your strategy</a>
         
-        <div class="col-md-3 zeroPadding dropdown-workflow clearLeft" style="margin-right: 10px;">
-             <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                       <span class="text">Select Method</span>
-                       <span class="icon-arrow-down"></span>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="buyMethod" id="buyMethod">
-                        <li>
-                            <a>Click Optimized</a>
-                        </li>
-                  </ul>
-                 <input type="hidden" name="buyMethod" ng-update-hidden/>
-             </div>
+        <div class="col-md-12 zeroPadding">
+            <span class="greyTxt">Buying Method</span>
+            
+            <div class="col-md-3 zeroPadding dropdown-workflow clearLeft" style="margin-right: 10px;">
+                 <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">Select Method</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="buyMethod" id="buyMethod">
+                            <li>
+                                <a>Click Optimized</a>
+                            </li>
+                      </ul>
+                     <input type="hidden" name="buyMethod" ng-update-hidden/>
+                 </div>
+            </div>
+            
+            <a class="resetCustomForm">Reset All</a>
         </div>
         
-        <a class="resetCustomForm">Reset All</a>
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-1 zeroPadding" style="margin-right: 10px;">
+                <span class="greyTxt">Min. Bid</span>
+                <input type="text" class="form-control" placeholder="0.01">
+            </div>
+            
+            <div class="col-md-1 zeroPadding">
+                <span class="greyTxt">Max Bid</span>
+                <input type="text" class="form-control" placeholder="10">
+            </div>
+        </div>
+        
+        <div class="col-md-12 zeroPadding">
+            <span class="greyTxt">Blackout Period</span>
+            <div class="col-md-1 zeroPadding clearLeft" style="margin-right: 10px;">
+                <input type="text" class="form-control" placeholder="1">
+            </div>
+            
+            <div class="col-md-1 zeroPadding dropdown-workflow">
+                 <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">Days</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="buyMethod" id="buyMethod">
+                            <li>
+                                <a>Days</a>
+                            </li>
+                            <li>
+                                <a>Weeks</a>
+                            </li>
+                            <li>
+                                <a>Months</a>
+                            </li>
+                            <li>
+                                <a>Years</a>
+                            </li>
+                      </ul>
+                     <input type="hidden" name="buyMethod" ng-update-hidden/>
+                 </div>
+            </div>
+        </div>
+        
+        <div class="col-md-12 zeroPadding">
+            <span class="greyTxt">Ramp Duration</span>
+            <div class="col-md-1 zeroPadding clearLeft" style="margin-right: 10px;">
+                <input type="text" class="form-control" placeholder="0">
+            </div>
+            
+            <div class="col-md-1 zeroPadding dropdown-workflow">
+                 <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">Days</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="buyMethod" id="buyMethod">
+                            <li>
+                                <a>Days</a>
+                            </li>
+                            <li>
+                                <a>Weeks</a>
+                            </li>
+                            <li>
+                                <a>Months</a>
+                            </li>
+                            <li>
+                                <a>Years</a>
+                            </li>
+                      </ul>
+                     <input type="hidden" name="buyMethod" ng-update-hidden/>
+                 </div>
+            </div>
+        </div>
+        
+        <div class="col-md-12 zeroPadding">
+            <span class="greyTxt">Performance Objective</span>
+            <span class="pull-left clearLeft">Clicks</span>
+        </div>
+        
+        <div class="col-md-12 zeroPadding">
+            <span class="greyTxt">Margin Goal</span>
+            <div class="col-md-1 zeroPadding clearLeft">
+                <span class="percentageAbs">%</span>
+                <input type="text" class="form-control" placeholder="0" style="text-align: center;">
+            </div>
+        </div>
     </div>
     
-    <div class="col-md-12 zeroPadding">
+    <!--App Nexus Form-->
+    <div class="col-md-12 zeroPadding platWrap {{getPlatformIconName(adData.platform)}}">
+        <div class="col-md-12 zeroPadding adHeader">Bidding Strategy</div>
+        <a href="javascript:void(0);" class="helpLink">How to define your strategy</a>
+        
+        <div class="col-md-12 zeroPadding">
+            <span class="greyTxt col-md-12 zeroPadding">Inventory Type</span>
+            
+            <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+                <label class="btn btn-primary firstCreateBtnGroup">
+                  <input type="radio" name="goal" autocomplete="off" value="Direct">
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 2px 0 0 0;">Direct</span>
+                    </div>
+                </label>
+                <label class="btn btn-primary">
+                  <input type="radio" name="goal" autocomplete="off" value="Third Party">
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 2px 0 0 0;">Third Party</span>
+                    </div>
+                </label>
+                <label class="btn btn-primary lastCreateBtnGroup">
+                  <input type="radio" name="goal" autocomplete="off" value="Direct / Third Party">
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 2px 0 0 0;">Direct / Third Party</span>
+                    </div>
+                </label>
+            </div>
+            
+        </div>
+        
+        <div class="col-md-3 zeroPadding" style="margin-right: 10px;">
+            <span class="greyTxt col-md-12 zeroPadding">Pay Per-Impression Type</span>
+            
+            <div class="col-md-12 zeroPadding dropdown-workflow clearLeft">
+                 <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">Select Type</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="payPerImp" id="payPerImp">
+                            <li>
+                                <a>Bid a base CPM</a>
+                            </li>
+                      </ul>
+                     <input type="hidden" name="payPerImp" ng-update-hidden/>
+                 </div>
+            </div>
+        </div>
+        
+        <div class="col-md-1 zeroPadding" style="width: 82px;">
+            <span class="greyTxt col-md-12 zeroPadding">Bid CPM</span>
+            
+            <div class="switch-workflow">
+                <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label for="cmn-toggle-1"></label>
+            </div>
+        </div>
+        
         <div class="col-md-1 zeroPadding" style="margin-right: 10px;">
-            <span class="greyTxt">Min. Bid</span>
-            <input type="text" class="form-control" placeholder="0.01">
-        </div>
-        
-        <div class="col-md-1 zeroPadding">
-            <span class="greyTxt">Max Bid</span>
-            <input type="text" class="form-control" placeholder="10">
-        </div>
-    </div>
-    
-    <div class="col-md-12 zeroPadding">
-        <span class="greyTxt">Blackout Period</span>
-        <div class="col-md-1 zeroPadding clearLeft" style="margin-right: 10px;">
-            <input type="text" class="form-control" placeholder="1">
-        </div>
-        
-        <div class="col-md-1 zeroPadding dropdown-workflow">
-             <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                       <span class="text">Days</span>
-                       <span class="icon-arrow-down"></span>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="buyMethod" id="buyMethod">
-                        <li>
-                            <a>Days</a>
-                        </li>
-                        <li>
-                            <a>Weeks</a>
-                        </li>
-                        <li>
-                            <a>Months</a>
-                        </li>
-                        <li>
-                            <a>Years</a>
-                        </li>
-                  </ul>
-                 <input type="hidden" name="buyMethod" ng-update-hidden/>
-             </div>
-        </div>
-    </div>
-    
-    <div class="col-md-12 zeroPadding">
-        <span class="greyTxt">Ramp Duration</span>
-        <div class="col-md-1 zeroPadding clearLeft" style="margin-right: 10px;">
+            <span class="greyTxt col-md-12 zeroPadding">Min.</span>
+            
+            <span class="percentageAbs" style="right: initial; top: 46px; left: 10px;">$</span>
             <input type="text" class="form-control" placeholder="0">
         </div>
         
-        <div class="col-md-1 zeroPadding dropdown-workflow">
-             <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                       <span class="text">Days</span>
-                       <span class="icon-arrow-down"></span>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="buyMethod" id="buyMethod">
-                        <li>
-                            <a>Days</a>
-                        </li>
-                        <li>
-                            <a>Weeks</a>
-                        </li>
-                        <li>
-                            <a>Months</a>
-                        </li>
-                        <li>
-                            <a>Years</a>
-                        </li>
-                  </ul>
-                 <input type="hidden" name="buyMethod" ng-update-hidden/>
-             </div>
+        <div class="col-md-1 zeroPadding" style="margin-right: 10px;">
+            <span class="greyTxt col-md-12 zeroPadding">Max</span>
+            
+            <span class="percentageAbs" style="right: initial; top: 46px; left: 10px;">$</span>
+            <input type="text" class="form-control" placeholder="0">
         </div>
-    </div>
-    
-    <div class="col-md-12 zeroPadding">
-        <span class="greyTxt">Performance Objective</span>
-        <span class="pull-left clearLeft">Clicks</span>
-    </div>
-    
-    <div class="col-md-12 zeroPadding">
-        <span class="greyTxt">Margin Goal</span>
-        <div class="col-md-1 zeroPadding clearLeft">
-            <span class="percentageAbs">%</span>
-            <input type="text" class="form-control" placeholder="0" style="text-align: center;">
+        
+        <div class="col-md-12 zeroPadding adHeader" style="margin: 40px 0 0 0;">Other Options</div>
+        
+        <div class="col-md-3 zeroPadding clearLeft">
+            <span class="greyTxt col-md-12 zeroPadding">Show to users without cookies</span>
+            
+            <div class="switch-workflow">
+                <input id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label for="cmn-toggle-2"></label>
+            </div>
         </div>
-    </div>
-    
-    <div class="col-md-12 zeroPadding">
-        <div class="switch-workflow">
-            <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
-            <label for="cmn-toggle-1"></label>
+        
+        <div class="col-md-3 zeroPadding clearLeft">
+            <span class="greyTxt col-md-12 zeroPadding">Enable cadence modifier</span>
+            
+            <div class="switch-workflow">
+                <input id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label for="cmn-toggle-3"></label>
+            </div>
         </div>
+        
+        
     </div>
-    
-    
 </div>

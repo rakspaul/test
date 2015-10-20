@@ -136,16 +136,10 @@ var angObj = angObj || {};
         }
         
         $scope.getPlatformIconName = function (platform) {
-            var platformMapper = {'collective bidder': 'plat-collective', 'appnexus': 'plat-nexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
+            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
             return platformMapper[platform.toLowerCase()];
         }
         
-        $scope.getPlatformIconNameSideBar = function (platform) {
-            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'};
-            return platformMapper[platform.toLowerCase()];
-        }
-
-
         $scope.getPlatformDesc = function (platform) {
             var platformMapper = {
                 'collective bidder': 'The programmactic solution for all screens and formats.',
@@ -539,8 +533,8 @@ var angObj = angObj || {};
         // Buying Platform Slide Page
         $scope.showBuyingPlatformWindow=function(){
             $scope.isBuyPlatformPopup = true;
-            //$(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
-            //$(".offeringsWrap").hide();
+            $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
+            $(".offeringsWrap").hide();
         }
 
         function getfreqCapParams(formData) {

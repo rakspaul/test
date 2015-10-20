@@ -1533,7 +1533,7 @@
   width: 930px;
   height: auto;
   min-height: 600px;
-  top: 187px;
+  top: 188px;
   display: none;
   position: absolute;
   z-index: 10;
@@ -1558,6 +1558,15 @@
 #campaignCreate .platformSlide .platform-custom .breadcrumbs a {
   float: left;
   margin: 9px 30px;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap {
+  display: none;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap.logo_C_bidder {
+  display: inline-block;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap.logo_C_appnexus {
+  display: inline-block;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;
