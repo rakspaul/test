@@ -267,7 +267,7 @@ var angObj = angObj || {};
             }
 
             //inventory files
-            if(responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
+            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
                 $scope.$broadcast('updateInventory');
 
             //creative tags
