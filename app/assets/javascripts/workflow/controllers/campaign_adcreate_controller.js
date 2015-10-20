@@ -47,8 +47,11 @@ var angObj = angObj || {};
 
         //$scope.showDropDown=false;
         $scope.adArchive=false;
-        //$scope.deleteFailed=false;
+
+        $scope.changePlatformPopup = false;
+//        $scope.deleteFailed=false;
         $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
+        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
 
@@ -264,7 +267,7 @@ var angObj = angObj || {};
             if(responseData.platform){
                 $scope.$broadcast('updatePlatform',[responseData.platform]);
                 if(responseData.state == "PUSHED")
-                    $scope.isAdsPushed = false;
+                    $scope.isAdsPushed = true;
             }
 
             //inventory files
@@ -280,11 +283,13 @@ var angObj = angObj || {};
             //$q.defer()
 
             //geotargets
+
             if(responseData.targets && responseData.targets.geoTargets) {
                 $timeout(function () {
                     $scope.$broadcast("updateGeoTags");
                 }, 2000)
             }
+
 
         }
 
@@ -931,8 +936,10 @@ var angObj = angObj || {};
         var tempPlatform ;
 
 
+        var tempPlatform ;
+
         $scope.$on('updatePlatform',function(event,platform){
-            $scope.selectPlatform('',platform[0]);
+            $scope.selectPlatform('', platform[0]);
         })
 
         $scope.selectPlatform =  function(event, platform) {
@@ -945,19 +952,15 @@ var angObj = angObj || {};
             if($scope.mode === 'edit'){
                 if(storedResponse.platform.name === platform.name) {
                     //directly set  the platform if it is the same
-                    console.log("simple");
-
                     $scope.setPlatform(platform);
                 }
                 else {
-                    console.log("no tagets");
                     //if the platform is changed but no targets were selected allow change
                     if(_.size(storedResponse.targets.geoTargets) == 0 ){
                         $scope.setPlatform(platform);
                     }
                     else{
                         //display warnign popup
-                        console.log("warning popup");
                         tempPlatform = platform;
                         $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(storedResponse.platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
                         $scope.changePlatformPopup = true;
@@ -984,10 +987,9 @@ var angObj = angObj || {};
             tempPlatform = [];
         }
 
-        $scope.confirmChange = function(){
+        $scope.confirmChange = function() {
             $scope.setPlatform(tempPlatform);
             $scope.changePlatformPopup = false;
-
         }
     });
 
@@ -1070,33 +1072,9 @@ var angObj = angObj || {};
         $scope.$on('updateGeoTags',function(){
             if($scope.mode === 'edit'){
                 $scope.selectGeoTarget('Geography');
-
                 storedResponse = angular.copy(workflowService.getAdsDetails());
-
-                //$scope.showCitiesTab = true;
-
-
-                //populate all lists
-                //$scope.listRegions('',null,regionEdit);
-
                 $scope.showRegionsTab = true;
                 $scope.selectedTab = 'regions';
-               // $scope.resetSwitch();
-
-                //$scope.showSwitch = true;
-                //if(storedResponse.targets.geoTargets.REGION.isIncluded)
-                //    $scope.regionsIncludeSwitchLabel = true;
-                //else
-                //    $scope.regionsIncludeSwitchLabel = false;
-
-
-                //experiment to change the switch
-                //$scope.showSwitch = true;
-                //
-
-
-
-
             }
         })
 
