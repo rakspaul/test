@@ -529,8 +529,8 @@ var angObj = angObj || {};
         // Buying Platform Slide Page
         $scope.showBuyingPlatformWindow=function(){
             $scope.isBuyPlatformPopup = true;
-            $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
-            $(".offeringsWrap").hide();
+            //$(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
+            //$(".offeringsWrap").hide();
         }
 
         function getfreqCapParams(formData) {

@@ -38,7 +38,7 @@
                                                 <!--        class="btn btn-primary pull-right">Archive-->
                                                 <!--</button>-->
                                                 
-                                                <div class="zeroPadding dropdown-workflow pull-right" style="width: 80px;">
+                                                <div class="zeroPadding dropdown-workflow pull-right" style="width: 80px;" ng-hide="(mode!='edit')">
                                                     <div class="dropdown">
                                                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                               <span class="text">More</span>
@@ -49,7 +49,7 @@
                                                             <li class="disabled"><a>Resume</a></li>
                                                             <li class="disabled"><a>Move to</a></li>
                                                             <li class="disabled"><a>Copy to</a></li>
-                                                            <li><a ng-hide="(mode!='edit')" id="archiveAdbtn" ng-click="cancelAdArchive()">Archive</a></li>
+                                                            <li><a id="archiveAdbtn" ng-click="cancelAdArchive()">Archive</a></li>
                                                          </ul>
                                                     </div>
                                                </div>
