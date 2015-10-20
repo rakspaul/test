@@ -75,8 +75,6 @@
                     <div class="pull-right inventory_chart_details_list_holder">
                         <div class="inventory_chart_details_list"
                              data-ng-repeat="stable in strategyTableData | orderBy:'-impressions' track by $index">
-                            
-
                             <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                                 <span class="row_index">{{$index + 1}}</span>
                                 <span class="url_val" title="{{stable.dimension}}"
@@ -84,7 +82,7 @@
 
                                 <span class="url_val" title="{{stable.dimension}}"
                                       ng-if="(selected_filters_tab == 'domains' )">
-                                    <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.dimension | formatUrl :15 }}</a>
+                                    <a href="http://{{ stable.dimension}}" target='_blank' id="inventory_url_val">{{ stable.dimension | formatUrl :15 }}</a>
                                  </span>
                                 <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (stable.video_metrics['vtc_rate'] | number:2): (stable[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}
                                 
@@ -135,7 +133,7 @@
                                       ng-if="(selected_filters_tab !== 'domains') "> {{ tableData.dimension | formatUrl:20 }}</span>
                                 <span class="url_val" title="{{tableData.dimension}}"
                                       ng-if="(selected_filters_tab == 'domains' )">
-                                    <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.dimension | formatUrl:15}}</a>
+                                    <a href="http://{{ tableData.dimension}}" target='_blank' id="inventory_domain" > {{ tableData.dimension | formatUrl:15}}</a>
                                  </span>
                                 <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (stable.video_metrics['vtc_rate'] | number:2): (tableData[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}</span>
                                 <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | nrFormat}}</span>

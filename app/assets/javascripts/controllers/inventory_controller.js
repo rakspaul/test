@@ -83,31 +83,15 @@ var angObj = angObj || {};
         };
         $scope.init();
 
-        //This function is called for tactics Table data
-        $scope.getTacticList = function (param) {
-            $scope.tacticBusy = true;
-
-            var url = inventoryService.getAllTacticDomainData(param);
-            var canceller =  requestCanceller.initCanceller(constants.INVENTORY_TACTC_CANCELLER );
-            var errorHandler =  function() {
-                var topChartObj = false;
-                var isGraphPlot = true;
-                $scope.tacticBusy = false;
-                $scope.inventoryChart = false;
-            };
-            return dataService.fetchCancelable(url, canceller, function(result) {
-                $scope.strategyLoading =  false;
-                if (result.status === "OK" || result.status === "success") {
-
-                    if (result.data.data[0] !== 'undefined' ) {
-
-                        if (param.domain.toLowerCase() === $scope.selected_filters_tab.toLowerCase()) {
-
-                            $scope.tacticList.tacticList = result.data.data[0].tactics;
-                            $scope.tacticBusy = false;
-                            $scope.tacticList.topPerformance = []
-                            for (var t in  $scope.tacticList.tacticList) {
-                                var topPerformance = [];
+         //This function is called for tactics Table data
+                     $scope.getTacticList = function (param) {
+                     $scope.tacticBusy = true;
+                     $scope.tacticList.tacticList = $scope.tacticListData;
+                     $scope.tacticBusy = false;
+                     $scope.tacticList.topPerformance = []
+                            
+                        for (var t in  $scope.tacticList.tacticList) {
+                            var topPerformance = [];
                                 var resultTableData = $scope.tacticList.tacticList[t].perf_metrics;
 
                                 $scope.tacticBusy = false;
@@ -130,16 +114,7 @@ var angObj = angObj || {};
                                 }
 
                                 $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj, graphRender : isGraphPlot });
-
-                            }
-                        }
-                    } else { // We get empty data response.
-                        errorHandler();
-                    }
-                } else { // Call is failed.
-                    errorHandler();
-                }
-            }, errorHandler);
+                         }
         };
 
 
@@ -195,7 +170,8 @@ var angObj = angObj || {};
 
                     if ((result.data.data[0] !== undefined) && ((result.data.data[0].perf_metrics !== null || result.data.data[0].perf_metrics !== undefined) && result.data.data[0].perf_metrics.length > 0 ) ) {
                         var resultTableData = result.data.data[0].perf_metrics;
-
+                            $scope.tacticListData = result.data.data[0].tactics;
+                        
                         // First confirm that the current selected tab and the tab for which we got data response are same. Then only process the data.
                         if (param.domain.toLowerCase() === $scope.selected_filters_tab.toLowerCase()) {
 
