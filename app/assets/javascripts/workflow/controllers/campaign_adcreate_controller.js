@@ -1305,6 +1305,7 @@ var angObj = angObj || {};
                             _.each(selectedCities, function(citiesObj, idx) {
                                 if(citiesObj.parent.id === regionsObj.id) {
                                     $scope.showCitiesOnly = false;
+                                    
                                     citiesObj.citiesIncluded = false;
                                     tmpArr.push(citiesObj);
                                     regionsObj.cities = tmpArr;
