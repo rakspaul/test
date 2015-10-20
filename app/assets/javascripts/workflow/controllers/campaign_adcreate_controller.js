@@ -935,7 +935,7 @@ var angObj = angObj || {};
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
-            if(storedResponse.targets.geoTargets)
+            if(storedResponse && storedResponse.targets.geoTargets)
                 settings = "Geography";
 
             if($scope.mode === 'edit'){
@@ -965,10 +965,10 @@ var angObj = angObj || {};
         }
         $scope.setPlatform = function(platform){
             $scope.selectedPlatform = {};
-            var index = $filter('toPascalCase')(platform.name);
-            $scope.adData.platform =  platform.name;
+            var index = $filter('toPascalCase')(platform.displayName);
+            $scope.adData.platform =  platform.displayName;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[index] = platform.name;
+            $scope.selectedPlatform[index] = platform.displayName;
         }
 
         $scope.cancelChangePlatform  = function(){

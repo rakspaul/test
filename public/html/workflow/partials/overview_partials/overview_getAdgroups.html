@@ -40,8 +40,8 @@
         <span class="icon-settings"></span>
         <!--<div ng-repeat="index in adsData">-->
             <div class="col-md-12 adTitle">
-                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.name}}"/>
-                <span class="greyTxt adDisplay">{{adsData.platform.name}}</span>
+                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.displayName | uppercase}}"/>
+                <span class="greyTxt adDisplay">{{adsData.platform.displayName | uppercase}}</span>
                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
                 <span class="greyTxt adDisplay" ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
             </div>

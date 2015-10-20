@@ -182,7 +182,7 @@
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                                 <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime"  required/>
                                             </div>
-                                            <div class="dateContainer" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
+                                            <div class="dateContainer form-group"" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                                 <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
                                                 <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the end Date.</label>
@@ -225,8 +225,8 @@
                         <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id" ng-click='goEdit(adsData.campaignId,adsData.id,false)'>
                             <span class="icon-settings"></span>
                             <div class="col-md-12 adTitle">
-                                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.name}}"/>
-                                <span class="greyTxt adDisplay">{{adsData.platform.name}}</span>
+                                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" title="{{adsData.platform.displayName | uppercase}}"/>
+                                <span class="greyTxt adDisplay">{{adsData.platform.displayName | uppercase}}</span>
                                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
                                 <span class="greyTxt adDisplay" ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
                             </div>
