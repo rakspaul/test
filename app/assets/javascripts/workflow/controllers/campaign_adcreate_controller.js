@@ -42,12 +42,9 @@ var angObj = angObj || {};
         $scope.IsVisible = false;//To show hide view tag in creatives listing
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
-        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
         $scope.numberOnlyPattern = /[^0-9]/g;
-
         //$scope.showDropDown=false;
         $scope.adArchive=false;
-
         $scope.changePlatformPopup = false;
 //        $scope.deleteFailed=false;
         $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
@@ -934,16 +931,14 @@ var angObj = angObj || {};
             $scope.$parent.changePlatform(newValue);
         })
         var tempPlatform ;
-
-
-        var tempPlatform ;
+        var storedResponse;
 
         $scope.$on('updatePlatform',function(event,platform){
             $scope.selectPlatform('', platform[0]);
         })
 
         $scope.selectPlatform =  function(event, platform) {
-            var storedResponse = angular.copy(workflowService.getAdsDetails());
+            storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
             if(storedResponse.targets.geoTargets)
@@ -962,7 +957,7 @@ var angObj = angObj || {};
                     else{
                         //display warnign popup
                         tempPlatform = platform;
-                        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(storedResponse.platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+                        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
                         $scope.changePlatformPopup = true;
                     }
 
@@ -990,6 +985,9 @@ var angObj = angObj || {};
         $scope.confirmChange = function() {
             $scope.setPlatform(tempPlatform);
             $scope.changePlatformPopup = false;
+            storedResponse.targets.geoTargets = {};
+            workflowService.setAdsDetails(storedResponse);
+            $scope.$broadcast('resetGeoTags');
         }
     });
 
@@ -1010,6 +1008,7 @@ var angObj = angObj || {};
         $scope.addedTargeting = true;
 
         $scope.regionEdit = function(flatArr){
+            storedResponse = angular.copy(workflowService.getAdsDetails());
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.REGION) {
                 var regionsEditable = angular.copy(storedResponse.targets.geoTargets.REGION.geoTargetList);
                 $scope.regionsIncluded = storedResponse.targets.geoTargets.REGION.isIncluded;
@@ -1033,6 +1032,7 @@ var angObj = angObj || {};
         }
 
         $scope.cityEdit = function(flatArr){
+            storedResponse = angular.copy(workflowService.getAdsDetails());
             //edit mode
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.CITY) {
                 var citiesEditable = angular.copy(storedResponse.targets.geoTargets.CITY.geoTargetList);
@@ -1055,6 +1055,7 @@ var angObj = angObj || {};
         }
 
         $scope.dmasEdit = function(flatArr){
+            storedResponse = angular.copy(workflowService.getAdsDetails());
             //edit mode
             if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.DMA) {
                 var dmasEditable = angular.copy(storedResponse.targets.geoTargets.DMA.geoTargetList);
@@ -1076,6 +1077,10 @@ var angObj = angObj || {};
                 $scope.showRegionsTab = true;
                 $scope.selectedTab = 'regions';
             }
+        })
+
+        $scope.$on('resetGeoTags',function(){
+            $scope.resetTargetingVariables();
         })
 
 
