@@ -28,30 +28,38 @@ var angObj = angObj || {};
         $scope.selectedCampaign = {};
         $scope.repushCampaignEdit = false;
         $scope.campaignId = $routeParams.campaignId;
+        $scope.flashMessage = {'message':'','isErrorMsg':0};
         $scope.mode = workflowService.getMode();
         $scope.campaignArchive=false;
         $scope.deleteCampaignFailed=false;
         $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
 
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetFlashMessage() ;
+            }, 3000);
+        }
+
         $scope.archiveCampaign=function(event){
             event.preventDefault();
             var campaignArchiveErrorHandler=function(){
-                $scope.adArchive=false;
-                console.log("failed");
-                localStorage.setItem('topAlertMessage', $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE);
+                $scope.campaignArchive=false;
+                $scope.flashMessage.message = $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE ;
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.flashMessage.isMsg = 0;
             }
             workflowService.deleteCampaign($scope.campaignId).then(function (result) {
-                                        if (result.status === "OK" || result.status === "success") {
-                                            $scope.adArchive=false;
-                                            var url = '/campaigns';// + $scope.campaignId + '/overview';
-                                            $location.url(url);
-                                                if($scope.editCampaignData.adsCount>0)
-                                                    localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
-                                                else
-                                                    localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+"has been archived");
-                                        }else{
-                                            campaignArchiveErrorHandler();
-                                        }
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.campaignArchive=false;
+                    var url = '/campaigns';
+                    $location.url(url);
+                        if($scope.editCampaignData.adsCount>0)
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
+                        else
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+"has been archived");
+                }else{
+                    campaignArchiveErrorHandler();
+                }
             },campaignArchiveErrorHandler);
         }
         $scope.cancelArchiveCampaign=function(){
@@ -263,6 +271,18 @@ var angObj = angObj || {};
             $scope.$broadcast('show-errors-reset');
             $scope.selectedCampaign = {};
         };
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetFlashMessage() ;
+        };
+
+        $scope.resetFlashMessage = function(){
+            $scope.flashMessage.message = '' ;
+            $scope.flashMessage.isErrorMsg = 0 ;
+            $scope.flashMessage.isMsg = 0 ;
+        }
 
         $scope.getRandom = function () {
             return Math.floor((Math.random() * 6) + 1);

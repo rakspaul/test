@@ -65,22 +65,22 @@ var angObj = angObj || {};
             }, 3000);
         }
         $scope.archiveAd=function(event){
-                var errorAchiveAdHandler =  function() {
-                           $scope.adArchive=false;
-                           $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_ARCHIVE_FAILURE ;
-                           $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
-                           $scope.partialSaveAlertMessage.isMsg = 1;
-                       }
-            event.preventDefault();
+            var errorAchiveAdHandler =  function() {
+               $scope.adArchive = false;
+               $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_ARCHIVE_FAILURE ;
+               $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+               $scope.partialSaveAlertMessage.isMsg = 0;
+            }
+
             workflowService.deleteAd($scope.campaignId,$scope.adId).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                $scope.adArchive=false;
-                                var url = '/campaign/' + $scope.campaignId + '/overview';
-                                $location.url(url);
-                                localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
-                            }else{
-                                errorAchiveAdHandler();
-                            }
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.adArchive=false;
+                    var url = '/campaign/' + $scope.campaignId + '/overview';
+                    $location.url(url);
+                    localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
+                }else{
+                    errorAchiveAdHandler();
+                }
             }, errorAchiveAdHandler);
 
 
