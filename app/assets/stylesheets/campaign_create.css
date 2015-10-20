@@ -137,7 +137,7 @@
   padding-top: 19px;
 }
 #campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
-  top: 42px;
+  top: 40px;
   left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
@@ -1135,12 +1135,19 @@
   display: table;
   max-height: 30px;
 }
-#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder input[type="button"] {
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .btn {
   float: left;
   position: relative;
   left: 50%;
   margin-left: -32px;
   margin-top: 20px;
+  cursor: pointer;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .btn.active {
+  background: #E1EDF9;
+  box-shadow: none;
+  width: auto;
+  margin-left: -43px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder a {
   color: #2c9aec;
@@ -1856,7 +1863,7 @@
   margin-top: 20px;
 }
 .adCreateMaster #targetting .ddlSetTarget .msgPopup {
-  left: -80px;
+  left: -40px;
   top: 46px;
 }
 .adCreateMaster #targetting .ddlSetTarget .msgPopup:after,

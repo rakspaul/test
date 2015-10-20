@@ -125,7 +125,7 @@
       }
       .dollar_value {
         .currency {
-            top: 42px;
+            top: 40px;
             left: 10px;
         }
       }
@@ -1150,12 +1150,19 @@
           display: table;
           max-height: 30px;
         }
-        input[type="button"] {
+        .btn {
           float: left;
           position: relative;
           left: 50%;
           margin-left: -32px;
           margin-top: 20px;
+          cursor: pointer;
+        }
+        .btn.active {
+          background: #E1EDF9;
+          box-shadow: none;
+          width: auto;
+          margin-left: -43px;
         }
         a {
           color: #2c9aec;
@@ -1900,7 +1907,7 @@
     .ddlSetTarget {
       margin-top: 20px;
       .msgPopup {
-        left: -80px;
+        left: -40px;
         top: 46px;
       }
       .msgPopup:after, .msgPopup:before {

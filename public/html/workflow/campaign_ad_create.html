@@ -34,9 +34,26 @@
                                                         {{adData.adName.length>0 ? (adData.adName | textEllipsis: 40 ) :textConstants.WF_UNTITLED_AD}}
                                                     </span>
                                                 </div>
-                                                <button type="button" ng-hide="(mode!='edit')" id="archiveAdbtn" ng-click="cancelAdArchive()"
-                                                        class="btn btn-primary pull-right">Archive
-                                                </button>
+                                                <!--<button type="button" ng-hide="(mode!='edit')" id="archiveAdbtn" ng-click="cancelAdArchive()"-->
+                                                <!--        class="btn btn-primary pull-right">Archive-->
+                                                <!--</button>-->
+                                                
+                                                <div class="zeroPadding dropdown-workflow pull-right" style="width: 80px;">
+                                                    <div class="dropdown">
+                                                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                              <span class="text">More</span>
+                                                              <span class="icon-arrow-down"></span>
+                                                         </button>
+                                                         <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                                            <li class="disabled"><a>Pause</a></li>
+                                                            <li class="disabled"><a>Resume</a></li>
+                                                            <li class="disabled"><a>Move to</a></li>
+                                                            <li class="disabled"><a>Copy to</a></li>
+                                                            <li><a ng-hide="(mode!='edit')" id="archiveAdbtn" ng-click="cancelAdArchive()">Archive</a></li>
+                                                         </ul>
+                                                    </div>
+                                               </div>
+                                                
                                                 <button type="submit" ng-disabled="!adData.adName" id="SaveAd"
                                                         class="btn btn-primary pull-right">Save
                                                 </button>

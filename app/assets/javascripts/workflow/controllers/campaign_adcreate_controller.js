@@ -46,7 +46,7 @@ var angObj = angObj || {};
 
         //$scope.showDropDown=false;
         $scope.adArchive=false;
-//        $scope.deleteFailed=false;
+        //$scope.deleteFailed=false;
         $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
         $scope.preDeleteArr = [];
@@ -530,6 +530,7 @@ var angObj = angObj || {};
         $scope.showBuyingPlatformWindow=function(){
             $scope.isBuyPlatformPopup = true;
             $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
+            $(".offeringsWrap").hide();
         }
 
         function getfreqCapParams(formData) {
@@ -932,6 +933,7 @@ var angObj = angObj || {};
             $scope.adData.platform = platform.name;
             $scope.adData.platformId = platform.id;
             $scope.selectedPlatform[platform.name] = platform.name;
+            $scope.showBuyingPlatformWindow();
         }
     });
 
