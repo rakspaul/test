@@ -137,7 +137,10 @@ var angObj = angObj || {};
         
         $scope.getPlatformIconName = function (platform) {
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
-            return platformMapper[platform.toLowerCase()];
+            if(platform)
+                return platformMapper[platform.toLowerCase()];
+            else
+                return '';
         }
         
         $scope.getPlatformDesc = function (platform) {
@@ -275,7 +278,7 @@ var angObj = angObj || {};
 
             //geotargets
 
-            if(responseData.targets && responseData.targets.geoTargets) {
+            if(responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
                 $timeout(function () {
                     $scope.$broadcast("updateGeoTags");
                 }, 2000)
@@ -935,10 +938,10 @@ var angObj = angObj || {};
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
-            if(storedResponse && storedResponse.targets.geoTargets)
-                settings = "Geography";
-
             if($scope.mode === 'edit'){
+                if(storedResponse.targets.geoTargets)
+                    settings = "Geography";
+                
                 if(storedResponse.platform.name === platform.name) {
                     //directly set  the platform if it is the same
                     $scope.setPlatform(platform);
@@ -965,10 +968,17 @@ var angObj = angObj || {};
         }
         $scope.setPlatform = function(platform){
             $scope.selectedPlatform = {};
-            var index = $filter('toPascalCase')(platform.displayName);
-            $scope.adData.platform =  platform.displayName;
+
+            var name = platform.name;
+            if(platform.displayName)
+                name = platform.displayName;
+
+            var index = $filter('toPascalCase')(name);
+
+
+            $scope.adData.platform =  name;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[index] = platform.displayName;
+            $scope.selectedPlatform[index] = name;
         }
 
         $scope.cancelChangePlatform  = function(){
