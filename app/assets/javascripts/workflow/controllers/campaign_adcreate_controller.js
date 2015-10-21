@@ -942,23 +942,29 @@ var angObj = angObj || {};
                 if(storedResponse.targets.geoTargets)
                     settings = "Geography";
                 
-                if(storedResponse.platform.name === platform.name) {
-                    //directly set  the platform if it is the same
-                    $scope.setPlatform(platform);
-                }
-                else {
-                    //if the platform is changed but no targets were selected allow change
-                    if(_.size(storedResponse.targets.geoTargets) == 0 ){
+                if(storedResponse.platform){
+                    if(storedResponse.platform.name === platform.name) {
+                        //directly set  the platform if it is the same
                         $scope.setPlatform(platform);
                     }
-                    else{
-                        //display warnign popup
-                        tempPlatform = platform;
-                        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
-                        $scope.changePlatformPopup = true;
-                    }
+                    else {
+                        //if the platform is changed but no targets were selected allow change
+                        if(_.size(storedResponse.targets.geoTargets) == 0 ){
+                            $scope.setPlatform(platform);
+                        }
+                        else{
+                            //display warnign popup
+                            tempPlatform = platform;
+                            $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+                            $scope.changePlatformPopup = true;
+                        }
 
+                    }
                 }
+                else{
+                    $scope.setPlatform(platform);
+                }
+
             }
             else{
                 $scope.setPlatform(platform);
