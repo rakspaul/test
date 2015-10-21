@@ -935,10 +935,10 @@ var angObj = angObj || {};
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
-            if(storedResponse && storedResponse.targets.geoTargets)
-                settings = "Geography";
-
             if($scope.mode === 'edit'){
+                if(storedResponse.targets.geoTargets)
+                    settings = "Geography";
+                
                 if(storedResponse.platform.name === platform.name) {
                     //directly set  the platform if it is the same
                     $scope.setPlatform(platform);
