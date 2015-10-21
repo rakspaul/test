@@ -275,7 +275,7 @@ var angObj = angObj || {};
 
             //geotargets
 
-            if(responseData.targets && responseData.targets.geoTargets) {
+            if(responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
                 $timeout(function () {
                     $scope.$broadcast("updateGeoTags");
                 }, 2000)
