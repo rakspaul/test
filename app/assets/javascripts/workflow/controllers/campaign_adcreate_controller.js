@@ -965,10 +965,17 @@ var angObj = angObj || {};
         }
         $scope.setPlatform = function(platform){
             $scope.selectedPlatform = {};
-            var index = $filter('toPascalCase')(platform.displayName);
-            $scope.adData.platform =  platform.displayName;
+
+            var name = platform.name;
+            if(platform.displayName)
+                name = platform.displayName;
+
+            var index = $filter('toPascalCase')(name);
+
+
+            $scope.adData.platform =  name;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[index] = platform.displayName;
+            $scope.selectedPlatform[index] = name;
         }
 
         $scope.cancelChangePlatform  = function(){
