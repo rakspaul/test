@@ -137,7 +137,10 @@ var angObj = angObj || {};
         
         $scope.getPlatformIconName = function (platform) {
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
-            return platformMapper[platform.toLowerCase()];
+            if(platform)
+                return platformMapper[platform.toLowerCase()];
+            else
+                return '';
         }
         
         $scope.getPlatformDesc = function (platform) {
