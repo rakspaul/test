@@ -35,28 +35,29 @@
     <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
     
     <div class="col-md-12 zeroPadding unitCost symbolAbs">
-    <label class="col-sm-12 control-label greyTxt miniLabels">Unit Cost</label>
-    <div class="form-group col-md-3 zeroPadding">
-        <span>$</span>
-        <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-change="numbersOnly('unitCost')">
-    </div>
-
-    <div class="form-group col-md-2" style="padding-right: 0;">
-        
-        <div class="col-md-12 zeroPadding dropdown-workflow">
-             <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                       <span class="text">Select Type</span>
-                       <span class="icon-arrow-down"></span>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
-                       <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id"><a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a></li>
-                  </ul>
-                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
-             </div>
+        <label class="col-sm-12 control-label greyTxt miniLabels">Unit Cost</label>
+        <div class="form-group col-md-3 zeroPadding">
+            <span>$</span>
+            <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-change="numbersOnly('unitCost')">
+        </div>
+    
+        <div class="form-group col-md-2" style="padding-right: 0;">
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                 <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">Select Type</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
+                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id">
+                            <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
+                           </li>
+                      </ul>
+                     <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                 </div>
+            </div>
         </div>
     </div>
-</div>
     
     <label class="col-sm-12 control-label greyTxt miniLabels">Budget Calculation</label>
     <div class="btn-group miniToggle" ng-init="adData.budgetType='Impressions'">

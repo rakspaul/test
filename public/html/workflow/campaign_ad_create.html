@@ -30,9 +30,9 @@
                                         <div class="tab-content">
                                             <div class="common-btns">
                                                 <div class="col-md-6 zeroPadding">
-                                                    <span class="col-md-12 zeroPadding adName" tooltip="{{adData.adName}}">
+                                                    <h3 class="col-md-12 zeroPadding adName" tooltip="{{adData.adName}}">
                                                         {{adData.adName.length>0 ? (adData.adName | textEllipsis: 40 ) :textConstants.WF_UNTITLED_AD}}
-                                                    </span>
+                                                    </h3>
                                                 </div>
                                                 <!--<button type="button" ng-hide="(mode!='edit')" id="archiveAdbtn" ng-click="cancelAdArchive()"-->
                                                 <!--        class="btn btn-primary pull-right">Archive-->
@@ -70,7 +70,7 @@
                                             <!-- Tab1 Setting Ends -->
     
                                             <!-- Tabs Buying Platform -->
-                                            <div class="tab-pane fade" id="buying" style="padding: 35px 0 0 0;" ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'" ng-controller="BuyingPlatformController"></div>
+                                            <div class="tab-pane fade" id="buying" style="padding: 50px 0 0 0;" ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'" ng-controller="BuyingPlatformController"></div>
                                             <!-- Tabs Buying Platform Ends -->
     
                                             <!-- Tabs Targeting -->
