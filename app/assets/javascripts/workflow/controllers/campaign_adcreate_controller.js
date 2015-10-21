@@ -190,12 +190,12 @@ var angObj = angObj || {};
 
             
             if(responseData.adFormat){
-                $scope.adData.adFormat = responseData.adFormat;
+                //$scope.adData.adFormat = responseData.adFormat;
                 $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
             }
 
             if(responseData.goal){
-                $scope.adData.goal = responseData.goal;
+                //$scope.adData.goal = responseData.goal;
                 $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
             }
 
