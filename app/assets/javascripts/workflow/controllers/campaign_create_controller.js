@@ -287,35 +287,36 @@ var angObj = angObj || {};
         $scope.getRandom = function () {
             return Math.floor((Math.random() * 6) + 1);
         },
-            $scope.initiateDatePicker = function () {
-                if ($scope.mode == 'edit') {
-                    var startDateElem = $('#startDateInput');
-                    var endDateElem = $('#endDateInput');
-                    var today = new Date();
-                    if (moment(today).format("MM/DD/YYYY") > moment($scope.editCampaignData.startTime).format("MM/DD/YYYY")) {
-                        startDateElem.datepicker("setStartDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                        startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                        startDateElem.datepicker("update", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                    } else {
-                        startDateElem.datepicker("setStartDate", moment(today).format("MM/DD/YYYY"));
-                        startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                        startDateElem.datepicker("update", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                    }
 
-                    endDateElem.datepicker("setStartDate", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
-                    endDateElem.datepicker("update", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
+        $scope.initiateDatePicker = function () {
+            if ($scope.mode == 'edit') {
+                var startDateElem = $('#startDateInput');
+                var endDateElem = $('#endDateInput');
+                var today = new Date();
+                if (moment(today).format("MM/DD/YYYY") > moment($scope.editCampaignData.startTime).format("MM/DD/YYYY")) {
+                    startDateElem.datepicker("setStartDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                    startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                    startDateElem.datepicker("update", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
                 } else {
-                    var startDateElem = $('#startDateInput');
-                    var endDateElem = $('#endDateInput');
-                    var today = moment().format("MM/DD/YYYY");
-                    startDateElem.datepicker("setStartDate", today);
-                    endDateElem.datepicker("setStartDate", today);
-                    startDateElem.datepicker("update", today);
-                    $scope.selectedCampaign.startTime = moment(today).format('MM/DD/YYYY');
-                    $scope.selectedCampaign.endTime = moment(today).format('MM/DD/YYYY');
+                    startDateElem.datepicker("setStartDate", moment(today).format("MM/DD/YYYY"));
+                    startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
+                    startDateElem.datepicker("update", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
                 }
 
+                endDateElem.datepicker("setStartDate", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
+                endDateElem.datepicker("update", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
+            } else {
+                var startDateElem = $('#startDateInput');
+                var endDateElem = $('#endDateInput');
+                var today = moment().format("MM/DD/YYYY");
+                startDateElem.datepicker("setStartDate", today);
+                endDateElem.datepicker("setStartDate", today);
+                startDateElem.datepicker("update", today);
+                $scope.selectedCampaign.startTime = moment(today).format('MM/DD/YYYY');
+                $scope.selectedCampaign.endTime = moment(today).format('MM/DD/YYYY');
             }
+
+        }
 
         $(function () {
             $('.input-daterange').datepicker({

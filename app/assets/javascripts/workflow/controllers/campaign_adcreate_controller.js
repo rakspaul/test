@@ -166,22 +166,9 @@ var angObj = angObj || {};
         };
 
         //edit mode data population
-        if($scope.mode === 'edit'){
-            if(!$scope.adGroupId) {
-                workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
-                    processEditMode(result);
-                })
-            }
-            else{
-                workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
-                    processEditMode(result);
-                })
-            }
-        }
-        function processEditMode(result){
-            var responseData = result.data.data;
-            console.log(responseData);
 
+        function processEditMode(result, startDateElem){
+            var responseData = result.data.data;
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -190,12 +177,10 @@ var angObj = angObj || {};
 
             
             if(responseData.adFormat){
-                $scope.adData.adFormat = responseData.adFormat;
                 $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
             }
 
             if(responseData.goal){
-                $scope.adData.goal = responseData.goal;
                 $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
             }
 
@@ -214,14 +199,15 @@ var angObj = angObj || {};
                 $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
             }
 
-            if(responseData.startTime)
+            if(responseData.startTime) {
                 $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
+            }
 
             if(responseData.endTime){
                 $scope.adData.endTime = moment(responseData.endTime).format("MM/DD/YYYY");
-                $('#endDateInput').prop('disabled',false);
-                $('#endDateInput').css('background','none');
             }
+
+            $scope.initiateDatePicker();
 
             if(responseData.rateValue){
                 $scope.adData.unitCost = responseData.rateValue;
@@ -274,18 +260,14 @@ var angObj = angObj || {};
 
             $scope.$broadcast('updateCreativeTags');
 
-            //$q.defer()
-
-            //geotargets
-
             if(responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
                 $timeout(function () {
                     $scope.$broadcast("updateGeoTags");
                 }, 2000)
             }
-
-
         }
+
+
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -294,22 +276,21 @@ var angObj = angObj || {};
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
                         saveDataInLocalStorage(responseData);
-                        var startDateElem = $('#startDateInput');
-                        var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");
-                        if(moment().isAfter(campaignStartTime, 'day')) {
-                            campaignStartTime = moment().format('MM/DD/YYYY');
+                        if($scope.mode === 'edit'){
+                            if(!$scope.adGroupId) {
+                                workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
+                                    processEditMode(result);
+                                })
+                            }   else {
+                                workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
+                                    processEditMode(result);
+                                })
+                            }
+                        } else {
+                            $scope.initiateDatePicker();
                         }
-                        var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
-                        //startDateElem.datepicker("setStartDate", campaignStartTime);
-                        //startDateElem.datepicker("setEndDate", campaignEndTime);
-                        if(window.location.href.indexOf("adGroup")>-1)
-                        {
-                            startDateElem.datepicker("setStartDate", moment(localStorage.getItem("stTime")).format('MM/DD/YYYY'));
-                            startDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
-                        }else{
-                            startDateElem.datepicker("setStartDate", campaignStartTime);
-                            startDateElem.datepicker("setEndDate", campaignEndTime);
-                        }
+
+
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -476,25 +457,7 @@ var angObj = angObj || {};
             target.attr("checked", "checked");
         };
 
-        $scope.handleFlightDate = function (data) {
-            var startTime = data.startTime;
-            var endDateElem = $('#endDateInput');
-            var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
-            var changeDate;
-            endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
-            if (startTime) {
-                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                changeDate = moment(startTime).format('MM/DD/YYYY')
-                endDateElem.datepicker("setStartDate", changeDate);
-                 if(window.location.href.indexOf("adGroup")>-1)
-                {
-                    endDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
-                }else{
-                    endDateElem.datepicker("setEndDate", campaignEndTime);
-                }
-                endDateElem.datepicker("update", changeDate);
-            }
-        }
+
 
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
@@ -923,6 +886,54 @@ var angObj = angObj || {};
         };
     });
 
+    angObj.controller('BudgetDeliveryController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
+
+        $scope.handleFlightDate = function (data) {
+            var startTime = data.startTime;
+            var endDateElem = $('#endDateInput');
+            var startDateElem = $('#startDateInput');
+            var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
+            var changeDate;
+            if ($scope.mode !== 'edit') {
+                endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
+                if (startTime) {
+                    endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                    changeDate = moment(startTime).format('MM/DD/YYYY')
+                    endDateElem.datepicker("setStartDate", changeDate);
+                    if (window.location.href.indexOf("adGroup") > -1) {
+                        endDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                    } else {
+                        endDateElem.datepicker("setEndDate", campaignEndTime);
+                    }
+                    endDateElem.datepicker("update", changeDate);
+                }
+            }
+        }
+
+        $scope.$parent.initiateDatePicker = function () {
+            var startDateElem = $('#startDateInput');
+            var endDateElem = $('#endDateInput');
+            if ($scope.mode == 'edit') {
+                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+            }
+
+            var campaignData = $scope.workflowData['campaignData'];
+            var campaignStartTime = moment(campaignData.startTime).format("MM/DD/YYYY");
+            if(moment().isAfter(campaignStartTime, 'day')) {
+                campaignStartTime = moment().format('MM/DD/YYYY');
+            }
+            var campaignEndTime = moment(campaignData.endTime).format("MM/DD/YYYY");
+            if(window.location.href.indexOf("adGroup")>-1)
+            {
+                startDateElem.datepicker("setStartDate", moment(localStorage.getItem("stTime")).format('MM/DD/YYYY'));
+                startDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+            }else{
+                startDateElem.datepicker("setStartDate", campaignStartTime);
+                startDateElem.datepicker("setEndDate", campaignEndTime);
+            }
+        }
+    });
+
     angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
@@ -942,23 +953,29 @@ var angObj = angObj || {};
                 if(storedResponse.targets.geoTargets)
                     settings = "Geography";
                 
-                if(storedResponse.platform.name === platform.name) {
-                    //directly set  the platform if it is the same
-                    $scope.setPlatform(platform);
-                }
-                else {
-                    //if the platform is changed but no targets were selected allow change
-                    if(_.size(storedResponse.targets.geoTargets) == 0 ){
+                if(storedResponse.platform){
+                    if(storedResponse.platform.name === platform.name) {
+                        //directly set  the platform if it is the same
                         $scope.setPlatform(platform);
                     }
-                    else{
-                        //display warnign popup
-                        tempPlatform = platform;
-                        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
-                        $scope.changePlatformPopup = true;
-                    }
+                    else {
+                        //if the platform is changed but no targets were selected allow change
+                        if(_.size(storedResponse.targets.geoTargets) == 0 ){
+                            $scope.setPlatform(platform);
+                        }
+                        else{
+                            //display warnign popup
+                            tempPlatform = platform;
+                            $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+                            $scope.changePlatformPopup = true;
+                        }
 
+                    }
                 }
+                else{
+                    $scope.setPlatform(platform);
+                }
+
             }
             else{
                 $scope.setPlatform(platform);
