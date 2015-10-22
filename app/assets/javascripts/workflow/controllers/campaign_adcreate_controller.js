@@ -564,7 +564,7 @@ var angObj = angObj || {};
                    $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad" ;
                    $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
                    $scope.partialSaveAlertMessage.isMsg = 1;
-                   //$scope.msgtimeoutReset() ;
+                   $scope.msgtimeoutReset() ;
                    return false;
                }
 
