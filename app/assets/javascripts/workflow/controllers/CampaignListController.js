@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    campaignListModule.controller('WorkFlowCampaignListController', function($scope, $location, workflowService) {
+    campaignListModule.controller('WorkFlowCampaignListController', function($scope, $location, workflowService,utils) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         localStorage.setItem('campaignData','');
 
@@ -13,6 +13,9 @@
             workflowService.fetchCampaigns().then(function (result) {
                 $scope.campaignData = result.data.data;
             });
+        }
+        $scope.convertEST=function(date,format){
+            return utils.convertToEST(date,format);
         }
 
         fetchAllCampaigns();
