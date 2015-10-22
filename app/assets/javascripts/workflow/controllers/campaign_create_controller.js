@@ -219,7 +219,7 @@ var angObj = angObj || {};
                 postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
 
-                if (window.location.href.indexOf("edit") > -1) {
+                if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
                         postDataObj.startTime = $scope.editCampaignData.startTime;
                     else
