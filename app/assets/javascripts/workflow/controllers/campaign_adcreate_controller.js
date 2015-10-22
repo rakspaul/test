@@ -560,7 +560,7 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
 
-               if($scope.mode == 'edit' && formData.platformId) {
+               if($scope.mode == 'edit' && formData.platformId) { 
                    if (!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) {
                        $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
                        $scope.partialSaveAlertMessage.isErrorMsg = 1;
