@@ -104,9 +104,7 @@ var angObj = angObj || {};
         }
         $scope.msgtimeoutReset() ;
         $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetPartialSaveAlertMessage() ; 
+            $scope.resetPartialSaveAlertMessage() ;
         };
 
         $scope.resetPartialSaveAlertMessage = function(){
@@ -172,6 +170,7 @@ var angObj = angObj || {};
 
         function processEditMode(result, startDateElem){
             var responseData = result.data.data;
+            $scope.workflowData['adsData'] = responseData;
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -560,102 +559,99 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
 
-               if($scope.mode == 'edit' && formData.platformId) { 
-                   if (!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) {
-                       $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
-                       $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                       $scope.partialSaveAlertMessage.isMsg = 1;
-                       $scope.msgtimeoutReset();
-                       return false;
+               if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal)) {
+                   $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
+                   $scope.partialSaveAlertMessage.isErrorMsg = 1;
+                   $scope.partialSaveAlertMessage.isMsg = 1;
+                   $scope.msgtimeoutReset();
+
+               } else {
+                   if (formData.unitType && formData.unitCost) {
+                       postAdDataObj.rateType = formData.unitType
+                       postAdDataObj.rateValue = formData.unitCost;
+                   }
+
+                   if(getfreqCapParams(formData).length >0) {
+                       postAdDataObj.frequencyCaps = getfreqCapParams(formData);
+                   }
+
+                   if (formData.budgetType && formData.budgetAmount) {
+                       postAdDataObj.budgetType = formData.budgetType
+                       postAdDataObj.budgetValue = Number(formData.budgetAmount);
+                   }
+
+                   if (formData.platformId) {
+                       postAdDataObj.platformId = Number(formData.platformId);
+                   }
+
+                   if(creativesData && creativesData.creatives) {
+                       _.each(creativesData.creatives,
+                           function(obj) { obj['sizeId'] = obj.size.id;
+                           });
+                       postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
 
                    }
+
+                   postAdDataObj['targets'] ={};
+                   if($scope.adData.geoTargetingData) {
+                       var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
+
+
+                       var buildGeoTargetingParams = function(data, type) {
+                           var obj= {};
+                           obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
+                           obj['geoTargetList'] = _.pluck(data, 'id');
+                           return obj;
+                       }
+
+                       var geoTargetData = $scope.adData.geoTargetingData;
+                       if (geoTargetData.regions.length > 0) {
+                           postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                       }
+
+                       if (geoTargetData.cities.length > 0) {
+                           postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                       }
+
+                       if (geoTargetData.dmas.length > 0) {
+                           postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                       }
+
+                       if($scope.adData.geoTargetingData.zip.length > 0) {
+                           var zipObj = $scope.adData.geoTargetingData.zip;
+                           var zipPostArr = [];
+                           _.each(zipObj, function(zipArr) {
+                               if(zipArr.added) {
+                                   _.each(zipArr.added, function(obj) {
+                                       var arr = obj.split("-");
+                                       if(arr.length > 1) {
+                                           var start = Number(arr[0]), end = Number(arr[1]);
+                                           for(var i=start; i<=end;i++) {
+                                               zipPostArr.push(String(i));
+                                           }
+                                       } else {
+                                           zipPostArr.push(arr[0]);
+                                       }
+                                   })
+                               }
+                           })
+                           postGeoTargetObj['ZIPCODE'] = {
+                               "isIncluded" :  true,
+                               "geoTargetList" : zipPostArr
+
+                           }
+                       }
+                   }
+
+                   if($scope.adData.inventory) {
+                       var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
+                       domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
+                       postAdDataObj['domainInherit'] = 'APPEND';
+                       postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
+                   }
+
+                   campaignOverView.saveAds(postAdDataObj)
                }
-
-                if (formData.unitType && formData.unitCost) {
-                    postAdDataObj.rateType = formData.unitType
-                    postAdDataObj.rateValue = formData.unitCost;
-                }
-
-               if(getfreqCapParams(formData).length >0) {
-                   postAdDataObj.frequencyCaps = getfreqCapParams(formData);
-               }
-
-                if (formData.budgetType && formData.budgetAmount) {
-                    postAdDataObj.budgetType = formData.budgetType
-                    postAdDataObj.budgetValue = Number(formData.budgetAmount);
-                }
-
-                if (formData.platformId) {
-                    postAdDataObj.platformId = Number(formData.platformId);
-                }
-
-                if(creativesData && creativesData.creatives) {
-                    _.each(creativesData.creatives,
-                        function(obj) { obj['sizeId'] = obj.size.id;
-                        });
-                    postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
-
-                }
-
-               postAdDataObj['targets'] ={};
-                if($scope.adData.geoTargetingData) {
-                    var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
-
-
-                    var buildGeoTargetingParams = function(data, type) {
-                        var obj= {};
-                        obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
-                        obj['geoTargetList'] = _.pluck(data, 'id');
-                        return obj;
-                    }
-
-                    var geoTargetData = $scope.adData.geoTargetingData;
-                    if (geoTargetData.regions.length > 0) {
-                        postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
-                    }
-
-                    if (geoTargetData.cities.length > 0) {
-                        postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
-                    }
-
-                    if (geoTargetData.dmas.length > 0) {
-                        postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
-                    }
-
-                    if($scope.adData.geoTargetingData.zip.length > 0) {
-                        var zipObj = $scope.adData.geoTargetingData.zip;
-                        var zipPostArr = [];
-                        _.each(zipObj, function(zipArr) {
-                            if(zipArr.added) {
-                                _.each(zipArr.added, function(obj) {
-                                    var arr = obj.split("-");
-                                    if(arr.length > 1) {
-                                        var start = Number(arr[0]), end = Number(arr[1]);
-                                        for(var i=start; i<=end;i++) {
-                                            zipPostArr.push(String(i));
-                                        }
-                                    } else {
-                                        zipPostArr.push(arr[0]);
-                                    }
-                                })
-                            }
-                        })
-                        postGeoTargetObj['ZIPCODE'] = {
-                            "isIncluded" :  true,
-                            "geoTargetList" : zipPostArr
-
-                        }
-                    }
-                }
-
-                if($scope.adData.inventory) {
-                    var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
-                    domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
-                    postAdDataObj['domainInherit'] = 'APPEND';
-                    postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
-                }
-
-                campaignOverView.saveAds(postAdDataObj)
             })
         })
         $scope.isPlatformSelected = false;
@@ -919,16 +915,13 @@ var angObj = angObj || {};
         $scope.$parent.initiateDatePicker = function () {
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
-            if ($scope.mode == 'edit') {
-                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-            }
-
             var campaignData = $scope.workflowData['campaignData'];
             var campaignStartTime = utils.convertToEST(campaignData.startTime,"MM/DD/YYYY");
             if(moment().isAfter(campaignStartTime, 'day')) {
                 campaignStartTime = moment().format('MM/DD/YYYY');
             }
             var campaignEndTime = utils.convertToEST(campaignData.endTime,"MM/DD/YYYY");
+
             if(window.location.href.indexOf("adGroup")>-1)
             {
                 startDateElem.datepicker("setStartDate", utils.convertToEST(localStorage.getItem("stTime"),'MM/DD/YYYY'));
@@ -937,6 +930,22 @@ var angObj = angObj || {};
                 startDateElem.datepicker("setStartDate", campaignStartTime);
                 startDateElem.datepicker("setEndDate", campaignEndTime);
             }
+
+            if ($scope.mode == 'edit') {
+                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                if (window.location.href.indexOf("adGroup") > -1) {
+                    startDateElem.datepicker("update", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
+                } else {
+                    startDateElem.datepicker("update", campaignStartTime);
+                }
+                if (moment().format("MM/DD/YYYY") > moment($scope.workflowData['adsData'].endTime).format("MM/DD/YYYY")) {
+                    endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
+                    endDateElem.datepicker("update", moment().format("MM/DD/YYYY"));
+                }
+            }
+
+
+
         }
     });
 
