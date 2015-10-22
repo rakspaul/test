@@ -62,7 +62,7 @@ var angObj = angObj || {};
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
-                $scope.resetPartialSaveAlertMessage() ;     
+                $scope.resetPartialSaveAlertMessage() ;
             }, 3000);
         }
         $scope.archiveAd=function(event){
@@ -260,7 +260,7 @@ var angObj = angObj || {};
             //platform tab
             if(responseData.platform){
                 $scope.$broadcast('updatePlatform',[responseData.platform]);
-                if(responseData.state == "PUSHED")
+                if(responseData.pushStatus == "PUSHED")
                     $scope.isAdsPushed = true;
             }
 
@@ -589,7 +589,7 @@ var angObj = angObj || {};
                     postAdDataObj.goal = formData.goal;
 
                 if (formData.startTime)
-                    postAdDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
+                    postAdDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD ');
 
                 if (formData.endTime)
                     postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
@@ -598,7 +598,7 @@ var angObj = angObj || {};
                    $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad" ;
                    $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
                    $scope.partialSaveAlertMessage.isMsg = 1;
-                   $scope.msgtimeoutReset() ;
+                   //$scope.msgtimeoutReset() ;
                    return false;
                }
 
