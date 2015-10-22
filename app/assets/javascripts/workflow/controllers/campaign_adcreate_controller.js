@@ -887,14 +887,6 @@ var angObj = angObj || {};
     });
 
     angObj.controller('BudgetDeliveryController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
-        $(function() {
-            $('.input-daterange').datepicker({
-                format: "mm/dd/yyyy",
-                orientation: "top auto",
-                autoclose: true,
-                todayHighlight: true
-            });
-        })
 
         $scope.handleFlightDate = function (data) {
             var startTime = data.startTime;
@@ -918,7 +910,7 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.initiateDatePicker = function () {
+        $scope.$parent.initiateDatePicker = function () {
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
             if ($scope.mode == 'edit') {
