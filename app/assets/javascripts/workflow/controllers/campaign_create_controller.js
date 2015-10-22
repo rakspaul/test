@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, $location) {
+    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, $location,utils) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         // This sets dynamic width to line to take 100% height
         function colResize() {
@@ -56,7 +56,7 @@ var angObj = angObj || {};
                         if($scope.editCampaignData.adsCount>0)
                             localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
                         else
-                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+"has been archived");
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
                 }else{
                     campaignArchiveErrorHandler();
                 }
@@ -73,8 +73,8 @@ var angObj = angObj || {};
                     $scope.editCampaignData = result.data.data;
                     $scope.selectedCampaign.clientId = $scope.editCampaignData.clientId;
                     $scope.selectedCampaign.advertiserId = $scope.editCampaignData.advertiserId;
-                    $scope.selectedCampaign.startTime = moment($scope.editCampaignData.startTime).format('MM/DD/YYYY');
-                    $scope.selectedCampaign.endTime = moment($scope.editCampaignData.endTime).format('MM/DD/YYYY');
+                    $scope.selectedCampaign.startTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
+                    $scope.selectedCampaign.endTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
                     $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
                     $scope.initiateDatePicker();
@@ -180,7 +180,7 @@ var angObj = angObj || {};
                 endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
                 if (startTime) {
                     endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                    changeDate = moment(startTime).format('MM/DD/YYYY')
+                    changeDate = moment(startTime).format('MM/DD/YYYY'); //console.log(moment(startTime).tz("EST").format('YYYY-MM-DD HH:mm:ss.SSS'));
                     endDateElem.datepicker("setStartDate", changeDate);
                     endDateElem.datepicker("update", changeDate);
                 }
@@ -220,24 +220,24 @@ var angObj = angObj || {};
                 postDataObj.name = formData.campaignName;
 
                 if (window.location.href.indexOf("edit") > -1) {
-                    if (moment(formData.startTime).format('YYYY-MM-DD') === moment($scope.editCampaignData.startTime).format('YYYY-MM-DD'))
-                        postDataObj.startTime = moment($scope.editCampaignData.startTime).format($scope.textConstants.WF_DATE_FORMAT);
+                    if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
+                        postDataObj.startTime = $scope.editCampaignData.startTime;
                     else
-                        postDataObj.startTime = moment(formData.startTime).format($scope.textConstants.WF_DATE_FORMAT);
-                    if (moment(formData.endTime).format('YYYY-MM-DD') === moment($scope.editCampaignData.endTime).format('YYYY-MM-DD'))
-                        postDataObj.endTime = moment($scope.editCampaignData.endTime).format($scope.textConstants.WF_DATE_FORMAT);
+                        postDataObj.startTime = utils.convertToUTC(formData.startTime,$scope.textConstants.WF_DATE_FORMAT);//the formtime hardcoded to 23:59:59:999
+                    if (moment(formData.endTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.endTime,'YYYY-MM-DD'))
+                        postDataObj.endTime = $scope.editCampaignData.endTime;
                     else
-                        postDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD 23:59:59.999');
+                        postDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
 
                     postDataObj.clientId = $scope.editCampaignData.clientId;
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
                     postDataObj.campaignId = $routeParams.campaignId;
                     $scope.repushCampaignEdit = true;
-                    $scope.repushData = postDataObj;
+                    $scope.repushData = postDataObj; console.log($scope.repushData);
                 } else {
-                    postDataObj.startTime = moment(formData.startTime).format($scope.textConstants.WF_DATE_FORMAT);
-                    postDataObj.endTime = moment(formData.endTime).format($scope.textConstants.WF_DATE_FORMAT);
+                    postDataObj.startTime = utils.convertToUTC(formData.startTime,$scope.textConstants.WF_DATE_FORMAT);//console.log(postDataObj.startTime)
+                    postDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');//console.log(postDataObj.endTime)
                     postDataObj.clientId = Number(formData.clientId);
                     postDataObj.advertiserId = Number(formData.advertiserId);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
@@ -288,38 +288,39 @@ var angObj = angObj || {};
             return Math.floor((Math.random() * 6) + 1);
         },
 
-        $scope.initiateDatePicker = function () {
-            if ($scope.mode == 'edit') {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = new Date();
-                if (moment(today).format("MM/DD/YYYY") > moment($scope.editCampaignData.startTime).format("MM/DD/YYYY")) {
-                    startDateElem.datepicker("setStartDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                    startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                    startDateElem.datepicker("update", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                } else {
-                    startDateElem.datepicker("setStartDate", moment(today).format("MM/DD/YYYY"));
-                    startDateElem.datepicker("setEndDate", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                    startDateElem.datepicker("update", moment($scope.editCampaignData.startTime).format("MM/DD/YYYY"));
-                }
+            $scope.initiateDatePicker = function () {
+                if ($scope.mode == 'edit') {
+                    var startDateElem = $('#startDateInput');
+                    var endDateElem = $('#endDateInput');
+                    var today = new Date();
+                    if (utils.convertToEST('','MM/DD/YYYY') > utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY')) {
+                        startDateElem.datepicker("setStartDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                        startDateElem.datepicker("setEndDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                        startDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                    } else {
+                        startDateElem.datepicker("setStartDate", utils.convertToEST('','MM/DD/YYYY'));
+                        startDateElem.datepicker("setEndDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                        startDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                    }
 
-                endDateElem.datepicker("setStartDate", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
-                endDateElem.datepicker("update", moment($scope.editCampaignData.endTime).format("MM/DD/YYYY"));
-            } else {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = moment().format("MM/DD/YYYY");
-                startDateElem.datepicker("setStartDate", today);
-                endDateElem.datepicker("setStartDate", today);
-                startDateElem.datepicker("update", today);
-                $scope.selectedCampaign.startTime = moment(today).format('MM/DD/YYYY');
-                $scope.selectedCampaign.endTime = moment(today).format('MM/DD/YYYY');
-            }
+                    endDateElem.datepicker("setStartDate", utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY'));
+                    endDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY'));
+                } else {
+                    var startDateElem = $('#startDateInput');
+                    var endDateElem = $('#endDateInput');
+                    var today=utils.convertToEST('','MM/DD/YYYY');
+                    startDateElem.datepicker("setStartDate", today);
+                    endDateElem.datepicker("setStartDate", today);
+                    startDateElem.datepicker("update", today);
+                    $scope.selectedCampaign.startTime = today;
+                    $scope.selectedCampaign.endTime = today;
+                }
 
         }
 
         $(function () {
             $('.input-daterange').datepicker({
+                //format: "mm/dd/yyyy",
                 format: "mm/dd/yyyy",
                 orientation: "auto",
                 autoclose: true,

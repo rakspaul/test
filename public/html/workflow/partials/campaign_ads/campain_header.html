@@ -26,7 +26,7 @@
         <div class="col-md-2 borderZero">
             <label>Flight Dates</label>
             <span ng-if="workflowData.campaignData.startTime">
-                {{utc(workflowData.campaignData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'MMM dd, yyyy'}}
+                {{convertEST(workflowData.campaignData.startTime, 'MMM DD, YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'MMM DD, YYYY')}}
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
             </span>
         </div>
