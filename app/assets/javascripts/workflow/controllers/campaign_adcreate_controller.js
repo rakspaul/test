@@ -180,11 +180,11 @@ var angObj = angObj || {};
 
             
             if(responseData.adFormat){
-                $scope.adFormatSelection($filter('toTitleCase')($scope.adData.adFormat));
+                $scope.adFormatSelection($filter('toTitleCase')(responseData.adFormat));
             }
 
             if(responseData.goal){
-                $scope.goalSelection($filter('toTitleCase')($scope.adData.goal));
+                $scope.goalSelection($filter('toTitleCase')(responseData.goal));
             }
 
             if(responseData.screens){
@@ -339,15 +339,15 @@ var angObj = angObj || {};
             },
 
             saveAds: function (postDataObj) {
-                    //console.log(window.location.href);
-                if(window.location.href.indexOf("adGroup")>-1)
-                {
-                    postDataObj.adGroupId=$scope.adGroupId;console.log(postDataObj);
-                }//save adGroup Ad
+                        //console.log(window.location.href);
+                        if(window.location.href.indexOf("adGroup")>-1)
+                        {
+                            postDataObj.adGroupId=$scope.adGroupId;console.log(postDataObj);
+                        }//save adGroup Ad
 
 
-                if ($scope.adId) {
-                    postDataObj['adId'] = $scope.adId;
+                        if ($scope.adId) {
+                            postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
                     postDataObj['state'] = $scope.state;
 
@@ -560,12 +560,15 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
 
-               if(!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal){
-                   $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad" ;
-                   $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
-                   $scope.partialSaveAlertMessage.isMsg = 1;
-                   $scope.msgtimeoutReset() ;
-                   return false;
+               if($scope.mode == 'edit' && formData.platformId) {
+                   if (!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) {
+                       $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
+                       $scope.partialSaveAlertMessage.isErrorMsg = 1;
+                       $scope.partialSaveAlertMessage.isMsg = 1;
+                       $scope.msgtimeoutReset();
+                       return false;
+
+                   }
                }
 
                 if (formData.unitType && formData.unitCost) {
@@ -1313,8 +1316,8 @@ var angObj = angObj || {};
                             _.each(selectedCities, function(citiesObj, idx) {
                                 if(citiesObj.parent.id === regionsObj.id) {
                                     $scope.showCitiesOnly = false;
-                                    
-                                    citiesObj.citiesIncluded = false;
+
+                                    citiesObj.citiesIncluded = $scope.citiesIncludeSwitchLabel;
                                     tmpArr.push(citiesObj);
                                     regionsObj.cities = tmpArr;
                                 }
