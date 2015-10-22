@@ -84,7 +84,8 @@
                         <label>Flight Dates</label>
                         <span ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
-                            <span style="float: left; clear: none;">{{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}</span>
+                            <span style="float: left; clear: none;">{{convertEST(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} - {{convertEST(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}</span>
+                            <!--<span style="float: left; clear: none;">{{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}</span>-->
                             <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
                         </span>
                     </div>
@@ -240,7 +241,7 @@
                                     <button class="btn btn-xs btn-default">ON</button>
                                     <button class="btn btn-xs btn-success active">OFF</button>
                                 </div>-->
-                                <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utc(adsData.startTime) | date : 'dd MMM yyyy'}} - {{utc(adsData.endTime) | date : 'dd MMM yyyy'}}</span>
+                                <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span>
     
                                 <div class="spacer" ng-if="adsData.startTime && adsData.endTime">
                                     <div class="col-md-12"></div>

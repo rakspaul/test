@@ -65,6 +65,9 @@ var angObj = angObj || {};
                 $scope.resetPartialSaveAlertMessage() ;     
             }, 3000);
         }
+        $scope.convertEST=function(date,format){
+            return utils.convertToEST(date,format);
+        }
         $scope.archiveAd=function(event){
             var errorAchiveAdHandler =  function() {
                $scope.adArchive = false;
@@ -200,11 +203,11 @@ var angObj = angObj || {};
             }
 
             if(responseData.startTime) {
-                $scope.adData.startTime = moment(responseData.startTime).format("MM/DD/YYYY");
+                $scope.adData.startTime = utils.convertToEST(responseData.startTime,"MM/DD/YYYY");
             }
 
             if(responseData.endTime){
-                $scope.adData.endTime = moment(responseData.endTime).format("MM/DD/YYYY");
+                $scope.adData.endTime = utils.convertToEST(responseData.endTime,"MM/DD/YYYY");
             }
 
             $scope.initiateDatePicker();
@@ -552,10 +555,10 @@ var angObj = angObj || {};
                     postAdDataObj.goal = formData.goal;
 
                 if (formData.startTime)
-                    postAdDataObj.startTime = moment(formData.startTime).format('YYYY-MM-DD');
+                    postAdDataObj.startTime = utils.convertToUTC(formData.startTime,constants.WF_DATE_FORMAT);
 
                 if (formData.endTime)
-                    postAdDataObj.endTime = moment(formData.endTime).format('YYYY-MM-DD');
+                    postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
 
                if(!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal){
                    $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad" ;
@@ -892,7 +895,7 @@ var angObj = angObj || {};
             var startTime = data.startTime;
             var endDateElem = $('#endDateInput');
             var startDateElem = $('#startDateInput');
-            var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");
+            var campaignEndTime = utils.convertToEST($scope.workflowData['campaignData'].endTime,"MM/DD/YYYY");
             var changeDate;
             if ($scope.mode !== 'edit') {
                 endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
@@ -901,7 +904,7 @@ var angObj = angObj || {};
                     changeDate = moment(startTime).format('MM/DD/YYYY')
                     endDateElem.datepicker("setStartDate", changeDate);
                     if (window.location.href.indexOf("adGroup") > -1) {
-                        endDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                        endDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"),'MM/DD/YYYY'));
                     } else {
                         endDateElem.datepicker("setEndDate", campaignEndTime);
                     }
@@ -918,15 +921,15 @@ var angObj = angObj || {};
             }
 
             var campaignData = $scope.workflowData['campaignData'];
-            var campaignStartTime = moment(campaignData.startTime).format("MM/DD/YYYY");
+            var campaignStartTime = utils.convertToEST(campaignData.startTime,"MM/DD/YYYY");
             if(moment().isAfter(campaignStartTime, 'day')) {
                 campaignStartTime = moment().format('MM/DD/YYYY');
             }
-            var campaignEndTime = moment(campaignData.endTime).format("MM/DD/YYYY");
+            var campaignEndTime = utils.convertToEST(campaignData.endTime,"MM/DD/YYYY");
             if(window.location.href.indexOf("adGroup")>-1)
             {
-                startDateElem.datepicker("setStartDate", moment(localStorage.getItem("stTime")).format('MM/DD/YYYY'));
-                startDateElem.datepicker("setEndDate", moment(localStorage.getItem("edTime")).format('MM/DD/YYYY'));
+                startDateElem.datepicker("setStartDate", utils.convertToEST(localStorage.getItem("stTime"),'MM/DD/YYYY'));
+                startDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"),'MM/DD/YYYY'));
             }else{
                 startDateElem.datepicker("setStartDate", campaignStartTime);
                 startDateElem.datepicker("setEndDate", campaignEndTime);
