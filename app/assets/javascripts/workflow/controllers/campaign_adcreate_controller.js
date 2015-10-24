@@ -559,7 +559,7 @@ var angObj = angObj || {};
                 if (formData.endTime)
                     postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
 
-               if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal)) {
+               if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) && $scope.mode == 'edit' && $scope.isAdsPushed == true) {
                    $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
                    $scope.partialSaveAlertMessage.isErrorMsg = 1;
                    $scope.partialSaveAlertMessage.isMsg = 1;
