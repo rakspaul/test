@@ -9,28 +9,35 @@
       var suf = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
       return suf;
     };
+
     var convertToEST=function(date,format){
       if(date==''){
-        //return moment.tz("EST").format(format);
         return moment().format(format);
-      }else if(format==''){// written for number of days. (overview page)
-          var estDate= new Date(date);
-          var x= estDate.setHours(estDate.getHours() - 5);
-          return moment(x).format("MM/DD/YYYY")
+      }else if(format==''){ // written for number of days. (overview page)
+          var tz= "UTC"
+          var final_date=date + ' ' +tz;
+          var date= Date.parse(final_date); //console.log(moment(date).tz("EST").format('MM/DD/YYYY'));
+          return moment(date).tz("EST").format('MM/DD/YYYY');
       }else{
-//        return moment(date).tz("EST").format(format);
-          var estDate= new Date(date); //console.log(estDate);
-          var x= estDate.setHours(estDate.getHours() - 5);
-          return moment(x).format(format)
+          var tz= "UTC";
+          var final_date=date + ' ' +tz;
+          var date= Date.parse(final_date); //console.log(moment(date).tz("EST").format('YYYY-MM-DD HH:mm:ss.SSS'));
+          return moment(date).tz("EST").format(format);
       }
+    };
+    var convertToUTC=function(date,type){
+          var d1 = date.split('/');
+          var d2 = d1[2] + '-' + d1[0] + '-' + d1[1];
+          if(type=='ST')
+            var time = '00:00:00:000';
+          else
+            var time = '23:59:59:999';
+          var tz = "EST";
+          var final_date = d2 + ' ' + time + ' ' + tz;
+          var date = Date.parse(final_date);
+          return moment(date).tz("UTC").format('YYYY-MM-DD HH:mm:ss.SSS');
+    };
 
-    };
-    var convertToUTC=function(date,format){
-//        return moment(date).tz("UTC").format(format);
-          var utcDate= new Date(moment(date).format(format));//console.log(utcDate);
-          var x =utcDate.setHours(utcDate.getHours() + 5);
-          return moment(x).format('YYYY-MM-DD HH:mm:ss.SSS')
-    };
     var reportTypeOptions = function() {return [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}]};
     var makeTitle = function (input) {
       var title = '<div id="legend">';
@@ -237,6 +244,8 @@
       reportTypeOptions:reportTypeOptions,
       convertToEST:convertToEST,
       convertToUTC:convertToUTC
+
+
     };
   }]);
   angObj.directive('welcomeUser', function (common) {

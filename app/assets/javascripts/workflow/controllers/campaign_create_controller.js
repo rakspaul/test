@@ -224,21 +224,21 @@ var angObj = angObj || {};
                     if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
                         postDataObj.startTime = $scope.editCampaignData.startTime;
                     else
-                        postDataObj.startTime = utils.convertToUTC(formData.startTime,$scope.textConstants.WF_DATE_FORMAT);//the formtime hardcoded to 23:59:59:999
+                        postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//the formtime hardcoded to 23:59:59:999
                     if (moment(formData.endTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.endTime,'YYYY-MM-DD'))
                         postDataObj.endTime = $scope.editCampaignData.endTime;
                     else
-                        postDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
+                        postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
 
                     postDataObj.clientId = $scope.editCampaignData.clientId;
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
                     postDataObj.campaignId = $routeParams.campaignId;
                     $scope.repushCampaignEdit = true;
-                    $scope.repushData = postDataObj; console.log($scope.repushData);
+                    $scope.repushData = postDataObj; //console.log($scope.repushData);
                 } else {
-                    postDataObj.startTime = utils.convertToUTC(formData.startTime,$scope.textConstants.WF_DATE_FORMAT);//console.log(postDataObj.startTime)
-                    postDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');//console.log(postDataObj.endTime)
+                    postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//console.log(postDataObj.startTime)
+                    postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');//console.log(postDataObj.endTime)
                     postDataObj.clientId = Number(formData.clientId);
                     postDataObj.advertiserId = Number(formData.advertiserId);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
@@ -303,7 +303,6 @@ var angObj = angObj || {};
                         startDateElem.datepicker("setEndDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
                         startDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
                     }
-
                     endDateElem.datepicker("setStartDate", utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY'));
                     endDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY'));
                 } else {
@@ -316,7 +315,6 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = today;
                     $scope.selectedCampaign.endTime = today;
                 }
-
         }
 
         $(function () {
