@@ -554,10 +554,10 @@ var angObj = angObj || {};
                     postAdDataObj.goal = formData.goal;
 
                 if (formData.startTime)
-                    postAdDataObj.startTime = utils.convertToUTC(formData.startTime,constants.WF_DATE_FORMAT);
+                    postAdDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');
 
                 if (formData.endTime)
-                    postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'YYYY-MM-DD 23:59:59.999');
+                    postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
 
                if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal)) {
                    $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
