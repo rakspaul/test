@@ -186,10 +186,12 @@ var angObj = angObj || {};
             
             if(responseData.adFormat){
                 $scope.adFormatSelection($filter('toTitleCase')(responseData.adFormat));
+                $scope.adData.adFormat = $filter('toTitleCase')(responseData.adFormat);
             }
 
             if(responseData.goal){
                 $scope.goalSelection($filter('toTitleCase')(responseData.goal));
+                $scope.adData.goal = $filter('toTitleCase')(responseData.goal);
             }
 
             if(responseData.screens){
