@@ -155,20 +155,21 @@ var angObj = angObj || {};
         //creating download report url
         $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/platforms/';
+
             var download_report = [
                 {
-                    'report_url': urlPath + 'performance/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'performance/reportDownload',
                     'report_name': 'by_performance',
                     'label': 'Platform by Performance'
                 },
                 {
-                    'report_url': urlPath + 'cost/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'cost/reportDownload',
                     'report_name': 'by_cost',
                     'label': 'Platform by Cost',
                     'className': 'report_cost'
                 },
                 {
-                    'report_url': urlPath + 'viewability/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'viewability/reportDownload',
                     'report_name': 'by_viewability',
                     'label': 'Platform By Quality'
                 }
@@ -245,6 +246,7 @@ var angObj = angObj || {};
             else {
                 $scope.selected_filters.time_filter = 'life_time';
             }
+
 
             $scope.selected_filters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
@@ -373,8 +375,8 @@ var angObj = angObj || {};
         };
         // hot fix for the enabling the active link in the reports dropdown
         $(function () {
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#platform").addClass("active_tab") ; 
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#platform").addClass("active_tab") ;
         });
         // end of hot fix for the enabling the active link in the reports dropdown
     });

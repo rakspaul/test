@@ -3,7 +3,7 @@
        <!--  <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1" id="inventory_camp_list_dd">
                 <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
-            </div>  
+            </div>
 
             <div class="pull-right download_report">
                 <download-report></download-report>
@@ -20,7 +20,7 @@
                 <download-report></download-report>
             </div>
         </div>
-        
+
         <div class="clearfix">
             <filters-header reports="true"></filters-header>
         </div>
@@ -51,7 +51,7 @@
                         <div class="pull-right imps_del_col">
                             <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>
                             Imp. <!-- {{textConstants.IMP_WITH_DOT}} {{textConstants.DELIVERED}} -->
-                        </div>                   
+                        </div>
                     </div>
                 </div>
               <!--strategyBusy :  {{strategyBusy}}-->
@@ -72,7 +72,7 @@
                                 </span>
                             </span>
                     </div>
-                    <div class="pull-right inventory_chart_details_list_holder">
+                    <div ng-if="inventoryChart" class="pull-right inventory_chart_details_list_holder">
                         <div class="inventory_chart_details_list"
                              data-ng-repeat="stable in strategyTableData | orderBy:'-impressions' track by $index">
                             <div class="chart_details_cols_row inventory_each_chart_details clearfix">
@@ -85,7 +85,7 @@
                                     <a href="http://{{ stable.dimension}}" target='_blank' id="inventory_url_val">{{ stable.dimension | formatUrl :15 }}</a>
                                  </span>
                                 <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (stable.video_metrics['vtc_rate'] | number:2): (stable[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}
-                                
+
                                 </span>
                                 <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | nrFormat}}</span>
                             </div>
@@ -127,7 +127,7 @@
                         <div class="inventory_chart_details_list">
                             <div class="chart_details_cols_row inventory_each_chart_details clearfix"
                                  ng-repeat="tableData in tactic.data | orderBy:'-impressions' track by $index">
-                                
+
                                 <span class="row_index">{{$index + 1}}</span>
                                 <span class="url_val" title="{{tableData.dimension}}"
                                       ng-if="(selected_filters_tab !== 'domains') "> {{ tableData.dimension | formatUrl:20 }}</span>

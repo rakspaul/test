@@ -8,7 +8,7 @@ var angObj = angObj || {};
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         domainReports.highlightSubHeaderMenu();
-        $scope.sortType     = 'impressions'; 
+        $scope.sortType     = 'impressions';
 
         $scope.sortTypebyformats     = '-impressions';
         $scope.sortTypebyplatforms     = '-impressions';
@@ -204,22 +204,22 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'screensandformats/reportDownload',
                     'report_name' : 'by_screens_and_formats',
                     'label' : 'Performance by Screens & Formats'
                 },
                 {
-                    'report_url' : urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'daysofweek/reportDownload',
                     'report_name' : 'by_days_of_week',
                     'label' : 'Performance by Days Of Week'
                 },
                 {
-                    'report_url' : urlPath + 'creatives/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'creatives/reportDownload',
                     'report_name' : 'by_creatives',
                     'label' : 'Performance by Creatives'
                 },
                 {
-                    'report_url' : urlPath + 'adsizes/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'adsizes/reportDownload',
                     'report_name' : 'by_adsizes',
                     'label' : 'Performance by Ad Sizes'
                 }
@@ -386,10 +386,10 @@ var angObj = angObj || {};
                 event.preventDefault();
             });
             // hot fix for the enabling the active link in the reports dropdown
-       
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#performance").addClass("active_tab") ; 
-        
+
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#performance").addClass("active_tab") ;
+
             // end of hot fix for the enabling the active link in the reports dropdown
         });
 
