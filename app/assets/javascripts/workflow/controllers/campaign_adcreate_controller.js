@@ -185,13 +185,15 @@ var angObj = angObj || {};
 
             
             if(responseData.adFormat){
-                $scope.adFormatSelection($filter('toTitleCase')(responseData.adFormat));
-                $scope.adData.adFormat = $filter('toTitleCase')(responseData.adFormat);
+                var format = $filter('toTitleCase')(responseData.adFormat);
+                $scope.adFormatSelection(format);
+                $scope.adData.adFormat = format;
             }
 
             if(responseData.goal){
-                $scope.goalSelection($filter('toTitleCase')(responseData.goal));
-                $scope.adData.goal = $filter('toTitleCase')(responseData.goal);
+                var goal = $filter('toTitleCase')(responseData.goal);
+                $scope.goalSelection(goal);
+                $scope.adData.goal = goal;
             }
 
             if(responseData.screens){
