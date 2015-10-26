@@ -107,7 +107,7 @@ var angObj = angObj || {};
                     }else{ // if data is empty set as data not found
                         errorHandler();
                     }
-                    
+
                 } // Means no strategy data found
                 else {
 
@@ -127,17 +127,17 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'tactics/download',
                     'report_name' : 'by_tactic',
                     'label' : 'Quality by Tactic'
                 },
                 {
-                    'report_url' : urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'domains/download',
                     'report_name' : 'by_domain',
                     'label' : 'Quality by Domain'
                 },
                 {
-                    'report_url' : urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'publishers/download',
                     'report_name' : 'by_publisher',
                     'label' : 'Quality by Publisher'
                 }
@@ -225,9 +225,9 @@ var angObj = angObj || {};
             $scope.sortReverse  = sortorder;
         });
         // hot fix for the enabling the active link in the reports dropdown
-        setTimeout(function(){ 
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#quality").addClass("active_tab") ; 
+        setTimeout(function(){
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#quality").addClass("active_tab") ;
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
 

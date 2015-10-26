@@ -5,7 +5,7 @@ var angObj = angObj || {};
 
         $scope.textConstants = constants;
 
-        
+
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
 
@@ -89,7 +89,7 @@ var angObj = angObj || {};
                      $scope.tacticList.tacticList = $scope.tacticListData;
                      $scope.tacticBusy = false;
                      $scope.tacticList.topPerformance = []
-                            
+
                         for (var t in  $scope.tacticList.tacticList) {
                             var topPerformance = [];
                                 var resultTableData = $scope.tacticList.tacticList[t].perf_metrics;
@@ -98,7 +98,7 @@ var angObj = angObj || {};
                                 for (var data in resultTableData) {
                                         topPerformance.push(resultTableData[data]);
                                 }
-                                
+
                                 var topChartObj = true;
                                 var isGraphPlot = true;
                                 //For Top Chart
@@ -158,7 +158,7 @@ var angObj = angObj || {};
                 $scope.strategyTable.topPerformance = [];
                 $scope.tacticList.tacticList = [];
                 $scope.tacticList.topPerformance = [];
-            
+
             };
             $scope.api_return_code = 200;
             return dataService.fetchCancelable(url, canceller, function(result){
@@ -171,7 +171,7 @@ var angObj = angObj || {};
                     if ((result.data.data[0] !== undefined) && ((result.data.data[0].perf_metrics !== null || result.data.data[0].perf_metrics !== undefined) && result.data.data[0].perf_metrics.length > 0 ) ) {
                         var resultTableData = result.data.data[0].perf_metrics;
                             $scope.tacticListData = result.data.data[0].tactics;
-                        
+
                         // First confirm that the current selected tab and the tab for which we got data response are same. Then only process the data.
                         if (param.domain.toLowerCase() === $scope.selected_filters_tab.toLowerCase()) {
 
@@ -189,18 +189,18 @@ var angObj = angObj || {};
                                     });
 
                                 }
-                                
+
                            $scope.strategyTableData = $scope.strategyTable.topPerformance; //.slice(0, 5);
-                            
+
 
                             // Now process obtained straregy data for graph and table showing.
-                            for (var data in resultTableData) {                     
-                                    $scope.strategyTable.topPerformance.push(resultTableData[data]);   
+                            for (var data in resultTableData) {
+                                    $scope.strategyTable.topPerformance.push(resultTableData[data]);
                             }
 
-                            //Default show the top performance strategies             
+                            //Default show the top performance strategies
                             $scope.strategyTableData = $scope.strategyTable.topPerformance; //.slice(0, 5);
-                            
+
                             if ($scope.strategyTableData.length > 0) {
                                 $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                             } else {
@@ -236,7 +236,7 @@ var angObj = angObj || {};
             $scope.inventoryChart = true;
 
                 $scope.strategyTableData = $scope.strategyTable.topPerformance; //.slice(0, 5);
-                
+
                 if ($scope.strategyTableData.length > 0) {
                     $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                 } else {
@@ -257,10 +257,10 @@ var angObj = angObj || {};
 
         //  $scope.strategyTableData = [];
             $scope.strategyTable.topPerformance = [];
-    
+
             $scope.tacticList.tacticList = [];
             $scope.tacticList.topPerformance = [];
-    
+
             if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
                 $scope.strategyFound = false ;
             } else {
@@ -272,7 +272,7 @@ var angObj = angObj || {};
                     domain: $scope.selected_filters_tab,
                     time_filter: $scope.selected_filters.time_filter
                 });
-                
+
                 analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
             $scope.inventoryBusy = false ;
@@ -283,12 +283,12 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'categories/download',
                     'report_name' : 'transparency_by_site_category',
                     'label' : 'Inventory Transparency by Site Category'
                 },
                 {
-                    'report_url' : urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'domains/download',
                     'report_name' : 'transparency_by_domain',
                     'label' : 'Inventory Transparency by Domain'
                 }
@@ -297,7 +297,7 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-           $scope.callBackStrategyChange(); 
+           $scope.callBackStrategyChange();
         });
 
         //Function called when the user clicks on the category tabs

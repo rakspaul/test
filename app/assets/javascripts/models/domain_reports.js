@@ -168,12 +168,13 @@
                         }
                     }
                 });
-                $scope.downloadPerformanceReport = function(report_url, report_name) {
+                $scope.downloadPerformanceReport = function(report_url, report_name, time_filter) {
                     if(loginModel.getIsAgencyCostModelTransparent()) {
                         if (!$scope.isCostModelTransparent && report_url.indexOf(/cost/) > 0) {
                             return false;
                         }
                     }
+                    report_url = report_url + '?date_filter=' + time_filter;
 
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
