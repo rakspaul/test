@@ -55,6 +55,7 @@ var angObj = angObj || {};
         $scope.preSelectArr = [];
         $scope.sortDomain=false;
         $scope.isAdsPushed = false;
+        $scope.editedAdSourceId = null;
         localStorage.setItem('campaignData','');
 
         $scope.editCampaign=function(workflowcampaignData){
@@ -174,6 +175,11 @@ var angObj = angObj || {};
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
+
+            if(responseData.sourceId){
+                $scope.editedAdSourceId = responseData.sourceId;
+            }
+
             if(responseData.name)
                 $scope.adData.adName = responseData.name;
 
@@ -546,6 +552,9 @@ var angObj = angObj || {};
 
                 if (formData.adFormat)
                     postAdDataObj.adFormat = formData.adFormat.toUpperCase();
+
+                if ($scope.editedAdSourceId)
+                   postAdDataObj.sourceId = $scope.editedAdSourceId;
 
                 if (formData.screens)
                     postAdDataObj.screens = _.pluck(JSON.parse(formData.screens), 'id');
