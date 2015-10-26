@@ -52,11 +52,12 @@ var angObj = angObj || {};
                 if (result.status === "OK" || result.status === "success") {
                     $scope.campaignArchive=false;
                     var url = '/campaigns';
-                    $location.url(url);
-                        if($scope.editCampaignData.adsCount>0)
+                        if($scope.editCampaignData.adsCount >0 ) {
                             localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
-                        else
+                        } else {
                             localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
+                        }
+                        $location.url(url);
                 }else{
                     campaignArchiveErrorHandler();
                 }
@@ -338,4 +339,3 @@ var angObj = angObj || {};
         })
     });
 })();
-
