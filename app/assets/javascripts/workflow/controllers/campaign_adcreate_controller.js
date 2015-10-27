@@ -949,7 +949,6 @@ var angObj = angObj || {};
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                 if (window.location.href.indexOf("adGroup") > -1) {
                     //startDateElem.datepicker("update", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
-                    //startDateElem.datepicker("setStartDate", $scope.adData.startTime);
                     startDateElem.datepicker("update", $scope.adData.startTime);
                 } else {
                     startDateElem.datepicker("update", campaignStartTime);
