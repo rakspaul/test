@@ -15,7 +15,7 @@
         //if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
              if(date!=''){
                  var d1=date.slice(0,10)
-                 var d2= d1.split('-');console.log(d1);
+                 var d2= d1.split('-');
                  var tz="UTC";
                  var final_date=d2[1] +'/'+d2[2]+'/'+d2[0]+' '+date.slice(11,19)+' '+tz;
                  var parsed_date=Date.parse(final_date);
