@@ -204,6 +204,12 @@ var angObj = angObj || {};
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle').html('<span>'+selText+'</span> <span class="caret"></span>');
         });
+        
+        // DDL with Search
+        $(".dropdown-menu-search li a").click(function(){
+            var selText = $(this).text();
+            $(this).parents('.btn-group').find('.dropdown-toggle-search').attr('value='+selText);
+        });
 
     });
 

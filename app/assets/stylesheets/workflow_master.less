@@ -77,7 +77,7 @@ select {
   border-radius: 1px;
   border: 1px solid #ccd2da;
 }
-.dropdown-toggle {
+.dropdown-toggle, .dropdown-toggle-search {
   border-radius: 1px;
   text-align: left;
   background: #fff;
@@ -96,21 +96,6 @@ select {
     height: 36px;
     width: 100%;
     overflow: hidden;
-    .icon-arrow-down {
-      font-size: 10px;
-      color: #000;
-      height: 4px;
-      width: 2px;
-      line-height: 16px;
-      //margin-right: 5px;
-      //float: right;
-      //margin-top: 2px;
-      
-      position: absolute;
-      z-index: 10;
-      top: 11px;
-      right: 20px;
-    }
   }
   .btn:focus, .btn:active:focus, .btn.active:focus {
       outline: 0 none;
@@ -136,7 +121,18 @@ select {
     border: 1px solid #BFC9D7 !important;
     box-shadow: none;
   }
-  .dropdown-menu>li>a {
+  .icon-arrow-down, .icon-search {
+    font-size: 10px;
+    color: #000;
+    height: 4px;
+    width: 2px;
+    line-height: 16px;
+    position: absolute;
+    z-index: 10;
+    top: 11px;
+    right: 20px;
+  }
+  .dropdown-menu>li>a, .dropdown-menu-search>li>a {
     color: #21252b;
     font-family: Avenir;
     font-size: 14px;
@@ -148,12 +144,14 @@ select {
     color: #21252b;
     opacity: .4;
   }
-  .dropdown-menu {
+  .dropdown-menu, .dropdown-menu-search {
     box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
     -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
     width: auto;
     min-width: 100%;
     max-width: 340px;
+    max-height: 255px;
+    overflow: scroll;
     .active {
       a {
         color: #21252b;
@@ -165,7 +163,10 @@ select {
   
   .dropdown-menu > li > a:hover,
   .dropdown-menu > li > a:focus,
-  .dropdown-menu > li > .active > a{
+  .dropdown-menu > li > .active > a,
+  .dropdown-menu-search > li > a:hover,
+  .dropdown-menu-search > li > a:focus,
+  .dropdown-menu-search > li > .active > a{
     color: #21252b;
     text-decoration: none;
     background-color: #E1EDF9;
@@ -175,7 +176,7 @@ select {
     width: 100%;
   }
 }
-.dropdown-menu {
+.dropdown-menu, .dropdown-menu-search {
   width: 280px;
   margin-top: 3px;
   margin-left: 0;

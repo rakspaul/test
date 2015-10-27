@@ -892,11 +892,37 @@
   .campaignAdCreate{
     float: left;
     width: 77%;
+    height: 100%;
     .adMainWrapper {
       width: 100%;
       min-height: 500px;
       padding:30px 0 0 0;
       float: left;
+      height: 100%;
+      #formAdCreate {
+        height: 100%;
+        float: left;
+        .adCreateConsole {
+          height: 100%;
+          float: left;
+          .adStepOne {
+            height: 100%;
+            float: left;
+            .tabContent {
+              height: 100%;
+              float: left;
+              .tab-content {
+                height: 100%;
+                float: left;
+                .tab-pane {
+                  float: left;
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
       .headerSteps {
         padding: 0 0 15px 0;
       }
@@ -1121,7 +1147,9 @@
         transform: rotate(-90deg);
       }
       // Tabs navigation ends
-
+      .buyingPlatformHolder {
+        float: left;
+      }
       .platformHolder {
         border-radius: 1px;
         border:1px solid #bfc9d7;
@@ -1752,8 +1780,8 @@
     }
     .nextWrapper {
       position: absolute;
-      left: 0;
-      bottom: -58px;
+      left: -1px;
+      bottom: 0px;
       background: #fff;
       border-top: 1px solid #D0D0D0;
       height: 30px;
