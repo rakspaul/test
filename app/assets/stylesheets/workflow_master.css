@@ -103,12 +103,14 @@ select {
   border-radius: 1px;
   border: 1px solid #ccd2da;
 }
-.dropdown-toggle {
+.dropdown-toggle,
+.dropdown-toggle-search {
   border-radius: 1px;
   text-align: left;
   background: #fff;
 }
-.dropdown-toggle .caret {
+.dropdown-toggle .caret,
+.dropdown-toggle-search .caret {
   float: right !important;
   margin-top: 5px;
 }
@@ -121,17 +123,6 @@ select {
   height: 36px;
   width: 100%;
   overflow: hidden;
-}
-.dropdown-workflow .btn .icon-arrow-down {
-  font-size: 10px;
-  color: #000;
-  height: 4px;
-  width: 2px;
-  line-height: 16px;
-  position: absolute;
-  z-index: 10;
-  top: 11px;
-  right: 20px;
 }
 .dropdown-workflow .btn:focus,
 .dropdown-workflow .btn:active:focus,
@@ -159,7 +150,20 @@ select {
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
 }
-.dropdown-workflow .dropdown-menu > li > a {
+.dropdown-workflow .icon-arrow-down,
+.dropdown-workflow .icon-search {
+  font-size: 10px;
+  color: #000;
+  height: 4px;
+  width: 2px;
+  line-height: 16px;
+  position: absolute;
+  z-index: 10;
+  top: 11px;
+  right: 20px;
+}
+.dropdown-workflow .dropdown-menu > li > a,
+.dropdown-workflow .dropdown-menu-search > li > a {
   color: #21252b;
   font-family: Avenir;
   font-size: 14px;
@@ -171,21 +175,26 @@ select {
   color: #21252b;
   opacity: .4;
 }
-.dropdown-workflow .dropdown-menu {
+.dropdown-workflow .dropdown-menu,
+.dropdown-workflow .dropdown-menu-search {
   box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   width: auto;
   min-width: 100%;
   max-width: 340px;
 }
-.dropdown-workflow .dropdown-menu .active a {
+.dropdown-workflow .dropdown-menu .active a,
+.dropdown-workflow .dropdown-menu-search .active a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
 }
 .dropdown-workflow .dropdown-menu > li > a:hover,
 .dropdown-workflow .dropdown-menu > li > a:focus,
-.dropdown-workflow .dropdown-menu > li > .active > a {
+.dropdown-workflow .dropdown-menu > li > .active > a,
+.dropdown-workflow .dropdown-menu-search > li > a:hover,
+.dropdown-workflow .dropdown-menu-search > li > a:focus,
+.dropdown-workflow .dropdown-menu-search > li > .active > a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
@@ -194,7 +203,8 @@ select {
   display: inline-block;
   width: 100%;
 }
-.dropdown-menu {
+.dropdown-menu,
+.dropdown-menu-search {
   width: 280px;
   margin-top: 3px;
   margin-left: 0;
