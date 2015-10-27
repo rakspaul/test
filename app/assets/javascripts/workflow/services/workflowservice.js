@@ -34,11 +34,11 @@
 
             getAdsForCampaign : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/no_ad_group/ads';
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
             getAdgroups : function(campaignId){
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups';
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
 
             },
 
@@ -49,7 +49,7 @@
 
             getAdsInAdGroup :function(campaignId,adGroupID){
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads';
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
 
             createAdGroupOfIndividualAds:function(){
@@ -71,11 +71,11 @@
             },
             getAd : function(data) {
                 var url = apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId;
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
             getDetailedAdsInAdGroup :function(campaignId,adGroupID,adId){
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads/'+adId;
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
 
             pushCampaign : function(campaignId) {
