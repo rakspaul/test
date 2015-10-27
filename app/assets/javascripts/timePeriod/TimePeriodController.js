@@ -23,7 +23,7 @@
                 $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, clickedDateRange);
                 localStorage.setItem('timeSetLocStore', JSON.stringify(clickedDateRange));
                 localStorage.setItem('timeSetTextLocStore', JSON.stringify(clickedDateText));
-
+                e.stopImmediatePropagation();
 
             }
         );
