@@ -1074,6 +1074,7 @@ var angObj = angObj || {};
                 else
                     $scope.excludeSelectedItems();
 
+                $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
 
 
             }
@@ -1115,7 +1116,9 @@ var angObj = angObj || {};
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
+
             }
+
         }
 
         $scope.$on('updateGeoTags',function(){
@@ -1124,7 +1127,6 @@ var angObj = angObj || {};
                 storedResponse = angular.copy(workflowService.getAdsDetails());
                 $scope.showRegionsTab = true;
                 $scope.selectedTab = 'regions';
-                //$scope.adData.geoTargetingData =
             }
         })
 
