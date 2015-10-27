@@ -1124,6 +1124,7 @@ var angObj = angObj || {};
                 storedResponse = angular.copy(workflowService.getAdsDetails());
                 $scope.showRegionsTab = true;
                 $scope.selectedTab = 'regions';
+                //$scope.adData.geoTargetingData =
             }
         })
 
