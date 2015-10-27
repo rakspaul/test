@@ -91,7 +91,7 @@
                 <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Size</label>
 		    
-		    <!--Abi original-->
+		    <!--Abi version 1-->
 		    <div class="col-md-12 zeroPadding dropdown-workflow">
 			<div class="dropdown">
 			    <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -105,7 +105,7 @@
 			</div>
 		    </div>
 		    
-		    <!--Abi new-->
+		    <!--Abi new version 2-->
 		    <div class="col-md-12 zeroPadding dropdown-workflow">
 			<div class="dropdown">
 			    <input type="text" class="form-control dropdown-toggle dropdown-toggle-search" id="creativeSize" data-toggle="dropdown" value="{{adData.creativeSize ? adData.creativeSize.size :  'Search Size'}}">
@@ -116,8 +116,33 @@
 			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
 			</div>
 		    </div>
-                    <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
-                </div>
+			
+			<!--Abi new version 3 From performance page-->
+			<!--<div class="brand_name_selected" id="brand_name_selected" ng-click="brandsDropdownClicked()" title="{{brandData.selectedBrand.name}}"  >{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}</div>-->
+			<!--<div class="clearfix">-->
+			<!--<!--  <div class="pull-left brands_dd_icon"></div> -->-->
+			<!--  <div class="brandsDropdownSearch">-->
+			<!--	-->
+			<!--	<ul class="dropdown-menu" role="menu" id="brandsList">-->
+			<!--	  <div id="brandsDropdownDiv">-->
+			<!--		<input class="dropdown-toggle inactive"  id="brandsDropdown"-->
+			<!--			  placeholder="{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}"  ng-keyup="disableShowAll();searchBrands()" ng-model="selectedBrand.name"/>-->
+			<!--		<span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>-->
+			<!--	  </div>-->
+			<!--	  <div class="brandsList_ul" id="brandsList_ul" lr-infinite-scroll="loadMoreBrands" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">-->
+			<!--		<li ng-repeat="brand in brands track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === brandData.selectedBrand.id}" ng-controller="BrandsListController">-->
+			<!--		  <a data-ng-click="selectBrand(brand)">-->
+			<!--			<span class="tick"></span>-->
+			<!--			<span class="menuItemText" ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>-->
+			<!--		  </a>-->
+			<!--		</li>-->
+			<!--	  </div>-->
+			<!--	</ul>-->
+			<!--  </div>-->
+			<!--</div>-->
+			
+            <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
+            </div>
 			
                 <div class="col-md-12 zeroPadding">
                     <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>

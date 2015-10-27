@@ -886,12 +886,38 @@
 #campaignCreate .campaignAdCreate {
   float: left;
   width: 77%;
+  height: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper {
   width: 100%;
   min-height: 500px;
   padding: 30px 0 0 0;
   float: left;
+  height: 100%;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate {
+  height: 100%;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole {
+  height: 100%;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne {
+  height: 100%;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent {
+  height: 100%;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent .tab-content {
+  height: 100%;
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent .tab-content .tab-pane {
+  float: left;
+  height: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .headerSteps {
   padding: 0 0 15px 0;
@@ -1105,6 +1131,9 @@
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .buyingPlatformHolder {
+  float: left;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder {
   border-radius: 1px;
@@ -1714,8 +1743,8 @@
 }
 .adCreateMaster .tab-content .tab-pane .nextWrapper {
   position: absolute;
-  left: 0;
-  bottom: -58px;
+  left: -1px;
+  bottom: 0px;
   background: #fff;
   border-top: 1px solid #D0D0D0;
   height: 30px;
