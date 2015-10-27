@@ -372,7 +372,7 @@ var angObj = angObj || {};
         };
 
         _customctrl.reset = function(){
-            $scope.limit = 15;
+            $scope.limit = 1000;
             $scope.firstDimensionoffset = 0;
             $scope.fetching = false;
             $scope.secondDimensionOffset = 0;
