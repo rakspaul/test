@@ -105,17 +105,17 @@
 			</div>
 		    </div>
 		    
-		    <!--Abi new version 2-->
-		    <div class="col-md-12 zeroPadding dropdown-workflow">
-			<div class="dropdown">
-			    <input type="text" class="form-control dropdown-toggle dropdown-toggle-search" id="creativeSize" data-toggle="dropdown" value="{{adData.creativeSize ? adData.creativeSize.size :  'Search Size'}}">
-			    <span class="icon-search"></span>
-			    <ul class="dropdown-menu dropdown-menu-search" aria-labelledby="sel1" id="sel1">
-				<li ng-repeat="creativeSize in creativeSizeData.creativeSize track by creativeSize.id"><a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a></li>
-			    </ul>
-			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
-			</div>
-		    </div>
+			<!--Abi new version 2-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+			<!--	<div class="dropdown">-->
+			<!--	<input type="text" class="form-control dropdown-toggle dropdown-toggle-search" id="creativeSize" data-toggle="dropdown" value="{{adData.creativeSize ? adData.creativeSize.size :  'Search Size'}}">-->
+			<!--	    <span class="icon-search"></span>-->
+			<!--	    <ul class="dropdown-menu dropdown-menu-search" aria-labelledby="sel1" id="sel1">-->
+			<!--			<li ng-repeat="creativeSize in creativeSizeData.creativeSize track by creativeSize.id"><a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a></li>-->
+			<!--	    </ul>-->
+			<!--	<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>-->
+			<!--	</div>-->
+			<!--</div>-->
 			
 			<!--Abi new version 3 From performance page-->
 			<!--<div class="brand_name_selected" id="brand_name_selected" ng-click="brandsDropdownClicked()" title="{{brandData.selectedBrand.name}}"  >{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}</div>-->
