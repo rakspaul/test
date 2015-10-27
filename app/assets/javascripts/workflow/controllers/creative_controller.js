@@ -166,12 +166,13 @@ var angObj = angObj || {};
                 }, 'slow', function () {
                     $(this).hide();
                 });
-                $("#creative").delay(300).animate({minHeight: "530px"}, 'slow');
+                $("#creative").delay(300).animate({height: "530px"}, 'slow');
             }
         })
         $scope.cancelBtn = function () {
             $scope.$broadcast('closeAddCreativePage');
-
+            var winHeight = $(window).height() - 126;
+            $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
         }
         $scope.saveDuplicate = function () {
             workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, $scope.CrDataObj).then(function (result) {
