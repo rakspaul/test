@@ -945,7 +945,6 @@ var angObj = angObj || {};
             }
 
             if ($scope.mode == 'edit') {
-                var responseData = workflowService.getAdsDetails();
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                 if (window.location.href.indexOf("adGroup") > -1) {
                     //startDateElem.datepicker("update", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
