@@ -92,8 +92,6 @@ var angObj = angObj || {};
         }
 
         $scope.numbersOnly = function(scopeVar){
-            if(scopeVar === 'unitCost')
-                $scope.adData.unitCost = $scope.adData.unitCost.replace($scope.numberOnlyPattern, '');
             if(scopeVar === 'budgetAmount')
                 $scope.adData.budgetAmount = $scope.adData.budgetAmount.replace($scope.numberOnlyPattern, '');
             if(scopeVar === 'quantity')
@@ -136,7 +134,7 @@ var angObj = angObj || {};
             var goalMapper = {'performance': 'performance', 'brand': 'brand'}
             return goalMapper[goal.toLowerCase()];
         }
-        
+
         $scope.getPlatformIconName = function (platform) {
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
             if(platform)
@@ -144,7 +142,7 @@ var angObj = angObj || {};
             else
                 return '';
         }
-        
+
         $scope.getPlatformDesc = function (platform) {
             var platformMapper = {
                 'collective bidder': 'The programmactic solution for all screens and formats.',
@@ -183,7 +181,7 @@ var angObj = angObj || {};
             if(responseData.name)
                 $scope.adData.adName = responseData.name;
 
-            
+
             if(responseData.adFormat){
                 var format = $filter('toTitleCase')(responseData.adFormat);
                 $scope.adFormatSelection(format);
@@ -507,7 +505,7 @@ var angObj = angObj || {};
             $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-325px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
-        
+
         // Buying Platform Slide Page
         $scope.showBuyingPlatformWindow=function(){
             $scope.isBuyPlatformPopup = true;
@@ -980,7 +978,7 @@ var angObj = angObj || {};
             if($scope.mode === 'edit'){
                 if(storedResponse.targets.geoTargets)
                     settings = "Geography";
-                
+
                 if(storedResponse.platform){
                     if(storedResponse.platform.name === platform.name) {
                         //directly set  the platform if it is the same
@@ -1995,4 +1993,3 @@ var angObj = angObj || {};
     });
 
 })();
-
