@@ -71,11 +71,11 @@
             },
             getAd : function(data) {
                 var url = apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId;
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
             getDetailedAdsInAdGroup :function(campaignId,adGroupID,adId){
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads/'+adId;
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
 
             pushCampaign : function(campaignId) {
