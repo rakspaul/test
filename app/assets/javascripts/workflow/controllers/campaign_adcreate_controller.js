@@ -1075,7 +1075,7 @@ var angObj = angObj || {};
                     $scope.excludeSelectedItems();
 
                 $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
-
+                //$scope.listCities();
 
             }
         }
