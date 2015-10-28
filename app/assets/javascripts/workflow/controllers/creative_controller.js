@@ -21,14 +21,14 @@ var angObj = angObj || {};
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
-                $scope.resetAlertMessage() ;     
+                $scope.resetAlertMessage() ;
             }, 3000);
         }
         $scope.msgtimeoutReset() ;
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ; 
+            $scope.resetAlertMessage() ;
         };
 
         $scope.resetAlertMessage = function(){
@@ -135,7 +135,7 @@ var angObj = angObj || {};
                     $scope.cancelBtn();// redirect user after successful saving
                     $scope.createAlertMessage.message = $scope.textConstants.CREATIVE_SAVE_SUCCESS ;
                     localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS );
-                    
+
                     $scope.msgtimeoutReset() ;
                 } else if (result.data.data.message = "Creative with this tag already exists. If you still want to save, use force save") {
                     $(".popup-holder").css("display", "block");
@@ -170,11 +170,17 @@ var angObj = angObj || {};
                 $("#creative").delay(300).animate({height: "530px"}, 'slow');
             }
         })
+        
         $scope.cancelBtn = function () {
             $scope.$broadcast('closeAddCreativePage');
             var winHeight = $(window).height() - 126;
             $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
         }
+
+        $scope.switchPlatform = function() {
+            $rootScope.$broadcast('switchPlatformFunc');
+        }
+
         $scope.saveDuplicate = function () {
             workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, $scope.CrDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
@@ -202,12 +208,12 @@ var angObj = angObj || {};
             $scope.disableCancelSave = false;
 
         }
-        
+
         $(".dropdown-menu li a").click(function(){
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle').html('<span>'+selText+'</span> <span class="caret"></span>');
         });
-        
+
         // DDL with Search
         $(".dropdown-menu-search li a").click(function(){
             var selText = $(this).text();

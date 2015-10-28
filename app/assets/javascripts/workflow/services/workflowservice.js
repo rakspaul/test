@@ -143,6 +143,12 @@
                 var domainIdstr =  domainId ? '/'+domainId : '';
                 return apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/domain_lists/upload'+domainIdstr;
             },
+
+            getPlatformCustomInputs : function(platformId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId;
+                return dataService.fetch(url);
+            },
+
             setMode :  function(m) {
                 mode = m;
             },
@@ -165,5 +171,159 @@
             }
         };
 
+    });
+}());
+
+
+(function () {
+    "use strict";
+    angObj.factory("platformCustomeModule", function () {
+
+      var _self = this;
+      //private method
+      var platformHeader = function(pJson, elem) {
+         var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">';
+         platformHTML += '<div class="col-md-8 zeroPadding">'+ pJson.displayName+'<br/>';
+         platformHTML += '</div>';
+         platformHTML += ' <div class="col-md-4 zeroPadding pull-left clearLeft"><a href="javascript:void(0);">'+pJson.subName+'</a></div>'
+         platformHTML + '</div>';
+         elem.append(platformHTML);
+      };
+
+      var selectPlatform = function(selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems) {
+        console.log("selectedValue", selectedValue);
+        if(dependentItems == 'selectBoxchkDependentItems') {
+          _self.elem.find("div[relationwith=selectBoxchkDependentItems]").length >0 && _self.elem.find("div[relationWith=selectBoxchkDependentItems]").remove();
+          _self.elem.find("div[relationwith=chkDependentItems]").length >0 && _self.elem.find("div[relationWith=chkDependentItems]").remove();
+        }
+
+        if(dependentItems == 'chkDependentItems') {
+          _self.elem.find("div[relationwith=chkDependentItems]").length >0 && _self.elem.find("div[relationWith=chkDependentItems]").remove();
+        }
+
+
+        var activationOrderList = _self.platformCustomInputActivationOrderList;
+        var selectedOrderList = _.filter(activationOrderList, function(obj) { return obj.value === $.trim(selectedValue) && obj.platformCustomInputId === inputList.id });
+        if(selectedOrderList.length >0) {
+          var platformCustomInputGroupId = selectedOrderList[0].platformCustomInputGroupId;
+          var Item = _.filter(platformCustomInputChildrenGroupList, function(obj) { return obj.id === platformCustomInputGroupId});
+          if(Item.length >0) {
+            Item =  Item[0];
+            Item['relationWith'] = dependentItems;
+          }
+          createPlatformCustomInputList(Item , _self.elem);
+        }
+      }
+
+      var createInputElem = function(inputList, inputGroupList, idx) {
+        var inputWrapper = $('<div/>').addClass("form-group col-md-3 zeroPadding").attr({
+          'relationWith' : inputGroupList.relationWith
+        }).addClass(inputList.displayName === 'Min.' ? 'minLeft' : '').addClass(inputList.displayName === 'Max.' ? 'maxLeft' : '')
+        var options = inputList.rangeJson.split(',');
+        if(inputList.displayName !== "") {
+          var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
+          inputWrapper.append(fieldLabel);
+        }
+
+        var hiddenInputField = $('<input />').attr({
+          'type' : 'hidden',
+          'name' : inputList.name,
+          'value' : inputList.id
+        }).appendTo(inputWrapper);
+
+        if(inputList.platformCustomWidgetType ==='DROPDOWN') {
+          var inputListHTML = $('<select/>').addClass('form-control col-md-12').addClass(inputList.decoratorOrientation.toLowerCase()).attr({
+            'required': inputList.isMandatory,
+            'name' : inputList.name
+          }).on('change', function() {
+              console.log(inputGroupList);
+              if(inputList.dependentGroups) {
+                selectPlatform(this.value, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxchkDependentItems');
+              }
+          })
+            selectPlatform(inputList.defaultValue, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxDependentItems')
+
+          _.each(options, function(option) {
+              var optionElem = $('<option/>').attr({
+                'value': option,
+                'name' : inputList.name,
+                'selected': inputList.defaultValue === option ? true : false
+              }).text(option);
+              inputListHTML.append(optionElem);
+          })
+          inputWrapper.append(inputListHTML);
+        } else {
+          var type;
+          var platformCustomWidgetType = inputList.platformCustomWidgetType;
+          switch(platformCustomWidgetType) {
+            case 'LABEL': type = 'text'; break;
+            case 'CHECKBOX': type = 'checkbox';break;
+            default : type = "number";break;
+          }
+          var inputListHTML = $('<input/>').attr({
+            'type': type,
+            'required': inputList.isMandatory,
+            'name' : inputList.name,
+            'id' : inputList.name,
+            'value': inputList.defaultValue,
+            'min': options.min,
+            'max': options.max
+          });
+
+          if(inputList.decorator !== 'NA')
+            var decoratorHTML = $('<span />').text(inputList.decorator).appendTo(inputWrapper).addClass('decoratorFloat');
+
+          if(platformCustomWidgetType === 'CHECKBOX') {
+            inputListHTML.addClass('cmn-toggle cmn-toggle-round').attr('id', 'cmn-toggle-'+(idx+1));
+            inputWrapper.append(inputListHTML);
+            inputListHTML.on('change', function() {
+                if(inputList.dependentGroups) {
+                  selectPlatform(this.checked ?  "TRUE" : "FALSE" , inputList, inputGroupList.platformCustomInputChildrenGroupList, 'chkDependentItems');
+                }
+            })
+            var label = $('<label for="cmn-toggle-'+(idx+1)+'"/>');
+            inputWrapper.append(label);
+          } else {
+            inputListHTML.addClass('form-control col-md-12');
+            inputWrapper.append(inputListHTML);
+          }
+        }
+        return inputWrapper;
+      };
+
+      var createPlatformCustomInputList =  function(inputGroupList, elem) {
+        _self.inputGroupList = inputGroupList;
+        var platformCustomInputList = _.sortBy(inputGroupList.platformCustomInputList, 'displayOrder');
+        console.log("platformCustomInputList", platformCustomInputList);
+        _.each(platformCustomInputList, function(inputList, idx) {
+            elem.append(createInputElem(inputList, inputGroupList, idx));
+        })
+      }
+
+      var buildInputControl = function(inputGroupList, elem) {
+         createPlatformCustomInputList(inputGroupList, elem);
+      };
+
+      var buildFormControl =  function(pJson, elem) {
+        var platformCustomInputGroupList = pJson.platformCustomInputGroupList
+        _.each(platformCustomInputGroupList, function(inputGroupList) {
+            buildInputControl(inputGroupList, elem);
+        })
+      }
+
+      var init = function (platformCustomeJson, elem) {
+         elem.html('');
+        _self.elem = elem;
+        _self.platformCustomInputNamespaceList = platformCustomeJson.platformCustomInputNamespaceList;
+        _self.platformCustomInputActivationOrderList = platformCustomeJson.platformCustomInputActivationOrderList;
+         _.each(_self.platformCustomInputNamespaceList, function(pJson) {
+           platformHeader(pJson, elem)
+           buildFormControl(pJson, elem)
+         })
+      };
+
+      return {
+        init: init
+      };
     });
 }());

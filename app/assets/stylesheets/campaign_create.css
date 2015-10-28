@@ -14,6 +14,8 @@
   left: 50%;
   margin-left: -32px;
   margin-top: -32px;
+  -webkit-filter: hue-rotate(22deg);
+  filter: hue-rotate(22deg);
 }
 #campaignCreate {
   float: left;
@@ -1585,10 +1587,28 @@
   display: none;
   position: absolute;
   z-index: 10;
-  padding: 10px 0px 30px 30px;
+  padding: 0px 0px 30px 30px;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform {
+  float: left;
+  margin-top: 15px;
+  cursor: pointer;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform img {
+  float: left;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform p {
+  float: left;
+  color: #0978c9;
+  margin: 1px 0 20px 10px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs h5 {
   float: left;
+  clear: left;
+  margin-bottom: 30px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs img {
   float: left;
@@ -1607,10 +1627,25 @@
   float: left;
   margin: 9px 30px;
 }
+#campaignCreate .platformSlide .platform-custom .platWrap .platformHeading .col-md-8 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-family: "Avenir";
+}
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group {
   padding-left: 0;
   clear: left;
   float: left;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap .form-group .decoratorFloat {
+  position: absolute;
+  z-index: 10;
+  top: 46px;
+  left: 10px;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap .form-group input[type='number'] {
+  text-indent: 20px;
+  line-height: normal;
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .minLeft {
   width: 10%;
@@ -1643,9 +1678,6 @@
   z-index: 10;
   top: 10px;
   right: 10px;
-}
-#campaignCreate .platformSlide .platform-custom input[type='text'] {
-  text-align: right;
 }
 #campaignCreate .platformSlide .platform-custom .col-md-1 {
   width: 10%;
@@ -1766,7 +1798,6 @@
   padding: 50px 10px 0px 30px;
 }
 .adCreateMaster .tab-content .tab-pane h2 {
-  color: #000;
   font-size: 20px;
   margin: 0 0 10px 0 !important;
   font-family: "Avenir";
@@ -1911,9 +1942,6 @@
   min-width: 170px ;
   max-width: 170px ;
 }
-.adCreateMaster #targetting .list_val_col:last-child {
-  margin-left: 28px;
-}
 .adCreateMaster #targetting .list_holder {
   /*padding: 0 20px ;*/
 }
@@ -1998,6 +2026,13 @@
 .adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap {
   float: right;
   margin-top: 30px;
+}
+.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap span {
+  float: right;
+  margin: 3px 8px 0 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap span img {
+  margin: -2px 0 0 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .col-md-12 .btn {
   margin-top: 20px;
@@ -2371,7 +2406,8 @@
   text-align: center;
 }
 .adCreateMaster #targetting #regions {
-  padding: 0 ;
+  border: 1px solid #dde6eb;
+  padding-left: 10px;
 }
 .adCreateMaster #targetting #dmas {
   border: 1px solid #dde6eb;
