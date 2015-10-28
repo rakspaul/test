@@ -1048,7 +1048,10 @@ var angObj = angObj || {};
         var dmasListArray = [];
         var regionListSortOrder = 'asc';
         var cityListSortOrder = 'asc';
-        var dmaListSortOrder = 'asc';
+        var dmaListSortOrder = 'asc'
+        var regionInitialLoad = false;
+        var cityInitialLoad = false;
+        var dmasInitialLoad = false;
         var storedResponse = {};
         $scope.isRegionSelected = true;
         $scope.citiesIncluded = true;
@@ -1074,7 +1077,8 @@ var angObj = angObj || {};
                 else
                     $scope.excludeSelectedItems();
 
-
+                $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
+                $scope.listCities();
 
             }
         }
@@ -1093,12 +1097,14 @@ var angObj = angObj || {};
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'cities')
                 })
-
+                cityInitialLoad = true;
+                $scope.selectedTab = 'regions';
+                $scope.showSwitch = true;
                 //// toggle switch based on region settings
-                //if(storedResponse.targets.geoTargets.CITY.isIncluded)
-                //    $scope.includeSelectedItems();
-                //else
-                //    $scope.excludeSelectedItems();
+                if(!storedResponse.targets.geoTargets.CITY.isIncluded)
+                    $scope.includeSelectedItems();
+                else
+                    $scope.excludeSelectedItems();
             }
         }
 
@@ -1115,7 +1121,10 @@ var angObj = angObj || {};
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
+                dmasInitialLoad = true;
+
             }
+
         }
 
         $scope.$on('updateGeoTags',function(){
@@ -1480,7 +1489,7 @@ var angObj = angObj || {};
                      return item.id;
                  });
 
-                if($scope.mode === 'edit'){
+                if($scope.mode === 'edit' && !dmasInitialLoad){
                     $scope.dmasEdit(flatArr);
                 }
 
@@ -1553,7 +1562,7 @@ var angObj = angObj || {};
                     return item.id;
                 });
 
-                if($scope.mode === 'edit' ){
+                if($scope.mode === 'edit' && !cityInitialLoad){
                     $scope.cityEdit(flatArr);
                     $scope.listDmas();
                 }
