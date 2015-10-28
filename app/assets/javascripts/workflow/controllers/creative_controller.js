@@ -131,6 +131,7 @@ var angObj = angObj || {};
                     console.log("creative added");
                     $scope.addedSuccessfully = true;
                     $scope.Message = "Creative Added Successfully";
+                    workflowService.setNewCreative(result.data.data);
                     $scope.cancelBtn();// redirect user after successful saving
                     $scope.createAlertMessage.message = $scope.textConstants.CREATIVE_SAVE_SUCCESS ;
                     localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS );
@@ -179,6 +180,7 @@ var angObj = angObj || {};
                     console.log("creative Resaved");
                     $(".popup-holder").css("display", "none");
                     $scope.disableCancelSave = false;
+                    workflowService.setNewCreative(result.data.data);
                     $scope.cancelBtn();
                 } else {
                     $scope.addedSuccessfully = true;

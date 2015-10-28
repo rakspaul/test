@@ -698,6 +698,13 @@ var angObj = angObj || {};
         //$scope.mode = workflowService.getMode();
         $scope.loadingFlag = true; //loading flag
 
+        $scope.$on('updateNewCreative',function(){
+                var creativeTag = workflowService.getNewCreative();
+                $scope.selectedArr.push(creativeTag);
+                $scope.changeStatus();
+                $scope.updateCreativeData($scope.selectedArr);
+
+        })
 
         $scope.$on('updateCreativeTags',function(){
             if($scope.mode === 'edit'){
@@ -705,8 +712,6 @@ var angObj = angObj || {};
                 //creative tags
                 if(responseData.creatives)
                     $scope.selectedArr = responseData.creatives;
-
-
 
                 $scope.changeStatus();
                 $scope.updateCreativeData($scope.selectedArr);

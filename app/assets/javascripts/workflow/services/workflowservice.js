@@ -1,8 +1,9 @@
 (function () {
     "use strict";
-    angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, $cookieStore,requestCanceller,constants) {
+    angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, $cookieStore,requestCanceller,constants,$rootScope) {
         var mode;
         var adDetails;
+        var newCreative;
 
         return {
             fetchCampaigns : function() {
@@ -154,6 +155,13 @@
             },
             getAdsDetails: function(){
                 return adDetails;
+            },
+            setNewCreative :  function(creative) {
+                newCreative = creative;
+                $rootScope.$broadcast('updateNewCreative');
+            },
+            getNewCreative: function(){
+                return newCreative;
             }
         };
 
