@@ -13,6 +13,9 @@
     left: 50%;
     margin-left: -32px;
     margin-top: -32px;
+    
+    -webkit-filter: hue-rotate(22deg); 
+    filter: hue-rotate(22deg);
   }
 }
 #campaignCreate{
@@ -1621,10 +1624,28 @@
       //box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
       position: absolute;
       z-index: 10;
-      padding: 10px 0px 30px 30px;
+      padding: 0px 0px 30px 30px;
       .breadcrumbs {
+        .switchPlatform {
+          float: left;
+          margin-top: 15px;
+          cursor: pointer;
+          img {
+            float: left;
+            margin: 0;
+            width: 20px;
+            height: 20px;
+          }
+          p {
+            float: left;
+            color: #0978c9;
+            margin: 1px 0 20px 10px;
+          }
+        }
         h5 {
           float: left;
+          clear: left;
+          margin-bottom: 30px;
         }
         img {
           float: left;
@@ -1643,10 +1664,23 @@
         }
       }
       .platWrap {
+        .platformHeading {
+          .col-md-8 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-family: "Avenir";
+          }
+        }
         .form-group {
           padding-left: 0;
           clear: left;
           float: left;
+          .decoratorFloat {
+            position: absolute;
+            z-index: 10;
+            top: 10px;
+            left: 10px;
+          }
         }
         .minLeft {
           width: 10%;
@@ -1814,7 +1848,6 @@
     width: 100%;
     padding: 50px 10px 0px 30px;
     h2 {
-      color: #000;
       font-size: 20px;
       margin: 0 0 10px 0 !important;
       font-family:"Avenir";
@@ -1961,7 +1994,7 @@
         max-width: 170px ;
     }
     .list_val_col:last-child {
-      margin-left: 28px;
+      //margin-left: 28px;
     }
     .list_holder {
       /*padding: 0 20px ;*/
@@ -2046,6 +2079,13 @@
         .switchWrap {
           float: right;
           margin-top: 30px;
+          span {
+            float: right;
+            margin: 3px 8px 0 0;
+            img {
+              margin: -2px 0 0 0;
+            }
+          }
         }
       }
       .col-md-12 {
@@ -2433,7 +2473,8 @@
       }  
     }
     #regions {
-      padding : 0 ;
+      border: 1px solid #dde6eb;
+      padding-left: 10px;
     }
     #dmas {
       border: 1px solid #dde6eb;
