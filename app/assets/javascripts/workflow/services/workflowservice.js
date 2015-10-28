@@ -224,9 +224,17 @@
           var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
           inputWrapper.append(fieldLabel);
         }
+
+        var hiddenInputField = $('<input />').attr({
+          'type' : 'hidden',
+          'name' : inputList.name,
+          'value' : inputList.id
+        }).appendTo(inputWrapper);
+
         if(inputList.platformCustomWidgetType ==='DROPDOWN') {
           var inputListHTML = $('<select/>').addClass('form-control col-md-12').addClass(inputList.decoratorOrientation.toLowerCase()).attr({
-            'required': inputList.isMandatory
+            'required': inputList.isMandatory,
+            'name' : inputList.name
           }).on('change', function() {
               console.log(inputGroupList);
               if(inputList.dependentGroups) {
@@ -261,6 +269,10 @@
             'min': options.min,
             'max': options.max
           });
+
+          if(inputList.decorator !== 'NA')
+            var decoratorHTML = $('<span />').text(inputList.decorator).appendTo(inputWrapper).addClass('decoratorFloat');
+
           if(platformCustomWidgetType === 'CHECKBOX') {
             inputListHTML.addClass('cmn-toggle cmn-toggle-round').attr('id', 'cmn-toggle-'+(idx+1));
             inputWrapper.append(inputListHTML);
@@ -269,14 +281,13 @@
                   selectPlatform(this.checked ?  "TRUE" : "FALSE" , inputList, inputGroupList.platformCustomInputChildrenGroupList, 'chkDependentItems');
                 }
             })
-            var label = $('<label for="cmn-toggle"'+(idx+1)+'"/>');
+            var label = $('<label for="cmn-toggle-'+(idx+1)+'"/>');
             inputWrapper.append(label);
           } else {
             inputListHTML.addClass('form-control col-md-12');
             inputWrapper.append(inputListHTML);
           }
         }
-
         return inputWrapper;
       };
 
