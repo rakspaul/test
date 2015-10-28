@@ -1614,11 +1614,13 @@
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .minLeft {
   width: 10%;
-  clear: none;
+  clear: left;
   margin-right: 10px;
 }
-#campaignCreate .platformSlide .platform-custom .platWrap .minLeft:first-child {
-  clear: left;
+#campaignCreate .platformSlide .platform-custom .platWrap .maxLeft {
+  width: 10%;
+  clear: none;
+  margin-right: 10px;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;
