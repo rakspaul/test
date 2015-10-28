@@ -944,12 +944,12 @@ var angObj = angObj || {};
 
             if ($scope.mode == 'edit') {
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                if (window.location.href.indexOf("adGroup") > -1) {
+                //if (window.location.href.indexOf("adGroup") > -1) {
                     //startDateElem.datepicker("update", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
-                    startDateElem.datepicker("update", $scope.adData.startTime);
-                } else {
-                    startDateElem.datepicker("update", campaignStartTime);
-                }
+                    //startDateElem.datepicker("update", $scope.adData.startTime);
+                //} else {
+                //    startDateElem.datepicker("update", campaignStartTime);
+                //}
                 if (moment().format("MM/DD/YYYY") > moment($scope.workflowData['adsData'].endTime).format("MM/DD/YYYY")) {
                     endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
                     endDateElem.datepicker("update", moment().format("MM/DD/YYYY"));
