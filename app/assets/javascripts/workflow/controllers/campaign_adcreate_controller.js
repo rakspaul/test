@@ -6,17 +6,19 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         var winHeaderHeight = $(window).height() - 66;
-        //$(".workflowPreloader").css('height', winHeaderHeight+'px');
         // This sets dynamic width to line to take 100% height
+        function colResize() {
+            var winHeight = $(window).height() - 126;
+            $(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight+'px');
+            $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
+        }
+
         setTimeout(function() {
-            function colResize() {
-                var winHeight = $(window).height() - 126;
-                $(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight+'px');
-                $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
-            } colResize();
-            //$(".workflowPreloader").fadeOut( "slow" );
+            colResize();
         }, 1500);
+
         $(window).resize(function(){ colResize(); });
+
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -169,6 +171,10 @@ var angObj = angObj || {};
         $scope.checkForPastDate = function(startDate, endDate) {
             var endDate = moment(endDate).format("MM/DD/YYYY");
             return  moment().isAfter(endDate, 'day')
+        };
+
+        $scope.switchPlatform = function() {
+            $scope.$broadcast('switchPlatformFunc');
         };
 
         //edit mode data population
@@ -511,7 +517,7 @@ var angObj = angObj || {};
             $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-325px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
-        
+
         // Buying Platform Slide Page
         $scope.showBuyingPlatformWindow=function(){
             $scope.isBuyPlatformPopup = true;
@@ -972,7 +978,7 @@ var angObj = angObj || {};
         }
     });
 
-    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
+    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
         })
@@ -1027,14 +1033,32 @@ var angObj = angObj || {};
             var name = platform.name;
             if(platform.displayName)
                 name = platform.displayName;
-
             var index = $filter('toPascalCase')(name);
-
 
             $scope.adData.platform =  name;
             $scope.adData.platformId = platform.id;
             $scope.selectedPlatform[index] = name;
+
+            $scope.platformCustomInputs();
         }
+
+        $scope.platformCustomInputs = function() {
+          workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
+              if (result.status === "OK" || result.status === "success") {
+                var platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+                var platformWrap =  $(".platWrap");
+                $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
+                $(".offeringsWrap").hide();
+                platformCustomeModule.init(platformCustomeJson, platformWrap);
+              }
+          });
+        }
+
+
+
+        $scope.$on('switchPlatformFunc', function() {
+          $(".platform-custom").show().delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, 'slow');
+        })
 
         $scope.cancelChangePlatform  = function(){
             $scope.changePlatformPopup = !$scope.changePlatformPopup;
@@ -1048,6 +1072,7 @@ var angObj = angObj || {};
             workflowService.setAdsDetails(storedResponse);
             $scope.$broadcast('resetGeoTags');
         }
+
     });
 
     angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode) {
