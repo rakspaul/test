@@ -507,6 +507,8 @@ var angObj = angObj || {};
             var bottom = $(target).offset().bottom;
             $(target).css({bottom: bottom}).animate({"bottom": "0px"}, "10");
             $scope.$broadcast('closeAddCreativePage');
+            $scope.$broadcast('switchPlatformFunc');
+
         });
 
         // Create Tag Slide Page
