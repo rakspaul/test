@@ -82,7 +82,8 @@ a:hover {
   fill: currentColor;
   color: #57606D;
 }
-input[type='text'] {
+input[type='text'],
+input[type='number'] {
   border: 1px solid #BFC9D7;
   border-radius: 2px !important;
   line-height: normal;
@@ -90,7 +91,8 @@ input[type='text'] {
   height: auto;
   box-shadow: none;
 }
-input[type='text']:focus {
+input[type='text']:focus,
+input[type='number']:focus {
   border: 1px solid #0978c9;
   box-shadow: none;
 }
@@ -183,13 +185,15 @@ select {
   min-width: 100%;
   max-width: 340px;
   max-height: 255px;
-  overflow: scroll;
 }
 .dropdown-workflow .dropdown-menu .active a,
 .dropdown-workflow .dropdown-menu-search .active a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
+}
+.dropdown-workflow .dropdown-menu-search {
+  overflow: scroll;
 }
 .dropdown-workflow .dropdown-menu > li > a:hover,
 .dropdown-workflow .dropdown-menu > li > a:focus,
@@ -770,30 +774,28 @@ select {
   border-width: 11px;
   margin-left: -11px;
 }
-.switch-workflow {
-  float: left;
-}
-.switch-workflow .cmn-toggle {
+.cmn-toggle {
   position: absolute;
   margin-left: -9999px;
   visibility: hidden;
 }
-.switch-workflow .cmn-toggle + label {
+.cmn-toggle + label {
   display: block;
   position: relative;
   cursor: pointer;
   outline: none;
   user-select: none;
+  float: left;
 }
-.switch-workflow input.cmn-toggle-round + label {
+input.cmn-toggle-round + label {
   padding: 2px;
   width: 72px;
   height: 36px;
   background-color: #BFC9D7;
   border-radius: 2px;
 }
-.switch-workflow input.cmn-toggle-round + label:before,
-.switch-workflow input.cmn-toggle-round + label:after {
+input.cmn-toggle-round + label:before,
+input.cmn-toggle-round + label:after {
   display: block;
   position: absolute;
   top: 1px;
@@ -801,12 +803,12 @@ select {
   bottom: 1px;
   content: "";
 }
-.switch-workflow input.cmn-toggle-round + label:before {
+input.cmn-toggle-round + label:before {
   right: 1px;
   background-color: #fdfdfd;
   border-radius: 2px;
 }
-.switch-workflow input.cmn-toggle-round + label:after {
+input.cmn-toggle-round + label:after {
   width: 20px;
   background-color: #DCE6F1;
   border-radius: 2px;
@@ -814,13 +816,13 @@ select {
   height: 32px;
   margin: 1px 0 0 1px;
 }
-.switch-workflow input.cmn-toggle-round:checked + label:before {
+input.cmn-toggle-round:checked + label:before {
   background-color: #0978C9;
   background-image: url("../../assets/images/workflow/checkMark.svg");
   background-repeat: no-repeat;
   background-position-x: 15px;
   background-position-y: 11px;
 }
-.switch-workflow input.cmn-toggle-round:checked + label:after {
+input.cmn-toggle-round:checked + label:after {
   margin-left: 49px;
 }

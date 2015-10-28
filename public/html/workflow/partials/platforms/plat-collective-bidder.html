@@ -212,7 +212,69 @@
                 <label for="cmn-toggle-3"></label>
             </div>
         </div>
-        
-        
     </div>
+    
+    <!--App Nexus Form JSON Ver-->
+    <div class="col-md-12 zeroPadding platWrap">
+        <div class="form-group col-md-4 &quot;&quot;">
+            <span class="greyTxt col-md-12 zeroPadding">Buying Method</span>
+            <select class="form-group col-md-3 zeroPadding" required="">
+                <option value="Bid a base CPM" name="buying_method_choice" selected="selected">Bid a base CPM</option>
+                <option value="Bid with Min. Bid &amp; Max Bid" name="buying_method_choice">Bid with Min. Bid &amp; Max Bid</option>
+                <option value="Optimized to a % margin of booked revenue" name="buying_method_choice">Optimized to a % margin of booked revenue</option>
+                <option value="Target Reach &amp; Delivery" name="buying_method_choice">Target Reach &amp; Delivery</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3 zeroPadding">
+            <span class="greyTxt col-md-12 zeroPadding">Show to users without cookies</span>
+            <input class="col-md-12" type="checkbox" required="required" name="other_option.cookieless_users" id="other_option.cookieless_users" value="FALSE">
+        </div>
+        <div class="form-group col-md-3 zeroPadding">
+            <span class="greyTxt col-md-12 zeroPadding">Enable cadence modifier</span>
+            <select class="form-control col-md-12 &quot;&quot;" required="">
+                <option value="None" name="other_option.enable_cadence" selected="selected">None</option>
+                <option value="Advertiser" name="other_option.enable_cadence">Advertiser</option>
+                <option value="Creative" name="other_option.enable_cadence">Creative</option>
+            </select>
+        </div>
+    </div>
+    
+    <!--Blah-->
+    <div class="col-md-12 zeroPadding platWrap">
+        <div class="form-group col-md-3 zeroPadding &quot;&quot;">
+            <span class="greyTxt col-md-12 zeroPadding">Buying Method</span>
+            <select class="form-control col-md-12 &quot;&quot;" required="">
+                <option value="Bid a base CPM" name="buying_method_choice" selected="selected">Bid a base CPM</option>
+                <option value="Bid with Min. Bid &amp; Max Bid" name="buying_method_choice">Bid with Min. Bid &amp; Max Bid</option>
+                <option value="Optimized to a % margin of booked revenue" name="buying_method_choice">Optimized to a % margin of booked revenue</option>
+                <option value="Target Reach &amp; Delivery" name="buying_method_choice">Target Reach &amp; Delivery</option>
+            </select>
+        </div>
+        
+        <div class="form-group col-md-3 zeroPadding &quot;&quot;">
+            <span class="greyTxt col-md-12 zeroPadding">Show to users without cookies</span>
+            <input class="col-md-12 cmn-toggle cmn-toggle-round" type="checkbox" required="required" name="other_option.cookieless_users" id="cmn-toggle-4" value="FALSE">
+            <label for="cmn-toggle-4"></label>
+        </div>
+        
+        <div class="form-group col-md-3 zeroPadding &quot;&quot;">
+            <span class="greyTxt col-md-12 zeroPadding">Enable cadence modifier</span>
+            <select class="form-control col-md-12 &quot;&quot;" required="">
+                <option value="None" name="other_option.enable_cadence" selected="selected">None</option>
+                <option value="Advertiser" name="other_option.enable_cadence">Advertiser</option>
+                <option value="Creative" name="other_option.enable_cadence">Creative</option>
+            </select>
+        </div>
+        
+        <div class="form-group col-md-3 zeroPadding minLeft">
+            <span class="greyTxt col-md-12 zeroPadding">Min.</span>
+            <input class="col-md-12" type="number" required="required" name="bid_range.min_bid" id="bid_range.min_bid" value="0" relationwith="selectCtrl">
+        </div>
+        
+        <div class="form-group col-md-3 zeroPadding minLeft">
+            <span class="greyTxt col-md-12 zeroPadding">Max.</span>
+            <input class="col-md-12" type="number" required="required" name="bid_range.max_bid" id="bid_range.max_bid" value="0" relationwith="selectCtrl">
+        </div>
+    </div>
+    
 </div>

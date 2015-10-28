@@ -5,11 +5,17 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
+        var winHeaderHeight = $(window).height() - 66;
+        //$(".workflowPreloader").css('height', winHeaderHeight+'px');
         // This sets dynamic width to line to take 100% height
-        function colResize() {
-            var winHeight = $(window).height() - 126;
-            $(".campaignAdCreateWrap").css('height', winHeight+'px');
-        } colResize();
+        setTimeout(function() {
+            function colResize() {
+                var winHeight = $(window).height() - 126;
+                $(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight+'px');
+                $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
+            } colResize();
+            //$(".workflowPreloader").fadeOut( "slow" );
+        }, 1500);
         $(window).resize(function(){ colResize(); });
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
@@ -505,7 +511,7 @@ var angObj = angObj || {};
             $(".newCreativeSlide .popCreativeLib").show().delay( 300 ).animate({left: "50%" , marginLeft: "-325px"}, 'slow');
             $("#creative").delay( 300 ).animate({minHeight: "950px"}, 'slow');
         }
-
+        
         // Buying Platform Slide Page
         $scope.showBuyingPlatformWindow=function(){
             $scope.isBuyPlatformPopup = true;
