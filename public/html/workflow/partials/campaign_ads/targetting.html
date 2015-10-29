@@ -107,9 +107,9 @@
                     </div>
                    
                 </div>
-            <div id="regions" class="tab-pane active contentBox">
+            <div id="regions" class="tab-pane active contentBox" >
                     <!-- --- start region block ----------------- -->
-                    <div id="region" class="tab-pane active">
+                    <div id="region" class="tab-pane active" ng-show="selectedTab == 'regions'">
                         <div>
                             <div class="list_holder">
                                 
@@ -127,7 +127,7 @@
                     <!-- --- end region block ----------------- -->
     
                     <!-- --- start city block ----------------- -->
-                    <div id="city" class="tab-pane"  >
+                    <div id="city" class="tab-pane"  ng-show="selectedTab == 'cities'">
                         <div>
                             <div class="list_holder">
                                 
@@ -148,7 +148,7 @@
             <!---- end region and city block ---------->
 
             <!---- start DMA container -------->
-            <div id="dmas" class="tab-pane contentBox">
+            <div id="dmas" class="tab-pane contentBox" ng-show="selectedTab == 'dmas'">
                 <!-- <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="col-md-12 zeroPadding">
                         <div class="col-md-4 zeroPadding switchWrap">
