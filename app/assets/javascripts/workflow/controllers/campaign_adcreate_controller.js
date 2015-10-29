@@ -965,9 +965,9 @@ var angObj = angObj || {};
             if ($scope.mode == 'edit') {
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                 //if (window.location.href.indexOf("adGroup") > -1) {
-                    //startDateElem.datepicker("setStartDate", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
-                console.log("-------",$scope.adData.startTime);
-                    startDateElem.datepicker("update",$scope.adData.startTime);
+                //    startDateElem.datepicker("setStartDate", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
+                    //console.log("-------",$scope.adData.startTime);
+                    //startDateElem.datepicker("update",$scope.adData.startTime);
                 //} else {
                 //    startDateElem.datepicker("update", campaignStartTime);
                 //}
@@ -1120,31 +1120,37 @@ var angObj = angObj || {};
                 $scope.listCities();
 
             }
+            regionInitialLoad = true;
         }
 
-        $scope.cityEdit = function(flatArr){
+        $scope.cityEdit = function(flatArr) {
             storedResponse = angular.copy(workflowService.getAdsDetails());
             //edit mode
-            if(storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.CITY) {
+            if (storedResponse.targets.geoTargets && _.size(storedResponse.targets.geoTargets) > 0 && storedResponse.targets.geoTargets.CITY) {
                 var citiesEditable = angular.copy(storedResponse.targets.geoTargets.CITY.geoTargetList);
                 $scope.citiesIncluded = storedResponse.targets.geoTargets.CITY.isIncluded;
 
                 _.each(citiesEditable, function (item) {
-                    var index = _.findIndex(flatArr, function(region) {
-                        return item.id ==  region.id});
+                    var index = _.findIndex(flatArr, function (region) {
+                        return item.id == region.id
+                    });
 
-                    if(index != -1)
+                    if (index != -1)
                         $scope.sync(true, flatArr[index], 'cities')
                 })
-                cityInitialLoad = true;
-                $scope.selectedTab = 'regions';
-                $scope.showSwitch = true;
+
                 //// toggle switch based on region settings
-                if(!storedResponse.targets.geoTargets.CITY.isIncluded)
+                if (!storedResponse.targets.geoTargets.CITY.isIncluded)
                     $scope.includeSelectedItems();
                 else
                     $scope.excludeSelectedItems();
             }
+
+            $scope.selectedTab = 'regions';
+            $scope.showSwitch = true;
+            cityInitialLoad = true;
+
+
         }
 
         $scope.dmasEdit = function(flatArr){
@@ -1160,9 +1166,10 @@ var angObj = angObj || {};
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
-                dmasInitialLoad = true;
 
             }
+            dmasInitialLoad = true;
+
 
         }
 
@@ -1665,12 +1672,14 @@ var angObj = angObj || {};
             geoTargetingView.getRegionsList($scope.regionListObj, function(responseData) {
                 $scope.regionFetching = false;
                 //regionsListArray = [];
+                if($scope.geoTargetingData['regions'])
+                    regionsListArray = $scope.geoTargetingData['regions']  ;
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
                     return item.code;
                 });
-                if($scope.mode === 'edit' && flag){
+                if($scope.mode === 'edit' && !regionInitialLoad){
                     $scope.regionEdit(flatArr);
                     //$scope.listCities();
                 }
