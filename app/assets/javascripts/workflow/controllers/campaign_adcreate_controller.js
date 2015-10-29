@@ -7,8 +7,8 @@ var angObj = angObj || {};
         $(".bodyWrap").addClass('bodyWrapOverview');
         var winHeaderHeight = $(window).height() - 66;
         $(".workflowPreloader").css('height', winHeaderHeight+'px');
-        // This sets dynamic width to line to take 100% height
 
+        // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 126;
             $(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight+'px');
@@ -25,11 +25,13 @@ var angObj = angObj || {};
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
             $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
         });
+
         $('.dropdown-workflow a').each(function(){
             var text=$(this).text()
             if (text.length>14)
             $(this).val(text).text(text.substr(0,20)+'…')
         });
+
         $scope.mode = workflowService.getMode();
         $scope.textConstants = constants;
         $scope.workflowData = {};
@@ -52,10 +54,8 @@ var angObj = angObj || {};
         $scope.currentTimeStamp = moment.utc().valueOf();
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.numberOnlyPattern = /[^0-9]/g;
-        //$scope.showDropDown=false;
         $scope.adArchive=false;
         $scope.changePlatformPopup = false;
-//        $scope.deleteFailed=false;
         $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
         $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
         $scope.partialSaveAlertMessage = {'message':'','isErrorMsg':0};
@@ -70,14 +70,17 @@ var angObj = angObj || {};
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
         }
+
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;
             }, 3000);
         }
+
         $scope.convertEST=function(date,format){
             return utils.convertToEST(date,format);
         }
+
         $scope.archiveAd=function(event){
             var errorAchiveAdHandler =  function() {
                $scope.adArchive = false;
@@ -110,6 +113,7 @@ var angObj = angObj || {};
         $scope.cancelAdArchive=function(){
             $scope.adArchive=!$scope.adArchive;
         }
+
         $scope.msgtimeoutReset() ;
         $scope.close_msg_box = function(event) {
             $scope.resetPartialSaveAlertMessage() ;
@@ -129,6 +133,7 @@ var angObj = angObj || {};
             $scope.IsVisible = $scope.IsVisible ? false : true;
             $scope.creativeObj=obj;
         }
+
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {'display': 'image', 'video': 'video', 'rich media': 'rich-media', 'social': 'social'}
             return adFormatMapper[adFormat.toLowerCase()];
@@ -146,10 +151,7 @@ var angObj = angObj || {};
 
         $scope.getPlatformIconName = function (platform) {
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
-            if(platform)
-                return platformMapper[platform.toLowerCase()];
-//            else
-//                return '';
+            if(platform) return platformMapper[platform.toLowerCase()];
         }
 
         $scope.getPlatformDesc = function (platform) {
@@ -1013,12 +1015,12 @@ var angObj = angObj || {};
                 if(storedResponse.platform){
                     if(storedResponse.platform.name === platform.name) {
                         //directly set  the platform if it is the same
-                        $scope.setPlatform(platform);
+                        $scope.setPlatform(event, platform);
                     }
                     else {
                         //if the platform is changed but no targets were selected allow change
                         if(_.size(storedResponse.targets.geoTargets) == 0 ){
-                            $scope.setPlatform(platform);
+                            $scope.setPlatform(event, platform);
                         }
                         else{
                             //display warnign popup
@@ -1030,30 +1032,25 @@ var angObj = angObj || {};
                     }
                 }
                 else{
-                    $scope.setPlatform(platform);
+                    $scope.setPlatform(event,platform);
                 }
 
             }
             else{
-                $scope.setPlatform(platform);
+                $scope.setPlatform(event, platform);
             }
 
 
         }
-        $scope.setPlatform = function(platform){
+        
+        $scope.setPlatform = function(event, platform){
             $scope.selectedPlatform = {};
-
-            var name = platform.name;
-            if(platform.displayName)
-                name = platform.displayName;
-
+            var name = platform.displayName ? platform.displayName : platform.name;
             var index = $filter('toPascalCase')(name);
-
-
             $scope.adData.platform =  name;
             $scope.adData.platformId = platform.id;
             $scope.selectedPlatform[index] = name;
-            $scope.platformCustomInputs();
+            event && $scope.platformCustomInputs();
         }
 
         $scope.platformCustomInputs = function() {
@@ -1079,7 +1076,7 @@ var angObj = angObj || {};
         }
 
         $scope.confirmChange = function() {
-            $scope.setPlatform(tempPlatform);
+            $scope.setPlatform(null, tempPlatform);
             $scope.changePlatformPopup = false;
             storedResponse.targets.geoTargets = {};
             workflowService.setAdsDetails(storedResponse);
