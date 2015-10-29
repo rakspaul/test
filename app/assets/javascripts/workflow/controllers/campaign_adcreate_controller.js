@@ -439,10 +439,6 @@ var angObj = angObj || {};
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
         campaignOverView.fetchSelfServicePlatforms();
-        //campaignOverView.fetchManagedServicePlatforms();
-
-        //campaignOverView.getCreatives(3,10);
-
 
         $scope.screenTypeSelection = function (screenTypeObj) {
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
@@ -1043,7 +1039,7 @@ var angObj = angObj || {};
 
 
         }
-        
+
         $scope.setPlatform = function(event, platform){
             $scope.selectedPlatform = {};
             var name = platform.displayName ? platform.displayName : platform.name;

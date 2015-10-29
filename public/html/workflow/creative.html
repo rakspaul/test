@@ -27,7 +27,7 @@
         </div>
     </div>
     <!-- Header Ends -->
-    
+
     <!--=== List Starts ===-->
     <div class="creativeList">
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
@@ -38,7 +38,7 @@
 	    <div class="col-md-12 zeroPadding clearfix nav_filters">
 		<creative-drop-down></creative-drop-down>
 	    </div>
-	    
+
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 
                 <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
@@ -90,7 +90,7 @@
 
                 <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Size</label>
-		    
+
 		    <!--Abi version 1-->
 		    <div class="col-md-12 zeroPadding dropdown-workflow">
 			<div class="dropdown">
@@ -104,7 +104,7 @@
 			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
 			</div>
 		    </div>
-		    
+
 			<!--Abi new version 2-->
 			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
 			<!--	<div class="dropdown">-->
@@ -116,7 +116,7 @@
 			<!--	<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>-->
 			<!--	</div>-->
 			<!--</div>-->
-			
+
 			<!--Abi new version 3 From performance page-->
 			<!--<div class="brand_name_selected" id="brand_name_selected" ng-click="brandsDropdownClicked()" title="{{brandData.selectedBrand.name}}"  >{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}</div>-->
 			<!--<div class="clearfix">-->
@@ -140,10 +140,10 @@
 			<!--	</ul>-->
 			<!--  </div>-->
 			<!--</div>-->
-			
+
             <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
             </div>
-			
+
                 <div class="col-md-12 zeroPadding">
                     <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
 		    <button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Tag</button>
@@ -174,4 +174,3 @@
 
 
 </div>
-
