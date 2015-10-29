@@ -148,8 +148,8 @@ var angObj = angObj || {};
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
             if(platform)
                 return platformMapper[platform.toLowerCase()];
-            else
-                return '';
+//            else
+//                return '';
         }
 
         $scope.getPlatformDesc = function (platform) {
