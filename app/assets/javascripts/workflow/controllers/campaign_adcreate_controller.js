@@ -676,6 +676,16 @@ var angObj = angObj || {};
                        postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                    }
 
+                   var customPlatformFormData = $("#customPlatformForm").serializeArray()
+                   if(customPlatformFormData.length >0) {
+                     postAdDataObj['adPlatformCustomInputs'] = [];
+                     _.each(customPlatformFormData, function(data) {
+                          var d = data.name.split("$$");
+                          postAdDataObj['adPlatformCustomInputs'].push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
+                     })
+                   }
+                   console.log("postAdDataObj", postAdDataObj)
+
                    campaignOverView.saveAds(postAdDataObj)
                }
             })

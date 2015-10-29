@@ -86,8 +86,6 @@
             },
 
             getTaggedCreatives : function(campaignId,adId){
-
-            console.log("adID:"+adId+"CampaignID:"+campaignId);
                  var url= apiPaths.WORKFLOW_APIUrl +'/campaigns/'+ campaignId +'/ads/'+adId;
                  return dataService.fetch(url);
             },
@@ -191,7 +189,6 @@
       };
 
       var selectPlatform = function(selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems) {
-        console.log("selectedValue", selectedValue);
         if(dependentItems == 'selectBoxchkDependentItems') {
           _self.elem.find("div[relationwith=selectBoxchkDependentItems]").length >0 && _self.elem.find("div[relationWith=selectBoxchkDependentItems]").remove();
           _self.elem.find("div[relationwith=chkDependentItems]").length >0 && _self.elem.find("div[relationWith=chkDependentItems]").remove();
@@ -219,29 +216,24 @@
         var inputWrapper = $('<div/>').addClass("form-group col-md-3 zeroPadding").attr({
           'relationWith' : inputGroupList.relationWith
         }).addClass(inputList.displayName === 'Min.' ? 'minLeft' : '').addClass(inputList.displayName === 'Max.' ? 'maxLeft' : '')
-        var options = inputList.rangeJson.split(',');
+
         if(inputList.displayName !== "") {
           var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
           inputWrapper.append(fieldLabel);
         }
 
-        var hiddenInputField = $('<input />').attr({
-          'type' : 'hidden',
-          'name' : inputList.name,
-          'value' : inputList.id
-        }).appendTo(inputWrapper);
-
         if(inputList.platformCustomWidgetType ==='DROPDOWN') {
-          var inputListHTML = $('<select/>').addClass('form-control col-md-12').addClass(inputList.decoratorOrientation.toLowerCase()).attr({
-            'required': inputList.isMandatory,
-            'name' : inputList.name
+          var options = inputList.rangeJson.split(',');
+          var inputListHTML = $('<select/>').addClass('form-control col-md-12 na').addClass(inputList.decoratorOrientation.toLowerCase()).attr({
+            'required': inputList.isMandatory ==='required' ? true : false,
+            'name' : inputList.name+"$$"+inputList.id
           }).on('change', function() {
-              console.log(inputGroupList);
               if(inputList.dependentGroups) {
                 selectPlatform(this.value, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxchkDependentItems');
               }
-          })
-            selectPlatform(inputList.defaultValue, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxDependentItems')
+          });
+
+          selectPlatform(inputList.defaultValue, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxDependentItems')
 
           _.each(options, function(option) {
               var optionElem = $('<option/>').attr({
@@ -252,20 +244,21 @@
               inputListHTML.append(optionElem);
           })
           inputWrapper.append(inputListHTML);
-        } else {
-          var type;
+        }
+
+
+
+        if(inputList.platformCustomWidgetType === 'CHECKBOX' || inputList.platformCustomWidgetType === 'TEXTBOX') {
+
           var platformCustomWidgetType = inputList.platformCustomWidgetType;
-          switch(platformCustomWidgetType) {
-            case 'LABEL': type = 'text'; break;
-            case 'CHECKBOX': type = 'checkbox';break;
-            default : type = "number";break;
-          }
+          var type = platformCustomWidgetType === 'CHECKBOX' ? 'checkbox' : 'number';
+          var options = inputList.rangeJson && JSON.parse(inputList.rangeJson);
           var inputListHTML = $('<input/>').attr({
             'type': type,
-            'required': inputList.isMandatory,
-            'name' : inputList.name,
+            'required': inputList.isMandatory ==='required' ? true : false,
+            'name' : type !== 'checkbox' ? inputList.name+"$$"+inputList.id : '',
             'id' : inputList.name,
-            'value': inputList.defaultValue,
+            'value': inputList.defaultValue ,
             'min': options.min,
             'max': options.max
           });
@@ -274,12 +267,24 @@
             var decoratorHTML = $('<span />').text(inputList.decorator).appendTo(inputWrapper).addClass('decoratorFloat');
 
           if(platformCustomWidgetType === 'CHECKBOX') {
-            inputListHTML.addClass('cmn-toggle cmn-toggle-round').attr('id', 'cmn-toggle-'+(idx+1));
+            inputListHTML.addClass('cmn-toggle cmn-toggle-round').attr({
+              'id': 'cmn-toggle-'+(idx+1),
+              checked : inputList.defaultValue ==='TRUE' ? true : false
+            });
             inputWrapper.append(inputListHTML);
+
+            var hiddenInputField = $('<input />').attr({
+              'type' : 'hidden',
+              'name' : inputList.name+"$$"+inputList.id,
+              'value' : inputList.defaultValue,
+            }).appendTo(fieldLabel);
+
             inputListHTML.on('change', function() {
+                var chkSelValue = this.checked ?  "TRUE" : "FALSE";
                 if(inputList.dependentGroups) {
-                  selectPlatform(this.checked ?  "TRUE" : "FALSE" , inputList, inputGroupList.platformCustomInputChildrenGroupList, 'chkDependentItems');
+                  selectPlatform(chkSelValue , inputList, inputGroupList.platformCustomInputChildrenGroupList, 'chkDependentItems');
                 }
+                 hiddenInputField.attr('value' , chkSelValue);
             })
             var label = $('<label for="cmn-toggle-'+(idx+1)+'"/>');
             inputWrapper.append(label);
@@ -288,13 +293,17 @@
             inputWrapper.append(inputListHTML);
           }
         }
+        if(inputList.platformCustomWidgetType === 'LABEL') {
+            var LabelHTML = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
+            inputWrapper.append(LabelHTML);
+        }
+
         return inputWrapper;
       };
 
       var createPlatformCustomInputList =  function(inputGroupList, elem) {
         _self.inputGroupList = inputGroupList;
         var platformCustomInputList = _.sortBy(inputGroupList.platformCustomInputList, 'displayOrder');
-        console.log("platformCustomInputList", platformCustomInputList);
         _.each(platformCustomInputList, function(inputList, idx) {
             elem.append(createInputElem(inputList, inputGroupList, idx));
         })

@@ -94,7 +94,6 @@ var angObj = angObj || {};
                         }
                     }
                     metricObj.idx = index
-
                 });
                 metricObj.level = typeofDimension;
                 if(typeof currIdx !== 'undefined' && currIdx >=0) {
