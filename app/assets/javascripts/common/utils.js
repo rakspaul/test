@@ -13,7 +13,7 @@
     var convertToEST=function(date,format){
 
         //if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-             if(date!=''){
+             if(date){
                  var d1=date.slice(0,10)
                  var d2= d1.split('-');
                  var tz="UTC";
