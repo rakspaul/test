@@ -900,7 +900,6 @@
 #campaignCreate .campaignAdCreateWrap {
   margin: 0 auto;
   width: 1200px;
-  min-height: 703px;
 }
 #campaignCreate .campaignAdCreate {
   float: left;
@@ -940,6 +939,7 @@
   float: left;
   height: 100%;
   width: 100%;
+  padding-bottom: 60px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .headerSteps {
   padding: 0 0 15px 0;
@@ -1646,6 +1646,12 @@
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group input[type='number'] {
   text-indent: 20px;
   line-height: normal;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap .form-group select {
+  background: transparent;
+  background-image: url("../images/cdesk/common_down_arrow.png");
+  background-repeat: no-repeat;
+  background-position: right 8px top 10px;
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .minLeft {
   width: 10%;
