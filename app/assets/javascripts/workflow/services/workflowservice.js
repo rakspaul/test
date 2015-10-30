@@ -116,7 +116,7 @@
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives/'+id, data, {'Content-Type': 'application/json'})
             },
 
-            getRegionsList :  function(platformId, data) {
+            getRegionsList :  function(platformId, data, success, failure) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/regions'+data;
                 var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
                 return dataService.fetchCancelable(url, canceller, success, failure);
@@ -125,16 +125,12 @@
 
             getCitiesList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
-                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
-                return dataService.fetchCancelable(url, canceller, success, failure);
-                //return dataService.fetch(url);
+                return dataService.fetch(url);
             },
 
             getDMAsList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
-                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
-                return dataService.fetchCancelable(url, canceller, success, failure);
-                //return dataService.fetch(url);
+                return dataService.fetch(url);
             },
 
 

@@ -21,13 +21,13 @@ var angObj = angObj || {};
         } else {
             var winHeight = $(window).height() - 126;
             colResize();
-            
+
             setTimeout(function() {
                 colResize();
                 $(".workflowPreloader").fadeOut( "slow" );
             }, 1500);
         }
-        
+
         $(window).resize(function(){ colResize(); });
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
@@ -1686,7 +1686,6 @@ var angObj = angObj || {};
                 //regionsListArray = [];
                 //if($scope.geoTargetingData['regions'])
                 //    regionsListArray = $scope.geoTargetingData['regions']  ;
-
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
