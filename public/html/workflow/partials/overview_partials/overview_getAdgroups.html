@@ -1,7 +1,7 @@
 <div class="col-md-12 adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
-        <a class="collapseIcon" role="button" id="{{$index+1}}" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)" href="">
-            <span class="icon-plus"></span>
+        <a class="collapseIcon" role="button" id="{{$index+1}}" href="">
+            <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span>
         </a>
 
         <div class="col-md-5 zeroPadding">
@@ -46,39 +46,40 @@
                 <span class="greyTxt adDisplay" ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
             </div>
             <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
-                <h4 class="col-md-10 adCamp">
-                    <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
-                </h4>
-                <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
-                <!--Abi for some reason toggle switch doesnt work here but above it those?-->
-                <!--<div class="btn-group btn-toggle pull-left">
-                    <button class="btn btn-xs btn-default">ON</button>
-                    <button class="btn btn-xs btn-success active">OFF</button>
-                </div>-->
-                <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'MMM DD, YYYY')}} - {{convertEST(adsData.endTime,'MMM DD, YYYY')}}</span>
-
-                <div class="spacer" ng-if="adsData.startTime && adsData.endTime">
+                <div class="col-md-12 zeroPadding cardTopLayer">
+                    <h4 class="col-md-10 adCamp">
+                        <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
+                    </h4>
+                    <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
+                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'MMM DD, YYYY')}} - {{convertEST(adsData.endTime,'MMM DD, YYYY')}}</span>
+                </div>
+                
+                <div class="spacer">
                     <div class="col-md-12"></div>
                 </div>
-                <div class="col-md-4 zeroPadding" ng-switch on="adsData.budgetType">
-                    <div ng-switch-when="COST">
-                        <span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
-                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | currency:undefined:0}}</span>
+                
+                <div class="col-md-12 zeroPadding cardMidLayer">
+                    <div class="col-md-4 zeroPadding" ng-switch on="adsData.budgetType">
+                        <div ng-switch-when="COST">
+                            <span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
+                            <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | currency:undefined:0}}</span>
+                        </div>
+                        <div ng-switch-when="IMPRESSIONS">
+                            <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
+                            <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | nrFormat}}</span>
+                        </div>
                     </div>
-                    <div ng-switch-when="IMPRESSIONS">
-                        <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
-                        <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | nrFormat}}</span>
+                    <div class="col-md-4 zeroPadding">
+                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
+                        <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue | currency:undefined:2}}</span>
                     </div>
                 </div>
-                <div class="col-md-4 zeroPadding">
-                    <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
-                    <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue | currency:undefined:2}}</span>
-                </div>
+                
                 <div class="spacer">
                     <div class="col-md-12"></div>
                 </div>
                 <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
-                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
+                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Tags ({{adsData.creatives.length || 0}})</span>
 
                     <p style="margin: 0;">{{appendSizes(adsData.creatives)}}</p>
                 </div>

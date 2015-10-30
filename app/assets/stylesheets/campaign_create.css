@@ -138,7 +138,6 @@
 #campaignCreate .firstWrapper .masterContainer .isCollapsed #inputBudget,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed #inputBudget {
   text-indent: 8px;
-  line-height: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .form-group,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
@@ -157,7 +156,7 @@
   padding-top: 19px;
 }
 #campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
-  top: 40px;
+  top: 42px;
   left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
@@ -402,7 +401,7 @@
   background: #fff;
   padding: 15px;
   border: 1px solid #CDD2DA;
-  margin-bottom: 1%;
+  margin-bottom: 15px;
   position: relative;
   max-width: 1200px;
   cursor: pointer;
@@ -415,7 +414,6 @@
   float: left;
   border: 1px solid #C6C9CE;
   border-radius: 2px;
-  padding: 6px;
   margin-right: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon .icon-plus,
@@ -424,9 +422,9 @@
   float: left;
   font-size: 12px;
   top: 0;
-  width: 12px;
-  height: 12px;
-  margin: 0;
+  width: 24px;
+  height: 24px;
+  padding: 6px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover {
   border: 1px solid rgba(87, 96, 109, 0.3);
@@ -475,6 +473,9 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:last-child {
   border-width: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup:last-child {
+  margin-bottom: 30px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate {
   float: left;
@@ -568,6 +569,9 @@
   padding: 0px !important;
   float: left;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adDisplay:last-child {
+  margin: 0;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTxtGray {
   font-size: 12px;
   color: #939ead;
@@ -650,12 +654,18 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .icon-settings {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 6px;
+  right: 6px;
   z-index: 10;
   color: #0978C9;
   cursor: pointer;
   display: none;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardTopLayer {
+  min-height: 96px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardMidLayer {
+  min-height: 52px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
   background-color: #D7E9F7;
@@ -1052,7 +1062,7 @@
   left: 0;
   background-color: #fff;
   padding-left: 30px;
-  min-width: 500px ;
+  width: 270px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox .btn-toggle {
   margin: 6px 0 20px;

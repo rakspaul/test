@@ -128,7 +128,7 @@
         }
         #inputBudget {
           text-indent: 8px;
-          line-height: 100%;
+          //line-height: 100%;
         }
         .form-group {
           margin: 0;
@@ -146,7 +146,7 @@
       }
       .dollar_value {
         .currency {
-            top: 40px;
+            top: 42px;
             left: 10px;
         }
       }
@@ -388,7 +388,7 @@
             background: #fff;
             padding: 15px;
             border: 1px solid #CDD2DA;
-            margin-bottom: 1%;
+            margin-bottom: 15px;
             position: relative;
             max-width: 1200px;
             cursor: pointer;
@@ -399,16 +399,15 @@
                 float: left;
                 border: 1px solid #C6C9CE;
                 border-radius: 2px;
-                padding: 6px;
                 margin-right: 10px;
                 .icon-plus, .icon-minus {
                   color: #57606d;
                   float: left;
                   font-size: 12px;
                   top: 0;
-                  width: 12px;
-                  height: 12px;
-                  margin: 0;
+                  width: 24px;
+                  height: 24px;
+                  padding: 6px;
                 }
               }
               .collapseIcon:hover {
@@ -460,6 +459,9 @@
               }
               
             }
+          }
+          .adGroup:last-child {
+            margin-bottom: 30px;
           }
           .adGroupCreate {
             float: left;
@@ -552,6 +554,9 @@
                 padding: 0px !important;
                 float: left;
               }
+              .adDisplay:last-child {
+                margin: 0;
+              }
             }
             .adTxtGray {
               font-size: 12px;
@@ -635,12 +640,18 @@
             }
             .icon-settings {
               position: absolute;
-              top: 10px;
-              right: 10px;
+              top: 6px;
+              right: 6px;
               z-index: 10;
               color: #0978C9;
               cursor: pointer;
               display: none;
+            }
+            .cardTopLayer {
+              min-height: 96px;
+            }
+            .cardMidLayer {
+              min-height: 52px;
             }
           }
           .adModule:hover {
@@ -1060,7 +1071,7 @@
           left: 0;
           background-color: #fff;
           padding-left: 30px;
-          min-width: 500px ;
+          width: 270px;
         }
         .adNameBox {
           .btn-toggle {
