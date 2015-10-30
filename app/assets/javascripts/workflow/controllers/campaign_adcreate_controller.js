@@ -14,11 +14,20 @@ var angObj = angObj || {};
             $(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight+'px');
             $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
         }
-        setTimeout(function() {
+        if ($(window).height() < 596) {
+            setTimeout(function() {
+                $(".workflowPreloader").fadeOut( "slow" );
+            }, 1500);
+        } else {
+            var winHeight = $(window).height() - 126;
             colResize();
-            $(".workflowPreloader").fadeOut( "slow" );
-        }, 1500);
-
+            
+            setTimeout(function() {
+                colResize();
+                $(".workflowPreloader").fadeOut( "slow" );
+            }, 1500);
+        }
+        
         $(window).resize(function(){ colResize(); });
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
