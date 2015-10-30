@@ -213,9 +213,9 @@
       }
 
       var createInputElem = function(inputList, inputGroupList, idx) {
-        var inputWrapper = $('<div/>').addClass("form-group col-md-3 zeroPadding").attr({
+        var inputWrapper = $('<div/>').addClass('form-group-section').attr({
           'relationWith' : inputGroupList.relationWith
-        }).addClass(inputList.displayName === 'Min.' ? 'minLeft' : '').addClass(inputList.displayName === 'Max.' ? 'maxLeft' : '')
+        });
 
         if(inputList.displayName !== "") {
           var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
@@ -304,13 +304,24 @@
       var createPlatformCustomInputList =  function(inputGroupList, elem) {
         _self.inputGroupList = inputGroupList;
         var platformCustomInputList = _.sortBy(inputGroupList.platformCustomInputList, 'displayOrder');
+        if(platformCustomInputList.length >0) {
+          var groupConatiner =  $('<div/>').addClass("form-group col-md-3 zeroPadding");
+        }
         _.each(platformCustomInputList, function(inputList, idx) {
-            elem.append(createInputElem(inputList, inputGroupList, idx));
+            groupConatiner.append(createInputElem(inputList, inputGroupList, idx, 'group'));
         })
+        elem.append(groupConatiner);
+
       }
 
       var buildInputControl = function(inputGroupList, elem) {
          createPlatformCustomInputList(inputGroupList, elem);
+         var platformCustomInputChildrenGroupList = inputGroupList.platformCustomInputChildrenGroupList;
+        _.each(platformCustomInputChildrenGroupList, function(inputGroupList) {
+            if(inputGroupList.isActivated) {
+              buildInputControl(inputGroupList, elem);
+            }
+        })
       };
 
       var buildFormControl =  function(pJson, elem) {
