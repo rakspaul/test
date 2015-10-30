@@ -1527,37 +1527,47 @@
           margin: 20px 0 0 0;
         }
         #custom-search-input{
-          padding: 3px;
-          border: solid 1px #E4E4E4;
-          border-radius: 6px;
+          //padding: 3px;
+          //border: solid 1px #E4E4E4;
+          //border-radius: 6px;
           background-color: #fff;
           float: left;
           //width: 285px;
           margin: 7px 0 0 0;
+          position: relative;
+          height: 36px;
+          padding-right: 0;
         }
         #custom-search-input input{
-          border-width: 0 !important;
-          box-shadow: none;
+          position: absolute;
+          z-index: 10;
+          top: 0;
+          right: 0;
+          background: transparent;
+        //  border-width: 0 !important;
+        //  box-shadow: none;
+        //  font-size: 14px;
+        //  padding: 7px;
+        //  height: initial;
+        }
+        //#custom-search-input button{
+        //  margin: 2px 0 0 0;
+        //  background: none;
+        //  box-shadow: none;
+        //  border: 0;
+        //  color: #666666;
+        //  padding: 0 8px 0 10px;
+        //  border-left: solid 1px #ccc;
+        //}
+        //#custom-search-input button:hover{
+        //  border: 0;
+        //  box-shadow: none;
+        //  border-left: solid 1px #ccc;
+        //}
+        #custom-search-input .icon-search{
           font-size: 14px;
-          padding: 7px;
-          height: initial;
-        }
-        #custom-search-input button{
-          margin: 2px 0 0 0;
-          background: none;
-          box-shadow: none;
-          border: 0;
-          color: #666666;
-          padding: 0 8px 0 10px;
-          border-left: solid 1px #ccc;
-        }
-        #custom-search-input button:hover{
-          border: 0;
-          box-shadow: none;
-          border-left: solid 1px #ccc;
-        }
-        #custom-search-input .glyphicon-search{
-          font-size: 14px;
+          float: right;
+          margin: 11px 8px 0 0;
         }
       }
       .col-md-5 {
@@ -1575,9 +1585,18 @@
             tr {
               td {
                 border-bottom: 1px solid #dde6eb !important;
+                padding: 10px 0;
               }
             }
           }
+        }
+        .icon-close {
+          font-size: 7px;
+          width: 7px;
+          height: 7px;
+          float: left;
+          margin: 6px;
+          cursor: pointer;
         }
       }
       .closePopBtn {
@@ -2197,6 +2216,8 @@
           }
         }
         .tab-pane {
+          min-height: initial !important;
+          padding-bottom: 0px !important;
           .tab-content {
             border-left: 1px solid #dde6eb;
             border-bottom: 1px solid #dde6eb;
