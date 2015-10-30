@@ -351,6 +351,11 @@ select {
   font-size: 14px;
   width: auto;*/
 }
+.btn:hover,
+.btn:focus,
+.btn:active {
+  text-decoration: none;
+}
 .btn-primary {
   background: #0978C9;
 }
