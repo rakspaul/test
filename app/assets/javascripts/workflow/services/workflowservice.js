@@ -218,8 +218,10 @@
         });
 
         if(inputList.displayName !== "") {
-          var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
-          inputWrapper.append(fieldLabel);
+          if(inputList.displayName !== 'NA') {
+            var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
+            inputWrapper.append(fieldLabel);
+          }
         }
 
         if(inputList.platformCustomWidgetType ==='DROPDOWN') {
@@ -327,7 +329,9 @@
       var buildFormControl =  function(pJson, elem) {
         var platformCustomInputGroupList = pJson.platformCustomInputGroupList
         _.each(platformCustomInputGroupList, function(inputGroupList) {
-            buildInputControl(inputGroupList, elem, true);
+            if(inputGroupList.isActivated) {
+              buildInputControl(inputGroupList, elem, true);
+            }
         })
       }
 
