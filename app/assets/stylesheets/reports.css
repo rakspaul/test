@@ -3744,9 +3744,10 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .dropdown_autoselect_box input {
   border: 0;
+  width: 100% ;
   border-bottom: solid 1px #ccc;
   padding: 5px 6px;
-  background: url("/assets/images/cdesk/search_input.png") no-repeat 135px center;
+  background: url("/assets/images/cdesk/search_input.png") no-repeat 250px center;
 }
 .sort_order_down_new {
   cursor: pointer ;
