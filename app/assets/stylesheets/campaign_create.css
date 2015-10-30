@@ -1688,6 +1688,24 @@
 #campaignCreate .platformSlide .platform-custom .col-md-1 {
   width: 10%;
 }
+#campaignCreate .platformSlide .form-group-section {
+  float: left;
+  margin-right: 10px ;
+  position: relative;
+  width: 100px ;
+}
+#campaignCreate .platformSlide .form-individual-section .form-group-section {
+  float: none;
+  width: 200px ;
+}
+#campaignCreate .platformSlide .form-individual-section .form-group-section:before,
+#campaignCreate .platformSlide .form-individual-section .form-group-section:after {
+  content: " ";
+  display: table;
+}
+#campaignCreate .platformSlide .form-individual-section .form-group-section:after {
+  clear: both;
+}
 #campaignCreate .newCreativeSlide .hideRightPanel {
   display: none !important;
 }
