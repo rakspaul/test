@@ -1696,9 +1696,15 @@
   position: relative;
   width: 100px ;
 }
+#campaignCreate .platformSlide .form-group-section select {
+  margin-top: 37px ;
+}
 #campaignCreate .platformSlide .form-individual-section .form-group-section {
   float: none;
   width: 210px ;
+}
+#campaignCreate .platformSlide .form-individual-section .form-group-section select {
+  margin-top: 0px ;
 }
 #campaignCreate .platformSlide .form-individual-section .form-group-section:before,
 #campaignCreate .platformSlide .form-individual-section .form-group-section:after {
