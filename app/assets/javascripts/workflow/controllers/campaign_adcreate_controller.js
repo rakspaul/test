@@ -1072,7 +1072,10 @@ var angObj = angObj || {};
         }
 
         $scope.$on('switchPlatformFunc', function() {
-          $(".platform-custom").show().delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, 'slow');
+          $(".platform-custom").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, function() {
+              $(this).hide();
+          });
+          $(".offeringsWrap").show();
         })
 
 
