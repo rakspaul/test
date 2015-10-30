@@ -118,17 +118,23 @@
 
             getRegionsList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/regions'+data;
-                return dataService.fetch(url);
+                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
+                //return dataService.fetch(url);
             },
 
             getCitiesList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
-                return dataService.fetch(url);
+                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
+                //return dataService.fetch(url);
             },
 
             getDMAsList :  function(platformId, data) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
-                return dataService.fetch(url);
+                var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
+                //return dataService.fetch(url);
             },
 
 
