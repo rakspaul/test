@@ -318,7 +318,7 @@ var angObj = angObj || {};
                                 workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
                                     processEditMode(result);
                                 })
-                            }   else {
+                            }  else {
                                 workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
                                     processEditMode(result);
                                 })
