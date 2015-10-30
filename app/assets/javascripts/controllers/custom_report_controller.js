@@ -209,7 +209,7 @@ var angObj = angObj || {};
             additonalFilter = _customctrl.getSelectedAdditionalFilter();
             if($scope.isReportForMultiDimension && filterText) {
                 str =  dimensionIds[1] + (reportFilterList[1] !== '' ?  (':' + reportFilterList[1]) : '');
-                str += "&filter=" + dimensionIds[0] + (filterText !== '' ? (':' + filterText) : '') + (additonalFilter.length >0 ? (':' + additonalFilter) : '');
+                str += "&filter=" + dimensionIds[0] + (filterText !== '' ? (':' + filterText) : '') + (additonalFilter.length >0 ? ('~' + additonalFilter) : '');
 
             } else {
                 str =  dimensionIds[0] + (reportFilterList[0] !== '' ?  (':' + reportFilterList[0]) : '');
