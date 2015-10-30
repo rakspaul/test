@@ -215,17 +215,17 @@
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="region in geoTargetingData.selected.regions">
                         <div class="pull-left"><img ng-src="/assets/images/workflow/{{region.regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
-                        <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(region, 'regions')" /></div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
                         <div class="group">
                             <div ng-repeat="city in region.cities">
                                 <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(city, 'regions')" /></div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'regions')"></span></div>
                             </div>
                         </div>
                     </div>
                     <div ng-if="showCitiesOnly" class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
                         <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}} ({{city.parent.name}})</div>
-                        <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(city, 'cities')" /></div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
                         <div class="emptyTableLabel">Not Set</div>
@@ -244,7 +244,7 @@
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="dma in geoTargetingData.selected.dmas">
                         <div class="pull-left"><img ng-src="/assets/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.dmaName}}</div>
-                        <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(dma, 'dmas')" /></div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas')"></span></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.dmas.length === 0">
                         <div class="emptyTableLabel">Not Set</div>
@@ -264,7 +264,7 @@
                     <div ng-repeat="zipCodeList in geoTargetingData.selected.zip">
                         <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
                             <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
-                            <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(zipCode, 'zip')"></div>
+                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
                         </div>
                         <div ng-if="geoTargetingData.selected.zip.length === 0">
                             <div class="emptyTableLabel">Not Set</div>
