@@ -1684,8 +1684,9 @@ var angObj = angObj || {};
             geoTargetingView.getRegionsList($scope.regionListObj, function(responseData) {
                 $scope.regionFetching = false;
                 //regionsListArray = [];
-                if($scope.geoTargetingData['regions'])
-                    regionsListArray = $scope.geoTargetingData['regions']  ;
+                //if($scope.geoTargetingData['regions'])
+                //    regionsListArray = $scope.geoTargetingData['regions']  ;
+
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
