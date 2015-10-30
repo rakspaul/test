@@ -1647,6 +1647,12 @@
   text-indent: 20px;
   line-height: normal;
 }
+#campaignCreate .platformSlide .platform-custom .platWrap .form-group select {
+  background: transparent;
+  background-image: url("../images/cdesk/common_down_arrow.png");
+  background-repeat: no-repeat;
+  background-position: right 8px top 10px;
+}
 #campaignCreate .platformSlide .platform-custom .platWrap .minLeft {
   width: 10%;
   clear: left;
