@@ -1729,6 +1729,25 @@
         width: 10%;
       }
     } 
+    .form-group-section {
+      float: left;
+      margin-right: 10px ;
+      position: relative;
+      width: 100px ;
+    }
+    .form-individual-section {
+      .form-group-section {
+        float: none;
+        width: 210px ;
+      }
+      .form-group-section:before , .form-group-section:after {
+        content: " ";
+        display: table;
+      }
+      .form-group-section:after {
+            clear: both;
+      }
+    }
   }
   .newCreativeSlide {
     .hideRightPanel {
