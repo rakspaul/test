@@ -301,11 +301,11 @@
         return inputWrapper;
       };
 
-      var createPlatformCustomInputList =  function(inputGroupList, elem) {
+      var createPlatformCustomInputList =  function(inputGroupList, elem, noGroup) {
         _self.inputGroupList = inputGroupList;
         var platformCustomInputList = _.sortBy(inputGroupList.platformCustomInputList, 'displayOrder');
         if(platformCustomInputList.length >0) {
-          var groupConatiner =  $('<div/>').addClass("form-group col-md-3 zeroPadding");
+          var groupConatiner =  $('<div/>').addClass("form-group col-md-12 zeroPadding").addClass(noGroup ? 'form-individual-section' : '')
         }
         _.each(platformCustomInputList, function(inputList, idx) {
             groupConatiner.append(createInputElem(inputList, inputGroupList, idx, 'group'));
@@ -314,8 +314,8 @@
 
       }
 
-      var buildInputControl = function(inputGroupList, elem) {
-         createPlatformCustomInputList(inputGroupList, elem);
+      var buildInputControl = function(inputGroupList, elem, noGroup) {
+         createPlatformCustomInputList(inputGroupList, elem, noGroup);
          var platformCustomInputChildrenGroupList = inputGroupList.platformCustomInputChildrenGroupList;
         _.each(platformCustomInputChildrenGroupList, function(inputGroupList) {
             if(inputGroupList.isActivated) {
@@ -327,7 +327,7 @@
       var buildFormControl =  function(pJson, elem) {
         var platformCustomInputGroupList = pJson.platformCustomInputGroupList
         _.each(platformCustomInputGroupList, function(inputGroupList) {
-            buildInputControl(inputGroupList, elem);
+            buildInputControl(inputGroupList, elem, true);
         })
       }
 
