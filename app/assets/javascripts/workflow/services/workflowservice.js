@@ -116,19 +116,39 @@
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives/'+id, data, {'Content-Type': 'application/json'})
             },
 
-            getRegionsList :  function(platformId, data) {
+            getRegionsList :  function(platformId, data, success, failure,flag) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/regions'+data;
-                return dataService.fetch(url);
+                if(flag == 'cancellable'){
+                    var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
+                }
+                else{
+                    return dataService.fetch(url);
+                }
+
             },
 
-            getCitiesList :  function(platformId, data) {
+            getCitiesList :  function(platformId, data, success, failure,flag) {  console.log("falg 3",flag)
+
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
-                return dataService.fetch(url);
+                if(flag == 'cancellable'){
+                    var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
+                }
+                else{
+                    return dataService.fetch(url);
+                }
             },
 
-            getDMAsList :  function(platformId, data) {
+            getDMAsList :  function(platformId, data, success, failure, flag) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/dmas'+data;
-                return dataService.fetch(url);
+                if(flag == 'cancellable'){
+                    var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
+                }
+                else{
+                    return dataService.fetch(url);
+                }
             },
 
 

@@ -21,13 +21,13 @@ var angObj = angObj || {};
         } else {
             var winHeight = $(window).height() - 126;
             colResize();
-            
+
             setTimeout(function() {
                 colResize();
                 $(".workflowPreloader").fadeOut( "slow" );
             }, 1500);
         }
-        
+
         $(window).resize(function(){ colResize(); });
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
@@ -373,7 +373,7 @@ var angObj = angObj || {};
                         //console.log(window.location.href);
                         if(window.location.href.indexOf("adGroup")>-1)
                         {
-                            postDataObj.adGroupId=$scope.adGroupId;console.log(postDataObj);
+                            postDataObj.adGroupId=$scope.adGroupId;
                         }//save adGroup Ad
 
 
@@ -1239,38 +1239,70 @@ var angObj = angObj || {};
                 return queryString;
             },
 
-            getRegionsList : function(parmas, callback) {
+            getRegionsList : function(parmas, callback,flag) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getRegionsList(parmas.platformId, qryStr).then( function (result) {
-                    var responseData = result.data.data;
-                    callback && callback(responseData);
-                }, function(error) {
-                    console.log("error");
-                });
+                if(flag == 'cancellable') {
+                    workflowService.getRegionsList(parmas.platformId, qryStr, function (result) {
+                        var responseData = result.data.data;
+                        callback && callback(responseData);
+                    }, function (error) {
+                        console.log("error");
+                    },flag);
+                }else{
+                     workflowService.getRegionsList(parmas.platformId, qryStr,null,null,flag).then(function (result) {
+                         var responseData = result.data.data;
+                         callback && callback(responseData);
+                     }, function (error) {
+                         console.log("error");
+                     });
+                }
             },
 
-            getCitiesList : function(parmas, callback) {
+            getCitiesList : function(parmas, callback, flag) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getCitiesList(parmas.platformId, qryStr).then(function (result) {
-                    var responseData = result.data.data;
-                    callback && callback(responseData);
-                },function(error){
-                    console.log("error")
-                });
+                if(flag == 'cancellable') {
+                    workflowService.getCitiesList(parmas.platformId, qryStr, function (result) {
+                        var responseData = result.data.data;
+                        callback && callback(responseData);
+                    }, function (error) {
+                        console.log("error")
+                    },flag);
+                }else{
+                    workflowService.getCitiesList(parmas.platformId, qryStr,null,null,flag).then(function (result) {
+                        var responseData = result.data.data;
+                        callback && callback(responseData);
+                    }, function (error) {
+                        console.log("error");
+                    });
+                }
             },
 
-            getDMAsList : function(parmas, callback) {
+            getDMAsList : function(parmas, callback,flag) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
-                workflowService.getDMAsList(parmas.platformId, qryStr).then(function (result) {
-                    var responseData= result.data.data;
-                    _.each(responseData, function(data) {
-                        data.region = $.trim(data.name.substring(data.name.lastIndexOf(" ")))
-                        data.dmaName = $.trim(data.name.substring(0, data.name.lastIndexOf(" ")) )
-                    })
-                    callback && callback(responseData);
-                },function(error){
-                    console.log("error")
-                });
+                if(flag == 'cancellable') {
+                    workflowService.getDMAsList(parmas.platformId, qryStr, function (result) {
+                        var responseData = result.data.data;
+                        _.each(responseData, function (data) {
+                            data.region = $.trim(data.name.substring(data.name.lastIndexOf(" ")))
+                            data.dmaName = $.trim(data.name.substring(0, data.name.lastIndexOf(" ")))
+                        })
+                        callback && callback(responseData);
+                    }, function (error) {
+                        console.log("error")
+                    },flag);
+                }
+                else{
+                    workflowService.getDMAsList(parmas.platformId, qryStr,null,null,flag).then(function (result) {
+                        var responseData = result.data.data;
+                        _.each(responseData, function (data) {
+                            data.region = $.trim(data.name.substring(data.name.lastIndexOf(" ")))
+                            data.dmaName = $.trim(data.name.substring(0, data.name.lastIndexOf(" ")))
+                        })
+                        callback && callback(responseData);
+                    }, function (error) {
+                        console.log("error")
+                    });
+                }
             },
 
         }
@@ -1526,7 +1558,10 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.listDmas = function(defaults) {
+        $scope.listDmas = function(defaults,flag) {
+            if(flag != 'cancellable')
+                flag = "normal";
+
             $scope.dmasListObj = {
                  platformId : $scope.isPlatformId,
                  sortOrder : dmaListSortOrder,
@@ -1551,9 +1586,7 @@ var angObj = angObj || {};
                     $scope.dmasEdit(flatArr);
                 }
 
-
-
-             });
+             },flag);
         }
 
         $scope.loadMoreDmas = function() {
@@ -1568,7 +1601,9 @@ var angObj = angObj || {};
             return $scope.geoTargetingData['selected']['cities'].length;
         }
         //display the cities
-        $scope.listCities = function(event, defaults) {
+        $scope.listCities = function(event, defaults,flag) {
+            if(flag != 'cancellable')
+                flag = "normal";
             var searchVal = $('.searchBox').val();
             $scope.selectedTab = 'cities';
             if($scope.citiesIncludeSwitchLabel == true){
@@ -1625,7 +1660,7 @@ var angObj = angObj || {};
                     $scope.listDmas();
                 }
 
-            });
+            },flag);
         }
 
         $scope.loadMoreCities = function() {
@@ -1637,6 +1672,8 @@ var angObj = angObj || {};
         }
 
         $scope.listRegions = function(defaults, event,flag) {
+            if(flag != 'cancellable')
+                flag = "normal";
             var searchVal = $('.searchBox').val();
 
             $scope.showSwitch = true;
@@ -1684,8 +1721,7 @@ var angObj = angObj || {};
             geoTargetingView.getRegionsList($scope.regionListObj, function(responseData) {
                 $scope.regionFetching = false;
                 //regionsListArray = [];
-                if($scope.geoTargetingData['regions'])
-                    regionsListArray = $scope.geoTargetingData['regions']  ;
+
                 regionsListArray.push(responseData);
                 var flatArr = _.flatten(regionsListArray);
                 $scope.geoTargetingData['regions'] = _.uniq(flatArr, function(item, key, code) {
@@ -1697,13 +1733,16 @@ var angObj = angObj || {};
                 }
 
 
-            });
+            },flag);
         }
 
         $scope.loadMoreRegions = function() {
             if($scope.regionListObj) {
                 $scope.regionFetching = true;
                 $scope.regionListObj['pageNo'] = $scope.regionListObj['pageNo'] + 1;
+                //lazy loading
+                if($scope.geoTargetingData['regions'])
+                    regionsListArray = $scope.geoTargetingData['regions']  ;
                 $scope.listRegions($scope.regionListObj);
             }
         }
@@ -1713,10 +1752,10 @@ var angObj = angObj || {};
                 $scope.adData['geoTargetName'] = geoTargetName;
              //  Object.defineProperty($scope.adData,'geoTargetName',{'geoTargetName':geoTargetName});
                 $scope.addedTargeting = false;
-                if($scope.mode == 'edit')
-                    $scope.listRegions('','',true);
-                else
+                //if($scope.mode == 'edit')
                     $scope.listRegions();
+                //else
+                //    $scope.listRegions();
             }
         }
 
@@ -1736,7 +1775,7 @@ var angObj = angObj || {};
                 if(searchVal.length > 0) {
                     $scope.regionListObj['query'] = searchVal;
                 }
-                $scope.listRegions($scope.regionListObj);
+                $scope.listRegions($scope.regionListObj,null,"cancellable");
             }
 
             if(searchType === 'cities') {
@@ -1747,7 +1786,7 @@ var angObj = angObj || {};
                 if(searchVal.length > 0) {
                     $scope.citiesListObj['query'] = searchVal;
                 }
-                $scope.listCities(null, $scope.citiesListObj);
+                $scope.listCities(null, $scope.citiesListObj,"cancellable");
             }
 
             if(searchType === 'dmas') {
@@ -1758,7 +1797,7 @@ var angObj = angObj || {};
                 if(searchVal.length > 0) {
                     $scope.dmasListObj['query'] = searchVal;
                 }
-                $scope.listDmas($scope.dmasListObj);
+                $scope.listDmas($scope.dmasListObj,"cancellable");
             }
         }
 
