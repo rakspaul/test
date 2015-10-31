@@ -350,6 +350,11 @@ select {
   font-size: 14px; 
   width: auto;*/
 }
+.btn:hover,
+.btn:focus,
+.btn:active {
+  text-decoration: none;
+}
 .btn-primary {
   background: #0978C9;
 }
@@ -868,3 +873,16 @@ input.cmn-toggle-round:checked + label:after {
   opacity: 1;
 }
 /* end .squared Check Box */
+.atlwdg-trigger {
+  border-radius: 0 !important;
+  background: #007ac9 !important;
+  font-family: "Avenir" !important;
+}
+.icon-close {
+  font-size: 8px;
+  width: 8px;
+  height: 8px;
+  float: left;
+  margin: 6px;
+  cursor: pointer;
+}

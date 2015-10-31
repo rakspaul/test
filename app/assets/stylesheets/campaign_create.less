@@ -128,7 +128,7 @@
         }
         #inputBudget {
           text-indent: 8px;
-          line-height: 100%;
+          //line-height: 100%;
         }
         .form-group {
           margin: 0;
@@ -146,7 +146,7 @@
       }
       .dollar_value {
         .currency {
-            top: 40px;
+            top: 42px;
             left: 10px;
         }
       }
@@ -388,7 +388,7 @@
             background: #fff;
             padding: 15px;
             border: 1px solid #CDD2DA;
-            margin-bottom: 1%;
+            margin-bottom: 15px;
             position: relative;
             max-width: 1200px;
             cursor: pointer;
@@ -399,16 +399,15 @@
                 float: left;
                 border: 1px solid #C6C9CE;
                 border-radius: 2px;
-                padding: 6px;
                 margin-right: 10px;
                 .icon-plus, .icon-minus {
                   color: #57606d;
                   float: left;
                   font-size: 12px;
                   top: 0;
-                  width: 12px;
-                  height: 12px;
-                  margin: 0;
+                  width: 24px;
+                  height: 24px;
+                  padding: 6px;
                 }
               }
               .collapseIcon:hover {
@@ -460,6 +459,9 @@
               }
               
             }
+          }
+          .adGroup:last-child {
+            margin-bottom: 30px;
           }
           .adGroupCreate {
             float: left;
@@ -552,6 +554,9 @@
                 padding: 0px !important;
                 float: left;
               }
+              .adDisplay:last-child {
+                margin: 0;
+              }
             }
             .adTxtGray {
               font-size: 12px;
@@ -635,12 +640,18 @@
             }
             .icon-settings {
               position: absolute;
-              top: 10px;
-              right: 10px;
+              top: 6px;
+              right: 6px;
               z-index: 10;
               color: #0978C9;
               cursor: pointer;
               display: none;
+            }
+            .cardTopLayer {
+              min-height: 96px;
+            }
+            .cardMidLayer {
+              min-height: 52px;
             }
           }
           .adModule:hover {
@@ -682,6 +693,14 @@
               margin-left: -75px;
               cursor: pointer;
               color: #939ead;
+              line-height: 100%;
+            }
+            .btnCreateGroup:hover {
+              border: 1px dashed #0978C9;
+              color: #0978C9;
+              span {
+                color: #0978C9;
+              }
             }
           }
           .adGroupSelectionWrap.active {
@@ -1060,7 +1079,7 @@
           left: 0;
           background-color: #fff;
           padding-left: 30px;
-          min-width: 500px ;
+          width: 270px;
         }
         .adNameBox {
           .btn-toggle {
@@ -1519,37 +1538,47 @@
           margin: 20px 0 0 0;
         }
         #custom-search-input{
-          padding: 3px;
-          border: solid 1px #E4E4E4;
-          border-radius: 6px;
+          //padding: 3px;
+          //border: solid 1px #E4E4E4;
+          //border-radius: 6px;
           background-color: #fff;
           float: left;
           //width: 285px;
           margin: 7px 0 0 0;
+          position: relative;
+          height: 36px;
+          padding-right: 0;
         }
         #custom-search-input input{
-          border-width: 0 !important;
-          box-shadow: none;
+          position: absolute;
+          z-index: 10;
+          top: 0;
+          right: 0;
+          background: transparent;
+        //  border-width: 0 !important;
+        //  box-shadow: none;
+        //  font-size: 14px;
+        //  padding: 7px;
+        //  height: initial;
+        }
+        //#custom-search-input button{
+        //  margin: 2px 0 0 0;
+        //  background: none;
+        //  box-shadow: none;
+        //  border: 0;
+        //  color: #666666;
+        //  padding: 0 8px 0 10px;
+        //  border-left: solid 1px #ccc;
+        //}
+        //#custom-search-input button:hover{
+        //  border: 0;
+        //  box-shadow: none;
+        //  border-left: solid 1px #ccc;
+        //}
+        #custom-search-input .icon-search{
           font-size: 14px;
-          padding: 7px;
-          height: initial;
-        }
-        #custom-search-input button{
-          margin: 2px 0 0 0;
-          background: none;
-          box-shadow: none;
-          border: 0;
-          color: #666666;
-          padding: 0 8px 0 10px;
-          border-left: solid 1px #ccc;
-        }
-        #custom-search-input button:hover{
-          border: 0;
-          box-shadow: none;
-          border-left: solid 1px #ccc;
-        }
-        #custom-search-input .glyphicon-search{
-          font-size: 14px;
+          float: right;
+          margin: 11px 8px 0 0;
         }
       }
       .col-md-5 {
@@ -1567,9 +1596,18 @@
             tr {
               td {
                 border-bottom: 1px solid #dde6eb !important;
+                padding: 10px 0;
               }
             }
           }
+        }
+        .icon-close {
+          font-size: 7px;
+          width: 7px;
+          height: 7px;
+          float: left;
+          margin: 6px;
+          cursor: pointer;
         }
       }
       .closePopBtn {
@@ -2162,6 +2200,8 @@
           }
         }
         .tab-pane {
+          min-height: initial !important;
+          padding-bottom: 0px !important;
           .tab-content {
             border-left: 1px solid #dde6eb;
             border-bottom: 1px solid #dde6eb;

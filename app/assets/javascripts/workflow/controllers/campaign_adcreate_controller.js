@@ -27,8 +27,9 @@ var angObj = angObj || {};
                 $(".workflowPreloader").fadeOut( "slow" );
             }, 1500);
         }
-        
+        // Resize height if window size changes
         $(window).resize(function(){ colResize(); });
+        
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -315,7 +316,7 @@ var angObj = angObj || {};
                                 workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
                                     processEditMode(result);
                                 })
-                            }   else {
+                            }  else {
                                 workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
                                     processEditMode(result);
                                 })
