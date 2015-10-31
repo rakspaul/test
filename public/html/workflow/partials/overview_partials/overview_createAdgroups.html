@@ -16,11 +16,11 @@
                 <div class="form-group col-md-12 dateWrapper zeroPadding" show-errors='{showSuccess: true}'>
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                        <input type="text" id="adGrpStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-change="handleFlightDate(startTime)" required/>
+                        <input type="text" id="adGrpStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-change="handleFlightDate(startTime)" required/>
                     </div>
                     <div class="dateContainer" style="padding-left: 10px;">
                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                        <input type="text" id="adGrpEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  disabled="disabled" name="endTime" required/>
+                        <input type="text" id="adGrpEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly  disabled="disabled" name="endTime" required/>
                     </div>
                     <label ng-if="createNewAdGrp.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                 </div>
@@ -42,13 +42,3 @@
     </div>
 </form>
 </div>
-<script>
-    $(function() {
-        $('.input-daterange').datepicker({
-            format: "mm/dd/yyyy",
-            orientation: "top auto",
-            autoclose: true,
-            todayHighlight: true
-        });
-    })
-</script>

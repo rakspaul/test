@@ -11,61 +11,28 @@
     };
 
     var convertToEST=function(date,format){
+         if(date){
+             var d1 = date.slice(0,10)
+             var d2 = d1.split('-');
+             var tz = "UTC";
+             var final_date=d2[1] +'/'+d2[2]+'/'+d2[0]+' '+date.slice(11,19)+' '+tz;
+             var parsed_date=Date.parse(final_date);
 
-        //if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-             if(date){
-                 var d1=date.slice(0,10)
-                 var d2= d1.split('-');
-                 var tz="UTC";
-                 var final_date=d2[1] +'/'+d2[2]+'/'+d2[0]+' '+date.slice(11,19)+' '+tz;
-                 var parsed_date=Date.parse(final_date);
-             }
-             if(date==''){
-                return moment().format(format);
-             }else if(format==''){
-                return moment(parsed_date).tz("EST").format("MM/DD/YYYY");
-             }else{
-                return moment(parsed_date).tz("EST").format(format);
-             }
-
-//        }else{
-//              if(date==''){
-//                return moment().format(format);
-//              }else if(format==''){ // written for number of days. (overview page)
-//                  var tz= "UTC"
-//                  var final_date=date + ' ' +tz;
-//                  var date= Date.parse(final_date); //console.log(moment(date).tz("EST").format('MM/DD/YYYY'));
-//                  return moment(date).tz("EST").format('MM/DD/YYYY');
-//              }else{
-//                  var tz= "UTC";
-//                  var final_date=date + ' ' +tz;
-//                  var date1= Date.parse(final_date); //console.log(moment(date).tz("EST").format('YYYY-MM-DD HH:mm:ss.SSS'));
-//                  return moment(date).tz("EST").format(format);
-//              }
-//        }
+         }
+         if(date=='') {
+            return moment().format(format);
+         } else if(format=='') {
+            return moment(parsed_date).tz("EST").format("MM/DD/YYYY");
+         } else {
+            return moment(parsed_date).tz("EST").format(format);
+         }
     };
     var convertToUTC=function(date,type){
-         // if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-              if(type=='ST')
-                var time = '00:00:00';
-              else
-                var time = '23:59:59';
-              var tz="EST"
-              var final_date=date+' '+time+' '+' '+tz;
-              var date = Date.parse(final_date);
-              return moment(date).tz("UTC").format('YYYY-MM-DD HH:mm:ss.SSS');
-//          }else{
-//              var d1 = date.split('/');
-//              var d2 = d1[2] + '-' + d1[0] + '-' + d1[1];
-//              if(type=='ST')
-//                var time = '00:00:00:000';
-//              else
-//                var time = '23:59:59:999';
-//              var tz = "EST";
-//              var final_date = d2 + ' ' + time + ' ' + tz;
-//              var date = Date.parse(final_date);
-//              return moment(date).tz("UTC").format('YYYY-MM-DD HH:mm:ss.SSS');
-//          }
+        var timeSuffix = (type === 'ST' ? '00:00:00' : '23:59:59');
+        var tz = "EST"
+        var final_date=date+' '+timeSuffix+' '+' '+tz;
+        var date = Date.parse(final_date);
+        return moment(date).tz("UTC").format('YYYY-MM-DD HH:mm:ss.SSS');
     };
 
     var reportTypeOptions = function() {return [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}]};
@@ -162,7 +129,7 @@
 
           var left_pos_number = left_pos - vtc_container + vtc_btn_container ;
           elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css( {"left" : left_pos_number , "display" : "block" }) ;
-          
+
           if( elem.closest(".tactics_container").length == 0 ) {
              var top_pos  = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().top ;
              elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css("top" , top_pos - 189 ) ;
@@ -185,7 +152,7 @@
     var nameOffset, verOffset, ix;
     var browserInfo = {};
     switch (true) {
-        //// In Opera 15+, the true version is after "OPR/" 
+        //// In Opera 15+, the true version is after "OPR/"
         case (nAgt.indexOf("OPR/") != -1):
             verOffset = nAgt.indexOf("OPR/");
             browserName = "Opera";
@@ -212,13 +179,13 @@
             if (re.exec(nAgt) != null)
                 fullVersion = (RegExp.$1);
             break;
-            // In Chrome, the true version is after "Chrome" 
+            // In Chrome, the true version is after "Chrome"
         case (nAgt.indexOf("Chrome") != -1):
             verOffset = nAgt.indexOf("Chrome");
             browserName = "Chrome";
             fullVersion = nAgt.substring(verOffset + 7);
             break;
-            // In Safari, the true version is after "Safari" or after "Version" 
+            // In Safari, the true version is after "Safari" or after "Version"
         case (nAgt.indexOf("Safari") != -1):
             browserName = "Safari";
             verOffset = nAgt.indexOf("Safari");
@@ -226,7 +193,7 @@
             if ((verOffset = nAgt.indexOf("Version")) != -1)
                 fullVersion = nAgt.substring(verOffset + 8);
             break;
-            // In Firefox, the true version is after "Firefox" 
+            // In Firefox, the true version is after "Firefox"
         case (nAgt.indexOf("Firefox") != -1):
             verOffset = nAgt.indexOf("Firefox");
             browserName = "Firefox";
@@ -256,7 +223,7 @@
         "fullVersion": fullVersion,
         "majorVersion": majorVersion
     };
-}; 
+};
 
 
     return {

@@ -43,7 +43,7 @@
                             <span class="campaign-name-edit icon-settings" tooltip="Edit Campaign" ng-click="editCampaign(workflowData.campaignData)" style="margin-top: 6px;"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{utc(workflowData.campaignData.updatedAt) | date : "dd MMM yyyy  HH:mm a"}} by {{workflowData.campaignData.updatedByUser}}</span>
+                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}} by {{workflowData.campaignData.updatedByUser}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
@@ -126,7 +126,7 @@
                             </button>
                         </span>
                     </div>
-                    
+
                     <div class="form-group col-md-2 zeroPadding">
                         <div class="col-md-12">
                             <span>Sort</span>
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-12 adContainer">
                     <!--===Start get ad groups ===-->
                     <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "GetAdgroupsController"></div>
@@ -221,7 +221,7 @@
                                 </a>
                             </div>
                         </div>
-                        
+
                         <!--=== Single Ad Ready ===-->
                         <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id" ng-click='goEdit(adsData.campaignId,adsData.id,false)'>
                             <span class="icon-settings"></span>
@@ -242,7 +242,7 @@
                                     <button class="btn btn-xs btn-success active">OFF</button>
                                 </div>-->
                                 <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span>
-    
+
                                 <div class="spacer" ng-if="adsData.startTime && adsData.endTime">
                                     <div class="col-md-12"></div>
                                 </div>
@@ -265,7 +265,7 @@
                                 </div>
                                 <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Sizes ({{adsData.creatives.length || 0}})</span>
-    
+
                                     <span class="ellipsis-text" title="{{appendSizes(adsData.creatives)}}">{{appendSizes(adsData.creatives)}}</span>
                                 </div>
                                 <div class="col-md-12 zeroPadding">
