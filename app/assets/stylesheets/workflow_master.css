@@ -185,6 +185,7 @@ select {
   min-width: 100%;
   max-width: 340px;
   max-height: 255px;
+  overflow: auto;
 }
 .dropdown-workflow .dropdown-menu .active a,
 .dropdown-workflow .dropdown-menu-search .active a {
@@ -345,9 +346,9 @@ select {
   padding: 10px 15px;
   /*commented manny's changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
-  text-align: center; 
-  line-height: 16px; 
-  font-size: 14px; 
+  text-align: center;
+  line-height: 16px;
+  font-size: 14px;
   width: auto;*/
 }
 .btn-primary {

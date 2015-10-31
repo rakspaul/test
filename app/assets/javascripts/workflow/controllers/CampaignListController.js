@@ -34,7 +34,6 @@
         var fetchAllCampaigns =  function() {
           $scope.alertMessage  = localStorage.getItem('topAlertMessage');
             workflowService.fetchCampaigns().then(function (result) {
-               console.log('alertMessage', $scope.alertMessage);
                 $scope.campaignData = result.data.data;
             });
         }
