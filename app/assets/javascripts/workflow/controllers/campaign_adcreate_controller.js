@@ -180,10 +180,6 @@ var angObj = angObj || {};
             localStorage.setItem('campaignData',JSON.stringify(campaignData))
         };
 
-        $scope.checkForPastDate = function(startDate, endDate) {
-            var endDate = moment(endDate).format("MM/DD/YYYY");
-            return  moment().isAfter(endDate, 'day')
-        };
 
         $scope.switchPlatform = function() {
           $scope.$broadcast('switchPlatformFunc');
@@ -232,15 +228,15 @@ var angObj = angObj || {};
             if(responseData.budgetType){
                 $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
             }
-
+            var dateObj = {};
             if(responseData.startTime) {
-                $scope.adData.startTime = utils.convertToEST(responseData.startTime,"MM/DD/YYYY");
+                dateObj['adStartDate'] = $scope.adData.startTime = utils.convertToEST(responseData.startTime,"MM/DD/YYYY");
             }
 
             if(responseData.endTime){
-                $scope.adData.endTime = utils.convertToEST(responseData.endTime,"MM/DD/YYYY");
+                dateObj['adEndDate'] = $scope.adData.endTime = utils.convertToEST(responseData.endTime,"MM/DD/YYYY");
             }
-
+            localStorage.setItem('adsDates' , JSON.stringify(dateObj));
             $scope.initiateDatePicker();
 
             if(responseData.rateValue){
@@ -282,13 +278,6 @@ var angObj = angObj || {};
                 $scope.$broadcast('updatePlatform',[responseData.platform]);
                 if(responseData.pushStatus == "PUSHED")
                     $scope.isAdsPushed = true;
-            }
-
-            //inventory files
-            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER){
-                $timeout(function () {
-                    $scope.$broadcast('updateInventory');
-                },1000)
             }
 
             //creative tags
@@ -934,24 +923,46 @@ var angObj = angObj || {};
                 $scope.selectedArr.push(screenTypeObj);
                 $scope.preSelectArr.push(screenTypeObj);
             }
-
-            /*Enable save button of popup library if elements exists*/
         };
     });
 
     angObj.controller('BudgetDeliveryController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter) {
 
-        $scope.handleFlightDate = function (data) {
-            var startTime = data.startTime;
-            var endDateElem = $('#endDateInput');
-            var startDateElem = $('#startDateInput');
+        $scope.checkForPastDate = function(startDate, endDate) {
+            var endDate = moment(endDate).format("MM/DD/YYYY");
+            return  moment().isAfter(endDate, 'day')
+        };
+
+        $scope.handleEndFlightDate = function(data) {
+          var endDateElem = $('#endDateInput');
+          var startDateElem = $('#startDateInput');
+
+          var startDate = data.startTime;
+          var endDate = data.endTime;
+          var adsDate = JSON.parse(localStorage.getItem('adsDates'));
+          if(!endDate && adsDate) { // if End Date is in Past
+            var changeDate = endDate = adsDate.adEndDate;
+            $scope.adData.endTime = changeDate;
+            if(moment().isAfter(endDate)) {
+                endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
+            }
+          }
+        };
+
+        $scope.handleStartFlightDate = function (data) {
+          var endDateElem = $('#endDateInput');
+          var startDateElem = $('#startDateInput');
+
+            var startDate = data.startTime;
+            var endDate = data.endTime;
+
             var campaignEndTime = utils.convertToEST($scope.workflowData['campaignData'].endTime,"MM/DD/YYYY");
             var changeDate;
             if ($scope.mode !== 'edit') {
                 endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
-                if (startTime) {
+                if (startDate) {
                     endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                    changeDate = moment(startTime).format('MM/DD/YYYY')
+                    changeDate = moment(startDate).format('MM/DD/YYYY')
                     endDateElem.datepicker("setStartDate", changeDate);
                     if (window.location.href.indexOf("adGroup") > -1) {
                         endDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"),'MM/DD/YYYY'));
@@ -960,46 +971,94 @@ var angObj = angObj || {};
                     }
                     endDateElem.datepicker("update", changeDate);
                 }
+            } else {
+              changeDate = moment(startDate).format('MM/DD/YYYY');
+              var adsDate = JSON.parse(localStorage.getItem('adsDates'));
+              if(!startDate && adsDate) { // if start Date is in Past
+                changeDate = startDate = adsDate.adStartDate;
+                $scope.adData.startTime = changeDate;
+                if(moment().isAfter(endDate, 'day')) {
+                    endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
+                }
+              } else {
+                endDateElem.datepicker("setStartDate", changeDate);
+              }
+
+              if(moment(startDate).isAfter(endDate, 'day')) {
+                endDateElem.datepicker("update", changeDate);
+              }
             }
         }
 
+        $scope.setDateInEditMode = function(campaignStartTime, campaignEndTime) {
+          var endDateElem = $('#endDateInput');
+          var startDateElem = $('#startDateInput');
+
+          var adsDate = JSON.parse(localStorage.getItem('adsDates'));
+          var startDate, endDate;
+          if(adsDate) {
+             startDate = adsDate.adStartDate;
+             endDate = adsDate.adEndDate;
+          }
+           //console.log("campaignStartTime", campaignStartTime);
+           //console.log("startDate", startDate);
+           //console.log("endDate", endDate);
+           //console.log("campaignEndTime", campaignEndTime);
+            if(campaignStartTime >  startDate) {// ads start Date in Past
+                startDateElem.datepicker("setStartDate", campaignStartTime);
+            } else {
+                startDateElem.datepicker("update", campaignStartTime);
+            }
+
+            if(campaignEndTime >= endDate) {
+              startDateElem.datepicker("setEndDate", campaignEndTime);
+            }
+            if(moment(endDate).isAfter(campaignEndTime, 'day')) {// ads start Date in Past
+                endDateElem.datepicker("setEndDate", endDate);
+                endDateElem.datepicker("setStartDate", endDate);
+                endDateElem.datepicker("update", endDate);
+            } else {
+               endDateElem.datepicker("setStartDate", endDate);
+               endDateElem.datepicker("setEndDate", campaignEndTime);
+               endDateElem.datepicker("update", endDate);
+            }
+        };
+
         $scope.$parent.initiateDatePicker = function () {
+          var endDateElem = $('#endDateInput');
+          var startDateElem = $('#startDateInput');
+
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
             var campaignData = $scope.workflowData['campaignData'];
             var campaignStartTime = utils.convertToEST(campaignData.startTime,"MM/DD/YYYY");
+            var campaignEndTime = utils.convertToEST(campaignData.endTime,"MM/DD/YYYY");
             if(moment().isAfter(campaignStartTime, 'day')) {
                 campaignStartTime = moment().format('MM/DD/YYYY');
             }
-            var campaignEndTime = utils.convertToEST(campaignData.endTime,"MM/DD/YYYY");
-
-            if(window.location.href.indexOf("adGroup")>-1)
-            {
-                startDateElem.datepicker("setStartDate", utils.convertToEST(localStorage.getItem("stTime"),'MM/DD/YYYY'));
-                startDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"),'MM/DD/YYYY'));
-            }else{
-                startDateElem.datepicker("setStartDate", campaignStartTime);
-                startDateElem.datepicker("setEndDate", campaignEndTime);
-            }
-
-            if ($scope.mode == 'edit') {
-                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                //if (window.location.href.indexOf("adGroup") > -1) {
-                //    startDateElem.datepicker("setStartDate", utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY'));
-                    //console.log("-------",$scope.adData.startTime);
-                    //startDateElem.datepicker("update",$scope.adData.startTime);
-                //} else {
-                //    startDateElem.datepicker("update", campaignStartTime);
-                //}
-                if (moment().format("MM/DD/YYYY") > moment($scope.workflowData['adsData'].endTime).format("MM/DD/YYYY")) {
-                    endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
-                    endDateElem.datepicker("update", moment().format("MM/DD/YYYY"));
+            $scope.mode == 'edit' && endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+            if(window.location.href.indexOf("adGroup")>-1 ) {
+                var adGroupStartDate = utils.convertToEST(localStorage.getItem("stTime"),'MM/DD/YYYY');
+                var adGroupEndDate = utils.convertToEST(localStorage.getItem("edTime"),'MM/DD/YYYY');
+                startDateElem.datepicker("setStartDate", adGroupStartDate);
+                startDateElem.datepicker("setEndDate", adGroupEndDate);
+                if($scope.mode == 'edit') {
+                  $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+                } else {
+                  startDateElem.datepicker("setEndDate", adGroupStartDate);
+                  startDateElem.datepicker("update", adGroupEndDate);
                 }
-            }
-
-
-
-        }
+            } else {
+              startDateElem.datepicker("setStartDate", campaignStartTime);
+              endDateElem.datepicker("setEndDate", campaignEndTime);
+              if($scope.mode == 'edit') {
+                $scope.setDateInEditMode(campaignStartTime, campaignEndTime);
+              } else {
+                startDateElem.datepicker("setEndDate", campaignEndTime);
+                startDateElem.datepicker("update", campaignStartTime);
+              }
+          }
+        };
     });
 
     angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
@@ -2030,21 +2089,19 @@ var angObj = angObj || {};
               getAdvertisersDomainList : function(clientId, advertiserId) {
                   workflowService.getAdvertisersDomainList(clientId, advertiserId).then(function (result) {
                       $scope.workflowData['inventoryData'] = result.data.data;
-
+                      if($scope.mode === 'edit') {
+                        $scope.$broadcast('updateInventory');
+                      }
                   });
               },
           }
 
-
         $scope.$on('updateInventory',function(){
             var responseData = workflowService.getAdsDetails();
-            if($scope.mode == 'edit' && responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
-            {
-                console.log("broadcast data =",$scope.workflowData['inventoryData']);
+            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER) {
                 $scope.adData.inventory = $scope.workflowData['inventoryData'][0];
             }
         })
-
 
         $scope.selectFiles = function(files) {
             if(files  != null && files.length >0) {
