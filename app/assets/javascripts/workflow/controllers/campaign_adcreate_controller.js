@@ -285,8 +285,11 @@ var angObj = angObj || {};
             }
 
             //inventory files
-            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
-                $scope.$broadcast('updateInventory');
+            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER){
+                $timeout(function () {
+                    $scope.$broadcast('updateInventory');
+                },1000)
+            }
 
             //creative tags
             if(responseData.creatives)
@@ -2028,14 +2031,20 @@ var angObj = angObj || {};
                   workflowService.getAdvertisersDomainList(clientId, advertiserId).then(function (result) {
                       $scope.workflowData['inventoryData'] = result.data.data;
 
-                      if($scope.mode == 'edit'){
-                            $scope.adData.inventory = $scope.workflowData['inventoryData'][0];}
-//                      if($scope.workflowData['inventoryData'].length>0){
-//                        $scope.showDropDown=true;
-//                      }
                   });
               },
           }
+
+
+        $scope.$on('updateInventory',function(){
+            var responseData = workflowService.getAdsDetails();
+            if($scope.mode == 'edit' && responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER)
+            {
+                console.log("broadcast data =",$scope.workflowData['inventoryData']);
+                $scope.adData.inventory = $scope.workflowData['inventoryData'][0];
+            }
+        })
+
 
         $scope.selectFiles = function(files) {
             if(files  != null && files.length >0) {
