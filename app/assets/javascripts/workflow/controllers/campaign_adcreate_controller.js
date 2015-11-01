@@ -1152,6 +1152,8 @@ var angObj = angObj || {};
             storedResponse.targets.geoTargets = {};
             workflowService.setAdsDetails(storedResponse);
             $scope.$broadcast('resetGeoTags');
+            $scope.platformCustomInputs()
+
         }
     });
 

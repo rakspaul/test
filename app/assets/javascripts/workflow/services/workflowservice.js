@@ -195,7 +195,7 @@
 
 (function () {
     "use strict";
-    angObj.factory("platformCustomeModule", function () {
+    angObj.factory("platformCustomeModule", function ($timeout) {
 
       var _self = this;
       //private method
@@ -254,8 +254,13 @@
                 selectPlatform(this.value, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxchkDependentItems');
               }
           });
+          $timeout(function() {
+            if(inputList.defaultValue) {
+              inputListHTML.trigger('change');
+            }
+          }, 500)
 
-          selectPlatform(inputList.defaultValue, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxDependentItems')
+          //selectPlatform(inputList.defaultValue, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxDependentItems')
 
           _.each(options, function(option) {
               var optionElem = $('<option/>').attr({
@@ -267,8 +272,6 @@
           })
           inputWrapper.append(inputListHTML);
         }
-
-
 
         if(inputList.platformCustomWidgetType === 'CHECKBOX' || inputList.platformCustomWidgetType === 'TEXTBOX') {
 
@@ -316,6 +319,7 @@
           }
         }
         if(inputList.platformCustomWidgetType === 'LABEL') {
+            inputWrapper.removeClass('form-group-section');
             var LabelHTML = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
             inputWrapper.append(LabelHTML);
         }
