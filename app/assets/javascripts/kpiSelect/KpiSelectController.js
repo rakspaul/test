@@ -15,14 +15,13 @@
         $scope.setSelectedKpi = function(_kpi){
             kpiSelectModel.setSelectedKpi(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
-            $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
+            //$rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
         };
 
         $scope.setSelectedKpiAlt = function(_kpi){
             kpiSelectModel.setSelectedKpiAlt(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpiAlt() ;
             $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
-
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(){
@@ -106,6 +105,7 @@
 
         };
         $('.kpi_indicator_ul').click(function (e) {
+            e.stopImmediatePropagation()
             var activeTabId = $(".reports_tabs_holder").find(".active").attr('id');
             if (activeTabId) {
                 if ($(e.target).hasClass("active") === true) {
