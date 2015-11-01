@@ -26,9 +26,9 @@ var angObj = angObj || {};
                 colResize();
                 $(".workflowPreloader").fadeOut( "slow" );
             }, 1500);
-        }
-
+      
         $(window).resize(function(){ colResize(); });
+
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');

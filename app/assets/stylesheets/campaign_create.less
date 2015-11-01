@@ -13,8 +13,8 @@
     left: 50%;
     margin-left: -32px;
     margin-top: -32px;
-    
-    -webkit-filter: hue-rotate(22deg); 
+
+    -webkit-filter: hue-rotate(22deg);
     filter: hue-rotate(22deg);
   }
 }
@@ -128,7 +128,7 @@
         }
         #inputBudget {
           text-indent: 8px;
-          line-height: 100%;
+          //line-height: 100%;
         }
         .form-group {
           margin: 0;
@@ -146,7 +146,7 @@
       }
       .dollar_value {
         .currency {
-            top: 40px;
+            top: 42px;
             left: 10px;
         }
       }
@@ -388,7 +388,7 @@
             background: #fff;
             padding: 15px;
             border: 1px solid #CDD2DA;
-            margin-bottom: 1%;
+            margin-bottom: 15px;
             position: relative;
             max-width: 1200px;
             cursor: pointer;
@@ -399,16 +399,15 @@
                 float: left;
                 border: 1px solid #C6C9CE;
                 border-radius: 2px;
-                padding: 6px;
                 margin-right: 10px;
                 .icon-plus, .icon-minus {
                   color: #57606d;
                   float: left;
                   font-size: 12px;
                   top: 0;
-                  width: 12px;
-                  height: 12px;
-                  margin: 0;
+                  width: 24px;
+                  height: 24px;
+                  padding: 6px;
                 }
               }
               .collapseIcon:hover {
@@ -418,7 +417,7 @@
                 }
               }
               h2.adGroupTxt {
-                color: #000;  
+                color: #000;
               }
               .adGroupTxtName {
                 white-space: nowrap;
@@ -458,8 +457,11 @@
               .adGroupTxtSecondary:last-child {
                 border-width: 0;
               }
-              
+
             }
+          }
+          .adGroup:last-child {
+            margin-bottom: 30px;
           }
           .adGroupCreate {
             float: left;
@@ -552,6 +554,9 @@
                 padding: 0px !important;
                 float: left;
               }
+              .adDisplay:last-child {
+                margin: 0;
+              }
             }
             .adTxtGray {
               font-size: 12px;
@@ -635,12 +640,18 @@
             }
             .icon-settings {
               position: absolute;
-              top: 10px;
-              right: 10px;
+              top: 6px;
+              right: 6px;
               z-index: 10;
               color: #0978C9;
               cursor: pointer;
               display: none;
+            }
+            .cardTopLayer {
+              min-height: 96px;
+            }
+            .cardMidLayer {
+              min-height: 52px;
             }
           }
           .adModule:hover {
@@ -1757,7 +1768,7 @@
       .col-md-1 {
         width: 10%;
       }
-    } 
+    }
     .form-group-section {
       float: left;
       margin-right: 10px ;
@@ -1902,7 +1913,7 @@
       clear: left;
     }
   }
-  .tab-content .tab-pane {   
+  .tab-content .tab-pane {
     position: relative;
     float: left;
     min-height: 530px;
@@ -2042,7 +2053,7 @@
           }
     }
     .list_head {
-      border-bottom: solid 2px #ccc ; 
+      border-bottom: solid 2px #ccc ;
       padding: 10px 0 10px 12px ;
     }
     .list_row_holder {
@@ -2050,7 +2061,7 @@
       overflow: scroll;
     }
     .list_val_col {
-        margin-left : 10px ; 
+        margin-left : 10px ;
         min-width: 170px ;
         max-width: 170px ;
     }
@@ -2113,7 +2124,7 @@
       }
       .loading-icon {
         margin-top: 0px ;
-      } 
+      }
       .show_tooltip {
         #tab_region {
           opacity: 0.5 ;
@@ -2533,7 +2544,7 @@
             }
           }
         }
-      }  
+      }
     }
     #regions {
       border: 1px solid #dde6eb;
@@ -2572,7 +2583,7 @@
             }
           }
         }
-      } 
+      }
       .emptyCreativesFlag {
         width: 100%;
         float: left;
@@ -2634,7 +2645,7 @@
   }
   .tab-pane {
     .row {
-      margin : 0; 
+      margin : 0;
     }
     .btn_border {
       margin-bottom: 0px ;
