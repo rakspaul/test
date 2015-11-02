@@ -745,8 +745,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       }
     }
   });
-  angObj.filter('appendDollor', function (constants) {
+  angObj.filter('appendDollor', function (constants, $locale) {
     return function (val, type) {
+       constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         if (val === undefined || val === "" || val === "null") {
             return 'NA';
         }
@@ -758,9 +759,10 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
     // This is used in tooltip for optimization tab
-    angObj.filter('appendDollarWithoutFormat', function (constants) {
+    angObj.filter('appendDollarWithoutFormat', function (constants, $locale) {
        // console.log("append dollar without format");
         return function (val, type) {
+           constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
             if (val === undefined || val === "" || val === "null") {
                 return 'NA';
             }
