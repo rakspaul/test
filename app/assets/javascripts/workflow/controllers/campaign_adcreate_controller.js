@@ -119,7 +119,8 @@ var angObj = angObj || {};
                 $scope.adData.quantity = $scope.adData.quantity.replace($scope.numberOnlyPattern, '');
         }
 
-        $scope.cancelAdArchive=function(){
+        $scope.cancelAdArchive=function(event){
+            event.preventDefault();
             $scope.adArchive=!$scope.adArchive;
         }
 
