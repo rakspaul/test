@@ -465,17 +465,15 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     };
   });
 
+
   angObj.directive('wholeNumberOnly', function() {
     return {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
         element.on('keypress keyup blur', function (event) {
-          var $input = $(this);
-          var value = $input.val();
-          value = value.replace(/[^0-9]/g, '')
-          $input.val(value);
-          if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-              event.preventDefault();
+          $(this).val($(this).val().replace(/[^\d].+/, ""));
+          if ((event.which < 48 || event.which > 57)) {
+                event.preventDefault();
           }
         });
       }
@@ -487,13 +485,10 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
         element.on('keypress keyup blur', function (event) {
-          var $input = $(this);
-          var value = $input.val();
-          value = value.replace(/[^0-9\.]/g, '')
-          $input.val(value);
+           $(this).val($(this).val().replace(/[^0-9\.]/g,''));
           if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-            event.preventDefault();
-          }
+                event.preventDefault();
+            }
         });
       }
     };
