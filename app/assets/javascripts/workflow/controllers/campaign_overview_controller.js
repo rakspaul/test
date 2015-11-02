@@ -25,10 +25,10 @@ var angObj = angObj || {};
 //                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
 //                    console.log(localStorage.getItem('campaignData'));
                 }
-        
+
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
-                $scope.resetAlertMessage() ;     
+                $scope.resetAlertMessage() ;
             }, 3000);
         }
 
@@ -40,14 +40,14 @@ var angObj = angObj || {};
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ; 
+            $scope.resetAlertMessage() ;
         };
 
         $scope.resetAlertMessage = function(){
            localStorage.removeItem('topAlertMessage');
            $scope.alertMessage = "" ;
         }
-        
+
         var campaignOverView = {
 
             modifyCampaignData: function () {
@@ -322,12 +322,26 @@ var angObj = angObj || {};
         }
         }
 
-        $scope.goEdit = function ( campaignId, adsId,groupId ) {
-            var path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
-            if(groupId)
-                path = "/campaign/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
-            $location.path( path );
+        $scope.goEdit = function ( adsData ) {
+          console.log("adsData", adsData)
+          var campaignId = adsData.campaignId;
+          var adsId = adsData.id;
+          var groupId = adsData.adGroupId;
+           $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId)
+
         };
+
+        $scope.editAdforAdGroup=function(campaignId,stTime,edTime, adsId, groupId){
+            if(typeof(Storage) !== "undefined") {
+                localStorage.setItem("stTime", stTime);//convert this to EST in ads page
+                localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
+            }
+            var path = path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
+            if(groupId && adsId) {
+              var path = "/campaign/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
+            }
+            $location.path( path );
+        }
 
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
@@ -352,11 +366,10 @@ var angObj = angObj || {};
         }
         $scope.createAdforAdGroup=function(campid,stTime,edTime){
             if(typeof(Storage) !== "undefined") {
-                            localStorage.setItem("stTime", stTime);//convert this to EST in ads page
-                            localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
+                localStorage.setItem("stTime", stTime);//convert this to EST in ads page
+                localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
             }
             window.location.href="/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
-
         }
         $scope.convertEST=function(date,format){
             return utils.convertToEST(date,format);
@@ -427,4 +440,3 @@ var angObj = angObj || {};
 
     });
 })();
-
