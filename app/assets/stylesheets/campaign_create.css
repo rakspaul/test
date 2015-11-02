@@ -2552,3 +2552,49 @@
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
 }
+/*Accounts Page*/
+.accounts-page {
+  position: relative;
+}
+.accounts-page .account-name,
+.accounts-page .advertiser-name {
+  cursor: pointer;
+}
+.accounts-page .account-name {
+  font-family: "Avenir-bold";
+}
+.accounts-page .advertiser-name {
+  margin: 10px 0 ;
+}
+.accounts-page .advertiser-list,
+.accounts-page .advertiser-resp-brands-list {
+  padding-left: 30px ;
+  display: none;
+}
+.accounts-page .brand-name {
+  cursor: default;
+  margin-bottom: 10px ;
+}
+.accounts-page .each-account-details {
+  margin-bottom: 10px ;
+}
+.accounts-page .edit {
+  background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center;
+  display: inline-block;
+  height: 20px ;
+  width: 20px ;
+  cursor: pointer;
+  margin-left: 10px ;
+}
+.accounts-page .edit-container {
+  display: none;
+  background: #fff ;
+  border: solid 1px #ccc ;
+  min-height: 200px ;
+  min-width: 200px ;
+  padding: 0 20px 20px ;
+  color: #333 ;
+  position: absolute;
+  right: 0;
+  top: 30px;
+}
