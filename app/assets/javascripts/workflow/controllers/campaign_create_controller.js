@@ -32,6 +32,7 @@ var angObj = angObj || {};
         $scope.mode = workflowService.getMode();
         $scope.campaignArchive=false;
         $scope.deleteCampaignFailed=false;
+        $scope.numberOnlyPattern = /[^0-9]/g;
         $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
 
         $scope.msgtimeoutReset = function(){
@@ -67,6 +68,11 @@ var angObj = angObj || {};
             $scope.campaignArchive=!$scope.campaignArchive;
         }
 
+        $scope.numbersOnly = function(scopeVar){
+          if(scopeVar === 'budgetAmount' && $scope.mode != "edit" && $scope.selectedCampaign.budget != undefined)
+                $scope.selectedCampaign.budget = $scope.selectedCampaign.budget.replace($scope.numberOnlyPattern, '');
+
+        }
 
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
