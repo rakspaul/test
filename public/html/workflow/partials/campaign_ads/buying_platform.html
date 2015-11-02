@@ -11,8 +11,8 @@
             <p>{{platform.name}}</p>
             <span ng-bind-html="getPlatformDesc(platform.name)"></span>
 
-            <span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>
-            <input ng-if="!selectedPlatform[platform.name]" type="button" name="platform" value="Select" ng-disabled="!platform.active  ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
+            <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>
+            <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active  ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
 

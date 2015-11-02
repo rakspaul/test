@@ -1119,10 +1119,9 @@ var angObj = angObj || {};
         $scope.setPlatform = function(event, platform){
             $scope.selectedPlatform = {};
             var name = platform.displayName ? platform.displayName : platform.name;
-            var index = $filter('toPascalCase')(name);
             $scope.adData.platform =  name;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[index] = name;
+            $scope.selectedPlatform[platform.id] = name;
             event && $scope.platformCustomInputs();
         }
 
