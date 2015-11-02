@@ -13,17 +13,15 @@
 
                     setDefaultValues : function(obj, type) {
                          var campaignData = localStorage.getItem('campaignData');
-                         if( campaignData) {
-                             campaignData = JSON.parse(campaignData);
-                             if (type === 'clients') {
-                                 $scope.defaultClientName = (campaignData && campaignData.clientName) ? campaignData.clientName : obj[0].name;
-                                 $scope.defaultClientId = (campaignData && campaignData.clientId) ? campaignData.clientId : obj[0].id;
-                                 $scope.defaultAdvertiserName = 'Loading..';
-                             }
-                             if (type === 'advertisers') {
-                                 $scope.defaultAdvertiserName = (campaignData && campaignData.advertiserName) ? campaignData.advertiserName : obj[0].name;
-                                 $scope.defaultAdvertiserId = (campaignData && campaignData.advertiserId) ? campaignData.advertiserId : obj[0].id;
-                             }
+                         campaignData = campaignData && JSON.parse(campaignData);
+                         if (type === 'clients') {
+                             $scope.defaultClientName = (campaignData && campaignData.clientName) ? campaignData.clientName : obj[0].name;
+                             $scope.defaultClientId = (campaignData && campaignData.clientId) ? campaignData.clientId : obj[0].id;
+                             $scope.defaultAdvertiserName = 'Loading..';
+                         }
+                         if (type === 'advertisers') {
+                             $scope.defaultAdvertiserName = (campaignData && campaignData.advertiserName) ? campaignData.advertiserName : obj[0].name;
+                             $scope.defaultAdvertiserId = (campaignData && campaignData.advertiserId) ? campaignData.advertiserId : obj[0].id;
                          }
                      },
 
@@ -35,7 +33,7 @@
                                 creativeFilter.setDefaultValues($scope.creativeFilterData['clients'], 'clients');
                                 var defaultClientId = $scope.creativeFilterData['clients'][0].id;
                                 var defaultClientName = $scope.creativeFilterData['clients'][0].name;
-                                creativeFilter.fetchAdvertisers(defaultClientId, defaultClientName)
+                                creativeFilter.fetchAdvertisers()
                             }
                             else{
                                 creativeFilter.errorHandler(result);
@@ -44,6 +42,7 @@
                     },
 
                     fetchAdvertisers :  function() {
+                      console.log("$scope.defaultClientId", $scope.defaultClientId);
                         workflowService.getAdvertisers($scope.defaultClientId).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 var responseData = result.data.data;

@@ -18,10 +18,10 @@ var angObj = angObj || {};
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
-        
+
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
-                $scope.resetAlertMessage() ;     
+                $scope.resetAlertMessage() ;
             }, 3000);
         }
 
@@ -30,7 +30,7 @@ var angObj = angObj || {};
         $scope.close_msg_box = function(event) {
             var elem = $(event.target);
             elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ; 
+            $scope.resetAlertMessage() ;
         };
 
         $scope.resetAlertMessage = function(){
@@ -191,7 +191,16 @@ var angObj = angObj || {};
                 }
             });
 
-        }
+        };
+
+        $scope.toggleBtn = function(event) {
+            var target = $(event.target);
+            var parentElem =  target.parents('.miniToggle')
+            parentElem.find("label").removeClass('active');
+            target.parent().addClass('active');
+            target.attr("checked", "checked");
+        };
+
         $scope.cancelDuplicate = function () {
             $scope.showDuplicateTagPopup = false;
             $scope.IncorrectTag = true;
@@ -203,4 +212,3 @@ var angObj = angObj || {};
     });
 
 })();
-

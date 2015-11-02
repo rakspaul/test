@@ -170,7 +170,7 @@ var angObj = angObj || {};
                 $("#creative").delay(300).animate({height: "530px"}, 'slow');
             }
         })
-        
+
         $scope.cancelBtn = function () {
             $scope.$broadcast('closeAddCreativePage');
             var winHeight = $(window).height() - 126;
@@ -208,6 +208,14 @@ var angObj = angObj || {};
             $scope.disableCancelSave = false;
 
         }
+
+        $scope.toggleBtn = function(event) {
+            var target = $(event.target);
+            var parentElem =  target.parents('.miniToggle')
+            parentElem.find("label").removeClass('active');
+            target.parent().addClass('active');
+            target.attr("checked", "checked");
+        };
 
         $(".dropdown-menu li a").click(function(){
             var selText = $(this).text();
