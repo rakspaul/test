@@ -357,7 +357,7 @@ var angObj = angObj || {};
             },
 
             fetchSelfServicePlatforms: function () {
-                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder', active: true}, {id: 2, name: 'Appnexus', active: true}, {id: 3, name: 'Facebook', active: false}, {id: 4, name: 'DBM', active: false}, {id: 5, name: 'DFP', active: false}];
+                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder', active: true}, {id: 2, name: 'AppNexus', active: true}, {id: 3, name: 'Facebook', active: false}, {id: 4, name: 'DBM', active: false}, {id: 5, name: 'DFP', active: false}];
             },
 
             fetchManagedServicePlatforms: function () {
