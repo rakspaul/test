@@ -1,7 +1,7 @@
 /*global angObj*/
 (function() {
     'use strict';
-                                                            
+
     angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService, momentService, RoleBasedService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
@@ -59,7 +59,7 @@
             }
             return '';
         };
-    
+
         $scope.details.sortClass = function(fieldName) {
             return $scope.details.sortParam == fieldName ? 'active' : '';
         };
@@ -268,7 +268,7 @@
                                     kpiValue: parseFloat($scope.campaign.kpiValue),
                                     kpiType: $scope.campaign.kpiType,
                                     from: 'action_performance',
-				    
+
                                     //for delivery kpi
                                     deliveryData: {
                                       "startDate" : $scope.campaign.startDate,
@@ -290,7 +290,7 @@
                                     $scope.makeCampaignSelected(activityLocalStorageInfo.actionSel);
                                 }
                             }
-                            
+
                         }
                     } else {
                         $scope.details.actionChart = false;
@@ -335,10 +335,10 @@
                 } else { //if error
                     activityList.data.data = undefined;
                 }
-                /* 
+                /*
                    set 0 = when Add activity no need to do anything
                    set 1 = when page refresh initial graph loading with call back function(getCdbChartData)
-                   set 2 = when edit activity just referesh the graph with call back function(refreshGraph)   
+                   set 2 = when edit activity just referesh the graph with call back function(refreshGraph)
                 */
                 switch(loadingFlag) {
                     case 1:
@@ -346,9 +346,9 @@
                         break;
                     case 2:
                         callbackCDBGraph && callbackCDBGraph(showExternal);
-                        break;        
+                        break;
                 }
-               
+
             }, function(result) {
                 console.log('call failed');
             });
@@ -363,7 +363,7 @@
             if (loadMoreData.length > 0) {
                 var moreData = loadMoreData.splice(0, pageSize),
                     morDataLen = moreData.length,
-                    //requesting strategy card data 
+                    //requesting strategy card data
                     newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, moreData),
                     tmpCampaignStrategiesArr = [];
 
@@ -475,7 +475,7 @@
                                  cBreakdownChartData.push(data.value);
                             }
                          });
-                         //Put Others as Last 
+                         //Put Others as Last
                         var findOthers = _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
                         cBreakdownChartColors.push(findOthers.colorCode);
                         cBreakdownChartData.push(findOthers.value);
@@ -591,7 +591,7 @@
                 }
             });
         };
-        
+
         // Screen Widget Start
         $scope.getScreenGraphData  = function(campaign){
             dataService.getScreenData($scope.campaign).then(function(result) {
@@ -690,8 +690,8 @@
                 $scope.chartData = [];
                 if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
                     var  modify = function(obj, arr, key) { // Step 1 Data Mod holds value on memory
-                        _.each(obj, function(pltformObj, index) { 
-                               _.each(pltformObj.platforms, function(platform) { 
+                        _.each(obj, function(pltformObj, index) {
+                               _.each(pltformObj.platforms, function(platform) {
                                     arr[key].push(platform);
                                 })
                          })
@@ -764,7 +764,7 @@
                 console.log('formats data call failed');
             });
         };
-        
+
         $scope.getCostViewabilityData  = function(campaign){
             var viewabilityData, viewData;
              //get cost break down data
@@ -804,7 +804,7 @@
                 console.log('cost viewability call failed');
             });
         };
-        
+
         $scope.viewReports = function(campaign, strategy){
             campaignSelectModel.setSelectedCampaign(campaign);
             strategySelectModel.setSelectedStrategy(strategy);
@@ -1089,9 +1089,9 @@
 
         $(document).ready(function() {
             $('.carousel a.left').hide();
-            if(RoleBasedService.getUserRole().locale === 'en-gb') {
+            /*if(RoleBasedService.getUserRole().locale === 'en-gb') {
                 $('.carousel a.right').hide();
-            }
+            }*/
             var ItemsShown = 4;
             var nextIndex;
             var prevIndex;
@@ -1119,14 +1119,14 @@
             });
 
             // hot fix for the enabling the active link in the reports dropdown
-            setTimeout(function(){ 
-                $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-                $(".main_navigation").find("#reports_overview_tab").addClass("active_tab") ; 
+            setTimeout(function(){
+                $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+                $(".main_navigation").find("#reports_overview_tab").addClass("active_tab") ;
             }, 200);
             // end of hot fix for the enabling the active link in the reports dropdown
 
         });
-        
+
     }).run(function($rootScope,$route){
         $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
         var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
