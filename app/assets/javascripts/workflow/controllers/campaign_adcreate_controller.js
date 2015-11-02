@@ -117,6 +117,9 @@ var angObj = angObj || {};
                 $scope.adData.budgetAmount = $scope.adData.budgetAmount.replace($scope.numberOnlyPattern, '');
             if(scopeVar === 'quantity')
                 $scope.adData.quantity = $scope.adData.quantity.replace($scope.numberOnlyPattern, '');
+            if(scopeVar === 'unitCost')
+                $scope.adData.unitCost = $scope.adData.unitCost.replace($scope.numberOnlyPattern, '');
+
         }
 
         $scope.cancelAdArchive=function(){
