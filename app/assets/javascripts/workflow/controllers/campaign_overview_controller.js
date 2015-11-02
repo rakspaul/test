@@ -323,12 +323,10 @@ var angObj = angObj || {};
         }
 
         $scope.goEdit = function ( adsData ) {
-          console.log("adsData", adsData)
           var campaignId = adsData.campaignId;
           var adsId = adsData.id;
           var groupId = adsData.adGroupId;
-           $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId)
-
+          $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId)
         };
 
         $scope.editAdforAdGroup=function(campaignId,stTime,edTime, adsId, groupId){
