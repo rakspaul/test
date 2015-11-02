@@ -116,7 +116,15 @@ select {
   float: right !important;
   margin-top: 5px;
 }
-.dropdown-workflow .btn {
+.workflow .dropdown-menu,
+.workflow .dropdown-menu-search {
+  width: 280px;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+}
+.workflow .dropdown-workflow .btn {
   padding: 10px 15px 10px 15px;
   box-shadow: none !important;
   text-align: left;
@@ -126,13 +134,13 @@ select {
   width: 100%;
   overflow: hidden;
 }
-.dropdown-workflow .btn:focus,
-.dropdown-workflow .btn:active:focus,
-.dropdown-workflow .btn.active:focus {
+.workflow .dropdown-workflow .btn:focus,
+.workflow .dropdown-workflow .btn:active:focus,
+.workflow .dropdown-workflow .btn.active:focus {
   outline: 0 none;
   background-color: #DCE6F1 !important;
 }
-.dropdown-workflow .btn-default {
+.workflow .dropdown-workflow .btn-default {
   color: #363D49;
   background-color: #ffffff;
   font-family: Avenir;
@@ -140,20 +148,20 @@ select {
   border: 1px solid #BFC9D7 !important;
   position: relative;
 }
-.dropdown-workflow .btn-default .text {
+.workflow .dropdown-workflow .btn-default .text {
   float: left;
 }
-.dropdown-workflow .btn-default:hover {
+.workflow .dropdown-workflow .btn-default:hover {
   background-color: #E1EDF9 !important;
   border: 1px solid #BFC9D7 !important;
 }
-.dropdown-workflow .btn-default:active {
+.workflow .dropdown-workflow .btn-default:active {
   background-color: #DCEDF1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
 }
-.dropdown-workflow .icon-arrow-down,
-.dropdown-workflow .icon-search {
+.workflow .dropdown-workflow .icon-arrow-down,
+.workflow .dropdown-workflow .icon-search {
   font-size: 10px;
   color: #000;
   height: 4px;
@@ -164,8 +172,8 @@ select {
   top: 11px;
   right: 20px;
 }
-.dropdown-workflow .dropdown-menu > li > a,
-.dropdown-workflow .dropdown-menu-search > li > a {
+.workflow .dropdown-workflow .dropdown-menu > li > a,
+.workflow .dropdown-workflow .dropdown-menu-search > li > a {
   color: #21252b;
   font-family: Avenir;
   font-size: 14px;
@@ -173,12 +181,12 @@ select {
   cursor: pointer;
   width: 100%;
 }
-.dropdown-workflow .disabled a {
+.workflow .dropdown-workflow .disabled a {
   color: #21252b;
   opacity: .4;
 }
-.dropdown-workflow .dropdown-menu,
-.dropdown-workflow .dropdown-menu-search {
+.workflow .dropdown-workflow .dropdown-menu,
+.workflow .dropdown-workflow .dropdown-menu-search {
   box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   width: auto;
@@ -187,36 +195,28 @@ select {
   max-height: 255px;
   overflow: auto;
 }
-.dropdown-workflow .dropdown-menu .active a,
-.dropdown-workflow .dropdown-menu-search .active a {
+.workflow .dropdown-workflow .dropdown-menu .active a,
+.workflow .dropdown-workflow .dropdown-menu-search .active a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
 }
-.dropdown-workflow .dropdown-menu-search {
+.workflow .dropdown-workflow .dropdown-menu-search {
   overflow: scroll;
 }
-.dropdown-workflow .dropdown-menu > li > a:hover,
-.dropdown-workflow .dropdown-menu > li > a:focus,
-.dropdown-workflow .dropdown-menu > li > .active > a,
-.dropdown-workflow .dropdown-menu-search > li > a:hover,
-.dropdown-workflow .dropdown-menu-search > li > a:focus,
-.dropdown-workflow .dropdown-menu-search > li > .active > a {
+.workflow .dropdown-workflow .dropdown-menu > li > a:hover,
+.workflow .dropdown-workflow .dropdown-menu > li > a:focus,
+.workflow .dropdown-workflow .dropdown-menu > li > .active > a,
+.workflow .dropdown-workflow .dropdown-menu-search > li > a:hover,
+.workflow .dropdown-workflow .dropdown-menu-search > li > a:focus,
+.workflow .dropdown-workflow .dropdown-menu-search > li > .active > a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
 }
-.dropdown-workflow .dropdown {
+.workflow .dropdown-workflow .dropdown {
   display: inline-block;
   width: 100%;
-}
-.workflow .dropdown-menu,
-.workflow .dropdown-menu-search {
-  width: 280px;
-  margin-top: 3px;
-  margin-left: 0;
-  border: 1px solid #ccd2da;
-  border-radius: 1px;
 }
 .datepicker-dropdown {
   width: auto;
