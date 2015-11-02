@@ -1546,7 +1546,6 @@ body {
   min-width: 100px ;
   right: 0;
   left: auto;
-  width: auto;
 }
 .campaign_details_page .activity_log_holder .graph_activity {
   height: 350px ;
