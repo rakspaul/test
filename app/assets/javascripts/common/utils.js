@@ -470,11 +470,14 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        element.on('keypress keyup blur', function (event) {
-          $(this).val($(this).val().replace(/[^\d].+/, ""));
-          if ((event.which < 48 || event.which > 57)) {
-                event.preventDefault();
+        element.on('keypress keyup blur', function (evt) {
+          var charCode = (evt.which) ? evt.which : event.keyCode
+          if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+          } else if(([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
+            return true;
           }
+          return true;
         });
       }
     };
@@ -484,11 +487,14 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        element.on('keypress keyup blur', function (event) {
-           $(this).val($(this).val().replace(/[^0-9\.]/g,''));
-          if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-                event.preventDefault();
-            }
+        element.on('keypress keyup blur', function (evt) {
+           var charCode = (evt.which) ? evt.which : event.keyCode;
+           if (charCode > 31 && (charCode != 46 || this.value.indexOf('.') != -1) && (charCode < 48 || charCode > 57)) {
+               return false;
+           } else if(([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
+             return true;
+           }
+           return true;
         });
       }
     };
