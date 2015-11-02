@@ -1069,7 +1069,8 @@ var angObj = angObj || {};
         var storedResponse;
 
         $scope.$on('updatePlatform',function(event,platform){
-            $scope.selectPlatform('', platform[0]);
+          $scope.defaultPlatform = platform[0];
+          $scope.selectPlatform('', platform[0]);
         })
 
         $scope.selectPlatform =  function(event, platform) {
@@ -1092,9 +1093,13 @@ var angObj = angObj || {};
                         }
                         else{
                             //display warnign popup
-                            tempPlatform = platform;
-                            $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
-                            $scope.changePlatformPopup = true;
+                            if($scope.defaultPlatform.id !== platform.id) {
+                              tempPlatform = platform;
+                              $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+                              $scope.changePlatformPopup = true;
+                            } else {
+                              $scope.setPlatform(event, platform);
+                            }
                         }
 
                     }
