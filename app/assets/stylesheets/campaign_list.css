@@ -2261,7 +2261,7 @@ input[type="submit"] {
 }
 .campaign_cost_header_holder .second_col .dropdown_ul,
 .cost_header_holder .second_col .dropdown_ul {
-  min-width: 70px;
+  min-width: 75px;
   left: 4px;
 }
 .campaign_cost_header_holder .second_col .dropdown_ul li:hover,
