@@ -232,10 +232,28 @@
         }
       }
 
+      var adsEditDefaultValueMapper = function(adPlatformCustomInputs, inputList) {
+        console.log(adPlatformCustomInputs);
+        console.log(inputList);
+        _.each(adPlatformCustomInputs, function(obj) {
+            if(obj.platformCustomInputId === inputList.id) {
+              inputList.defaultValue = obj.value;
+              console.log("111", obj);
+            }
+        })
+      }
+
       var createInputElem = function(inputList, inputGroupList, idx) {
+        if(_self.adPlatformCustomInputs) {
+          adsEditDefaultValueMapper(_self.adPlatformCustomInputs, inputList);
+        }
         var inputWrapper = $('<div/>').addClass('form-group-section').attr({
           'relationWith' : inputGroupList.relationWith
         });
+
+        if(inputList.name === 'target_reach.autobid_option') {
+          inputWrapper.addClass('auto-bid-option');
+        }
 
         if(inputList.displayName !== "") {
           if(inputList.displayName !== 'NA') {
@@ -280,7 +298,7 @@
           var options = inputList.rangeJson && JSON.parse(inputList.rangeJson);
           var inputListHTML = $('<input/>').attr({
             'type': type,
-            'required': inputList.isMandatory ==='required' ? true : false,
+            'required': inputList.isMandatory,
             'name' : type !== 'checkbox' ? inputList.name+"$$"+inputList.id : '',
             'id' : inputList.name,
             'value': inputList.defaultValue ,
@@ -297,14 +315,13 @@
               checked : inputList.defaultValue ==='TRUE' ? true : false
             });
             inputWrapper.append(inputListHTML);
-
             var hiddenInputField = $('<input />').attr({
               'type' : 'hidden',
               'name' : inputList.name+"$$"+inputList.id,
               'value' : inputList.defaultValue,
             }).appendTo(fieldLabel);
 
-            inputListHTML.on('change', function() {
+            inputListHTML && inputListHTML.on('change', function() {
                 var chkSelValue = this.checked ?  "TRUE" : "FALSE";
                 if(inputList.dependentGroups) {
                   selectPlatform(chkSelValue , inputList, inputGroupList.platformCustomInputChildrenGroupList, 'chkDependentItems');
@@ -313,6 +330,16 @@
             })
             var label = $('<label for="cmn-toggle-'+(idx+1)+'"/>');
             inputWrapper.append(label);
+
+
+
+            if(inputList.defaultValue === 'TRUE') {
+              $timeout(function() {
+                  inputListHTML.trigger('change');
+              }, 300)
+
+            }
+
           } else {
             inputListHTML.addClass('form-control col-md-12');
             inputWrapper.append(inputListHTML);
@@ -324,6 +351,22 @@
             inputWrapper.append(LabelHTML);
         }
 
+        //adding validation for custom field.
+        inputListHTML && inputListHTML.on('blur', function(){
+            var field =  $(this);
+            var value = field.val();
+            field.next(".customFieldErrorMsg").remove();
+            /*if(parseFloat(value) > options.min ||  parseFloat(value) > options.max ) {
+              field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is invalid.</div>');
+            } else {*/
+              if(value.length === 0){
+                  field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is required</div>');
+              } else {
+                  field.next(".customFieldErrorMsg").remove();
+                  return true;
+              }
+            //}
+        })
         return inputWrapper;
       };
 
@@ -359,9 +402,10 @@
         })
       }
 
-      var init = function (platformCustomeJson, elem) {
+      var init = function (platformCustomeJson, elem, adPlatformCustomInputs) {
          elem.html('');
         _self.elem = elem;
+        _self.adPlatformCustomInputs= adPlatformCustomInputs;
         _self.platformCustomInputNamespaceList = platformCustomeJson.platformCustomInputNamespaceList;
         _self.platformCustomInputActivationOrderList = platformCustomeJson.platformCustomInputActivationOrderList;
          _.each(_self.platformCustomInputNamespaceList, function(pJson) {

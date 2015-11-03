@@ -1577,6 +1577,9 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+#campaignCreate .platformSlide {
+  /*Just for now */
+}
 #campaignCreate .platformSlide .platform-custom {
   background: #fff;
   left: 100%;
@@ -1713,6 +1716,12 @@
 }
 #campaignCreate .platformSlide .form-individual-section .form-group-section:after {
   clear: both;
+}
+#campaignCreate .platformSlide .auto-bid-option {
+  width: 150px;
+}
+#campaignCreate .platformSlide .auto-bid-option select {
+  margin: 0 ;
 }
 #campaignCreate .newCreativeSlide .hideRightPanel {
   display: none !important;
