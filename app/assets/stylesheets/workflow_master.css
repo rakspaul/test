@@ -1,4 +1,5 @@
 .workflow {
+  /*don’t remove with out informing abhimanyu*/
   /* .squared Check Box */
   /* end .squared Check Box */
 }
@@ -294,7 +295,7 @@
   font-family: 'Avenir';
   display: none;
 }
-.workflow .errMsg {
+.workflow .customFieldErrorMsg {
   color: #F24444 ;
   padding: 2px 0 0 0;
   font-size: 12px;
