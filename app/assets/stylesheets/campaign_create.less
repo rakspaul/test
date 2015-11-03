@@ -2665,13 +2665,16 @@
   }
   .account-name  {
     font-family: "Avenir-bold" ;
-    &:before {
-      content: ' \25CF';
+    background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left center ;
+    padding-left: 20px;
+    transition-duration: .1s;
+    /*&:before {
+      content: '\25CF';
       padding-right: 10px;
-    }
+    }*/
   }
   .advertiser-name {
-    margin: 10px 0 ;
+    margin: 10px 0 0 ;
   }
   .advertiser-list , .advertiser-resp-brands-list {
     padding-left: 30px ;
@@ -2683,8 +2686,75 @@
   }
   .each-account-details {
     margin-bottom: 10px ;
-    padding-left: 20px ;
   }
+  .particular-account-box {
+    border: solid 1px transparent;
+    padding: 10px 20px;
+    min-width: 300px;
+    border-radius: 5px;
+  }
+  .particular-account-box.open {
+    border: solid 1px #ccc;
+    .account-name {
+      position: relative;
+      background-image :  url("/assets/images/cdesk/common_down_arrow.png")  ;
+    }
+    .advertiser-list , .advertiser-resp-brands-list {
+        border-left: dashed 1px #ccc;
+        margin-left: 5px;
+        .each-advertiser {
+          position: relative;
+          &:after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -31px;
+            height: 20px;
+            width: 20px;
+            border-top: dashed 1px #ccc;
+          }
+        }
+        .each-advertiser:last-child {
+          &:after {
+            background: #fff;
+          }
+        }
+    }
+    .advertiser-resp-brands-list {
+      margin: 0 0 0 10px;
+      padding-top: 10px;
+    }
+    .each-brand-name {
+      position: relative;
+      .brand-name:after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: -31px;
+        height: 20px;
+        width: 20px;
+        border-top: dashed 1px #ccc;
+      }
+      &:last-child{
+        .brand-name:after {
+          background: #fff;
+        }
+      }
+    }
+  }
+  .particular-account-box.open:not(.no-data-open) {
+    .account-name {
+      &:after {
+        content: "";
+        top: 16px;
+        left: 5px;
+        position: absolute;
+        height: 14px;
+        width: 10px;
+        border-left: dashed 1px #ccc;
+      }
+    }
+  } 
   .edit {
     background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center ;
     display: inline-block;
