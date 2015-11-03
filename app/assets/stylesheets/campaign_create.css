@@ -2563,6 +2563,10 @@
 .accounts-page .account-name {
   font-family: "Avenir-bold";
 }
+.accounts-page .account-name:before {
+  content: ' \25CF';
+  padding-right: 10px;
+}
 .accounts-page .advertiser-name {
   margin: 10px 0 ;
 }
@@ -2577,6 +2581,7 @@
 }
 .accounts-page .each-account-details {
   margin-bottom: 10px ;
+  padding-left: 20px ;
 }
 .accounts-page .edit {
   background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center;
