@@ -194,7 +194,7 @@ var angObj = angObj || {};
                 }
             } else {
               endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-              endDateElem.datepicker("setStartDate", startTime);
+              endDateElem.datepicker("setStartDate", endTime);
               endDateElem.datepicker("update", endTime);
             }
             if(moment(startTime).isAfter(endTime, 'day')) {
