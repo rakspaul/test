@@ -248,6 +248,8 @@ var angObj = angObj || {};
                                     // CDB data obtained is not for currently selected campaing and strategy id
                                     $scope.chartForStrategy = false;
                                 }
+                            } else {
+                                $scope.chartForStrategy = false;
                             }
                         } else {
                             $scope.chartForStrategy = false;
