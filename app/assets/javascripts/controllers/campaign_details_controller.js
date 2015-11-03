@@ -12,7 +12,7 @@
         $scope.api_return_code = 200;
 
         $scope.textConstants = constants;
-
+        $scope.isStrategyDropDownShow = false;
         $scope.actionItems = activityList.data;
         $scope.loadingViewabilityFlag = true;
         $scope.loadingVideoViewabilityFlag = true;
