@@ -82,7 +82,7 @@
             getCostInventoryData: function(campaign, timePeriod) {
                 // for testing
                 //var url = apiPaths.apiSerivicesUrl + '/campaigns/405617/inventory/categories?kpi_type=CPC';
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/inventory/categories?kpi_type=' + campaign.kpiType;
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/inventory/categories/perf?kpi_type=' + campaign.kpiType;
                 return this.fetch(url);
             },
 
