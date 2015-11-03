@@ -817,6 +817,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .dropdown-menu {
   height: 162px;
 }
+.common_reports_container .inventory_container .load-more,
+.breadcrumb_campaign_strategy .inventory_container .load-more {
+  margin: 20px auto ;
+}
 .common_reports_container .inventory_chart_details_list,
 .breadcrumb_campaign_strategy .inventory_chart_details_list {
   width: 520px;
