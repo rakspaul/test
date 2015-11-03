@@ -2493,6 +2493,8 @@ input[type="submit"] {
   z-index: 1001 ;
   top: 47px ;
   max-width: 150px;
+  border: 0;
+  margin-top: 2px;
 }
 .main_navigation_holder .main_nav .profile_menu .dropdown-menu li a {
   padding-left: 6px ;
