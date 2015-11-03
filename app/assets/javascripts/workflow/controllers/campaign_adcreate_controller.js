@@ -26,6 +26,7 @@ var angObj = angObj || {};
                 colResize();
                 $(".workflowPreloader").fadeOut( "slow" );
             }, 1500);
+        }
       
         $(window).resize(function(){ colResize(); });
 
