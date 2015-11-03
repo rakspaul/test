@@ -213,8 +213,16 @@ var angObj = angObj || {};
 
             } else {
                 str =  dimensionIds[0] + (reportFilterList[0] !== '' ?  (':' + reportFilterList[0]) : '');
-                if(additonalFilter.length >0)
-                    str += "&filter=" + additonalFilter;
+
+                if(dimensionIds[1]) {
+                  var dimesnionStr = dimensionIds[1] + (reportFilterList[1]  ? (':' + reportFilterList[1]) : '');
+                }
+
+                if(dimensionIds[1] || additonalFilter.length >0) {
+                  str += "&filter=" + dimesnionStr +  (additonalFilter.length >0 ? ('~' + additonalFilter) : '');
+                }
+                /*if(additonalFilter.length >0)
+                    str += "&filter=" + additonalFilter;*/
             }
 
             str += _customctrl.getTimeFrame();
