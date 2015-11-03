@@ -1125,16 +1125,28 @@ var angObj = angObj || {};
             event && $scope.platformCustomInputs();
         }
 
+        $scope.showCustomeFieldBox =function() {
+          $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
+          $(".offeringsWrap").hide();
+        }
+
         $scope.platformCustomInputs = function() {
-          workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
-              if (result.status === "OK" || result.status === "success") {
-                var platformCustomeJson = JSON.parse(result.data.data.customInputJson);
-                var platformWrap =  $(".platWrap");
-                $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
-                $(".offeringsWrap").hide();
-                platformCustomeModule.init(platformCustomeJson, platformWrap);
-              }
-          });
+          var platformWrap =  $(".platWrap");
+          if($scope.mode === 'edit') {
+            $scope.showCustomeFieldBox();
+            var customInputJsonData = $scope.workflowData['adsData'].platform.customInputJson;
+            var platformCustomeJson = JSON.parse(customInputJsonData);
+            var adPlatformCustomInputs =  $scope.workflowData['adsData'].adPlatformCustomInputs;
+            platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
+          } else {
+            workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                  var platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+                  $scope.showCustomeFieldBox();
+                  platformCustomeModule.init(platformCustomeJson, platformWrap);
+                }
+            });
+          }
         }
 
         $scope.$on('switchPlatformFunc', function() {
