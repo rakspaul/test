@@ -351,14 +351,14 @@
         inputListHTML.on('blur', function(){
             var field =  $(this);
             var value = field.val();
-            field.next(".red").remove();
+            field.next(".errMsg").remove();
             if(value.length ===1 && Number(value) === 0) {
-              field.after('<div class="red">'+inputList.displayName+' can not be zero.</div>');
+              field.after('<div class="errMsg">'+inputList.displayName+' cannot be zero.</div>');
             } else {
               if(value.length === 0){
-                  field.after('<div class="red">'+inputList.displayName+' is Required</div>');
+                  field.after('<div class="errMsg">'+inputList.displayName+' is required</div>');
               } else {
-                  field.next(".red").remove();
+                  field.next(".errMsg").remove();
                   return true;
               }
             }
