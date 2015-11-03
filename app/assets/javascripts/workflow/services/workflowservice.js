@@ -294,7 +294,7 @@
           var options = inputList.rangeJson && JSON.parse(inputList.rangeJson);
           var inputListHTML = $('<input/>').attr({
             'type': type,
-            'required': inputList.isMandatory ==='required' ? true : false,
+            'required': inputList.isMandatory,
             'name' : type !== 'checkbox' ? inputList.name+"$$"+inputList.id : '',
             'id' : inputList.name,
             'value': inputList.defaultValue ,
@@ -311,14 +311,13 @@
               checked : inputList.defaultValue ==='TRUE' ? true : false
             });
             inputWrapper.append(inputListHTML);
-
             var hiddenInputField = $('<input />').attr({
               'type' : 'hidden',
               'name' : inputList.name+"$$"+inputList.id,
               'value' : inputList.defaultValue,
             }).appendTo(fieldLabel);
 
-            inputListHTML.on('change', function() {
+            inputListHTML && inputListHTML.on('change', function() {
                 var chkSelValue = this.checked ?  "TRUE" : "FALSE";
                 if(inputList.dependentGroups) {
                   selectPlatform(chkSelValue , inputList, inputGroupList.platformCustomInputChildrenGroupList, 'chkDependentItems');
@@ -327,6 +326,16 @@
             })
             var label = $('<label for="cmn-toggle-'+(idx+1)+'"/>');
             inputWrapper.append(label);
+
+
+
+            if(inputList.defaultValue === 'TRUE') {
+              $timeout(function() {
+                  inputListHTML.trigger('change');
+              }, 300)
+
+            }
+
           } else {
             inputListHTML.addClass('form-control col-md-12');
             inputWrapper.append(inputListHTML);
@@ -337,6 +346,23 @@
             var LabelHTML = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
             inputWrapper.append(LabelHTML);
         }
+
+        //adding validation for custom field.
+        inputListHTML.on('blur', function(){
+            var field =  $(this);
+            var value = field.val();
+            field.next(".red").remove();
+            if(value.length ===1 && Number(value) === 0) {
+              field.after('<div class="red">'+inputList.displayName+' can not be zero.</div>');
+            } else {
+              if(value.length === 0){
+                  field.after('<div class="red">'+inputList.displayName+' is Required</div>');
+              } else {
+                  field.next(".red").remove();
+                  return true;
+              }
+            }
+        });
 
         return inputWrapper;
       };

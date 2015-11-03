@@ -75,7 +75,7 @@ var angObj = angObj || {};
         $scope.isAdsPushed = false;
         $scope.editedAdSourceId = null;
         localStorage.setItem('campaignData','');
-        localStorage.setItem('adPlatformCustomInputs', '');
+        localStorage.removeItem('adPlatformCustomInputs');
 
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
@@ -191,7 +191,9 @@ var angObj = angObj || {};
         function processEditMode(result, startDateElem){
             var responseData = result.data.data;
             $scope.workflowData['adsData'] = responseData;
-            localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
+            if(responseData.adPlatformCustomInputs) {
+              localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
+            }
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -259,7 +261,7 @@ var angObj = angObj || {};
 
             $('.cap_no input').attr("checked", "checked");
             $('.spend_evenly input').attr("checked", "checked");
-            if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){ // call abhi and ask what set up cap data comes from
+            if(responseData.frequencyCaps && responseData.frequencyCaps.length >= 1){ // call abhi and ask what set up cap data comes from
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
