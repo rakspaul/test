@@ -181,6 +181,7 @@ var angObj = angObj || {};
 
         $scope.handleFlightDate = function (data) {
             var startTime = data.startTime;
+            var endTime = data.endTime;
             var endDateElem = $('#endDateInput')
             var changeDate;
             if ($scope.mode !== 'edit') {
@@ -191,6 +192,13 @@ var angObj = angObj || {};
                     endDateElem.datepicker("setStartDate", changeDate);
                     endDateElem.datepicker("update", changeDate);
                 }
+            } else {
+              endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+              endDateElem.datepicker("setStartDate", startTime);
+              endDateElem.datepicker("update", endTime);
+            }
+            if(moment(startTime).isAfter(endTime, 'day')) {
+              endDateElem.datepicker("update", startTime);
             }
         }
 
@@ -300,17 +308,22 @@ var angObj = angObj || {};
                     var startDateElem = $('#startDateInput');
                     var endDateElem = $('#endDateInput');
                     var today = new Date();
-                    if (utils.convertToEST('','MM/DD/YYYY') > utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY')) {
-                        startDateElem.datepicker("setStartDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
-                        startDateElem.datepicker("setEndDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
-                        startDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                    //console.log(utils.convertToEST('','MM/DD/YYYY'));
+                    var campaignStartTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
+                    var campaignEndTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
+                    var currentDateTime = utils.convertToEST('','MM/DD/YYYY');
+                    //console.log("currentDateTime", currentDateTime);
+                    //console.log("campaignStartTime", campaignStartTime);
+                    //console.log("campaignEndTime", campaignEndTime);
+                    if(moment(campaignStartTime).isAfter(currentDateTime)) {
+                      startDateElem.datepicker("setStartDate", currentDateTime);
+                      startDateElem.datepicker("update", campaignStartTime);
+                      startDateElem.datepicker("setEndDate", campaignEndTime);
                     } else {
-                        startDateElem.datepicker("setStartDate", utils.convertToEST('','MM/DD/YYYY'));
-                        startDateElem.datepicker("setEndDate", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
-                        startDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY'));
+                      startDateElem.datepicker("setStartDate", campaignStartTime);
+                      startDateElem.datepicker("update", campaignStartTime);
+                      startDateElem.datepicker("setEndDate", campaignStartTime);
                     }
-                    endDateElem.datepicker("setStartDate", utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY'));
-                    endDateElem.datepicker("update", utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY'));
                 } else {
                     var startDateElem = $('#startDateInput');
                     var endDateElem = $('#endDateInput');
