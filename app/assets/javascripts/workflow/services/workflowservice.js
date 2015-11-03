@@ -251,6 +251,10 @@
           'relationWith' : inputGroupList.relationWith
         });
 
+        if(inputList.name === 'target_reach.autobid_option') {
+          inputWrapper.addClass('auto-bid-option');
+        }
+
         if(inputList.displayName !== "") {
           if(inputList.displayName !== 'NA') {
             var fieldLabel = $('<span />').addClass('greyTxt col-md-12 zeroPadding').text(inputList.displayName);
@@ -348,22 +352,21 @@
         }
 
         //adding validation for custom field.
-        inputListHTML.on('blur', function(){
+        inputListHTML && inputListHTML.on('blur', function(){
             var field =  $(this);
             var value = field.val();
             field.next(".customFieldErrorMsg").remove();
-            if(value.length ===1 && Number(value) === 0) {
-              field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' cannot be zero.</div>');
-            } else {
+            /*if(parseFloat(value) > options.min ||  parseFloat(value) > options.max ) {
+              field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is invalid.</div>');
+            } else {*/
               if(value.length === 0){
                   field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is required</div>');
               } else {
                   field.next(".customFieldErrorMsg").remove();
                   return true;
               }
-            }
-        });
-
+            //}
+        })
         return inputWrapper;
       };
 
