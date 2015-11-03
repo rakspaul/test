@@ -232,7 +232,21 @@
         }
       }
 
+      var adsEditDefaultValueMapper = function(adPlatformCustomInputs, inputList) {
+        console.log(adPlatformCustomInputs);
+        console.log(inputList);
+        _.each(adPlatformCustomInputs, function(obj) {
+            if(obj.platformCustomInputId === inputList.id) {
+              inputList.defaultValue = obj.value;
+              console.log("111", obj);
+            }
+        })
+      }
+
       var createInputElem = function(inputList, inputGroupList, idx) {
+        if(_self.adPlatformCustomInputs) {
+          adsEditDefaultValueMapper(_self.adPlatformCustomInputs, inputList);
+        }
         var inputWrapper = $('<div/>').addClass('form-group-section').attr({
           'relationWith' : inputGroupList.relationWith
         });
@@ -359,9 +373,10 @@
         })
       }
 
-      var init = function (platformCustomeJson, elem) {
+      var init = function (platformCustomeJson, elem, adPlatformCustomInputs) {
          elem.html('');
         _self.elem = elem;
+        _self.adPlatformCustomInputs= adPlatformCustomInputs;
         _self.platformCustomInputNamespaceList = platformCustomeJson.platformCustomInputNamespaceList;
         _self.platformCustomInputActivationOrderList = platformCustomeJson.platformCustomInputActivationOrderList;
          _.each(_self.platformCustomInputNamespaceList, function(pJson) {
