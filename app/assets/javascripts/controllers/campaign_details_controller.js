@@ -495,27 +495,41 @@
         $scope.getInventoryGraphData  = function(campaign){
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
-                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
+                var kpIType = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
+                kpIType = kpIType.toLowerCase();
+
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var inventoryData;
                     $scope.chartDataInventory = [];
-                    var inventoryResponseData = result.data.data;
-                    if (inventoryResponseData && inventoryResponseData.length > 0 && inventoryResponseData[0].inv_metrics) {
-                        inventoryData = inventoryResponseData[0].inv_metrics;
-                        inventoryData = _.filter(inventoryData, function(obj) {  return obj.tb == 0 });
-                        var sortedData = _.sortBy(inventoryData, 'kpi_value'); // This Sorts the Data order by CTR or CPA
-                        sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
-                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
+                    if ((result.data.data[0] !== undefined) && ((result.data.data[0].perf_metrics !== null || result.data.data[0].perf_metrics !== undefined) && result.data.data[0].perf_metrics.length > 0 ) )
+                        inventoryData = result.data.data[0].perf_metrics;
+
+                    if (inventoryData && inventoryData.length > 0) {
+
+                        var sortedData = _.sortBy(inventoryData, kpIType); // This Sorts the Data order by CTR or CPA
+                        sortedData = (kpIType.toLowerCase() === 'cpa' || kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
+                        sortedData = _.sortBy(sortedData, function(obj) { return obj[kpIType] == 0 });
                         sortedData  = sortedData.slice(0, 3);
+
                         _.each(sortedData, function(data, idx) {
-                            var kpiData = (kpiModel === 'ctr') ? (data.kpi_value * 100) : data.kpi_value;
-                            $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.domain_data, 'value' : kpiData});
+                            var kpiData;
+                            if(kpIType === 'vtc')
+                                kpiData=data.video_metrics.vtc_rate;
+                            else {
+                                kpiData=data[kpIType]
+                            }
+                            if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate'){
+                                kpiData = parseFloat((kpiData*100).toFixed(4));
+                            } else if(kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc' || kpIType.toLowerCase() === 'vtc'){
+                                kpiData = parseFloat((kpiData*1).toFixed(2));
+                            }
+                            $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
                     }
                 }
                 $scope.inventoryBarChartConfig = {
                     data : $scope.chartDataInventory,
-                    kpiType : kpiModel || 'NA',
+                    kpiType : kpIType || 'NA',
                     showLabel : true,
                     graphName : 'inventory'
                 }
@@ -881,7 +895,6 @@
             }
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
-            console.log('type-->'+type)
             if (type === 'cost') {
                 utils.goToLocation('/cost');
             } else if (type === 'quality' || type === 'videoViewability') {
