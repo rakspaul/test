@@ -1717,10 +1717,10 @@
 #campaignCreate .platformSlide .form-individual-section .form-group-section:after {
   clear: both;
 }
-#campaignCreate .platformSlide .auto-bid-option .form-group-section {
+#campaignCreate .platformSlide .auto-bid-option {
   width: 150px;
 }
-#campaignCreate .platformSlide .auto-bid-option .form-group-section select {
+#campaignCreate .platformSlide .auto-bid-option select {
   margin: 0 ;
 }
 #campaignCreate .newCreativeSlide .hideRightPanel {
