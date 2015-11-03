@@ -75,6 +75,7 @@ var angObj = angObj || {};
         $scope.isAdsPushed = false;
         $scope.editedAdSourceId = null;
         localStorage.setItem('campaignData','');
+        localStorage.setItem('adPlatformCustomInputs', '');
 
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
@@ -190,6 +191,7 @@ var angObj = angObj || {};
         function processEditMode(result, startDateElem){
             var responseData = result.data.data;
             $scope.workflowData['adsData'] = responseData;
+            localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -385,6 +387,7 @@ var angObj = angObj || {};
                         $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS ;
                         $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
                         $scope.partialSaveAlertMessage.isMsg = 1;
+                        localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
                         $scope.msgtimeoutReset() ;
                         if ($scope.state && $scope.state.toLowerCase() === 'ready') {
                             var url = '/campaign/' + result.data.data.campaignId + '/overview';
@@ -1130,23 +1133,29 @@ var angObj = angObj || {};
           $(".offeringsWrap").hide();
         }
 
+
         $scope.platformCustomInputs = function() {
           var platformWrap =  $(".platWrap");
-          if($scope.mode === 'edit') {
-            $scope.showCustomeFieldBox();
-            var customInputJsonData = $scope.workflowData['adsData'].platform.customInputJson;
-            var platformCustomeJson = JSON.parse(customInputJsonData);
-            var adPlatformCustomInputs =  $scope.workflowData['adsData'].adPlatformCustomInputs;
-            platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
-          } else {
-            workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                  var platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+          workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
+              var adPlatformCustomInputs, platformCustomeJson;
+              if (result.status === "OK" || result.status === "success") {
+                platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+                if($scope.mode === 'edit' ) {
+                  $scope.showCustomeFieldBox();
+                  //if($scope.adData.platformId == $scope.workflowData['adsData'].platform.id) {
+                    var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
+                    adPlatformCustomInputs =  (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue))  || platformCustomeJson;
+                    platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
+                  //} else {
+                    //$scope.showCustomeFieldBox();
+                    //platformCustomeModule.init(platformCustomeJson, platformWrap);
+                  //}
+                } else {
                   $scope.showCustomeFieldBox();
                   platformCustomeModule.init(platformCustomeJson, platformWrap);
                 }
-            });
-          }
+              }
+          });
         }
 
         $scope.$on('switchPlatformFunc', function() {
