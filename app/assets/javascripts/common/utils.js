@@ -542,8 +542,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
 
-  angObj.filter('kpiFormatter', function ($filter,constants) {
+  angObj.filter('kpiFormatter', function ($filter,constants, $locale) {
     return function (input, kpiType, precision) {
+      constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
       if (input && kpiType) {
         if (kpiType.toLowerCase() == 'ctr') {
           return $filter('number')(input, 2) + '%';
