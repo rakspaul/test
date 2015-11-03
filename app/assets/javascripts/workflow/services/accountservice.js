@@ -6,10 +6,15 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);
             },
-            getAdvertisers: function(clientId) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers';
+            getClientsAdvertisers: function(clientId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers';
+                return dataService.fetch(url);
+            },
+            getAdvertisersBrand: function(clientId,advertiserId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers';
                 return dataService.fetch(url);
             }
+
 
         }
     });
