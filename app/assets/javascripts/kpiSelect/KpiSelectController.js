@@ -126,6 +126,7 @@
                 $scope.setSelectedKpi(_selectedKpi);
                 $scope.setSelectedKpiAlt(_selectedKpi);
                 analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _selectedKpi, loginModel.getLoginName());
+                $(e.target).closest(".reports_platform_header").find(".kpi-dd-holder").find(".open").removeClass("open") ;
                 $scope.$apply();
             }
         });
