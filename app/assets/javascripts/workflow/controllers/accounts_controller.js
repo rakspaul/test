@@ -11,10 +11,12 @@ var angObj = angObj || {};
             //$scope.fetchAllAdvertisers(clientId);
             var elem = $(event.target);
             elem.closest(".each-account-details").find(".advertiser-list").toggle() ;
+            $scope.fetchAllAdvertisers(clientId)
         };
         $scope.show_advertisers_resp_brands = function(event,client,advertiser) {
             var elem = $(event.target);
             elem.closest(".each-advertiser").find(".advertiser-resp-brands-list").toggle() ;
+            $scope.fetchBrands(client,advertiser);
         };
         $scope.show_edit = function(type) {
             $(".edit-container").hide();
@@ -26,9 +28,9 @@ var angObj = angObj || {};
             accountsService.getClients().then(function(res) {
                 $scope.clientsDetails = res.data.data;
 
-                for(var i = 0; i < $scope.clientsDetails.length; i++) {
-                    $scope.fetchAllAdvertisers($scope.clientsDetails[i].id);
-                }
+                //for(var i = 0; i < $scope.clientsDetails.length; i++) {
+                //    $scope.fetchAllAdvertisers($scope.clientsDetails[i].id);
+                //}
             })
         }
         $scope.fetchAllClients();
@@ -43,11 +45,16 @@ var angObj = angObj || {};
         }
 
         $scope.fetchBrands = function(clientId,advertiserId){
+
             accountsService.getAdvertisersBrand(clientId,advertiserId).then(function(res){
-                var index = _.findIndex($scope.clientsDetails, function(item) {
+                var clientIndex = _.findIndex($scope.clientsDetails, function(item) {
                     return item.id == clientId});
 
-                $scope.clientsDetails[index]['advertisement'] = res.data.data;
+                var advIndex = _.findIndex($scope.clientsDetails[clientIndex]['advertisement'], function(item) {
+                    return item.id == advertiserId});
+
+                $scope.clientsDetails[clientIndex]['advertisement'][advIndex]['brand'] = res.data.data;
+                console.log($scope.clientsDetails)
             });
         }
 
