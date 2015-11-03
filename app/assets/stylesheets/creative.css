@@ -76,14 +76,14 @@
   z-index: 10;
   cursor: pointer;
 }
-#creative .creativeList .creative_filter_dropdowns {
-  opacity: .3;
-}
 #creative .emptyCreativesFlag td {
   border-width: 0;
 }
 #creative .hiddenBlockerDDL {
   display: none;
+}
+.newCreativeSlide .creativeList .creative_filter_dropdowns {
+  opacity: .3;
 }
 #creativeList {
   width: 100%;
