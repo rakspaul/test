@@ -696,15 +696,15 @@ var angObj = angObj || {};
                      }
 
                      var customPlatformFormData = $("#customPlatformForm").serializeArray()
-                     if(customFieldErrorElem.length  === 0 && customPlatformFormData.length >0) {
+                     if(customFieldErrorElem.length  === 0 && customPlatformFormData.length >1) {
                        postAdDataObj['adPlatformCustomInputs'] = [];
                        _.each(customPlatformFormData, function(data) {
                             var d = data.name.split("$$");
                             postAdDataObj['adPlatformCustomInputs'].push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
                        })
+                     } else {
+                       postAdDataObj['adPlatformCustomInputs'] = $scope.workflowData['adsData'].adPlatformCustomInputs
                      }
-                     console.log("postAdDataObj", postAdDataObj)
-
                      campaignOverView.saveAds(postAdDataObj)
                  }
                }
