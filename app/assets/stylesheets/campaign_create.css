@@ -2562,13 +2562,16 @@
 }
 .accounts-page .account-name {
   font-family: "Avenir-bold";
-}
-.accounts-page .account-name:before {
-  content: ' \25CF';
-  padding-right: 10px;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left center;
+  padding-left: 20px;
+  transition-duration: .1s;
+  /*&:before {
+      content: '\25CF';
+      padding-right: 10px;
+    }*/
 }
 .accounts-page .advertiser-name {
-  margin: 10px 0 ;
+  margin: 10px 0 0 ;
 }
 .accounts-page .advertiser-list,
 .accounts-page .advertiser-resp-brands-list {
@@ -2581,7 +2584,74 @@
 }
 .accounts-page .each-account-details {
   margin-bottom: 10px ;
-  padding-left: 20px ;
+}
+.accounts-page .label_heading {
+  font-size: 10px ;
+  color: #999 ;
+}
+.accounts-page .particular-account-box {
+  border: solid 1px transparent;
+  padding: 10px 20px;
+  min-width: 300px;
+  border-radius: 5px;
+}
+.accounts-page .particular-account-box.open {
+  border: solid 1px #ccc;
+}
+.accounts-page .particular-account-box.open .account-name {
+  position: relative;
+  background-image: url("/assets/images/cdesk/common_down_arrow.png");
+}
+.accounts-page .particular-account-box.open .advertiser-list,
+.accounts-page .particular-account-box.open .advertiser-resp-brands-list {
+  border-left: dashed 1px #ccc;
+  margin-left: 5px;
+}
+.accounts-page .particular-account-box.open .advertiser-list .each-advertiser,
+.accounts-page .particular-account-box.open .advertiser-resp-brands-list .each-advertiser {
+  position: relative;
+}
+.accounts-page .particular-account-box.open .advertiser-list .each-advertiser:after,
+.accounts-page .particular-account-box.open .advertiser-resp-brands-list .each-advertiser:after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: -31px;
+  height: 20px;
+  width: 20px;
+  border-top: dashed 1px #ccc;
+}
+.accounts-page .particular-account-box.open .advertiser-list .each-advertiser:last-child:after,
+.accounts-page .particular-account-box.open .advertiser-resp-brands-list .each-advertiser:last-child:after {
+  background: #fff;
+}
+.accounts-page .particular-account-box.open .advertiser-resp-brands-list {
+  margin: 0 0 0 10px;
+  padding-top: 10px;
+}
+.accounts-page .particular-account-box.open .each-brand-name {
+  position: relative;
+}
+.accounts-page .particular-account-box.open .each-brand-name .brand-name:after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: -31px;
+  height: 20px;
+  width: 20px;
+  border-top: dashed 1px #ccc;
+}
+.accounts-page .particular-account-box.open .each-brand-name:last-child .brand-name:after {
+  background: #fff;
+}
+.accounts-page .particular-account-box.open:not(.no-data-open) .account-name:after {
+  content: "";
+  top: 16px;
+  left: 5px;
+  position: absolute;
+  height: 14px;
+  width: 10px;
+  border-left: dashed 1px #ccc;
 }
 .accounts-page .edit {
   background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center;

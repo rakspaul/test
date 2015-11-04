@@ -12,6 +12,7 @@ var angObj = angObj || {};
             var elem = $(event.target);
             elem.closest(".each-account-details").find(".advertiser-list").toggle() ;
             $scope.fetchAllAdvertisers(clientId)
+            elem.closest(".each-account-details").find(".particular-account-box").toggleClass("open");
         };
         $scope.show_advertisers_resp_brands = function(event,client,advertiser) {
             var elem = $(event.target);
