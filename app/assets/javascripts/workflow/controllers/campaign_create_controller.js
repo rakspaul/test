@@ -318,7 +318,7 @@ var angObj = angObj || {};
                     if(moment(campaignStartTime).isAfter(currentDateTime)) {
                       startDateElem.datepicker("setStartDate", currentDateTime);
                       startDateElem.datepicker("update", campaignStartTime);
-                      startDateElem.datepicker("setEndDate", campaignEndTime);
+                      startDateElem.datepicker("setEndDate", campaignStartTime);
                     } else {
                       startDateElem.datepicker("setStartDate", campaignStartTime);
                       startDateElem.datepicker("update", campaignStartTime);
