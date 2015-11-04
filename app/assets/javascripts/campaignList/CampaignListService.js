@@ -207,6 +207,7 @@
 
                 dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
                     var lineData=[];
+                    console.log('##',result.data);
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(sKpiType != undefined || sKpiType != null) {
                             if(result.data.data.length > 0) {
@@ -227,6 +228,7 @@
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
+
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
                                 if(angular.lowercase(kpiType) === "delivery") {
@@ -248,6 +250,8 @@
                                         "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
                                     }
                                 };
+                            } else {
+                                tacticsList[obj].chart = false;
                             }
                         }
                     } else {
@@ -382,6 +386,8 @@
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
                                 };
+                            } else {
+                                strategyList[obj].chart = false;
                             }
                         }
                     } else {
