@@ -20,7 +20,7 @@
         $scope.editedData = {
             reportType:report.reportType,
             reportName: report.reportName,
-            campaignId:report.campaignId,
+            campaignId:parseInt(report.campaignId),
             notes:report.notes
         }
 
@@ -38,8 +38,8 @@
             $scope.ediScreenBusy = true;
             dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
                 $scope.editedObj.reportType = $scope.editedData.reportType;
-                $scope.editedObj.reportName = $scope.editedData.reportName
-                $scope.editedObj.campaignId = $scope.editedData.campaignId
+                $scope.editedObj.reportName = $scope.editedData.reportName;
+                $scope.editedObj.campaignId = $scope.editedData.campaignId;
                 $scope.editedObj.notes = $scope.editedData.notes;
                 $scope.reportList[reportIndex] = $scope.editedObj;
                 console.log($scope.reportList);
@@ -124,5 +124,12 @@
         campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id).then(function(response){
             $scope.campaignList = response;
         })
+
+
+        $scope.setSelectedCampIdAndName = function(campId,campName) {
+            $scope.editedData.campaignId = parseInt(campId);
+            $scope.selectedCampaignObj.name = campName;
+
+        }
     });
 }());

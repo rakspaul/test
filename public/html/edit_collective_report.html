@@ -37,7 +37,7 @@
                         <span data-toggle="dropdown" class="dropdown_txt">{{selectedCampaignObj.name}}</span>
                         <ul class="dropdown-menu">
 
-                            <li ng-repeat="cl in campaignList" ng-click="editedData.campaignId = ''+cl.campaign_id;selectedCampaignObj.name=cl.name">{{cl.name}}</li>
+                            <li ng-repeat="cl in campaignList" ng-click="setSelectedCampIdAndName(cl.campaign_id,cl.name);">{{cl.name}}</li>
                         </ul>
                      </div>
                 </div>
