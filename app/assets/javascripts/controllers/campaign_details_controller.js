@@ -291,6 +291,8 @@
                                 }
                             }
 
+                        }else {
+                            $scope.details.actionChart = false;
                         }
                     } else {
                         $scope.details.actionChart = false;
