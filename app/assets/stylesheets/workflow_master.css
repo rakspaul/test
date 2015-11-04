@@ -321,11 +321,11 @@
   font-weight: lighter;
   display: block;
 }
-.workflow .bodyWrap {
+.workflow .workflow .bodyWrap {
   width: 1200px;
   margin: 0 auto ;
 }
-.workflow .main_navigation_holder .main_nav {
+.workflow .workflow .main_navigation_holder .main_nav {
   width: 1200px;
   padding: 0px;
 }
@@ -362,6 +362,11 @@
     line-height: 16px;
     font-size: 14px;
     width: auto;*/
+}
+.workflow .btn:hover,
+.workflow .btn:focus,
+.workflow .btn:active {
+  text-decoration: none;
 }
 .workflow .btn-primary {
   background: #0978C9;
@@ -878,4 +883,67 @@
 }
 .workflow .squaredChk input[type=checkbox]:checked + label:after {
   opacity: 1;
+}
+.workflow .atlwdg-trigger {
+  border-radius: 0 !important;
+  background: #007ac9 !important;
+  font-family: "Avenir" !important;
+}
+.workflow .icon-close {
+  font-size: 8px;
+  width: 8px;
+  height: 8px;
+  float: left;
+  margin: 6px;
+  cursor: pointer;
+}
+.workflow .cardSelectHolder {
+  border-radius: 1px;
+  border: 1px solid #bfc9d7;
+  padding: 50px 10px;
+  min-height: 230px;
+  width: 24.25%;
+  margin-right: .75%;
+  margin-top: 1%;
+  float: left;
+}
+.workflow .cardSelectHolder span {
+  float: left;
+  margin: 14px 0 0 0;
+  width: 100%;
+  text-align: center;
+}
+.workflow .cardSelectHolder p {
+  color: #21252b;
+  font-family: "Avenir-black";
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+.workflow .cardSelectHolder img {
+  margin: 30px auto 10px;
+  display: table;
+  max-height: 30px;
+}
+.workflow .cardSelectHolder .btn {
+  float: left;
+  position: relative;
+  left: 50%;
+  margin-left: -32px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.workflow .cardSelectHolder .btn.active {
+  background: #E1EDF9;
+  box-shadow: none;
+  width: auto;
+  margin-left: -43px;
+}
+.workflow .cardSelectHolder a {
+  color: #2c9aec;
+  font-size: 12px;
+  float: left;
+  width: 100%;
+  text-align: center;
 }
