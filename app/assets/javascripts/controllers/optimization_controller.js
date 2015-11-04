@@ -333,7 +333,7 @@ var angObj = angObj || {};
 
         $scope.actionDataForSelectedCampaign = function (callback) {
             var param = { campaignId: $scope.selectedCampaign.id, time_filter: $scope.selected_filters.time_filter};
-            if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
+            //if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) { // get action data for the selected campaign.
                     if (result.status === "OK" || result.status === "success") {
                             $scope.tacticNotFound = false;
@@ -345,9 +345,9 @@ var angObj = angObj || {};
                     }
                     callback && callback();
                 })
-            } else {
-                callback && callback();
-            }
+            //} else {
+              //  callback && callback();
+            ///}
         };
 
 
