@@ -61,11 +61,11 @@
 
     <label class="col-sm-12 control-label greyTxt miniLabels">Budget Calculation</label>
     <div class="btn-group miniToggle" ng-init="adData.budgetType='Impressions'">
-        <label class="btn btn-default active"><span>Impressions</span>
+        <label class="btn btn-default budget_impressions active"><span>Impressions</span>
             <input type="radio" name="budgetType" value="Impressions" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event);">
         </label>
-        <label class="btn btn-default"><span>Media Cost</span>
-            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event); adData.budgetAmount ='';">
+        <label class="btn btn-default budget_cost"><span>Media Cost</span>
+            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
         </label>
         <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" media-cost-check class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value">
         <label ng-if="formAdCreate.budgetAmount.$error.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>

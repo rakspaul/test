@@ -231,6 +231,13 @@ var angObj = angObj || {};
             //budget tab
             if(responseData.budgetType){
                 $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
+                if($scope.adData.budgetType) {
+                  var budgetElem = $(".budget_" + $scope.adData.budgetType.toLowerCase());
+                }
+                if(budgetElem.length >0) {
+                  budgetElem.closest("div.miniToggle").find("label").removeClass('active');
+                  budgetElem.addClass('active').find('input').attr("checked", "checked");
+                }
             }
             var dateObj = {};
             if(responseData.startTime) {
