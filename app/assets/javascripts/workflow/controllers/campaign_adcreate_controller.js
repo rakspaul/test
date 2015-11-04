@@ -1021,10 +1021,10 @@ var angObj = angObj || {};
              startDate = adsDate.adStartDate;
              endDate = adsDate.adEndDate;
           }
-            //console.log("campaignStartTime", campaignStartTime);
-            //console.log("startDate", startDate);
-            //console.log("endDate", endDate);
-            //console.log("campaignEndTime", campaignEndTime);
+//            console.log("campaignStartTime", campaignStartTime);
+//            console.log("startDate", startDate);
+//            console.log("endDate", endDate);
+//            console.log("campaignEndTime", campaignEndTime);
             if(campaignStartTime >  startDate) {// ads start Date in Past
                 startDateElem.datepicker("setStartDate", campaignStartTime);
             }
@@ -1066,8 +1066,7 @@ var angObj = angObj || {};
                 if($scope.mode == 'edit') {
                   $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
                 } else {
-                  startDateElem.datepicker("setEndDate", adGroupStartDate);
-                  startDateElem.datepicker("update", adGroupEndDate);
+                  startDateElem.datepicker("update", adGroupStartDate);
                 }
             } else {
               startDateElem.datepicker("setStartDate", campaignStartTime);
