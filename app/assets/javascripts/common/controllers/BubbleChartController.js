@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('bubbleChartController', function ($scope, loginModel, $cookieStore, $location, loginService, bubbleChart, bubbleChartModel, brandsModel, constants) {
+    commonModule.controller('BubbleChartController', function ($scope, loginModel, $cookieStore, $location, loginService, bubbleChart, bubbleChartModel, brandsModel, constants) {
 
          $scope.data = {
              brandData : {},

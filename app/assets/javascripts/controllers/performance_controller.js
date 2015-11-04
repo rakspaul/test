@@ -1,14 +1,14 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('PerformanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         domainReports.highlightSubHeaderMenu();
-        $scope.sortType     = 'impressions'; 
+        $scope.sortType     = 'impressions';
 
         $scope.sortTypebyformats     = '-impressions';
         $scope.sortTypebyplatforms     = '-impressions';
@@ -101,10 +101,10 @@ var angObj = angObj || {};
                 $scope.defaultDisplayScreen = 'display : none';
                 $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
             } else {
-                $scope.selected_tab = 'byscreens'
+                $scope.selected_tab = 'byscreens';
                 $scope.sortByColumn = 'name';
                 $scope.activeScreenClass = 'active';
-                $scope.defaultDisplayScreen = 'display : block'
+                $scope.defaultDisplayScreen = 'display : block';
                 $scope.defaultDisplayAdSize = 'display : none';
                 $scope.defaultDisplayFormat = 'display : none';
             }
@@ -193,7 +193,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();
@@ -204,22 +204,22 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'screensandformats/reportDownload',
                     'report_name' : 'by_screens_and_formats',
                     'label' : 'Performance by Screens & Formats'
                 },
                 {
-                    'report_url' : urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'daysofweek/reportDownload',
                     'report_name' : 'by_days_of_week',
                     'label' : 'Performance by Days Of Week'
                 },
                 {
-                    'report_url' : urlPath + 'creatives/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'creatives/reportDownload',
                     'report_name' : 'by_creatives',
                     'label' : 'Performance by Creatives'
                 },
                 {
-                    'report_url' : urlPath + 'adsizes/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'adsizes/reportDownload',
                     'report_name' : 'by_adsizes',
                     'label' : 'Performance by Ad Sizes'
                 }
@@ -272,7 +272,16 @@ var angObj = angObj || {};
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
+            }
+
             $scope.selected_filters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
             $scope.selected_filters.kpi_type = 'cpm';
             $scope.selected_filters2 = {};
@@ -281,11 +290,13 @@ var angObj = angObj || {};
 
         };
 
-
         $scope.init();
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-            $scope.callBackKpiDurationChange('duration');
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selected_filters.time_filter = strategy;
+            $scope.resetVariables();
+            $scope.createDownloadReportUrl();
+            $scope.strategyChangeHandler();
         });
 
 
@@ -375,10 +386,10 @@ var angObj = angObj || {};
                 event.preventDefault();
             });
             // hot fix for the enabling the active link in the reports dropdown
-       
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#performance").addClass("active_tab") ; 
-        
+
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#performance").addClass("active_tab") ;
+
             // end of hot fix for the enabling the active link in the reports dropdown
         });
 

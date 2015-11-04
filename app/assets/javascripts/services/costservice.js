@@ -5,7 +5,7 @@
         return {
 
             getStrategyCostData: function (param) {
-                var params= 'start_date='+ param.startDate +'&end_date='+ param.endDate;
+                var params= 'start_date='+ param.startDate +'&end_date='+ param.endDate+"&date_filter="+param.timeFilter;
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/';
                 if(param.strategyId) {
                     url += param.campaignId + '/strategies/'+ param.strategyId + '/costs/perf?';

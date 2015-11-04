@@ -1,51 +1,67 @@
+<div class="top_message_box" ng-class="{'red_msg':flashMessage.isErrorMsg}" ng-show="flashMessage.message">
+	<span class="msg_box">
+		<span class="msg_icon">x</span>
+		<span class="msg_txt" >
+      {{flashMessage.message}}
+    </span>
+    <span class="close_msg_box_holder">
+      <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+    </span>
+	</span>
+</div>
+
 <div id="campaignCreate">
     <div class="firstWrapper">
         <div class="masterContainer">
             <!-- Header Starts -->
-            <div class="clearfix left_column_nav" style="border-width: 0;">
-                <div class="pull-left campaign_name_holder">
+            <div class="clearfix left_column_nav campaign-create-left-nav" style="border-width: 0;">
+                <div class="campaign_name_holder">
                     <h1 class="campaign_name">{{ textConstants.WF_CREATE_CAMPAIGN }}</h1>
-                    <div class="pull-left stepCompLabel">
-                        <p class="titleLabel selected">1. {{ textConstants.WF_SETTINGS}}</p>
-                        <div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
-                            <div class="col-md-12">
-                                <span>Not Set</span>
+                    <div class="stepCompLabel">
+                        <div class="clearfix eachStepCompLabel active" >
+                            <p class="titleLabel selected">1. {{ textConstants.WF_SETTINGS}}</p>
+                            <div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
+                                <div class="col-md-12">
+                                    <span>Not Set</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="selectedCampaign.goal.name">
+                                <div class="col-md-12">
+                                    <div class="statusIcon icon-{{getGoalIconName(selectedCampaign.goal.name)}}"></div>
+                                    <span>{{selectedCampaign.goal.name}}</span>
+                                    <span>(Goal)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="selectedCampaign.startTime">
+                                <div class="col-md-12">
+                                    <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
+                                    <div class="statusIcon icon-calendar"></div>
+                                    <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
+                                    <span>(flight)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="selectedCampaign.budget">
+                                <div class="col-md-12">
+                                    <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
+                                    <span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
+                                    <span>(budget)</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="statusLabel" ng-if="selectedCampaign.goal.name">
-                            <div class="col-md-12">
-                                <img class="statusIcon" ng-src="/assets/images/workflow/{{getGoalIconName(selectedCampaign.goal.name)}}.svg" alt="" width="12"/>
-                                <!--<span class="glyphicon glyphicon-{{selectedCampaign.goal.name ==='Performance' ? 'signal' : 'record'}}" aria-hidden="true"></span>-->
-                                <span>{{selectedCampaign.goal.name}}</span>
-                                <span>(Goal)</span>
+                        <div class="clearfix eachStepCompLabel" >
+                            <p class="titleLabel">2. Pricing Model</p>
+                            <div class="statusLabel disabled">
+                                <div class="col-md-12">
+                                    <span>Not Set</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="statusLabel" ng-if="selectedCampaign.startTime">
-                            <div class="col-md-12">
-                                <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
-                                <img class="statusIcon" ng-src="/assets/images/workflow/calendar.svg" alt="" width="12"/>
-                                <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
-                                <span>(flight)</span>
-                            </div>
-                        </div>
-                        <div class="statusLabel" ng-if="selectedCampaign.budget">
-                            <div class="col-md-12">
-                                <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
-                                <span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
-                                <span>(budget)</span>
-                            </div>
-                        </div>
-
-                        <p class="titleLabel">2. Pricing Model</p>
-                        <div class="statusLabel disabled">
-                            <div class="col-md-12">
-                                <span>Not Set</span>
-                            </div>
-                        </div>
-                        <p class="titleLabel">3. Contacts (optional)</p>
-                        <div class="statusLabel disabled">
-                            <div class="col-md-12">
-                                <span>Not Set</span>
+                        <div class="clearfix eachStepCompLabel" >
+                            <p class="titleLabel">3. Contacts (optional)</p>
+                            <div class="statusLabel disabled">
+                                <div class="col-md-12">
+                                    <span>Not Set</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,47 +79,90 @@
                     </div>
 
                     <div class="col-md-6 zeroPadding">
-                        <a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;" ng-click="saveCampaign()">Save</a>
-                        <a href="/campaigns" class="btn btn-default pull-right" role="button">Cancel</a>
+                        <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-hide="(mode!='edit')">
+                            <div class="dropdown">
+                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
+                                      <span class="icon-more-options"></span>
+                                 </button>
+                                 <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                    <li class="disabled"><a>Pause</a></li>
+                                    <li class="disabled"><a>Resume</a></li>
+                                    <li><a  id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a></li>
+                                 </ul>
+                            </div>
+                       </div>
+                        <!--<a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a>-->
+                        <a href="#" class="btn btn-primary pull-right" role="button" ng-click="saveCampaign()">Save</a>
+                        <a href="/campaigns" class="btn btn-link pull-right" role="button">Cancel</a>
                     </div>
                 </div>
 
                 <div class="isCollapsed">
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
-                            <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Enter Campaign name. Up to 250 Characters" required/>
-                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the campaign.</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">What is your Campaign name?</label>
+                            <div ng-if=(mode=='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="250"   required/>
+                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
+                            </div>
+                            <div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+                                <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
+                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
                             </div>
                         </div>
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">Who is the campaign for?</label>
-                            <div class="form-group col-sm-3 zeroPadding" show-errors='{showSuccess: true}'>
-                                <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
-                                <select ng-options="client.name for client in workflowData.clients track by client.id" class="form-control" id="accountDDL" ng-model="selectedCampaign.client" ng-change="selectHandler('client', selectedCampaign)" name="clientId" required>
-                                    <option value="">Select Account</option>
-                                </select>
-                                <label ng-if="createCampaignForm.clientId.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the account.</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the Campaign for?</label>
+                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
+                                <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">{{mode == 'edit' ? editCampaignData.clientName : 'Select Account' }}</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="accountDDL"  id="accountDDL" ng-if="mode !== 'edit'">
+                                            <li ng-repeat="client in workflowData.clients track by client.id"><a ng-click="selectHandler('client', client, $event)">{{client.name}}</a></li>
+                                        </ul>
+                                        <input type="hidden" name="clientId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
+                                    </div>
+                                </div>
+                                <label ng-if="createCampaignForm.clientId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the account.</label>
                             </div>
 
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}'>
-                                <label for="advertiserDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
-                                <select ng-options="advertiser.name for advertiser in workflowData.advertisers track by advertiser.id" class="form-control" id="advertiserDDL"  ng-model="selectedCampaign.advertiser" ng-change="selectHandler('advertiser', selectedCampaign)" name="advertiserId" required>
-                                    <option value="">Select Advertiser</option>
-                                </select>
-                                <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the Advertiser.</label>
-                            </div>
 
-                            <div class="form-group col-sm-3">
-                                <label for="brandDDL" class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.BRAND }}</label>
-                                <select ng-options="brand.name for brand in workflowData.brands track by brand.id" class="form-control" id="brandDDL" ng-model="selectedCampaign.brand" ng-change="selectHandler('brand', selectedCampaign)" name="brandId">
-                                    <option value="">Select Brand</option>
-                                </select>
+                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
+                                <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
+                                            <li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
+                                        </ul>
+                                        <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
+                                    </div>
+                                </div>
+                                <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
+                            </div>
+                            <div class="form-group col-sm-3" style="padding-left: 0;">
+                                <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">{{mode == 'edit' ? editCampaignData.brandName : 'Select Brand' }}</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
+                                            <li ng-repeat="brand in workflowData.brands track by brand.id"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
+                                        </ul>
+                                        <input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -111,46 +170,47 @@
 
                         <!--==== Row 3 ====-->
                         <div class=" col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">What is the primary goal?</label>
-                            <label for="accountDDL" class="col-sm-12 control-label greyTxt miniLabels">Select one goal</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What is your Campaign Objective?</label>
+                            <label class="col-sm-12 greyTxt miniLabels">Primary Goal</label>
                             <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
+                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
                                       <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>
-                                        <span class="hideRadioBtn">
+                                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                                            <div class="icon-{{goal.name | lowercase}}"></div>
                                             <span>{{goal.name}}</span>
-                                            <img ng-src="/assets/images/workflow/{{getGoalIconName(goal.name)}}.svg" alt="" width="25"/>
-                                        </span>
+                                        </div>
                                     </label>
                                 </div>
-                                <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select a goal.</label>
+                                <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">Please select a goal.</label>
                             </div>
                         </div>
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
                         <!--==== Row 4 ====-->
-                        <div class="col-md-12 zeroPadding" style="height: 96px;">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">When should the campaign run?</label>
+                        <div class="col-md-12 zeroPadding">
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When would you like your Campaign to run?</label>
                             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                                <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}' style="margin-left: -5px;">
-                                    <div class="col-md-2" style="width: 150px;">
-                                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime"  required ng-change="handleFlightDate(selectedCampaign)"/>
+
+                                    <div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
+                                    <div class="dateContainer">
+                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
+                                        <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
                                     </div>
-                                    <div class="col-md-2" style="width: 150px;">
-                                        <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="selectedCampaign.endTime" name="endTime" required/>
+                                    <div class="dateContainer" style="padding-left: 10px;">
+                                        <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                                        <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="selectedCampaign.endTime"  required/>
                                     </div>
-                                    <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
-                                </div>
+                                        <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
+                                    </div>
                                 <span class="col-md-12 input-group-addon">
                                     <div class="calenderIcon">
-                                        <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                        <span class="icon-calendar"></span>
                                     </div>
-                                    <div class="calenderIcon" style="margin-left: 119px;">
-                                        <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+                                    <div class="calenderIcon">
+                                        <span class="icon-calendar"></span>
                                     </div>
                                 </span>
                             </div>
@@ -160,12 +220,19 @@
 
                         <!--==== Row 5 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 control-label labelQuestTxt">How much do you want to spend?</label>
-                            <div class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-                                <label for="inputBudget" class="col-sm-12 control-label greyTxt miniLabels">Enter Whole Dollar Amount</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
+                            <div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
+                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
                                 <span class="currency">{{ textConstants.DOLLAR }}</span>
-                                <input type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required/>
-                                <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12 control-label greyTxt errorLabel">You must enter whole dollar amounts.</label>
+                                <input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
+                                <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
+                                <label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>
+                            </div>
+                            <div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
+                                <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
+                                <span class="currency">{{ textConstants.DOLLAR }}</span>
+                                <input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
+                                <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
                             </div>
                         </div>
                 </div>
@@ -177,10 +244,50 @@
             <div class="popMess succesfulPopMess" style="display:none;">
                 <span>Campaign has been successfully saved.</span>
             </div>
+            <!-- Modal Start -->
+            <div class="common-popup-container" ng-show="repushCampaignEdit">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Campaign Update</h1>
+                            <span class="close unselectable" aria-hidden="true" ng-click="cancelRepushCampaign()" >x</span>
+                        </div>
+                        <div class="popup-content">
+                            Save changes to campaign set-up and repush to execution <br> platform(s)?
+                        </div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Okay</button>
+                        <button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal End -->
             <!--<div class="popMess errorPopMess">
                 <span>Please correct the {{errorAmount}} error(s) to continue.</span>
             </div>-->
             <!-- Message Pop End -->
+            <div class="common-popup-container" ng-show="campaignArchive">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Campaign Update</h1>
+                            <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
+                        </div>
+                        <div class="popup-content">
+                           {{archiveMessage}}
+                        </div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Okay</button>
+                        <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
-    </div>
+</div>

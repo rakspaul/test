@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('headerController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -40,16 +40,8 @@
             $location.url(url);
         };
 
-        $scope.removeUserData = function() {
-            $cookieStore.remove('cdesk_session');
-            $http.defaults.headers.common.Authorization = '';
-            localStorage.clear();
-            loginModel.deleteData();
-        };
-
         $scope.logout = function() {
-            $scope.removeUserData();
-            $location.url('/login');
+            loginModel.logout();
         };
 
         $scope.setDefaultReport = function(reportTitle){

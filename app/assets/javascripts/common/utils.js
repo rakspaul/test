@@ -9,6 +9,32 @@
       var suf = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
       return suf;
     };
+
+    var convertToEST=function(date,format){
+         if(date){
+             var d1 = date.slice(0,10)
+             var d2 = d1.split('-');
+             var tz = "UTC";
+             var final_date=d2[1] +'/'+d2[2]+'/'+d2[0]+' '+date.slice(11,19)+' '+tz;
+             var parsed_date=Date.parse(final_date);
+
+         }
+         if(date=='') {
+            return moment().format(format);
+         } else if(format=='') {
+            return moment(parsed_date).tz("EST").format("MM/DD/YYYY");
+         } else {
+            return moment(parsed_date).tz("EST").format(format);
+         }
+    };
+    var convertToUTC=function(date,type){
+        var timeSuffix = (type === 'ST' ? '00:00:00' : '23:59:59');
+        var tz = "EST"
+        var final_date=date+' '+timeSuffix+' '+' '+tz;
+        var date = Date.parse(final_date);
+        return moment(date).tz("UTC").format('YYYY-MM-DD HH:mm:ss.SSS');
+    };
+
     var reportTypeOptions = function() {return [{name: "PCAR"},{name: "MCAR"},{name: "Monthly"},{name: "Custom"}]};
     var makeTitle = function (input) {
       var title = '<div id="legend">';
@@ -103,7 +129,7 @@
 
           var left_pos_number = left_pos - vtc_container + vtc_btn_container ;
           elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css( {"left" : left_pos_number , "display" : "block" }) ;
-          
+
           if( elem.closest(".tactics_container").length == 0 ) {
              var top_pos  = elem.closest(".each_campaign_list_container").find(".quartile_details_VTC_btn").offset().top ;
              elem.closest(".each_campaign_list_container").find(".quartile_details_VTC").css("top" , top_pos - 189 ) ;
@@ -126,7 +152,7 @@
     var nameOffset, verOffset, ix;
     var browserInfo = {};
     switch (true) {
-        //// In Opera 15+, the true version is after "OPR/" 
+        //// In Opera 15+, the true version is after "OPR/"
         case (nAgt.indexOf("OPR/") != -1):
             verOffset = nAgt.indexOf("OPR/");
             browserName = "Opera";
@@ -153,13 +179,13 @@
             if (re.exec(nAgt) != null)
                 fullVersion = (RegExp.$1);
             break;
-            // In Chrome, the true version is after "Chrome" 
+            // In Chrome, the true version is after "Chrome"
         case (nAgt.indexOf("Chrome") != -1):
             verOffset = nAgt.indexOf("Chrome");
             browserName = "Chrome";
             fullVersion = nAgt.substring(verOffset + 7);
             break;
-            // In Safari, the true version is after "Safari" or after "Version" 
+            // In Safari, the true version is after "Safari" or after "Version"
         case (nAgt.indexOf("Safari") != -1):
             browserName = "Safari";
             verOffset = nAgt.indexOf("Safari");
@@ -167,7 +193,7 @@
             if ((verOffset = nAgt.indexOf("Version")) != -1)
                 fullVersion = nAgt.substring(verOffset + 8);
             break;
-            // In Firefox, the true version is after "Firefox" 
+            // In Firefox, the true version is after "Firefox"
         case (nAgt.indexOf("Firefox") != -1):
             verOffset = nAgt.indexOf("Firefox");
             browserName = "Firefox";
@@ -197,7 +223,7 @@
         "fullVersion": fullVersion,
         "majorVersion": majorVersion
     };
-}; 
+};
 
 
     return {
@@ -212,7 +238,11 @@
       getParameterByName : getParameterByName,
       detectBrowserInfo : detectBrowserInfo,
       VTCpopupfunc : VTCpopupfunc,
-      reportTypeOptions:reportTypeOptions
+      reportTypeOptions:reportTypeOptions,
+      convertToEST:convertToEST,
+      convertToUTC:convertToUTC
+
+
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -440,27 +470,14 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        element.on('keydown', function (event) {
-          var $input = $(this);
-          var value = $input.val();
-          value = value.replace(/[^0-9]/g, '')
-          $input.val(value);
-          if (event.which == 64 || event.which == 16) {
-            // to allow numbers
+        element.on('keypress keyup blur', function (evt) {
+          var charCode = (evt.which) ? evt.which : event.keyCode
+          if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
-          } else if (event.which >= 48 && event.which <= 57) {
-            // to allow numbers
+          } else if(([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
             return true;
-          } else if (event.which >= 96 && event.which <= 105) {
-            // to allow numpad number
-            return true;
-          } else if ([8, 13, 27, 37, 38, 39, 40].indexOf(event.which) > -1) {
-            // to allow backspace, enter, escape, arrows
-            return true;
-          } else {
-            event.preventDefault();
-            return false;
           }
+          return true;
         });
       }
     };
@@ -470,36 +487,14 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
-        element.on('keydown', function (event) {
-          var $input = $(this);
-          var value = $input.val();
-          value = value.replace(/[^0-9\.]/g, '')
-          var findsDot = new RegExp(/\./g)
-          var containsDot = value.match(findsDot)
-          if (containsDot != null && ([46, 110, 190].indexOf(event.which) > -1)) {
-            event.preventDefault();
-            return false;
-          }
-          $input.val(value);
-          if (event.which == 64 || event.which == 16) {
-            // numbers
-            return false;
-          } if ([8, 13, 27, 37, 38, 39, 40, 110].indexOf(event.which) > -1) {
-            // backspace, enter, escape, arrows
-            return true;
-          } else if (event.which >= 48 && event.which <= 57) {
-            // numbers
-            return true;
-          } else if (event.which >= 96 && event.which <= 105) {
-            // numpad number
-            return true;
-          } else if ([46, 110, 190].indexOf(event.which) > -1) {
-            // dot and numpad dot
-            return true;
-          } else {
-            event.preventDefault();
-            return false;
-          }
+        element.on('keypress keyup blur', function (evt) {
+           var charCode = (evt.which) ? evt.which : event.keyCode;
+           if (charCode > 31 && (charCode != 46 || this.value.indexOf('.') != -1) && (charCode < 48 || charCode > 57)) {
+               return false;
+           } else if(([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
+             return true;
+           }
+           return true;
         });
       }
     };
@@ -547,8 +542,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
 
-  angObj.filter('kpiFormatter', function ($filter,constants) {
+  angObj.filter('kpiFormatter', function ($filter,constants, $locale) {
     return function (input, kpiType, precision) {
+      constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
       if (input && kpiType) {
         if (kpiType.toLowerCase() == 'ctr') {
           return $filter('number')(input, 2) + '%';
@@ -604,6 +600,23 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       }
       input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
       return input;
+    }
+  });
+  angObj.filter('toPascalCase', function (toTitleCaseFilter) {
+    return function (input) {
+      if (input == undefined) {
+        return '';
+      }
+      var splitStr =  input.split(' ');
+      var finalStr = '';
+      for(var i = 0 ; i < splitStr.length;i++){
+        finalStr += toTitleCaseFilter(splitStr[i]);
+        if(i+1 < splitStr.length){
+          finalStr += " ";
+        }
+      }
+
+      return finalStr;
     }
   });
   angObj.filter('toUpperCase', function () {
@@ -719,7 +732,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       if (url === undefined || url == "") {
         return url;
       }
-      if (url === "No Campaign Found" || url == "No Strategy Found") {
+      if (url === "No Campaign Found" || url == "No Ad Group Found") {
         return url;
       }
       if (l === undefined) {
@@ -733,8 +746,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       }
     }
   });
-  angObj.filter('appendDollor', function (constants) {
+  angObj.filter('appendDollor', function (constants, $locale) {
     return function (val, type) {
+       constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         if (val === undefined || val === "" || val === "null") {
             return 'NA';
         }
@@ -746,9 +760,10 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
     // This is used in tooltip for optimization tab
-    angObj.filter('appendDollarWithoutFormat', function (constants) {
+    angObj.filter('appendDollarWithoutFormat', function (constants, $locale) {
        // console.log("append dollar without format");
         return function (val, type) {
+           constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
             if (val === undefined || val === "" || val === "null") {
                 return 'NA';
             }

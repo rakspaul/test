@@ -14,7 +14,7 @@
             },
 
             getStrategyPerfData: function (param) {
-                var params= '?start_date='+ param.strategyStartDate +'&end_date='+ param.strategyEndDate;
+                var params= '?start_date='+ param.strategyStartDate +'&end_date='+ param.strategyEndDate +"&date_filter="+param.timeFilter;
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId;
                 if(param.strategyId) {
                     url += '/strategies/'+ param.strategyId;

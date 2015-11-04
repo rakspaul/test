@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    commonModule.controller('ganttChartController', function($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
+    commonModule.controller('GanttChartController', function($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
 
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;

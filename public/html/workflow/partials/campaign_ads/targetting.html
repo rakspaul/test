@@ -1,29 +1,33 @@
 <div class="col-md-7 zeroPadding">
-    <h2 class="col-md-12 zeroPadding marginBottom">Select Your Target Audience <a>or Choose a saved preset</a></h2>
-    <a href="javascript:void(0);" class="helpLink">Which target audience should I choose for my ad?</a>
+    <h2 class="col-md-12 zeroPadding marginBottom">Set Audience Targeting</h2>
+    <a href="javascript:void(0);" class="helpLink" style="margin-top: 10px; display: inline-block;">Which target audience should I choose for my ad?</a>
 </div>
 <!-- <div class="col-md-12 zeroPadding">
     <a href="" class="addTargetBtn"><img ng-src="/assets/images/workflow/icon_add.svg" alt="" height="16" style="margin: -3px 3px 0 0;"/> Add Targeting</a>
 </div> -->
 
 <!--=== Targeting Type ===-->
-<div class="col-md-12 zeroPadding">
-    <div class="dropdown ddlSetTarget msgPopupHolder" ng-show="addedTargeting">
-        <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
-            <div class="msg">
-                To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
+<div class="col-md-12 zeroPadding dropdown-workflow">
+    <div class="col-md-3 zeroPadding">
+        <div class="dropdown ddlSetTarget msgPopupHolder" ng-show="addedTargeting">
+            <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
+                <div class="msg">
+                    To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
+                </div>
+                <div class="btn-holder">
+                    <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
+                </div>
             </div>
-            <div class="btn-holder">
-                <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
-            </div>
+            <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="pull-left">{{textConstants.WF_ADD_TARGETING_LABEL}}</span>
+                <span class="icon-arrow-down"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">
+                    <a>{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></a>
+                </li>
+            </ul>
         </div>
-        <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="pull-left">{{textConstants.WF_ADD_TARGETING_LABEL}}</span>
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></li>
-        </ul>
     </div>
 </div>
 
@@ -41,7 +45,7 @@
 
         <ul class="nav nav-tabs">
           <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="#" >REGION & CITY</a></li>
-          <li><a ng-href="#" ng-click="showGeographyTabsBox($event, 'dmas')" >DMA</a></li>
+          <li><a ng-href="#" ng-click="showGeographyTabsBox($event, 'dmas')" >METRO</a></li>
           <li><a  id="zipCodeTab" ng-href="#" ng-click="showGeographyTabsBox($event, 'zip', true); enableZipCode = true;">ZIP / POSTAL CODE</a></li>
         </ul>
       
@@ -49,36 +53,38 @@
             <!---- start region and city Container ---------->
             <!--Search Input-->
                 <div class="col-md-12 searchInput radioBtnToggle">
-                    <div class="input-group">
-                      <input type="text" class="form-control disabled searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default disabled" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                      </span>
-                    </div>
-
-                    <div class="col-md-12 zeroPadding">
-                        <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
-                            <ul class="nav nav-tabs">
-                                <li class="tab_region_holder active"><!-- add tooltip_holder when you want the tooltip to be visible -->
-                                    <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);">Region</a>
-                                    <span class="common_tooltip" style="display:none;">Once you include or exclude a city, regions are not available for further inclusion or exclusion.</span>
-                                </li>
-                                <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities();" data-toggle="tab">City</a></li>
-                            </ul>
+                    <div class="col-md-12">
+                        <div class="input-group">
+                          <input type="text" class="form-control disabled searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default disabled" type="button" style="padding: 8px 15px 6px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                          </span>
                         </div>
-                        <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
-                            <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
-                            <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
-                            <div class="btn-group btn-ani-toggle pull-right regions" ng-show="showSwitch" ng-click="switchInclude()">
-                                <button class="btn btn-xs btn-success active"></button>
-                                <div class="togBtnBg"></div>
+    
+                        <div class="col-md-12 zeroPadding">
+                            <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
+                                <ul class="nav nav-tabs">
+                                    <li class="tab_region_holder active"><!-- add tooltip_holder when you want the tooltip to be visible -->
+                                        <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);">Region</a>
+                                        <span class="common_tooltip" style="display:none;">Once you include or exclude a city, regions are not available for further inclusion or exclusion.</span>
+                                    </li>
+                                    <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities();" data-toggle="tab">City</a></li>
+                                </ul>
                             </div>
-                        </div>
-                        <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
-                            <span><img ng-src="/assets/images/workflow/{{dmasIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
-                            <div class="btn-group btn-ani-toggle pull-right dmas" ng-click="switchInclude()">
-                                <button class="btn btn-xs btn-success active"></button>
-                                <div class="togBtnBg"></div>
+                            <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
+                                <div class="btn-group btn-ani-toggle pull-right regions" ng-show="showSwitch" ng-click="switchInclude()">
+                                    <button class="btn btn-xs btn-success active"></button>
+                                    <div class="togBtnBg"></div>
+                                </div>
+                                <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
+                                <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
+                            </div>
+                            <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
+                                <div class="btn-group btn-ani-toggle pull-right dmas" ng-click="switchInclude()">
+                                    <button class="btn btn-xs btn-success active"></button>
+                                    <div class="togBtnBg"></div>
+                                </div>
+                                <span><img ng-src="/assets/images/workflow/{{dmasIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
                             </div>
                         </div>
                     </div>
@@ -91,20 +97,19 @@
                         </div>
 
                         <div ng-show="selectedTab !=='regions'" class="pull-left sort-icon-holder active list_val_col" ng-click="changeSortingOrder(selectedTab)">
-                            <span class="pull-left">{{(selectedTab == 'cities')?'City':'DMA'}}</span>
+                            <span class="pull-left">{{(selectedTab == 'cities')?'City':'Metro'}}</span>
                             <span class="pull-left common-sort-icon ascending" style="display: block;"></span> <!-- add "descending" or "ascending" whenever sorted  and remove display:none -->
                         </div>
-                        <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col " ><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
+                        <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col" style="margin-left: 30px;"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
                             Region
                         </div>
 
                     </div>
                    
                 </div>
-            <div id="regions" class="tab-pane active contentBox">
-                <div class="tab-content">
+            <div id="regions" class="tab-pane active contentBox" >
                     <!-- --- start region block ----------------- -->
-                    <div id="region" class="tab-pane active">
+                    <div id="region" class="tab-pane active" ng-show="selectedTab == 'regions'">
                         <div>
                             <div class="list_holder">
                                 
@@ -122,7 +127,7 @@
                     <!-- --- end region block ----------------- -->
     
                     <!-- --- start city block ----------------- -->
-                    <div id="city" class="tab-pane"  >
+                    <div id="city" class="tab-pane"  ng-show="selectedTab == 'cities'">
                         <div>
                             <div class="list_holder">
                                 
@@ -139,12 +144,11 @@
                         
                     </div>
                     <!----- end city block ------------------->
-                </div>
             </div>
             <!---- end region and city block ---------->
 
             <!---- start DMA container -------->
-            <div id="dmas" class="tab-pane contentBox">
+            <div id="dmas" class="tab-pane contentBox" ng-show="selectedTab == 'dmas'">
                 <!-- <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="col-md-12 zeroPadding">
                         <div class="col-md-4 zeroPadding switchWrap">
@@ -220,7 +224,7 @@
                         </div>
                     </div>
                     <div ng-if="showCitiesOnly" class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}({{city.parent.name}})</div>
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}} ({{city.parent.name}})</div>
                         <div class="pull-right cancel"><img ng-src="/assets/images/workflow/icon_small_remove.svg" alt="" height="9" class="removeItem" ng-click="removeItem(city, 'cities')" /></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
@@ -231,7 +235,7 @@
             <div class="table dmaTable" ng-if="geoTargetingData.selected.dmas.length >0">
                 <div>
                     <div class="clearfix each-row" >
-                        <div class="pull-left">DMAs</div>
+                        <div class="pull-left">Metros</div>
                         <div class="pull-right removeAll">
                             <a ng-href="#" ng-click="showRemoveConfirmBox($event, 'dmas');">Remove All</a>
                         </div>
@@ -273,8 +277,8 @@
 
     </div>
     <div class="col-md-12 zeroPadding">
-        <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right common_primary_btn" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
-        <a ng-href="#" class="pull-right secondary_txt" ng-click="resetTargetingVariables();">Cancel</a>
+        <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-primary" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
+        <a ng-href="#" class="pull-right btn btn-link" ng-click="resetTargetingVariables();">Cancel</a>
     </div>
 </div>
 

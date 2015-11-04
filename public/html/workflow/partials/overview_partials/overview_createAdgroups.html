@@ -13,25 +13,25 @@
         <div class="col-md-6 zeroPadding">
             <label for="dateTitleAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                <div class="form-group col-md-12 dateWrapper zeroPadding" style="margin-left: -5px;" show-errors='{showSuccess: true}'>
-                    <div class="col-md-2" style="width: 150px; padding: 0 5px;" >
+                <div class="form-group col-md-12 dateWrapper zeroPadding" show-errors='{showSuccess: true}'>
+                    <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                        <input type="text" id="adGrpStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-change="handleFlightDate(startTime)" required/>
+                        <input type="text" id="adGrpStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="startTime" ng-change="handleFlightDate(startTime)" required/>
                     </div>
-                    <div class="col-md-2" style="width: 150px; padding: 0 5px;">
+                    <div class="dateContainer" style="padding-left: 10px;">
                         <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                        <input type="text" id="adGrpEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  disabled="disabled" name="endTime" required/>
+                        <input type="text" id="adGrpEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly  disabled="disabled" name="endTime" required/>
                     </div>
                     <label ng-if="createNewAdGrp.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel">Please select the start Date.</label>
                 </div>
-                    <span class="col-md-12 input-group-addon">
-                        <div class="calenderIcon">
-                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
-                        </div>
-                        <div class="calenderIcon" style="margin-left: 119px;">
-                            <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
-                        </div>
-                    </span>
+                <span class="col-md-12 input-group-addon">
+                    <div class="calenderIcon">
+                        <span class="icon-calendar"></span>
+                    </div>
+                    <div class="calenderIcon">
+                        <span class="icon-calendar"></span>
+                    </div>
+                </span>
             </div>
         </div>
         <div class="col-md-6 zeroPadding">
@@ -42,13 +42,3 @@
     </div>
 </form>
 </div>
-<script>
-    $(function() {
-        $('.input-daterange').datepicker({
-            format: "mm/dd/yyyy",
-            orientation: "top auto",
-            autoclose: true,
-            todayHighlight: true
-        });
-    })
-</script>

@@ -1,4 +1,4 @@
-<div class="newInventoryFilters">
+<div class="newInventoryFilters" >
     <div id="inventoryFilters" >
         <!-- Header Starts -->
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
@@ -6,17 +6,24 @@
             <h2 class="col-md-12 zeroPadding marginBottom">Set Inventory Filters</h2>
             <a href="javascript:void(0);" class="helpLink">How do I manage my Inventory Filters?</a>
             <div class="col-md-12 zeroPadding clearfix nav_filters">
-                <creative-drop-down></creative-drop-down>
+                <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
 
-            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0" >
-                <div class="each_filter" style="margin-bottom: 20px;">
-                    <div class="nav_filters_heading">List Name</div>
-                    <select id="inventory" name="inventory" ng-model="adData.inventory" ng-options="inventory.name for inventory in workflowData.inventoryData track by inventory.id"  class="form-control dropdown">
-                        <option value="">Select Domain List</option>
-                    </select>
+            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0">
+                <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-bottom: 10px;">
+                    <div class="dropdown">
+                         <button class="btn btn-default dropdown-toggle" type="button" id="inventory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                              <span class="text">{{adData.inventory ? adData.inventory.name :  'Select Domain List'}}</span>
+                              <span class="icon-arrow-down"></span>
+                         </button>
+                         <ul class="dropdown-menu" name="inventory">
+                              <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id"><a ng-click="dropBoxItemSelected(inventory, 'inventory')">{{inventory.name}}</a></li>
+                         </ul>
+                        <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
+                    </div>
                 </div>
             </div>
+
             <div class="col-md-12 zeroPadding inventory_upload_btn">
                 <div class="clearfix">
                     <button class="pull-left btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
@@ -33,13 +40,14 @@
             <div class="filterList" ng-if="adData.inventory.domainList.length>0">
                 <div class="filterHead" >
                     <h1>Domain List</h1>
-                    <span style="color: #939eaf;">{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
                     <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
-                    <!--<a class="pull-left clearfix" style="margin-top: 20px;">Domain</a>-->
+                    <div class="pull-left sort-icon-holder active list_val_col" ng-click="sort();" style="display:inline-block; margin-top: 20px;">
+                        <span class="pull-left">Domain</span>
+                        <span class="pull-left common-sort-icon descending"></span>
+                    </div>
                 </div>
-
                 <div class="filterBody">
-                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : domain">{{domain}}</span>
+                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : $index:sortDomain ">{{domain}}</span>
                 </div>
             </div>
         </div>
@@ -67,7 +75,7 @@
                         <label class="col-sm-12 control-label greyTxt miniLabels">List Name</label>
                         <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                             <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-model="adData.listName" id="listName" placeholder="Enter List Name" required>
-                            <label class="col-sm-12 control-label greyTxt errorLabel">Please enter list name.</label>
+                            <label class="col-sm-12 control-label errorLabel">Please enter list name.</label>
                         </div>
                     </div>
 

@@ -2,7 +2,7 @@
 
     <div class="clearfix each_campaign_list_container only_strategy_container">
         <div class="strategy_title">
-            Strategy
+            Ad Group
         </div>
         <div class="clearfix">
             <div class="each_campaign_section">
@@ -46,7 +46,7 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <div class="pull-left">{{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Tactics" : "Tactic" }}</div>
+                    <div class="pull-left">{{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Ads" : "Ad" }}</div>
                 </div>
                 <a ><!--  href="/#/performance" -->
                     <div class="campaign_btn reports_btn" ng-click="$parent.$parent.viewReports(campaign, strategy)">
@@ -95,11 +95,13 @@
                     <span>{{textConstants.CTR}}</span>
                 </div>
                 <!-- when action rate is present -->
-                <div class="each_metric_graph_details metric_graph_details_action" ng-if="!strategy.adFormats.videoAds || strategy.vtc_rate === 0">
+                <!-- <div class="each_metric_graph_details metric_graph_details_action" ng-if="!strategy.adFormats.videoAds || strategy.vtc_rate === 0"> -->
+                <div class="each_metric_graph_details metric_graph_details_action" ng-if="strategy.vtc_rate === 0">
                     <span class="detail_val">{{strategy.actionRate | number : 2}}%</span>
                     <span>{{textConstants.ACTION_RATE}}</span>
                 </div>
-                <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.adFormats.videoAds && strategy.vtc_rate > 0">
+                <!-- <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.adFormats.videoAds && strategy.vtc_rate > 0"> -->
+                <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate > 0">
                     <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event,1)" ng-mouseout="VTCpopup($event,0)">
                             <span class="detail_val">{{strategy.vtc_rate | number : 2}}%</span>
                         <span>{{textConstants.VTC}}</span>

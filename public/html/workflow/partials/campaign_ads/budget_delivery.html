@@ -1,72 +1,86 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-6 zeroPadding">
-        <h2 class="col-md-12 zeroPadding marginBottom">Budget & Delivery</h2>
+        <h2 class="col-md-12 zeroPadding marginBottom">Set Budget & Delivery</h2>
         <a class="col-md-12 zeroPadding helpLink" href="javascript:void(0);">Learn more about Ad Settings</a>
     </div>
 </div>
-<div class="row zeroPadding">
+<div class="col-md-12 zeroPadding">
     <div class="col-md-12 adHeader">When would you like your Ad to run?</div>
     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
         <div class="col-md-12 dateWrapper form-group zeroPadding">
-            <div class="col-md-2 zeroPadding" style="width: 150px;">
+            <div class="dateContainer">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                <input type="text" id="startDateInput"  placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" ng-change="handleFlightDate(adData)"/>
+                <input type="text" id="startDateInput"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" ng-change="handleStartFlightDate(adData)"/>
             </div>
-            <div class="col-md-2" style="width: 150px; padding-left: 10px;">
+            <div class="dateContainer" style="padding-left: 10px;">
                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required/>
+                <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
             </div>
             <div ng-show="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" class="col-md-4 customErrorLabel" style="margin-left: 23px;margin-top: 38px !important;">Campaign flight date has passed</div>
         </div>
         <span class="col-md-12 input-group-addon">
-            <div class="calenderIcon" style="margin: 19px 0 0 117px;">
-                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+            <div class="calenderIcon">
+                <span class="icon-calendar"></span>
             </div>
-            <div class="calenderIcon" style="margin: 19px 0 0 128px;">
-                <img src="/assets/images/workflow/calendar.svg" alt="" width="13"/>
+            <div class="calenderIcon">
+                <span class="icon-calendar"></span>
             </div>
         </span>
     </div>
 </div>
 
-<div class="row zeroPadding unitCost symbolAbs">
-    <label class="col-sm-12 control-label greyTxt miniLabels">What is the Unit Cost?</label>
-    <div class="form-group col-md-3 zeroPadding">
-        <span class="paddingTop">$</span>
-        <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
-    </div>
-    <div class="form-group col-md-2">
-        <select ng-model="adData.unitType" ng-options="unitType.name for unitType in workflowData.unitTypes track by unitType.id"  class="form-control" id="unitcostType">
-            <option value="">Select</option>
-        </select>
-        <input type="hidden" name="unitType" value="{{adData.unitType.name}}">
-    </div>
-</div>
+
 
 <div class="row zeroPadding budgetWrap radioBtnToggle">
     <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
-    <label class="col-sm-12 control-label greyTxt miniLabels">Choose how we calculate your budget</label>
+
+    <div class="col-md-12 zeroPadding unitCost symbolAbs">
+        <label class="col-sm-12 control-label greyTxt miniLabels">Unit Cost</label>
+        <div class="form-group col-md-3 zeroPadding">
+            <span>$</span>
+            <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
+        </div>
+
+        <div class="form-group col-md-2" style="padding-right: 0;">
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                 <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">Select Type</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
+                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id">
+                            <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
+                           </li>
+                      </ul>
+                     <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <label class="col-sm-12 control-label greyTxt miniLabels">Budget Calculation</label>
     <div class="btn-group miniToggle" ng-init="adData.budgetType='Impressions'">
-        <label class="btn btn-default active"><span>Impressions</span>
-            <input type="radio" name="budgetType" value="Impressions" checked ng-model="adData.budgetType" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
+        <label class="btn btn-default budget_impressions active"><span>Impressions</span>
+            <input type="radio" name="budgetType" value="Impressions" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event);">
         </label>
-        <label class="btn btn-default"><span>Media Cost</span>
-            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad" ng-click="toggleBtn($event); adData.budgetAmount ='';">
+        <label class="btn btn-default budget_cost"><span>Media Cost</span>
+            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
         </label>
-        <input type="text" name="budgetAmount" whole-number-only="whole-number-only" media-cost-check class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value">
+        <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" media-cost-check class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value">
         <label ng-if="formAdCreate.budgetAmount.$error.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>
     </div>
 </div>
 
 <div class="row zeroPadding unitCostTwo radioBtnToggle">
     <div class="col-md-2 zeroPadding">
-        <label class="col-sm-12 control-label greyTxt miniLabels">Set up Cap</label>
+        <label class="col-sm-12 control-label greyTxt miniLabels">Frequency Cap</label>
         <div class="btn-group miniToggle" ng-init="adData.setCap=false">
-            <label class="btn btn-default" style="width: auto;"><span>Yes</span>
-                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event); adData.setCap = true;">
+            <label class="btn btn-default cap_yes" style="width: auto;"><span>Yes</span>
+                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true;">
             </label>
-            <label class="btn btn-default active" style="width: auto;"><span>No</span>
-                <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event); adData.setCap = false;">
+            <label class="btn btn-default active cap_no" style="width: auto;"><span>No</span>
+                <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
             </label>
         </div>
     </div>
@@ -97,28 +111,44 @@
     <div class="col-md-4 zeroPadding symbolAbs"  ng-show="adData.setCap">
         <label class="col-sm-12 control-label greyTxt miniLabels">Impressions per user</label>
         <div class="form-group col-md-7 zeroPadding">
-            <span class="paddingTop">#</span>
+            <span>#</span>
             <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap">
         </div>
+
         <div class="form-group col-md-5">
-            <select name='frequencyType' class="form-control" ng-disabled="!adData.setCap">
+            <select name='frequencyType' class="form-control" ng-model="capsPeriod" ng-disabled="!adData.setCap">
                 <option value="DAILY">Day</option>
                 <option value="LIFETIME">Lifetime</option>
             </select>
-        </div>
+
+        <!--<div class="form-group col-md-5" style="padding-right: 0;">-->
+        <!--    <div class="col-md-12 zeroPadding dropdown-workflow">-->
+        <!--        <div class="dropdown">-->
+        <!--             <button class="btn btn-default dropdown-toggle" type="button" id="frequencyType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+        <!--                  <span class="text">Day</span>-->
+        <!--                  <span class="icon-arrow-down"></span>-->
+        <!--             </button>-->
+        <!--             <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">-->
+        <!--                  <li><a data-value="DAILY">Day</a></li>-->
+        <!--                  <li><a data-value="LIFETIME">Lifetime</a></li>-->
+        <!--             </ul>-->
+        <!--        </div>-->
+        <!--   </div>    -->
+        <!--</div>-->
+
     </div>
 </div>
 <div class="row zeroPadding unitCostTwo radioBtnToggle">
-    <div class="col-md-6 zeroPadding">
+    <div class="col-md-12 zeroPadding">
         <div class="col-md-12 adHeader">How should your Ad deliver?</div>
         <label class="col-sm-12 control-label greyTxt miniLabels">Pacing</label>
         <div class="btn-group miniToggle">
-            <label class="btn btn-default active" style="width: auto;"><span>Pace Evenly</span>
-                <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
+            <label class="btn btn-default active spend_evenly" style="width: auto;"><span>Pace Evenly</span>
+                <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);">
             </label>
 
-            <label class="btn btn-default" style="width: auto;"><span>Spend as fast as possible</span>
-                <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
+            <label class="btn btn-default spend_asap" style="width: auto;"><span>Spend as fast as possible</span>
+                <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);">
             </label>
         </div>
     </div>
@@ -130,14 +160,3 @@
         <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
     </a>
 </div>
-<script>
-    $(function() {
-        $('.input-daterange').datepicker({
-            format: "mm/dd/yyyy",
-            orientation: "top auto",
-            autoclose: true,
-            todayHighlight: true
-        });
-    })
-</script>
-

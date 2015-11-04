@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce, RoleBasedService) {
+  loginModule.controller('LoginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel,utils,constants,$sce, RoleBasedService) {
    $scope.textConstants = constants;
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;
@@ -26,14 +26,6 @@
                     user.login_name = $scope.username;
                     loginService.setCredentials(user);
                     RoleBasedService.setUserRole(response);//set the type of user here in RoleBasedService.js
-                    if (loginModel.getIsNetworkUser() == true) {
-                        localStorage.setItem('networkUser', true);
-                    } else {
-                        localStorage.setItem('networkUser', false);
-                    }
-                    localStorage.setItem('authorizationKey', user.auth_token);
-
-
                     document.location = '/';
                 } else {
                     $scope.error = response.data.message;
@@ -71,7 +63,7 @@
      var lastCommaIndex = browserNameList.lastIndexOf(",");
      browserNameList = browserNameList.substr(0, lastCommaIndex) + ' or ' + browserNameList.substr(lastCommaIndex + 1);
      return browserNameList + ".";
- } 
+ }
   $scope.checkoutBrowserInfo = function(){
     var browserInfo =  utils.detectBrowserInfo();
     var findData =_.where(supportedBrowser,{name: browserInfo.browserName});
@@ -92,14 +84,14 @@
              $scope.browserMessage = "Best viewed in "+findName + " version " +findVersion +" and above. Please upgrade your browser.";
              $scope.disabledFormFields = false;
           }
-         
+
       }
 
     }else{
       //unsupported Browser
        $scope.showMessage = true;
        $scope.browserMessage = "Unfortunately, we don't yet support your browser. Please use "+$scope.getBrowserNameList(supportedBrowser);
-       $scope.disabledFormFields = true ;    
+       $scope.disabledFormFields = true ;
     }
 }
   $scope.getSigninClass = function(){

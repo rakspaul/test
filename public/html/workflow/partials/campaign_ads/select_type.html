@@ -1,4 +1,4 @@
-<div class="row selectTypeTitle">
+<div class="col-md-12 selectTypeTitle">
     <div class="col-md-12 zeroPadding">
         <h2 class="col-md-12 zeroPadding marginBottom">Select Ad Type</h2>
         <a href="javascript:void(0);" class="helpLink">Learn more about Ad Types</a>
@@ -6,60 +6,60 @@
 </div>
 
 <!--=== AD Name ===-->
-<div class="row zeroPadding adNameBox">
+<div class="col-md-12 zeroPadding adNameBox">
     <div class="col-md-12 adHeader">What is your Ad name?</div>
-    <div class="col-md-12 zeroPadding">
-        <input type="text" class="form-control" name="adName" placeholder="Enter Ad Name. 250 chars max" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
+    <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
+        <input type="text" class="form-control" name="adName" placeholder="Max 250 characters. No symbols or punctuation" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
     </div>
 </div>
 
 <!--=== AD Format ===-->
-<div class="row zeroPadding adFormatChkBox">
+<div class="col-md-12 zeroPadding adFormatChkBox">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES}}</div>
-    <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_FORMAT }}</div>
-    <div class="btn-group goalBtnGroup zeroPadding"
-         ng-repeat="adformat in workflowData.adFormats track by adformat.id">
-        <!--Abi toggle active class for label below on click-->
+    <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_FORMAT }}</div>
+    
+    <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
         <label class="btn btn-primary {{adformat.active ? 'active' : '' }}">
             <input type="radio" name="adFormat" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat"  ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
-            <span class="hideRadioBtn">
+            <div class="hideRadioBtn">
+                <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
                 <span>{{adformat.name}}</span>
-                <img ng-src="/assets/images/workflow/{{getAdFormatIconName(adformat.name)}}.svg" alt="" width="25"/>
-            </span>
-    </label>
+            </div>
+        </label>
     </div>
+    
 </div>
 
 <!--=== AD Goal ===-->
-<div class="row zeroPadding adGoalChkBox">
+<div class="col-md-12 zeroPadding adGoalChkBox">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL}}</div>
-    <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
+    <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_GOAL }}</div>
 
-    <div class="btn-group goalBtnGroup zeroPadding" ng-repeat="goal in workflowData.goals track by goal.id">
+    <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id">
         <!--Abi toggle active class for label below on click-->
         <label class="btn btn-primary {{goal.active ? 'active' : '' }}">
             <input type="radio" name="goal" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal" ng-click="goalSelection(goal.name)" ng-checked="goal.active">
-                <span class="hideRadioBtn">
+                <div class="hideRadioBtn">
+                    <div class="icon-{{getGoalIconName(goal.name)}}"></div>
                     <span>{{goal.name}}</span>
-                    <img ng-src="/assets/images/workflow/{{getGoalIconName(goal.name)}}.svg"
-                         alt="" width="25"/>
-                </span>
+                </div>
         </label>
     </div>
 </div>
 
 <!--=== Screen Type ===-->
-<div class="row zeroPadding screenChkSelection">
+<div class="col-md-12 zeroPadding screenChkSelection">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}
     </div>
-    <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}
+    <div class="col-md-12 greyTxt">{{ textConstants.WF_SCREEN_TYPE }}
     </div>
     <!--Abi can you add the active class to the div element below-->
     <div class="form-group col-md-3 btn_border bigChkBox {{screenType.active ? 'active' : '' }}"
          ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
         <label for="screenTypeChkBox{{screenType.id}}">
             <input type="checkbox" name="screens" ng-model="screenType.active" id="screenTypeChkBox{{screenType.id}}" value="{{adData.screenTypes}}"  class="btn_rad chkScreenFocus" ng-click="screenTypeSelection(screenType);" ng-checked="screenType.active">
-            <img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>
+            <!--<img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>-->
+            <div class="icon-{{screenType.name | lowercase}}"></div>
 
             <div class="btnLabel">{{screenType.name}}</div>
         </label>
@@ -67,8 +67,6 @@
 </div>
 
 <!--=== Next Step Panel ===-->
-<div class="row">
-    <a href="#setting" data-toggle="tab" role="tab" class="leftNavLink nextWrapper">
-        <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
-    </a>
-</div>
+<a href="#setting" data-toggle="tab" role="tab" class="leftNavLink nextWrapper">
+    <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
+</a>

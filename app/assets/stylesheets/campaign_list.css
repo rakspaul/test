@@ -2261,7 +2261,7 @@ input[type="submit"] {
 }
 .campaign_cost_header_holder .second_col .dropdown_ul,
 .cost_header_holder .second_col .dropdown_ul {
-  min-width: 75px;
+  min-width: 70px;
   left: 4px;
 }
 .campaign_cost_header_holder .second_col .dropdown_ul li:hover,
@@ -2493,6 +2493,8 @@ input[type="submit"] {
   z-index: 1001 ;
   top: 47px ;
   max-width: 150px;
+  border: 0;
+  margin-top: 2px;
 }
 .main_navigation_holder .main_nav .profile_menu .dropdown-menu li a {
   padding-left: 6px ;
@@ -2821,7 +2823,7 @@ input[type="submit"] {
   background-position: 65px -46px;
 }
 .nav_filters .lifetime_filter .dropdown-menu {
-  left: -35px;
+  left: 31px ;
   padding: 0 ;
 }
 .nav_filters .lifetime_filter .dropdown-menu .time_dropdown_disabled {
@@ -2838,8 +2840,8 @@ input[type="submit"] {
 }
 .nav_filters .lifetime_filter .cdbMenu_options li:first-child a,
 .nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a {
-  color: #817F7F;
-  font-style: italic;
+  color: #000000;
+  font-style: normal;
 }
 .nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu {
   color: #333 ;
@@ -2867,7 +2869,7 @@ input[type="submit"] {
 }
 .nav_filters .lifetime_filter {
   padding-left: 30px;
-  border-left: solid 1px #DDE6EB;
+  border-left: none;
 }
 .nav_filters .nav_filters_heading {
   color: #939eaf ;
@@ -3081,9 +3083,16 @@ input[type="submit"] {
 }
 .campaignListContainer .campaignListHolder .column {
   float: left;
-  width: 120px;
+  width: 126px;
   margin-left: 20px;
   word-wrap: break-word;
+}
+.campaignListContainer .campaignListHolder .column.icon-settings {
+  margin: 0;
+  text-align: center;
+}
+.campaignListContainer .campaignListHolder .column.icon-settings:hover {
+  color: #0978C9;
 }
 .campaignListContainer .campaignListHolder .data_holder {
   height: 550px ;

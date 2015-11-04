@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         $scope.textConstants = constants;
 
@@ -84,9 +84,17 @@ var angObj = angObj || {};
             $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+             if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+             }
+             else {
+                $scope.selected_filters.time_filter = 'life_time';
+             }
         };
 
        $scope.init();
@@ -177,10 +185,19 @@ var angObj = angObj || {};
             $scope.createDownloadReportUrl();
         });
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
+            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.selected_filters.time_filter = strategy;
+            $scope.createDownloadReportUrl();
+            $scope.callBackStrategyChange();
+        });
+
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
 
 
             /* COMMENTING THIS LINE BELOW AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
@@ -198,7 +215,7 @@ var angObj = angObj || {};
 
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'reportDownload',
                     'report_name' : '',
                     'label' : 'Cost Report',
                     'className' : 'report_cost'
@@ -230,9 +247,6 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-          $scope.callBackKpiDurationChange('duration');
-        });
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
@@ -260,9 +274,9 @@ var angObj = angObj || {};
             return isActive + " " + sortDirection;
         };
         // hot fix for the enabling the active link in the reports dropdown
-        setTimeout(function(){ 
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#cost").addClass("active_tab") ; 
+        setTimeout(function(){
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#cost").addClass("active_tab") ;
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
 

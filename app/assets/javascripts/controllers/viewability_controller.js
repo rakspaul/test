@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('ViewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -48,7 +48,7 @@ var angObj = angObj || {};
         $scope.download_urls = {
             tactics: null,
             domains: null,
-            publishers: null,
+            publishers: null
         };
         $scope.strategyLoading =  true;
 
@@ -61,7 +61,16 @@ var angObj = angObj || {};
             $scope.isStrategyDropDownShow = true;
             $scope.strategyLoading =  true;
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
+            }
+
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
         };
@@ -69,6 +78,7 @@ var angObj = angObj || {};
         $scope.init();
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
+          //  console.log('this is param from controller'+JSON.stringify(param));
             var strategiesList = {};
             $scope.strategyBusy = true;
             var errorHandler = function() {
@@ -90,14 +100,14 @@ var angObj = angObj || {};
                         }
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
                         } else {
                             errorHandler();
                         }
                     }else{ // if data is empty set as data not found
                         errorHandler();
                     }
-                    
+
                 } // Means no strategy data found
                 else {
 
@@ -117,17 +127,17 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'tactics/download',
                     'report_name' : 'by_tactic',
                     'label' : 'Quality by Tactic'
                 },
                 {
-                    'report_url' : urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'domains/download',
                     'report_name' : 'by_domain',
                     'label' : 'Quality by Domain'
                 },
                 {
-                    'report_url' : urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url' : urlPath + 'publishers/download',
                     'report_name' : 'by_publisher',
                     'label' : 'Quality by Publisher'
                 }
@@ -148,8 +158,15 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
             $scope.callBackStrategyChange();
+        });
+
+
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selected_filters.time_filter = strategy;
+            $scope.callBackStrategyChange();
+            $scope.createDownloadReportUrl();
         });
 
         //Function is called from startegylist directive
@@ -171,9 +188,6 @@ var angObj = angObj || {};
             $scope.viewabilityBusy = false ;
         };
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-          $scope.callBackKpiDurationChange('duration');
-        });
 
         $scope.removeActivesForVidSelect = function () {
             $(".icon_text_holder").removeClass( "active" );
@@ -211,9 +225,9 @@ var angObj = angObj || {};
             $scope.sortReverse  = sortorder;
         });
         // hot fix for the enabling the active link in the reports dropdown
-        setTimeout(function(){ 
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#quality").addClass("active_tab") ; 
+        setTimeout(function(){
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#quality").addClass("active_tab") ;
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
 

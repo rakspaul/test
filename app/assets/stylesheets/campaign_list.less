@@ -2119,7 +2119,7 @@ button, i, input[type="submit"] {
     margin-left: 6px;
   }
   .second_col .dropdown_ul {
-    min-width: 75px;
+    min-width: 70px;
     left: 4px;
     li:hover {
       background : #d2dee7 ;
@@ -2360,6 +2360,8 @@ button, i, input[type="submit"] {
         z-index: 1001 ;
         top: 47px ;
         max-width: 150px;
+        border: 0;
+        margin-top: 2px;
         li {
           a{
             padding-left:  6px ;
@@ -2727,7 +2729,7 @@ button, i, input[type="submit"] {
       }
     }
     .dropdown-menu {
-      left: -35px ;
+      left: 31px ;
       padding: 0 ;
       .time_dropdown_disabled {
         height: 55px;
@@ -2744,8 +2746,8 @@ button, i, input[type="submit"] {
     .cdbMenu_options {
       li:first-child , li:nth-child(2) {
         a {
-          color: #817F7F;
-          font-style: italic;
+          color: #000000;
+          font-style: normal;
         }
       }
     }
@@ -2778,7 +2780,7 @@ button, i, input[type="submit"] {
   }
   .lifetime_filter {
     padding-left: 30px;
-    border-left: solid 1px #DDE6EB;
+    border-left: none;
   }
 /*}*/
     
@@ -3009,9 +3011,16 @@ button, i, input[type="submit"] {
     }
     .column {
       float: left;
-      width: 120px;
+      width: 126px;
       margin-left: 20px;
       word-wrap: break-word;
+    }
+    .column.icon-settings {
+      margin: 0;
+      text-align: center;
+    }
+    .column.icon-settings:hover {
+      color: #0978C9;
     }
     .data_holder {
       height: 550px ;

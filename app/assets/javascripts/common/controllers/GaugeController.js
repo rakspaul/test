@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  commonModule.controller('gaugeController', function ($scope, $rootScope, gauge, gaugeModel, constants, $window, loginModel, analytics, $location) {
+  commonModule.controller('GaugeController', function ($scope, $rootScope, gauge, gaugeModel, constants, $window, loginModel, analytics, $location) {
     var campaigns = '/campaigns';
     gauge.setLeftArcClickHandler(function() {
       gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;

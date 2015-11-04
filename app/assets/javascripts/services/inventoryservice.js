@@ -5,7 +5,7 @@
 
         return {
             getStrategyDomainData: function (param) {
-                var params= '?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
+                var params= '/perf?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id;
                 if(param.strategyId) {
                     url += '/strategies/'+ param.strategyId;
@@ -14,11 +14,13 @@
                 return url;
             },
 
-            getAllTacticDomainData: function (param) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/tactics/inventory/' + param.domain + '?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
-                return url ; 
-            }
+        //  getAllTacticDomainData: function (param) {    
+        //  var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/inventory/' + param.domain + '/perf?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
+        //  var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/tactics/inventory/' + param.domain + '?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
+        //  return url ; 
+        // }
 
         };
     });
 }());
+
