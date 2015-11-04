@@ -183,7 +183,7 @@
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
                                                 <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime"  required/>
                                             </div>
-                                            <div class="dateContainer form-group"" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
+                                            <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
                                                 <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
                                                 <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the end Date.</label>
@@ -275,7 +275,7 @@
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}</span>
+                            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}<span class="pull-right glyphicon glyphicon-warning-sign" aria-hidden="true" title="Message"></span></span>
                         </div>
                     </div>
                     <!--End of independant ads block-->

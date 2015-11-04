@@ -616,6 +616,13 @@
   left: 0;
   bottom: 0;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .glyphicon {
+  font-size: 14px;
+  margin-right: 20px;
+  padding-top: 0px;
+  margin-bottom: 0;
+  color: #FF8000;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.incomplete {
   background: #939ead ;
 }
