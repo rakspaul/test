@@ -207,7 +207,6 @@
 
                 dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
                     var lineData=[];
-                    console.log('##',result.data);
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(sKpiType != undefined || sKpiType != null) {
                             if(result.data.data.length > 0) {
