@@ -59,11 +59,32 @@ var angObj = angObj || {};
             });
         }
 
-        //Edit Pop up
-        $scope.editAdvertiserModal = function() {
+        //Add or Edit Pop up for Advertiser
+        $scope.AddOrEditAdvertiserModal = function() {
             var $modalInstance = $modal.open({
-                templateUrl: assets.html_accounts_edit_advertiser,
-                controller:"AccountsEditAdvertiser",
+                templateUrl: assets.html_accounts_add_or_edit_advertiser,
+                controller:"AccountsAddOrEditAdvertiser",
+                scope:$scope,
+                windowClass: 'edit-dialog',
+                resolve: {
+                    // report: function () {
+                    //     return $scope.reportList[index];
+                    // },
+                    // reportIndex: function() {
+                    //     return index;
+                    // },
+                    // reportList: function() {
+                    //     return $scope.reportList;
+                    // }
+                }
+            });
+        }
+
+        //Add or Edit Pop up for Brand
+        $scope.AddOrEditBrandModal = function() {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_accounts_add_or_edit_brand,
+                controller:"AccountsAddOrEditBrand",
                 scope:$scope,
                 windowClass: 'edit-dialog',
                 resolve: {
