@@ -150,6 +150,7 @@
       'controllers-performance_controller':{deps: ['controllers-cost_controller']},
       'controllers-platform_controller' : {deps: ['controllers-cost_controller']},
       'controllers-custom_report_controller' : {deps: ['controllers-cost_controller']},
+      'controllers-accounts_edit_advertiser' : {deps: ['controllers-cost_controller']},
 
       'controllers-custom_report_upload_controller': {deps: ['controllers-custom_report_controller']},
 
@@ -331,6 +332,7 @@
       'controllers-campaign_adcreate_controller':'workflow/controllers/campaign_adcreate_controller',
       'controllers-creative_controller':'workflow/controllers/creative_controller',
       'controllers-creative_list_controller':'workflow/controllers/creative_list_controller',
+      'controllers-accounts_edit_advertiser':'workflow/controllers/AccountsEditAdvertiser',
       'controllers-accounts_controller':'workflow/controllers/accounts_controller',
       'controllers-actions_controller':'controllers/actions_controller',
       'controllers-optimization_controller':'controllers/optimization_controller',
@@ -508,6 +510,7 @@
            'controllers-campaign_adcreate_controller',
            'controllers-creative_controller',
            'controllers-creative_list_controller',
+           'controllers-accounts_edit_advertiser',
            'controllers-accounts_controller',
            'controllers-actions_controller',
            'controllers-optimization_controller',

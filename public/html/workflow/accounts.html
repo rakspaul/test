@@ -12,8 +12,8 @@
 					<div class="advertiser-list" >
 						<div class="each-advertiser" ng-repeat="adv in client.advertisement">
 							<div class="clearfix advertiser-name" >
-								<span class="pull-left" ng-click="show_advertisers_resp_brands($event,client,adv);" ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
-								<span class="pull-left edit" ng-click="show_edit('advertiser')"></span>
+								<span class="pull-left" ng-click="show_advertisers_resp_brands($event,client,adv);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
+								<span class="pull-left edit" ng-click="editAdvertiserModal($index)"></span>
 
 							</div>
 							<div class="advertiser-resp-brands-list">

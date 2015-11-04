@@ -2673,3 +2673,10 @@
   right: 0;
   top: 30px;
 }
+.accounts-popup.popup-holder input[type="text"],
+.accounts-popup.popup-holder textarea {
+  margin: 0 ;
+}
+.accounts-popup.popup-holder .modal-title {
+  margin-bottom: 20px ;
+}
