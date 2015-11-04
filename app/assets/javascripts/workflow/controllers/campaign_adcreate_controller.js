@@ -703,7 +703,9 @@ var angObj = angObj || {};
                             postAdDataObj['adPlatformCustomInputs'].push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
                        })
                      } else {
-                       postAdDataObj['adPlatformCustomInputs'] = $scope.workflowData['adsData'].adPlatformCustomInputs
+                       if($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length >0) {
+                         postAdDataObj['adPlatformCustomInputs'] = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                       }
                      }
                      campaignOverView.saveAds(postAdDataObj)
                  }
