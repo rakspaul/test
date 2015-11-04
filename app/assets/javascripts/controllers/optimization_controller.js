@@ -273,6 +273,7 @@ var angObj = angObj || {};
         };
 
         $scope.actionDataError = function(){
+            $scope.campaignActionList = [];
             $scope.tacticNotFound = true;
             $scope.tacticLoading = false;
         };
