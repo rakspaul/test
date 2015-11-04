@@ -227,6 +227,7 @@
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
+
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
                                 if(angular.lowercase(kpiType) === "delivery") {
@@ -248,6 +249,8 @@
                                         "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tacticsList[obj].totalImpressions
                                     }
                                 };
+                            } else {
+                                tacticsList[obj].chart = false;
                             }
                         }
                     } else {
@@ -382,6 +385,8 @@
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
                                 };
+                            } else {
+                                strategyList[obj].chart = false;
                             }
                         }
                     } else {
