@@ -11,7 +11,7 @@
                 return dataService.fetch(url);
             },
             getAdvertisersBrand: function(clientId,advertiserId) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers';
+                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers/'+advertiserId+'/brands';
                 return dataService.fetch(url);
             }
 
