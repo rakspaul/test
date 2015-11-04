@@ -539,6 +539,8 @@
                                         "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: campaignObject.total_impressions
                                     }
                                 };
+                            } else {
+                                campaignObject.chart = false;
                             }
                         }
                     }else{
