@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('AccountsController', function ($scope, $window, $routeParams, constants, accountsService, $timeout, utils, $location) {
+    angObj.controller('AccountsController', function ($scope, $window, $routeParams, constants, accountsService, $timeout, utils, $location , $modal ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.clientsDetails = [];
@@ -59,6 +59,26 @@ var angObj = angObj || {};
             });
         }
 
+        //Edit Pop up
+        $scope.editAdvertiserModal = function() {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_accounts_edit_advertiser,
+                controller:"AccountsEditAdvertiser",
+                scope:$scope,
+                windowClass: 'edit-dialog',
+                resolve: {
+                    // report: function () {
+                    //     return $scope.reportList[index];
+                    // },
+                    // reportIndex: function() {
+                    //     return index;
+                    // },
+                    // reportList: function() {
+                    //     return $scope.reportList;
+                    // }
+                }
+            });
+        }
 
     });
 
