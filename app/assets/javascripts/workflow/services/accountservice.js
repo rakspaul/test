@@ -25,6 +25,11 @@
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/advertisers',data, {'Content-Type': 'application/json'})
             }
             ,
+
+            createAdvertiserUnderClient : function(clientId,advertiserId) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId,{}, {'Content-Type': 'application/json'})
+            }
+            ,
             updateBrand : function(data,id) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/brands/'+id, data, {'Content-Type': 'application/json'})
             },

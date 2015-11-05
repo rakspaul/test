@@ -22,10 +22,12 @@
             }
             else{
                 var body = constructRequestBody();
-                accountsService.createAdvertiser(body).then(function(){
-                    $scope.close();
-                    $scope.fetchAllAdvertisers($scope.client.id);
-                    $scope.resetBrandAdvertiserAfterEdit();
+                accountsService.createAdvertiser(body).then(function(adv){
+                    accountsService.createAdvertiserUnderClient($scope.client.id,adv.id).then(function() {
+                        $scope.close();
+                        $scope.fetchAllAdvertisers($scope.client.id);
+                        $scope.resetBrandAdvertiserAfterEdit();
+                    });
                 });
             }
         }
