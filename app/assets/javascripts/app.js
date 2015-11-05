@@ -151,7 +151,7 @@ var angObj = '';
                     }
                 }
             })
-            .when('/accounts', {
+            .when('/admin/accounts', {
                 templateUrl: assets.html_accounts,
                 controller: 'AccountsController'
             })
