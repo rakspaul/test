@@ -2513,6 +2513,14 @@
   float: left;
   margin: 26px 0 0 0;
 }
+.adCreateMaster #targetting .targetingSlide .segmentStepOne {
+  width: 100%;
+  float: left;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .segmentHeader {
+  width: 100%;
+  float: left;
+}
 .adCreateMaster #targetting .targetingSlide .segmentHolder {
   width: 100%;
   float: left;
