@@ -135,6 +135,7 @@ var angObj = '';
                 title: 'Reports - Performance',
                 controller: 'PerformanceController'
             })
+            
             .when('/campaign/create', {
                 templateUrl: assets.html_campaign_create,
                 title: 'Create - Campaign',
@@ -149,6 +150,10 @@ var angObj = '';
                         }
                     }
                 }
+            })
+            .when('/admin/accounts', {
+                templateUrl: assets.html_accounts,
+                controller: 'AccountsController'
             })
             .when('/campaign/:campaignId/edit', {
                 templateUrl: assets.html_campaign_create,
