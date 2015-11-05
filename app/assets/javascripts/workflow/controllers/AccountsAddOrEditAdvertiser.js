@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('AccountsAddOrEditAdvertiser', function($scope, $modalInstance,accountsService) {
+    angObj.controller('AccountsAddOrEditAdvertiser', function($scope, $modalInstance,accountsService) {
         $scope.close=function(){
             $scope.advertiserName = '';
             accountsService.setToBeEditedAdvertiser(null);
@@ -20,15 +20,29 @@
 
                 });
             }
+            else{
+                var body = constructRequestBody();
+                accountsService.createAdvertiser(body).then(function(){
+                    $scope.close();
+                    $scope.fetchAllAdvertisers($scope.client.id);
+                    $scope.resetBrandAdvertiserAfterEdit();
+                });
+            }
         }
 
 
 
         function constructRequestBody(obj){
-            var respBody = {}
-            respBody.name = $scope.advertiserName;
-            respBody.id = obj.id;
-            respBody.updatedAt = obj.updatedAt;
+            var respBody = {};
+            if($scope.mode == 'edit' && obj){
+                respBody.name = $scope.advertiserName;
+                respBody.id = obj.id;
+                respBody.updatedAt = obj.updatedAt;
+            }
+            else{
+                respBody.name = $scope.advertiserName;
+            }
+
             return respBody;
         }
 
