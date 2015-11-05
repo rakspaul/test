@@ -13,12 +13,12 @@
 						<div class="each-advertiser" ng-repeat="adv in client.advertisement" ng-if="client.advertisement.length >  0">
 							<div class="clearfix advertiser-name" >
 								<span class="pull-left" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
-								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client.id)"></span>
+								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
 							</div>
 							<div class="advertiser-resp-brands-list">
 								<div class="clearfix each-brand-name"  ng-repeat="brand in adv.brand" ng-if="adv.brand.length > 0">
 									<span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>
-									<span class="pull-left edit" ng-click="AddOrEditBrandModal()"></span>
+									<span class="pull-left edit" ng-click="AddOrEditBrandModal(adv,'edit',client,brand)"></span>
 								</div>
 								<div ng-if="adv.brand == undefined" class="common-load-more"></div>
                                 <div class="clearfix each-brand-name" ng-if="adv.brand.length == 0">

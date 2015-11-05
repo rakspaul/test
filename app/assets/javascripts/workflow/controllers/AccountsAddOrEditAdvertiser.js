@@ -15,11 +15,14 @@
                 var body = constructRequestBody(advertiserObj);
                 accountsService.updateAdvertiser(body,body.id).then(function(){
                     $scope.close();
-                    $scope.fetchAllAdvertisers($scope.client);
-                    $scope.client = '';
+                    $scope.fetchAllAdvertisers($scope.client.id);
+                    $scope.resetBrandAdvertiserAfterEdit();
+
                 });
             }
         }
+
+
 
         function constructRequestBody(obj){
             var respBody = {}

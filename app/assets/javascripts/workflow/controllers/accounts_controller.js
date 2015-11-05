@@ -8,6 +8,7 @@ var angObj = angObj || {};
         $scope.advertiserName = '';
         $scope.mode = 'create';
         $scope.client = '';
+        $scope.brand = '';
 
 
 
@@ -18,10 +19,10 @@ var angObj = angObj || {};
             elem.closest(".each-account-details").find(".particular-account-box").toggleClass("open");
             $scope.fetchAllAdvertisers(clientId);
         };
-        $scope.show_advertisers_resp_brands = function(event,client,advertiser) {
+        $scope.show_advertisers_resp_brands = function(event,client,brand) {
             var elem = $(event.target);
             elem.closest(".each-advertiser").find(".advertiser-resp-brands-list").toggle() ;
-            $scope.fetchBrands(client,advertiser);
+            $scope.fetchBrands(client,brand);
         };
         $scope.show_edit = function(type) {
             $(".edit-container").hide();
@@ -91,8 +92,19 @@ var angObj = angObj || {};
             });
         }
 
+
+
+
         //Add or Edit Pop up for Brand
-        $scope.AddOrEditBrandModal = function() {
+        $scope.AddOrEditBrandModal = function(advObj,mode,client,brand) {
+            $scope.mode = mode;
+            $scope.client = client;
+            $scope.brandName = brand.name;
+            $scope.advertiser = advObj;
+            if(mode == 'edit'){
+                accountsService.setToBeEditedBrand(brand);
+                $scope.brandName = brand.name;
+            }
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_brand,
                 controller:"AccountsAddOrEditBrand",
@@ -110,6 +122,16 @@ var angObj = angObj || {};
                     // }
                 }
             });
+        }
+
+        $scope.resetBrandAdvertiserAfterEdit = function(){
+            $scope.mode = 'create';
+            $scope.client = '';
+            $scope.brand = '';
+            $scope.advertiser = '';
+            accountsService.setToBeEditedAdvertiser(null);
+            accountsService.setToBeEditedBrand(null);
+
         }
 
     });
