@@ -635,6 +635,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.inflight {
   background: #70d43d ;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.in_progress {
+  background: #81F7D8 ;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.failed {
+  background: #FF8000 ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelPush {
   background: #5cb85c;
 }
