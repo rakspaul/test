@@ -18,7 +18,7 @@
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
                         <div class="accountTitleTag" ng-if="workflowData.campaignData.clientName">
-                            <span class="tagTitle">Client</span>
+                            <span class="tagTitle">Account</span>
                             <span>{{workflowData.campaignData.clientName}}</span>
                             <span class="tagTitle">Advertiser</span>
                             <span>{{workflowData.campaignData.advertiserName}}</span>
@@ -275,7 +275,7 @@
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}<span class="pull-right glyphicon glyphicon-warning-sign" aria-hidden="true" title="Message"></span></span>
+                            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}<span ng-if="adsData.pushStatus=='FAILED'" class="pull-right glyphicon glyphicon-warning-sign" aria-hidden="true" title="Message"></span></span>
                         </div>
                     </div>
                     <!--End of independant ads block-->

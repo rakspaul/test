@@ -93,6 +93,9 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         for(var i in responseData){
+                            if(responseData[i].state==="IN_PROGRESS"){
+                                window.setTimeout(function(){ campaignOverView.getAdsForCampaign($routeParams.campaignId); }, 30000);
+                            }
                             if(responseData[i].state==="IN_FLIGHT")
                             responseData[i].state="IN FLIGHT";
                         }
@@ -134,6 +137,9 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                     var responseData = result.data.data;
                         for(var i in responseData){
+                            if(responseData[i].state==="IN_PROGRESS"){
+                               window.setTimeout(function(){ campaignOverView.getAdsForCampaign($routeParams.campaignId); }, 30000);
+                            }
                             if(responseData[i].state==="IN_FLIGHT")
                             responseData[i].state="IN FLIGHT";
                         }
