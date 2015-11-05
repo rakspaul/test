@@ -67,6 +67,12 @@
             deleteAd : function(campaignId,adId) {
                 return dataService.delete(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId+'/ads/'+adId, {'Content-Type': 'application/json'})
             },
+            pauseAd : function(data){
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.id+'/pause', data, {'Content-Type': 'application/json'})
+            },
+            resumeAd : function(data){
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.id+'/resume', data, {'Content-Type': 'application/json'})
+            },
             deleteCampaign : function(campaignId) {
                 return dataService.delete(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId, {'Content-Type': 'application/json'})
             },

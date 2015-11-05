@@ -113,6 +113,46 @@ var angObj = angObj || {};
 
         }
 
+        $scope.pauseAd=function(){//console.log($scope.getAd_result);
+             var errorAchiveAdHandler =  function() {
+               $scope.adArchive = false;
+               $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_PAUSE_FAILURE ;
+               $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+               $scope.partialSaveAlertMessage.isMsg = 0;
+            }
+
+            workflowService.pauseAd($scope.getAd_result).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.adArchive=false;
+                    var url = '/campaign/' + $scope.campaignId + '/overview';
+                    $location.url(url);
+                    localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
+                }else{
+                    errorAchiveAdHandler();
+                }
+            }, errorAchiveAdHandler);
+
+        }
+        $scope.resumeAd=function(){//console.log($scope.getAd_result);
+            var errorAchiveAdHandler =  function() {
+               $scope.adArchive = false;
+               $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_RESUME_FAILURE ;
+               $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
+               $scope.partialSaveAlertMessage.isMsg = 0;
+            }
+
+            workflowService.resumeAd($scope.getAd_result).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.adArchive=false;
+                    var url = '/campaign/' + $scope.campaignId + '/overview';
+                    $location.url(url);
+                    localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
+                }else{
+                    errorAchiveAdHandler();
+                }
+            }, errorAchiveAdHandler);
+        }
+
         $scope.numbersOnly = function(scopeVar){
             if(scopeVar === 'budgetAmount')
                 $scope.adData.budgetAmount = $scope.adData.budgetAmount.replace($scope.numberOnlyPattern, '');
@@ -317,10 +357,12 @@ var angObj = angObj || {};
                         if($scope.mode === 'edit'){
                             if(!$scope.adGroupId) {
                                 workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
+                                $scope.getAd_result=result.data.data;
                                     processEditMode(result);
                                 })
                             }  else {
                                 workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
+                                $scope.getAd_result=result.data.data;
                                     processEditMode(result);
                                 })
                             }
