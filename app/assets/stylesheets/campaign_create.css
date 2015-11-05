@@ -2486,6 +2486,8 @@
   position: relative;
   left: 50%;
   margin-left: -225px;
+  margin-bottom: 20px;
+  margin-top: 30px;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a {
   border-width: 0;
