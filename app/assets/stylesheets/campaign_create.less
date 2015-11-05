@@ -2678,7 +2678,6 @@
     font-family: 'Glyphicons Halflings' !important ;
 }
 
-
 /*Accounts Page*/
 .accounts-page {
   position: relative;
@@ -2718,17 +2717,23 @@
     padding: 10px 20px;
     min-width: 300px;
     border-radius: 5px;
+    .account-name {
+      position: relative;
+    }
   }
   .particular-account-box.open {
     border: solid 1px #ccc;
     .account-name {
-      position: relative;
       background-image :  url("/assets/images/cdesk/common_down_arrow.png")  ;
     }
-    .advertiser-list , .advertiser-resp-brands-list {
+  }
+  .particular-account-box.data-loaded {
+    .advertiser-resp-brands-list {
         border-left: dashed 1px #ccc;
         margin-left: 5px;
-        .each-advertiser {
+
+    }
+    .each-advertiser {
           position: relative;
           &:after {
             content: "";
@@ -2743,8 +2748,12 @@
         .each-advertiser:last-child {
           &:after {
             background: #fff;
+            height: 100%;
           }
-        }
+    }
+    .advertiser-list {
+      border-left: dashed 1px #ccc;
+      margin-left: 5px;
     }
     .advertiser-resp-brands-list {
       margin: 0 0 0 10px;
@@ -2768,7 +2777,7 @@
       }
     }
   }
-  .particular-account-box.open:not(.no-data-open) {
+  .particular-account-box.open.data-loaded:not(.no-data-open) {
     .account-name {
       &:after {
         content: "";
@@ -2798,6 +2807,11 @@
     margin-bottom: 20px ;
    }
 }
+
+
+
+
+
 
 
 

@@ -152,6 +152,7 @@
       'controllers-custom_report_controller' : {deps: ['controllers-cost_controller']},
       'controllers-accounts_add_or_edit_advertiser' : {deps: ['controllers-cost_controller']},
       'controllers-accounts_add_or_edit_brand' : {deps: ['controllers-cost_controller']},
+      'controllers-accounts_add_or_edit' : {deps: ['controllers-cost_controller']},
 
       'controllers-custom_report_upload_controller': {deps: ['controllers-custom_report_controller']},
 
@@ -335,6 +336,7 @@
       'controllers-creative_list_controller':'workflow/controllers/creative_list_controller',
       'controllers-accounts_add_or_edit_advertiser':'workflow/controllers/AccountsAddOrEditAdvertiser',
       'controllers-accounts_add_or_edit_brand':'workflow/controllers/AccountsAddOrEditBrand',
+      'controllers-accounts_add_or_edit':'workflow/controllers/AccountsAddOrEdit',
       'controllers-accounts_controller':'workflow/controllers/accounts_controller',
       'controllers-actions_controller':'controllers/actions_controller',
       'controllers-optimization_controller':'controllers/optimization_controller',
@@ -514,6 +516,7 @@
            'controllers-creative_list_controller',
            'controllers-accounts_add_or_edit_advertiser',
            'controllers-accounts_add_or_edit_brand',
+           'controllers-accounts_add_or_edit',
            'controllers-accounts_controller',
            'controllers-actions_controller',
            'controllers-optimization_controller',

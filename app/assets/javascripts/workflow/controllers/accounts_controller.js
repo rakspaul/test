@@ -124,6 +124,7 @@ var angObj = angObj || {};
             });
         }
 
+
         $scope.resetBrandAdvertiserAfterEdit = function(){
             $scope.mode = 'create';
             $scope.client = '';
@@ -133,6 +134,30 @@ var angObj = angObj || {};
             accountsService.setToBeEditedBrand(null);
 
         }
+
+
+        //Add or Edit Pop up for Account
+        $scope.AddOrEditAccountModal = function() {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_accounts_add_or_edit,
+                controller:"AccountsAddOrEdit",
+                scope:$scope,
+                windowClass: 'edit-dialog',
+                resolve: {
+                    // report: function () {
+                    //     return $scope.reportList[index];
+                    // },
+                    // reportIndex: function() {
+                    //     return index;
+                    // },
+                    // reportList: function() {
+                    //     return $scope.reportList;
+                    // }
+                }
+            });
+        }
+
+
 
     });
 
