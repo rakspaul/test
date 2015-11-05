@@ -676,9 +676,13 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardTopLayer {
   min-height: 96px;
+  float: left;
+  width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .cardMidLayer {
   min-height: 52px;
+  float: left;
+  width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
   background-color: #D7E9F7;
@@ -936,6 +940,7 @@
   float: left;
   width: 77%;
   height: 100%;
+  border-left: 1px solid #ccd2da;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper {
   width: 100%;
@@ -2486,8 +2491,8 @@
   position: relative;
   left: 50%;
   margin-left: -225px;
-  margin-bottom: 20px;
-  margin-top: 30px;
+  margin-bottom: 0px;
+  margin-top: 5px;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a {
   border-width: 0;
