@@ -14,6 +14,7 @@
 							<div class="clearfix advertiser-name" >
 								<span class="pull-left" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
 								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
+								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'create',client)"></span>
 							</div>
 							<div class="advertiser-resp-brands-list">
 								<div class="clearfix each-brand-name"  ng-repeat="brand in adv.brand" ng-if="adv.brand.length > 0">

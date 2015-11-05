@@ -21,6 +21,10 @@
             updateAdvertiser : function(data,id) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/advertisers/'+id, data, {'Content-Type': 'application/json'})
             },
+            createAdvertiser : function(data) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/advertisers',data, {'Content-Type': 'application/json'})
+            }
+            ,
             updateBrand : function(data,id) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/brands/'+id, data, {'Content-Type': 'application/json'})
             },
