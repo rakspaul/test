@@ -5,14 +5,18 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.clientsDetails = [];
-        
-        
+        $scope.advertiserName = '';
+        $scope.mode = 'create';
+        $scope.client = '';
+
+
+
         $scope.show_advertisers = function(event,clientId) {
             //$scope.fetchAllAdvertisers(clientId);
             var elem = $(event.target);
             elem.closest(".each-account-details").find(".advertiser-list").toggle() ;
-            $scope.fetchAllAdvertisers(clientId)
             elem.closest(".each-account-details").find(".particular-account-box").toggleClass("open");
+            $scope.fetchAllAdvertisers(clientId);
         };
         $scope.show_advertisers_resp_brands = function(event,client,advertiser) {
             var elem = $(event.target);
@@ -40,13 +44,12 @@ var angObj = angObj || {};
                accountsService.getClientsAdvertisers(clientId).then(function(res){
                    var index = _.findIndex($scope.clientsDetails, function(item) {
                        return item.id == clientId});
-
+                   $scope.clientsDetails[index]['advertisement'] = [];
                     $scope.clientsDetails[index]['advertisement'] = res.data.data;
                });
         }
 
         $scope.fetchBrands = function(clientId,advertiserId){
-
             accountsService.getAdvertisersBrand(clientId,advertiserId).then(function(res){
                 var clientIndex = _.findIndex($scope.clientsDetails, function(item) {
                     return item.id == clientId});
@@ -60,13 +63,21 @@ var angObj = angObj || {};
         }
 
         //Add or Edit Pop up for Advertiser
-        $scope.AddOrEditAdvertiserModal = function() {
+        $scope.AddOrEditAdvertiserModal = function(advObj,mode,client) {
+            $scope.mode = mode;
+            $scope.client = client;
+            if(mode == 'edit'){
+                accountsService.setToBeEditedAdvertiser(advObj);
+                $scope.advertiserName = advObj.name;
+            }
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_advertiser,
                 controller:"AccountsAddOrEditAdvertiser",
                 scope:$scope,
                 windowClass: 'edit-dialog',
                 resolve: {
+                    //accountsService.setToBeEditedAdvertiser(advObj);
+
                     // report: function () {
                     //     return $scope.reportList[index];
                     // },
