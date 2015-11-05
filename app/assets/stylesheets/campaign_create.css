@@ -2028,8 +2028,8 @@
   margin-top: 20px;
 }
 .adCreateMaster #targetting .ddlSetTarget .msgPopup {
-  left: -40px;
-  top: 46px;
+  left: 300px;
+  top: -150px;
 }
 .adCreateMaster #targetting .ddlSetTarget .msgPopup:after,
 .adCreateMaster #targetting .ddlSetTarget .msgPopup:before {
@@ -2040,6 +2040,7 @@
   border-left: solid 7px transparent;
   border-right: solid 7px transparent;
   border-top: 0;
+  display: none;
 }
 .adCreateMaster #targetting .ddlSetTarget .msgPopup:before {
   bottom: 170px;
@@ -2457,6 +2458,108 @@
 }
 .adCreateMaster #targetting .targettingSelected:hover {
   border: 1px solid #0978c9;
+}
+.adCreateMaster #targetting .targetingSlide {
+  background: #fff;
+  left: 100%;
+  width: 930px;
+  height: auto;
+  min-height: 600px;
+  top: 52px;
+  display: none;
+  position: absolute;
+  z-index: 10;
+  padding: 0px 0px 30px 30px;
+  opacity: 0;
+}
+.adCreateMaster #targetting .targetingSlide .closeBtnCreative {
+  float: left;
+  clear: both;
+}
+.adCreateMaster #targetting .targetingSlide .closeBtnCreative a {
+  float: left;
+  margin: 2px 0 30px 10px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs {
+  border-width: 0;
+  float: left;
+  position: relative;
+  left: 50%;
+  margin-left: -225px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li a {
+  border-width: 0;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li a span {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: #0978c9;
+  color: #fff;
+  display: inline-block;
+  padding: 7px 12px;
+  margin-right: 7px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs .splitterDash {
+  width: 100px;
+  border: 1px solid #bfc9d7;
+  float: left;
+  margin: 26px 0 0 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder {
+  width: 100%;
+  float: left;
+  margin: 10px 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow {
+  float: left;
+  width: 100%;
+  border-left: 1px solid #bfc9d7;
+  border-right: 1px solid #bfc9d7;
+  background: rgba(237, 242, 248, 0.5);
+  padding: 5px 15px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-1 {
+  padding: 0 10px 0 0;
+  width: 11%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-1.text-center {
+  width: 3%;
+  padding: 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-1.text-center .icon-clear {
+  display: inline-block;
+  margin: 10px 5px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 {
+  padding: 0 10px 0 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow.andRow {
+  border-top: 1px solid #bfc9d7;
+  padding-top: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow.prevAndRow {
+  padding-bottom: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-top: 1px solid #bfc9d7;
+  padding-top: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom: 1px solid #bfc9d7;
+  padding-bottom: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentDrop {
+  border: 2px dashed #bfc9d7 !important;
+  margin-bottom: 30px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentDrop span {
+  color: #939eae;
+  font-size: 14px;
 }
 .adCreateMaster #targetting .tab-pane {
   padding: 0 10px;

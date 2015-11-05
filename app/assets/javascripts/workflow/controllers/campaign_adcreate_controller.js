@@ -1903,6 +1903,12 @@ var angObj = angObj || {};
             }
         }
 
+        // Audience Targeting Trigger
+        $scope.selectAudTarget = function(){
+            $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
+        }
+        
+        // Geo Targeting Trigger
         $scope.selectGeoTarget = function(geoTargetName) {
             if(geoTargetName.toLowerCase() === 'geography' && !$scope.adData.geoTargetName) {
                 $scope.adData['geoTargetName'] = geoTargetName;

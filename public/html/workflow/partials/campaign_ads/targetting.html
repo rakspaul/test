@@ -31,6 +31,23 @@
     </div>
 </div>
 
+<div class="col-md-12 zeroPadding">
+    <div class="col-md-6 cardSelectHolder">
+        <p class="icon-audience"> Audience Segments</p>
+        <span>Description copy goes here<br/>Description copy</span>
+
+        <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
+        <input type="button" name="platform" value="Select" class="btn btn-default" ng-click="selectAudTarget()">
+    </div>
+    
+    <div class="col-md-6 cardSelectHolder">
+        <p class="icon-location"> Geography</p>
+        <span>Description copy goes here<br/>Description copy</span>
+
+        <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
+        <input type="button" name="platform" value="Select" class="btn btn-default">
+    </div>
+</div>
 
 <!--=== Targeting Form ===-->
 <div class="col-md-12 zeroPadding targettingFormWrap" ng-if="adData.geoTargetName">
@@ -345,6 +362,9 @@
         </div>
     </div>    
 </div>
+
+<!--=== Audience Targeting ===-->
+<div class="col-md-12 targetingSlide" id="audienceTargeting" ng-include="'/assets/html/workflow/partials/targetings/audience_targeting.html'"></div>
 
 <!--=== Next Step Panel ===-->
 <a href="#inventoryView" data-toggle="tab" class="nextWrapper leftNavLink">
