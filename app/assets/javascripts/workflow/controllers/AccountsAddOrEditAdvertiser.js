@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('AccountsAddOrEditAdvertiser', function($scope, $modalInstance,accountsService) {
+    angObj.controller('AccountsAddOrEditAdvertiser', function($scope, $modalInstance,accountsService) {
         $scope.close=function(){
             $scope.advertiserName = '';
             accountsService.setToBeEditedAdvertiser(null);

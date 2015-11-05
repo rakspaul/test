@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('AccountsAddOrEditBrand', function($scope, $modalInstance,accountsService) {
+    angObj.controller('AccountsAddOrEditBrand', function($scope, $modalInstance,accountsService) {
 
         $scope.close=function(){
             $modalInstance.dismiss();
