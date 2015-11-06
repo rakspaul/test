@@ -48,8 +48,8 @@
                                                             <span class="icon-more-options"></span>
                                                          </button>
                                                          <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                                            <li ng-click="pauseAd()"><a>Pause</a></li>
-                                                            <li ng-click="resumeAd()"><a>Resume</a></li>
+                                                            <li class="{{disable_pause}}" ng-click="pauseAd()"><a>Pause</a></li>
+                                                            <li class="{{disable_resume}}" ng-click="resumeAd()"><a>Resume</a></li>
                                                             <li class="disabled"><a>Move to</a></li>
                                                             <li class="disabled"><a>Copy to</a></li>
                                                             <li><a id="archiveAdbtn" ng-click="cancelAdArchive()">Archive</a></li>

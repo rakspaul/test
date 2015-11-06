@@ -121,8 +121,12 @@ var angObj = angObj || {};
                $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
                $scope.partialSaveAlertMessage.isMsg = 0;
             }
-
-            workflowService.pauseAd($scope.getAd_result).then(function (result) {
+            var pauseAdDataObj = {};
+            pauseAdDataObj.name = $scope.getAd_result.name;
+            pauseAdDataObj.id = $scope.getAd_result.id;
+            pauseAdDataObj.campaignId = $scope.getAd_result.campaignId;
+            pauseAdDataObj.updatedAt = $scope.getAd_result.updatedAt;
+            workflowService.pauseAd(pauseAdDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive=false;
                     var url = '/campaign/' + $scope.campaignId + '/overview';
@@ -141,8 +145,12 @@ var angObj = angObj || {};
                $scope.partialSaveAlertMessage.isErrorMsg = 1 ;
                $scope.partialSaveAlertMessage.isMsg = 0;
             }
-
-            workflowService.resumeAd($scope.getAd_result).then(function (result) {
+            var resumeAdDataObj={};
+            resumeAdDataObj.name = $scope.getAd_result.name;
+            resumeAdDataObj.id = $scope.getAd_result.id;
+            resumeAdDataObj.campaignId = $scope.getAd_result.campaignId;
+            resumeAdDataObj.updatedAt = $scope.getAd_result.updatedAt;
+            workflowService.resumeAd(resumeAdDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive=false;
                     var url = '/campaign/' + $scope.campaignId + '/overview';
@@ -346,7 +354,14 @@ var angObj = angObj || {};
             }
         }
 
-
+        function disablePauseEnableResume(getAd_resultData){
+            $scope.disable_pause='';//disable pause button
+            $scope.disable_resume='disabled';//disable resume button
+            if(getAd_resultData.state=='PAUSED'){
+                $scope.disable_pause="disabled";
+                $scope.disable_resume='';
+            }
+        }
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -359,11 +374,13 @@ var angObj = angObj || {};
                             if(!$scope.adGroupId) {
                                 workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
                                 $scope.getAd_result=result.data.data;
+                                    disablePauseEnableResume($scope.getAd_result);
                                     processEditMode(result);
                                 })
                             }  else {
                                 workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
                                 $scope.getAd_result=result.data.data;
+                                disablePauseEnableResume($scope.getAd_result);
                                     processEditMode(result);
                                 })
                             }
