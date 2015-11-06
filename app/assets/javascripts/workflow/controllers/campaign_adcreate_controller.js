@@ -354,7 +354,14 @@ var angObj = angObj || {};
             }
         }
 
-
+        function disablePauseEnableResume(getAd_resultData){
+            $scope.disable_pause='';//disable pause button
+            $scope.disable_resume='disabled';//disable resume button
+            if(getAd_resultData.state=='PAUSED'){
+                $scope.disable_pause="disabled";
+                $scope.disable_resume='';
+            }
+        }
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -367,23 +374,13 @@ var angObj = angObj || {};
                             if(!$scope.adGroupId) {
                                 workflowService.getAd({campaignId: $scope.campaignId, adId: $scope.adId}).then(function (result) {
                                 $scope.getAd_result=result.data.data;
-                                $scope.disable_pause='';//disable pause button
-                                $scope.disable_resume='disabled';//disable resume button
-                                if($scope.getAd_result.state=='PAUSED'){
-                                    $scope.disable_pause="disabled";
-                                    $scope.disable_resume='';
-                                }
+                                    disablePauseEnableResume($scope.getAd_result);
                                     processEditMode(result);
                                 })
                             }  else {
                                 workflowService.getDetailedAdsInAdGroup( $scope.campaignId, $scope.adGroupId ,$scope.adId).then(function (result) {
                                 $scope.getAd_result=result.data.data;
-                                $scope.disable_pause='';//disable pause button
-                                $scope.disable_resume='disabled';//disable resume button
-                                if($scope.getAd_result.state=='PAUSED'){
-                                    $scope.disable_pause="disabled";
-                                    $scope.disable_resume='';
-                                }
+                                disablePauseEnableResume($scope.getAd_result);
                                     processEditMode(result);
                                 })
                             }
