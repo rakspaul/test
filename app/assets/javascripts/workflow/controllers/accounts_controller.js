@@ -10,6 +10,9 @@ var angObj = angObj || {};
         $scope.client = '';
         $scope.brand = '';
         $scope.allAdvertiser = [];
+        $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
+        $scope.dropdownCss = {display:'block','max-height': '100px',overflow: 'scroll',top: '35px',
+            left: '100px'};
 
 
         $scope.show_advertisers = function(event,clientId) {
@@ -74,7 +77,6 @@ var angObj = angObj || {};
             else{
                 accountsService.getAllAdvertisers().then(function(result){
                     $scope.allAdvertiser = result.data.data;
-                    console.log($scope.allAdvertiser)
                 })
             }
             var $modalInstance = $modal.open({
@@ -137,6 +139,7 @@ var angObj = angObj || {};
             $scope.brand = '';
             $scope.advertiser = '';
             $scope.client = '';
+            $scope.selectedAdvertiserId = '';
             accountsService.setToBeEditedAdvertiser(null);
             accountsService.setToBeEditedBrand(null);
             accountsService.setToBeEditedClient(null)
@@ -171,7 +174,16 @@ var angObj = angObj || {};
             });
         }
 
+        //create advertiser
+        $scope.selectAdvertiser = function(advertiser){
+            $scope.dropdownCss.display = 'none';
+            $scope.advertiserName = advertiser.name;
+            $scope.selectedAdvertiserId = advertiser.id;
+        }
 
+        $scope.showDropdown = function(){
+            $scope.dropdownCss.display = 'block';
+        }
 
     });
 

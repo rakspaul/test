@@ -9,23 +9,23 @@
     <div class="modal-body">
         <div class="form-group" >
 		    <label >Advertiser:</label>
-		    <input type="text" class="form-control" ng-model="advertiserName">
+		    <input type="text"  ng-model="advertiserName" ng-keydown="showDropdown()">
 
-            <ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'">
-                <div class="brandsList_ul" id="brandsList_ul">
-                    <li ng-repeat="advertiser in allAdvertiser">
-                        <a data-ng-click="selectBrand(brand)">
+            <ul class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
+                <div >
+                    <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
+                        <a >
                             <span class="tick"></span>
                             <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
                         </a>
                     </li>
                 </div>
             </ul>
-
+            <input type="hidden"  ng-model="selectedAdvertiserId" >
         </div>
 
 
-        
+
     </div>
 
     <!-- end of modal_body -->

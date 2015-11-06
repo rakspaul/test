@@ -23,22 +23,39 @@
 
                 });
             }
+            else if($scope.selectedAdvertiserId != ''){
+                createAdvertiserUnderClient($scope.selectedAdvertiserId);
+            }
             else{
                 var body = constructRequestBody();
                 accountsService.createAdvertiser(body).then(function(adv){
                     if (adv.status === "OK" || adv.status === "success") {
-                        accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                $scope.close();
-                                $scope.fetchAllAdvertisers($scope.client.id);
-                                $scope.resetBrandAdvertiserAfterEdit();
-                            }
-                        },function(err){
-                            console.log('error')
-                        });
+                        //accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
+                        //    if (result.status === "OK" || result.status === "success") {
+                        //        $scope.close();
+                        //        $scope.fetchAllAdvertisers($scope.client.id);
+                        //        $scope.resetBrandAdvertiserAfterEdit();
+                        //    }
+                        //},function(err){
+                        //    console.log('error')
+                        //});
+                        createAdvertiserUnderClient(adv.data.data.id);
                     }
                 });
             }
+        }
+
+        function createAdvertiserUnderClient(advId){
+            accountsService.createAdvertiserUnderClient($scope.client.id, advId).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.close();
+                    $scope.fetchAllAdvertisers($scope.client.id);
+                    $scope.resetBrandAdvertiserAfterEdit();
+                }
+            },function(err){
+                $scope.close();
+                console.log('error')
+            });
         }
 
 
