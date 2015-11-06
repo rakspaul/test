@@ -153,6 +153,7 @@ var angObj = '';
             })
             .when('/admin/accounts', {
                 templateUrl: assets.html_accounts,
+                title: 'Accounts',
                 controller: 'AccountsController'
             })
             .when('/campaign/:campaignId/edit', {
