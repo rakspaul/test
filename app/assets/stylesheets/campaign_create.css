@@ -2582,6 +2582,27 @@
 .accounts-page .advertiser-name {
   cursor: pointer;
 }
+.accounts-page .common-load-more {
+  margin: 30px auto ;
+}
+.accounts-page .adding-section {
+  color: #939ead;
+  padding: 5px 10px;
+  margin: -5px 0 0 10px;
+  background: #F7FAFF;
+  border: 1px dashed #939EAE;
+  cursor: pointer;
+}
+.accounts-page .adding-section:hover {
+  border: 1px dashed #0978C9;
+  color: #0978C9;
+}
+.accounts-page .heading {
+  margin: 15px 0 ;
+}
+.accounts-page .heading .common_primary_btn {
+  margin: 10px 15px 0 0px ;
+}
 .accounts-page .account-name {
   font-family: "Avenir-bold";
   background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left center;
@@ -2594,6 +2615,9 @@
 }
 .accounts-page .advertiser-name {
   margin: 10px 0 0 ;
+}
+.accounts-page .advertiser-name .adding-section {
+  font-size: 11px ;
 }
 .accounts-page .advertiser-list,
 .accounts-page .advertiser-resp-brands-list {
@@ -2613,7 +2637,7 @@
 }
 .accounts-page .particular-account-box {
   border: solid 1px transparent;
-  padding: 10px 20px;
+  padding: 15px;
   min-width: 300px;
   border-radius: 5px;
 }
@@ -2627,8 +2651,10 @@
   background-image: url("/assets/images/cdesk/common_down_arrow.png");
 }
 .accounts-page .particular-account-box.data-loaded .advertiser-resp-brands-list {
-  border-left: dashed 1px #ccc;
   margin-left: 5px;
+}
+.accounts-page .particular-account-box.data-loaded .brand-data-loaded .advertiser-resp-brands-list {
+  border-left: dashed 1px #ccc;
 }
 .accounts-page .particular-account-box.data-loaded .each-advertiser {
   position: relative;
