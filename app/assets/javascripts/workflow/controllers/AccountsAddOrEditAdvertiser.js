@@ -13,21 +13,30 @@
             if($scope.mode == 'edit'){
                 var advertiserObj =  accountsService.getToBeEditedAdvertiser();
                 var body = constructRequestBody(advertiserObj);
-                accountsService.updateAdvertiser(body,body.id).then(function(){
-                    $scope.close();
-                    $scope.fetchAllAdvertisers($scope.client.id);
-                    $scope.resetBrandAdvertiserAfterEdit();
+                accountsService.updateAdvertiser(body,body.id).then(function(result){
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.close();
+                        $scope.fetchAllAdvertisers($scope.client.id);
+                        $scope.resetBrandAdvertiserAfterEdit();
+                    }
+
 
                 });
             }
             else{
                 var body = constructRequestBody();
                 accountsService.createAdvertiser(body).then(function(adv){
-                    accountsService.createAdvertiserUnderClient($scope.client.id,adv.id).then(function() {
-                        $scope.close();
-                        $scope.fetchAllAdvertisers($scope.client.id);
-                        $scope.resetBrandAdvertiserAfterEdit();
-                    });
+                    if (adv.status === "OK" || adv.status === "success") {
+                        accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
+                            if (result.status === "OK" || result.status === "success") {
+                                $scope.close();
+                                $scope.fetchAllAdvertisers($scope.client.id);
+                                $scope.resetBrandAdvertiserAfterEdit();
+                            }
+                        },function(err){
+                            console.log('error')
+                        });
+                    }
                 });
             }
         }

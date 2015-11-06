@@ -12,10 +12,12 @@
             if($scope.mode == 'edit'){
                 var brandObj =  accountsService.getToBeEditedBrand();
                 var body = constructRequestBody(brandObj);
-                accountsService.updateBrand(body,body.id).then(function(){
-                    $scope.close();
-                    $scope.fetchBrands($scope.client,$scope.advertiser.id);
+                accountsService.updateBrand(body,body.id).then(function(result){
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.close();
+                        $scope.fetchBrands($scope.client, $scope.advertiser.id);
                         $scope.resetBrandAdvertiserAfterEdit();
+                    }
 
                 });
             }

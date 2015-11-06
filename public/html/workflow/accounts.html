@@ -23,6 +23,7 @@
 								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
 								<span class="pull-left adding-section" ng-click="AddOrEditAdvertiserModal(adv,'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>
 
+								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(null,'create',client)">Create</span>
 							</div>
 							<div class="advertiser-resp-brands-list">
 								<div class="clearfix each-brand-name"  ng-repeat="brand in adv.brand" ng-if="adv.brand.length > 0">
@@ -44,11 +45,13 @@
 
 								</div>
 							</div>
-							<div ng-if="client.advertisement == undefined" class="common-load-more"></div>
-							<div class="each-advertiser" ng-if="client.advertisement.length ==  0">
-								<div class="clearfix advertiser-name" >
-									<span class="pull-left" >No Advertisers Available</span>
 
+						</div>
+						<div ng-if="client.advertisement == undefined" class="common-load-more"></div>
+						<div class="each-advertiser" ng-if="client.advertisement.length ==  0">
+							<div class="clearfix advertiser-name" >
+								<span class="pull-left" >No Advertisers Available</span>
+								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(null,'create',client)">Create</span>
 								</div>
 							</div>
 						</div>

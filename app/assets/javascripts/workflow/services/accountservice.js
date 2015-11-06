@@ -3,6 +3,7 @@
     angObj.factory("accountsService", function (apiPaths,dataService) {
         var advertiser = null;
         var brand = null;
+        var client = null;
         var advertiserMode;
 
         return {
@@ -38,6 +39,12 @@
                 advertiser = advertiserObj;
             },
             getToBeEditedAdvertiser: function(){
+                return advertiser ;
+            },
+            setToBeEditedClient: function(advertiserObj){
+                advertiser = advertiserObj;
+            },
+            getToBeEditedClient: function(){
                 return advertiser ;
             },
             setAdvertiserMode: function(mode){

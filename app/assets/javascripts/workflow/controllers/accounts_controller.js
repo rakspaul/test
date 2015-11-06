@@ -125,7 +125,7 @@ var angObj = angObj || {};
         }
 
 
-        $scope.resetBrandAdvertiserAfterEdit = function(){
+        $scope.resetBrandAdvertiserAfterEdit = function(mode){
             $scope.mode = 'create';
             $scope.client = '';
             $scope.brand = '';
@@ -137,8 +137,14 @@ var angObj = angObj || {};
 
 
         //Add or Edit Pop up for Account
-        $scope.AddOrEditAccountModal = function() {
+        $scope.AddOrEditAccountModal = function(mode,clientObj) {
+            $scope.mode = mode;
+            if(mode == 'edit'){
+                accountsService.setToBeEditedClient(clientObj);
+                $scope.brandName = brand.name;
+            }
             var $modalInstance = $modal.open({
+
                 templateUrl: assets.html_accounts_add_or_edit,
                 controller:"AccountsAddOrEdit",
                 scope:$scope,
