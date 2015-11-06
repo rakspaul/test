@@ -4,17 +4,19 @@
             <!-- Abi this will show either active or inactive state only
             thing you have to do is add either class for color
             "inActiveLabel" or "activeLabel" -->
-            <span class="label inActiveLabel">
+            <span class="label activeLabel">
+            <!--<span class="label inActiveLabel">-->
                 <!--{{workflowData.campaignData.status}}-->
             </span>
     
             <h4 tooltip="{{workflowData.campaignData.name}}">
                 {{workflowData.campaignData.name | textEllipsis: 60}}
             </h4>
+            <!--<span class="campaign-ad-name-edit blue-edit-icon icon-settings" tooltip="Edit Campaign" ng-click="editCampaign(workflowData.campaignData)"></span>-->
         </div>
         <div class="col-md-1" style="padding-left: 40px; border-left: 1px solid #ddd;">
-            <label>Goal</label>
-            <div class="glyphicon glyphicon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'record' : 'signal'}}" aria-hidden="true" style="width: 27px; text-align: center;"></div>
+            <label style="padding-bottom: 2px;">Goal</label>
+            <div class="icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}" style="width: 27px; text-align: center;"></div>
             <!--<span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>-->
         </div>
         <div class="col-md-1 borderZero">
@@ -24,7 +26,7 @@
         <div class="col-md-2 borderZero">
             <label>Flight Dates</label>
             <span ng-if="workflowData.campaignData.startTime">
-                {{utc(workflowData.campaignData.startTime) | date : 'MMM dd, yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'MMM dd, yyyy'}}
+                {{convertEST(workflowData.campaignData.startTime, 'MMM DD, YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'MMM DD, YYYY')}}
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
             </span>
         </div>

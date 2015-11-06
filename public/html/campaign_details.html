@@ -143,7 +143,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="item {{isCostModelTransparent && !isLocaleSupportUk ? '' : 'active'}}">
+                                     <div class="item {{isCostModelTransparent ? '' : 'active'}}">
                                         <div class="col-xs-3 formats_widget">
                                             <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                                 <div class="graph_heading">
@@ -166,7 +166,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                  
+
                                    <div class="item" ng-if="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">
                                     <div class="col-xs-3">
                                       <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder" >
@@ -217,9 +217,9 @@
                                 <!-- end of ... Video viewability widget commented for now -->
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
                                 <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-        
+
                               </div> <!-- mycarousel ends -->
-                        </div>                  
+                        </div>
                   </div>
                 </div>
 
@@ -227,10 +227,10 @@
 
 
                 <!--activity log-->
-                <div class="clearfix activity_log_holder" ng-controller="editActionsController" >
+                <div class="clearfix activity_log_holder" ng-controller="EditActionsController" >
                 <!--edit popup-->
                 <!-- edit activity log container -->
-                <div ng-controller="editActionsController" class="edit_activity_log_holder" ng-show="showList.show">
+                <div ng-controller="EditActionsController" class="edit_activity_log_holder" ng-show="showList.show">
                   <form ng-submit="editAction()" >
                     <div class="action_filter_holder" ng-click="$event.stopPropagation()">
                           <div class="heading">
@@ -308,7 +308,7 @@
                          <span class="legend"></span>
                          <span class="legend_text">{{ textConstants.INTERNAL }}</span>
                        </div>
-                       
+
                      </div>
                   </div>
                   <div class="pull-right activity_log_list_container">
@@ -365,7 +365,7 @@
 
 
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
-                                  <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
+                                  <div class="activity_edit" tooltip-placement="left" tooltip="Edit" ng-controller="EditActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
                                   </div>
                                   <div class="activity_report" tooltip-placement="left" tooltip="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()">
                                   </div>
@@ -442,14 +442,16 @@
                                 {{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%
                             </div>
                         </div>
-                        <div class="each_col col_fifth" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
+                        <!-- <div class="each_col col_fifth" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">  -->
+                        <div class="each_col col_fifth" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
                             <div class="col_heading">{{ textConstants.ACTION_RATE }}</div>
                             <div class="col_val">
                                 {{campaigns.cdbDataMap[campaign.orderId].action_rate*100 | number:2}}%
                             </div>
                         </div>
 
-                        <div class="each_col col_fifth" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
+                        <!-- <div class="each_col col_fifth" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0"> -->
+                        <div class="each_col col_fifth" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                             <div class="col_heading">{{ textConstants.VTC }}</div>
                             <div class="col_val">
                                 {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 2}}%
@@ -458,7 +460,8 @@
                     </div>
                 </div>
                 <!-- add campaign_overview_graphs_with_vtc when vtc is present -->
-                <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
+              <!-- <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">  -->
+                <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
                     <div class="each_col col_first">
                         <div class="col_heading"></div>
                         <div class="days_left_holder">
@@ -478,7 +481,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="each_col col_spend">
                         <div class="col_heading clearfix">{{ textConstants.SPEND }}
                             <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2 }}</span>
@@ -502,7 +505,8 @@
                                 </div>
                             </div>
                     </div>
-                    <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
+                    <!-- <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0"> -->
+                    <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                         <div class="col_heading clearfix">{{ textConstants.QUARTILE_DETAILS }}
                         </div>
                         <div class="quartile_details_graph" width='365' height='74' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].modified_vtc_metrics}}"></div>
@@ -542,12 +546,12 @@
           }
       });
       setTimeout(function() {
-        $('[data-toggle="tooltip"]').tooltip(); 
+        $('[data-toggle="tooltip"]').tooltip();
       },5000);
       $('#action_submit_btn,#action_comment').bind("click focus", function() {
           var txt = $.trim(jQuery("#action_comment").val());
           jQuery("#action_comment").val(txt);
-         
+
       });
       $('#action_comment,#action_submit_btn').bind("change keyup keydown click", function() {
           CommentValidation('action_comment','error_more_comment');
@@ -558,23 +562,23 @@
        });
 
        //Edit actions
-       
+
        $('#action_save_btn,#edit_action_comment').bind("click focus", function() {
           var txt = $.trim(jQuery("#edit_action_comment").val());
           jQuery("#edit_action_comment").val(txt);
-         
+
       });
        $('#edit_action_comment').bind("change keyup keydown click", function() {
           CommentValidation('edit_action_comment','error_edit_action_more_comment');
           //enable save Button
           updateSaveBtnStatus();
-         
+
       });
        $('#edit_action_comment').bind("blur", function() {
           $("#error_edit_action_more_comment").hide();
        });
        //Anywhere click close the error message tooltip while create activity
-        $('body').click(function(evt){    
+        $('body').click(function(evt){
              if(evt.target.id == "crActivityForm")
                 return;
              if($(evt.target).closest('#crActivityForm').length)
@@ -590,7 +594,7 @@
 
         $('.activity_log_list').bind('scroll', function(e) {
             var elem = $(e.currentTarget);
-            if (elem[0].scrollHeight - elem.scrollTop() + 1 == elem.outerHeight()) 
+            if (elem[0].scrollHeight - elem.scrollTop() + 1 == elem.outerHeight())
             {
                 $(".gradient_div").hide() ;
             } else {
@@ -627,13 +631,13 @@
           if(splitlength > max_line){
             for(i=0; i< max_line;i++){
               if(i == (parseInt(max_line)) - 1) {
-                txt_data += split[i]; 
+                txt_data += split[i];
 
               }
               else{
-                  txt_data += split[i] + '\n'; 
+                  txt_data += split[i] + '\n';
               }
-              
+
             }
             $(errorMsgId).show();
             $(errorMsgId).html('You cannot enter more than '+max_line + ' lines ');

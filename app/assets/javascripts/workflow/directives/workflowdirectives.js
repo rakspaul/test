@@ -12,13 +12,14 @@
                 var creativeFilter = {
 
                     setDefaultValues : function(obj, type) {
-                         var campaignData = JSON.parse(localStorage.getItem('campaignData'));
-                         if(type === 'clients') {
+                         var campaignData = localStorage.getItem('campaignData');
+                         campaignData = campaignData && JSON.parse(campaignData);
+                         if (type === 'clients') {
                              $scope.defaultClientName = (campaignData && campaignData.clientName) ? campaignData.clientName : obj[0].name;
                              $scope.defaultClientId = (campaignData && campaignData.clientId) ? campaignData.clientId : obj[0].id;
                              $scope.defaultAdvertiserName = 'Loading..';
                          }
-                         if(type === 'advertisers') {
+                         if (type === 'advertisers') {
                              $scope.defaultAdvertiserName = (campaignData && campaignData.advertiserName) ? campaignData.advertiserName : obj[0].name;
                              $scope.defaultAdvertiserId = (campaignData && campaignData.advertiserId) ? campaignData.advertiserId : obj[0].id;
                          }
@@ -32,7 +33,7 @@
                                 creativeFilter.setDefaultValues($scope.creativeFilterData['clients'], 'clients');
                                 var defaultClientId = $scope.creativeFilterData['clients'][0].id;
                                 var defaultClientName = $scope.creativeFilterData['clients'][0].name;
-                                creativeFilter.fetchAdvertisers(defaultClientId, defaultClientName)
+                                creativeFilter.fetchAdvertisers()
                             }
                             else{
                                 creativeFilter.errorHandler(result);
@@ -41,6 +42,7 @@
                     },
 
                     fetchAdvertisers :  function() {
+                      console.log("$scope.defaultClientId", $scope.defaultClientId);
                         workflowService.getAdvertisers($scope.defaultClientId).then(function (result) {
                             if (result.status === "OK" || result.status === "success") {
                                 var responseData = result.data.data;
@@ -115,5 +117,28 @@
                 ctrl.$parsers.push(customValidator);
             }
         };
+    });
+
+    angObj.directive('ngUpdateHidden',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+            });
+
+        };
+    })
+
+    angObj.directive('customDatePicker', function() {
+      	return {
+      		// Restrict it to be an attribute in this case
+      		restrict: 'A',
+      		// responsible for registering DOM listeners as well as updating the DOM
+      		link: function(scope, element, attrs) {
+      		    $(element).datepicker(scope.$eval(attrs.customDatePicker)).on('hide', function(e) {
+                scope.$parent.closeDatePickerHandler && scope.$parent.closeDatePickerHandler(element);
+              });
+      		}
+      	};
     });
 }());

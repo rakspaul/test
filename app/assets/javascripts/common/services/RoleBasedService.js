@@ -11,6 +11,8 @@
         var setUserRole = function(response) {
             var userRoleObj = {
                 'workFlowUser' : response.data.data.is_workflow_user,
+                'networkUser' : response.data.data.is_network_user,
+                'authorizationKey' : response.data.data.auth_token,
                 'i18n' : response.data.data.i18n
             };
 

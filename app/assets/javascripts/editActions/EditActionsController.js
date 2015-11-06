@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  editActionsModule.controller('editActionsController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, editActionsService, editAction, activityList, loginModel, analytics, constants) {
+  editActionsModule.controller('EditActionsController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, editActionsService, editAction, activityList, loginModel, analytics, constants) {
    
         $scope.showList = editAction.data;
         $scope.actionItems = activityList.data;

@@ -22,6 +22,13 @@
     this.SORT_DESC = 'desc';
     this.ACTIVE_UNDERPERFORMING = '(active,underperforming)';
     this.ACTIVE_ONTRACK = '(active,ontrack)';
+    this.ACTIVE_CONDITION = '(active)';
+    this.DRAFT_CONDITION = '(draft)';
+    this.READY_CONDITION = '(ready)';
+    this.COMPLETED_CONDITION = '(completed)';
+    this.PAUSED_CONDITION = '(paused)';
+    this.ENDING_SOON_CONDITION = '(active,endingSoon)';
+
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
     this.ENDING_SOON = 'Ending Soon';
@@ -95,10 +102,12 @@
 
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
+    this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Campaign has been successfully updated';
     this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
     this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
     this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
     this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
+    this.WF_DATE_FORMAT='YYYY-MM-DD HH:mm:ss.SSS';
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
@@ -109,23 +118,23 @@
     this.MSG_DATA_NOT_AVAILABLE= "<span class='no-data-common'>Data not available</span>";
     this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD= "<span class='data_not_found'>Data not available</span>";
     this.MSG_CAMPAIGN_YET_TO_START= "<span class='no-data-common'>Campaign yet to start</span>";
-    this.MSG_STRATEGY_YET_TO_START= "<span class='no-data-common'>Strategy yet to start</span>";
-    this.MSG_TACTIC_YET_TO_START= "<span class='no-data-common'>Tactic yet to start</span>";
+    this.MSG_STRATEGY_YET_TO_START= "<span class='no-data-common'>Ad Group yet to start</span>";
+    this.MSG_TACTIC_YET_TO_START= "<span class='no-data-common'>Ad yet to start</span>";
     this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Campaign is active, data not yet available</span>";
-    this.MSG_STRATEGY_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Strategy is active, data not yet available</span>";
-    this.MSG_TACTIC_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Tactic is active, data not yet available</span>";
+    this.MSG_STRATEGY_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Ad Group is active, data not yet available</span>";
+    this.MSG_TACTIC_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Ad is active, data not yet available</span>";
     this.MSG_CAMPAIGN_VERY_OLD = "<span class='no-data-common'>Campaign ended 3+ years ago, data not available</span>";
-    this.MSG_STRATEGY_VERY_OLD = "<span class='no-data-common'>Strategy ended 3+ years ago, data not available</span>";
-    this.MSG_TACTIC_VERY_OLD = "<span class='no-data-common'>Tactic ended 3+ years ago, data not available</span>";
+    this.MSG_STRATEGY_VERY_OLD = "<span class='no-data-common'>Ad Group ended 3+ years ago, data not available</span>";
+    this.MSG_TACTIC_VERY_OLD = "<span class='no-data-common'>Ad ended 3+ years ago, data not available</span>";
     this.MSG_CAMPAIGN_KPI_NOT_SET = "<span class='no-data-common'>Campaign KPI is not set</span>";
-    this.MSG_STRATEGY_KPI_NOT_SET = "<span class='no-data-common'>Strategy KPI is not set</span>";
-    this.MSG_TACTIC_KPI_NOT_SET = "<span class='no-data-common'>Tactic KPI is not set</span>";
+    this.MSG_STRATEGY_KPI_NOT_SET = "<span class='no-data-common'>Ad Group KPI is not set</span>";
+    this.MSG_TACTIC_KPI_NOT_SET = "<span class='no-data-common'>Ad KPI is not set</span>";
     this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Campaigns with set KPI value</span>";
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
-    this.ALL_STRATEGIES_OBJECT={'name': 'All Strategies', id : 0, type : 'all'};
+    this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : 0, type : 'all'};
 
     this.NO_RELEVANT_CAMPAIGNS = "No Relevant Campaigns";
     this.COST_BREAKDOWN = "Cost Breakdown";
@@ -179,7 +188,7 @@
     this.AD_SIZE = "Ad Size";
 
     this.TOP = "Top";
-    this.NO_LINKED_STRATEGIES = "No Linked Strategies";
+    this.NO_LINKED_STRATEGIES = "No Linked Ad Groups";
     this.ALL = "All";
     this.ONE_S= "1s";
     this.FIVE_S= "5s";
@@ -201,8 +210,8 @@
     this.FLIGHT_DATES = "Flight Dates";
     this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
     this.METRICS = "Metrics";
-    this.LOAD_MORE_STRATEGIES = "Load More Strategies";
-    this.LOAD_MORE_TACTICS = "Load More Tactics";
+    this.LOAD_MORE_STRATEGIES = "Load More Ad Groups";
+    this.LOAD_MORE_TACTICS = "Load More Ads";
 
     this.STATUS = "Status";
     this.CALENDAR = "Calendar";
@@ -261,7 +270,7 @@
 
     this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
 
-    this.STRATEGY = "Strategy";
+    this.STRATEGY = "Ad Group";
 
     this.PLATFORM_NAME = "Platform Name";
 
@@ -301,7 +310,7 @@
     this.QUARTILE_DATA = "Quartile Data";
 
     //workflow related variables
-    this.WF_CREATE_CAMPAIGN = "Create Campaign";
+    this.WF_CREATE_CAMPAIGN = "Campaign Setup";
     this.UPLOAD_TEMPLATE = "Upload Template";
     this.CREATE = "Create";
     this.WF_SETTINGS = "Settings";
@@ -347,6 +356,7 @@
     this.WF_DESKTOP = "Desktop";
     this.WF_MOBILE = "Mobile";
     this.WF_TABLET = "Tablet";
+    this.WF_UNTITLED_AD="Untitled Ad"
 
     this.WF_HEADER_SETTINGS ="Guided Copy Here - Setting up your ad...";
     this.WF_AD_SIZE = "Ad Size";
@@ -387,6 +397,10 @@
     this.WF_CREATIVE_FORMAT_LABEL ='Creative Format'
     this.WF_MANDATORY_CREATIVE_FORMAT ="Please select the creative format.";
     this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
+    this.WF_AD_ARCHIVE_SUCCESS="Ad Archived Successfully"
+    this.WF_AD_ARCHIVE_FAILURE="Ad Archive Unsuccessful"
+    this.WF_CAMPAIGN_ARCHIVE_SUCCESS="Campaign Archived Successfully"
+    this.WF_CAMPAIGN_ARCHIVE_FAILURE="Campaign Archive Unsuccessful"
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";

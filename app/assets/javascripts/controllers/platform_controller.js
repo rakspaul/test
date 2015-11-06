@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('platformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, RoleBasedService, loginModel, analytics, $timeout) {
+    angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, RoleBasedService, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
 
@@ -57,7 +57,7 @@ var angObj = angObj || {};
         //set default api return code 200
         $scope.api_return_code = 200;
 
-        $scope.usrRole  = RoleBasedService.getUserRole().ui_exclusions;
+        $scope.usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
 
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
@@ -155,20 +155,21 @@ var angObj = angObj || {};
         //creating download report url
         $scope.createDownloadReportUrl = function () {
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/platforms/';
+
             var download_report = [
                 {
-                    'report_url': urlPath + 'performance/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'performance/reportDownload',
                     'report_name': 'by_performance',
                     'label': 'Platform by Performance'
                 },
                 {
-                    'report_url': urlPath + 'cost/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'cost/reportDownload',
                     'report_name': 'by_cost',
                     'label': 'Platform by Cost',
                     'className': 'report_cost'
                 },
                 {
-                    'report_url': urlPath + 'viewability/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'viewability/reportDownload',
                     'report_name': 'by_viewability',
                     'label': 'Platform By Quality'
                 }
@@ -188,7 +189,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
             $scope.selectedStrategy.id = strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();
@@ -236,7 +237,17 @@ var angObj = angObj || {};
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selected_filters = {};
-            $scope.selected_filters.time_filter = 'life_time'; //
+
+            var fromLocStore = localStorage.getItem('timeSetLocStore');
+            if(fromLocStore) {
+                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+                $scope.selected_filters.time_filter = fromLocStore;
+            }
+            else {
+                $scope.selected_filters.time_filter = 'life_time';
+            }
+
+
             $scope.selected_filters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
             $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
@@ -305,8 +316,11 @@ var angObj = angObj || {};
             });
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event) {
-            $scope.callBackKpiDurationChange('duration');
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            $scope.selected_filters.time_filter = strategy;
+            $scope.resetVariables();
+            $scope.strategyChangeHandler();
+
         });
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function (e) {
@@ -361,8 +375,8 @@ var angObj = angObj || {};
         };
         // hot fix for the enabling the active link in the reports dropdown
         $(function () {
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#platform").addClass("active_tab") ; 
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#platform").addClass("active_tab") ;
         });
         // end of hot fix for the enabling the active link in the reports dropdown
     });

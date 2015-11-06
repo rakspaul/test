@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    strategySelectModule.controller('strategySelectController', function ($scope, $rootScope , campaignSelectModel ,strategySelectModel ,apiPaths, constants , loginModel, analytics,utils ) {
+    strategySelectModule.controller('StrategySelectController', function ($scope, $rootScope , campaignSelectModel ,strategySelectModel ,apiPaths, constants , loginModel, analytics,utils ) {
 
         $scope.strategyData = {
             strategies : {},

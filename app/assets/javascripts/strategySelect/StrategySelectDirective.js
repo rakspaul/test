@@ -7,7 +7,7 @@
                 selectedObj:"=",
                 listColumns: "="
             },
-            controller: 'strategySelectController',
+            controller: 'StrategySelectController',
             templateUrl: assets.html_strategy_drop_down,
             link: function ($scope, element, attrs) {
                 $scope.textConstants = constants;

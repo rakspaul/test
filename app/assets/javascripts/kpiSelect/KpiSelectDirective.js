@@ -3,7 +3,7 @@
     kpiSelectModule.directive('kpiDropDown', function (constants) {
         return {
             restrict:'EAC',
-            controller: 'kpiSelectController',
+            controller: 'KpiSelectController',
             scope: {type : '=',
                 changedrpval :'='
             },

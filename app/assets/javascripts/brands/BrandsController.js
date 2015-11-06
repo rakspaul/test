@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    brandsModule.controller('brandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics) {
+    brandsModule.controller('BrandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics) {
 
         var search = false;
 

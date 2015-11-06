@@ -33,7 +33,16 @@ var angObj = angObj || {};
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1 ;
         $scope.selected_filters = {};
-        $scope.selected_filters.time_filter = 'life_time'; //
+
+        var fromLocStore = localStorage.getItem('timeSetLocStore');
+        if(fromLocStore) {
+            fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
+            $scope.selected_filters.time_filter = fromLocStore;
+        }
+        else {
+            $scope.selected_filters.time_filter = 'life_time';
+        }
+
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
         $scope.selected_filters.kpi_type =  kpiSelectModel.getSelectedKpi();;
 
@@ -189,7 +198,7 @@ var angObj = angObj || {};
 
             var strategyId = Number($scope.selectedStrategy.id);
             $scope.api_return_code=200;
-            dataService.getCdbChartData(param, 'lifetime', 'strategies',  strategyId , true).then(function (result) {
+            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
                 $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -239,6 +248,8 @@ var angObj = angObj || {};
                                     // CDB data obtained is not for currently selected campaing and strategy id
                                     $scope.chartForStrategy = false;
                                 }
+                            } else {
+                                $scope.chartForStrategy = false;
                             }
                         } else {
                             $scope.chartForStrategy = false;
@@ -262,6 +273,7 @@ var angObj = angObj || {};
         };
 
         $scope.actionDataError = function(){
+            $scope.campaignActionList = [];
             $scope.tacticNotFound = true;
             $scope.tacticLoading = false;
         };
@@ -321,8 +333,8 @@ var angObj = angObj || {};
         };
 
         $scope.actionDataForSelectedCampaign = function (callback) {
-            var param = { campaignId: $scope.selectedCampaign.id};
-            if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
+            var param = { campaignId: $scope.selectedCampaign.id, time_filter: $scope.selected_filters.time_filter};
+            //if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) { // get action data for the selected campaign.
                     if (result.status === "OK" || result.status === "success") {
                             $scope.tacticNotFound = false;
@@ -334,9 +346,9 @@ var angObj = angObj || {};
                     }
                     callback && callback();
                 })
-            } else {
-                callback && callback();
-            }
+            //} else {
+              //  callback && callback();
+            ///}
         };
 
 
@@ -370,7 +382,7 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter,
+                    'report_url': urlPath + 'download',
                     'report_name' : '',
                     'label' : 'Optimization Report'
                 }
@@ -399,7 +411,7 @@ var angObj = angObj || {};
         $scope.setStrategyInScope = function() {
             var selectedStrategyID =  $scope.selectedStrategy.id =  Number(strategySelectModel.getSelectedStrategy().id);
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = selectedStrategyID === 0 ? 'Campaign total' : 'Strategy total';
+            $scope.strategyHeading = selectedStrategyID === 0 ? 'Campaign total' : 'Ad Group total';
         };
 
         $scope.callBackCampaignsSuccess = function () {
@@ -410,11 +422,11 @@ var angObj = angObj || {};
             $scope.dataInit();
             $scope.paramObj = {isCampaignChanged: true};
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ; //update the selected Campaign
-            $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
         });
 
         $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
+            $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {
@@ -450,17 +462,19 @@ var angObj = angObj || {};
 
 
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-            $scope.callBackKpiDurationChange('duration');
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event,strategy) {
+            $scope.selected_filters.time_filter = strategy;
+            $scope.callBackCampaignsSuccess();
+
         });
 
         $scope.$on('$destroy', function() {
             eventKpiChanged();
         });
          // hot fix for the enabling the active link in the reports dropdown
-        setTimeout(function(){ 
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ; 
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#optimization").addClass("active_tab") ; 
+        setTimeout(function(){
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#optimization").addClass("active_tab") ;
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
 

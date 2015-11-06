@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('customReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
 
         $scope.textConstants = constants;
         var _customctrl = this;
@@ -94,7 +94,6 @@ var angObj = angObj || {};
                         }
                     }
                     metricObj.idx = index
-
                 });
                 metricObj.level = typeofDimension;
                 if(typeof currIdx !== 'undefined' && currIdx >=0) {
@@ -207,14 +206,23 @@ var angObj = angObj || {};
             $scope.reportTitle = dimensionLabels.join(' by ');
             $scope.isReportForMultiDimension = dimensionIds.length >1;
             var str, additonalFilter;
+            additonalFilter = _customctrl.getSelectedAdditionalFilter();
             if($scope.isReportForMultiDimension && filterText) {
                 str =  dimensionIds[1] + (reportFilterList[1] !== '' ?  (':' + reportFilterList[1]) : '');
-                str += "&filter=" + dimensionIds[0] + (filterText !== '' ? (':' + filterText) : '');
+                str += "&filter=" + dimensionIds[0] + (filterText !== '' ? (':' + filterText) : '') + (additonalFilter.length >0 ? ('~' + additonalFilter) : '');
+
             } else {
                 str =  dimensionIds[0] + (reportFilterList[0] !== '' ?  (':' + reportFilterList[0]) : '');
-                additonalFilter = _customctrl.getSelectedAdditionalFilter();
-                if(additonalFilter.length >0)
-                    str += "&filter=" + additonalFilter;
+
+                if(dimensionIds[1]) {
+                  var dimesnionStr = dimensionIds[1] + (reportFilterList[1]  ? (':' + reportFilterList[1]) : '');
+                }
+
+                if(dimensionIds[1] || additonalFilter.length >0) {
+                  str += "&filter=" + dimesnionStr +  (additonalFilter.length >0 ? ('~' + additonalFilter) : '');
+                }
+                /*if(additonalFilter.length >0)
+                    str += "&filter=" + additonalFilter;*/
             }
 
             str += _customctrl.getTimeFrame();
@@ -298,7 +306,7 @@ var angObj = angObj || {};
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide() ;
             }
         }
-        
+
         $scope.loadMoreItems = function() {
             $scope.firstDimensionoffset += $scope.limit;
             $scope.fetching = true;
@@ -361,10 +369,10 @@ var angObj = angObj || {};
                 });
                 $scope.generateBtnDisabled = false ;
 
-                   
+
             } else {
                 //hide the second dimension data for clcked row
-                
+
                 if( $(ev.target).closest(".second_dimension_row").length == 0 ) {
                     _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
                 }
@@ -372,7 +380,7 @@ var angObj = angObj || {};
         };
 
         _customctrl.reset = function(){
-            $scope.limit = 15;
+            $scope.limit = 1000;
             $scope.firstDimensionoffset = 0;
             $scope.fetching = false;
             $scope.secondDimensionOffset = 0;
@@ -441,17 +449,17 @@ var angObj = angObj || {};
                 $("#selectAll_chkbox").prop("checked" , true ) ;
             }
         };
-       
+
         $scope.delete_level = function(event) {
             var elem = $(event.target);
             elem.closest(".breakdown_div").remove();
             if( $("#breakdown_row").find(".breakdown_div").length == 0 ) {
                 $(".add_breakdown_btn").closest(".row").show() ;
-            } 
+            }
         };
 
         $scope.select_dropdown_option = function(event , arg ) {
-            
+
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
@@ -466,39 +474,39 @@ var angObj = angObj || {};
                         break;
                     case 'weekToDate':
                         startDate = moment().startOf('week').format('YYYY-MM-DD');
-                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
                     case 'last7Days':
                         startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD'); 
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'lastWeek': 
+                    case 'lastWeek':
                         startDate = moment().subtract(1,'week').startOf('week').format('YYYY-MM-DD');
-                        endDate   = moment().subtract(1,'week').endOf('week').format('YYYY-MM-DD');  
+                        endDate   = moment().subtract(1,'week').endOf('week').format('YYYY-MM-DD');
                         break;
-                    case 'monthToDate': 
+                    case 'monthToDate':
                         startDate = moment().format('YYYY-MM')+'-01';
-                        endDate   = moment().format('YYYY-M-DD');  
+                        endDate   = moment().format('YYYY-M-DD');
                         break;
-                    case 'lastMonth': 
+                    case 'lastMonth':
                         startDate = moment().subtract(1,'months').endOf('month').format('YYYY-MM') + '-01';
-                        endDate   = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');  
+                        endDate   = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');
                         break;
-                    case 'quarterToDate': 
+                    case 'quarterToDate':
                         startDate = moment().startOf('quarter').format('YYYY-MM-DD');
-                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'lastQuarter': 
+                    case 'lastQuarter':
                         startDate = moment().subtract(1,'quarter').startOf('quarter').format('YYYY-MM-DD');
-                        endDate   = moment().subtract(1,'quarter').endOf('quarter').format('YYYY-MM-DD');  
+                        endDate   = moment().subtract(1,'quarter').endOf('quarter').format('YYYY-MM-DD');
                         break;
-                    case 'yearToDate': 
+                    case 'yearToDate':
                         startDate = moment().format('YYYY')+'-01-01';
-                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'customDates': 
+                    case 'customDates':
                         startDate = moment().subtract(0, 'days').format('YYYY-MM-DD');
-                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');  
+                        endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
                     default:
                         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
@@ -508,7 +516,7 @@ var angObj = angObj || {};
                 $('#endDateInput').datepicker('update', endDate);
             }
         };
-       
+
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide() ;
             $("#" +  id + "_table").show() ;
@@ -535,7 +543,7 @@ var angObj = angObj || {};
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );
-        
+
 
             var lastScrollLeft = 0;
             var lastScrollTop = 0;
