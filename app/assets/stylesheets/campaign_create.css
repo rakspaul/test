@@ -2696,6 +2696,10 @@
 .accounts-page {
   position: relative;
 }
+.accounts-page .accounts-page-container {
+  max-width: 100% ;
+  min-width: 750px;
+}
 .accounts-page .account-name,
 .accounts-page .advertiser-name {
   cursor: pointer;
@@ -2726,6 +2730,7 @@
   background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left center;
   padding-left: 20px;
   transition-duration: .1s;
+  max-width: 70%;
   /*&:before {
       content: '\25CF';
       padding-right: 10px;
@@ -2733,6 +2738,9 @@
 }
 .accounts-page .advertiser-name {
   margin: 10px 0 0 ;
+}
+.accounts-page .advertiser-name .adv-name {
+  max-width: 80% ;
 }
 .accounts-page .advertiser-name .adding-section {
   font-size: 11px ;
@@ -2745,6 +2753,7 @@
 .accounts-page .brand-name {
   cursor: default;
   margin-bottom: 10px ;
+  max-width: 90% ;
 }
 .accounts-page .each-account-details {
   margin-bottom: 10px ;
@@ -2756,7 +2765,7 @@
 .accounts-page .particular-account-box {
   border: solid 1px transparent;
   padding: 15px;
-  min-width: 300px;
+  /*min-width: 300px;*/
   border-radius: 5px;
 }
 .accounts-page .particular-account-box .account-name {
@@ -2818,7 +2827,7 @@
   top: 16px;
   left: 5px;
   position: absolute;
-  height: 14px;
+  height: 18px;
   width: 10px;
   border-left: dashed 1px #ccc;
 }

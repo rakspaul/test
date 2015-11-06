@@ -1,6 +1,6 @@
 <div class="container accounts-page" >
 	<div class="row">
-		<div class="col-md-6">
+		<div class="pull-left accounts-page-container">
 			<div class="heading col-md-12">
 				<h1 class="pull-left">
 					Accounts 
@@ -12,14 +12,14 @@
 				<div class="clearfix each-account-details" ng-repeat="client in clientsDetails">
 					<div class="particular-account-box" ng-class="[(client.advertisement.length ==  0)?'no-data-open':'',(client.advertisement.length) > 0?'data-loaded':'']">
 						<div class="clearfix" >
-							<span class="pull-left account-name" ng-click="show_advertisers($event,client.id);">{{client.name}}</span>
+							<span class="pull-left account-name" ng-click="show_advertisers($event,client.id);" >{{client.name}}</span>
 							<span class="pull-left edit" ng-click="AddOrEditAccountModal()"></span>
 							<span class="pull-right adding-section"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
 						</div>
 						<div class="advertiser-list" >
 							<div class="each-advertiser" ng-repeat="adv in client.advertisement" ng-if="client.advertisement.length >  0" ng-class="[(adv.brand.length ==  0)?'no-data-open':'',(adv.brand.length) > 0?'brand-data-loaded':'']">
 								<div class="clearfix advertiser-name" >
-									<span class="pull-left" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
+									<span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);" ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
 									<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
 									<span class="pull-left adding-section"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>
 								</div>
