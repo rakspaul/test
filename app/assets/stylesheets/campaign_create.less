@@ -662,9 +662,13 @@
             }
             .cardTopLayer {
               min-height: 96px;
+              float: left;
+              width: 100%;
             }
             .cardMidLayer {
               min-height: 52px;
+              float: left;
+              width: 100%;
             }
           }
           .adModule:hover {
@@ -945,6 +949,7 @@
     float: left;
     width: 77%;
     height: 100%;
+    border-left: 1px solid #ccd2da;
     .adMainWrapper {
       width: 100%;
       min-height: 500px;
@@ -1228,6 +1233,7 @@
           width: 100%;
           text-align: center;
           margin: 0;
+          
         }
         img {
           margin: 30px auto 10px;
@@ -2106,8 +2112,8 @@
     .ddlSetTarget {
       margin-top: 20px;
       .msgPopup {
-        left: -40px;
-        top: 46px;
+        left: 300px;
+        top: -150px;
       }
       .msgPopup:after, .msgPopup:before {
         bottom: 168px;
@@ -2117,6 +2123,7 @@
         border-left: solid 7px transparent;
         border-right: solid 7px transparent;
         border-top: 0;
+        display: none;
       }
       .msgPopup:before {
         bottom: 170px;
@@ -2444,6 +2451,7 @@
           }
         }
       }
+      
     }
     .targettingSelected {
       border: 1px solid #BFC9D7;
@@ -2541,6 +2549,120 @@
     }
     .targettingSelected:hover {
       border: 1px solid #0978c9;
+    }
+    .targetingSlide {
+      background: #fff;
+      left: 100%;
+      width: 930px;
+      height: auto;
+      min-height: 600px;
+      top: 52px;
+      display: none;
+      position: absolute;
+      z-index: 10;
+      padding: 0px 0px 30px 30px;
+      opacity: 0;
+      .closeBtnCreative {
+        float: left;
+        clear:both;
+        a {
+          float: left;
+          margin: 2px 0 30px 10px;
+        }
+      }
+      .nav-tabs {
+        border-width: 0;
+        float: left;
+        position: relative;
+        left: 50%;
+        margin-left: -225px;
+        margin-bottom: 0px;
+        margin-top: 5px;
+        li {
+          a {
+            border-width: 0;
+            span {
+              width: 32px;
+              height: 32px;
+              border-radius: 16px;
+              background: #0978c9;
+              color: #fff;
+              display: inline-block;
+              padding: 7px 12px;
+              margin-right: 7px;
+            }
+          }
+        }
+        .splitterDash {
+          width: 100px;
+          border: 1px solid #bfc9d7;
+          float: left;
+          margin: 26px 0 0 0;
+        }
+      }
+      .segmentStepOne {
+        width: 100%;
+        float: left;
+        .segmentHeader {
+          width: 100%;
+          float: left;
+        }
+      }
+      .segmentHolder {
+        width: 100%;
+        float: left;
+        margin: 10px 0;
+        .segmentRow {
+          float: left;
+          width: 100%;
+          border-left: 1px solid #bfc9d7;
+          border-right: 1px solid #bfc9d7;
+          background: rgba(237,242,248,.5);
+          padding: 5px 15px;
+          .col-md-1 {
+            padding: 0 10px 0 0;
+            width: 11%;
+          }
+          .col-md-1.text-center {
+            width: 3%;
+            padding: 0;
+            .icon-clear {
+              display: inline-block;
+              margin: 10px 5px;
+            }
+          }
+          .col-md-9 {
+            padding: 0 10px 0 0;
+          }
+        }
+        .segmentRow.andRow {
+          border-top: 1px solid #bfc9d7;
+          padding-top: 10px;
+        }
+        .segmentRow.prevAndRow {
+          padding-bottom: 10px;
+        }
+        .segmentRow:first-child {
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-top: 1px solid #bfc9d7;
+          padding-top: 10px;
+        }
+        .segmentRow:last-child {
+          border-bottom-left-radius: 4px;
+          border-bottom-right-radius: 4px;
+          border-bottom: 1px solid #bfc9d7;
+          padding-bottom: 10px;
+        }
+        .segmentDrop {
+          border: 2px dashed #bfc9d7 !important;
+          margin-bottom: 30px;
+          span {
+            color: #939eae;
+            font-size: 14px;
+          }
+        }
+      }
     }
     .tab-pane {
       padding: 0 10px;
@@ -2684,6 +2806,27 @@
   .account-name , .advertiser-name  {
     cursor: pointer;
   }
+  .common-load-more {
+    margin : 30px auto ;
+  }
+  .adding-section {
+    color: #939ead;
+    padding: 5px 10px;
+    margin: -5px 0 0 10px;
+    background: #F7FAFF;
+    border: 1px dashed #939EAE;
+    cursor: pointer;
+    &:hover {
+      border: 1px dashed #0978C9;
+      color: #0978C9;
+    }
+  }
+  .heading {
+    margin: 15px 0 ;
+    .common_primary_btn {
+      margin: 10px 15px 0 0px ;
+    }
+  }
   .account-name  {
     font-family: "Avenir-bold" ;
     background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left center ;
@@ -2696,6 +2839,9 @@
   }
   .advertiser-name {
     margin: 10px 0 0 ;
+    .adding-section {
+      font-size: 11px ;
+    }
   }
   .advertiser-list , .advertiser-resp-brands-list {
     padding-left: 30px ;
@@ -2714,7 +2860,7 @@
   }
   .particular-account-box {
     border: solid 1px transparent;
-    padding: 10px 20px;
+    padding: 15px;
     min-width: 300px;
     border-radius: 5px;
     .account-name {
@@ -2729,9 +2875,12 @@
   }
   .particular-account-box.data-loaded {
     .advertiser-resp-brands-list {
-        border-left: dashed 1px #ccc;
-        margin-left: 5px;
-
+          margin-left: 5px;
+    }
+    .brand-data-loaded {
+      .advertiser-resp-brands-list {
+          border-left: dashed 1px #ccc;
+      }
     }
     .each-advertiser {
           position: relative;

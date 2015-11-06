@@ -18,7 +18,7 @@
 		
 		<div class="col-md-12 zeroPadding">
 			<h1 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h1>
-			<a href="javascript:void(0);" >Adding a Creative Tag to Your Ad (guided copy)</a>
+			<a href="javascript:void(0);" class="helpLink">Adding a Creative Tag to Your Ad (guided copy)</a>
 		</div>
 		<div class="col-md-12 zeroPadding clearfix nav_filters">
 				<creative-drop-down></creative-drop-down>
@@ -40,13 +40,15 @@
 			</div>
 
 			<!--Search Input-->
-			<div class="col-md-3 pull-right zeroPadding">
-			<div class="input-group">
-			  <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
-			  <span class="input-group-btn">
-				<button class="btn btn-default disabled" ng-disabled="!creativeSearch" ng-click="creativeSearchFunc()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-			  </span>
-			</div>
+			<div class="col-md-3 pull-right zeroPadding searchInput">
+				<div class="input-group">
+					<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
+					<span>
+						<button class="btn btn-default disabled" ng-disabled="!creativeSearch" ng-click="creativeSearchFunc()" type="button">
+							<span class="icon-search" aria-hidden="true" style="margin: 8px 9px 0 0;"></span>
+						</button>
+					</span>
+				</div>
 			</div>
 		</div>
 
