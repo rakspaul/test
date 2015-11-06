@@ -9,7 +9,7 @@
         return {
             getClients: function (advertiserId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
-                return dataService.fetch(url);
+                return dataService.fetch(url, {cache:false});
             },
             getClientsAdvertisers: function(clientId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers';
@@ -34,18 +34,20 @@
             updateBrand : function(data,id) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/brands/'+id, data, {'Content-Type': 'application/json'})
             },
-
+            updateAccount : function(data,id) {
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+id, data, {'Content-Type': 'application/json'})
+            },
             setToBeEditedAdvertiser: function(advertiserObj){
                 advertiser = advertiserObj;
             },
             getToBeEditedAdvertiser: function(){
                 return advertiser ;
             },
-            setToBeEditedClient: function(advertiserObj){
-                advertiser = advertiserObj;
+            setToBeEditedClient: function(clientObj){
+                client = clientObj;
             },
             getToBeEditedClient: function(){
-                return advertiser ;
+                return client ;
             },
             setAdvertiserMode: function(mode){
                 advertiserMode = mode;

@@ -21,6 +21,22 @@
 
                 });
             }
+            else{
+                var body = constructRequestBody();
+                accountsService.createAdvertiser(body).then(function(adv){
+                    if (adv.status === "OK" || adv.status === "success") {
+                        accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
+                            if (result.status === "OK" || result.status === "success") {
+                                $scope.close();
+                                $scope.fetchAllAdvertisers($scope.client.id);
+                                $scope.resetBrandAdvertiserAfterEdit();
+                            }
+                        },function(err){
+                            console.log('error')
+                        });
+                    }
+                });
+            }
         }
 
 

@@ -130,8 +130,10 @@ var angObj = angObj || {};
             $scope.client = '';
             $scope.brand = '';
             $scope.advertiser = '';
+            $scope.client = '';
             accountsService.setToBeEditedAdvertiser(null);
             accountsService.setToBeEditedBrand(null);
+            accountsService.setToBeEditedClient(null)
 
         }
 
@@ -141,7 +143,7 @@ var angObj = angObj || {};
             $scope.mode = mode;
             if(mode == 'edit'){
                 accountsService.setToBeEditedClient(clientObj);
-                $scope.brandName = brand.name;
+                $scope.clientName = clientObj.name;
             }
             var $modalInstance = $modal.open({
 
