@@ -13,8 +13,8 @@
 				<div class="pull-left particular-account-box" ng-class="[(client.advertisement.length ==  0)?'no-data-open':'',(client.advertisement.length) > 0?'data-loaded':'']">
 					<div class="clearfix " >
 						<span class="pull-left account-name" ng-click="show_advertisers($event,client.id);">{{client.name}}</span>
-						<span class="pull-left edit" ng-click="AddOrEditAccountModal()"></span>
-						<span class="pull-right adding-section"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" ng-click="AddOrEditAccountModal('edit',client)"></span> Create Advertiser</span>
+						<span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>
+						<span class="pull-right adding-section"  ng-click="AddOrEditAdvertiserModal(adv,'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
 
 					</div>
 					<div class="advertiser-list" >

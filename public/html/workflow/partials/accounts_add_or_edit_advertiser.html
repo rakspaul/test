@@ -7,13 +7,28 @@
         <h2 class="modal-title" id="myModalLabel">Add/Edit Advertiser</h2>
     </div>
     <div class="modal-body">
-        <div class="form-group">
+        <div class="form-group" >
 		    <label >Advertiser:</label>
 		    <input type="text" class="form-control" ng-model="advertiserName">
-		  </div>
+
+            <ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'">
+                <div class="brandsList_ul" id="brandsList_ul">
+                    <li ng-repeat="advertiser in allAdvertiser">
+                        <a data-ng-click="selectBrand(brand)">
+                            <span class="tick"></span>
+                            <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+
+        </div>
+
 
         
-    </div><!-- end of modal_body -->
+    </div>
+
+    <!-- end of modal_body -->
     <div class="clearfix popup-btns-holder">
         <span class="common_primary_btn" ng-click="saveAdvertisers()">Save</span>
         <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >

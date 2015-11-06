@@ -9,7 +9,7 @@ var angObj = angObj || {};
         $scope.mode = 'create';
         $scope.client = '';
         $scope.brand = '';
-
+        $scope.allAdvertiser = [];
 
 
         $scope.show_advertisers = function(event,clientId) {
@@ -70,6 +70,12 @@ var angObj = angObj || {};
             if(mode == 'edit'){
                 accountsService.setToBeEditedAdvertiser(advObj);
                 $scope.advertiserName = advObj.name;
+            }
+            else{
+                accountsService.getAllAdvertisers().then(function(result){
+                    $scope.allAdvertiser = result.data.data;
+                    console.log($scope.allAdvertiser)
+                })
             }
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_advertiser,

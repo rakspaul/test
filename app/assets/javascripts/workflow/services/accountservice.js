@@ -7,6 +7,10 @@
         var advertiserMode;
 
         return {
+            getAllAdvertisers: function () {
+                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers';
+                return dataService.fetch(url, {cache:false});
+            },
             getClients: function (advertiserId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url, {cache:false});
@@ -24,9 +28,7 @@
             },
             createAdvertiser : function(data) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/advertisers',data, {'Content-Type': 'application/json'})
-            }
-            ,
-
+            },
             createAdvertiserUnderClient : function(clientId,advertiserId) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId,{}, {'Content-Type': 'application/json'})
             }
