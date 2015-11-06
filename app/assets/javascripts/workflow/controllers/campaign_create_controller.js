@@ -3,6 +3,7 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, $location,utils) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
+        $("html").css('background','#fff');
         // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 66;
