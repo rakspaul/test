@@ -9,7 +9,7 @@
     <div class="modal-body">
         <div class="form-group" >
 		    <label >Advertiser:</label>
-		    <input type="text"  ng-model="advertiserName" ng-keydown="showDropdown()">
+		    <input type="text" class="form-control" ng-model="advertiserName" ng-keypress="showDropdown()">
 
             <ul class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
                 <div >

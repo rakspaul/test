@@ -10,7 +10,7 @@
         };
 
         $scope.saveAdvertisers = function(){
-            if($scope.mode == 'edit'){
+            if($scope.mode == 'edit'){ //edit mode
                 var advertiserObj =  accountsService.getToBeEditedAdvertiser();
                 var body = constructRequestBody(advertiserObj);
                 accountsService.updateAdvertiser(body,body.id).then(function(result){
@@ -23,22 +23,13 @@
 
                 });
             }
-            else if($scope.selectedAdvertiserId != ''){
+            else if($scope.selectedAdvertiserId != ''){ //when user does select and existing advertiser under a client
                 createAdvertiserUnderClient($scope.selectedAdvertiserId);
             }
-            else{
+            else{ // when user creates a brand new advertiser
                 var body = constructRequestBody();
                 accountsService.createAdvertiser(body).then(function(adv){
                     if (adv.status === "OK" || adv.status === "success") {
-                        //accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
-                        //    if (result.status === "OK" || result.status === "success") {
-                        //        $scope.close();
-                        //        $scope.fetchAllAdvertisers($scope.client.id);
-                        //        $scope.resetBrandAdvertiserAfterEdit();
-                        //    }
-                        //},function(err){
-                        //    console.log('error')
-                        //});
                         createAdvertiserUnderClient(adv.data.data.id);
                     }
                 });

@@ -11,6 +11,10 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/advertisers';
                 return dataService.fetch(url, {cache:false});
             },
+            getAllBrands: function () {
+                var url = apiPaths.WORKFLOW_APIUrl + '/brands';
+                return dataService.fetch(url, {cache:false});
+            },
             getClients: function (advertiserId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url, {cache:false});
@@ -31,6 +35,12 @@
             },
             createAdvertiserUnderClient : function(clientId,advertiserId) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId,{}, {'Content-Type': 'application/json'})
+            },
+            createBrand : function(data) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/brands',data, {'Content-Type': 'application/json'})
+            },
+            createBrandUnderAdvertiser : function(clientId,advertiserId,brandId) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/brands/'+brandId,{}, {'Content-Type': 'application/json'})
             }
             ,
             updateBrand : function(data,id) {

@@ -10,9 +10,11 @@ var angObj = angObj || {};
         $scope.client = '';
         $scope.brand = '';
         $scope.allAdvertiser = [];
+        $scope.allBrands = [];
         $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
-        $scope.dropdownCss = {display:'block','max-height': '100px',overflow: 'scroll',top: '35px',
-            left: '100px'};
+        $scope.selectedBrandId = '';
+        $scope.dropdownCss = {display:'block','max-height': '100px',overflow: 'scroll',top: '60px',
+            left: '30px'};
 
 
         $scope.show_advertisers = function(event,clientId) {
@@ -113,6 +115,11 @@ var angObj = angObj || {};
                 accountsService.setToBeEditedBrand(brand);
                 $scope.brandName = brand.name;
             }
+            else{
+                accountsService.getAllBrands().then(function(result){
+                    $scope.allBrands = result.data.data;
+                })
+            }
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_brand,
                 controller:"AccountsAddOrEditBrand",
@@ -140,6 +147,11 @@ var angObj = angObj || {};
             $scope.advertiser = '';
             $scope.client = '';
             $scope.selectedAdvertiserId = '';
+            $scope.advertiserName = '';
+            $scope.brandName = '';
+            $scope.selectedBrandId = '';
+            $scope.allBrands = [];
+            $scope.allAdvertiser = [];
             accountsService.setToBeEditedAdvertiser(null);
             accountsService.setToBeEditedBrand(null);
             accountsService.setToBeEditedClient(null)
@@ -181,9 +193,18 @@ var angObj = angObj || {};
             $scope.selectedAdvertiserId = advertiser.id;
         }
 
+        //create brand
+        $scope.selectBrand = function(brand){
+            $scope.dropdownCss.display = 'none';
+            $scope.brandName = brand.name;
+            $scope.selectedBrandId = brand.id;
+        }
+
         $scope.showDropdown = function(){
             $scope.dropdownCss.display = 'block';
         }
+
+
 
     });
 
