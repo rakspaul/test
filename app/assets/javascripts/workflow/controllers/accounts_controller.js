@@ -9,7 +9,12 @@ var angObj = angObj || {};
         $scope.mode = 'create';
         $scope.client = '';
         $scope.brand = '';
-
+        $scope.allAdvertiser = [];
+        $scope.allBrands = [];
+        $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
+        $scope.selectedBrandId = '';
+        $scope.dropdownCss = {display:'block','max-height': '100px',overflow: 'scroll',top: '60px',
+            left: '30px'};
 
 
         $scope.show_advertisers = function(event,clientId) {
@@ -71,6 +76,11 @@ var angObj = angObj || {};
                 accountsService.setToBeEditedAdvertiser(advObj);
                 $scope.advertiserName = advObj.name;
             }
+            else{
+                accountsService.getAllAdvertisers().then(function(result){
+                    $scope.allAdvertiser = result.data.data;
+                })
+            }
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_advertiser,
                 controller:"AccountsAddOrEditAdvertiser",
@@ -105,6 +115,11 @@ var angObj = angObj || {};
                 accountsService.setToBeEditedBrand(brand);
                 $scope.brandName = brand.name;
             }
+            else{
+                accountsService.getAllBrands().then(function(result){
+                    $scope.allBrands = result.data.data;
+                })
+            }
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_brand,
                 controller:"AccountsAddOrEditBrand",
@@ -125,20 +140,35 @@ var angObj = angObj || {};
         }
 
 
-        $scope.resetBrandAdvertiserAfterEdit = function(){
+        $scope.resetBrandAdvertiserAfterEdit = function(mode){
             $scope.mode = 'create';
             $scope.client = '';
             $scope.brand = '';
             $scope.advertiser = '';
+            $scope.client = '';
+            $scope.selectedAdvertiserId = '';
+            $scope.advertiserName = '';
+            $scope.brandName = '';
+            $scope.clientName = ''
+            $scope.selectedBrandId = '';
+            $scope.allBrands = [];
+            $scope.allAdvertiser = [];
             accountsService.setToBeEditedAdvertiser(null);
             accountsService.setToBeEditedBrand(null);
+            accountsService.setToBeEditedClient(null)
 
         }
 
 
         //Add or Edit Pop up for Account
-        $scope.AddOrEditAccountModal = function() {
+        $scope.AddOrEditAccountModal = function(mode,clientObj) {
+            $scope.mode = mode;
+            if(mode == 'edit'){
+                accountsService.setToBeEditedClient(clientObj);
+                $scope.clientName = clientObj.name;
+            }
             var $modalInstance = $modal.open({
+
                 templateUrl: assets.html_accounts_add_or_edit,
                 controller:"AccountsAddOrEdit",
                 scope:$scope,
@@ -155,6 +185,24 @@ var angObj = angObj || {};
                     // }
                 }
             });
+        }
+
+        //create advertiser
+        $scope.selectAdvertiser = function(advertiser){
+            $scope.dropdownCss.display = 'none';
+            $scope.advertiserName = advertiser.name;
+            $scope.selectedAdvertiserId = advertiser.id;
+        }
+
+        //create brand
+        $scope.selectBrand = function(brand){
+            $scope.dropdownCss.display = 'none';
+            $scope.brandName = brand.name;
+            $scope.selectedBrandId = brand.id;
+        }
+
+        $scope.showDropdown = function(){
+            $scope.dropdownCss.display = 'block';
         }
 
 

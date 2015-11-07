@@ -4,13 +4,26 @@
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h2 class="modal-title" id="myModalLabel">Edit Brand</h2>
+        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Brand</h2>
     </div>
     <div class="modal-body">
         <div class="form-group">
 		    <label >Brand Name:</label>
-		    <input type="text" class="form-control" ng-model="brandName">
-		  </div>
+		    <input type="text" class="form-control" ng-model="brandName" ng-keypress="showDropdown()">
+
+            <ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'" ng-style="dropdownCss">
+                <div >
+                    <li ng-repeat="brand in allBrands | filter:advertiserName" data-ng-click="selectBrand(brand)">
+                        <a >
+                            <span class="tick"></span>
+                            <span class="menuItemText ng-binding" >{{brand.name}}</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+            <input type="hidden"  ng-model="selectedBrandId" >
+
+        </div>
     </div><!-- end of modal_body -->
     <div class="clearfix popup-btns-holder">
         <span class="common_primary_btn" ng-click="saveBrands()">Save</span>

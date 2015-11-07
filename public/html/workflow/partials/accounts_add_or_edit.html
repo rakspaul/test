@@ -4,22 +4,17 @@
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h2 class="modal-title" id="myModalLabel">Edit Account</h2>
+        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
     </div>
     <div class="modal-body">
         <div class="form-group">
-		    <label >Label1:</label>
-		    <input type="text" class="form-control" >
-		  </div>
-		  <div class="form-group">
-		    <label>Label2:</label>
-		    <input type="text" class="form-control" >
+		    <label >Account Name:</label>
+		    <input type="text" class="form-control" ng-model="clientName">
 		  </div>
 
-        
     </div><!-- end of modal_body -->
     <div class="clearfix popup-btns-holder">
-        <span class="common_primary_btn" >Save</span>
+        <span class="common_primary_btn" ng-click="saveClients()">Save</span>
         <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
             Cancel
         </span>
