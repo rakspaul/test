@@ -4,7 +4,7 @@
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h2 class="modal-title" id="myModalLabel">Edit Brand</h2>
+        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Brand</h2>
     </div>
     <div class="modal-body">
         <div class="form-group">

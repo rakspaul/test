@@ -46,8 +46,11 @@
             updateBrand : function(data,id) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/brands/'+id, data, {'Content-Type': 'application/json'})
             },
-            updateAccount : function(data,id) {
+            updateClient : function(data,id) {
                 return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+id, data, {'Content-Type': 'application/json'})
+            },
+            createClient : function(data) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients',data, {'Content-Type': 'application/json'})
             },
             setToBeEditedAdvertiser: function(advertiserObj){
                 advertiser = advertiserObj;

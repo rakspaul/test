@@ -5,8 +5,8 @@
 		<div class="heading col-md-12">
 			<h1 class="pull-left">
 				Accounts
-			</h1>
-			<div class="pull-right common_primary_btn">Create Account</div>
+
+			</h1><div class="pull-right common_primary_btn" ng-click="AddOrEditAccountModal('create')">Create Account</div>
 
 		</div>
 		<div class="col-md-12">
@@ -15,7 +15,7 @@
 					<div class="clearfix " >
 						<span class="pull-left account-name" ng-click="show_advertisers($event,client.id);">{{client.name}}</span>
 						<span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>
-						<span class="pull-right adding-section"  ng-click="AddOrEditAdvertiserModal(adv,'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
+						<span class="pull-right adding-section"  ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
 
 					</div>
 					<div class="advertiser-list" >
@@ -42,7 +42,9 @@
 										<span class="pull-left brand-name">No Brand Available</span>
 									</div>
 
+									<!--<span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>-->
 								</div>
+
 
 							</div>
 

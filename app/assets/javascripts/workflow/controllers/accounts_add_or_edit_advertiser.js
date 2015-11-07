@@ -4,8 +4,7 @@
 
     angObj.controller('AccountsAddOrEditAdvertiser', function($scope, $modalInstance,accountsService) {
         $scope.close=function(){
-            $scope.advertiserName = '';
-            accountsService.setToBeEditedAdvertiser(null);
+            $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
         };
 
@@ -15,9 +14,10 @@
                 var body = constructRequestBody(advertiserObj);
                 accountsService.updateAdvertiser(body,body.id).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.close();
                         $scope.fetchAllAdvertisers($scope.client.id);
                         $scope.resetBrandAdvertiserAfterEdit();
+                        $scope.close();
+
                     }
 
 

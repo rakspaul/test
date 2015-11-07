@@ -149,6 +149,7 @@ var angObj = angObj || {};
             $scope.selectedAdvertiserId = '';
             $scope.advertiserName = '';
             $scope.brandName = '';
+            $scope.clientName = ''
             $scope.selectedBrandId = '';
             $scope.allBrands = [];
             $scope.allAdvertiser = [];

@@ -6,6 +6,7 @@
 
         $scope.close=function(){
             $modalInstance.dismiss();
+            $scope.resetBrandAdvertiserAfterEdit();
         };
 
         $scope.saveBrands = function(){
@@ -14,9 +15,9 @@
                 var body = constructRequestBody(brandObj);
                 accountsService.updateBrand(body,body.id).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.close();
-                        $scope.fetchBrands($scope.client, $scope.advertiser.id);
+                        $scope.fetchBrands($scope.client.id, $scope.advertiser.id);
                         $scope.resetBrandAdvertiserAfterEdit();
+                        $scope.close();
                     }
 
                 });

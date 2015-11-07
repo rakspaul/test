@@ -4,11 +4,11 @@
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h2 class="modal-title" id="myModalLabel">Add/Edit Account</h2>
+        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
     </div>
     <div class="modal-body">
         <div class="form-group">
-		    <label >Label1:</label>
+		    <label >Account Name:</label>
 		    <input type="text" class="form-control" ng-model="clientName">
 		  </div>
 
