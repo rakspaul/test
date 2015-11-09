@@ -4,7 +4,6 @@
         <a class="col-md-12 zeroPadding helpLink" href="javascript:void(0);">Learn more about Ad Settings</a>
     </div>
 </div>
-
 <div class="col-md-12 zeroPadding">
     <div class="col-md-12 adHeader">When would you like your Ad to run?</div>
     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
@@ -29,6 +28,8 @@
         </span>
     </div>
 </div>
+
+
 
 <div class="row zeroPadding budgetWrap radioBtnToggle">
     <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
@@ -59,9 +60,9 @@
     </div>
 
     <label class="col-sm-12 control-label greyTxt miniLabels">Budget Calculation</label>
-    <div class="btn-group miniToggle" ng-init="adData.budgetType='Impressions'">
-        <label class="btn btn-default budget_impressions active"><span>Impressions</span>
-            <input type="radio" name="budgetType" value="Impressions" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event);">
+    <div class="btn-group miniToggle">
+        <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} active"><span>{{adData.budgetTypeLabel}}</span>
+            <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event);">
         </label>
         <label class="btn btn-default budget_cost"><span>Media Cost</span>
             <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
@@ -155,7 +156,7 @@
 
 <!--=== Next Step Panel ===-->
 <div class="row">
-    <a href="#buying" data-toggle="tab" class="nextWrapper leftNavLink">
+    <a data-target="#buying" data-toggle="tab" class="nextWrapper leftNavLink">
         <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
     </a>
 </div>

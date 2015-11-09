@@ -5,7 +5,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
-        
+
         var winHeaderHeight = $(window).height() - 66;
         $(".workflowPreloader").css('height', winHeaderHeight+'px');
 
@@ -28,7 +28,7 @@ var angObj = angObj || {};
                 $(".workflowPreloader").fadeOut( "slow" );
             }, 1500);
         }
-      
+
         $(window).resize(function(){ colResize(); });
 
         // This is for the drop down list. Perhaps adding this to a more general controller
@@ -79,6 +79,8 @@ var angObj = angObj || {};
         $scope.editedAdSourceId = null;
         localStorage.setItem('campaignData','');
         localStorage.removeItem('adPlatformCustomInputs');
+        $scope.adData.budgetTypeLabel = 'Impressions';
+        $scope.adData.budgetType = 'Impressions';
 
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
@@ -197,6 +199,19 @@ var angObj = angObj || {};
         }
 
         $scope.dropBoxItemSelected =  function(item, type, event) {
+            if(item.name =='CPC') {
+              $scope.adData.budgetTypeLabel = 'Clicks';
+            } else if(item.name =='CPA') {
+              $scope.adData.budgetTypeLabel = 'Actions';
+            } else {
+              $scope.adData.budgetTypeLabel = 'Impressions';
+            }
+            if(item.name !==  $scope.adData.unitType) {
+                $scope.adData.unitCost = 0;
+            }
+            if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() !== 'cost' ) {
+              $scope.adData.budgetType = $scope.adData.budgetTypeLabel;
+            }
             $scope.adData[type] = item;
         }
 
@@ -292,7 +307,7 @@ var angObj = angObj || {};
 
             //budget tab
             if(responseData.budgetType){
-                $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
+                $scope.adData.budgetType = $scope.adData.budgetTypeLabel  = $filter('toTitleCase')(responseData.budgetType);
                 if($scope.adData.budgetType) {
                   var budgetElem = $(".budget_" + $scope.adData.budgetType.toLowerCase());
                 }
@@ -312,7 +327,7 @@ var angObj = angObj || {};
             localStorage.setItem('adsDates' , JSON.stringify(dateObj));
             $scope.initiateDatePicker();
 
-            if(responseData.rateValue){
+            if(responseData.rateValue !== ''){
                 $scope.adData.unitCost = responseData.rateValue;
             }
 
@@ -616,7 +631,7 @@ var angObj = angObj || {};
 
         function getfreqCapParams(formData) {
             var freq_cap = [];
-            var budgetType = formData.budgetType.toLowerCase() === 'cost' ? 'Budget' : formData.budgetType;
+            var budgetType = formData.budgetType.toLowerCase() === 'cost' ? 'Budget' : 'impressions';
             var targetType =  budgetType.toLowerCase === 'budget' ? 'ALL' : 'PER_USER';
             if(formData.budgetAmount) {
                 var freqDefaultCapObj = {'frequencyType': 'LIFETIME'};
@@ -1940,7 +1955,7 @@ var angObj = angObj || {};
         $scope.selectAudTarget = function(){
             $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
-        
+
         $(function() {
             $( "#slider-range" ).slider({
                 range: true,
@@ -1954,7 +1969,7 @@ var angObj = angObj || {};
             $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
             " - $" + $( "#slider-range" ).slider( "values", 1 ) );
         });
-        
+
         // Geo Targeting Trigger
         $scope.selectGeoTarget = function(geoTargetName) {
             if(geoTargetName.toLowerCase() === 'geography' && !$scope.adData.geoTargetName) {

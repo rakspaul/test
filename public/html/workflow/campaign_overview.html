@@ -237,35 +237,32 @@
                                         {{adsData.name | textEllipsis: 60}}
                                     </h4>
                                     <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
-                                
+
                                     <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span>
                                 </div>
 
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
                                 </div>
-                                
                                 <div class="cardMidLayer">
-                                    <div class="col-md-4 zeroPadding" ng-switch on="adsData.budgetType">
-                                        <div ng-switch-when="COST" class="col-md-12 zeroPadding text-center">
-                                            <span class="col-md-12 text-center adTxtGray zeroPadding">Budget</span>
-                                            <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | currency:undefined:0}}</span>
-                                        </div>
-                                        <div ng-switch-when="IMPRESSIONS" class="col-md-12 zeroPadding text-center">
-                                            <span class="col-md-12 text-center adTxtGray zeroPadding">Impres.</span>
-                                            <span class="col-md-12 text-center zeroPadding" style="margin-bottom: 15px;">{{adsData.budgetValue | nrFormat}}</span>
-                                        </div>
+                                    <div class="col-md-4 zeroPadding text-center">
+                                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
+                                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined:0) : textConstants.WF_NOT_SET}}</span>
                                     </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType}}</span>
-                                        <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue | currency:undefined:2}}</span>
+                                      <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.IMPRESSIONS}}</span>
+                                      <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
+                                    </div>
+                                    <div class="col-md-4 zeroPadding text-center">
+                                      <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
+                                      <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? adsData.rateValue : textConstants.WF_NOT_SET}}</span>
                                     </div>
                                 </div>
-                                
+
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
                                 </div>
-                                
+
                                 <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Tags ({{adsData.creatives.length || 0}})</span>
 
@@ -274,7 +271,7 @@
                                 <div class="col-md-12 zeroPadding">
                                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
 
-                                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 || adsData.targets.geoTargets.DMA.geoTargetList.length > 0 || adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ? 'Geo': 'Not Set'}}</span>
+                                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 || adsData.targets.geoTargets.DMA.geoTargetList.length > 0 || adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ? 'Geo': textConstants.WF_NOT_SET}}</span>
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
