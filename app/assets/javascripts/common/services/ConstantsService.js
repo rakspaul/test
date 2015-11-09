@@ -405,6 +405,7 @@
     this.WF_AD_PAUSE_SUCCESS="Ad Paused Successfully"
     this.WF_AD_RESUME_FAILURE="Ad Resume Failed"
     this.WF_AD_RESUME_SUCCESS="Ad Resumed Successfully"
+    this.WF_AD_PAUSE_MESSAGE="Are you sure you want to pause delivery ?"
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";
