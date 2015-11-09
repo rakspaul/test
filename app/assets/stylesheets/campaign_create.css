@@ -2517,7 +2517,11 @@
   width: 100%;
   float: left;
 }
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .segmentHeader {
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne {
+  float: left;
+  width: 60%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader {
   width: 100%;
   float: left;
 }
