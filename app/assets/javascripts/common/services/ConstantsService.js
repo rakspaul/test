@@ -414,6 +414,7 @@
     this.WF_MOVE_TO="Move to"
     this.WF_COPY_TO="Copy to"
     this.WF_ARCHIVE="Archive"
+    this.WF_NOT_SET = "Not Set"
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";

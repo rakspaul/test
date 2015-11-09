@@ -88,8 +88,40 @@ var angObj = angObj || {};
                 }, campaignOverView.errorHandler);
             },
 
+            adsDataMofiderFunc : function(adsData) {
+                _.each(adsData, function(data) {
+                  var budgetType = data.budgetType && data.budgetType.toLowerCase();
+                  var rateType = data.rateType && data.rateType.toLowerCase();
+                  if(budgetType === "impressions" || budgetType === "clicks" || budgetType === "actions") {
+                    data['impression_clicks_actions'] = data.budgetValue;
+                    if(rateType === 'cpm') {
+                      data['cost'] = (data.budgetValue/1000)* (data.rateValue);
+                    }
+                    if(rateType === 'cpc') {
+                      data['cost'] = data.budgetValue * data.rateValue;
+
+                    }
+                  }
+
+                  if(budgetType === "cost") {
+                    data['cost'] = data.budgetValue;
+                    if(rateType === 'cpm') {
+                      data['impression_clicks_actions'] = (data.budgetValue/data.rateValue)*1000;
+                    }
+
+                    if(rateType === 'cpc') {
+
+                    }
+                  }
+
+
+                });
+                return adsData;
+            },
+
             getAdsForCampaign: function (campaignId) {
                 workflowService.getAdsForCampaign(campaignId).then(function (result) {
+
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         for(var i in responseData){
@@ -105,7 +137,7 @@ var angObj = angObj || {};
                             $scope.noIndependantAds=true;
                         }
                         // call extract method if
-                        $scope.workflowData['campaignAdsData'] = responseData;
+                        $scope.workflowData['campaignAdsData'] = campaignOverView.adsDataMofiderFunc(responseData);
 
                         var isAdsInProgressState = _.filter(responseData, function(obj) { return obj.state == "IN_PROGRESS" });
 
@@ -144,7 +176,7 @@ var angObj = angObj || {};
                             if(responseData[i].state==="IN_FLIGHT")
                             responseData[i].state="IN FLIGHT";
                         }
-                        $scope.workflowData['getADsForGroupData'][index] = responseData;
+                        $scope.workflowData['getADsForGroupData'][index] = campaignOverView.adsDataMofiderFunc(responseData);
 
                         var isAdsInProgressState = _.filter(responseData, function(obj) { return obj.state == "IN_PROGRESS" });
 
