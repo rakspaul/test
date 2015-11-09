@@ -87,7 +87,7 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
                     $scope.initiateDatePicker();
                     createCampaign.fetchGoals();
-                    $scope.mode ==='edit' &&  createCampaign.fetchBrands($scope.selectedCampaign.advertiserId);
+                    $scope.mode ==='edit' &&  createCampaign.fetchBrands($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId);
                 }
             });
         }
@@ -123,8 +123,8 @@ var angObj = angObj || {};
                 }, createCampaign.errorHandler);
             },
 
-            fetchBrands: function (advertiserId) {
-                workflowService.getBrands(advertiserId).then(function (result) {
+            fetchBrands: function (clientId, advertiserId) {
+                workflowService.getBrands(clientId,advertiserId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['brands'] = _.sortBy(responseData, 'name');
@@ -172,7 +172,7 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.brand = '';
                     $scope.selectedCampaign.advertiserId = data.id;
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
-                    createCampaign.fetchBrands(data.id);
+                    createCampaign.fetchBrands($scope.selectedCampaign.clientId,data.id);
                     break;
                 case 'brand' :
                     $scope.selectedCampaign.brandId = data.id;

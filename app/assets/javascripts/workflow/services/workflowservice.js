@@ -18,8 +18,8 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';
                 return dataService.fetch(url);
             },
-            getBrands: function (advertiserId) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers/' + advertiserId + '/brands';
+            getBrands: function (clientId, advertiserId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/advertisers/' + advertiserId + '/brands';
                 return dataService.fetch(url);
             },
             saveCampaign: function (data) {
