@@ -65,6 +65,8 @@ var angObj = angObj || {};
         $scope.adData.setSizes=constants.WF_NOT_SET;
         $scope.numberOnlyPattern = /[^0-9]/g;
         $scope.adArchive=false;
+        $scope.adPause=false;
+        $scope.adResume=false;
         $scope.changePlatformPopup = false;
         $scope.archiveMessage="Do you want to Archive/ Delete the Ad?";
         $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
@@ -172,7 +174,17 @@ var angObj = angObj || {};
         $scope.cancelAdArchive=function(){
             $scope.adArchive=!$scope.adArchive;
         }
+        $scope.cancelAdPause=function(){
+            if($scope.disable_pause!='disabled')
+                $scope.adPause=!$scope.adPause;
 
+        }
+        $scope.cancelAdResume=function(){
+            $scope.resumeMessage="Resume delivery for flight dates "+utils.convertToEST($scope.getAd_result.startTime,'DD MMM YYYY')+" to "+ utils.convertToEST($scope.getAd_result.endTime,'DD MMM YYYY')+" ?";
+
+            if($scope.disable_resume!='disabled')
+                $scope.adResume=!$scope.adResume;
+        }
         $scope.msgtimeoutReset() ;
         $scope.close_msg_box = function(event) {
             $scope.resetPartialSaveAlertMessage() ;
@@ -355,11 +367,14 @@ var angObj = angObj || {};
         }
 
         function disablePauseEnableResume(getAd_resultData){
-            $scope.disable_pause='';//disable pause button
             $scope.disable_resume='disabled';//disable resume button
+            if(getAd_resultData.state=='IN_FLIGHT' || getAd_resultData.state=='SCHEDULED')
+                $scope.disable_pause='';//enable pause button
+            else
+                $scope.disable_pause='disabled';//disable pause button
             if(getAd_resultData.state=='PAUSED'){
-                $scope.disable_pause="disabled";
-                $scope.disable_resume='';
+                //$scope.disable_pause="disabled";
+                $scope.disable_resume='';//enable resume if ad is paused
             }
         }
 
