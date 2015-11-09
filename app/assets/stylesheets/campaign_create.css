@@ -2516,25 +2516,217 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne {
   width: 100%;
   float: left;
+  margin-top: 30px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne {
   float: left;
-  width: 60%;
+  width: 65%;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader {
   width: 100%;
   float: left;
 }
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
-  margin-top: 30px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable div[class^='col-md'],
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable div[class*=' col-md'] {
-  padding-left: 0;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable div[class^='col-md'] span,
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable div[class*=' col-md'] span {
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL {
   float: left;
+  width: 100%;
+  position: relative;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL .icon-search {
+  position: absolute;
+  z-index: 10;
+  top: 42px;
+  right: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL .keywordWrap {
+  float: left;
+  background: #edf2f8;
+  border: 1px solid #bfc9d7;
+  border-radius: 2px;
+  margin: 5px 5px 0 0;
+  font-size: 12px;
+  padding: 5px 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL .keywordWrap .icon-close {
+  font-size: 9px;
+  width: 9px;
+  height: 9px;
+  float: right;
+  margin: 4px 0 0 5px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .sliderAmount {
+  border: 0;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 11px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .ui-slider {
+  background: #dce6f1;
+  border-radius: 2px;
+  border-width: 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .ui-slider .ui-slider-handle {
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #bfc9d7;
+  width: 13px;
+  height: 35px;
+  top: -12px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable {
+  margin-top: 20px;
+  border: 1px solid #bfc9d7;
+  padding: 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnOne,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnTwo,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFour,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFive,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix {
+  float: left;
+  height: 52px;
+  padding: 5px 0 0 8px;
+  border-right: 1px solid #bfc9d7;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnOne span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnTwo span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFour span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnFive span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix span,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix span {
+  float: left;
+  margin-top: 1px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
+  border-bottom: 2px solid #bfc9d7;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnTwo,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix {
+  border-width: 0px !important;
+  padding-top: 15px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
+  float: left;
+  width: 100%;
+  height: 424px;
+  overflow: auto;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable {
+  border-top: 0;
+  margin: 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne {
+  width: 6%;
+  text-align: center;
+  padding-left: 0 !important;
+  border-right: 1px solid #fff !important;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne .checkbox {
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne .checkbox input[type="checkbox"] {
+  margin: 0;
+  text-align: center;
+  float: none;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnTwo {
+  width: 30%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree {
+  width: 13%;
+  text-align: center;
+  padding-left: 0 !important;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree img {
+  text-align: center;
+  margin-top: 13px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFour {
+  width: 22%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFive {
+  width: 12%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnSix {
+  width: 17%;
+  border-width: 0 !important;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segTotal {
+  float: left;
+  color: #939eae;
+  font-size: 14px;
+  padding-top: 5px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo {
+  float: left;
+  width: 33%;
+  background: #edf2f8;
+  padding: 10px;
+  margin-left: 2%;
+  min-height: 670px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems {
+  float: left;
+  width: 100%;
+  height: 630px;
+  overflow: auto;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap {
+  float: left;
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #bfc9d7;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap span {
+  float: left;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap img {
+  float: left;
+  clear: left;
+  margin-right: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap .icon-close {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
+  margin-top: 0;
+  cursor: pointer;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap span:first-child {
+  width: 50%;
+  clear: both;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap:first-child {
+  margin-top: 20px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder {
   width: 100%;
@@ -2546,8 +2738,9 @@
   width: 100%;
   border-left: 1px solid #bfc9d7;
   border-right: 1px solid #bfc9d7;
-  background: rgba(237, 242, 248, 0.5);
   padding: 5px 15px;
+  background: #edf2f8;
+  cursor: move;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-1 {
   padding: 0 10px 0 0;
@@ -2563,6 +2756,29 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 {
   padding: 0 10px 0 0;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove {
+  float: left;
+  width: 100%;
+  border: 1px solid #bfc9d7;
+  border-radius: 2px;
+  height: 36px;
+  padding: 9px 0;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove span {
+  float: left;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove span:last-child {
+  margin-left: 5px;
+}
+.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove .icon-more-options {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  color: #bfc9d7;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow.andRow {
   border-top: 1px solid #bfc9d7;

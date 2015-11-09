@@ -2603,21 +2603,186 @@
       .segmentStepOne {
         width: 100%;
         float: left;
+        margin-top: 30px;
         .setOne {
           float: left;
-          width: 60%;
+          width: 65%;
           .segmentHeader {
             width: 100%;
             float: left;
+            .multiDDL {
+              float: left;
+              width: 100%;
+              position: relative;
+              .icon-search {
+                position: absolute;
+                z-index: 10;
+                top: 42px;
+                right: 10px;
+              }
+              .keywordWrap {
+                float: left;
+                background: #edf2f8;
+                border: 1px solid #bfc9d7;
+                border-radius: 2px;
+                margin: 5px 5px 0 0;
+                font-size: 12px;
+                padding: 5px 10px;
+                .icon-close {
+                  font-size: 9px;
+                  width: 9px;
+                  height: 9px;
+                  float: right;
+                  margin: 4px 0 0 5px;
+                }
+              }
+            }
+            .sliderAmount {
+              border: 0;
+              text-align: center;
+              margin-top: 5px;
+              margin-bottom: 11px;
+            }
+            .ui-slider {
+              background: #dce6f1;
+              border-radius: 2px;
+              border-width: 0;
+              .ui-slider-handle {
+                background: #fff;
+                border-radius: 2px;
+                border: 1px solid #bfc9d7;
+                width: 13px;
+                height: 35px;
+                top: -12px;
+              }
+            }
           }
-          .segHeaderTable {
-            margin-top: 30px;
-            div[class^='col-md'],div[class*=' col-md'] {
-              padding-left: 0;
+          .segHeaderTable, .segBodyTable {
+            margin-top: 20px;
+            border: 1px solid #bfc9d7;
+            padding: 0;
+            .columnOne, .columnTwo, .columnThree, .columnFour, .columnFive, .columnSix {
+              float: left;
+              height: 52px;
+              padding: 5px 0 0 8px;
+              border-right: 1px solid #bfc9d7;
               span {
                 float: left;
-                padding-left: 5px;
+                margin-top: 1px;
               }
+            }
+          }
+          .segHeaderTable {
+            border-bottom: 2px solid #bfc9d7;
+            .columnOne, .columnTwo, .columnThree, .columnFour, .columnFive, .columnSix {
+              border-width: 0px !important;
+              padding-top: 15px;
+            }
+          }
+          .segBodyWrap {
+            float: left;
+            width: 100%;
+            height: 424px;
+            overflow: auto;
+          }
+          .segBodyTable {
+            border-top: 0;
+            margin: 0;
+          }
+          .columnOne {
+            width: 6%;
+            text-align: center;
+            padding-left: 0 !important;
+            border-right: 1px solid #fff !important;
+            .checkbox {
+              float: left;
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              text-align: center;
+              input[type="checkbox"] {
+                margin: 0;
+                text-align: center;
+                float: none;
+              }
+            }
+          }
+          .columnTwo {
+            width: 30%;
+          }
+          .columnThree {
+            width: 13%;
+            text-align: center;
+            padding-left: 0 !important;
+            img {
+              text-align: center;
+              margin-top: 13px;
+            }
+          }
+          .columnFour {
+            width: 22%;
+          }
+          .columnFive {
+            width: 12%;
+          }
+          .columnSix {
+            width: 17%;
+            border-width: 0 !important;
+          }
+          .segTotal {
+            float: left;
+            color: #939eae;
+            font-size: 14px;
+            padding-top: 5px;
+          }
+        }
+        .setTwo {
+          float: left;
+          width: 33%;
+          background: #edf2f8;
+          padding: 10px;
+          margin-left: 2%;
+          min-height: 670px;
+          .selectedItems {
+            float: left;
+            width: 100%;
+            height: 630px;
+            overflow: auto;
+            .segWrap {
+              float: left;
+              width: 100%;
+              position: relative;
+              border-bottom: 1px solid #bfc9d7;
+              margin-top: 20px;
+              padding-bottom: 10px;
+              span {
+                float: left;
+                font-size: 12px;
+                margin-bottom: 10px;
+              }
+              img {
+                float: left;
+                clear: left;
+                margin-right: 10px;
+              }
+              .icon-close {
+                position: absolute;
+                z-index: 10;
+                top: 0;
+                right: 0;
+                width: 12px;
+                height: 12px;
+                font-size: 12px;
+                margin-top: 0;
+                cursor: pointer;
+              }
+              span:first-child {
+                width: 50%;
+                clear: both;
+              }
+            }
+            .segWrap:first-child {
+              margin-top: 20px;
             }
           }
         }
@@ -2631,8 +2796,9 @@
           width: 100%;
           border-left: 1px solid #bfc9d7;
           border-right: 1px solid #bfc9d7;
-          background: rgba(237,242,248,.5);
           padding: 5px 15px;
+          background: #edf2f8;
+          cursor: move;
           .col-md-1 {
             padding: 0 10px 0 0;
             width: 11%;
@@ -2647,6 +2813,29 @@
           }
           .col-md-9 {
             padding: 0 10px 0 0;
+            .segmentMove {
+              float: left;
+              width: 100%;
+              border: 1px solid #bfc9d7;
+              border-radius: 2px;
+              height: 36px;
+              padding: 9px 0;
+              background-color: rgba(255, 255, 255, 0.5);
+              span {
+                float: left;
+              }
+              span:last-child {
+                margin-left: 5px;
+              }
+              .icon-more-options {
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                transform: rotate(90deg);
+                color: #bfc9d7;
+              }
+            }
           }
         }
         .segmentRow.andRow {
