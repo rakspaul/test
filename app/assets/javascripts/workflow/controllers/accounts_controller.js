@@ -11,9 +11,10 @@ var angObj = angObj || {};
         $scope.brand = '';
         $scope.allAdvertiser = [];
         $scope.allBrands = [];
+        $scope.currency = [];
         $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
         $scope.selectedBrandId = '';
-        $scope.dropdownCss = {display:'block','max-height': '100px',overflow: 'scroll',top: '60px',
+        $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
             left: '30px'};
 
 
@@ -153,6 +154,7 @@ var angObj = angObj || {};
             $scope.selectedBrandId = '';
             $scope.allBrands = [];
             $scope.allAdvertiser = [];
+            $scope.dropdownCss.display = 'none';
             accountsService.setToBeEditedAdvertiser(null);
             accountsService.setToBeEditedBrand(null);
             accountsService.setToBeEditedClient(null)
@@ -167,6 +169,12 @@ var angObj = angObj || {};
                 accountsService.setToBeEditedClient(clientObj);
                 $scope.clientName = clientObj.name;
             }
+            else{
+                accountsService.getAllCurrency().then(function(result){
+                    $scope.currency = result.data.data;
+                })
+            }
+
             var $modalInstance = $modal.open({
 
                 templateUrl: assets.html_accounts_add_or_edit,
@@ -202,6 +210,10 @@ var angObj = angObj || {};
         }
 
         $scope.showDropdown = function(){
+            $scope.advertiserName = '';
+            $scope.selectedAdvertiserId = '';
+            $scope.brandName = '';
+            $scope.selectedBrandId = '';
             $scope.dropdownCss.display = 'block';
         }
 

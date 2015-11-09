@@ -7,6 +7,18 @@
         var advertiserMode;
 
         return {
+            getAllCurrency: function () {
+                var url = apiPaths.WORKFLOW_APIUrl + '/currencies';
+                return dataService.fetch(url);
+            },
+            createBillableAccount: function (data) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/billable_accounts', data,{'Content-Type': 'application/json'})
+
+            },
+            createAgencies: function (data) {
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/agencies', data,{'Content-Type': 'application/json'})
+
+            },
             getAllAdvertisers: function () {
                 var url = apiPaths.WORKFLOW_APIUrl + '/advertisers';
                 return dataService.fetch(url, {cache:false});
@@ -24,7 +36,7 @@
                 return dataService.fetch(url, {cache:false});
             },
             getAdvertisersBrand: function(clientId,advertiserId) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers/'+advertiserId+'/brands';
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers/'+advertiserId+'/brands';
                 return dataService.fetch(url, {cache:false});
             },
             updateAdvertiser : function(data,id) {
@@ -34,13 +46,13 @@
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/advertisers',data, {'Content-Type': 'application/json'})
             },
             createAdvertiserUnderClient : function(clientId,advertiserId) {
-                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId,{}, {'Content-Type': 'application/json'})
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId,{}, {'Content-Type': 'application/json'})
             },
             createBrand : function(data) {
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/brands',data, {'Content-Type': 'application/json'})
             },
             createBrandUnderAdvertiser : function(clientId,advertiserId,brandId) {
-                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/brands/'+brandId,{}, {'Content-Type': 'application/json'})
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+advertiserId+'/brands/'+brandId,{}, {'Content-Type': 'application/json'})
             }
             ,
             updateBrand : function(data,id) {

@@ -7,10 +7,48 @@
         <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
     </div>
     <div class="modal-body">
+        <div class="form-group col-md-5">
+            <label >Account Type:</label>
+            <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="clientType">
+                <option value="{{clientType = 'MARKETER'}}" >Marketer</option>
+                <option value="{{clientType = 'AGENCY'}}" >Agency</option>
+            </select>
+        </div>
+        <div style="clear: both;"></div>
+            <div class="form-group">
+            <label >Currency:</label>
+            <select name='clientType' class="form-control" ng-model="currencySelected">
+                 <option ng-repeat="curr in currency" value="{{curr.id}}"  >{{curr.currencyCode}}</option>
+            </select>
+        </div>
         <div class="form-group">
 		    <label >Account Name:</label>
-		    <input type="text" class="form-control" ng-model="clientName">
-		  </div>
+		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()">
+
+            <ul class="dropdown-menu" role="menu" id="advertiserList"  ng-style="dropdownCss" ng-if="clientType == 'MARKETER'">
+                <div >
+                    <li ng-repeat="advertiser in allAdvertiser | filter:clientName" data-ng-click="selectClientAdvertiser(advertiser)">
+                        <a >
+                            <span class="tick"></span>
+                            <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="form-group">
+            <label >Timezone:</label>
+            <!--<input type="text" class="form-control" ng-model="timezone">-->
+            <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="timezone">
+                <option value="{{timezone = 'EST'}}" >EST (Eastern Standard Time) </option>
+                <option value="{{timezone = 'CST'}}" >CST (Central Standard Time) </option>
+                <option value="{{timezone = 'PST'}}" >PST (Pacific Standard Time)  </option>
+                <option value="{{timezone = 'BST'}}" >BST (British Standard Time)  </option>
+            </select>
+        </div>
+        <div style="clear: both;"></div>
+
 
     </div><!-- end of modal_body -->
     <div class="clearfix popup-btns-holder">
