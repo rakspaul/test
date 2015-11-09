@@ -48,11 +48,11 @@
                                                             <span class="icon-more-options"></span>
                                                          </button>
                                                          <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                                            <li class="{{disable_pause}}" ng-click="cancelAdPause()"><a>Pause</a></li>
-                                                            <li class="{{disable_resume}}" ng-click="cancelAdResume()"><a>Resume</a></li>
-                                                            <li class="disabled"><a>Move to</a></li>
-                                                            <li class="disabled"><a>Copy to</a></li>
-                                                            <li><a id="archiveAdbtn" ng-click="cancelAdArchive()">Archive</a></li>
+                                                            <li class="{{disable_pause}}" ng-click="cancelAdPause()"><a>{{textConstants.WF_PAUSE}}</a></li>
+                                                            <li class="{{disable_resume}}" ng-click="cancelAdResume()"><a>{{textConstants.WF_RESUME}}</a></li>
+                                                            <li class="disabled"><a>{{textConstants.WF_MOVE_TO}}</a></li>
+                                                            <li class="disabled"><a>{{textConstants.WF_COPY_TO}}</a></li>
+                                                            <li><a id="archiveAdbtn" ng-click="cancelAdArchive()">{{textConstants.WF_ARCHIVE}}</a></li>
                                                          </ul>
                                                     </div>
                                                </div>
@@ -111,7 +111,7 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">AD Update</h1>
+                    <h1 class="pull-left">{{textConstants.WF_AD_UPDATE}}</h1>
                     <span class="close unselectable" aria-hidden="true" ng-click="cancelAdArchive()" >x</span>
                 </div>
                 <div class="popup-content">
@@ -129,7 +129,7 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">Pause AD</h1>
+                    <h1 class="pull-left">{{textConstants.WF_PAUSE_AD}}</h1>
                     <span class="close unselectable" aria-hidden="true" ng-click="cancelAdPause()" >x</span>
                 </div>
                 <div class="popup-content">
@@ -147,7 +147,7 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">Resume AD</h1>
+                    <h1 class="pull-left">{{textConstants.WF_RESUME_AD}}</h1>
                     <span class="close unselectable" aria-hidden="true" ng-click="cancelAdResume()" >x</span>
                 </div>
                 <div class="popup-content">

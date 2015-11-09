@@ -406,6 +406,14 @@
     this.WF_AD_RESUME_FAILURE="Ad Resume Failed"
     this.WF_AD_RESUME_SUCCESS="Ad Resumed Successfully"
     this.WF_AD_PAUSE_MESSAGE="Are you sure you want to pause delivery ?"
+    this.WF_AD_UPDATE="AD Update"
+    this.WF_PAUSE_AD="Pause AD"
+    this.WF_RESUME_AD="Resume AD"
+    this.WF_PAUSE="Pause"
+    this.WF_RESUME="Resume"
+    this.WF_MOVE_TO="Move to"
+    this.WF_COPY_TO="Copy to"
+    this.WF_ARCHIVE="Archive"
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";
