@@ -3,10 +3,35 @@
     'use strict';
 
     angObj.controller('AccountsAddOrEdit', function($scope, $modalInstance,accountsService) {
+        $scope.clientType = 'AGENCY';
+        $scope.currencySelected = '';
+        $scope.referenceId;
+
         $scope.close=function(){
             $modalInstance.dismiss();
             $scope.resetBrandAdvertiserAfterEdit();
         };
+
+        $scope.setSelectedClientType = function(type){
+            console.log(type)
+            $scope.clientType = type;
+            if(type == 'MARKETER'){
+                console.log('marketer')
+                accountsService.getAllAdvertisers().then(function(result){
+                    $scope.allAdvertiser = result.data.data;
+                })
+            }
+        }
+        //$scope.setCurrency = function(type){
+        //    $scope.currencySelected = type;
+        //}
+
+        $scope.selectClientAdvertiser = function(advertiser){
+            $scope.dropdownCss.display = 'none';
+            $scope.clientName = advertiser.name;
+            $scope.referenceId = advertiser.id;
+
+        }
 
 
         $scope.saveClients = function(){
@@ -24,21 +49,58 @@
                 });
             }
             else{
-                var body = constructRequestBody();
-                accountsService.createClient(body).then(function(adv){
-                    if (adv.status === "OK" || adv.status === "success") {
-                        accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
-                            if (result.status === "OK" || result.status === "success") {
-                                $scope.fetchAllAdvertisers($scope.client.id);
-                                $scope.close();
-                                //$scope.resetBrandAdvertiserAfterEdit();
-                            }
-                        },function(err){
-                            console.log('error')
-                        });
-                    }
-                });
+                var billableBody = createBillableBody();
+
+                if($scope.clientType == 'MARKETER'){
+                    accountsService.createBillableAccount(billableBody).then(function(result){
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.billableAccountId = result.data.data.id;
+                            var body = constructRequestBody();
+                            createClient(body);
+                        }
+                    })
+                }
+                else{
+                    accountsService.createAgencies(billableBody).then(function(result){
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.referenceId = result.data.data.id;
+
+                            accountsService.createBillableAccount(billableBody).then(function(result) {
+                                if (result.status === "OK" || result.status === "success") {
+                                    $scope.billableAccountId = result.data.data.id;
+                                    var body = constructRequestBody();
+                                    createClient(body);
+                                }
+                            });
+
+                        }
+                    })
+                }
+
+
             }
+        }
+
+        function createClient(body){
+            accountsService.createClient(body).then(function(adv){
+                if (adv.status === "OK" || adv.status === "success") {
+                   // accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
+                      //  if (result.status === "OK" || result.status === "success") {
+                            $scope.fetchAllClients();
+                            $scope.close();
+                            //$scope.resetBrandAdvertiserAfterEdit();
+                        //}
+                    //},function(err){
+                    //    console.log('error')
+                    //});
+                }
+            });
+        }
+
+        function createBillableBody(){
+            var respBody = {};
+            respBody.name = $scope.clientName;
+            return respBody;
         }
 
         function constructRequestBody(obj) {
@@ -54,7 +116,12 @@
             }
             else{
                 respBody.billableAccountId = 1;
-                respBody.clientType = "AGENCY";
+                respBody.clientType = $scope.clientType;
+                respBody.currency = $scope.currencySelected;
+                respBody.referenceId = $scope.referenceId;
+                respBody.billableAccountId = $scope.billableAccountId;
+                respBody.parentId = 1; //temp hardcoded
+                respBody.timezone = $scope.timezone;
             }
 
             return respBody;

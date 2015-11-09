@@ -39,9 +39,9 @@
         function createAdvertiserUnderClient(advId){
             accountsService.createAdvertiserUnderClient($scope.client.id, advId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.close();
                     $scope.fetchAllAdvertisers($scope.client.id);
                     $scope.resetBrandAdvertiserAfterEdit();
+                    $scope.close();
                 }
             },function(err){
                 $scope.close();
