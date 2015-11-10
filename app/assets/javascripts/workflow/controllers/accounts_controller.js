@@ -200,6 +200,7 @@ var angObj = angObj || {};
             $scope.dropdownCss.display = 'none';
             $scope.advertiserName = advertiser.name;
             $scope.selectedAdvertiserId = advertiser.id;
+            $("#advertiserNameInp").val($scope.advertiserName);
         }
 
         //create brand
@@ -207,6 +208,7 @@ var angObj = angObj || {};
             $scope.dropdownCss.display = 'none';
             $scope.brandName = brand.name;
             $scope.selectedBrandId = brand.id;
+            $("#brandNameInp").val($scope.brandName);
         }
 
         $scope.showDropdown = function(){
@@ -222,4 +224,3 @@ var angObj = angObj || {};
     });
 
 })();
-
