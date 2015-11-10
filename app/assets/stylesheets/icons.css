@@ -3,11 +3,8 @@
 /* visto-con */
 @font-face {
   font-family: "visto-con";
-  src:url("https://file.myfontastic.com/orZcghhFzdTquzKceSzhAR/fonts/1446997815.eot");
-  src:url("https://file.myfontastic.com/orZcghhFzdTquzKceSzhAR/fonts/1446997815.eot?#iefix") format("embedded-opentype"),
-    url("https://file.myfontastic.com/orZcghhFzdTquzKceSzhAR/fonts/1446997815.woff") format("woff"),
-    url("https://file.myfontastic.com/orZcghhFzdTquzKceSzhAR/fonts/1446997815.ttf") format("truetype"),
-    url("https://file.myfontastic.com/orZcghhFzdTquzKceSzhAR/fonts/1446997815.svg#1446997815") format("svg");
+  src:url("fonts/1447148970.eot");
+  src:url("fonts/1447148970.woff") format("woff"), url("fonts/1447148970.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
