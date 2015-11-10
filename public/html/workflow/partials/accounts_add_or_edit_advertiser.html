@@ -9,7 +9,7 @@
     <div class="modal-body">
         <div class="form-group" >
 		    <label >Advertiser:</label>
-		    <input type="text" class="form-control" ng-model="advertiserName" ng-keypress="showDropdown()">
+		    <input type="text" class="form-control" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="showDropdown()">
 
             <ul class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
                 <div >
@@ -34,6 +34,6 @@
         <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
             Cancel
         </span>
-       
+
     </div>
 </div> <!-- end of popup-holder -->

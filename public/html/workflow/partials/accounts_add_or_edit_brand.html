@@ -9,11 +9,11 @@
     <div class="modal-body">
         <div class="form-group">
 		    <label >Brand Name:</label>
-		    <input type="text" class="form-control" ng-model="brandName" ng-keypress="showDropdown()">
+		    <input type="text" class="form-control" id="brandNameInp" ng-model="brandName" ng-keyup="showDropdown()">
 
             <ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'" ng-style="dropdownCss">
                 <div >
-                    <li ng-repeat="brand in allBrands | filter:advertiserName" data-ng-click="selectBrand(brand)">
+                    <li ng-repeat="brand in allBrands | filter:brandName" data-ng-click="selectBrand(brand)">
                         <a >
                             <span class="tick"></span>
                             <span class="menuItemText ng-binding" >{{brand.name}}</span>
@@ -30,6 +30,6 @@
         <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
             Cancel
         </span>
-       
+
     </div>
 </div> <!-- end of popup-holder -->

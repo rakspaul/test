@@ -47,9 +47,9 @@
         function createBrandUnderAdvertiser(brandId){
             accountsService.createBrandUnderAdvertiser($scope.client.id, $scope.advertiser.id,brandId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.close();
                     $scope.fetchBrands($scope.client.id,$scope.advertiser.id);
                     $scope.resetBrandAdvertiserAfterEdit();
+                    $scope.close();
                 }
             },function(err){
                 $scope.close();
