@@ -15,12 +15,19 @@
     </ul>
     
     <div class="tab-content">
+		<!--TAB 1-->
         <div id="selectAud" class="col-md-12 zeroPadding tab-pane fade in active">
             <div class="segmentStepOne">
                 <div class="setOne">
                     <div class="segmentHeader">
-                        <label class="col-md-12 greyTxt">Keyword</label>
-                        <input type="text" class="col-md-12" />
+                        <div class="col-md-12 zeroPadding multiDDL">
+							<span class="icon-search"></span>
+							<label class="col-md-12 greyTxt">Keyword</label>
+	                        <input type="text" class="col-md-12" placeholder="Max 10 keywords. Must be seperated by commas"/>
+							<label class="keywordWrap">Republican <span class="icon-close"></span></label>
+							<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>
+							<label class="keywordWrap">Fitness <span class="icon-close"></span></label>
+						</div>
                         
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
                             <label class="col-md-12 greyTxt">Source</label>
@@ -56,61 +63,350 @@
                         
                         <div class="col-md-4 zeroPadding">
                             <!--<label class="col-md-12 greyTxt">Category</label>-->
-                            <input type="text" id="amount" class="col-md-12 greyTxt" readonly style="border:0; text-align: center; margin-top: 15px;">
+                            <input type="text" id="amount" class="col-md-12 greyTxt sliderAmount" readonly>
                                
                             <div class="col-md-12 zeroPadding" id="slider-range"></div>
                         </div>
                     </div>
 					
-					<div class="col-md-12 zeroPadding segHeaderTable">
-						<div class="col-md-1">
+					<div class="col-md-12 segHeaderTable">
+						<div class="columnOne">
 							<div class="checkbox">
 								<input type="checkbox" id="selectAll">
 							</div>
 						</div>	
-						<div class="col-md-3">
+						<div class="columnTwo">
 							<span>Segment Name</span>
 						</div>	
-						<div class="col-md-1">
+						<div class="columnThree">
 							<span>Source</span>
 						</div>	
-						<div class="col-md-3">
+						<div class="columnFour">
 							<span>Category</span>
 						</div>	
-						<div class="col-md-2">
+						<div class="columnFive">
 							<span>Cost</span>
 						</div>	
-						<div class="col-md-2">
+						<div class="columnSix">
 							<span>Est. Pool Size</span>
 						</div>	
 					</div>
 					
-					<div class="col-md-12 zeroPadding segBodyTable">
-						<div class="col-md-1">
-							<div class="checkbox">
-								<input type="checkbox" id="selectAll">
-							</div>
-						</div>	
-						<div class="col-md-3">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-						</div>	
-						<div class="col-md-1">
-							<span>Source</span>
-						</div>	
-						<div class="col-md-3">
-							<span>Psycographic : Political</span>
-						</div>	
-						<div class="col-md-2">
-							<span>$9.99</span>
-						</div>	
-						<div class="col-md-2">
-							<span>1,999,999</span>
-						</div>	
+					<div class="segBodyWrap">
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
+						
+						<div class="col-md-12 segBodyTable">
+							<div class="columnOne">
+								<div class="checkbox">
+									<input type="checkbox" id="selectAll">
+								</div>
+							</div>	
+							<div class="columnTwo">
+								<span>Psycographic : Politcal : Registered : Republican</span>
+							</div>	
+							<div class="columnThree">
+								<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							</div>	
+							<div class="columnFour">
+								<span>Psycographic : Political</span>
+							</div>	
+							<div class="columnFive">
+								<span>$9.99</span>
+							</div>	
+							<div class="columnSix">
+								<span>1,999,999</span>
+							</div>	
+						</div>
 					</div>
-
+					
+					<span class="segTotal">6,666 Results</span>
                 </div>
+				
+				<div class="setTwo">
+					<span class="pull-left">Selected Segments</span>
+					<a class="pull-right">Clear All</a>
+					
+					<div class="selectedItems">
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+						
+						<div class="segWrap">
+							<span>Psycographic : Politcal : Registered : Republican</span>
+							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
+							<span>$9.99</span>
+							<div class="icon-close"></div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-12 zeroPadding">
+					<button class="pull-right btn btn-default">Build Audience</button>
+					<button class="pull-right btn btn-link">Cancel</button>
+				</div>
+				
             </div>
         </div>
+		<!--TAB 1 ENDS HERE-->
+		
+		<!--TAB 2-->
         <div id="buildAud" class="col-md-12 zeroPadding tab-pane fade">
             <a class="pull-right btn" style="padding: 2px">Clear All</a>
             
@@ -147,7 +443,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>
@@ -183,7 +482,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>
@@ -219,7 +521,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>            
@@ -260,7 +565,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>
@@ -296,7 +604,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>
@@ -332,7 +643,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>            
@@ -373,7 +687,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>
@@ -409,7 +726,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>
@@ -445,7 +765,10 @@
                        </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="col-md-12"/>
+                        <div class="segmentMove">
+							<span class="icon-more-options"></span>
+							<span>Psychographic : Sports : Outdoors</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
                 </div>            
