@@ -241,6 +241,19 @@
   display: inline-block;
   width: 100%;
 }
+.workflow .dropdown-workflow .searchBar {
+  position: relative;
+}
+.workflow .dropdown-workflow .searchBar .icon-search {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
 .workflow .dropdown-menu,
 .workflow .dropdown-menu-search {
   width: 280px;
@@ -248,6 +261,15 @@
   margin-left: 0;
   border: 1px solid #ccd2da;
   border-radius: 1px;
+}
+.workflow .dropdown-search {
+  padding-top: 0;
+}
+.workflow .dropdown-search input[type="text"] {
+  border-radius: 0 !important;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
 }
 .workflow .dropdown-search li a {
   padding: 5px 10px;
