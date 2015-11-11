@@ -2474,7 +2474,7 @@
   display: none;
   position: absolute;
   z-index: 10;
-  padding: 0px 0px 30px 30px;
+  padding: 8px 0px 30px 30px;
   opacity: 0;
 }
 .adCreateMaster #targetting .targetingSlide .closeBtnCreative {
