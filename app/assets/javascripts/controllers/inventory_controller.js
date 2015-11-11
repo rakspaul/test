@@ -102,7 +102,7 @@ var angObj = angObj || {};
                 var topChartObj = true;
                 var isGraphPlot = true;
                 //For Top Chart
-                if (topPerformance.length > 4) {
+                if (topPerformance.length > 2) {
                     topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
                 }
                 if (topChartObj === undefined || topPerformance.length == 0) {

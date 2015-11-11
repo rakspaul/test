@@ -110,7 +110,7 @@
                     <div class="pull-left inventory_chart">
                             <span ng-if="!tactic.graphRender" class="no-chart-data">{{textConstants.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH}}</span>
                             <span ng-switch="tactic.chart">
-                                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                              <span ng-switch-when="true" class="no-chart-data">{{textConstants.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH}}</span> 
                                 <span ng-switch-when="false" ng-show="tactic.graphRender" class="no-chart"  ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>
                                 <span ng-switch-default>
                                     <div class="highcharts" ng-if="tactic.graphRender && tactic.chart">
