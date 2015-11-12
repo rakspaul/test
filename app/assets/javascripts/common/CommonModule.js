@@ -39,3 +39,15 @@ commonModule.constant('common', {
 //     cache: true,
 //     dataType: "script"
 // });
+
+if(window.location.hostname === "qa-desk.collective.com" || window.location.hostname === "stg-apps.collective.com" || window.location.hostname === "localhost"  ){
+    /* I placed this here because it requires jquery to work
+     and putting it in template was not working as JQUERY was not loaded yet and didn't want to include it more than once in the app
+     */
+    jQuery.ajax({
+        url: "https://jira.collective.com/s/57dc6f3768f617b09896e8631175ee0d-T/en_USgr1u77/64022/93/1.4.26/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?locale=en-US&collectorId=93f8e7e5",
+        type: "get",
+        cache: true,
+        dataType: "script"
+    });
+}
