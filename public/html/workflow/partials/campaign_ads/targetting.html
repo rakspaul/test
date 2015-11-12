@@ -33,6 +33,7 @@
 
 <div class="col-md-12 zeroPadding">
     <div class="col-md-6 cardSelectHolder">
+        <span class="icon-inline-edit"></span>
         <div class="icon-audience"></div>
         <p>Audience Segments</p>
         <span>Reach the right audience by selecting focus segments</span>
@@ -42,12 +43,23 @@
     </div>
     
     <div class="col-md-6 cardSelectHolder">
+        <span class="icon-inline-edit"></span>
         <div class="icon-location"></div>
         <p>Geography</p>
         <span>Target your audience by location</span>
 
         <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
         <input type="button" name="platform" value="Select" class="btn btn-default">
+    </div>
+    
+    <div class="col-md-6 cardSelectHolder">
+        <span class="icon-inline-edit"></span>
+        <div class="icon-activity"></div>
+        <p>Daypart</p>
+        <span>Set the Days of Week & Time of Days for Ad delivery</span>
+
+        <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
+        <input type="button" name="platform" value="Select" class="btn btn-default" disabled="disabled">
     </div>
 </div>
 
