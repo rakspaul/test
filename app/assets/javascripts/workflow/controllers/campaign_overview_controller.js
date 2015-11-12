@@ -263,13 +263,12 @@ var angObj = angObj || {};
             $('.adGroupSelectionWrap').toggleClass('active');
             $scope.createGroupMessage=false;
             $scope.createGroupMessage=false;
-
-
         }
         $scope.createAdGrp = function () {
             $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
             $('#createNewAdGrp')[0].reset();
             $scope.$broadcast('show-errors-reset');
+            $('.adGroupSelectionWrap').toggleClass('active');
             $scope.createGroupMessage=false;
             $scope.createGroupMessage=false;
         }
