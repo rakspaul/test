@@ -5,7 +5,8 @@
       <a href="javascript:void(0);" class="main_logo" id="logo"></a>
     </div>
     <div class="pull-left main_navigation clearfix" >
-      <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-hide="isWorkFlowUser" ng-if="!dashboard.isNetworkUser" >
+      <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser" >
+      <!--<div class="pull-left each_nav_link" id="dashboard_nav_link" ng-hide="isWorkFlowUser" ng-if="!dashboard.isNetworkUser" >-->
         <a href="/dashboard">{{textConstants.DASHBOARD}}</a>
       </div>
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
@@ -14,7 +15,8 @@
       <!--<div class="pull-left each_nav_link" id="creative_nav_link" ng-show="isWorkFlowUser">-->
         <!--<a href="/creative/list">{{textConstants.CREATIVES}}</a>-->
       <!--</div>-->
-      <div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">
+      <div class="pull-left each_nav_link" id="reports_nav_link">
+      <!--<div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">-->
         <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')">{{textConstants.REPORTS}}</a>
         <div class="reports_header_tabs_holder clearfix">
               <report-tabs></report-tabs>
