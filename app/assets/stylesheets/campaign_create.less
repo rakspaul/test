@@ -696,7 +696,7 @@
             position: relative;
             width: 100%;
             border: 1px dashed #939EAE;
-            padding: 20px 0 .75% .75%;
+            //padding: 20px 0 .75% .75%;
             .btnCreateGroup {
               position: absolute;
               z-index: 10;
@@ -1214,12 +1214,13 @@
       .platformHolder {
         border-radius: 1px;
         border:1px solid #bfc9d7;
-        padding: 0 10px;
-        min-height:230px;
-        width: 24.25%;
-        margin-right: .75%;
-        margin-top: 1%;
+        padding: 20px;
+        min-height: 265px;
+        width: 32%;
+        margin-right: 2%;
+        margin-top: 2%;
         float: left;
+        position: relative;
         span {
           float: left;
           margin: 14px 0 0 0;
@@ -1262,10 +1263,13 @@
           text-align: center;
         }
       }
+      .platformHolder:nth-child(3n+3) {
+        margin-right: 0;
+      }
       .platformHolder:last-child {
         border: 1px dashed #939EAE;
         span {
-          margin: 85px 0 10px 0;
+          margin: 80px 0 10px 0;
         }
       }
       .moreComingSoon {

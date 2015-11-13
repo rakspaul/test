@@ -703,7 +703,6 @@
   position: relative;
   width: 100%;
   border: 1px dashed #939EAE;
-  padding: 20px 0 .75% .75%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup {
   position: absolute;
@@ -1196,12 +1195,13 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder {
   border-radius: 1px;
   border: 1px solid #bfc9d7;
-  padding: 0 10px;
-  min-height: 230px;
-  width: 24.25%;
-  margin-right: .75%;
-  margin-top: 1%;
+  padding: 20px;
+  min-height: 265px;
+  width: 32%;
+  margin-right: 2%;
+  margin-top: 2%;
   float: left;
+  position: relative;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder span {
   float: left;
@@ -1243,11 +1243,14 @@
   width: 100%;
   text-align: center;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:nth-child(3n+3) {
+  margin-right: 0;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child {
   border: 1px dashed #939EAE;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child span {
-  margin: 85px 0 10px 0;
+  margin: 80px 0 10px 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .moreComingSoon {
   float: left;

@@ -1001,17 +1001,19 @@
 .workflow .cardSelectHolder {
   border-radius: 1px;
   border: 1px solid #bfc9d7;
-  padding: 20px 10px;
-  min-height: 230px;
-  width: 24.25%;
-  margin-right: .75%;
-  margin-top: 1%;
+  padding: 30px 20px;
+  min-height: 265px;
+  width: 32%;
+  margin-right: 2%;
+  margin-top: 2%;
   float: left;
+  position: relative;
 }
 .workflow .cardSelectHolder span {
   float: left;
   width: 100%;
   text-align: center;
+  min-height: 50px;
 }
 .workflow .cardSelectHolder p {
   color: #21252b;
@@ -1056,6 +1058,27 @@
   height: 32px;
   font-size: 32px;
   color: #363d49;
+  min-height: initial;
+}
+.workflow .cardSelectHolder .icon-inline-edit {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  right: 10px;
+  color: #0978c9;
+  font-size: 12.5px;
+  width: 12.5px;
+  height: 12.5px;
+  display: none;
+}
+.workflow .cardSelectHolder:nth-child(3n+3) {
+  margin-right: 0;
+}
+.workflow .cardSelectHolder:hover {
+  border: 1px solid #0978c9;
+}
+.workflow .cardSelectHolder:hover .icon-inline-edit {
+  display: initial;
 }
 .workflow .ui-helper-hidden {
   display: none;
