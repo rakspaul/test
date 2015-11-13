@@ -3080,3 +3080,17 @@
 .accounts-popup.popup-holder .modal-title {
   margin-bottom: 20px ;
 }
+.accounts-popup.popup-holder input[type="text"] {
+  color: #21252B ;
+  padding: 10px 20px 7px;
+}
+.accounts-popup.popup-holder .dropdown-menu {
+  width: 90% ;
+}
+.accounts-popup.popup-holder .dropdown-menu li > a {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.accounts-popup.popup-holder .dropdown-menu li > a:hover {
+  background-color: #E1EDF9;
+}
