@@ -38,61 +38,39 @@
             if($scope.mode == 'edit'){
                 var clientObj =  accountsService.getToBeEditedClient();
                 var body = constructRequestBody(clientObj);
-                console.log(body);
                 accountsService.updateClient(body,body.id).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         $scope.close();
                         $scope.fetchAllClients();
                         $scope.resetBrandAdvertiserAfterEdit();
                     }
-
                 });
             }
             else{
                 var billableBody = createBillableBody();
-
-                if($scope.clientType == 'MARKETER'){
-                    accountsService.createBillableAccount(billableBody).then(function(result){
-                        if (result.status === "OK" || result.status === "success") {
-                            $scope.billableAccountId = result.data.data.id;
-                            var body = constructRequestBody();
-                            createClient(body);
-                        }
-                    })
+                var createBillableAccount = function() {
+                  accountsService.createBillableAccount(billableBody).then(function(result){
+                      if (result.status === "OK" || result.status === "success") {
+                          $scope.billableAccountId = result.data.data.id;
+                          var body = constructRequestBody();
+                          createClient(body);
+                      }
+                  })
                 }
-                else{
-                    accountsService.createAgencies(billableBody).then(function(result){
-                        if (result.status === "OK" || result.status === "success") {
-                            $scope.referenceId = result.data.data.id;
-
-                            accountsService.createBillableAccount(billableBody).then(function(result) {
-                                if (result.status === "OK" || result.status === "success") {
-                                    $scope.billableAccountId = result.data.data.id;
-                                    var body = constructRequestBody();
-                                    createClient(body);
-                                }
-                            });
-
-                        }
-                    })
-                }
-
-
+                accountsService[$scope.clientType == 'MARKETER' ? 'createAdvertiser' : 'createAgencies'](billableBody).then(function(result){
+                  if (result.status === "OK" || result.status === "success") {
+                    $scope.referenceId = result.data.data.id;
+                    createBillableAccount();
+                  }
+                });
             }
         }
 
         function createClient(body){
             accountsService.createClient(body).then(function(adv){
                 if (adv.status === "OK" || adv.status === "success") {
-                   // accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
-                      //  if (result.status === "OK" || result.status === "success") {
-                            $scope.fetchAllClients();
-                            $scope.close();
-                            //$scope.resetBrandAdvertiserAfterEdit();
-                        //}
-                    //},function(err){
-                    //    console.log('error')
-                    //});
+                    $scope.fetchAllClients();
+                    $scope.close();
                 }
             });
         }
