@@ -586,7 +586,7 @@
                             display: 'Campaign',
                             key: 'order_name'
                         }, {
-                            display: 'Brand',
+                            display: 'Advertiser',
                             key: 'advertiser'
                         }, {
                             display: 'Flight Dates',

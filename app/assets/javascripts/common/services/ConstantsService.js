@@ -154,6 +154,7 @@
     this.ENDING_TODAY = "Ending today";
     this.VIEW_REPORT = "View Report";
     this.ACTIVITY = "Activity";
+    this.MANAGE = "Manage";
     this.BUDGET_WITH_COLON = "Budget:";
     this.CUMULATIVE_VALUE = "Cumulative Value";
     this.ACTION_RATE_R_CAPS = "Action Rate";
