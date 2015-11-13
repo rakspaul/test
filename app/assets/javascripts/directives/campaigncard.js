@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCard', function (utils,constants,momentService) {
+    angObj.directive('campaignCard', function (utils,constants,momentService, RoleBasedService) {
         return {
             restrict:'EAC',
 
@@ -14,6 +14,7 @@
             link: function ($scope, element, attrs) {
 
                 $scope.textConstants = constants;
+                $scope.isWorkFlow = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
 
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
