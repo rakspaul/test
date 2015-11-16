@@ -1293,7 +1293,7 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
   padding: 0 40px;
-  height: 300px;
+  height: 420px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
   display: none;
@@ -1315,14 +1315,14 @@
   height: 45px;
   width: 38px;
   float: left;
-  margin-top: 115px;
+  margin-top: 170px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .rightCtrl {
   background: url("/assets/images/cdesk/calendar_arrow_right.png") no-repeat center center;
   height: 45px;
   width: 38px;
   float: right;
-  margin-top: 115px;
+  margin-top: 170px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .glyphicon {
   color: #000;
@@ -1337,6 +1337,10 @@
   border: 1px solid #ddd;
   padding: 25px;
   float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .select-btn {
+  text-align: center;
+  margin-top: 20px ;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .title {
   float: left;
