@@ -223,8 +223,8 @@
                         </div>
 
                         <!--=== Single Ad Ready ===-->
-                        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id" ng-click='goEdit(adsData)'>
-                            <span class="icon-settings"></span>
+                        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id" ng-click="adsData.state=='IN_PROGRESS' ? '': goEdit(adsData)">
+                          adState-->  {{adsData.state}}<span class="icon-settings"></span>
                             <div class="col-md-12 adTitle">
                                 <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="{{(adsData.platform)}}" title="{{adsData.platform.displayName | uppercase}}"/>
                                 <span class="greyTxt adDisplay">{{adsData.platform.displayName}}</span>
