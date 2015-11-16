@@ -130,6 +130,11 @@ var angObj = '';
                 controller: 'CollectiveReportListingController',
                 css: assets.css_custom_reports
             })
+            .when('/reports/scheduleList', {
+                templateUrl: assets.html_reports_schedule_list,
+                title: 'Scheduled Reports',
+                controller: 'ReportsScheduleListController'
+            })
             .when('/performance', {
                 templateUrl: assets.html_performance,
                 title: 'Reports - Performance',
