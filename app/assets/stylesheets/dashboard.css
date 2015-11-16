@@ -443,6 +443,12 @@
   max-height: 280px;
   position: static;
 }
+.main_dashboard .dashboard_budget_graph_holder #brands .node {
+  cursor: pointer;
+}
+.main_dashboard .dashboard_budget_graph_holder #campaigns .node {
+  cursor: default;
+}
 .main_dashboard #dashboard_metric_dd {
   margin-left: 10px;
   font-size: 14px;
