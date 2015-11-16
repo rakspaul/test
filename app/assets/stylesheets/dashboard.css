@@ -51,6 +51,9 @@
 .main_dashboard .dropdown {
   cursor: default;
 }
+.main_dashboard .dropdown .dropdown_ul_text {
+  cursor: pointer;
+}
 .main_dashboard .dropdown .dropdown_ul {
   text-align: left;
   min-width: 86px;
