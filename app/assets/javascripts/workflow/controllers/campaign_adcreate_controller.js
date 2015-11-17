@@ -91,7 +91,6 @@ var angObj = angObj || {};
 
         }
 
-
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;
@@ -280,6 +279,7 @@ var angObj = angObj || {};
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
+
             if(responseData.sourceId){
                 $scope.editedAdSourceId = responseData.sourceId;
             }
@@ -794,9 +794,10 @@ var angObj = angObj || {};
                      }
 
                      if (formData.platformId) {
-                         postAdDataObj.platformId = Number(formData.platformId); console.log(formData.platformId);
+                         postAdDataObj.platformId = Number(formData.platformId);
                          if($scope.TrackingIntegrationsSelected){
                              postAdDataObj.isTracking=true;
+
                          }
                      }
 
@@ -1302,6 +1303,7 @@ var angObj = angObj || {};
         };
     });
 
+<<<<<<< HEAD
 //    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
 //        $scope.$watch('adData.platformId', function(newValue) {
 //            $scope.$parent.changePlatform(newValue);
