@@ -18,8 +18,16 @@
                         $scope.fetchBrands($scope.client.id, $scope.advertiser.id);
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
+                        $scope.flashMessage.message = 'Brands updated successfully' ;
+                        $scope.msgtimeoutReset();
                     }
 
+                }, function(err){
+                    $scope.close();
+                    $scope.flashMessage.message = 'Error in creating brand.' ;
+                    $scope.flashMessage.isErrorMsg = 1 ;
+                    $scope.msgtimeoutReset();
+                    console.log('error')
                 });
             }
             else if($scope.selectedBrandId != ''){ //when user does select and existing brand under a advertiser
@@ -29,15 +37,6 @@
                 var body = constructRequestBody();
                 accountsService.createBrand(body).then(function(brand){
                     if (brand.status === "OK" || brand.status === "success") {
-                        //accountsService.createAdvertiserUnderClient($scope.client.id, adv.data.data.id).then(function (result) {
-                        //    if (result.status === "OK" || result.status === "success") {
-                        //        $scope.close();
-                        //        $scope.fetchAllAdvertisers($scope.client.id);
-                        //        $scope.resetBrandAdvertiserAfterEdit();
-                        //    }
-                        //},function(err){
-                        //    console.log('error')
-                        //});
                         createBrandUnderAdvertiser(brand.data.data.id)
                     }
                 });
@@ -50,9 +49,14 @@
                     $scope.fetchBrands($scope.client.id,$scope.advertiser.id);
                     $scope.resetBrandAdvertiserAfterEdit();
                     $scope.close();
+                    $scope.flashMessage.message = 'Brands created successfully' ;
+                    $scope.msgtimeoutReset();
                 }
             },function(err){
                 $scope.close();
+                $scope.flashMessage.message = 'Error in creating brand under advertiser.' ;
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.msgtimeoutReset();
                 console.log('error')
             });
         }
@@ -69,6 +73,6 @@
             }
             return respBody;
         }
-        
+
     });
 }());

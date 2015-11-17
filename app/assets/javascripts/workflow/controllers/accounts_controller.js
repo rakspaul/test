@@ -16,7 +16,29 @@ var angObj = angObj || {};
         $scope.selectedBrandId = '';
         $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
             left: '30px'};
+        $scope.flashMessage = {'message':'','isErrorMsg':0};
 
+
+        $scope.msgtimeoutReset = function(){
+             $timeout(function(){
+                 $scope.resetFlashMessage() ;
+             }, 3000);
+         };
+
+        $scope.close_msg_box = function(event) {
+             var elem = $(event.target);
+             elem.closest(".top_message_box").hide() ;
+             $scope.resetFlashMessage() ;
+         };
+
+         $scope.resetFlashMessage = function(){
+           console.log("resetFlashMessage-->");
+             $scope.flashMessage.message = '' ;
+             $scope.flashMessage.isErrorMsg = 0 ;
+             $scope.flashMessage.isMsg = 0 ;
+         };
+
+         $scope.msgtimeoutReset() ;
 
         $scope.show_advertisers = function(event,clientId) {
             //$scope.fetchAllAdvertisers(clientId);
@@ -39,10 +61,6 @@ var angObj = angObj || {};
         $scope.fetchAllClients = function(){
             accountsService.getClients().then(function(res) {
                 $scope.clientsDetails = res.data.data;
-
-                //for(var i = 0; i < $scope.clientsDetails.length; i++) {
-                //    $scope.fetchAllAdvertisers($scope.clientsDetails[i].id);
-                //}
             })
         }
         $scope.fetchAllClients();
@@ -50,9 +68,9 @@ var angObj = angObj || {};
         $scope.fetchAllAdvertisers = function(clientId){
                accountsService.getClientsAdvertisers(clientId).then(function(res){
                    var index = _.findIndex($scope.clientsDetails, function(item) {
-                       return item.id == clientId});
+                   return item.id == clientId});
                    $scope.clientsDetails[index]['advertisement'] = [];
-                    $scope.clientsDetails[index]['advertisement'] = res.data.data;
+                   $scope.clientsDetails[index]['advertisement'] = res.data.data;
                });
         }
 
@@ -165,14 +183,19 @@ var angObj = angObj || {};
         //Add or Edit Pop up for Account
         $scope.AddOrEditAccountModal = function(mode,clientObj) {
             $scope.mode = mode;
+            accountsService.getAllCurrency().then(function(result){
+                $scope.currency = result.data.data;
+                console.log($scope.currency);
+            })
             if(mode == 'edit'){
                 accountsService.setToBeEditedClient(clientObj);
+                console.log("clientObj", clientObj);
                 $scope.clientName = clientObj.name;
-            }
-            else{
-                accountsService.getAllCurrency().then(function(result){
-                    $scope.currency = result.data.data;
-                })
+                $scope.clientType = clientObj.clientType;
+                $scope.selectedCurrency = clientObj.currency && clientObj.currency.id;
+                console.log("$scope.currencySelected", $scope.curr);
+                console.log("clientObj.timezone;", clientObj.timezone)
+                $scope.timezone = clientObj.timezone;
             }
 
             var $modalInstance = $modal.open({
