@@ -100,6 +100,9 @@
     this.COLLECTIVE_INSIGHTS = "Collective Insights";
     this.UPLOAD_REPORT = "Upload Report";
 
+    this.SCHEDULED_REPORTS = "Scheduled Reports";
+    this.NEW_REPORT = "New Report";
+
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
     this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Campaign has been successfully updated';
@@ -386,6 +389,13 @@
 
     this.YESTERDAY = "Yesterday";
     this.WF_NOT_SET="Not Set";
+
+    this.CREATED_BY = "Created by";
+    this.DISTRIBUTED_TO = "Distributed to";
+    this.REPORT_NAME = "Report Name";
+    this.ACTIONS = "Actions";
+    this.COMPLETE_ON = "Complete on" ;
+    this.VIEW_ALL_REPORTS = "View all reports" ;
 
     this.WF_CREATIVE_TAG_ALREADY_EXISTS = "This tag already exists in your Creative Tag Library. Save a Creative anyway?";
     this.WF_DUPLICATE_TAG = 'Duplicate Tag';

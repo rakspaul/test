@@ -1,0 +1,133 @@
+
+<!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+<div class="top_message_box" ng-class="{'red_msg':flashMessage.isErrorMsg}" ng-show="flashMessage.message">
+	<span class="msg_box">
+		<span class="msg_icon">x</span>
+		<span class="msg_txt" >
+      {{flashMessage.message}}
+    </span>
+    <span class="close_msg_box_holder">
+      <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+    </span>
+	</span>
+</div>
+<!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+
+
+<div class="reports-scheduled-list">
+
+	<div class="scheduled-list-header">
+		<div class="clearfix" >
+			<h2 class="pull-left">{{textConstants.SCHEDULED_REPORTS}}</h2>
+      <a href="javascript:void(0);" class="btn btn-default pull-right" >{{textConstants.NEW_REPORT}}</a>
+		</div>
+	</div>
+  <div class="scheduled-list-nav clearfix">
+    <div class="pull-left each-nav active">
+      {{textConstants.REPORTS}}
+    </div>
+    <div class="pull-left each-nav">
+      {{textConstants.WF_ARCHIVE}} 
+    </div>
+  </div>
+
+  
+  <div class="scheduled_list_table">
+
+      <div class="table-header">
+        <div class="row">
+          <div class="col-md-4 table-th">
+
+            {{textConstants.REPORT_NAME}} 
+          </div>
+          <div class="col-md-1 table-th frequency-th">
+            {{textConstants.WF_FREQUENCY}}
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.COMPLETE_ON}}  
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.CREATED_BY}} 
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.DISTRIBUTED_TO}}  
+          </div>
+          <div class="col-md-1 table-th">
+            {{textConstants.ACTIONS}}  
+          </div>
+        </div>
+
+      </div>
+      <div class="table-body">
+        <div class="row unread">
+          <div class="col-md-4 table-td">
+            This is an example of a report requested daily. This is an example of a report requested daily.
+          </div>
+          <div class="col-md-1 table-td">
+            Daily
+          </div>
+          <div class="col-md-2 table-td">
+            Pending Status
+          </div>
+          <div class="col-md-2 table-td">
+            xyz
+          </div>
+          <div class="col-md-2 table-td">
+            xyz@collective.com
+          </div>
+          <div class="col-md-1 table-td">
+            <span class="glyphicon glyphicon-option-horizontal"></span>
+          </div>
+        </div>
+        <div class="row open">
+          <div class="col-md-4 table-td">
+            This is an example of a report requested daily.
+          </div>
+          <div class="col-md-1 table-td">
+            Daily
+          </div>
+          <div class="col-md-2 table-td">
+            Pending Status
+          </div>
+          <div class="col-md-2 table-td">
+            xyz
+          </div>
+          <div class="col-md-2 table-td">
+            xyz@collective.com
+          </div>
+          <div class="col-md-1 table-td">
+            <span class="glyphicon glyphicon-option-horizontal"></span>
+          </div>
+        </div>
+        <div class="inner-row">
+          <div class="row unread">
+            <div class="col-md-4 table-td">
+              This is an example of a report requested daily.
+            </div>
+            <div class="col-md-1 table-td">
+              Daily
+            </div>
+            <div class="col-md-2 table-td">
+              Pending Status
+            </div>
+            <div class="col-md-2 table-td">
+              xyz
+            </div>
+            <div class="col-md-2 table-td">
+              xyz@collective.com
+            </div>
+            <div class="col-md-1 table-td">
+              <span class="glyphicon glyphicon-option-horizontal"></span>
+            </div>
+          </div>
+          <div class="row view-all-link">
+            <div class="col-md-12 table-td">
+              <a href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}} </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+</div>

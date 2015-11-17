@@ -188,6 +188,7 @@
       'common-services-zipCode' : {deps:['CommonModule']},
       'collectiveReport-CollectiveReportModule':{deps: ['angular']},
       'collectiveReport-CollectiveReportListingController':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-reports_schedule_list_controller':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
       //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
@@ -321,6 +322,7 @@
 
       'collectiveReport-CollectiveReportModule':'collectiveReport/CollectiveReportModule',
       'collectiveReport-CollectiveReportListingController':'collectiveReport/CollectiveReportListingController',
+      'collectiveReport-reports_schedule_list_controller':'collectiveReport/reports_schedule_list_controller',
       'collectiveReport-CollectiveReportModel':'collectiveReport/CollectiveReportModel',
       //'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
       'collectiveReport-CollectiveEditReportController':'collectiveReport/CollectiveEditReportController',
@@ -558,6 +560,7 @@
            'common-directive-DataNotFound',
           'collectiveReport-CollectiveReportModule',
           'collectiveReport-CollectiveReportListingController',
+          'collectiveReport-reports_schedule_list_controller',
           'collectiveReport-CollectiveReportModel',
           'collectiveReport-CollectiveEditReportController',
           'collectiveReport-CollectiveDeleteReportController',
