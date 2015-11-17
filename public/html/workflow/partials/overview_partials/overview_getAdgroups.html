@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                     <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Tags ({{adsData.creatives.length || 0}})</span>
-                    <p style="margin: 0;">{{appendSizes(adsData.creatives) | lowercase | limitTo:charLimit}} ... </p>
+                    <p style="margin: 0; text-transform: capitalize;">{{appendSizes(adsData.creatives) | lowercase}}{{moreThenThree}}</p>
                 </div>
                 <div class="col-md-12 zeroPadding">
                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>

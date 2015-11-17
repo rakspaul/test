@@ -17,7 +17,7 @@ var angObj = angObj || {};
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
         localStorage.setItem('campaignData','');
-        $scope.charLimit = 24;
+        $scope.moreThenThree = '';
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
@@ -249,6 +249,7 @@ var angObj = angObj || {};
                     $scope.sizeString = result[0].join(', ');
                     
                 }
+                
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
             }
@@ -269,6 +270,11 @@ var angObj = angObj || {};
                 
                 return [a, b];
             }
+            
+            //if (creative.length >= 4) {
+            //    console.log('hi');
+            //    $scope.moreThenThree = '...';
+            //}
             return $scope.sizeString;
         }
         
