@@ -34,7 +34,7 @@ commonModule.constant('common', {
 
 
 if(window.location.hostname === "stg-apps.collective.com" || window.location.hostname === "localhost"  ){
-    /* I placed this here because it requires jquery to work
+    /* Issue Tracker I placed this here because it requires jquery to work
      and putting it in template was not working as JQUERY was not loaded yet and didn't want to include it more than once in the app
      */
     jQuery.ajax({
