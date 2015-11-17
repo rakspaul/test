@@ -91,6 +91,18 @@ var angObj = angObj || {};
 
         }
 
+        $scope.selectTrackingIntegrations=function(trackingIntegration){
+            $scope.TrackingIntegrationsSelected=true;
+            $scope.selectedPlatform = {};
+            $scope.managedSelectedPlatform = {};
+            $scope.adData.platform =  trackingIntegration.name;
+            $scope.adData.platformId = trackingIntegration.id;
+            //$scope.selectedPlatform[platform.id]="";
+            $scope.managedSelectedPlatform[trackingIntegration.id] = trackingIntegration.name;
+            console.log($scope.managedSelectedPlatform);
+
+
+        }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;
@@ -279,7 +291,7 @@ var angObj = angObj || {};
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
-
+           // $scope.editTrackerAd=responseData.is_Tracker;
             if(responseData.sourceId){
                 $scope.editedAdSourceId = responseData.sourceId;
             }
@@ -605,7 +617,6 @@ var angObj = angObj || {};
 //        campaignOverView.fetchManagedServicePlatforms();
         campaignOverView.fetchPlatforms();
 
-
         $scope.screenTypeSelection = function (screenTypeObj) {
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
                 return obj.name === screenTypeObj.name
@@ -797,7 +808,6 @@ var angObj = angObj || {};
                          postAdDataObj.platformId = Number(formData.platformId);
                          if($scope.TrackingIntegrationsSelected){
                              postAdDataObj.isTracking=true;
-
                          }
                      }
 
@@ -1303,7 +1313,6 @@ var angObj = angObj || {};
         };
     });
 
-<<<<<<< HEAD
 //    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
 //        $scope.$watch('adData.platformId', function(newValue) {
 //            $scope.$parent.changePlatform(newValue);

@@ -11,7 +11,6 @@
             <span ng-bind-html="platform.summary"></span>
             <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>
             <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
-
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
         <div class="col-md-6 platformHolder">
