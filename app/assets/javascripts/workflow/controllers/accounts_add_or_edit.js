@@ -109,11 +109,11 @@
             else{
                 respBody.billableAccountId = 1;
                 respBody.clientType = $scope.clientType;
-                respBody.currency = $scope.currencySelected;
+                respBody.currency = Number($scope.selectedCurrency);
                 respBody.referenceId = $scope.referenceId;
+                respBody.timezone = $scope.timezone;
                 respBody.billableAccountId = $scope.billableAccountId;
                 respBody.parentId = 1; //temp hardcoded
-                respBody.timezone = $scope.timezone;
             }
 
             return respBody;
