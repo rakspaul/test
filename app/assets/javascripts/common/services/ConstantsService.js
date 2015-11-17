@@ -390,6 +390,13 @@
     this.YESTERDAY = "Yesterday";
     this.WF_NOT_SET="Not Set";
 
+    this.CREATED_BY = "Created by";
+    this.DISTRIBUTED_TO = "Distributed to";
+    this.REPORT_NAME = "Report Name";
+    this.ACTIONS = "Actions";
+    this.COMPLETE_ON = "Complete on" ;
+    this.VIEW_ALL_REPORTS = "View all reports" ;
+
     this.WF_CREATIVE_TAG_ALREADY_EXISTS = "This tag already exists in your Creative Tag Library. Save a Creative anyway?";
     this.WF_DUPLICATE_TAG = 'Duplicate Tag';
     this.WF_INVALID_CREATIVE_TAG= 'You have entered an invalid Javascript tag.Please review carefully and try again';
