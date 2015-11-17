@@ -706,6 +706,7 @@
   position: relative;
   width: 100%;
   border: 1px dashed #939EAE;
+  padding: 20px 0 .75% .75%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup {
   position: absolute;

@@ -790,6 +790,8 @@
 }
 .workflow .left_column_nav .creative_tab_sizes {
   word-wrap: break-word;
+  word-break: break-word;
+  text-align: left !important;
 }
 .workflow .campaign-create-left-nav .campaign_name {
   float: none;
