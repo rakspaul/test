@@ -2,7 +2,6 @@
 (function() {
     'use strict';
     collectiveReportModule.controller('ReportsScheduleListController', function(loginModel,collectiveReportModel, $scope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore , $timeout,utils ) {
-        
 
         //close messages in 3 seconds
         $scope.timeoutReset = function(){
