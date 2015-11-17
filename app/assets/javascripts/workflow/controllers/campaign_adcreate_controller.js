@@ -981,7 +981,7 @@ var angObj = angObj || {};
                 } else if (selectedcreatives.creatives.length > 1) {
                     $scope.sizeString = "";
                     for (var i in selectedcreatives.creatives) {
-                        $scope.sizeString += selectedcreatives.creatives[i].size.size + ",";
+                        $scope.sizeString += selectedcreatives.creatives[i].size.size + ", ";
                     }
                     $scope.sizeString = $scope.sizeString.substring(0, $scope.sizeString.length - 1);
                 }
