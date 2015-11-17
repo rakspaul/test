@@ -3104,6 +3104,10 @@
   color: #21252B ;
   padding: 10px 20px 7px;
 }
+.accounts-popup.popup-holder select {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .accounts-popup.popup-holder .dropdown-menu {
   width: 90% ;
 }

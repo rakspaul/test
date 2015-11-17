@@ -15,7 +15,6 @@
         $scope.setSelectedClientType = function(type){
             $scope.clientType = type;
             if(type == 'MARKETER'){
-                console.log('marketer')
                 accountsService.getAllAdvertisers().then(function(result){
                     $scope.allAdvertiser = result.data.data;
                 })
