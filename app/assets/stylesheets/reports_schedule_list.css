@@ -1,0 +1,22 @@
+.reports-scheduled-list .table-th {
+  padding: 20px;
+  border-color: #d2dee7  ;
+  border-width: 1px 0 2px 0px ;
+  border-style: solid ;
+}
+.reports-scheduled-list .table-th:first-child {
+  border-left-width: 1px  ;
+}
+.reports-scheduled-list .table-th:last-child {
+  border-right-width: 1px  ;
+}
+.reports-scheduled-list .table-td {
+  border-color: #bfc9d7  ;
+  border-width: 0px 0 1px 1px ;
+  border-style: solid ;
+  padding: 7px 20px;
+  background: #edf2f8 ;
+}
+.reports-scheduled-list .table-td:last-child {
+  border-right-width: 1px  ;
+}
