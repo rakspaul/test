@@ -1,22 +1,87 @@
-.reports-scheduled-list .table-th {
+.reports-scheduled-list .scheduled-list-header {
+  margin: 30px 0 20px ;
+}
+.reports-scheduled-list h2 {
+  margin-top: 0px ;
+}
+.reports-scheduled-list .scheduled-list-nav {
+  margin-bottom: 23px ;
+}
+.reports-scheduled-list .scheduled-list-nav .each-nav {
+  color: #939eae ;
+  font-size: 13px ;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-right: 34px ;
+}
+.reports-scheduled-list .scheduled-list-nav .each-nav.active {
+  color: #57606c ;
+  border-bottom: solid 2px #0978c9 ;
+}
+.reports-scheduled-list .scheduled_list_table .row {
+  margin: 0 ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th,
+.reports-scheduled-list .scheduled_list_table .table-td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th:first-child,
+.reports-scheduled-list .scheduled_list_table .table-td:first-child {
+  padding-left: 40px ;
+  background-image: url("/assets/images/cdesk/common_side_arrow.png");
+  background-repeat: no-repeat;
+  background-position: left 15px center ;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table .table-header div.frequency-th {
+  padding-right: 0px ;
+}
+.reports-scheduled-list .scheduled_list_table .table-body .row.unread {
+  font-family: "Avenir-bold";
+}
+.reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {
+  background-image: url("/assets/images/cdesk/common_down_arrow.png");
+}
+.reports-scheduled-list .scheduled_list_table .table-th {
   padding: 20px;
   border-color: #d2dee7  ;
   border-width: 1px 0 2px 0px ;
   border-style: solid ;
 }
-.reports-scheduled-list .table-th:first-child {
+.reports-scheduled-list .scheduled_list_table .table-th:first-child {
   border-left-width: 1px  ;
+  background-image: none ;
 }
-.reports-scheduled-list .table-th:last-child {
+.reports-scheduled-list .scheduled_list_table .table-th:last-child {
   border-right-width: 1px  ;
 }
-.reports-scheduled-list .table-td {
+.reports-scheduled-list .scheduled_list_table .table-td {
   border-color: #bfc9d7  ;
   border-width: 0px 0 1px 1px ;
   border-style: solid ;
   padding: 7px 20px;
-  background: #edf2f8 ;
+  background-color: #edf2f8 ;
 }
-.reports-scheduled-list .table-td:last-child {
+.reports-scheduled-list .scheduled_list_table .table-td:last-child {
   border-right-width: 1px  ;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .table-td {
+  background-color: #fff  ;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .table-td:first-child {
+  background-image: none ;
+  padding-left: 55px;
+  cursor: text;
+}
+.reports-scheduled-list .scheduled_list_table .view-all-link {
+  text-align: center;
+}
+.reports-scheduled-list .scheduled_list_table .view-all-link .table-td {
+  background-image: none;
+}
+.reports-scheduled-list .scheduled_list_table .view-all-link a {
+  color: #0978c9 ;
+  text-decoration: underline;
 }
