@@ -13,16 +13,88 @@
 </div>
 <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
 
-<div class="report_generator_and_response reports_list_page">
-	<div class="report_builder_container">
-	    <div class="container">
-	    	<div class="row">
-	    		<div class="clearfix title1" >
-	    			<h3 class="pull-left">{{textConstants.COLLECTIVE_INSIGHTS}}</h3>
-            <a href="/reports/upload" class="common_primary_btn upload_page_link" ng-show="isNetworkUser">{{textConstants.UPLOAD_REPORT}}</a>
-	    		</div>
-	    	</div>
-	    </div>
+<div class="container reports-scheduled-list">
+
+	<div class="row">
+		<div class="clearfix" >
+			<h3 class="pull-left">{{textConstants.SCHEDULED_REPORTS}}</h3>
+      <a href="javascript:void(0);" class="btn btn-default pull-right" >{{textConstants.NEW_REPORT}}</a>
+		</div>
 	</div>
+  
+  <div class="scheduled_list_table">
+
+      <div class="table-header">
+        <div class="row">
+          <div class="col-md-4 table-th">
+            Report Name
+          </div>
+          <div class="col-md-1 table-th">
+            Frequency
+          </div>
+          <div class="col-md-2 table-th">
+            Complete on 
+          </div>
+          <div class="col-md-2 table-th">
+            Created by
+          </div>
+          <div class="col-md-2 table-th">
+            Distributed to
+          </div>
+          <div class="col-md-1 table-th">
+            Actions
+          </div>
+        </div>
+
+      </div>
+      <div class="table-body">
+        <div class="row">
+          <div class="col-md-4 table-td">
+            This is an example of a report requested daily.
+          </div>
+          <div class="col-md-1 table-td">
+            Daily
+          </div>
+          <div class="col-md-2 table-td">
+            Pending Status
+          </div>
+          <div class="col-md-2 table-td">
+            xyz
+          </div>
+          <div class="col-md-2 table-td">
+            xyz@collective.com
+          </div>
+          <div class="col-md-1 table-td">
+            <span class="glyphicon glyphicon-option-horizontal"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 table-td">
+            This is an example of a report requested daily.
+          </div>
+          <div class="col-md-1 table-td">
+            Daily
+          </div>
+          <div class="col-md-2 table-td">
+            Pending Status
+          </div>
+          <div class="col-md-2 table-td">
+            xyz
+          </div>
+          <div class="col-md-2 table-td">
+            xyz@collective.com
+          </div>
+          <div class="col-md-1 table-td">
+            <span class="glyphicon glyphicon-option-horizontal"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 table-td">
+            View all reports
+          </div>
+        </div>
+      </div>
+
+  </div>
 
 </div>

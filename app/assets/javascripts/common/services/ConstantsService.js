@@ -100,6 +100,9 @@
     this.COLLECTIVE_INSIGHTS = "Collective Insights";
     this.UPLOAD_REPORT = "Upload Report";
 
+    this.SCHEDULED_REPORTS = "Scheduled Reports";
+    this.NEW_REPORT = "New Report";
+
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
     this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Campaign has been successfully updated';

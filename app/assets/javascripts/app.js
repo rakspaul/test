@@ -133,7 +133,8 @@ var angObj = '';
             .when('/reports/scheduleList', {
                 templateUrl: assets.html_reports_schedule_list,
                 title: 'Scheduled Reports',
-                controller: 'ReportsScheduleListController'
+                controller: 'ReportsScheduleListController',
+                css: assets.css_reports_schedule_list
             })
             .when('/performance', {
                 templateUrl: assets.html_performance,
