@@ -5,7 +5,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
-
+        $("html").css('background','#fff');
         var winHeaderHeight = $(window).height() - 66;
         $(".workflowPreloader").css('height', winHeaderHeight+'px');
 

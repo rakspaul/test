@@ -17,6 +17,7 @@ var angObj = angObj || {};
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
         localStorage.setItem('campaignData','');
+        $scope.charLimit = 24;
 
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
@@ -228,23 +229,51 @@ var angObj = angObj || {};
             window.location.href = '/campaign/' + $scope.workflowData.campaignData.id + '/ads/create';
         }
 
-        $scope.appendSizes = function (creative) {
+
+         $scope.appendSizes = function (creative) {
             //console.log(creative);
+            var creativeSizeArr = []
+            
             if (typeof creative != 'undefined') {
                 if (creative.length == 1) {
                     $scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
                     $scope.sizeString = "";
                     for (var i in creative) {
-                        $scope.sizeString += creative[i].size.size + ",";
+                        //$scope.sizeString += creative[i].size.size + ", ";
+                        creativeSizeArr.push(creative[i].size.size)
                     }
-                    $scope.sizeString = $scope.sizeString.substring(0, $scope.sizeString.length - 1);
+                    $scope.sizeString = creativeSizeArr;
+                    var arr = creativeSizeArr;
+                    var result = noRepeat(arr);
+                    $scope.sizeString = result[0].join(', ');
+                    
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
             }
+            
+            function noRepeat(arr) {
+                var a = [], b = [], prev;
+                
+                arr.sort();
+                for ( var i = 0; i < arr.length; i++ ) {
+                    if ( arr[i] !== prev ) {
+                        a.push(arr[i]);
+                        b.push(1);
+                    } else {
+                        b[b.length-1]++;
+                    }
+                    prev = arr[i];
+                }
+                
+                return [a, b];
+            }
             return $scope.sizeString;
         }
+        
+        
+        
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
             if (context.showHideToggle) {
