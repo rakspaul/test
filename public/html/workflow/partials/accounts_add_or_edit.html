@@ -18,17 +18,15 @@
         <div class="form-group col-md-12 zeroPadding">
             <label >Currency:</label>
             <select class="form-control" name="selectedCurrency" ng-model="selectedCurrency">
-              <option value="{{curr.id}}" ng-repeat="curr in currency" >{{curr.currencyCode}}</option>
+              <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
             </select>
         </div>
         <div class="form-group col-md-12 zeroPadding">
 		    <label >Account Name:</label>
 		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()">
-            
-            <ul class="dropdown-menu" role="menu" id="advertiserList"  ng-style="dropdownCss" ng-if="clientType == 'MARKETER'">
-
-                    <li ng-repeat="advertiser in allAdvertiser | filter:clientName" data-ng-click="selectClientAdvertiser(advertiser)">
-                        <a >
+            <ul class="dropdown-menu" role="menu" id="advertiserList"  ng-style="dropdownCss">
+                    <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
+                        <a>
                             <span class="tick"></span>
                             <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
                         </a>
@@ -39,6 +37,7 @@
 
         <div class="form-group col-md-12 zeroPadding">
             <label >Timezone:</label>
+            timezone --> {{timezone}}
             <!--<input type="text" class="form-control" ng-model="timezone">-->
             <select name='timezone' class="form-control" ng-model="timezone">
                 <option value='EST' >EST (Eastern Standard Time) </option>

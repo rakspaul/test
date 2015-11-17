@@ -9,17 +9,17 @@
     <div class="modal-body">
         <div class="form-group" >
 		    <label >Advertiser:</label>
-		    <input type="text" class="form-control" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="showDropdown()">
+		    <input type="text" class="form-control" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="mode == 'create' ? showDropdown() : ''">
 
             <ul class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
-               
+
                 <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
                     <a >
                         <span class="tick"></span>
                         <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
                     </a>
                 </li>
-               
+
             </ul>
             <input type="hidden"  ng-model="selectedAdvertiserId" >
         </div>
