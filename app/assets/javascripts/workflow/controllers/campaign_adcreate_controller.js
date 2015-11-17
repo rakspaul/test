@@ -1957,7 +1957,13 @@ var angObj = angObj || {};
         $scope.selectAudTarget = function(){
             $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
+        
+        $scope.selectGeographyTarget = function(){
+            $("#geographyTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
+        }
 
+        
+        
         $(function() {
             $( "#slider-range" ).slider({
                 range: true,
