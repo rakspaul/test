@@ -2941,6 +2941,11 @@
   max-width: 100% ;
   min-width: 750px;
 }
+.accounts-page .common_primary_btn {
+  text-transform: none;
+  font-size: 14px;
+  line-height: 40px;
+}
 .accounts-page .account-name,
 .accounts-page .advertiser-name {
   cursor: pointer;
@@ -3089,6 +3094,11 @@
 }
 .accounts-popup.popup-holder .modal-title {
   margin-bottom: 20px ;
+}
+.accounts-popup.popup-holder .common_primary_btn {
+  text-transform: none;
+  font-size: 14px;
+  line-height: 40px;
 }
 .accounts-popup.popup-holder input[type="text"] {
   color: #21252B ;
