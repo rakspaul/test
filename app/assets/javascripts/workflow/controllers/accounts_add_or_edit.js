@@ -3,9 +3,16 @@
     'use strict';
 
     angObj.controller('AccountsAddOrEdit', function($scope, $modalInstance,accountsService) {
-        $scope.clientType = 'AGENCY';
+        //$scope.clientType = 'AGENCY';
         $scope.currencySelected = '';
         $scope.referenceId;
+
+        if($scope.mode == 'edit'){
+            $scope.clientName = $scope.clientObj.name;
+            $scope.clientType = $scope.clientObj.clientType;
+            $scope.selectedCurrency = $scope.clientObj.currency && $scope.clientObj.currency.id;
+            $scope.timezone = $scope.clientObj.timezone;
+        }
 
         $scope.close=function(){
             $modalInstance.dismiss();
@@ -14,10 +21,18 @@
 
         $scope.setSelectedClientType = function(type){
             $scope.clientType = type;
+            accountsService[type == 'MARKETER' ? 'getAllAdvertisers' : 'getAgencies']().then(function(result){
+                $scope.allAdvertiser = result.data.data;
+            })
+
             if(type == 'MARKETER'){
                 accountsService.getAllAdvertisers().then(function(result){
                     $scope.allAdvertiser = result.data.data;
                 })
+            } else {
+              accountsService.getAllAdvertisers().then(function(result){
+                  $scope.allAdvertiser = result.data.data;
+              })
             }
         }
 
@@ -85,11 +100,11 @@
                 respBody.id = obj.id;
                 respBody.updatedAt = obj.updatedAt;
                 respBody.billableAccountId = obj.billableAccountId;
-                respBody.clientType = obj.clientType;
+                respBody.clientType = $scope.clientType;
                 respBody.parentId = obj.parentId;
                 respBody.referenceId = obj.referenceId;
-                respBody.timezone = obj.timezone ? obj.timezone : $scope.timezone;
-                respBody.currency = obj.currency ? obj.currency.id : $scope.selectedCurrency;
+                respBody.timezone = $scope.timezone;
+                respBody.currency = Number($scope.selectedCurrency);
             }
             else{
                 respBody.billableAccountId = 1;

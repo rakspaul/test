@@ -32,7 +32,6 @@ var angObj = angObj || {};
          };
 
          $scope.resetFlashMessage = function(){
-           console.log("resetFlashMessage-->");
              $scope.flashMessage.message = '' ;
              $scope.flashMessage.isErrorMsg = 0 ;
              $scope.flashMessage.isMsg = 0 ;
@@ -187,19 +186,10 @@ var angObj = angObj || {};
                 $scope.currency = result.data.data;
                 console.log($scope.currency);
             })
-            if(mode == 'edit'){
-                accountsService.setToBeEditedClient(clientObj);
-                console.log("clientObj", clientObj);
-                $scope.clientName = clientObj.name;
-                $scope.clientType = clientObj.clientType;
-                $scope.selectedCurrency = clientObj.currency && clientObj.currency.id;
-                console.log("$scope.currencySelected", $scope.curr);
-                console.log("clientObj.timezone;", clientObj.timezone)
-                $scope.timezone = clientObj.timezone;
-            }
 
+            accountsService.setToBeEditedClient(clientObj);
+            $scope.clientObj = clientObj;
             var $modalInstance = $modal.open({
-
                 templateUrl: assets.html_accounts_add_or_edit,
                 controller:"AccountsAddOrEdit",
                 scope:$scope,
