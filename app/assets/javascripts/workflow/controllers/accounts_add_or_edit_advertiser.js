@@ -15,12 +15,17 @@
                 accountsService.updateAdvertiser(body,body.id).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         $scope.fetchAllAdvertisers($scope.client.id);
-                        $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
-
+                        $scope.flashMessage.message = 'Advertiser updated successfully' ;
+                        $scope.msgtimeoutReset();
+                        $scope.resetBrandAdvertiserAfterEdit();
                     }
-
-
+                }, function(err) {
+                    $scope.close();
+                    $scope.flashMessage.message = 'Error in creating advertiser' ;
+                    $scope.flashMessage.isErrorMsg = 1 ;
+                    $scope.msgtimeoutReset();
+                    console.log('error')
                 });
             }
             else if($scope.selectedAdvertiserId != ''){ //when user does select and existing advertiser under a client
@@ -42,9 +47,14 @@
                     $scope.fetchAllAdvertisers($scope.client.id);
                     $scope.resetBrandAdvertiserAfterEdit();
                     $scope.close();
+                    $scope.flashMessage.message = 'Advertiser created successfully' ;
+                    $scope.msgtimeoutReset();
                 }
             },function(err){
                 $scope.close();
+                $scope.flashMessage.message = 'Error in creating advertiser under client.' ;
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.msgtimeoutReset();
                 console.log('error')
             });
         }
@@ -66,6 +76,6 @@
         }
 
 
-        
+
     });
 }());

@@ -13,7 +13,6 @@
         };
 
         $scope.setSelectedClientType = function(type){
-            console.log(type)
             $scope.clientType = type;
             if(type == 'MARKETER'){
                 console.log('marketer')
@@ -22,17 +21,12 @@
                 })
             }
         }
-        //$scope.setCurrency = function(type){
-        //    $scope.currencySelected = type;
-        //}
 
         $scope.selectClientAdvertiser = function(advertiser){
             $scope.dropdownCss.display = 'none';
             $scope.clientName = advertiser.name;
             $scope.referenceId = advertiser.id;
-
         }
-
 
         $scope.saveClients = function(){
             if($scope.mode == 'edit'){
@@ -42,6 +36,8 @@
                     if (result.status === "OK" || result.status === "success") {
                         $scope.close();
                         $scope.fetchAllClients();
+                        $scope.flashMessage.message = 'Account updated successfully' ;
+                        $scope.msgtimeoutReset();
                         $scope.resetBrandAdvertiserAfterEdit();
                     }
                 });
@@ -71,6 +67,8 @@
                 if (adv.status === "OK" || adv.status === "success") {
                     $scope.fetchAllClients();
                     $scope.close();
+                    $scope.flashMessage.message = 'Account created successfully' ;
+                    $scope.msgtimeoutReset();
                 }
             });
         }
@@ -91,6 +89,8 @@
                 respBody.clientType = obj.clientType;
                 respBody.parentId = obj.parentId;
                 respBody.referenceId = obj.referenceId;
+                respBody.timezone = obj.timezone ? obj.timezone : $scope.timezone;
+                respBody.currency = obj.currency ? obj.currency.id : $scope.selectedCurrency;
             }
             else{
                 respBody.billableAccountId = 1;

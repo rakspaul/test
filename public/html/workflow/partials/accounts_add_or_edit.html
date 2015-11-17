@@ -10,15 +10,15 @@
         <div class="form-group col-md-5 zeroPadding">
             <label >Account Type:</label>
             <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="clientType">
-                <option value="{{clientType = 'MARKETER'}}" >Marketer</option>
-                <option value="{{clientType = 'AGENCY'}}" >Agency</option>
+                <option value='MARKETER'>Marketer</option>
+                <option value='AGENCY'>Agency</option>
             </select>
         </div>
-        
+
         <div class="form-group col-md-12 zeroPadding">
             <label >Currency:</label>
-            <select name='clientType' class="form-control" ng-model="currencySelected">
-                 <option ng-repeat="curr in currency" value="{{curr.id}}"  >{{curr.currencyCode}}</option>
+            <select class="form-control" name="selectedCurrency" ng-model="selectedCurrency">
+              <option value="{{curr.id}}" ng-repeat="curr in currency" >{{curr.currencyCode}}</option>
             </select>
         </div>
         <div class="form-group col-md-12 zeroPadding">
@@ -26,28 +26,28 @@
 		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()">
 
             <ul class="dropdown-menu" role="menu" id="advertiserList"  ng-style="dropdownCss" ng-if="clientType == 'MARKETER'">
-                
+
                     <li ng-repeat="advertiser in allAdvertiser | filter:clientName" data-ng-click="selectClientAdvertiser(advertiser)">
                         <a >
                             <span class="tick"></span>
                             <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
                         </a>
                     </li>
-                
+
             </ul>
         </div>
-        
+
         <div class="form-group col-md-12 zeroPadding">
             <label >Timezone:</label>
             <!--<input type="text" class="form-control" ng-model="timezone">-->
-            <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="timezone">
-                <option value="{{timezone = 'EST'}}" >EST (Eastern Standard Time) </option>
-                <option value="{{timezone = 'CST'}}" >CST (Central Standard Time) </option>
-                <option value="{{timezone = 'PST'}}" >PST (Pacific Standard Time)  </option>
-                <option value="{{timezone = 'BST'}}" >BST (British Standard Time)  </option>
+            <select name='timezone' class="form-control" ng-model="timezone">
+                <option value='EST' >EST (Eastern Standard Time) </option>
+                <option value='CST' >CST (Central Standard Time) </option>
+                <option value='PST' >PST (Pacific Standard Time)  </option>
+                <option value='BST' >BST (British Standard Time)  </option>
             </select>
         </div>
-        
+
 
 
     </div><!-- end of modal_body -->
@@ -56,6 +56,6 @@
         <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
             Cancel
         </span>
-       
+
     </div>
 </div> <!-- end of popup-holder -->
