@@ -531,7 +531,6 @@ var angObj = angObj || {};
                         for(var i=0; i<=responseData.trackingPlatforms.length/6; i++) {
                              $scope.workflowData['tracking_integrations'][i] = tempData.splice(0,6);
                      }
-
             },
 
             saveAds: function (postDataObj) {console.log(postDataObj);
