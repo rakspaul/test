@@ -249,7 +249,12 @@ var angObj = angObj || {};
                     
                     if (result[0].length > 3) {   
                        var creativeSizeLimit = result[0].splice(0,3);
-                       $scope.sizeString = creativeSizeLimit.join(', ') + ' ...';
+                       var amountLeft = result[0].length;
+                       if (amountLeft >= 2) {
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft + ' sizes';
+                       } else {
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft + ' size';
+                       }
                     }
                    else {
                     $scope.sizeString = creativeSizeLimit.join(', '); 
