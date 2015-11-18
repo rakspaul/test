@@ -246,14 +246,20 @@ var angObj = angObj || {};
                     $scope.sizeString = creativeSizeArr;
                     var arr = creativeSizeArr;
                     var result = noRepeat(arr);
-                    $scope.sizeString = result[0].join(', ');
                     
+                    if (result[0].length > 3) {   
+                       var creativeSizeLimit = result[0].splice(0,3);
+                       $scope.sizeString = creativeSizeLimit.join(', ') + ' ...';
+                    }
+                   else {
+                    $scope.sizeString = creativeSizeLimit.join(', '); 
+                   }           
                 }
                 
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
-            }
-            
+                }
+                
             function noRepeat(arr) {
                 var a = [], b = [], prev;
                 
@@ -271,10 +277,6 @@ var angObj = angObj || {};
                 return [a, b];
             }
             
-            //if (creative.length >= 4) {
-            //    console.log('hi');
-            //    $scope.moreThenThree = '...';
-            //}
             return $scope.sizeString;
         }
         
