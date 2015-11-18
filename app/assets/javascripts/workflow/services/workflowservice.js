@@ -32,7 +32,10 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId;
                 return dataService.fetch(url, {cache:false});
             },
-
+            getPlatforms:function(cacheObj){
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms';
+                return dataService.fetch(url,cacheObj);
+            },
             getAdsForCampaign : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/no_ad_group/ads';
                 return dataService.fetch(url, {cache:false});
@@ -84,7 +87,10 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ad_groups/'+adGroupID+'/ads/'+adId;
                 return dataService.fetch(url, {cache:false});
             },
-
+//            downloadTrackerURL:function(campaignId,adId){
+//                var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/ads/' +adId+ '/creatives?format=csv';
+//                return dataService.fetch(url);
+//            },
             pushCampaign : function(campaignId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + campaignId + '/push';
                 return dataService.fetch(url);
@@ -111,10 +117,11 @@
                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/clients/'+clientId+'/advertisers/'+adId+'/creatives?forceSave=true', data, {'Content-Type': 'application/json'})
             },
 
-            getCreatives :  function(clientId, advertiserId, formats, query, cacheObj) {
+            getCreatives :  function(clientId, advertiserId, formats, query, cacheObj,integrationTracking) {
                 var queryStr = query ? query : '';
                 var creativeFormats = formats ? '?creativeFormat='+formats : ''
-                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives'+ creativeFormats+ queryStr;
+                var integration_Tracking= integrationTracking ? '&tracking=true':''
+                var url= apiPaths.WORKFLOW_APIUrl +'/clients/'+ clientId+'/advertisers/'+ advertiserId +'/creatives'+ creativeFormats+ queryStr+ integration_Tracking;
                 return dataService.fetch(url, cacheObj);
             },
 
@@ -134,7 +141,7 @@
 
             },
 
-            getCitiesList :  function(platformId, data, success, failure,flag) {  console.log("falg 3",flag)
+            getCitiesList :  function(platformId, data, success, failure,flag) {
 
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
                 if(flag == 'cancellable'){
@@ -179,7 +186,6 @@
             getMode: function(){
                 return mode;
             },
-
             setAdsDetails :  function(ad) {
                 adDetails = ad;
             },

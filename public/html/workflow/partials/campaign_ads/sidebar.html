@@ -95,19 +95,20 @@
                     <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab">4 Targeting</a>
                 </span>
                 <div>
-                    <div class="statusLabel disabled" ng-if="!adData.geoTargetName">
+                    <div class="statusLabel disabled" ng-if="!adData.geoTargetName || TrackingIntegrationsSelected">
                         <div class="col-md-12">
                             <span style="color: #000;">Not Set</span>
                         </div>
                     </div>
 
-                    <div class="statusLabel disabled" ng-if="adData.geoTargetName">
+                    <div class="statusLabel disabled" ng-if="adData.geoTargetName || !TrackingIntegrationsSelected">
                         <div class="col-md-12">
                             <span>{{adData.geoTargetName}}</span>
                         </div>
                     </div>
                 </div>
             </li>
+
             <li id="inventoryView-tab">
                  <span ng-if="TrackingIntegrationsSelected">
                     <a role="tab" class="leftNavLink">5 Inventory Filters</a>
@@ -116,12 +117,12 @@
                     <a href="#inventoryView" role="tab" class="leftNavLink" data-toggle="tab">5 Inventory Filters</a>
                 </span>
                 <div>
-                    <div class="statusLabel disabled" ng-if="!adData.inventory.domainAction">
+                    <div class="statusLabel disabled" ng-if="!adData.inventory.domainAction || TrackingIntegrationsSelected">
                         <div class="col-md-12">
                             <span style="color: #000;">Not Set</span>
                         </div>
                     </div>
-                    <div class="statusLabel disabled" ng-if="adData.inventory.domainAction">
+                    <div class="statusLabel disabled" ng-if="adData.inventory.domainAction && !TrackingIntegrationsSelected">
                         <div class="col-md-12">
                             <span>{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
                         </div>

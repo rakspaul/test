@@ -655,7 +655,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.ended {
   background: #707AEB ;
-}#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
   background: #98B5C8 ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {

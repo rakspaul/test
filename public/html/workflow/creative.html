@@ -1,6 +1,6 @@
 
 
-<div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="CreativeController">
+<div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">
 <div id="creative" >
     <div class="top_message_box" ng-show="createAlertMessage.message">
         <span class="msg_box">
@@ -64,17 +64,16 @@
                     <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                 </div>
 
-                <div class="form-group col-md-12" show-errors='{showSuccess: true}'>
+                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors='{showSuccess: true}'>
                     <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
                     <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                     <span class="col-md-4 previewBtn helpLink">Preview</span>
 
                     <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                     <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
-
                 </div>
 
-                <div class="form-group col-md-12 zeroPadding radioBtnToggle">
+                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12 zeroPadding radioBtnToggle">
 					<div class="col-md-4 zeroPadding">
 					    <label for="sel1" class="greyTxt">Tag Type</label><br/>
 						<div class="btn-group miniToggle">

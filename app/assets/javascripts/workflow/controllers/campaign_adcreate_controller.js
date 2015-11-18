@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q,dataService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background','#fff');
@@ -83,23 +83,15 @@ var angObj = angObj || {};
         localStorage.removeItem('adPlatformCustomInputs');
         $scope.adData.budgetTypeLabel = 'Impressions';
         $scope.adData.budgetType = 'Impressions';
-
+        //localStorage.setItem("trackingIntegration",false);
+        //workflowService.setTrackingPlatform(false);
+        $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-        }
-
-        $scope.selectTrackingIntegrations=function(trackingIntegration){
-            $scope.TrackingIntegrationsSelected=true;
-            $scope.selectedPlatform = {};
-            $scope.managedSelectedPlatform = {};
-            $scope.adData.platform =  trackingIntegration.name;
-            $scope.adData.platformId = trackingIntegration.id;
-            //$scope.selectedPlatform[platform.id]="";
-            $scope.managedSelectedPlatform[trackingIntegration.id] = trackingIntegration.name;
-            console.log($scope.managedSelectedPlatform);
-
 
         }
+
+
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;
@@ -288,11 +280,13 @@ var angObj = angObj || {};
             workflowService.setAdsDetails(responseData);
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
-           // $scope.editTrackerAd=responseData.is_Tracker;
             if(responseData.sourceId){
                 $scope.editedAdSourceId = responseData.sourceId;
             }
-
+            if(responseData.isTracking){
+                $scope.TrackingIntegrationsSelected=true;
+                campaignOverView.fetchPlatforms();
+            }
             if(responseData.name)
                 $scope.adData.adName = responseData.name;
 
@@ -382,6 +376,7 @@ var angObj = angObj || {};
                     $scope.isAdsPushed = true;
             }
 
+
             //creative tags
             if(responseData.creatives)
                 $scope.selectedArr = responseData.creatives;
@@ -406,6 +401,8 @@ var angObj = angObj || {};
                 $scope.disable_resume='';//enable resume if ad is paused
             }
         }
+
+
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -469,12 +466,60 @@ var angObj = angObj || {};
                     $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}];
             },
 
-            fetchSelfServicePlatforms: function () {
-                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder', active: true}, {id: 2, name: 'AppNexus', active: true}, {id: 3, name: 'Facebook', active: false}, {id: 4, name: 'DBM', active: false}, {id: 5, name: 'DFP', active: false}];
-            },
+//            fetchSelfServicePlatforms: function () {
+//                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder', active: true}, {id: 2, name: 'AppNexus', active: true}, {id: 3, name: 'Facebook', active: false}, {id: 4, name: 'DBM', active: false}, {id: 5, name: 'DFP', active: false}];
+//            },
+//
+//            fetchManagedServicePlatforms: function () {
+//                $scope.workflowData['tracking_integrations'] = [{id:20, imgName: 'placemedia', name: 'Place Media', desc: 'All-in-one customer support application'}, {id:21, imgName: 'xad-logo-mobile', name: 'xAd', desc: 'All-in-one customer support application'}, {id:22, imgName: 'Telemetry_Company_Logo', name: 'Telemetry', desc: 'All-in-one customer support application'}, {id:6, imgName: 'TwitterLogo', name: 'Twitter', desc: 'All-in-one customer support application'}, {id:7, imgName: 'adtheorent', name: 'Ad Theorent', desc: 'All-in-one customer support application'}, {id:8, imgName: 'grfxLogoDstillery', name: 'Dstillery', desc: 'All-in-one customer support application'}, {id:8, imgName: 'Adaptv-logo', name: 'Adap.tv', desc: 'All-in-one customer support application'}, {id:9, imgName: 'youtube', name: 'YouTube', desc: 'All-in-one customer support application'}, {id:10, imgName: 'br-logo_0', name: 'BrightRoll', desc: 'All-in-one customer support application'}, {id:11, imgName: 'plat-dbclick', name: 'DoubleClick', desc: 'All-in-one customer support application'}, {id:12, imgName: 'Facebook-Exchange-Logo', name: 'FB Exchnage', desc: 'All-in-one customer support application'}, {id:13, imgName: 'yahoo', name: 'Yahoo', desc: 'All-in-one customer support application'}];
+//
+//            $('#myCarousel').carousel({
+//
+//            },5000);
+//
+//            },
+            fetchPlatforms:function(){
+                workflowService.getPlatforms({cache:false}).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        var responseData = result.data.data;
+                        //console.log(responseData);
+                        if($scope.mode == 'edit'){
+                            if($scope.TrackingIntegrationsSelected){
+                                for(var i in responseData.fullIntegrationsPlatforms){
+                                    responseData.fullIntegrationsPlatforms[i].active=false;
+                                }
+                                $scope.workflowData['platforms']=responseData.fullIntegrationsPlatforms;
 
-            fetchManagedServicePlatforms: function () {
-                $scope.workflowData['tracking_integrations'] = [{id:20, imgName: 'placemedia', name: 'Place Media', desc: 'All-in-one customer support application'}, {id:21, imgName: 'xad-logo-mobile', name: 'xAd', desc: 'All-in-one customer support application'}, {id:22, imgName: 'Telemetry_Company_Logo', name: 'Telemetry', desc: 'All-in-one customer support application'}, {id:6, imgName: 'TwitterLogo', name: 'Twitter', desc: 'All-in-one customer support application'}, {id:7, imgName: 'adtheorent', name: 'Ad Theorent', desc: 'All-in-one customer support application'}, {id:8, imgName: 'grfxLogoDstillery', name: 'Dstillery', desc: 'All-in-one customer support application'}, {id:8, imgName: 'Adaptv-logo', name: 'Adap.tv', desc: 'All-in-one customer support application'}, {id:9, imgName: 'youtube', name: 'YouTube', desc: 'All-in-one customer support application'}, {id:10, imgName: 'br-logo_0', name: 'BrightRoll', desc: 'All-in-one customer support application'}, {id:11, imgName: 'plat-dbclick', name: 'DoubleClick', desc: 'All-in-one customer support application'}, {id:12, imgName: 'Facebook-Exchange-Logo', name: 'FB Exchnage', desc: 'All-in-one customer support application'}, {id:13, imgName: 'yahoo', name: 'Yahoo', desc: 'All-in-one customer support application'}];
+                                campaignOverView.trackingPlatformCarouselData(responseData);
+                            }else{
+
+                                $scope.workflowData['platforms']=responseData.fullIntegrationsPlatforms;
+                                for(var i in responseData.trackingPlatforms){
+                                    responseData.trackingPlatforms[i].active=false;
+                                }
+                                campaignOverView.trackingPlatformCarouselData(responseData);
+                                //$scope.workflowData['tracking_integrations']=responseData.trackingPlatforms;
+                              }
+                        }else{
+                                $scope.workflowData['platforms']=responseData.fullIntegrationsPlatforms;
+                                campaignOverView.trackingPlatformCarouselData(responseData);
+
+                        }
+
+                    }
+                    else {
+                        campaignOverView.errorHandler(result);
+                    }
+                }, campaignOverView.errorHandler);
+
+            },
+              trackingPlatformCarouselData:function(responseData){
+                    $scope.workflowData['tracking_integrations']={};
+                     var tempData = responseData.trackingPlatforms;
+                        for(var i=0; i<=responseData.trackingPlatforms.length/6; i++) {
+                             $scope.workflowData['tracking_integrations'][i] = tempData.splice(0,6);
+                     }
+
             },
 
             saveAds: function (postDataObj) {console.log(postDataObj);
@@ -556,8 +601,10 @@ var angObj = angObj || {};
         campaignOverView.fetchGoals();
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
-        campaignOverView.fetchSelfServicePlatforms();
-        campaignOverView.fetchManagedServicePlatforms();
+//        campaignOverView.fetchSelfServicePlatforms();
+//        campaignOverView.fetchManagedServicePlatforms();
+        campaignOverView.fetchPlatforms();
+
 
         $scope.screenTypeSelection = function (screenTypeObj) {
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
@@ -668,12 +715,27 @@ var angObj = angObj || {};
             }
             return freq_cap;
         }
+       $scope.downloadTrackerUrls=function(){
+//           $scope.CampaignADsave();
+//           $scope.$watch('adId', function() {
+//               var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
+//               dataService.downloadFile(url).then(function (response) {
+//                    if (response.status === "success") {
+//
+//                    } else {
+//
+//                    }
+//                });
+//            });
 
-        $(function () {
-           $("#SaveAd").on('click', function () {
+       }
+
+//        $(function () {
+//           $("#SaveAd").on('click', function () {
+                $scope.CampaignADsave=function(){
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));console.log(formData);
                if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
                    return false;
                }
@@ -732,9 +794,9 @@ var angObj = angObj || {};
                      }
 
                      if (formData.platformId) {
-                         postAdDataObj.platformId = Number(formData.platformId);
+                         postAdDataObj.platformId = Number(formData.platformId); console.log(formData.platformId);
                          if($scope.TrackingIntegrationsSelected){
-                             postAdDataObj.tracking=true;
+                             postAdDataObj.isTracking=true;
                          }
                      }
 
@@ -745,82 +807,85 @@ var angObj = angObj || {};
                          postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
 
                      }
+                     if(!$scope.TrackingIntegrationsSelected){
+                         postAdDataObj['targets'] ={};
+                         if($scope.adData.geoTargetingData) {
+                             var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
 
-                     postAdDataObj['targets'] ={};
-                     if($scope.adData.geoTargetingData) {
-                         var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
 
+                             var buildGeoTargetingParams = function(data, type) {
+                                 var obj= {};
+                                 obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
+                                 obj['geoTargetList'] = _.pluck(data, 'id');
+                                 return obj;
+                             }
 
-                         var buildGeoTargetingParams = function(data, type) {
-                             var obj= {};
-                             obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
-                             obj['geoTargetList'] = _.pluck(data, 'id');
-                             return obj;
-                         }
+                             var geoTargetData = $scope.adData.geoTargetingData;
+                             if (geoTargetData.regions.length > 0) {
+                                 postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                             }
 
-                         var geoTargetData = $scope.adData.geoTargetingData;
-                         if (geoTargetData.regions.length > 0) {
-                             postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
-                         }
+                             if (geoTargetData.cities.length > 0) {
+                                 postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                             }
 
-                         if (geoTargetData.cities.length > 0) {
-                             postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
-                         }
+                             if (geoTargetData.dmas.length > 0) {
+                                 postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                             }
 
-                         if (geoTargetData.dmas.length > 0) {
-                             postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
-                         }
-
-                         if($scope.adData.geoTargetingData.zip.length > 0) {
-                             var zipObj = $scope.adData.geoTargetingData.zip;
-                             var zipPostArr = [];
-                             _.each(zipObj, function(zipArr) {
-                                 if(zipArr.added) {
-                                     _.each(zipArr.added, function(obj) {
-                                         var arr = obj.split("-");
-                                         if(arr.length > 1) {
-                                             var start = Number(arr[0]), end = Number(arr[1]);
-                                             for(var i=start; i<=end;i++) {
-                                                 zipPostArr.push(String(i));
+                             if($scope.adData.geoTargetingData.zip.length > 0) {
+                                 var zipObj = $scope.adData.geoTargetingData.zip;
+                                 var zipPostArr = [];
+                                 _.each(zipObj, function(zipArr) {
+                                     if(zipArr.added) {
+                                         _.each(zipArr.added, function(obj) {
+                                             var arr = obj.split("-");
+                                             if(arr.length > 1) {
+                                                 var start = Number(arr[0]), end = Number(arr[1]);
+                                                 for(var i=start; i<=end;i++) {
+                                                     zipPostArr.push(String(i));
+                                                 }
+                                             } else {
+                                                 zipPostArr.push(arr[0]);
                                              }
-                                         } else {
-                                             zipPostArr.push(arr[0]);
-                                         }
-                                     })
-                                 }
-                             })
-                             postGeoTargetObj['ZIPCODE'] = {
-                                 "isIncluded" :  true,
-                                 "geoTargetList" : zipPostArr
+                                         })
+                                     }
+                                 })
+                                 postGeoTargetObj['ZIPCODE'] = {
+                                     "isIncluded" :  true,
+                                     "geoTargetList" : zipPostArr
 
+                                 }
                              }
                          }
                      }
 
-                     if($scope.adData.inventory) {
+                     if($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
                          var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
                          domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
                          postAdDataObj['domainInherit'] = 'APPEND';
                          postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                      }
-
-                     var customPlatformFormData = $("#customPlatformForm").serializeArray()
-                     if(customFieldErrorElem.length  === 0 && customPlatformFormData.length >1) {
-                       postAdDataObj['adPlatformCustomInputs'] = [];
-                       _.each(customPlatformFormData, function(data) {
-                            var d = data.name.split("$$");
-                            postAdDataObj['adPlatformCustomInputs'].push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
-                       })
-                     } else {
-                       if($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length >0) {
-                         postAdDataObj['adPlatformCustomInputs'] = $scope.workflowData['adsData'].adPlatformCustomInputs;
-                       }
+                     if(!$scope.TrackingIntegrationsSelected){
+                         var customPlatformFormData = $("#customPlatformForm").serializeArray()
+                         if(customFieldErrorElem.length  === 0 && customPlatformFormData.length >1) {
+                           postAdDataObj['adPlatformCustomInputs'] = [];
+                           _.each(customPlatformFormData, function(data) {
+                                var d = data.name.split("$$");
+                                postAdDataObj['adPlatformCustomInputs'].push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
+                           })
+                         } else {
+                           if($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length >0) {
+                             postAdDataObj['adPlatformCustomInputs'] = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                           }
+                         }
                      }
                      campaignOverView.saveAds(postAdDataObj)
                  }
                }
-            })
-        })
+               }
+//            })
+//        })
         $scope.isPlatformSelected = false;
 
         $scope.changePlatform =  function(platformId) {
@@ -853,6 +918,15 @@ var angObj = angObj || {};
         $scope.emptyCreativesFlag = true;
         //$scope.mode = workflowService.getMode();
         $scope.loadingFlag = true; //loading flag
+//        $scope.$parent.$watch('trackingIntegration', function(newValue) {
+//        if($scope.$parent.trackingIntegration){
+//                delete $scope.selectedArr;
+//                $scope.sizeString = constants.WF_NOT_SET;
+//                delete $scope.creativeData['creativeInfo'];
+////delete $scope.selectedArr;
+//        }
+//
+//        });
 
         $scope.$on('updateNewCreative',function(){
                 var creativeTag = workflowService.getNewCreative();
@@ -893,7 +967,7 @@ var angObj = angObj || {};
             },
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
-                workflowService.getCreatives(clientID, adID, format, query, {cache:false}).then(function (result) { $scope.creativesLibraryData['creativesData']= [];
+                workflowService.getCreatives(clientID, adID, format, query, {cache:false},$scope.TrackingIntegrationsSelected).then(function (result) { $scope.creativesLibraryData['creativesData']= [];
                     if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {
                         var responseData = result.data.data;
                         $scope.creativeListLoading = false;
@@ -1038,6 +1112,8 @@ var angObj = angObj || {};
                 return [aC, bC];
             }
             
+            if(selectedcreatives.creatives.length==0)
+                $scope.sizeString = constants.WF_NOT_SET;
             $scope.adData.setSizes = $scope.sizeString;
         }
 
@@ -1059,7 +1135,7 @@ var angObj = angObj || {};
                     $scope.preDeleteArr.push(selectedCreativeTag[0]);
                 }
                 var currIndx = _.findLastIndex($scope.creativesLibraryData['creativesData'], {'id' : selectedCreativeTag[0].id});
-                $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
+                if($scope.creativesLibraryData['creativesData'][currIndx])  $scope.creativesLibraryData['creativesData'][currIndx]['checked'] = false;
             }
 
             /*Enable save button of popup library if elements exists*/
@@ -1226,127 +1302,151 @@ var angObj = angObj || {};
         };
     });
 
-    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
-        $scope.$watch('adData.platformId', function(newValue) {
-            $scope.$parent.changePlatform(newValue);
-        })
-        var tempPlatform ;
-        var storedResponse;
-
-        $scope.$on('updatePlatform',function(event,platform){
-          $scope.defaultPlatform = platform[0];
-          $scope.selectPlatform((platform[0].switchPlatform ? event : '') , platform[0]);
-        })
-
-        $scope.selectPlatform =  function(event, platform) {
-            $scope.TrackingIntegrationsSelected=false;  //Enable Targetting and Inventory filters
-            storedResponse = workflowService.getAdsDetails();
-            var settings = "";
-
-            if($scope.mode === 'edit'){
-                if(storedResponse.targets.geoTargets)
-                    settings = "Geography";
-
-                if(storedResponse.platform){
-                    if(storedResponse.platform.name === platform.name) {
-                        //directly set  the platform if it is the same
-                        $scope.setPlatform(event, platform);
-                    }
-                    else {
-                        //if the platform is changed but no targets were selected allow change
-                        if(_.size(storedResponse.targets.geoTargets) == 0 ){
-                            $scope.setPlatform(event, platform);
-                        }
-                        else{
-                            //display warnign popup
-                            if($scope.defaultPlatform.id !== platform.id) {
-                              tempPlatform = platform;
-                              $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
-                              $scope.changePlatformPopup = true;
-                            } else {
-                              $scope.setPlatform(event, platform);
-                            }
-                        }
-
-                    }
-                }
-                else{
-                    $scope.setPlatform(event,platform);
-                }
-
-            }
-            else{
-                $scope.setPlatform(event, platform);
-            }
-
-
-        }
-
-        $scope.setPlatform = function(event, platform){
-            $scope.selectedPlatform = {};
-            $scope.managedSelectedPlatform = {};
-            var name = platform.displayName ? platform.displayName : platform.name;
-            $scope.adData.platform =  name;
-            $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[platform.id] = name; console.log($scope.selectedPlatform);
-            event && $scope.platformCustomInputs();
-        }
-
-        $scope.showCustomeFieldBox =function() {
-          $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
-          $(".offeringsWrap").hide();
-        }
-
-
-        $scope.platformCustomInputs = function() {
-          var platformWrap =  $(".platWrap");
-          workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
-              var adPlatformCustomInputs, platformCustomeJson;
-              if (result.status === "OK" || result.status === "success") {
-                platformCustomeJson = JSON.parse(result.data.data.customInputJson);
-                if($scope.mode === 'edit' ) {
-                  $scope.showCustomeFieldBox();
-                  //if($scope.adData.platformId == $scope.workflowData['adsData'].platform.id) {
-                    var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
-                    adPlatformCustomInputs =  (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue))  || platformCustomeJson;
-                    platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
-                  //} else {
-                    //$scope.showCustomeFieldBox();
-                    //platformCustomeModule.init(platformCustomeJson, platformWrap);
-                  //}
-                } else {
-                  $scope.showCustomeFieldBox();
-                  platformCustomeModule.init(platformCustomeJson, platformWrap);
-                }
-              }
-          });
-        }
-
-        $scope.$on('switchPlatformFunc', function() {
-          $(".platform-custom").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, function() {
-              $(this).hide();
-              $scope.showPlatformBox =  false;
-          });
-          $(".offeringsWrap").show();
-
-        })
-
-
-        $scope.cancelChangePlatform  = function(){
-            $scope.changePlatformPopup = !$scope.changePlatformPopup;
-            tempPlatform = [];
-        }
-
-        $scope.confirmChange = function() {
-            $scope.setPlatform(null, tempPlatform);
-            $scope.changePlatformPopup = false;
-            storedResponse.targets.geoTargets = {};
-            workflowService.setAdsDetails(storedResponse);
-            $scope.$broadcast('resetGeoTags');
-            $scope.platformCustomInputs()
-
-        }
-    });
+//    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
+//        $scope.$watch('adData.platformId', function(newValue) {
+//            $scope.$parent.changePlatform(newValue);
+//        })
+//        $scope.trackingIntegrationId ='';
+//        var tempPlatform ;
+//        var storedResponse;
+//
+//        $scope.$on('updatePlatform',function(event,platform){
+//          $scope.defaultPlatform = platform[0];
+//          $scope.selectPlatform((platform[0].switchPlatform ? event : '') , platform[0]);
+//        })
+//
+//        $scope.selectPlatform =  function(event, platform) {
+//           // $scope.TrackingIntegrationsSelected=false;localStorage.setItem("trackingIntegration",false);  //Enable Targetting and Inventory filters
+//            storedResponse = workflowService.getAdsDetails();
+//            var settings = "";
+//
+//            if($scope.mode === 'edit'){
+//                if(storedResponse.targets.geoTargets)
+//                    settings = "Geography";
+//
+//                if(storedResponse.platform){
+//                    if(storedResponse.platform.name === platform.name) {
+//                        //directly set  the platform if it is the same
+//                        $scope.setPlatform(event, platform);
+//                    }
+//                    else {
+//                        //if the platform is changed but no targets were selected allow change
+//                        if(_.size(storedResponse.targets.geoTargets) == 0 ){
+//                            $scope.setPlatform(event, platform);
+//                        }
+//                        else{
+//                            //display warnign popup
+//                            if($scope.defaultPlatform.id !== platform.id) {
+//                              tempPlatform = platform;
+//                              $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
+//                              $scope.changePlatformPopup = true;
+//                            } else {
+//                              $scope.setPlatform(event, platform);
+//                            }
+//                        }
+//
+//                    }
+//                }
+//                else{
+//                    $scope.setPlatform(event,platform);
+//                }
+//
+//            }
+//            else{
+//                $scope.setPlatform(event, platform);
+//            }
+//
+//
+//        }
+//
+//        $scope.setPlatform = function(event, platform){
+//            $scope.selectedPlatform = {};
+//            //localStorage.setItem("trackingIntegration",false);
+//           // workflowService.setTrackingPlatform(false);
+//           if($scope.mode!='edit'){
+//                $scope.$parent.TrackingIntegrationsSelected = false;
+//           }
+//            var name = platform.displayName ? platform.displayName : platform.name;
+//            $scope.adData.platform =  name;
+//            $scope.adData.platformId = platform.id;
+//            $scope.selectedPlatform[platform.id] = name; console.log($scope.selectedPlatform);
+//            event && $scope.platformCustomInputs();
+//        }
+//
+//          $scope.selectTrackingIntegrations=function(trackingIntegration){
+//                //localStorage.setItem("trackingIntegration",true);
+//                //workflowService.setTrackingPlatform(true);
+//                if($scope.mode!='edit'){
+//                    $scope.$parent.TrackingIntegrationsSelected=true;
+//                }
+//                $scope.selectedPlatform = {};
+//                $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.name;
+//                /*To populate the newly selected Platform in sideBar*/
+//                $scope.adData.platform =  trackingIntegration.name;
+//                $scope.adData.platformId = trackingIntegration.id;
+//
+//
+//                /*code to make creatives already set to empty*/
+//                 $scope.adData.setSizes = constants.WF_NOT_SET;
+//                 $scope.creativeData['creativeInfo']="undefined";
+//                 $scope.selectedArr.length=0;
+//            }
+//
+//        $scope.showCustomeFieldBox =function() {
+//          $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
+//          $(".offeringsWrap").hide();
+//        }
+//
+//
+//        $scope.platformCustomInputs = function() {
+//          var platformWrap =  $(".platWrap");
+//          workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
+//              var adPlatformCustomInputs, platformCustomeJson;
+//              if (result.status === "OK" || result.status === "success") {
+//                platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+//                if($scope.mode === 'edit' ) {
+//                  $scope.showCustomeFieldBox();
+//                  //if($scope.adData.platformId == $scope.workflowData['adsData'].platform.id) {
+//                    var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
+//                    adPlatformCustomInputs =  (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue))  || platformCustomeJson;
+//                    platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
+//                  //} else {
+//                    //$scope.showCustomeFieldBox();
+//                    //platformCustomeModule.init(platformCustomeJson, platformWrap);
+//                  //}
+//                } else {
+//                  $scope.showCustomeFieldBox();
+//                  platformCustomeModule.init(platformCustomeJson, platformWrap);
+//                }
+//              }
+//          });
+//        }
+//
+//        $scope.$on('switchPlatformFunc', function() {
+//          $(".platform-custom").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, function() {
+//              $(this).hide();
+//              $scope.showPlatformBox =  false;
+//          });
+//          $(".offeringsWrap").show();
+//
+//        })
+//
+//
+//        $scope.cancelChangePlatform  = function(){
+//            $scope.changePlatformPopup = !$scope.changePlatformPopup;
+//            tempPlatform = [];
+//        }
+//
+//        $scope.confirmChange = function() {
+//            $scope.setPlatform(null, tempPlatform);
+//            $scope.changePlatformPopup = false;
+//            storedResponse.targets.geoTargets = {};
+//            workflowService.setAdsDetails(storedResponse);
+//            $scope.$broadcast('resetGeoTags');
+//            $scope.platformCustomInputs()
+//
+//        }
+//    });
 
     angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode) {
         $scope.showTargettingForm = false;
