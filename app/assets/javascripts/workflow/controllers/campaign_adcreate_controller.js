@@ -5,7 +5,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
-
+        $("html").css('background','#fff');
         var winHeaderHeight = $(window).height() - 66;
         $(".workflowPreloader").css('height', winHeaderHeight+'px');
 
@@ -1957,7 +1957,13 @@ var angObj = angObj || {};
         $scope.selectAudTarget = function(){
             $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
+        
+        $scope.selectGeographyTarget = function(){
+            $("#geographyTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
+        }
 
+        
+        
         $(function() {
             $( "#slider-range" ).slider({
                 range: true,
