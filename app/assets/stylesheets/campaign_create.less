@@ -181,7 +181,7 @@
           font-family: "Avenir";
         }
         .campTitleWrap {
-          padding: 5px 0 0 0 !important;
+          padding: 5px 0 0 0px !important;
           float: left;
           clear: both;
           .label {
@@ -221,6 +221,26 @@
             margin: 0 10px;
           }
         }
+        .campTitleWrap.adStatus_scheduled {
+            .activeLabel {
+              background-color : #2c9aec ;
+            }
+          }
+          .campTitleWrap.adStatus_draft {
+            .activeLabel {
+              background-color: #6abdfa ;
+            }
+          }
+          .campTitleWrap.adStatus_in_flight {
+            .activeLabel {
+              background-color: #70d43d ;
+            }
+          }
+          .campTitleWrap.adStatus_ended {
+            .activeLabel {
+              background-color: #707AEB ;
+            }
+          }
         .campTitleWrap:hover {
           .overview-camp-name, .campaign-name-edit  {
             color: #0978C9;
