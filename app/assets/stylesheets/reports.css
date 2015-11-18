@@ -3469,6 +3469,24 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .total_metrics_container .select_all_measures_holder {
   margin: 0 30px 0 0;
 }
+.report_generator_and_response div.create_scheduled_report {
+  margin-top: 40px ;
+}
+.report_generator_and_response div.create_scheduled_report .input-daterange {
+  width: 120px ;
+}
+.report_generator_and_response div.create_scheduled_report input[type='text'] {
+  border-color: #dde6eb ;
+  padding-top: 6px ;
+}
+.report_generator_and_response div.create_scheduled_report .each-col {
+  margin-right: 20px ;
+}
+.report_generator_and_response div.create_scheduled_report .each-col .label-txt {
+  color: #939eae ;
+  font-size: 12px ;
+  margin-bottom: 10px ;
+}
 .report_generator_and_response .about_popup {
   width: 1000px;
   height: 80%;
@@ -3834,6 +3852,6 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   font-size: 26px ;
   font-family: "Avenir-bold";
 }
-.custom_report_page .bodyWrap {
+body.custom_report_page .bodyWrap {
   width: 100% ;
 }
