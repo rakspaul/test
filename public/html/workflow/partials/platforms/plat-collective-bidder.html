@@ -1,8 +1,11 @@
 <div class="platform-custom">
     <div class="col-md-12 zeroPadding breadcrumbs">
-        <div class="switchPlatform" ng-click="switchPlatform()">
-            <img src="/assets/images/workflow/icon_back.svg" class="pull-left" alt="" height="20" style=""/>
-            <p class="">Back to Platform selection</p>
+        <div class="switchPlatform">
+            <img src="/assets/images/workflow/icon_back.svg" ng-click="switchPlatform()" class="pull-left" alt="" height="20" style=""/>
+            <p class="" ng-click="switchPlatform()">Back to Platform Selection</p>
+			
+			<a class="btn btn-primary pull-right">Save</a>
+			<a class="btn btn-link pull-right" ng-click="switchPlatform()">Cancel</a>
 	    </div>
         <h5 ng-click="switchPlatform()" style="font-size: 16px; font-family: 'Avenir'; cursor: pointer;">Buying Platform</h5>
         <span class="icon-arrow-down"></span>
@@ -11,6 +14,6 @@
     </div>
     <!--Collective Bidder Form-->
     <form name="customPlatformForm" id="customPlatformForm">
-      <div class="col-md-12 zeroPadding platWrap {{getPlatformIconName(adData.platform)}}"></div>
+		<div class="col-md-12 zeroPadding platWrap {{getPlatformIconName(adData.platform)}}"></div>
     </form>
 </div>

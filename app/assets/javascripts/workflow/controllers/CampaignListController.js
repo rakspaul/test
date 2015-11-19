@@ -3,7 +3,7 @@
 
     campaignListModule.controller('WorkFlowCampaignListController', function($scope, $location, workflowService, utils, $timeout) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
-
+        $("html").css('background','#fff');
         localStorage.setItem('campaignData','');
 
 

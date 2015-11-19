@@ -3,6 +3,7 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('CreativeListController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
+        $("html").css('background','#fff');
         $scope.textConstants = constants;
         $scope.creativeData = {};
         $scope.adData = {}
