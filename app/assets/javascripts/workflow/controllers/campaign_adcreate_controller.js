@@ -31,8 +31,8 @@ var angObj = angObj || {};
 
         $(window).resize(function(){ colResize(); });
 
-        
-        
+
+
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click','.dropdown-menu li a', function() {
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -208,9 +208,9 @@ var angObj = angObj || {};
             } else {
               $scope.adData.budgetTypeLabel = 'Impressions';
             }
-            if(item.name !==  $scope.adData.unitType) {
-                $scope.adData.unitCost = 0;
-            }
+             if(item.name !==  $scope.adData.unitType) {
+                 $scope.adData.unitCost = 0;
+             }
             if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() !== 'cost' ) {
               $scope.adData.budgetType = $scope.adData.budgetTypeLabel;
             }
@@ -347,7 +347,7 @@ var angObj = angObj || {};
 
             $('.cap_no input').attr("checked", "checked");
             $('.spend_evenly input').attr("checked", "checked");
-            if(responseData.frequencyCaps && responseData.frequencyCaps.length >= 1){ // call abhi and ask what set up cap data comes from
+            if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
@@ -1957,13 +1957,13 @@ var angObj = angObj || {};
         $scope.selectAudTarget = function(){
             $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
-        
+
         $scope.selectGeographyTarget = function(){
             $("#geographyTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
 
-        
-        
+
+
         $(function() {
             $( "#slider-range" ).slider({
                 range: true,

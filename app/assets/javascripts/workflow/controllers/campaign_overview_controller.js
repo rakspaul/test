@@ -226,14 +226,15 @@ var angObj = angObj || {};
         })
 
         $scope.navigateToAdCreatePage = function () {
-            window.location.href = '/campaign/' + $scope.workflowData.campaignData.id + '/ads/create';
+            var redirectUrl ='/campaign/' + $scope.workflowData.campaignData.id + '/ads/create';
+            $location.url(redirectUrl);
         }
 
 
          $scope.appendSizes = function (creative) {
             //console.log(creative);
             var creativeSizeArr = []
-            
+
             if (typeof creative != 'undefined') {
                 if (creative.length == 1) {
                     $scope.sizeString = creative[0].size.size;
@@ -246,8 +247,8 @@ var angObj = angObj || {};
                     $scope.sizeString = creativeSizeArr;
                     var arr = creativeSizeArr;
                     var result = noRepeat(arr);
-                    
-                    if (result[0].length > 3) {   
+
+                    if (result[0].length > 3) {
                        var creativeSizeLimit = result[0].splice(0,3);
                        var amountLeft = result[0].length;
                        if (amountLeft >= 2) {
@@ -257,17 +258,17 @@ var angObj = angObj || {};
                        }
                     }
                    else {
-                    $scope.sizeString = creativeSizeLimit.join(', '); 
-                   }           
+                    $scope.sizeString = creativeSizeLimit.join(', ');
+                   }
                 }
-                
+
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
                 }
-                
+
             function noRepeat(arr) {
                 var a = [], b = [], prev;
-                
+
                 arr.sort();
                 for ( var i = 0; i < arr.length; i++ ) {
                     if ( arr[i] !== prev ) {
@@ -278,15 +279,15 @@ var angObj = angObj || {};
                     }
                     prev = arr[i];
                 }
-                
+
                 return [a, b];
             }
-            
+
             return $scope.sizeString;
         }
-        
-        
-        
+
+
+
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
             if (context.showHideToggle) {
@@ -370,44 +371,43 @@ var angObj = angObj || {};
             //api call here to group individual ads into a group
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.createIndependantAdsGrp.$valid){
-            var formElem = $("#createIndependantAdsGrp");
-            var formData = formElem.serializeArray();
-            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-            var postCreateAdObj = {};
-            postCreateAdObj.name = formData.adIGroupName;
-            postCreateAdObj.startTime = utils.convertToUTC(formData.lowestStartTime,'ST');//console.log(postCreateAdObj.startTime);
-            postCreateAdObj.endTime = utils.convertToUTC(formData.highestEndTime,'ET');//console.log(postCreateAdObj.endTime);
-            postCreateAdObj.createdAt = "";
-            postCreateAdObj.updatedAt = "";
-            postCreateAdObj.id="-9999";
+              var formElem = $("#createIndependantAdsGrp");
+              var formData = formElem.serializeArray();
+              formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+              var postCreateAdObj = {};
+              postCreateAdObj.name = formData.adIGroupName;
+              postCreateAdObj.startTime = utils.convertToUTC(formData.lowestStartTime,'ST');//console.log(postCreateAdObj.startTime);
+              postCreateAdObj.endTime = utils.convertToUTC(formData.highestEndTime,'ET');//console.log(postCreateAdObj.endTime);
+              postCreateAdObj.createdAt = "";
+              postCreateAdObj.updatedAt = "";
+              postCreateAdObj.id="-9999";
 
-            var dataArray = new Array;
-            for(var i in $scope.independantAdData) {
-                dataArray.push($scope.independantAdData[i].id);
+              var dataArray = new Array;
+              for(var i in $scope.independantAdData) {
+                  dataArray.push($scope.independantAdData[i].id);
+              }
+              //console.log(dataArray);
+              postCreateAdObj.adIds = dataArray;
+              workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    console.log("ad group created");
+                    $('#createIndependantAdsGrp')[0].reset();
+                    $scope.$broadcast('show-errors-reset');
+                    $scope.showIndividualAds = !$scope.showIndividualAds;
+                    $scope.independantMessage=!$scope.independantMessage;
+                    $scope.independantGroupMessage="Successfully grouped Ads";
+                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
+                    location.reload();
+                    $scope.msgtimeoutReset() ;
+
+                } else {
+                     console.log("ERROR! adgroup not created");
+                     console.log(result);
+                     $scope.independantMessage=!$scope.independantMessage;
+                     $scope.independantGroupMessage="unable to  group Ads";
+                }
+              });
             }
-            //console.log(dataArray);
-            postCreateAdObj.adIds = dataArray;
-            console.log(postCreateAdObj);
-                            workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
-                                    if (result.status === "OK" || result.status === "success") {
-                                        console.log("ad group created");
-                                        $('#createIndependantAdsGrp')[0].reset();
-                                        $scope.$broadcast('show-errors-reset');
-                                        $scope.showIndividualAds = !$scope.showIndividualAds;
-                                        $scope.independantMessage=!$scope.independantMessage;
-                                        $scope.independantGroupMessage="Successfully grouped Ads";
-                                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
-                                        location.reload();
-                                        $scope.msgtimeoutReset() ;
-
-                                    } else {
-                                         console.log("ERROR! adgroup not created");
-                                         console.log(result);
-                                         $scope.independantMessage=!$scope.independantMessage;
-                                         $scope.independantGroupMessage="unable to  group Ads";
-                                    }
-                            });
-        }
         }
 
         $scope.goEdit = function ( adsData ) {
