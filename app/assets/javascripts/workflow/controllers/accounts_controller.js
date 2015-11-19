@@ -15,7 +15,7 @@ var angObj = angObj || {};
         $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
         $scope.selectedBrandId = '';
         $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
-            left: '30px'};
+            left: '0px'};
         $scope.flashMessage = {'message':'','isErrorMsg':0};
 
 
@@ -230,6 +230,7 @@ var angObj = angObj || {};
             $scope.brandName = '';
             $scope.selectedBrandId = '';
             $scope.dropdownCss.display = 'block';
+            $(".account_name_list").show();
         }
 
 

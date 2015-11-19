@@ -63,6 +63,7 @@
                     var reportTypeDropdownId = $("#reportTypeDropdown");
                     var regionTooltip = $(".regionCityTab").find(".common_tooltip");
                     var quickFilters = $(".sliding_dropdown_container") ;
+
                   if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                       cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                       cdbDropdownId.hide();
