@@ -40,10 +40,20 @@
 				cursor: pointer;
 			}
 		} 
-		.table-header {
-			div.frequency-th {
-				padding-right: 0px ;
-			}
+		div.name-col {
+			width: 405px ;
+		}
+		div.frequency-col {
+			width: 130px ;
+			cursor: pointer;
+		}
+		div.more-options {
+			width: 65px ;
+			padding-left: 5px;
+    		padding-right: 0;
+		}
+		.common-sort-icon {
+			display: inline-block;
 		}
 		.table-body {
 			.row.unread {
@@ -57,9 +67,45 @@
 				}
 			}
 		}
+		.table-td.no-instance {
+			background-image : none ;
+		}
+		.table-td.more-options {
+			overflow: visible;
+			padding: 0;
+			.dropdown {
+				border: 0;
+				min-width: auto;
+				min-height: 34px;
+				.dropdown-menu {
+					font-family: "Avenir";
+					left: auto;
+					right: -1px;
+					min-width: 140px;
+					top: 92%;
+					width: 140px;
+					border-color: #dde6eb ;
+					li {
+						padding: 5px 15px;
+						cursor: pointer;
+						&:hover {
+							background: #e1edf9 ;
+						}
+					}
+				}
+				&:hover {
+					background: #dde6eb ;
+				}
+			}
+			.dropdown.open {
+				background: #dde6eb ;
+			}
+		}
 		.option-horizontal {
 			text-align: center;
 			cursor: pointer;
+			height: 33px;
+    		padding-top: 5px;
 			> span {
 				display: inline-block;
 				height: 5px ;
