@@ -63,6 +63,8 @@
                     var reportTypeDropdownId = $("#reportTypeDropdown");
                     var regionTooltip = $(".regionCityTab").find(".common_tooltip");
                     var quickFilters = $(".sliding_dropdown_container") ;
+                    var accNameDropdown = $("#advertiserList") ;
+
                   if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                       cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                       cdbDropdownId.hide();
@@ -73,6 +75,9 @@
                   }
                   if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                       profileDropdownId.hide();
+                  }
+                  if(accNameDropdown.is(':visible') ) {
+                      accNameDropdown.hide();
                   }
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();

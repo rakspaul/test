@@ -3125,7 +3125,7 @@
   padding-bottom: 0;
 }
 .accounts-popup.popup-holder .dropdown-menu {
-  width: 90% ;
+  width: 100% ;
 }
 .accounts-popup.popup-holder .dropdown-menu li > a {
   text-overflow: ellipsis;
