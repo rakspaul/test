@@ -36,12 +36,13 @@
 
       <div class="table-header">
         <div class="row">
-          <div class="col-md-4 table-th">
+          <div class="col-md-4 table-th name-col">
 
             {{textConstants.REPORT_NAME}} 
           </div>
-          <div class="col-md-1 table-th frequency-th">
-            {{textConstants.WF_FREQUENCY}}
+          <div class="col-md-1 table-th frequency-col sort-icon-holder">
+             {{textConstants.WF_FREQUENCY}}
+             <span class="common-sort-icon descending" ></span>
           </div>
           <div class="col-md-2 table-th">
             {{textConstants.COMPLETE_ON}}  
@@ -52,7 +53,7 @@
           <div class="col-md-2 table-th">
             {{textConstants.DISTRIBUTED_TO}}  
           </div>
-          <div class="col-md-1 table-th">
+          <div class="col-md-1 table-th more-options">
             {{textConstants.ACTIONS}}  
           </div>
         </div>
@@ -60,10 +61,10 @@
       </div>
       <div class="table-body">
         <div class="row unread">
-          <div class="col-md-4 table-td">
+          <div class="col-md-4 table-td name-col no-instance">
             This is an example of a report requested daily. This is an example of a report requested daily.
           </div>
-          <div class="col-md-1 table-td">
+          <div class="col-md-1 table-td frequency-col">
             Daily
           </div>
           <div class="col-md-2 table-td">
@@ -95,10 +96,10 @@
         </div>
         <div class="row">
           <div class="clearfix">
-              <div class="col-md-4 table-td" ng-click="open_second_dimension($event);">
+              <div class="col-md-4 table-td name-col" ng-click="open_second_dimension($event);">
                 This is an example of a report requested daily.
               </div>
-              <div class="col-md-1 table-td">
+              <div class="col-md-1 table-td frequency-col">
                 Daily
               </div>
               <div class="col-md-2 table-td">
@@ -110,18 +111,30 @@
               <div class="col-md-2 table-td">
                 xyz@collective.com
               </div>
-              <div class="col-md-1 table-td">
-                <div class="option-horizontal">
-                    <span></span><span></span><span></span>
+              <div class="col-md-1 table-td more-options">
+            
+                <div class="common_dropdown">
+                      <div class="dropdown">
+                          <span data-toggle="dropdown">
+                              <div class="option-horizontal">
+                                <span></span><span></span><span></span>
+                              </div>
+                          </span>
+                          <ul class="dropdown-menu">
+                            <li>Download</li>
+                            <li>Edit</li>
+                            <li>Copy</li>
+                          </ul>
+                      </div>
                   </div>
               </div>
             </div>
             <div class="inner-row">
                 <div class="row unread">
-                  <div class="col-md-4 table-td">
+                  <div class="col-md-4 table-td name-col">
                     This is an example of a report requested daily.
                   </div>
-                  <div class="col-md-1 table-td">
+                  <div class="col-md-1 table-td frequency-col">
                     Daily
                   </div>
                   <div class="col-md-2 table-td">
@@ -133,9 +146,23 @@
                   <div class="col-md-2 table-td">
                     xyz@collective.com
                   </div>
-                  <div class="col-md-1 table-td">
-                    <span class="glyphicon glyphicon-option-horizontal"></span>
-                  </div>
+                  <div class="col-md-1 table-td more-options">
+            
+                      <div class="common_dropdown">
+                            <div class="dropdown">
+                                <span data-toggle="dropdown">
+                                    <div class="option-horizontal">
+                                      <span></span><span></span><span></span>
+                                    </div>
+                                </span>
+                                <ul class="dropdown-menu">
+                                  <li>Download</li>
+                                  <li>Edit</li>
+                                  <li>Copy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row view-all-link">
                   <div class="col-md-12 table-td">
@@ -146,13 +173,13 @@
         </div>
         <div class="row">
           <div class="clearfix">
-              <div class="col-md-4 table-td" ng-click="open_second_dimension($event);">
+              <div class="col-md-4 table-td  name-col" ng-click="open_second_dimension($event);">
                 This is an example of a report requested daily.
               </div>
-              <div class="col-md-1 table-td">
+              <div class="col-md-1 table-td frequency-col">
                 Daily
               </div>
-              <div class="col-md-2 table-td">
+              <div class="col-md-2 table-td ">
                 Pending Status
               </div>
               <div class="col-md-2 table-td">
@@ -161,18 +188,30 @@
               <div class="col-md-2 table-td">
                 xyz@collective.com
               </div>
-              <div class="col-md-1 table-td">
-                 <div class="option-horizontal">
-                    <span></span><span></span><span></span>
+              <div class="col-md-1 table-td more-options">
+            
+                <div class="common_dropdown">
+                      <div class="dropdown">
+                          <span data-toggle="dropdown">
+                              <div class="option-horizontal">
+                                <span></span><span></span><span></span>
+                              </div>
+                          </span>
+                          <ul class="dropdown-menu">
+                            <li>Download</li>
+                            <li>Edit</li>
+                            <li>Copy</li>
+                          </ul>
+                      </div>
                   </div>
               </div>
             </div>
             <div class="inner-row">
                 <div class="row unread">
-                  <div class="col-md-4 table-td">
+                  <div class="col-md-4 table-td name-col">
                     This is an example of a report requested daily.
                   </div>
-                  <div class="col-md-1 table-td">
+                  <div class="col-md-1 table-td frequency-col">
                     Daily
                   </div>
                   <div class="col-md-2 table-td">
@@ -184,10 +223,22 @@
                   <div class="col-md-2 table-td">
                     xyz@collective.com
                   </div>
-                  <div class="col-md-1 table-td">
-                    <div class="option-horizontal">
-                      <span></span><span></span><span></span>
-                    </div>
+                  <div class="col-md-1 table-td more-options">
+            
+                    <div class="common_dropdown">
+                          <div class="dropdown">
+                              <span data-toggle="dropdown">
+                                  <div class="option-horizontal">
+                                    <span></span><span></span><span></span>
+                                  </div>
+                              </span>
+                              <ul class="dropdown-menu">
+                                <li>Download</li>
+                                <li>Edit</li>
+                                <li>Copy</li>
+                              </ul>
+                          </div>
+                      </div>
                   </div>
                 </div>
                 <div class="row view-all-link">

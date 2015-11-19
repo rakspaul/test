@@ -41,14 +41,29 @@
   background-position: left 15px center ;
   cursor: pointer;
 }
-.reports-scheduled-list .scheduled_list_table .table-header div.frequency-th {
-  padding-right: 0px ;
+.reports-scheduled-list .scheduled_list_table div.name-col {
+  width: 405px ;
+}
+.reports-scheduled-list .scheduled_list_table div.frequency-col {
+  width: 130px ;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table div.more-options {
+  width: 65px ;
+  padding-left: 5px;
+  padding-right: 0;
+}
+.reports-scheduled-list .scheduled_list_table .common-sort-icon {
+  display: inline-block;
 }
 .reports-scheduled-list .scheduled_list_table .table-body .row.unread {
   font-family: "Avenir-bold";
 }
 .reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {
   background-image: url("/assets/images/cdesk/common_down_arrow.png");
+}
+.reports-scheduled-list .scheduled_list_table .table-td.no-instance {
+  background-image: none ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options {
   overflow: visible;
@@ -58,6 +73,28 @@
   border: 0;
   min-width: auto;
   min-height: 34px;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu {
+  font-family: "Avenir";
+  left: auto;
+  right: -1px;
+  min-width: 140px;
+  top: 92%;
+  width: 140px;
+  border-color: #dde6eb ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu li {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu li:hover {
+  background: #e1edf9 ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown:hover {
+  background: #dde6eb ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown.open {
+  background: #dde6eb ;
 }
 .reports-scheduled-list .scheduled_list_table .option-horizontal {
   text-align: center;
