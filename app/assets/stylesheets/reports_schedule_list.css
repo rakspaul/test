@@ -44,6 +44,9 @@
 .reports-scheduled-list .scheduled_list_table div.name-col {
   width: 405px ;
 }
+.reports-scheduled-list .scheduled_list_table .table-th.name-col {
+  cursor: text;
+}
 .reports-scheduled-list .scheduled_list_table div.frequency-col {
   width: 130px ;
   cursor: pointer;
