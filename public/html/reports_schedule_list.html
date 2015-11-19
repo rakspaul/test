@@ -34,36 +34,36 @@
 
   <div class="scheduled_list_table">
 
-
     <div class="table-header">
       <div class="row">
         <div class="col-md-4 table-th">
-
-          {{textConstants.REPORT_NAME}}
-        </div>
-        <div class="col-md-1 table-th frequency-th">
-          <span ng-click="sortSchdlReport()">{{textConstants.WF_FREQUENCY}}<span class="common-sort-icon descending" ></span></span>
-        </div>
-        <div class="col-md-2 table-th">
-          {{textConstants.COMPLETE_ON}}
-        </div>
-        <div class="col-md-2 table-th">
-          {{textConstants.CREATED_BY}}
-        </div>
-        <div class="col-md-2 table-th">
-          {{textConstants.DISTRIBUTED_TO}}
-        </div>
-        <div class="col-md-1 table-th">
-          {{textConstants.ACTIONS}}
+            {{textConstants.REPORT_NAME}} 
+          </div>
+          <div class="col-md-1 table-th frequency-col sort-icon-holder">
+            <span ng-click="sortSchdlReport()">{{textConstants.WF_FREQUENCY}}</span>
+             <span class="common-sort-icon descending" ></span>
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.COMPLETE_ON}}  
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.CREATED_BY}} 
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.DISTRIBUTED_TO}}  
+          </div>
+          <div class="col-md-1 table-th more-options">
+            {{textConstants.ACTIONS}}  
+          </div>
         </div>
       </div>
 
     </div>
     <div class="table-body">
-      <div class="row" ng-repeat="srlist in schdReportList track by $index">
+      <div class="row unread" ng-repeat="srlist in schdReportList track by $index">
         <div class="clearfix">
-          <div class="col-md-4 table-td  name-col no-instance" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.completedOn.length > 1"> ({{srlist.completedOn.length-1}})</span></div>
-          <div class="col-md-1 table-td">{{srlist.frequency}}</div>
+          <div class="col-md-4 table-td name-col no-instance" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.completedOn.length > 1"> ({{srlist.completedOn.length-1}})</span></div>
+          <div class="col-md-1 table-td frequency-col">{{srlist.frequency}}</div>
           <div class="col-md-2 table-td">{{srlist.completedOn[0]}}</div>
           <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
           <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
@@ -123,33 +123,3 @@
   </div>
 
 </div>
-<style type="text/css">
-  .row.open .inner-row .row .table-td:first-child {
-    background-image: none;
-  }
-  .reports-scheduled-list .scheduled_list_table .table-td.more-options {
-    overflow: visible;
-    padding: 0;
-  }
-  .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown {
-    border: 0;
-    min-width: auto;
-    min-height: 34px;
-  }
-  .reports-scheduled-list .scheduled_list_table .option-horizontal {
-    text-align: center;
-    cursor: pointer;
-    height: 33px;
-    padding-top: 5px;
-  }
-  .reports-scheduled-list .scheduled_list_table .option-horizontal > span {
-    display: inline-block;
-    height: 5px ;
-    width: 5px ;
-    background: #5D5D5D ;
-    margin: 0 2px ;
-    border-radius: 50% ;
-    -moz-border-radius: 50% ;
-    -webkit-border-radius: 50%;
-  }
-</style>
