@@ -61,7 +61,5 @@
         }
 
         //$scope.sortReport($scope.sort.column);
-
-
     });
     }());
