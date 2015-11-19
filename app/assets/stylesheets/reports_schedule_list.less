@@ -20,15 +20,18 @@
 		}
 	}
 	.scheduled_list_table {
+		margin-bottom: 40px ;
 		.row {
 			margin: 0 ;
 		}
-
-		.table-th , .table-td  {
+		.table-td  {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow : ellipsis ;
 
+		}
+		.table-th , .table-td  {
+			min-height: 35px ;
 			&:first-child {  
 				padding-left: 40px ;
 				background-image : url("/assets/images/cdesk/common_side_arrow.png") ;
@@ -51,6 +54,33 @@
 			.table-td {
 				&:first-child {
 					background-image : url("/assets/images/cdesk/common_down_arrow.png") ;
+				}
+			}
+		}
+		.option-horizontal {
+			text-align: center;
+			cursor: pointer;
+			> span {
+				display: inline-block;
+				height: 5px ;
+				width: 5px ;
+				background: #5D5D5D ;
+				margin: 0 2px ;
+				border-radius: 50% ;
+				-moz-border-radius: 50% ;
+				-webkit-border-radius: 50% ;
+			}
+		}
+		.row {
+			.inner-row {
+				display: none;
+				.table-td {
+					background-color: #fff  ;
+					&:first-child {
+						background-image : none ;
+						padding-left: 55px;
+						cursor: text;
+					}
 				}
 			}
 		}
@@ -77,16 +107,7 @@
 				border-right-width : 1px  ;
 			}
 		}
-		.inner-row {
-			.table-td {
-				background-color: #fff  ;
-				&:first-child {
-					background-image : none ;
-					padding-left: 55px;
-					cursor: text;
-				}
-			}
-		}
+		
 		.view-all-link {
 			text-align: center;
 			.table-td {
