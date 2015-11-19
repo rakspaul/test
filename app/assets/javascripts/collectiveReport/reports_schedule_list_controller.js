@@ -2,8 +2,7 @@
 (function() {
     'use strict';
     collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel) {
-
-        $scope.noOfSchldInstToShow = 5;
+        $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {descending:true};
 

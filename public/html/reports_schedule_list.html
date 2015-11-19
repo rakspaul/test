@@ -31,35 +31,38 @@
     </div>
   </div>
 
+  <div class="scheduled_list_table">
 
   <div class="scheduled_list_table">
     <div class="table-header">
       <div class="row">
         <div class="col-md-4 table-th name-col">
-
-          {{textConstants.REPORT_NAME}}
-        </div>
-        <div class="col-md-1 table-th frequency-col sort-icon-holder">
-          <span ng-click="sortSchdlReport()">{{textConstants.WF_FREQUENCY}}</span>
-        </div>
-        <div class="col-md-2 table-th">
-          {{textConstants.COMPLETE_ON}}
-        </div>
-        <div class="col-md-2 table-th">
-          {{textConstants.CREATED_BY}}
-        </div>
-        <div class="col-md-2 table-th">
-          {{textConstants.DISTRIBUTED_TO}}
-        </div>
-        <div class="col-md-1 table-th more-options">
-          {{textConstants.ACTIONS}}
+            {{textConstants.REPORT_NAME}} 
+          </div>
+          <div class="col-md-1 table-th frequency-col sort-icon-holder">
+            <span ng-click="sortSchdlReport()">{{textConstants.WF_FREQUENCY}}</span>
+             <span class="common-sort-icon descending" ></span>
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.COMPLETE_ON}}  
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.CREATED_BY}} 
+          </div>
+          <div class="col-md-2 table-th">
+            {{textConstants.DISTRIBUTED_TO}}  
+          </div>
+          <div class="col-md-1 table-th more-options">
+            {{textConstants.ACTIONS}}  
+          </div>
         </div>
       </div>
+
     </div>
     <div class="table-body">
-      <div class="row" ng-repeat="srlist in schdReportList track by $index">
+      <div class="row unread" ng-repeat="srlist in schdReportList track by $index">
         <div class="clearfix">
-          <div class="col-md-4 table-td name-col" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.completedOn.length > 1"> ({{srlist.completedOn.length-1}})</span></div>
+          <div class="col-md-4 table-td name-col no-instance" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.completedOn.length > 1"> ({{srlist.completedOn.length-1}})</span></div>
           <div class="col-md-1 table-td frequency-col">{{srlist.frequency}}</div>
           <div class="col-md-2 table-td">{{srlist.completedOn[0]}}</div>
           <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
@@ -117,4 +120,7 @@
     </div>
 
   </div>
+
+  </div>
 </div>
+
