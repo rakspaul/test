@@ -3134,3 +3134,7 @@
 .accounts-popup.popup-holder .dropdown-menu li > a:hover {
   background-color: #E1EDF9;
 }
+.accounts-popup.popup-holder .account_name_list {
+  max-height: 100px ;
+  overflow: scroll;
+}

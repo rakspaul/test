@@ -230,6 +230,7 @@ var angObj = angObj || {};
             $scope.brandName = '';
             $scope.selectedBrandId = '';
             $scope.dropdownCss.display = 'block';
+            $(".account_name_list").show();
         }
 
 
