@@ -3221,6 +3221,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   /* firefox 19+ */
   /* ie */
 }
+.report_generator_and_response .report_builder_container input[type='text'] {
+  border: 1px solid #BFC9D7;
+  border-radius: 2px !important;
+  line-height: normal;
+  padding: 10px 12px 7px 12px;
+  height: auto;
+  box-shadow: none;
+}
 .report_generator_and_response .report_builder_container .heading h3 {
   font-size: 21px ;
   color: #000 ;
