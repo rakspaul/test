@@ -23,7 +23,7 @@
         </div>
         <div class="form-group col-md-12 zeroPadding">
 		    <label >Account Name:</label>
-		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()" id="accName">
+		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()" >
             <ul ng-if="allAdvertiser.length>0" class="dropdown-menu" role="menu" id="advertiserList"  ng-style="dropdownCss">
                     <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
                         <a>
