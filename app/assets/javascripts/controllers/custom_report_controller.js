@@ -573,6 +573,16 @@ var angObj = angObj || {};
             }).on('changeDate', function () {
                 $("#date-selected-txt").text("Custom Dates");
             });
+            $('#toggle').bootstrapToggle('off');
+            $('#toggle').change(function() {
+                if( $(this).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
+                    
+                    $(".default-schedule-col").show() ;
+                } else {
+                    
+                    $(".each-col:not(#schedule-btn)").hide() ;
+                }  
+            });
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
             $('#endDateInput').datepicker('update', yesterday );

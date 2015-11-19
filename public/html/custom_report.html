@@ -276,6 +276,7 @@
 		         </div>
 		    </div>
 		    <div class="row create_scheduled_report">
+
 		    	<div class="col-md-12  each_section_custom_report">
 		    		<div class="create_report_title">
 		           			Schedule
@@ -765,24 +766,6 @@
 	<div class="each_col" ng-if="customeReportData.video_suspicious_act_perc >=0">{{customeReportData.video_suspicious_act_perc | number:2}}</div>
 </script>
 
-
-<script>
-	$(function() {
-		$('#toggle').bootstrapToggle('off');
-	});
-
-	$('#toggle').change(function() {
-		if( $(this).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
-			
-			$(".default-schedule-col").show() ;
-		} else {
-			
-			$(".each-col:not(#schedule-btn)").hide() ;
-		}
-		
-	  
-	});
-</script>
 
 
 
