@@ -1653,10 +1653,9 @@
   padding: 0px 0px 0px 30px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform {
-  float: left;
-  margin-top: 27px;
+  float: right;
+  margin-top: 22px;
   cursor: pointer;
-  width: 100%;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform img {
   float: left;
@@ -1676,10 +1675,12 @@
   float: left;
   clear: left;
   margin-bottom: 30px;
+  margin-top: 30px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs img {
   float: left;
   height: 36px;
+  margin-top: 20px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs .icon-arrow-down {
   float: left;
@@ -1688,7 +1689,7 @@
   -webkit-transform: rotate(270deg);
   /* Chrome, Safari, Opera */
   transform: rotate(270deg);
-  margin: 10px;
+  margin: 30px 10px 10px 10px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs a {
   float: left;
@@ -2524,6 +2525,7 @@
   margin-left: -251px;
   margin-bottom: 0px;
   margin-top: 5px;
+  border-width: 0;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a {
   border-width: 0;
@@ -2741,14 +2743,14 @@
   clear: left;
   margin-right: 10px;
 }
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap .icon-close {
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap .icon-clear {
   position: absolute;
   z-index: 10;
   top: 0;
   right: 0;
-  width: 12px;
-  height: 12px;
-  font-size: 12px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
   margin-top: 0;
   cursor: pointer;
 }
