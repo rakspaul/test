@@ -974,20 +974,54 @@ var angObj = angObj || {};
             $scope.creativeData['creativeInfo'] = {'creatives' : data.slice() };
             $scope.setSizes($scope.creativeData['creativeInfo']);// set sizes on side bar.
         };
+        
+        
         $scope.setSizes = function (selectedcreatives) {
+            var creativeSizeArrC = []
             if (typeof selectedcreatives.creatives != 'undefined') {
                 if (selectedcreatives.creatives.length == 1) {
                     $scope.sizeString = selectedcreatives.creatives[0].size.size;
                 } else if (selectedcreatives.creatives.length > 1) {
                     $scope.sizeString = "";
                     for (var i in selectedcreatives.creatives) {
-                        $scope.sizeString += selectedcreatives.creatives[i].size.size + ", ";
+                        creativeSizeArrC.push(selectedcreatives.creatives[i].size.size)
                     }
-                    $scope.sizeString = $scope.sizeString.substring(0, $scope.sizeString.length - 1);
+                    $scope.sizeString = creativeSizeArrC;
+                    var arrC = creativeSizeArrC;
+                    var resultC = noRepeatC(arrC);
+                    
+                    var str = '';
+                    var result = noRepeatC(arrC);
+                    for(var i=0;i<result[0].length;i++) {
+                        if(result[1][i] >1) {
+                            str += result[0][i] + '('+ result[1][i]+ ')' + ', ';
+                        } else {
+                            str += result[0][i] + ', ';
+                        }
+                    }
+                    $scope.sizeString = str.substr(0, str.length-2);
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
             }
+            
+            function noRepeatC(arrC) {
+                var aC = [], bC = [], prevC;
+
+                arrC.sort();
+                for ( var i = 0; i < arrC.length; i++ ) {
+                    if ( arrC[i] !== prevC ) {
+                        aC.push(arrC[i]);
+                        bC.push(1);
+                    } else {
+                        bC[bC.length-1]++;
+                    }
+                    prevC = arrC[i];
+                }
+
+                return [aC, bC];
+            }
+            
             $scope.adData.setSizes = $scope.sizeString;
         }
 

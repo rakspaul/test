@@ -1106,7 +1106,8 @@
   left: 0;
   background-color: #fff;
   padding-left: 30px;
-  width: 360px ;
+  width: 400px;
+  padding-right: 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adStepOne .adNameBox .btn-toggle {
   margin: 6px 0 20px;
@@ -1643,18 +1644,19 @@
   background: #fff;
   left: 100%;
   width: 930px;
-  height: auto;
+  height: 100%;
   min-height: 600px;
-  top: 188px;
+  top: 123px;
   display: none;
   position: absolute;
   z-index: 10;
-  padding: 0px 0px 30px 30px;
+  padding: 0px 0px 0px 30px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform {
   float: left;
-  margin-top: 15px;
+  margin-top: 27px;
   cursor: pointer;
+  width: 100%;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform img {
   float: left;
@@ -1666,6 +1668,9 @@
   float: left;
   color: #0978c9;
   margin: 1px 0 20px 10px;
+}
+#campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform .btn {
+  margin: 0;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs h5 {
   float: left;
