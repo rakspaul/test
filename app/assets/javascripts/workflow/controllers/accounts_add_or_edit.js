@@ -24,16 +24,6 @@
             accountsService[type == 'MARKETER' ? 'getAllAdvertisers' : 'getAgencies']().then(function(result){
                 $scope.allAdvertiser = result.data.data;
             })
-
-            if(type == 'MARKETER'){
-                accountsService.getAllAdvertisers().then(function(result){
-                    $scope.allAdvertiser = result.data.data;
-                })
-            } else {
-              accountsService.getAllAdvertisers().then(function(result){
-                  $scope.allAdvertiser = result.data.data;
-              })
-            }
         }
 
         $scope.selectClientAdvertiser = function(advertiser){
