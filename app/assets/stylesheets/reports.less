@@ -3400,13 +3400,26 @@ only screen and (min-device-pixel-ratio: 2) {
   background: #fff ;
   .report_builder_container  {
     margin-bottom: 30px ;
+    .heading {
+      h3 {
+        font-size: 21px ;
+        color: #000 ;
+        margin: 30px 0 20px;
+      }
+    }
+    .common_dropdown .dropdown {
+        border-color: #BFC9D7 ;
+        .dropdown_ul_text {
+          padding : 7px 10px ;
+        }
+      }
     .container {
-      width: 1040px ;
+      width: 1200px ;
       padding: 0 ;
     }
     .timeframe_selector {
-      padding-left: 0px ;
-      width: 160px ;
+      padding: 0px ;
+      width: 162px ;
     }
     .common_dropdown .dropdown {
       margin-right: 4px ;
@@ -3428,12 +3441,11 @@ only screen and (min-device-pixel-ratio: 2) {
       font-size: 14px;
     }
     .left_border {
-      border-left: solid 1px #dde6eb ;
-      /*padding-left: 30px ;
-      padding-right: 0 ;*/
+      border-left: solid 1px #ccc ;
+      padding : 0 0 25px 80px ;
     }
     .each_section_custom_report {
-      margin: 0px 0 10px 0 ;
+      margin: 0px 0 30px 0 ;
       .measurable_col_holder {
         float: none;
         overflow: auto;
@@ -3456,7 +3468,7 @@ only screen and (min-device-pixel-ratio: 2) {
       .filter_input_txtbox {
         input {
           padding: 5px 10px ;
-          height: 32px;
+          height: 36px;
           border: solid 1px #dde6eb;
           border-radius: 2px;
           -moz-border-radius: 2px;
@@ -3478,7 +3490,7 @@ only screen and (min-device-pixel-ratio: 2) {
       margin-top: 60px ;
     }
     .create_report_title  {
-      font-family: "Avenir-bold" ;
+      color: #000 ;
     }
     .custom_report_col_title {
       .external_chkbox {
@@ -3669,21 +3681,92 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     div.create_scheduled_report {
+      .scheduled_report_fields {
+        margin : 6px 0 15px ;
+      }
+      .common_dropdown .dropdown {
+        min-width: 140px ;
+        margin-right: 0;
+      }
       margin-top: 40px ;
       .input-daterange {
-        width: 120px ;
+        width: 140px ;
       }
-      input[type='text'] {
-        border-color: #dde6eb ;
-        padding-top: 6px ;
+      .report-name-col input[type='text'] {
+        border-color: #BFC9D7 ;
+        padding-top: 7px;
+        padding-bottom: 10px;
       }
-
+      .each-col:not(#schedule-btn) {
+        display: none;
+      }
       .each-col {
-        margin-right: 20px ;
+        margin-left: 20px ;
+      }
+      #schedule-btn {
+        margin-left: 0 ;
+      }
+      div.each-col.scheduling-options {
+        margin-left: 10px ;
+      }
+      div.each-col.schedule-date {
+        margin-left: 20px ;
+      }
+      .each-col {
+        float: left;
         .label-txt {
           color: #939eae ;
           font-size: 12px ;
           margin-bottom: 10px ;
+        }
+      }
+      .report-name-col {
+        width: 300px ;
+        input[type='text']{
+          width: 100% ;
+        }
+      }
+      .schedule-occurs-custom {
+        .common_dropdown .dropdown {
+          min-width: 75px ;
+        }
+      }
+      .schedule-on-off-btn {
+
+        .btn-primary .toggle-on:after {
+            content: "";
+            height: 16px;
+            width: 8px;
+            position: absolute;
+            top: 6px;
+            left: 18px;
+            border: solid 3px #fff;
+            border-top: 0;
+            border-left: 0;
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            border-radius: 0px 0 3px;
+            -moz-border-radius: 0px 0 3px;
+            -webkit-border-radius: 0px 0 3px;
+        }
+        .btn {
+          padding: 0 22px ;
+        }
+        .toggle.btn {
+          min-height: 36px;
+        }
+        .btn-default {
+          background-color: #E9EDF2;
+          border-color: #BFC9D7 ;
+        }
+        .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #fff;
+        }
+        .btn:active, .btn.active {
+           -webkit-box-shadow: inset 0 0px 0px transparent; 
+           box-shadow: inset 0 0px 0px transparent; 
+           border:  0px ;
         }
       }
     }
@@ -4069,7 +4152,7 @@ div.reports_tabs_content_container {
   height: 16px;
   width: 16px;
   cursor: pointer;
-  margin: 8px 0 0 10px;
+  margin: 10px 0 0 10px;
   background: url("/assets/images/cdesk/clear_entry.png") no-repeat center center ;
 }
 .report_generate_button.disabled {
