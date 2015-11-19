@@ -116,6 +116,10 @@
           return url;
       }
 
+      this.scheduleReportsList = function() {
+          return 'http://localhost:9000/assets/json/reportScheduleList.json';
+      }
+
 
 
   }

@@ -16,239 +16,105 @@
 
 <div class="reports-scheduled-list">
 
-	<div class="scheduled-list-header">
-		<div class="clearfix" >
-			<h2 class="pull-left">{{textConstants.SCHEDULED_REPORTS}}</h2>
+  <div class="scheduled-list-header">
+    <div class="clearfix" >
+      <h2 class="pull-left">{{textConstants.SCHEDULED_REPORTS}}</h2>
       <a href="javascript:void(0);" class="btn btn-default pull-right" >{{textConstants.NEW_REPORT}}</a>
-		</div>
-	</div>
+    </div>
+  </div>
   <div class="scheduled-list-nav clearfix">
     <div class="pull-left each-nav active">
       {{textConstants.REPORTS}}
     </div>
     <div class="pull-left each-nav">
-      {{textConstants.WF_ARCHIVE}} 
+      {{textConstants.WF_ARCHIVE}}
     </div>
   </div>
 
-  
+
   <div class="scheduled_list_table">
+    <div class="table-header">
+      <div class="row">
+        <div class="col-md-4 table-th name-col">
 
-      <div class="table-header">
-        <div class="row">
-          <div class="col-md-4 table-th name-col">
-
-            {{textConstants.REPORT_NAME}} 
-          </div>
-          <div class="col-md-1 table-th frequency-col sort-icon-holder">
-             {{textConstants.WF_FREQUENCY}}
-             <span class="common-sort-icon descending" ></span>
-          </div>
-          <div class="col-md-2 table-th">
-            {{textConstants.COMPLETE_ON}}  
-          </div>
-          <div class="col-md-2 table-th">
-            {{textConstants.CREATED_BY}} 
-          </div>
-          <div class="col-md-2 table-th">
-            {{textConstants.DISTRIBUTED_TO}}  
-          </div>
-          <div class="col-md-1 table-th more-options">
-            {{textConstants.ACTIONS}}  
-          </div>
+          {{textConstants.REPORT_NAME}}
         </div>
-
+        <div class="col-md-1 table-th frequency-col sort-icon-holder">
+          <span ng-click="sortSchdlReport()">{{textConstants.WF_FREQUENCY}}</span>
+        </div>
+        <div class="col-md-2 table-th">
+          {{textConstants.COMPLETE_ON}}
+        </div>
+        <div class="col-md-2 table-th">
+          {{textConstants.CREATED_BY}}
+        </div>
+        <div class="col-md-2 table-th">
+          {{textConstants.DISTRIBUTED_TO}}
+        </div>
+        <div class="col-md-1 table-th more-options">
+          {{textConstants.ACTIONS}}
+        </div>
       </div>
-      <div class="table-body">
-        <div class="row unread">
-          <div class="col-md-4 table-td name-col no-instance">
-            This is an example of a report requested daily. This is an example of a report requested daily.
-          </div>
-          <div class="col-md-1 table-td frequency-col">
-            Daily
-          </div>
-          <div class="col-md-2 table-td">
-            Pending Status
-          </div>
-          <div class="col-md-2 table-td">
-            xyz
-          </div>
-          <div class="col-md-2 table-td">
-            xyz@collective.com
-          </div>
+    </div>
+    <div class="table-body">
+      <div class="row" ng-repeat="srlist in schdReportList track by $index">
+        <div class="clearfix">
+          <div class="col-md-4 table-td name-col" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.completedOn.length > 1"> ({{srlist.completedOn.length-1}})</span></div>
+          <div class="col-md-1 table-td frequency-col">{{srlist.frequency}}</div>
+          <div class="col-md-2 table-td">{{srlist.completedOn[0]}}</div>
+          <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
+          <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
           <div class="col-md-1 table-td more-options">
-            
             <div class="common_dropdown">
-                  <div class="dropdown">
+              <div class="dropdown">
                       <span data-toggle="dropdown">
                           <div class="option-horizontal">
                             <span></span><span></span><span></span>
                           </div>
                       </span>
-                      <ul class="dropdown-menu">
-                        <li>Download</li>
-                        <li>Edit</li>
-                        <li>Copy</li>
-                      </ul>
-                  </div>
+                <ul class="dropdown-menu">
+                  <li>Download</li>
+                  <li>Edit</li>
+                  <li>Edit</li>
+                </ul>
               </div>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="clearfix">
-              <div class="col-md-4 table-td name-col" ng-click="open_second_dimension($event);">
-                This is an example of a report requested daily.
-              </div>
-              <div class="col-md-1 table-td frequency-col">
-                Daily
-              </div>
-              <div class="col-md-2 table-td">
-                Pending Status
-              </div>
-              <div class="col-md-2 table-td">
-                xyz
-              </div>
-              <div class="col-md-2 table-td">
-                xyz@collective.com
-              </div>
-              <div class="col-md-1 table-td more-options">
-            
-                <div class="common_dropdown">
-                      <div class="dropdown">
-                          <span data-toggle="dropdown">
-                              <div class="option-horizontal">
-                                <span></span><span></span><span></span>
-                              </div>
-                          </span>
-                          <ul class="dropdown-menu">
-                            <li>Download</li>
-                            <li>Edit</li>
-                            <li>Copy</li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-            </div>
-            <div class="inner-row">
-                <div class="row unread">
-                  <div class="col-md-4 table-td name-col">
-                    This is an example of a report requested daily.
-                  </div>
-                  <div class="col-md-1 table-td frequency-col">
-                    Daily
-                  </div>
-                  <div class="col-md-2 table-td">
-                    Pending Status
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz@collective.com
-                  </div>
-                  <div class="col-md-1 table-td more-options">
-            
-                      <div class="common_dropdown">
-                            <div class="dropdown">
-                                <span data-toggle="dropdown">
-                                    <div class="option-horizontal">
-                                      <span></span><span></span><span></span>
-                                    </div>
-                                </span>
-                                <ul class="dropdown-menu">
-                                  <li>Download</li>
-                                  <li>Edit</li>
-                                  <li>Copy</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row view-all-link">
-                  <div class="col-md-12 table-td">
-                    <a href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}} </a>
-                  </div>
-                </div>
-              </div>
-        </div>
-        <div class="row">
-          <div class="clearfix">
-              <div class="col-md-4 table-td  name-col" ng-click="open_second_dimension($event);">
-                This is an example of a report requested daily.
-              </div>
-              <div class="col-md-1 table-td frequency-col">
-                Daily
-              </div>
-              <div class="col-md-2 table-td ">
-                Pending Status
-              </div>
-              <div class="col-md-2 table-td">
-                xyz
-              </div>
-              <div class="col-md-2 table-td">
-                xyz@collective.com
-              </div>
-              <div class="col-md-1 table-td more-options">
-            
-                <div class="common_dropdown">
-                      <div class="dropdown">
-                          <span data-toggle="dropdown">
-                              <div class="option-horizontal">
-                                <span></span><span></span><span></span>
-                              </div>
-                          </span>
-                          <ul class="dropdown-menu">
-                            <li>Download</li>
-                            <li>Edit</li>
-                            <li>Copy</li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-            </div>
-            <div class="inner-row">
-                <div class="row unread">
-                  <div class="col-md-4 table-td name-col">
-                    This is an example of a report requested daily.
-                  </div>
-                  <div class="col-md-1 table-td frequency-col">
-                    Daily
-                  </div>
-                  <div class="col-md-2 table-td">
-                    Pending Status
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz@collective.com
-                  </div>
-                  <div class="col-md-1 table-td more-options">
-            
-                    <div class="common_dropdown">
-                          <div class="dropdown">
-                              <span data-toggle="dropdown">
-                                  <div class="option-horizontal">
-                                    <span></span><span></span><span></span>
-                                  </div>
-                              </span>
-                              <ul class="dropdown-menu">
-                                <li>Download</li>
-                                <li>Edit</li>
-                                <li>Copy</li>
-                              </ul>
+          <div class="inner-row" ng-if="srlist.completedOn.length > 1" >
+          <div class="row unread" ng-repeat="crtOn in srlist.completedOn | limitTo: scheduleInstCount[$parent.$index] track by $index" ng-if="$index > 0">
+            <div class="col-md-4 table-td">{{srlist.name}}</div>
+            <div class="col-md-1 table-td">{{srlist.frequency}}</div>
+            <div class="col-md-2 table-td">{{crtOn}}</div>
+            <div class="col-md-2 table-td">{{srlist.createdBy}} </div>
+            <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
+            <div class="col-md-1 table-td more-options">
+
+              <div class="common_dropdown">
+                <div class="dropdown">
+                      <span data-toggle="dropdown">
+                          <div class="option-horizontal">
+                            <span></span><span></span><span></span>
                           </div>
-                      </div>
-                  </div>
-                </div>
-                <div class="row view-all-link">
-                  <div class="col-md-12 table-td">
-                    <a href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}} </a>
-                  </div>
+                      </span>
+                  <ul class="dropdown-menu">
+                    <li>Download</li>
+                    <li>Edit</li>
+                    <li>Edit</li>
+                  </ul>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row view-all-link" ng-if="(srlist.completedOn.length > 3) && (scheduleInstCount[$parent.$index] < srlist.completedOn.length) ">
+            <div class="col-md-12 table-td">
+              <a ng-click="setScheduleInstCount($parent.$index,srlist.completedOn.length)" href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}}</a>
+            </div>
+          </div>
         </div>
       </div>
+
+    </div>
 
   </div>
 
