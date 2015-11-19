@@ -897,9 +897,16 @@ td.day.selected + td.day.range:before:hover {
 }
 .each_section_custom_report .date .dateWrapper input {
   background: transparent;
-  border-radius: 3px !important;
+  border-radius: 2px !important;
+  padding-top: 0;
+  height: 38px;
+  padding-bottom: 0;
 }
-.each_section_custom_report .date .glyphicon {
-  top: -23px;
-  right: 5px ;
+.each_section_custom_report .date .icon-calendar {
+  top: -38px;
+  right: 13px;
+  border-left: solid 1px #ccc;
+  height: 38px;
+  width: 20px;
+  padding: 10px 0 0 8px;
 }

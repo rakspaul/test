@@ -6,6 +6,7 @@
 	    			<h3>Report Builder</h3>
 	    		</div>
 	    	</div>
+	    	
 		    <div class="row">
 		    	<div class="col-md-6 ">
 		           	 <div class="each_section_custom_report">
@@ -85,11 +86,11 @@
 									    <div class="col-md-12 dateWrapper">
 									    	<div class="col-md-6">
 									        	<input type="text" id="startDateInput" class="input-sm form-control timeframe" required/>
-									        	<i class="glyphicon glyphicon-th pull-right"></i>
+									        	<i class="icon-calendar glyphicon pull-right"></i>
 									        </div>
 									        <div class="col-md-6">
 									        	<input type="text" id="endDateInput" class="input-sm form-control timeframe"  required/>
-									        	<i class="glyphicon glyphicon-th pull-right"></i>
+									        	<i class="icon-calendar glyphicon pull-right"></i>
 									        </div>
 									    </div>
 									   
@@ -136,15 +137,7 @@
 				           			</a>
 
 			           			</div>
-								<button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}" ng-disabled="generateBtnDisabled ? true : false" ng-click="generateReport()" >
-						    		Generate
-						    	</button>
-						    	<!-- <div class="pull-right common_secondary_blue_btn" >
-						    		Schedule
-						    	</div> -->
-						    	<div class="pull-right secondary_txt" ng-click="reset_metric_options()" >
-			           				Reset
-			           			</div>
+								
 		           			</div>
 		           			
 		           		</div>
@@ -281,6 +274,175 @@
 		           	</div>
 		         	
 		         </div>
+		    </div>
+		    <div class="row create_scheduled_report">
+
+		    	<div class="col-md-12  each_section_custom_report">
+		    		<div class="create_report_title">
+		           			Schedule
+		           	</div>
+		           	<div class="clearfix scheduled_report_fields">
+			    		<div class="each-col" id="schedule-btn">
+			    			<div class="label-txt">
+			    				Set Schedule
+			    			</div>
+			    			<div class="schedule-on-off-btn">
+			    				<input type="checkbox" checked data-toggle="toggle" id="toggle" data-on=" " data-off=" ">
+			    			</div>
+			    		</div>
+			    		<div class="each-col default-schedule-col report-name-col">
+			    			<div class="label-txt">
+			    				Report Name
+			    			</div>
+			    			<div>
+			    				<input type="text">
+			    			</div>
+			    		</div>
+			    		<div class="each-col default-schedule-col">
+			    			<div class="label-txt">
+			    				Frequency
+			    			</div>
+			    			<div>
+			    				<div class="common_dropdown">
+			                              <div class="dropdown">
+		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
+		                                        <span class="dd_txt" id="date-selected-txt">Select</span>
+		                                        <span class="arrow_img"></span>
+		                                    </span>
+		                                    <ul class="dropdown-menu">
+		                                    	<li ng-click="select_schedule_option($event , 'once'   )">Once</li>
+		                                    	<li ng-click="select_schedule_option($event , 'daily'  )">Daily</li>
+		                                        <li ng-click="select_schedule_option($event , 'weekly' )">Weekly</li>
+		                                        <li ng-click="select_schedule_option($event , 'monthly')">Monthly</li>
+		                                    </ul>
+			                              </div>
+			                          </div>
+			    			</div>
+			    		</div>
+			    		<div class="each-col scheduling-options schedule-once" >
+			    			<div class="label-txt">
+			    				Deliver on
+			    			</div>
+			    			<div>
+			    				<div class="input-daterange input-group date pull-left">
+								    <div class="dateWrapper">
+								        	<input type="text" id="deliverOn" class="input-sm form-control timeframe" required="">
+								        	<i class="icon-calendar glyphicon pull-right"></i>
+								    </div>
+								</div>
+			    			</div>
+			    		</div>
+			    		<div class="each-col scheduling-options schedule-weekly">
+			    			<div class="label-txt">
+			    				Occurs on
+			    			</div>
+			    			<div>
+			    				<div class="common_dropdown">
+			                              <div class="dropdown">
+		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
+		                                        <span class="dd_txt" id="date-selected-txt">Select</span>
+		                                        <span class="arrow_img"></span>
+		                                    </span>
+		                                    <ul class="dropdown-menu">
+		                                    	<li ng-click="select_dropdown_option($event);">Sunday</li>
+		                                    	<li ng-click="select_dropdown_option($event);">Monday</li>
+		                                    	<li ng-click="select_dropdown_option($event);">Tuesday</li>
+		                                        <li ng-click="select_dropdown_option($event);">Wednesday</li>
+		                                        <li ng-click="select_dropdown_option($event);">Thursday</li>
+		                                        <li ng-click="select_dropdown_option($event);">Friday</li>
+		                                        <li ng-click="select_dropdown_option($event);">Saturday</li>
+		                                    </ul>
+			                              </div>
+			                          </div>
+			    			</div>
+			    		</div>
+			    		<div class="each-col scheduling-options schedule-monthly">
+			    			<div class="label-txt">
+			    				Occurs on
+			    			</div>
+			    			<div>
+			    				<div class="common_dropdown">
+			                              <div class="dropdown">
+		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
+		                                        <span class="dd_txt" id="date-selected-txt">Select</span>
+		                                        <span class="arrow_img"></span>
+		                                    </span>
+		                                    <ul class="dropdown-menu">
+		                                    	<li ng-click="select_schedule_occurs_option($event , 'start'   )">Start of Month</li>
+		                                    	<li ng-click="select_schedule_occurs_option($event , 'middle'   )">Middle of Month(15th)</li>
+		                                        <li ng-click="select_schedule_occurs_option($event , 'end'   )">End of Month</li>
+		                                        <li ng-click="select_schedule_occurs_option($event , 'custom'   )">Custom</li>
+		                                        
+		                                    </ul>
+			                              </div>
+			                          </div>
+			    			</div>
+			    		</div>
+			    		<div class="each-col scheduling-options schedule-occurs-custom">
+			    			<div class="label-txt">
+			    				Select a date
+			    			</div>
+			    			<div>
+			    				<div class="common_dropdown">
+			                              <div class="dropdown">
+		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
+		                                        <span class="dd_txt" id="date-selected-txt">1</span>
+		                                        <span class="arrow_img"></span>
+		                                    </span>
+		                                    <ul class="dropdown-menu">
+		                                    	<li ng-click="select_dropdown_option($event);">1</li>
+		                                    	<li ng-click="select_dropdown_option($event);">2</li>
+		                                        <li ng-click="select_dropdown_option($event);">3</li>
+		                                        <li ng-click="select_dropdown_option($event);">4</li>
+		                                        <li ng-click="select_dropdown_option($event);">5</li>
+		                                        <li ng-click="select_dropdown_option($event);">6</li>
+		                                        <li ng-click="select_dropdown_option($event);">7</li>
+		                                        <li ng-click="select_dropdown_option($event);">8</li>
+		                                        <li ng-click="select_dropdown_option($event);">9</li>
+		                                        <li ng-click="select_dropdown_option($event);">10</li>
+		                                    </ul>
+			                              </div>
+			                          </div>
+			    			</div>
+			    		</div>
+			    		<div class="each-col scheduling-options schedule-date" >
+			    			<div class="label-txt">
+			    				Start on
+			    			</div>
+			    			<div>
+			    				<div class="input-daterange input-group date pull-left">
+								    <div class="dateWrapper">
+								        	<input type="text" id="startOn" class="input-sm form-control timeframe" required="">
+								        	<i class="icon-calendar glyphicon pull-right"></i>
+								    </div>
+								</div>
+			    			</div>
+			    		</div>
+			    		<div class="each-col scheduling-options schedule-date" >
+			    			<div class="label-txt">
+			    				End on
+			    			</div>
+			    			<div>
+			    				<div class="input-daterange input-group date pull-left">
+								    <div class="dateWrapper">
+								        	<input type="text" id="endOn" class="input-sm form-control timeframe" required="">
+								        	<i class="icon-calendar glyphicon pull-right"></i>
+								    </div>
+								</div>
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</div>
+		    </div>
+		    <div class="row">
+		    	<div class="col-md-12">
+		    		<button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}" ng-disabled="generateBtnDisabled ? true : false" ng-click="generateReport()" >
+			    		Schedule
+			    	</button>
+			    	<div class="pull-right secondary_txt" ng-click="reset_metric_options()" >
+           				Reset
+           			</div>
+		    	</div>
 		    </div>
 	    </div>
 	</div>
@@ -603,3 +765,8 @@
 	<div class="each_col" ng-if="customeReportData.video_suspicious_imps >=0">{{customeReportData.video_suspicious_imps |  nrFormat}}</div>
 	<div class="each_col" ng-if="customeReportData.video_suspicious_act_perc >=0">{{customeReportData.video_suspicious_act_perc | number:2}}</div>
 </script>
+
+
+
+
+

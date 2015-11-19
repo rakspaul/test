@@ -516,7 +516,40 @@ var angObj = angObj || {};
                 $('#endDateInput').datepicker('update', endDate);
             }
         };
+        $scope.select_schedule_option = function(event , arg ) {
 
+            var elem = $(event.target);
+            startDate = moment().subtract(0, 'days').format('YYYY-MM-DD');
+            endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+            var startDate,endDate;
+            $('#startOn').datepicker('update', startDate);
+            $('#endOn').datepicker('update', endDate);
+            $('#deliverOn').datepicker('update', endDate);
+            
+            if( arg ) {
+                $(".scheduling-options").hide() ;
+                $(".schedule-" + arg).show() ;
+                if(arg == "once" ) {
+                    $(".schedule-date" ).hide() ;
+                } else {
+                    $(".schedule-date" ).show() ;
+                }
+            }
+           
+        };
+        $scope.select_schedule_occurs_option = function(event , arg ) {
+
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+            
+            if( arg == "custom") {
+                $(".schedule-occurs-custom").show() ;
+            } else {
+                $(".schedule-occurs-custom").hide() ;
+            }
+           
+        };
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide() ;
             $("#" +  id + "_table").show() ;
@@ -539,6 +572,16 @@ var angObj = angObj || {};
                 keyboardNavigation: false
             }).on('changeDate', function () {
                 $("#date-selected-txt").text("Custom Dates");
+            });
+            $('#toggle').bootstrapToggle('off');
+            $('#toggle').change(function() {
+                if( $(this).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
+                    
+                    $(".default-schedule-col").show() ;
+                } else {
+                    
+                    $(".each-col:not(#schedule-btn)").hide() ;
+                }  
             });
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
