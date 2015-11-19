@@ -20,6 +20,12 @@
             elem.closest(".top_message_box").hide() ;
             $scope.flashMessage = {'message':'','isErrorMsg':''};
         };
+         $scope.open_second_dimension = function(event) {
+            var elem = $(event.target);
+            elem.closest(".row").toggleClass("open") ;
+            elem.closest(".row").find(".inner-row").toggle() ;
+            
+        };
 
 
         //$scope.sortReport($scope.sort.column);

@@ -18,14 +18,20 @@
   color: #57606c ;
   border-bottom: solid 2px #0978c9 ;
 }
+.reports-scheduled-list .scheduled_list_table {
+  margin-bottom: 40px ;
+}
 .reports-scheduled-list .scheduled_list_table .row {
   margin: 0 ;
 }
-.reports-scheduled-list .scheduled_list_table .table-th,
 .reports-scheduled-list .scheduled_list_table .table-td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th,
+.reports-scheduled-list .scheduled_list_table .table-td {
+  min-height: 35px ;
 }
 .reports-scheduled-list .scheduled_list_table .table-th:first-child,
 .reports-scheduled-list .scheduled_list_table .table-td:first-child {
@@ -43,6 +49,31 @@
 }
 .reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {
   background-image: url("/assets/images/cdesk/common_down_arrow.png");
+}
+.reports-scheduled-list .scheduled_list_table .option-horizontal {
+  text-align: center;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table .option-horizontal > span {
+  display: inline-block;
+  height: 5px ;
+  width: 5px ;
+  background: #5D5D5D ;
+  margin: 0 2px ;
+  border-radius: 50% ;
+  -moz-border-radius: 50% ;
+  -webkit-border-radius: 50% ;
+}
+.reports-scheduled-list .scheduled_list_table .row .inner-row {
+  display: none;
+}
+.reports-scheduled-list .scheduled_list_table .row .inner-row .table-td {
+  background-color: #fff  ;
+}
+.reports-scheduled-list .scheduled_list_table .row .inner-row .table-td:first-child {
+  background-image: none ;
+  padding-left: 55px;
+  cursor: text;
 }
 .reports-scheduled-list .scheduled_list_table .table-th {
   padding: 20px;
@@ -66,14 +97,6 @@
 }
 .reports-scheduled-list .scheduled_list_table .table-td:last-child {
   border-right-width: 1px  ;
-}
-.reports-scheduled-list .scheduled_list_table .inner-row .table-td {
-  background-color: #fff  ;
-}
-.reports-scheduled-list .scheduled_list_table .inner-row .table-td:first-child {
-  background-image: none ;
-  padding-left: 55px;
-  cursor: text;
 }
 .reports-scheduled-list .scheduled_list_table .view-all-link {
   text-align: center;
