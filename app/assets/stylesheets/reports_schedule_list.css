@@ -50,9 +50,20 @@
 .reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {
   background-image: url("/assets/images/cdesk/common_down_arrow.png");
 }
+.reports-scheduled-list .scheduled_list_table .table-td.more-options {
+  overflow: visible;
+  padding: 0;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown {
+  border: 0;
+  min-width: auto;
+  min-height: 34px;
+}
 .reports-scheduled-list .scheduled_list_table .option-horizontal {
   text-align: center;
   cursor: pointer;
+  height: 33px;
+  padding-top: 5px;
 }
 .reports-scheduled-list .scheduled_list_table .option-horizontal > span {
   display: inline-block;
