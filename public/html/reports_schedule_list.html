@@ -16,177 +16,139 @@
 
 <div class="reports-scheduled-list">
 
-	<div class="scheduled-list-header">
-		<div class="clearfix" >
-			<h2 class="pull-left">{{textConstants.SCHEDULED_REPORTS}}</h2>
+  <div class="scheduled-list-header">
+    <div class="clearfix" >
+      <h2 class="pull-left">{{textConstants.SCHEDULED_REPORTS}}</h2>
       <a href="javascript:void(0);" class="btn btn-default pull-right" >{{textConstants.NEW_REPORT}}</a>
-		</div>
-	</div>
+    </div>
+  </div>
   <div class="scheduled-list-nav clearfix">
     <div class="pull-left each-nav active">
       {{textConstants.REPORTS}}
     </div>
     <div class="pull-left each-nav">
-      {{textConstants.WF_ARCHIVE}} 
+      {{textConstants.WF_ARCHIVE}}
     </div>
   </div>
 
-  
+
   <div class="scheduled_list_table">
 
-      <div class="table-header">
-        <div class="row">
-          <div class="col-md-4 table-th">
+    <div class="table-header">
+      <div class="row">
+        <div class="col-md-4 table-th">
 
-            {{textConstants.REPORT_NAME}} 
-          </div>
-          <div class="col-md-1 table-th frequency-th">
-            {{textConstants.WF_FREQUENCY}}
-          </div>
-          <div class="col-md-2 table-th">
-            {{textConstants.COMPLETE_ON}}  
-          </div>
-          <div class="col-md-2 table-th">
-            {{textConstants.CREATED_BY}} 
-          </div>
-          <div class="col-md-2 table-th">
-            {{textConstants.DISTRIBUTED_TO}}  
-          </div>
-          <div class="col-md-1 table-th">
-            {{textConstants.ACTIONS}}  
-          </div>
+          {{textConstants.REPORT_NAME}}
         </div>
-
-      </div>
-      <div class="table-body">
-        <div class="row unread">
-          <div class="col-md-4 table-td">
-            This is an example of a report requested daily. This is an example of a report requested daily.
-          </div>
-          <div class="col-md-1 table-td">
-            Daily
-          </div>
-          <div class="col-md-2 table-td">
-            Pending Status
-          </div>
-          <div class="col-md-2 table-td">
-            xyz
-          </div>
-          <div class="col-md-2 table-td">
-            xyz@collective.com
-          </div>
-          <div class="col-md-1 table-td">
-            <div class="option-horizontal">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
+        <div class="col-md-1 table-th frequency-th">
+          <span ng-click="sortSchdlReport()">{{textConstants.WF_FREQUENCY}}</span>
         </div>
-        <div class="row">
-          <div class="clearfix">
-              <div class="col-md-4 table-td" ng-click="open_second_dimension($event);">
-                This is an example of a report requested daily.
-              </div>
-              <div class="col-md-1 table-td">
-                Daily
-              </div>
-              <div class="col-md-2 table-td">
-                Pending Status
-              </div>
-              <div class="col-md-2 table-td">
-                xyz
-              </div>
-              <div class="col-md-2 table-td">
-                xyz@collective.com
-              </div>
-              <div class="col-md-1 table-td">
-                <div class="option-horizontal">
-                    <span></span><span></span><span></span>
-                  </div>
-              </div>
-            </div>
-            <div class="inner-row">
-                <div class="row unread">
-                  <div class="col-md-4 table-td">
-                    This is an example of a report requested daily.
-                  </div>
-                  <div class="col-md-1 table-td">
-                    Daily
-                  </div>
-                  <div class="col-md-2 table-td">
-                    Pending Status
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz@collective.com
-                  </div>
-                  <div class="col-md-1 table-td">
-                    <span class="glyphicon glyphicon-option-horizontal"></span>
-                  </div>
-                </div>
-                <div class="row view-all-link">
-                  <div class="col-md-12 table-td">
-                    <a href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}} </a>
-                  </div>
-                </div>
-              </div>
+        <div class="col-md-2 table-th">
+          {{textConstants.COMPLETE_ON}}
         </div>
-        <div class="row">
-          <div class="clearfix">
-              <div class="col-md-4 table-td" ng-click="open_second_dimension($event);">
-                This is an example of a report requested daily.
-              </div>
-              <div class="col-md-1 table-td">
-                Daily
-              </div>
-              <div class="col-md-2 table-td">
-                Pending Status
-              </div>
-              <div class="col-md-2 table-td">
-                xyz
-              </div>
-              <div class="col-md-2 table-td">
-                xyz@collective.com
-              </div>
-              <div class="col-md-1 table-td">
-                 <div class="option-horizontal">
-                    <span></span><span></span><span></span>
-                  </div>
-              </div>
-            </div>
-            <div class="inner-row">
-                <div class="row unread">
-                  <div class="col-md-4 table-td">
-                    This is an example of a report requested daily.
-                  </div>
-                  <div class="col-md-1 table-td">
-                    Daily
-                  </div>
-                  <div class="col-md-2 table-td">
-                    Pending Status
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz
-                  </div>
-                  <div class="col-md-2 table-td">
-                    xyz@collective.com
-                  </div>
-                  <div class="col-md-1 table-td">
-                    <div class="option-horizontal">
-                      <span></span><span></span><span></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row view-all-link">
-                  <div class="col-md-12 table-td">
-                    <a href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}} </a>
-                  </div>
-                </div>
-              </div>
+        <div class="col-md-2 table-th">
+          {{textConstants.CREATED_BY}}
+        </div>
+        <div class="col-md-2 table-th">
+          {{textConstants.DISTRIBUTED_TO}}
+        </div>
+        <div class="col-md-1 table-th">
+          {{textConstants.ACTIONS}}
         </div>
       </div>
+
+    </div>
+    <div class="table-body">
+      <div class="row" ng-repeat="srlist in schdReportList track by $index">
+        <div class="clearfix">
+          <div class="col-md-4 table-td" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.completedOn.length > 1"> ({{srlist.completedOn.length-1}})</span></div>
+          <div class="col-md-1 table-td">{{srlist.frequency}}</div>
+          <div class="col-md-2 table-td">{{srlist.completedOn[0]}}</div>
+          <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
+          <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
+          <div class="col-md-1 table-td more-options">
+
+            <div class="common_dropdown">
+              <div class="dropdown">
+                      <span data-toggle="dropdown">
+                          <div class="option-horizontal">
+                            <span></span><span></span><span></span>
+                          </div>
+                      </span>
+                <ul class="dropdown-menu">
+                  <li>Download</li>
+                  <li>Edit</li>
+                  <li>Edit</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="inner-row" ng-if="srlist.completedOn.length > 1" >
+          <div class="row unread" ng-repeat="crtOn in srlist.completedOn | limitTo: scheduleInstCount[$parent.$index] track by $index" ng-if="$index > 0">
+            <div class="col-md-4 table-td">{{srlist.name}}</div>
+            <div class="col-md-1 table-td">{{srlist.frequency}}</div>
+            <div class="col-md-2 table-td">{{crtOn}}</div>
+            <div class="col-md-2 table-td">{{srlist.createdBy}} </div>
+            <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
+            <div class="col-md-1 table-td more-options">
+
+              <div class="common_dropdown">
+                <div class="dropdown">
+                      <span data-toggle="dropdown">
+                          <div class="option-horizontal">
+                            <span></span><span></span><span></span>
+                          </div>
+                      </span>
+                  <ul class="dropdown-menu">
+                    <li>Download</li>
+                    <li>Edit</li>
+                    <li>Edit</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row view-all-link" ng-if="(srlist.completedOn.length > 3) && (scheduleInstCount[$parent.$index] < srlist.completedOn.length) ">
+            <div class="col-md-12 table-td">
+              <a ng-click="setScheduleInstCount($parent.$index,srlist.completedOn.length)" href="javascript:void(0);">{{textConstants.VIEW_ALL_REPORTS}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 
 </div>
+<style type="text/css">
+  .row.open .inner-row .row .table-td:first-child {
+    background-image: none;
+  }
+  .reports-scheduled-list .scheduled_list_table .table-td.more-options {
+    overflow: visible;
+    padding: 0;
+  }
+  .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown {
+    border: 0;
+    min-width: auto;
+    min-height: 34px;
+  }
+  .reports-scheduled-list .scheduled_list_table .option-horizontal {
+    text-align: center;
+    cursor: pointer;
+    height: 33px;
+    padding-top: 5px;
+  }
+  .reports-scheduled-list .scheduled_list_table .option-horizontal > span {
+    display: inline-block;
+    height: 5px ;
+    width: 5px ;
+    background: #5D5D5D ;
+    margin: 0 2px ;
+    border-radius: 50% ;
+    -moz-border-radius: 50% ;
+    -webkit-border-radius: 50% ;
+  }
+</style>
