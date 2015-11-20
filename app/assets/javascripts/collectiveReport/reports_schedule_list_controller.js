@@ -18,14 +18,11 @@
         }
 
         var scheduleReportListSucc = function(schdReportList) {
-           console.log('succesfully got data');
             $scope.schdReportList = schdReportList;
             $scope.sortSchdlReport();
             for(var i = 0 ; i < $scope.schdReportList.length;i++){
                 $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
             }
-            console.log('-----');
-            console.log($scope.schdReportList);
         }
 
         var scheduleReportListError = function() {
@@ -52,8 +49,6 @@
 
         $scope.setScheduleInstCount = function(index,count) {
             $scope.scheduleInstCount[index] = count;
-            console.log('index:',index);
-            console.log('count:',count);
         }
 
         $scope.sortSchdlReport = function() {
@@ -61,6 +56,21 @@
             $scope.sort.descending = !$scope.sort.descending;
         }
 
-        //$scope.sortReport($scope.sort.column);
+        $scope.downloadSchdReport = function(reportId) {
+            console.log(reportId);
+            dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
+                if (response.status === "success") {
+
+                } else {
+
+                }
+            })
+
+
+        }
+
+        $scope.editSchdReport = function(reportId) {
+
+        }
     });
     }());

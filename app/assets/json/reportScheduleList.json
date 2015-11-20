@@ -5,8 +5,9 @@
       "reportId" : "ABC123",
       "name" :"Report requested daily",
       "frequency" : "Daily",
-      "completedOn" : [
-        "Mon 2 Nov 2015 8:00AM GST"
+      "instances" : [
+        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Tue 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
@@ -15,20 +16,14 @@
       "reportId" : "DEF456",
       "name" :"Report requested Weekly",
       "frequency" : "Weekly",
-      "completedOn" : [
-        "Tue 1 Nov 2015 8:00AM GST",
-        "Wed 2 Oct 2015 8:00AM GST",
-        "Thr 3 Oct 2015 8:00AM GST",
-        "Fri 4 Oct 2015 8:00AM GST",
-        "Sat 5 Oct 2015 8:00AM GST",
-        "Sun 6 Oct 2015 8:00AM GST",
-        "Mond 7 Oct 2015 8:00AM GST",
-        "Tue 8 Oct 2015 8:00AM GST",
-        "Wed 9 Oct 2015 8:00AM GST",
-        "Thr 10 Oct 2015 8:00AM GST",
-        "Fri 11 Oct 2015 8:00AM GST",
-        "Sat 12 Oct 2015 8:00AM GST",
-        "Sun 13 Oct 2015 8:00AM GST"
+      "instances" : [
+        {"completedOn":"Tue 21 Oct 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Wed 22 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Thu 23 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Fri 24 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Sat 25 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Sun 26 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Mon 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
@@ -37,8 +32,9 @@
       "reportId" : "ABC123",
       "name" :"Monthly Report",
       "frequency" : "Monthly",
-      "completedOn" : [
-        "Mon 2 Nov 2015 8:00AM GST"
+      "instances" : [
+        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Tue 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
@@ -47,9 +43,9 @@
       "reportId" : "DEF456",
       "name" :"schedule instance two hide view all",
       "frequency" : "Weekly",
-      "completedOn" : [
-        "Wed 4 Nov 2015 8:00AM GST",
-        "Thurs 5 Oct 2015 8:00AM GST"
+      "instances" : [
+        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Tue 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
@@ -58,14 +54,16 @@
       "reportId" : "ABC123",
       "name" :"Simple Report",
       "frequency" : "Monthly",
-      "completedOn" : [
-        "Mon 2 Nov 2015 8:00AM GST",
-        "Tue 8 Oct 2015 8:00AM GST",
-        "Wed 9 Oct 2015 8:00AM GST",
-        "Thr 10 Oct 2015 8:00AM GST",
-        "Fri 11 Oct 2015 8:00AM GST",
-        "Sat 12 Oct 2015 8:00AM GST",
-        "Sun 13 Oct 2015 8:00AM GST"
+      "instances" : [
+        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Tue 4 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 5 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 6 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 7 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 8 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 9 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 10 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 11 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
