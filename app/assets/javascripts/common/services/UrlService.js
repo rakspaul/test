@@ -120,6 +120,10 @@
           return 'http://localhost:9000/assets/json/reportScheduleList.json';
       }
 
+      this.downloadSchdRpt = function() {
+          return apiPaths.apiSerivicesUrl+'';
+      }
+
 
 
   }
