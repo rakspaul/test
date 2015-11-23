@@ -14,7 +14,6 @@
                 //resetting the flag and message
                $scope.flashMessage = {'message':'','isErrorMsg':''};
             }, 3000);
-
         }
 
         var scheduleReportListSucc = function(schdReportList) {
@@ -65,7 +64,6 @@
 
                 }
             })
-
 
         }
 
