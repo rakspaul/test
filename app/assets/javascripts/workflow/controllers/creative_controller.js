@@ -18,6 +18,9 @@ var angObj = angObj || {};
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.createAlertMessage = {'message':'','isErrorMsg':0};
+        $scope.creativePopularSizes = ['300x250', '160x600', '728x90', '300x600', '320x50' ];
+
+        
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -63,6 +66,7 @@ var angObj = angObj || {};
                 console.log(errData);
             }
         }
+  
         $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
             $scope.campaignId = clientId;
             $scope.advertiserId = advertiserId;
@@ -240,7 +244,12 @@ var angObj = angObj || {};
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle').html('<span>'+selText+'</span> <span class="caret"></span>');
         });
-
+        
+        // DDL Search Input Prevent Default
+        $('.dropdown-menu').find('input').click(function (e) {
+            e.stopPropagation();
+        });
+        
         // DDL with Search
         $(".dropdown-menu-search li a").click(function(){
             var selText = $(this).text();
