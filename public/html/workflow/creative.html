@@ -97,8 +97,8 @@
 				<span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
 				<span class="icon-arrow-down"></span>
 			    </button>
-			    <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-				<li ng-repeat="creativeSize in creativeSizeData.creativeSize track by creativeSize.id"><a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a></li>
+			    <ul class="dropdown-menu" aria-labelledby="creativeSize" id="sel1">
+					<li ng-repeat="creativeSize in creativeSizeData.creativeSize track by creativeSize.id"><a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a></li>
 			    </ul>
 			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
 			</div>
