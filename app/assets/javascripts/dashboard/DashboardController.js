@@ -52,6 +52,7 @@
     updateTitle();
 
     var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED , function() {
+        //alert('im the listener');
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
       updateTitle();
     });

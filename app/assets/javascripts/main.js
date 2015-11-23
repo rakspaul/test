@@ -110,6 +110,18 @@
       'brands-BrandsService':{deps: ['brands-BrandsDirective']},
       'brands-BrandsModel':{deps: ['brands-BrandsService']},
 
+
+
+        'advertiser-AdvertiserModule':{deps: ['editActions-EditActionsController']},
+        'advertiser-AdvertiserController':{deps: ['brands-BrandsModule']},
+        'advertiser-AdvertiserListController':{deps: ['advertiser-AdvertiserController']},
+        'advertiser-AdvertiserDirective':{deps: ['editActions-EditActionsController']},
+        'advertiser-AdvertiserService':{deps: ['advertiser-AdvertiserDirective']},
+        'advertiser-AdvertiserModel':{deps: ['advertiser-AdvertiserService']},
+
+
+
+
       'campaignSelect-CampaignSelectModule':{deps: ['brands-BrandsModel']},
       'campaignSelect-CampaignSelectDirective':{deps: ['campaignSelect-CampaignSelectModule']},
       'campaignSelect-CampaignSelectModel':{deps: ['campaignSelect-CampaignSelectDirective']},
@@ -298,6 +310,14 @@
       'brands-BrandsDirective':'brands/BrandsDirective',
       'brands-BrandsService':'brands/BrandsService',
       'brands-BrandsModel':'brands/BrandsModel',
+
+      'advertiser-AdvertiserDirective':'advertiser/AdvertiserDirective',
+      'advertiser-AdvertiserModule':'advertiser/AdvertiserModule',
+      'advertiser-AdvertiserController':'advertiser/AdvertiserController',
+      'advertiser-AdvertiserListController':'advertiser/AdvertiserListController',
+
+      'advertiser-AdvertiserService':'advertiser/AdvertiserService',
+      'advertiser-AdvertiserModel':'advertiser/AdvertiserModel',
 
       'campaignSelect-CampaignSelectModule':'campaignSelect/CampaignSelectModule',
       'campaignSelect-CampaignSelectController':'campaignSelect/CampaignSelectController',
@@ -490,6 +510,18 @@
            'brands-BrandsDirective',
            'brands-BrandsService',
            'brands-BrandsModel',
+
+
+
+          'advertiser-AdvertiserDirective',
+
+          'advertiser-AdvertiserModule',
+           'advertiser-AdvertiserController',
+           'advertiser-AdvertiserListController',
+
+           'advertiser-AdvertiserService',
+           'advertiser-AdvertiserModel',
+
 
           'campaignSelect-CampaignSelectModule',
           'campaignSelect-CampaignSelectController',

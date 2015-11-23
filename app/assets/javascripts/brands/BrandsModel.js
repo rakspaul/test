@@ -10,8 +10,17 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
   brand.cssClass = "";
   var brands = [brand.allBrandObject];
   return {
-    getBrands: function (success,searchCritera,search) {
-      brandsService.fetchBrands(searchCritera).then(function (response) {
+    getBrands: function (success,searchCritera,search,foo) {
+        /*alert("1   "+foo);
+        alert("2   "+success);
+        alert("3   "+search);
+        alert("4   "+searchCritera);*/
+        //alert(gg);
+
+
+      brandsService.fetchBrands(searchCritera,foo).then(function (response) {
+
+
         //Note: Here search represents, only matching entries list.
         var resData = response.data.data;
         if(search){
@@ -49,8 +58,8 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
       brand.cssClass = "";
     },
 
-    callBrandBroadcast :  function(brand) {
-        brandsService.preForBrandBroadcast(brand);
+    callBrandBroadcast :  function(brand,id) {
+        brandsService.preForBrandBroadcast(brand,id);
     }
 
   };

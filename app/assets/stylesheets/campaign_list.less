@@ -1382,6 +1382,10 @@ button, i, input[type="submit"] {
         right: -10px;
         left: auto;
       }
+      #advertisersDropDownList{
+        right: -10px;
+        left: auto;
+      }
     }
     .common_primary_btn {
       text-transform: none;
@@ -2778,9 +2782,46 @@ button, i, input[type="submit"] {
   }
   .each_filter {
     margin-top: 0px ;
+
+    &.advertisers_filter{
+      margin-right: 30px;
+
+    }
     .header_filter_arrow_dropdown  {
       display: inline-block;
       height: 18px;
+    }
+    #advertisersDropDownList{
+
+      width: 280px;
+      left : 0px ;
+      padding: 0 ;
+      .brandsList_ul2 {
+        max-height: 300px;
+        overflow: auto ;
+      }
+      .brand_search_highlight {
+        border-bottom: solid 1px #fff ;
+      }
+      li {
+        padding: 0;
+      }
+      li:hover {
+        background: #F5F9FD ;
+      }
+      li.active {
+        background: url("/assets/images/cdesk/sprites-2.png") no-repeat  -535px 9px ;
+        a {
+          font-family: "Avenir-bold" ;
+        }
+      }
+      a {
+        white-space: normal;
+        word-wrap : break-word;
+        padding: 6px 10px ;
+        display: block;
+      }
+
     }
     #brandsList {
       width: 280px;
