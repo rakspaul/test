@@ -14,12 +14,20 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url, {cache:false});
             },
+
+
             getAdvertisers: function (clientId) {
+
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';
                 return dataService.fetch(url);
             },
             getBrands: function (clientId, advertiserId) {
+
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/advertisers/' + advertiserId + '/brands';
+                //alert(clientId + "  hello "+ advertiserId);
+                //alert(url);
+
+
                 return dataService.fetch(url);
             },
             saveCampaign: function (data) {

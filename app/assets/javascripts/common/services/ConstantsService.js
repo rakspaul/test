@@ -37,6 +37,7 @@
     this.DASHBOARD_STATUS_COMPLETED = "Completed";
     this.DASHBOARD_STATUS_ALL = "All";
     this.ALL_BRANDS = 'All Brands';
+    this.ALL_ADVERTISERS = 'All Advertisers';
     this.EVENT_BRAND_CHANGED = "brandChanged";
     this.EVENT_CAMPAIGN_CHANGED = "campaignChanged";
     this.EVENT_STRATEGY_CHANGED = "strategyChanged" ;
