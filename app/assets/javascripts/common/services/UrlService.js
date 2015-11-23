@@ -28,7 +28,7 @@
 
     //TODO: need to remove user_id - @Gaurav/ @Richa needs to verify where this is used
     this.APICampaignList = function (user_id, date_filter, page, sort_column, sort_direction, conditions) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id=' + user_id + '&date_filter=' + date_filter + '&page=' + page +
+      var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/bystate?user_id=' + user_id + '&date_filter=' + date_filter + '&page=' + page +
         '&callback=JSON_CALLBACK&sort_column=' + sort_column + '&sort_direction=' + sort_direction + '&conditions=' + conditions;
       return url;
     };
