@@ -95,15 +95,15 @@
                     <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab">4 Targeting</a>
                 </span>
                 <div>
-                    <div class="statusLabel disabled" ng-if="!adData.geoTargetName || TrackingIntegrationsSelected">
+                    <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
                         <div class="col-md-12">
                             <span style="color: #000;">Not Set</span>
                         </div>
                     </div>
 
-                    <div class="statusLabel disabled" ng-if="adData.geoTargetName || !TrackingIntegrationsSelected">
+                    <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <span>{{adData.geoTargetName}}</span>
+                            <span>{{adData.targetName}}</span>
                         </div>
                     </div>
                 </div>
