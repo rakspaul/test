@@ -234,8 +234,7 @@ var angObj = angObj || {};
          $scope.appendSizes = function (creative) {
             //console.log(creative);
             var creativeSizeArr = []
-
-            if (typeof creative != 'undefined') {
+            if (typeof creative != 'undefined' && creative.length>0) {
                 if (creative.length == 1) {
                     $scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
@@ -258,14 +257,16 @@ var angObj = angObj || {};
                        }
                     }
                    else {
-                    $scope.sizeString = creativeSizeLimit.join(', ');
-                   }
+                    $scope.sizeString = result[0] && result[0].join(', ');
+                   }           
                 }
 
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;
                 }
 
+
+                
             function noRepeat(arr) {
                 var a = [], b = [], prev;
 

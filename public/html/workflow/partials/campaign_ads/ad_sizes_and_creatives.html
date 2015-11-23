@@ -1,4 +1,4 @@
-<div class="col-md-6 zeroPadding">
+<div class="col-md-8 zeroPadding">
     <h2 class="col-md-12 zeroPadding marginBottom">Add Creative Tag</h2>
     <a href="javascript:void(0);" class="helpLink">Adding third party Creative Tags</a>
     <br/>
@@ -6,6 +6,7 @@
     <div class="spacingInput"></div>
     <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()">Add from Existing</button>
     <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;">Create New</button>
+    <a href=""><button type="button" class="btn btn-default pull-left" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button></a>
 </div>
 
 <div class="col-md-12 zeroPadding creativeTableTag">

@@ -7,236 +7,86 @@
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
-            <img ng-src="/assets/images/workflow/platform_icons/{{getPlatformIconName(platform.name)}}.png"/>
+            <img ng-src="{{platform.iconUrl}}"/>
             <p>{{platform.name}}</p>
-            <span ng-bind-html="getPlatformDesc(platform.name)"></span>
-
+            <span ng-bind-html="platform.summary"></span>
             <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>
-            <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active  ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
+            <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
-
         <div class="col-md-6 platformHolder">
             <span>More Self Service options coming soon</span>
             <a href="">Can't find what you are looking for?</a>
         </div>
     </div>
-
-
     <div class="offeringsWrap">
         <div class="col-md-12" style="padding: 30px;">
             <span>Tracking Integrations</span> <br />
             <span class="greyTxt">More Platforms Available</span>
         </div>
-
         <div class="container">
             <br>
+
+
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
-              <!-- Wrapper for slides -->
-              <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/placemedia.png" alt="Place Media" width="50">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item" ng-repeat="trackingIntegration1 in workflowData.tracking_integrations track by $index" ng-class="{'active': $index==1}">
+
+                        <div class="offeringWrap"  ng-repeat="trackingIntegration in trackingIntegration1 track by $index">
+                            <div class="col-md-3 zeroPadding">
+                                <img ng-src="{{trackingIntegration.iconUrl}}" width="50">
+                            </div>
+                            <div class="col-md-9">
+                                <span class="title">{{trackingIntegration.name}}</span>
+                                <span class="descrip">{{trackingIntegration.summary}}</span>
+                            </div>
+                            <div class="col-md-12 select-btn">
+                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="selectTrackingIntegrations(trackingIntegration)">Selected</span>
+                                <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active  ?true:false" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="selectTrackingIntegrations(trackingIntegration)">
+                                <!--<input ng-if="!selectedPlatform[trackingIntegration.id]" ng-disabled="!editTrackerAd" type="button" value="Select" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="selectTrackingIntegrations(trackingIntegration)">-->
+                            </div>
                         </div>
-                        <div class="col-md-9">
-                            <span class="title">Place Media</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
+                        <input type="hidden" name="platformId" value="{{adData.platformId}}">
+                        <div class="sliderSpacing"></div>
                     </div>
 
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/xad-logo-mobile.png" alt="xAd" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">xAd</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/Telemetry_Company_Logo.jpg" alt="Telemetry" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">Telemetry</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing" style="width: 100%;"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/TwitterLogo.png" alt="Twitter" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">Twitter</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/adtheorent.png" alt="Ad Theorent" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">Ad Theorent</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/grfxLogoDstillery.png" alt="Dstillery" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">Dstillery</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
+                    <!--<div class="item">-->
+                        <!--<div class="offeringWrap">-->
+                            <!--<div class="col-md-3 zeroPadding">-->
+                                <!--<img src="/assets/images/workflow/platform_icons/Adaptv-logo.png" alt="Adap.tv" width="50">-->
+                            <!--</div>-->
+                            <!--<div class="col-md-9">-->
+                                <!--<span class="title">Adap.tv</span>-->
+                                <!--<span class="descrip">All-in-one customer support application</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-12 select-btn">-->
+                                <!--<input type="button" value="Select" class="btn btn-default" >-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="sliderSpacing"></div>-->
+                    <!--</div>-->
                 </div>
-
-                <div class="item">
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/Adaptv-logo.png" alt="Adap.tv" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">Adap.tv</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/youtube.png" alt="youtube" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">YouTube</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/br-logo_0.png" alt="BrightRoll" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">BrightRoll</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing" style="width: 100%;"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/plat-dbclick.png" alt="DoubleClick" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">DoubleClick</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/Facebook-Exchange-Logo.png" alt="FB Exchnage" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">FB Exchnage</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-
-                    <div class="sliderSpacing"></div>
-
-                    <div class="offeringWrap">
-                        <div class="col-md-3 zeroPadding">
-                            <img src="/assets/images/workflow/platform_icons/yahoo.png" alt="Yahoo" width="50">
-                        </div>
-                        <div class="col-md-9">
-                            <span class="title">Yahoo</span>
-                            <span class="descrip">All-in-one customer support application</span>
-                        </div>
-                        <div class="col-md-12 select-btn">
-                            <input type="button" value="Select"  class="btn btn-default" >
-                        </div>
-                    </div>
-                </div>
-              </div>
-
-              <!-- Left and right controls -->
-              <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
-                <span class="leftCtrl"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-                <span class="rightCtrl"></span>
-                <span class="sr-only">Next</span>
-              </a>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
+                    <span class="leftCtrl"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
+                    <span class="rightCtrl"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>
 </div>
 <!-- buying platform holder ends -->
-
 <!--=== Next Step Panel ===-->
 <a href="#targetting" data-toggle="tab" class="nextWrapper leftNavLink">
     <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
 </a>
-
 <!-- Modal Start -->
 <div class="common-popup-container" ng-show="changePlatformPopup">
     <div class="popup">
@@ -253,7 +103,5 @@
             <button type="button" ng-click="confirmChange()" class="common_primary_btn pull-right">Okay</button>
             <button type="button" ng-click="cancelChangePlatform()"class="secondary_txt pull-right">Cancel</button>
         </div>
-
-
     </div>
 </div>

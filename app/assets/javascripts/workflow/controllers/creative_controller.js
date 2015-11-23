@@ -75,41 +75,60 @@ var angObj = angObj || {};
             localStorage.setItem('campaignData', JSON.stringify(campaignData))
             creatives.getCreativeSizes(clientId, advertiserId);
             creatives.fetchAdFormats();
+
         }
         $(function () {
 
             $("#saveCreative").on('click', function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.formCreativeCreate.$valid) {
-                    var formElem = $("#formCreativeCreate");
-                    var formData = formElem.serializeArray();
-                    formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                 if($scope.$parent.TrackingIntegrationsSelected){
+                        var formElem = $("#formCreativeCreate");
+                        var formData = formElem.serializeArray();
+                        formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                        if(formData.name && formData.creativeFormat && formData.creativeSize){
+                            var postCrDataObj = {};
+                            postCrDataObj.name = formData.name;
+                            postCrDataObj.tag = "%%TRACKER%%";
+                            postCrDataObj.sizeId = formData.creativeSize;
+                            postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.toUpperCase();
+                            postCrDataObj.creativeType = "JS";
+                            postCrDataObj.sslEnable = "true";
+                            $scope.CrDataObj=postCrDataObj
+                            console.log(postCrDataObj);
+                            $scope.saveDuplicate();
+                        }
+                 }else{
+                        if ($scope.formCreativeCreate.$valid) {
+                            var formElem = $("#formCreativeCreate");
+                            var formData = formElem.serializeArray();
+                            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+                                    var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+                                    var PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+                                    var tagLower = formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+                                    if (tagLower.match(PatternOutside)) {
+                                        if( (tagLower.indexOf('%%tracker%%') > -1)){
+                                            $scope.creativesave(formData);
+                                        }
+                                        else{
+                                            $scope.IncorrectTag = true;
+                                            $scope.incorrectTagMessage =$scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                                        }
 
-                    var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-                    var PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
-                    var tagLower = formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-                    if (tagLower.match(PatternOutside)) {
-                        if( (tagLower.indexOf('%%tracker%%') > -1)){
-                            $scope.creativesave(formData);
-                        }
-                        else{
-                            $scope.IncorrectTag = true;
-                            $scope.incorrectTagMessage =$scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-                        }
+                                    } else if (tagLower.match(PatternInside)) {
+                                        if( (tagLower.indexOf('%%tracker%%') > -1)){
+                                            $scope.creativesave(formData);
+                                        }
+                                        else{
+                                            $scope.IncorrectTag = true;
+                                            $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                                        }
+                                    } else {
+                                        $scope.IncorrectTag = true;
+                                        $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
+                                        console.log("Incorrect tag");
+                                    }
 
-                    } else if (tagLower.match(PatternInside)) {
-                        if( (tagLower.indexOf('%%tracker%%') > -1)){
-                            $scope.creativesave(formData);
                         }
-                        else{
-                            $scope.IncorrectTag = true;
-                            $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-                        }
-                    } else {
-                        $scope.IncorrectTag = true;
-                        $scope.incorrectTagMessage = "You have entered an invalid Javascript tag.Please review carefully and try again";
-                        console.log("Incorrect tag");
-                    }
                 }
             });
         });
@@ -124,7 +143,7 @@ var angObj = angObj || {};
             postCrDataObj.creativeType = formData.creativeType;
             postCrDataObj.sslEnable = "true";
             console.log(postCrDataObj);
-            $scope.CrDataObj = postCrDataObj;
+            $scope.CrDataObj = postCrDataObj;console.log($scope.CrDataObj);
             workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     console.log(result.data);
@@ -227,6 +246,8 @@ var angObj = angObj || {};
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle-search').attr('value='+selText);
         });
+
+
 
     });
 
