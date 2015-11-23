@@ -1,5 +1,5 @@
 <div class="col-md-7 zeroPadding">
-    <h2 class="col-md-12 zeroPadding marginBottom">Set Audience Targeting</h2>
+    <h2 class="col-md-12 zeroPadding marginBottom">Set Targeting</h2>
     <a href="javascript:void(0);" class="helpLink" style="margin-top: 10px; display: inline-block;">Which target audience should I choose for my ad?</a>
 </div>
 <!-- <div class="col-md-12 zeroPadding">
@@ -31,7 +31,7 @@
     </div>
 </div>
 <div class="col-md-12 zeroPadding">
-    <div class="col-md-6 cardSelectHolder">
+    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
         <span ng-if="mode=='edit'" class="icon-inline-edit"></span>
         <div class="icon-audience"></div>
         <p>Audience Segments</p>
@@ -40,7 +40,7 @@
         <input ng-if="!selectedTargeting['audience']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
 
-    <div class="col-md-6 cardSelectHolder">
+    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span ng-if="mode=='edit'"  class="icon-inline-edit"></span>
         <div class="icon-location"></div>
         <p>Geography</p>

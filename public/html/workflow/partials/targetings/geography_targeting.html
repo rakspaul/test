@@ -1,4 +1,11 @@
-<!--=== Targeting Form ===-->
+<div class="col-md-12 zeroPadding breadcrumbs">
+	<h5>Targeting</h5>
+	<span class="icon-arrow-down"></span>
+	<h5>Geography</h5>
+	
+    <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
+    <a ng-href="#" class="pull-right btn btn-link" ng-click="resetGeoTargetingVariables($event);">Cancel</a>
+</div>
 
 <div class="col-md-12 zeroPadding targettingFormWrap">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
@@ -243,10 +250,10 @@
         <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length ===0 && geoTargetingData.selected.dmas.length === 0 && geoTargetingData.selected.zip.length === 0" class="emptyTableLabel">Not Set</div>
 
     </div>
-    <div class="col-md-12 zeroPadding">
-        <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-primary" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
-        <a ng-href="#" class="pull-right btn btn-link" ng-click="resetGeoTargetingVariables($event);">Cancel</a>
-    </div>
+    <!--<div class="col-md-12 zeroPadding">-->
+    <!--    <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-primary" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>-->
+    <!--    <a ng-href="#" class="pull-right btn btn-link" ng-click="resetGeoTargetingVariables($event);">Cancel</a>-->
+    <!--</div>-->
 </div>
 
 <!--=== Selected Targeting ===-->

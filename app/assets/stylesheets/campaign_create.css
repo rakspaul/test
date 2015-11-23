@@ -103,6 +103,9 @@
 #campaignCreate .firstWrapper .masterContainer .collapseHeader b {
   font-family: "Avenir-bold";
 }
+#campaignCreate .firstWrapper .masterContainer .collapseHeader h2 {
+  margin-top: 0;
+}
 #campaignCreate .firstWrapper .masterContainer .isCollapsed,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed {
   float: left;
@@ -655,7 +658,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.ended {
   background: #707AEB ;
-}#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
   background: #98B5C8 ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
@@ -1975,6 +1979,7 @@
   margin: 26px 0 20px 0px ;
   border-width: 0;
   width: auto;
+  left: 0;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li {
   border: 1px solid #BFC9D7;
@@ -2010,7 +2015,7 @@
 .adCreateMaster #targetting .regionCityTab .nav-tabs {
   margin-top: 20px;
   /*
-            float: left;*/
+        float: left;*/
   width: 100%;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li {
@@ -2091,9 +2096,7 @@
 }
 .adCreateMaster #targetting .targettingFormWrap {
   border: 0px solid #E6E6E6;
-  padding: 20px 20px 30px 0px !important;
-  margin-top: 20px;
-  margin-bottom: 55px;
+  padding: 0px !important;
 }
 .adCreateMaster #targetting .targettingFormWrap h2 {
   /*float: left;*/
@@ -2173,10 +2176,10 @@
   border-top-color: #A2A2A2;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs {
-  margin-top: 20px;
-  /*
-          float: left;*/
   width: 100%;
+  left: 0;
+  margin: 20px 0 0 0;
+  border-bottom: 1px solid #dde6eb;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li {
   background: #F5F9FD;
@@ -2504,11 +2507,11 @@
   width: 930px;
   height: auto;
   min-height: 600px;
-  top: 52px;
+  top: 0px;
   display: none;
   position: absolute;
   z-index: 10;
-  padding: 8px 0px 30px 30px;
+  padding: 0px 0px 30px 30px;
   opacity: 0;
 }
 .adCreateMaster #targetting .targetingSlide .closeBtnCreative {
@@ -2843,7 +2846,7 @@
   font-size: 14px;
 }
 .adCreateMaster #targetting .tab-pane {
-  padding: 0 10px;
+  padding: 0px;
 }
 .adCreateMaster #targetting .tab-pane .table thead {
   border: 0px ;

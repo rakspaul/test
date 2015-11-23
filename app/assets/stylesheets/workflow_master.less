@@ -27,6 +27,22 @@
   h5 {color: #21252b; font-size: 14px; font-family: "Avenir-bold";}
   a {text-decoration: none; cursor: pointer; font-weight: normal;} a:hover {text-decoration: none;}
   .breadcrumbFlow {color: #333; text-decoration: none;}
+  .breadcrumbs {
+    margin: 0 0 30px 0;
+    h5 {
+      float: left;
+      font-size: 16px;
+      font-family: 'Avenir';
+      cursor: pointer;
+    }
+    .icon-arrow-down {
+      float: left;
+      -ms-transform: rotate(270deg);
+      -webkit-transform: rotate(270deg);
+      transform: rotate(270deg);
+      margin: 11px 10px 0px 10px;
+    }
+  }
   .labelQuestTxt {
     color: #21252b;
     font-size: 16px;
@@ -54,6 +70,9 @@
       display: inline-block;
       fill: currentColor;
       color: #57606D;
+  }
+  .form-group {
+    padding-right: 10px;
   }
   
   // Inputs
@@ -1031,6 +1050,7 @@
       box-shadow: none;
       width: auto;
       margin-left: -43px;
+      min-height: auto;
     }
     a {
       color: #2c9aec;
@@ -1065,6 +1085,8 @@
   }
   .cardSelectHolder:hover {
     border: 1px solid #0978c9;
+  }
+  .cardSelectHolder.active:hover {
     .icon-inline-edit {
       display: initial;
     }
