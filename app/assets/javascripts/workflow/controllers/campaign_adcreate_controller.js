@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q,dataService) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q,dataService,apiPaths) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background','#fff');
@@ -394,7 +394,7 @@ var angObj = angObj || {};
 
         function disablePauseEnableResume(getAd_resultData){
             $scope.disable_resume='disabled';//disable resume button
-            if(getAd_resultData.state=='IN_FLIGHT' || getAd_resultData.state=='SCHEDULED')//do not let Ad to pause if tracking : || (!getAd_resultData.is_tracking)
+            if(getAd_resultData.state=='IN_FLIGHT' || getAd_resultData.state=='SCHEDULED' || !(getAd_resultData.isTracking))//do not let Ad to pause if tracking : || (!getAd_resultData.is_tracking)
                 $scope.disable_pause='';//enable pause button
             else
                 $scope.disable_pause='disabled';//disable pause button
@@ -704,17 +704,7 @@ var angObj = angObj || {};
             return freq_cap;
         }
        $scope.downloadTrackerUrls=function(){
-//           $scope.CampaignADsave();
-//           $scope.$watch('adId', function() {
-//               var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
-//               dataService.downloadFile(url).then(function (response) {
-//                    if (response.status === "success") {
-//
-//                    } else {
-//
-//                    }
-//                });
-//            });
+
 
        }
 
