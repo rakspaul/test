@@ -15,7 +15,7 @@
           <li><a ng-href="#" ng-click="showGeographyTabsBox($event, 'dmas')" >METRO</a></li>
           <li><a  id="zipCodeTab" ng-href="#" ng-click="showGeographyTabsBox($event, 'zip', true); enableZipCode = true;">ZIP / POSTAL CODE</a></li>
         </ul>
-      
+
         <div class="tab-content">
             <!---- start region and city Container ---------->
             <!--Search Input-->
@@ -27,7 +27,7 @@
                             <button class="btn btn-default disabled" type="button" style="padding: 8px 15px 6px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                           </span>
                         </div>
-    
+
                         <div class="col-md-12 zeroPadding">
                             <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
                                 <ul class="nav nav-tabs">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="clearfix list_head">
                         <!--<div ng-show="selectedTab !=='regions'" class="pull-left list_val_col">City</div>-->
                         <div ng-show="selectedTab ==='regions'" class="pull-left sort-icon-holder active list_val_col " ng-click="changeSortingOrder(selectedTab)"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
@@ -72,14 +72,14 @@
                         </div>
 
                     </div>
-                   
+
                 </div>
             <div id="regions" class="tab-pane active contentBox" >
                     <!-- --- start region block ----------------- -->
                     <div id="region" class="tab-pane active" ng-show="selectedTab == 'regions'">
                         <div>
                             <div class="list_holder">
-                                
+
                                 <div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
                                     <div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
                                         <div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
@@ -89,15 +89,15 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <!-- --- end region block ----------------- -->
-    
+
                     <!-- --- start city block ----------------- -->
                     <div id="city" class="tab-pane"  ng-show="selectedTab == 'cities'">
                         <div>
                             <div class="list_holder">
-                                
+
                                 <div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
                                     <div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
                                         <div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-click="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <!----- end city block ------------------->
             </div>
@@ -131,7 +131,7 @@
                 </div> -->
                 <div  >
                     <div class="list_holder">
-                       
+
                         <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
                             <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
                                 <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-click="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
@@ -142,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <!----- end DMA container ----------->
 
@@ -245,7 +245,7 @@
     </div>
     <div class="col-md-12 zeroPadding">
         <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-primary" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
-        <a ng-href="#" class="pull-right btn btn-link" ng-click="resetTargetingVariables();">Cancel</a>
+        <a ng-href="#" class="pull-right btn btn-link" ng-click="resetGeoTargetingVariables($event);">Cancel</a>
     </div>
 </div>
 
@@ -271,8 +271,8 @@
                     <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.regions" >{{regioncity.name}}</div>
                     <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.cities" >{{regioncity.parent.name}}, {{regioncity.name}}</div>
                 </div>
-                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2" ng-click="show_more_less_list($event);">+ 
-                    {{ (geoTargetingData.selected.previewData.include.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.include.cities.length-2):(geoTargetingData.selected.previewData.include.regions.length-2)}} 
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2" ng-click="show_more_less_list($event);">+
+                    {{ (geoTargetingData.selected.previewData.include.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.include.cities.length-2):(geoTargetingData.selected.previewData.include.regions.length-2)}}
                     more
                 </div>
             </div>
@@ -310,5 +310,5 @@
                 <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.exclude.dmas.length-2}} more</div>
             </div>
         </div>
-    </div>    
-</div> 
+    </div>
+</div>

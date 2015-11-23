@@ -9,7 +9,7 @@
 <!--=== Targeting Type ===-->
 <div class="col-md-12 zeroPadding dropdown-workflow">
     <div class="col-md-3 zeroPadding">
-        <div class="dropdown ddlSetTarget msgPopupHolder" ng-show="addedTargeting">
+        <div class="dropdown ddlSetTarget msgPopupHolder">
             <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
                 <div class="msg">
                     To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
@@ -18,7 +18,7 @@
                     <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
                 </div>
             </div>
-            <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <!-- <button class="btn btn-default dropdown-toggle" type="button" ng-disabled="!$parent.isPlatformSelected" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span class="pull-left">{{textConstants.WF_ADD_TARGETING_LABEL}}</span>
                 <span class="icon-arrow-down"></span>
             </button>
@@ -26,38 +26,35 @@
                 <li ng-repeat="geoTarget in geoTargetArr" ng-class = "{'disabled' : !geoTarget.enable,  'active' : adData.geoTargetName === geoTarget.name}" ng-click="selectGeoTarget(geoTarget.name)">
                     <a>{{geoTarget.name}} <span ng-if="adData.geoTargetName === geoTarget.name"> (Added)</span></a>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </div>
 </div>
-
+selectedTargeting --> {{selectedTargeting}}
 <div class="col-md-12 zeroPadding">
     <div class="col-md-6 cardSelectHolder">
-        <span class="icon-inline-edit"></span>
+        <span ng-if="mode=='edit'" class="icon-inline-edit"></span>
         <div class="icon-audience"></div>
         <p>Audience Segments</p>
         <span>Reach the right audience by selecting focus segments</span>
-
-        <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
-        <input type="button" name="platform" value="Select" class="btn btn-default" ng-click="selectAudTarget()">
+        <span ng-if="selectedTargeting['audience']" class="btn btn-default active" ng-click="selectAudTarget()">Selected</span>
+        <input ng-if="!selectedTargeting['audience']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
-    
+
     <div class="col-md-6 cardSelectHolder">
-        <span class="icon-inline-edit"></span>
+        <span ng-if="mode=='edit'"  class="icon-inline-edit"></span>
         <div class="icon-location"></div>
         <p>Geography</p>
         <span>Target your audience by location</span>
-
-        <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
-        <input type="button" name="platform" value="Select" class="btn btn-default" ng-click="selectGeographyTarget()">
+        <span ng-if="selectedTargeting['geography']" class="btn btn-default active" ng-click="mode == 'edit' ? updateGeoTargets() : selectGeoTarget()">Selected</span>
+        <input ng-if="!selectedTargeting['geography']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
     </div>
-    
+
     <div class="col-md-6 cardSelectHolder">
-        <span class="icon-inline-edit"></span>
+        <span ng-if="mode=='edit'"  class="icon-inline-edit"></span>
         <div class="icon-activity"></div>
         <p>Daypart</p>
         <span>Set the Days of Week & Time of Days for Ad delivery</span>
-
         <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
         <input type="button" name="platform" value="Select" class="btn btn-default" disabled="disabled">
     </div>

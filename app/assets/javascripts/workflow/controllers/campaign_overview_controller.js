@@ -451,13 +451,16 @@ var angObj = angObj || {};
             $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
             return $scope.numofdays;
         }
+
         $scope.createAdforAdGroup=function(campid,stTime,edTime){
             if(typeof(Storage) !== "undefined") {
                 localStorage.setItem("stTime", stTime);//convert this to EST in ads page
                 localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
             }
-            window.location.href="/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
+            var navigateUrl = "/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
+            $location.url(navigateUrl)
         }
+
         $scope.convertEST=function(date,format){
             return utils.convertToEST(date,format);
         }
