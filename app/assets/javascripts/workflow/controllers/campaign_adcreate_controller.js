@@ -91,18 +91,6 @@ var angObj = angObj || {};
 
         }
 
-        $scope.selectTrackingIntegrations=function(trackingIntegration){
-            $scope.TrackingIntegrationsSelected=true;
-            $scope.selectedPlatform = {};
-            $scope.managedSelectedPlatform = {};
-            $scope.adData.platform =  trackingIntegration.name;
-            $scope.adData.platformId = trackingIntegration.id;
-            //$scope.selectedPlatform[platform.id]="";
-            $scope.managedSelectedPlatform[trackingIntegration.id] = trackingIntegration.name;
-            console.log($scope.managedSelectedPlatform);
-
-
-        }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetPartialSaveAlertMessage() ;
@@ -480,18 +468,6 @@ var angObj = angObj || {};
                     $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}];
             },
 
-//            fetchSelfServicePlatforms: function () {
-//                $scope.workflowData['platforms'] = [{id: 1, name: 'Collective Bidder', active: true}, {id: 2, name: 'AppNexus', active: true}, {id: 3, name: 'Facebook', active: false}, {id: 4, name: 'DBM', active: false}, {id: 5, name: 'DFP', active: false}];
-//            },
-//
-//            fetchManagedServicePlatforms: function () {
-//                $scope.workflowData['tracking_integrations'] = [{id:20, imgName: 'placemedia', name: 'Place Media', desc: 'All-in-one customer support application'}, {id:21, imgName: 'xad-logo-mobile', name: 'xAd', desc: 'All-in-one customer support application'}, {id:22, imgName: 'Telemetry_Company_Logo', name: 'Telemetry', desc: 'All-in-one customer support application'}, {id:6, imgName: 'TwitterLogo', name: 'Twitter', desc: 'All-in-one customer support application'}, {id:7, imgName: 'adtheorent', name: 'Ad Theorent', desc: 'All-in-one customer support application'}, {id:8, imgName: 'grfxLogoDstillery', name: 'Dstillery', desc: 'All-in-one customer support application'}, {id:8, imgName: 'Adaptv-logo', name: 'Adap.tv', desc: 'All-in-one customer support application'}, {id:9, imgName: 'youtube', name: 'YouTube', desc: 'All-in-one customer support application'}, {id:10, imgName: 'br-logo_0', name: 'BrightRoll', desc: 'All-in-one customer support application'}, {id:11, imgName: 'plat-dbclick', name: 'DoubleClick', desc: 'All-in-one customer support application'}, {id:12, imgName: 'Facebook-Exchange-Logo', name: 'FB Exchnage', desc: 'All-in-one customer support application'}, {id:13, imgName: 'yahoo', name: 'Yahoo', desc: 'All-in-one customer support application'}];
-//
-//            $('#myCarousel').carousel({
-//
-//            },5000);
-//
-//            },
             fetchPlatforms:function(){
                 workflowService.getPlatforms({cache:false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -1313,152 +1289,6 @@ var angObj = angObj || {};
           }
         };
     });
-
-//    angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
-//        $scope.$watch('adData.platformId', function(newValue) {
-//            $scope.$parent.changePlatform(newValue);
-//        })
-//        $scope.trackingIntegrationId ='';
-//        var tempPlatform ;
-//        var storedResponse;
-//
-//        $scope.$on('updatePlatform',function(event,platform){
-//          $scope.defaultPlatform = platform[0];
-//          $scope.selectPlatform((platform[0].switchPlatform ? event : '') , platform[0]);
-//        })
-//
-//        $scope.selectPlatform =  function(event, platform) {
-//           // $scope.TrackingIntegrationsSelected=false;localStorage.setItem("trackingIntegration",false);  //Enable Targetting and Inventory filters
-//            storedResponse = workflowService.getAdsDetails();
-//            var settings = "";
-//
-//            if($scope.mode === 'edit'){
-//                if(storedResponse.targets.geoTargets)
-//                    settings = "Geography";
-//
-//                if(storedResponse.platform){
-//                    if(storedResponse.platform.name === platform.name) {
-//                        //directly set  the platform if it is the same
-//                        $scope.setPlatform(event, platform);
-//                    }
-//                    else {
-//                        //if the platform is changed but no targets were selected allow change
-//                        if(_.size(storedResponse.targets.geoTargets) == 0 ){
-//                            $scope.setPlatform(event, platform);
-//                        }
-//                        else{
-//                            //display warnign popup
-//                            if($scope.defaultPlatform.id !== platform.id) {
-//                              tempPlatform = platform;
-//                              $scope.changePlatformMessage = "Your entries for the following settings are not compatible with "+$filter('toPascalCase')(platform.name)+": "+settings+". Would you like to clear these settings and switch platforms? (OK/Cancel).";
-//                              $scope.changePlatformPopup = true;
-//                            } else {
-//                              $scope.setPlatform(event, platform);
-//                            }
-//                        }
-//
-//                    }
-//                }
-//                else{
-//                    $scope.setPlatform(event,platform);
-//                }
-//
-//            }
-//            else{
-//                $scope.setPlatform(event, platform);
-//            }
-//
-//
-//        }
-//
-//        $scope.setPlatform = function(event, platform){
-//            $scope.selectedPlatform = {};
-//            //localStorage.setItem("trackingIntegration",false);
-//           // workflowService.setTrackingPlatform(false);
-//           if($scope.mode!='edit'){
-//                $scope.$parent.TrackingIntegrationsSelected = false;
-//           }
-//            var name = platform.displayName ? platform.displayName : platform.name;
-//            $scope.adData.platform =  name;
-//            $scope.adData.platformId = platform.id;
-//            $scope.selectedPlatform[platform.id] = name; console.log($scope.selectedPlatform);
-//            event && $scope.platformCustomInputs();
-//        }
-//
-//          $scope.selectTrackingIntegrations=function(trackingIntegration){
-//                //localStorage.setItem("trackingIntegration",true);
-//                //workflowService.setTrackingPlatform(true);
-//                if($scope.mode!='edit'){
-//                    $scope.$parent.TrackingIntegrationsSelected=true;
-//                }
-//                $scope.selectedPlatform = {};
-//                $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.name;
-//                /*To populate the newly selected Platform in sideBar*/
-//                $scope.adData.platform =  trackingIntegration.name;
-//                $scope.adData.platformId = trackingIntegration.id;
-//
-//
-//                /*code to make creatives already set to empty*/
-//                 $scope.adData.setSizes = constants.WF_NOT_SET;
-//                 $scope.creativeData['creativeInfo']="undefined";
-//                 $scope.selectedArr.length=0;
-//            }
-//
-//        $scope.showCustomeFieldBox =function() {
-//          $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
-//          $(".offeringsWrap").hide();
-//        }
-//
-//
-//        $scope.platformCustomInputs = function() {
-//          var platformWrap =  $(".platWrap");
-//          workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
-//              var adPlatformCustomInputs, platformCustomeJson;
-//              if (result.status === "OK" || result.status === "success") {
-//                platformCustomeJson = JSON.parse(result.data.data.customInputJson);
-//                if($scope.mode === 'edit' ) {
-//                  $scope.showCustomeFieldBox();
-//                  //if($scope.adData.platformId == $scope.workflowData['adsData'].platform.id) {
-//                    var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
-//                    adPlatformCustomInputs =  (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue))  || platformCustomeJson;
-//                    platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
-//                  //} else {
-//                    //$scope.showCustomeFieldBox();
-//                    //platformCustomeModule.init(platformCustomeJson, platformWrap);
-//                  //}
-//                } else {
-//                  $scope.showCustomeFieldBox();
-//                  platformCustomeModule.init(platformCustomeJson, platformWrap);
-//                }
-//              }
-//          });
-//        }
-//
-//        $scope.$on('switchPlatformFunc', function() {
-//          $(".platform-custom").delay( 300 ).animate({left: "100%" , marginLeft: "0px"}, function() {
-//              $(this).hide();
-//              $scope.showPlatformBox =  false;
-//          });
-//          $(".offeringsWrap").show();
-//
-//        })
-//
-//
-//        $scope.cancelChangePlatform  = function(){
-//            $scope.changePlatformPopup = !$scope.changePlatformPopup;
-//            tempPlatform = [];
-//        }
-//
-//        $scope.confirmChange = function() {
-//            $scope.setPlatform(null, tempPlatform);
-//            $scope.changePlatformPopup = false;
-//            storedResponse.targets.geoTargets = {};
-//            workflowService.setAdsDetails(storedResponse);
-//            $scope.$broadcast('resetGeoTags');
-//            $scope.platformCustomInputs()
-//
-//        }
-//    });
 
     angObj.controller('InventoryFiltersController', function($scope, $window, $routeParams, constants, workflowService, Upload, $timeout,  utils, $location) {
 
