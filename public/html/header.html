@@ -1,7 +1,9 @@
 <div class="main_navigation_holder" ng-controller="HeaderController">
-  
+
   <div class="main_nav clearfix">
     <div class="pull-left">
+        
+        
       <a href="/dashboard" class="main_logo" id="logo" ng-if="!dashboard.isNetworkUser" style="cursor:pointer;"></a>
       <a href="javascript:void(0);" class="main_logo" id="logo" ng-if="dashboard.isNetworkUser"></a>
     </div>
@@ -38,11 +40,26 @@
         </div>
         <div class="nav-menu" id="user-menu">
           <div class="pull-left profile-data">
-              <span class="user-photo">
+              <span class="pull-left user-photo">
                 <span class="glyphicon glyphicon-user"></span>
               </span>
-              <span class="username">{{user_name}}</span>
+              <div class="pull-left">
+                <span class="username">{{user_name}}</span>
+                <div class="accountsList">
+                  <div class="dropdown" >
+                      <span class="dropdown_ul_text" data-toggle="dropdown">
+                          <span class="dd_txt" >{{defaultAccountsName}}</span>
+                          <span class="glyphicon glyphicon-chevron-down"></span>
+                      </span>
+                      <ul class="dropdown-menu" >
+                        <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}" ng-click="set_account_name(eachaccount.id,eachaccount.name);">{{eachaccount.name}}</li>
+                      </ul>
+                  </div>
+                  
+                </div>
+              </div>
           </div>
+
           <!-- <div class="pull-left about_link">
              <a href="javascript:void(0);" data-toggle="modal" data-target=".myModal">
                {{textConstants.ABOUT}}

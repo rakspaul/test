@@ -2350,7 +2350,6 @@ button, i, input[type="submit"] {
     color: #fff;
     font-size: 12px ;
     z-index: 1004 ;
-    
     .profile-data , .logout-option {
       background: #004478 ;
       height: 80px;
@@ -2359,7 +2358,10 @@ button, i, input[type="submit"] {
       padding-left: 5%;
     }
     .profile-data {
+      min-width: 20% ;
+      width: auto  ;
       margin-right: 30px ;
+      padding-right: 20px ;
       .user-photo  {
         display: inline-block;
         font-size: 20px ;
@@ -2368,8 +2370,36 @@ button, i, input[type="submit"] {
         float: left;
       }
       .username {
-        margin-top: 5px;
+        margin-top: 2px;
         display: inline-block;
+      }
+    }
+    .accountsList {
+      .dropdown-menu {
+        max-height: 200px;
+        overflow: scroll;
+        top: 24px;
+        left: 0;
+        border: 0;
+        max-width: 100%;
+        min-width: 150px;
+        &:before {
+          display : none ;
+        }
+      }
+      .dropdown_ul_text {
+        cursor: pointer;
+        margin: 4px 0 0 0;
+        display: inline-block;
+        min-width: 150px;
+        .glyphicon {
+          font-size: 8px;
+          margin-left: 3px;
+        }
+      }
+      li {
+            list-style: none;
+            cursor: pointer;
       }
     }
     .about_link {
