@@ -948,8 +948,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   -moz-border-radius: 5px 0px 0px 0px;
   -webkit-border-radius: 5px 0px 0px 0px;
 }
-.common_reports_container .download-report-load-icon,
-.breadcrumb_campaign_strategy .download-report-load-icon {
+.download-report-load-icon {
   text-align: left;
   font-family: "Avenir-bold";
   text-indent: -99999;
@@ -957,6 +956,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   background: url("/assets/images/loading.gif") no-repeat scroll 70% 9% rgba(0, 0, 0, 0);
   margin: 5px auto 0 42px ;
   display: inline-block;
+  color: #21252B ;
+  text-transform: uppercase;
+  font-size: 10px;
 }
 .no_data_found {
   text-align: center;

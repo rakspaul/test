@@ -1,12 +1,19 @@
-<div class="col-md-8 zeroPadding">
+<div class="col-md-12 zeroPadding">
     <h2 class="col-md-12 zeroPadding marginBottom">Add Creative Tag</h2>
     <a href="javascript:void(0);" class="helpLink">Adding third party Creative Tags</a>
     <br/>
 
     <div class="spacingInput"></div>
-    <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()">Add from Existing</button>
-    <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;">Create New</button>
-    <a href=""><button type="button" class="btn btn-default pull-left" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button></a>
+    <div class="clearfix">
+        <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()">Add from Existing</button>
+        <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;">Create New</button>
+        <div class="pull-left">
+            <div>
+                <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button>
+            </div>
+            <span class="download-report-load-icon" >{{textConstants.DOWNLOADING}} </span>
+        </div>
+    </div>
 </div>
 
 <div class="col-md-12 zeroPadding creativeTableTag">
