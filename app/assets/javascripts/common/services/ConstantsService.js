@@ -99,10 +99,24 @@
 
     this.COLLECTIVE_INSIGHTS = "Collective Insights";
     this.UPLOAD_REPORT = "Upload Report";
-
+    this.REPORT_LABEL ='Report';
     this.SCHEDULED_REPORTS = "Scheduled Reports";
+    this.SCHEDULE_LABEL = 'Schedule';
+    this.GENERATE_LABEL ='Generate'
+    this.SET_SCHEDULE = 'Set Schedule';
     this.NEW_REPORT = "New Report";
-
+    this.SCHEDULE_DELIVER_ON = 'Deliver on';
+    this.SCHEDULE_OCCURS_ON= 'Occurs on';
+    this.WEEKNAME = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    this.SCHEDULE_REPORT_OCCURS_ON_LIST = ['Start of Month', 'Middle of Month(15th)', 'End of Month', 'Custom'];
+    this.SELECT_DATE_LABEL = 'Select a date';
+    this.SCHEDULE_START_DATE_LABEL ='Start on';
+    this.SCHEDULE_END_DATE_LABEL ='End on';
+    this.REPORT_BUILDER_TIMEFRAME ='Timeframe';
+    this.REPORT_CHOOSE_BREAKDOWN = "Choose Breakdown";
+    this.REPORT_ADDITIONAL_FILTERS = "Additional Filters";
+    this.REPORT_ADD_FILTERS = "Add Filters";
+    this.REPORT_BUILDER_TIMEFRAME_LIST = ['Yesterday', 'Week to date', 'Last 7 days', 'Last week', 'Month to date', 'Last month', 'Quarter to date', 'Last quarter', 'Year to date', 'Custom dates'];
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
     this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
     this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Campaign has been successfully updated';
@@ -385,18 +399,20 @@
     this.WF_PRIORITY = "Priority";
     this.WF_DELIVER_IMPRESSIONS = "Deliver Impressions";
     this.WF_FREQUENCY = "Frequency";
+    this.WF_FREQUENCY_LIST = ['Once', 'Daily', 'Weekly', 'Monthly'];
     this.WF_SET_FREQUENCY_CAP = "Set per User frequency cap";
     this.WF_IMPRESSION_PER = "Impression per";
 
     this.YESTERDAY = "Yesterday";
     this.WF_NOT_SET="Not Set";
-
+    this.REPORT_BUILDER = "Report Builder";
     this.CREATED_BY = "Created by";
     this.DISTRIBUTED_TO = "Distributed to";
     this.REPORT_NAME = "Report Name";
     this.ACTIONS = "Actions";
     this.COMPLETE_ON = "Complete on" ;
     this.VIEW_ALL_REPORTS = "View all reports" ;
+    this.ADD_BREAKDOWN_LABEL ='Add Breakdown';
 
     this.WF_CREATIVE_TAG_ALREADY_EXISTS = "This tag already exists in your Creative Tag Library. Save a Creative anyway?";
     this.WF_DUPLICATE_TAG = 'Duplicate Tag';

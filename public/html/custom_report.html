@@ -1,38 +1,48 @@
+<div class="top_message_box" ng-class="{'red_msg':flashMessage.isErrorMsg}" ng-show="flashMessage.message">
+	<span class="msg_box">
+		<span class="msg_icon">x</span>
+		<span class="msg_txt" >
+      {{flashMessage.message}}
+    </span>
+    <span class="close_msg_box_holder">
+      <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
+    </span>
+	</span>
+</div>
 <div class="report_generator_and_response">
 	<div class="report_builder_container">
 	    <div class="container">
 	    	<div class="row">
 	    		<div class="col-md-12 heading">
-	    			<h3>Report Builder</h3>
+	    			<h3>{{textConstants.REPORT_BUILDER}}</h3>
 	    		</div>
 	    	</div>
-	    	
+
 		    <div class="row">
 		    	<div class="col-md-6 ">
 		           	 <div class="each_section_custom_report">
 		           		<div class="create_report_title">
-		           			Report
+		           			{{textConstants.REPORT_LABEL}}
 		           		</div>
 		           		<div>
 
 		           			<div class="clearfix title_row_separator breakdown_div dimension_block">
-			           			<div class="pull-left custom_report_filter">
+			           			<div class="pull-left custom_report_filter custom_report_breakdown">
 			           				 <div class="common_dropdown">
 			                              <div class="dropdown" >
 		                                    <span class="dropdown_ul_text" data-toggle="dropdown" >
-		                                        <span class="dd_txt" data-template_id = "{{showDefaultDimension.template_id}}" id="{{showDefaultDimension.key}}">Choose Breakdown</span>
+		                                        <span class="dd_txt" data-template_id = "{{showDefaultDimension.template_id}}" id="{{showDefaultDimension.key}}">{{textConstants.REPORT_CHOOSE_BREAKDOWN}}</span>
 		                                        <span class="arrow_img"></span>
 		                                    </span>
 		                                    <ul class="dropdown-menu" ng-click="enable_generate_btn();">
-		                                    	<li ng-click="select_dropdown_option($event)">Choose Breakdown</li>
-		                                        <li ng-repeat="dimension in customeDimensionData[0].dimensions" id="{{dimension.key}}" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>
+		                                    	<li ng-click="select_dropdown_option($event)">{{textConstants.REPORT_CHOOSE_BREAKDOWN}}</li>
+		                                        <li ng-repeat="dimension in customeDimensionData[0].dimensions"   id="{{dimension.key}}" ng-click="select_dimension($event, dimension, 'Primary', 0)">{{dimension.value}}</li>
 		                                    </ul>
 			                              </div>
 			                          </div>
 			           			</div>
-
 								<div class="pull-left filter_input_txtbox" style="display:none;" >
-									<input type="text" name="filter" class ="reportFilter" autofocus placeholder="Contains keywords ..." />
+									<input type="text" name="filter" class ="reportFilter" ng-model='primaryDimensionKeyword' data-reportType = "Primary" autofocus placeholder="Contains keywords ..." />
 								</div>
 		           			</div>
 
@@ -45,7 +55,7 @@
 		           					<div class="pull-left add_circle_symbol">
 		           					</div>
 		           					<div class="pull-left">
-		           						Add Breakdown
+		           						{{textConstants.ADD_BREAKDOWN_LABEL}}
 		           					</div>
 
 		           				</div>
@@ -54,7 +64,7 @@
 		           	</div>
 		           	<div class="each_section_custom_report">
 		           		<div class="create_report_title">
-		           			Timeframe
+		           			{{textConstants.REPORT_BUILDER_TIMEFRAME}}
 		           		</div>
 		           		<div >
 		           			<div class="clearfix title_row_separator">
@@ -62,44 +72,35 @@
 			           				 <div class="common_dropdown">
 			                              <div class="dropdown" >
 		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
-		                                        <span class="dd_txt" id="date-selected-txt">Yesterday</span>
+		                                        <span class="dd_txt" id="date-selected-txt">{{textConstants.YESTERDAY}}</span>
 		                                        <span class="arrow_img"></span>
 		                                    </span>
 		                                    <ul class="dropdown-menu" >
-		                                    	<li ng-click="select_dropdown_option($event , 'yesterday'     )">Yesterday</li>
-		                                    	<li ng-click="select_dropdown_option($event , 'weekToDate'    )">Week to date</li>
-		                                        <li ng-click="select_dropdown_option($event , 'last7Days'     )">Last 7 days</li>
-		                                        <li ng-click="select_dropdown_option($event , 'lastWeek'      )">Last week</li>
-		                                        <li ng-click="select_dropdown_option($event , 'monthToDate'   )">Month to date</li>
-		                                        <li ng-click="select_dropdown_option($event , 'lastMonth'     )">Last month</li>
-		                                        <li ng-click="select_dropdown_option($event , 'quarterToDate' )">Quarter to date</li>
-		                                        <li ng-click="select_dropdown_option($event , 'lastQuarter'   )">Last quarter</li>
-		                                        <li ng-click="select_dropdown_option($event , 'yearToDate'    )">Year to date</li>
-		                                        <li ng-click="select_dropdown_option($event , 'customDates'   )">Custom dates</li>
+		                                    	<li ng-model="reports.reportDefinition.timeframe.type" ng-repeat="timeframe in textConstants.REPORT_BUILDER_TIMEFRAME_LIST" ng-click="reports.reportDefinition.timeframe.type = timeframe; select_dropdown_option($event , timeframe)">{{timeframe}}</li>
 		                                    </ul>
 			                              </div>
 			                          </div>
 			           			</div>
-			           			
+
 								<div class="pull-left col-md-8">
 									<div class="col-md-12 input-daterange input-group date pull-left">
 									    <div class="col-md-12 dateWrapper">
 									    	<div class="col-md-6">
-									        	<input type="text" id="startDateInput" class="input-sm form-control timeframe" required/>
+									        	<input type="text" id="startDateInput" class="input-sm form-control timeframe" ng-model="reports.reportDefinition.timeframe.start_date" required/>
 									        	<i class="icon-calendar glyphicon pull-right"></i>
 									        </div>
 									        <div class="col-md-6">
-									        	<input type="text" id="endDateInput" class="input-sm form-control timeframe"  required/>
+									        	<input type="text" id="endDateInput" class="input-sm form-control timeframe"  ng-model="reports.reportDefinition.timeframe.end_date" required/>
 									        	<i class="icon-calendar glyphicon pull-right"></i>
 									        </div>
 									    </div>
-									   
+
 									</div>
 
 								</div>
 		           			</div>
-		           			 
-		           			
+
+
 		           		</div>
 		           	</div>
 
@@ -107,21 +108,21 @@
 		         <div class="col-md-6 left_border">
 		         	<div class="each_section_custom_report">
 		           		<div class="create_report_title">
-		           			Additional Filters
+		           			{{textConstants.REPORT_ADDITIONAL_FILTERS}}
 		           		</div>
 		           		<div class="additional_filters_holder">
 		           			<div id="filter_breakdown_row" ></div>
-		           			
+
 		           			<div class="clearfix title_row_separator">
 			           			<div class="pull-left additional_filters_label" addfilter>
 			           				<div class="pull-left add_circle_symbol">
 			           				</div>
 			           				<div class="pull-left blue_txt">
-			           					Add Filters
+			           					{{textConstants.REPORT_ADD_FILTERS}}
 			           				</div>
 			           			</div>
-			           			
-								
+
+
 		           			</div>
 		           		</div>
 		           	</div>
@@ -137,9 +138,9 @@
 				           			</a>
 
 			           			</div>
-								
+
 		           			</div>
-		           			
+
 		           		</div>
 
 		           		<div class="metric_popup modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -174,7 +175,7 @@
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" ng-repeat="delivery_metric in customeDimensionData[0].delivery_metrics" id="{{delivery_metric.key}}" ng-click="select_option($event , 'delivery_chkd')" >
+						       						<div class="each_option" relationIds='Delivery' ng-repeat="delivery_metric in customeDimensionData[0].delivery_metrics" id="{{delivery_metric.key}}" ng-click="select_option($event , 'delivery_chkd')" >
 						       							{{delivery_metric.value}}
 						       						</div>
 						       					</div>
@@ -206,7 +207,7 @@
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" ng-repeat="engagement_metric in customeDimensionData[0].engagement_metrics" id="{{engagement_metric.key}}" ng-click="select_option($event , 'engagement_chkd')" >
+						       						<div class="each_option" relationIds='Engagement' ng-repeat="engagement_metric in customeDimensionData[0].engagement_metrics" id="{{engagement_metric.key}}" ng-click="select_option($event , 'engagement_chkd')" >
 						       							{{engagement_metric.value}}
 						       						</div>
 						       					</div>
@@ -222,7 +223,7 @@
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" ng-repeat="video_metric in customeDimensionData[0].video_metrics" id="{{video_metric.key}}" ng-click="select_option($event, 'video_chkd')" >
+						       						<div class="each_option" relationIds='Video' ng-repeat="video_metric in customeDimensionData[0].video_metrics" id="{{video_metric.key}}" ng-click="select_option($event, 'video_chkd')" >
 						       							{{video_metric.value}}
 						       						</div>
 						       					</div>
@@ -238,7 +239,7 @@
 													</div>
 												</div>
 												<div class="custom_report_col">
-													<div class="each_option" ng-repeat="display_quality_metrics in customeDimensionData[0].display_quality_metrics" id="{{display_quality_metrics.key}}" ng-click="select_option($event, 'display_quality_chkbox')" >
+													<div class="each_option" relationIds='Quality Display' ng-repeat="display_quality_metrics in customeDimensionData[0].display_quality_metrics" id="{{display_quality_metrics.key}}" ng-click="select_option($event, 'display_quality_chkbox')" >
 														{{display_quality_metrics.value}}
 													</div>
 												</div>
@@ -254,7 +255,7 @@
 													</div>
 												</div>
 												<div class="custom_report_col">
-													<div class="each_option" ng-repeat="video_quality_metrics in customeDimensionData[0].video_quality_metrics" id="{{video_quality_metrics.key}}" ng-click="select_option($event, 'video_quality_chkbox')" >
+													<div class="each_option" relationIds='Quality Video' ng-repeat="video_quality_metrics in customeDimensionData[0].video_quality_metrics" id="{{video_quality_metrics.key}}" ng-click="select_option($event, 'video_quality_chkbox')" >
 														{{video_quality_metrics.value}}
 													</div>
 												</div>
@@ -269,64 +270,60 @@
 						       	</div>
 						    </div>
 						</div>
+		      </div>
 
-
-		           	</div>
-		         	
 		         </div>
 		    </div>
 		    <div class="row create_scheduled_report">
 
 		    	<div class="col-md-12  each_section_custom_report">
 		    		<div class="create_report_title">
-		           			Schedule
+                        {{textConstants.SCHEDULE_LABEL}}
 		           	</div>
 		           	<div class="clearfix scheduled_report_fields">
 			    		<div class="each-col" id="schedule-btn">
 			    			<div class="label-txt">
-			    				Set Schedule
+                                {{textConstants.SET_SCHEDULE}}
 			    			</div>
 			    			<div class="schedule-on-off-btn">
-			    				<input type="checkbox" checked data-toggle="toggle" id="toggle" data-on=" " data-off=" ">
+			    				<input type="checkbox" ng-model="scheduleReportActive" checked data-toggle="toggle" id="toggle" data-on=" " data-off=" ">
 			    			</div>
 			    		</div>
 			    		<div class="each-col default-schedule-col report-name-col">
 			    			<div class="label-txt">
-			    				Report Name
+                                {{textConstants.REPORT_NAME}}
 			    			</div>
 			    			<div>
-			    				<input type="text">
+			    				<input type="text" ng-model="reports.name">
 			    			</div>
 			    		</div>
 			    		<div class="each-col default-schedule-col">
 			    			<div class="label-txt">
-			    				Frequency
+                                {{textConstants.WF_FREQUENCY}}
 			    			</div>
 			    			<div>
-			    				<div class="common_dropdown">
-			                              <div class="dropdown">
-		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
-		                                        <span class="dd_txt" id="date-selected-txt">Select</span>
-		                                        <span class="arrow_img"></span>
-		                                    </span>
-		                                    <ul class="dropdown-menu">
-		                                    	<li ng-click="select_schedule_option($event , 'once'   )">Once</li>
-		                                    	<li ng-click="select_schedule_option($event , 'daily'  )">Daily</li>
-		                                        <li ng-click="select_schedule_option($event , 'weekly' )">Weekly</li>
-		                                        <li ng-click="select_schedule_option($event , 'monthly')">Monthly</li>
-		                                    </ul>
-			                              </div>
-			                          </div>
+                                <div class="common_dropdown">
+                                    <div class="dropdown">
+                                        <span class="dropdown_ul_text" data-toggle="dropdown">
+                                            <span class="dd_txt" id="date-selected-txt">Select</span>
+                                            <span class="arrow_img"></span>
+                                        </span>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="frequency in textConstants.WF_FREQUENCY_LIST" ng-model="reports.schedule.frequency" ng-click="reports.schedule.frequency = frequency; select_schedule_option($event ,  frequency)">{{frequency}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
 			    			</div>
 			    		</div>
 			    		<div class="each-col scheduling-options schedule-once" >
 			    			<div class="label-txt">
-			    				Deliver on
+			    				{{textConstants.SCHEDULE_DELIVER_ON}}
 			    			</div>
 			    			<div>
 			    				<div class="input-daterange input-group date pull-left">
 								    <div class="dateWrapper">
-								        	<input type="text" id="deliverOn" class="input-sm form-control timeframe" required="">
+								        	<input type="text" id="deliverOn" name="scheduleReportStartDate" ng-model="reports.schedule.startDate" class="input-sm form-control timeframe" required="">
 								        	<i class="icon-calendar glyphicon pull-right"></i>
 								    </div>
 								</div>
@@ -334,98 +331,82 @@
 			    		</div>
 			    		<div class="each-col scheduling-options schedule-weekly">
 			    			<div class="label-txt">
-			    				Occurs on
+                                {{textConstants.SCHEDULE_OCCURS_ON}}
 			    			</div>
 			    			<div>
-			    				<div class="common_dropdown">
-			                              <div class="dropdown">
-		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
-		                                        <span class="dd_txt" id="date-selected-txt">Select</span>
-		                                        <span class="arrow_img"></span>
-		                                    </span>
-		                                    <ul class="dropdown-menu">
-		                                    	<li ng-click="select_dropdown_option($event);">Sunday</li>
-		                                    	<li ng-click="select_dropdown_option($event);">Monday</li>
-		                                    	<li ng-click="select_dropdown_option($event);">Tuesday</li>
-		                                        <li ng-click="select_dropdown_option($event);">Wednesday</li>
-		                                        <li ng-click="select_dropdown_option($event);">Thursday</li>
-		                                        <li ng-click="select_dropdown_option($event);">Friday</li>
-		                                        <li ng-click="select_dropdown_option($event);">Saturday</li>
-		                                    </ul>
-			                              </div>
-			                          </div>
+                                <div class="common_dropdown">
+                                    <div class="dropdown">
+                                        <span class="dropdown_ul_text" data-toggle="dropdown">
+                                            <span class="dd_txt" id="date-selected-txt">Select</span>
+                                            <span class="arrow_img"></span>
+                                        </span>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="week in textConstants.WEEKNAME" ng-model="reports.schedule.occurance" ng-click="reports.schedule.occurance = week; select_dropdown_option($event);">{{week}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
 			    			</div>
 			    		</div>
 			    		<div class="each-col scheduling-options schedule-monthly">
 			    			<div class="label-txt">
-			    				Occurs on
+                                {{textConstants.SCHEDULE_OCCURS_ON}}
 			    			</div>
 			    			<div>
-			    				<div class="common_dropdown">
-			                              <div class="dropdown">
-		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
-		                                        <span class="dd_txt" id="date-selected-txt">Select</span>
-		                                        <span class="arrow_img"></span>
-		                                    </span>
-		                                    <ul class="dropdown-menu">
-		                                    	<li ng-click="select_schedule_occurs_option($event , 'start'   )">Start of Month</li>
-		                                    	<li ng-click="select_schedule_occurs_option($event , 'middle'   )">Middle of Month(15th)</li>
-		                                        <li ng-click="select_schedule_occurs_option($event , 'end'   )">End of Month</li>
-		                                        <li ng-click="select_schedule_occurs_option($event , 'custom'   )">Custom</li>
-		                                        
-		                                    </ul>
-			                              </div>
-			                          </div>
+                                <div class="common_dropdown">
+                                    <div class="dropdown">
+                                      <span class="dropdown_ul_text" data-toggle="dropdown">
+                                          <span class="dd_txt" id="date-selected-txt">Select</span>
+                                          <span class="arrow_img"></span>
+                                      </span>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance" ng-click="reports.schedule.occursOn = schedule_occur; select_schedule_occurs_option($event, schedule_occur);">
+                                                {{schedule_occur}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
 			    			</div>
 			    		</div>
 			    		<div class="each-col scheduling-options schedule-occurs-custom">
 			    			<div class="label-txt">
-			    				Select a date
+                                {{textConstants.SELECT_DATE_LABEL}}
 			    			</div>
 			    			<div>
 			    				<div class="common_dropdown">
-			                              <div class="dropdown">
-		                                    <span class="dropdown_ul_text" data-toggle="dropdown">
-		                                        <span class="dd_txt" id="date-selected-txt">1</span>
-		                                        <span class="arrow_img"></span>
-		                                    </span>
-		                                    <ul class="dropdown-menu">
-		                                    	<li ng-click="select_dropdown_option($event);">1</li>
-		                                    	<li ng-click="select_dropdown_option($event);">2</li>
-		                                        <li ng-click="select_dropdown_option($event);">3</li>
-		                                        <li ng-click="select_dropdown_option($event);">4</li>
-		                                        <li ng-click="select_dropdown_option($event);">5</li>
-		                                        <li ng-click="select_dropdown_option($event);">6</li>
-		                                        <li ng-click="select_dropdown_option($event);">7</li>
-		                                        <li ng-click="select_dropdown_option($event);">8</li>
-		                                        <li ng-click="select_dropdown_option($event);">9</li>
-		                                        <li ng-click="select_dropdown_option($event);">10</li>
-		                                    </ul>
-			                              </div>
-			                          </div>
+                                    <div class="dropdown">
+                                        <span class="dropdown_ul_text" data-toggle="dropdown">
+                                            <span class="dd_txt" id="date-selected-txt">Select</span>
+                                            <span class="arrow_img"></span>
+                                        </span>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="counter in range(1,10)" ng-model="reports.schedule.customOccuranceDate" ng-click="reports.schedule.customOccuranceDate = counter; select_dropdown_option($event);">{{counter}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
 			    			</div>
 			    		</div>
-			    		<div class="each-col scheduling-options schedule-date" >
+			    		<div class="each-col scheduling-options schedule-date">
 			    			<div class="label-txt">
-			    				Start on
+                                {{textConstants.SCHEDULE_START_DATE_LABEL}}
 			    			</div>
 			    			<div>
 			    				<div class="input-daterange input-group date pull-left">
 								    <div class="dateWrapper">
-								        	<input type="text" id="startOn" class="input-sm form-control timeframe" required="">
+                                        <input type="text" id="startOn" class="input-sm form-control timeframe" ng-disabled="reports.schedule.frequency === 'Once'" ng-model="reports.schedule.startDate" required="">
 								        	<i class="icon-calendar glyphicon pull-right"></i>
 								    </div>
 								</div>
 			    			</div>
 			    		</div>
-			    		<div class="each-col scheduling-options schedule-date" >
+			    		<div class="each-col scheduling-options schedule-date">
 			    			<div class="label-txt">
-			    				End on
+                                {{textConstants.SCHEDULE_END_DATE_LABEL}}
 			    			</div>
 			    			<div>
 			    				<div class="input-daterange input-group date pull-left">
 								    <div class="dateWrapper">
-								        	<input type="text" id="endOn" class="input-sm form-control timeframe" required="">
+                                        <input type="text" id="endOn" ng-model="reports.schedule.endDate"  class="input-sm form-control timeframe" required="">
 								        	<i class="icon-calendar glyphicon pull-right"></i>
 								    </div>
 								</div>
@@ -436,8 +417,8 @@
 		    </div>
 		    <div class="row">
 		    	<div class="col-md-12">
-		    		<button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}" ng-disabled="generateBtnDisabled ? true : false" ng-click="generateReport()" >
-			    		Schedule
+		    		<button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}"  ng-click="scheduleReportActive ? scheduleReport() : generateReport()" >
+                        {{scheduleReportActive ? textConstants.SCHEDULE_LABEL : textConstants.GENERATE_LABEL}}
 			    	</button>
 			    	<div class="pull-right secondary_txt" ng-click="reset_metric_options()" >
            				Reset
@@ -765,8 +746,3 @@
 	<div class="each_col" ng-if="customeReportData.video_suspicious_imps >=0">{{customeReportData.video_suspicious_imps |  nrFormat}}</div>
 	<div class="each_col" ng-if="customeReportData.video_suspicious_act_perc >=0">{{customeReportData.video_suspicious_act_perc | number:2}}</div>
 </script>
-
-
-
-
-
