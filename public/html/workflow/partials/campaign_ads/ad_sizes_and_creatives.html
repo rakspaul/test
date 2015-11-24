@@ -11,7 +11,7 @@
             <div>
                 <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length>0)" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button>
             </div>
-            <span ng-show="{{downloadingTracker}}" class="download-report-load-icon" >{{textConstants.DOWNLOADING}} </span>
+            <span ng-if="downloadingTracker" class="download-report-load-icon" >{{textConstants.DOWNLOADING}} </span>
         </div>
     </div>
 </div>
