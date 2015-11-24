@@ -387,19 +387,33 @@
 			    			</div>
 			    		</div>
 			    		<div class="each-col scheduling-options schedule-date">
-			    			<div class="label-txt">
-                                {{textConstants.SCHEDULE_START_DATE_LABEL}}
-			    			</div>
-			    			<div>
+			    			
+			    			<div class="input-daterange-scheduled">
 			    				<div class="input-daterange input-group date pull-left">
 								    <div class="dateWrapper">
-                                        <input type="text" id="startOn" class="input-sm form-control timeframe" ng-disabled="reports.schedule.frequency === 'Once'" ng-model="reports.schedule.startDate" required="">
-								        	<i class="icon-calendar glyphicon pull-right"></i>
+								    	<div class="pull-left">
+								    		<div class="label-txt">
+				                                {{textConstants.SCHEDULE_START_DATE_LABEL}}
+							    			</div>
+								    		<div>
+		                                        <input type="text" id="startOn" class="input-sm form-control timeframe" ng-disabled="reports.schedule.frequency === 'Once'" ng-model="reports.schedule.startDate" required="">
+										        <i class="icon-calendar glyphicon pull-right"></i>
+									        </div>
+								        </div>
+								        <div class="pull-left endScheduledDate">
+								        	<div class="label-txt">
+				                                {{textConstants.SCHEDULE_END_DATE_LABEL}}
+							    			</div>
+								        	<div>
+									        	<input type="text" id="endOn" ng-model="reports.schedule.endDate"  class="input-sm form-control timeframe" required="">
+									        	<i class="icon-calendar glyphicon pull-right"></i>
+								        	</div>
+								        </div>
 								    </div>
 								</div>
 			    			</div>
 			    		</div>
-			    		<div class="each-col scheduling-options schedule-date">
+			    		<!-- <div class="each-col scheduling-options schedule-date">
 			    			<div class="label-txt">
                                 {{textConstants.SCHEDULE_END_DATE_LABEL}}
 			    			</div>
@@ -412,7 +426,7 @@
 								</div>
 			    			</div>
 			    		</div>
-			    	</div>
+			    	</div> -->
 		    	</div>
 		    </div>
 		    <div class="row">

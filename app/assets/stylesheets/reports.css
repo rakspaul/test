@@ -3502,6 +3502,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response div.create_scheduled_report .input-daterange {
   width: 140px ;
 }
+.report_generator_and_response div.create_scheduled_report .input-daterange-scheduled .input-daterange {
+  width: 390px ;
+}
+.report_generator_and_response div.create_scheduled_report .input-daterange-scheduled .endScheduledDate {
+  margin-left: 10px;
+}
 .report_generator_and_response div.create_scheduled_report .report-name-col input[type='text'] {
   border-color: #BFC9D7 ;
   padding-top: 7px;

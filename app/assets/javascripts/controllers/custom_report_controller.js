@@ -363,7 +363,9 @@ var angObj = angObj || {};
           }
 
           dataService.createScheduleReport($scope.reports).then(function(result) {
-
+            if(result.status_code == 200 ) {
+                $location.url('/reports/schedules');
+            }
           });
         };
 
