@@ -455,7 +455,8 @@ var angObj = angObj || {};
             var left_pos =  position.left - parentPos.left - target.width() -50 ;
             var top_pos =  position.top - parentPos.top - target.height() + 14;
 
-            elem.css( {position:"absolute", top:top_pos, left: left_pos});
+            //elem.css( {position:"absolute", top:top_pos, left: left_pos});
+            elem.css( {position:"absolute", top:"17px", left:"689px", width:"242px"});
         }
 
         $scope.resetSwitch = function() {
