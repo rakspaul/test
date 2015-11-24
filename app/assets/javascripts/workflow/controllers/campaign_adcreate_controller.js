@@ -83,6 +83,7 @@ var angObj = angObj || {};
         localStorage.removeItem('adPlatformCustomInputs');
         $scope.adData.budgetTypeLabel = 'Impressions';
         $scope.adData.budgetType = 'Impressions';
+        $scope.downloadingTracker=false;
         //localStorage.setItem("trackingIntegration",false);
         //workflowService.setTrackingPlatform(false);
         $scope.adData.setSizes = constants.WF_NOT_SET;
@@ -704,7 +705,19 @@ var angObj = angObj || {};
             return freq_cap;
         }
        $scope.downloadTrackerUrls=function(){
-
+              $scope.CampaignADsave();
+              $scope.$watch('adId', function() {
+                    $scope.downloadingTracker=true;
+                  var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
+                  dataService.downloadFile(url).then(function (response) {
+                       if (response.status =="success") { console.log(response)
+                                $scope.downloadingTracker=false;
+                                saveAs(response.file,response.fileName)
+                       } else {
+                                $scope.downloadingTracker=false;
+                       }
+                   });
+               });
 
        }
 
