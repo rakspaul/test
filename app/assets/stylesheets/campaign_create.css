@@ -1804,7 +1804,7 @@
   background: #fff;
   left: 100%;
   width: 930px;
-  height: 1035px;
+  min-height: 1035px;
   top: 122px;
   display: none;
   -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
@@ -2667,6 +2667,12 @@
   float: left;
   width: 100%;
   height: 424px;
+  overflow: hidden;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap .segFixedWrap {
+  float: left;
+  width: 100%;
+  height: 100%;
   overflow: auto;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable {
