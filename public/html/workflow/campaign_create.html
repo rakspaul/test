@@ -92,8 +92,13 @@
                             </div>
                        </div>
                         <!--<a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a>-->
-                        <a href="#" class="btn btn-primary pull-right" role="button" ng-click="saveCampaign()">Save</a>
-                        <a href="/campaigns" class="btn btn-link pull-right" role="button">Cancel</a>
+                    <a href="#" class="btn btn-primary pull-right" role="button" ng-click="saveCampaign()">Save</a>
+						<div ng-hide="(mode!='edit')">
+                          <a ng-href="/campaign/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">Cancel</a>
+                        </div>
+                        <div ng-show="(mode!='edit')">
+                          <a href="/campaigns" class="btn btn-link pull-right" role="button">Cancel</a>
+                        </div>
                     </div>
                 </div>
 
