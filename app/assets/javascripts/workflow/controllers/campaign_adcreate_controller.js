@@ -710,7 +710,7 @@ var angObj = angObj || {};
                     $scope.downloadingTracker=true;
                   var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
                   dataService.downloadFile(url).then(function (response) {
-                       if (response.status =="success") { console.log(response)
+                       if (response.status =="success") { 
                                 $scope.downloadingTracker=false;
                                 saveAs(response.file,response.fileName)
                        } else {
