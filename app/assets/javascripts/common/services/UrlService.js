@@ -125,8 +125,9 @@
           return apiPaths.apiSerivicesUrl+'';
       }
 
-
-
+      this.downloadSchdRpt = function() {
+          return apiPaths.apiSerivicesUrl+'';
+      }
   }
 
   commonModule.service("urlService", ['apiPaths', 'constants', urlFactory]);

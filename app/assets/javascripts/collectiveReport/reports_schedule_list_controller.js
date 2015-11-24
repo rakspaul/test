@@ -2,6 +2,7 @@
 (function() {
     'use strict';
     collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel) {
+
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {descending:true};
@@ -13,7 +14,6 @@
                 //resetting the flag and message
                $scope.flashMessage = {'message':'','isErrorMsg':''};
             }, 3000);
-
         }
 
         var scheduleReportListSucc = function(schdReportList) {
@@ -27,7 +27,6 @@
         var scheduleReportListError = function() {
             console.log('error occured');
         }
-
         collectiveReportModel.getScheduleReportList(scheduleReportListSucc,scheduleReportListError);
 
 
