@@ -785,7 +785,228 @@
   }
 /*}*/
 
+.main_navigation_holder {
+  height: 66px;
+  background: #007ac9;
+  padding: 12px ;
+  position: relative;
+  .profile-photo-tab {
+    position: relative;
+    height: 50px;
+    width: 31px;
+    text-align: right;
+    margin-top: 4px ;
+  }
+  .profile-photo-tab.selected:after {
+    bottom: 0px ;
+    border: solid 6px #004478;
+    border-left: solid 8px transparent;
+    border-top: 0;
+    border-right: solid 8px transparent;
+  }
+  .user-photo {
+      border: solid 1px #fff;
+      padding: 8px 6px 2px 7px;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      font-size: 15px;
+      text-align: center;
+      display: inline-block;
+      cursor: pointer;
+  }
+  .help-link-tab {
+    font-size: 22px;
+    margin-right: 100px;
+    margin-top: 6px;
+  }
+  .main_nav_dropdown {
+    display: none;
+    position: absolute;
+    top: 66px;
+    left: 0px;
+    width: 100%;
+    min-height: 70px;
+    background-color: #004D86;
+    color: #fff;
+    font-size: 12px ;
+    z-index: 1004 ;
+    
+    .profile-data , .logout-option {
+      background: #004478 ;
+      height: 80px;
+      padding-top: 16px;
+      width: 20%;
+      padding-left: 5%;
+    }
+    .profile-data {
+      margin-right: 30px ;
+      .user-photo  {
+        display: inline-block;
+        font-size: 20px ;
+        margin-right: 10px;
+        cursor: default;
+        float: left;
+      }
+      .username {
+        margin-top: 5px;
+        display: inline-block;
+      }
+    }
+    .about_link {
+      margin-top: 40px ;
+      &:hover {
+        color : #84BCE4 ;
+      }
+    }
+    .logout-option {
+        text-align: center;
+        padding-right: 5%;
+        padding-left: 5%;
+        width: auto;
+        .logout-option-link {
+          cursor: pointer;
+          margin-top: 6px;
+          a {
+            text-decoration: none;
+          }
+        }
+    }
+  }
+  .dropdown-menu {
+    padding: 10px 0px ;
+    background: #026DB3;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border: 0;
+    top: 48px;
+    left: -100px ;
+    font-size: 12px ;
+    li {
+      padding: 5px 10px;
+      a {
+        color: #fff ;
+      }
+      &:hover {
+        color: #fff ;
+        background: rgba(255,255,255,0.1) ;
+        a {
+          color: #fff ;
+        }
+      }
+    }
+    &:before {
+      background: url("/assets/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom  ;
+      content: "";
+      display: block;
+      height: 10px;
+      width: 20px;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+    }
+  }
+  .main_nav {
+    width: 1200px;
+    margin: 0 auto;
+    color: #fff ;
+    .main_logo {
+      display: block;
+      background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat left top  ;
+      width: 91px;
+      height: 40px;
+      margin-right: 70px;
+    }
+    .profile_menu {
+      height: 30px ;
+      width: 70px ;
+      margin : 5px 0 0 40px ; 
+      cursor: default;
+      .profile_account_icon {
+        background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px  ;
+        height: 30px ;
+        width: 30px ;
+        &:hover {
+          background-position : -345px -266px ;
+        }
+      }
+      .dropdown-menu {
+        z-index: 1001 ;
+        top: 47px ;
+        max-width: 150px;
+        border: 0;
+        margin-top: 2px;
+        li {
+          a{
+            padding-left:  6px ;
+            padding-right: 0px ;
+            word-wrap: break-word;
+            font-family: "Avenir" ;
+            cursor: default;
+            white-space: normal;
+          }
+          .logout_link {
+            color: #fff ;
+            padding-top: 0;
+            cursor: pointer;
+          }
+        }
+        .about_link {
+          a {
+            cursor: pointer;
+          }
+        }
+      }
+      .dropdown-menu:before {
+          left : 65% ;
+      }
+    }
+    .main_navigation {
+      margin: 11px 0 0 0px;
+      font-family: "Avenir";
+      font-size: 14px;
+      .dropdown-menu  {
+        top : 54px ;
+      }
+      .each_nav_link {
+        margin: 0 30px  ;
+        > a {
+          text-decoration: none;
+          color: #84bce4 ;
+        }
+        a:hover  {
+          color: #fff ;
+        }
+      }
+      #reports_nav_link {
+        position: relative;
+        height: 43px ;
+        a {
+          position: relative;
+          z-index: 1003 ;
+        }
+      }
+      #reports_nav_link:hover {
+        a {
+          color: #fff !important ;
+        }
+        .reports_header_tabs_holder {
+          display: block;
+        }
+      }
+      .active {
+        a {
+          color: #fff ;
+        }
+      }
+    }
+    a {
+      color: #fff ;
+    }
 
+  }
+}
 
   .nav_filters_heading {
     color: #939eaf ;
@@ -964,20 +1185,23 @@
 	      display: block;
 	      padding: 16px 0px 0px 0px;
 	      cursor: pointer;
-	      margin: 24px 78px 0 0 ;
-	      .icon {
+	      margin: 24px 88px 0 0 ;
+	      .icon-report-builder {
 	        float: left;
 	        display: inline-block;
-	        background: url("/assets/images/cdesk/report-builder-icon.png") no-repeat left top;
-	        margin: 0 4px 0 0px;
-	        height: 20px;
-	        width: 22px;
+          color: #fff ;
+	        margin: 0 10px 0 0px;
+          font-size: 18px ;
 	      }
 	      .icon_txt {
 	        float: left;
+          margin-top: 1px;
 	      }
         &:hover {
           color: #84BCE4 ;
+          .icon-report-builder {
+            color: #84BCE4 ; 
+          }
         }
 	    }
 
