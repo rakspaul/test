@@ -93,6 +93,7 @@ var angObj = angObj || {};
                             postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.toUpperCase();
                             postCrDataObj.creativeType = "JS";
                             postCrDataObj.sslEnable = "true";
+                            postCrDataObj.isTracking = "true";
                             $scope.CrDataObj=postCrDataObj
                             console.log(postCrDataObj);
                             $scope.saveDuplicate();
