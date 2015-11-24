@@ -9,9 +9,9 @@
         <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;">Create New</button>
         <div class="pull-left">
             <div>
-                <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button>
+                <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length>0)" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button>
             </div>
-            <span class="download-report-load-icon" >{{textConstants.DOWNLOADING}} </span>
+            <span ng-show="{{downloadingTracker}}" class="download-report-load-icon" >{{textConstants.DOWNLOADING}} </span>
         </div>
     </div>
 </div>
