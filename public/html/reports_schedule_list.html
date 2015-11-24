@@ -58,15 +58,15 @@
 
     
     <div class="table-body">
-      <div class="row unread" ng-repeat="srlist in schdReportList track by $index">
-        <div class="clearfix">
+      <div class="row "  ng-repeat="srlist in schdReportList track by $index">
+        <div class="clearfix" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
           <div class="col-md-4 table-td name-col" ng-class="{'no-instance':srlist.instances.length <= 1}" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.instances.length > 1"> ({{srlist.instances.length-1}})</span></div>
           <div class="col-md-1 table-td frequency-col">{{srlist.frequency}}</div>
-          <div class="col-md-2 table-td">{{srlist.instances[0].completedOn}}</div>
+          <div class="col-md-2 table-td">{{srlist.instances[0].completedOn === undefined?"Pending Status":srlist.instances[0].completedOn}}</div>
           <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
           <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
           <div class="col-md-1 table-td more-options">
-            <div class="common_dropdown">
+            <div class="common_dropdown" ng-show="srlist.instances[0].completedOn !== undefined">
               <div class="dropdown">
                       <span data-toggle="dropdown">
                           <div class="option-horizontal">
@@ -74,7 +74,7 @@
                           </div>
                       </span>
                 <ul class="dropdown-menu">
-                  <li ng-click="downloadSchdReport(srlist.reportId)">Download</li>
+                  <li ng-click="downloadSchdReport(srlist.reportId,$index,0)">Download</li>
                   <li ng-click="editSchdReport(srlist.reportId)">Edit</li>
                   <li>Copy</li>
                   <li>Archive</li>
@@ -85,7 +85,7 @@
           </div>
         </div>
           <div class="inner-row" ng-if="srlist.instances.length > 1" >
-          <div class="row unread" ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index" ng-if="$index > 0">
+          <div class="row" ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index" ng-class="{downloaded:inst.viewedOn.length > 0}" ng-if="$index > 0">
             <div class="col-md-4 table-td name-col">{{srlist.name}}</div>
             <div class="col-md-1 table-td frequency-col">{{srlist.frequency}}</div>
             <div class="col-md-2 table-td">{{inst.completedOn}}</div>
@@ -101,7 +101,7 @@
                           </div>
                       </span>
                   <ul class="dropdown-menu">
-                    <li ng-click="downloadSchdReport(srlist.reportId)">Download</li>
+                    <li ng-click="downloadSchdReport(srlist.reportId,$parent.$parent.$index,$index)">Download {{$parent.$index}}</li>
                     <li ng-click="editSchdReport(srlist.reportId)">Edit</li>
                     <li>Copy</li>
                     <li>Archive</li>

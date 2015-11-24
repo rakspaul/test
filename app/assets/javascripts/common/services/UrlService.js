@@ -117,7 +117,8 @@
       }
 
       this.scheduleReportsList = function() {
-          return 'http://localhost:9000/assets/json/reportScheduleList.json';
+         // return 'http://localhost:9000/assets/json/reportScheduleList.json';
+          return apiPaths.apiSerivicesUrl+'/scheduledreports/listReports';
       }
 
       this.downloadSchdRpt = function() {

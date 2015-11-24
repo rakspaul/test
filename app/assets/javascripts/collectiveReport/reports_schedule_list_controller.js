@@ -3,7 +3,6 @@
     'use strict';
     collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel) {
         $scope.noOfSchldInstToShow = 3;
-
         $scope.scheduleInstCount = [];
         $scope.sort = {descending:true};
 
@@ -56,15 +55,18 @@
             $scope.sort.descending = !$scope.sort.descending;
         }
 
-        $scope.downloadSchdReport = function(reportId) {
-            console.log(reportId);
-            dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
+        $scope.downloadSchdReport = function(reportId,schRptListIndx,instancesIndx) {
+            console.log(reportId,schRptListIndx,instancesIndx);
+            $scope.flashMessage = {'message':'Downloaded Successfully','isErrorMsg':''};
+            $scope.timeoutReset();
+            $scope.schdReportList[schRptListIndx].instances[instancesIndx].viewedOn = momentService.reportDateFormat();
+            /*dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
                 if (response.status === "success") {
 
                 } else {
 
                 }
-            })
+            })*/
 
 
         }

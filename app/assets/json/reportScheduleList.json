@@ -1,14 +1,11 @@
 {
 
-  "reports" : [
+  "data" : [
     {
-      "reportId" : "ABC123",
-      "name" :"Report requested daily",
+      "reportId" : "DEF451",
+      "name" :"One not viewed",
       "frequency" : "Daily",
-      "instances" : [
-        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
-        {"completedOn":"Tue 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
-      ],
+      "instances" : [{}],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
     },
@@ -17,13 +14,13 @@
       "name" :"Report requested Weekly",
       "frequency" : "Weekly",
       "instances" : [
-        {"completedOn":"Tue 21 Oct 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Tue 21 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Wed 22 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Thu 23 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Fri 24 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Sat 25 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
-        {"completedOn":"Sun 26 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
-        {"completedOn":"Mon 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
+        {"completedOn":"Sun 26 Oct 2015 8:00AM GST"},
+        {"completedOn":"Mon 27 Oct 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
       "distributionList" : "jreim@collective.com"
@@ -44,7 +41,7 @@
       "name" :"schedule instance two hide view all",
       "frequency" : "Weekly",
       "instances" : [
-        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
+        {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Tue 27 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"}
       ],
       "createdBy" : "John Reim",
@@ -57,7 +54,7 @@
       "instances" : [
         {"completedOn":"Tue 3 Nov 2015 8:00AM GST", "viewedOn":""},
         {"completedOn":"Tue 4 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
-        {"completedOn":"Tue 5 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
+        {"completedOn":"Tue 5 Oct 2015 8:00AM GST", "viewedOn":""},
         {"completedOn":"Tue 6 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Tue 7 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
         {"completedOn":"Tue 8 Oct 2015 8:00AM GST", "viewedOn":"Thu 29 Nov 2015 8:00AM GST"},
