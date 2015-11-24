@@ -899,20 +899,23 @@
   display: block;
   padding: 16px 0px 0px 0px;
   cursor: pointer;
-  margin: 24px 78px 0 0 ;
+  margin: 24px 88px 0 0 ;
 }
-.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon {
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder {
   float: left;
   display: inline-block;
-  background: url("/assets/images/cdesk/report-builder-icon.png") no-repeat left top;
-  margin: 0 4px 0 0px;
-  height: 20px;
-  width: 22px;
+  color: #fff ;
+  margin: 0 10px 0 0px;
+  font-size: 18px ;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon_txt {
   float: left;
+  margin-top: 1px;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover {
+  color: #84BCE4 ;
+}
+.main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover .icon-report-builder {
   color: #84BCE4 ;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
