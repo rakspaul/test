@@ -90,7 +90,7 @@
                 <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
                     <label for="sel1" class="greyTxt">Size</label>
 
-		    <!--Abi version 1-->
+		    <!--Abi version 1 
 		    <div class="col-md-12 zeroPadding dropdown-workflow">
 			<div class="dropdown">
 			    <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -102,8 +102,34 @@
 			    </ul>
 			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
 			</div>
-		    </div>
-
+		    </div> -->
+		
+		    <div class="col-md-12 zeroPadding dropdown-workflow">
+			<div class="dropdown">
+			    <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
+				<span class="icon-arrow-down"></span>
+			    </button>
+			         <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">
+						<li class="searchBar">
+							<div class="input-group input-group-sm search-control">
+							<input type="text" class="col-md-12" ng-model="adData.creativeSize" placeholder="Search"/>
+							<div class="icon-search"></div>
+							</div>
+						</li>
+						 <span class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
+						<li>
+							<ul><li ng-repeat="creativePopSizes in creativePopularSizes | filter:adData.creativeSize"><a>{{creativePopSizes}}</a></li></ul>	      
+						</li>
+					    <span class="greyTxt" style="margin-left:15px">AVAILABLE SIZES</span>
+				         <li style="padding-left:15px;" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:adData.creativeSize track by creativeSize.id">
+							<a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a>
+						 </li>
+					 </ul>		
+			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
+			</div>
+		    </div> 
+	
 			<!--Abi new version 2-->
 			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
 			<!--	<div class="dropdown">-->
