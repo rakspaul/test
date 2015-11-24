@@ -163,6 +163,10 @@
                 })
             },
 
+            createScheduleReport :  function(data) {
+              return this.post(apiPaths.apiSerivicesUrl +'/scheduledreports/createReport', data, {'Content-Type': 'application/json'})
+            },
+
             append: function(url,paramsObj){
                 for(var property in paramsObj){
                     if(paramsObj.hasOwnProperty(property)&&paramsObj[property]!==''){

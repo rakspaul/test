@@ -18,12 +18,41 @@ var angObj = angObj || {};
         $scope.secondDimensionReportDataNotFound = {};
         $scope.metrics_text = 'Default';
         $scope.generateBtnDisabled = true;
+        $scope.reports = {};
+        $scope.reports.reportDefinition = {};
+        $scope.reports.schedule = {};
+        $scope.reports.reportDefinition.timeframe = {};
+        $scope.reports.reportDefinition.metrics = {};
+        $scope.reports.reportDefinition.filters = [];
+        $scope.reports.reportDefinition.dimensions = [];
+        $scope.scheduleReportActive= false;
+        $scope.flashMessage = {'message':'','isErrorMsg':0};
+
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
 
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetFlashMessage() ;
+            }, 3000);
+        }
+
+        $scope.msgtimeoutReset();
+
+        $scope.close_msg_box = function(event) {
+            var elem = $(event.target);
+            elem.closest(".top_message_box").hide() ;
+            $scope.resetFlashMessage() ;
+        };
+
+        $scope.resetFlashMessage = function(){
+            $scope.flashMessage.message = '' ;
+            $scope.flashMessage.isErrorMsg = 0 ;
+            $scope.flashMessage.isMsg = 0 ;
+        }
 
         _customctrl.getDimensionList =  function(data, selectedMetrics) {
             $scope.selectedDimension  = elem.text();
@@ -152,7 +181,11 @@ var angObj = angObj || {};
             var selectedElems = $(".each_measurable_col").find(".active");
             _.each(selectedElems, function(ele) {
                 var el = $(ele);
+                var relationIds = $(ele).attr("relationIds");
                 selectedItems.push({key:el.attr("id"), value:el.text()});
+                if(!$scope.reports.reportDefinition.metrics[relationIds])
+                  $scope.reports.reportDefinition.metrics[relationIds] = [];
+                  $scope.reports.reportDefinition.metrics[relationIds].push(el.attr("id"));
             });
             $scope.metrics_text = 'Custom ('+ selectedItems.length +')';
             $scope.selectedMetricsList = selectedItems;
@@ -295,9 +328,46 @@ var angObj = angObj || {};
             _customctrl.reset();
             _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
             _customctrl.getReportData();
-
-
         };
+
+        $scope.scheduleReport = function() {
+          if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
+            $scope.flashMessage.message = 'Please provide report name and frequency';
+            $scope.flashMessage.isErrorMsg = 1 ;
+            $scope.flashMessage.isMsg = 0;
+            $scope.msgtimeoutReset();
+            return false;
+          }
+          var customReportSectionElem = $(".each_section_custom_report.each_section_custom_report").find(".breakdown_div");
+          _.each(customReportSectionElem, function(ele) {
+            var customeReportFilterElem = $(ele).find('.custom_report_breakdown .dropdown_ul_text .dd_txt');
+            var reportFilterTextbox = $(ele).find('.filter_input_txtbox .reportFilter');
+
+            var dimension = customeReportFilterElem.attr("id");
+            var values = reportFilterTextbox.val().split(" ");
+            var type = reportFilterTextbox.attr("data-reportType") || 'Additional';
+            $scope.reports.reportDefinition.dimensions.push({"dimension" : $.trim(dimension), "type" : type});
+            $scope.reports.reportDefinition.filters.push({"dimension" : $.trim(dimension), "type" : type, "values": values });
+          })
+
+          if(!$scope.reports.schedule.endDate) {
+            $scope.reports.schedule.endDate = '';
+          }
+
+          if(!$scope.reports.schedule.occurance) {
+            $scope.reports.schedule.occurance = '';
+          }
+
+          if(!$scope.reports.schedule.customOccuranceDate) {
+            $scope.reports.schedule.customOccuranceDate = '';
+          }
+
+          dataService.createScheduleReport($scope.reports).then(function(result) {
+
+          });
+        };
+
+
         $scope.enable_generate_btn = function() {
             if(_customctrl.enableGenerateButton()) {
                 $scope.generateBtnDisabled = false;
@@ -458,8 +528,22 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.select_dropdown_option = function(event , arg ) {
 
+        $scope.select_dimension = function(event, dimension, type, pos) {
+          var elem = $(event.target);
+          elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+          elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
+          elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
+        }
+
+        $scope.select_additional_filters = function(event, dimension, type) {
+          var elem = $(event.target);
+          elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+          elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
+          elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
+        }
+
+        $scope.select_dropdown_option = function(event , arg ) {
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
@@ -468,43 +552,43 @@ var angObj = angObj || {};
                 var startDate,endDate;
 
                 switch(arg) {
-                    case 'yesterday':
+                    case 'Yesterday':
                         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
                         endDate   = moment().subtract(1, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'weekToDate':
+                    case 'Week to date':
                         startDate = moment().startOf('week').format('YYYY-MM-DD');
                         endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'last7Days':
+                    case 'Last 7 days':
                         startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
                         endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'lastWeek':
+                    case 'Last week':
                         startDate = moment().subtract(1,'week').startOf('week').format('YYYY-MM-DD');
                         endDate   = moment().subtract(1,'week').endOf('week').format('YYYY-MM-DD');
                         break;
-                    case 'monthToDate':
+                    case 'Month to date':
                         startDate = moment().format('YYYY-MM')+'-01';
                         endDate   = moment().format('YYYY-M-DD');
                         break;
-                    case 'lastMonth':
+                    case 'Last month':
                         startDate = moment().subtract(1,'months').endOf('month').format('YYYY-MM') + '-01';
                         endDate   = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');
                         break;
-                    case 'quarterToDate':
+                    case 'Quarter to date':
                         startDate = moment().startOf('quarter').format('YYYY-MM-DD');
                         endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'lastQuarter':
+                    case 'Last quarter':
                         startDate = moment().subtract(1,'quarter').startOf('quarter').format('YYYY-MM-DD');
                         endDate   = moment().subtract(1,'quarter').endOf('quarter').format('YYYY-MM-DD');
                         break;
-                    case 'yearToDate':
+                    case 'Year to date':
                         startDate = moment().format('YYYY')+'-01-01';
                         endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
-                    case 'customDates':
+                    case 'Custom dates':
                         startDate = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
                         break;
@@ -523,32 +607,36 @@ var angObj = angObj || {};
             endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             var startDate,endDate;
-            $('#startOn').datepicker('update', startDate);
-            $('#endOn').datepicker('update', endDate);
-            $('#deliverOn').datepicker('update', endDate);
-            
+
             if( arg ) {
+                arg = arg.toLowerCase();
                 $(".scheduling-options").hide() ;
                 $(".schedule-" + arg).show() ;
                 if(arg == "once" ) {
+                    $('#deliverOn').datepicker('update', endDate);
                     $(".schedule-date" ).hide() ;
                 } else {
+                    $('#deliverOn').datepicker('update', '');
                     $(".schedule-date" ).show() ;
+                    $('#startOn').datepicker('update', startDate);
+                    $('#startOn').datepicker('setStartDate', startDate);
+                    $('#endOn').datepicker('update', endDate);
                 }
             }
-           
-        };
-        $scope.select_schedule_occurs_option = function(event , arg ) {
 
+        };
+
+        $scope.select_schedule_occurs_option = function(event , arg ) {
+            arg = arg.toLowerCase();
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
-            
+
             if( arg == "custom") {
                 $(".schedule-occurs-custom").show() ;
             } else {
                 $(".schedule-occurs-custom").hide() ;
             }
-           
+
         };
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide() ;
@@ -563,6 +651,16 @@ var angObj = angObj || {};
             $route.reload();
         };
 
+        $scope.toggleSchedule = function(that) {
+          $scope.scheduleReportActive = $(that).prop('checked');
+          if( $(that).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
+              $(".default-schedule-col").show() ;
+          } else {
+              $(".each-col:not(#schedule-btn)").hide() ;
+          }
+          $scope.$apply();
+        };
+
         $(document).ready( function() {
             $('.input-daterange').datepicker({
                 format: "yyyy-mm-dd",
@@ -574,14 +672,8 @@ var angObj = angObj || {};
                 $("#date-selected-txt").text("Custom Dates");
             });
             $('#toggle').bootstrapToggle('off');
-            $('#toggle').change(function() {
-                if( $(this).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
-                    
-                    $(".default-schedule-col").show() ;
-                } else {
-                    
-                    $(".each-col:not(#schedule-btn)").hide() ;
-                }  
+            $('#toggle').change(function(event) {
+              $scope.toggleSchedule(this);
             });
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
