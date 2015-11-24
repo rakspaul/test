@@ -25,8 +25,21 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
             return response.data;
         });
     }
+
+    var getScheduleReportList = function(successFn,errorFn) {
+        var url = urlService.scheduleReportsList();
+        dataService.post(url).then(function(response){ console.log(response);
+           if(response.status == "error") {
+                  errorFn(response);
+           } else {
+                  successFn(response.data.data);
+           }
+        })
+    }
+
     return {
       reportList: getReportList,
-      deleteReport: deleteReport
+      deleteReport: deleteReport,
+      getScheduleReportList: getScheduleReportList
     }
 }]);

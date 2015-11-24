@@ -44,6 +44,9 @@
 .reports-scheduled-list .scheduled_list_table div.name-col {
   width: 405px ;
 }
+.reports-scheduled-list .scheduled_list_table .table-th.name-col {
+  cursor: text;
+}
 .reports-scheduled-list .scheduled_list_table div.frequency-col {
   width: 130px ;
   cursor: pointer;
@@ -56,7 +59,7 @@
 .reports-scheduled-list .scheduled_list_table .common-sort-icon {
   display: inline-block;
 }
-.reports-scheduled-list .scheduled_list_table .table-body .row.unread {
+.reports-scheduled-list .scheduled_list_table .table-body .downloaded {
   font-family: "Avenir-bold";
 }
 .reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {

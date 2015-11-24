@@ -116,8 +116,18 @@
           return url;
       }
 
+      this.scheduleReportsList = function() {
+         // return 'http://localhost:9000/assets/json/reportScheduleList.json';
+          return apiPaths.apiSerivicesUrl+'/scheduledreports/listReports';
+      }
 
+      this.downloadSchdRpt = function() {
+          return apiPaths.apiSerivicesUrl+'';
+      }
 
+      this.downloadSchdRpt = function() {
+          return apiPaths.apiSerivicesUrl+'';
+      }
   }
 
   commonModule.service("urlService", ['apiPaths', 'constants', urlFactory]);
