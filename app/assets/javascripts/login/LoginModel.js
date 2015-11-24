@@ -29,6 +29,14 @@
       }
       return constants.ROLE_MARKETER;
     },
+    
+    setClientId :  function(clientId) {
+        localStorage.setItem('clientId', clientId)
+    },
+
+    getClientId :  function() {
+        return localStorage.getItem('clientId');
+    },
 
     setUser : function(user) {
         data = user;

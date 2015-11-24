@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService, workflowService ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -18,6 +18,18 @@
                 $scope.selectedCampaign = response[0].campaign_id;
             });
         }
+        
+        workflowService.getClients().then(function(result) {
+            var defaultAdvertiserId = result.data.data[0].id ;
+            $scope.defaultAccountsName = result.data.data[0].name ;
+            $scope.accountsData = result.data.data ;
+            loginModel.setClientId(defaultAdvertiserId);
+        });
+
+        $scope.set_account_name = function(id,name) {
+            loginModel.setClientId(id) ;
+            $(".accountsList").find(".dd_txt").text(name) ;
+        };
 
         $scope.showProfileMenu = function() {
             $("#profileDropdown").toggle();
@@ -49,8 +61,8 @@
         } ;
 
         $scope.hide_nav_dropdown = function(event,arg) {
-          if(! (  ( $(".main_nav_dropdown").is(":hover") ) || ( $("#reports_nav_link").is(":hover") ) || $(".profile-photo-tab").is(":hover") ) ) {
-            $(".main_nav_dropdown").fadeOut() ;
+          if(! (  ( $(".main_nav_dropdown").is(":hover") ) || ( $("#reports_nav_link").is(":hover") ) || ( $(".profile-photo-tab").is(":hover") ) || ( $(".accountsList").is(":hover") )  ) ) {
+            $(".main_nav_dropdown").fadeOut("500") ;
             $(".nav-menu").hide() ;
             var elem = $(event.target);
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;

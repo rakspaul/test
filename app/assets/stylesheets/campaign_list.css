@@ -2491,7 +2491,10 @@ input[type="submit"] {
   padding-left: 5%;
 }
 .main_navigation_holder .main_nav_dropdown .profile-data {
+  min-width: 20% ;
+  width: auto  ;
   margin-right: 30px ;
+  padding-right: 20px ;
 }
 .main_navigation_holder .main_nav_dropdown .profile-data .user-photo {
   display: inline-block;
@@ -2501,8 +2504,34 @@ input[type="submit"] {
   float: left;
 }
 .main_navigation_holder .main_nav_dropdown .profile-data .username {
-  margin-top: 5px;
+  margin-top: 2px;
   display: inline-block;
+}
+.main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu {
+  max-height: 200px;
+  overflow: scroll;
+  top: 24px;
+  left: 0;
+  border: 0;
+  max-width: 100%;
+  min-width: 150px;
+}
+.main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu:before {
+  display: none ;
+}
+.main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text {
+  cursor: pointer;
+  margin: 4px 0 0 0;
+  display: inline-block;
+  min-width: 150px;
+}
+.main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text .glyphicon {
+  font-size: 8px;
+  margin-left: 3px;
+}
+.main_navigation_holder .main_nav_dropdown .accountsList li {
+  list-style: none;
+  cursor: pointer;
 }
 .main_navigation_holder .main_nav_dropdown .about_link {
   margin-top: 40px ;
