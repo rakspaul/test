@@ -2308,6 +2308,90 @@ button, i, input[type="submit"] {
   height: 66px;
   background: #007ac9;
   padding: 12px ;
+  position: relative;
+  .profile-photo-tab {
+    position: relative;
+    height: 50px;
+    width: 31px;
+    text-align: right;
+    margin-top: 4px ;
+  }
+  .profile-photo-tab.selected:after {
+    bottom: 0px ;
+    border: solid 6px #004478;
+    border-left: solid 8px transparent;
+    border-top: 0;
+    border-right: solid 8px transparent;
+  }
+  .user-photo {
+      border: solid 1px #fff;
+      padding: 8px 6px 2px 7px;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      font-size: 15px;
+      text-align: center;
+      display: inline-block;
+      cursor: pointer;
+  }
+  .help-link-tab {
+    font-size: 22px;
+    margin-right: 100px;
+    margin-top: 6px;
+  }
+  .main_nav_dropdown {
+    display: none;
+    position: absolute;
+    top: 66px;
+    left: 0px;
+    width: 100%;
+    min-height: 70px;
+    background-color: #004D86;
+    color: #fff;
+    font-size: 12px ;
+    z-index: 1004 ;
+    
+    .profile-data , .logout-option {
+      background: #004478 ;
+      height: 80px;
+      padding-top: 16px;
+      width: 20%;
+      padding-left: 5%;
+    }
+    .profile-data {
+      margin-right: 30px ;
+      .user-photo  {
+        display: inline-block;
+        font-size: 20px ;
+        margin-right: 10px;
+        cursor: default;
+        float: left;
+      }
+      .username {
+        margin-top: 5px;
+        display: inline-block;
+      }
+    }
+    .about_link {
+      margin-top: 40px ;
+      &:hover {
+        color : #84BCE4 ;
+      }
+    }
+    .logout-option {
+        text-align: center;
+        padding-right: 5%;
+        padding-left: 5%;
+        width: auto;
+        .logout-option-link {
+          cursor: pointer;
+          margin-top: 6px;
+          a {
+            text-decoration: none;
+          }
+        }
+    }
+  }
   .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
@@ -2343,7 +2427,7 @@ button, i, input[type="submit"] {
     }
   }
   .main_nav {
-    width: 1040px;
+    width: 1200px;
     margin: 0 auto;
     color: #fff ;
     .main_logo {
@@ -2398,8 +2482,7 @@ button, i, input[type="submit"] {
       }
     }
     .main_navigation {
-      text-transform: uppercase;
-      margin: 11px 0 0 25px;
+      margin: 11px 0 0 0px;
       font-family: "Avenir";
       font-size: 14px;
       .dropdown-menu  {
@@ -2417,7 +2500,7 @@ button, i, input[type="submit"] {
       }
       #reports_nav_link {
         position: relative;
-        height: 40px ;
+        height: 43px ;
         a {
           position: relative;
           z-index: 1003 ;

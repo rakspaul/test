@@ -2,77 +2,69 @@
   
   <div class="main_nav clearfix">
     <div class="pull-left">
-      <a href="javascript:void(0);" class="main_logo" id="logo"></a>
+      <a href="/dashboard" class="main_logo" id="logo" ng-if="!dashboard.isNetworkUser" style="cursor:pointer;"></a>
+      <a href="javascript:void(0);" class="main_logo" id="logo" ng-if="dashboard.isNetworkUser"></a>
     </div>
     <div class="pull-left main_navigation clearfix" >
-      <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser" >
-      <!--<div class="pull-left each_nav_link" id="dashboard_nav_link" ng-hide="isWorkFlowUser" ng-if="!dashboard.isNetworkUser" >-->
+      <!-- <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser" >
         <a href="/dashboard">{{textConstants.DASHBOARD}}</a>
-      </div>
+      </div> -->
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
-        <a href="/campaigns">{{textConstants.CAMPAIGNS}}</a>
+        <a href="/campaigns">{{textConstants.MEDIA_PLAN}}</a>
       </div>
       <!--<div class="pull-left each_nav_link" id="creative_nav_link" ng-show="isWorkFlowUser">-->
         <!--<a href="/creative/list">{{textConstants.CREATIVES}}</a>-->
       <!--</div>-->
-      <div class="pull-left each_nav_link" id="reports_nav_link">
+      <div class="pull-left each_nav_link" id="reports_nav_link" >
       <!--<div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">-->
-        <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')">{{textConstants.REPORTS}}</a>
-        <div class="reports_header_tabs_holder clearfix">
+        <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')" ng-mouseover="show_nav_dropdown($event,'reports');" ng-mouseleave="hide_nav_dropdown($event,'reports');">{{textConstants.REPORTS}}</a>
+        
+      </div>
+    </div>
+    <div class="pull-right profile-photo-tab" id="user_nav_link">
+      <span class="user-photo"><span class="glyphicon glyphicon-user" ng-mouseover="show_nav_dropdown($event,'user');" ng-mouseleave="hide_nav_dropdown($event,'user');"></span></span>
+    </div>
+    <div class="pull-right help-link-tab" >
+      <a href="/help"><span class="glyphicon glyphicon-question-sign"></span></a>
+    </div>
+      
+      
+      
+    
+    
+    <div class="main_nav_dropdown" ng-mouseleave="hide_nav_dropdown($event,'user');">
+        <div class="nav-menu reports_header_tabs_holder clearfix" id="reports-menu">
               <report-tabs></report-tabs>
         </div>
-      </div>
-    </div>
-    <div class="pull-right profile_menu">
-      <div style="float:left;">
-        <a href="/help"><img src="/assets/images/cdesk/help_hdr.png" height="30" width="30"></a>
-      </div>
-      
-      <div style="float:right;" class="dropdown dropdown-two">
-        <div class="dropdown-toggle profile_account_icon" id="profileItem" ng-click="showProfileMenu()"></div>
-        <ul class="dropdown-menu" role="menu" id="profileDropdown">
-          <li>
-            <a>
-              {{textConstants.HELLO}}, {{user_name}}
-            </a>
-          </li>
-          <li class="about_link">
+        <div class="nav-menu" id="user-menu">
+          <div class="pull-left profile-data">
+              <span class="user-photo">
+                <span class="glyphicon glyphicon-user"></span>
+              </span>
+              <span class="username">{{user_name}}</span>
+          </div>
+          <!-- <div class="pull-left about_link">
              <a href="javascript:void(0);" data-toggle="modal" data-target=".myModal">
-               {{textConstants.ABOUT}}...
+               {{textConstants.ABOUT}}
              </a>
-          </li>
-          <li ng-click="logout()">
-            <a class="logout_link">
-              {{textConstants.LOGOUT}}
-            </a>
-          </li>
-        </ul>
-      </div>
-      
+          </div> -->
+          <div class="pull-right logout-option" >
+            <div ng-click="logout()" class="logout-option-link ">
+              <div>
+                <span class="glyphicon glyphicon-off"></span>
+              </div>
+              <div>
+                <a class="logout_link">
+                  {{textConstants.LOGOUT}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
-    
-    
     
     
     
   </div>
 </div>
-<!-- <div class="breadcrumb_nav_holder nav_filters">
-    <div class="clearfix page_filters">
-    
-        <div class="clearfix">
-          <div class="pull-right dropdown dropdown-two each_filter lifetime_filter">
-            <div class="nav_filters_heading">Timeframe</div>
-           
-            <div class="timeline_dd" ng-controller="TimePeriodController">
-              <timeperiod-drop-down></timeperiod-drop-down>
-            </div>
-          </div>
-          <div class="pull-left dropdown each_filter brands_filter {{brandData.cssClass}}" ng-controller="brandsController">
-            <brands-drop-down></brands-drop-down>
-            <div class="disabled_brand_list"></div>
-          </div>
-        </div>
-      </div>
-   
-</div> -->
+

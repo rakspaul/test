@@ -892,22 +892,24 @@
   height: 66px;
   background: #007ac9;
   padding: 12px ;
-  div.main_navigation {
+    #reports_nav_link.selected:after , .profile-photo-tab.selected:after  {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 35%;
+          height: 0;
+          width: 0;
+          border: solid 6px #004d86;
+          border-left: solid 8px transparent;
+          border-top: 0;
+          border-right: solid 8px transparent;
+    }
 	  div.reports_header_tabs_holder {
-	    display: none;
-	    position: absolute;
-	    top: 43px ;
-	    left: -20px ;
-	    font-family: "Avenir";
-	    font-size: 12px;
-	    background: #004D86 ;
-	    color: #fff;
-	    z-index: 1002;
-	    border-bottom: solid 1px #e5ecef ;
-	    margin-bottom: 40px;
-	    min-width: 200px;
+      width: 1200px ;
+      margin: 0 auto ;
+      padding: 15px 0 ;
 	    .header_tab_dd_subheading {
-	      padding-left: 20px ;
+	      padding-right: 20px ;
 	      opacity: 0.3 ;
 	      text-transform: none;
 	      font-size: 13px;
@@ -915,26 +917,30 @@
 	      cursor: default;
 	    }
 	    .reports_sub_menu_dd_holder {
-	      display: table ;
 	      .reports_sub_menu_dd {
-	        display: table-cell;
+	        float: left;
 	        padding: 16px 0 13px ;
-	        min-width: 200px ;
+	        min-width: 200px;
+          
 	      }
 	    }
+      .canned_container {
+          max-width: 650px;
+          margin-left: 10px;
+      }
 	    .custom_container {
-	      background-color: #004478 ;
+	      /*background-color: #004478 ;*/
 	      .header_tab_dropdown {
-	        padding: 1px 20px 1px 30px;
 	        .reports_list_link {
 	          padding: 5px 0;
 	        }
 	        .upload_icon {
 	          cursor: pointer;
-	          float: right;
-	          height: 28px ;
-	          width: 28px ;
-	          background: url("/assets/images/cdesk/upload-icon.png") no-repeat ;
+	          float: left;
+	          height: 16px;
+            width: 16px;
+            background: url("/assets/images/cdesk/upload-icon.png") no-repeat -7px -7px;
+            margin: 5px 0 0 10px;
 	        }
 	      }
 	    }
@@ -956,19 +962,9 @@
 	    }
 	    .new_report_generate_btn {
 	      display: block;
-	      padding: 17px 0px 0px 30px;
-	      color: #fff;
-	      font-size: 14px;
-	      text-transform: none;
+	      padding: 16px 0px 0px 0px;
 	      cursor: pointer;
-	      text-align: center;
-	      margin: 120px auto 0;
-	      border-top: 1px solid rgba(255,255,255,0.20);
-	      text-shadow: 0px 0px 0px transparent;
-	      transition : .  1s ;
-	      -webkit-transition : .1s ;
-	      -moz-transition  : .1s ;
-	      line-height: 16px;
+	      margin: 24px 78px 0 0 ;
 	      .icon {
 	        float: left;
 	        display: inline-block;
@@ -980,9 +976,15 @@
 	      .icon_txt {
 	        float: left;
 	      }
+        &:hover {
+          color: #84BCE4 ;
+        }
 	    }
+
 	    .header_tab_dropdown {
-	      padding: 5px 30px ;
+	      padding: 1px 20px 1px 0px;
+        float: left;
+        width: 162px;
 	      a {
 	        text-decoration: none;
 	        color: #fff;
@@ -1020,7 +1022,7 @@
 	      }
 	    }
 	  }
-	}
+	
    .dropdown-menu {
     padding: 10px 0px ;
     background: #026DB3;
@@ -1056,7 +1058,7 @@
     }
   }
   .main_nav {
-    width: 1040px;
+    width: 1200px;
     margin: 0 auto;
     color: #fff ;
     .main_logo {
@@ -1110,7 +1112,6 @@
       }
     }
     .main_navigation {
-      text-transform: uppercase;
       margin: 11px 0 0 25px;
       font-family: "Avenir";
       font-size: 14px;
@@ -1119,6 +1120,7 @@
       }
       .each_nav_link {
         margin: 0 30px  ;
+        height: 43px ;
         > a {
           text-decoration: none;
           color: #84bce4 ;
@@ -1127,9 +1129,10 @@
           color: #fff ;
         }
       }
+      
       #reports_nav_link {
         position: relative;
-        height: 40px ;
+        height: 43px ;
       }
       #reports_nav_link:hover {
         a {

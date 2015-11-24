@@ -39,7 +39,25 @@
 
             $location.url(url);
         };
+        $scope.show_nav_dropdown = function(event,arg) {
+          $(".main_nav_dropdown").fadeIn() ;
+          $(".nav-menu").hide() ;
+          $("#" + arg + "-menu").show();
+          var elem = $(event.target);
+          $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+          elem.closest("#"+ arg +"_nav_link").addClass("selected").addClass("active") ;
+        } ;
 
+        $scope.hide_nav_dropdown = function(event,arg) {
+          if(! (  ( $(".main_nav_dropdown").is(":hover") ) || ( $("#reports_nav_link").is(":hover") ) || $(".profile-photo-tab").is(":hover") ) ) {
+            $(".main_nav_dropdown").fadeOut() ;
+            $(".nav-menu").hide() ;
+            var elem = $(event.target);
+            $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+            $(".main_navigation_holder").find(".each_nav_link").removeClass("active") ;
+          }
+          
+        } ;
         $scope.logout = function() {
             loginModel.logout();
         };
