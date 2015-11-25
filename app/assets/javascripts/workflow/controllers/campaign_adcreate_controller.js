@@ -512,7 +512,7 @@ var angObj = angObj || {};
                      }
             },
 
-            saveAds: function (postDataObj) {console.log(postDataObj);
+            saveAds: function (postDataObj,isDownloadTrackerClicked) {console.log(postDataObj);
                         //console.log(window.location.href);
                         if(window.location.href.indexOf("adGroup")>-1)
                         {
@@ -533,15 +533,17 @@ var angObj = angObj || {};
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
                         $scope.updatedAt = responseData.updatedAt;
-                        $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS ;
-                        $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
-                        $scope.partialSaveAlertMessage.isMsg = 1;
-                        localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
-                        $scope.msgtimeoutReset() ;
-                        if ($scope.state && $scope.state.toLowerCase() === 'ready') {
-                            var url = '/campaign/' + result.data.data.campaignId + '/overview';
-                            $location.url(url);
-                            localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
+                        if(!isDownloadTrackerClicked){
+                            $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS ;
+                            $scope.partialSaveAlertMessage.isErrorMsg = 0 ;
+                            $scope.partialSaveAlertMessage.isMsg = 1;
+                            localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
+                            $scope.msgtimeoutReset() ;
+                            if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
+                                var url = '/campaign/' + result.data.data.campaignId + '/overview';
+                                $location.url(url);
+                                localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
+                            }
                         }
                     }
                     else{
@@ -705,7 +707,7 @@ var angObj = angObj || {};
             return freq_cap;
         }
        $scope.downloadTrackerUrls=function(){
-              $scope.CampaignADsave();
+              $scope.CampaignADsave(true);
               $scope.$watch('adId', function() {
                     $scope.downloadingTracker=true;
                   var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
@@ -723,7 +725,7 @@ var angObj = angObj || {};
 
 //        $(function () {
 //           $("#SaveAd").on('click', function () {
-                $scope.CampaignADsave=function(){
+                $scope.CampaignADsave=function(isDownloadTrackerClicked){
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));console.log(formData);
@@ -871,7 +873,7 @@ var angObj = angObj || {};
                            }
                          }
                      }
-                     campaignOverView.saveAds(postAdDataObj)
+                     campaignOverView.saveAds(postAdDataObj,isDownloadTrackerClicked)
                  }
                }
                }

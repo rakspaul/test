@@ -119,7 +119,7 @@
 						</li>
 						 <span class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
 						<li>
-							<ul><li ng-repeat="creativePopSizes in creativePopularSizes | filter:adData.creativeSize"><a>{{creativePopSizes}}</a></li></ul>	      
+							<ul><li ng-repeat="creativePopSizes in creativePopularSizes | filter:adData.creativeSize track by creativePopSizes.id"><a ng-click="dropBoxItemSelected(creativePopSizes, 'creativeSize')">{{creativePopSizes.size}}</a></li></ul>
 						</li>
 					    <span class="greyTxt" style="margin-left:15px">AVAILABLE SIZES</span>
 				         <li style="padding-left:15px;" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:adData.creativeSize track by creativeSize.id">
