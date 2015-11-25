@@ -31,12 +31,21 @@
     },
     
     setClientId :  function(clientId) {
-        localStorage.setItem('clientId', clientId)
+        localStorage.setItem('clientId', clientId);
     },
 
     getClientId :  function() {
-        return localStorage.getItem('clientId');
+        return localStorage.getItem('clientId') && JSON.parse(localStorage.getItem('clientId'));
     },
+
+    setClientData : function(data) {
+        localStorage.setItem('clientData', JSON.stringify(data));
+    },
+
+    getClientData : function() {
+        localStorage.getItem('clientData');
+    },
+
 
     setUser : function(user) {
         data = user;
@@ -180,7 +189,7 @@
     },
 
     forbidden : function() {
-      $location.url('/campaigns');
+      //$location.url('/campaigns');
     }
 
     } //return

@@ -39,7 +39,8 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
     };
 
     campaign.getCampaigns = function (brand, searchCriteria) {
-
+        console.log("brand", brand);
+        console.log("searchCriteria", searchCriteria);
         var url = urlService.APICampaignDropDownList(brand, searchCriteria);
         return dataService.fetch(dataService.append(url , searchCriteria)).then(function(response) {
 

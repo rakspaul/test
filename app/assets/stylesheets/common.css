@@ -625,7 +625,7 @@
 .nav_filters .each_filter .advertisers_filter {
   margin-right: 30px;
 }
-.nav_filters .each_filter #advertisersDropdownNew {
+.nav_filters .each_filter #advertisersDropdown {
   font-family: "Avenir";
   font-size: 14px;
   min-width: 50px;

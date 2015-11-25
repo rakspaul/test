@@ -2,30 +2,30 @@
     'use strict';
     advertiserModule.controller('AdvertiserListController', function ($scope, advertiserModel, utils, $rootScope, constants) {
 
-        $scope.$watch('selectedBrand.name', function (newName, oldName) {
+        $scope.$watch('selectedAdvertiser.name', function (newName, oldName) {
             if (newName === oldName) {
                 return;
             }
-            applyBrandFilter();
+            applyAdvertiserFilter();
         });
-        $scope.$watch('brandData.showAll', function (newBool, oldBool) {
+        $scope.$watch('advertiserData.showAll', function (newBool, oldBool) {
             if (newBool === oldBool || newBool === false) {
                 return;
             }
-            applyBrandFilter();
+            applyAdvertiserFilter();
         });
-        function applyBrandFilter() {
-            if ($scope.selectedBrand.name == undefined || $scope.selectedBrand.name.length < 1) {
-                $scope.isExcludedByBrandFilter = false;
+        function applyAdvertiserFilter() {
+            if ($scope.selectedAdvertiser.name == undefined || $scope.selectedAdvertiser.name.length < 1) {
+                $scope.isExcludedByAdvertiserFilter = false;
                 return;
             }
-            var filter = $scope.selectedBrand.name.toUpperCase();
-            var value = $scope.brand.name.toUpperCase();
-            if (value == constants.ALL_BRANDS.toUpperCase()) {
+            var filter = $scope.selectedAdvertiser.name.toUpperCase();
+            var value = $scope.advertiser.name.toUpperCase();
+            if (value == constants.ALL_ADVERTISERS.toUpperCase()) {
                 return;
             }
             var isSubString = (value.indexOf(filter) > -1);
-            $scope.isExcludedByBrandFilter = !isSubString && ($scope.brandData.showAll === false);
+            $scope.isExcludedByAdvertiserFilter = !isSubString && ($scope.advertiserData.showAll === false);
         };
     });
 }());

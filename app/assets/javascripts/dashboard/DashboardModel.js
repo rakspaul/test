@@ -1,5 +1,5 @@
 
-dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'constants' ,'urlService','requestCanceller','dataService', function (brandsModel, timePeriodModel, constants,urlService,requestCanceller,dataService) {
+dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants' ,'urlService','requestCanceller','dataService', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants,urlService,requestCanceller,dataService) {
   var dashboardData = {selectedStatus: JSON.parse(localStorage.getItem('dashboardStatusFilter')) == null ? constants.DASHBOARD_STATUS_ALL :  JSON.parse(localStorage.getItem('dashboardStatusFilter'))};
   dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ACTIVE, constants.DASHBOARD_STATUS_COMPLETED,constants.DASHBOARD_STATUS_ALL];
   dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
@@ -15,7 +15,10 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
   };
 
    var getCampaingsCount =  function () {
-        var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id, dashboardData.selectedStatus);
+       var clientId = loginModel.getClientId();
+       var advertiserId = advertiserModel.getSelectedAdvertiser();
+       var brandId = brandsModel.getSelectedBrand().id;
+        var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardData.selectedStatus);
         var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);
 
        return dataService.fetchCancelable(url, canceller, function(response) {

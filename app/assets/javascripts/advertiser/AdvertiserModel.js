@@ -1,83 +1,61 @@
 //Data Manipulation in model
 //advertiserModule.factory("advertiserModel", ['advertiserService', 'constants', function (advertiserService, constants) {
-brandsModule.factory("advertiserModel", ['advertiserService', 'constants', function (brandsService, constants, advertiserService) {
-    //alert(advertiserService);
-    var brand = {};
-    brand.allBrandObject = {id: -1, name: constants.ALL_ADVERTISERS};
-    brand.selectedBrand = brand.allBrandObject;
-    brand.showList = false;
-    brand.styleDisplay = "block";
-    brand.showAll = true;
-    brand.enable = true;
-    brand.cssClass = "";
-    var advertiserId;
-    var brands = [brand.allBrandObject];
+brandsModule.factory("advertiserModel", ['advertiserService', 'constants', 'workflowService', function (advertiserService, constants, workflowService) {
+    var advertiser = {};
+    advertiser.allAdvertiserObject = {id: -1, name: constants.ALL_ADVERTISERS};
+    advertiser.selectedBrand = advertiser.allAdvertiserObject;
+    advertiser.showList = false;
+    advertiser.styleDisplay = "block";
+    advertiser.showAll = true;
+    advertiser.enable = true;
+    advertiser.cssClass = "";
+    var advertisers = [advertiser.allAdvertiserObject];
     return {
-
-        getAdvertisers: function (success,searchCritera,search,newAdvertiserID) {
-
-            brandsService.fetchAdvertisers(searchCritera,newAdvertiserID).then(function (response) {
-                //alert(success);
-                //Note: Here search represents, only matching entries list.
+        getAdvertisers: function (success, searchCritera, search) {
+            advertiserService.fetchAdvertisers(searchCritera).then(function (response) {
                 var resData = response.data.data;
                 if(search){
-                    brands = [];
-                    brands.push(brand.allBrandObject);
+                    advertisers = [];
+                    advertisers.push(advertiser.allAdvertiserObject);
                 }
-                brands = brands.concat(resData);
-                brand.totalBrands = brands.length;
-                success.call(this, brands);
-            })/*;
-                brandsService.fetchBrands(searchCritera).then(function (response) {
-                    //alert(success);
-                    //Note: Here search represents, only matching entries list.
-                    var resData = response.data.data;
-                    if(search){
-                        brands = [];
-                        brands.push(brand.allBrandObject);
-                    }
-                    brands = brands.concat(resData);
-                    brand.totalBrands = brands.length;
-                    success.call(this, brands);
-                })*/
+                advertisers = advertisers.concat(resData);
+                advertiser.totalAdvertisers = advertisers.length;
+                success.call(this, advertisers);
+            })
         },
-        /* Remove and put in adver controller*/
-        /* Remove and put in adver controller*/
-
-
-        setSelectedBrand: function (_brand) {
-            brand.selectedBrand = _brand;
-            localStorage.setItem('setFrmLocStore', JSON.stringify(_brand));
+        setSelectedAdvertisers: function (_advertiser) {
+            advertiser.selectedAdvertiser = _advertiser;
+            localStorage.setItem('setAdvertiser', JSON.stringify(_advertiser));
         },
-        getSelectedBrand: function() {
-            var fromLocStore = JSON.parse(localStorage.getItem('setFrmLocStore'));
-            if(fromLocStore !== null){
-                brand.selectedBrand = fromLocStore;
+        getSelectedAdvertiser: function() {
+            var savedAdvertiser = JSON.parse(localStorage.getItem('setAdvertiser'));
+            if(savedAdvertiser !== null){
+                advertiser.selectedAdvertiser = savedAdvertiser;
+                return advertiser.selectedAdvertiser;
+            } else {
+                return advertiser.allAdvertiserObject;
             }
-            return brand.selectedBrand;
+
+
         },
-        getBrand: function() {
-            return brand;
+        getAdvertiser: function() {
+            return advertiser;
         },
-        getAllBrand: function() {
-            return brand.allBrandObject;
+        getAllAdvertiser: function() {
+            return advertiser.allAdvertiserObject;
         },
         disable: function() {
-            brand.enable = false;
-            brand.cssClass = "brands_filter_disabled";
+            advertiser.enable = false;
+            advertiser.cssClass = "brands_filter_disabled";
         },
         enable: function() {
-            brand.enable = true;
-            brand.cssClass = "";
+            advertiser.enable = true;
+            advertiser.cssClass = "";
         },
 
-        callBrandBroadcast :  function(brand,newBrandID) {// this is really advertiser ID
-            var adver ='foo';
-            advertiserId = newBrandID;
-            brandsService.preForBrandBroadcast(brand);
-
+        callAdvertiserBroadcast :  function(advertiser) {
+            advertiserService.preForAdvertiserBroadcast(advertiser);
         }
 
     };
-}])
-;
+}]);

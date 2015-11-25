@@ -37,8 +37,8 @@
       return this.APICampaignList(user_id, constants.PERIOD_LIFE_TIME, 1, 'start_date', constants.SORT_DESC, constants.ACTIVE_UNDERPERFORMING);
     };
 
-    this.APICampaignCountsSummary = function(timePeriod, brandId, status) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod  + '&campaignState='+ (status == undefined ? undefined : status.toLowerCase()) + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
+    this.APICampaignCountsSummary = function(timePeriod, clientId, advertiserId, brandId, status) {
+        var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?client_id=' + clientId +'&advertiser_id=' + advertiserId+ ((brandId > -1) ? ('&brands=' + brandId) : '')+'&date_filter=' + timePeriod  + '&campaignState='+ (status == undefined ? undefined : status.toLowerCase());
         return url;
     };
 
@@ -52,8 +52,8 @@
           return url ;
       };
 
-    this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, status ){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&campaignState='+ status.toLowerCase() ;
+    this.APICalendarWidgetForBrand = function(timePeriod, clientId, advertiserId, sortColumn, status ){
+        var url =  apiPaths.apiSerivicesUrl_NEW + '/brands/campaigns/meta?client_id=' + clientId+'&advertiser_id=' + advertiserId+'&topCount=5&sort_column='+ sortColumn +'&campaignState='+ status.toLowerCase() ;
        return url ;
     };
 

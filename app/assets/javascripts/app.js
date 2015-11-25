@@ -32,11 +32,11 @@ var angObj = '';
 
 
     angObj.config(function ($routeProvider, $httpProvider) {
-            $routeProvider.when('/login', {
-                templateUrl: assets.html_reports_login,
-                title : 'Login',
-                controller: 'LoginController'
-            })
+        $routeProvider.when('/login', {
+            templateUrl: assets.html_reports_login,
+            title : 'Login',
+            controller: 'LoginController'
+        })
             .when('/dashboard', {
                 templateUrl: assets.html_dashboard,
                 controller: 'DashboardController',
@@ -46,15 +46,13 @@ var angObj = '';
                     "check":function($location, loginModel){
                         var isWorkflowUser, isNetworkUser, locationPath;
                         isWorkflowUser = loginModel.getIsWorkflowUser();
-                        isNetworkUser = loginModel.getIsNetworkUser();
+                       // isNetworkUser = loginModel.getIsNetworkUser();
                         locationPath = $location.path();
-                        if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') { 
-                            //$location.url('campaigns'); 
+                        if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') {
+                            $location.url('campaigns');
                         }
-                       // workflowService.setMode('edit');
                         if(!isWorkflowUser){
-                            //alert('not workflow user');
-                            $location.path('/dashboard');
+                            $location.path('/');
                         }
                     }
                 }
@@ -147,7 +145,7 @@ var angObj = '';
                 title: 'Reports - Performance',
                 controller: 'PerformanceController'
             })
-            
+
             .when('/campaign/create', {
                 templateUrl: assets.html_campaign_create,
                 title: 'Create - Campaign',
@@ -322,10 +320,8 @@ var angObj = '';
                     $location.url(cookieRedirect);
                     $cookieStore.remove(constants.COOKIE_REDIRECT);
                 } else {
-                    /*setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard';
-                    alert(setDefaultPage);*/
-                    setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'dashboard' : 'dashboard';
-                     $location.url(setDefaultPage);
+                    setDefaultPage = 'dashboard';
+                    $location.url(setDefaultPage);
                 }
             }
         }
@@ -338,7 +334,6 @@ var angObj = '';
                 var isWorkflowUser = loginModel.getIsWorkflowUser();
                 var isNetworkUser = loginModel.getIsNetworkUser();
                 var authorizationKey = RoleBasedService.getUserRole().authorizationKey;
-                //alert(authorizationKey);
                 var locale = RoleBasedService.getUserRole().locale || 'en-us';
                 tmhDynamicLocale.set(locale)
                 $rootScope.$locale = 'locale';

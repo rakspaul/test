@@ -1,12 +1,15 @@
 (function () {
   "use strict";
-  var gauge = function (utils, urlService, timePeriodModel, dashboardModel, dataService, brandsModel, requestCanceller, constants) {
+  var gauge = function (utils, urlService, timePeriodModel, dashboardModel, dataService, loginModel, advertiserModel, brandsModel, requestCanceller, constants) {
     this.dashboard = {selectedFilter: ''};
     this.resetDashboardFilters = function() {
       this.dashboard.selectedFilter = '';
     }
     this.getGaugeData = function () {
-      var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id, dashboardModel.getData().selectedStatus );
+      var clientId = loginModel.getClientId();
+      var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+      var brandId = brandsModel.getSelectedBrand().id;
+      var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardModel.getData().selectedStatus );
       var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
       return dataService.fetchCancelable(url, canceller, function(response) {
         var active = response.data.data.active;
@@ -36,5 +39,5 @@
       })
     }
   }
-  commonModule.service('gaugeModel', ['utils', 'urlService', 'timePeriodModel', 'dashboardModel' , 'dataService', 'brandsModel', 'requestCanceller', 'constants', gauge]);
+  commonModule.service('gaugeModel', ['utils', 'urlService', 'timePeriodModel', 'dashboardModel' , 'dataService', 'loginModel', 'advertiserModel', 'brandsModel', 'requestCanceller', 'constants', gauge]);
 }());

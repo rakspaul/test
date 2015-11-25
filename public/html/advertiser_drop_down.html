@@ -1,27 +1,19 @@
-
 <div class="nav_filters_heading">Advertisers</div>
-<div class="brand_name_selected" id="brand_name_selected2" ng-click="brandsDropdownClicked2()" title="{{brandData.selectedBrand.name}}"  >
-
-    {{advertiserData.selectedBrand.name ? advertiserData.selectedBrand.name : 'All Advertisers'}}
-
+<div class="brand_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" title="{{brandData.selectedAdvertiser.name}}"  >
+    {{advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers'}}
 </div>
 <div class="clearfix">
-    <!--  <div class="pull-left brands_dd_icon"></div> -->
     <div class="brandsDropdownSearch">
-
         <ul class="dropdown-menu" role="menu" id="advertisersDropDownList">
             <div id="brandsDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="advertisersDropdownNew"
-                       placeholder="{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Advertisers'}}"  ng-keyup="disableShowAll();searchBrands()" ng-model="selectedBrand.name"/>
+                <input class="dropdown-toggle inactive"  id="advertisersDropdown"  ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
-            <div  class="brandsList_ul" id="brandsList_ul2" lr-infinite-scroll="loadMoreBrands" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">
-                <li ng-repeat="brandad in advertiser3 track by brandad.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brandad.id === brandData.selectedBrand.id}" >
-
-                    <a data-ng-click="selectBrand2(brandad,brandad.id)"><!-- send the brand ID from here-->
+            <div  class="advertisersList_ul">
+                <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name track by advertiser.id" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" >
+                    <a data-ng-click="selectAdvertiser(advertiser,advertiser.id)">
                         <span class="tick"></span>
-            <span class="menuItemText"
-                  >{{brandad.name}}{{brandad.id}}</span>
+                        <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)">{{advertiser.name}}</span>
                     </a>
                 </li>
             </div>
