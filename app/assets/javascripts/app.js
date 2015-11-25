@@ -9,6 +9,7 @@ var angObj = '';
             'campaignListModule',
             'editActionsModule',
             'brandsModule',
+            'advertiserModule',
             'campaignSelectModule',
             'strategySelectModule',
             'timePeriodModule',
@@ -48,10 +49,12 @@ var angObj = '';
                         isNetworkUser = loginModel.getIsNetworkUser();
                         locationPath = $location.path();
                         if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') { 
-                            $location.url('campaigns'); 
+                            //$location.url('campaigns'); 
                         }
+                       // workflowService.setMode('edit');
                         if(!isWorkflowUser){
-                            $location.path('/');
+                            //alert('not workflow user');
+                            $location.path('/dashboard');
                         }
                     }
                 }
@@ -60,9 +63,6 @@ var angObj = '';
                 templateUrl: function () {
                     var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
                     var htmlTpl = assets.html_campaign_list;
-                    // if (isWorkFlowUser) {
-                    //     htmlTpl = assets.html_workflow_campaign_list;
-                    // }
                     return htmlTpl;
                 },
                 title : 'Campaign List'
@@ -322,7 +322,9 @@ var angObj = '';
                     $location.url(cookieRedirect);
                     $cookieStore.remove(constants.COOKIE_REDIRECT);
                 } else {
-                    setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard';
+                    /*setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard';
+                    alert(setDefaultPage);*/
+                    setDefaultPage = (isNetworkUser || isWorkflowUser) ? 'dashboard' : 'dashboard';
                      $location.url(setDefaultPage);
                 }
             }
@@ -336,6 +338,7 @@ var angObj = '';
                 var isWorkflowUser = loginModel.getIsWorkflowUser();
                 var isNetworkUser = loginModel.getIsNetworkUser();
                 var authorizationKey = RoleBasedService.getUserRole().authorizationKey;
+                //alert(authorizationKey);
                 var locale = RoleBasedService.getUserRole().locale || 'en-us';
                 tmhDynamicLocale.set(locale)
                 $rootScope.$locale = 'locale';
