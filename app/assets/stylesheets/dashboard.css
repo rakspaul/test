@@ -51,6 +51,9 @@
 .main_dashboard .dropdown {
   cursor: default;
 }
+.main_dashboard .dropdown .dropdown_ul_text {
+  cursor: pointer;
+}
 .main_dashboard .dropdown .dropdown_ul {
   text-align: left;
   min-width: 86px;
@@ -439,6 +442,12 @@
 .main_dashboard .dashboard_screens_graph_holder .dashboard_perf_graph {
   max-height: 280px;
   position: static;
+}
+.main_dashboard .dashboard_budget_graph_holder #brands .node {
+  cursor: pointer;
+}
+.main_dashboard .dashboard_budget_graph_holder #campaigns .node {
+  cursor: default;
 }
 .main_dashboard #dashboard_metric_dd {
   margin-left: 10px;

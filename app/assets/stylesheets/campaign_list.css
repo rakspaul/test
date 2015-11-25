@@ -2608,6 +2608,7 @@ input[type="submit"] {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px;
   height: 30px ;
   width: 30px ;
+  cursor: pointer;
 }
 .main_navigation_holder .main_nav .profile_menu .profile_account_icon:hover {
   background-position: -345px -266px;
