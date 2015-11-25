@@ -1,7 +1,7 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel,momentService) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel,momentService,$location) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
@@ -71,7 +71,7 @@
         }
 
         $scope.editSchdReport = function(reportId) {
-
+            $location.path('/customreport/edit/'+reportId);
         }
     });
     }());
