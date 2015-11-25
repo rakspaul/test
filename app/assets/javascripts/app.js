@@ -118,6 +118,12 @@ var angObj = '';
                 controller: 'CustomReportController',
                 bodyclass : 'custom_report_page'
             })
+            .when('/customreport/edit/:reportId', {
+                    templateUrl: assets.html_custom_report,
+                    title: 'Report Builder',
+                    controller: 'CustomReportController',
+                    bodyclass : 'custom_report_page'
+                })
             .when('/reports/upload', {
                 templateUrl: assets.html_custom_report_upload,
                 title: 'Upload Custom Reports',

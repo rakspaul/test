@@ -66,7 +66,7 @@
           <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
           <div class="col-md-2 table-td">{{srlist.distributionList}}</div>
           <div class="col-md-1 table-td more-options">
-            <div class="common_dropdown" ng-show="srlist.instances[0].completedOn !== undefined">
+            <div class="common_dropdown">
               <div class="dropdown">
                       <span data-toggle="dropdown">
                           <div class="option-horizontal">
@@ -74,7 +74,7 @@
                           </div>
                       </span>
                 <ul class="dropdown-menu">
-                  <li ng-click="downloadSchdReport(srlist.reportId,$index,0)">Download</li>
+                  <li ng-show="srlist.instances[0].completedOn !== undefined" ng-click="downloadSchdReport(srlist.reportId,$index,0)">Download</li>
                   <li ng-click="editSchdReport(srlist.reportId)">Edit</li>
                   <li>Copy</li>
                   <li>Archive</li>

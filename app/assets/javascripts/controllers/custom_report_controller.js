@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout) {
+    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService) {
 
         $scope.textConstants = constants;
         var _customctrl = this;
@@ -29,6 +29,23 @@ var angObj = angObj || {};
         $scope.flashMessage = {'message':'','isErrorMsg':0};
 
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
+
+
+        if($routeParams.reportId) {
+            dataService.fetch(urlService.scheduledReport($routeParams.reportId)).then(function(response) {
+                console.log('Response: ',response);
+                if(response.status == 'success') {
+                     $scope.reports = response.data.data;
+                    $scope.scheduleReportActive = response.data.data.isScheduled;
+                    if(response.data.data.isScheduled) {
+                        $('#toggle').bootstrapToggle('on');
+                        $scope.reports.schedule = response.data.data.schedule;
+                        $scope.reports.schedule.frequency = "Once";
+                    }
+                }
+            })
+
+        }
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
@@ -362,8 +379,8 @@ var angObj = angObj || {};
             $scope.reports.schedule.customOccuranceDate = '';
           }
 
-          dataService.createScheduleReport($scope.reports).then(function(result) {
-            if(result.status_code == 200 ) {
+          dataService.createScheduleReport($scope.reports).then(function(result) { console.log(result);
+            if(result.data.status_code == 200 ) {
                 $location.url('/reports/schedules');
             }
           });
@@ -660,7 +677,7 @@ var angObj = angObj || {};
           } else {
               $(".each-col:not(#schedule-btn)").hide() ;
           }
-          $scope.$apply();
+         // $scope.$apply();
         };
 
         $(document).ready( function() {

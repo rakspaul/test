@@ -118,6 +118,7 @@
 
       this.scheduleReportsList = function() {
          // return 'http://localhost:9000/assets/json/reportScheduleList.json';
+          console.log(apiPaths.apiSerivicesUrl+'/scheduledreports/listReports');
           return apiPaths.apiSerivicesUrl+'/scheduledreports/listReports';
       }
 
@@ -127,6 +128,10 @@
 
       this.downloadSchdRpt = function() {
           return apiPaths.apiSerivicesUrl+'';
+      }
+
+      this.scheduledReport = function(reportId) {
+          return apiPaths.apiSerivicesUrl+'/scheduledreports/getReport/'+reportId;
       }
   }
 
