@@ -90,6 +90,7 @@
                     var cdbDropdownId = $("#cdbDropdown");
                     var brandsListId = $("#brandsList");
                     var profileDropdownId = $("#profileDropdown");
+                    var mainNavDropdown = $(".main_nav_dropdown");
                     var reportTypeDropdownId = $("#reportTypeDropdown");
                     var regionTooltip = $(".regionCityTab").find(".common_tooltip");
                     var quickFilters = $(".sliding_dropdown_container") ;
@@ -104,6 +105,11 @@
                   }
                   if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                       profileDropdownId.hide();
+                  }
+                  if(mainNavDropdown.is(':visible') && event.target.id != "reports_nav_link" && event.target.id != "user_nav_link" ) {
+                      mainNavDropdown.hide();
+                      $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                      
                   }
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
