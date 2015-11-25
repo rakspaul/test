@@ -18,7 +18,7 @@ var angObj = angObj || {};
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
         $scope.createAlertMessage = {'message':'','isErrorMsg':0};
-        $scope.creativePopularSizes = ['300x250', '160x600', '728x90', '300x600', '320x50' ];
+        $scope.creativePopularSizes = [{id:16, size:'300x250'}, {id:7,size:'160x600'}, {id:34,size:'728x90'}, {id:18,size:'300x600'}, {id:20,size:'320x50' }];
 
         
 
