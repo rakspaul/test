@@ -1,7 +1,7 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel,momentService) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
