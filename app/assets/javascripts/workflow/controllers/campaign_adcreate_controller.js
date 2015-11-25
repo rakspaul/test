@@ -710,15 +710,17 @@ var angObj = angObj || {};
               $scope.CampaignADsave(true);
               $scope.$watch('adId', function() {
                     $scope.downloadingTracker=true;
-                  var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
-                  dataService.downloadFile(url).then(function (response) {
-                       if (response.status =="success") { 
-                                $scope.downloadingTracker=false;
-                                saveAs(response.file,response.fileName)
-                       } else {
-                                $scope.downloadingTracker=false;
-                       }
-                   });
+                    if($scope.adId){
+                          var url= apiPaths.WORKFLOW_APIUrl+'/campaigns/'+$scope.campaignId+'/ads/'+$scope.adId+'/creatives?format=csv';
+                          dataService.downloadFile(url).then(function (response) {
+                               if (response.status =="success") {
+                                        $scope.downloadingTracker=false;
+                                        saveAs(response.file,response.fileName)
+                               } else {
+                                        $scope.downloadingTracker=false;
+                               }
+                           });
+                   }
                });
 
        }
