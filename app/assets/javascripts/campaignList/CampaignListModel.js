@@ -2,11 +2,11 @@
     campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$location', 'dataService', 'campaignListService', 'apiPaths',
         'modelTransformer', 'campaignCDBData', 'campaignCost',
         'dataStore', 'requestCanceller', 'constants',
-        'brandsModel', 'loginModel', 'analytics',
+        'brandsModel', 'loginModel', 'analytics','RoleBasedService',
         function($rootScope, $http, $location, dataService, campaignListService, apiPaths,
             modelTransformer, campaignCDBData, campaignCost,
             dataStore, requestCanceller, constants,
-            brandsModel, loginModel, analytics) {
+            brandsModel, loginModel, analytics, RoleBasedService) {
             //var scrollFlag = 1;
             var Campaigns = function() {
                 this.timePeriodList = buildTimePeriodList();
@@ -44,6 +44,7 @@
                 this.totalPages;
                 this.totalCount;
                 this.brandId = brandsModel.getSelectedBrand().id;
+                this.client_id=loginModel.getClientId();
                 this.dashboard = {
                     filterTotal: 1,
                     filterSelectAll: false,
@@ -559,21 +560,29 @@
                 }
 
                     _campaignServiceUrl = function(from) {
-                        var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
-                        var params = [
-                            'date_filter=' + this.timePeriod,
-                            'page=' + nextPageNumber,
-                            'callback=JSON_CALLBACK'
-                        ];
-                        this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
-                        this.sortParam && params.push('sort_column=' + this.sortParam);
-                        this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                        if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
-                            params.push('conditions=' + constants.ACTIVE_CONDITION);
-                        } else {
-                            params.push('conditions=' + this.appliedQuickFilter);
-                        }
-                        return apiPaths.apiSerivicesUrl + '/campaigns/bystate?' + params.join('&');
+                     //var isWorkFlow = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
+                     // console.log(RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser);
+                        //if(RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser){
+                          //  return apiPaths.WORKFLOW_APIUrl + '/campaigns';
+                        //}else{
+                            var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
+                            var params = [
+                                'date_filter=' + this.timePeriod,
+                                'page=' + nextPageNumber,
+                                'callback=JSON_CALLBACK'
+                            ];
+                            this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
+                            this.sortParam && params.push('sort_column=' + this.sortParam);
+                            this.sortDirection && params.push('sort_direction=' + this.sortDirection);
+                            this.client_id && params.push('client_id='+this.client_id);
+                            if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
+                                params.push('conditions=' + constants.ACTIVE_CONDITION);
+                            } else {
+                                params.push('conditions=' + this.appliedQuickFilter);
+                            }
+                            return apiPaths.apiSerivicesUrl_NEW + '/campaigns/bystate?' + params.join('&');
+                         //}
+
                     },
                     toggleSortDirection = function(dir) {
                         if (dir == 'asc') {

@@ -1431,6 +1431,7 @@ input[type="submit"] {
   height: 35px;
   line-height: 34px;
   font-size: 14px;
+  width : auto ;
 }
 .dashboard_outer_container .campaign_list_header .common_primary_btn a,
 .bodyWrap .campaign_list_header .common_primary_btn a {

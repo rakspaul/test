@@ -730,7 +730,7 @@ var angObj = angObj || {};
                 $scope.CampaignADsave=function(isDownloadTrackerClicked){
                 var formElem = $("#formAdCreate");
                 var formData = formElem.serializeArray();
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));console.log(formData);
+                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
                if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
                    return false;
                }
