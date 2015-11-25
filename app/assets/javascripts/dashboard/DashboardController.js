@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  dashboardModule.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel, campaignSelectModel ,loginModel, analytics) {
+  dashboardModule.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, advertiserModel, brandsModel, campaignSelectModel ,loginModel, analytics) {
     $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
     $scope.data = dashboardModel.getData();
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
@@ -11,13 +11,17 @@
       dashboardModel.setTitle();
     }
 
-    var selectBrand = function(brand) {
-      $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, brand);
+    //var selectBrand = function(brand) {
+    //  $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
+    //};
+
+    var selectAdvertiser = function(brand) {
+      $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
     };
 
     $scope.clickOnBrandButton = function (e) {
       analytics.track(loginModel.getUserRole(), 'dashboard_bubble_widget', 'close_campaign_view', loginModel.getLoginName());
-      selectBrand(brandsModel.getBrand().allBrandObject);
+      selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject);
     };
 
     $scope.statusDropdown = function(status) {
@@ -52,6 +56,7 @@
     updateTitle();
 
     var eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED , function() {
+        //alert('im the listener');
       dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
       updateTitle();
     });

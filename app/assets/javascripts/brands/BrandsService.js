@@ -1,17 +1,19 @@
 //Data fetching in service.
-brandsModule.service("brandsService", function ($rootScope, $http, dataService,  api, constants, apiPaths,_ ) {
+brandsModule.service("brandsService", function ($rootScope, $http, dataService,  api, constants, apiPaths,_, workflowService) {
     //default values
     var service = {};
 
     service.fetchBrands = function (searchCriteria) {
-        var url = apiPaths.apiSerivicesUrl + '/brands?' ;
+        /*var url = apiPaths.apiSerivicesUrl + '/brands?' ;
         if(!_.isNull(searchCriteria.key) && !_.isEmpty(searchCriteria.key))
-          url += "key="+searchCriteria.key+"&";
+            url += "key="+searchCriteria.key+"&";
         if(!_.isNull(searchCriteria.limit) && !isNaN(searchCriteria.limit))
-          url +=  "limit="+searchCriteria.limit+"&";
+            url +=  "limit="+searchCriteria.limit+"&";
         if(!_.isNull(searchCriteria.offset) && !isNaN(searchCriteria.offset))
-          url +=  "offset="+searchCriteria.offset;
-        return dataService.fetch(url);
+            url +=  "offset="+searchCriteria.offset;*/
+        var clientId = searchCriteria.clientId;
+        var advertiserId = searchCriteria.advertiserId;
+        return workflowService.getBrands(clientId, advertiserId);
     };
 
     service.preForBrandBroadcast = function(brand) {

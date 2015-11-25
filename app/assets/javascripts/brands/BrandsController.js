@@ -3,41 +3,24 @@
     brandsModule.controller('BrandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics) {
 
         var search = false;
-
         var searchCriteria = utils.typeaheadParams;
-
         $scope.textConstants = constants;
-
-
-        //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
-        $scope.exhausted = false;
-        //This prevents from making too many calls during immediate scroll down.
-        $scope.fetching = false;
 
         function resetSearch() {
             searchCriteria.limit = constants.DEFAULT_LIMIT_COUNT;
             searchCriteria.offset = constants.DEFAULT_OFFSET_START;
-            $scope.exhausted = false;
         }
 
         function fetchBrands(search) {
             brandsModel.getBrands(function (brandsData) {
-                //data manipulation was already done in brandsModel, so just need to attach data to scope here
-                if (brandsData.length < searchCriteria.limit)
-                    $scope.exhausted = true;
-                $scope.fetching = false;
                 $scope.brands = brandsData;
             }, searchCriteria, search);
         }
-
-        if (loginModel.getUserId() != undefined)
-            fetchBrands(searchCriteria, search);
 
         $scope.loadMoreBrands = function () {
             searchCriteria.offset += searchCriteria.limit;
             searchCriteria.key = $("#brandsDropdown").val();
             search = false;
-            $scope.fetching = true;
             fetchBrands(search);
         };
 
@@ -53,9 +36,6 @@
 
 
         $scope.brandsDropdownClicked = function () {
-/*            if (brandsModel.getBrand().enable === false) {
-                return;
-            }*/
             $("#brandsList").toggle();
             $("#cdbMenu").closest(".each_filter").removeClass("filter_dropdown_open");
             $("#brandsList").closest(".each_filter").toggleClass("filter_dropdown_open");
@@ -83,15 +63,28 @@
             return utils.highlightSearch(text, search);
         };
         $scope.brandData = brandsModel.getBrand();
+        
         $(function () {
             $("header").on('click', '#brandsDropdownDiv', function () {
                 $('.brandsList_ul').scrollTop($(this).offset().top - 20 + 'px')
             });
         });
 
+        $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, advertiser) {
+            console.log("advertiser", advertiser);
+            $scope.advertiser =  advertiser;
+            $scope.brandData.selectedBrand = {};
+            $scope.brandData.selectedBrand.name= '';
+            searchCriteria.clientId = loginModel.getClientId()
+            $scope.selectBrand(brandsModel.getBrand().allBrandObject);
+            searchCriteria.advertiserId = advertiser.id;
+            fetchBrands(searchCriteria, search);
+        });
+
         var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function (event, brand) {
             $scope.selectBrand(brand);
         });
+
 
         $scope.$on('$destroy', function () {
             eventBrandChangedFromDashBoard();

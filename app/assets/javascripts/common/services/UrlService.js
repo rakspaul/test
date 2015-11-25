@@ -28,7 +28,7 @@
 
     //TODO: need to remove user_id - @Gaurav/ @Richa needs to verify where this is used
     this.APICampaignList = function (user_id, date_filter, page, sort_column, sort_direction, conditions) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id=' + user_id + '&date_filter=' + date_filter + '&page=' + page +
+      var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/bystate?user_id=' + user_id + '&date_filter=' + date_filter + '&page=' + page +
         '&callback=JSON_CALLBACK&sort_column=' + sort_column + '&sort_direction=' + sort_direction + '&conditions=' + conditions;
       return url;
     };
@@ -37,8 +37,8 @@
       return this.APICampaignList(user_id, constants.PERIOD_LIFE_TIME, 1, 'start_date', constants.SORT_DESC, constants.ACTIVE_UNDERPERFORMING);
     };
 
-    this.APICampaignCountsSummary = function(timePeriod, brandId, status) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod  + '&campaignState='+ (status == undefined ? undefined : status.toLowerCase()) + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
+    this.APICampaignCountsSummary = function(timePeriod, clientId, advertiserId, brandId, status) {
+        var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?client_id=' + clientId +'&advertiser_id=' + advertiserId+ ((brandId > -1) ? ('&brands=' + brandId) : '')+'&date_filter=' + timePeriod  + '&campaignState='+ (status == undefined ? undefined : status.toLowerCase());
         return url;
     };
 
@@ -52,8 +52,8 @@
           return url ;
       };
 
-    this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, status ){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&campaignState='+ status.toLowerCase() ;
+    this.APICalendarWidgetForBrand = function(timePeriod, clientId, advertiserId, sortColumn, status ){
+        var url =  apiPaths.apiSerivicesUrl_NEW + '/brands/campaigns/meta?client_id=' + clientId+'&advertiser_id=' + advertiserId+'&topCount=5&sort_column='+ sortColumn +'&campaignState='+ status.toLowerCase() ;
        return url ;
     };
 

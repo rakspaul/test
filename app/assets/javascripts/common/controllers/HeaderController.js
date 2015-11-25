@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , domainReports , campaignSelectModel, RoleBasedService, workflowService ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -18,13 +18,17 @@
                 $scope.selectedCampaign = response[0].campaign_id;
             });
         }
-        
-        workflowService.getClients().then(function(result) {
-            var defaultAdvertiserId = result.data.data[0].id ;
-            $scope.defaultAccountsName = result.data.data[0].name ;
-            $scope.accountsData = result.data.data ;
-            loginModel.setClientId(defaultAdvertiserId);
-        });
+
+        if($cookieStore.get('cdesk_session')) {
+            loginModel.setClientId(2);
+            var defaultClientId;
+            workflowService.getClients().then(function (result) {
+                defaultClientId = result.data.data[0].id;
+                $scope.defaultAccountsName = result.data.data[0].name;
+                $scope.accountsData = result.data.data;
+                loginModel.setClientId(defaultClientId);
+            });
+        }
 
         $scope.set_account_name = function(id,name) {
             loginModel.setClientId(id) ;
@@ -89,6 +93,7 @@
             var closeMenuPopUs = function(event) {
                     var cdbDropdownId = $("#cdbDropdown");
                     var brandsListId = $("#brandsList");
+                    var advertisersDropDownList = $("#advertisersDropDownList");
                     var profileDropdownId = $("#profileDropdown");
                     var mainNavDropdown = $(".main_nav_dropdown");
                     var reportTypeDropdownId = $("#reportTypeDropdown");
@@ -103,6 +108,11 @@
                       brandsListId.closest(".each_filter").removeClass("filter_dropdown_open");
                       brandsListId.hide();
                   }
+                  if(advertisersDropDownList.is(':visible') && event.target.id != "advertiser_name_selected" && event.target.id != "advertisersDropdown"  ) {
+                      advertisersDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
+                      advertisersDropDownList.hide();
+                  }
+
                   if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                       profileDropdownId.hide();
                   }

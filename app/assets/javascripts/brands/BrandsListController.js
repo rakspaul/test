@@ -14,7 +14,7 @@
       applyBrandFilter();
     });
     function applyBrandFilter() {
-      if ($scope.selectedBrand.name == undefined || $scope.selectedBrand.name.length < 1) {
+      if ($scope.selectedBrand && ($scope.selectedBrand.name == undefined || $scope.selectedBrand.name.length < 1)) {
         $scope.isExcludedByBrandFilter = false;
         return;
       }

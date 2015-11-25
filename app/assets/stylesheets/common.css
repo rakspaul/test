@@ -622,6 +622,51 @@
   display: inline-block;
   height: 18px;
 }
+.nav_filters .each_filter .advertisers_filter {
+  margin-right: 30px;
+}
+.nav_filters .each_filter #advertisersDropdown {
+  font-family: "Avenir";
+  font-size: 14px;
+  min-width: 50px;
+  text-overflow: ellipsis;
+  width: 100%;
+  border: medium none;
+  cursor: pointer;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-size: 11pt;
+  height: 30px;
+}
+.nav_filters .each_filter #advertisersDropDownList {
+  width: 280px;
+  left: 0px ;
+  padding: 0 ;
+}
+.nav_filters .each_filter #advertisersDropDownList .brandsList_ul2 {
+  max-height: 200px;
+  overflow: auto ;
+}
+.nav_filters .each_filter #advertisersDropDownList .brand_search_highlight {
+  border-bottom: solid 1px #fff ;
+}
+.nav_filters .each_filter #advertisersDropDownList li {
+  padding: 0;
+}
+.nav_filters .each_filter #advertisersDropDownList li:hover {
+  background: #F5F9FD ;
+}
+.nav_filters .each_filter #advertisersDropDownList li.active {
+  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -535px 9px;
+}
+.nav_filters .each_filter #advertisersDropDownList li.active a {
+  font-family: "Avenir-bold";
+}
+.nav_filters .each_filter #advertisersDropDownList a {
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 6px 10px ;
+  display: block;
+}
 .nav_filters .each_filter #brandsList {
   width: 280px;
   left: 0px ;
