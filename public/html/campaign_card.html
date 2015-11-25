@@ -49,7 +49,7 @@
                 </div>
             </a> -->
            <a href="/campaign/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
-                <div class="campaign_btn actions_btn">
+                <div class="campaign_btn actions_btn" ng-show="$parent.isWorkFlowUser">
                     <span>{{ textConstants.MANAGE }}</span>
                 </div>
             </a>
