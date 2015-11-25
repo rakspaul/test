@@ -609,7 +609,6 @@ var angObj = angObj || {};
             endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             var startDate,endDate;
-            console.log(arg + "dhsjdgjsh")
             if( arg ) {
                 arg = arg.toLowerCase();
                 $(".scheduling-options").hide() ;
