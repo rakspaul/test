@@ -28,7 +28,7 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
 
     var getScheduleReportList = function(successFn,errorFn) {
         var url = urlService.scheduleReportsList();
-        dataService.post(url).then(function(response){ console.log(response);
+        dataService.fetch(url).then(function(response){ console.log(response);
            if(response.status == "error") {
                   errorFn(response);
            } else {
