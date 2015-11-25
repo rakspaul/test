@@ -609,13 +609,13 @@ var angObj = angObj || {};
             endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
             var startDate,endDate;
-
             if( arg ) {
                 arg = arg.toLowerCase();
                 $(".scheduling-options").hide() ;
                 $(".schedule-" + arg).show() ;
                 if(arg == "once" ) {
-                    $('#deliverOn').datepicker('update', endDate);
+                    $('#deliverOn').datepicker('update', startDate);
+                    $('#deliverOn').datepicker('setStartDate', startDate);
                     $(".schedule-date" ).hide() ;
                 } else {
                     $('#deliverOn').datepicker('update', '');
@@ -671,7 +671,7 @@ var angObj = angObj || {};
                 todayHighlight: true,
                 keyboardNavigation: false
             }).on('changeDate', function () {
-                $("#date-selected-txt").text("Custom Dates");
+                $(this).closest(".customDatesTimeframe").find("#date-selected-txt").text("Custom Dates");
             });
             $('#toggle').bootstrapToggle('off');
             $('#toggle').change(function(event) {
