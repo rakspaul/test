@@ -671,7 +671,7 @@ var angObj = angObj || {};
                 todayHighlight: true,
                 keyboardNavigation: false
             }).on('changeDate', function () {
-                $("#date-selected-txt").text("Custom Dates");
+                $(this).closest(".customDatesTimeframe").find("#date-selected-txt").text("Custom Dates");
             });
             $('#toggle').bootstrapToggle('off');
             $('#toggle').change(function(event) {
