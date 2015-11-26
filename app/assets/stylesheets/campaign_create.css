@@ -146,6 +146,27 @@
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .form-group {
   margin: 0;
 }
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost {
+  margin-top: 20px ;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .unitCostElement .currency,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .unitCostElement .currency {
+  top: 42px;
+  left: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .unitCostElement .currency ~ input,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .unitCostElement .currency ~ input {
+  padding-left: 20px ;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .percentageVal .currency,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .percentageVal .currency {
+  display: none;
+}
+#campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .percentageVal .currency ~ input,
+#campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .percentageVal .currency ~ input {
+  padding-left: 10px ;
+}
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .startTime,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime {
   color: #838383;
