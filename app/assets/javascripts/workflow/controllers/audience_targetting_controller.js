@@ -6,13 +6,20 @@ var angObj = angObj || {};
         $scope.sortOrder = '';
         $scope.audienceList = [];
         $scope.sourceList = [];
-        $scope.audienceKeywords = [{id:1,name:"shujan"},{id:2,name:"shujan1"},{id:3,name:"shujan2"}];
+        $scope.audienceKeywords = [];
         $scope.selectedKeywords = [];
+        $scope.selectedCategory = [];
         $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
             left: '0px'};
         $scope.keywordText = "";
-        $scope.audienceCategories = []
+        $scope.audienceCategories = [];
 
+        $(document).on('click','.dropdown-menu li span', function(event) {
+            $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+            $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+            event.stopPropagation();
+
+        });
 
         $scope.setSortColumn = function(col){
             if(col){
@@ -65,6 +72,7 @@ var angObj = angObj || {};
                     audienceService.setAudienceKeywords(result.data.data);
                     $scope.audienceKeywords = result.data.data;
                 }
+                //$scope.audienceKeywords = [{id:1,name:"shujan"},{id:2,name:"shujan1"},{id:3,name:"shujan2"}];
             },function(err){
 
             })
@@ -79,6 +87,53 @@ var angObj = angObj || {};
                     audienceService.setAudienceKeywords(result.data.data);
                     $scope.audienceCategories = result.data.data;
                 }
+
+                $scope.audienceCategories = [
+                    {
+                        "category": "Demographic",
+                        "subCategories": [
+                            {
+                                "id": 1,
+                                "subCategory": "Age"
+                            },
+                            {
+                                "id": 2,
+                                "subCategory": "Education"
+                            },
+                            {
+                                "id": 3,
+                                "subCategory": "Financial"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "Demographic1",
+                        "subCategories": [
+                            {
+                                "id": 4,
+                                "subCategory": "Age1"
+                            },
+                            {
+                                "id": 5,
+                                "subCategory": "Education1"
+                            },
+                            {
+                                "id": 6,
+                                "subCategory": "Financial1"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "empty category",
+                        "subCategories": [
+                            {
+                                "id": 7,
+                                "subCategory": null
+                            }
+
+                        ]
+                    }
+                ];
             },function(err){
 
             })
@@ -106,13 +161,12 @@ var angObj = angObj || {};
         }
 
         $scope.selectKeyword = function(keyword){
-            //console.log(event);
             $scope.dropdownCss.display = 'none';
             $scope.selectedKeywords.push(keyword);
             var index = _.findIndex($scope.audienceKeywords, function(item) {
                 return item.id == keyword.id});
             $scope.audienceKeywords.splice(index,1);
-            $scope.keywordText = "";
+            $('.keyword-txt').val('');
 
         }
 
@@ -127,7 +181,44 @@ var angObj = angObj || {};
         // end of source
 
         // category
+        $scope.selectCategories = function(categoryObj,type,parentObj){
+            //when category is selected
+            if(type == 'category'){
+                var index = _.findIndex($scope.audienceCategories, function(item) {
+                    return item.category == categoryObj.category});
 
+                for(var i = 0;i < $scope.audienceCategories[index].subCategories.length;i++){
+                    var subCategoryIndex = _.findIndex( $scope.selectedCategory, function(item) {
+                        return item.id == $scope.audienceCategories[index].subCategories[i].id});
+
+                    //if the category is not checked
+                    if(subCategoryIndex == -1){
+                        $scope.selectedCategory.push($scope.audienceCategories[index].subCategories[i]);
+                        $scope.audienceCategories[index].subCategories[i].isChecked = true;
+                    }
+                    else{
+                        $scope.selectedCategory.splice(subCategoryIndex,1);
+                        $scope.audienceCategories[index].subCategories[i].isChecked = false;
+                    }
+                }
+            }
+            else{
+                var subCategoryIndex = _.findIndex( $scope.selectedCategory, function(item) {
+                    return item.id == categoryObj.id});
+
+                //if the category is not checked
+                if(subCategoryIndex == -1){
+                    $scope.selectedCategory.push($scope.audienceCategories[index].subCategories[i]);
+                    categoryObj.isChecked = true;
+                }
+                else{
+                    $scope.selectedCategory.splice(subCategoryIndex,1);
+                    categoryObj.isChecked = false;
+                }
+
+            }
+            console.log($scope.selectedCategory);
+        }
         // end of category
 
 

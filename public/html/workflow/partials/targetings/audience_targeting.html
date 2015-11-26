@@ -6,7 +6,7 @@
 	<button class="pull-right btn btn-default">Save Audience</button>
     <button class="pull-right btn btn-link" ng-click="resetAudienceTargetingVariables();">Cancel</button>
 </div>
-keywordText --> {{keywordText}}
+
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
@@ -23,17 +23,17 @@ keywordText --> {{keywordText}}
                         <div class="col-md-12 zeroPadding multiDDL">
 							<span class="icon-search"></span>
 							<label class="col-md-12 greyTxt">Keyword</label>
-	                        <input type="text" class="col-md-12" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
 							<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
 							<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
 							<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
-							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.keyword}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
 							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
 
 								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
 									<a >
 										<span class="tick"></span>
-										<span class="menuItemText ng-binding" >{{keyword.name}}</span>
+										<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>
 									</a>
 								</li>
 
@@ -49,8 +49,8 @@ keywordText --> {{keywordText}}
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="sourceSeg">
-                                        <li><a><input type="checkbox">Source 1</a></li>
-                                        <li><a>Source 2</a></li>
+                                        <li ng-repeat="source in sourceList"><a><input type="checkbox">Source 1</a></li>
+                                        <!--<li><a>Source 2</a></li>-->
                                     </ul>
                                 </div>
                             </div>
@@ -64,26 +64,38 @@ keywordText --> {{keywordText}}
                                         <span class="text">All</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg">
+                                    <!--<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg">-->
+										<!--<li class="searchBar">-->
+											<!--<input type="text" class="col-md-12" placeholder="Search"/>-->
+											<!--<div class="icon-search"></div>-->
+										<!--</li>-->
+                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 1 (12)</a></li>-->
+                                        <!--<li>-->
+											<!--<a><input type="checkbox"><span class="icon-arrow-down-thick active"></span>Category 2 (504)</a>-->
+											<!--<ul>-->
+												<!--<li><a><input type="checkbox">Manny (20)</a></li>-->
+												<!--<li><a><input type="checkbox">Abi (484)</a></li>-->
+												<!--<li><a class="emptySeg"><input type="checkbox">Frodo (0)</a></li>-->
+											<!--</ul>-->
+										<!--</li>-->
+                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 3 (35)</a></li>-->
+                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 4 (54)</a></li>-->
+                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 5 (677)</a></li>-->
+                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 6 (43)</a></li>-->
+                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 7 (88)</a></li>-->
+                                    <!--</ul>-->
+									<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg">
 										<li class="searchBar">
 											<input type="text" class="col-md-12" placeholder="Search"/>
 											<div class="icon-search"></div>
 										</li>
-                                        <li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 1 (12)</a></li>
-                                        <li>
-											<a><input type="checkbox"><span class="icon-arrow-down-thick active"></span>Category 2 (504)</a>
-											<ul>
-												<li><a><input type="checkbox">Manny (20)</a></li>
-												<li><a><input type="checkbox">Abi (484)</a></li>
-												<li><a class="emptySeg"><input type="checkbox">Frodo (0)</a></li>
+										<li ng-repeat="category in audienceCategories"><span><input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')"><span class="icon-arrow-down-thick" ng-click="showSubCategory()"></span>{{category.category}} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})</span>
+											<ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" >
+												<li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory')" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
 											</ul>
 										</li>
-                                        <li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 3 (35)</a></li>
-                                        <li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 4 (54)</a></li>
-                                        <li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 5 (677)</a></li>
-                                        <li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 6 (43)</a></li>
-                                        <li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 7 (88)</a></li>
-                                    </ul>
+
+									</ul>
                                 </div>
                             </div>
                         </div>
