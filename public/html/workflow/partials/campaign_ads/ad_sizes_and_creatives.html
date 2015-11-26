@@ -23,7 +23,7 @@
                 <tr>
                     <th class="col-md-2">Size</th>
                     <th class="col-md-6">Tag Name</th>
-                    <th class="col-md-2">Tag Type</th>
+                    <th ng-if="!TrackingIntegrationsSelected" class="col-md-2">Tag Type</th>
                     <th class="col-md-1">SSL</th>
                     <th class="col-md-1"></th>
                 </tr>
@@ -47,7 +47,7 @@
                             <!--</div>-->
                         <!--</div>-->
                     </td>
-                    <td class="col-md-2">
+                    <td class="col-md-2" ng-if="!TrackingIntegrationsSelected">
                         <span>{{creativeData.creativeType}}</span>
                     </td>
                     <td class="col-md-1">
