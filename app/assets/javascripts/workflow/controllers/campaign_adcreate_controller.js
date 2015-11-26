@@ -725,162 +725,167 @@ var angObj = angObj || {};
 
        }
 
-//        $(function () {
-//           $("#SaveAd").on('click', function () {
-                $scope.CampaignADsave=function(isDownloadTrackerClicked){
-                var formElem = $("#formAdCreate");
-                var formData = formElem.serializeArray();
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
-               if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
-                   return false;
-               }
+        $scope.CampaignADsave=function(isDownloadTrackerClicked){
+            var formElem = $("#formAdCreate");
+            var formData = formElem.serializeArray();
+            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
+            if (formData.budgetAmount  && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
+            return false;
+            }
 
-               var customFieldErrorElem = $(".customFieldErrorMsg");
-               if(customFieldErrorElem.length >0) {
-                 $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
-                 $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                 $scope.partialSaveAlertMessage.isMsg = 1;
-                 $scope.msgtimeoutReset();
-                  //return false;
-               } else {
-                 var creativesData = $scope.creativeData['creativeInfo'];
-                  var postAdDataObj = {};
-                  postAdDataObj.name = formData.adName;
-                  postAdDataObj.campaignId = Number($scope.campaignId);
-                  //postAdDataObj.state = $scope.workflowData['campaignData'].status;
+            var customFieldErrorElem = $(".customFieldErrorMsg");
+            if(customFieldErrorElem.length >0) {
+            $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
+            $scope.partialSaveAlertMessage.isErrorMsg = 1;
+            $scope.partialSaveAlertMessage.isMsg = 1;
+            $scope.msgtimeoutReset();
+            //return false;
+            } else {
+            var creativesData = $scope.creativeData['creativeInfo'];
+            var postAdDataObj = {};
+            postAdDataObj.name = formData.adName;
+            postAdDataObj.campaignId = Number($scope.campaignId);
+            //postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
-                  if (formData.adFormat)
-                      postAdDataObj.adFormat = formData.adFormat.toUpperCase();
+            if (formData.adFormat)
+              postAdDataObj.adFormat = formData.adFormat.toUpperCase();
 
-                  if ($scope.editedAdSourceId)
-                     postAdDataObj.sourceId = $scope.editedAdSourceId;
+            if ($scope.editedAdSourceId)
+             postAdDataObj.sourceId = $scope.editedAdSourceId;
 
-                  if (formData.screens)
-                      postAdDataObj.screens = _.pluck(JSON.parse(formData.screens), 'id');
+            if (formData.screens)
+              postAdDataObj.screens = _.pluck(JSON.parse(formData.screens), 'id');
 
-                  if (formData.goal)
-                      postAdDataObj.goal = formData.goal;
+            if (formData.goal)
+              postAdDataObj.goal = formData.goal;
 
-                  if (formData.startTime)
-                      postAdDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');
+            if (formData.startTime)
+              postAdDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');
 
-                  if (formData.endTime)
-                      postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
+            if (formData.endTime)
+              postAdDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
 
-                 if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) && $scope.mode == 'edit' && $scope.isAdsPushed == true) {
-                     $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
-                     $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                     $scope.partialSaveAlertMessage.isMsg = 1;
-                     $scope.msgtimeoutReset();
+            if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) && $scope.mode == 'edit' && $scope.isAdsPushed == true) {
+             $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
+             $scope.partialSaveAlertMessage.isErrorMsg = 1;
+             $scope.partialSaveAlertMessage.isMsg = 1;
+             $scope.msgtimeoutReset();
 
-                 } else {
-                     if (formData.unitType && formData.unitCost) {
-                         postAdDataObj.rateType = formData.unitType
-                         postAdDataObj.rateValue = formData.unitCost;
-                     }
-
-                     if(getfreqCapParams(formData).length >0) {
-                         postAdDataObj.frequencyCaps = getfreqCapParams(formData);
-                     }
-
-                     if (formData.budgetType && formData.budgetAmount) {
-                         postAdDataObj.budgetType = formData.budgetType
-                         postAdDataObj.budgetValue = Number(formData.budgetAmount);
-                     }
-
-                     if (formData.platformId) {
-                         postAdDataObj.platformId = Number(formData.platformId);
-                         if($scope.TrackingIntegrationsSelected){
-                             postAdDataObj.isTracking=true;
-                         }
-                     }
-
-                     if(creativesData && creativesData.creatives) {
-                         _.each(creativesData.creatives,
-                             function(obj) { obj['sizeId'] = obj.size.id;
-                             });
-                         postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
-
-                     }
-                     if(!$scope.TrackingIntegrationsSelected){
-                         postAdDataObj['targets'] ={};
-                         if($scope.adData.geoTargetingData) {
-                             var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
-
-
-                             var buildGeoTargetingParams = function(data, type) {
-                                 var obj= {};
-                                 obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
-                                 obj['geoTargetList'] = _.pluck(data, 'id');
-                                 return obj;
-                             }
-
-                             var geoTargetData = $scope.adData.geoTargetingData;
-                             if (geoTargetData.regions.length > 0) {
-                                 postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
-                             }
-
-                             if (geoTargetData.cities.length > 0) {
-                                 postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
-                             }
-
-                             if (geoTargetData.dmas.length > 0) {
-                                 postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
-                             }
-
-                             if($scope.adData.geoTargetingData.zip.length > 0) {
-                                 var zipObj = $scope.adData.geoTargetingData.zip;
-                                 var zipPostArr = [];
-                                 _.each(zipObj, function(zipArr) {
-                                     if(zipArr.added) {
-                                         _.each(zipArr.added, function(obj) {
-                                             var arr = obj.split("-");
-                                             if(arr.length > 1) {
-                                                 var start = Number(arr[0]), end = Number(arr[1]);
-                                                 for(var i=start; i<=end;i++) {
-                                                     zipPostArr.push(String(i));
-                                                 }
-                                             } else {
-                                                 zipPostArr.push(arr[0]);
-                                             }
-                                         })
-                                     }
-                                 })
-                                 postGeoTargetObj['ZIPCODE'] = {
-                                     "isIncluded" :  true,
-                                     "geoTargetList" : zipPostArr
-
-                                 }
-                             }
-                         }
-                     }
-
-                     if($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
-                         var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
-                         domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
-                         postAdDataObj['domainInherit'] = 'APPEND';
-                         postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
-                     }
-                     if(!$scope.TrackingIntegrationsSelected){
-                         var customPlatformFormData = $("#customPlatformForm").serializeArray()
-                         if(customFieldErrorElem.length  === 0 && customPlatformFormData.length >1) {
-                           postAdDataObj['adPlatformCustomInputs'] = [];
-                           _.each(customPlatformFormData, function(data) {
-                                var d = data.name.split("$$");
-                                postAdDataObj['adPlatformCustomInputs'].push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
-                           })
-                         } else {
-                           if($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length >0) {
-                             postAdDataObj['adPlatformCustomInputs'] = $scope.workflowData['adsData'].adPlatformCustomInputs;
-                           }
-                         }
-                     }
-                     campaignOverView.saveAds(postAdDataObj,isDownloadTrackerClicked)
+            } else {
+                 if (formData.unitType && formData.unitCost) {
+                     postAdDataObj.rateType = formData.unitType
+                     postAdDataObj.rateValue = formData.unitCost;
                  }
-               }
-               }
-//            })
-//        })
+
+                 if(getfreqCapParams(formData).length >0) {
+                     postAdDataObj.frequencyCaps = getfreqCapParams(formData);
+                 }
+
+                 if (formData.budgetType && formData.budgetAmount) {
+                     postAdDataObj.budgetType = formData.budgetType
+                     postAdDataObj.budgetValue = Number(formData.budgetAmount);
+                 }
+
+                 if (formData.platformId) {
+                     postAdDataObj.platformId = Number(formData.platformId);
+                     if($scope.TrackingIntegrationsSelected){
+                         postAdDataObj.isTracking=true;
+                     }
+                 }
+
+                 if(creativesData && creativesData.creatives) {
+                     _.each(creativesData.creatives,
+                         function(obj) { obj['sizeId'] = obj.size.id;
+                         });
+                     postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
+
+                 }
+                 if(!$scope.TrackingIntegrationsSelected){
+                     postAdDataObj['targets'] ={};
+                     if($scope.adData.geoTargetingData) {
+                         var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
+
+
+                         var buildGeoTargetingParams = function(data, type) {
+                             var obj= {};
+                             obj['isIncluded'] = _.uniq(_.pluck(data, type+'Included'))[0];
+                             obj['geoTargetList'] = _.pluck(data, 'id');
+                             return obj;
+                         }
+
+                         var geoTargetData = $scope.adData.geoTargetingData;
+                         if (geoTargetData.regions.length > 0) {
+                             postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
+                         }
+
+                         if (geoTargetData.cities.length > 0) {
+                             postGeoTargetObj["CITY"] = buildGeoTargetingParams(geoTargetData.cities, 'cities');
+                         }
+
+                         if (geoTargetData.dmas.length > 0) {
+                             postGeoTargetObj["DMA"] = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
+                         }
+
+                         if($scope.adData.geoTargetingData.zip.length > 0) {
+                             var zipObj = $scope.adData.geoTargetingData.zip;
+                             var zipPostArr = [];
+                             _.each(zipObj, function(zipArr) {
+                                 if(zipArr.added) {
+                                     _.each(zipArr.added, function(obj) {
+                                         var arr = obj.split("-");
+                                         if(arr.length > 1) {
+                                             var start = Number(arr[0]), end = Number(arr[1]);
+                                             for(var i=start; i<=end;i++) {
+                                                 zipPostArr.push(String(i));
+                                             }
+                                         } else {
+                                             zipPostArr.push(arr[0]);
+                                         }
+                                     })
+                                 }
+                             })
+                             postGeoTargetObj['ZIPCODE'] = {
+                                 "isIncluded" :  true,
+                                 "geoTargetList" : zipPostArr
+
+                             }
+                         }
+                     }
+                 }
+
+                 if($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
+                     var domainTargetObj = postAdDataObj['targets']['domainTargets'] = {};
+                     domainTargetObj['inheritedList'] = {'ADVERTISER' : $scope.adData.inventory.domainListId};
+                     postAdDataObj['domainInherit'] = 'APPEND';
+                     postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
+                 }
+                 if(!$scope.TrackingIntegrationsSelected){
+                     if(!$.isEmptyObject($scope.postPlatformDataObj)) {
+                         postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
+                     }
+                 }
+                 campaignOverView.saveAds(postAdDataObj,isDownloadTrackerClicked)
+                }
+            }
+        }
+
+        $scope.saveCustomeFieldForPlatform = function() {
+            var customFieldErrorElem = $(".customFieldErrorMsg");
+            var customPlatformFormData = $("#customPlatformForm").serializeArray();
+            $scope.postPlatformDataObj = [];
+            if(customFieldErrorElem.length  === 0 && customPlatformFormData.length >1) {
+                _.each(customPlatformFormData, function(data) {
+                    var d = data.name.split("$$");
+                    $scope.postPlatformDataObj.push({'platformCustomInputId' : Number(d[1]) , 'value' : data.value});
+                })
+            } else {
+                if($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length >0) {
+                    $scope.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                }
+            }
+        };
+
+
         $scope.isPlatformSelected = false;
 
         $scope.changePlatform =  function(platformId) {
