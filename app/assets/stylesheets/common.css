@@ -578,6 +578,9 @@
   line-height: 20px;
   /*}*/
 }
+.nav_filters .advertisers_filter {
+  margin-right: 30px;
+}
 .nav_filters li.active {
   font-family: "Avenir-bold";
 }
@@ -621,9 +624,6 @@
 .nav_filters .each_filter .header_filter_arrow_dropdown {
   display: inline-block;
   height: 18px;
-}
-.nav_filters .each_filter .advertisers_filter {
-  margin-right: 30px;
 }
 .nav_filters .each_filter #advertisersDropdown {
   font-family: "Avenir";
