@@ -110,7 +110,6 @@
                   }
 
                   if(mainNavDropdown.is(':visible') && event.target.id != "reports_nav_link" && event.target.id != "user_nav_link" && ( $(event.target).closest("#profileAccountData").length == 0 )  ) {
-                    console.log("djsbdjh") ;
                       mainNavDropdown.hide();
                       $(".main_navigation_holder").find(".selected").removeClass("selected") ;
                   }
