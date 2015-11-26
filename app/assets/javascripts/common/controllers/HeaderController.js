@@ -29,6 +29,9 @@
         $scope.set_account_name = function(id,name) {
             loginModel.setClientId(id) ;
             $(".accountsList").find(".dd_txt").text(name) ;
+            $(".main_nav_dropdown").fadeIn() ;
+            $(".nav-menu").hide() ;
+            $("#user-menu").show();
         };
 
         $scope.showProfileMenu = function() {
@@ -57,7 +60,7 @@
           $("#" + arg + "-menu").show();
           var elem = $(event.target);
           $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-          elem.closest("#"+ arg +"_nav_link").addClass("selected").addClass("active") ;
+          elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
         } ;
 
         $scope.hide_nav_dropdown = function(event,arg) {
@@ -66,7 +69,6 @@
             $(".nav-menu").hide() ;
             var elem = $(event.target);
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-            $(".main_navigation_holder").find(".each_nav_link").removeClass("active") ;
           }
           
         } ;
@@ -106,10 +108,11 @@
                   if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
                       profileDropdownId.hide();
                   }
-                  if(mainNavDropdown.is(':visible') && event.target.id != "reports_nav_link" && event.target.id != "user_nav_link" ) {
+
+                  if(mainNavDropdown.is(':visible') && event.target.id != "reports_nav_link" && event.target.id != "user_nav_link" && ( $(event.target).closest("#profileAccountData").length == 0 )  ) {
+                    console.log("djsbdjh") ;
                       mainNavDropdown.hide();
                       $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-                      
                   }
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
