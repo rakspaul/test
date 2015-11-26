@@ -191,6 +191,35 @@
                                 <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">Please select a goal.</label>
                             </div>
                         </div>
+                         <div class="col-md-12 zeroPadding unitCost symbolAbs" style="display:none;">
+                            <div class="form-group col-md-2 " style="padding-left: 0;">
+                                <label class="col-sm-12 control-label greyTxt miniLabels">Primany KPI</label>
+                                <div  >
+                                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <span class="text">Select Type</span>
+                                                <span class="icon-arrow-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
+                                                <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id">
+                                                    <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
+                                                </li>
+                                            </ul>
+                                            <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3 zeroPadding unitCostElement percentageVal">
+                                <label class="col-sm-12 control-label greyTxt miniLabels">KPI Value</label>
+                                <div >
+                                    <span class="currency">$</span>
+                                    <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
+                                </div>
+                            </div>
+                            
+                        </div>
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
