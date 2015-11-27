@@ -35,6 +35,8 @@ var angObj = angObj || {};
         $scope.deleteCampaignFailed=false;
         $scope.numberOnlyPattern = /[^0-9]/g;
         $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
+        //$scope.UserObj=JSON.parse(localStorage.getItem("userRoleObj"));//$locale.NUMBER_FORMATS.CURRENCY_SYM;
+        $scope.hideKpiValue=false;
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -84,7 +86,12 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
                     $scope.selectedCampaign.endTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
+                    $scope.selectedCampaign.kpiValue= $scope.editCampaignData.kpiValue;
                     $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
+                    if($scope.editCampaignData.kpiType=="DELIVERY"){
+                        $scope.editCampaignData.kpiType="Delivery";
+                        $scope.hideKpiValue=true;
+                    }
                     $scope.initiateDatePicker();
                     createCampaign.fetchGoals();
                     $scope.mode ==='edit' &&  createCampaign.fetchBrands($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId);
@@ -110,6 +117,10 @@ var angObj = angObj || {};
                     }
                 }, createCampaign.errorHandler);
             },
+            Kpi:function(){
+                $scope.workflowData['Kpi']=[{id:1, name: 'None'},{id:1, name: 'CPA'},{id:2, name: 'CPC'},{id:3, name: 'CPM'},{id:4, name: 'CTR'},{id:5, name: 'Delivery'},{id:6, name: 'VTC'}];
+            },
+
 
             fetchAdvertisers: function (clientId) {
                 workflowService.getAdvertisers(clientId).then(function (result) {
@@ -179,6 +190,16 @@ var angObj = angObj || {};
                     break;
             }
         }
+        $scope.kpiSelected=function(kpi){
+            $scope.selectedCampaign.kpi = kpi.name;
+            if(kpi.name=='Delivery'||kpi.name=='None'){
+                $scope.selectedCampaign.kpiValue=0;
+                $scope.hideKpiValue=true;
+            }else{
+                $scope.selectedCampaign.kpiValue='';
+                $scope.hideKpiValue=false;
+            }
+        }
 
         $scope.handleFlightDate = function (data) {
             var startTime = data.startTime;
@@ -234,6 +255,10 @@ var angObj = angObj || {};
                 postDataObj.goal = formData.goal.toUpperCase();
                 postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
+                if(formData.kpiType!="None"){
+                    postDataObj.kpiType = (formData.kpiType).toUpperCase();
+                    postDataObj.kpiValue = formData.kpiValue;
+                }
 
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
@@ -250,12 +275,12 @@ var angObj = angObj || {};
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
                     postDataObj.campaignId = $routeParams.campaignId;
                     $scope.repushCampaignEdit = true;
-                    $scope.repushData = postDataObj; //console.log($scope.repushData);
+                    $scope.repushData = postDataObj; console.log($scope.repushData);
                 } else {
                     postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//console.log(postDataObj.startTime)
                     postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');//console.log(postDataObj.endTime)
                     postDataObj.clientId = Number(formData.clientId);
-                    postDataObj.advertiserId = Number(formData.advertiserId);
+                    postDataObj.advertiserId = Number(formData.advertiserId);console.log(postDataObj);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
                             $scope.sucessHandler(result);
@@ -348,6 +373,7 @@ var angObj = angObj || {};
 
 
             createCampaign.clients();
+            createCampaign.Kpi();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {

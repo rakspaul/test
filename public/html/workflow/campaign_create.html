@@ -191,32 +191,35 @@
                                 <label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">Please select a goal.</label>
                             </div>
                         </div>
-                         <div class="col-md-12 zeroPadding unitCost symbolAbs" style="display:none;">
-                            <div class="form-group col-md-2 " style="padding-left: 0;">
+                         <div class="col-md-12 zeroPadding unitCost symbolAbs">
+                            <div class="form-group col-md-2 " show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label class="col-sm-12 control-label greyTxt miniLabels">Primany KPI</label>
-                                <div  >
+                                <div>
                                     <div class="col-md-12 zeroPadding dropdown-workflow">
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                <span class="text">Select Type</span>
+                                                <span class="text">{{mode == 'edit' ? editCampaignData.kpiType : 'Select Type' }}</span>
                                                 <span class="icon-arrow-down"></span>
                                             </button>
-                                            <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
-                                                <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id">
-                                                    <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
+                                            <ul class="dropdown-menu" aria-labelledby="kpiType" id="kpiType">
+                                                <li ng-repeat="kpi in workflowData.Kpi">
+                                                    <a ng-click="kpiSelected(kpi)">{{kpi.name}}</a>
                                                 </li>
                                             </ul>
-                                            <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                                            <input type="hidden" name="kpiType" ng-model="selectedCampaign.kpi" ng-update-hidden required/>
                                         </div>
+                                        <label ng-if="createCampaignForm.kpiType.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the KPI type.</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3 zeroPadding unitCostElement percentageVal">
+                            <div ng-hide="hideKpiValue" class="form-group col-md-3 zeroPadding unitCostElement" ng-class=" percentageVal" show-errors='{showSuccess: true}'>
                                 <label class="col-sm-12 control-label greyTxt miniLabels">KPI Value</label>
-                                <div >
-                                    <span class="currency">$</span>
-                                    <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
+                                <div>
+                                    <!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+                                    <!--<span class="currency">£</span>-->
+                                    <input type="text" class="form-control" ng-model="selectedCampaign.kpiValue" fraction-numbers="fraction-numbers" name="kpiValue" ng-value="" ng-readonly="selectedCampaign.kpi=='Delivery' ? true:false" id="kpiValue" required>
                                 </div>
+                                <label ng-if="createCampaignForm.kpiValue.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter a value for KPI Type.</label>
                             </div>
                             
                         </div>
