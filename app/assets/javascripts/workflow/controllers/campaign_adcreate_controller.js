@@ -395,7 +395,7 @@ var angObj = angObj || {};
 
         function disablePauseEnableResume(getAd_resultData){
             $scope.disable_resume='disabled';//disable resume button
-            if(getAd_resultData.state=='IN_FLIGHT' || getAd_resultData.state=='SCHEDULED' || !(getAd_resultData.isTracking))//do not let Ad to pause if tracking : || (!getAd_resultData.is_tracking)
+            if((getAd_resultData.state=='IN_FLIGHT' || getAd_resultData.state=='SCHEDULED' )&& !(getAd_resultData.isTracking))//do not let Ad to pause if tracking 
                 $scope.disable_pause='';//enable pause button
             else
                 $scope.disable_pause='disabled';//disable pause button
