@@ -5,7 +5,8 @@
         </div>
         <div class="each_campaign_section">
             <div class="main_heading">
-                <a ng-href="/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
+                <a ng-if="!$parent.isWorkFlowUser" ng-href="/campaign/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
+                <a ng-if="$parent.isWorkFlowUser" ng-href="/campaign/{{campaign.orderId}}/overview">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
             </div>
         </div>
     </div>

@@ -173,7 +173,7 @@
     this.DAYS_LEFT = "Days Left";
     this.STARTED_TODAY = "Started today";
     this.ENDING_TODAY = "Ending today";
-    this.VIEW_REPORT = "View Report";
+    this.VIEW_REPORT = "View Reports";
     this.ACTIVITY = "Activity";
     this.MANAGE = "Manage";
     this.BUDGET_WITH_COLON = "Budget:";
