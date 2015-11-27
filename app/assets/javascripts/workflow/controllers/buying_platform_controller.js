@@ -60,6 +60,7 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
 
         $scope.setPlatform = function(event, platform){
             $scope.selectedPlatform = {};
+            workflowService.setPlatform(platform);
             //localStorage.setItem("trackingIntegration",false);
            // workflowService.setTrackingPlatform(false);
            if($scope.mode!='edit'){

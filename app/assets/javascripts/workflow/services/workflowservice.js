@@ -4,6 +4,7 @@
         var mode;
         var adDetails;
         var newCreative;
+        var platform;
 
         return {
             fetchCampaigns : function() {
@@ -201,6 +202,12 @@
             },
             getNewCreative: function(){
                 return newCreative;
+            },
+            setPlatform :  function(m) {
+                platform = m;
+            },
+            getPlatform: function(){
+                return platform;
             }
         };
 

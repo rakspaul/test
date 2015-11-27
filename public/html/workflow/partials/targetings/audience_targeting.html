@@ -64,7 +64,14 @@
                                             </span>
 
                                         </li>
-
+                                        <div class="clearfix category_dropdown">
+                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedSource()">
+                                                Clear All
+                                            </div>
+                                            <div class="pull-right btn  btn-default" ng-click="fetchAllAudience()">
+                                                Done
+                                            </div>
+                                        </div>
                                     </ul>
                                 </div>
                             </div>
@@ -78,6 +85,7 @@
                                         <span class="text">All</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
+
                                     <!--<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg">-->
 										<!--<li class="searchBar">-->
 											<!--<input type="text" class="col-md-12" placeholder="Search"/>-->
@@ -113,8 +121,17 @@
 												<li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
 											</ul>
 										</li>
+                                        <div class="clearfix category_dropdown">
+                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedCategory()">
+                                                Clear All
+                                            </div>
+                                            <div class="pull-right btn  btn-default" ng-click="fetchAllAudience()">
+                                                Done
 
+                                            </div>
+                                        </div>
 									</ul>
+
                                 </div>
                             </div>
                         </div>
@@ -130,64 +147,64 @@
 					<div class="col-md-12 segHeaderTable" style="margin-top: 0;">
 						<div class="columnOne">
 							<div class="checkbox">
-								<input type="checkbox" id="selectAll">
+								<input type="checkbox" ng-click="selectAllAudience()" ng-checked="selectAllChecked">
 							</div>
 						</div>
-						<div class="columnTwo" style="width: 47%;">
+						<div class="columnTwo">
 							<span>Segment Name</span>
 						</div>
-						<!--<div class="columnThree">-->
-						<!--	<span>Source</span>-->
-						<!--</div>-->
-						<!--<div class="columnFour">-->
-						<!--	<span>Category</span>-->
-						<!--</div>-->
-						<!--<div class="columnFive">-->
-						<!--	<span>Cost</span>-->
-						<!--</div>-->
-						<div class="columnSix" style="width: 47%;">
+						<div class="columnThree">
+							<span>Source</span>
+						</div>
+						<div class="columnFour">
+							<span>Category</span>
+						</div>
+						<div class="columnFive">
+							<span>Cost</span>
+						</div>
+						<div class="columnSix">
 							<span>Est. Pool Size</span>
 						</div>
 					</div>
 
 					<div class="segBodyWrap">
 						<div class="segFixedWrap">
-							<!--<div class="col-md-12 segBodyTable">-->
-							<!--	<div class="columnOne">-->
-							<!--		<div class="checkbox">-->
-							<!--			<input type="checkbox" id="selectAll">-->
-							<!--		</div>-->
-							<!--	</div>-->
-							<!--	<div class="columnTwo">-->
-							<!--		<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--	</div>-->
-							<!--	<div class="columnThree">-->
-							<!--		<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--	</div>-->
-							<!--	<div class="columnFour">-->
-							<!--		<span>Psycographic : Political</span>-->
-							<!--	</div>-->
-							<!--	<div class="columnFive">-->
-							<!--		<span>$9.99</span>-->
-							<!--	</div>-->
-							<!--	<div class="columnSix">-->
-							<!--		<span>1,999,999</span>-->
-							<!--	</div>-->
-							<!--</div>-->
-	
-							<div class="col-md-12 segBodyTable">
+							<div class="col-md-12 segBodyTable" ng-repeat="audience in audienceList">
 								<div class="columnOne">
 									<div class="checkbox">
-										<input type="checkbox" id="selectAll">
+										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo" style="width: 47%;">
-									<span>Psycographic : Politcal : Registered : Republican</span>
+								<div class="columnTwo">
+									<span>{{audience.name}}</span>
 								</div>
-								<div class="columnSix" style="width: 47%;">
-									<span>1,999,999</span>
+								<div class="columnThree">
+                                    {{audience.source}}
+								</div>
+								<div class="columnFour">
+									<span>{{audience.category}}</span>
+								</div>
+								<div class="columnFive">
+									<span>-</span>
+								</div>
+								<div class="columnSix">
+									<span>-</span>
 								</div>
 							</div>
+	
+							<!--<div class="col-md-12 segBodyTable">-->
+								<!--<div class="columnOne">-->
+									<!--<div class="checkbox">-->
+										<!--<input type="checkbox" id="selectAll">-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div class="columnTwo" style="width: 47%;">-->
+									<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+								<!--</div>-->
+								<!--<div class="columnSix" style="width: 47%;">-->
+									<!--<span>1,999,999</span>-->
+								<!--</div>-->
+							<!--</div>-->
 						</div>
 					</div>
 
@@ -196,71 +213,71 @@
 
 				<div class="setTwo">
 					<span class="pull-left">Selected Segments</span>
-					<a class="pull-right">Clear All</a>
+					<a class="pull-right" ng-click="clearAllSelectedAudience()">Clear All</a>
 
 					<div class="selectedItems">
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+                        <div class="segWrap" ng-repeat="aud in selectedAudience">
+                            <span>{{aud.name}}</span><div style="clear:both"></div>
+                            <span>{{aud.category}}</span><div style="clear:both"></div>
+                            <span>{{aud.source}}</span><div style="clear:both"></div>
+                            <div class="icon-clear" ng-click="selectAudience(aud)"></div>
+                        </div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 
-						<div class="segWrap">
-							<span>Psycographic : Politcal : Registered : Republican</span>
-							<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />
-							<span>$9.99</span>
-							<div class="icon-clear"></div>
-						</div>
+						<!--<div class="segWrap">-->
+							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
+							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
+							<!--<span>$9.99</span>-->
+							<!--<div class="icon-clear"></div>-->
+						<!--</div>-->
 					</div>
 				</div>
         </div>
@@ -645,3 +662,17 @@
         </div>
     </div>
 </div>
+
+
+
+<style>
+    .category_dropdown {
+        margin-top : 10px ;
+        padding: 5px 5px 0 0;
+        border-top: solid 1px #ccc;
+    }
+    .workflow div.dropdown-workflow .category_dropdown .btn {
+        width: auto;
+        padding :10px 6px ;
+    }
+</style>

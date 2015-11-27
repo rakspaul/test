@@ -10,14 +10,17 @@ var angObj = angObj || {};
             $scope.selectedKeywords = [];
             $scope.selectedCategory = [];
             $scope.selectedSource = [];
+            $scope.selectedAudience = []
+
             $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
                 left: '0px'};
             $scope.keywordText = "";
             $scope.audienceCategories = [];
+            $scope.selectAllChecked = false;
 
-            $(document).on('click','.dropdown-menu li span', function(event) {
-                $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
-                $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+            $(document).on('click','.dropdown-menu', function(event) {
+                //$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+                //$(this).parents(".dropdown").find('.btn').val($(this).data('value'));
                 event.stopPropagation();
 
             });
@@ -27,7 +30,7 @@ var angObj = angObj || {};
                     $scope.sortColumn = col;
                 }
                 else{
-                    $scope.sortColumn = 'segment';
+                    $scope.sortColumn = 'name';
                 }
             }
 
@@ -36,18 +39,19 @@ var angObj = angObj || {};
                     $scope.sortOrder = order;
                 }
                 else{
-                    $scope.sortOrder = order;
+                    $scope.sortOrder = 'asc';
                 }
             }
 
             $scope.fetchAllAudience = function(){
                 //api call to fetch segments
-                console.log("load data");
-                audienceService.fetchAudience().then(function(result){
+                console.log("load data", $scope.selectedKeywords);
+                audienceService.fetchAudience($scope.sortColumn,$scope.sortOrder,1,50,$scope.selectedKeywords,$scope.selectedSource,$scope.selectedCategory).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudience(result.data.data);
                         $scope.audienceList = result.data.data;
                     }
+
                 });
 
             }
@@ -89,52 +93,7 @@ var angObj = angObj || {};
                         $scope.audienceCategories = result.data.data;
                     }
 
-                    $scope.audienceCategories = [
-                        {
-                            "category": "Demographic",
-                            "subCategories": [
-                                {
-                                    "id": 1,
-                                    "subCategory": "Age"
-                                },
-                                {
-                                    "id": 2,
-                                    "subCategory": "Education"
-                                },
-                                {
-                                    "id": 3,
-                                    "subCategory": "Financial"
-                                }
-                            ]
-                        },
-                        {
-                            "category": "Demographic1",
-                            "subCategories": [
-                                {
-                                    "id": 4,
-                                    "subCategory": "Age1"
-                                },
-                                {
-                                    "id": 5,
-                                    "subCategory": "Education1"
-                                },
-                                {
-                                    "id": 6,
-                                    "subCategory": "Financial1"
-                                }
-                            ]
-                        },
-                        {
-                            "category": "empty category",
-                            "subCategories": [
-                                {
-                                    "id": 7,
-                                    "subCategory": null
-                                }
 
-                            ]
-                        }
-                    ];
                 },function(err){
 
                 })
@@ -168,6 +127,7 @@ var angObj = angObj || {};
                     return item.id == keyword.id});
                 $scope.audienceKeywords.splice(index,1);
                 $('.keyword-txt').val('');
+                $scope.fetchAllAudience();
 
             }
 
@@ -186,10 +146,19 @@ var angObj = angObj || {};
 
                 if(index == -1){
                     $scope.selectedSource.push(sourceObj);
+                    sourceObj.isChecked = true;
                 }
                 else{
                     $scope.selectedSource.splice(index,1);
+                    sourceObj.isChecked = false;
                 }
+            }
+
+            $scope.clearAllSelectedSource = function(){
+                for(var i = 0; i < $scope.selectedSource.length; i++){
+                    $scope.selectedSource[i].isChecked = false;
+                }
+                $scope.selectedSource = [];
             }
             // end of source
 
@@ -254,7 +223,67 @@ var angObj = angObj || {};
 
 
             }
+
+            $scope.clearAllSelectedCategory = function(){
+                for(var i = 0; i < $scope.audienceCategories.length;i++){
+                    $scope.audienceCategories[i].isChecked = false;
+                    for(var j = 0; j < $scope.audienceCategories[i].subCategories.length;j++){
+                        $scope.audienceCategories[i].subCategories[j].isChecked = false;
+                    }
+                }
+                $scope.selectedCategory = [];
+            }
             // end of category
+
+            //audience
+            $scope.selectAudience = function(audience){
+                var audienceIndex = _.findIndex( $scope.selectedAudience, function(item) {
+                    return item.id == audience.id});
+
+                if(audienceIndex == -1){
+                    $scope.selectedAudience.push(audience);
+                    audience.isChecked = true;
+                }
+                else{
+                    $scope.selectedAudience.splice(audienceIndex,1);
+                    audience.isChecked = false;
+                }
+            }
+
+            $scope.selectAllAudience = function(){
+                $scope.selectedAudience = [];  //empty the selected audience array before populating/empting it with all the audience
+                if($scope.selectAllChecked == false){ // select all
+                    $scope.selectAllChecked = true;
+
+
+                    for(var i = 0; i < $scope.audienceList.length; i++){
+                        $scope.selectedAudience.push($scope.audienceList[i]);
+                        $scope.audienceList[i].isChecked = true;
+                    }
+                }
+                else{ // deselect all
+                    resetAudience()
+                }
+
+                console.log("selected -- ",$scope.selectedAudience);
+
+            }
+
+
+
+            $scope.clearAllSelectedAudience = function(){
+                resetAudience();
+                $scope.selectedAudience = [];
+            }
+
+            function resetAudience(){
+                $scope.selectAllChecked = false;
+                for(var i = 0; i < $scope.audienceList.length; i++){
+                    $scope.audienceList[i].isChecked = false;
+                }
+            }
+            // end of audience
+
 
 
         });
