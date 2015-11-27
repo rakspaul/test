@@ -217,7 +217,7 @@
                                 <div>
                                     <!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
                                     <!--<span class="currency">£</span>-->
-                                    <input type="text" class="form-control" ng-model="selectedCampaign.kpiValue" whole-number-only="whole-number-only" name="kpiValue" ng-value="" ng-readonly="selectedCampaign.kpi=='Delivery' ? true:false" id="kpiValue" required>
+                                    <input type="text" class="form-control" ng-model="selectedCampaign.kpiValue" fraction-numbers="fraction-numbers" name="kpiValue" ng-value="" ng-readonly="selectedCampaign.kpi=='Delivery' ? true:false" id="kpiValue" required>
                                 </div>
                                 <label ng-if="createCampaignForm.kpiValue.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter a value for KPI Type.</label>
                             </div>
