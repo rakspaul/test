@@ -43,18 +43,18 @@ var angObj = '';
                 title : 'Dashboard',
                 bodyclass : 'dashboard_body',
                 resolve:{
-                    "check":function($location, loginModel){
-                        var isWorkflowUser, isNetworkUser, locationPath;
-                        isWorkflowUser = loginModel.getIsWorkflowUser();
-                       // isNetworkUser = loginModel.getIsNetworkUser();
-                        locationPath = $location.path();
-                        if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') {
-                            $location.url('campaigns');
-                        }
-                        if(!isWorkflowUser){
-                            $location.path('/');
-                        }
-                    }
+                    // "check":function($location, loginModel){
+                    //     var isWorkflowUser, isNetworkUser, locationPath;
+                    //     isWorkflowUser = loginModel.getIsWorkflowUser();
+                    //    // isNetworkUser = loginModel.getIsNetworkUser();
+                    //     locationPath = $location.path();
+                    //     if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') {
+                    //         $location.url('campaigns');
+                    //     }
+                    //     if(!isWorkflowUser){
+                    //         $location.path('/');
+                    //     }
+                    // }
                 }
             })
             .when('/campaigns', {
