@@ -23,6 +23,9 @@
     <div class="pull-right profile-photo-tab" id="user_nav_link">
       <span class="user-photo"><span class="glyphicon glyphicon-user" ng-mouseover="show_nav_dropdown($event,'user');" ng-mouseleave="hide_nav_dropdown($event,'user');"></span></span>
     </div>
+    <div class="pull-right account-name-nav">
+      {{defaultAccountsName}}
+    </div>
     <div class="pull-right help-link-tab" >
       <a href="/help"><span class="glyphicon glyphicon-question-sign"></span></a>
     </div>
@@ -49,7 +52,7 @@
                           <span class="glyphicon glyphicon-chevron-down"></span>
                       </span>
                       <ul class="dropdown-menu" >
-                        <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}" ng-click="set_account_name(eachaccount.id,eachaccount.name);">{{eachaccount.name}}</li>
+                        <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}" ng-click="set_account_name($event,eachaccount.id,eachaccount.name);" ng-class="{'selected-li':defaultAccountsName == eachaccount.name}">{{eachaccount.name}}</li>
                       </ul>
                   </div>
                   
