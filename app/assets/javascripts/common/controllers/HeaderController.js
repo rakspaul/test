@@ -30,9 +30,13 @@
             });
         }
 
-        $scope.set_account_name = function(id,name) {
+        $scope.set_account_name = function(event,id,name) {
+            var elem = $(event.target);
+            $(".accountsList").find(".selected-li").removeClass("selected-li") ;
+            elem.addClass("selected-li") ;
             loginModel.setClientId(id) ;
             $(".accountsList").find(".dd_txt").text(name) ;
+            $(".main_nav").find(".account-name-nav").text(name) ;
             $(".main_nav_dropdown").fadeIn() ;
             $(".nav-menu").hide() ;
             $("#user-menu").show();
