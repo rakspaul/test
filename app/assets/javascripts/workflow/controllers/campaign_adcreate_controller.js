@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q,dataService,apiPaths) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,campaignListService,requestCanceller,$filter,loginModel,$q,dataService,apiPaths,audienceService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background','#fff');
@@ -851,6 +851,22 @@ var angObj = angObj || {};
                              }
                          }
                      }
+
+                     // audience segment
+                     var selectedAudience = audienceService.getSelectedAudience();
+                     console.log("sel aud = ",selectedAudience);
+                     if(selectedAudience){
+                         var segmentObj = postAdDataObj['targets']['segmentTargets'] = {};
+                         segmentObj['segmentList'] = {};
+
+                         for(var i = 0; i < selectedAudience.length; i++){
+                             segmentObj['segmentList'][i] = {};
+                             segmentObj['segmentList'][i].segmentId = selectedAudience[i].id;
+                             segmentObj['segmentList'][i].isIncluded = selectedAudience[i].isIncluded;
+                         }
+                         segmentObj.operation = audienceService.getAndOr();
+                     }
+
                  }
 
                  if($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
