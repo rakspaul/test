@@ -458,6 +458,8 @@
     this.reportDeleteFailed = "Deleting Report Failed";
     this.deleteReportHeader = "Delete Report";
 
+    this.ACCOUNT_CHANGED = "accountChanged";
+
   };
 
   commonModule.service("constants", constants);

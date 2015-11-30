@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -36,6 +36,7 @@
             $(".main_nav_dropdown").fadeIn() ;
             $(".nav-menu").hide() ;
             $("#user-menu").show();
+            $rootScope.$broadcast(constants.ACCOUNT_CHANGED,id);
         };
 
         $scope.showProfileMenu = function() {
