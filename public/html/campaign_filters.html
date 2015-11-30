@@ -1,6 +1,6 @@
 <div class="clearfix campaign_list_header_holder">
     <div class="unselectable each_header_title brand_title active_title {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
-        {{textConstants.BRAND}}
+        {{textConstants.ADVERTISERS}}
     </div>
     <div class=" unselectable each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-click="$parent.details.callStrategiesSorting('startDate',$parent.campaign.campaignStrategies.length )"  ng-class="($parent.campaign.campaignStrategies.length > 1 ? 'active':'deactive')" >
         {{textConstants.FLIGHT_DATES}}<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
