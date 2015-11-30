@@ -222,6 +222,7 @@ var angObj = angObj || {};
 
         $scope.dropBoxItemSelected =  function(item, type, event) {
             $scope.adData[type] = item;
+            $scope.newData[type]="";
         }
 
         $scope.cancelDuplicate = function () {
