@@ -3080,7 +3080,7 @@
 }
 
 /*Accounts Page*/
-.accounts-page {
+.accounts-page , .users-creation-page {
   position: relative;
   .accounts-page-container {
     max-width: 100% ;
@@ -3245,9 +3245,12 @@
     cursor: pointer;
     margin-left: 10px ;
   }
+  .each-user {
+    margin: 10px 0 0 20px  ;
+  }
 }
-.accounts-popup.popup-holder {
-   input[type="text"], textarea {
+.accounts-popup.popup-holder , .users-popup.popup-holder {
+   input[type="text"] , input[type="password"] , textarea {
     margin: 0 ;
    }
    .modal-title {
@@ -3258,7 +3261,7 @@
     font-size: 14px;
     line-height: 40px;
    }
-   input[type="text"] {
+   input[type="text"]  , input[type="password"] {
     color: #21252B ;
     padding: 10px 20px 7px;
    }
@@ -3276,9 +3279,15 @@
         }
       }
    }
+   .add-filters {
+    margin-left: 40px ;
+   }
    .account_name_list {
     max-height: 100px ;
     overflow: scroll;
+   }
+   .radio+.radio, .checkbox+.checkbox {
+    margin : 10px 0px 10px 20px ;
    }
 }
 

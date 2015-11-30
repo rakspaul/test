@@ -1,0 +1,110 @@
+<div class="popup-holder users-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title" id="myModalLabel">Add User</h2>
+    </div>
+    <div class="clearfix modal-body">
+        <div class="form-group col-md-12 zeroPadding">
+            <label >User Login:</label>
+            <input type="text" class="form-control"  >
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+            <label >First Name:</label>
+            <input type="text" class="form-control"  >
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Last Name:</label>
+            <input type="text" class="form-control"  >
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Password:</label>
+            <input type="password" class="form-control"  >
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Collective Internal:</label>
+            <div class="clearfix">
+                <div class="pull-left radio">
+                  <label><input type="radio" name="optradio">Yes</label>
+                </div>
+                <div class="pull-left radio">
+                  <label><input type="radio" name="optradio">No</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Application Access:</label>
+            <div class="clearfix">
+                <div class="pull-left checkbox">
+                  <label><input type="checkbox" value="">Reporting</label>
+                </div>
+                <div class="pull-left checkbox">
+                  <label><input type="checkbox" value="">Workflow</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Role:</label>
+            <select class="form-control" >
+              <option>Super Admin</option>
+              <option>Account Admin</option>
+              <option>Advertiser Admin</option>
+              <option>General User</option>
+            </select>
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+		    <label >Add Access:</label>
+            <div class="add-filters">
+                <div class="form-group">
+                    <label >Role:</label>
+        		    <select class="form-control" >
+                      <option>Client1</option>
+                      <option>Client2</option>
+                      <option>Client3</option>
+                      <option>Client4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Permission:</label>
+                    <select class="form-control" >
+                      <option>Admin</option>
+                      <option>Write</option>
+                      <option>Read</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label > Advertiser Name:</label>
+                    <select class="form-control" >
+                      <option>All Advertisers</option>
+                      <option>Advertiser</option>
+                      <option>Advertiser</option>
+                      <option>Advertiser</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Brand Name:</label>
+                    <select class="form-control" >
+                      <option>All Brands</option>
+                      <option>Brand</option>
+                      <option>Brand</option>
+                      <option>Brand</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+       
+
+
+    </div><!-- end of modal_body -->
+    <div class="clearfix popup-btns-holder">
+        <span class="common_primary_btn" >Save</span>
+        <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
+            Cancel
+        </span>
+
+    </div>
+</div> <!-- end of popup-holder -->

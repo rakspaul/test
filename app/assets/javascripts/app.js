@@ -166,6 +166,11 @@ var angObj = '';
                 title: 'Accounts',
                 controller: 'AccountsController'
             })
+            .when('/users', {
+                templateUrl: assets.html_users,
+                title: 'Users',
+                controller: 'UsersController'
+            })
             .when('/campaign/:campaignId/edit', {
                 templateUrl: assets.html_campaign_create,
                 title :  'Create - Campaign',

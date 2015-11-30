@@ -2994,26 +2994,33 @@
   font-family: 'Glyphicons Halflings' !important;
 }
 /*Accounts Page*/
-.accounts-page {
+.accounts-page,
+.users-creation-page {
   position: relative;
 }
-.accounts-page .accounts-page-container {
+.accounts-page .accounts-page-container,
+.users-creation-page .accounts-page-container {
   max-width: 100% ;
   min-width: 750px;
 }
-.accounts-page .common_primary_btn {
+.accounts-page .common_primary_btn,
+.users-creation-page .common_primary_btn {
   text-transform: none;
   font-size: 14px;
   line-height: 40px;
 }
 .accounts-page .account-name,
-.accounts-page .advertiser-name {
+.users-creation-page .account-name,
+.accounts-page .advertiser-name,
+.users-creation-page .advertiser-name {
   cursor: pointer;
 }
-.accounts-page .common-load-more {
+.accounts-page .common-load-more,
+.users-creation-page .common-load-more {
   margin: 30px auto ;
 }
-.accounts-page .adding-section {
+.accounts-page .adding-section,
+.users-creation-page .adding-section {
   color: #939ead;
   padding: 5px 10px;
   margin: -5px 0 0 10px;
@@ -3021,17 +3028,21 @@
   border: 1px dashed #939EAE;
   cursor: pointer;
 }
-.accounts-page .adding-section:hover {
+.accounts-page .adding-section:hover,
+.users-creation-page .adding-section:hover {
   border: 1px dashed #0978C9;
   color: #0978C9;
 }
-.accounts-page .heading {
+.accounts-page .heading,
+.users-creation-page .heading {
   margin: 15px 0 ;
 }
-.accounts-page .heading .common_primary_btn {
+.accounts-page .heading .common_primary_btn,
+.users-creation-page .heading .common_primary_btn {
   margin: 10px 15px 0 0px ;
 }
-.accounts-page .account-name {
+.accounts-page .account-name,
+.users-creation-page .account-name {
   font-family: "Avenir-bold";
   background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left center;
   padding-left: 20px;
@@ -3042,57 +3053,73 @@
       padding-right: 10px;
     }*/
 }
-.accounts-page .advertiser-name {
+.accounts-page .advertiser-name,
+.users-creation-page .advertiser-name {
   margin: 10px 0 0 ;
 }
-.accounts-page .advertiser-name .adv-name {
+.accounts-page .advertiser-name .adv-name,
+.users-creation-page .advertiser-name .adv-name {
   max-width: 80% ;
 }
-.accounts-page .advertiser-name .adding-section {
+.accounts-page .advertiser-name .adding-section,
+.users-creation-page .advertiser-name .adding-section {
   font-size: 11px ;
 }
 .accounts-page .advertiser-list,
-.accounts-page .advertiser-resp-brands-list {
+.users-creation-page .advertiser-list,
+.accounts-page .advertiser-resp-brands-list,
+.users-creation-page .advertiser-resp-brands-list {
   padding-left: 30px ;
   display: none;
 }
-.accounts-page .brand-name {
+.accounts-page .brand-name,
+.users-creation-page .brand-name {
   cursor: default;
   margin-bottom: 10px ;
   max-width: 90% ;
 }
-.accounts-page .each-account-details {
+.accounts-page .each-account-details,
+.users-creation-page .each-account-details {
   margin-bottom: 10px ;
 }
-.accounts-page .label_heading {
+.accounts-page .label_heading,
+.users-creation-page .label_heading {
   font-size: 10px ;
   color: #999 ;
 }
-.accounts-page .particular-account-box {
+.accounts-page .particular-account-box,
+.users-creation-page .particular-account-box {
   border: solid 1px transparent;
   padding: 15px;
   min-width: 750px;
   border-radius: 5px;
 }
-.accounts-page .particular-account-box .account-name {
+.accounts-page .particular-account-box .account-name,
+.users-creation-page .particular-account-box .account-name {
   position: relative;
 }
-.accounts-page .particular-account-box.open {
+.accounts-page .particular-account-box.open,
+.users-creation-page .particular-account-box.open {
   border: solid 1px #ccc;
 }
-.accounts-page .particular-account-box.open .account-name {
+.accounts-page .particular-account-box.open .account-name,
+.users-creation-page .particular-account-box.open .account-name {
   background-image: url("/assets/images/cdesk/common_down_arrow.png");
 }
-.accounts-page .particular-account-box.data-loaded .advertiser-resp-brands-list {
+.accounts-page .particular-account-box.data-loaded .advertiser-resp-brands-list,
+.users-creation-page .particular-account-box.data-loaded .advertiser-resp-brands-list {
   margin-left: 5px;
 }
-.accounts-page .particular-account-box.data-loaded .brand-data-loaded .advertiser-resp-brands-list {
+.accounts-page .particular-account-box.data-loaded .brand-data-loaded .advertiser-resp-brands-list,
+.users-creation-page .particular-account-box.data-loaded .brand-data-loaded .advertiser-resp-brands-list {
   border-left: dashed 1px #ccc;
 }
-.accounts-page .particular-account-box.data-loaded .each-advertiser {
+.accounts-page .particular-account-box.data-loaded .each-advertiser,
+.users-creation-page .particular-account-box.data-loaded .each-advertiser {
   position: relative;
 }
-.accounts-page .particular-account-box.data-loaded .each-advertiser:after {
+.accounts-page .particular-account-box.data-loaded .each-advertiser:after,
+.users-creation-page .particular-account-box.data-loaded .each-advertiser:after {
   content: "";
   position: absolute;
   top: 10px;
@@ -3101,25 +3128,31 @@
   width: 20px;
   border-top: dashed 1px #ccc;
 }
-.accounts-page .particular-account-box.data-loaded .each-advertiser:last-child:after {
+.accounts-page .particular-account-box.data-loaded .each-advertiser:last-child:after,
+.users-creation-page .particular-account-box.data-loaded .each-advertiser:last-child:after {
   background: #fff;
   height: 100%;
 }
-.accounts-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after {
+.accounts-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after,
+.users-creation-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after {
   display: none ;
 }
-.accounts-page .particular-account-box.data-loaded .advertiser-list {
+.accounts-page .particular-account-box.data-loaded .advertiser-list,
+.users-creation-page .particular-account-box.data-loaded .advertiser-list {
   border-left: dashed 1px #ccc;
   margin-left: 5px;
 }
-.accounts-page .particular-account-box.data-loaded .advertiser-resp-brands-list {
+.accounts-page .particular-account-box.data-loaded .advertiser-resp-brands-list,
+.users-creation-page .particular-account-box.data-loaded .advertiser-resp-brands-list {
   margin: 0 0 0 10px;
   padding-top: 10px;
 }
-.accounts-page .particular-account-box.data-loaded .each-brand-name {
+.accounts-page .particular-account-box.data-loaded .each-brand-name,
+.users-creation-page .particular-account-box.data-loaded .each-brand-name {
   position: relative;
 }
-.accounts-page .particular-account-box.data-loaded .each-brand-name .brand-name:after {
+.accounts-page .particular-account-box.data-loaded .each-brand-name .brand-name:after,
+.users-creation-page .particular-account-box.data-loaded .each-brand-name .brand-name:after {
   content: "";
   position: absolute;
   top: 10px;
@@ -3128,10 +3161,12 @@
   width: 20px;
   border-top: dashed 1px #ccc;
 }
-.accounts-page .particular-account-box.data-loaded .each-brand-name:last-child .brand-name:after {
+.accounts-page .particular-account-box.data-loaded .each-brand-name:last-child .brand-name:after,
+.users-creation-page .particular-account-box.data-loaded .each-brand-name:last-child .brand-name:after {
   background: #fff;
 }
-.accounts-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after {
+.accounts-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after,
+.users-creation-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after {
   content: "";
   top: 16px;
   left: 5px;
@@ -3140,7 +3175,8 @@
   width: 10px;
   border-left: dashed 1px #ccc;
 }
-.accounts-page .edit {
+.accounts-page .edit,
+.users-creation-page .edit {
   background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center;
   display: inline-block;
   height: 20px ;
@@ -3148,37 +3184,65 @@
   cursor: pointer;
   margin-left: 10px ;
 }
+.accounts-page .each-user,
+.users-creation-page .each-user {
+  margin: 10px 0 0 20px  ;
+}
 .accounts-popup.popup-holder input[type="text"],
-.accounts-popup.popup-holder textarea {
+.users-popup.popup-holder input[type="text"],
+.accounts-popup.popup-holder input[type="password"],
+.users-popup.popup-holder input[type="password"],
+.accounts-popup.popup-holder textarea,
+.users-popup.popup-holder textarea {
   margin: 0 ;
 }
-.accounts-popup.popup-holder .modal-title {
+.accounts-popup.popup-holder .modal-title,
+.users-popup.popup-holder .modal-title {
   margin-bottom: 20px ;
 }
-.accounts-popup.popup-holder .common_primary_btn {
+.accounts-popup.popup-holder .common_primary_btn,
+.users-popup.popup-holder .common_primary_btn {
   text-transform: none;
   font-size: 14px;
   line-height: 40px;
 }
-.accounts-popup.popup-holder input[type="text"] {
+.accounts-popup.popup-holder input[type="text"],
+.users-popup.popup-holder input[type="text"],
+.accounts-popup.popup-holder input[type="password"],
+.users-popup.popup-holder input[type="password"] {
   color: #21252B ;
   padding: 10px 20px 7px;
 }
-.accounts-popup.popup-holder select {
+.accounts-popup.popup-holder select,
+.users-popup.popup-holder select {
   padding-top: 0;
   padding-bottom: 0;
 }
-.accounts-popup.popup-holder .dropdown-menu {
+.accounts-popup.popup-holder .dropdown-menu,
+.users-popup.popup-holder .dropdown-menu {
   width: 100% ;
 }
-.accounts-popup.popup-holder .dropdown-menu li > a {
+.accounts-popup.popup-holder .dropdown-menu li > a,
+.users-popup.popup-holder .dropdown-menu li > a {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.accounts-popup.popup-holder .dropdown-menu li > a:hover {
+.accounts-popup.popup-holder .dropdown-menu li > a:hover,
+.users-popup.popup-holder .dropdown-menu li > a:hover {
   background-color: #E1EDF9;
 }
-.accounts-popup.popup-holder .account_name_list {
+.accounts-popup.popup-holder .add-filters,
+.users-popup.popup-holder .add-filters {
+  margin-left: 40px ;
+}
+.accounts-popup.popup-holder .account_name_list,
+.users-popup.popup-holder .account_name_list {
   max-height: 100px ;
   overflow: scroll;
+}
+.accounts-popup.popup-holder .radio + .radio,
+.users-popup.popup-holder .radio + .radio,
+.accounts-popup.popup-holder .checkbox + .checkbox,
+.users-popup.popup-holder .checkbox + .checkbox {
+  margin: 10px 0px 10px 20px ;
 }
