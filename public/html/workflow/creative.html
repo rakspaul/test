@@ -116,7 +116,7 @@
 							<div class="icon-search"></div>
 							</div>
 						</li>
-						 <span class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
+						 <span ng-if="!newData.creativeSize" class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
 						<li>
 							<ul><li ng-repeat="creativePopSizes in creativePopularSizes | filter:newData.creativeSize track by creativePopSizes.id"><a ng-click="dropBoxItemSelected(creativePopSizes, 'creativeSize')">{{creativePopSizes.size}}</a></li></ul>
 						</li>
