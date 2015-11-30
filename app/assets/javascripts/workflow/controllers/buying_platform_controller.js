@@ -115,7 +115,11 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
                   //}
                 } else {
                   $scope.showCustomeFieldBox();
-                  platformCustomeModule.init(platformCustomeJson, platformWrap);
+                    //maintain state of building platform strategy when user selects it navigtes to other places
+                    if(!$scope.postPlatformDataObj){
+                        platformCustomeModule.init(platformCustomeJson, platformWrap);
+                    }
+
                 }
               }
           });
