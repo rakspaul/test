@@ -3,15 +3,15 @@
 	<span class="icon-arrow-down"></span>
 	<h5>Audience Segments</h5>
 	
-	<button class="pull-right btn btn-default">Save Audience</button>
+	<button class="pull-right btn btn-default" ng-disabled="!adData.adName" ng-click="saveCampainWithAudience()">Save</button>
     <button class="pull-right btn btn-link" ng-click="resetAudienceTargetingVariables();">Cancel</button>
 </div>
 
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
+        <li class="active audience-tabs"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
         <div class="splitterDash"></div>
-        <li><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
+        <li class="audience-tabs"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
     </ul>
 
     <div class="tab-content">
@@ -209,6 +209,7 @@
 					</div>
 
 					<span class="segTotal">6,666 Results</span>
+
                 </div>
 
 				<div class="setTwo">
@@ -280,28 +281,32 @@
 						<!--</div>-->
 					</div>
 				</div>
+                <div class="build-audience">
+                    <a data-toggle="tab"  class="pull-right btn btn-link" href="#buildAud"> Build Audience</a>
+                    <button class="pull-right btn btn-link" ng-click="resetAudienceTargetingVariables();">Cancel</button>
+                </div>
         </div>
         </div>
 		<!--TAB 1 ENDS HERE-->
 
 		<!--TAB 2-->
         <div id="buildAud" class="col-md-12 zeroPadding tab-pane fade">
-            <a class="pull-right btn" style="padding: 2px">Clear All</a>
+            <a class="pull-right btn" style="padding: 2px" ng-click="clearAllSelectedAudience()">Clear All</a>
 
             <!--Example One-->
             <div class="segmentHolder">
-                <!--Segment Sample One-->
-                <div class="segmentRow">
+
+                <div class="segmentRow" ng-repeat="aud in selectedAudience">
                     <div class="col-md-1">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Or</span>
+                                <button class="btn btn-default dropdown-toggle and-or-txt" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text">{{andOr}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
+                                    <li ng-click="changeOrAndStatus('Or')"><a>Or</a></li>
+                                    <li ng-click="changeOrAndStatus('And')"><a>And</a></li>
                                 </ul>
                             </div>
                        </div>
@@ -314,8 +319,8 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
+                                    <li ng-click="changeIncludeStatus(aud,true)"><a>Is</a></li>
+                                    <li ng-click="changeIncludeStatus(aud,false)"><a>Is not</a></li>
                                 </ul>
                             </div>
                        </div>
@@ -323,334 +328,17 @@
                     <div class="col-md-9">
                         <div class="segmentMove">
 							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
+							<span>{{aud.name}}</span>
 						</div>
                     </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
+                    <div class="col-md-1 text-center"><a class="icon-clear" ng-click="selectAudience(aud)"></a></div>
                 </div>
 
-                <!--Segment Sample Two-->
-                <div class="segmentRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Or</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
-
-                <!--Segment Sample Three-->
-                <div class="segmentRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Or</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
             </div>
 
-            <span class="col-md-12 text-center">Or</span>
 
-            <!--Example Two-->
-            <div class="segmentHolder">
-                <!--Segment Sample One-->
-                <div class="segmentRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Or</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
 
-                <!--Segment Sample Two-->
-                <div class="segmentRow prevAndRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Or</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
 
-                <!--Segment Sample Three-->
-                <div class="segmentRow andRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">And</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
-            </div>
-
-            <span class="col-md-12 text-center">Or</span>
-
-            <!--Example Three-->
-            <div class="segmentHolder">
-                <!--Segment Sample One-->
-                <div class="segmentRow prevAndRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Or</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
-
-                <!--Segment Sample Two-->
-                <div class="segmentRow andRow prevAndRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">And</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
-
-                <!--Segment Sample Three-->
-                <div class="segmentRow andRow">
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">And</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Or</a></li>
-                                    <li><a>And</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Is</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
-                                    <li><a>Is</a></li>
-                                    <li><a>Is not</a></li>
-                                </ul>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span>Psychographic : Sports : Outdoors</span>
-						</div>
-                    </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear"></a></div>
-                </div>
-            </div>
 
             <!--Example Four Drag Drop Container-->
             <div class="segmentHolder">
@@ -674,5 +362,8 @@
     .workflow div.dropdown-workflow .category_dropdown .btn {
         width: auto;
         padding :10px 6px ;
+    }
+    .build-audience {
+        padding-top: 10px;
     }
 </style>

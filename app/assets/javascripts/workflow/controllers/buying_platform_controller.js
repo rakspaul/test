@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule) {
+angObj.controller('BuyingPlatformController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location,$filter, platformCustomeModule,$rootScope) {
         $scope.$watch('adData.platformId', function(newValue) {
             $scope.$parent.changePlatform(newValue);
         })
@@ -61,6 +61,7 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
         $scope.setPlatform = function(event, platform){
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
+            $rootScope.$emit('triggerAudienceLoading');
             //localStorage.setItem("trackingIntegration",false);
            // workflowService.setTrackingPlatform(false);
            if($scope.mode!='edit'){

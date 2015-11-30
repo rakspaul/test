@@ -5,6 +5,8 @@
         var audience;
         var source;
         var keywords;
+        var selectedAudiences;
+        var andOrStatus;
 
         return {
             setAudience: function(aud){
@@ -21,8 +23,8 @@
                     pageNo = pageNum;
                 if(size)
                     pageSize = size;
-
-                var url = apiPaths.WORKFLOW_APIUrl + '/segments/platform/2?pageNo='+pageNo+'&pageSize='+pageSize;
+                console.log(workflowService.getPlatform());
+                var url = apiPaths.WORKFLOW_APIUrl + '/segments/platform/'+workflowService.getPlatform().id+'?pageNo='+pageNo+'&pageSize='+pageSize;
                 if(sortCol && sortCol != '')
                     url += '&sortBy='+sortCol;
                 if(sortOrder && sortOrder != '')
@@ -81,6 +83,18 @@
             },
             getAudienceKeywords: function(){
                 return keywords;
+            },
+            setSelectedAudience: function(s){
+                selectedAudiences = s;
+            },
+            getSelectedAudience: function(){
+                return selectedAudiences;
+            },
+            setAndOr: function(status){
+                andOrStatus = status
+            },
+            getAndOr: function(){
+                return andOrStatus;
             }
         }
     });

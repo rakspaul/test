@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-        angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $timeout, utils, $location, zipCode) {
+        angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $rootScope, $location, zipCode) {
             $scope.sortColumn = '';
             $scope.sortOrder = '';
             $scope.audienceList = [];
@@ -17,6 +17,9 @@ var angObj = angObj || {};
             $scope.keywordText = "";
             $scope.audienceCategories = [];
             $scope.selectAllChecked = false;
+            $scope.pageNumber = 1;
+            $scope.pageSize = 50;
+            $scope.andOr = 'Or'
 
             $(document).on('click','.dropdown-menu', function(event) {
                 //$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -24,6 +27,13 @@ var angObj = angObj || {};
                 event.stopPropagation();
 
             });
+            //$(document).on('click','.audience-tabs',function(){
+            //    $('.audience-tabs').toggleClass('active');
+            //})
+
+            $rootScope.$on('triggerAudienceLoading',function(){
+                $scope.fetchAllAudience();
+            })
 
             $scope.setSortColumn = function(col){
                 if(col){
@@ -45,8 +55,7 @@ var angObj = angObj || {};
 
             $scope.fetchAllAudience = function(){
                 //api call to fetch segments
-                console.log("load data", $scope.selectedKeywords);
-                audienceService.fetchAudience($scope.sortColumn,$scope.sortOrder,1,50,$scope.selectedKeywords,$scope.selectedSource,$scope.selectedCategory).then(function(result){
+                audienceService.fetchAudience($scope.sortColumn,$scope.sortOrder,$scope.pageNumber,$scope.pageSize,$scope.selectedKeywords,$scope.selectedSource,$scope.selectedCategory).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudience(result.data.data);
                         $scope.audienceList = result.data.data;
@@ -58,7 +67,6 @@ var angObj = angObj || {};
 
             $scope.fetchAllSource = function(){
                 //api call to fetch sources
-                console.log("fetch source");
                 audienceService.fetchAudienceSource().then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudienceSource(result.data.data);
@@ -71,7 +79,6 @@ var angObj = angObj || {};
 
             $scope.fetchAllKeywords = function(){
                 //api call to fetch keywords
-                console.log("fetch keywords");
                 audienceService.fetchAudiencekeywords().then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudienceKeywords(result.data.data);
@@ -86,7 +93,6 @@ var angObj = angObj || {};
 
             $scope.fetchAllCategories = function(){
                 //api call to fetch categories
-                console.log("fetch categories");
                 audienceService.fetchAudienceCategories().then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudienceKeywords(result.data.data);
@@ -103,7 +109,7 @@ var angObj = angObj || {};
             $scope.initAudienceTargetting = function(){
                 $scope.setSortColumn();
                 $scope.setSortOrder();
-                $scope.fetchAllAudience();
+                //$scope.fetchAllAudience();
                 $scope.fetchAllSource();
                 $scope.fetchAllKeywords();
                 $scope.fetchAllCategories();
@@ -136,6 +142,7 @@ var angObj = angObj || {};
                 var index = _.findIndex($scope.selectedKeywords, function(item) {
                     return item.id == keyword.id});
                 $scope.selectedKeywords.splice(index,1);
+                $scope.fetchAllAudience();
             }
             // end of keyword
 
@@ -159,6 +166,7 @@ var angObj = angObj || {};
                     $scope.selectedSource[i].isChecked = false;
                 }
                 $scope.selectedSource = [];
+                $scope.fetchAllAudience();
             }
             // end of source
 
@@ -212,7 +220,6 @@ var angObj = angObj || {};
             $scope.showSubCategory = function(event){
 
                 var elem = $(event.target);
-                //console.log('minimize -->',elem.parent().next());
                 if(elem.hasClass('active')){
                     elem.parent().next('ul').hide();
                 }
@@ -232,6 +239,7 @@ var angObj = angObj || {};
                     }
                 }
                 $scope.selectedCategory = [];
+                $scope.fetchAllAudience();
             }
             // end of category
 
@@ -243,10 +251,13 @@ var angObj = angObj || {};
                 if(audienceIndex == -1){
                     $scope.selectedAudience.push(audience);
                     audience.isChecked = true;
+                    audience.isIncluded = true;
                 }
                 else{
                     $scope.selectedAudience.splice(audienceIndex,1);
                     audience.isChecked = false;
+                    delete  audience.isIncluded;
+
                 }
             }
 
@@ -259,14 +270,13 @@ var angObj = angObj || {};
                     for(var i = 0; i < $scope.audienceList.length; i++){
                         $scope.selectedAudience.push($scope.audienceList[i]);
                         $scope.audienceList[i].isChecked = true;
+                        $scope.audienceList[i].isIncluded  = true;
+
                     }
                 }
                 else{ // deselect all
                     resetAudience()
                 }
-
-                console.log("selected -- ",$scope.selectedAudience);
-
             }
 
 
@@ -280,11 +290,26 @@ var angObj = angObj || {};
                 $scope.selectAllChecked = false;
                 for(var i = 0; i < $scope.audienceList.length; i++){
                     $scope.audienceList[i].isChecked = false;
+                    delete  $scope.audienceList[i].isIncluded;
                 }
             }
             // end of audience
 
+            //building audience
+            $scope.changeOrAndStatus = function(status){
+                $scope.andOr = status;
+            }
 
+            $scope.changeIncludeStatus = function(audienceObj,status){
+                audienceObj.isIncluded = status;
+            }
+
+            // final save from audience segment
+            $scope.saveCampainWithAudience = function(){
+                audienceService.setSelectedAudience($scope.selectedAudience);
+                audienceService.setAndOr($scope.andOr)
+                $scope.CampaignADsave(false);
+            }
 
         });
 })();
