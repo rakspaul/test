@@ -305,7 +305,7 @@ var angObj = angObj || {};
             }
 
             // final save from audience segment
-            $scope.saveCampainWithAudience = function(){
+            $scope.saveCampaignWithAudience = function(){
                 audienceService.setSelectedAudience($scope.selectedAudience);
                 audienceService.setAndOr($scope.andOr)
                 $scope.CampaignADsave(false);

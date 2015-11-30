@@ -2877,6 +2877,28 @@
   color: #939eae;
   font-size: 14px;
 }
+.adCreateMaster #targetting .targetingSlide .dayRow {
+  margin-bottom: 10px;
+}
+.adCreateMaster #targetting .targetingSlide .dayRow .removeDay {
+  float: left;
+  font-size: 7px;
+  width: 7px;
+  height: 7px;
+  padding: 5px 0;
+  margin: 9px 0;
+}
+.adCreateMaster #targetting .targetingSlide .dayRow .hourRow,
+.adCreateMaster #targetting .targetingSlide .dayRow .dailyRow {
+  margin: 0 10px 0 0;
+}
+.adCreateMaster #targetting .targetingSlide .dayRow .midTo {
+  float: left;
+  text-align: center;
+  width: 20px;
+  padding: 8px 0;
+  margin-right: 10px;
+}
 .adCreateMaster #targetting .tab-pane {
   padding: 0px;
 }

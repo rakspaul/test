@@ -49,13 +49,14 @@
         <input ng-if="!selectedTargeting['geography']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
     </div>
 
-    <div class="col-md-6 cardSelectHolder">
+    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <span ng-if="mode=='edit'"  class="icon-inline-edit"></span>
         <div class="icon-activity"></div>
         <p>Daypart</p>
         <span>Set the Days of Week & Time of Days for Ad delivery</span>
-        <!--<span ng-if="selectedPlatform[platform.name]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>-->
-        <input type="button" name="platform" value="Select" class="btn btn-default" disabled="disabled">
+        
+        <span ng-if="selectedTargeting['daily']" class="btn btn-default active" ng-click="selectDayTarget()">Selected</span>
+        <input ng-if="!selectedTargeting['daily']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
     </div>
 </div>
 
@@ -68,6 +69,7 @@
 
 <div class="col-md-12 targetingSlide" id="geographyTargeting" ng-include="'/assets/html/workflow/partials/targetings/geography_targeting.html'" ></div>
 
+<div class="col-md-12 targetingSlide" id="dayTargeting" ng-include="'/assets/html/workflow/partials/targetings/day_targeting.html'" ></div>
 
 
 
