@@ -212,9 +212,9 @@ var angObj = angObj || {};
             } else {
               $scope.adData.budgetTypeLabel = 'Impressions';
             }
-             if(item.name !==  $scope.adData.unitType) {
-                 $scope.adData.unitCost = 0;
-             }
+            // if(item.name !==  $scope.adData.unitType) {
+            //    $scope.adData.unitCost = 0;
+            // }
             if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() !== 'cost' ) {
               $scope.adData.budgetType = $scope.adData.budgetTypeLabel;
             }
