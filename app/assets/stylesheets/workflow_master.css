@@ -47,6 +47,9 @@
 .workflow .clearBoth {
   clear: both;
 }
+.workflow .bottomBorder {
+  border-bottom: 1px solid #bfc9d7;
+}
 .workflow h1 {
   color: #21252b;
   font-size: 24px;

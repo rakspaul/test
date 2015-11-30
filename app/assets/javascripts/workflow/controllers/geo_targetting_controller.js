@@ -118,15 +118,22 @@ var angObj = angObj || {};
 
         // Audience Targeting Trigger
         $scope.selectAudTarget = function(){
-          $scope.setTargeting('Audience');
-          $scope.resetGeoTargetingVariables();
-          $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
+            $scope.setTargeting('Audience');
+            $scope.resetGeoTargetingVariables();
+            $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
+        }
+        
+        // Day Targeting Trigger
+        $scope.selectDayTarget = function(){
+            $scope.setTargeting('Daypart');
+            $scope.resetGeoTargetingVariables();
+            $("#dayTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
 
         $scope.setTargeting = function(name) {
-          $scope.selectedTargeting = {};
-          $scope.adData.targetName = name;
-          $scope.selectedTargeting[name.toLowerCase()] = true;
+            $scope.selectedTargeting = {};
+            $scope.adData.targetName = name;
+            $scope.selectedTargeting[name.toLowerCase()] = true;
         };
 
         $scope.$on('resetGeoTags',function(){
@@ -322,14 +329,29 @@ var angObj = angObj || {};
             });
         }
 
+        // Closes Audience Targeting View
         $scope.resetAudienceTargetingVariables = function() {
           $("#audienceTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0.0"}, function() {
             $(this).hide();
           });
         }
+        
+        // Closes Daypart Targeting View
+        $scope.resetDayTargetingVariables = function() {
+          $("#dayTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0.0"}, function() {
+            $(this).hide();
+          });
+        }
+        
+        // Daypart Save Trigger
+        $scope.saveCampaignWithDay = function(){
+            console.log('Daypart Save Not Set');
+            $scope.resetDayTargetingVariables();
+        }
 
         $scope.resetGeoTargetingVariables();
         $scope.resetAudienceTargetingVariables();
+        $scope.resetDayTargetingVariables();
 
         var getAllAddedZipCode =  function(zipCodeList) {
             var addedZipCodes = [];
