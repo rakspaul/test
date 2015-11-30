@@ -310,6 +310,11 @@ var angObj = angObj || {};
                 audienceService.setAndOr($scope.andOr)
                 $scope.CampaignADsave(false);
             }
+                // end of final save
+
+            $scope.loadMoreAudience = function(){
+                console.log("load more");
+            }
 
         });
 })();
