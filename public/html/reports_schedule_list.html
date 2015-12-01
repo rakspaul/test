@@ -74,11 +74,9 @@
                           </div>
                       </span>
                 <ul class="dropdown-menu">
-                  <li ng-show="srlist.instances[0].completedOn !== undefined" ng-click="downloadSchdReport(srlist.reportId,$index,0)">Download</li>
                   <li ng-click="editSchdReport(srlist.reportId)">Edit</li>
                   <li>Copy</li>
-                  <li>Archive</li>
-                  <li>Delete</li>
+                  <li ng-click="deleteSchdRpt(srlist.reportId)">Delete</li>
                 </ul>
               </div>
             </div>
@@ -102,10 +100,8 @@
                       </span>
                   <ul class="dropdown-menu">
                     <li ng-click="downloadSchdReport(srlist.reportId,$parent.$parent.$index,$index)">Download</li>
-                    <li ng-click="editSchdReport(srlist.reportId)">Edit</li>
-                    <li>Copy</li>
+                    <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">Delete</li>
                     <li>Archive</li>
-                    <li>Delete</li>
                   </ul>
                 </div>
               </div>
