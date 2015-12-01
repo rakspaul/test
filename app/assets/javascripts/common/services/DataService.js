@@ -25,7 +25,7 @@
 //        } else if (type == 'list') {
 //          apiUrl = urlPath;
 //        }
-                return this.fetch(api + urlPath)
+                return this.fetch(apiPaths.apiSerivicesUrl_NEW + urlPath)
             },
 
             getCdbChartData: function (campaign, timePeriod, type, strategyId) {
@@ -64,8 +64,13 @@
                 return this.fetch(url);
             },
 
-            getStrategyTacticList: function(strategyId) {
-                var url = apiPaths.apiSerivicesUrl + '/strategy/' + strategyId + '/tactics';
+            getStrategyTacticList: function(adGroupId) {
+                var url = apiPaths.apiSerivicesUrl_NEW + '/ad_groups/' + adGroupId + '/ads';
+                return this.fetch(url);
+            },
+
+            getUnassignedTacticList: function(campaignId) {
+                var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaignId + '/no_ad_group/ads';
                 return this.fetch(url);
             },
 
