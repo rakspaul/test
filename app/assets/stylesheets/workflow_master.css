@@ -291,15 +291,6 @@
 .workflow .dropdown-workflow .dropdown-menu-search {
   overflow: scroll;
 }
-.workflow .dropdown-workflow .dropdown-menu-search .category_dropdown {
-  padding: 5px 5px 0 0;
-  border-top: solid 1px #bfc9d7;
-  float: left;
-  width: 100%;
-}
-.workflow .dropdown-workflow .dropdown-menu-search .category_dropdown .btn {
-  width: auto;
-}
 .workflow .dropdown-workflow .dropdown-menu > li > a:hover,
 .workflow .dropdown-workflow .dropdown-menu > li > a:focus,
 .workflow .dropdown-workflow .dropdown-menu > li > .active > a,
@@ -327,6 +318,15 @@
   height: 16px;
   width: 16px;
   color: #939eae;
+}
+.workflow .dropdown-workflow .category_dropdown {
+  padding: 5px 5px 0 0;
+  border-top: solid 1px #bfc9d7;
+  float: left;
+  width: 100%;
+}
+.workflow .dropdown-workflow .category_dropdown .btn {
+  width: auto;
 }
 .workflow .dropdown-menu,
 .workflow .dropdown-menu-search {
