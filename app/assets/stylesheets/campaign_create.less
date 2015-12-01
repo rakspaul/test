@@ -3021,8 +3021,21 @@
   #creative {
     .creativeTableTag {
       margin-top: 30px;
+
+      
+
       .table {
         margin-bottom: 0;
+        tbody {
+          display:block;
+          height:200px;
+          overflow:auto;
+        }
+        thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+        }
         thead {
           border: 1px solid #dde6eb;
           border-bottom: 2px solid #dde6eb;
@@ -3037,6 +3050,7 @@
         }
         tbody {
           tr {
+            margin: 0;
             td {
               background: #fff !important;
             }
