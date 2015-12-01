@@ -3330,7 +3330,41 @@
       }
    }
    .add-filters {
-    margin-left: 40px ;
+    label {
+      font-size: 12px ;
+    }
+    .col-md-3 {
+      padding-left: 0px ;
+      &:last-child {
+        padding-right : 0px ;
+      }
+    }
+   }
+   .dropdown {
+    margin: 0px ;
+    .btn {
+      padding-top: 8px;
+      height: 34px;
+    }
+   }
+   ul.dropdown-menu {
+    li {
+      padding: 0 ;
+    }
+    ul {
+          list-style: none;
+          padding: 0 ;
+          li {
+            padding: 5px 10px 5px 40px;
+            a {
+                  color: #21252b; 
+                  font-size: 14px ;
+            }
+            &:hover {
+              background :rgba(109, 114, 129, 0.08);
+            }
+          }
+    }
    }
    .account_name_list {
     max-height: 100px ;
