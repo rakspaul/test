@@ -151,6 +151,22 @@
         };
     });
 
+    angObj.directive("addfilterusers", function($http, $compile) {
+        return {
+            restrict:'EAC',
+            link: function($scope, element, attrs) {
+                var template;
+                element.bind('click', function() {
+                    $http.get(assets.html_add_filter_users).then(function (tmpl) {
+                        template = $compile(tmpl.data)($scope);
+                        angular.element(document.getElementById('filter-container')).append(template);
+                        
+                    });
+                });
+            }
+        };
+    });
+
     angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
         return {
             controller: function($scope, $cookieStore, $location){
