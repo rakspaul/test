@@ -2,6 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('UsersController', function ($scope, $window, $routeParams, constants, utils,  $modal ) {
+        $scope.textConstants = constants;
 
 
         //Add or Edit Pop up for User
