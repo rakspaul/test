@@ -2952,6 +2952,17 @@
 .adCreateMaster #creative .creativeTableTag .table {
   margin-bottom: 0;
 }
+.adCreateMaster #creative .creativeTableTag .table tbody {
+  display: block;
+  height: 200px;
+  overflow: auto;
+}
+.adCreateMaster #creative .creativeTableTag .table thead,
+.adCreateMaster #creative .creativeTableTag .table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
 .adCreateMaster #creative .creativeTableTag .table thead {
   border: 1px solid #dde6eb;
   border-bottom: 2px solid #dde6eb;
@@ -2961,6 +2972,9 @@
   height: 50px;
   vertical-align: top;
   padding: 20px ;
+}
+.adCreateMaster #creative .creativeTableTag .table tbody tr {
+  margin: 0;
 }
 .adCreateMaster #creative .creativeTableTag .table tbody tr td {
   background: #fff !important;
