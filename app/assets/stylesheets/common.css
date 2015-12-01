@@ -911,6 +911,7 @@
   margin-left: 10px;
 }
 .main_navigation_holder div.reports_header_tabs_holder .custom_container {
+    max-width: 200px;
   /*background-color: #004478 ;*/
 }
 .main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .reports_list_link {

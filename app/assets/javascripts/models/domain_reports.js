@@ -51,6 +51,10 @@
             getCustomReportsTabs : function() {
                 var tabs  =  [
                     {
+                        href:'reports/schedules',
+                        title: 'Scheduled'
+                    },
+                    {
                         href:'reports/list',
                         title: 'Collective Insights'
                     }
