@@ -10,6 +10,7 @@ var angObj = angObj || {};
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {}
+        $scope.newData={}
         $scope.adData.screenTypes = [];
         $scope.selectedCreative = {};
         $scope.creativeSizeData = {};
@@ -221,8 +222,11 @@ var angObj = angObj || {};
         }
 
         $scope.dropBoxItemSelected =  function(item, type, event) {
+            $("#listBoxSize").parents('.dropdown').removeClass('open');
+            $('[name="creativeFormat"]').prev('.dropdown').removeClass('open');
             $scope.adData[type] = item;
             $scope.newData[type]="";
+
         }
 
         $scope.cancelDuplicate = function () {

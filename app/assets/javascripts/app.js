@@ -166,7 +166,7 @@ var angObj = '';
                 title: 'Accounts',
                 controller: 'AccountsController'
             })
-            .when('/users', {
+            .when('/admin/users', {
                 templateUrl: assets.html_users,
                 title: 'Users',
                 controller: 'UsersController'
