@@ -9,9 +9,9 @@
 
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
-        <li class="active audience-tabs"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
+        <li class="active audience-tabs-segment"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
         <div class="splitterDash"></div>
-        <li class="audience-tabs"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
+        <li class="audience-tabs-audience"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
     </ul>
 
     <div class="tab-content">
@@ -45,7 +45,7 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">All</span>
+                                        <span class="text">{{sourceText}}</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <!--<ul class="dropdown-menu" aria-labelledby="sourceSeg">-->
@@ -82,7 +82,7 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">All</span>
+                                        <span class="text">{{categoryText}}</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
 
@@ -168,7 +168,7 @@
 					</div>
 
 					<div class="segBodyWrap">
-						<div class="segFixedWrap">
+						<div class="segFixedWrap" lr-infinite-scroll="loadMoreAudience">
 							<div class="col-md-12 segBodyTable" ng-repeat="audience in audienceList">
 								<div class="columnOne">
 									<div class="checkbox">
@@ -282,7 +282,7 @@
 					</div>
 				</div>
                 <div class="build-audience">
-                    <a data-toggle="tab"  class="pull-right btn btn-link" href="#buildAud"> Build Audience</a>
+                    <a data-toggle="tab"  class="pull-right btn btn-link" href="#buildAud" ng-click="buildAudience()"> Build Audience</a>
                     <button class="pull-right btn btn-link" ng-click="resetAudienceTargetingVariables();">Cancel</button>
                 </div>
         </div>

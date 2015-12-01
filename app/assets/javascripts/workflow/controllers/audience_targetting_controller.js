@@ -19,7 +19,10 @@ var angObj = angObj || {};
             $scope.selectAllChecked = false;
             $scope.pageNumber = 1;
             $scope.pageSize = 50;
-            $scope.andOr = 'Or'
+            $scope.andOr = 'Or';
+            $scope.audienceFetching = false;
+            $scope.categoryText = 'All';
+            $scope.sourceText = 'All';
 
             $(document).on('click','.dropdown-menu', function(event) {
                 //$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -53,12 +56,24 @@ var angObj = angObj || {};
                 }
             }
 
-            $scope.fetchAllAudience = function(){
+            $scope.fetchAllAudience = function(loadMoreFlag){
+                if(!loadMoreFlag){
+                    $scope.pageNumber = 1;
+                }
                 //api call to fetch segments
                 audienceService.fetchAudience($scope.sortColumn,$scope.sortOrder,$scope.pageNumber,$scope.pageSize,$scope.selectedKeywords,$scope.selectedSource,$scope.selectedCategory).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudience(result.data.data);
-                        $scope.audienceList = result.data.data;
+
+                        if(loadMoreFlag){
+                            var tempAudience = $scope.audienceList;
+                            $scope.audienceList.concat(result.data.data); // lazy loading fetch
+                        }
+                        else{
+                            $scope.audienceList = result.data.data; // first time fetch/filter fetch
+                        //
+                        }
+
                     }
 
                 });
@@ -72,7 +87,8 @@ var angObj = angObj || {};
                         audienceService.setAudienceSource(result.data.data);
                         $scope.sourceList = result.data.data;
                     }
-
+                    //$scope.sourceList = [{"id":36,"name":"Collective","billableAccountId":1,"clientType":"DATA_PROVIDER","isArchived":false,"country":{"id":171998,"name":"United States","code":"US","geoType":"COUNTRY","parentId":1,"countryCode":"US","createdAt":"2015-08-19 00:32:55.994","updatedAt":"2015-08-19 00:32:55.994"},"timezone":"EST","currency":{"id":1,"name":"US DOLLAR","currencyCode":"USD","currencySymbol":"$"},"createdBy":2,"updatedBy":2,"createdAt":"2015-11-24 08:24:13.935","updatedAt":"2015-11-24 08:24:13.935"},
+                    //    {"id":360,"name":"Collective","billableAccountId":1,"clientType":"DATA_PROVIDER","isArchived":false,"country":{"id":171998,"name":"United States","code":"US","geoType":"COUNTRY","parentId":1,"countryCode":"US","createdAt":"2015-08-19 00:32:55.994","updatedAt":"2015-08-19 00:32:55.994"},"timezone":"EST","currency":{"id":1,"name":"US DOLLAR","currencyCode":"USD","currencySymbol":"$"},"createdBy":2,"updatedBy":2,"createdAt":"2015-11-24 08:24:13.935","updatedAt":"2015-11-24 08:24:13.935"}]
                 })
 
             }
@@ -84,7 +100,6 @@ var angObj = angObj || {};
                         audienceService.setAudienceKeywords(result.data.data);
                         $scope.audienceKeywords = result.data.data;
                     }
-                    //$scope.audienceKeywords = [{id:1,name:"shujan"},{id:2,name:"shujan1"},{id:3,name:"shujan2"}];
                 },function(err){
 
                 })
@@ -159,6 +174,7 @@ var angObj = angObj || {};
                     $scope.selectedSource.splice(index,1);
                     sourceObj.isChecked = false;
                 }
+                $scope.updateSourceText();
             }
 
             $scope.clearAllSelectedSource = function(){
@@ -167,6 +183,21 @@ var angObj = angObj || {};
                 }
                 $scope.selectedSource = [];
                 $scope.fetchAllAudience();
+                $scope.updateSourceText();
+            }
+
+            $scope.updateSourceText = function(){
+                console.log('selected source',$scope.selectedSource);
+                if($scope.selectedSource.length == 0){
+                    $scope.sourceText = 'All';
+                }
+                else if($scope.selectedSource.length == 1){
+                    $scope.sourceText = $scope.selectedSource[0].name;
+
+                }
+                else{
+                    $scope.sourceText = $scope.selectedSource.length+' Selected'
+                }
             }
             // end of source
 
@@ -215,6 +246,23 @@ var angObj = angObj || {};
                     }
 
                 }
+                // selected text change
+                $scope.updateCategoryText();
+
+            }
+
+            $scope.updateCategoryText = function(){
+                console.log('selected categoru',$scope.selectedCategory.length);
+                if($scope.selectedCategory.length == 0){
+                    $scope.categoryText = 'All';
+                }
+                else if($scope.selectedCategory.length == 1){
+                    $scope.categoryText = $scope.selectedCategory[0].subCategory;
+
+                }
+                else{
+                    $scope.categoryText = $scope.selectedCategory.length+' Selected'
+                }
             }
 
             $scope.showSubCategory = function(event){
@@ -240,6 +288,7 @@ var angObj = angObj || {};
                 }
                 $scope.selectedCategory = [];
                 $scope.fetchAllAudience();
+                $scope.updateCategoryText();
             }
             // end of category
 
@@ -310,6 +359,19 @@ var angObj = angObj || {};
                 audienceService.setAndOr($scope.andOr)
                 $scope.CampaignADsave(false);
             }
+                // end of final save
 
+            $scope.loadMoreAudience = function(){
+                if($scope.audienceList) {
+                    $scope.audienceFetching = true;
+                    $scope.pageNumber += 1
+                    $scope.fetchAllAudience(true);
+                }
+            }
+
+            $scope.buildAudience = function(){
+                $('.audience-tabs-segment').removeClass('active');
+                $('.audience-tabs-audience').addClass('active');
+            }
         });
 })();
