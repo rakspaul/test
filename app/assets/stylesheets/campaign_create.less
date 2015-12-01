@@ -3330,6 +3330,12 @@
       }
    }
    .add-filters {
+    position: relative;
+    .delete_row {
+      position: absolute;
+      top: 24px;
+      right: -15px;
+    }
     label {
       font-size: 12px ;
     }
@@ -3339,31 +3345,38 @@
         padding-right : 0px ;
       }
     }
-   }
-   .dropdown {
-    margin: 0px ;
-    .btn {
-      padding-top: 8px;
-      height: 34px;
-    }
-   }
-   ul.dropdown-menu {
-    li {
-      padding: 0 ;
-    }
-    ul {
-          list-style: none;
-          padding: 0 ;
-          li {
-            padding: 5px 10px 5px 40px;
-            a {
-                  color: #21252b; 
-                  font-size: 14px ;
+     .dropdown {
+      margin: 0px ;
+      .btn {
+        padding-top: 8px;
+        height: 34px;
+      }
+     }
+     ul.dropdown-menu {
+      li {
+        padding: 0 ;
+      }
+      ul {
+            list-style: none;
+            padding: 0 ;
+            li {
+              padding: 5px 10px 5px 40px;
+              a {
+                    color: #21252b; 
+                    font-size: 14px ;
+              }
+              &:hover {
+                background :rgba(109, 114, 129, 0.08);
+              }
             }
-            &:hover {
-              background :rgba(109, 114, 129, 0.08);
-            }
-          }
+      }
+     }
+   }
+  .add_filter_link {
+    color: #0978C9 ;
+    text-align: right  ;
+    span {
+      cursor: pointer;
     }
    }
    .account_name_list {
