@@ -3268,9 +3268,43 @@
 .users-popup.popup-holder .dropdown-menu li > a:hover {
   background-color: #E1EDF9;
 }
-.accounts-popup.popup-holder .add-filters,
-.users-popup.popup-holder .add-filters {
-  margin-left: 40px ;
+.accounts-popup.popup-holder .add-filters label,
+.users-popup.popup-holder .add-filters label {
+  font-size: 12px ;
+}
+.accounts-popup.popup-holder .add-filters .col-md-3,
+.users-popup.popup-holder .add-filters .col-md-3 {
+  padding-left: 0px ;
+}
+.accounts-popup.popup-holder .add-filters .col-md-3:last-child,
+.users-popup.popup-holder .add-filters .col-md-3:last-child {
+  padding-right: 0px ;
+}
+.accounts-popup.popup-holder .dropdown,
+.users-popup.popup-holder .dropdown {
+  margin: 0px ;
+}
+.accounts-popup.popup-holder ul.dropdown-menu li,
+.users-popup.popup-holder ul.dropdown-menu li {
+  padding: 0 ;
+}
+.accounts-popup.popup-holder ul.dropdown-menu ul,
+.users-popup.popup-holder ul.dropdown-menu ul {
+  list-style: none;
+  padding: 0 ;
+}
+.accounts-popup.popup-holder ul.dropdown-menu ul li,
+.users-popup.popup-holder ul.dropdown-menu ul li {
+  padding: 5px 10px 5px 40px;
+}
+.accounts-popup.popup-holder ul.dropdown-menu ul li a,
+.users-popup.popup-holder ul.dropdown-menu ul li a {
+  color: #21252b;
+  font-size: 14px ;
+}
+.accounts-popup.popup-holder ul.dropdown-menu ul li:hover,
+.users-popup.popup-holder ul.dropdown-menu ul li:hover {
+  background: rgba(109, 114, 129, 0.08);
 }
 .accounts-popup.popup-holder .account_name_list,
 .users-popup.popup-holder .account_name_list {
