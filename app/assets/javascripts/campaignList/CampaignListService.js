@@ -11,22 +11,6 @@
 
             var listCampaign = "";
 
-            var appendStrategyData = function(obj, key) {
-                var str = '';
-                for(var c in obj){
-                    str += obj[c][key] + ' ';
-                }
-                return str.substring(0, str.length - 1);
-            };
-
-            var appendZipData = function(obj) {
-                var str = '';
-                for(var c in obj){
-                    str += obj[c] + ', ';
-                }
-                return str.substring(0, str.length - 1);
-            };
-
             var setListCampaign = function(campaign) {
                 listCampaign = campaign;
             }
@@ -45,10 +29,10 @@
                     daysOver = Math.round(today.diff(startDate, 'days', true));
                 return Math.round((daysOver / totalDays) * 100);
 		*/
-		if (endDate > today) {
-		    endDate = today;
-		}
-		return endDate.diff(startDate, 'days') + 1;
+                if (endDate > today) {
+                    endDate = today;
+                }
+                return endDate.diff(startDate, 'days') + 1;
             };
 
             var createTacticObject = function(tacticData, timePeriod, campaign, strategyId, kpiType, kpiValue) {
@@ -62,18 +46,6 @@
 
                 for(var index in tacticData) {
                     var tactic = tacticData[index];
-
-                    if(tactic.targeting.audience_targeting.length > 0) {
-                        adSize = appendStrategyData(tactic.targeting.audience_targeting, 'title');
-                    }
-
-                    if(tactic.targeting.geo_targeting.length > 0) {
-                        geoValues = appendStrategyData(tactic.targeting.geo_targeting, 'title');
-                    }
-
-                    if(tactic.targeting.zip_targeting.length > 0) {
-                        zipValues = appendZipData(tactic.targeting.zip_targeting);
-                    }
 
                     if(tactic.status === undefined || tactic.status.toLowerCase() == "ready"){
                         status = "Draft";
@@ -150,8 +122,13 @@
             };
 
             var getTacticList = function(strategy, timePeriod, campaign,callBackFunction) {
-                var loadingFlag = 1;
-                dataService.getStrategyTacticList(strategy.id).then(function (response) {
+                var loadingFlag = 1, tacticDataService;
+                if (strategy.id === -1) {
+                    tacticDataService = dataService.getUnassignedTacticList(campaign.id)
+                } else {
+                    tacticDataService = dataService.getStrategyTacticList(strategy.id)
+                }
+                tacticDataService.then(function (response) {
                     var result = response.data,
                         pageSize = 3,
                         data = result.data,
@@ -265,42 +242,24 @@
                 var strategyObj = [], adSize = '', keyValues = '', geos = '';
                 for(var index in strategyData) {
                     var strategy = strategyData[index];
-                    //Iterating the creatives object
-                    if(strategy.creatives.length > 0) {
-                        adSize = appendStrategyData(strategy.creatives, 'ad_size');
-                    }
-
-                    if(strategy.selected_geos.length > 0) {
-                        geos = appendStrategyData(strategy.selected_geos, 'title');
-                    }
-
-                    if(strategy.selected_key_values.length > 0) {
-                        keyValues = appendStrategyData(strategy.selected_key_values, 'title');
-                    }
-                    var status;
-                    if(strategy.general.li_status == "Ready"){
-                        status = "Draft";
-                    }else{
-                        status = strategy.general.li_status;
-                    }
                     var strategy_1 = {
-                        id: strategy.general.id,
+                        id: strategy.id,
                         brandName: campaign.brandName,
-                        name: strategy.general.name,
+                        name: strategy.name,
                         //startDate : campaign.start_date,
                         // endDate : campaign.end_date,
-                        startDate: strategy.general.start_date,
-                        endDate: strategy.general.end_date,
-                        order_id: strategy.general.order_id,
-                        li_status: status,
+                        startDate: strategy.start_date,
+                        endDate: strategy.end_date,
+                        order_id: strategy.order_id,
+                        li_status: "Draft",
                         ad_size: adSize,
-                        tactics_count: strategy.general.ads_count || 0,
+                        tactics_count: strategy.ads_count || 0,
                         selected_key_values: keyValues,
                         selected_geos: geos,
                         totalImpressions: null,
                         grossRev: null,
-                        totalMediaCost: utils.roundOff(strategy.general.value, 2),
-                        expectedMediaCost: utils.roundOff(strategy.general.expected_media_cost, 2),
+                        totalMediaCost: utils.roundOff(strategy.total_media_cost, 2),
+                        expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
                         ctr: 0,
                         actionRate: 0,
                         chart: true,
@@ -403,8 +362,7 @@
                     kpiValue = campaign.kpiValue,
                     pageSize = 3;
 
-                // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
-                var url = '/campaigns/' + campaign.orderId + '/strategies' ;
+                var url = '/campaigns/' + campaign.orderId + '/ad_groups' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {

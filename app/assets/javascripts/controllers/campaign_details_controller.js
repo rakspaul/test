@@ -145,7 +145,7 @@
         });
 
         //API call for campaign details
-        var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
+        var url = apiPaths.apiSerivicesUrl_NEW + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
