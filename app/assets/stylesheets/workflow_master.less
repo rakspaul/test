@@ -175,6 +175,49 @@
       max-width: 340px;
       max-height: 255px;
       overflow: auto;
+      li {
+        float: left;
+        width: 100%;
+        span {
+          float:left;
+          width: 100%;
+          padding: 8px 10px;
+          .icon-arrow-down-thick {
+            font-size: 9px;
+            width: 9px;
+            height: 9px;
+            padding: 0;
+            margin: 5px 10px 5px 3px;
+            color: #363d49;
+            float: none;
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            -o-transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+            -webkit-transition: .3s ease-in-out;
+            -moz-transition: .3s ease-in-out;
+            -o-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;
+          }
+          .icon-arrow-down-thick.active {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+        }
+        ul {
+          li {
+            span {
+              input {
+                margin-right: 8px;
+              }
+            }
+          }
+        }
+      }
       .active {
         a {
           color: #21252b;
@@ -211,8 +254,18 @@
         font-size: 16px;
         height: 16px;
         width: 16px;
+        color: #939eae;
       }
     }
+    .category_dropdown {
+        padding: 5px 5px 0 0;
+        border-top: solid 1px #bfc9d7;
+		float: left;
+		width: 100%;
+        .btn {
+          width: auto;
+        }
+      }
   }
   .dropdown-menu, .dropdown-menu-search {
     width: 280px;
@@ -1014,7 +1067,7 @@
     border-radius: 1px;
     border:1px solid #bfc9d7;
     padding: 30px 20px;
-    min-height: 265px;
+    min-height: 280px;
     width: 32%;
     margin-right: 2%;
     margin-top: 2%;
@@ -1034,6 +1087,12 @@
       text-align: center;
       margin: 20px 0;
       float: left;
+      span {
+        font-family: "Avenir";
+        color: #939eae;
+        width: auto;
+        float: none;
+      }
     }
     img {
       margin: 30px auto 10px;
@@ -1076,11 +1135,64 @@
       z-index: 10;
       top: 10px;
       right: 10px;
-      color: #0978c9;
+      color: #363d49;
       font-size: 12.5px;
       width: 12.5px;
       height: 12.5px;
       display: none;
+    }
+    .targetDataSaved {
+      float: left;
+      width: 100%;
+      text-align: center;
+      .targetDataSavedTop {
+        display: table;
+        margin: 0 auto;
+      }
+      .icon-target, .icon-exclude {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        float: left;
+      }
+      span {
+        width: auto;
+        min-height: initial;
+        padding: 0 5px;
+      }
+      .badge {
+        color: #21252b;
+        font-weight: normal;
+        background: #fff;
+        border: 1px solid #bfc9d7;
+        float: left;
+      }
+      .targetListItem {
+        text-align: center;
+        width: 100%;
+        color: #939eae;
+        font-size: 14px;
+        float: left;
+      }
+      .targetListItemMore {
+        text-align: center;
+        width: 100%;
+        color: #0978c9;
+        font-size: 14px;
+        float: left;
+      }
+    }
+    .onSelectBtn {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100%;
+      cursor: pointer;
+      margin: 0 !important;
+      background: transparent !important;
+      border-width: 0;
     }
   }
   .cardSelectHolder:nth-child(3n+3) {
@@ -1089,9 +1201,16 @@
   .cardSelectHolder:hover {
     border: 1px solid #0978c9;
   }
+  .cardSelectHolder.active {
+    .icon-inline-edit {
+      display: initial;
+      color: #363d49;
+    }
+  }
   .cardSelectHolder.active:hover {
     .icon-inline-edit {
       display: initial;
+      color: #0978c9;
     }
   }
   

@@ -31,32 +31,77 @@
     </div>
 </div>
 <div class="col-md-12 zeroPadding">
+    <!--Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
-        <span ng-if="mode=='edit'" class="icon-inline-edit"></span>
+        <span ng-if="selectedTargeting['audience']" class="icon-inline-edit"></span>
         <div class="icon-audience"></div>
         <p>Audience Segments</p>
-        <span>Reach the right audience by selecting focus segments</span>
-        <span ng-if="selectedTargeting['audience']" class="btn btn-default active" ng-click="selectAudTarget()">Selected</span>
-        <input ng-if="!selectedTargeting['audience']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
+        <div ng-if="!selectedTargeting['audience']">
+            <span>Reach the right audience by selecting focus segments</span>
+            <p style="margin: 0px;"><span>All Audience (default)</span></p>
+        </div>
+        <div class="targetDataSaved" ng-if="selectedTargeting['audience']">
+            <div class="targetDataSavedTop">
+                <div class="icon-target"></div>
+                <span>Selected</span>
+                <div class="badge">6</div>
+            </div>
+            <span class="targetListItem">Sample 1</span>
+            <span class="targetListItem">Sample 2</span>
+            <span class="targetListItem">Sample 3</span>
+            <span class="targetListItemMore">+3 more</span>
+        </div>
+        <span ng-if="selectedTargeting['audience']" class="onSelectBtn btn btn-default active" ng-click="selectAudTarget()"></span>
+        <input ng-if="!selectedTargeting['audience']" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
-
+    <!--Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
-        <span ng-if="mode=='edit'"  class="icon-inline-edit"></span>
+        <span ng-if="selectedTargeting['audience']" class="icon-inline-edit"></span>
         <div class="icon-location"></div>
-        <p>Geography</p>
-        <span>Target your audience by location</span>
-        <span ng-if="selectedTargeting['geography']" class="btn btn-default active" ng-click="mode == 'edit' ? updateGeoTargets() : selectGeoTarget()">Selected</span>
-        <input ng-if="!selectedTargeting['geography']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
+        <p>Geography <span>(US Only)</span></p>
+        <div ng-if="!selectedTargeting['geography']">
+            <span>Target your audience by location</span>
+            <p style="margin: 0px;"><span>All US (default)</span></p>
+        </div>
+        <div class="targetDataSaved" ng-if="selectedTargeting['geography']">
+            <div class="targetDataSavedTop">
+                <div class="icon-target"></div>
+                <span>Included</span>
+                <div class="badge">20</div>
+            </div>
+            <span class="targetListItem">4 Regions, 1 City, 15 Postal codes</span>
+            <div class="targetDataSavedTop" style="padding-top: 20px;">
+                <div class="icon-exclude"></div>
+                <span>Excluded</span>
+                <div class="badge">2</div>
+            </div>
+            <span class="targetListItem">2 Cities</span>
+        </div>
+        <span ng-if="selectedTargeting['geography']" class="onSelectBtn btn btn-default active" ng-click="mode == 'edit' ? updateGeoTargets() : selectGeoTarget()"></span>
+        <input ng-if="!selectedTargeting['geography']" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
     </div>
-
+    <!--Daypart Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['daily']]">
-        <span ng-if="mode=='edit'"  class="icon-inline-edit"></span>
+        <span ng-if="selectedTargeting['audience']" class="icon-inline-edit"></span>
         <div class="icon-activity"></div>
         <p>Daypart</p>
-        <span>Set the Days of Week & Time of Days for Ad delivery</span>
-        
-        <span ng-if="selectedTargeting['daily']" class="btn btn-default active" ng-click="selectDayTarget()">Selected</span>
-        <input ng-if="!selectedTargeting['daily']" type="button" name="platform" value="Select" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
+        <div ng-if="!selectedTargeting['daily']">
+            <span>Set the Days of Week & Time of Days for Ad delivery</span>
+            <p style="margin: 0px;"><span>All Days & Times (default)</span></p>
+        </div>
+        <div class="targetDataSaved" ng-if="selectedTargeting['daily']">
+            <div class="targetDataSavedTop">
+                <div class="icon-target"></div>
+                <span>Included</span>
+                <div class="badge">20</div>
+            </div>
+            <span class="targetListItem">Sunday 11am to 5pm;</span>
+            <span class="targetListItem">Sunday 9pm to 11pm;</span>
+            <span class="targetListItem">Monday 6am to 11pm</span>
+            <span class="targetListItemMore">+17 more</span>
+        </div>
+        <span ng-if="selectedTargeting['daily']" class="onSelectBtn btn btn-default active" ng-click="selectDayTarget()"></span>
+        <input ng-if="!selectedTargeting['daily']" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
     </div>
 </div>
 
