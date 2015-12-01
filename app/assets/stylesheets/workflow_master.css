@@ -240,6 +240,48 @@
   max-height: 255px;
   overflow: auto;
 }
+.workflow .dropdown-workflow .dropdown-menu li,
+.workflow .dropdown-workflow .dropdown-menu-search li {
+  float: left;
+  width: 100%;
+}
+.workflow .dropdown-workflow .dropdown-menu li span,
+.workflow .dropdown-workflow .dropdown-menu-search li span {
+  float: left;
+  width: 100%;
+  padding: 8px 10px;
+}
+.workflow .dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick,
+.workflow .dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick {
+  font-size: 9px;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  margin: 5px 10px 5px 3px;
+  color: #363d49;
+  float: none;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.workflow .dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick.active,
+.workflow .dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick.active {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.workflow .dropdown-workflow .dropdown-menu li ul li span input,
+.workflow .dropdown-workflow .dropdown-menu-search li ul li span input {
+  margin-right: 8px;
+}
 .workflow .dropdown-workflow .dropdown-menu .active a,
 .workflow .dropdown-workflow .dropdown-menu-search .active a {
   color: #21252b;
@@ -248,6 +290,15 @@
 }
 .workflow .dropdown-workflow .dropdown-menu-search {
   overflow: scroll;
+}
+.workflow .dropdown-workflow .dropdown-menu-search .category_dropdown {
+  padding: 5px 5px 0 0;
+  border-top: solid 1px #bfc9d7;
+  float: left;
+  width: 100%;
+}
+.workflow .dropdown-workflow .dropdown-menu-search .category_dropdown .btn {
+  width: auto;
 }
 .workflow .dropdown-workflow .dropdown-menu > li > a:hover,
 .workflow .dropdown-workflow .dropdown-menu > li > a:focus,
@@ -275,6 +326,7 @@
   font-size: 16px;
   height: 16px;
   width: 16px;
+  color: #939eae;
 }
 .workflow .dropdown-menu,
 .workflow .dropdown-menu-search {
@@ -1090,7 +1142,7 @@
   z-index: 10;
   top: 10px;
   right: 10px;
-  color: #0978c9;
+  color: #363d49;
   font-size: 12.5px;
   width: 12.5px;
   height: 12.5px;
@@ -1102,8 +1154,13 @@
 .workflow .cardSelectHolder:hover {
   border: 1px solid #0978c9;
 }
+.workflow .cardSelectHolder.active .icon-inline-edit {
+  display: initial;
+  color: #363d49;
+}
 .workflow .cardSelectHolder.active:hover .icon-inline-edit {
   display: initial;
+  color: #0978c9;
 }
 .workflow .ui-helper-hidden {
   display: none;

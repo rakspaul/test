@@ -2798,6 +2798,9 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap:first-child {
   margin-top: 20px;
 }
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .build-audience {
+  float: right;
+}
 .adCreateMaster #targetting .targetingSlide .segmentHolder {
   width: 100%;
   float: left;
