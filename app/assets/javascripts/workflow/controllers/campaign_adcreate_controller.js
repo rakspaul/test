@@ -854,7 +854,7 @@ var angObj = angObj || {};
 
                      // audience segment
                      var selectedAudience = audienceService.getSelectedAudience();
-                     console.log("sel aud = ",selectedAudience);
+
                      if(selectedAudience){
                          var segmentObj = postAdDataObj['targets']['segmentTargets'] = {};
                          segmentObj['segmentList'] = {};
@@ -864,7 +864,8 @@ var angObj = angObj || {};
                              segmentObj['segmentList'][i].segmentId = selectedAudience[i].id;
                              segmentObj['segmentList'][i].isIncluded = selectedAudience[i].isIncluded;
                          }
-                         segmentObj.operation = audienceService.getAndOr();
+                         segmentObj.operation = audienceService.getAndOr().toUpperCase();
+
                      }
 
                  }
