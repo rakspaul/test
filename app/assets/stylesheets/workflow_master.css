@@ -1078,7 +1078,7 @@
   border-radius: 1px;
   border: 1px solid #bfc9d7;
   padding: 30px 20px;
-  min-height: 265px;
+  min-height: 280px;
   width: 32%;
   margin-right: 2%;
   margin-top: 2%;
@@ -1099,6 +1099,12 @@
   text-align: center;
   margin: 20px 0;
   float: left;
+}
+.workflow .cardSelectHolder p span {
+  font-family: "Avenir";
+  color: #939eae;
+  width: auto;
+  float: none;
 }
 .workflow .cardSelectHolder img {
   margin: 30px auto 10px;
@@ -1147,6 +1153,60 @@
   width: 12.5px;
   height: 12.5px;
   display: none;
+}
+.workflow .cardSelectHolder .targetDataSaved {
+  float: left;
+  width: 100%;
+  text-align: center;
+}
+.workflow .cardSelectHolder .targetDataSaved .targetDataSavedTop {
+  display: table;
+  margin: 0 auto;
+}
+.workflow .cardSelectHolder .targetDataSaved .icon-target,
+.workflow .cardSelectHolder .targetDataSaved .icon-exclude {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+.workflow .cardSelectHolder .targetDataSaved span {
+  width: auto;
+  min-height: initial;
+  padding: 0 5px;
+}
+.workflow .cardSelectHolder .targetDataSaved .badge {
+  color: #21252b;
+  font-weight: normal;
+  background: #fff;
+  border: 1px solid #bfc9d7;
+  float: left;
+}
+.workflow .cardSelectHolder .targetDataSaved .targetListItem {
+  text-align: center;
+  width: 100%;
+  color: #939eae;
+  font-size: 14px;
+  float: left;
+}
+.workflow .cardSelectHolder .targetDataSaved .targetListItemMore {
+  text-align: center;
+  width: 100%;
+  color: #0978c9;
+  font-size: 14px;
+  float: left;
+}
+.workflow .cardSelectHolder .onSelectBtn {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  cursor: pointer;
+  margin: 0 !important;
+  background: transparent !important;
+  border-width: 0;
 }
 .workflow .cardSelectHolder:nth-child(3n+3) {
   margin-right: 0;
