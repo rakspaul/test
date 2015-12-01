@@ -6,11 +6,13 @@
         //$scope.clientType = 'AGENCY';
         $scope.currencySelected = '';
         $scope.referenceId;
+        getCountries();
 
         if($scope.mode == 'edit'){
             $scope.clientName = $scope.clientObj.name;
             $scope.clientType = $scope.clientObj.clientType;
             $scope.selectedCurrency = $scope.clientObj.currency && $scope.clientObj.currency.id;
+            $scope.selectedCountry=$scope.clientObj.country && $scope.clientObj.country.id;
             $scope.timezone = $scope.clientObj.timezone;
         }
 
@@ -25,6 +27,7 @@
                 $scope.allAdvertiser = result.data.data;
             })
         }
+
 
         $scope.selectClientAdvertiser = function(advertiser){
             $scope.dropdownCss.display = 'none';
@@ -95,11 +98,13 @@
                 respBody.referenceId = obj.referenceId;
                 respBody.timezone = $scope.timezone;
                 respBody.currency = Number($scope.selectedCurrency);
+                respBody.countryId=Number($scope.selectedCountry);
             }
             else{
                 respBody.billableAccountId = 1;
                 respBody.clientType = $scope.clientType;
                 respBody.currency = Number($scope.selectedCurrency);
+                respBody.countryId=Number($scope.selectedCountry);
                 respBody.referenceId = $scope.referenceId;
                 respBody.timezone = $scope.timezone;
                 respBody.billableAccountId = $scope.billableAccountId;
@@ -108,5 +113,14 @@
 
             return respBody;
         }
+        function getCountries(){
+            accountsService.getCountries().then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    //console.log(result.data.data);
+                    $scope.Geography=result.data.data;
+                }
+            });
+        }
+
     });
 }());
