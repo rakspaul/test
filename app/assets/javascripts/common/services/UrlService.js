@@ -118,7 +118,7 @@
 
       this.scheduleReportsList = function() {
          // return 'http://localhost:9000/assets/json/reportScheduleList.json';
-          console.log(apiPaths.apiSerivicesUrl+'/scheduledreports/listReports');
+         // console.log(apiPaths.apiSerivicesUrl+'/scheduledreports/listReports');
           return apiPaths.apiSerivicesUrl+'/scheduledreports/listReports';
       }
 
@@ -133,6 +133,15 @@
       this.scheduledReport = function(reportId) {
           return apiPaths.apiSerivicesUrl+'/scheduledreports/getReport/'+reportId;
       }
+
+      this.deleteSchdRpt = function(reportId) {
+          return apiPaths.apiSerivicesUrl+'/scheduledreports/deleteReport/'+reportId;
+      }
+
+      this.deleteInstanceOfSchdRpt = function(reportId,instanceId) {
+          return apiPaths.apiSerivicesUrl+'/scheduledreports/deleteInstance/'+reportId+'/'+instanceId;
+      }
+
   }
 
   commonModule.service("urlService", ['apiPaths', 'constants', urlFactory]);

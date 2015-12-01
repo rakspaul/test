@@ -37,9 +37,35 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
         })
     }
 
+    var deleteScheduledReport = function(successFn,errorFn,reportId) {
+        var url = urlService.deleteSchdRpt(reportId);
+        dataService.delete(url).then(function(response){
+               console.log('Delete response',response);
+            if(response.status == "success") {
+                successFn(response.data);
+            } else {
+                errorFn(response.data);
+            }
+        })
+    }
+
+    var deleteScheduledReportInstance = function(successFn,errorFn,reportId,instanceId) {
+        var url = urlService.deleteInstanceOfSchdRpt(reportId,instanceId);
+        dataService.delete(url).then(function(response){
+            console.log('Delete response',response);
+            if(response.status == "success") {
+                successFn(response.data);
+            } else {
+                errorFn(response.data);
+            }
+        })
+    }
+
     return {
       reportList: getReportList,
       deleteReport: deleteReport,
-      getScheduleReportList: getScheduleReportList
+      getScheduleReportList: getScheduleReportList,
+        deleteScheduledReport:deleteScheduledReport,
+        deleteScheduledReportInstance: deleteScheduledReportInstance
     }
 }]);

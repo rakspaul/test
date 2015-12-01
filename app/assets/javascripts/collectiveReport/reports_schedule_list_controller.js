@@ -1,7 +1,7 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel,momentService,$location) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
@@ -16,18 +16,22 @@
             }, 3000);
         }
 
-        var scheduleReportListSucc = function(schdReportList) {
-            $scope.schdReportList = schdReportList;
-            $scope.sortSchdlReport();
-            for(var i = 0 ; i < $scope.schdReportList.length;i++){
-                $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
+        $scope.getScheduledReports = function() {
+            var scheduleReportListSucc = function(schdReportList) {
+                $scope.schdReportList = schdReportList;
+                $scope.sortSchdlReport();
+                for(var i = 0 ; i < $scope.schdReportList.length;i++){
+                    $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
+                }
             }
+
+            var scheduleReportListError = function() {
+                console.log('error occured');
+            }
+            collectiveReportModel.getScheduleReportList(scheduleReportListSucc,scheduleReportListError);
         }
 
-        var scheduleReportListError = function() {
-            console.log('error occured');
-        }
-        collectiveReportModel.getScheduleReportList(scheduleReportListSucc,scheduleReportListError);
+        $scope.getScheduledReports();
 
 
         $scope.close_msg_box = function(event) {
@@ -68,6 +72,89 @@
             })*/
 
 
+        }
+
+        //Delete scheduled report Pop up
+        $scope.deleteSchdRpt = function(reportId) {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_delete_collective_report,
+                controller:"ReportScheduleDeleteController",
+                scope:$scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    headerMsg: function() {
+                        return constants.deleteReportHeader;
+                    },
+                    mainMsg: function() {
+                        return "Are you sure you want to delete Scheduled Report"
+                    },
+                    deleteAction: function() {
+                        return function() {
+                            var successFun = function(data) {
+                                if(data.status_code == 200) {
+                                    var url = urlService.scheduleReportsList();
+                                     if(url) {
+                                     dataStore.deleteFromCache(url);
+                                     }
+                                    $scope.getScheduledReports();
+                                    $scope.flashMessage = {'message':'Scheduler deleted Successfully','isErrorMsg':''};
+                                    $scope.timeoutReset();
+                                } else {
+                                    $scope.flashMessage = {'message':data.message,'isErrorMsg':data.message};
+                                    $scope.timeoutReset();
+                                }
+                            }
+                            var errorFun = function(data) {
+                                $scope.flashMessage = {'message':data.message,'isErrorMsg':data.message};
+                                $scope.timeoutReset();
+                            }
+                            collectiveReportModel.deleteScheduledReport(successFun,errorFun,reportId);
+                        }
+                    }
+                }
+            });
+        }
+
+        //Delete scheduled report Pop up
+        $scope.deleteSchdRptInstance = function(reportId,instanceId) {
+            console.log('Delete Instance: ',reportId,instanceId);
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_delete_collective_report,
+                controller:"ReportScheduleDeleteController",
+                scope:$scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    headerMsg: function() {
+                        return constants.deleteReportHeader;
+                    },
+                    mainMsg: function() {
+                        return "Are you sure you want to delete instance of Scheduled Report"
+                    },
+                    deleteAction: function() {
+                        return function() {
+                            var successFun = function(data) {
+                                if(data.status_code == 200) {
+                                    var url = urlService.scheduleReportsList();
+                                    if(url) {
+                                        dataStore.deleteFromCache(url);
+                                    }
+                                    $scope.getScheduledReports();
+                                    $scope.flashMessage = {'message':'Scheduler deleted Successfully','isErrorMsg':''};
+                                    $scope.timeoutReset();
+                                } else {
+                                    $scope.flashMessage = {'message':data.message,'isErrorMsg':data.message};
+                                    $scope.timeoutReset();
+                                }
+                            }
+                            var errorFun = function(data) {
+                                $scope.flashMessage = {'message':data.message,'isErrorMsg':data.message};
+                                $scope.timeoutReset();
+                            }
+                           collectiveReportModel.deleteScheduledReportInstance(successFun,errorFun,reportId,instanceId);
+                        }
+                    }
+                }
+            });
         }
 
         $scope.editSchdReport = function(reportId) {
