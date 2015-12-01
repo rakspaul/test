@@ -19,6 +19,10 @@
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/agencies', data,{'Content-Type': 'application/json'})
 
             },
+            getCountries:function(){
+                var url = apiPaths.WORKFLOW_APIUrl + '/countries';
+                return dataService.fetch(url);
+            },
             getAllAdvertisers: function () {
                 var url = apiPaths.WORKFLOW_APIUrl + '/advertisers';
                 return dataService.fetch(url, {cache:false});

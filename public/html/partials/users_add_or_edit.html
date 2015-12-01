@@ -7,48 +7,49 @@
         <h2 class="modal-title" id="myModalLabel">Add User</h2>
     </div>
     <div class="clearfix modal-body">
+        <form id="userCreateEditForm">
         <div class="form-group col-md-12 zeroPadding">
             <label >User Login:</label>
-            <input type="text" class="form-control"  >
+            <input name="login" type="text" class="form-control"  >
         </div>
         <div class="form-group col-md-12 zeroPadding">
             <label >First Name:</label>
-            <input type="text" class="form-control"  >
+            <input name="firstName" type="text" class="form-control"  >
         </div>
         <div class="form-group col-md-12 zeroPadding">
             <label >Last Name:</label>
-            <input type="text" class="form-control"  >
+            <input name="lastName" type="text" class="form-control"  >
         </div>
         <div class="form-group col-md-12 zeroPadding">
             <label >Password:</label>
-            <input type="password" class="form-control"  >
+            <input name="password" type="password" class="form-control"  >
         </div>
         <div class="form-group col-md-12 zeroPadding">
             <label >Collective Internal:</label>
             <div class="clearfix">
                 <div class="pull-left radio">
-                  <label><input type="radio" name="optradio">Yes</label>
+                  <label><input type="radio" name="optradio" value="INTERNAL">Yes</label>
                 </div>
                 <div class="pull-left radio">
-                  <label><input type="radio" name="optradio">No</label>
+                  <label><input type="radio" name="optradio" value="EXTERNAL">No</label>
                 </div>
             </div>
         </div>
         <div class="form-group col-md-12 zeroPadding">
             <label >Application Access:</label>
             <div class="clearfix">
-                <div class="pull-left checkbox">
-                  <label><input type="checkbox" value="">Reporting</label>
+                <div class="pull-left radio">
+                  <label><input type="radio" name="optcheck" value="REPORTING">Reporting</label>
                 </div>
-                <div class="pull-left checkbox">
-                  <label><input type="checkbox" value="">Workflow</label>
+                <div class="pull-left radio">
+                  <label><input type="radio" name="optcheck" value="WORKFLOW">Workflow</label>
                 </div>
             </div>
         </div>
 
         <div class="form-group col-md-12 zeroPadding">
             <label >Role:</label>
-            <select class="form-control" >
+            <select name="role" class="form-control" >
               <option>Super Admin</option>
               <option>Account Admin</option>
               <option>Advertiser Admin</option>
@@ -60,7 +61,7 @@
             <div class="add-filters">
                 <div class="form-group">
                     <label >Role:</label>
-        		    <select class="form-control" >
+        		    <select name="userRole" class="form-control" >
                       <option>Client1</option>
                       <option>Client2</option>
                       <option>Client3</option>
@@ -69,7 +70,7 @@
                 </div>
                 <div class="form-group">
                     <label >Permission:</label>
-                    <select class="form-control" >
+                    <select name="permission" class="form-control" >
                       <option>Admin</option>
                       <option>Write</option>
                       <option>Read</option>
@@ -77,7 +78,7 @@
                 </div>
                 <div class="form-group">
                     <label > Advertiser Name:</label>
-                    <select class="form-control" >
+                    <select name="advertiserName" class="form-control" >
                       <option>All Advertisers</option>
                       <option>Advertiser</option>
                       <option>Advertiser</option>
@@ -86,7 +87,7 @@
                 </div>
                 <div class="form-group">
                     <label >Brand Name:</label>
-                    <select class="form-control" >
+                    <select name="brandName" class="form-control" >
                       <option>All Brands</option>
                       <option>Brand</option>
                       <option>Brand</option>
@@ -96,12 +97,12 @@
             </div>
         </div>
 
-       
 
 
+        </form>
     </div><!-- end of modal_body -->
     <div class="clearfix popup-btns-holder">
-        <span class="common_primary_btn" >Save</span>
+        <span class="common_primary_btn" ng-click="saveUserForm()">Save</span>
         <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
             Cancel
         </span>
