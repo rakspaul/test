@@ -19,7 +19,8 @@ var angObj = angObj || {};
             $scope.selectAllChecked = false;
             $scope.pageNumber = 1;
             $scope.pageSize = 50;
-            $scope.andOr = 'Or'
+            $scope.andOr = 'Or';
+            $scope.audienceFetching = false;
 
             $(document).on('click','.dropdown-menu', function(event) {
                 //$(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -313,7 +314,11 @@ var angObj = angObj || {};
                 // end of final save
 
             $scope.loadMoreAudience = function(){
-                console.log("load more");
+                if($scope.audienceList) {
+                    $scope.audienceFetching = true;
+                    $scope.pageNumber += 1
+                    $scope.fetchAllAudience(null, $scope.citiesListObj);
+                }
             }
 
         });
