@@ -214,7 +214,7 @@
                             </div>
                             <div ng-hide="hideKpiValue" class="form-group col-md-3 zeroPadding unitCostElement" ng-class=" percentageVal" show-errors='{showSuccess: true}'>
                                 <label class="col-sm-12 control-label greyTxt miniLabels">KPI Value</label>
-                                <div>
+                                <div class="col-sm-12 zeroPadding">
                                     <!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
                                     <!--<span class="currency">£</span>-->
                                     <input type="text" class="form-control" ng-model="selectedCampaign.kpiValue" fraction-numbers="fraction-numbers" name="kpiValue" ng-value="" ng-readonly="selectedCampaign.kpi=='Delivery' ? true:false" id="kpiValue" required>
