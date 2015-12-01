@@ -2882,11 +2882,12 @@
 }
 .adCreateMaster #targetting .targetingSlide .dayRow .removeDay {
   float: left;
-  font-size: 7px;
-  width: 7px;
-  height: 7px;
+  font-size: 16px;
   padding: 5px 0;
-  margin: 9px 0;
+  margin: 5px 0;
+  width: 16px;
+  height: 16px;
+  color: #363d49;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow .hourRow,
 .adCreateMaster #targetting .targetingSlide .dayRow .dailyRow {
@@ -2898,6 +2899,20 @@
   width: 20px;
   padding: 8px 0;
   margin-right: 10px;
+}
+.adCreateMaster #targetting #dayTargeting {
+  padding: 0;
+}
+.adCreateMaster #targetting #dayTargeting .dayTargetTop {
+  padding: 0 0 30px 30px;
+  float: left;
+  width: 100%;
+}
+.adCreateMaster #targetting #dayTargeting .dayTargetLower {
+  padding: 0 30px 30px 30px;
+  float: left;
+  width: 100%;
+  background-color: rgba(237, 241, 248, 0.5);
 }
 .adCreateMaster #targetting .tab-pane {
   padding: 0px;

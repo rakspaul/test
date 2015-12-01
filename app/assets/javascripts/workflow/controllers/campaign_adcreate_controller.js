@@ -1105,7 +1105,7 @@ var angObj = angObj || {};
                             str += result[0][i] + ', ';
                         }
                     }
-                    $scope.sizeString = str.substr(0, str.length-2);
+                    $scope.sizeString = str.substr(0, str.length-2).replace(/X/g, 'x');
                 }
             } else {
                 $scope.sizeString = constants.WF_NOT_SET;

@@ -1,83 +1,90 @@
-<div class="col-md-12 zeroPadding breadcrumbs" style="margin-bottom: 20px;">
-	<div class="pull-left">
-		<h5 ng-click="resetDayTargetingVariables();">Targeting</h5>
-		<span class="icon-arrow-down"></span>
-		<h5>Daypart</h5>
-		<span class="pull-left" style="clear: left; font-size: 12px;">By default, Ads will be delivered all day everytday when no specific daypart rules applied</span>
+<div class="dayTargetTop">
+	<div class="col-md-12 zeroPadding breadcrumbs" style="margin-bottom: 20px;">
+		<div class="pull-left">
+			<h5 ng-click="resetDayTargetingVariables();">Targeting</h5>
+			<span class="icon-arrow-down"></span>
+			<h5>Daypart</h5>
+			<span class="pull-left" style="clear: left; font-size: 12px;">By default, Ads will be delivered all day everytday when no specific daypart rules applied</span>
+		</div>
+		
+		<div class="pull-right">
+			<button class="pull-right btn btn-default" ng-disabled="!adData.adName" ng-click="saveCampaignWithDay()">Save Daypart</button>
+			<button class="pull-right btn btn-link" ng-click="resetDayTargetingVariables();">Cancel</button>
+		</div>
 	</div>
 	
-	<div class="pull-right">
-		<button class="pull-right btn btn-default" ng-disabled="!adData.adName" ng-click="saveCampaignWithDay()">Save Daypart</button>
-		<button class="pull-right btn btn-link" ng-click="resetDayTargetingVariables();">Cancel</button>
+	<div class="col-md-12 zeroPadding">
+		<div class="col-md-3 zeroPadding">
+			<label class="col-sm-12 greyTxt">Day & Time</label>
+			<div class="col-md-12 zeroPadding dropdown-workflow">
+				 <div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						   <span class="text">All days and times</span>
+						   <span class="icon-arrow-down"></span>
+					  </button>
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
+						   <li><a>All days and times</a></li>
+						   <li><a>Weekday (M-F)</a></li>
+						   <li><a>Weekend (S/S)</a></li>
+						   <li><a>Business hour (M-F, 9am - 5pm)</a></li>
+						   <li><a>TV Primetime (8pm-11pm)</a></li>
+						   <li><a>Early Morning (5am-7am)</a></li>
+						   <li><a>Late Night (11pm-1am)</a></li>
+						   <li><a>Custom schedule</a></li>
+					  </ul>
+				 </div>
+			</div>
+		</div>
+		
+		<div class="col-md-12 zeroPadding" style="margin-top: 20px;">
+			<div class="col-md-6 zeroPadding">
+				<div class="col-md-12 zeroPadding radioBtnToggle">
+					<label class="col-sm-12 greyTxt">Time Zone</label>
+					<div class="btn-group miniToggle">
+						<label class="btn btn-default active timeAdvertiser" style="width: auto;">
+							<span>Advertiser</span>
+							<input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad" id="timeAdvertiser" ng-click="toggleBtn($event);">
+						</label>
+			
+						<label class="btn btn-default timeEndUser" style="width: auto;">
+							<span>End User</span>
+							<input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad" id="timeEndUser" ng-click="toggleBtn($event);">
+						</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-6 zeroPadding">
+				<div class="col-md-12 zeroPadding radioBtnToggle">
+					<label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 97px !important;">Clock</label>
+					<div class="btn-group miniToggle pull-right">
+						<label class="btn btn-default active 12hr" style="width: auto;">
+							<span>12 hr</span>
+							<input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="toggleBtn($event);">
+						</label>
+			
+						<label class="btn btn-default 24hr" style="width: auto;">
+							<span>24 hr</span>
+							<input type="radio" name="timeClock" group="timeClock" value="24 hr" hidden="hidden" class="btn_rad" id="24hr" ng-click="toggleBtn($event);">
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div class="col-md-12 zeroPadding">
-	<div class="col-md-3 zeroPadding">
-		<label class="col-sm-12 greyTxt">Day & Time</label>
-		<div class="col-md-12 zeroPadding dropdown-workflow">
-			 <div class="dropdown">
-				  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					   <span class="text">All days and times</span>
-					   <span class="icon-arrow-down"></span>
-				  </button>
-				  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
-					   <li><a>All days and times</a></li>
-					   <li><a>Weekday (M-F)</a></li>
-					   <li><a>Weekend (S/S)</a></li>
-					   <li><a>Business hour (M-F, 9am - 5pm)</a></li>
-					   <li><a>TV Primetime (8pm-11pm)</a></li>
-					   <li><a>Early Morning (5am-7am)</a></li>
-					   <li><a>Late Night (11pm-1am)</a></li>
-					   <li><a>Custom schedule</a></li>
-				  </ul>
-			 </div>
-		</div>
-	</div>
-	
-	<div class="col-md-12 zeroPadding" style="margin-top: 20px;">
-		<div class="col-md-6 zeroPadding">
-			<div class="col-md-12 zeroPadding radioBtnToggle">
-				<label class="col-sm-12 greyTxt">Time Zone</label>
-				<div class="btn-group miniToggle">
-					<label class="btn btn-default active timeAdvertiser" style="width: auto;">
-						<span>Advertiser</span>
-						<input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad" id="timeAdvertiser" ng-click="toggleBtn($event);">
-					</label>
-		
-					<label class="btn btn-default timeEndUser" style="width: auto;">
-						<span>End User</span>
-						<input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad" id="timeEndUser" ng-click="toggleBtn($event);">
-					</label>
-				</div>
-			</div>
-		</div>
-		
-		<div class="col-md-6 zeroPadding">
-			<div class="col-md-12 zeroPadding radioBtnToggle">
-				<label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 97px !important;">Clock</label>
-				<div class="btn-group miniToggle pull-right">
-					<label class="btn btn-default active 12hr" style="width: auto;">
-						<span>12 hr</span>
-						<input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="toggleBtn($event);">
-					</label>
-		
-					<label class="btn btn-default 24hr" style="width: auto;">
-						<span>24 hr</span>
-						<input type="radio" name="timeClock" group="timeClock" value="24 hr" hidden="hidden" class="btn_rad" id="24hr" ng-click="toggleBtn($event);">
-					</label>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+<div class="dayTargetLower">
 	<div class="col-md-12 zeroPadding bottomBorder" style="margin: 20px 0;">
 		<span class="greyTxt pull-left">Deliver Ads on specific days and times</span>
-		<a class="pull-right" style="padding: 10px 0 5px 0;">Clear All</a>
+	</div>
+	
+	<div class="col-md-2 zeroPadding pull-right">
+		<a class="pull-right" style="padding: 0;">Clear All</a>
 	</div>
 	
 	<!--Sample 1-->
-	<div class="col-md-12 zeroPadding dayRow">
+	<div class="col-md-10 zeroPadding dayRow">
 		<div class="col-md-2 zeroPadding dailyRow">
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
@@ -123,7 +130,7 @@
 				 </div>
 			</div>
 		</div>
-		<span class="icon-close removeDay"></span>
+		<span class="icon-clear removeDay"></span>
 	</div>
 	
 	<!--Sample 1-->
@@ -231,7 +238,7 @@
 				 </div>
 			</div>
 		</div>
-		<span class="icon-close removeDay"></span>
+		<span class="icon-clear removeDay"></span>
 	</div>
 	
 	<!--Sample Add-->
@@ -256,7 +263,5 @@
 			</div>
 		</div>
 	</div>
-	
-	
 </div>
 	
