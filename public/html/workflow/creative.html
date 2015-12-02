@@ -122,7 +122,7 @@
 						</li>
 					    <span class="greyTxt" style="margin-left:15px">AVAILABLE SIZES</span>
 				         <li style="padding-left:15px;" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:newData.creativeSize track by creativeSize.id">
-							<a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a>
+							<a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size | lowercase}}</a>
 						 </li>
 					 </ul>		
 			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
