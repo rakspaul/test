@@ -160,5 +160,12 @@
         $scope.editSchdReport = function(reportId) {
             $location.path('/customreport/edit/'+reportId);
         }
+
+
+        $scope.copyScheduleRpt = function(reportId) {
+            console.log('Report Id:',reportId);
+        }
+
+
     });
     }());
