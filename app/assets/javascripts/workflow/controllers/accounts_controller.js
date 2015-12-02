@@ -74,16 +74,20 @@ var angObj = angObj || {};
         }
 
         $scope.fetchBrands = function(clientId,advertiserId){
-            accountsService.getAdvertisersBrand(clientId,advertiserId).then(function(res){
-                var clientIndex = _.findIndex($scope.clientsDetails, function(item) {
-                    return item.id == clientId});
+            if(advertiserId != -1) {
+                accountsService.getAdvertisersBrand(clientId, advertiserId).then(function (res) {
+                    var clientIndex = _.findIndex($scope.clientsDetails, function (item) {
+                        return item.id == clientId
+                    });
 
-                var advIndex = _.findIndex($scope.clientsDetails[clientIndex]['advertisement'], function(item) {
-                    return item.id == advertiserId});
+                    var advIndex = _.findIndex($scope.clientsDetails[clientIndex]['advertisement'], function (item) {
+                        return item.id == advertiserId
+                    });
 
-                $scope.clientsDetails[clientIndex]['advertisement'][advIndex]['brand'] = res.data.data;
-                console.log($scope.clientsDetails)
-            });
+                    $scope.clientsDetails[clientIndex]['advertisement'][advIndex]['brand'] = res.data.data;
+                    console.log($scope.clientsDetails)
+                });
+            }
         }
 
         //Add or Edit Pop up for Advertiser

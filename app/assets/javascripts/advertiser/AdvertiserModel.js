@@ -14,11 +14,12 @@ brandsModule.factory("advertiserModel", ['advertiserService', 'constants', 'work
         getAdvertisers: function (success, searchCritera, search) {
             advertiserService.fetchAdvertisers(searchCritera).then(function (response) {
                 var resData = response.data.data;
+                console.log('search',search);
                 if(search){
                     advertisers = [];
                     advertisers.push(advertiser.allAdvertiserObject);
                 }
-                advertisers = advertisers.concat(resData);
+                advertisers = [advertiser.allAdvertiserObject].concat(resData);//advertisers.concat(resData);
                 advertiser.totalAdvertisers = advertisers.length;
                 success.call(this, advertisers);
             })
