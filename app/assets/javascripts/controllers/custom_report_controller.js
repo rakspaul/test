@@ -31,6 +31,8 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
 
+
+
         if($routeParams.reportId) {
             dataService.fetch(urlService.scheduledReport($routeParams.reportId)).then(function(response) {
                 console.log('Response: ',response);
@@ -715,6 +717,19 @@ var angObj = angObj || {};
                     $(".custom_report_scroll").addClass("vertical_scroll");
                 }
             });
+
+            function monthArrayMake(){
+                var dayTo31 = [];
+                for(var i=1;i<=31;i++){
+                    dayTo31.push(i);
+                }
+                return dayTo31;
+
+            }
+
+            $scope.getNumberDate = monthArrayMake();
+
+
         });
 
     });

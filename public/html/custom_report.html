@@ -379,7 +379,7 @@
                                             <span class="arrow_img"></span>
                                         </span>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="counter in range(1,10)" ng-model="reports.schedule.customOccuranceDate" ng-click="reports.schedule.customOccuranceDate = counter; select_dropdown_option($event);">{{counter}}
+                                            <li ng-repeat="counter in getNumberDate" ng-model="reports.schedule.customOccuranceDate" ng-click="reports.schedule.customOccuranceDate = counter; select_dropdown_option($event);">{{counter}}
                                             </li>
                                         </ul>
                                     </div>
