@@ -870,11 +870,6 @@
 }
 /*End of Navigation filters which contains Brands, Campaigns, and Strategy*/
 /*Main top navigation*/
-.main_navigation_holder {
-  height: 66px;
-  background: #007ac9;
-  padding: 12px ;
-}
 .main_navigation_holder #reports_nav_link.selected:after,
 .main_navigation_holder .profile-photo-tab.selected:after {
   content: "";
@@ -889,8 +884,7 @@
   border-right: solid 8px transparent;
 }
 .main_navigation_holder div.reports_header_tabs_holder {
-  width: 1200px ;
-  margin: 0 auto ;
+  margin: 0 50px ;
   padding: 15px 0 ;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dd_subheading {
@@ -910,12 +904,11 @@
   max-width: 650px;
   margin-left: 10px;
 }
-.main_navigation_holder div.reports_header_tabs_holder .custom_container {
-    max-width: 200px;
-  /*background-color: #004478 ;*/
+.main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown {
+  float: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .reports_list_link {
-  padding: 5px 0;
+  padding: 0;
 }
 .main_navigation_holder div.reports_header_tabs_holder .custom_container .header_tab_dropdown .upload_icon {
   cursor: pointer;
@@ -965,7 +958,7 @@
   color: #84BCE4 ;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
-  padding: 1px 20px 1px 0px;
+  padding: 2px 20px 2px 0px;
   float: left;
   width: 162px;
 }
@@ -1029,92 +1022,6 @@
   position: absolute;
   top: -10px;
   left: 50%;
-}
-.main_navigation_holder .main_nav {
-  width: 1200px;
-  margin: 0 auto;
-  color: #fff ;
-}
-.main_navigation_holder .main_nav .main_logo {
-  display: block;
-  cursor: default;
-  background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat top center;
-  width: 80px;
-  height: 30px;
-  margin-right: 70px;
-}
-.main_navigation_holder .main_nav .profile_menu {
-  height: 30px ;
-  width: 30px ;
-  margin: 5px 0 0 40px ;
-  cursor: default;
-}
-.main_navigation_holder .main_nav .profile_menu .profile_account_icon {
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px;
-  height: 30px ;
-  width: 30px ;
-}
-.main_navigation_holder .main_nav .profile_menu .profile_account_icon:hover {
-  background-position: -345px -266px;
-}
-.main_navigation_holder .main_nav .profile_menu .dropdown-menu {
-  z-index: 1001 ;
-  top: 47px ;
-  max-width: 150px;
-}
-.main_navigation_holder .main_nav .profile_menu .dropdown-menu li a {
-  padding-left: 6px ;
-  padding-right: 0px ;
-  word-wrap: break-word;
-  font-family: "Avenir";
-  cursor: default;
-  white-space: normal;
-}
-.main_navigation_holder .main_nav .profile_menu .dropdown-menu li .logout_link {
-  color: #fff ;
-  padding-top: 0;
-  cursor: pointer;
-}
-.main_navigation_holder .main_nav .profile_menu .dropdown-menu .about_link a {
-  cursor: pointer;
-}
-.main_navigation_holder .main_nav .profile_menu .dropdown-menu:before {
-  left: 65% ;
-}
-.main_navigation_holder .main_nav .main_navigation {
-  margin: 11px 0 0 25px;
-  font-family: "Avenir";
-  font-size: 14px;
-}
-.main_navigation_holder .main_nav .main_navigation .dropdown-menu {
-  top: 54px ;
-}
-.main_navigation_holder .main_nav .main_navigation .each_nav_link {
-  margin: 0 30px  ;
-  height: 43px ;
-}
-.main_navigation_holder .main_nav .main_navigation .each_nav_link > a {
-  text-decoration: none;
-  color: #84bce4 ;
-}
-.main_navigation_holder .main_nav .main_navigation .each_nav_link a:hover {
-  color: #fff ;
-}
-.main_navigation_holder .main_nav .main_navigation #reports_nav_link {
-  position: relative;
-  height: 43px ;
-}
-.main_navigation_holder .main_nav .main_navigation #reports_nav_link:hover a {
-  color: #fff !important ;
-}
-.main_navigation_holder .main_nav .main_navigation #reports_nav_link:hover .reports_header_tabs_holder {
-  display: block;
-}
-.main_navigation_holder .main_nav .main_navigation .active a {
-  color: #fff ;
-}
-.main_navigation_holder .main_nav a {
-  color: #fff ;
 }
 /*end of Main top navigation*/
 /*common checkbox styling */

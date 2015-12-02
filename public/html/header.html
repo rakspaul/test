@@ -11,17 +11,13 @@
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
         <a href="/campaigns">{{textConstants.MEDIA_PLAN}}</a>
       </div>
-      <!--<div class="pull-left each_nav_link" id="creative_nav_link" ng-show="isWorkFlowUser">-->
-        <!--<a href="/creative/list">{{textConstants.CREATIVES}}</a>-->
-      <!--</div>-->
       <div class="pull-left each_nav_link" id="reports_nav_link" >
-      <!--<div class="pull-left each_nav_link" id="reports_nav_link" ng-hide="isWorkFlowUser">-->
-        <a ng-href="#" reporttitle="reportOverview" ng-click="NavigateToTab('', null, 'reportOverview')" ng-mouseover="show_nav_dropdown($event,'reports');" ng-mouseleave="hide_nav_dropdown($event,'reports');">{{textConstants.REPORTS}}</a>
+        <a ng-href="javascript:void(0);" reporttitle="reportOverview" ng-click="show_hide_nav_dropdown($event,'reports');" >{{textConstants.REPORTS}}</a><!-- ng-click="NavigateToTab('', null, 'reportOverview')" -->
         
       </div>
     </div>
-    <div class="pull-right profile-photo-tab" id="user_nav_link">
-      <span class="user-photo"><span class="glyphicon glyphicon-user" ng-mouseover="show_nav_dropdown($event,'user');" ng-mouseleave="hide_nav_dropdown($event,'user');"></span></span>
+    <div class="pull-right profile-photo-tab unselectable" id="user_nav_link">
+      <span class="user-photo"><span class="glyphicon glyphicon-user" ng-click="show_hide_nav_dropdown($event,'user');" ></span></span>
     </div>
     <div class="pull-right account-name-nav">
       {{defaultAccountsName}}
@@ -34,11 +30,13 @@
       
     
     
-    <div class="main_nav_dropdown" ng-mouseleave="hide_nav_dropdown($event,'user');">
-        <div class="nav-menu reports_header_tabs_holder clearfix" id="reports-menu">
+    <div class="main_nav_dropdown" id="reports-menu">
+        <div class="nav-menu reports_header_tabs_holder clearfix" >
               <report-tabs></report-tabs>
         </div>
-        <div class="nav-menu" id="user-menu">
+    </div>
+    <div class="main_nav_dropdown" id="user-menu">
+        <div class="clearfix nav-menu" >
           <div class="pull-left profile-data" id="profileAccountData">
               <span class="pull-left user-photo">
                 <span class="glyphicon glyphicon-user"></span>
@@ -47,13 +45,17 @@
                 <span class="username">{{user_name}}</span>
                 <div class="accountsList">
                   <div class="dropdown" >
-                      <span class="dropdown_ul_text" data-toggle="dropdown">
-                          <span class="dd_txt" >{{defaultAccountsName}}</span>
-                          <span class="glyphicon glyphicon-chevron-down"></span>
+                      <span class="clearfix dropdown_ul_text" data-toggle="dropdown">
+                          <span class="pull-left dd_txt" >{{defaultAccountsName}}</span>
+                          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
                       </span>
-                      <ul class="dropdown-menu" >
-                        <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}" ng-click="set_account_name($event,eachaccount.id,eachaccount.name);" ng-class="{'selected-li':defaultAccountsName == eachaccount.name}">{{eachaccount.name}}</li>
-                      </ul>
+                      <!-- <div class="accountsList-dropdown-menu"> -->
+                        <ul class="dropdown-menu" >
+                          <div class="accountsList-dropdown-li">
+                            <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}" ng-click="set_account_name($event,eachaccount.id,eachaccount.name);" ng-class="{'selected-li':defaultAccountsName == eachaccount.name}"><span>{{eachaccount.name}}</span></li>
+                          </div>
+                        </ul>
+                      <!-- </div> -->
                   </div>
                   
                 </div>
@@ -67,9 +69,9 @@
           </div> -->
           <div class="pull-right logout-option" >
             <div ng-click="logout()" class="logout-option-link ">
-              <div>
+              <!-- <div>
                 <span class="glyphicon glyphicon-off"></span>
-              </div>
+              </div> -->
               <div>
                 <a class="logout_link">
                   {{textConstants.LOGOUT}}

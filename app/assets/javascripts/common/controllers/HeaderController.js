@@ -37,8 +37,7 @@
             loginModel.setClientId(id) ;
             $(".accountsList").find(".dd_txt").text(name) ;
             $(".main_nav").find(".account-name-nav").text(name) ;
-            $(".main_nav_dropdown").fadeIn() ;
-            $(".nav-menu").hide() ;
+            $(".main_nav_dropdown").hide() ;
             $("#user-menu").show();
             $rootScope.$broadcast(constants.ACCOUNT_CHANGED,id);
         };
@@ -63,23 +62,18 @@
 
             $location.url(url);
         };
-        $scope.show_nav_dropdown = function(event,arg) {
-          $(".main_nav_dropdown").fadeIn() ;
-          $(".nav-menu").hide() ;
-          $("#" + arg + "-menu").show();
+        
+        $scope.show_hide_nav_dropdown = function(event,arg) {
           var elem = $(event.target);
-          $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-          elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
-        } ;
-
-        $scope.hide_nav_dropdown = function(event,arg) {
-          if(! (  ( $(".main_nav_dropdown").is(":hover") ) || ( $("#reports_nav_link").is(":hover") ) || ( $(".profile-photo-tab").is(":hover") ) || ( $(".accountsList").is(":hover") )  ) ) {
-            $(".main_nav_dropdown").fadeOut("500") ;
-            $(".nav-menu").hide() ;
-            var elem = $(event.target);
+          if($("#" + arg + "-menu").is(":visible") == false ) {
+            $(".main_nav_dropdown").hide() ;
+            $("#" + arg + "-menu").fadeIn();
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-          }
-          
+            elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
+          } else {
+            $(".main_nav_dropdown").fadeOut() ;
+            $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+          }   
         } ;
         $scope.logout = function() {
             loginModel.logout();
@@ -124,10 +118,11 @@
                       profileDropdownId.hide();
                   }
 
-                  if(mainNavDropdown.is(':visible') && event.target.id != "reports_nav_link" && event.target.id != "user_nav_link" && ( $(event.target).closest("#profileAccountData").length == 0 )  ) {
+                  if(mainNavDropdown.is(':visible') && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 ) && ( $(event.target).closest("#profileAccountData").length == 0 )  ) {
                       mainNavDropdown.hide();
                       $(".main_navigation_holder").find(".selected").removeClass("selected") ;
                   }
+
                   if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                       reportTypeDropdownId.hide();
                   }

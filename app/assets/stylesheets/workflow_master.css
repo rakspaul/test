@@ -501,10 +501,6 @@
   width: 1200px;
   margin: 0 auto ;
 }
-.workflow .main_navigation_holder .main_nav {
-  width: 1200px;
-  padding: 0px;
-}
 .workflow .preloader {
   position: absolute;
   top: 48%;

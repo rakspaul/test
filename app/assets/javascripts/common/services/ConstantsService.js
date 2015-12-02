@@ -254,7 +254,7 @@
     this.REPORTS = "Reports";
     this.HELLO = "Hello";
     this.ABOUT = "About";
-    this.LOGOUT = "Log out";
+    this.LOGOUT = "Log Out";
 
     this.CATEGORIES = "Categories";
     this.DOMAINS = "Domains";
