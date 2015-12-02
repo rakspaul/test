@@ -12,12 +12,12 @@
         <a href="/campaigns">{{textConstants.MEDIA_PLAN}}</a>
       </div>
       <div class="pull-left each_nav_link" id="reports_nav_link" >
-        <a ng-href="javascript:void(0);" reporttitle="reportOverview" ng-click="show_hide_nav_dropdown($event,'reports');" >{{textConstants.REPORTS}}</a><!-- ng-click="NavigateToTab('', null, 'reportOverview')" -->
+        <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="show_hide_nav_dropdown($event,'reports');" >{{textConstants.REPORTS}}</a><!-- ng-click="NavigateToTab('', null, 'reportOverview')" -->
         
       </div>
     </div>
-    <div class="pull-right profile-photo-tab unselectable" id="user_nav_link">
-      <span class="user-photo"><span class="glyphicon glyphicon-user" ng-click="show_hide_nav_dropdown($event,'user');" ></span></span>
+    <div class="pull-right profile-photo-tab unselectable" id="user_nav_link" ng-click="show_hide_nav_dropdown($event,'user');">
+      <span class="user-photo"><span class="glyphicon glyphicon-user"  ></span></span>
     </div>
     <div class="pull-right account-name-nav">
       {{defaultAccountsName}}
