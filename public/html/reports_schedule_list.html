@@ -74,8 +74,8 @@
                           </div>
                       </span>
                 <ul class="dropdown-menu">
-                  <li ng-click="editSchdReport(srlist.reportId)">Edit</li>
-                  <li>Copy</li>
+                  <li ng-click="#">Edit</li>
+                  <li ng-click="copyScheduleRpt(srlist.reportId)">Copy</li>
                   <li ng-click="deleteSchdRpt(srlist.reportId)">Delete</li>
                 </ul>
               </div>
@@ -101,6 +101,7 @@
                   <ul class="dropdown-menu">
                     <li ng-click="downloadSchdReport(srlist.reportId,$parent.$parent.$index,$index)">Download</li>
                     <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">Delete</li>
+                    <!--<li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">Archive</li>-->
                     <li>Archive</li>
                   </ul>
                 </div>
