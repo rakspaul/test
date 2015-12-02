@@ -61,6 +61,7 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
         $scope.setPlatform = function(event, platform){
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
+            //audience targetting
             $rootScope.$emit('triggerAudienceLoading');
             //localStorage.setItem("trackingIntegration",false);
            // workflowService.setTrackingPlatform(false);

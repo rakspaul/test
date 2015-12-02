@@ -191,6 +191,7 @@
 									<span>{{audience.poolSize}}</span>
 								</div>
 							</div>
+							<div ng-if="audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;"> No Results Found...</div>
 	
 							<!--<div class="col-md-12 segBodyTable">-->
 								<!--<div class="columnOne">-->
@@ -221,7 +222,7 @@
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
                             <span>{{aud.name}}</span><div style="clear:both"></div>
                             <span>{{aud.category}}</span><div style="clear:both"></div>
-                            <span>{{aud.source}}</span><div style="clear:both"></div>
+                            <span>{{aud.source}} </span><div style="clear:both"></div>
                             <div class="icon-clear" ng-click="selectAudience(aud)"></div>
                         </div>
 						<!--<div class="segWrap">-->
