@@ -85,7 +85,7 @@ var angObj = angObj || {};
                     });
 
                     $scope.clientsDetails[clientIndex]['advertisement'][advIndex]['brand'] = res.data.data;
-                    console.log($scope.clientsDetails)
+                    //console.log($scope.clientsDetails)
                 });
             }
         }
@@ -188,7 +188,7 @@ var angObj = angObj || {};
             $scope.mode = mode;
             accountsService.getAllCurrency().then(function(result){
                 $scope.currency = result.data.data;
-                console.log($scope.currency);
+               // console.log($scope.currency);
             })
 
             accountsService.setToBeEditedClient(clientObj);
