@@ -854,17 +854,18 @@ var angObj = angObj || {};
 
                      // audience segment
                      var selectedAudience = audienceService.getSelectedAudience();
-                     console.log("sel aud = ",selectedAudience);
+
                      if(selectedAudience){
                          var segmentObj = postAdDataObj['targets']['segmentTargets'] = {};
-                         segmentObj['segmentList'] = {};
+                         segmentObj['segmentList'] = [];
 
                          for(var i = 0; i < selectedAudience.length; i++){
                              segmentObj['segmentList'][i] = {};
                              segmentObj['segmentList'][i].segmentId = selectedAudience[i].id;
                              segmentObj['segmentList'][i].isIncluded = selectedAudience[i].isIncluded;
                          }
-                         segmentObj.operation = audienceService.getAndOr();
+                         segmentObj.operation = audienceService.getAndOr().toUpperCase();
+
                      }
 
                  }
@@ -880,6 +881,7 @@ var angObj = angObj || {};
                          postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
                      }
                  }
+                console.log('daya -- ',JSON.stringify(postAdDataObj));
                  campaignOverView.saveAds(postAdDataObj,isDownloadTrackerClicked)
                 }
             }
