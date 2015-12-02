@@ -5,13 +5,9 @@
         var search = false;
         var searchCriteria = utils.typeaheadParams;
         $scope.textConstants = constants;
-        function fetchAdvertisers(searchCriteria,search) { console.log(2);
+        function fetchAdvertisers(searchCriteria,search) {
             advertiserModel.getAdvertisers(function (advertisersData) {
                 $scope.advertisers = advertisersData;
-                console.log('advertiser data',advertisersData);
-               // localStorage.setItem('selectedCampaign', JSON.stringify($scope.advertisers));
-
-
             }, searchCriteria, search);
         }
 
@@ -21,7 +17,6 @@
                 fetchAdvertisers(searchCriteria, search);
             }
         }
-
         init();
 
         $scope.selectAdvertiser = function (advertiser) {
@@ -49,21 +44,18 @@
         };
 
         var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, function (event, advertiser) {
-            console.log(1);
             $scope.selectAdvertiser(advertiser);
         });
 
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event,clientId) {
             fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
             var advertiser = advertiserModel.getAllAdvertiser();
-            console.log('all adver',advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
-            /*var allBrands = brandsModel.getAllBrand();
-            brandsModel.setSelectedBrand(brandsModel);*/
             advertiserModel.callAdvertiserBroadcast(advertiser);
 
         });
 
+        advertiserModel.getSelectedAdvertiser()
         $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $(function () {
