@@ -857,7 +857,7 @@ var angObj = angObj || {};
 
                      if(selectedAudience){
                          var segmentObj = postAdDataObj['targets']['segmentTargets'] = {};
-                         segmentObj['segmentList'] = {};
+                         segmentObj['segmentList'] = [];
 
                          for(var i = 0; i < selectedAudience.length; i++){
                              segmentObj['segmentList'][i] = {};
@@ -881,6 +881,7 @@ var angObj = angObj || {};
                          postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
                      }
                  }
+                console.log('daya -- ',JSON.stringify(postAdDataObj));
                  campaignOverView.saveAds(postAdDataObj,isDownloadTrackerClicked)
                 }
             }
