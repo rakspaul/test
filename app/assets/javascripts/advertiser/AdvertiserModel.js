@@ -18,7 +18,7 @@ brandsModule.factory("advertiserModel", ['advertiserService', 'constants', 'work
                     advertisers = [];
                     advertisers.push(advertiser.allAdvertiserObject);
                 }
-                advertisers = advertisers.concat(resData);
+                advertisers = [advertiser.allAdvertiserObject].concat(resData);//advertisers.concat(resData);
                 advertiser.totalAdvertisers = advertisers.length;
                 success.call(this, advertisers);
             })

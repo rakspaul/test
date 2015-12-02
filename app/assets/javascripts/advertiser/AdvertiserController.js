@@ -17,7 +17,6 @@
                 fetchAdvertisers(searchCriteria, search);
             }
         }
-
         init();
 
         $scope.selectAdvertiser = function (advertiser) {
@@ -56,6 +55,7 @@
 
         });
 
+        advertiserModel.getSelectedAdvertiser()
         $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $(function () {

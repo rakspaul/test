@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    brandsModule.controller('BrandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics) {
+    brandsModule.controller('BrandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics,advertiserModel) {
 
         var search = false;
         var searchCriteria = utils.typeaheadParams;
@@ -16,6 +16,19 @@
                 $scope.brands = brandsData;
             }, searchCriteria, search);
         }
+
+        function init() {
+            if (loginModel.getUserId() != undefined) {
+                searchCriteria.clientId = loginModel.getClientId();
+                searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
+                search = false;
+                fetchBrands(search);
+            }
+        }
+         if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id) ) {
+             init();
+             $scope.brandData = brandsModel.getBrand();
+         }
 
         $scope.loadMoreBrands = function () {
             searchCriteria.offset += searchCriteria.limit;
@@ -71,7 +84,6 @@
         });
 
         $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, advertiser) {
-            console.log("advertiser", advertiser);
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};
             $scope.brandData.selectedBrand.name= '';
