@@ -2494,6 +2494,21 @@ input[type="submit"] {
   font-size: 14px ;
   z-index: 1004 ;
 }
+.main_navigation_holder .main_nav_dropdown .user-photo-details {
+  width: 170px ;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .username {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .dd_txt {
+  white-space: nowrap;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .main_navigation_holder .main_nav_dropdown .profile-data {
   position: relative;
   padding-top: 16px;
@@ -2542,9 +2557,8 @@ input[type="submit"] {
 }
 .main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text {
   cursor: pointer;
-  margin: 4px 0 0 0;
-  display: inline-block;
-  min-width: 150px;
+  margin: 0;
+  display: block;
 }
 .main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text .glyphicon {
   font-size: 11px;
@@ -2563,14 +2577,10 @@ input[type="submit"] {
 .main_navigation_holder .main_nav_dropdown .accountsList li:hover span {
   border-bottom: solid 1px #fff ;
 }
-.main_navigation_holder .main_nav_dropdown .selected-li,
-.main_navigation_holder .main_nav_dropdown .selected-li:hover {
+.main_navigation_holder .main_nav_dropdown .selected-li {
   font-family: "Avenir-bold";
-  /*color: #84bce4 ;*/
-  cursor: default;
   background: transparent;
 }
-.main_navigation_holder .main_nav_dropdown .selected-li span,
 .main_navigation_holder .main_nav_dropdown .selected-li:hover span {
   border-bottom: solid 1px transparent ;
 }

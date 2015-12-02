@@ -2339,6 +2339,7 @@ button, i, input[type="submit"] {
       display: inline-block;
       cursor: pointer;
   }
+
   .help-link-tab {
     font-size: 22px;
     margin-right: 50px;
@@ -2359,6 +2360,23 @@ button, i, input[type="submit"] {
     color: #fff;
     font-size: 14px ;
     z-index: 1004 ;
+    .user-photo-details {
+      width: 170px ;
+      .username  {
+          white-space: nowrap;
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+      .dropdown_ul_text  {
+        .dd_txt {
+          white-space: nowrap;
+          width: 90%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
     .profile-data {
       position: relative;
       padding-top: 16px;
@@ -2390,6 +2408,7 @@ button, i, input[type="submit"] {
       .dropdown {
         position: static;
       }
+
       .accountsList-dropdown-li {
         margin-left: 30px ;
       }
@@ -2411,9 +2430,8 @@ button, i, input[type="submit"] {
      
       .dropdown_ul_text {
         cursor: pointer;
-        margin: 4px 0 0 0;
-        display: inline-block;
-        min-width: 150px;
+        margin:  0;
+        display: block;
         .glyphicon {
           font-size: 11px;
           margin-top: 4px;
@@ -2433,13 +2451,13 @@ button, i, input[type="submit"] {
         }
       }
     }
-    .selected-li , .selected-li:hover {
+    .selected-li {
       font-family: "Avenir-bold" ;
-      /*color: #84bce4 ;*/
-      cursor: default;
       background: transparent;
-      span {
-        border-bottom: solid 1px transparent ;
+      &:hover {
+        span {
+          border-bottom: solid 1px transparent ;
+        }
       }
     }
     .about_link {
