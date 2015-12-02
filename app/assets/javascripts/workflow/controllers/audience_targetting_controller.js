@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-        angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $rootScope, $location, zipCode) {
+        angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $rootScope, workflowService) {
             $scope.sortColumn = '';
             $scope.sortOrder = '';
             $scope.audienceList = [];
@@ -74,10 +74,60 @@ var angObj = angObj || {};
                         //
                         }
 
+                        //edit mode
+                        if($scope.mode == 'edit'){
+                            processAudienceEdit()
+                        }
+
+                        //check if selected audience exists and length > 0 call select Audience
+                        if($scope.selectedAudience && $scope.selectedAudience.length > 0){
+                            checkSelectedAudience();
+                        }
                     }
 
                 });
 
+            }
+
+            function processAudienceEdit(){
+                // partial done
+                var previouslySelectedAudience = workflowService.getAdsDetails().targets.segmentTargets;
+                for(var i = 0; i < previouslySelectedAudience.length; i++){
+                    //find  array index in audienc list
+                    var index = _.findIndex($scope.audienceList, function(item) {
+                        return item.id == previouslySelectedAudience[i].segment.id});
+
+
+
+                    //cant call $scope.selectAudience($scope.audienceList[index]) because this will toggle selection when filter is clicked
+                    if(index != -1){
+                        var selectedIndex = _.findIndex($scope.selectedAudience, function(item) {
+                            return item.id == $scope.audienceList[index].id});
+
+                        if(selectedIndex == -1)
+                            $scope.selectedAudience.push($scope.audienceList[index]);
+
+                        $scope.audienceList[index].isChecked = true;
+                        $scope.audienceList[index].isIncluded = true;
+                    }
+
+
+                }
+            }
+
+            function checkSelectedAudience(){
+                console.log("selected audience check");
+                for(var i = 0; i < $scope.selectedAudience.length; i++){
+                    //find  array index in audienc list
+                    var index = _.findIndex($scope.audienceList, function(item) {
+                        return item.id == $scope.selectedAudience[i].id});
+
+                    if(index != -1){
+                        $scope.audienceList[index].isChecked = true;
+                        $scope.audienceList[index].isIncluded = true;
+                    }
+
+                }
             }
 
             $scope.fetchAllSource = function(){
@@ -357,7 +407,7 @@ var angObj = angObj || {};
             $scope.saveCampaignWithAudience = function(){
                 audienceService.setSelectedAudience($scope.selectedAudience);
                 audienceService.setAndOr($scope.andOr)
-                $scope.CampaignADsave(false);
+                //$scope.CampaignADsave(false);
             }
                 // end of final save
 
@@ -372,6 +422,13 @@ var angObj = angObj || {};
             $scope.buildAudience = function(){
                 $('.audience-tabs-segment').removeClass('active');
                 $('.audience-tabs-audience').addClass('active');
+            }
+
+            // done button filter click
+            $scope.processDone = function(){
+                $(".dropdown.open").removeClass('open');
+                $scope.fetchAllAudience();
+
             }
         });
 })();
