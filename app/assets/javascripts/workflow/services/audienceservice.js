@@ -23,7 +23,6 @@
                     pageNo = pageNum;
                 if(size)
                     pageSize = size;
-                console.log(workflowService.getPlatform());
                 var url = apiPaths.WORKFLOW_APIUrl + '/segments/platform/'+workflowService.getPlatform().id+'?pageNo='+pageNo+'&pageSize='+pageSize;
                 if(sortCol && sortCol != '')
                     url += '&sortBy='+sortCol;

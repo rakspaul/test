@@ -10,7 +10,7 @@ var angObj = angObj || {};
             $scope.selectedKeywords = [];
             $scope.selectedCategory = [];
             $scope.selectedSource = [];
-            $scope.selectedAudience = []
+            $scope.selectedAudience = [];
 
             $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
                 left: '0px'};
@@ -35,8 +35,17 @@ var angObj = angObj || {};
             //})
 
             $rootScope.$on('triggerAudienceLoading',function(){
+                $scope.resetSelectedFields();
+                $scope.initAudienceTargetting();
                 $scope.fetchAllAudience();
             })
+
+            $scope.resetSelectedFields = function(){
+                $scope.selectedKeywords = [];
+                $scope.selectedCategory = [];
+                $scope.selectedSource = [];
+                $scope.selectedAudience = [];
+            }
 
             $scope.setSortColumn = function(col){
                 if(col){
@@ -90,8 +99,10 @@ var angObj = angObj || {};
             }
 
             function processAudienceEdit(){
+
                 // partial done
-                var previouslySelectedAudience = workflowService.getAdsDetails().targets.segmentTargets;
+                var fetchedObj =  workflowService.getAdsDetails();
+                var previouslySelectedAudience = fetchedObj.targets.segmentTargets;
                 for(var i = 0; i < previouslySelectedAudience.length; i++){
                     //find  array index in audienc list
                     var index = _.findIndex($scope.audienceList, function(item) {
@@ -110,9 +121,12 @@ var angObj = angObj || {};
                         $scope.audienceList[index].isChecked = true;
                         $scope.audienceList[index].isIncluded = true;
                     }
-
-
                 }
+
+                //reset selected array in service after initial load to avoid populating same data when platform is changed
+                fetchedObj.targets.segmentTargets = [];
+                workflowService.getAdsDetails(fetchedObj);
+
             }
 
             function checkSelectedAudience(){
@@ -180,7 +194,7 @@ var angObj = angObj || {};
                 $scope.fetchAllCategories();
             }
 
-            $scope.initAudienceTargetting();
+            //$scope.initAudienceTargetting();
 
             //keyword user choice
             $scope.showKeywords = function(keyword){
@@ -344,6 +358,7 @@ var angObj = angObj || {};
 
             //audience
             $scope.selectAudience = function(audience){
+                console.log("edit aud == ",audience);
                 var audienceIndex = _.findIndex( $scope.selectedAudience, function(item) {
                     return item.id == audience.id});
 
