@@ -29,23 +29,15 @@
     </div>
 </div>
 
-
-
 <div class="row zeroPadding budgetWrap radioBtnToggle">
     <div class="col-md-12 adHeader">How do you want to set up the Budget for your Ad?</div>
-
     <div class="col-md-12 zeroPadding unitCost symbolAbs">
         <label class="col-sm-12 control-label greyTxt miniLabels">Unit Cost</label>
-        <div class="form-group col-md-3 zeroPadding">
-            <span>$</span>
-            <input type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
-        </div>
-
-        <div class="form-group col-md-2" style="padding-right: 0;">
+        <div class="form-group col-md-2 zeroPadding" style="margin-right: 5px;">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                  <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                           <span class="text">Select Type</span>
+                      <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">CPM</span>
                            <span class="icon-arrow-down"></span>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
@@ -56,6 +48,10 @@
                      <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                  </div>
             </div>
+        </div>
+        <div class="form-group col-md-3 zeroPadding">
+            <span>$</span>
+            <input style="width:130px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
         </div>
     </div>
 
@@ -114,13 +110,26 @@
             <span>#</span>
             <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap">
         </div>
-
-        <div class="form-group col-md-5">
+        <!-- <div class="form-group col-md-5">
             <select name='frequencyType' class="form-control" ng-model="capsPeriod" ng-disabled="!adData.setCap">
                 <option value="DAILY">Day</option>
                 <option value="LIFETIME">Lifetime</option>
-            </select>
-
+            </select> -->
+            
+        <div class="form-group col-md-5">
+           <div class="col-md-12 zeroPadding dropdown-workflow">
+               <div class="dropdown">
+                   <button class="btn btn-default dropdown-toggle" type="button" id="frequencyType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                         <span class="text">Daily</span>
+                         <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">
+                          <li><a data-value="DAILY">Daily</a></li>
+                         <li><a data-value="LIFETIME">Lifetime</a></li>
+                    </ul> 
+               </div>
+           </div>    
+        </div> 
         <!--<div class="form-group col-md-5" style="padding-right: 0;">-->
         <!--    <div class="col-md-12 zeroPadding dropdown-workflow">-->
         <!--        <div class="dropdown">-->
