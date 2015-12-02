@@ -2309,16 +2309,16 @@ button, i, input[type="submit"] {
 /*  end of cost breakdown */
 
 .main_navigation_holder {
-  height: 66px;
-  background: #007ac9;
-  padding: 12px ;
+  height: 50px;
+  background: #0978c9;
+  padding: 0px 15px 0px 50px;
   position: relative;
   .profile-photo-tab {
     position: relative;
-    height: 50px;
+    height: 42px;
     width: 31px;
     text-align: right;
-    margin-top: 4px ;
+    margin-top: 8px;
   }
   .profile-photo-tab.selected:after {
     bottom: 0px ;
@@ -2326,10 +2326,11 @@ button, i, input[type="submit"] {
     border-left: solid 8px transparent;
     border-top: 0;
     border-right: solid 8px transparent;
+    left: 9px ;
   }
   .user-photo {
       border: solid 1px #fff;
-      padding: 8px 6px 2px 7px;
+      padding: 8px 7px 1px 7px ;
       border-radius: 2px;
       -moz-border-radius: 2px;
       -webkit-border-radius: 2px;
@@ -2341,63 +2342,68 @@ button, i, input[type="submit"] {
   .help-link-tab {
     font-size: 22px;
     margin-right: 50px;
-    margin-top: 6px;
+    margin-top: 11px;
   }
   .account-name-nav {
-    margin: 12px 50px 0 0;
+    margin: 16px 50px 0 0;
     font-size: 12px;
   }
   .main_nav_dropdown {
     display: none;
     position: absolute;
-    top: 66px;
+    top: 50px;
     left: 0px;
     width: 100%;
-    min-height: 70px;
-    background-color: #004D86;
+    min-height: 80px;
+    background-color: #134a89;
     color: #fff;
-    font-size: 12px ;
+    font-size: 14px ;
     z-index: 1004 ;
-    .profile-data , .logout-option {
-      background: #004478 ;
-      height: 80px;
-      padding-top: 16px;
-      width: 20%;
-      padding-left: 5%;
-    }
     .profile-data {
-      min-width: 20% ;
-      width: auto  ;
+      position: relative;
+      padding-top: 16px;
+      padding-left: 30px ;
+      background: #154B85;
+      width: 230px  ;
+      box-sizing: initial;
+      -webkit-box-sizing: initial;
+      -moz-box-sizing: initial;
       margin-right: 30px ;
       padding-right: 20px ;
       .user-photo  {
         display: inline-block;
-        font-size: 20px ;
-        margin-right: 10px;
+        font-size: 28px;
+        margin-right: 12px;
         cursor: default;
         float: left;
+        width: 48px;
+        height: 48px;
       }
       .username {
         margin-top: 2px;
         display: inline-block;
       }
     }
-   .selected-li , .selected-li:hover {
-      font-family: "Avenir-bold" ;
-      color: #84bce4 ;
-      cursor: default;
-      background: transparent;
-    }
+
     
     .accountsList {
+      .dropdown {
+        position: static;
+      }
+      .accountsList-dropdown-li {
+        margin-left: 30px ;
+      }
       .dropdown-menu {
         max-height: 200px;
         overflow: scroll;
-        top: 24px;
+        top: 80px;
         left: 0;
         border: 0;
         max-width: 100%;
-        min-width: 150px;
+        min-width: 100%;
+        background: #154B85 ;
+        padding: 0px ;
+        margin: 0 ;
         &:before {
           display : none ;
         }
@@ -2409,13 +2415,31 @@ button, i, input[type="submit"] {
         display: inline-block;
         min-width: 150px;
         .glyphicon {
-          font-size: 8px;
-          margin-left: 3px;
+          font-size: 11px;
+          margin-top: 4px;
         }
       }
       li {
-            list-style: none;
-            cursor: pointer;
+        list-style: none;
+        cursor: pointer;
+        border-bottom: solid 1px #0978c9;
+        font-size: 14px;
+        padding: 8px 10px;
+        &:hover {
+          background : transparent ;
+          span {
+            border-bottom: solid 1px #fff ;
+          }
+        }
+      }
+    }
+    .selected-li , .selected-li:hover {
+      font-family: "Avenir-bold" ;
+      /*color: #84bce4 ;*/
+      cursor: default;
+      background: transparent;
+      span {
+        border-bottom: solid 1px transparent ;
       }
     }
     .about_link {
@@ -2425,10 +2449,8 @@ button, i, input[type="submit"] {
       }
     }
     .logout-option {
+      padding : 24px 20px 0 0 ;
         text-align: center;
-        padding-right: 5%;
-        padding-left: 5%;
-        width: auto;
         .logout-option-link {
           cursor: pointer;
           margin-top: 6px;
@@ -2473,15 +2495,13 @@ button, i, input[type="submit"] {
     }
   }
   .main_nav {
-    width: 1200px;
-    margin: 0 auto;
     color: #fff ;
     .main_logo {
       display: block;
       background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat left top  ;
       width: 91px;
       height: 40px;
-      margin-right: 70px;
+      margin: 8px 20px 0 0 ;
     }
     .profile_menu {
       height: 30px ;
@@ -2529,14 +2549,14 @@ button, i, input[type="submit"] {
       }
     }
     .main_navigation {
-      margin: 11px 0 0 0px;
+      margin: 16px 0 0 0px;
       font-family: "Avenir";
       font-size: 14px;
       .dropdown-menu  {
         top : 54px ;
       }
       .each_nav_link {
-        margin: 0 30px  ;
+        margin: 0 20px  ;
         > a {
           text-decoration: none;
           color: #84bce4 ;
@@ -2547,7 +2567,7 @@ button, i, input[type="submit"] {
       }
       #reports_nav_link {
         position: relative;
-        height: 43px ;
+        height: 34px ;
         a {
           position: relative;
           z-index: 1003 ;

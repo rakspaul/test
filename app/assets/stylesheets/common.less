@@ -941,9 +941,6 @@
 
 /*Main top navigation*/
 .main_navigation_holder {
-  height: 66px;
-  background: #007ac9;
-  padding: 12px ;
     #reports_nav_link.selected:after , .profile-photo-tab.selected:after  {
           content: "";
           position: absolute;
@@ -957,8 +954,7 @@
           border-right: solid 8px transparent;
     }
 	  div.reports_header_tabs_holder {
-      width: 1200px ;
-      margin: 0 auto ;
+      margin: 0 50px ;
       padding: 15px 0 ;
 	    .header_tab_dd_subheading {
 	      padding-right: 20px ;
@@ -981,10 +977,10 @@
           margin-left: 10px;
       }
 	    .custom_container {
-	      /*background-color: #004478 ;*/
 	      .header_tab_dropdown {
+          float: none;
 	        .reports_list_link {
-	          padding: 5px 0;
+	          padding: 0;
 	        }
 	        .upload_icon {
 	          cursor: pointer;
@@ -1037,7 +1033,7 @@
 	    }
 
 	    .header_tab_dropdown {
-	      padding: 1px 20px 1px 0px;
+	      padding: 2px 20px 2px 0px;
         float: left;
         width: 162px;
 	      a {
@@ -1111,102 +1107,6 @@
       top: -10px;
       left: 50%;
     }
-  }
-  .main_nav {
-    width: 1200px;
-    margin: 0 auto;
-    color: #fff ;
-    .main_logo {
-      display: block;
-      cursor: default;
-      background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat top center ;
-      width: 80px;
-      height: 30px;
-      margin-right: 70px;
-    }
-    .profile_menu {
-      height: 30px ;
-      width: 30px ;
-      margin : 5px 0 0 40px ;
-      cursor: default;
-      .profile_account_icon {
-        background: url("/assets/images/cdesk/sprites.png") no-repeat -345px -190px  ;
-        height: 30px ;
-        width: 30px ;
-        &:hover {
-          background-position : -345px -266px ;
-        }
-      }
-      .dropdown-menu {
-        z-index: 1001 ;
-        top: 47px ;
-        max-width: 150px;
-        li {
-          a{
-            padding-left:  6px ;
-            padding-right: 0px ;
-            word-wrap: break-word;
-            font-family: "Avenir" ;
-            cursor: default;
-            white-space: normal;
-          }
-          .logout_link {
-            color: #fff ;
-            padding-top: 0;
-            cursor: pointer;
-          }
-        }
-        .about_link {
-          a {
-            cursor: pointer;
-          }
-        }
-      }
-      .dropdown-menu:before {
-          left : 65% ;
-      }
-    }
-    .main_navigation {
-      margin: 11px 0 0 25px;
-      font-family: "Avenir";
-      font-size: 14px;
-      .dropdown-menu  {
-        top : 54px ;
-      }
-      .each_nav_link {
-        margin: 0 30px  ;
-        height: 43px ;
-        > a {
-          text-decoration: none;
-          color: #84bce4 ;
-        }
-        a:hover  {
-          color: #fff ;
-        }
-      }
-      
-      #reports_nav_link {
-        position: relative;
-        height: 43px ;
-      }
-      #reports_nav_link:hover {
-        a {
-          color: #fff !important ;
-        }
-        .reports_header_tabs_holder {
-          display: block;
-        }
-      }
-      .active {
-        a {
-          color: #fff ;
-        }
-      }
-    }
-    a {
-      color: #fff ;
-    }
-
   }
 }
 /*end of Main top navigation*/
