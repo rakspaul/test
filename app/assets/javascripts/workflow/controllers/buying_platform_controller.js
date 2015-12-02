@@ -8,8 +8,9 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
         $scope.trackingIntegrationId ='';
         var tempPlatform ;
         var storedResponse;
+        var oldPlatformName;
 
-        $scope.$on('updatePlatform',function(event,platform){
+    $scope.$on('updatePlatform',function(event,platform){
           $scope.defaultPlatform = platform[0];
           $scope.selectPlatform((platform[0].switchPlatform ? event : '') , platform[0]);
         })
@@ -71,7 +72,7 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
             var name = platform.displayName ? platform.displayName : platform.name;
             $scope.adData.platform =  name;
             $scope.adData.platformId = platform.id;
-            $scope.selectedPlatform[platform.id] = name; console.log($scope.selectedPlatform);
+            $scope.selectedPlatform[platform.id] = name;
             event && $scope.platformCustomInputs();
         }
 
@@ -119,7 +120,12 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
                 } else {
                   $scope.showCustomeFieldBox();
                     //maintain state of building platform strategy when user selects it navigtes to other places
-                    if(!$scope.postPlatformDataObj){
+                    if(!$scope.postPlatformDataObj ){
+                        console.log("post obj data =",$scope.postPlatformDataObj);
+                        platformCustomeModule.init(platformCustomeJson, platformWrap);
+                    }else if(oldPlatformName != $scope.adData.platform){
+                        console.log("old platform - ",oldPlatformName,"current platform - ",$scope.adData.platform);
+                        oldPlatformName = workflowService.getPlatform().displayName;
                         platformCustomeModule.init(platformCustomeJson, platformWrap);
                     }
 
