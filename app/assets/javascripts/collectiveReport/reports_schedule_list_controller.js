@@ -26,7 +26,7 @@
             }
 
             var scheduleReportListError = function() {
-                console.log('error occured');
+               // console.log('error occured');
             }
             collectiveReportModel.getScheduleReportList(scheduleReportListSucc,scheduleReportListError);
         }
@@ -59,7 +59,7 @@
         }
 
         $scope.downloadSchdReport = function(reportId,schRptListIndx,instancesIndx) {
-            console.log(reportId,schRptListIndx,instancesIndx);
+           // console.log(reportId,schRptListIndx,instancesIndx);
             $scope.flashMessage = {'message':'Downloaded Successfully','isErrorMsg':''};
             $scope.timeoutReset();
             $scope.schdReportList[schRptListIndx].instances[instancesIndx].viewedOn = momentService.reportDateFormat();
@@ -92,11 +92,7 @@
                         return function() {
                             var successFun = function(data) {
                                 if(data.status_code == 200) {
-                                    var url = urlService.scheduleReportsList();
-                                     if(url) {
-                                     dataStore.deleteFromCache(url);
-                                     }
-                                    $scope.getScheduledReports();
+                                    $scope.refreshReportList();
                                     $scope.flashMessage = {'message':'Scheduler deleted Successfully','isErrorMsg':''};
                                     $scope.timeoutReset();
                                 } else {
@@ -117,7 +113,7 @@
 
         //Delete scheduled report Pop up
         $scope.deleteSchdRptInstance = function(reportId,instanceId) {
-            console.log('Delete Instance: ',reportId,instanceId);
+           // console.log('Delete Instance: ',reportId,instanceId);
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_delete_collective_report,
                 controller:"ReportScheduleDeleteController",
@@ -134,11 +130,7 @@
                         return function() {
                             var successFun = function(data) {
                                 if(data.status_code == 200) {
-                                    var url = urlService.scheduleReportsList();
-                                    if(url) {
-                                        dataStore.deleteFromCache(url);
-                                    }
-                                    $scope.getScheduledReports();
+                                    $scope.refreshReportList();
                                     $scope.flashMessage = {'message':'Scheduler deleted Successfully','isErrorMsg':''};
                                     $scope.timeoutReset();
                                 } else {
@@ -163,7 +155,85 @@
 
 
         $scope.copyScheduleRpt = function(reportId) {
-            console.log('Report Id:',reportId);
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_confirmation_modal,
+                controller:"ConfirmationModalController",
+                scope:$scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    headerMsg: function() {
+                        return "Copy Schedule Report";
+                    },
+                    mainMsg: function() {
+                        return "Are you sure you want to copy Scheduled Report"
+                    },
+                    buttonName: function() {
+                        return "Copy"
+                    },
+                    execute: function() {
+                        return function() {
+                            var copySuccess = function(data) {
+                                data.name = 'copy: '+data.name;
+                                collectiveReportModel.createSchdReport(function(){
+                                    $scope.refreshReportList();
+                                    $scope.flashMessage = {'message':'Schedule Report Copied Successfully','isErrorMsg':''};
+                                    $scope.timeoutReset();
+                                },function() {
+                                    $scope.flashMessage = {'message':'Error Copying Schedule Report','isErrorMsg':''};
+                                    $scope.timeoutReset();
+                                },data);
+                            }
+                            var copyError = function() {
+                                $scope.flashMessage = {'message':'Error Copying Schedule Report','isErrorMsg':''};
+                                $scope.timeoutReset();
+                            }
+                            collectiveReportModel.getSchdRptDetail(copySuccess,copyError,reportId);
+                        }
+                    }
+                }
+            });
+        }
+
+        $scope.archiveSchdRpt = function(reportId,instanceId) {
+            var $modalInstance = $modal.open({
+                templateUrl: assets.html_confirmation_modal,
+                controller:"ConfirmationModalController",
+                scope:$scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                    headerMsg: function() {
+                        return "Copy Schedule Report";
+                    },
+                    mainMsg: function() {
+                        return "Are you sure you want to copy Scheduled Report"
+                    },
+                    buttonName: function() {
+                        return "Copy"
+                    },
+                    execute: function() {
+                        return function() {
+                            var archiveSuccess = function() {
+                                $scope.refreshReportList();
+                                $scope.flashMessage = {'message':'Schedule Report Archived Successfully','isErrorMsg':''};
+                                $scope.timeoutReset();
+                            }
+                            var archiveError = function() {
+                                $scope.flashMessage = {'message':'Error archiving scheduled report','isErrorMsg':''};
+                                $scope.timeoutReset();
+                            }
+                            collectiveReportModel.archiveSchdReport(archiveSuccess,archiveError,reportId,instanceId);
+                        }
+                    }
+                }
+            });
+        }
+
+        $scope.refreshReportList = function() {
+            var url = urlService.scheduleReportsList();
+            if(url) {
+                dataStore.deleteFromCache(url);
+            }
+            $scope.getScheduledReports();
         }
 
 

@@ -28,7 +28,7 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
 
     var getScheduleReportList = function(successFn,errorFn) {
         var url = urlService.scheduleReportsList();
-        dataService.fetch(url).then(function(response){ console.log(response);
+        dataService.fetch(url).then(function(response){
            if(response.status == "error") {
                   errorFn(response);
            } else {
@@ -40,7 +40,6 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
     var deleteScheduledReport = function(successFn,errorFn,reportId) {
         var url = urlService.deleteSchdRpt(reportId);
         dataService.delete(url).then(function(response){
-               console.log('Delete response',response);
             if(response.status == "success") {
                 successFn(response.data);
             } else {
@@ -52,7 +51,6 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
     var deleteScheduledReportInstance = function(successFn,errorFn,reportId,instanceId) {
         var url = urlService.deleteInstanceOfSchdRpt(reportId,instanceId);
         dataService.delete(url).then(function(response){
-            console.log('Delete response',response);
             if(response.status == "success") {
                 successFn(response.data);
             } else {
@@ -61,11 +59,46 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
         })
     }
 
+    var getSchdRptDetail = function(successCall,errorCall,reportId) {
+        var url = urlService.scheduledReport(reportId);
+        dataService.fetch(url).then(function(response){
+            if(response.status == "error") {
+                errorCall(response);
+            } else {
+                successCall(response.data.data);
+            }
+        })
+    }
+
+    var createSchdReport = function(successCall, errorCall,data) {
+        var url = urlService.createScheduledRpt();
+        dataService.post(url, data, {'Content-Type': 'application/json'}).then(function(response) {
+            if(response.status == "success") {
+                successCall();
+            } else {
+                errorCall();
+            }
+        });
+    }
+
+    var archiveSchdReport = function(successCall,errorCall,reportId,instanceId) {
+        var url = urlService.archiveSchldRpt(reportId,instanceId);
+        dataService.post(url).then(function(response) {
+            if(response.status == "success") {
+                successCall();
+            } else {
+                errorCall();
+            }
+        });
+    }
+
     return {
       reportList: getReportList,
       deleteReport: deleteReport,
       getScheduleReportList: getScheduleReportList,
-        deleteScheduledReport:deleteScheduledReport,
-        deleteScheduledReportInstance: deleteScheduledReportInstance
+      deleteScheduledReport:deleteScheduledReport,
+      deleteScheduledReportInstance: deleteScheduledReportInstance,
+      getSchdRptDetail:getSchdRptDetail,
+      createSchdReport:createSchdReport
     }
 }]);

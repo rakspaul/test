@@ -142,6 +142,14 @@
           return apiPaths.apiSerivicesUrl+'/scheduledreports/deleteInstance/'+reportId+'/'+instanceId;
       }
 
+      this.createScheduledRpt = function() {
+          return apiPaths.apiSerivicesUrl +'/scheduledreports/createReport';
+      }
+
+      this.archiveSchldRpt = function() {
+          return apiPaths.apiSerivicesUrl +'';
+      }
+
   }
 
   commonModule.service("urlService", ['apiPaths', 'constants', urlFactory]);
