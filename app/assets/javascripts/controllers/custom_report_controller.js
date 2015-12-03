@@ -678,6 +678,7 @@ var angObj = angObj || {};
               $(".default-schedule-col").show() ;
           } else {
               $(".each-col:not(#schedule-btn)").hide() ;
+              $(".default-schedule-col").find(".dd_txt").text("Select") ;
           }
          // $scope.$apply();
         };
