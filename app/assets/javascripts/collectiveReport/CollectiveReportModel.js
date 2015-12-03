@@ -83,7 +83,7 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
 
     var archiveSchdReport = function(successCall,errorCall,reportId,instanceId) {
         var url = urlService.archiveSchldRpt(reportId,instanceId);
-        dataService.post(url).then(function(response) {
+        dataService.put(url).then(function(response) {
             if(response.status == "success") {
                 successCall();
             } else {
@@ -99,6 +99,7 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
       deleteScheduledReport:deleteScheduledReport,
       deleteScheduledReportInstance: deleteScheduledReportInstance,
       getSchdRptDetail:getSchdRptDetail,
-      createSchdReport:createSchdReport
+      createSchdReport:createSchdReport,
+      archiveSchdReport:archiveSchdReport
     }
 }]);

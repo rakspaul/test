@@ -202,13 +202,13 @@
                 windowClass: 'delete-dialog',
                 resolve: {
                     headerMsg: function() {
-                        return "Copy Schedule Report";
+                        return "Archieve Schedule Report";
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to copy Scheduled Report"
+                        return "Are you sure you want to Archieve Scheduled Report"
                     },
                     buttonName: function() {
-                        return "Copy"
+                        return "Archieve"
                     },
                     execute: function() {
                         return function() {
