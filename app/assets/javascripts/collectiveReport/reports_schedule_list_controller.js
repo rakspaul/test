@@ -1,20 +1,22 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {descending:true};
-
         //close messages in 3 seconds
         $scope.timeoutReset = function(){
-
             $timeout(function(){
                 //resetting the flag and message
                $scope.flashMessage = {'message':'','isErrorMsg':''};
+                if($rootScope.flashMessage)  {
+                    $rootScope.flashMessage = {'message':'','isErrorMsg':''};
+                }
             }, 3000);
         }
+        $scope.timeoutReset();
 
         $scope.getScheduledReports = function() {
             var scheduleReportListSucc = function(schdReportList) {

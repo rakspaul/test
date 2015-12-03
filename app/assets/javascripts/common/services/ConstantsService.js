@@ -114,8 +114,8 @@
     this.WEEKNAME = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.SCHEDULE_REPORT_OCCURS_ON_LIST = ['Start of Month', 'Middle of Month(15th)', 'End of Month', 'Custom'];
     this.SELECT_DATE_LABEL = 'Select a date';
-    this.SCHEDULE_START_DATE_LABEL ='Start on';
-    this.SCHEDULE_END_DATE_LABEL ='End on';
+    this.SCHEDULE_START_DATE_LABEL ='Starts on';
+    this.SCHEDULE_END_DATE_LABEL ='Ends on';
     this.REPORT_BUILDER_TIMEFRAME ='Timeframe';
     this.REPORT_CHOOSE_BREAKDOWN = "Choose Breakdown";
     this.REPORT_ADDITIONAL_FILTERS = "Additional Filters";
