@@ -306,7 +306,7 @@
                                     <span class="text">{{andOr}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
+                                <ul class="dropdown-menu and-or-list" aria-labelledby="segConditionOne">
                                     <li ng-click="changeOrAndStatus('Or')"><a>Or</a></li>
                                     <li ng-click="changeOrAndStatus('And')"><a>And</a></li>
                                 </ul>
@@ -320,7 +320,7 @@
                                     <span class="text">{{(aud.isIncluded)?'Is':'Is not'}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="segConditionOne">
+                                <ul class="dropdown-menu is-included-list" aria-labelledby="segConditionOne">
                                     <li ng-click="changeIncludeStatus(aud,true)"><a>Is</a></li>
                                     <li ng-click="changeIncludeStatus(aud,false)"><a>Is not</a></li>
                                 </ul>

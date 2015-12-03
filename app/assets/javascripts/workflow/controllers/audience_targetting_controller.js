@@ -414,16 +414,19 @@ var angObj = angObj || {};
             //building audience
             $scope.changeOrAndStatus = function(status){
                 $scope.andOr = status;
+                $(".dropdown.open").removeClass('open');
             }
 
             $scope.changeIncludeStatus = function(audienceObj,status){
                 audienceObj.isIncluded = status;
+                $(".dropdown.open").removeClass('open');
             }
 
             // final save from audience segment
             $scope.saveCampaignWithAudience = function(){
                 audienceService.setSelectedAudience($scope.selectedAudience);
-                audienceService.setAndOr($scope.andOr)
+                audienceService.setAndOr($scope.andOr);
+                $scope.resetAudienceTargetingVariables();
                 //$scope.CampaignADsave(false);
             }
                 // end of final save
@@ -445,7 +448,6 @@ var angObj = angObj || {};
             $scope.processDone = function(){
                 $(".dropdown.open").removeClass('open');
                 $scope.fetchAllAudience();
-
             }
         });
 })();
