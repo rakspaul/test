@@ -28,6 +28,7 @@ var angObj = angObj || {};
         $scope.scheduleReportActive= false;
         $scope.flashMessage = {'message':'','isErrorMsg':0};
 
+
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
 
@@ -35,7 +36,7 @@ var angObj = angObj || {};
 
         if($routeParams.reportId) {
             dataService.fetch(urlService.scheduledReport($routeParams.reportId)).then(function(response) {
-                console.log('Response: ',response);
+               // console.log('Response: ',response);
                 if(response.status == 'success') {
                      $scope.reports = response.data.data;
                     $scope.scheduleReportActive = response.data.data.isScheduled;
@@ -350,42 +351,50 @@ var angObj = angObj || {};
         };
 
         $scope.scheduleReport = function() {
-          if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
-            $scope.flashMessage.message = 'Please provide report name and frequency';
-            $scope.flashMessage.isErrorMsg = 1 ;
-            $scope.flashMessage.isMsg = 0;
-            $scope.msgtimeoutReset();
-            return false;
+           if(!$scope.generateBtnDisabled) {
+              if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
+                $scope.flashMessage.message = 'Please provide report name and frequency';
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.flashMessage.isMsg = 0;
+                $scope.msgtimeoutReset();
+                return false;
+              }
+              var customReportSectionElem = $(".each_section_custom_report.each_section_custom_report").find(".breakdown_div");
+              _.each(customReportSectionElem, function (ele) {
+                  var customeReportFilterElem = $(ele).find('.custom_report_breakdown .dropdown_ul_text .dd_txt');
+                  var reportFilterTextbox = $(ele).find('.filter_input_txtbox .reportFilter');
+
+                  var dimension = customeReportFilterElem.attr("id");
+                  var values = reportFilterTextbox.val().split(" ");
+                  var type = reportFilterTextbox.attr("data-reportType") || 'Additional';
+                  $scope.reports.reportDefinition.dimensions.push({"dimension": $.trim(dimension), "type": type});
+                  $scope.reports.reportDefinition.filters.push({
+                      "dimension": $.trim(dimension),
+                      "type": type,
+                      "values": values
+                  });
+              })
+
+              if (!$scope.reports.schedule.endDate) {
+                  $scope.reports.schedule.endDate = '';
+              }
+
+              if (!$scope.reports.schedule.occurance) {
+                  $scope.reports.schedule.occurance = '';
+              }
+
+              if (!$scope.reports.schedule.customOccuranceDate) {
+                  $scope.reports.schedule.customOccuranceDate = '';
+              }
+             // console.log('create schedule report', $scope.reports);
+              dataService.createScheduleReport($scope.reports).then(function (result) {
+                  if (result.data.status_code == 200) {
+                      $rootScope.flashMessage = {'message':'Successfull Created Schedule Report','isErrorMsg':''};
+                     // $scope.msgtimeoutReset();
+                      $location.url('/reports/schedules');
+                  }
+              });
           }
-          var customReportSectionElem = $(".each_section_custom_report.each_section_custom_report").find(".breakdown_div");
-          _.each(customReportSectionElem, function(ele) {
-            var customeReportFilterElem = $(ele).find('.custom_report_breakdown .dropdown_ul_text .dd_txt');
-            var reportFilterTextbox = $(ele).find('.filter_input_txtbox .reportFilter');
-
-            var dimension = customeReportFilterElem.attr("id");
-            var values = reportFilterTextbox.val().split(" ");
-            var type = reportFilterTextbox.attr("data-reportType") || 'Additional';
-            $scope.reports.reportDefinition.dimensions.push({"dimension" : $.trim(dimension), "type" : type});
-            $scope.reports.reportDefinition.filters.push({"dimension" : $.trim(dimension), "type" : type, "values": values });
-          })
-
-          if(!$scope.reports.schedule.endDate) {
-            $scope.reports.schedule.endDate = '';
-          }
-
-          if(!$scope.reports.schedule.occurance) {
-            $scope.reports.schedule.occurance = '';
-          }
-
-          if(!$scope.reports.schedule.customOccuranceDate) {
-            $scope.reports.schedule.customOccuranceDate = '';
-          }
-
-          dataService.createScheduleReport($scope.reports).then(function(result) { console.log(result);
-            if(result.data.status_code == 200 ) {
-                $location.url('/reports/schedules');
-            }
-          });
         };
 
 
@@ -627,6 +636,7 @@ var angObj = angObj || {};
             startDate = moment().subtract(0, 'days').format('YYYY-MM-DD');
             endDate   = moment().subtract(0, 'days').format('YYYY-MM-DD');
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+
             var startDate,endDate;
             if( arg ) {
                 arg = arg.toLowerCase();
@@ -643,6 +653,7 @@ var angObj = angObj || {};
                     $('#startOn').datepicker('setStartDate', startDate);
                     $('#endOn').datepicker('update', endDate);
                     $('#endOn').datepicker('setStartDate', endDate);
+                    $scope.reports.schedule.startDate = startDate;
                 }
             }
 
@@ -681,7 +692,7 @@ var angObj = angObj || {};
               $(".each-col:not(#schedule-btn)").hide() ;
               $(".default-schedule-col").find(".dd_txt").text("Select") ;
           }
-         // $scope.$apply();
+          $scope.$apply();
         };
 
         $(document).ready( function() {
