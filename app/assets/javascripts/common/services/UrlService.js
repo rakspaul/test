@@ -140,7 +140,7 @@
       }
 
       this.archiveSchldRpt = function(reportId,instanceId) {
-          return apiPaths.apiSerivicesUrl +'/scheduledreports/archiveReport/reportId/'+reportId+'/instanceId/'+instanceId;
+          return apiPaths.apiSerivicesUrl +'/scheduledreports/archiveInstance/'+reportId+'/'+instanceId;
       }
 
   }
