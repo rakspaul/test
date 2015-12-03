@@ -119,9 +119,11 @@ var angObj = angObj || {};
                             $scope.selectedAudience.push($scope.audienceList[index]);
 
                         $scope.audienceList[index].isChecked = true;
-                        $scope.audienceList[index].isIncluded = true;
+                        $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
                     }
                 }
+                console.log('edited ads -- ', $scope.audienceList)
+                //$scope.andOr =
 
                 //reset selected array in service after initial load to avoid populating same data when platform is changed
                 fetchedObj.targets.segmentTargets = [];
@@ -138,7 +140,7 @@ var angObj = angObj || {};
 
                     if(index != -1){
                         $scope.audienceList[index].isChecked = true;
-                        $scope.audienceList[index].isIncluded = true;
+                        //$scope.audienceList[index].isIncluded = true;
                     }
 
                 }
@@ -412,16 +414,23 @@ var angObj = angObj || {};
             //building audience
             $scope.changeOrAndStatus = function(status){
                 $scope.andOr = status;
+                //remove all elements inside and-or-txt and append the created structure -- needs permanent fix
+                $('.and-or-txt').html('');
+                var str = "<span class='text'>"+$scope.andOr+"</span><span class='icon-arrow-down'></span>"
+                $('.and-or-txt').append(str);
+                $(".dropdown.open").removeClass('open');
             }
 
             $scope.changeIncludeStatus = function(audienceObj,status){
                 audienceObj.isIncluded = status;
+                $(".dropdown.open").removeClass('open');
             }
 
             // final save from audience segment
             $scope.saveCampaignWithAudience = function(){
                 audienceService.setSelectedAudience($scope.selectedAudience);
-                audienceService.setAndOr($scope.andOr)
+                audienceService.setAndOr($scope.andOr);
+                $scope.resetAudienceTargetingVariables();
                 //$scope.CampaignADsave(false);
             }
                 // end of final save
@@ -443,7 +452,6 @@ var angObj = angObj || {};
             $scope.processDone = function(){
                 $(".dropdown.open").removeClass('open');
                 $scope.fetchAllAudience();
-
             }
         });
 })();
