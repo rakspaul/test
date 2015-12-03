@@ -53,7 +53,8 @@
                             <span>(Flight)</span>
                         </div>
                     </div>
-                    <div class="statusLabel" ng-if="(adData.unitCost !==''  &&  adData.unitType.name)">
+                    <!-- <div class="statusLabel" ng-if="(adData.unitCost !==''  &&  adData.unitType.name)"> -->
+                    <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
                             <span style="margin-right: 5px;">$</span>
                             <span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
