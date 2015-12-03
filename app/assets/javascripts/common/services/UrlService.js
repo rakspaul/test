@@ -78,14 +78,7 @@
       };
 
       this.APIStrategiesForCampaign = function (campaingId) {
-          var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaingId + '/strategies/meta';
-          return url ;
-      };
-
-
-
-      this.APIStrategiesForCampaign = function (campaingId) {
-          var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaingId + '/strategies/meta';
+          var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaingId + '/ad_groups/meta';
           return url ;
       };
 

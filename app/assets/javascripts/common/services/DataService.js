@@ -131,7 +131,7 @@
 
             getTactics: function (orderId) {
                 //var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + orderId + '/strategies/tactics/meta';
+                var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + orderId + '/ads/meta';
                 return this.fetch(url)
             },
 
