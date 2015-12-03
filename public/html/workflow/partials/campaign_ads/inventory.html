@@ -9,8 +9,9 @@
                 <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
 
-            <div class="form-group col-md-12 zeroPadding" ng-if="workflowData.inventoryData.length >0">
-                <div class="col-md-3 zeroPadding dropdown-workflow" style="margin-bottom: 10px;">
+            <div class="form-group col-md-3 zeroPadding" ng-if="workflowData.inventoryData.length >0">
+                <div class="col-md-12 zeroPadding dropdown-workflow" style="margin-bottom: 10px;">
+                    <span class="col-md-12 greyTxt">Select from Existing</span>
                     <div class="dropdown">
                          <button class="btn btn-default dropdown-toggle" type="button" id="inventory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                               <span class="text">{{adData.inventory ? adData.inventory.name :  'Select Domain List'}}</span>
@@ -24,13 +25,11 @@
                 </div>
             </div>
 
-            <div class="col-md-12 zeroPadding inventory_upload_btn">
-                <div class="clearfix">
-                    <button class="pull-left btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
-                            ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false">Upload Domain List</button>
-                    <span class="grey_txt">(.csv, .txt file)</span>
-                </div>
-                <div class="grey_txt note">Only 1 list is supported at this moment.</div>
+            <div class="col-md-9 zeroPadding inventory_upload_btn" style="padding-left: 10px !important;">
+                <div class="col-md-12 greyTxt">Only 1 list is supported at this moment.</div>
+                <button class="pull-left btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
+                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false">Upload Domain List</button>
+                <span class="grey_txt" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true">(.csv, .txt file)</span>
             </div>
         </div>
         <!-- Header Ends -->

@@ -41,7 +41,7 @@
                            <span class="icon-arrow-down"></span>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
-                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id">
+                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
                             <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
                            </li>
                       </ul>
