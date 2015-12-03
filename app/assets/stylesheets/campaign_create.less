@@ -2156,7 +2156,9 @@
     }
     .list_row_holder {
       max-height: 525px;
-      overflow: scroll;
+      width: 100%;
+      overflow: auto;
+      height: 100%;
     }
     .list_val_col {
         margin-left : 10px ;
@@ -2167,7 +2169,10 @@
       //margin-left: 28px;
     }
     .list_holder {
-      /*padding: 0 20px ;*/
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
       .list_row {
         margin: 10px 0 ;
       }
@@ -2913,6 +2918,19 @@
                 -ms-transform: rotate(90deg);
                 transform: rotate(90deg);
                 color: #bfc9d7;
+              }
+              .tooltip > .tooltip-inner {
+                background-color: #fff;
+                -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+                box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+                color: #000;
+                text-align: left;
+              }
+              .tooltip .tooltip-arrow {
+                border-bottom-color:#000;
+                border-top-color:#fff;
+                bottom: 1px;
               }
             }
           }

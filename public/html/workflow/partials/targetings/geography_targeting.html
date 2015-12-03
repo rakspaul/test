@@ -84,38 +84,30 @@
             <div id="regions" class="tab-pane active contentBox" >
                     <!-- --- start region block ----------------- -->
                     <div id="region" class="tab-pane active" ng-show="selectedTab == 'regions'">
-                        <div>
-                            <div class="list_holder">
-
-                                <div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
-                                    <div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
-                                        <div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
-                                        <div class="pull-left list_val_col">{{region.name}}</div>
-                                    </div>
-                                    <div ng-if="regionFetching" class="common-load-more"></div>
-                                </div>
-                            </div>
-                        </div>
-
+						<div class="list_holder">
+							<div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
+								<div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
+									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
+									<div class="pull-left list_val_col">{{region.name}}</div>
+								</div>
+								<div ng-if="regionFetching" class="common-load-more"></div>
+							</div>
+						</div>
                     </div>
                     <!-- --- end region block ----------------- -->
 
                     <!-- --- start city block ----------------- -->
                     <div id="city" class="tab-pane"  ng-show="selectedTab == 'cities'">
-                        <div>
-                            <div class="list_holder">
-
-                                <div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
-                                    <div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
-                                        <div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-click="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
-                                        <div class="pull-left list_val_col">{{city.name}}</div>
-                                        <div class="pull-left list_val_col">{{city.parent.name}}</div>
-                                    </div>
-                                    <div ng-if="cityFetching" class="common-load-more"></div>
-                                </div>
-                            </div>
-                        </div>
-
+						<div class="list_holder">
+							<div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
+								<div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
+									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-click="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
+									<div class="pull-left list_val_col">{{city.name}}</div>
+									<div class="pull-left list_val_col">{{city.parent.name}}</div>
+								</div>
+								<div ng-if="cityFetching" class="common-load-more"></div>
+							</div>
+						</div>
                     </div>
                     <!----- end city block ------------------->
             </div>
