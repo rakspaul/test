@@ -119,9 +119,11 @@ var angObj = angObj || {};
                             $scope.selectedAudience.push($scope.audienceList[index]);
 
                         $scope.audienceList[index].isChecked = true;
-                        $scope.audienceList[index].isIncluded = true;
+                        $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
                     }
                 }
+                console.log('edited ads -- ', $scope.audienceList)
+                //$scope.andOr =
 
                 //reset selected array in service after initial load to avoid populating same data when platform is changed
                 fetchedObj.targets.segmentTargets = [];
@@ -138,7 +140,7 @@ var angObj = angObj || {};
 
                     if(index != -1){
                         $scope.audienceList[index].isChecked = true;
-                        $scope.audienceList[index].isIncluded = true;
+                        //$scope.audienceList[index].isIncluded = true;
                     }
 
                 }
