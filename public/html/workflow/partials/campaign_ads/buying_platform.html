@@ -8,7 +8,7 @@
     <div class="col-md-12" style="padding: 0 30px;">
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
             <img ng-src="{{platform.iconUrl}}"/>
-            <p>{{platform.name}}</p>
+            <p>{{platform.displayName}}</p>
             <span ng-bind-html="platform.summary"></span>
             <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>
             <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
@@ -38,7 +38,7 @@
                                 <img ng-src="{{trackingIntegration.iconUrl}}" width="50">
                             </div>
                             <div class="col-md-9">
-                                <span class="title">{{trackingIntegration.name}}</span>
+                                <span class="title">{{trackingIntegration.displayName}}</span>
                                 <span class="descrip">{{trackingIntegration.summary}}</span>
                             </div>
                             <div class="col-md-12 select-btn">
