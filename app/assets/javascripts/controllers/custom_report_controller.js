@@ -642,6 +642,7 @@ var angObj = angObj || {};
                     $('#startOn').datepicker('update', startDate);
                     $('#startOn').datepicker('setStartDate', startDate);
                     $('#endOn').datepicker('update', endDate);
+                    $('#endOn').datepicker('setStartDate', endDate);
                 }
             }
 
