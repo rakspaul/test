@@ -352,6 +352,14 @@ var angObj = angObj || {};
 
         $scope.scheduleReport = function() {
            if(!$scope.generateBtnDisabled) {
+               var str = $scope.reports.name;
+               if(/^[a-zA-Z0-9- ]*$/.test(str) === false) {
+                   $scope.flashMessage.message = 'Please use only alphanumeric characters for report names';
+                   $scope.flashMessage.isErrorMsg = 1;
+                   $scope.flashMessage.isMsg = 0;
+                   $scope.msgtimeoutReset();
+                   return false;
+               }
               if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
                 $scope.flashMessage.message = 'Please provide report name and frequency';
                 $scope.flashMessage.isErrorMsg = 1 ;
@@ -703,6 +711,11 @@ var angObj = angObj || {};
                 todayHighlight: true,
                 keyboardNavigation: false
             }).on('changeDate', function () {
+                var startDateChecker = new Date($('#startOn').val());
+                var endDateChecker = new Date($('#endOn').val());
+                if (startDateChecker > endDateChecker){
+                    $('#endOn').val($('#startOn').val());
+                }
                 $(this).closest(".customDatesTimeframe").find("#date-selected-txt").text("Custom Dates");
             });
             $('#toggle').bootstrapToggle('off');
