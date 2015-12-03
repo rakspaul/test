@@ -359,7 +359,7 @@
                                           <span class="arrow_img"></span>
                                       </span>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance" ng-click="reports.schedule.occursOn = schedule_occur; select_schedule_occurs_option($event, schedule_occur);">
+                                            <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance" ng-click="select_schedule_occurs_option($event, schedule_occur);">
                                                 {{schedule_occur}}
                                             </li>
                                         </ul>

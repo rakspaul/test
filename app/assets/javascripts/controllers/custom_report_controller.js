@@ -663,7 +663,7 @@ var angObj = angObj || {};
             arg = arg.toLowerCase();
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
-
+            $scope.reports.schedule.occurance = arg;
             if( arg == "custom") {
                 $(".schedule-occurs-custom").show() ;
             } else {
