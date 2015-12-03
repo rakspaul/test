@@ -3338,6 +3338,10 @@
 .users-popup.popup-holder .add-filters ul.dropdown-menu ul li:hover {
   background: rgba(109, 114, 129, 0.08);
 }
+.accounts-popup.popup-holder .add-filters .accounts-multi-dimension .dropdown-menu,
+.users-popup.popup-holder .add-filters .accounts-multi-dimension .dropdown-menu {
+  min-width: 250px;
+}
 .accounts-popup.popup-holder .add_filter_link,
 .users-popup.popup-holder .add_filter_link {
   color: #0978C9 ;
