@@ -414,6 +414,10 @@ var angObj = angObj || {};
             //building audience
             $scope.changeOrAndStatus = function(status){
                 $scope.andOr = status;
+                //remove all elements inside and-or-txt and append the created structure -- needs permanent fix
+                $('.and-or-txt').html('');
+                var str = "<span class='text'>"+$scope.andOr+"</span><span class='icon-arrow-down'></span>"
+                $('.and-or-txt').append(str);
                 $(".dropdown.open").removeClass('open');
             }
 
