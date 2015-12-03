@@ -139,8 +139,8 @@
           return apiPaths.apiSerivicesUrl +'/scheduledreports/createReport';
       }
 
-      this.archiveSchldRpt = function() {
-          return apiPaths.apiSerivicesUrl +'';
+      this.archiveSchldRpt = function(reportId,instanceId) {
+          return apiPaths.apiSerivicesUrl +'/scheduledreports/archiveReport/reportId/'+reportId+'/instanceId/'+instanceId;
       }
 
   }
