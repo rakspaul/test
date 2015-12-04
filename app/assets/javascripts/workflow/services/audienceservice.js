@@ -37,7 +37,7 @@
                     }
                 }
                 if(source && source.length > 0){
-                    url += '&source=';
+                    url += '&sources=';
                     for(var i = 0;i < source.length;i++){
                         url += source[i].id;
                         if(i + 1 < source.length)
@@ -46,7 +46,7 @@
                 }
                 if(classification && classification.length > 0)
                     //url += '&classification='+classification;
-                    url += '&classification=';
+                    url += '&classifiers=';
                     for(var i = 0;i < classification.length;i++){
                         url += classification[i].id;
                         if(i + 1 < classification.length)

@@ -105,13 +105,11 @@ var angObj = angObj || {};
         });
 
         $scope.updateGeoTargets =  function() {
-          console.log("hello");
           $("#geographyTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         };
 
         // geo Targeting Trigger
         $scope.selectGeoTarget = function() {
-            console.log('select geotarget');
             $("#geographyTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
             if(!$scope.adData.geoTargetingData){
                 $scope.resetGeoTargetingVariables();
@@ -314,7 +312,6 @@ var angObj = angObj || {};
                 if($event && $scope.mode =='edit') {
                     //do nothing just wait and watch
                 } else {
-                    console.log('reset');
                   $scope.geoTargetingData['selected'] = {};
                   $scope.geoTargetingData['selected']['regions']=[];
                   $scope.geoTargetingData['selected']['cities']=[];
