@@ -155,6 +155,7 @@
       'controllers-campaign_adcreate_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-geo_targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-audience_targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
+      'controllers-daypart_create_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-creative_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-buying_platform_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-creative_list_controller': {deps: ['controllers-creative_controller']},
@@ -369,6 +370,7 @@
       'controllers-buying_platform_controller':'workflow/controllers/buying_platform_controller',
       'controllers-geo_targetting_controller' : 'workflow/controllers/geo_targetting_controller',
       'controllers-audience_targetting_controller' : 'workflow/controllers/audience_targetting_controller',
+      'controllers-daypart_create_controller' : 'workflow/controllers/daypart_create_controller',
 
         'controllers-creative_controller':'workflow/controllers/creative_controller',
       'controllers-creative_list_controller':'workflow/controllers/creative_list_controller',
@@ -570,6 +572,7 @@
            'controllers-buying_platform_controller',
            'controllers-geo_targetting_controller',
           'controllers-audience_targetting_controller',
+          'controllers-daypart_create_controller',
 
 
            'controllers-creative_controller',

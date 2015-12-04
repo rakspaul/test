@@ -19,18 +19,18 @@
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">All days and times</span>
+						   <span class="text">{{dayTimeSelected ? 'All days and times': dayTimeSelected}}</span>
 						   <span class="icon-arrow-down"></span>
 					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
-						   <li class="available"><a>All days and times</a></li>
-						   <li class="available"><a>Weekday (M-F)</a></li>
-						   <li class="available"><a>Weekend (S/S)</a></li>
-						   <li class="available"><a>Business hour (M-F, 9am - 5pm)</a></li>
-						   <li class="available"><a>TV Primetime (8pm-11pm)</a></li>
-						   <li class="available"><a>Early Morning (5am-7am)</a></li>
-						   <li class="available"><a>Late Night (11pm-1am)</a></li>
-						   <li class="available"><a>Custom schedule</a></li>
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection">
+						   <li class="available"><a value="0" ng-click="dayTimeSelected(0)">All days and times</a></li>
+						   <li class="available"><a value="1" ng-click="dayTimeSelected(1)">Weekday (M-F)</a></li>
+						   <li class="available"><a value="2" ng-click="dayTimeSelected(2)">Weekend (S/S)</a></li>
+						   <li class="available"><a value="3" ng-click="dayTimeSelected(3)">Business hour (M-F, 9am - 5pm)</a></li>
+						   <li class="available"><a value="4" ng-click="dayTimeSelected(4)">TV Primetime (8pm-11pm)</a></li>
+						   <li class="available"><a value="5" ng-click="dayTimeSelected(5)">Early Morning (5am-7am)</a></li>
+						   <li class="available"><a value="6" ng-click="dayTimeSelected(6)">Late Night (11pm-1am)</a></li>
+						   <li class="available"><a value="7" ng-click="dayTimeSelected(7)">Custom schedule</a></li>
 					  </ul>
 				 </div>
 			</div>
@@ -84,65 +84,65 @@
 	</div>
 	
 	<!--Sample 1-->
-	<div class="col-md-10 zeroPadding dayRow">
-		<div class="col-md-2 zeroPadding dailyRow">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">Sunday</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
-						   <li class="available"><a>Sunday</a></li>
-						   <li class="available"><a>Monday</a></li>
-						   <li class="available"><a>Tuesday</a></li>
-						   <li class="available"><a>Wednesday</a></li>
-						   <li class="available"><a>Thursday</a></li>
-						   <li class="available"><a>Friday</a></li>
-						   <li class="available"><a>Saturday</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-		
-		<div class="col-md-2 zeroPadding hourRow">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">All Day</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
-						   <li class="available"><a>All Day</a></li>
-						   <li class="available"><a>1</a></li>
-						   <li class="available"><a>2</a></li>
-						   <li class="available"><a>3</a></li>
-						   <li class="available"><a>4</a></li>
-						   <li class="available"><a>5</a></li>
-						   <li class="available"><a>6</a></li>
-						   <li class="available"><a>7</a></li>
-						   <li class="available"><a>8</a></li>
-						   <li class="available"><a>9</a></li>
-						   <li class="available"><a>10</a></li>
-						   <li class="available"><a>11</a></li>
-						   <li class="available"><a>12</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-		<span class="icon-clear removeDay"></span>
-	</div>
-	
+	<!--<div class="col-md-10 zeroPadding dayRow">-->
+		<!--<div class="col-md-2 zeroPadding dailyRow">-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+				 <!--<div class="dropdown">-->
+					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+						   <!--<span class="text">Sunday</span>-->
+						   <!--<span class="icon-arrow-down"></span>-->
+					  <!--</button>-->
+					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">-->
+						   <!--<li class="available"><a>Sunday</a></li>-->
+						   <!--<li class="available"><a>Monday</a></li>-->
+						   <!--<li class="available"><a>Tuesday</a></li>-->
+						   <!--<li class="available"><a>Wednesday</a></li>-->
+						   <!--<li class="available"><a>Thursday</a></li>-->
+						   <!--<li class="available"><a>Friday</a></li>-->
+						   <!--<li class="available"><a>Saturday</a></li>-->
+					  <!--</ul>-->
+				 <!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!---->
+		<!--<div class="col-md-2 zeroPadding hourRow">-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+				 <!--<div class="dropdown">-->
+					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+						   <!--<span class="text">All Day</span>-->
+						   <!--<span class="icon-arrow-down"></span>-->
+					  <!--</button>-->
+					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">-->
+						   <!--<li class="available"><a>All Day</a></li>-->
+						   <!--<li class="available"><a>1</a></li>-->
+						   <!--<li class="available"><a>2</a></li>-->
+						   <!--<li class="available"><a>3</a></li>-->
+						   <!--<li class="available"><a>4</a></li>-->
+						   <!--<li class="available"><a>5</a></li>-->
+						   <!--<li class="available"><a>6</a></li>-->
+						   <!--<li class="available"><a>7</a></li>-->
+						   <!--<li class="available"><a>8</a></li>-->
+						   <!--<li class="available"><a>9</a></li>-->
+						   <!--<li class="available"><a>10</a></li>-->
+						   <!--<li class="available"><a>11</a></li>-->
+						   <!--<li class="available"><a>12</a></li>-->
+					  <!--</ul>-->
+				 <!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--<span class="icon-clear removeDay"></span>-->
+	<!--</div>-->
+
 	<!--Sample 1-->
-	<div class="col-md-12 zeroPadding dayRow">
+	<div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in daytimeArr track by $index">
 		<div class="col-md-2 zeroPadding dailyRow">
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">Sunday</span>
+						   <span class="text">{{dayObj.day ? dayObj.day: Sunday}}</span>
 						   <span class="icon-arrow-down"></span>
 					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay">
 						   <li class="available"><a>Sunday</a></li>
 						   <li class="available"><a>Monday</a></li>
 						   <li class="available"><a>Tuesday</a></li>
@@ -159,10 +159,10 @@
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">9</span>
+						   <span class="text">{{dayObj.startTime ? dayObj.startTime : 'All Day'}}</span>
 						   <span class="icon-arrow-down"></span>
 					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime">
 						   <li class="available"><a>All Day</a></li>
 						   <li class="available"><a>1</a></li>
 						   <li class="available"><a>2</a></li>
@@ -181,14 +181,14 @@
 			</div>
 		</div>
 		
-		<div class="col-md-1 zeroPadding hourRow">
+		<div class="col-md-1 zeroPadding hourRow" ng-if="dayObj.startAmPm.length>0">
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">am</span>
+						   <span class="text">{{dayObj.startAmPm ? dayObj.startAmPm: 'am'}}</span>
 						   <span class="icon-arrow-down"></span>
 					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="startAmPm">
 						   <li class="available"><a>am</a></li>
 						   <li class="available"><a>pm</a></li>
 					  </ul>
@@ -196,16 +196,16 @@
 			</div>
 		</div>
 		
-		<div class="midTo">to</div>
+		<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>
 		
-		<div class="col-md-1 zeroPadding hourRow">
+		<div class="col-md-1 zeroPadding hourRow" ng-if="dayObj.endTime.length>0">
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">5</span>
+						   <span class="text">{{dayObj.endTime ? dayObj.endTime: '9'}}</span>
 						   <span class="icon-arrow-down"></span>
 					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime">
 						   <li class="available"><a>All Day</a></li>
 						   <li class="available"><a>1</a></li>
 						   <li class="available"><a>2</a></li>
@@ -224,44 +224,44 @@
 			</div>
 		</div>
 		
-		<div class="col-md-1 zeroPadding hourRow">
+		<div class="col-md-1 zeroPadding hourRow" ng-if="dayObj.endAmPm.length>0">
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				 <div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">pm</span>
+						   <span class="text">{{dayObj.startAmPm ? dayObj.startAmPm: 'pm'}}</span>
 						   <span class="icon-arrow-down"></span>
 					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
+					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="endAmPm">
 						   <li class="available"><a>am</a></li>
 						   <li class="available"><a>pm</a></li>
 					  </ul>
 				 </div>
 			</div>
 		</div>
-		<span class="icon-clear removeDay"></span>
+		<span class="icon-clear removeDay" ng-click="deleteRow($index)"></span>
 	</div>
 	
 	<!--Sample Add-->
-	<div class="col-md-12 zeroPadding dayRow">
-		<div class="col-md-2 zeroPadding dailyRow">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">Add</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">
-						   <li class="available"><a>Sunday</a></li>
-						   <li class="available"><a>Monday</a></li>
-						   <li class="available"><a>Tuesday</a></li>
-						   <li class="available"><a>Wednesday</a></li>
-						   <li class="available"><a>Thursday</a></li>
-						   <li class="available"><a>Friday</a></li>
-						   <li class="available"><a>Saturday</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-	</div>
+	<!--<div class="col-md-12 zeroPadding dayRow">-->
+		<!--<div class="col-md-2 zeroPadding dailyRow">-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+				 <!--<div class="dropdown">-->
+					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+						   <!--<span class="text">Add</span>-->
+						   <!--<span class="icon-arrow-down"></span>-->
+					  <!--</button>-->
+					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">-->
+						   <!--<li class="available"><a>Sunday</a></li>-->
+						   <!--<li class="available"><a>Monday</a></li>-->
+						   <!--<li class="available"><a>Tuesday</a></li>-->
+						   <!--<li class="available"><a>Wednesday</a></li>-->
+						   <!--<li class="available"><a>Thursday</a></li>-->
+						   <!--<li class="available"><a>Friday</a></li>-->
+						   <!--<li class="available"><a>Saturday</a></li>-->
+					  <!--</ul>-->
+				 <!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 </div>
 	

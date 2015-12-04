@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
+    angObj.factory("domainReports", ['loginModel', 'RoleBasedService','accountsService', function (loginModel, RoleBasedService,accountsService) {
 
         return {
             getReportsTabs : function() {
@@ -307,6 +307,16 @@
             }
         };
     }]);
+    angObj.directive('ngUpdateHiddenDropdown',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.allPermissions.push(nv);
+            });
+
+        };
+    });
 
 
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {

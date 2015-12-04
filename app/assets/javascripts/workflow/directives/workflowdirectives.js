@@ -129,6 +129,17 @@
         };
     })
 
+    angObj.directive('ngUpdateHiddenDropdown',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.allPermissions.push(nv);
+            });
+
+        };
+    })
+
     angObj.directive('customDatePicker', function() {
       	return {
       		// Restrict it to be an attribute in this case

@@ -5,6 +5,7 @@
         var brand = null;
         var client = null;
         var advertiserMode;
+        var counter=0;
 
         return {
             getAllCurrency: function () {
@@ -92,7 +93,30 @@
             },
             setToBeEditedBrand: function(b){
                 brand = b;
+            },
+            getUsers: function () {
+                var url = apiPaths.WORKFLOW_APIUrl + '/users';
+                return dataService.fetch(url);
+            },
+            getUserClients:function(){
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients';
+                return dataService.fetch(url);
+            },
+            getUserAdvertiser:function(){
+                var url = apiPaths.WORKFLOW_APIUrl + '/advertisers';
+                return dataService.fetch(url);
+            },
+            getUserBrands:function(){
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients';
+                return dataService.fetch(url);
+            },
+            setCounter:function(){
+                 counter++;
+            },
+            getCounter:function(){
+                return counter;
             }
+
 
 
         }
