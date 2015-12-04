@@ -119,13 +119,15 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
                   //}
                 } else {
                   $scope.showCustomeFieldBox();
+
                     //maintain state of building platform strategy when user selects it navigtes to other places
-                    if(!$scope.postPlatformDataObj ){
-                        console.log("post obj data =",$scope.postPlatformDataObj);
-                        platformCustomeModule.init(platformCustomeJson, platformWrap);
-                    }else if(oldPlatformName != $scope.adData.platform){
-                        console.log("old platform - ",oldPlatformName,"current platform - ",$scope.adData.platform);
+                    if(oldPlatformName != $scope.adData.platform){
                         oldPlatformName = workflowService.getPlatform().displayName;
+                        console.log("old platform - ",oldPlatformName,"current platform - ",$scope.adData.platform);
+                        platformCustomeModule.init(platformCustomeJson, platformWrap);
+                    }
+                    else if(!$scope.postPlatformDataObj ){
+                        console.log("post obj data =",$scope.postPlatformDataObj);
                         platformCustomeModule.init(platformCustomeJson, platformWrap);
                     }
 
