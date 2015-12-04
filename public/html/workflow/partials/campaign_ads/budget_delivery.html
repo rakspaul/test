@@ -110,26 +110,29 @@
             <span>#</span>
             <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap">
         </div>
-        <!-- <div class="form-group col-md-5">
-            <select name='frequencyType' class="form-control" ng-model="capsPeriod" ng-disabled="!adData.setCap">
-                <option value="DAILY">Day</option>
-                <option value="LIFETIME">Lifetime</option>
-            </select> -->
-            
+
+         <!--<div class="form-group col-md-5">-->
+            <!--<select name='frequencyType' class="form-control" name='frequencyType' ng-model="capsPeriod" ng-disabled="!adData.setCap">-->
+                <!--<option value="DAILY">Day</option>-->
+                <!--<option value="LIFETIME">Lifetime</option>-->
+            <!--</select>-->
+          <!--</div>-->
+
         <div class="form-group col-md-5">
            <div class="col-md-12 zeroPadding dropdown-workflow">
                <div class="dropdown">
-                   <button class="btn btn-default dropdown-toggle" type="button" id="frequencyType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                         <span class="text">Daily</span>
+                   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                         <span class="text">{{mode=='edit'? capsPeriod :'Daily'}}</span>
                          <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">
-                          <li><a data-value="DAILY">Daily</a></li>
-                         <li><a data-value="LIFETIME">Lifetime</a></li>
-                    </ul> 
+                          <li><a data-value="Daily" ng-click="frequencySelected('Daily')">Daily</a></li>
+                         <li><a data-value="Lifetime"ng-click="frequencySelected('Lifetime')">Lifetime</a></li>
+                    </ul>
+                   <input type="hidden" name="frequencyType" value="{{selectedFreq}}" ng-model="capsPeriod" ng-update-hidden/>
                </div>
-           </div>    
-        </div> 
+           </div>
+        </div>
         <!--<div class="form-group col-md-5" style="padding-right: 0;">-->
         <!--    <div class="col-md-12 zeroPadding dropdown-workflow">-->
         <!--        <div class="dropdown">-->
