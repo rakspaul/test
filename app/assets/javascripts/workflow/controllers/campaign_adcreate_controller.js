@@ -34,7 +34,7 @@ var angObj = angObj || {};
 
 
         // This is for the drop down list. Perhaps adding this to a more general controller
-        $(document).on('click','.dropdown-menu li a', function() {
+        $(document).on('click','.dropdown-menu li.available a', function() {
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
             $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
         });

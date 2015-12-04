@@ -50,7 +50,7 @@
 				     <span class="icon-arrow-down"></span>
 			    </button>
 			    <ul class="dropdown-menu" aria-labelledby="formatType">
-				   <li ng-class="{disabled : !adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="dropBoxItemSelected(adformat, 'creativeFormat')">{{adformat.name}}</a></li>
+				   <li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="dropBoxItemSelected(adformat, 'creativeFormat')">{{adformat.name}}</a></li>
 			    </ul>
 			</div>
                         <input type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>
@@ -118,10 +118,10 @@
 						</li>
 						 <span ng-if="!newData.creativeSize" class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
 						<li>
-							<ul><li ng-repeat="creativePopSizes in creativePopularSizes | filter:newData.creativeSize track by creativePopSizes.id"><a ng-click="dropBoxItemSelected(creativePopSizes, 'creativeSize')">{{creativePopSizes.size}}</a></li></ul>
+							<ul><li class="available" ng-repeat="creativePopSizes in creativePopularSizes | filter:newData.creativeSize track by creativePopSizes.id"><a ng-click="dropBoxItemSelected(creativePopSizes, 'creativeSize')">{{creativePopSizes.size}}</a></li></ul>
 						</li>
 					    <span class="greyTxt" style="margin-left:15px">AVAILABLE SIZES</span>
-				         <li style="padding-left:15px;" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:newData.creativeSize track by creativeSize.id">
+				         <li style="padding-left:15px;" class="available" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:newData.creativeSize track by creativeSize.id">
 							<a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size | lowercase}}</a>
 						 </li>
 					 </ul>		

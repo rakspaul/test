@@ -298,13 +298,16 @@
   margin-bottom: 30px ;
 }
 #inventoryFilters .inventory_upload_btn button {
-  margin-bottom: 10px ;
-  margin-top: 0px;
+  margin: 0 15px 10px 0;
   float: left;
+}
+#inventoryFilters .inventory_upload_btn .grey_txt[disabled="disabled"],
+#inventoryFilters .inventory_upload_btn button[disabled="disabled"] {
+  display: none;
 }
 #inventoryFilters .inventory_upload_btn .grey_txt {
   font-size: 14px ;
-  margin: 10px 0 0 15px;
+  margin: 10px 0 0 0;
   float: left;
 }
 #inventoryFilters .inventory_upload_btn .note {
