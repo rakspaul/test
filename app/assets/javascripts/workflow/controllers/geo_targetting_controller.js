@@ -121,7 +121,7 @@ var angObj = angObj || {};
         // Audience Targeting Trigger
         $scope.selectAudTarget = function(){
             $scope.setTargeting('Audience');
-            $scope.resetGeoTargetingVariables();
+            //$scope.resetGeoTargetingVariables();
             $("#audienceTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
         
