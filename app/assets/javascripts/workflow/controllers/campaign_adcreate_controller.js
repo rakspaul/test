@@ -354,7 +354,7 @@ var angObj = angObj || {};
 
             $('.cap_no input').attr("checked", "checked");
             $('.spend_evenly input').attr("checked", "checked");
-            if(responseData.frequencyCaps && responseData.frequencyCaps.length > 1){
+            if(responseData.frequencyCaps && responseData.frequencyCaps.length >= 1){
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
@@ -681,7 +681,9 @@ var angObj = angObj || {};
             $(".platform-custom").show().delay( 300 ).animate({left: "50%" , marginLeft: "-323px"}, 'slow');
             $(".offeringsWrap").hide();
         }
-
+        $scope.frequencySelected=function(freqSelected){
+            $scope.selectedFreq=freqSelected;
+        }
         function getfreqCapParams(formData) {
             var freq_cap = [];
             var budgetType = formData.budgetType.toLowerCase() === 'cost' ? 'Budget' : 'impressions';
@@ -698,7 +700,7 @@ var angObj = angObj || {};
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
                 selectedfreqObj['capType'] = "IMPRESSIONS";
-                selectedfreqObj['frequencyType'] = formData.frequencyType;
+                selectedfreqObj['frequencyType'] = (formData.frequencyType).toUpperCase();
                 selectedfreqObj['quantity'] = Number(formData.quantity);
                 selectedfreqObj['targetType'] = "PER_USER";
                 selectedfreqObj['pacingType'] = 'EVENLY';
