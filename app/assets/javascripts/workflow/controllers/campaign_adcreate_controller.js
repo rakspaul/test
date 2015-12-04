@@ -362,6 +362,7 @@ var angObj = angObj || {};
                 $scope.adData.budgetAmount = responseData.frequencyCaps[0]['quantity'];
                 $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
                 $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
+                $scope.selectedFreq = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
                 var pacingType = responseData.frequencyCaps[0]['pacingType'];
                 if(pacingType != "EVENLY"){
                     $('.spend_asap').addClass('active');
@@ -700,7 +701,7 @@ var angObj = angObj || {};
             if(isSetCap && formData.quantity) {
                 var selectedfreqObj = {};
                 selectedfreqObj['capType'] = "IMPRESSIONS";
-                selectedfreqObj['frequencyType'] = (formData.frequencyType).toUpperCase();
+                selectedfreqObj['frequencyType'] = formData.frequencyType.toUpperCase(); 
                 selectedfreqObj['quantity'] = Number(formData.quantity);
                 selectedfreqObj['targetType'] = "PER_USER";
                 selectedfreqObj['pacingType'] = 'EVENLY';

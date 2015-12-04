@@ -122,7 +122,7 @@
            <div class="col-md-12 zeroPadding dropdown-workflow">
                <div class="dropdown">
                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                         <span class="text">{{mode=='edit'? capsPeriod :'Daily'}}</span>
+                         <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
                          <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">
