@@ -1,5 +1,5 @@
 //Data Manipulation in model
-campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' ,'kpiSelectModel','constants', function (urlService,dataService,kpiSelectModel, constants) {
+campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' ,'kpiSelectModel','constants','loginModel','advertiserModel', function (urlService,dataService,kpiSelectModel, constants,loginModel,advertiserModel) {
     var campaign = {};
     campaign.campaigns = {};
     campaign.selectedCampaign = (localStorage.getItem('selectedCampaign') == undefined) ? { id: -1,name : 'Loading...', kpi : 'ctr', startDate : '-1', endDate : '-1' } : (JSON.parse( localStorage.getItem('selectedCampaign') )) ;
@@ -39,13 +39,13 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
     };
 
     campaign.getCampaigns = function (brand, searchCriteria) {
-        console.log("brand", brand);
-        console.log("searchCriteria", searchCriteria);
-        var url = urlService.APICampaignDropDownList(brand, searchCriteria);
+        //console.log('search criteria:',searchCriteria);
+        //console.log("brand", brand);
+        var clientId = loginModel.getClientId();
+        var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+        var url = urlService.APICampaignDropDownList(clientId,advertiserId,brand,searchCriteria);
         return dataService.fetch(dataService.append(url , searchCriteria)).then(function(response) {
-
             campaign.campaigns =  (response.data.data !== undefined) ? response.data.data : {} ;
-
             if( campaign.campaigns.length >0 && campaign.selectedCampaign.id == -1){
                 var _selectedCamp = campaign.campaigns[0];
                 campaign.setSelectedCampaign(_selectedCamp);
