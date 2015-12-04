@@ -111,7 +111,11 @@ var angObj = angObj || {};
 
         // geo Targeting Trigger
         $scope.selectGeoTarget = function() {
+            console.log('select geotarget');
             $("#geographyTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
+            if(!$scope.adData.geoTargetingData){
+                $scope.resetGeoTargetingVariables();
+            }
             $scope.setTargeting('Geography');
             $scope.listRegions();
         }
@@ -306,10 +310,11 @@ var angObj = angObj || {};
         };
 
         $scope.resetGeoTargetingVariables = function($event) {
-            $("#geographyTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0"}, function() {
+            //$("#geographyTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0"}, function() {
                 if($event && $scope.mode =='edit') {
                     //do nothing just wait and watch
                 } else {
+                    console.log('reset');
                   $scope.geoTargetingData['selected'] = {};
                   $scope.geoTargetingData['selected']['regions']=[];
                   $scope.geoTargetingData['selected']['cities']=[];
@@ -325,8 +330,8 @@ var angObj = angObj || {};
                   dmasListArray.length =0;
                   getSwitchElem('on');
                 }
-                $(this).hide();
-            });
+                //$(this).hide();
+            //});
         }
 
         // Closes Audience Targeting View
@@ -852,8 +857,9 @@ var angObj = angObj || {};
             $scope.geoTargetingData.selected['previewData'] = obj;
             $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
 
-            $(".targettingFormWrap").slideUp();
-            $(".targettingSelected").show();
+            $scope.redirectTargettingMain();
+            //$(".targettingFormWrap").slideUp();
+            //$(".targettingSelected").show();
 
         };
 
@@ -973,5 +979,13 @@ var angObj = angObj || {};
                 }
             }
         }
+
+        //this is temp redirect to targetting screen
+        $scope.redirectTargettingMain = function(){
+            $("#geographyTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0"}, function() {
+                $(this).hide();
+            });
+        }
+
     });
   })();
