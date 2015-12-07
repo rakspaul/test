@@ -250,7 +250,7 @@
 
     this.DASHBOARD = "Dashboard";
     this.CAMPAIGNS = "Campaigns";
-    this.MEDIA_PLAN = "Media Plan";
+    this.MEDIA_PLAN = "Media Plans";
     this.REPORTS = "Reports";
     this.HELLO = "Hello";
     this.ABOUT = "About";
