@@ -227,6 +227,81 @@
 
 
 
+        this.modifyScreenData = function(data) {
+            var selectedFormat = this.getScreenWidgetFormat();
+            var screenDataArr = [];
+            var modifiedData = {"widgetName":selectedFormat,"barHeight": 8, "kpiType": "gross_rev", "gapScreen": 70, "widthToSubtract": 88, "separator": " ", "page": "dashboard"};
+            var kpiModel = this.getScreenWidgetMetric().toLowerCase();
+            var selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
+
+            var calValMetricKey = selectedMetricKey;
+
+            if(calValMetricKey == 'ctr' || calValMetricKey == 'vtc'|| calValMetricKey == 'CPC'|| calValMetricKey == 'CPM' || calValMetricKey == 'AR'  || calValMetricKey == 'CPA'  ) {
+                calValMetricKey = calValMetricKey.toUpperCase();
+            }
+
+            var values = _.compact(_.pluck(data, calValMetricKey));
+            var total = _.reduce(values, function (sum, num) { return sum + num;}, 0);
+
+            _.each(data,function(eachObj) {
+                var cls = '';
+                var type = '';
+                if (selectedFormat.toLowerCase() === 'screens') {
+                    cls = eachObj.screen_type.toLowerCase();
+                    type = eachObj.screen_type;
+                } else if (selectedFormat.toLowerCase() === 'formats') {
+                    cls = eachObj.ad_format.toLowerCase() + "_graph";
+                    type = eachObj.ad_format;
+                } else {
+                    type = eachObj.platform_name;
+                }
+                var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
+                screenDataArr.push({"className":cls,"type":type,"value":value});
+            })
+            modifiedData.data = screenDataArr;
+            return modifiedData;
+        }
+
+
+        this.getScreenData = function() {
+            //queryid=2&clientid=3&startdate='2010-01-01'&enddate='2016-01-01'&campaignstatus='ALL'&advertiserid=-1&brandid=-1
+            var modifiedData = [];
+            var startDate = '2010-01-01';//momentService.todayDate('YYYY-MM-DD');
+            var endDate = momentService.todayDate('YYYY-MM-DD');
+            var selectedFormat = this.getScreenWidgetFormat();
+            var queryid = 1;
+            if(selectedFormat == constants.FORMATS) {
+                queryid = 2;
+            } else if(selectedFormat == constants.PLATFORMS) {
+                queryid = 3;
+            }
+            var clientid =  loginModel.getClientId();
+            var brandId = brandsModel.getSelectedBrand().id;
+            var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+            var campaignStatus = dashboardModel.getData().selectedStatus;
+
+            if(campaignStatus == 'Active') {
+                campaignStatus = "IN_FLIGHT,DELIVERING";
+            } else if(campaignStatus == 'Completed') {
+                campaignStatus = 'COMPLETED';
+            }else if(campaignStatus == 'All') {
+                campaignStatus = 'ALL';
+            }
+
+            var queryString = 'queryid='+queryid+'&clientid='+clientid+"&startdate='"+startDate+"'&enddate='"+endDate+"'&campaignstatus='"+campaignStatus+"'&advertiserid="+advertiserId+'&brandid='+brandId;
+
+            var url = urlService.getScreenDataUrl(queryString);
+            return dataService.fetch(url).then(function(response){
+                if(response.status == "success") {
+                    screenWidgetData['responseData'] = response.data.data;
+                    //this.modifyScreenData(response.data.data);
+                }
+            });
+            //this.modifyScreenData1(screenWidgetData['responseData']);
+        }
+
+
+
         this.getScreenWidgetData = function(){
             return screenWidgetData ;
         };

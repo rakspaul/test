@@ -68,10 +68,10 @@
        return url ;
     };
 
-     this.APIScreenWidgetForBrand = function(timePeriod, agencyId , brandId, _screenWidgetFormatType, status){
-         var param = (brandId !== -1) ? 'brands/' + brandId + '/' : '';
-         param +=  (_screenWidgetFormatType === 'byplatforms' ? _screenWidgetFormatType : _screenWidgetFormatType +'/perf');
-         return apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ param +'?campaignState='+ status.toLowerCase();
+      this.APIScreenWidgetForBrand = function(timePeriod, agencyId , brandId, _screenWidgetFormatType, status){
+          var param = (brandId !== -1) ? 'brands/' + brandId + '/' : '';
+          param +=  (_screenWidgetFormatType === 'byplatforms' ? _screenWidgetFormatType : _screenWidgetFormatType +'/perf');
+          return apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ param +'?campaignState='+ status.toLowerCase();
       };
 
      this.getScreenDataUrl = function(queryString) {
