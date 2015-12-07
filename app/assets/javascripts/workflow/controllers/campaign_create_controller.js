@@ -6,7 +6,7 @@ var angObj = angObj || {};
         $("html").css('background','#fff');
         // This sets dynamic width to line to take 100% height
         function colResize() {
-            var winHeight = $(window).height() - 66;
+            var winHeight = $(window).height() - 50;
             $("#campaignCreate .settingWrap").css('height', winHeight + 'px');
         }
 
@@ -15,14 +15,14 @@ var angObj = angObj || {};
             colResize();
         });
         // This is for the drop down list. Perhaps adding this to a more general controller
-        $(document).on('click', '.dropdown-menu li a', function () {
+        $(document).on('click', '.dropdown-menu li.available a', function () {
             $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
             $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
         });
         $('.dropdown-workflow a').each(function () {
             var text = $(this).text()
             if (text.length > 14)
-                $(this).val(text).text(text.substr(0, 20) + '…')
+            $(this).val(text).text(text.substr(0, 20) + '…')
         });
         $scope.textConstants = constants;
         $scope.workflowData = {};
