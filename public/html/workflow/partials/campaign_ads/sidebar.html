@@ -57,7 +57,7 @@
                     <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
                             <span style="margin-right: 5px;">$</span>
-                            <span>{{adData.unitCost | number }} {{adData.unitType.name}}</span>
+                            <span>{{adData.unitCost | number }} {{adData.unitType.name ?adData.unitType.name : 'CPM'}}</span>
                             <span>(Unit Cost)</span>
                         </div>
                     </div>
