@@ -68,6 +68,12 @@
          return apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ param +'?campaignState='+ status.toLowerCase();
       };
 
+     this.getScreenDataUrl = function(queryString) {
+          var url = apiPaths.apiSerivicesUrl_NEW+'/reportBuilder/customQuery?'+queryString;
+          // console.log(url);
+          return url;
+      }
+
     this.APIActionData = function(campaignId) {
       return apiPaths.workflow_apiServicesUrl + "/campaigns/" + campaignId + "/actions"
     };
