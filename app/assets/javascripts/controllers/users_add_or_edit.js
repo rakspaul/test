@@ -4,7 +4,17 @@
 
     angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout, $location,utils) {
         $scope.permissions = [];
-        $scope.allPermissions = [];
+//        $scope.User = {
+//            allPermissions: [],
+//            brand: [],
+//            advertisers: [],
+//            userPermission: []
+//        }
+//        $scope.allPermissions = [];
+
+        $scope.User = {
+            data: []
+        }
         $scope.delete_filter = function(event) {
             var elem = $(event.target);
             elem.closest(".add-filters").remove();
@@ -22,27 +32,28 @@
                 if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
                     console.log(formData);
                 }
-                var filterArr =[];
-                var elem =$(".add-filters");
-                _.each(elem, function(el) {
-                    //console.log(el);
-                    var dataObj={};
-                    //dataObj.accounts=el.getElementsByName('accountType')[0].value;
-                    dataObj.accounts=el.getElementsByClassName("accountType").value;
-                    dataObj.advName=el.getElementsByTagName('select')[0].value;
-                    dataObj.brand=el.getElementsByTagName('select')[1].value;
-                    dataObj.permission=el.getElementsByTagName('select')[2].value;
-
-                    filterArr.push(dataObj);
-                });
-            console.log(filterArr);
+//                var filterArr =[];
+//                var elem =$(".add-filters");
+//                _.each(elem, function(el) {
+//                    //console.log(el);
+//                    var dataObj={};
+//                    //dataObj.accounts=el.getElementsByName('accountType')[0].value;
+//                    dataObj.accounts=el.getElementsByClassName("accountType").value;
+//                    dataObj.advName=el.getElementsByTagName('select')[0].value;
+//                    dataObj.brand=el.getElementsByTagName('select')[1].value;
+//                    dataObj.permission=el.getElementsByTagName('select')[2].value;
+//
+//                    filterArr.push(dataObj);
+//                });
+//            console.log(filterArr);
             //}
+            console.log($scope.User.data);
         },
         $scope.selectedClientHandler=function(clientObj,index){
             var counter=accountsService.getCounter();
             $scope.selectedClient={};
-            $scope.allPermissions['index'] = clientObj;
-            $scope.selectedClient['counter']=$scope.allPermissions['index'].name;
+            $scope.User.data[index].allPermissions = clientObj.name;
+//            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
         },
         $scope.incrementCounter=function(){
             accountsService.setCounter()

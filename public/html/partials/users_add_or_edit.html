@@ -129,28 +129,28 @@
                 <!--</div>-->
                 <!---->
             <!--</div>-->
-            <div class="col-md-12 zeroPadding add-filters" ng-repeat="item in permissions track by $index">
+            <div class="col-md-12 zeroPadding add-filters" ng-repeat="item in permissions track by $parentindex = $index">
                 <div class="form-group col-md-3 accounts-multi-dimension">
                     <label >Accounts:</label>
                     <div class="zeroPadding dropdown-workflow">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                                <span class="text">{{allPermissions.index.name}}</span>
+                                <span class="text" >{{User.data[$index].allPermissions}}</span>
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,$index)">{{client.name}}</a>
+                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,$parentindex)">{{client.name}}</a>
                                     <ul ng-if="client.children.length>0">
-                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,$index)">{{clientChild.name}} </a>
+                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,$parentindex)">{{clientChild.name}} </a>
                                             <ul ng-if="clientChild.children.length>0">
-                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,$index)">{{clientSecondChild.name}} </a>
+                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,$parentindex)">{{clientSecondChild.name}} </a>
                                             </li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
-                            </ul><input type="hidden" name="accountType" class="accountType" ng-model="allPermissions[$index]" ng-init="allPermissions[$index]=selectedClient.counter.id" value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
+                            </ul><input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].allPermissions" ng-init="User.data[$index].allPermissions=selectedClient.counter.id" value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
                             <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
                         </div>
                     </div>
@@ -161,20 +161,20 @@
                 <div class="form-group col-md-3">
                     <label> Advertiser Name:</label>
                     <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
-                    <select class="form-control" name="advertiserName">
+                    <select class="form-control" name="advertiserName" ng-model="User.data[$index].advertisers">
                         <option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers">{{advertiser.name}}</option>
                         <!--<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>-->
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label >Brand Name:</label>
-                    <select name="brandName" class="form-control" >
+                    <select name="brandName" class="form-control" ng-model="User.data[$index].brand">
                         <option value="{{brand.id}}" ng-repeat="brand in userModalData.Brands">{{brand.name}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label >Permission:</label>
-                    <select name="permission" class="form-control" >
+                    <select name="permission" class="form-control"  ng-model="User.data[$index].permission">
                         <option>Admin</option>
                         <option>Write</option>
                         <option>Read</option>

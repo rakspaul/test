@@ -23,14 +23,14 @@
 						   <span class="icon-arrow-down"></span>
 					  </button>
 					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection">
-						   <li class="available"><a value="0" ng-click="dayTimeSelected(0)">All days and times</a></li>
-						   <li class="available"><a value="1" ng-click="dayTimeSelected(1)">Weekday (M-F)</a></li>
-						   <li class="available"><a value="2" ng-click="dayTimeSelected(2)">Weekend (S/S)</a></li>
-						   <li class="available"><a value="3" ng-click="dayTimeSelected(3)">Business hour (M-F, 9am - 5pm)</a></li>
-						   <li class="available"><a value="4" ng-click="dayTimeSelected(4)">TV Primetime (8pm-11pm)</a></li>
-						   <li class="available"><a value="5" ng-click="dayTimeSelected(5)">Early Morning (5am-7am)</a></li>
-						   <li class="available"><a value="6" ng-click="dayTimeSelected(6)">Late Night (11pm-1am)</a></li>
-						   <li class="available"><a value="7" ng-click="dayTimeSelected(7)">Custom schedule</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(0)"><a value="0" >All days and times</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1" >Weekday (M-F)</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2">Weekend (S/S)</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3">Business hour (M-F, 9am - 5pm)</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4">TV Primetime (8pm-11pm)</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5">Early Morning (5am-7am)</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6">Late Night (11pm-1am)</a></li>
+						   <li class="available" ng-click="Schedule.dayTimeSelected(7)"><a value="7">Custom schedule</a></li>
 					  </ul>
 				 </div>
 			</div>
@@ -238,7 +238,7 @@
 				 </div>
 			</div>
 		</div>
-		<span class="icon-clear removeDay" ng-click="deleteRow($index)"></span>
+		<span class="icon-clear removeDay" clearrow></span>
 	</div>
 	
 	<!--Sample Add-->

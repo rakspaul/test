@@ -318,6 +318,28 @@
         };
     });
 
+    angObj.directive('clearrow',function() {
+        return function(scope, el, attr) {
+          $(el).click(function(){
+              $(el).parent().remove();
+          })
+        };
+    });
+
+
+    angObj.directive('ngUpdateHiddenDropdwn',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.allPermissions.push(nv);
+            });
+
+        };
+    });
+
+
+
 
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
