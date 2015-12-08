@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel , requestCanceller, constants, loginModel) {
+    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel , requestCanceller, constants, loginModel,advertiserModel) {
 
         var bubbleWidgetData = {
             brandData : {},
@@ -12,7 +12,12 @@
         };
 
         this.getBubbleChartData = function () {
-            var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), dashboardModel.getData().selectedStatus);
+           // var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), dashboardModel.getData().selectedStatus);
+            var clientId = loginModel.getClientId();
+            var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+            var brandId = brandsModel.getSelectedBrand().id;
+            var campaignStatus = dashboardModel.campaignStatusToSend();
+            var url = urlService.APISpendWidgetForAllBrands(clientId,advertiserId,brandId,timePeriodModel.timeData.selectedTimePeriod.key,campaignStatus);
             var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 
@@ -90,5 +95,5 @@
         };
 
     };
-    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel','requestCanceller', 'constants' , 'loginModel' , bubbleChartData]);
+    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel','requestCanceller', 'constants' , 'loginModel' ,'advertiserModel' ,bubbleChartData]);
 }());
