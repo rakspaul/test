@@ -650,19 +650,20 @@
   width: 100%;
   text-align: left;
   color: #fff;
-  text-indent: 20px;
-  padding: 3px 0;
+  padding: 5px 10px 3px;
   font-size: 12px;
   position: absolute;
   left: 0;
   bottom: 0;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .glyphicon {
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning {
   font-size: 14px;
-  margin-right: 20px;
   padding-top: 0px;
   margin-bottom: 0;
-  color: #FF8000;
+  color: #fff;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning:before {
+  float: right;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.incomplete {
   background: #939ead ;
@@ -677,7 +678,7 @@
   background: #70d43d ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.in_progress {
-  background: #81F7D8 ;
+  background: #6abdfa;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.failed {
   background: #FF8000 ;
@@ -2565,6 +2566,7 @@
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a {
   border-width: 0;
+  float: left;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a span {
   width: 32px;
@@ -2575,6 +2577,34 @@
   display: inline-block;
   padding: 7px 12px;
   margin-right: 7px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.active.firstTabAud .ifNotSelected {
+  float: left;
+  margin: 0 8px 0 0;
+  display: inline-block;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.active.firstTabAud .icon-check {
+  display: none;
+  margin: 0;
+  padding: 9px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.active.firstTabAud p {
+  float: left;
+  margin: 7px 0 0 0;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.firstTabAud .ifNotSelected {
+  display: none;
+  margin: 0;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.firstTabAud .icon-check {
+  float: left;
+  display: inline-block;
+  margin: 0;
+  padding: 9px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.firstTabAud p {
+  float: left;
+  margin: 7px 0 0 8px;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs .splitterDash {
   width: 100px;
@@ -2731,7 +2761,6 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree {
   width: 13%;
   text-align: center;
-  padding-left: 0 !important;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree img {
   text-align: center;
@@ -2818,7 +2847,6 @@
   border-right: 1px solid #bfc9d7;
   padding: 5px 15px;
   background: #edf2f8;
-  cursor: move;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-1 {
   padding: 0 10px 0 0;
@@ -2846,8 +2874,6 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove span {
   float: left;
-}
-.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove span:last-child {
   margin-left: 5px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove .icon-more-options {

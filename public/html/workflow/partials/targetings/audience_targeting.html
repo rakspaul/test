@@ -9,7 +9,7 @@
 
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
-        <li class="active audience-tabs-segment"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
+        <li class="active audience-tabs-segment firstTabAud"><a data-toggle="tab" href="#selectAud"><span class="ifNotSelected">1</span><span class="icon-check"></span> <p>Select Segments</p></a></li>
         <div class="splitterDash"></div>
         <li class="audience-tabs-audience"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
     </ul>
@@ -21,24 +21,22 @@
                 <div class="setOne">
                     <div class="segmentHeader" >
                         <div class="col-md-12 zeroPadding multiDDL">
-							<span class="icon-search"></span>
-							<label class="col-md-12 greyTxt">Keyword</label>
-	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
-							<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
-							<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
-							<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
-							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.keyword}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
-
-								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
-									<a >
-										<span class="tick"></span>
-										<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>
-									</a>
-								</li>
-
-							</ul>
-						</div>
+				<span class="icon-search"></span>
+				<label class="col-md-12 greyTxt">Keyword</label>
+				<input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+				<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
+				<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
+				<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
+				<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.keyword}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+				<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
+					<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
+						<a>
+							<span class="tick"></span>
+							<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>
+						</a>
+					</li>
+				</ul>
+			</div>
 
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
                             <label class="col-md-12 greyTxt">Source</label>
@@ -106,22 +104,22 @@
                                         <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 6 (43)</a></li>-->
                                         <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 7 (88)</a></li>-->
                                     <!--</ul>-->
-									<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
-										<li class="searchBar">
-											<input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch"/>
-											<div class="icon-search"></div>
-										</li>
-										<li ng-repeat="category in audienceCategories| filter: categorySearch">
+					<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
+						<li class="searchBar">
+							<input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch"/>
+							<div class="icon-search"></div>
+						</li>
+						<li ng-repeat="category in audienceCategories| filter: categorySearch">
                                             <span>
                                                 <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked">
                                                 <span class="icon-arrow-down-thick" ng-click="showSubCategory($event)"></span>
                                                 {{category.category}} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})
                                             </span>
-											<ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">
-												<li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
-											</ul>
-										</li>
-                                        <div class="clearfix category_dropdown">
+						<ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">
+							<li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
+						</ul>
+					</li>
+					<div class="clearfix category_dropdown">
                                             <div class="pull-left btn btn-link" ng-click="clearAllSelectedCategory()">
                                                 Clear All
                                             </div>
@@ -130,8 +128,7 @@
 
                                             </div>
                                         </div>
-									</ul>
-
+				</ul>
                                 </div>
                             </div>
                         </div>
@@ -150,21 +147,21 @@
 								<input type="checkbox" ng-click="selectAllAudience()" ng-checked="selectAllChecked">
 							</div>
 						</div>
-						<div class="columnTwo">
+						<div class="columnTwo" style="width: 31.333%">
 							<span>Segment Name</span>
 						</div>
-						<div class="columnThree">
+						<div class="columnThree" style="width: 31.333%">
 							<span>Source</span>
 						</div>
-						<div class="columnFour">
+						<div class="columnFour" style="width: 31.333%">
 							<span>Category</span>
 						</div>
-						<div class="columnFive">
+						<!--<div class="columnFive">
 							<span>Cost</span>
 						</div>
 						<div class="columnSix">
 							<span>Est. Pool Size</span>
-						</div>
+						</div>-->
 					</div>
 
 					<div class="segBodyWrap">
@@ -175,21 +172,21 @@
 										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo">
+								<div class="columnTwo" style="width: 31.333%">
 									<span>{{audience.name}}</span>
 								</div>
-								<div class="columnThree">
-                                    {{audience.source}}
+								<div class="columnThree" style="width: 31.333%">
+									<span>{{audience.source}}</span>
 								</div>
-								<div class="columnFour">
+								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
 									<span>{{audience.category}}</span>
 								</div>
-								<div class="columnFive">
+								<!--<div class="columnFive">
 									<span>{{audience.cost}}</span>
 								</div>
 								<div class="columnSix">
 									<span>{{audience.poolSize}}</span>
-								</div>
+								</div>-->
 							</div>
 							<div ng-if="audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;"> No Results Found...</div>
 	
@@ -329,26 +326,20 @@
                     </div>
                     <div class="col-md-9">
                         <div class="segmentMove">
-							<span class="icon-more-options"></span>
-							<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip">{{aud.name}}</span>
-						</div>
+				<!--<span class="icon-more-options"></span>-->
+				<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip">{{aud.name}}</span>
+			</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear" ng-click="selectAudience(aud)"></a></div>
                 </div>
-
             </div>
 
-
-
-
-
             <!--Example Four Drag Drop Container-->
-            <div class="segmentHolder">
-                <!--Drag Drop-->
+            <!--<div class="segmentHolder">
                 <div class="segmentRow segmentDrop">
                     <span class="col-md-12 text-center">Or</span>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

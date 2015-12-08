@@ -40,6 +40,9 @@
       font-family: 'Avenir';
       cursor: pointer;
     }
+    h5:first-child:hover {
+      color: #0978C9;
+    }
     .icon-arrow-down {
       float: left;
       -ms-transform: rotate(270deg);
@@ -482,6 +485,7 @@
     font-family: "Avenir";
     line-height: 100%;
     padding: 10px 15px;
+    box-shadow: none;
     /*commented manny's changes here as it was reflecting all other places*/
     /*padding: 10px 15px 10px 15px;
     text-align: center;
@@ -494,11 +498,11 @@
   }
   .btn-primary {background: #0978C9;}
   .btn-primary:hover {background: #0564A9;}
-  .btn-primary:active {background: #004D86;}
+  .btn-primary:active, .btn-primary.active {background: #004D86;}
   /////
   .btn-default {color: #57606d; font-size: 14px; border: 1px solid #dde6eb;}
   .btn-default:hover {background: #e1edf9;}
-  .btn-default:active {background: #dce6f1;}
+  .btn-default:active, .btn-default.active {background: #E1EDF9;}
   
   // Small Toggle BTN
   .radioBtnToggle {
