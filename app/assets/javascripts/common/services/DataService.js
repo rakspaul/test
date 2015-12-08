@@ -47,9 +47,9 @@
                     }
                 }
                 if (type == 'campaigns') {
-                    urlPath =  api + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
                 } else if (type == 'strategies') {
-                    urlPath =  api + '/campaigns/' + campaignId + (strategyId ? ('/strategies/' + strategyId) : '') + '/bydays/perf?'+durationQuery;
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaignId + (strategyId ? ('/strategies/' + strategyId) : '') + '/bydays/perf?'+durationQuery;
                 }
                 return this.fetch(urlPath);
             },
