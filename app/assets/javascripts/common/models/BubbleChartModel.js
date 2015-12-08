@@ -16,7 +16,8 @@
             var clientId = loginModel.getClientId();
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var brandId = brandsModel.getSelectedBrand().id;
-            var url = urlService.APISpendWidgetForAllBrands(clientId,advertiserId,brandId,timePeriodModel.timeData.selectedTimePeriod.key,dashboardModel.getData().selectedStatus);
+            var campaignStatus = dashboardModel.campaignStatusToSend();
+            var url = urlService.APISpendWidgetForAllBrands(clientId,advertiserId,brandId,timePeriodModel.timeData.selectedTimePeriod.key,campaignStatus);
             var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 

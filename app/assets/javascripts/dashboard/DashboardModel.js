@@ -62,9 +62,21 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
     return dashboardData;
   };
 
+  var campaignStatusToSend = function() {
+      var campStatus = getData().selectedStatus;
+      if(campStatus == constants.DASHBOARD_STATUS_ALL) {
+         return 'ALL';
+      }else if(campStatus == constants.DASHBOARD_STATUS_COMPLETED) {
+         return 'ENDED';
+      }else if(campStatus == constants.DASHBOARD_STATUS_ACTIVE) {
+         return 'IN_FLIGHT';
+      }
+  }
+
   return {
     setTitle: setTitle,
     setSelectedBrand: setBrand,
-    getData: getData
+    getData: getData,
+    campaignStatusToSend:campaignStatusToSend
   };
 }]);

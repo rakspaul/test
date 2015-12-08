@@ -45,11 +45,11 @@
     //API for dashbaord Bubble Chart
     this.APISpendWidgetForAllBrands = function(clientId, advertiserId, brandId,timePeriod,status ){
             if(advertiserId == -1) {
-                var url = apiPaths.apiSerivicesUrl_NEW +'/client/'+clientId+'/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase();
+                var url = apiPaths.apiSerivicesUrl_NEW +'/client/'+clientId+'/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status;
             } else {
-                var url = apiPaths.apiSerivicesUrl_NEW +'/client/'+clientId +'/advertisers/'+advertiserId+'/brands/'+brandId+'/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase();
+                var url = apiPaths.apiSerivicesUrl_NEW +'/client/'+clientId +'/advertisers/'+advertiserId+'/brands/'+brandId+'/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status;
             }
-           // console.log('bubble chart url',url);
+           //console.log('bubble chart url',url);
         return url ;
     };
 
