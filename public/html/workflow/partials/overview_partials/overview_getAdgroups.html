@@ -36,7 +36,8 @@
         </div>
         <!--=== Single Ad Ready ===-->
         <!--<div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData track by adsData.id ">-->
-        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click='goEdit(adsData)'>
+        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
+        <!--<div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click='goEdit(adsData)'>-->
         <span class="icon-settings"></span>
         <!--<div ng-repeat="index in adsData">-->
             <div class="col-md-12 adTitle">
@@ -88,7 +89,10 @@
                 </div>
             </div>
             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">{{adsData.state}}</span>
+            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
+                {{adsData.state}}
+            <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
+            </span>
         <!--</div>-->
         </div>
     </div>

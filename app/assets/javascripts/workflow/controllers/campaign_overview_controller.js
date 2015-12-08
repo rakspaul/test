@@ -128,6 +128,8 @@ var angObj = angObj || {};
                         for(var i in responseData){
                             if(responseData[i].state==="IN_FLIGHT")
                             responseData[i].state="IN FLIGHT";
+                            if(responseData[i].state==="IN_PROGRESS")
+                            responseData[i].state="DEPLOYING";
                         }
                         if(responseData.length>0){
                             $scope.noIndependantAds=false;
@@ -140,7 +142,7 @@ var angObj = angObj || {};
                         // call extract method if
                         $scope.workflowData['campaignAdsData'] = campaignOverView.adsDataMofiderFunc(responseData);
 
-                        var isAdsInProgressState = _.filter(responseData, function(obj) { return obj.state == "IN_PROGRESS" });
+                        var isAdsInProgressState = _.filter(responseData, function(obj) { return obj.state == "DEPLOYING" });
 
                         if(isAdsInProgressState && isAdsInProgressState.length >0) {
                           $timeout(function() {
@@ -176,10 +178,12 @@ var angObj = angObj || {};
                         for(var i in responseData){
                             if(responseData[i].state==="IN_FLIGHT")
                             responseData[i].state="IN FLIGHT";
+                            if(responseData[i].state==="IN_PROGRESS")
+                                responseData[i].state="DEPLOYING";
                         }
                         $scope.workflowData['getADsForGroupData'][index] = campaignOverView.adsDataMofiderFunc(responseData);
 
-                        var isAdsInProgressState = _.filter(responseData, function(obj) { return obj.state == "IN_PROGRESS" });
+                        var isAdsInProgressState = _.filter(responseData, function(obj) { return obj.state == "DEPLOYING" });
 
                         if(isAdsInProgressState && isAdsInProgressState.length >0) {
                            $timeout(function() {
