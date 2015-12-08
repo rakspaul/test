@@ -917,9 +917,12 @@ var angObj = angObj || {};
                     $scope.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
                 }
             }
+
             if($scope.mode == 'edit')
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.postPlatformDataObj));
 
+            //trigger targeting tab link
+            $('.targetting-tab-link').trigger('click');
         };
 
 
