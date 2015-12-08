@@ -534,6 +534,7 @@
   font-family: "Avenir";
   line-height: 100%;
   padding: 10px 15px;
+  box-shadow: none;
   /*commented manny's changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
     text-align: center;
@@ -552,7 +553,8 @@
 .workflow .btn-primary:hover {
   background: #0564A9;
 }
-.workflow .btn-primary:active {
+.workflow .btn-primary:active,
+.workflow .btn-primary.active {
   background: #004D86;
 }
 .workflow .btn-default {
@@ -563,8 +565,9 @@
 .workflow .btn-default:hover {
   background: #e1edf9;
 }
-.workflow .btn-default:active {
-  background: #dce6f1;
+.workflow .btn-default:active,
+.workflow .btn-default.active {
+  background: #E1EDF9;
 }
 .workflow .radioBtnToggle .miniToggle label {
   position: relative;

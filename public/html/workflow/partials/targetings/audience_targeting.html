@@ -9,7 +9,7 @@
 
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
-        <li class="active audience-tabs-segment"><a data-toggle="tab" href="#selectAud"><span>1</span> Select Segments</a></li>
+        <li class="active audience-tabs-segment firstTabAud"><a data-toggle="tab" href="#selectAud"><span class="ifNotSelected">1</span><span class="icon-check"></span> <p>Select Segments</p></a></li>
         <div class="splitterDash"></div>
         <li class="audience-tabs-audience"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
     </ul>
@@ -178,7 +178,7 @@
 								<div class="columnThree" style="width: 31.333%">
 									<span>{{audience.source}}</span>
 								</div>
-								<div class="columnFour" style="width: 31.333%">
+								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
 									<span>{{audience.category}}</span>
 								</div>
 								<!--<div class="columnFive">

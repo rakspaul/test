@@ -6,12 +6,12 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background','#fff');
-        var winHeaderHeight = $(window).height() - 66;
+        var winHeaderHeight = $(window).height() - 50;
         $(".workflowPreloader").css('height', winHeaderHeight+'px');
 
         // This sets dynamic width to line to take 100% height
         function colResize() {
-            var winHeight = $(window).height() - 126;
+            var winHeight = $(window).height() - 110;
             $(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight+'px');
             $(".adStepOne .tab-pane").css('min-height', winHeight-30+'px');
         }
