@@ -579,7 +579,7 @@
   text-align: center;
 }
 .workflow .radioBtnToggle .miniToggle input[type="text"] {
-  margin: 0px 15px;
+  margin: 0px 10px;
   float: left;
 }
 .workflow .radioBtnToggle .miniToggle .btn-default {
