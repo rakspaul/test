@@ -165,17 +165,16 @@
 
                 var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
 
-                if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
+                /*if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
                     var _brand ={
                         className: "active",
                         id: -1,
                         name: "All Brands"
                     };
-
                     brandsModel.setSelectedBrand(_brand);
 
                     $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
-                }
+                }*/
 
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 updateActionItems($scope.getCdbChartData,1,true);
