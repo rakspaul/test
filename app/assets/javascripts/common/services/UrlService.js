@@ -42,9 +42,15 @@
         return url;
     };
 
-    this.APISpendWidgetForAllBrands = function(timePeriod, agencyId, status ){
-       var url = apiPaths.apiSerivicesUrl  + '/agencies/' + agencyId + '/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase() ;
-       return url ;
+    //API for dashbaord Bubble Chart
+    this.APISpendWidgetForAllBrands = function(clientId, advertiserId, brandId,timePeriod,status ){
+            if(advertiserId == -1) {
+                var url = apiPaths.apiSerivicesUrl_NEW +'/client/'+clientId+'/brands/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase();
+            } else {
+                var url = apiPaths.apiSerivicesUrl_NEW +'/client/'+clientId +'/advertisers/'+advertiserId+'/brands/'+brandId+'/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState='+ status.toLowerCase();
+            }
+           // console.log('bubble chart url',url);
+        return url ;
     };
 
       this.APISpendWidgetForCampaigns = function(timePeriod, agencyId , brandId , status ){
