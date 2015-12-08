@@ -172,7 +172,7 @@
                 var cls = '';
                 var type = '';
                 if (selectedFormat.toLowerCase() === 'screens') {
-                    cls = eachObj.screen_type.toLowerCase();
+                    cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                     type = eachObj.screen_type;
                 } else if (selectedFormat.toLowerCase() === 'formats') {
                     cls = eachObj.ad_format.toLowerCase() + "_graph";
