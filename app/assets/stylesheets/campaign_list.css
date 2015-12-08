@@ -2464,7 +2464,7 @@ input[type="submit"] {
 }
 .main_navigation_holder .user-photo {
   border: solid 1px #fff;
-  padding: 8px 7px 1px 7px ;
+  padding: 1px 10px 0px 4px;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -2472,11 +2472,22 @@ input[type="submit"] {
   text-align: center;
   display: inline-block;
   cursor: pointer;
+  color: #fff;
+  height: 32px;
+}
+.main_navigation_holder .user-photo span {
+  color: #fff;
+  font-size: 22px;
+  line-height: 35px;
 }
 .main_navigation_holder .help-link-tab {
   font-size: 22px;
   margin-right: 50px;
-  margin-top: 11px;
+  margin-top: 8px;
+}
+.main_navigation_holder .help-link-tab span {
+  color: #fff ;
+  font-size: 16px ;
 }
 .main_navigation_holder .account-name-nav {
   margin: 16px 50px 0 0;
@@ -2529,6 +2540,12 @@ input[type="submit"] {
   float: left;
   width: 48px;
   height: 48px;
+}
+.main_navigation_holder .main_nav_dropdown .profile-data .user-photo .icon-user {
+  font-size: 30px;
+  line-height: 16px;
+  display: block;
+  padding: 9px 0 0 5px;
 }
 .main_navigation_holder .main_nav_dropdown .profile-data .username {
   margin-top: 2px;
