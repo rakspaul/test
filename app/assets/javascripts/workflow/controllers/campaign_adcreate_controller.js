@@ -904,6 +904,7 @@ var angObj = angObj || {};
         }
 
         $scope.saveCustomeFieldForPlatform = function() {
+            console.log('here ----- >');
             var customFieldErrorElem = $(".customFieldErrorMsg");
             var customPlatformFormData = $("#customPlatformForm").serializeArray();
             $scope.postPlatformDataObj = [];
