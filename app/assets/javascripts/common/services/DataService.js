@@ -105,12 +105,13 @@
             },
 
             getCustomReportMetrics :  function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/reports/custom/meta';
+                var url = apiPaths.apiSerivicesUrl_NEW + '/reports/custom/meta';
                 return this.fetch(url);
             },
 
-            getCustomReportData :  function(campaign, params) {
-                var url = apiPaths.apiSerivicesUrl + '/reports/custom/'+params;
+            getCustomReportData: function(campaign, queryString) {
+                var clientId = loginModel.getClientId();
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
                 return this.fetch(url);
             },
 
