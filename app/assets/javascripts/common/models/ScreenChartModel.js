@@ -206,14 +206,14 @@
             var campaignStatus = dashboardModel.getData().selectedStatus;
 
             if(campaignStatus == 'Active') {
-                campaignStatus = "IN_FLIGHT,DELIVERING";
+                campaignStatus = "IN_FLIGHT";
             } else if(campaignStatus == 'Completed') {
                 campaignStatus = 'COMPLETED';
             }else if(campaignStatus == 'All') {
                 campaignStatus = 'ALL';
             }
 
-            var queryString = 'queryid='+queryid+'&clientid='+clientid+"&startdate='"+startDate+"'&enddate='"+endDate+"'&campaignstatus='"+campaignStatus+"'&advertiserid="+advertiserId+'&brandid='+brandId;
+            var queryString = 'query_id='+queryid+'&client_id='+clientid+"&start_date='"+startDate+"'&end_date='"+endDate+"'&campaign_status='"+campaignStatus+"'&advertiser_id="+advertiserId+'&brand_id='+brandId;
 
             var url = urlService.getScreenDataUrl(queryString);
             return dataService.fetch(url).then(function(response){
