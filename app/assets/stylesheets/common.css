@@ -889,9 +889,8 @@
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dd_subheading {
   padding-right: 20px ;
-  opacity: 0.3 ;
+  color: #6ADBFA ;
   text-transform: none;
-  font-size: 13px;
   padding-bottom: 5px;
   cursor: default;
 }
