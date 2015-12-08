@@ -37,7 +37,7 @@
                 return dataService.fetch(url, {cache:false});
             },
             getPlatforms:function(cacheObj){
-                var url = apiPaths.WORKFLOW_APIUrl + '/platforms';
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms?sortBy=displayName';
                 return dataService.fetch(url,cacheObj);
             },
             getAdsForCampaign : function(campaignId) {

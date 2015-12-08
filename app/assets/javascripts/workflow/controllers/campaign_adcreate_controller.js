@@ -517,7 +517,8 @@ var angObj = angObj || {};
               trackingPlatformCarouselData:function(responseData){
                     $scope.workflowData['tracking_integrations']={};
                      var tempData = responseData.trackingPlatforms;
-                        for(var i=0; i<=responseData.trackingPlatforms.length/6; i++) {
+                     var slides=Math.ceil((responseData.trackingPlatforms.length)/6);
+                        for(var i=0; i<slides; i++) {
                              $scope.workflowData['tracking_integrations'][i] = tempData.splice(0,6);
                      }
             },
