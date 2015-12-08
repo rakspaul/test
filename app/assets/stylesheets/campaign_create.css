@@ -2691,7 +2691,7 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix {
   float: left;
   height: 52px;
-  padding: 5px 0 0 8px;
+  padding: 17px 5px 0 8px;
   border-right: 1px solid #bfc9d7;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnOne span,
@@ -2708,6 +2708,11 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnSix span {
   float: left;
   margin-top: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
   border-bottom: 2px solid #bfc9d7;
