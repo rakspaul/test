@@ -81,7 +81,7 @@ var angObj = angObj || {};
             //edit mode
             if($scope.storedResponse.targets.geoTargets && _.size($scope.storedResponse.targets.geoTargets) > 0 && $scope.storedResponse.targets.geoTargets.DMA) {
                 var dmasEditable = angular.copy($scope.storedResponse.targets.geoTargets.DMA.geoTargetList);
-                $scope.dmasIncluded = storedResponse.targets.geoTargets.DMA.isIncluded;
+                $scope.dmasIncluded = $scope.storedResponse.targets.geoTargets.DMA.isIncluded;
 
                 _.each(dmasEditable, function (item) {
                     var index = _.findIndex(flatArr, function(region) {
