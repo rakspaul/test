@@ -122,9 +122,10 @@ var angObj = angObj || {};
                         $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
                     }
                 }
-                console.log('edited ads -- ', $scope.audienceList)
+                //and or details after getting it from api
                 //$scope.andOr =
-
+                audienceService.setAndOr($scope.andOr);
+                audienceService.setSelectedAudience($scope.selectedAudience);
                 //reset selected array in service after initial load to avoid populating same data when platform is changed
                 fetchedObj.targets.segmentTargets = [];
                 workflowService.getAdsDetails(fetchedObj);
