@@ -93,6 +93,9 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
                  $scope.adData.setSizes = constants.WF_NOT_SET;
                  $scope.creativeData['creativeInfo']="undefined";
                  $scope.selectedArr.length=0;
+
+              // take the user to creative page
+                $('.creative-tab-link').trigger('click');
             }
 
         $scope.showCustomeFieldBox =function() {
