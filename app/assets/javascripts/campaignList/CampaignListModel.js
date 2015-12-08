@@ -288,7 +288,8 @@
                 */
                     fetchDashboardData = function(forceLoadFilter) {
                         this.dashboard.busy = true;
-                        var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
+                        var selectedClientId = loginModel.getClientId();
+                        var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&client_id='+selectedClientId,
                             self = this;
                         //applying brand filter if active
                         if (this.brandId > 0) {
