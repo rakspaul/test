@@ -118,7 +118,7 @@
                       profileDropdownId.hide();
                   }
 
-                  if(mainNavDropdown.is(':visible') && ( $(event.target).closest("#user-menu").length == 0) && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 )  ) {
+                  if(mainNavDropdown.is(':visible') && ( $(event.target).closest("#user-menu").length == 0) && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 ) && ( $(event.target).closest(".header_tab_dd_subheading").length == 0 )  ) {
                       mainNavDropdown.hide();
                       $(".main_navigation_holder").find(".selected").removeClass("selected") ;
                   }
