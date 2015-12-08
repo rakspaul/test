@@ -115,7 +115,13 @@ var angObj = angObj || {};
                 $scope.resetGeoTargetingVariables();
             }
             $scope.setTargeting('Geography');
-            $scope.listRegions();
+
+            if($scope.selectedTab === 'regions')
+                $scope.listRegions();
+            if($scope.selectedTab === 'cities')
+                $scope.listCities();
+            if($scope.selectedTab === 'dmas')
+                $scope.listDmas();
         }
 
         // Audience Targeting Trigger
