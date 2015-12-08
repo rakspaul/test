@@ -2778,6 +2778,11 @@
               span {
                 float: left;
                 margin-top: 1px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                width: 100%;
+                text-align: left;
               }
             }
           }
@@ -2803,14 +2808,6 @@
           .segBodyTable {
             border-top: 0;
             margin: 0;
-            .columnTwo {
-              span {
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                width: 100%;
-              }
-            }
           }
           .columnOne {
             width: 6%;
