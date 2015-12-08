@@ -99,6 +99,9 @@
   font-family: 'Avenir';
   cursor: pointer;
 }
+.workflow .breadcrumbs h5:first-child:hover {
+  color: #0978C9;
+}
 .workflow .breadcrumbs .icon-arrow-down {
   float: left;
   -ms-transform: rotate(270deg);

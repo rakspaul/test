@@ -2731,7 +2731,6 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree {
   width: 13%;
   text-align: center;
-  padding-left: 0 !important;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree img {
   text-align: center;
@@ -2818,7 +2817,6 @@
   border-right: 1px solid #bfc9d7;
   padding: 5px 15px;
   background: #edf2f8;
-  cursor: move;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-1 {
   padding: 0 10px 0 0;
@@ -2846,8 +2844,6 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove span {
   float: left;
-}
-.adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove span:last-child {
   margin-left: 5px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove .icon-more-options {
