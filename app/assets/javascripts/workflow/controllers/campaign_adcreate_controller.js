@@ -242,8 +242,12 @@ var angObj = angObj || {};
         }
 
         $scope.getPlatformIconName = function (platform) {
-            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick'}
-            if(platform) return platformMapper[platform.toLowerCase()];
+            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick',
+                'place media':'logo_default', 'telemetry':'logo_default', 'xad':'logo_default', 'twitter':'logo_default', 'ad theorent':'logo_default',
+                'dstillery':'logo_default', 'adap.tv':'logo_default', 'youtube':'logo_default', 'brightroll':'logo_default', 'doubleClick':'logo_default',
+                'yahoo':'logo_default', 'fb exchange':'logo_default'};
+            if(platform)
+                return platformMapper[platform.toLowerCase()];
         }
 
         $scope.getPlatformDesc = function (platform) {
@@ -362,7 +366,12 @@ var angObj = angObj || {};
                 $scope.adData.budgetAmount = responseData.frequencyCaps[0]['quantity'];
                 $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['quantity'];
                 $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
-                $scope.selectedFreq = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
+                var freqType = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
+                if(freqType=="LIFETIME")
+                    $scope.selectedFreq='Lifetime';
+                else if(freqType=="DAILY")
+                    $scope.selectedFreq='Daily';
+//                $scope.selectedFreq = responseData.frequencyCaps[responseData.frequencyCaps.length -1]['frequencyType'];
                 var pacingType = responseData.frequencyCaps[0]['pacingType'];
                 if(pacingType != "EVENLY"){
                     $('.spend_asap').addClass('active');

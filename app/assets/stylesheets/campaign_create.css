@@ -677,7 +677,7 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.inflight {
   background: #70d43d ;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.in_progress {
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.deploying {
   background: #6abdfa;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.failed {
