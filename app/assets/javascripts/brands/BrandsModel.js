@@ -11,17 +11,19 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
     var brands = [brand.allBrandObject];
     return {
         getBrands: function (success,searchCritera,search) {
-            brandsService.fetchBrands(searchCritera).then(function (response) {
-                //Note: Here search represents, only matching entries list.
-                var resData = response.data.data;
-                if(search){
-                    brands = [];
-                    brands.push(brand.allBrandObject);
-                }
-                brands = [{id: -1, name: constants.ALL_BRANDS}].concat(resData);//brands.concat(resData);
-                brand.totalBrands = brands.length;
-                success.call(this, brands);
-            })
+            if(searchCritera.advertiserId != -1) {
+                brandsService.fetchBrands(searchCritera).then(function (response) {
+                    //Note: Here search represents, only matching entries list.
+                    var resData = response.data.data;
+                    if (search) {
+                        brands = [];
+                        brands.push(brand.allBrandObject);
+                    }
+                    brands = [{id: -1, name: constants.ALL_BRANDS}].concat(resData);//brands.concat(resData);
+                    brand.totalBrands = brands.length;
+                    success.call(this, brands);
+                })
+            }
         },
         setSelectedBrand: function (_brand) {
             brand.selectedBrand = _brand;

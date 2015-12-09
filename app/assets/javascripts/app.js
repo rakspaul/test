@@ -309,7 +309,7 @@ var angObj = '';
         tmhDynamicLocaleProvider.localeLocationPattern('/assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
     });
 
-    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, $locale, tmhDynamicLocale) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, $locale, tmhDynamicLocale,workflowService) {
         $rootScope.version = version;
 
 
@@ -351,6 +351,15 @@ var angObj = '';
             }
             dataService.updateRequestHeader();
 
+            if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
+                workflowService.getClients().then(function (result) {
+                    loginModel.setSelectedClient({'id':result.data.data[0].id,'name':result.data.data[0].name});
+                    if (locationPath === '/login' || locationPath === '/') {
+                        handleLoginRedirection(isNetworkUser, isWorkflowUser);
+                    }
+                });
+            }
+
             /**** if cookie is not set ***/
             if (!$cookieStore.get(constants.COOKIE_SESSION)) {
                 $location.url('/login');
@@ -365,9 +374,9 @@ var angObj = '';
             /* this function will execute when location path is either login or /,
              case- submit login button, cookie expire aur unauthorize */
 
-            if (locationPath === '/login' || locationPath === '/') {
+            /*if (locationPath === '/login' || locationPath === '/') {
                 handleLoginRedirection(isNetworkUser, isWorkflowUser);
-            }
+            }*/
         }
 
         var locationChangeStartFunc = $rootScope.$on('$locationChangeStart', function () {

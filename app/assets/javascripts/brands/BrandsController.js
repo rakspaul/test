@@ -19,7 +19,7 @@
 
         function init() {
             if (loginModel.getUserId() != undefined) {
-                searchCriteria.clientId = loginModel.getClientId();
+                searchCriteria.clientId = loginModel.getSelectedClient().id;
                 searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
                 search = false;
                 fetchBrands(search);
@@ -87,7 +87,7 @@
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};
             $scope.brandData.selectedBrand.name= '';
-            searchCriteria.clientId = loginModel.getClientId()
+            searchCriteria.clientId = loginModel.getSelectedClient().id;
             $scope.selectBrand(brandsModel.getBrand().allBrandObject);
             searchCriteria.advertiserId = advertiser.id;
             fetchBrands(searchCriteria, search);

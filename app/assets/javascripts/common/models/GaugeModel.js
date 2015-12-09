@@ -6,7 +6,7 @@
       this.dashboard.selectedFilter = '';
     }
     this.getGaugeData = function () {
-      var clientId = loginModel.getClientId();
+      var clientId = loginModel.getSelectedClient().id;
       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
       var brandId = brandsModel.getSelectedBrand().id;
       var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardModel.getData().selectedStatus );

@@ -13,7 +13,7 @@
 
         this.getBubbleChartData = function () {
            // var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), dashboardModel.getData().selectedStatus);
-            var clientId = loginModel.getClientId();
+            var clientId = loginModel.getSelectedClient().id;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var brandId = brandsModel.getSelectedBrand().id;
             var campaignStatus = dashboardModel.campaignStatusToSend();
