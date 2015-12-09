@@ -575,7 +575,7 @@
                             this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
                             this.sortParam && params.push('sort_column=' + this.sortParam);
                             this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                            this.client_id && params.push('client_id='+this.client_id);
+                            this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
                             if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
                                 params.push('conditions=' + constants.ACTIVE_CONDITION);
                             } else {
