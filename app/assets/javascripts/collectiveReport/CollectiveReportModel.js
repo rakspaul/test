@@ -31,7 +31,6 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
         if(url) {
             dataStore.deleteFromCache(url);
         }
-        url = urlService.scheduleReportsList();
         dataService.fetch(url).then(function(response){
            if(response.status == "error") {
                   errorFn(response);
