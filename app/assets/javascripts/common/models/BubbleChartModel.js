@@ -18,6 +18,7 @@
             var brandId = brandsModel.getSelectedBrand().id;
             var campaignStatus = dashboardModel.campaignStatusToSend();
             var url = urlService.APISpendWidgetForAllBrands(clientId,advertiserId,brandId,timePeriodModel.timeData.selectedTimePeriod.key,campaignStatus);
+            console.log('bubble chart url',url);
             var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 
