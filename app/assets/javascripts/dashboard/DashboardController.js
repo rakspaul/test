@@ -11,9 +11,9 @@
       dashboardModel.setTitle();
     }
 
-    //var selectBrand = function(brand) {
-    //  $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
-    //};
+    var selectBrand = function(brand) {
+      $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
+    };
 
     var selectAdvertiser = function(brand) {
       $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
