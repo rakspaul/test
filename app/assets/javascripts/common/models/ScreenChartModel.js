@@ -161,9 +161,9 @@
 
             var calValMetricKey = selectedMetricKey;
 
-            if(calValMetricKey == 'ctr' || calValMetricKey == 'vtc'|| calValMetricKey == 'CPC'|| calValMetricKey == 'CPM' || calValMetricKey == 'AR'  || calValMetricKey == 'CPA'  ) {
+           /* if(calValMetricKey == 'ctr' || calValMetricKey == 'vtc'|| calValMetricKey == 'cpc'|| calValMetricKey == 'cpm' || calValMetricKey == 'ar'  || calValMetricKey == 'cpa'  ) {
                 calValMetricKey = calValMetricKey.toUpperCase();
-            }
+            }*/
 
             var values = _.compact(_.pluck(data, calValMetricKey));
             var total = _.reduce(values, function (sum, num) { return sum + num;}, 0);
