@@ -16,6 +16,7 @@
     
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
+        //$scope.campaigns.fetchData();
     });
 
     var selectedBrand = brandsModel.getSelectedBrand();
@@ -24,6 +25,12 @@
       var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
           	$scope.campaigns.fetchData();
       });
+
+      $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED,function(){
+          $scope.campaigns.fetchData();
+      })
+
+
 
 
       //Based on gauge click, load the filter and reset data set after gauge click.

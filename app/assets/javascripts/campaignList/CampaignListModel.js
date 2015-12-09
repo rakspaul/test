@@ -2,11 +2,11 @@
     campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$location', 'dataService', 'campaignListService', 'apiPaths',
         'modelTransformer', 'campaignCDBData', 'campaignCost',
         'dataStore', 'requestCanceller', 'constants',
-        'brandsModel', 'loginModel', 'analytics','RoleBasedService',
+        'brandsModel', 'loginModel', 'analytics','RoleBasedService','advertiserModel',
         function($rootScope, $http, $location, dataService, campaignListService, apiPaths,
             modelTransformer, campaignCDBData, campaignCost,
             dataStore, requestCanceller, constants,
-            brandsModel, loginModel, analytics, RoleBasedService) {
+            brandsModel, loginModel, analytics, RoleBasedService,advertiserModel) {
             //var scrollFlag = 1;
             var Campaigns = function() {
                 this.timePeriodList = buildTimePeriodList();
@@ -168,6 +168,7 @@
                             this.busy = true;
                             var self = this,
                                 url = _campaignServiceUrl.call(this);
+                           // console.log('url campaign list model url: ',url);
                             campaignListService.getCampaigns(url, function(result) {
                                 requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
@@ -295,6 +296,7 @@
                         if (this.brandId > 0) {
                             url += '&advertiser_filter=' + this.brandId;
                         }
+                       // console.log('dashboard url: ',url);
                         var request_start = new Date();
                         campaignListService.getDashboardData(url, function(result) {
                             var diff = new Date() - request_start;
@@ -398,6 +400,7 @@
                         if (brand != undefined) {
                             this.brandId = brand.id;
                             fetchDashboardData.call(this);
+                            //fetchCampaigns();
                         }
                     },
                     sortCampaigns = function(fieldName) {
@@ -572,10 +575,11 @@
                                 'page=' + nextPageNumber,
                                 'callback=JSON_CALLBACK'
                             ];
-                            this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
+                            params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
                             this.sortParam && params.push('sort_column=' + this.sortParam);
                             this.sortDirection && params.push('sort_direction=' + this.sortDirection);
                             this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
+                            this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
                             if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
                                 params.push('conditions=' + constants.ACTIVE_CONDITION);
                             } else {
