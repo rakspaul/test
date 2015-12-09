@@ -181,7 +181,7 @@
                     type = eachObj.platform_name;
                 }
                 var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
-                screenDataArr.push({"className":cls,'icon_url': eachObj.icon_url,"type":type,"value":value});
+                screenDataArr.push({"className":cls,"type":type,"value":value});
             })
             modifiedData.data = screenDataArr;
             return modifiedData;
