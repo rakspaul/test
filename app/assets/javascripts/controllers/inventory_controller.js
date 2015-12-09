@@ -102,7 +102,7 @@ var angObj = angObj || {};
                 var topChartObj = true;
                 var isGraphPlot = true;
                 //For Top Chart
-                if (topPerformance.length > 4) {
+                if (topPerformance.length > 2) {
                     topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
                 }
                 if (topChartObj === undefined || topPerformance.length == 0) {
@@ -193,7 +193,8 @@ var angObj = angObj || {};
                           $scope.strategyTableData = $scope.strategyTable.topPerformance; //.slice(0, 5);
 
                           if ($scope.strategyTableData.length > 0) {
-                              $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                            var sortedImpData = _.sortBy($scope.strategyTableData, 'impressions');
+                            $scope.inventoryChart = columnline.highChart(sortedImpData.reverse(), $scope.selected_filters.kpi_type);
                           } else {
                               $scope.inventoryChart = false;
                           }
