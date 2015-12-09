@@ -245,7 +245,7 @@ var angObj = angObj || {};
             var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick',
                 'place media':'logo_default', 'telemetry':'logo_default', 'xad':'logo_default', 'twitter':'logo_default', 'ad theorent':'logo_default',
                 'dstillery':'logo_default', 'adap.tv':'logo_default', 'youtube':'logo_default', 'brightroll':'logo_default', 'doubleClick':'logo_default',
-                'yahoo':'logo_default', 'fb exchange':'logo_default'};
+                'yahoo':'logo_default', 'fb exchange':'logo_default','dfp-tracking':'logo_default','doubleclick':'logo_default','facebook-tracking':'logo_default','appnexus-tracking':'logo_C_appnexus','dorado-tracking':'logo_C_bidder'};
             if(platform)
                 return platformMapper[platform.toLowerCase()];
         }
