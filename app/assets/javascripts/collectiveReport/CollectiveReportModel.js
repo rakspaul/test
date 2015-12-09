@@ -2,7 +2,7 @@
  * Created by collective on 07/08/15.
  */
 
-collectiveReportModule.factory("collectiveReportModel", ['urlService','dataService','brandsModel', function (urlService,dataService,brandsModel) {
+collectiveReportModule.factory("collectiveReportModel", ['urlService','dataService','brandsModel','dataStore', function (urlService,dataService,brandsModel,dataStore) {
 
     var reportList = {};
     var getReportList = function(callback) {
@@ -28,6 +28,9 @@ collectiveReportModule.factory("collectiveReportModel", ['urlService','dataServi
 
     var getScheduleReportList = function(successFn,errorFn) {
         var url = urlService.scheduleReportsList();
+        if(url) {
+            dataStore.deleteFromCache(url);
+        }
         dataService.fetch(url).then(function(response){
            if(response.status == "error") {
                   errorFn(response);
