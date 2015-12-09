@@ -110,7 +110,7 @@
             },
 
             getCustomReportData: function(campaign, queryString) {
-                var clientId = loginModel.getClientId();
+                var clientId = loginModel.getSelectedClient().id;
                 var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
                 return this.fetch(url);
             },

@@ -13,13 +13,29 @@
             $scope.isWorkFlowUser = RoleBasedService.getUserRole().workFlowUser;
         }
 
-        if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
-            campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                $scope.selectedCampaign = response[0].campaign_id;
+        if($cookieStore.get('cdesk_session')) {
+            $scope.defaultAccountsName = loginModel.getSelectedClient()?loginModel.getSelectedClient().name:undefined;
+            workflowService.getClients().then(function (result) {
+                $scope.accountsData = [];
+                _.each(result.data.data,function(eachObj) {
+                    $scope.accountsData.push({'id':eachObj.id,'name':eachObj.name})
+                })
+                $scope.defaultAccountsName = loginModel.getSelectedClient().name?loginModel.getSelectedClient().name:$scope.accountsData[0].name;
+                if(Number($scope.selectedCampaign) === -1) {
+                    campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                        $scope.selectedCampaign = response[0].campaign_id;
+                    });
+                }
             });
         }
 
-        if($cookieStore.get('cdesk_session')) {
+        /*if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
+            campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                $scope.selectedCampaign = response[0].campaign_id;
+            });
+        }*/
+
+      /*  if($cookieStore.get('cdesk_session')) {
             loginModel.setClientId(2);
             var defaultClientId;
             workflowService.getClients().then(function (result) {
@@ -29,12 +45,12 @@
                 loginModel.setClientId(defaultClientId);
             });
         }
-
+*/
         $scope.set_account_name = function(event,id,name) {
             var elem = $(event.target);
             $(".accountsList").find(".selected-li").removeClass("selected-li") ;
             elem.addClass("selected-li") ;
-            loginModel.setClientId(id) ;
+            loginModel.setSelectedClient({'id':id,'name':name});
             $(".accountsList").find(".dd_txt").text(name) ;
             $(".main_nav").find(".account-name-nav").text(name) ;
             $(".main_nav_dropdown").hide() ;

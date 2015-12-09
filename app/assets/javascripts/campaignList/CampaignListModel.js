@@ -44,7 +44,7 @@
                 this.totalPages;
                 this.totalCount;
                 this.brandId = brandsModel.getSelectedBrand().id;
-                this.client_id=loginModel.getClientId();
+                this.client_id=loginModel.getSelectedClient().id;
                 this.dashboard = {
                     filterTotal: 1,
                     filterSelectAll: false,
@@ -288,7 +288,7 @@
                 */
                     fetchDashboardData = function(forceLoadFilter) {
                         this.dashboard.busy = true;
-                        var selectedClientId = loginModel.getClientId();
+                        var selectedClientId = loginModel.getSelectedClient().id;
                         var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&client_id='+selectedClientId,
                             self = this;
                         //applying brand filter if active

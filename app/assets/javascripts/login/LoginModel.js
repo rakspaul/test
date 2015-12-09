@@ -29,14 +29,14 @@
       }
       return constants.ROLE_MARKETER;
     },
-    
-    setClientId :  function(clientId) {
-        localStorage.setItem('clientId', clientId);
-    },
 
-    getClientId :  function() {
-        return localStorage.getItem('clientId') && JSON.parse(localStorage.getItem('clientId'));
-    },
+    setSelectedClient: function(data) {
+            localStorage.setItem('selectedClient', JSON.stringify(data));
+        },
+
+    getSelectedClient: function() {
+            return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
+        },
 
     setClientData : function(data) {
         localStorage.setItem('clientData', JSON.stringify(data));
