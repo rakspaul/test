@@ -28,7 +28,7 @@ var angObj = angObj || {};
         $scope.scheduleReportActive= false;
         $scope.flashMessage = {'message':'','isErrorMsg':0};
 
-
+        $scope.reports.client_id = loginModel.getSelectedClient().id;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
 
@@ -394,7 +394,7 @@ var angObj = angObj || {};
               if (!$scope.reports.schedule.customOccuranceDate) {
                   $scope.reports.schedule.customOccuranceDate = '';
               }
-             // console.log('create schedule report', $scope.reports);
+             console.log('create schedule report', JSON.stringify($scope.reports));
               dataService.createScheduleReport($scope.reports).then(function (result) {
                   if (result.data.status_code == 200) {
                       $rootScope.flashMessage = {'message':'Successfull Created Schedule Report','isErrorMsg':''};

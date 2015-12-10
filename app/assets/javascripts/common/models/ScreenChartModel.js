@@ -275,7 +275,7 @@
             } else if(selectedFormat == constants.PLATFORMS) {
                 queryid = 3;
             }
-            var clientid =  loginModel.getClientId();
+            var clientid =  loginModel.getSelectedClient().id;
             var brandId = brandsModel.getSelectedBrand().id;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var campaignStatus = dashboardModel.getData().selectedStatus;

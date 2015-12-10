@@ -68,28 +68,17 @@
         $scope.getScreenAndFormatData = function() {
             $scope.screenBusy = true ;
             /*screenChartModel.getScreenChartData().then(function(result) {
-<<<<<<< HEAD
              $scope.screenBusy = false ;
              $scope.dataFound = true;
              $(".DashBoradScreenWidget").show();
              $scope.updateScreenChartData();
              });*/
-=======
-                $scope.screenBusy = false ;
-                $scope.dataFound = true;
-                $(".DashBoradScreenWidget").show();
-                $scope.updateScreenChartData();
-            });*/
->>>>>>> Dashboard screen widget changes made
             screenChartModel.getScreenData().then(function(result) {
                 $scope.screenBusy = false ;
                 $scope.dataFound = true;
                 $(".DashBoradScreenWidget").show();
                 $scope.updateScreenChartData();
             });
-
-
-
 
         };
 
