@@ -30,12 +30,12 @@
       
     
     
-    <div class="main_nav_dropdown" id="reports-menu">
+    <div class="main_nav_dropdown" id="reports-menu" ng-mouseleave="hide_navigation_dropdown($event)" >
         <div class="nav-menu reports_header_tabs_holder clearfix" >
               <report-tabs></report-tabs>
         </div>
     </div>
-    <div class="main_nav_dropdown" id="user-menu">
+    <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)" >
         <div class="clearfix nav-menu" >
           <div class="pull-left profile-data" id="profileAccountData">
               <span class="pull-left user-photo">

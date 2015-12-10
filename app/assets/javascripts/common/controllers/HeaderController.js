@@ -91,6 +91,17 @@
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;
           }   
         } ;
+
+        $scope.hide_navigation_dropdown = function(event) {
+           var elem = $(event.target);
+           setTimeout(function(){
+              if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) { 
+                   $(".main_nav_dropdown").fadeOut() ;
+                   $(".main_navigation_holder").find(".selected").removeClass("selected") ; 
+               } 
+          }, 1000);
+        } ;
+
         $scope.logout = function() {
             loginModel.logout();
         };

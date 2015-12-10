@@ -993,6 +993,9 @@
   height: 100%;
   border-left: 1px solid #ccd2da;
 }
+#campaignCreate .campaignAdCreate .nextWrapper.leftNavLink .btn {
+  margin-top: -24px;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper {
   width: 100%;
   min-height: 500px;
