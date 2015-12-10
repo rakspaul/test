@@ -10,54 +10,55 @@
         <form id="userCreateEditForm" name="userCreateEditForm">
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >User Login:</label>
-            <input name="userLogin" type="text" class="form-control" ng-model="selectedUserLogin" required>
+            <input name="userLogin" type="email" class="form-control" ng-model="userConsoleFormDetails.email" required>
             <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
+            <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
         </div>
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >First Name:</label>
-            <input name="firstName" type="text" ng-model="selectedFirstName" class="form-control"  required>
+            <input name="firstName" type="text" ng-model="userConsoleFormDetails.firstName" class="form-control"  required>
             <label ng-if="userCreateEditForm.firstName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter First Name.</label>
         </div>
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >Last Name:</label>
-            <input name="lastName" type="text" ng-model="selectedLastName" class="form-control"  required>
+            <input name="lastName" type="text" ng-model="userConsoleFormDetails.lastName" class="form-control"  required>
             <label ng-if="userCreateEditForm.lastName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter Last Name.</label>
         </div>
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >Password:</label>
-            <input name="password" type="password" ng-model="selectedPassword" class="form-control"  required>
+            <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control"  required>
             <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
         </div>
-        <div class="form-group col-md-12 zeroPadding">
-            <label >Collective Internal:</label>
-            <div class="clearfix">
-                <div class="pull-left radio">
-                  <label><input type="radio" name="optradio"  value="INTERNAL" checked="checked">Yes</label>
-                </div>
-                <div class="pull-left radio">
-                  <label><input type="radio" name="optradio"  value="EXTERNAL">No</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-md-12 zeroPadding">
-            <label >Application Access:</label>
-            <div class="clearfix">
-                <div class="pull-left radio">
-                  <label><input type="radio" name="optcheck"  value="REPORTING"  checked="checked">Reporting</label>
-                </div>
-                <div class="pull-left radio">
-                  <label><input type="radio" name="optcheck"  value="WORKFLOW">Workflow</label>
-                </div>
-            </div>
-        </div>
+        <!--<div class="form-group col-md-12 zeroPadding">-->
+            <!--<label >Collective Internal:</label>-->
+            <!--<div class="clearfix">-->
+                <!--<div class="pull-left radio">-->
+                  <!--<label><input type="radio" name="optradio"  value="true" checked="checked">Yes</label>-->
+                <!--</div>-->
+                <!--<div class="pull-left radio">-->
+                  <!--<label><input type="radio" name="optradio"  value="false">No</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group col-md-12 zeroPadding">-->
+            <!--<label >Application Access:</label>-->
+            <!--<div class="clearfix">-->
+                <!--<div class="pull-left radio">-->
+                  <!--<label><input type="radio" name="optcheck"  value="REPORTING"  checked="checked">Reporting</label>-->
+                <!--</div>-->
+                <!--<div class="pull-left radio">-->
+                  <!--<label><input type="radio" name="optcheck"  value="WORKFLOW">Workflow</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="form-group col-md-12 zeroPadding"><!--add model also-->
             <label >Role:</label>
-            <select name="role" class="form-control" >
-              <option>Super Admin</option>
-              <option>Account Admin</option>
-              <option>Advertiser Admin</option>
-              <option>Generic User</option>
+            <select id="role" name="role" class="form-control" ng-model="userConsoleFormDetails.role" ng-change="selectedRole(userConsoleFormDetails.role)">
+              <option value="Super Admin">Super Admin</option>
+              <option value="Account Admin">Account Admin</option>
+              <option value="Advertiser Admin">Advertiser Admin</option>
+              <option value="Generic User">Generic User</option>
             </select>
         </div>
 
@@ -129,28 +130,28 @@
                 <!--</div>-->
                 <!---->
             <!--</div>-->
-            <div class="col-md-12 zeroPadding add-filters" ng-repeat="item in permissions track by $parentindex = $index">
-                <div class="form-group col-md-3 accounts-multi-dimension">
+            <div class="col-md-12 zeroPadding add-filters" ng-repeat="item in permissions track by $index"> $index--{{$index}}
+                <div class="form-group col-md-3 accounts-multi-dimension" id="id_{{$index}}"> <!--id_$index[$index]--{{id_$index}}-->
                     <label >Accounts:</label>
                     <div class="zeroPadding dropdown-workflow">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                                <span class="text" >{{User.data[$index].allPermissions}}</span>
+                                <span class="text" >{{clientName[$index] ? clientName[$index] :'Select Client'}}</span>
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,$parentindex)">{{client.name}}</a>
+                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,$parent.$index)">{{$parent.$index}}{{client.name}}</a>
                                     <ul ng-if="client.children.length>0">
-                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,$parentindex)">{{clientChild.name}} </a>
+                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,$parent.$parent.$index)">{{$parent.$parent.$index}}{{clientChild.name}} </a>
                                             <ul ng-if="clientChild.children.length>0">
-                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,$parentindex)">{{clientSecondChild.name}} </a>
+                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,$parent.$parent.$parent.$index)">{{clientSecondChild.name}} </a>
                                             </li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
-                            </ul><input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].allPermissions" ng-init="User.data[$index].allPermissions=selectedClient.counter.id" value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
+                            </ul><input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId" ng-init="User.data[$index].clientId=selectedClient.counter.id" value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
                             <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
                         </div>
                     </div>
@@ -161,33 +162,34 @@
                 <div class="form-group col-md-3">
                     <label> Advertiser Name:</label>
                     <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
-                    <select class="form-control" name="advertiserName" ng-model="User.data[$index].advertisers">
-                        <option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers">{{advertiser.name}}</option>
+                    <select class="form-control" name="advertiserName" ng-init="User.data[$index].advertisers=0" ng-model="User.data[$index].advertisers">
+                        <option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == 31}}">{{advertiser.name}}</option>
                         <!--<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>-->
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label >Brand Name:</label>
-                    <select name="brandName" class="form-control" ng-model="User.data[$index].brand">
-                        <option value="{{brand.id}}" ng-repeat="brand in userModalData.Brands">{{brand.name}}</option>
+                    <select name="brandName" class="form-control" ng-init="User.data[$index].brand=0" ng-model="User.data[$index].brand">
+                        <option value="{{brand.id}}" ng-repeat="brand in userModalData.Brands" ng-selected="{{brand.id == 21}}">{{brand.name}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <label >Permission:</label>
-                    <select name="permission" class="form-control"  ng-model="User.data[$index].permission">
-                        <option>Admin</option>
-                        <option>Write</option>
-                        <option>Read</option>
+                    <label >Permission:</label>{{User.data[$index].permission}}
+                    <select name="permission" class="form-control"  ng-init="User.data[$index].permission = 'ADMIN'" ng-model="User.data[$index].permission">
+                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="{{perm.value == 'ADMIN'}}">{{perm.name}}</option>
+                        <!--<option value="ADMIN">Admin</option>-->
+                        <!--<option value="WRITE">Write</option>-->
+                        <!--<option value="READ">Read</option>-->
                     </select>
                 </div>
-                <div class="delete_row" ng-click="delete_filter($event)">
+                <div class="delete_row" ng-click="User.delete_filter($event,$index)">
 
                 </div>
 
             </div>
             <div class="clearfix" id="filter-container">
             </div>
-            <div class="add_filter_link">
+            <div class="add_filter_link" ng-hide="isSuperAdmin">
               <!--<span addfilterusers ng-click="incrementCounter()">Add Permissions</span>-->
                 <span ng-click="incrementCounter()">Add Permissions</span>
 

@@ -8,70 +8,74 @@
 		</div>
 		
 		<div class="pull-right">
-			<button class="pull-right btn btn-default" ng-disabled="!adData.adName" ng-click="saveCampaignWithDay()">Save Daypart</button>
+			<button class="pull-right btn btn-default" ng-click="saveDayPart()">Save Daypart</button> <!--ng-disabled="!adData.adName"-->
 			<button class="pull-right btn btn-link" ng-click="resetDayTargetingVariables();">Cancel</button>
 		</div>
 	</div>
-	
-	<div class="col-md-12 zeroPadding">
-		<div class="col-md-3 zeroPadding">
-			<label class="col-sm-12 greyTxt">Day & Time</label>
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">{{dayTimeSelected ? 'All days and times': dayTimeSelected}}</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection">
-						   <li class="available" ng-click="Schedule.dayTimeSelected(0)"><a value="0" >All days and times</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1" >Weekday (M-F)</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2">Weekend (S/S)</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3">Business hour (M-F, 9am - 5pm)</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4">TV Primetime (8pm-11pm)</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5">Early Morning (5am-7am)</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6">Late Night (11pm-1am)</a></li>
-						   <li class="available" ng-click="Schedule.dayTimeSelected(7)"><a value="7">Custom schedule</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-		
-		<div class="col-md-12 zeroPadding" style="margin-top: 20px;">
-			<div class="col-md-6 zeroPadding">
-				<div class="col-md-12 zeroPadding radioBtnToggle">
-					<label class="col-sm-12 greyTxt">Time Zone</label>
-					<div class="btn-group miniToggle">
-						<label class="btn btn-default active timeAdvertiser" style="width: auto;">
-							<span>Advertiser</span>
-							<input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad" id="timeAdvertiser" ng-click="toggleBtn($event);">
-						</label>
-			
-						<label class="btn btn-default timeEndUser" style="width: auto;">
-							<span>End User</span>
-							<input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad" id="timeEndUser" ng-click="toggleBtn($event);">
-						</label>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-6 zeroPadding">
-				<div class="col-md-12 zeroPadding radioBtnToggle">
-					<label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 97px !important;">Clock</label>
-					<div class="btn-group miniToggle pull-right">
-						<label class="btn btn-default active 12hr" style="width: auto;">
-							<span>12 hr</span>
-							<input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="toggleBtn($event);">
-						</label>
-			
-						<label class="btn btn-default 24hr" style="width: auto;">
-							<span>24 hr</span>
-							<input type="radio" name="timeClock" group="timeClock" value="24 hr" hidden="hidden" class="btn_rad" id="24hr" ng-click="toggleBtn($event);">
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
+    <form id="" name="">
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 greyTxt">Day & Time</label>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                     <div class="form-group dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                               <span class="text">{{dayTimeSelected ? dayTimeSelected :'All days and times'}}</span>
+                               <span class="icon-arrow-down"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection">
+                               <li class="available" ng-init="Schedule.dayTimeSelected(0)" ng-click="Schedule.dayTimeSelected(0)"><a value="0" >All days and times</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1" >Weekday (M-F)</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2">Weekend (S/S)</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3">Business hour (M-F, 9am - 5pm)</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4">TV Primetime (8pm-11pm)</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5">Early Morning (5am-7am)</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6">Late Night (11pm-1am)</a></li>
+                               <li class="available" ng-click="Schedule.dayTimeSelected(7)"><a value="7">Custom schedule</a></li>
+                          </ul>
+                         <input type="hidden" name="dayTimesel" class="dayTimesel" ng-model="dayTimeSelected" value="dayTimeSelected" ng-Update-Hidden required/>
+                     </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 zeroPadding" style="margin-top: 20px;">
+                <div class="col-md-6 zeroPadding">
+                    <div class="col-md-12 zeroPadding radioBtnToggle">
+                        <label class="col-sm-12 greyTxt">Time Zone</label>
+                        <div class="form-group btn-group miniToggle">
+                            <label class="btn btn-default active timeAdvertiser" style="width: auto;">
+                                <span>Advertiser</span>
+                                <input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad" id="timeAdvertiser" ng-click="toggleBtn($event);">
+                            </label>
+
+                            <label class="btn btn-default timeEndUser" style="width: auto;">
+                                <span>End User</span>
+                                <input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad" id="timeEndUser" ng-click="toggleBtn($event);">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 zeroPadding">
+                    <div class="col-md-12 zeroPadding radioBtnToggle">
+                        <label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 97px !important;">Clock</label>
+                        <div class="form-group btn-group miniToggle pull-right">
+                            <label class="btn btn-default active 12hr" style="width: auto;">
+                                <span>12 hr</span>
+                                <input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="toggleBtn($event);">
+                            </label>
+
+                            <label class="btn btn-default 24hr" style="width: auto;">
+                                <span>24 hr</span>
+                                <input type="radio" name="timeClock" group="timeClock" value="24 hr" hidden="hidden" class="btn_rad" id="24hr" ng-click="toggleBtn($event);">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
 
 <div class="dayTargetLower">
@@ -80,59 +84,8 @@
 	</div>
 	
 	<div class="col-md-2 zeroPadding pull-right">
-		<a class="pull-right" style="padding: 0;">Clear All</a>
+		<a class="pull-right" style="padding: 0;" clearall>Clear All</a>
 	</div>
-	
-	<!--Sample 1-->
-	<!--<div class="col-md-10 zeroPadding dayRow">-->
-		<!--<div class="col-md-2 zeroPadding dailyRow">-->
-			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-				 <!--<div class="dropdown">-->
-					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-						   <!--<span class="text">Sunday</span>-->
-						   <!--<span class="icon-arrow-down"></span>-->
-					  <!--</button>-->
-					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">-->
-						   <!--<li class="available"><a>Sunday</a></li>-->
-						   <!--<li class="available"><a>Monday</a></li>-->
-						   <!--<li class="available"><a>Tuesday</a></li>-->
-						   <!--<li class="available"><a>Wednesday</a></li>-->
-						   <!--<li class="available"><a>Thursday</a></li>-->
-						   <!--<li class="available"><a>Friday</a></li>-->
-						   <!--<li class="available"><a>Saturday</a></li>-->
-					  <!--</ul>-->
-				 <!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-		<!---->
-		<!--<div class="col-md-2 zeroPadding hourRow">-->
-			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-				 <!--<div class="dropdown">-->
-					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-						   <!--<span class="text">All Day</span>-->
-						   <!--<span class="icon-arrow-down"></span>-->
-					  <!--</button>-->
-					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTime">-->
-						   <!--<li class="available"><a>All Day</a></li>-->
-						   <!--<li class="available"><a>1</a></li>-->
-						   <!--<li class="available"><a>2</a></li>-->
-						   <!--<li class="available"><a>3</a></li>-->
-						   <!--<li class="available"><a>4</a></li>-->
-						   <!--<li class="available"><a>5</a></li>-->
-						   <!--<li class="available"><a>6</a></li>-->
-						   <!--<li class="available"><a>7</a></li>-->
-						   <!--<li class="available"><a>8</a></li>-->
-						   <!--<li class="available"><a>9</a></li>-->
-						   <!--<li class="available"><a>10</a></li>-->
-						   <!--<li class="available"><a>11</a></li>-->
-						   <!--<li class="available"><a>12</a></li>-->
-					  <!--</ul>-->
-				 <!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-		<!--<span class="icon-clear removeDay"></span>-->
-	<!--</div>-->
-
 	<!--Sample 1-->
 	<div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in daytimeArr track by $index">
 		<div class="col-md-2 zeroPadding dailyRow">
@@ -163,34 +116,19 @@
 						   <span class="icon-arrow-down"></span>
 					  </button>
 					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime">
-						   <li class="available"><a>All Day</a></li>
-						   <li class="available"><a>1</a></li>
-						   <li class="available"><a>2</a></li>
-						   <li class="available"><a>3</a></li>
-						   <li class="available"><a>4</a></li>
-						   <li class="available"><a>5</a></li>
-						   <li class="available"><a>6</a></li>
-						   <li class="available"><a>7</a></li>
-						   <li class="available"><a>8</a></li>
-						   <li class="available"><a>9</a></li>
-						   <li class="available"><a>10</a></li>
-						   <li class="available"><a>11</a></li>
-						   <li class="available"><a>12</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-		
-		<div class="col-md-1 zeroPadding hourRow" ng-if="dayObj.startAmPm.length>0">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">{{dayObj.startAmPm ? dayObj.startAmPm: 'am'}}</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="startAmPm">
-						   <li class="available"><a>am</a></li>
-						   <li class="available"><a>pm</a></li>
+						   <li class="available" ng-repeat="time in getTimes"><a>{{time.time}}</a></li>
+						   <!--<li class="available"><a>1</a></li>-->
+						   <!--<li class="available"><a>2</a></li>-->
+						   <!--<li class="available"><a>3</a></li>-->
+						   <!--<li class="available"><a>4</a></li>-->
+						   <!--<li class="available"><a>5</a></li>-->
+						   <!--<li class="available"><a>6</a></li>-->
+						   <!--<li class="available"><a>7</a></li>-->
+						   <!--<li class="available"><a>8</a></li>-->
+						   <!--<li class="available"><a>9</a></li>-->
+						   <!--<li class="available"><a>10</a></li>-->
+						   <!--<li class="available"><a>11</a></li>-->
+						   <!--<li class="available"><a>12</a></li>-->
 					  </ul>
 				 </div>
 			</div>
@@ -206,38 +144,25 @@
 						   <span class="icon-arrow-down"></span>
 					  </button>
 					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime">
-						   <li class="available"><a>All Day</a></li>
-						   <li class="available"><a>1</a></li>
-						   <li class="available"><a>2</a></li>
-						   <li class="available"><a>3</a></li>
-						   <li class="available"><a>4</a></li>
-						   <li class="available"><a>5</a></li>
-						   <li class="available"><a>6</a></li>
-						   <li class="available"><a>7</a></li>
-						   <li class="available"><a>8</a></li>
-						   <li class="available"><a>9</a></li>
-						   <li class="available"><a>10</a></li>
-						   <li class="available"><a>11</a></li>
-						   <li class="available"><a>12</a></li>
+                          <li class="available" ng-repeat="time in getTimes"><a>{{time.time}}</a></li>
+						   <!--<li class="available"><a>All Day</a></li>-->
+						   <!--<li class="available"><a>1</a></li>-->
+						   <!--<li class="available"><a>2</a></li>-->
+						   <!--<li class="available"><a>3</a></li>-->
+						   <!--<li class="available"><a>4</a></li>-->
+						   <!--<li class="available"><a>5</a></li>-->
+						   <!--<li class="available"><a>6</a></li>-->
+						   <!--<li class="available"><a>7</a></li>-->
+						   <!--<li class="available"><a>8</a></li>-->
+						   <!--<li class="available"><a>9</a></li>-->
+						   <!--<li class="available"><a>10</a></li>-->
+						   <!--<li class="available"><a>11</a></li>-->
+						   <!--<li class="available"><a>12</a></li>-->
 					  </ul>
 				 </div>
 			</div>
 		</div>
 		
-		<div class="col-md-1 zeroPadding hourRow" ng-if="dayObj.endAmPm.length>0">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">{{dayObj.startAmPm ? dayObj.startAmPm: 'pm'}}</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="endAmPm">
-						   <li class="available"><a>am</a></li>
-						   <li class="available"><a>pm</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
 		<span class="icon-clear removeDay" clearrow></span>
 	</div>
 	
