@@ -358,6 +358,12 @@ var angObj = '';
                         handleLoginRedirection(isNetworkUser, isWorkflowUser);
                     }
                 });
+            } else {
+                if(loginModel.getSelectedClient) {
+                    if (locationPath === '/login' || locationPath === '/') {
+                        handleLoginRedirection(isNetworkUser, isWorkflowUser);
+                    }
+                }
             }
 
             /**** if cookie is not set ***/
