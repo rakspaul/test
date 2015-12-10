@@ -120,6 +120,21 @@
         };
 
         $scope.init = function(){
+            var pathArray = window.location.pathname.split( '/' );
+            var firstLevelLocation = pathArray[1];
+            var secondLevelLocation = pathArray[2];
+
+            if(firstLevelLocation ==="campaigns" && secondLevelLocation !==  undefined){
+                var selectedCampaignNew = {
+                    id : secondLevelLocation,
+                    name: 'All Campaigns',
+                    kpi: 'ctr',
+                    startDate: '-1',
+                    endDate: '-1'
+                };
+                campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
+            }
+
             if($scope.allCampaign == "true") {
                 $scope.fetchCampaigns(true,true);
             } else if((campaignSelectModel.getSelectedCampaign().id == -1) ){
