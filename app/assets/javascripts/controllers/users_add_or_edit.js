@@ -2,25 +2,29 @@
 (function() {
     'use strict';
 
-    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout, $location,utils) {
+    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,utils) {
         $scope.permissions = [];
-//        $scope.User = {
-//            allPermissions: [],
-//            brand: [],
-//            advertisers: [],
-//            userPermission: []
-//        }
-//        $scope.allPermissions = [];
-
+        $scope.isSuperAdmin=true;
+        $scope.clientName=[];
+        $scope.userConsoleFormDetails={};
+        $scope.userConsoleFormDetails.role="Super Admin";
         $scope.User = {
             data: []
         }
-        $scope.delete_filter = function(event) {
+        $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
             elem.closest(".add-filters").remove();
+            $scope.permissions.splice(index,1);
+            $scope.User.data.splice(index,1);
         };
         $scope.close=function(){
             $modalInstance.dismiss();
+        };
+        $scope.selectedRole=function(roleType){
+            if(roleType=="Super Admin")
+                $scope.isSuperAdmin=true;
+            else
+                $scope.isSuperAdmin=false;
         };
         $scope.userModalData={};
         $scope.saveUserForm=function(){
@@ -30,33 +34,24 @@
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
-                    console.log(formData);
+                   // console.log(formData);
+                   var postDataObj={};
+                    postDataObj=$scope.userConsoleFormDetails;
+                    postDataObj.permissions=$scope.User.data;
+                    //console.log(postDataObj);
                 }
-//                var filterArr =[];
-//                var elem =$(".add-filters");
-//                _.each(elem, function(el) {
-//                    //console.log(el);
-//                    var dataObj={};
-//                    //dataObj.accounts=el.getElementsByName('accountType')[0].value;
-//                    dataObj.accounts=el.getElementsByClassName("accountType").value;
-//                    dataObj.advName=el.getElementsByTagName('select')[0].value;
-//                    dataObj.brand=el.getElementsByTagName('select')[1].value;
-//                    dataObj.permission=el.getElementsByTagName('select')[2].value;
-//
-//                    filterArr.push(dataObj);
-//                });
-//            console.log(filterArr);
-            //}
+           // console.log($scope.permissions);
             console.log($scope.User.data);
         },
         $scope.selectedClientHandler=function(clientObj,index){
             var counter=accountsService.getCounter();
             $scope.selectedClient={};
-            $scope.User.data[index].allPermissions = clientObj.name;
+            $scope.User.data[index].clientId = clientObj.id;
+            $scope.clientName[index] = clientObj.name;
 //            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
         },
-        $scope.incrementCounter=function(){
-            accountsService.setCounter()
+        $scope.incrementCounter=function(index){
+            accountsService.setCounter();
             $scope.permissions.push({});
         }
 
@@ -799,17 +794,21 @@
                 // });
             },
             getUserBrands:function(){
-                $scope.userModalData['Brands']=[{id:21,name:"All Brands"},{id:22,name:"brand1"},{id:23,name:"brand2"},{id:24,name:"brand3"}]
+                $scope.userModalData['Brands']=[{id:0,name:"All Brands"},{id:22,name:"brand1"},{id:23,name:"brand2"},{id:24,name:"brand3"}]
 
             },
             getUserAdvertiser:function(){
-                $scope.userModalData['Advertisers']=[{id:31,name:"All Advertisers"},{id:32,name:"Advertiser1"},{id:33,name:"Advertiser2"},{id:34,name:"Advertiser3"}]
+                $scope.userModalData['Advertisers']=[{id:0,name:"All Advertisers"},{id:32,name:"Advertiser1"},{id:33,name:"Advertiser2"},{id:34,name:"Advertiser3"}]
+            },
+            getUserPermission:function(){
+                $scope.userModalData['Permission']=[{value:"ADMIN",name:"Admin"},{value:"WRITE",name:"Write"},{value:"READ",name:"Read"}]
             }
 
         }
         userModalPopup.getUserClients();
         userModalPopup.getUserAdvertiser();
         userModalPopup.getUserBrands();
+        userModalPopup.getUserPermission();
 
     });
 

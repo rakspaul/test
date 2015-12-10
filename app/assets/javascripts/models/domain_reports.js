@@ -312,7 +312,7 @@
             var model = attr['ngModel'];
             scope.$watch(model, function(nv) {
                 el.val(nv);
-                scope.allPermissions.push(nv);
+                scope.permissions.push(nv);
             });
 
         };
@@ -320,10 +320,25 @@
 
     angObj.directive('clearrow',function() {
         return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.allPermissions.pop(nv);
+            });
           $(el).click(function(){
               $(el).parent().remove();
           })
+
         };
+    });
+
+    angObj.directive('clearall',function(){
+        return function(scope,el,attr){
+            $(el).click(function(){
+                $(el).parent().nextAll().remove();
+            })
+        }
+
     });
 
 
