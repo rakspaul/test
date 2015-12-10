@@ -88,7 +88,7 @@
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to delete Scheduled Report"
+                        return "Are you sure you want to delete Scheduled Report?"
                     },
                     deleteAction: function() {
                         return function() {
@@ -164,10 +164,10 @@
                 windowClass: 'delete-dialog',
                 resolve: {
                     headerMsg: function() {
-                        return "Copy Schedule Report";
+                        return "Copy Scheduled Report?";
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to copy Scheduled Report"
+                        return "Are you sure you want to copy Scheduled Report?"
                     },
                     buttonName: function() {
                         return "Copy"

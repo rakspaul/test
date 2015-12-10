@@ -397,7 +397,7 @@ var angObj = angObj || {};
              console.log('create schedule report', JSON.stringify($scope.reports));
               dataService.createScheduleReport($scope.reports).then(function (result) {
                   if (result.data.status_code == 200) {
-                      $rootScope.flashMessage = {'message':'Successfull Created Schedule Report','isErrorMsg':''};
+                      $rootScope.flashMessage = {'message':'Success: The scheduled Report is listed.','isErrorMsg':''};
                      // $scope.msgtimeoutReset();
                       $location.url('/reports/schedules');
                   }
