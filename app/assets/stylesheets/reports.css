@@ -3820,6 +3820,21 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
       padding-bottom: 15px;*/
   text-align: right;
 }
+
+.custom_report_response_page .custom_report_response_table .each_col_cost {
+
+   display: table-cell;
+  width: 133px;
+  min-width: 133px;
+  max-width: 133px;
+  word-wrap: break-word;
+  padding-right: 20px;
+  /*
+      padding-bottom: 15px;*/
+  text-align: right;
+}
+
+
 .custom_report_response_page .custom_report_response_table .tree_dimension_col {
   width: 295px;
   min-width: 295px;

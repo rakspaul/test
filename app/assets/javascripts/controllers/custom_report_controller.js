@@ -7,8 +7,8 @@ var angObj = angObj || {};
         var _customctrl = this;
         var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
 
-        var metricKey = ['dimensions', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
-        var metricKey1 = ['dimension', 'delivery_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
+        var metricKey = ['dimensions', 'delivery_metrics', 'cost_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
+        var metricKey1 = ['dimension', 'delivery_metrics', 'cost_metrics', 'booked_metrics', 'engagement_metrics', 'video_metrics', 'display_quality_metrics', 'video_quality_metrics'];
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
         $scope.activeTab = "delivery_metrics";

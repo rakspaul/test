@@ -180,6 +180,22 @@
 						       						</div>
 						       					</div>
 						       				</div>
+											<div  class="col-md-3 each_measurable_col">
+						       					<div class="custom_report_col_title">
+						       						<div class="external_chkbox clearfix">
+						                              <div class="squaredFour">
+						                                <input type="checkbox" class="squaredFourChkbox" id="cost_chkbox" ng-click="select_unselect_metrics($event)" />
+						                                <label for="cost_chkbox"></label>
+						                              </div>
+						                              <span class="squaredFourTxt">Cost</span>
+						                            </div>
+						       					</div>
+						       					<div class="custom_report_col">
+						       						<div class="each_option" relationIds='Cost' ng-repeat="cost_metric in customeDimensionData[0].cost_metrics" id="{{cost_metric.key}}" ng-click="select_option($event , 'cost_chkd')" >
+						       							{{cost_metric.value}}
+						       						</div>
+						       					</div>
+						       				</div>
 						       				<!--div  class="col-md-3 each_measurable_col">
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
@@ -451,6 +467,7 @@
 				<div ng-if="!hideReportsTabs" class="clearfix custom_report_response_tabs"><!-- add  style="display:none;"  when tabs are not to be shown -->
 					<div class="each_tab active" ng-click="show_respective_table('delivery')" id="delivery_tab"><span>Delivery</span></div>
 					<!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab"><span>Booked</span></div>-->
+					<div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab"><span>Cost</span></div> 
 					<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab"><span>Engagement</span></div>
 					<div class="each_tab" ng-click="show_respective_table('video')" id="video_tab"><span>Video</span></div>
 					<div class="each_tab" ng-click="show_respective_table('display_quality')" id="display_quality_tab"><span>Quality Display</span></div>
@@ -492,7 +509,42 @@
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
 				</div>
-				<div class="custom_report_response_table" id="booked_table" style="display:none;">
+				
+				<div class="custom_report_response_table" id="cost_table" style="display:none;">
+					<div class="custom_report_scroll">
+						<div class="each_row heading_row">
+							<div class="inner_heading_row">
+								<div class="each_col tree_dimension_col">{{reportTitle}}</div>
+								<div class="each_col_cost" ng-repeat="bm in metricKeyArr.cost_metrics track by $index">
+									{{bm.value}}
+								</div>
+							</div>
+						</div>
+						<div class="clearfix first_dimension_row_holder">
+							<div ng-if="reportDataLoading" class="common-load-more report-response-load">Generating Report...</div>
+							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
+							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics track by $index">
+								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
+								<!-- second dimension div-->
+								<div ng-show='secondDimensionReportLoading["cost_metrics"][customeReportData.idx]' class="common-load-more"></div>
+								<div class="clearfix second_dimension_row_holder">
+									<div ng-if="!secondDimensionReportLoading['cost_metrics'][customeReportData.idx] && metricValues.second_dimension[customeReportData.idx].cost_metrics.length > 0">
+										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].cost_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
+										<!-- load more for second dimension -->
+										<span class="sec_dimension_load_more"  style="display:none;">
+											<a href="javascript:void(0);" >Load more</a>
+										</span>
+									</div>
+									<span ng-if="secondDimensionReportDataNotFound['cost_metrics'][customeReportData.idx]" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
+									<!-- end of load more for second dimension -->
+								</div>
+								<!-- end of second dimension div-->
+							</div>
+						</div>
+					</div>
+					<div ng-if="fetching" class="common-load-more"></div>
+				</div> 
+				<!-- <div class="custom_report_response_table" id="booked_table" style="display:none;">
 					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
 							<div class="inner_heading_row">
@@ -507,25 +559,25 @@
 							<span ng-if="(!reportDataLoading && reportDataNotFound)" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
 							<div class="each_row reportData {{showhasBreakdown}}" data-result-row='{{customeReportData.idx}}' ng-repeat="customeReportData in metricValues.first_dimension.booked_metrics track by $index">
 								<div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
-								<!-- second dimension div-->
+								
 								<div ng-show='secondDimensionReportLoading["booked_metrics"][customeReportData.idx]' class="common-load-more"></div>
 								<div class="clearfix second_dimension_row_holder">
 									<div ng-if="!secondDimensionReportLoading['booked_metrics'][customeReportData.idx] && metricValues.second_dimension[customeReportData.idx].booked_metrics.length > 0">
 										<div class="second_dimension_row"  ng-repeat="customeReportData in metricValues.second_dimension[customeReportData.idx].booked_metrics track by $index"  ng-include="'customeReportTpl'" ></div>
-										<!-- load more for second dimension -->
+										
 										<span class="sec_dimension_load_more"  style="display:none;">
 											<a href="javascript:void(0);" >Load more</a>
 										</span>
 									</div>
 									<span ng-if="secondDimensionReportDataNotFound['booked_metrics'][customeReportData.idx]" class="no-data-common" ng-bind-html="getMessageForDataNotAvailable()"></span>
-									<!-- end of load more for second dimension -->
+									
 								</div>
-								<!-- end of second dimension div-->
+
 							</div>
 						</div>
 					</div>
 					<div ng-if="fetching" class="common-load-more"></div>
-				</div>
+				</div> -->
 				<div class="custom_report_response_table" id="engagement_table" style="display:none;">
 					<div class="custom_report_scroll">
 						<div class="each_row heading_row">
@@ -688,6 +740,14 @@
 	<div class="each_col" ng-if="customeReportData.pub_payout >=0">{{customeReportData.pub_payout |  nrFormat}}</div>
 	<div class="each_col" ng-if="customeReportData.gross_ecpm >=0">{{customeReportData.gross_ecpm | number:2}}</div>
 	<div class="each_col" ng-if="customeReportData.gross_ecpc >=0">{{customeReportData.gross_ecpc | number:2}}</div>
+	
+	<!----- Cost report data ------------------------>
+	<div class="each_col_cost" ng-if="customeReportData.inventory_cost >=0">{{customeReportData.inventory_cost |  nrFormat}}</div>
+	<div class="each_col_cost" ng-if="customeReportData.data_cost >=0">{{customeReportData.data_cost |  nrFormat}}</div>
+	<div class="each_col_cost" ng-if="customeReportData.rich_meida_cost >=0">{{customeReportData.rich_meida_cost | nrFormat}}</div>
+	<div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost >=0">{{customeReportData.ad_servicing_cost |  nrFormat}}</div>
+	<div class="each_col_cost" ng-if="customeReportData.ad_vertification_cost >=0">{{customeReportData.ad_vertification_cost |  nrFormat}}</div>
+	<div class="each_col_cost" ng-if="customeReportData.research_cost>=0">{{customeReportData.research_cost  | nrFormat }}</div>
 
 	<!----- booked report data ------------------------
 	<div class="each_col" ng-if="customeReportData.ad_count >=0">{{customeReportData.ad_count}}</div>
