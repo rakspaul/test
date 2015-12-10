@@ -3011,7 +3011,6 @@
 }
 .adCreateMaster #creative .creativeTableTag .table tbody {
   display: block;
-  height: 200px;
   overflow: auto;
 }
 .adCreateMaster #creative .creativeTableTag .table thead,
