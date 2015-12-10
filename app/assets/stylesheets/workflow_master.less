@@ -63,7 +63,7 @@
     color: #939eae !important;
     padding: 10px 0 5px 0 !important;
     text-align: left;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: normal;
     margin: 0;
   }
@@ -167,6 +167,7 @@
       overflow: hidden;
       cursor: pointer;
       width: 100%;
+      padding: 3px 15px;
     }
     .disabled a {
       color: #21252b;
@@ -186,7 +187,10 @@
         span {
           float:left;
           width: 100%;
-          padding: 8px 10px;
+          padding: 5px 10px 1px;
+          input[type="checkbox"]{
+            margin: 4px 10px 0 0;
+          }
           .icon-arrow-down-thick {
             font-size: 9px;
             width: 9px;
@@ -222,6 +226,24 @@
             }
           }
         }
+      }
+      .headerDDL {
+        border-top: 1px solid #ccd2da;
+        margin: 0;
+        [class^="icon-"], [class*=" icon-"] {
+          float: left;
+          width: auto;
+          padding: 0;
+          margin: 12px 0 0 10px;
+        }
+        .greyTxt {
+          float: left;
+          width: auto;
+          padding: 12px 0 0 15px!important;
+        }
+      }
+      .headerDDL:first-child {
+        border-width: 0px;
       }
       .active {
         a {

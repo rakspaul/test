@@ -73,16 +73,16 @@
 
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
-                        <label>Goal</label>
+                        <span class="greyTxt" style="width: 100%;">Goal</span>
                         <div style="padding: 0; margin-right: 5px;" class="pull-left icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}"></div>
                         <span style="clear: none;">{{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
                     </div>
                     <div class="pull-left">
-                        <label>Total Budget</label>
+                        <span class="greyTxt">Total Budget</span>
                         <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
-                        <label>Flight Dates</label>
+                        <span class="greyTxt">Flight Dates</span>
                         <span ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
                             <span style="float: left; clear: none;">{{convertEST(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} - {{convertEST(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}</span>
@@ -91,21 +91,21 @@
                         </span>
                     </div>
                     <div class="pull-left">
-                        <label>Pricing Model</label>
+                        <span class="greyTxt">Pricing Model</span>
                         <span class="disabledTxt">Cost Per Viewable Impression</span>
                     </div>
                     <div class="pull-left">
                         <div class="pull-left counterCol">
-                            <label>Ad Groups</label>
+                            <span class="greyTxt" style="text-align: center;">Ad Groups</span>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
                             <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
                         </div>
                         <div class="pull-left counterCol">
-                            <label>Ads</label>
+                            <span class="greyTxt" style="text-align: center;">Ads</span>
                             <span class="col-md-12 zeroPadding">{{workflowData.campaignData.adsCount || 0}}</span>
                         </div>
                         <div class="pull-left counterCol">
-                            <label>Creatives</label>
+                            <span class="greyTxt" style="text-align: center;">Creatives</span>
                             <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
                         </div>
                     </div>
@@ -282,9 +282,9 @@
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
                             <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
-				{{adsData.state}}
-				<span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
-			    </span>
+                                {{adsData.state}}
+                                <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
+                            </span>
                         </div>
                     </div>
                     <!--End of independant ads block-->

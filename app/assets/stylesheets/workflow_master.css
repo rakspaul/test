@@ -121,7 +121,7 @@
   color: #939eae !important;
   padding: 10px 0 5px 0 !important;
   text-align: left;
-  font-size: 12px;
+  font-size: 12px !important;
   font-weight: normal;
   margin: 0;
 }
@@ -231,6 +231,7 @@
   overflow: hidden;
   cursor: pointer;
   width: 100%;
+  padding: 3px 15px;
 }
 .workflow .dropdown-workflow .disabled a {
   color: #21252b;
@@ -255,7 +256,11 @@
 .workflow .dropdown-workflow .dropdown-menu-search li span {
   float: left;
   width: 100%;
-  padding: 8px 10px;
+  padding: 5px 10px 1px;
+}
+.workflow .dropdown-workflow .dropdown-menu li span input[type="checkbox"],
+.workflow .dropdown-workflow .dropdown-menu-search li span input[type="checkbox"] {
+  margin: 4px 10px 0 0;
 }
 .workflow .dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick,
 .workflow .dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick {
@@ -287,6 +292,30 @@
 .workflow .dropdown-workflow .dropdown-menu li ul li span input,
 .workflow .dropdown-workflow .dropdown-menu-search li ul li span input {
   margin-right: 8px;
+}
+.workflow .dropdown-workflow .dropdown-menu .headerDDL,
+.workflow .dropdown-workflow .dropdown-menu-search .headerDDL {
+  border-top: 1px solid #ccd2da;
+  margin: 0;
+}
+.workflow .dropdown-workflow .dropdown-menu .headerDDL [class^="icon-"],
+.workflow .dropdown-workflow .dropdown-menu-search .headerDDL [class^="icon-"],
+.workflow .dropdown-workflow .dropdown-menu .headerDDL [class*=" icon-"],
+.workflow .dropdown-workflow .dropdown-menu-search .headerDDL [class*=" icon-"] {
+  float: left;
+  width: auto;
+  padding: 0;
+  margin: 12px 0 0 10px;
+}
+.workflow .dropdown-workflow .dropdown-menu .headerDDL .greyTxt,
+.workflow .dropdown-workflow .dropdown-menu-search .headerDDL .greyTxt {
+  float: left;
+  width: auto;
+  padding: 12px 0 0 15px!important;
+}
+.workflow .dropdown-workflow .dropdown-menu .headerDDL:first-child,
+.workflow .dropdown-workflow .dropdown-menu-search .headerDDL:first-child {
+  border-width: 0px;
 }
 .workflow .dropdown-workflow .dropdown-menu .active a,
 .workflow .dropdown-workflow .dropdown-menu-search .active a {

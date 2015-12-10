@@ -293,12 +293,10 @@
   padding: 0 0 0 5px;
   height: 45px;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap label {
-  font-size: 12px;
-  color: #939ead;
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap .greyTxt {
   float: left;
   width: 100%;
-  padding: 0;
+  padding: 0 !important;
   margin: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap span {
@@ -565,7 +563,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover .glyphicon,
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2 {
-  color: #2c9aec;
+  color: #0978C9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   padding: 0;
@@ -574,7 +572,7 @@
   margin-right: .75%;
   margin-top: 1%;
   min-height: 371px;
-  background: #F7FAFF;
+  background: rgba(255, 255, 255, 0.5);
   position: relative;
   max-width: 1200px ;
   cursor: pointer;
@@ -680,6 +678,9 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.deploying {
   background: #6abdfa;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.in_progress {
+  background: #6abdfa ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.failed {
   background: #FF8000 ;
 }
@@ -761,7 +762,7 @@
   z-index: 10;
   left: 50%;
   top: -17px;
-  background: #F7FAFF;
+  background: #F7FAFE;
   border: 1px dashed #939EAE;
   text-align: center;
   padding: 5px 0;
@@ -938,7 +939,7 @@
   padding-left: 0;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap {
-  background: #eef5fc;
+  background: #EDF2F8;
   margin: 0px;
   border-top: 1px solid #BFC9D7;
 }
@@ -2022,6 +2023,7 @@
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li a {
   color: #0978c9;
   padding: 6px 0;
+  width: 100%;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:hover {
   background: #f5f9fd;
@@ -3009,7 +3011,6 @@
 }
 .adCreateMaster #creative .creativeTableTag .table tbody {
   display: block;
-  height: 200px;
   overflow: auto;
 }
 .adCreateMaster #creative .creativeTableTag .table thead,

@@ -9,7 +9,10 @@
 
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
-        <li class="active audience-tabs-segment firstTabAud"><a data-toggle="tab" href="#selectAud"><span class="ifNotSelected">1</span><span class="icon-check"></span> <p>Select Segments</p></a></li>
+        <li class="active audience-tabs-segment firstTabAud">
+			<a data-toggle="tab" href="#selectAud">
+			<span class="ifNotSelected">1</span><span class="icon-check"></span> <p>Select Segments</p></a>
+		</li>
         <div class="splitterDash"></div>
         <li class="audience-tabs-audience"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
     </ul>
@@ -21,22 +24,22 @@
                 <div class="setOne">
                     <div class="segmentHeader" >
                         <div class="col-md-12 zeroPadding multiDDL">
-				<span class="icon-search"></span>
-				<label class="col-md-12 greyTxt">Keyword</label>
-				<input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
-				<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
-				<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
-				<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
-				<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.keyword}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-				<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
-					<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
-						<a>
-							<span class="tick"></span>
-							<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>
-						</a>
-					</li>
-				</ul>
-			</div>
+							<span class="icon-search"></span>
+							<label class="col-md-12 greyTxt">Keyword</label>
+	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+							<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
+							<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
+							<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
+							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.keyword}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
+								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
+									<a >
+										<span class="tick"></span>
+										<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>
+									</a>
+								</li>
+							</ul>
+						</div>
 
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
                             <label class="col-md-12 greyTxt">Source</label>
@@ -326,20 +329,20 @@
                     </div>
                     <div class="col-md-9">
                         <div class="segmentMove">
-				<!--<span class="icon-more-options"></span>-->
-				<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip">{{aud.name}}</span>
-			</div>
+							<!--<span class="icon-more-options"></span>-->
+							<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip">{{aud.name}}</span>
+						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-clear" ng-click="selectAudience(aud)"></a></div>
                 </div>
             </div>
 
             <!--Example Four Drag Drop Container-->
-            <!--<div class="segmentHolder">
-                <div class="segmentRow segmentDrop">
-                    <span class="col-md-12 text-center">Or</span>
-                </div>
-            </div>-->
+            <!--<div class="segmentHolder">-->
+            <!--    <div class="segmentRow segmentDrop">-->
+            <!--        <span class="col-md-12 text-center">Or</span>-->
+            <!--    </div>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
