@@ -60,7 +60,7 @@
     <div class="table-body">
       <div class="row "  ng-repeat="srlist in schdReportList track by $index">
         <div class="clearfix" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
-          <div class="col-md-4 table-td name-col" ng-class="{'no-instance':srlist.instances.length <= 1}" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.instances.length > 1"> ({{srlist.instances.length}})</span></div>
+          <div class="col-md-4 table-td name-col" ng-class="{'no-instance':srlist.instances.length <= 1}"  title="{{srlist.name}}" ng-click="open_second_dimension($event,$index);">{{srlist.name}}<span ng-if="srlist.instances.length > 1"> ({{srlist.instances.length}})</span></div>
           <div class="col-md-1 table-td frequency-col">{{srlist.frequency}}</div>
           <div class="col-md-2 table-td">{{srlist.instances[0].completedOn === undefined?"Pending Status":srlist.instances[0].completedOn}}</div>
           <div class="col-md-2 table-td">{{srlist.createdBy}}</div>
