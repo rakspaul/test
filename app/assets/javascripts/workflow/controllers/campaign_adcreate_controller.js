@@ -550,11 +550,11 @@ var angObj = angObj || {};
                             $scope.partialSaveAlertMessage.isMsg = 1;
                             localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
                             $scope.msgtimeoutReset() ;
-                            if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
+                            //if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
                                 var url = '/campaign/' + result.data.data.campaignId + '/overview';
                                 $location.url(url);
                                 localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
-                            }
+                            //}
                         }
                     }
                     else{
