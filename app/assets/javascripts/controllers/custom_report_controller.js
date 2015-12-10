@@ -353,8 +353,8 @@ var angObj = angObj || {};
         $scope.scheduleReport = function() {
            if(!$scope.generateBtnDisabled) {
                var str = $scope.reports.name;
-               if(/^[a-zA-Z0-9- ]*$/.test(str) === false) {
-                   $scope.flashMessage.message = 'Please use only alphanumeric characters for report names';
+               if(/^[A-Za-z][A-Za-z0-9]*$/.test(str) === false) {
+                   $scope.flashMessage.message = 'Please use only alphanumeric characters for report names. Report name should start with alphabetic character';
                    $scope.flashMessage.isErrorMsg = 1;
                    $scope.flashMessage.isMsg = 0;
                    $scope.msgtimeoutReset();
