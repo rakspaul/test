@@ -6,7 +6,8 @@
 
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
-        <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms">
+        <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms" ng-click="selectPlatform($event, platform)">
+            <span ng-if="selectedPlatform[platform.id]" class="icon-inline-edit"></span>
             <img ng-src="{{platform.iconUrl}}"/>
             <p>{{platform.displayName}}</p>
             <span ng-bind-html="platform.summary"></span>
@@ -26,8 +27,6 @@
         </div>
         <div class="container">
             <br>
-
-
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
