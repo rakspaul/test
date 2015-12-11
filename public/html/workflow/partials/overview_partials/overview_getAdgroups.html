@@ -53,7 +53,7 @@
                         <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
                     </h4>
                     <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
-                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM, YYYY')}}</span>
+                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span>
                     <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
                 </div>
 
