@@ -1300,6 +1300,24 @@
   width: 100%;
   text-align: center;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .icon-inline-edit {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  right: 10px;
+  color: #0978c9;
+  font-size: 12.5px;
+  width: 12.5px;
+  height: 12.5px;
+  margin: 0;
+  display: none;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:hover {
+  border: 1px solid #0978c9;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:hover .icon-inline-edit {
+  display: inline-block;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:nth-child(3n+3) {
   margin-right: 0;
 }
