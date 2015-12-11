@@ -385,6 +385,7 @@
     this.WF_AD_SIZE = "Ad Size";
     this.WF_FLIGHT_DATE = "Flight Date";
     this.WF_IMPRESSIONS = "Impressions";
+    this.WF_IMPS = "Imps.";   
     this.WF_MEDIA_COST = "Media Cost";
     this.WF_BUDGET = "Budget";
     this.WF_UNIT_COST = "Unit Cost";
