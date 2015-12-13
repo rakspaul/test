@@ -155,7 +155,7 @@
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Campaigns with set KPI value</span>";
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
-    this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : 0, type : 'all'};
+    this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : -1, type : 'all'};
 
     this.NO_RELEVANT_CAMPAIGNS = "No Relevant Campaigns";
     this.COST_BREAKDOWN = "Cost Breakdown";
