@@ -322,7 +322,7 @@
     this.TARGET_ZONE = "Target Zone";
     this.KPI_ON_TARGET = "KPI on target";
     this.KPI_UNDERPERFORMANCE = "KPI Underperformance";
-    this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "Graph represents campaigns which have set KPI values only";
+    this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "% of Performing Campaigns measured against the set KPI or delivery if no KPI is set.";
     this.VIDEO = "Video";
     this.PLAYS = "plays";
     this.PRICING_METHOD_CPM = "cpm";
