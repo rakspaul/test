@@ -318,16 +318,32 @@
         };
     });
 
-    angObj.directive('clearrow',function() {
+    angObj.directive('ngUpdateHiddenDays',function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
             scope.$watch(model, function(nv) {
-                el.val(nv);
-                scope.allPermissions.pop(nv);
+               if(nv) {
+
+
+                   el.val(nv);
+//                   scope.Schedule.dayPart[parseInt(attr.index)] = scope.Schedule.dayPart[parseInt(attr.index)] || {};
+                   scope.selectedDays[attr.index] = el.val();
+                   scope.Schedule.dayPart[parseInt(attr.index)][attr.field] = el.val();
+               }
             });
-          $(el).click(function(){
-              $(el).parent().remove();
-          })
+
+        };
+    });
+
+
+    angObj.directive('clearrow',function() {
+        return function(scope, el, attr) {
+            $(el).click(function(){
+                scope.Schedule.dayPart.splice(attr.index, 1);
+                scope.Schedule.daytimeArr.splice(attr.index, 1);
+                scope.Schedule.customLength -= 1;
+                scope.$apply();
+            })
 
         };
     });
@@ -335,7 +351,10 @@
     angObj.directive('clearall',function(){
         return function(scope,el,attr){
             $(el).click(function(){
-                $(el).parent().nextAll().remove();
+                scope.Schedule.dayPart=[];
+                scope.Schedule.daytimeArr=[];
+                scope.Schedule.customLength = 0;
+                scope.$apply();
             })
         }
 

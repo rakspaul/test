@@ -79,6 +79,7 @@ var angObj = angObj || {};
         $scope.sortDomain=false;
         $scope.isAdsPushed = false;
         $scope.editedAdSourceId = null;
+        $scope.dayPartData={};
         localStorage.setItem('campaignData','');
         localStorage.removeItem('adPlatformCustomInputs');
         $scope.adData.budgetTypeLabel = 'Impressions';
@@ -738,7 +739,7 @@ var angObj = angObj || {};
 
        }
 
-        $scope.CampaignADsave=function(isDownloadTrackerClicked){
+        $scope.CampaignADsave=function(isDownloadTrackerClicked){//console.log("ejwdewd",$scope.dayPartData);
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
@@ -882,6 +883,11 @@ var angObj = angObj || {};
                          }
                          segmentObj.operation = audienceService.getAndOr().toUpperCase();
 
+                     }
+                     //DayPart Segment
+                     var dayPart =audienceService.getDayPartdata();
+                     if(dayPart){
+                         postAdDataObj['targets']['adDaypartTargets']=dayPart;
                      }
 
                  }

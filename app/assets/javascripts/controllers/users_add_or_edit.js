@@ -11,11 +11,14 @@
         $scope.User = {
             data: []
         }
+
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
-            elem.closest(".add-filters").remove();
+//            elem.closest(".add-filters").remove();
             $scope.permissions.splice(index,1);
             $scope.User.data.splice(index,1);
+            $scope.clientName.splice(index, 1);
+
         };
         $scope.close=function(){
             $modalInstance.dismiss();
@@ -43,11 +46,12 @@
            // console.log($scope.permissions);
             console.log($scope.User.data);
         },
-        $scope.selectedClientHandler=function(clientObj,index){
+        $scope.selectedClientHandler=function(clientObj, ev){
+
             var counter=accountsService.getCounter();
             $scope.selectedClient={};
-            $scope.User.data[index].clientId = clientObj.id;
-            $scope.clientName[index] = clientObj.name;
+            $scope.User.data[$(ev.target).closest('.add-filters').index()].clientId = clientObj.id;
+            $scope.clientName[$(ev.target).closest('.add-filters').index()] = clientObj.name;
 //            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
         },
         $scope.incrementCounter=function(index){
