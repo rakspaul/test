@@ -130,8 +130,8 @@
                 <!--</div>-->
                 <!---->
             <!--</div>-->
-            <div class="col-md-12 zeroPadding add-filters" ng-repeat="item in permissions track by $index"> $index--{{$index}}
-                <div class="form-group col-md-3 accounts-multi-dimension" id="id_{{$index}}"> <!--id_$index[$index]--{{id_$index}}-->
+            <div class="col-md-12 zeroPadding add-filters" ng-repeat="item in permissions track by $index"> <!--$index--{{$index}}-->
+                <div class="form-group col-md-3 accounts-multi-dimension" id="id_{{$index}}"><!--id_$index---id_{{$index}}-->
                     <label >Accounts:</label>
                     <div class="zeroPadding dropdown-workflow">
                         <div class="dropdown">
@@ -141,11 +141,11 @@
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,$parent.$index)">{{$parent.$index}}{{client.name}}</a>
+                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,$event)">{{client.name}}</a>
                                     <ul ng-if="client.children.length>0">
-                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,$parent.$parent.$index)">{{$parent.$parent.$index}}{{clientChild.name}} </a>
+                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,$event)">{{clientChild.name}} </a>
                                             <ul ng-if="clientChild.children.length>0">
-                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,$parent.$parent.$parent.$index)">{{clientSecondChild.name}} </a>
+                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,$event)">{{clientSecondChild.name}} </a>
                                             </li>
                                             </ul>
                                         </li>
@@ -182,8 +182,7 @@
                         <!--<option value="READ">Read</option>-->
                     </select>
                 </div>
-                <div class="delete_row" ng-click="User.delete_filter($event,$index)">
-
+                <div class="delete_row" ng-click="User.delete_filter($event, $index)">
                 </div>
 
             </div>
