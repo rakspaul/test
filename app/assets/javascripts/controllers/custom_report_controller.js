@@ -3,7 +3,9 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService) {
 
+        $scope.additionalFilters = [];
         $scope.textConstants = constants;
+        $scope.additionalValue = "Contains keywords ...";
         var _customctrl = this;
         var elem = $(".each_section_custom_report").find(".dropdown").find(".dd_txt");
 
@@ -30,6 +32,7 @@ var angObj = angObj || {};
         $scope.notInRangeMonthly = false;
         $scope.flashMessage = {'message':'','isErrorMsg':0};
 
+
         $scope.reports.client_id = loginModel.getSelectedClient().id;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
@@ -38,7 +41,7 @@ var angObj = angObj || {};
 
         if($routeParams.reportId) {
             dataService.fetch(urlService.scheduledReport($routeParams.reportId)).then(function(response) {
-               // console.log('Response: ',response);
+                console.log('Response: ',JSON.stringify(response));
                 if(response.status == 'success') {
                      $scope.reports = response.data.data;
                     $scope.scheduleReportActive = response.data.data.isScheduled;
@@ -47,6 +50,39 @@ var angObj = angObj || {};
                         $scope.reports.schedule = response.data.data.schedule;
                         $scope.reports.schedule.frequency = "Once";
                     }
+                    angular.forEach(response.data.data.reportDefinition.filters, function(eachObj) {
+                        // console.log('each flter',eachObj);
+                        var dimensionObj = $scope.customeDimensionData[0].dimensions;
+                        _.each(dimensionObj,function(item) {
+                            var value1 = "";
+                            var value2 = "";
+                            value1 = eachObj.dimension;
+                            value2 = item.key;
+                            if(value1.trim() === value2.trim()) {
+                                eachObj['name'] = item.value;
+                            }
+                        });
+                        if((eachObj.type == "Primary")) {
+                            $scope.reports.reportDefinition.dimensions.primary = eachObj;
+                            $scope.primaryDimensionKeyword = eachObj.values[0];
+                            //to set value of dimension in the dropdown
+                            $scope.select_dimension('Primary',$scope.reports.reportDefinition.dimensions.primary);
+                        } else if((eachObj.type == "Secondary")) {
+                            $scope.reports.reportDefinition.dimensions.secondary.push(eachObj);
+                            $scope.secondaryDimensionKeyword = eachObj.values[0];
+                            $scope.addMore();
+                            //to set value of dimension in the dropdown
+                            $scope.select_dimension('Secondary',eachObj);
+                            $scope.select_secDimension_dropdown_option();
+                        } else {
+                            //console.log('eachobj dimension',eachObj.dimension);
+                            $scope.reports.reportDefinition.additionalFilters[eachObj.dimension] = eachObj;
+                            // console.log('additionalFilters',eachObj.dimension);
+
+                            //$scope.addFilters(eachObj.dimension);
+
+                        }
+                    });
                 }
             })
 
@@ -191,11 +227,15 @@ var angObj = angObj || {};
             _.each(metricKey, function(k) {
                 result.data.data[0][k] = jsonModifier(result.data.data[0][k]);
             });
-
+            console.log('8*********');
+            $scope.initializeMetrics(result.data.data[0]);
+            console.log('am here');
             $scope.customeDimensionData = result.data.data;
+            console.log('$scope.customeDimensionData',$scope.customeDimensionData);
             var modifiedDimesionArr = result.data.data[0];
             $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
             $scope.showDefaultDimension['template_id'] = modifiedDimesionArr.template_id;
+
         });
 
         $scope.metricSelected =  function(ev) {
@@ -800,6 +840,360 @@ var angObj = angObj || {};
             }
 
             $scope.getNumberDate = monthArrayMake();
+
+            //--- sapna ----
+
+            $scope.onChoosingAditFlts = function(index,key,name) {
+                $scope.additionalFilters[index].hide = false;
+                $scope.additionalFilters[index].key = key;
+                $scope.additionalFilters[index].name = name;
+
+            }
+
+            $scope.delAditFlt = function(index) {
+                $scope.additionalFilters.splice(index,1);
+            }
+
+            $scope.addAdditionalFilters = function() {
+                $scope.additionalFilters.push({key:"",name:"",value:"",hide:true});
+            }
+
+            $scope.initializeMetrics = function(dataObj) {
+                //delivery metrics
+                $scope.deliveryMetrics = dataObj.delivery_metrics;
+                $scope.totalDelMetrics = dataObj.delivery_metrics.length;
+                $scope.deliveryMetrics.isAllSelected = false;
+                $scope.deliveryMetrics.minOneSelected = false;
+                _.each($scope.deliveryMetrics,function(eachObj){
+                    eachObj.selected = false;
+                })
+                //cost metrics
+                $scope.costMetrics = dataObj.cost_metrics;
+                $scope.totalCostMetrics = dataObj.cost_metrics.length;
+                $scope.costMetrics.isAllSelected = false;
+                $scope.costMetrics.minOneSelected = false;
+                _.each($scope.costMetrics,function(eachObj){
+                    eachObj.selected = false;
+                })
+                //engagement metrics
+                console.log('eng -- : ',dataObj.engagement_metrics);
+                $scope.engagementMetrics = dataObj.engagement_metrics;
+                $scope.totalEngmtMetrics = dataObj.engagement_metrics.length;
+                $scope.engagementMetrics.isAllSelected = false;
+                $scope.engagementMetrics.minOneSelected = false;
+                _.each($scope.engagementMetrics,function(eachObj){
+                    eachObj.selected = false;
+                })
+                //video metrics
+                $scope.videoMetrics = dataObj.video_metrics;
+                $scope.totalVideoMetrics = dataObj.video_metrics.length;
+                $scope.videoMetrics.isAllSelected = false;
+                $scope.videoMetrics.minOneSelected = false;
+                _.each($scope.videoMetrics,function(eachObj){
+                    eachObj.selected = false;
+                })
+                //quality display metrics
+                $scope.displayQltyMetrics = dataObj.display_quality_metrics;
+                $scope.totaldisplayQltyMetrics = dataObj.display_quality_metrics.length;
+                $scope.displayQltyMetrics.isAllSelected = false;
+                $scope.displayQltyMetrics.minOneSelected = false;
+                _.each($scope.displayQltyMetrics,function(eachObj){
+                    eachObj.selected = false;
+                })
+                //quality video metrics
+                $scope.videoQltyMetrics = dataObj.video_quality_metrics;
+                $scope.totalVideoQltyMetrics = dataObj.video_quality_metrics.length;
+                $scope.videoQltyMetrics.isAllSelected = false;
+                $scope.videoQltyMetrics.minOneSelected = false;
+                _.each($scope.videoQltyMetrics,function(eachObj){
+                    eachObj.selected = false;
+                })
+            }
+
+            $scope.allMetrics = false;
+            $scope.OnSelectUnselectAllMetrics = function() {
+                //  delivery Metrics
+                $scope.deliveryMetrics.isAllSelected = $scope.allMetrics;
+                _.each($scope.deliveryMetrics,function(eachObj){
+                    eachObj.selected =  $scope.allMetrics;
+                })
+
+                //cost Metrics
+                $scope.costMetrics.isAllSelected = $scope.allMetrics;
+                _.each($scope.costMetrics,function(eachObj){
+                    eachObj.selected =  $scope.allMetrics;
+                })
+
+                //engagement Metrics
+                $scope.engagementMetrics.isAllSelected = $scope.allMetrics;
+                _.each($scope.engagementMetrics,function(eachObj){
+                    eachObj.selected =  $scope.allMetrics;
+                })
+
+                //video Metrics
+                $scope.videoMetrics.isAllSelected = $scope.allMetrics;
+                _.each($scope.videoMetrics,function(eachObj){
+                    eachObj.selected =  $scope.allMetrics;
+                })
+
+                //Display Quality Metrics
+                $scope.displayQltyMetrics.isAllSelected = $scope.allMetrics;
+                _.each($scope.displayQltyMetrics,function(eachObj){
+                    eachObj.selected =  $scope.allMetrics;
+                })
+
+                //Quality video Metrics
+                $scope.videoQltyMetrics.isAllSelected = $scope.allMetrics;
+                    _.each($scope.videoQltyMetrics,function(eachObj){
+                        eachObj.selected =  $scope.allMetrics;
+                    })
+
+            }
+
+            //Delivery Metrics
+            $scope.onDeliveryMetrClick = function(index) {
+                var totalMetricSelected = 0;
+                if(index == undefined) {
+                    _.each($scope.deliveryMetrics,function(eachObj){
+                        eachObj.selected =  $scope.deliveryMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.deliveryMetrics[index].selected = !$scope.deliveryMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.deliveryMetrics, function(eachObj) {
+                    if(eachObj.selected == true ){
+                        totalMetricSelected++;
+                    }
+                });
+                if(totalMetricSelected > 0) {
+                    $scope.deliveryMetrics.minOneSelected = true;
+                    if(totalMetricSelected == $scope.totalDelMetrics) {
+                        $scope.deliveryMetrics.isAllSelected = true;
+                    }else {
+                        $scope.deliveryMetrics.isAllSelected = false;
+                    }
+                }
+            }
+
+            //Cost Metrics
+            $scope.onCostMetrClick = function(index) {
+                var totalMetricSelected = 0;
+                if(index == undefined) {
+                    _.each($scope.costMetrics,function(eachObj){
+                        eachObj.selected =  $scope.costMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.costMetrics[index].selected = !$scope.costMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.costMetrics, function(eachObj) {
+                    if(eachObj.selected == true ){
+                        totalMetricSelected++;
+                    }
+                });
+                $scope.costMetrics.minOneSelected = false;
+                if(totalMetricSelected > 0) {
+                    $scope.costMetrics.minOneSelected = true;
+                    if(totalMetricSelected == $scope.totalCostMetrics) {
+                        $scope.costMetrics.isAllSelected = true;
+                    }else {
+                        $scope.costMetrics.isAllSelected = false;
+                    }
+                }
+            }
+
+            //Engagement Metrics
+            $scope.onEngagementMetrClick = function(index) {
+                var totalMetricSelected = 0;
+                if(index == undefined) {
+                    _.each($scope.engagementMetrics,function(eachObj){
+                        eachObj.selected =  $scope.engagementMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.engagementMetrics[index].selected = !$scope.engagementMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.engagementMetrics, function(eachObj) {
+                    if(eachObj.selected == true ){
+                        totalMetricSelected++;
+                    }
+                });
+                $scope.engagementMetrics.minOneSelected = false;
+                if(totalMetricSelected > 0) {
+                    $scope.engagementMetrics.minOneSelected = true;
+                    if(totalMetricSelected == $scope.totalEngmtMetrics) {
+                        $scope.engagementMetrics.isAllSelected = true;
+                    }else {
+                        $scope.engagementMetrics.isAllSelected = false;
+                    }
+                }
+            }
+
+            //Display video Metrics
+            $scope.onVedioMetrClick = function(index) {
+                var totalMetricSelected = 0;
+                if(index == undefined) {
+                    _.each($scope.videoMetrics,function(eachObj){
+                        eachObj.selected =  $scope.videoMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.videoMetrics[index].selected = !$scope.videoMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.videoMetrics, function(eachObj) {
+                    if(eachObj.selected == true ){
+                        totalMetricSelected++;
+                    }
+                });
+                $scope.videoMetrics.minOneSelected = false;
+                if(totalMetricSelected > 0) {
+                    $scope.videoMetrics.minOneSelected = true;
+                    if(totalMetricSelected == $scope.totalVideoMetrics) {
+                        $scope.videoMetrics.isAllSelected = true;
+                    }else {
+                        $scope.videoMetrics.isAllSelected = false;
+                    }
+                }
+            }
+
+            //Display Qulity Metrics
+            $scope.onQltyDisplayClick = function(index) {
+                var totalMetricSelected = 0;
+                if(index == undefined) {
+                    _.each($scope.displayQltyMetrics,function(eachObj){
+                        eachObj.selected =  $scope.displayQltyMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.displayQltyMetrics[index].selected = !$scope.displayQltyMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.displayQltyMetrics, function(eachObj) {
+                    if(eachObj.selected == true ){
+                        totalMetricSelected++;
+                    }
+                });
+                $scope.displayQltyMetrics.minOneSelected = false;
+                if(totalMetricSelected > 0) {
+                    $scope.displayQltyMetrics.minOneSelected = true;
+                    if(totalMetricSelected == $scope.totaldisplayQltyMetrics) {
+                        $scope.displayQltyMetrics.isAllSelected = true;
+                    }else {
+                        $scope.displayQltyMetrics.isAllSelected = false;
+                    }
+                }
+            }
+
+            //video Metrics
+            $scope.onQltyVdoMetrClick = function(index) {
+                var totalMetricSelected = 0;
+                if(index == undefined) {
+                    _.each($scope.videoQltyMetrics,function(eachObj){
+                        eachObj.selected =  $scope.videoQltyMetrics.isAllSelected;
+                    })
+                } else {
+                    $scope.videoQltyMetrics[index].selected = !$scope.videoQltyMetrics[index].selected;
+                }
+                var selectedIndx = _.findIndex($scope.videoQltyMetrics, function(eachObj) {
+                    if(eachObj.selected == true ){
+                        totalMetricSelected++;
+                    }
+                });
+                $scope.videoQltyMetrics.minOneSelected = false;
+                if(totalMetricSelected > 0) {
+                    $scope.videoQltyMetrics.minOneSelected = true;
+                    if(totalMetricSelected == $scope.totalVideoQltyMetrics) {
+                        $scope.videoQltyMetrics.isAllSelected = true;
+                    }else {
+                        $scope.videoQltyMetrics.isAllSelected = false;
+                    }
+                }
+            }
+
+            //delivery Metrics
+            $scope.saveMetrics = function() {
+                var selectedDeliveryMetrics = [];
+                _.each($scope.deliveryMetrics,function(eachObj) {
+                    if(eachObj.selected) {
+                        selectedDeliveryMetrics.push(eachObj.key);
+                    }
+                });
+                if(selectedDeliveryMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Delivery'] = selectedDeliveryMetrics;
+                }
+
+                //cost Metrics
+                var selectedCostMetrics = [];
+                _.each($scope.costMetrics,function(eachObj) {
+                    if(eachObj.selected) {
+                        selectedCostMetrics.push(eachObj.key);
+                    }
+                });
+                if(selectedCostMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Cost'] = selectedCostMetrics;
+                }
+
+                //engagement metrics
+                var selectedEngMetrics = [];
+                _.each($scope.engagementMetrics,function(eachObj) {
+                    if(eachObj.selected) {
+                        selectedEngMetrics.push(eachObj.key);
+                    }
+                });
+                if(selectedEngMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Engagement'] = selectedEngMetrics;
+                }
+
+                //video metrics
+                var selectedVideoMetrics = [];
+                _.each($scope.videoMetrics,function(eachObj) {
+                    if(eachObj.selected) {
+                        selectedVideoMetrics.push(eachObj.key);
+                    }
+                });
+                if(selectedVideoMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Video'] = selectedVideoMetrics;
+                }
+
+                //quality display metrics
+                var selectedDsplyQltyMetrics = [];
+                _.each($scope.displayQltyMetrics,function(eachObj) {
+                    if(eachObj.selected) {
+                        selectedDsplyQltyMetrics.push(eachObj.key);
+                    }
+                });
+                if(selectedDsplyQltyMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Quality Display'] = selectedDsplyQltyMetrics;
+                }
+
+                //quality video metrics
+                var selectedVideoQltyMetrics = [];
+                _.each($scope.videoQltyMetrics,function(eachObj) {
+                    if(eachObj.selected) {
+                        selectedVideoQltyMetrics.push(eachObj.key);
+                    }
+                });
+                if(selectedVideoQltyMetrics.length > 0) {
+                    $scope.reports.reportDefinition.metrics['Quality Video'] = selectedVideoQltyMetrics;
+                }
+
+                console.log('----',$scope.customeDimensionData[0].engagement_metrics);
+
+                console.log('selectedDeliveryMetrics',selectedDeliveryMetrics);
+                console.log('selectedCostMetrics',selectedCostMetrics);
+                console.log('selectedEngMetrics',selectedEngMetrics);
+                console.log('selectedVideoMetrics',selectedVideoMetrics);
+                console.log('selectedDsplyQltyMetrics',selectedDsplyQltyMetrics);
+                console.log('selectedVideoQltyMetrics',selectedVideoQltyMetrics);
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
 
 
         });

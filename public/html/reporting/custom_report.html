@@ -111,13 +111,40 @@
 		           			{{textConstants.REPORT_ADDITIONAL_FILTERS}}
 		           		</div>
 		           		<div class="additional_filters_holder">
-		           			<div id="filter_breakdown_row" ></div>
+		           			<div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index">
+								<!-- sapna -->
+								<div class="clearfix custom_filter_breakdown breakdown_div">
+									<div class="pull-left custom_filter_dropdown custom_report_breakdown">
+										<div class="common_dropdown">
+											<div class="dropdown">
+                								<span class="dropdown_ul_text" data-toggle="dropdown">
+                    							<span class="dd_txt">{{addFilts.name?addFilts.name:'Choose filter'}}</span>
+                    							<span class="arrow_img"></span>
+                                                 </span>
+												<ul class="dropdown-menu">
+													<div class="dropdown_autoselect_box"><input type="text" ng-model="dimensionQuery" placeHolder="Search"></div>
+													<li ng-repeat="dimension in customeDimensionData[0].dimensions | filter:dimensionQuery" id="{{dimension.key}}" ng-click="onChoosingAditFlts($parent.$index,dimension.key,dimension.value);" ng-model="addFilts.key">{{dimension.value}}</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="pull-left filter_input_txtbox" >
+										<input type="text" name="filter" class="reportFilter" ng-model="addFilts.value" ng-hide="addFilts.hide" autofocus placeholder="Contains keywords ..."/>
+									</div>
+									<div class="pull-left delete_row" ng-click="delAditFlt($index);"></div>
+								</div>
+
+
+
+
+								<!-- sapna -->
+							</div>
 
 		           			<div class="clearfix title_row_separator">
-			           			<div class="pull-left additional_filters_label" addfilter>
+			           			<div class="pull-left additional_filters_label">
 			           				<div class="pull-left add_circle_symbol">
 			           				</div>
-			           				<div class="pull-left blue_txt">
+			           				<div ng-click="addAdditionalFilters()" class="pull-left blue_txt">
 			           					{{textConstants.REPORT_ADD_FILTERS}}
 			           				</div>
 			           			</div>
@@ -155,7 +182,7 @@
 							       				<div class="clearfix custom_report_col_title">
 							   						<div class="pull-right external_chkbox">
 							                          <div class="squaredFour">
-							                            <input ng-click="select_unselect_all($event);" type="checkbox" class="squaredFourChkbox" id="selectAll_chkbox"  />
+							                            <input ng-click="OnSelectUnselectAllMetrics();" type="checkbox" ng-model="allMetrics" class="squaredFourChkbox" id="selectAll_chkbox"  />
 							                            <label for="selectAll_chkbox"></label>
 							                          </div>
 							                          <span class="squaredFourTxt">Select All</span>
@@ -164,34 +191,36 @@
 							       			</div>
 						       			</div>
 						       			<div class="measurable_col_holder">
+											<!-- Delivery Metrics -->
 						       				<div  class="col-md-3 each_measurable_col">
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
-						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="delivery_chkbox" ng-click="select_unselect_metrics($event)" />
+						                              <div class="squaredFour" ng-class="{not_all_selected:deliveryMetrics.minOneSelected}">
+						                                <input type="checkbox" class="squaredFourChkbox"  id="delivery_chkbox" ng-model="deliveryMetrics.isAllSelected" ng-click="onDeliveryMetrClick()" />
 						                                <label for="delivery_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Delivery</span>
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" relationIds='Delivery' ng-repeat="delivery_metric in customeDimensionData[0].delivery_metrics" id="{{delivery_metric.key}}" ng-click="select_option($event , 'delivery_chkd')" >
+						       						<div class="each_option" relationIds='Delivery' ng-repeat="delivery_metric in deliveryMetrics track by $index" id="{{delivery_metric.key}}" ng-class="{active:delivery_metric.selected}" ng-click="onDeliveryMetrClick($index)" >
 						       							{{delivery_metric.value}}
 						       						</div>
 						       					</div>
 						       				</div>
+											<!-- Cost Metrics -->
 											<div  class="col-md-3 each_measurable_col">
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
-						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="cost_chkbox" ng-click="select_unselect_metrics($event)" />
+						                              <div class="squaredFour" ng-class="{not_all_selected:costMetrics.minOneSelected}">
+						                                <input type="checkbox" class="squaredFourChkbox" id="cost_chkbox" ng-model="costMetrics.isAllSelected" ng-click="onCostMetrClick()" />
 						                                <label for="cost_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Cost</span>
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" relationIds='Cost' ng-repeat="cost_metric in customeDimensionData[0].cost_metrics" id="{{cost_metric.key}}" ng-click="select_option($event , 'cost_chkd')" >
+						       						<div class="each_option" relationIds='Cost' ng-repeat="cost_metric in costMetrics track by $index" id="{{cost_metric.key}}" ng-class="{active:cost_metric.selected}" ng-click="onCostMetrClick($index)" >
 						       							{{cost_metric.value}}
 						       						</div>
 						       					</div>
@@ -212,66 +241,73 @@
 						       						</div>
 						       					</div>
 						       				</div-->
+																						<!-- Engagement Metrics -->
 						       				<div  class="col-md-3 each_measurable_col">
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
-						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="engagement_chkbox" ng-click="select_unselect_metrics($event)"  />
+						                              <div class="squaredFour" ng-class="{not_all_selected:engagementMetrics.minOneSelected}">
+						                                <input type="checkbox" class="squaredFourChkbox" id="engagement_chkbox" ng-model="engagementMetrics.isAllSelected" ng-click="onEngagementMetrClick()"  />
 						                                <label for="engagement_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Engagement</span>
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" relationIds='Engagement' ng-repeat="engagement_metric in customeDimensionData[0].engagement_metrics" id="{{engagement_metric.key}}" ng-click="select_option($event , 'engagement_chkd')" >
+						       						<div class="each_option" relationIds='Engagement' ng-repeat="engagement_metric in engagementMetrics track by $index" id="{{engagement_metric.key}}" ng-class="{active:engagement_metric.selected}" ng-click="onEngagementMetrClick($index)" >
 						       							{{engagement_metric.value}}
 						       						</div>
 						       					</div>
 						       				</div>
+
+																						<!-- Video Metrics -->
 						       				<div  class="col-md-3 each_measurable_col">
 						       					<div class="custom_report_col_title">
 						       						<div class="external_chkbox clearfix">
-						                              <div class="squaredFour">
-						                                <input type="checkbox" class="squaredFourChkbox" id="video_chkbox" ng-click="select_unselect_metrics($event)" />
+						                              <div class="squaredFour" ng-class="{not_all_selected:videoMetrics.minOneSelected}">
+						                                <input type="checkbox" class="squaredFourChkbox" id="video_chkbox" ng-model="videoMetrics.isAllSelected" ng-click="onVedioMetrClick()" />
 						                                <label for="video_chkbox"></label>
 						                              </div>
 						                              <span class="squaredFourTxt">Video</span>
 						                            </div>
 						       					</div>
 						       					<div class="custom_report_col">
-						       						<div class="each_option" relationIds='Video' ng-repeat="video_metric in customeDimensionData[0].video_metrics" id="{{video_metric.key}}" ng-click="select_option($event, 'video_chkd')" >
+						       						<div class="each_option" relationIds='Video' ng-repeat="video_metric in videoMetrics track by $index " id="{{video_metric.key}}" ng-class="{active:video_metric.selected}" ng-click="onVedioMetrClick($index)" >
 						       							{{video_metric.value}}
 						       						</div>
 						       					</div>
 						       				</div>
+
+																						<!--  Quality Metrics -->
 											<div  class="col-md-3 each_measurable_col">
 												<div class="custom_report_col_title">
 													<div class="external_chkbox clearfix">
-														<div class="squaredFour">
-															<input type="checkbox" class="squaredFourChkbox" id="display_quality_chkbox" ng-click="select_unselect_metrics($event)" />
+														<div class="squaredFour" ng-class="{not_all_selected:displayQltyMetrics.minOneSelected}">
+															<input type="checkbox" class="squaredFourChkbox" id="display_quality_chkbox" ng-model="displayQltyMetrics.isAllSelected" ng-click="onQltyDisplayClick()" />
 															<label for="display_quality_chkbox"></label>
 														</div>
 														<span class="squaredFourTxt">Quality Display</span>
 													</div>
 												</div>
 												<div class="custom_report_col">
-													<div class="each_option" relationIds='Quality Display' ng-repeat="display_quality_metrics in customeDimensionData[0].display_quality_metrics" id="{{display_quality_metrics.key}}" ng-click="select_option($event, 'display_quality_chkbox')" >
+													<div class="each_option" relationIds='Quality Display' ng-repeat="display_quality_metrics in displayQltyMetrics track by $index" id="{{display_quality_metrics.key}}" ng-class="{active:display_quality_metrics.selected}" ng-click="onQltyDisplayClick($index)" >
 														{{display_quality_metrics.value}}
 													</div>
 												</div>
 											</div>
+
+																					<!-- video quality metrics -->
 											<div  class="col-md-3 each_measurable_col">
 												<div class="custom_report_col_title">
 													<div class="external_chkbox clearfix">
-														<div class="squaredFour">
-															<input type="checkbox" class="squaredFourChkbox" id="video_quality_chkbox" ng-click="select_unselect_metrics($event)" />
+														<div class="squaredFour" ng-class="{not_all_selected:videoQltyMetrics.minOneSelected}">
+															<input type="checkbox" class="squaredFourChkbox" id="video_quality_chkbox" ng-model="videoQltyMetrics.isAllSelected" ng-click="onQltyVdoMetrClick()" />
 															<label for="video_quality_chkbox"></label>
 														</div>
 														<span class="squaredFourTxt">Quality Video</span>
 													</div>
 												</div>
 												<div class="custom_report_col">
-													<div class="each_option" relationIds='Quality Video' ng-repeat="video_quality_metrics in customeDimensionData[0].video_quality_metrics" id="{{video_quality_metrics.key}}" ng-click="select_option($event, 'video_quality_chkbox')" >
+													<div class="each_option" relationIds='Quality Video' ng-repeat="video_quality_metrics in videoQltyMetrics track by $index " id="{{video_quality_metrics.key}}" ng-class="{active:video_quality_metrics.selected}" ng-click="onQltyVdoMetrClick($index)" >
 														{{video_quality_metrics.value}}
 													</div>
 												</div>
@@ -279,7 +315,7 @@
 
 										</div>
 						       			<div class="clearfix">
-						       				<div class="pull-right common_primary_btn" ng-click="metricSelected($event)">Save</div>
+						       				<div class="pull-right common_primary_btn" ng-click="saveMetrics()">Save</div>
 						       				<div class="pull-right secondary_txt"  data-dismiss="modal" aria-hidden="true">Cancel</div>
 						       			</div>
 						       		</div>
