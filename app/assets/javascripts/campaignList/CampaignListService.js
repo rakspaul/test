@@ -4,10 +4,10 @@
     //originally in models/campaign.js
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-        'constants', 'momentService','domainReports',
+        'constants', 'momentService','domainReports', 'loginModel',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, momentInNetworkTZ, domainReports) {
+                  constants, momentInNetworkTZ, domainReports, loginModel) {
 
             var listCampaign = "";
 
@@ -575,7 +575,9 @@
 
                 //should be moved to costservice inside cost module later
                 getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success, failure) {
-                    var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+                    var clientId = loginModel.getSelectedClient().id;
+                    var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=14&campaign_ids=' + campaignIds +
+                        '&start_date=\'' + filterStartDate + '\'&end_date=\'' + filterEndDate + '\'&client_id=' + clientId;
                     var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure);
                 },

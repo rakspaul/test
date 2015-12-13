@@ -75,7 +75,9 @@
             },
 
             getCostBreakdown: function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaign.orderId + '&start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=14&campaign_ids=' + campaign.orderId +
+                  '&start_date=\'' + campaign.startDate + '\'&end_date=\'' + campaign.endDate + '\'&client_id=' + clientId;
                 return this.fetch(url);
             },
 
