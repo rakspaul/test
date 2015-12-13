@@ -123,7 +123,7 @@
 
             var getTacticList = function(strategy, timePeriod, campaign,callBackFunction) {
                 var loadingFlag = 1, tacticDataService;
-                if (strategy.id === -1) {
+                if (strategy.id === 0) {
                     tacticDataService = dataService.getUnassignedTacticList(campaign.id)
                 } else {
                     tacticDataService = dataService.getStrategyTacticList(strategy.id)
