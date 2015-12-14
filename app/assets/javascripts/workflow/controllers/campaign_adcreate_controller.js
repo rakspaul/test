@@ -404,6 +404,13 @@ var angObj = angObj || {};
                     $scope.$broadcast("updateGeoTagName");
                 }, 2000)
             }
+
+            if(responseData.targets && responseData.targets.adDaypartTargets && _.size(responseData.targets.adDaypartTargets)>0){
+                $timeout(function () {
+                    $scope.$broadcast("UpdateDayPart");
+                }, 2000)
+
+            }
         }
 
         function disablePauseEnableResume(getAd_resultData){
