@@ -339,6 +339,9 @@
   color: #787878;
   font-size: 23px;
   cursor: pointer;
+  margin-bottom: 20px;
+  height: 23px;
+  width: 23px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:active,
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:focus,

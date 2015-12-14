@@ -68,6 +68,25 @@
                             <!--<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>-->
                             <a class="icon-task"></a>
                         </div>
+			<div class="col-md-12 zeroPadding">
+			    <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
+				<div class="dropdown">
+				     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span class="icon-more-options"></span>
+				     </button>
+				     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+					<li><a ng-click="editCampaign(workflowData.campaignData)">Edit</a></li>
+					<li class="disabled" ng-click="cancelAdPause()"><a>{{textConstants.WF_PAUSE}}</a></li>
+					<li class="disabled" ng-click="cancelAdResume()"><a>{{textConstants.WF_RESUME}}</a></li>
+					<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">{{textConstants.WF_ARCHIVE}}</a></li>
+				     </ul>
+				</div>
+			   </div>
+			    
+			    <div class="pull-right">
+				<button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
+			    </div>
+			</div>
                     </div>
                 </div>
 
@@ -108,9 +127,6 @@
                             <span class="greyTxt" style="text-align: center;">Creatives</span>
                             <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
                         </div>
-                    </div>
-                    <div class="pull-right">
-                        <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
                     </div>
                 </div>
             </div>
