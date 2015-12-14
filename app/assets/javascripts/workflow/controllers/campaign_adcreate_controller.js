@@ -87,7 +87,7 @@ var angObj = angObj || {};
         $scope.downloadingTracker=false;
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.editCampaign=function(workflowcampaignData){
-            window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
+            window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
 
         }
 
@@ -112,7 +112,7 @@ var angObj = angObj || {};
             workflowService.deleteAd($scope.campaignId,$scope.adId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive=false;
-                    var url = '/campaign/' + $scope.campaignId + '/overview';
+                    var url = '/mediaplan/' + $scope.campaignId + '/overview';
                     $location.url(url);
                     localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
                 }else{
@@ -138,7 +138,7 @@ var angObj = angObj || {};
             workflowService.pauseAd(pauseAdDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive=false;
-                    var url = '/campaign/' + $scope.campaignId + '/overview';
+                    var url = '/mediaplan/' + $scope.campaignId + '/overview';
                     $location.url(url);
                     localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
                 }else{
@@ -162,7 +162,7 @@ var angObj = angObj || {};
             workflowService.resumeAd(resumeAdDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive=false;
-                    var url = '/campaign/' + $scope.campaignId + '/overview';
+                    var url = '/mediaplan/' + $scope.campaignId + '/overview';
                     $location.url(url);
                     localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
                 }else{
@@ -555,7 +555,7 @@ var angObj = angObj || {};
                             localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
                             $scope.msgtimeoutReset() ;
                             //if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
-                                var url = '/campaign/' + result.data.data.campaignId + '/overview';
+                                var url = '/mediaplan/' + result.data.data.campaignId + '/overview';
                                 $location.url(url);
                                 localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS );
                             //}

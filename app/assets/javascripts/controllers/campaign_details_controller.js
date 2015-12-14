@@ -133,7 +133,7 @@
                     };
                     campaignSelectModel.setSelectedCampaign(campListCampaign);
                     campaignListService.setListCampaign('');
-                    $location.path("/campaigns/" + listCampaign.id);
+                    $location.path("/mediaplans/" + listCampaign.id);
                 }
                 }
             }
@@ -141,7 +141,7 @@
         $scope.init();
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event){
-            $location.path("/campaigns/" + campaignSelectModel.getSelectedCampaign().id);
+            $location.path("/mediaplans/" + campaignSelectModel.getSelectedCampaign().id);
         });
 
         //API call for campaign details

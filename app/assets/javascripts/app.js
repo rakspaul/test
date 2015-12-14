@@ -43,29 +43,17 @@ var angObj = '';
                 title : 'Dashboard',
                 bodyclass : 'dashboard_body',
                 resolve:{
-                    // "check":function($location, loginModel){
-                    //     var isWorkflowUser, isNetworkUser, locationPath;
-                    //     isWorkflowUser = loginModel.getIsWorkflowUser();
-                    //    // isNetworkUser = loginModel.getIsNetworkUser();
-                    //     locationPath = $location.path();
-                    //     if ((isNetworkUser || isWorkflowUser) && locationPath === '/dashboard') {
-                    //         $location.url('campaigns');
-                    //     }
-                    //     if(!isWorkflowUser){
-                    //         $location.path('/');
-                    //     }
-                    // }
                 }
             })
-            .when('/campaigns', {
+            .when('/mediaplans', {
                 templateUrl: function () {
                     var isWorkFlowUser = localStorage.userRoleObj && JSON.parse(localStorage.userRoleObj).workFlowUser;
                     var htmlTpl = assets.html_campaign_list;
                     return htmlTpl;
                 },
-                title : 'Campaign List'
+                title : 'Media Plans List'
             })
-            .when('/campaigns/:campaignId', {
+            .when('/mediaplans/:campaignId', {
                 templateUrl: assets.html_campaign_details,
                 title: 'Reports Overview',
                 controller: 'CampaignDetailsController'
@@ -146,9 +134,9 @@ var angObj = '';
                 controller: 'PerformanceController'
             })
 
-            .when('/campaign/create', {
+            .when('/mediaplan/create', {
                 templateUrl: assets.html_campaign_create,
-                title: 'Create - Campaign',
+                title: 'Create - Media Plan',
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve: {
@@ -171,9 +159,9 @@ var angObj = '';
                 title: 'Users',
                 controller: 'UsersController'
             })
-            .when('/campaign/:campaignId/edit', {
+            .when('/mediaplan/:campaignId/edit', {
                 templateUrl: assets.html_campaign_create,
-                title :  'Create - Campaign',
+                title :  'Edit - Media Plan',
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve:{
@@ -186,9 +174,9 @@ var angObj = '';
                     }
                 }
             })
-            .when('/campaign/:campaignId/overview', {
+            .when('/mediaplan/:campaignId/overview', {
                 templateUrl: assets.html_campaign_create_ad,
-                title: 'Campaign - Overview',
+                title: 'Media Plan - Overview',
                 controller: 'CampaignOverViewController',
                 //     css: assets.css_visto_application,
                 resolve: {
@@ -200,9 +188,9 @@ var angObj = '';
                     }
                 }
             })
-            .when('/campaign/:campaignId/ads/create', {
+            .when('/mediaplan/:campaignId/ads/create', {
                 templateUrl: assets.html_campaign_create_adBuild,
-                title: 'Campaign - Ad Create',
+                title: 'Media Plan - Ad Create',
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
@@ -215,9 +203,9 @@ var angObj = '';
                     }
                 }
             })
-            .when('/campaign/:campaignId/adGroup/:adGroupId/ads/create', {
+            .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/create', {
                 templateUrl: assets.html_campaign_create_adBuild,
-                title: 'Campaign - Ad Create',
+                title: 'Media Plan - Ad Create',
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
@@ -230,9 +218,9 @@ var angObj = '';
                     }
                 }
             })
-            .when('/campaign/:campaignId/ads/:adId/edit', {
+            .when('/mediaplan/:campaignId/ads/:adId/edit', {
                 templateUrl: assets.html_campaign_create_adBuild,
-                title :  'Campaign - Ad Edit',
+                title :  'Media Plan - Ad Edit',
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
@@ -247,9 +235,9 @@ var angObj = '';
             })
 
 
-            .when('/campaign/:campaignId/adGroup/:adGroupId/ads/:adId/edit', {
+            .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/:adId/edit', {
                 templateUrl: assets.html_campaign_create_adBuild,
-                title :  'Campaign - Ad Edit',
+                title :  'Media Plan - Ad Edit',
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{

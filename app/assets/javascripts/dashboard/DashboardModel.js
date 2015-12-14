@@ -30,9 +30,9 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
            dashboardData.totalBrands = response.data.data.brands.total;
 
            if(brandsModel.getSelectedBrand().id == -1 ){
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns across '+ dashboardData.totalBrands + ' brands';
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' media plans across '+ dashboardData.totalBrands + ' brands';
            } else //"Displaying data for 15 campaigns"
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns' ;
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' media plans' ;
 
        })
     };
