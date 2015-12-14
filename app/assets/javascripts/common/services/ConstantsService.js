@@ -374,6 +374,10 @@
     this.WF_AD_GOAL = "Ad Goal";
     this.WF_PERFORMANCE = "Performance";
     this.WF_BRAND = "Brand";
+    this.WF_HEADER_AD_OBJECTIVE = "What is your Ad objective?";
+    this.WF_PRIMARY_KPI = "Primary KPI";
+    this.SELECT_LABEL = "Select One";
+
     this.WF_HEADER_SCREENS = "What device screens are you targeting?";
     this.WF_SCREEN_TYPE = "Screen Type";
     this.WF_DESKTOP = "Desktop";
@@ -448,6 +452,7 @@
     this.WF_COPY_TO="Copy to"
     this.WF_ARCHIVE="Archive"
     this.WF_NOT_SET = "Not Set"
+    this.WF_AD_SAVE_CLOSE = "Save & Close";
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";
