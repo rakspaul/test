@@ -54,7 +54,7 @@
                 if(campaigns != undefined ){
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
-                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 Media Plans)" :  "(All Media Plans)" ;
 
                     var allCampaignsHaveZeroBudget = true ;
                     for ( var i in campaigns){
@@ -81,7 +81,7 @@
                 if(campaigns != undefined ){
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
-                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 Media Plans)" :  "(All Media Plans)" ;
 
                 } else {
                     bubbleWidgetData['dataNotAvailable'] = true ;

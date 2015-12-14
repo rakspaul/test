@@ -302,7 +302,7 @@
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
                 if(scope.allCampaign == "true") {
-                    scope.selectedCampaign = { id: 0, name: 'All Campaigns', kpi: 'ctr', startDate: '-1', endDate: '-1'};
+                    scope.selectedCampaign = { id: 0, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'};
                 }
             }
         };
