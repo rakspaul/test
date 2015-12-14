@@ -92,6 +92,7 @@
             <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                 {{adsData.state}}
             <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
+            <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
             </span>
         <!--</div>-->
         </div>

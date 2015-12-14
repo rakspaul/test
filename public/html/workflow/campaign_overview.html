@@ -242,7 +242,7 @@
 
                                     <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">
                                         <span class="pull-left">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span> 
-                                        <span class="pull-right icon-impression" ng-if="adsData.isTracking"></span>
+                                        
                                     </span>
                                     <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
                                 </div>
@@ -283,6 +283,7 @@
                             <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                                 {{adsData.state}}
                                 <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
+				<span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                             </span>
                         </div>
                     </div>

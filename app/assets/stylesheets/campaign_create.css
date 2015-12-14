@@ -663,6 +663,9 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning:before {
   float: right;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-tracking {
+  color: #fff;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.incomplete {
   background: #939ead ;
 }
