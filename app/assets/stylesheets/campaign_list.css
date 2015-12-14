@@ -2659,7 +2659,6 @@ input[type="submit"] {
 }
 .main_navigation_holder .main_nav .main_logo {
   display: block;
-  background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat left top;
   margin: 8px 20px 0 0 ;
 }
 .main_navigation_holder .main_nav .profile_menu {
