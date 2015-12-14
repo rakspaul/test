@@ -252,19 +252,18 @@
                                 </div>
                                 <div class="cardMidLayer">
                                     <div class="col-md-4 zeroPadding text-center">
-                                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
-                                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined:0) : textConstants.WF_NOT_SET}}</span>
+                                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.WF_IMPS}}</span>
+                                         <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
                                     </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                      <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.IMPRESSIONS}}</span>
-                                      <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
-                                    </div>
+                                          <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
+                                          <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? (adsData.rateValue | currency:undefined) : textConstants.WF_NOT_SET}}</span>
+                                     </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                      <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
-                                      <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? adsData.rateValue : textConstants.WF_NOT_SET}}</span>
+                                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
+                                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined) : textConstants.WF_NOT_SET}}</span>
                                     </div>
                                 </div>
-
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
                                 </div>

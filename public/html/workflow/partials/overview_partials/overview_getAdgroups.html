@@ -53,7 +53,7 @@
                         <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
                     </h4>
                     <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
-                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'MMM DD, YYYY')}} - {{convertEST(adsData.endTime,'MMM DD, YYYY')}}</span>
+                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span>
                     <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
                 </div>
 
@@ -62,16 +62,16 @@
                 </div>
                 <div class="col-md-12 zeroPadding cardMidLayer">
                     <div class="col-md-4 zeroPadding text-center">
-                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
-                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined) : textConstants.WF_NOT_SET}}</span>
-                    </div>
-                    <div class="col-md-4 zeroPadding text-center">
-                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.IMPRESSIONS}}</span>
+                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.WF_IMPS}}</span>
                         <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
                     </div>
-                    <div class="col-md-4 zeroPadding text-center">
+                     <div class="col-md-4 zeroPadding text-center">
                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
                         <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? (adsData.rateValue | currency:undefined) : textConstants.WF_NOT_SET}}</span>
+                    </div>
+                    <div class="col-md-4 zeroPadding text-center">
+                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
+                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined) : textConstants.WF_NOT_SET}}</span>
                     </div>
                 </div>
 
