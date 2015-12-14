@@ -714,7 +714,7 @@
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
                                         .attr("xlink:href", function(d){
-                                            return '/campaigns/' + d.id;
+                                            return '/mediaplans/' + d.id;
                                         })
                                         .style("text-decoration", "none")
                                         .on("click", function(d){
@@ -729,10 +729,10 @@
                             //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
                             if (d3.event.ctrlKey || d3.event.metaKey) {
                                 //on supported key combination and click open in new tab
-                                $window.open('/campaigns/' + d.id);
+                                $window.open('/mediaplans/' + d.id);
                             } else {    
                                 //on normal click open link in current tab
-                                $location.url('/campaigns/' + d.id);  
+                                $location.url('/mediaplans/' + d.id);
                             }
 
                             $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag

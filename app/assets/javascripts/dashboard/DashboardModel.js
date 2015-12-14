@@ -30,9 +30,9 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
            dashboardData.totalBrands = response.data.data.brands.total;
 
            if(brandsModel.getSelectedBrand().id == -1 ){
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns across '+ dashboardData.totalBrands + ' brands';
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' Media Plans across '+ dashboardData.totalBrands + ' brands';
            } else //"Displaying data for 15 campaigns"
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns' ;
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' Media Plans' ;
 
        })
     };
@@ -40,7 +40,7 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
   function addCampaigns() {
     var selectedBrand = brandsModel.getSelectedBrand().name;
 
-    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ';
+    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ';
 
     if(selectedBrand === constants.ALL_BRANDS) {
       dashboardData.titleSecondPart += constants.ALL_BRANDS;

@@ -225,7 +225,7 @@ var angObj = angObj || {};
         }
 
         $scope.sucessHandler = function (result) {
-            var url = '/campaign/' + result.data.data.id + '/overview';
+            var url = '/mediaplan/' + result.data.data.id + '/overview';
             $location.url(url);
         }
 

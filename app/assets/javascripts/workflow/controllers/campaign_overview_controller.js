@@ -22,7 +22,7 @@ var angObj = angObj || {};
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
         $scope.editCampaign=function(workflowcampaignData){
-                    window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
+                    window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
 //                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
 //                    console.log(localStorage.getItem('campaignData'));
                 }
@@ -230,7 +230,7 @@ var angObj = angObj || {};
         })
 
         $scope.navigateToAdCreatePage = function () {
-            var redirectUrl ='/campaign/' + $scope.workflowData.campaignData.id + '/ads/create';
+            var redirectUrl ='/mediaplan/' + $scope.workflowData.campaignData.id + '/ads/create';
             $location.url(redirectUrl);
         }
 
@@ -427,9 +427,9 @@ var angObj = angObj || {};
                 localStorage.setItem("stTime", stTime);//convert this to EST in ads page
                 localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
             }
-            var path = path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
+            var path = path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
             if(groupId && adsId) {
-              var path = "/campaign/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
+              var path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
             }
             $location.path( path );
         }
@@ -461,7 +461,7 @@ var angObj = angObj || {};
                 localStorage.setItem("stTime", stTime);//convert this to EST in ads page
                 localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
             }
-            var navigateUrl = "/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
+            var navigateUrl = "/mediaplan/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
             $location.url(navigateUrl)
         }
 

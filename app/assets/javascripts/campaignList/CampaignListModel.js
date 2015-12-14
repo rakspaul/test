@@ -467,7 +467,7 @@
                          */
                         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
                         if (status == false) {
-                            $location.path("/campaigns/" + campaign.orderId);
+                            $location.path("/mediaplans/" + campaign.orderId);
                         }
                     },
 
@@ -597,7 +597,7 @@
                     },
                     buildSortFieldList = function() {
                         return [{
-                            display: 'Campaign',
+                            display: 'Media Plan',
                             key: 'order_name'
                         }, {
                             display: 'Advertiser',

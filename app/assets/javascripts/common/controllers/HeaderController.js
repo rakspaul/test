@@ -69,7 +69,7 @@
             $(".header_tab_dropdown").removeClass('active_tab');
             if(page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
-                url = '/campaigns/'+ $scope.selectedCampaign ;
+                url = '/mediaplans/'+ $scope.selectedCampaign ;
                 $("#reports_overview_tab").addClass("active_tab") ;
             }
             if(event) {

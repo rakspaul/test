@@ -5,8 +5,8 @@
         </div>
         <div class="each_campaign_section">
             <div class="main_heading">
-                <a ng-if="!$parent.isWorkFlowUser" ng-href="/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
-                <a ng-if="$parent.isWorkFlowUser" ng-href="/campaign/{{campaign.orderId}}/overview">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
+                <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
+                <a ng-if="$parent.isWorkFlowUser" ng-href="/mediaplan/{{campaign.orderId}}/overview">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
                     <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
                 </div>
             </a> -->
-           <a href="/campaign/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
+           <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
                 <div class="campaign_btn actions_btn" ng-show="$parent.isWorkFlowUser">
                     <span>{{ textConstants.MANAGE }}</span>
                 </div>

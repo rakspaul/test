@@ -94,10 +94,10 @@
                         <!--<a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a>-->
                     <a href="#" class="btn btn-primary pull-right" role="button" ng-click="saveCampaign()">Save</a>
 						<div ng-hide="(mode!='edit')">
-                          <a ng-href="/campaign/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">Cancel</a>
+                          <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">Cancel</a>
                         </div>
                         <div ng-show="(mode!='edit')">
-                          <a href="/campaigns" class="btn btn-link pull-right" role="button">Cancel</a>
+                          <a href="/mediaplans" class="btn btn-link pull-right" role="button">Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -105,21 +105,21 @@
                 <div class="isCollapsed">
                         <!--==== Row 1 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">What is the name of your Campaign?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.WF_NAME_CAMPAIGN_TXT}}</label>
                             <div ng-if=(mode=='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" maxlength="250"   required/>
-                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
+                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
                             </div>
                             <div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
                                 <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="256" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
-                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">Please enter a name for the campaign.</label>
+                                <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
                             </div>
                         </div>
 
                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">Who is the Campaign for?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">{{textConstants.WF_CAMPAIGN_FOR}}</label>
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -226,7 +226,7 @@
 						
 						<div class="col-md-12 zeroPadding">
 							<div class="form-group col-sm-3" style="padding-left: 0;">
-                                <label for="campObj" class="col-sm-12 greyTxt miniLabels">Campaign Objectives</label>
+                                <label for="campObj" class="col-sm-12 greyTxt miniLabels">{{textConstants.WF_CAMPAIGN_OBJECTIVES}}</label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
 									<div class="dropdown">
 										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

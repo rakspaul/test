@@ -2,13 +2,13 @@
  <!-- header-->
     <div class="clearfix page_header_container campaign_list_header"> 
         <div class="pull-left campaign_name_holder">
-            <span class="campaign_name">Campaigns</span>
+            <span class="campaign_name">{{textConstants.CAMPAIGNS}}</span>
             <!-- <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span> -->
             <!--<span class="campaign_name_details">({{campaigns.totalCount}})</span>-->
         </div>
 
          <div class="pull-right common_primary_btn" ng-show="isWorkFlowUser">
-            <a href="/campaign/create" >Create Campaign</a>
+            <a href="/mediaplan/create" >{{textConstants.CREATE_CAMPAIGN}}</a>
         </div>
      </div>
     <div class="dropdown_filters_holder">

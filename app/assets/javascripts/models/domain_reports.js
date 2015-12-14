@@ -296,7 +296,7 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/filters_header.html',
+            templateUrl: assets.html_filters_header,
             link: function(scope, element, attrs) {
                 scope.reportFilter = attrs.reports ;
                 scope.textConstants = constants;
