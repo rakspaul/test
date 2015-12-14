@@ -51,7 +51,7 @@ var angObj = '';
                     var htmlTpl = assets.html_campaign_list;
                     return htmlTpl;
                 },
-                title : 'Media Plans List'
+                title : 'Media Plan List'
             })
             .when('/mediaplans/:campaignId', {
                 templateUrl: assets.html_campaign_details,

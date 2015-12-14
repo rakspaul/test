@@ -250,7 +250,7 @@
 
     this.DASHBOARD = "Dashboard";
     this.CAMPAIGNS = this.MEDIA_PLAN = "Media Plans";
-    this.CREATE_CAMPAIGNS =  "Create Media Plan";
+    this.CREATE_CAMPAIGN =  "Create Media Plan";
     this.REPORTS = "Reports";
     this.HELLO = "Hello";
     this.ABOUT = "About";
@@ -455,9 +455,9 @@
     this.WF_NOT_SET = "Not Set"
     this.WF_AD_SAVE_CLOSE = "Save & Close";
     this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
-    this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the media plan.";
+    this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
     this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
-    this.WF_CAMPAIGN_OBJECTIVES = "Campaign Objectives";
+    this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";
