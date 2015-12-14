@@ -129,7 +129,7 @@
                                             <span class="icon-arrow-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="accountDDL"  id="accountDDL" ng-if="mode !== 'edit'">
-                                            <li ng-repeat="client in workflowData.clients track by client.id"><a ng-click="selectHandler('client', client, $event)">{{client.name}}</a></li>
+                                            <li ng-repeat="client in workflowData.clients track by client.id" class="available"><a ng-click="selectHandler('client', client, $event)">{{client.name}}</a></li>
                                         </ul>
                                         <input type="hidden" name="clientId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
                                     </div>
@@ -147,7 +147,7 @@
                                             <span class="icon-arrow-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
-                                            <li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
+                                            <li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
                                         </ul>
                                         <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
                                     </div>
@@ -163,7 +163,7 @@
                                             <span class="icon-arrow-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
-                                            <li ng-repeat="brand in workflowData.brands track by brand.id"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
+                                            <li ng-repeat="brand in workflowData.brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
                                         </ul>
                                         <input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
                                     </div>
@@ -202,7 +202,7 @@
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="kpiType" id="kpiType">
-                                                <li ng-repeat="kpi in workflowData.Kpi">
+                                                <li ng-repeat="kpi in workflowData.Kpi" class="available">
                                                     <a ng-click="kpiSelected(kpi)">{{kpi.name}}</a>
                                                 </li>
                                             </ul>
@@ -268,18 +268,18 @@
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI">
                                             <li class="headerDDL"><span class="greyTxt">DELIVERY</span></li>
-                                                    <li><a>Impressions</a></li>
-                                                    <li><a>Impressions within demographic</a></li>
-                                                    <li><a>Viewable Impressions</a></li>
-                                                    <li><a>Clicks</a></li>
-                                                    <li><a>Actions</a></li>
+                                                    <li class="available"><a>Impressions</a></li>
+                                                    <li class="available"><a>Impressions within demographic</a></li>
+                                                    <li class="available"><a>Viewable Impressions</a></li>
+                                                    <li class="available"><a>Clicks</a></li>
+                                                    <li class="available"><a>Actions</a></li>
                                             <li class="headerDDL"><span class="greyTxt">PERFORMANCE</span></li>
-                                                    <li><a>Clickthrough Rate</a></li>
-                                                    <li><a>View to Completion</a></li>
-                                                    <li><a>Cost Per Click</a></li>
-                                                    <li><a>Cost Per Action</a></li>
-                                                    <li><a>Viewabilty Rate</a></li>
-                                                    <li><a>In-Demo Rate</a></li>
+                                                    <li class="available"><a>Clickthrough Rate</a></li>
+                                                    <li class="available"><a>View to Completion</a></li>
+                                                    <li class="available"><a>Cost Per Click</a></li>
+                                                    <li class="available"><a>Cost Per Action</a></li>
+                                                    <li class="available"><a>Viewabilty Rate</a></li>
+                                                    <li class="available"><a>In-Demo Rate</a></li>
                                         </ul>
                                     </div>
                                 </div>
