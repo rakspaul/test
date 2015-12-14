@@ -18,12 +18,12 @@
                             <span>(Format)</span>
                         </div>
                     </div>
-                    <div class="statusLabel" ng-if="adData.goal">
+                    <div class="statusLabel" ng-if="adData.primaryKpi">
                         <div class="col-md-12">
                             <!--<img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg" alt="" width="12" class="statusIcon"/>-->
-                            <div class="statusIcon icon-{{getGoalIconName(adData.goal)}}"></div>
-                            <span>{{adData.goal}}</span>
-                            <span>(Goal)</span>
+                            <!--<div class="statusIcon icon-{{getGoalIconName(adData.goal)}}"></div>-->
+                            <span>{{adData.primaryKpi}}</span>
+                            <span>(Primary KPI)</span>
                         </div>
                     </div>
                     <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">

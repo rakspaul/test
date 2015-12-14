@@ -85,8 +85,6 @@ var angObj = angObj || {};
         $scope.adData.budgetTypeLabel = 'Impressions';
         $scope.adData.budgetType = 'Impressions';
         $scope.downloadingTracker=false;
-        //localStorage.setItem("trackingIntegration",false);
-        //workflowService.setTrackingPlatform(false);
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
@@ -303,10 +301,14 @@ var angObj = angObj || {};
                 $scope.adData.adFormat = format;
             }
 
+            //if(responseData.goal){
+            //    var goal = $filter('toTitleCase')(responseData.goal);
+            //    $scope.goalSelection(goal);
+            //    $scope.adData.goal = goal;
+            //}
+
             if(responseData.goal){
-                var goal = $filter('toTitleCase')(responseData.goal);
-                $scope.goalSelection(goal);
-                $scope.adData.goal = goal;
+                $scope.adData.primaryKpi = responseData.goal;
             }
 
             if(responseData.screens){
@@ -442,8 +444,6 @@ var angObj = angObj || {};
                         } else {
                             $scope.initiateDatePicker();
                         }
-
-
                     }
                     else {
                         campaignOverView.errorHandler(result);
@@ -454,6 +454,10 @@ var angObj = angObj || {};
             fetchGoals: function () {
                 $scope.workflowData['goals'] = [{id: 1, name: 'Performance', active: true}, {id: 2, name: 'Brand', active: false}]
                 $scope.adData.goal = 'Performance'; //default value
+            },
+
+            fetchPrimaryKpis : function() {
+                $scope.workflowData['primaryKpi'] = [{kpi_category : 'DELIVERY', kpi_values : [{id : 1, name : 'Impressions'}, {id :2 , name : 'Clicks'} , {id :3, name : 'Actions'} ]}, {kpi_category : 'PERFORMANCE', kpi_values : [{id :1, name: 'Clickthrough Rate'}, {id:2 , name: 'View to Completion'}, {id:3, name :'Cost Per Click'}, {id :4, name : 'Viewabilty Rate'}]}];
             },
 
             fetchAdFormats: function () {
@@ -502,10 +506,9 @@ var angObj = angObj || {};
                                 campaignOverView.trackingPlatformCarouselData(responseData);
                                 //$scope.workflowData['tracking_integrations']=responseData.trackingPlatforms;
                               }
-                        }else{
+                        } else{
                                 $scope.workflowData['platforms']=responseData.fullIntegrationsPlatforms;
                                 campaignOverView.trackingPlatformCarouselData(responseData);
-
                         }
 
                     }
@@ -603,6 +606,7 @@ var angObj = angObj || {};
         campaignOverView.getCampaignData($routeParams.campaignId);
         campaignOverView.fetchAdFormats();
         campaignOverView.fetchGoals();
+        campaignOverView.fetchPrimaryKpis();
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
 //        campaignOverView.fetchSelfServicePlatforms();
