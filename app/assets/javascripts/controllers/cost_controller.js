@@ -232,7 +232,7 @@ var angObj = angObj || {};
             $scope.strategyMarginValue = -1 ; // resetting strategy margin before each strategy call
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 
-            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+            if($scope.selectedStrategy.id == -99) {
                 $scope.strategyFound = false ;
             } else {
                 $scope.strategyFound = true;
