@@ -49,6 +49,34 @@ var angObj = angObj || {};
            $scope.alertMessage = "" ;
         }
 
+        //Archive save func more
+        $scope.archiveCampaign=function(event){
+            event.preventDefault();
+            var campaignArchiveErrorHandler=function(){
+                $scope.campaignArchive=false;
+                $scope.flashMessage.message = $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE ;
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.flashMessage.isMsg = 0;
+            }
+            workflowService.deleteCampaign($scope.campaignId).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.campaignArchive=false;
+                    var url = '/campaigns';
+                        if($scope.editCampaignData.adsCount >0 ) {
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
+                        } else {
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
+                        }
+                        $location.url(url);
+                }else{
+                    campaignArchiveErrorHandler();
+                }
+            },campaignArchiveErrorHandler);
+        }
+        $scope.cancelArchiveCampaign=function(){
+            $scope.campaignArchive=!$scope.campaignArchive;
+        }
+        
         var campaignOverView = {
 
             modifyCampaignData: function () {
