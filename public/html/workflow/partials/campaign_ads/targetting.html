@@ -36,29 +36,29 @@
         <span ng-if="selectedTargeting['audience']" class="icon-inline-edit"></span>
         <div class="icon-audience"></div>
         <p>Audience Segments</p>
-        <div ng-if="!selectedTargeting['audience']">
+        <div ng-if="!selectedTargeting['audience'] && selectedAudience.length == 0">
             <span>Reach the right audience by selecting focus segments</span>
             <p style="margin: 0px;"><span>All Audience (default)</span></p>
         </div>
-        <div class="targetDataSaved" ng-if="selectedTargeting['audience']">
+        <div class="targetDataSaved" ng-if="selectedTargeting['audience'] || selectedAudience.length > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Selected</span>
-                <div class="badge">6</div>
+                <div class="badge">{{getSelectedAudience()}}</div>
             </div>
-            <span class="targetListItem">Sample 1</span>
-            <span class="targetListItem">Sample 2</span>
-            <span class="targetListItem">Sample 3</span>
-            <span class="targetListItemMore">+3 more</span>
+            <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name}}</span>
+            <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name}}</span>
+            <span class="targetListItem" ng-if="selectedAudience.length >= 3">{{selectedAudience[2].name}}</span>
+            <span class="targetListItemMore" ng-if="selectedAudience.length > 3">+{{selectedAudience.length - 3}} more</span>
         </div>
         <span ng-if="selectedTargeting['audience']" class="onSelectBtn btn btn-default active" ng-click="selectAudTarget()"></span>
-        <input ng-if="!selectedTargeting['audience']" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
+        <input ng-if="!selectedTargeting['audience'] && selectedAudience.length == 0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
     <!--Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span ng-if="selectedTargeting['audience']" class="icon-inline-edit"></span>
         <div class="icon-location"></div>
-        <p>Geography <span>(US Only)</span></p>
+        <p>Geography <span>(US Only){{geoTargetingData.selected.previewData.include.regions.length}}</span></p>
         <div ng-if="!selectedTargeting['geography']">
             <span>Target your audience by location</span>
             <p style="margin: 0px;"><span>All US (default)</span></p>
@@ -75,7 +75,7 @@
                 {{geoTargetingData.selected.previewData.include.regions.length}} Regions,
                 {{geoTargetingData.selected.previewData.include.cities.length}} City,
                 {{geoTargetingData.selected.previewData.include.zipCodes[0].values.length}} Postal codes</span>
-            <div class="targetDataSavedTop" style="padding-top: 20px;">
+            <div class="targetDataSavedTop" style="padding-top: 20px;" ng-if="geoTargetingData.selected.previewData.exclude.cities.length > 0">
                 <div class="icon-exclude"></div>
                 <span>Excluded</span>
                 <div class="badge">{{geoTargetingData.selected.previewData.exclude.cities.length}}</div>
@@ -87,14 +87,14 @@
     </div>
     <!--Daypart Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['daily']]">
-        <span ng-if="selectedTargeting['audience']" class="icon-inline-edit"></span>
+        <span ng-if="selectedTargeting['daypart']" class="icon-inline-edit"></span>
         <div class="icon-activity"></div>
         <p>Daypart</p>
-        <div ng-if="!selectedTargeting['daily']">
+        <div ng-if="!selectedTargeting['daypart']">
             <span>Select when to show your Ad by restricting day and time</span>
             <p style="margin: 0px;"><span>All Days & Times (default)</span></p>
         </div>
-        <div class="targetDataSaved" ng-if="selectedTargeting['daily']">
+        <div class="targetDataSaved" ng-if="selectedTargeting['daypart']">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Included</span>
