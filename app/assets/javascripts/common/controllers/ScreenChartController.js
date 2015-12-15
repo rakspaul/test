@@ -56,8 +56,7 @@
 
         $scope.updateScreenChartData = function() {
             $(".DashBoradScreenWidget").show();
-          //  $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
-            $scope.screenData = screenChartModel.modifyScreenData(screenChartModel.getScreenWidgetData()['responseData']);
+            $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
         };
 
         $scope.cleanScreenWidget = function(){
@@ -67,19 +66,12 @@
 
         $scope.getScreenAndFormatData = function() {
             $scope.screenBusy = true ;
-            /*screenChartModel.getScreenChartData().then(function(result) {
-             $scope.screenBusy = false ;
-             $scope.dataFound = true;
-             $(".DashBoradScreenWidget").show();
-             $scope.updateScreenChartData();
-             });*/
-            screenChartModel.getScreenData().then(function(result) {
+            screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
                 $scope.dataFound = true;
                 $(".DashBoradScreenWidget").show();
                 $scope.updateScreenChartData();
             });
-
         };
 
         $scope.init = function(){

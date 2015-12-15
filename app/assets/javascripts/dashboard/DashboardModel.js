@@ -16,7 +16,7 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
 
    var getCampaingsCount =  function () {
        var clientId = loginModel.getSelectedClient().id;
-       var advertiserId = advertiserModel.getSelectedAdvertiser();
+       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
        var brandId = brandsModel.getSelectedBrand().id;
         var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardData.selectedStatus);
         var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);

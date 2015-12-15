@@ -114,7 +114,6 @@ var angObj = angObj || {};
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
         var performaceTabMap = [ {'byscreens' : 'Screen'}, {'byformats' : 'Format'}, {'byplatforms' : 'Platform'}, {'bydaysofweek' : 'DOW'}, {'bycreatives' : 'Creatives'}, {'byadsizes' : 'Adsizes'}];
-
         $scope.download_urls = {
             screens: null,
             daysOfWeek: null,
@@ -154,8 +153,22 @@ var angObj = angObj || {};
             }
 
             $scope.api_return_code=200;
+            var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creative' :10, 'dow' :11}
+            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creative' :20, 'dow' :21}
+            var queryObj = {
+                campaignId : $scope.selectedCampaign.id,
+                strategyId: Number($scope.selectedStrategy.id),
+                dateFilter: $scope.selected_filters.time_filter
+            }
 
-            performanceService.getStrategyPerfData(param).then(function (result) {
+            if(param.strategyId) {
+                queryObj['queryId'] =  performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
+            } else {
+                queryObj['queryId'] =  performanceQueryIdMapperWithAllAdsGroup[tab.toLowerCase()];
+            }
+
+            var url = urlService.APIVistoCustomQuery(queryObj);
+            dataService.APIVistoCustomQuery(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
@@ -249,7 +262,6 @@ var angObj = angObj || {};
             $scope.strategyPerfDataByScreen = [];
             $scope.strategyPerfDataByFormat = [];
             $scope.strategyPerfDataByDOW = [];
-            $scope.strategyPerfDataByCreatives = [];
             $scope.strategyPerfDataByCreative = [];
             $scope.strategyPerfDataByAdsizes = [];
 

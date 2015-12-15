@@ -321,9 +321,9 @@ var angObj = '';
 
         var loginCheckFunc = function () {
             if (RoleBasedService.getUserRole()) {
-                if (!RoleBasedService.getUserRole().i18n) { //if i18n is not there in json.forcing to logout.
-                    loginModel.unauthorized();
-                }
+                //if (!RoleBasedService.getUserRole().i18n) { //if i18n is not there in json.forcing to logout.
+                //    loginModel.unauthorized();
+                //}
                 var isWorkflowUser = loginModel.getIsWorkflowUser();
                 var isNetworkUser = loginModel.getIsNetworkUser();
                 var authorizationKey = RoleBasedService.getUserRole().authorizationKey;
@@ -341,10 +341,14 @@ var angObj = '';
 
             if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
                 workflowService.getClients().then(function (result) {
-                    loginModel.setSelectedClient({'id':result.data.data[0].id,'name':result.data.data[0].name});
-                    if (locationPath === '/login' || locationPath === '/') {
-                        handleLoginRedirection(isNetworkUser, isWorkflowUser);
+                    if(result && result.data.data.length >0) {
+                       // (result.data.data).splice(0,1);//remove first organization
+                        loginModel.setSelectedClient({'id':result.data.data[0].id,'name':result.data.data[0].name});
+                        if (locationPath === '/login' || locationPath === '/') {
+                            handleLoginRedirection(isNetworkUser, isWorkflowUser);
+                        }
                     }
+
                 });
             } else {
                 if(loginModel.getSelectedClient) {

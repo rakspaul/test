@@ -14,38 +14,26 @@
         }
 
         if($cookieStore.get('cdesk_session')) {
-            $scope.defaultAccountsName = loginModel.getSelectedClient()?loginModel.getSelectedClient().name:undefined;
+            //$scope.defaultAccountsName = loginModel.getSelectedClient()?loginModel.getSelectedClient().name:undefined;
             workflowService.getClients().then(function (result) {
-                $scope.accountsData = [];
-                _.each(result.data.data,function(eachObj) {
-                    $scope.accountsData.push({'id':eachObj.id,'name':eachObj.name})
-                })
-                $scope.defaultAccountsName = loginModel.getSelectedClient().name?loginModel.getSelectedClient().name:$scope.accountsData[0].name;
-                if(Number($scope.selectedCampaign) === -1) {
-                    campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                        $scope.selectedCampaign = response[0].campaign_id;
-                    });
+                if(result && result.data.data.length >0) {
+                    //(result.data.data).splice(0, 1);//remove first organization
+                    loginModel.setSelectedClient({'id': result.data.data[0].id, 'name': result.data.data[0].name});
+
+                    $scope.accountsData = [];
+                    _.each(result.data.data, function (eachObj) {
+                        $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name})
+                    })
+                    $scope.defaultAccountsName = loginModel.getSelectedClient().name ? loginModel.getSelectedClient().name : $scope.accountsData[0].name;
+                    if (Number($scope.selectedCampaign) === -1) {
+                        campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                            $scope.selectedCampaign = response[0].campaign_id;
+                        });
+                    }
                 }
             });
         }
 
-        /*if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
-            campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                $scope.selectedCampaign = response[0].campaign_id;
-            });
-        }*/
-
-      /*  if($cookieStore.get('cdesk_session')) {
-            loginModel.setClientId(2);
-            var defaultClientId;
-            workflowService.getClients().then(function (result) {
-                defaultClientId = result.data.data[0].id;
-                $scope.defaultAccountsName = result.data.data[0].name;
-                $scope.accountsData = result.data.data;
-                loginModel.setClientId(defaultClientId);
-            });
-        }
-*/
         $scope.set_account_name = function(event,id,name) {
             var elem = $(event.target);
             $(".accountsList").find(".selected-li").removeClass("selected-li") ;

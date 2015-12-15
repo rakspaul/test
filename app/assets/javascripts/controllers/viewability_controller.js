@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('ViewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('ViewabilityController', function ($scope, $window, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -86,7 +86,20 @@ var angObj = angObj || {};
                 $scope.strategyBusy = false;
             }
             $scope.api_return_code = 200;
-            viewablityService.getStrategyViewData(param).then(function (result) {
+            var queryObj = {
+                campaignId : param.campaign_id,
+                strategyId: Number(param.strategyId),
+                dateFilter: param.time_filter
+            }
+
+            if(param.strategyId) {
+                queryObj['queryId'] =  13;
+            } else {
+                queryObj['queryId'] =  12;
+            }
+
+            var url = urlService.APIVistoCustomQuery(queryObj);
+            dataService.APIVistoCustomQuery(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success" || result.status == 204) {
                     if(result.data != '' ){ // if data not empty
@@ -107,7 +120,6 @@ var angObj = angObj || {};
                     }else{ // if data is empty set as data not found
                         errorHandler();
                     }
-
                 } // Means no strategy data found
                 else {
 
