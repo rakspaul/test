@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         $scope.textConstants = constants;
 
@@ -111,7 +111,15 @@ var angObj = angObj || {};
                 $scope.tacticCostBusy = false;
             }
             $scope.api_return_code=200;
-            costService.getStrategyCostData(param).then(function (result) {
+
+            var queryObj = {
+                'queryId' : (_.has(param, 'strategyId') && param.strategyId >= 0) ? 15 : 14, /* 14 : cost_report_for_one_or_more_campaign_ids, 15 : cost_report_for_given_ad_group_id  */
+                'campaignId' : param.campaignId,
+                'strategyId' : param.strategyId
+            }
+
+            var url = urlService.APIVistoCustomQuery(queryObj);
+            dataService.fetch(url).then(function(result) {
                     $scope.strategyLoading =  false;
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data ;

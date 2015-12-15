@@ -165,17 +165,6 @@
 
                 var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
 
-                /*if( _selectedbrandFromModel.id !== -1 &&  _selectedbrandFromModel.name.toLowerCase() != $scope.campaign.brandName.toLowerCase()){
-                    var _brand ={
-                        className: "active",
-                        id: -1,
-                        name: "All Brands"
-                    };
-                    brandsModel.setSelectedBrand(_brand);
-
-                    $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED);
-                }*/
-
                 campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 updateActionItems($scope.getCdbChartData,1,true);
 
@@ -431,10 +420,14 @@
             }
         };
 
-        $scope.getCostBreakdownData  = function(campaign){
+        $scope.getCostBreakdownData  = function(campaign){ //get cost break down data
             var costData, other = 0, sum,cBreakdownChart = [];
-             //get cost break down data
-            dataService.getCostBreakdown($scope.campaign).then(function(result) {
+            var costQueryObj = {
+                'queryId' :  14, //cost_report_for_one_or_more_campaign_ids
+                'campaignId' : campaign.orderId
+            }
+            var url = urlService.APIVistoCustomQuery(costQueryObj);
+            dataService.fetch(url).then(function(result) {
                 $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                      if(result.data.data.length>0){

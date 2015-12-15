@@ -22,6 +22,7 @@
                 url += '/'+ param.tab+ '/perf'+ params;
                 return dataService.fetch(url);
             },
+
             getStrategyPlatformData: function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId+ (param.strategyId ? ('/strategies/'+ param.strategyId) : '') + '/'+ param.tab;
                 return dataService.fetch(url);

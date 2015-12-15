@@ -290,7 +290,7 @@
                     fetchDashboardData = function(forceLoadFilter) {
                         this.dashboard.busy = true;
                         var selectedClientId = loginModel.getSelectedClient().id;
-                        var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&client_id='+selectedClientId,
+                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + selectedClientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
                             self = this;
                         //applying brand filter if active
                         if (this.brandId > 0) {
@@ -564,30 +564,24 @@
                 }
 
                     _campaignServiceUrl = function(from) {
-                     //var isWorkFlow = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
-                     // console.log(RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser);
-                        //if(RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser){
-                          //  return apiPaths.WORKFLOW_APIUrl + '/campaigns';
-                        //}else{
-                            var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
-                            var params = [
-                                'date_filter=' + this.timePeriod,
-                                'page=' + nextPageNumber,
-                                'callback=JSON_CALLBACK'
-                            ];
-                            params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
-                            this.sortParam && params.push('sort_column=' + this.sortParam);
-                            this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                            this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
-                            this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
-                            if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
-                                params.push('conditions=' + constants.ACTIVE_CONDITION);
-                            } else {
-                                params.push('conditions=' + this.appliedQuickFilter);
-                            }
-                            return apiPaths.apiSerivicesUrl_NEW + '/campaigns/bystate?' + params.join('&');
-                         //}
-
+                        var clientId = loginModel.getSelectedClient().id;
+                        var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
+                        var params = [
+                            'date_filter=' + this.timePeriod,
+                            'page=' + nextPageNumber,
+                            'callback=JSON_CALLBACK'
+                        ];
+                        params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
+                        this.sortParam && params.push('sort_column=' + this.sortParam);
+                        this.sortDirection && params.push('sort_direction=' + this.sortDirection);
+                        this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
+                        this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
+                        if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
+                            params.push('conditions=' + constants.ACTIVE_CONDITION);
+                        } else {
+                            params.push('conditions=' + this.appliedQuickFilter);
+                        }
+                        return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/bystate?' + params.join('&');
                     },
                     toggleSortDirection = function(dir) {
                         if (dir == 'asc') {
