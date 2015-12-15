@@ -41,7 +41,6 @@
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
                             </h1>
-                            <span class="campaign-name-edit icon-settings" tooltip="Edit Campaign" ng-click="editCampaign(workflowData.campaignData)" style="margin-top: 6px;"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
                             <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}} by {{workflowData.campaignData.updatedByUser}}</span>
