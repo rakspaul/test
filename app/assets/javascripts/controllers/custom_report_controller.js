@@ -26,6 +26,8 @@ var angObj = angObj || {};
         $scope.reports.reportDefinition.filters = [];
         $scope.reports.reportDefinition.dimensions = [];
         $scope.scheduleReportActive= false;
+        $scope.notInRange = false;
+        $scope.notInRangeMonthly = false;
         $scope.flashMessage = {'message':'','isErrorMsg':0};
 
         $scope.reports.client_id = loginModel.getSelectedClient().id;
@@ -367,6 +369,22 @@ var angObj = angObj || {};
                 $scope.msgtimeoutReset();
                 return false;
               }
+               if($scope.notInRange == true){
+                   $scope.flashMessage.message = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
+                   $scope.flashMessage.isErrorMsg = 1 ;
+                   $scope.flashMessage.isMsg = 0;
+                   $scope.msgtimeoutReset();
+                   return false;
+
+               }
+               if($scope.notInRangeMonthly == true){
+                   $scope.flashMessage.message = 'You have chosen monthly Scheduling, please choose a date range that is at least one month';
+                   $scope.flashMessage.isErrorMsg = 1 ;
+                   $scope.flashMessage.isMsg = 0;
+                   $scope.msgtimeoutReset();
+                   return false;
+
+               }
               var customReportSectionElem = $(".each_section_custom_report.each_section_custom_report").find(".breakdown_div");
               _.each(customReportSectionElem, function (ele) {
                   var customeReportFilterElem = $(ele).find('.custom_report_breakdown .dropdown_ul_text .dd_txt');
@@ -705,17 +723,45 @@ var angObj = angObj || {};
 
         $(document).ready( function() {
             $('.input-daterange').datepicker({
+                //format: "dd-mm-yyyy",
                 format: "yyyy-mm-dd",
                 orientation: "top auto",
                 autoclose: true,
                 todayHighlight: true,
                 keyboardNavigation: false
             }).on('changeDate', function () {
+                var frequencyDropDown = $(".frequency").text().trim();
                 var startDateChecker = new Date($('#startOn').val());
                 var endDateChecker = new Date($('#endOn').val());
-                if (startDateChecker > endDateChecker){
+                var startDateCheckerRange = $('#startOn').val();
+                var endDateCheckerRange = $('#endOn').val();
+
+                function parseDate(str) {
+                    var mdy = str.split('-');
+                    return new Date(mdy[0] - 1, mdy[1], mdy[2]);
+                }
+
+                function daydiff(first, second) {
+                    return Math.round((second - first) / (1000 * 60 * 60 * 24));
+                }
+
+                var theDateDifference = daydiff(parseDate(startDateCheckerRange), parseDate(endDateCheckerRange));
+                //alert(theDateDifference);
+
+                if (frequencyDropDown == "Weekly" && theDateDifference < 7) {
+                    $scope.notInRange = true;
+
+                } else if (frequencyDropDown === "Monthly" && theDateDifference < 28) {
+                    $scope.notInRangeMonthly = true;
+
+                } else if (startDateChecker > endDateChecker) {
                     $('#endOn').val($('#startOn').val());
                 }
+                else{
+                    $scope.notInRange = false;
+                    $scope.notInRangeMonthly = false;
+                }
+
                 $(this).closest(".customDatesTimeframe").find("#date-selected-txt").text("Custom Dates");
             });
             $('#toggle').bootstrapToggle('off');
