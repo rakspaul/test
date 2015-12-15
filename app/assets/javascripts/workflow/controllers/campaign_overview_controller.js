@@ -22,10 +22,8 @@ var angObj = angObj || {};
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
         $scope.editCampaign=function(workflowcampaignData){
-                    window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
-//                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-//                    console.log(localStorage.getItem('campaignData'));
-                }
+            window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
+        }
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -556,9 +554,7 @@ var angObj = angObj || {};
                 });
 
 
+            }
         }
-        }
-
-
     });
 })();

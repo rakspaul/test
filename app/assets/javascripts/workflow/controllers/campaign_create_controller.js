@@ -34,8 +34,7 @@ var angObj = angObj || {};
         $scope.campaignArchive=false;
         $scope.deleteCampaignFailed=false;
         $scope.numberOnlyPattern = /[^0-9]/g;
-        $scope.archiveMessage="Do you want to Archive / Delete the Campaign?";
-        //$scope.UserObj=JSON.parse(localStorage.getItem("userRoleObj"));//$locale.NUMBER_FORMATS.CURRENCY_SYM;
+        $scope.archiveMessage= $scope.textConstants.CAMPAIGN_ARCHIVE_MESSAGES;
         $scope.hideKpiValue=false;
 
         $scope.msgtimeoutReset = function(){

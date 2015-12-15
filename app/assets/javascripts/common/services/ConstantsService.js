@@ -468,6 +468,7 @@
     this.reportDeleteSuccess = "Deleted Report Successfully";
     this.reportDeleteFailed = "Deleting Report Failed";
     this.deleteReportHeader = "Delete Report";
+    this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
 
     this.ACCOUNT_CHANGED = "accountChanged";
 

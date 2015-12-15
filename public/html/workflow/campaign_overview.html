@@ -29,15 +29,7 @@
                         </div>
 
                         <div class="campTitleWrap adStatus_{{workflowData.campaignData.status|lowercase}}" >
-                            <!-- Abi this will show either active or inactive state only
-                            thing you have to do is add either class for color
-                            "inActiveLabel" or "activeLabel" -->
-                            <!--<span class="label pull-left {{disablePushBtn ? 'inActiveLabel' : 'activeLabel'}}">-->
-
-                            <span class="label pull-left {{'activeLabel'}}">
-                                <!--{{workflowData.campaignData.status}}-->
-                            </span>
-
+                            <span class="label pull-left {{'activeLabel'}}"></span>
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
                             </h1>
@@ -77,14 +69,14 @@
 					<li><a ng-click="editCampaign(workflowData.campaignData)">Edit</a></li>
 					<li class="disabled" ng-click="cancelAdPause()"><a>{{textConstants.WF_PAUSE}}</a></li>
 					<li class="disabled" ng-click="cancelAdResume()"><a>{{textConstants.WF_RESUME}}</a></li>
-					<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">{{textConstants.WF_ARCHIVE}}</a></li>
-					<li><a class="available" id="archiveAdbtn" ng-click="cancelArchiveCampaign()">Archive</a></li>
+					<!--<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">{{textConstants.WF_ARCHIVE}}</a></li>-->
+					<li><a class="available" id="archiveAdbtn" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
 				     </ul>
 				</div>
 			   </div>
 			    
 			    <div class="pull-right">
-				<button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
+				    <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
 			    </div>
 			</div>
                     </div>
@@ -787,6 +779,26 @@
 
 </div>
 </div>
+
+<div class="common-popup-container" ng-show="campaignArchive">
+    <div class="popup">
+        <div class="popup-header-body">
+            <div class="clearfix">
+                <h1 class="pull-left">Media Plan Update</h1>
+                <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
+            </div>
+            <div class="popup-content">
+                {{archiveMessage}}
+            </div>
+        </div>
+        <div class="clearfix popup-footer" >
+            <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Okay</button>
+            <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+        </div>
+
+    </div>
+</div>
+
 <script>
     $(function() {
         $('.input-daterange').datepicker({
