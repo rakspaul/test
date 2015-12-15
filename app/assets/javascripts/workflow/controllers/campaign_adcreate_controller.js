@@ -241,10 +241,14 @@ var angObj = angObj || {};
         }
 
         $scope.getPlatformIconName = function (platform) {
-            var platformMapper = {'collective bidder': 'logo_C_bidder', 'appnexus': 'logo_C_appnexus', 'facebook' : 'plat-facebook', 'dbm' : 'plat-dbclick', 'dfp' :'plat-dbclick',
-                'place media':'logo_default', 'telemetry':'logo_default', 'xad':'logo_default', 'twitter':'logo_default', 'ad theorent':'logo_default',
-                'dstillery':'logo_default', 'adap.tv':'logo_default', 'youtube':'logo_default', 'brightroll':'logo_default', 'doubleClick':'logo_default',
-                'yahoo':'logo_default', 'fb exchange':'logo_default','dfp-tracking':'logo_default','doubleclick':'logo_default','facebook-tracking':'logo_default','appnexus-tracking':'logo_C_appnexus','dorado-tracking':'logo_C_bidder'};
+		console.log(platform);
+            var platformMapper = {'collective bidder': 'logo_C_bidder', "collective bidder - test": 'logo_C_bidder', 
+		'appnexus': 'logo_C_appnexus', 'appnexus - test': 'logo_C_appnexus', 'facebook' : 'facebook-FBexchange', 
+		'dbm' : 'doubleclick-DFP', 'dfp' :'doubleclick-DFP', 'place media':'placemedia', 'telemetry':'telemetry', 'xad':'xad', 
+		'twitter':'twitter', 'ad theorent':'ad_theorent', 'dstillery':'dstillery', 'adap.tv':'adaptv', 'youtube':'youtube', 
+		'brightroll':'brightroll', 'doubleClick':'doubleclick-DFP', 'yahoo':'yahoo', 'fb exchange':'facebook-FBexchange',
+		'dfp-tracking':'doubleclick-DFP','doubleclick':'doubleclick-DFP','facebook-tracking':'facebook-FBexchange',
+		'appnexus-tracking':'logo_C_appnexus','dorado-tracking':'logo_C_bidder', 'dbm-tracking':'doubleclick-DFP'};
             if(platform)
                 return platformMapper[platform.toLowerCase()];
         }
