@@ -339,6 +339,9 @@
   color: #787878;
   font-size: 23px;
   cursor: pointer;
+  margin-bottom: 20px;
+  height: 23px;
+  width: 23px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:active,
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:focus,
@@ -662,6 +665,9 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning:before {
   float: right;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-tracking {
+  color: #fff;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.incomplete {
   background: #939ead ;
@@ -1700,7 +1706,7 @@
   left: 100%;
   width: 930px;
   height: 100%;
-  min-height: 600px;
+  min-height: 970px;
   top: 123px;
   display: none;
   position: absolute;

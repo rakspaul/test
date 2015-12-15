@@ -289,6 +289,35 @@
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
+.workflow .dropdown-workflow .dropdown-menu li ul,
+.workflow .dropdown-workflow .dropdown-menu-search li ul {
+  float: left;
+  width: 100%;
+  list-style: none;
+  padding: 0 0 5px 0;
+}
+.workflow .dropdown-workflow .dropdown-menu li ul li,
+.workflow .dropdown-workflow .dropdown-menu-search li ul li {
+  float: left;
+  width: 100%;
+}
+.workflow .dropdown-workflow .dropdown-menu li ul li a,
+.workflow .dropdown-workflow .dropdown-menu-search li ul li a {
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  padding: 3px 15px;
+  float: left;
+}
+.workflow .dropdown-workflow .dropdown-menu li ul li a:hover,
+.workflow .dropdown-workflow .dropdown-menu-search li ul li a:hover {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
 .workflow .dropdown-workflow .dropdown-menu li ul li span input,
 .workflow .dropdown-workflow .dropdown-menu-search li ul li span input {
   margin-right: 8px;
