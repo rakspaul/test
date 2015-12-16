@@ -102,6 +102,7 @@
             getCustomReportData: function(campaign, queryString) {
                 var clientId = loginModel.getSelectedClient().id;
                 var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
+                console.log('getCustomReportData: ',url);
                 return this.fetch(url);
             },
 
