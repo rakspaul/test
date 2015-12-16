@@ -14,8 +14,10 @@
 			<span class="ifNotSelected">1</span><span class="icon-check"></span> <p>Select Segments</p></a>
 		</li>
         <div class="splitterDash"></div>
-        <li class="audience-tabs-audience"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
-    </ul>
+        <li class="audience-tabs-audience" ng-if="selectedAudience.length > 0"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
+		<li class="audience-tabs-audience" ng-if="selectedAudience.length == 0"><a data-toggle="tab" href class="disabled" ><span>2</span> Build Audience</a></li>
+
+	</ul>
 
     <div class="tab-content">
 		<!--TAB 1-->
@@ -346,3 +348,6 @@
         </div>
     </div>
 </div>
+<style>
+	.disabled {color:#ccc}
+</style>
