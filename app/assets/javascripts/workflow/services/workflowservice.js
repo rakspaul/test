@@ -29,10 +29,10 @@
             },
             saveCampaign: function (data) {
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/campaigns', data, {'Content-Type': 'application/json'})
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns', data, {'Content-Type': 'application/json'})
             },
             updateCampaign : function(data,id) {
-                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+id, data, {'Content-Type': 'application/json'})
+                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+id, data, {'Content-Type': 'application/json'})
             },
             getCampaignData : function(campaignId) {
                 var clientId =  loginModel.getSelectedClient().id;
@@ -57,7 +57,7 @@
 
             createAdGroups:function(campaignId,data){
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/campaigns/'+campaignId+'/ad_groups', data, {'Content-Type': 'application/json'})
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+campaignId+'/ad_groups', data, {'Content-Type': 'application/json'})
             },
 
             getAdsInAdGroup :function(campaignId,adGroupID){
@@ -72,28 +72,28 @@
 
             createAd : function(data) {
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads', data, {'Content-Type': 'application/json'})
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId+'/ads', data, {'Content-Type': 'application/json'})
             },
 
             updateAd : function(data) {
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.adId, data, {'Content-Type': 'application/json'})
+                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId+'/ads/'+data.adId, data, {'Content-Type': 'application/json'})
             },
             deleteAd : function(campaignId,adId) {
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.delete(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId+'/ads/'+adId, {'Content-Type': 'application/json'})
+                return dataService.delete(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+campaignId+'/ads/'+adId, {'Content-Type': 'application/json'})
             },
             pauseAd : function(data){
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.id+'/pause', data, {'Content-Type': 'application/json'})
+                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId+'/ads/'+data.id+'/pause', data, {'Content-Type': 'application/json'})
             },
             resumeAd : function(data){
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+data.campaignId+'/ads/'+data.id+'/resume', data, {'Content-Type': 'application/json'})
+                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId+'/ads/'+data.id+'/resume', data, {'Content-Type': 'application/json'})
             },
             deleteCampaign : function(campaignId) {
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.delete(apiPaths.WORKFLOW_APIUrl +'/campaigns/'+campaignId, {'Content-Type': 'application/json'})
+                return dataService.delete(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+campaignId, {'Content-Type': 'application/json'})
             },
             getAd : function(data) {
                 var clientId =  loginModel.getSelectedClient().id;
