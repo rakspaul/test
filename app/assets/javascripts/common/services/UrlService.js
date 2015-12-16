@@ -139,78 +139,85 @@
         };
 
         this.APIActionData = function (campaignId) {
-            return apiPaths.workflow_apiServicesUrl + "/campaigns/" + campaignId + "/actions"
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + "/campaigns/" + campaignId + "/actions"
         };
 
         this.APICampaignDropDownList = function (clientId, advertiserId, brandId) {
+            var clientId =  loginModel.getSelectedClient().id;
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/advertisers/'+advertiserId +'/brands/'+brandId+'/campaigns/meta?x=x';
             return url;
         };
 
         this.APIStrategiesForCampaign = function (campaingId) {
-            var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaingId + '/ad_groups/meta';
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaingId + '/ad_groups/meta';
             return url;
         };
 
         this.APIReportList = function (brandId, campaignId) {
-            var url = apiPaths.apiSerivicesUrl + '/uploadedreports/listreports/' + campaignId + '/' + brandId;
-            //console.log('UrlService url: ',url);
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/listreports/' + campaignId + '/' + brandId;
             return url;
         }
 
         this.APIUploadReport = function () {
-            //http://dev-desk.collective-media.net/api/reporting/v2/uploadedreports/upload
-            var url = apiPaths.apiSerivicesUrl + '/uploadedreports/upload';
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/upload';
             return url;
         }
 
         this.APIDeleteReport = function (reportId) {
-            var url = apiPaths.apiSerivicesUrl + '/uploadedreports/' + reportId;
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/' + reportId;
             return url;
         }
 
         this.APIEditReport = function (reportId) {
-            var url = apiPaths.apiSerivicesUrl + '/uploadedreports/' + reportId;
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/' + reportId;
             return url;
         }
 
         this.APIDownloadReport = function (reportId) {
-            var url = apiPaths.apiSerivicesUrl + '/uploadedreports/download/' + reportId;
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/download/' + reportId;
             return url;
         }
 
         this.scheduleReportsList = function () {
-            // return 'http://localhost:9000/assets/json/reportScheduleList.json';
-            // console.log(apiPaths.apiSerivicesUrl+'/scheduledreports/listReports');
-            return apiPaths.apiSerivicesUrl + '/scheduledreports/listReports';
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/listReports';
         }
 
         this.downloadSchdRpt = function () {
-            return apiPaths.apiSerivicesUrl + '';
-        }
-
-        this.downloadSchdRpt = function () {
-            return apiPaths.apiSerivicesUrl + '';
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '';
         }
 
         this.scheduledReport = function (reportId) {
-            return apiPaths.apiSerivicesUrl + '/scheduledreports/getReport/' + reportId;
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/getReport/' + reportId;
         }
 
         this.deleteSchdRpt = function (reportId) {
-            return apiPaths.apiSerivicesUrl + '/scheduledreports/deleteReport/' + reportId;
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/deleteReport/' + reportId;
         }
 
         this.deleteInstanceOfSchdRpt = function (reportId, instanceId) {
-            return apiPaths.apiSerivicesUrl + '/scheduledreports/deleteInstance/' + reportId + '/' + instanceId;
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/deleteInstance/' + reportId + '/' + instanceId;
         }
 
         this.createScheduledRpt = function () {
-            return apiPaths.apiSerivicesUrl + '/scheduledreports/createReport';
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/createReport';
         }
 
         this.archiveSchldRpt = function (reportId, instanceId) {
-            return apiPaths.apiSerivicesUrl + '/scheduledreports/archiveInstance/' + reportId + '/' + instanceId;
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/archiveInstance/' + reportId + '/' + instanceId;
         }
 
     }

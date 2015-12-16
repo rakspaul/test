@@ -136,7 +136,8 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
+            var clientId =  loginModel.getSelectedClient().id;
+            var urlPath = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
             $scope.download_report = [
                 {
                     'report_url': urlPath + 'tactics/download',
