@@ -41,7 +41,7 @@
             },
             getPlatforms:function(cacheObj){
                 var clientId =  loginModel.getSelectedClient().id;
-                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/platforms?sortBy=displayName';
+                var url = apiPaths.WORKFLOW_APIUrl +  '/platforms?sortBy=displayName';
                 return dataService.fetch(url,cacheObj);
             },
             getAdsForCampaign : function(campaignId) {
@@ -146,7 +146,7 @@
             },
 
             getRegionsList :  function(platformId, data, success, failure,flag) {
-                var url = apiPaths.WORKFLOW_APIUrl +  '/platforms/'+platformId+'/regions'+data;
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/regions'+data;
                 if(flag == 'cancellable'){
                     var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure);
@@ -158,7 +158,7 @@
 
             getCitiesList :  function(platformId, data, success, failure,flag) {
                 var clientId =  loginModel.getSelectedClient().id;
-                var url = apiPaths.WORKFLOW_APIUrl +  '/platforms/'+platformId+'/cities'+data;
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data;
                 if(flag == 'cancellable'){
                     var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure);
@@ -194,7 +194,7 @@
 
             getPlatformCustomInputs : function(platformId) {
                 var clientId =  loginModel.getSelectedClient().id;
-                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+ '/platforms/'+platformId;
+                var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId;
                 return dataService.fetch(url);
             },
 
