@@ -58,8 +58,7 @@
             }
 
             if(qryObj.clientId) {
-//                params += '&client_id=' + qryObj.clientId;
-                params += '&client_id=2';
+                params += '&client_id=' + qryObj.clientId;
             }
 
             if(qryObj.advertiserId) {
