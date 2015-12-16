@@ -30,7 +30,6 @@ var angObj = '';
         ]
     );
 
-
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider.when('/login', {
             templateUrl: assets.html_reports_login,
@@ -234,7 +233,6 @@ var angObj = '';
                 }
             })
 
-
             .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/:adId/edit', {
                 templateUrl: assets.html_campaign_create_adBuild,
                 title :  'Media Plan - Ad Edit',
@@ -347,7 +345,6 @@ var angObj = '';
                             handleLoginRedirection(isNetworkUser, isWorkflowUser);
                         }
                     }
-
                 });
             } else {
                 if(loginModel.getSelectedClient) {
