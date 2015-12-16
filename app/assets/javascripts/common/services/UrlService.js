@@ -77,7 +77,11 @@
             }
 
             if(qryObj.campaignId) {
-                params += '&campaign_ids=' + qryObj.campaignId;
+                params += '&campaign_id=' + qryObj.campaignId;
+            }
+
+            if(qryObj.campaignIds) {
+                params += '&campaign_ids=' + qryObj.campaignIds;
             }
 
             if(qryObj.strategyId) {
@@ -88,7 +92,6 @@
 
         this.APIVistoCustomQuery = function (qryObj) {
             var params = this.buildParams(qryObj);
-            var clientId =  loginModel.getSelectedClient().id;
             var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
             return url;
         };
