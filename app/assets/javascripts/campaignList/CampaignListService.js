@@ -356,13 +356,13 @@
                 });
             };
 
-            var getStrategyListData = function(campaign, timePeriod) {
+            var getStrategyListData = function(clientId, campaign, timePeriod) {
 
                 var kpiType = campaign.kpiType,
                     kpiValue = campaign.kpiValue,
                     pageSize = 3;
 
-                var url = '/campaigns/' + campaign.orderId + '/ad_groups' ;
+                var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/ad_groups' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
@@ -583,9 +583,9 @@
                 },
 
                 //should be moved to campaign details service
-                getStrategiesData: function(campaign, timePeriod) {
+                getStrategiesData: function(clientId, campaign, timePeriod) {
                     //request list
-                    return getStrategyListData(campaign, timePeriod)
+                    return getStrategyListData(clientId, campaign, timePeriod)
                 },
 
                 requestStrategiesData: function(campaign, timePeriod, data) {

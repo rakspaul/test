@@ -145,7 +145,8 @@
         });
 
         //API call for campaign details
-        var url = apiPaths.apiSerivicesUrl_NEW + "/campaigns/" + $routeParams.campaignId;
+      var clientId = loginModel.getSelectedClient().id;
+      var url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
@@ -165,7 +166,7 @@
 
                 var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
 
-                campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                campaign.getStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
                 updateActionItems($scope.getCdbChartData,1,true);
 
                 campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(cdbData) {
