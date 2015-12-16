@@ -77,10 +77,15 @@
             }
 
             if(qryObj.campaignId) {
-                params += '&campaign_ids=' + qryObj.campaignId;
+                params += '&campaign_id=' + qryObj.campaignId;
             }
 
-            if(qryObj.strategyId) {
+            if(qryObj.campaignIds) {
+                params += '&campaign_ids=' + qryObj.campaignIds;
+            }
+
+            // when strategyId = 0 qryObj.strategyId become false.
+            if(_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) {
                 params += '&ad_group_id=' + qryObj.strategyId;
             }
             return params;
@@ -88,7 +93,6 @@
 
         this.APIVistoCustomQuery = function (qryObj) {
             var params = this.buildParams(qryObj);
-            var clientId =  loginModel.getSelectedClient().id;
             var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
             return url;
         };

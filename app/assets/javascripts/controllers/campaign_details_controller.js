@@ -2,7 +2,15 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel, $window, domainReports, timePeriodModel, platformService, modelTransformer, campaignCDBData, campaignListService, campaignListModel, campaignSelectModel, strategySelectModel, actionChart, dataService, apiPaths, actionColors, $location, utils, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService, momentService, RoleBasedService) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel,
+                                                            $window, domainReports, timePeriodModel, platformService,
+                                                            modelTransformer, campaignCDBData, campaignListService,
+                                                            campaignListModel, campaignSelectModel, strategySelectModel,
+                                                            actionChart, dataService, apiPaths, actionColors,
+                                                            $location, utils, $timeout, pieChart, solidGaugeChart,
+                                                            $filter, constants, editAction, activityList, loginModel,
+                                                            loginService, brandsModel, analytics, dataStore, urlService,
+                                                            momentService, RoleBasedService, advertiserModel) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -145,7 +153,8 @@
         });
 
         //API call for campaign details
-        var url = apiPaths.apiSerivicesUrl_NEW + "/campaigns/" + $routeParams.campaignId;
+      var clientId = loginModel.getSelectedClient().id;
+      var url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
@@ -165,7 +174,7 @@
 
                 var _selectedbrandFromModel = brandsModel.getSelectedBrand() ;
 
-                campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                campaign.getStrategiesData(clientId, $scope.campaign, constants.PERIOD_LIFE_TIME);
                 updateActionItems($scope.getCdbChartData,1,true);
 
                 campaignListService.getCdbLineChart($scope.campaign ,'life_time', function(cdbData) {
@@ -423,8 +432,10 @@
         $scope.getCostBreakdownData  = function(campaign){ //get cost break down data
             var costData, other = 0, sum,cBreakdownChart = [];
             var costQueryObj = {
-                'queryId' :  14, //cost_report_for_one_or_more_campaign_ids
-                'campaignId' : campaign.orderId
+                queryId: 14, //cost_report_for_one_or_more_campaign_ids
+                clientId: loginModel.getSelectedClient().id,
+                campaignIds: campaign.orderId,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             }
             var url = urlService.APIVistoCustomQuery(costQueryObj);
             dataService.fetch(url).then(function(result) {
@@ -685,44 +696,35 @@
 
         // Platform Widget Starts
         $scope.getPlatformData =  function() {
-            var param = {
+            var params = {
+                queryId: 22, // platform_report_by_campaign_id
+                clientId: loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
                 campaignId: $scope.campaign.orderId,
-                strategyId: 0
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             }
             // Set default api return code 200
             $scope.api_return_code = 200;
             var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
-            platformService.getStrategyPlatformData(param).then(function (result) {
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingPlatformFlag = false;
                 $scope.chartDataPlatform = [];
                 $scope.chartData = [];
                 if ((result.status === "OK" || result.status === "success") && !angular.isString(result.data)) {
-                    var  modify = function(obj, arr, key) { // Step 1 Data Mod holds value on memory
-                        _.each(obj, function(pltformObj, index) {
-                               _.each(pltformObj.platforms, function(platform) {
-                                    arr[key].push(platform);
-                                })
-                         })
-                    }
-
-                    var arr = {}, kpiData, chartData, resultData, sortedData; // Step 2 Data Mod Restructure of the Array on memory
-                    resultData = result.data.data;
+                    var kpiData, chartData, resultData = result.data.data, sortedData; // Step 2 Data Mod Restructure of the Array on memory
+                    // TODO: Get the formats from ad groups meta response
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                     var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
                     if(resultData && !hasVideoAds) {
-                        _.each(resultData.platform_metrics, function(obj, idx) {  
-                            arr[idx] = []
-                            modify(obj, arr, idx);
-                        });
-
-                        sortedData = _.sortBy(arr.performance, kpiModel); // This Sorts the Data order by CTR or CPA
+                        sortedData = _.sortBy(resultData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         sortedData  = sortedData.slice(0, 3);
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
-                            $scope.chartDataPlatform.push({'gross_env' : data.gross_rev, 'className': '', 'icon_url' : data.icon_url, 'type' : data.platform, 'value' : kpiData});
+                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': data.platform_icon_url, 'type': data.platform_name, 'value': kpiData});
                         });
                     }
                 }
