@@ -121,24 +121,6 @@
                         <div class="col-md-12 zeroPadding">
                             <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">{{textConstants.WF_CAMPAIGN_FOR}}</label>
                             <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
-                                <label for="accountDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ACCOUNT }}</label>
-                                <div class="col-md-12 zeroPadding dropdown-workflow">
-                                    <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <span class="text">{{mode == 'edit' ? editCampaignData.clientName : 'Select Account' }}</span>
-                                            <span class="icon-arrow-down"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="accountDDL"  id="accountDDL" ng-if="mode !== 'edit'">
-                                            <li ng-repeat="client in workflowData.clients track by client.id" class="available"><a ng-click="selectHandler('client', client, $event)">{{client.name}}</a></li>
-                                        </ul>
-                                        <input type="hidden" name="clientId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
-                                    </div>
-                                </div>
-                                <label ng-if="createCampaignForm.clientId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the account.</label>
-                            </div>
-
-
-                            <div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
                                 <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
                                     <div class="dropdown">

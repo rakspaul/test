@@ -26,7 +26,6 @@
         };
 
         /*
-
             @query Id
             1  : dashboard_hardware_categories
             2  : dashboard_ad_format
@@ -130,12 +129,6 @@
         this.APICalendarWidgetForAllBrands = function (timePeriod, clientId, advertiserId, sortColumn, status) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + status.toLowerCase();
             return url;
-        };
-
-        this.APIScreenWidgetForBrand = function (timePeriod, agencyId, brandId, _screenWidgetFormatType, status) {
-            var param = (brandId !== -1) ? 'brands/' + brandId + '/' : '';
-            param += (_screenWidgetFormatType === 'byplatforms' ? _screenWidgetFormatType : _screenWidgetFormatType + '/perf');
-            return apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/' + param + '?campaignState=' + status.toLowerCase();
         };
 
         this.APIActionData = function (campaignId) {
