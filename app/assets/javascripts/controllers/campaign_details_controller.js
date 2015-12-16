@@ -432,8 +432,10 @@
         $scope.getCostBreakdownData  = function(campaign){ //get cost break down data
             var costData, other = 0, sum,cBreakdownChart = [];
             var costQueryObj = {
-                'queryId' :  14, //cost_report_for_one_or_more_campaign_ids
-                'campaignId' : campaign.orderId
+                queryId: 14, //cost_report_for_one_or_more_campaign_ids
+                clientId: loginModel.getSelectedClient().id,
+                campaignIds: campaign.orderId,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             }
             var url = urlService.APIVistoCustomQuery(costQueryObj);
             dataService.fetch(url).then(function(result) {
@@ -695,7 +697,7 @@
         // Platform Widget Starts
         $scope.getPlatformData =  function() {
             var params = {
-                queryId: 22,
+                queryId: 22, // platform_report_by_campaign_id
                 clientId: loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,

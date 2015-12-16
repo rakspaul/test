@@ -1,7 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
+                                                  strategySelectModel, brandsModel, dataService, utils,
+                                                  domainReports, apiPaths,constants, timePeriodModel,
+                                                  loginModel, analytics, urlService) {
 
         $scope.textConstants = constants;
 
@@ -113,9 +116,17 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
 
             var queryObj = {
-                'queryId' : (_.has(param, 'strategyId') && param.strategyId >= 0) ? 15 : 14, /* 14 : cost_report_for_one_or_more_campaign_ids, 15 : cost_report_for_given_ad_group_id  */
-                'campaignId' : param.campaignId,
-                'strategyId' : param.strategyId
+                clientId: loginModel.getSelectedClient().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
+            if (_.has(param, 'strategyId') && param.strategyId >= 0) {
+                queryObj.queryId = 15; // cost_report_for_given_ad_group_id
+                queryObj.campaignId = param.campaignId,
+                queryObj.strategyId = param.strategyId;
+
+            } else {
+                queryObj.queryId = 14; // cost_report_for_one_or_more_campaign_ids
+                queryObj.campaignIds = param.campaignId;
             }
 
             var url = urlService.APIVistoCustomQuery(queryObj);

@@ -84,7 +84,8 @@
                 params += '&campaign_ids=' + qryObj.campaignIds;
             }
 
-            if(qryObj.strategyId) {
+            // when strategyId = 0 qryObj.strategyId become false.
+            if(_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) {
                 params += '&ad_group_id=' + qryObj.strategyId;
             }
             return params;

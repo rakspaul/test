@@ -5,9 +5,11 @@
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
         'constants', 'momentService','domainReports', 'loginModel',
+        'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, momentInNetworkTZ, domainReports, loginModel) {
+                  constants, momentInNetworkTZ, domainReports, loginModel,
+                  advertiserModel, brandsModel, timePeriodModel, urlService) {
 
             var listCampaign = "";
 
@@ -574,8 +576,10 @@
                 //should be moved to costservice inside cost module later
                 getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success, failure) {
                     var queryObj = {
-                        'queryId' : 14, //14 : cost_report_for_one_or_more_campaign_ids
-                        'campaignId' : campaignIds
+                        queryId: 14, //14 : cost_report_for_one_or_more_campaign_ids
+                        clientId: loginModel.getSelectedClient().id,
+                        campaignIds: campaignIds,
+                        dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
                     }
                     var url = urlService.APIVistoCustomQuery(queryObj);
                     var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);
