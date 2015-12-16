@@ -217,7 +217,8 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+            var clientId =  loginModel.getSelectedClient().id;
+            var urlPath = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
             $scope.strategyMarginValue = -1 ;
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 

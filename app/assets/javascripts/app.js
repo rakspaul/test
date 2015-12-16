@@ -342,8 +342,7 @@ var angObj = '';
             if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
                 workflowService.getClients().then(function (result) {
                     if(result && result.data.data.length >0) {
-                       // (result.data.data).splice(0,1);//remove first organization
-                        loginModel.setSelectedClient({'id':result.data.data[0].id,'name':result.data.data[0].name});
+                        loginModel.setSelectedClient({'id': result.data.data[0].children[0].id, 'name': result.data.data[0].children[0].name});
                         if (locationPath === '/login' || locationPath === '/') {
                             handleLoginRedirection(isNetworkUser, isWorkflowUser);
                         }
