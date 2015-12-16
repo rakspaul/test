@@ -482,6 +482,20 @@ var angObj = angObj || {};
         };
 
         $scope.scheduleReport = function() {
+            $scope.requestData =  {};
+            $scope.requestData.reportDefinition = {};
+            $scope.requestData.schedule = {};
+            $scope.requestData.reportDefinition.timeframe = {};
+            $scope.requestData.reportDefinition.metrics = {};
+            $scope.requestData.reportDefinition.filters = [];
+            $scope.requestData.reportDefinition.dimensions = [];
+            $scope.requestData.name = '';
+            $scope.requestData.client_id = loginModel.getSelectedClient().id;
+            $scope.requestData.name = $scope.reports.name;
+            $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
+            $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
+            $scope.requestData.schedule = $scope.reports.schedule;
+           // console.log('$scope.reports.reportDefinition.schedule',$scope.reports.reportDefinition.schedule);
            if(!$scope.generateBtnDisabled) {
                var str = $scope.reports.name;
                if(/^[A-Za-z][A-Za-z0-9]*$/.test(str) === false) {
@@ -498,6 +512,7 @@ var angObj = angObj || {};
                 $scope.msgtimeoutReset();
                 return false;
               }
+
                if($scope.notInRange == true){
                    $scope.flashMessage.message = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
                    $scope.flashMessage.isErrorMsg = 1 ;
@@ -514,34 +529,18 @@ var angObj = angObj || {};
                    return false;
 
                }
-              var customReportSectionElem = $(".each_section_custom_report.each_section_custom_report").find(".breakdown_div");
-              _.each(customReportSectionElem, function (ele) {
-                  var customeReportFilterElem = $(ele).find('.custom_report_breakdown .dropdown_ul_text .dd_txt');
-                  var reportFilterTextbox = $(ele).find('.filter_input_txtbox .reportFilter');
 
-                  var dimension = customeReportFilterElem.attr("id");
-                  var values = reportFilterTextbox.val().split(" ");
-                  var type = reportFilterTextbox.attr("data-reportType") || 'Additional';
-                  $scope.reports.reportDefinition.dimensions.push({"dimension": $.trim(dimension), "type": type});
-                  $scope.reports.reportDefinition.filters.push({
-                      "dimension": $.trim(dimension),
-                      "type": type,
-                      "values": values
-                  });
-              })
+               $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
+               $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,"type":"Primary","values":$scope.reports.reportDefinition.dimensions.primary.value});
 
-              var dimensions = [];
-               dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
                if($scope.reports.reportDefinition.dimensions.secondary.value) {
-                   dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,'type':"Secondary"});
+                   $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,'type':"Secondary"});
+                   $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,"type":"Secondary","values":$scope.reports.reportDefinition.dimensions.secondary.value});
                }
                _.each($scope.additionalFilters,function(eachObj) {
-                   dimensions.push({"dimension":eachObj.key,'type':"Additional"});
+                   $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
+                   $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
                })
-
-               console.log('dimensions array to send ',dimensions);
-
-
 
               if (!$scope.reports.schedule.endDate) {
                   $scope.reports.schedule.endDate = '';
@@ -554,11 +553,10 @@ var angObj = angObj || {};
               if (!$scope.reports.schedule.customOccuranceDate) {
                   $scope.reports.schedule.customOccuranceDate = '';
               }
-             console.log('create schedule report', JSON.stringify($scope.reports));
-              dataService.createScheduleReport($scope.reports).then(function (result) {
+             console.log('create schedule report', JSON.stringify($scope.requestData));
+              dataService.createScheduleReport($scope.requestData).then(function (result) {
                   if (result.data.status_code == 200) {
                       $rootScope.flashMessage = {'message':'Success: The scheduled Report is listed.','isErrorMsg':''};
-                     // $scope.msgtimeoutReset();
                       $location.url('/reports/schedules');
                   }
               });
