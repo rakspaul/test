@@ -58,7 +58,8 @@
             }
 
             if(qryObj.clientId) {
-                params += '&client_id=' + qryObj.clientId;
+//                params += '&client_id=' + qryObj.clientId;
+                params += '&client_id=2';
             }
 
             if(qryObj.advertiserId) {
@@ -66,11 +67,11 @@
             }
 
             if(qryObj.brandId) {
-                params += '&brand_id=' + qryObj.advertiserId;
+                params += '&brand_id=' + qryObj.brandId;
             }
 
             if(qryObj.dateFilter) {
-                params += '&date_filter=' + qryObj.dateFilter ? qryObj.dateFilter : 'lifetime';
+                params += '&date_filter=' + qryObj.dateFilter;
             }
 
             if(qryObj.campaignStatus) {
@@ -113,22 +114,22 @@
 
         //API for dashbaord Bubble Chart
         this.APISpendWidgetForAllBrands = function (clientId, advertiserId, brandId, timePeriod, status) {
-            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/spend/perf?advertisers='+ advertiserId + '&brands=' + brandId +'&date_filter=' + timePeriod + '&campaignState=' + status;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status;
             return url;
         };
 
-        this.APISpendWidgetForCampaigns = function (timePeriod, agencyId, brandId, status) {
-            var url = apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/spend/perf?date_filter=' + timePeriod + '&campaignState=' + status.toLowerCase();
+        this.APISpendWidgetForCampaigns = function (clientId, advertiserId, brandId, timePeriod, status) {
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/' + (brandId?brandId:-1) + '/campaigns/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status.toLowerCase();
             return url;
         };
 
-        this.APICalendarWidgetForBrand = function (timePeriod, clientId, advertiserId, sortColumn, status) {
+        this.APICalendarWidgetForBrand = function (timePeriod, clientId, advertiserId, brandId, sortColumn, status) {
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id='+brandId+'&topCount=5&sort_column=' + sortColumn + '&campaignState=' + status.toLowerCase();
+            return url;
+        };
+
+        this.APICalendarWidgetForAllBrands = function (timePeriod, clientId, advertiserId, sortColumn, status) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + status.toLowerCase();
-            return url;
-        };
-
-        this.APICalendarWidgetForAllBrands = function (timePeriod, agencyId, sortColumn, status, brandId) {
-            var url = apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/meta?topCount=5&sort_column=' + sortColumn + '&campaignState=' + status.toLowerCase();
             return url;
         };
 
@@ -143,7 +144,7 @@
         };
 
         this.APICampaignDropDownList = function (clientId, advertiserId, brandId) {
-            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/advertisers/'+advertiserId +'/brands/'+brandId+'/campaigns/meta?x=x';
             return url;
         };
 

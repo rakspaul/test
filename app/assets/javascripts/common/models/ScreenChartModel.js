@@ -121,9 +121,11 @@
 
             var queryObj = {
                'queryId' :  queryId,
+               'clientId': loginModel.getSelectedClient().id,
                'campaignStatus' :  campaignStatus,
                'advertiserId' : advertiserId,
-               'brandId' :  brandId
+               'brandId' :  brandId,
+               'dateFilter':'life_time'
             }
 
             var url = urlService.APIVistoCustomQuery(queryObj);
