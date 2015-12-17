@@ -52,7 +52,7 @@
             <span class="targetListItemMore" ng-if="selectedAudience.length > 3">+{{selectedAudience.length - 3}} more</span>
         </div>
         <span ng-if="selectedTargeting['audience']" class="onSelectBtn btn btn-default active" ng-click="selectAudTarget()"></span>
-        <input ng-if="!selectedTargeting['audience'] && selectedAudience.length == 0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
+        <input ng-if="selectedAudience.length == 0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
     <!--Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
