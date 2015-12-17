@@ -33,10 +33,10 @@
                     <div class="item" ng-repeat="trackingIntegration1 in workflowData.tracking_integrations track by $index" ng-class="{'active': $index==1}">
 
                         <div class="offeringWrap"  ng-repeat="trackingIntegration in trackingIntegration1 track by $index">
-                            <div class="col-md-3 zeroPadding">
-                                <img ng-src="{{trackingIntegration.iconUrl}}" width="50">
+                            <div class="col-md-12 zeroPadding text-center" style="height: 50px;">
+                                <img ng-src="{{trackingIntegration.iconUrl}}">
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-12 zeroPadding text-center">
                                 <span class="title">{{trackingIntegration.displayName}}</span>
                                 <span class="descrip">{{trackingIntegration.summary}}</span>
                             </div>
@@ -44,6 +44,13 @@
                                 <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="selectTrackingIntegrations(trackingIntegration)">Selected</span>
                                 <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active  ?true:false" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="selectTrackingIntegrations(trackingIntegration)">
                                 <!--<input ng-if="!selectedPlatform[trackingIntegration.id]" ng-disabled="!editTrackerAd" type="button" value="Select" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="selectTrackingIntegrations(trackingIntegration)">-->
+                            </div>
+                            <div class="popUpCue">
+                                <span class="col-md-12 zeroPadding">
+                                    You can setup a tracking URL for {{trackingIntegration.displayName}}. You will be taken directly to the Creative section.
+                                </span>
+                                <a href="#creative" data-toggle="tab" class="leftNavLink creative-tab-link pull-right btn btn-primary">Continue</a>
+                                <a class="pull-right btn btn-link">Cancel</a>
                             </div>
                         </div>
                         <input type="hidden" name="platformId" value="{{adData.platformId}}">

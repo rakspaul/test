@@ -1258,6 +1258,45 @@
     }
   }
   
+  //Pop Up Validation
+  .popUpCue {
+    position: absolute;
+    z-index: 2;
+    left: 9px;
+    top: 70px;
+    background: #fff;
+    border: 1px solid rgba(154, 154, 154, 0.38);
+    width: 240px;
+    padding: 15px;
+    border-radius: 5px;
+    span{
+      height: 80px;
+      margin-bottom: 10px;
+    }
+  }
+  .popUpCue:after, .popUpCue:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  .popUpCue:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #fff;
+    border-width: 7px;
+    margin-left: -7px;
+  }
+  .popUpCue:before {
+    border-color: rgba(107, 107, 107, 0);
+    border-top-color: rgba(154, 154, 154, 0.38);
+    border-width: 8px;
+    margin-left: -8px;
+  }
+  
   /*! jQuery UI - v1.11.4 - 2015-11-05 For Slider
   * http://jqueryui.com
   * Includes: core.css, slider.css, theme.css
