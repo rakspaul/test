@@ -217,6 +217,11 @@
             return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/archiveInstance/' + reportId + '/' + instanceId;
         }
 
+        this.updateScheduledRpt = function(reportId ) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/updateReport/' + reportId;
+        }
+
     }
 
     commonModule.service("urlService", ['apiPaths', 'constants', 'loginModel', urlFactory]);
