@@ -20,6 +20,10 @@ angObj.controller('BuyingPlatformController', function($scope, $window, $routePa
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
+            //inactive platform
+            if(platform.active == false){
+                return true;
+            }
             if($scope.mode === 'edit'){
                 if(storedResponse.targets.geoTargets)
                     settings = "Geography";
