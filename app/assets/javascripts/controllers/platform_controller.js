@@ -1,17 +1,21 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService, apiPaths, constants, domainReports, timePeriodModel, RoleBasedService, loginModel, analytics, $timeout) {
+    angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel,
+                                                      strategySelectModel, kpiSelectModel, platformService,
+                                                      utils, dataService, apiPaths, constants, domainReports,
+                                                      timePeriodModel, RoleBasedService, loginModel, analytics,
+                                                      $timeout, advertiserModel, brandsModel) {
 
         $scope.textConstants = constants;
 
-        $scope.sortType = 'platformType_aggregation.impression'; // set the default sort type
+        $scope.sortType = 'impressions'; // set the default sort type
 
 
-        $scope.sortTypebyPerformance     = '-platformType_aggregation.impressions';
-        $scope.sortTypebyCost     = '-platformType_aggregation.impressions';
-        $scope.sortTypebyViewability     = '-platformType_aggregation.ias_imps_delivered';
-        $scope.sortTypeSubSort = 'platformType_aggregation.impression'; // set the default sort type
+        $scope.sortTypebyPerformance     = '-impressions';
+        $scope.sortTypebyCost            = '-impressions';
+        $scope.sortTypebyViewability     = '-other_view_impressions';
+//        $scope.sortTypeSubSort           = 'impressions'; // set the default sort type
 
         $scope.sortReverse = false; // set the default sort order
         $scope.sortReverseForPerfImps = true;
@@ -26,17 +30,16 @@ var angObj = angObj || {};
         $scope.isStrategyDropDownShow = true;
 
         if ($scope.selected_tab == "performance") {
-            $scope.sortType = 'platformType_aggregation.impressions';
-            $scope.sortTypeSubSort = 'impressions'
+            $scope.sortType = 'impressions';
+//            $scope.sortTypeSubSort = 'impressions'
         }
         else if ($scope.selected_tab == "viewability") {
-            $scope.sortType = 'platformType_aggregation.ias_imps_delivered';
-            $scope.sortTypeSubSort = 'ias_imps_delivered';
+            $scope.sortType = 'other_view_impressions';
+//            $scope.sortTypeSubSort = 'other_view_impressions';
         }
         else {
-            $scope.sortType = 'platformType_aggregation.impressions';
-            $scope.sortTypeSubSort = 'impressions';
-
+            $scope.sortType = 'impressions';
+//            $scope.sortTypeSubSort = 'impressions';
         }
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
@@ -81,18 +84,23 @@ var angObj = angObj || {};
         $scope.getPlatformData = function () {
             var param = {
                 campaignId: $scope.selectedCampaign.id,
-                strategyId: Number($scope.selectedStrategy.id),
-                strategyStartDate: $scope.selectedCampaign.startDate,
-                strategyEndDate: $scope.selectedCampaign.endDate,
-                tab: $scope.selected_tab,
-                timeFilter: $scope.selected_filters.time_filter
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                param.queryId = 24;
+                param.strategyId = Number($scope.selectedStrategy.id);
+            } else {
+                param.queryId = 23;
             }
 
             $scope.performanceBusy = true;
             $scope.costBusy = true;
             $scope.viewabilityBusy = true;
 
-            var tab = param.tab.substr(0, 1).toUpperCase() + param.tab.substr(1);
+            var tab = $scope.selected_tab.substr(0, 1).toUpperCase() + $scope.selected_tab.substr(1);
 
             var errorHandlerForPerformanceTab = function (result) {
                 if (tab === 'Cost' && result && result.status === 204) {
@@ -120,7 +128,13 @@ var angObj = angObj || {};
                         errorHandlerForPerformanceTab();
                     } else {
                         $scope.isCostModelTransparentMsg = result.data.data.message;
-                        $scope['strategyDataBy' + tab] = result.data.data;
+                        if (Number($scope.selectedStrategy.id) >= 0) {
+                            // strategy selected
+                            $scope['platformData'] = _.filter(result.data.data, function(item) { return item.ad_id == -1; });
+                            $scope['tacticPlatformData'] = _.filter(result.data.data, function(item) { return item.ad_id != -1; });
+                        } else {
+                            $scope['platformData'] = result.data.data;
+                        }
                         $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                     }
                 } else {
@@ -133,7 +147,7 @@ var angObj = angObj || {};
             //strategy change handler
             $scope.strategyChangeHandler = function () {
                 $scope.reportDownloadBusy = false;
-                if ($scope.selectedStrategy.id == -99 || $scope.selectedStrategy.id == -1) {
+                if ($scope.selectedStrategy.id == -99) {
                     $scope.strategyFound = false;
                 } else {
                     $scope.strategyFound = true;
@@ -189,7 +203,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
             $scope.selectedStrategy.id = strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();
@@ -201,10 +215,8 @@ var angObj = angObj || {};
             $scope.costBusy = false;
             $scope.viewabilityBusy = false;
 
-            $scope.strategyDataByPerformance = [];
-            $scope.strategyDataByCost = [];
-            $scope.strategyDataByViewability = [];
-
+            $scope.platformData = [];
+            $scope.tacticPlatformData = [];
 
             $scope.dataNotFoundForPerformance = false;
             $scope.dataNotFoundForCost = false;
@@ -270,7 +282,7 @@ var angObj = angObj || {};
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
 
-                var tabImps = ['platformType_aggregation.cpc', 'platformType_aggregation.cpa', 'platformType_aggregation.cpm', 'platformType_aggregation.vtc', 'platformType_aggregation.action_rate', 'platformType_aggregation.ctr'];
+                var tabImps = ['cpc', 'cpa', 'cpm', 'vtc', 'action_rate', 'ctr'];
 
                 if($scope.selected_tab === "viewability") {
                     if (jQuery.inArray($scope.sortTypebyViewability, tabImps)!='-1') {
@@ -334,19 +346,19 @@ var angObj = angObj || {};
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             if($scope.selected_tab === "viewability") {
-                $scope.sortTypebyViewability = "platformType_aggregation." + args;
+                $scope.sortTypebyViewability = args;
                 $scope.sortReverse = sortorder;
-                $scope.sortTypeSubSort = args;
+//                $scope.sortTypeSubSort = args;
             }
             else if($scope.selected_tab === "performance") {
-                $scope.sortTypebyPerformance = "platformType_aggregation." + args;
+                $scope.sortTypebyPerformance = args;
                 $scope.sortReverse = sortorder;
-                $scope.sortTypeSubSort = args;
+//                $scope.sortTypeSubSort = args;
             }
             else if($scope.selected_tab === "cost") {
-                $scope.sortTypebyCost = "platformType_aggregation." + args;
+                $scope.sortTypebyCost = args;
                 $scope.sortReverse = sortorder;
-                $scope.sortTypeSubSort = args;
+//                $scope.sortTypeSubSort = args;
             }
         });
 
