@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService) {
+    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService,dataStore) {
 
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
@@ -112,7 +112,6 @@ var angObj = angObj || {};
             });
             $scope.initializeMetrics(result.data.data[0]);
             $scope.customeDimensionData = result.data.data;
-            console.log('$scope.customeDimensionData',$scope.customeDimensionData);
             var modifiedDimesionArr = result.data.data[0];
             $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
             $scope.showDefaultDimension['template_id'] = modifiedDimesionArr.template_id;
@@ -121,23 +120,20 @@ var angObj = angObj || {};
             if($routeParams.reportId) {
                 $scope.updateScheduleReport = true;
                 $scope.buttonLabel = "Update";
-                dataService.fetch(urlService.scheduledReport($routeParams.reportId)).then(function(response) {
-                    console.log('Response: ',JSON.stringify(response));
+                var url = urlService.scheduledReport($routeParams.reportId);
+                dataStore.deleteFromCache(url);
+                dataService.fetch(url).then(function(response) {
                     if(response.status == 'success') {
                         var responseData = response.data.data;
                         $scope.reports.name = responseData.name;
                         $scope.scheduleReportActive = responseData.isScheduled;
                         $scope.generateBtnDisabled = false;
                         $scope.reports.schedule = responseData.schedule;
-                        console.log('responseData.schedule',$scope.reports.schedule.occurance)
                         $scope.reports.reportDefinition.timeframe = responseData.reportDefinition.timeframe;
-
                         if(responseData.isScheduled) {
                             $('#toggle').bootstrapToggle('on');
                         }
-
                         $scope.select_schedule_option(responseData.schedule.frequency);
-
 
                         angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
                             console.log('each flter',eachObj);
