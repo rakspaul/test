@@ -17,14 +17,14 @@
                 return audience;
             },
             fetchAudience: function (sortCol, sortOrder, pageNum, size, keywords, source, classification) {
+                var clientId =  loginModel.getSelectedClient().id;
                 var pageNo = 1;
                 var pageSize = 50;
-                console.log('key -- >', keywords);
                 if (pageNum)
                     pageNo = pageNum;
                 if (size)
                     pageSize = size;
-                var url = apiPaths.WORKFLOW_APIUrl + '/segments/platform/' + workflowService.getPlatform().id + '?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/segments/platform/' + workflowService.getPlatform().id + '?pageNo=' + pageNo + '&pageSize=' + pageSize;
                 if (sortCol && sortCol != '')
                     url += '&sortBy=' + sortCol;
                 if (sortOrder && sortOrder != '')
