@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("audienceService", function (apiPaths,dataService,workflowService) {
+    angObj.factory("audienceService", function (apiPaths,dataService,workflowService, loginModel) {
 
         var audience;
         var source;
