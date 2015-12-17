@@ -16,13 +16,13 @@
             <!-- Header Starts -->
             <div class="clearfix left_column_nav campaign-create-left-nav" style="border-width: 0;">
                 <div class="campaign_name_holder">
-                    <h1 class="campaign_name">Media Plan Setup</h1>
+                    <h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
                     <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
                         <li class="active eachStepCompLabel">
                             <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1. {{ textConstants.WF_SETTINGS}}</a>
                             <div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
                                 <div class="col-md-12">
-                                    <span>Not Set</span>
+                                    <span>{{textConstants.WF_NOT_SET}}</span>
                                 </div>
                             </div>
                             <div class="statusLabel" ng-if="selectedCampaign.goal.name">
@@ -49,18 +49,18 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#budget" data-toggle="tab">2. Budget</a>
+                            <a class="leftNavLink" data-target="#budget" data-toggle="tab">2. {{textConstants.MP_BUDGET}}</a>
                             <div class="statusLabel disabled">
                                 <div class="col-md-12">
-                                    <span>Not Set</span>
+                                    <span>{{textConstants.WF_NOT_SET}}</span>
                                 </div>
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#contacts" data-toggle="tab">3. Contacts (Optional)</a>
+                            <a class="leftNavLink" data-target="#contacts" data-toggle="tab">3. {{textConstants.MP_CONTACTS}} ({{textConstants.MP_OPTIONAL}})</a>
                             <div class="statusLabel disabled">
                                 <div class="col-md-12">
-                                    <span>Not Set</span>
+                                    <span>{{textConstants.WF_NOT_SET}}</span>
                                 </div>
                             </div>
                         </li>
@@ -85,19 +85,19 @@
                                       <span class="icon-more-options"></span>
                                  </button>
                                  <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                    <li class="disabled"><a>Pause</a></li>
-                                    <li class="disabled"><a>Resume</a></li>
-                                    <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a></li>
+                                    <li class="disabled"><a>{{textConstants.WF_PAUSE}}</a></li>
+                                    <li class="disabled"><a>{{textConstants.WF_RESUME}}</a></li>
+                                    <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
                                  </ul>
                             </div>
                        </div>
                         <!--<a href="#" class="btn btn-primary pull-right" role="button" style="margin-left: 10px;"ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a>-->
-                    <a href="#" class="btn btn-primary pull-right" role="button" ng-click="saveCampaign()">Save</a>
+                    <a href="#" class="btn btn-primary pull-right" role="button" ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
 						<div ng-hide="(mode!='edit')">
-                          <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">Cancel</a>
+                          <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                         </div>
                         <div ng-show="(mode!='edit')">
-                          <a href="/mediaplans" class="btn btn-link pull-right" role="button">Cancel</a>
+                          <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                         </div>
                     </div>
                 </div>
@@ -158,8 +158,8 @@
 	
 							<!--==== Row 3 ====-->
 							<div class=" col-md-12 zeroPadding">
-								<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What is your Media Plan Objective?</label>
-								<label class="col-sm-12 greyTxt miniLabels">Primary Goal</label>
+								<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">{{textConstants.MP_WHATIS}}</label>
+								<label class="col-sm-12 greyTxt miniLabels">{{textConstants.MP_PRIGOAL}}</label>
 								<div class="form-group col-sm-5 zeroPadding">
 									<!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
@@ -171,12 +171,12 @@
 											</div>
 										</label>
 									</div>
-									<label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">Please select a goal.</label>
+									<label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.MP_SELGOAL}}</label>
 								</div>
 							</div>
 							 <div class="col-md-12 zeroPadding unitCost symbolAbs">
 								<div class="form-group col-md-2 " show-errors='{showSuccess: true}' style="padding-left: 0;">
-									<label class="col-sm-12 control-label greyTxt miniLabels">Primany KPI</label>
+									<label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.WF_PRIMARY_KPI}}</label>
 									<div>
 										<div class="col-md-12 zeroPadding dropdown-workflow">
 											<div class="dropdown">
@@ -191,7 +191,7 @@
 												</ul>
 												<input type="hidden" name="kpiType" ng-model="selectedCampaign.kpi" ng-update-hidden required/>
 											</div>
-											<label ng-if="createCampaignForm.kpiType.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the KPI type.</label>
+											<label ng-if="createCampaignForm.kpiType.$error.required" class="col-sm-12 greyTxt errorLabel">{{textConstants.MP_PLEASEKPITYPE}}</label>
 										</div>
 									</div>
 								</div>
