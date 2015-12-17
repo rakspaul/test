@@ -182,12 +182,12 @@
           margin-bottom: 20px;
           span {
             float: left;
-            font-size: 16px;
+            font-size: 14px;
             color: #21252b;
           }
           span.tagTitle {
             margin-left: 50px;
-            margin-right: 10px;
+            margin-right: 5px;
             color: #949ead;
           }
           .tagTitle:first-child {
@@ -1397,7 +1397,7 @@
           width: 100%;
           #myCarousel {
             padding: 0 40px;
-            height: 420px;
+            height: 340px;
           }
           .carousel-indicators {
             display: none;
@@ -1418,14 +1418,14 @@
               height: 45px;
               width: 38px;
               float: left;
-              margin-top: 170px;
+              margin-top: 140px;
             }
             .rightCtrl {
               background: url("/assets/images/cdesk/calendar_arrow_right.png") no-repeat center center;
               height: 45px;
               width: 38px;
               float: right;
-              margin-top: 170px;
+              margin-top: 140px;
             }
             .glyphicon {
               color: #000;
@@ -1439,22 +1439,39 @@
             width: 31.68%;
             background: #fff;
             border: 1px solid #ddd;
-            padding: 25px;
+            padding: 30px;
             float: left;
+            height: 280px;
+            margin-right: 2.48%;
             .select-btn {
               text-align: center;
-              margin-top: 20px ;
+              margin-top: 40px;
             }
             .title {
               float: left;
               width: 100%;
               font-family: "Avenir-bold";
-              font-size: 12px;
+              margin: 15px 0 25px 0;
             }
             .descrip {
               float: left;
               width: 100%;
-              font-size: 12px;
+            }
+            img {
+              max-height: 50px;
+              max-width: 196px;
+              display: inline-block;
+            }
+          }
+          .offeringWrap:nth-child(3n+2) {
+            .popUpCue {
+              left: 287px;
+            }
+          }
+          .offeringWrap:nth-child(3n+3) {
+            margin-right: 0;
+            .popUpCue {
+              left: 566px;
             }
           }
         }
@@ -3041,6 +3058,7 @@
           width: 16px;
           height: 16px;
           color: #363d49;
+          cursor: pointer;
         }
         .hourRow, .dailyRow {
           margin: 0 10px 0 0;

@@ -532,9 +532,9 @@ var angObj = angObj || {};
               trackingPlatformCarouselData:function(responseData){
                     $scope.workflowData['tracking_integrations']={};
                      var tempData = responseData.trackingPlatforms;
-                     var slides=Math.ceil((responseData.trackingPlatforms.length)/6);
+                     var slides=Math.ceil((responseData.trackingPlatforms.length)/3);
                         for(var i=0; i<slides; i++) {
-                             $scope.workflowData['tracking_integrations'][i] = tempData.splice(0,6);
+                             $scope.workflowData['tracking_integrations'][i] = tempData.splice(0,3);
                      }
             },
 

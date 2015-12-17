@@ -194,12 +194,12 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag span {
   float: left;
-  font-size: 16px;
+  font-size: 14px;
   color: #21252b;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag span.tagTitle {
   margin-left: 50px;
-  margin-right: 10px;
+  margin-right: 5px;
   color: #949ead;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag .tagTitle:first-child {
@@ -1371,7 +1371,7 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container #myCarousel {
   padding: 0 40px;
-  height: 420px;
+  height: 340px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-indicators {
   display: none;
@@ -1393,14 +1393,14 @@
   height: 45px;
   width: 38px;
   float: left;
-  margin-top: 170px;
+  margin-top: 140px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .rightCtrl {
   background: url("/assets/images/cdesk/calendar_arrow_right.png") no-repeat center center;
   height: 45px;
   width: 38px;
   float: right;
-  margin-top: 170px;
+  margin-top: 140px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control .glyphicon {
   color: #000;
@@ -1413,23 +1413,38 @@
   width: 31.68%;
   background: #fff;
   border: 1px solid #ddd;
-  padding: 25px;
+  padding: 30px;
   float: left;
+  height: 280px;
+  margin-right: 2.48%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .select-btn {
   text-align: center;
-  margin-top: 20px ;
+  margin-top: 40px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .title {
   float: left;
   width: 100%;
   font-family: "Avenir-bold";
-  font-size: 12px;
+  margin: 15px 0 25px 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .descrip {
   float: left;
   width: 100%;
-  font-size: 12px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap img {
+  max-height: 50px;
+  max-width: 196px;
+  display: inline-block;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap:nth-child(3n+2) .popUpCue {
+  left: 287px;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap:nth-child(3n+3) {
+  margin-right: 0;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap:nth-child(3n+3) .popUpCue {
+  left: 566px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .sliderSpacing {
   float: left;
@@ -2969,6 +2984,7 @@
   width: 16px;
   height: 16px;
   color: #363d49;
+  cursor: pointer;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow .hourRow,
 .adCreateMaster #targetting .targetingSlide .dayRow .dailyRow {
