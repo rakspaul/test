@@ -164,7 +164,12 @@
             },
 
             createScheduleReport :  function(data) {
-              return this.post(apiPaths.apiSerivicesUrl +'/scheduledreports/createReport', data, {'Content-Type': 'application/json'})
+                return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'})
+            },
+
+            updateScheduleReport: function(reportId,data) {
+                var url = urlService.updateScheduledRpt(reportId);
+                return this.put(url,data);
             },
 
             append: function(url,paramsObj){
