@@ -98,15 +98,15 @@
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Included</span>
-                <div class="badge">20</div>
+                <div class="badge">{{getSelectedDays()}}</div>
             </div>
-            <span class="targetListItem">Sunday 11am to 5pm;</span>
-            <span class="targetListItem">Sunday 9pm to 11pm;</span>
-            <span class="targetListItem">Monday 6am to 11pm</span>
-            <span class="targetListItemMore">+17 more</span>
+            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 1">{{selectedDayParts['data'][0].day}} {{(selectedDayParts['data'][0].startTime)?selectedDayParts['data'][0].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
+            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 2">{{selectedDayParts['data'][1].day}} {{(selectedDayParts['data'][1].startTime)?selectedDayParts['data'][1].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
+            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 3">{{selectedDayParts['data'][2].day}} {{(selectedDayParts['data'][2].startTime)?selectedDayParts['data'][2].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
+            <span class="targetListItemMore" ng-if="selectedDayParts['data'].length > 3">+{{selectedDayParts['data'].length - 3}} more</span>
         </div>
-        <span ng-if="selectedTargeting['daily']" class="onSelectBtn btn btn-default active" ng-click="selectDayTarget()"></span>
-        <input ng-if="!selectedTargeting['daily']" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
+        <span ng-if="selectedDayParts['data']" class="onSelectBtn btn btn-default active" ng-click="selectDayTarget()"></span>
+        <input ng-if="!selectedDayParts['data']" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
     </div>
 </div>
 

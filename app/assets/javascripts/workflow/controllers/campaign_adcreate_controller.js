@@ -86,6 +86,7 @@ var angObj = angObj || {};
         $scope.adData.budgetType = 'Impressions';
         $scope.downloadingTracker=false;
         $scope.selectedAudience = [];
+        $scope.selectedDayParts = [];
         //localStorage.setItem("trackingIntegration",false);
         //workflowService.setTrackingPlatform(false);
         $scope.adData.setSizes = constants.WF_NOT_SET;
@@ -980,6 +981,12 @@ var angObj = angObj || {};
         $scope.getSelectedAudience = function(){
             $scope.selectedAudience = audienceService.getSelectedAudience();
             return ($scope.selectedAudience)?$scope.selectedAudience.length:0;
+        }
+
+        $scope.getSelectedDays = function(){
+            $scope.selectedDayParts['selected'] = audienceService.getDayTimeSelectedObj();
+            $scope.selectedDayParts['data'] = audienceService.getDaytimeObj();
+            return ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
         }
 
     });

@@ -97,7 +97,7 @@ var angObj = angObj || {};
             adDaypartTargets.timeZone=$scope.timezoneFormat;
             adDaypartTargets.clock=$scope.clock;
             if($scope.dayTimeSelected!='Custom schedule') {
-               // audienceService.setDayPartDispObj($scope.Schedule.daytimeArr,$scope.dayTimeSelected);
+                audienceService.setDayPartDispObj($scope.Schedule.daytimeArr,$scope.dayTimeSelected);
                 adDaypartTargets.schedule = {
 //                    "Tuesday": [2, 4, 7],
 //                    "Monday": [1, 2, 3, 4],
@@ -105,7 +105,7 @@ var angObj = angObj || {};
                 };
             }
             else{
-                //audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
+                audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
                 console.log($scope.Schedule.dayPart);
                 var sunday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Sunday" });
                 $scope.Sunday=$scope.generateDayArr(sunday);

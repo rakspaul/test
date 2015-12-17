@@ -8,6 +8,8 @@
         var selectedAudiences;
         var andOrStatus;
         var dayPartData;
+        var dayTimeSelectedObj;
+        var daytimeArrObj;
 
         return {
             setAudience: function (aud) {
@@ -101,6 +103,17 @@
             },
             getDayPartdata:function(){
                 return dayPartData;
+            },
+            setDayPartDispObj: function(daytimeArr,dayTimeSelected){
+                daytimeArrObj = daytimeArr;
+                dayTimeSelectedObj = dayTimeSelected;
+                console.log('day obj',daytimeArrObj,'selected obj',dayTimeSelectedObj)
+            },
+            getDaytimeObj: function(){
+                return daytimeArrObj;
+            },
+            getDayTimeSelectedObj: function(){
+                return dayTimeSelectedObj;
             }
 
     }
