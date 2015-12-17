@@ -70,18 +70,18 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="performanceBusy"></div>
-                                    <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in strategyDataByPerformance.platform_metrics.performance | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-include="'performanceTpl'"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-include="'performanceTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByPerformance.tactics | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-if="tactic.platform_metrics.performance">
+                                <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
-                                            {{tactic.name}}
+                                            {{platform.ad_name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list expandRow" ng-repeat="performanceData in tactic.platform_metrics.performance | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-include="'performanceTpl'"></div>
+                                            <div class="clearfix each_row_list expandRow" ng-include="'performanceTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -109,18 +109,18 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="costBusy"></div>
-                                    <div class="clearfix each_row_list expandRow" ng-repeat="costData in strategyDataByCost.platform_metrics.cost | orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByCost.tactics | orderBy:sortTypebyCost:sortReverse track by $index" ng-if="tactic.platform_metrics.cost">
+                                <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyCost:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
-                                            {{tactic.name}}
+                                            {{platform.ad_name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list expandRow" ng-repeat="costData in tactic.platform_metrics.cost | orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                            <div class="clearfix each_row_list expandRow" ng-include="'costTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -144,21 +144,21 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="viewabilityBusy"></div>
-                                    <div ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
-                                    <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in strategyDataByViewability.platform_metrics.viewability | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'videoViewabilityTpl'"></div>
+                                    <div ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
+                                    <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'videoViewabilityTpl'"></div>
                                 </div>
 
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyDataByViewability.tactics | orderBy:sortTypebyViewability:sortReverse track by $index" ng-if="tactic.platform_metrics.viewability">
+                                <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyViewability:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
-                                            {{tactic.name}}
+                                            {{platform.ad_name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div ng-if="!adFormats.videoAds || !videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortTypebyViewability:sortReverse track by $index" ng-include="'viewabilityTpl'"></div>
-                                            <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="ViewabilityData in tactic.platform_metrics.viewability  | orderBy:sortTypebyViewability:sortReverse track by $index" ng-include="'videoViewabilityTpl'"></div>
+                                            <div ng-if="!adFormats.videoAds || !videoMode" class="clearfix each_row_list expandRow" ng-include="'viewabilityTpl'"></div>
+                                            <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-include="'videoViewabilityTpl'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -173,62 +173,12 @@
 </div>
 
 <script type="text/ng-template" id="performanceTpl">
-    <div class="platform_aggregation_row" >
-        <div class="each_col sec_col row_open" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}" ng-click="togglePlatformRow($event)" >
-            {{performanceData.platform_type}}
-        </div>
-        <div class="each_col third_col">
-            {{performanceData.platformType_aggregation.impressions |  nrFormat}}
-        </div>
-
-        <div class="vid_col" ng-show="adFormats.videoAds == true">
-            <div class="each_col third_col">
-                {{performanceData.platformType_aggregation.video_metrics.ad_starts > 0 ? (performanceData.platformType_aggregation.video_metrics.ad_starts | nrFormat) : '-'}}
-            </div>
-
-            <div class="vid_data_hdr">
-                <div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_25 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_25  | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_50 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_50  | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_75 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_75  | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{performanceData.platformType_aggregation.video_metrics.vtc_100 >0 ? (performanceData.platformType_aggregation.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
-                </div>
-            </div>
-            <div class="each_col third_col">
-                <span>{{performanceData.platformType_aggregation.video_metrics.vtc_rate | number:2}}%</span>
-            </div>
-        </div>
-
-        <div class="each_col forth_col">
-            {{performanceData.platformType_aggregation.ctr*100 | number:2}}%
-        </div>
-        <div class="each_col fifth_col">
-            {{performanceData.platformType_aggregation.action_rate*100 | number:2}}%
-        </div>
-         <span  ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col">
-            {{performanceData.platformType_aggregation.cpa | currency:undefined:2}}
-        </div>
-        <div class="each_col seventh_col">
-            {{performanceData.platformType_aggregation.cpc | currency:undefined:2}}
-        </div>
-        <div class="each_col eight_col">
-            {{performanceData.platformType_aggregation.cpm | currency:undefined:2}}
-        </div>
-             </span>
-        <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
-            <span ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'"> {{performanceData.platformType_aggregation.cpm | currency:undefined:2}}</span>
-            <span ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'"> {{performanceData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-            selected_filters2.kpi_type}}</span>
-        </div>
-    </div>
-
-    <div class="platform_row" ng-repeat="platform in performanceData.platforms | orderBy:sortTypeSubSort:sortReverse track by $index">
+    <div class="platform_row">
         <div class="each_col sec_col platform_logo" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
             <span class="platform_logo_img">
-                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+                <img ng-src="{{platform.platform_icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.platform_icon_url}}" />
             </span>
-            <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_col third_col">
             {{platform.impressions |  nrFormat}}
@@ -236,19 +186,19 @@
 
         <div class="vid_col" ng-show="adFormats.videoAds == true">
             <div class="each_col third_col">
-                {{platform.video_metrics.ad_starts >0 ? (platform.video_metrics.ad_starts | nrFormat) : '-'}}
+                {{platform.video_played > 0 ? (platform.video_played | nrFormat) : '-'}}
             </div>
 
             <div class="vid_data_hdr">
                 <div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_25 >0 ? (platform.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_50 >0 ? (platform.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_75 >0 ? (platform.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{platform.video_metrics.vtc_100 >0 ? (platform.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_completion_25 >0 ? (platform.video_completion_25 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_completion_50 >0 ? (platform.video_completion_50 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_completion_75 >0 ? (platform.video_completion_75 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{platform.video_completion_100 >0 ? (platform.video_completion_100 | nrFormat) : '-'}}</div>
                 </div>
             </div>
             <div class="each_col third_col">
-                <span>{{platform.video_metrics.vtc_rate | number:2}}%</span>
+                <span>{{platform.vtc_100 | number:2}}%</span>
             </div>
         </div>
 
@@ -261,7 +211,7 @@
         </div>
 
 
-<span  ng-if="!adFormats.videoAds">
+    <span  ng-if="!adFormats.videoAds">
         <div class="each_col sixth_col">
             {{platform.cpa | currency:undefined:2}}
         </div>
@@ -312,165 +262,85 @@
 
 
 <script type="text/ng-template" id="videoViewabilityTpl">
-    <div class="platform_aggregation_row" >
-        <div class="each_col platform_name_col row_open" ng-click="togglePlatformRow($event)">
-            {{ViewabilityData.platform_type}}
-        </div>
-
-        <div class="each_col third_col impressions_col">
-            <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}</span>
-        </div>
-        <div class="each_col third_col measurable_col" >
-            <div class="sub_col">
-                <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps >0 ? (ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_measurable_perc | number:0}}%</span>
-            </div>
-        </div>
-
-        <!-- -->
-
-
-        <div class="each_col forth_col">
-            <div class="sub_col">
-                <span> {{ViewabilityData.platformType_aggregation.video_viewability_metrics.videos_viewable_imps | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_viewable_perc | number:0}}%</span>
-            </div>
-        </div>
-        <!-- -->
-
-
-        <div class="clearfix pull-left" ng-init= "vvData = ViewabilityData.platformType_aggregation.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
-
-        <div class="each_col suspicious_col">
-            {{ViewabilityData.platformType_aggregation.video_viewability_metrics.video_susp_activity_perc | number:2}}%
-        </div>
-    </div>
-
-    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms track by $index">
+    <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
-                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+                <img ng-src="{{platform.platform_icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.platform_icon_url}}" />
             </span>
-            <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}" >{{platform.platform_name}}</span>
         </div>
 
         <div class="each_col third_col impressions_col">
-            <span>{{platform.video_viewability_metrics.videos_deliverable_imps >0 ? (platform.video_viewability_metrics.videos_deliverable_imps | nrFormat) : '-'}}</span>
+            <span>{{platform.video_view_impressions > 0 ? (platform.video_view_impressions | nrFormat) : '-'}}</span>
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
-                <span> {{platform.video_viewability_metrics.video_measurable_imps >0 ? (platform.video_viewability_metrics.video_measurable_imps | nrFormat) : '-'}}</span>
-                <span>{{platform.video_viewability_metrics.video_measurable_perc | number:0}}%</span>
+                <span> {{platform.video_view_measurable > 0 ? (platform.video_view_measurable | nrFormat) : '-'}}</span>
+                <span>{{platform.video_view_measurable_perc | number:0}}%</span>
             </div>
         </div>
-
-        <!-- -->
 
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{platform.video_viewability_metrics.videos_viewable_imps | nrFormat}}</span>
-                <span> {{platform.video_viewability_metrics.video_viewable_perc | number:0}}%</span>
+                <span> {{platform.video_viewable_impressions | nrFormat}}</span>
+                <span> {{platform.video_viewable_impressions_perc | number:0}}%</span>
             </div>
         </div>
-        <!-- -->
 
         <div class="clearfix pull-left" ng-init= "vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{platform.video_viewability_metrics.video_susp_activity_perc | number:2}}%
+            {{platform.video_view_imps_suspicious_prec | number:2}}%
         </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="costTpl">
-    <div class="platform_aggregation_row" >
-        <div class="each_cost_col first_col row_open" ng-click="togglePlatformRow($event)">{{costData.platform_type}}</div>
-        <div class="each_cost_col second_col">{{costData.platformType_aggregation.impressions | nrFormat}}</div>
-        <div class="each_cost_col third_col">{{costData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_cost_col fourth_col">{{costData.platformType_aggregation.inventory_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col fifth_col">{{costData.platformType_aggregation.data_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col sixth_col">{{costData.platformType_aggregation.ad_serving_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col seventh_col">{{costData.platformType_aggregation.rich_media_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col eigth_col">{{costData.platformType_aggregation.research_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col ninth_col">{{costData.platformType_aggregation.ad_verification_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">{{costData.platformType_aggregation.total_spend | currency:undefined:0}}</div>
-    </div>
-
-    <div class="clearfix platform_row" ng-repeat="platform in costData.platforms | orderBy:sortTypeSubSort:sortReverse  track by $index">
+    <div class="clearfix platform_row">
         <div class="each_cost_col first_col platform_logo" >
             <span class="platform_logo_img">
-                <img ng-src="{{platform.icon_url==='Unknown'? '/assets/images/platform_logos/platform_logo.png': platform.icon_url}}" />
+                <img ng-src="{{platform.platform_icon_url==='Unknown'? '/assets/images/platform_logos/platform_logo.png': platform.platform_icon_url}}" />
             </span>
-            <span class="plat_name" title="{{platform.platform}}">{{platform.platform}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_cost_col second_col">{{platform.impressions | nrFormat}}</div>
         <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
         <div class="each_cost_col fourth_col">{{platform.inventory_cost | currency:undefined:0}}</div>
         <div class="each_cost_col fifth_col">{{platform.data_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col sixth_col">{{platform.ad_serving_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col seventh_col">{{platform.rich_media_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col sixth_col">{{platform.serving_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col seventh_col">{{platform.metric_provider_cost | currency:undefined:0}}</div>
         <div class="each_cost_col eigth_col">{{platform.research_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col ninth_col">{{platform.ad_verification_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">{{platform.total_spend | currency:undefined:0}}</div>
+        <div class="each_cost_col ninth_col">{{platform.verification_cost | currency:undefined:0}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{platform.spend | currency:undefined:0}}</div>
     </div>
 </script>
 
 <script type="text/ng-template" id="viewabilityTpl">
-    <div class="platform_aggregation_row" >
-        <div class="each_col platform_name_col row_open" ng-click="togglePlatformRow($event)">
-            {{ViewabilityData.platform_type}}
-        </div>
-
-        <div class="each_col third_col impressions_col">
-                {{ViewabilityData.platformType_aggregation.ias_imps_delivered | nrFormat}}
-        </div>
-        <div class="each_col third_col measurable_col" >
-            <div class="sub_col">
-                <span> {{ViewabilityData.platformType_aggregation.ias_measurable_imps | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.measurable_imps_perc | number:0}}%</span>
-            </div>
-        </div>
-
-        <div class="each_col forth_col">
-            <div class="sub_col">
-                <span> {{ViewabilityData.platformType_aggregation.ias_viewable_imps | nrFormat}}</span>
-                <span>{{ViewabilityData.platformType_aggregation.viewable_imps_perc | number:0}}%</span>
-            </div>
-        </div>
-        <div class="each_col suspicious_col">
-            {{ViewabilityData.platformType_aggregation.susp_activity_perc | number:2}}%
-        </div>
-        <!--<div class="each_col seventh_col">
-            {{ViewabilityData.platformType_aggregation[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
-        </div>-->
-
-    </div>
-
-    <div class="clearfix platform_row" ng-repeat="platform in ViewabilityData.platforms  | orderBy:sortTypeSubSort:sortReverse track by $index">
+    <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
-                <img ng-src="{{platform.icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.icon_url}}" />
+                <img ng-src="{{platform.platform_icon_url==='Unknown'?'assets/images/platform_logos/platform_logo.png':platform.platform_icon_url}}" />
             </span>
-            <span class="plat_name" title="{{platform.platform}}" >{{platform.platform}}</span>
+            <span class="plat_name" title="{{platform.platform_name}}" >{{platform.platform_name}}</span>
         </div>
 
         <div class="each_col third_col impressions_col">
-               {{platform.ias_imps_delivered | nrFormat}}
+               {{platform.other_view_impressions | nrFormat}}
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
-                <span> {{platform.ias_measurable_imps | nrFormat}}</span>
-                <span>{{platform.measurable_imps_perc | number:0}}%</span>
+                <span> {{platform.other_view_measurable | nrFormat}}</span>
+                <span>{{platform.other_view_measurable_perc | number:0}}%</span>
             </div>
         </div>
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{platform.ias_viewable_imps | nrFormat}}</span>
-                <span>{{platform.viewable_imps_perc | number:0}}%</span>
+                <span> {{platform.other_viewable_impressions | nrFormat}}</span>
+                <span>{{platform.other_viewable_impressions_prec | number:0}}%</span>
             </div>
         </div>
         <div class="each_col suspicious_col">
-            {{platform.susp_activity_perc | number:2}}%
+            {{platform.other_view_imps_suspicious_prec | number:2}}%
         </div>
        <!-- <div class="each_col seventh_col">
             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
