@@ -363,6 +363,9 @@
     this.IMPRESSIONS = "Impressions";
     this.CREATIVES = "Creatives";
     this.TARGETING = "Targeting";
+    this.CONTINUE = "Continue";
+    this.PREVIOUS = "Previous";
+    this.NEXT = "Next";
 
     this.WF_GUIDED_COPY ="Guided Copy Here - What should i choose?";
     this.WF_HEADER_CREATIVES ="What type of creatives are you using?";
