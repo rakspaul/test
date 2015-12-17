@@ -336,7 +336,6 @@ var angObj = '';
                 brandsModel.enable();
             }
             dataService.updateRequestHeader();
-
             if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
                 workflowService.getClients().then(function (result) {
                     if(result && result.data.data.length >0) {
