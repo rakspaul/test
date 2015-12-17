@@ -401,6 +401,9 @@ var angObj = angObj || {};
             $scope.clearAllSelectedAudience = function(){
                 resetAudience();
                 $scope.selectedAudience = [];
+                //this is to save selected audience in service to show in summary
+                audienceService.setSelectedAudience($scope.selectedAudience);
+                $scope.getSelectedAudience();
             }
 
             function resetAudience(){
@@ -432,6 +435,7 @@ var angObj = angObj || {};
                 audienceService.setSelectedAudience($scope.selectedAudience);
                 audienceService.setAndOr($scope.andOr);
                 $scope.resetAudienceTargetingVariables();
+                $scope.getSelectedAudience();
                 //$scope.CampaignADsave(false);
             }
                 // end of final save

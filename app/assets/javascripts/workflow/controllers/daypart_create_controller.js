@@ -134,6 +134,7 @@ var angObj = angObj || {};
             }
             console.log(adDaypartTargets);
             audienceService.setDayPartData(adDaypartTargets);
+            $scope.getSelectedDays();
 
 
         }
