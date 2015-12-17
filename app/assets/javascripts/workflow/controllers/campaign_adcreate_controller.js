@@ -85,6 +85,10 @@ var angObj = angObj || {};
         $scope.adData.budgetTypeLabel = 'Impressions';
         $scope.adData.budgetType = 'Impressions';
         $scope.downloadingTracker=false;
+        $scope.selectedAudience = [];
+        $scope.selectedDayParts = [];
+        //localStorage.setItem("trackingIntegration",false);
+        //workflowService.setTrackingPlatform(false);
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
@@ -973,6 +977,18 @@ var angObj = angObj || {};
                 $scope.$broadcast('removeCreativeTags', [[clickedTagData], 'special']); //special case when we remove tag from selected list
         };
 
+        //ad targets summary
+        $scope.getSelectedAudience = function(){
+            $scope.selectedAudience = audienceService.getSelectedAudience();
+            return ($scope.selectedAudience)?$scope.selectedAudience.length:0;
+        }
+
+        $scope.getSelectedDays = function(){
+            $scope.selectedDayParts['selected'] = audienceService.getDayTimeSelectedObj();
+            $scope.selectedDayParts['data'] = audienceService.getDaytimeObj();
+            return ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
+        }
+
     });
 
     angObj.controller('CreativeTagController', function($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
@@ -1361,6 +1377,8 @@ var angObj = angObj || {};
               }
           }
         };
+
+
     });
 
     angObj.controller('InventoryFiltersController', function($scope, $window, $routeParams, constants, workflowService, Upload, $timeout,  utils, $location) {
@@ -1460,6 +1478,7 @@ var angObj = angObj || {};
         $scope.closeDomainListPop = function() {
             $scope.showDomainListPopup = false;
         }
+
     });
 
 })();

@@ -134,7 +134,7 @@ var angObj = angObj || {};
         // Day Targeting Trigger
         $scope.selectDayTarget = function(){
             $scope.setTargeting('Daypart');
-            $scope.resetGeoTargetingVariables();
+            //$scope.resetGeoTargetingVariables();
             $("#dayTargeting").show().delay( 300 ).animate({left: "50%" , marginLeft: "-461px", opacity: "1.0"}, 'slow');
         }
 
