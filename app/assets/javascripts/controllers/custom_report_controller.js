@@ -587,7 +587,7 @@ var angObj = angObj || {};
                 $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,"type":"Secondary","values":$scope.reports.reportDefinition.dimensions.secondary.value});
             }
             _.each($scope.additionalFilters,function(eachObj) {
-                $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
+               // $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
                 $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
             })
 
