@@ -329,7 +329,7 @@ var angObj = angObj || {};
             // This sets dynamic width to line to take 100% height
             function colResize() {
                 var winHeight = $(window).height() - 50;
-                $("#campaignCreate .settingWrap").css('height', winHeight + 'px');
+                $("#campaignCreate .settingWrap").css('min-height', winHeight + 'px');
             }
 
             colResize();

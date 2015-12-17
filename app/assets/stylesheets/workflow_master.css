@@ -883,6 +883,7 @@
   text-decoration: none;
   padding: 4px ;
   border-width: 0;
+  cursor: pointer;
 }
 .workflow .left_column_nav .stepCompLabel li a:hover {
   background: transparent;
@@ -1322,6 +1323,39 @@
   border-top-color: rgba(154, 154, 154, 0.38);
   border-width: 8px;
   margin-left: -8px;
+}
+.workflow .nextWrapper {
+  position: absolute;
+  left: -1px;
+  bottom: 0px;
+  background: #fff;
+  border-top: 1px solid #D0D0D0;
+  height: 30px;
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+.workflow .nextWrapper img {
+  width: 35px;
+  margin-top: -12px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
+  background: -moz-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ffffff), color-stop(37%, rgba(255, 255, 255, 0.81)), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0);
+  /* IE6-9 */
+}
+.workflow .nextWrapper .btn {
+  margin-top: -24px;
 }
 .workflow .ui-helper-hidden {
   display: none;
