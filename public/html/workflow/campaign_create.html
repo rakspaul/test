@@ -162,8 +162,8 @@
                             <div class="form-group col-sm-5 zeroPadding">
                                 <!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
                                 <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
-                                      <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>
+                                    <label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" >
+                                      <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-click="selectCampaignGoal(goal.name)" ng-checked="goal.active" required>
                                         <div class="hideRadioBtn" style="margin-top: -18px;">
                                             <div class="icon-{{goal.name | lowercase}}"></div>
                                             <span>{{goal.name}}</span>

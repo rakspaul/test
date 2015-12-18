@@ -37,6 +37,7 @@
                 return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns', data, {'Content-Type': 'application/json'})
             },
             updateCampaign : function(data,id) {
+                var clientId =  loginModel.getSelectedClient().id;
                 return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+id, data, {'Content-Type': 'application/json'})
             },
             getCampaignData : function(campaignId) {
