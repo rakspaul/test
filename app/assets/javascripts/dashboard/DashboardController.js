@@ -12,7 +12,7 @@
     }
 
     var selectBrand = function(brand) {
-      $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
+      $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, brand);
     };
 
     var selectAdvertiser = function(brand) {
