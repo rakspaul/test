@@ -129,6 +129,8 @@ var angObj = angObj || {};
                 //reset selected array in service after initial load to avoid populating same data when platform is changed
                 fetchedObj.targets.segmentTargets = [];
                 workflowService.getAdsDetails(fetchedObj);
+                //update target summary
+                $scope.getSelectedAudience();
 
             }
 

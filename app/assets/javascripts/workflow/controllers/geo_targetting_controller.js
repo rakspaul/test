@@ -92,7 +92,7 @@ var angObj = angObj || {};
 
             }
             dmasInitialLoad = true;
-
+            createPreviewData();
 
         }
 
@@ -832,6 +832,16 @@ var angObj = angObj || {};
                 $scope.zipCodesObj = [];
             }
             $scope.adData.zipCodes = '';
+
+            createPreviewData();
+            $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
+            $scope.redirectTargettingMain();
+            //$(".targettingFormWrap").slideUp();
+            //$(".targettingSelected").show();
+
+        };
+
+        function createPreviewData (){
             var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected);
             selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
 
@@ -839,6 +849,7 @@ var angObj = angObj || {};
                 selectedTargtingData.zipCodes = [{'values': selectedTargtingData.zip}]
             }
             delete selectedTargtingData.zip;
+
             var obj = {};
             obj['include'] = {}
             obj['exclude'] = {}
@@ -858,13 +869,7 @@ var angObj = angObj || {};
                 }
             });
             $scope.geoTargetingData.selected['previewData'] = obj;
-            $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
-
-            $scope.redirectTargettingMain();
-            //$(".targettingFormWrap").slideUp();
-            //$(".targettingSelected").show();
-
-        };
+        }
 
         $scope.editGeography =  function() {
             $(".targettingFormWrap").slideDown();
