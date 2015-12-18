@@ -219,7 +219,7 @@
   float: left;
   clear: both;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .label {
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel {
   float: left;
   width: 15px;
   height: 15px;
@@ -232,6 +232,18 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .inActiveLabel {
   background-color: #939eae;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_scheduled {
+  background-color: #2c9aec ;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_draft {
+  background-color: #6abdfa ;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_in_flight {
+  background-color: #70d43d ;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_ended {
+  background-color: #707AEB ;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .overview-camp-name {
   white-space: nowrap;
@@ -1932,6 +1944,18 @@
 }
 .adCreateMaster .campTitleWrap .inActiveLabel {
   background-color: #939eae;
+}
+.adCreateMaster .campTitleWrap .statuslabel_scheduled {
+  background-color: #2c9aec ;
+}
+.adCreateMaster .campTitleWrap .statuslabel_draft {
+  background-color: #6abdfa ;
+}
+.adCreateMaster .campTitleWrap .statuslabel_in_flight {
+  background-color: #70d43d ;
+}
+.adCreateMaster .campTitleWrap .statuslabel_ended {
+  background-color: #707AEB ;
 }
 .adCreateMaster .page_header_container {
   margin-top: 30px !important;

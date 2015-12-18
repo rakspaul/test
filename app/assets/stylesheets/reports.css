@@ -2919,6 +2919,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   -webkit-box-shadow: 0px 0px 0px transparent;
   -moz-box-shadow: 0px 0px 0px transparent;
 }
+.reports_login_outer_container .reports_login_box .login_txtbox input:focus {
+  border: 0px solid transparent;
+  border-left: solid 1px #d2dee7 ;
+}
 .reports_login_outer_container .reports_login_box .validation_error {
   border: solid 2px #C32A2A ;
 }
@@ -3820,10 +3824,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
       padding-bottom: 15px;*/
   text-align: right;
 }
-
 .custom_report_response_page .custom_report_response_table .each_col_cost {
-
-   display: table-cell;
+  display: table-cell;
   width: 133px;
   min-width: 133px;
   max-width: 133px;
@@ -3833,8 +3835,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
       padding-bottom: 15px;*/
   text-align: right;
 }
-
-
 .custom_report_response_page .custom_report_response_table .tree_dimension_col {
   width: 295px;
   min-width: 295px;

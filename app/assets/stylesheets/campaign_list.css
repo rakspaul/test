@@ -1310,29 +1310,56 @@ input[type="submit"] {
   word-wrap: break-word;
 }
 .campaign_status_icon {
-  height: 14px;
-  width: 14px;
   margin-top: 5px;
-  background-repeat: no-repeat;
-  background-position: top left;
-  background-size: contain ;
   margin-right: 8px ;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
 }
-.completed_campaign_status_icon {
-  background-image: url("/assets/images/statusWidget/completed_icon.png");
+/*.completed_campaign_status_icon {
+  background-image : url("/assets/images/statusWidget/completed_icon.png") ;
 }
 .draft_campaign_status_icon {
-  background-image: url("/assets/images/statusWidget/draft_icon.png");
+  background-image : url("/assets/images/statusWidget/draft_icon.png")  ;
 }
 .ready_campaign_status_icon {
-  background-image: url("/assets/images/statusWidget/ready_icon.png");
+  background-image : url("/assets/images/statusWidget/ready_icon.png")  ;
 }
 .active_campaign_status_icon {
-  background-image: url("/assets/images/statusWidget/active_icon.png");
+  background-image : url("/assets/images/statusWidget/active_icon.png")  ;
 }
 .paused_campaign_status_icon {
-  background-image: url("/assets/images/statusWidget/paused_icon.png");
-  width: 10px ;
+  background-color: #70d43d ;
+}
+.in_flight_campaign_status_icon {
+  background-color: #70d43d ;
+}*/
+.draft_campaign_status_icon {
+  background: #6ABDFA ;
+}
+.ready_campaign_status_icon {
+  background: #6abdfa ;
+}
+.scheduled_campaign_status_icon {
+  background: #2c9aec ;
+}
+.in_flight_campaign_status_icon {
+  background: #70d43d ;
+}
+.deploying_campaign_status_icon {
+  background: #6abdfa;
+}
+.in_progress_campaign_status_icon {
+  background: #6abdfa ;
+}
+.failed_campaign_status_icon {
+  background: #FF8000 ;
+}
+.ended_campaign_status_icon {
+  background: #707AEB ;
+}
+.paused_campaign_status_icon {
+  background: #98B5C8 ;
 }
 .cost_cols_holder .first_col,
 .cost_cols_holder .second_col {

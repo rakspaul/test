@@ -405,22 +405,37 @@
 .main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend {
   padding-left: 25px ;
   margin-top: 8px ;
-  background: url("/assets/images/statusWidget/active_icon.png") no-repeat left center;
+  position: relative;
 }
-.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.completed_status {
-  background-image: url("/assets/images/statusWidget/completed_icon.png");
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend:after {
+  content: "";
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  top: 0;
+  left: 0;
 }
-.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.draft_status {
-  background-image: url("/assets/images/statusWidget/draft_icon.png");
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.completed_status:after {
+  background: #707AEB ;
 }
-.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.active_status {
-  background-image: url("/assets/images/statusWidget/active_icon.png");
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.draft_status:after {
+  background: #6ABDFA ;
+  /* background : #2c9aec ; */
 }
-.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.paused_status {
-  background-image: url("/assets/images/statusWidget/paused_icon.png");
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.active_status:after {
+  background: #70D43D ;
 }
-.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.ready_status {
-  background-image: url("/assets/images/statusWidget/ready_icon.png");
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.scheduled_status:after {
+  background: #2C9AEC ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.paused_status:after {
+  background: #98B5C8 ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend.ready_status:after {
+  background: #6ABDFA ;
 }
 .main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .calendar_legend_holder {
   margin-top: 12px ;
