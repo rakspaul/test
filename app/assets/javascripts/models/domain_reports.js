@@ -37,7 +37,7 @@
                     tabs =  _.filter(tabs, function(obj, idx) {  return obj.href !== 'cost'});
                 }
 
-                var usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
+                var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
                 if(usrRole && usrRole.ui_modules) {
                     tabs =  _.filter(tabs, function(obj, idx) {  return _.indexOf(usrRole.ui_modules, obj.href) == -1 });
                 }

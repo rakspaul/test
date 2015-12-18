@@ -3,21 +3,17 @@
  */
 (function() {
     commonModule.factory("RoleBasedService", [function () {
-        var getUserRole = function() {
-            var userType = JSON.parse(localStorage.getItem('userRoleObj'));
-            return userType;
+        var getClientRole = function() {
+            return JSON.parse(localStorage.getItem('clientRoleObj'));
         };
-
-        var setUserRole = function(response) {
-            var userRoleObj = {
-                'workFlowUser' : true, //response.data.data.is_workflow_user,
-                'networkUser' : false, //response.data.data.is_network_user,
-                'authorizationKey' : response.data.data.auth_token,
+        var setClientRole = function(response) {
+            var clientRoleObj = {
+                'workFlowUser' : response.data.data.isWorkflowUser,
                 'i18n' : response.data.data.i18n
             };
 
             var uiExclusion =  function(uiElements) {
-                if(uiElements && userRoleObj.locale === 'en-gb') {
+                if(uiElements && clientRoleObj.locale === 'en-gb') {
                     var obj= {};
                     var modules = uiElements.split(",");
                     _.each(modules, function(module) {
@@ -30,18 +26,30 @@
             };
 
             if(response.data.data.i18n) {
-                userRoleObj['locale'] = response.data.data.i18n.locale;
-                userRoleObj['ui_exclusions'] = uiExclusion(response.data.data.i18n.ui_exclusions);
-                userRoleObj['currency'] = response.data.data.i18n.currency;
+                clientRoleObj['locale'] = response.data.data.i18n.locale;
+                clientRoleObj['ui_exclusions'] = uiExclusion(response.data.data.i18n.ui_exclusions);
+                clientRoleObj['currency'] = response.data.data.i18n.currency;
             }
 
-            localStorage.setItem('userRoleObj', JSON.stringify(userRoleObj));
+            localStorage.setItem('clientRoleObj', JSON.stringify(clientRoleObj));
+        };
+
+        var setUserData = function(response) {
+            var userObj = {
+                'authorizationKey' : response.data.data.auth_token
+            }
+            localStorage.setItem('userObj', JSON.stringify(userObj));
+        };
+
+        var getUserData = function() {
+            return JSON.parse(localStorage.getItem('userObj'));
         };
 
         return {
-          getUserRole:getUserRole,
-          setUserRole:setUserRole
-
+          getClientRole: getClientRole,
+          setClientRole: setClientRole,
+          setUserData  : setUserData,
+          getUserData  : getUserData
         }
     }]);
  })();

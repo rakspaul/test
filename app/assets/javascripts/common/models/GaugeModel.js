@@ -10,8 +10,8 @@
       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
       var brandId = brandsModel.getSelectedBrand().id;
       var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardModel.getData().selectedStatus );
-      var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
-      return dataService.fetchCancelable(url, canceller, function(response) {
+      //var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
+      return dataService.fetch(url).then(function(response) {
         var active = response.data.data.active;
         var completed = response.data.data.completed;
         var na = response.data.data.na ;

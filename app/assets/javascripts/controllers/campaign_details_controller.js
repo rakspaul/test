@@ -35,7 +35,6 @@
             //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
         $scope.campaigns = new Campaigns();
-        $scope.is_network_user = loginModel.getIsNetworkUser();
         var campaignList = [];
         $scope.details = {
             campaign: null,
@@ -45,8 +44,10 @@
 
         $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
-        $scope.usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
-        $scope.isLocaleSupportUk = RoleBasedService.getUserRole().i18n && RoleBasedService.getUserRole().i18n.locale === 'en-gb';
+        $scope.usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
+        $scope.isLocaleSupportUk = RoleBasedService.getClientRole().i18n && RoleBasedService.getClientRole().i18n.locale === 'en-gb';
+        $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
+
 
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.

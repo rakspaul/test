@@ -19,9 +19,9 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
        var advertiserId = advertiserModel.getSelectedAdvertiser().id;
        var brandId = brandsModel.getSelectedBrand().id;
         var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardData.selectedStatus);
-        var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);
+        //var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);
 
-       return dataService.fetchCancelable(url, canceller, function(response) {
+       return dataService.fetch(url).then(function(response) {
            var ready = response.data.data.ready , draft = response.data.data.draft, paused = response.data.data.paused ;
            var totalCampaigns =  response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
 
