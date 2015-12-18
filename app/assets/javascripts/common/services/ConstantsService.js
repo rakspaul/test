@@ -183,11 +183,14 @@
     this.SELECT_ALL = "Select All";
     this.DRAFT = "Draft";
     this.READY = "Ready";
+    this.SCHEDULED = "Scheduled";
+    this.INFLIGHT_LABEL = "In Flight";
     this.ACTIVE_LABEL = "Active";
     this.KPI_ON_TRACK = "KPI On Track";
     this.UNDERPERFORMING = "Underperforming";
     this.PAUSED = "Paused";
     this.COMPLETED = "Completed";
+    this.ENDED = "Ended";
 
     this.CREATE_ACTIVITY = "Create Activity";
     this.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG = "Activity created successfully. Please see activity log below!";
@@ -363,6 +366,9 @@
     this.IMPRESSIONS = "Impressions";
     this.CREATIVES = "Creatives";
     this.TARGETING = "Targeting";
+    this.CONTINUE = "Continue";
+    this.PREVIOUS = "Previous";
+    this.NEXT = "Next";
 
     this.WF_GUIDED_COPY ="Guided Copy Here - What should i choose?";
     this.WF_HEADER_CREATIVES ="What type of creatives are you using?";
@@ -454,6 +460,7 @@
     this.WF_ARCHIVE="Archive"
     this.WF_NOT_SET = "Not Set"
     this.WF_AD_SAVE_CLOSE = "Save & Close";
+    this.WF_AD_SAVE_CONTINUE = "Save & Continue";
     this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
     this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
     this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";

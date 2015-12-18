@@ -217,7 +217,7 @@ var angObj = angObj || {};
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 var postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
-                postDataObj.goal = formData.goal.toUpperCase();
+                postDataObj.goal = formData.goal
                 postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
                 if(formData.kpiType!="None"){
@@ -225,6 +225,7 @@ var angObj = angObj || {};
                     postDataObj.kpiValue = formData.kpiValue;
                 }
 
+                postDataObj.clientId =  loginModel.getSelectedClient().id;
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
                         postDataObj.startTime = $scope.editCampaignData.startTime;
@@ -235,7 +236,7 @@ var angObj = angObj || {};
                     else
                         postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
 
-                    postDataObj.clientId = $scope.editCampaignData.clientId;
+
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
                     postDataObj.campaignId = $routeParams.campaignId;
@@ -244,7 +245,6 @@ var angObj = angObj || {};
                 } else {
                     postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//console.log(postDataObj.startTime)
                     postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');//console.log(postDataObj.endTime)
-                    postDataObj.clientId = Number(formData.clientId);
                     postDataObj.advertiserId = Number(formData.advertiserId);console.log(postDataObj);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {

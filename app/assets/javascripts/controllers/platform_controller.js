@@ -60,7 +60,7 @@ var angObj = angObj || {};
         //set default api return code 200
         $scope.api_return_code = 200;
 
-        $scope.usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
+        $scope.usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
 
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {

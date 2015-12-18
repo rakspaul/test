@@ -17,6 +17,11 @@
                 return dataService.fetch(url, {cache:false});
             },
 
+            getClientData: function (clientId) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId;
+                return dataService.fetch(url, {cache:false});
+            },
+
             getAdvertisers: function (clientId) {
                 var clientId =  loginModel.getSelectedClient().id;
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';

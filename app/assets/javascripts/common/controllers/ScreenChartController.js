@@ -13,14 +13,17 @@
         };
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            console.log("EVENT_BRAND_CHANGED");
             $scope.refresh();
         });
 
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
+            console.log("EVENT_STATUS_FILTER_CHANGED");
             $scope.refresh();
         });
 
         $scope.refresh = function(){
+            console.log("refresh");
             $scope.cleanScreenWidget();
             screenChartModel.getScreenWidgetData()['chartData']={};
             $scope.getScreenAndFormatData();
@@ -60,11 +63,12 @@
         };
 
         $scope.cleanScreenWidget = function(){
-            d3.select(".chart").remove();
+            d3.select(".barChart").remove();
             $(".DashBoradScreenWidget").hide();
         };
 
         $scope.getScreenAndFormatData = function() {
+            console.log("getScreenAndFormatData");
             $scope.screenBusy = true ;
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
@@ -75,8 +79,9 @@
         };
 
         $scope.init = function(){
+            console.log("init");
             $scope.screenBusy = true;
-            $scope.getScreenAndFormatData();
+            //$scope.getScreenAndFormatData();
         };
 
         $scope.init();

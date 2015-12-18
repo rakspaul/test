@@ -4,7 +4,6 @@
         var data = {};
         data.user_id = undefined;
         data.user_name = '';
-        data.is_network_user = false;
         data.is_workflow_user = true;//set the cookie value -->hardcoded
         data.auth_token = undefined;
         data.expiry_secs = undefined;
@@ -19,14 +18,10 @@
 
             deleteData: function () {
                 data = {};
-                data.is_network_user = false;
                 data.is_workflow_user = false;
             },
 
             getUserRole: function () {
-                if (data.is_network_user === true) {
-                    return constants.ROLE_NETWORK
-                }
                 return constants.ROLE_MARKETER;
             },
 
@@ -115,23 +110,7 @@
                 }
             },
 
-            getIsNetworkUser: function () {
-                if (data.is_network_user) {
-                    return data.is_network_user;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.is_network_user = $cookieStore.get('cdesk_session').is_network_user;
-                    return data.is_network_user === 'true' || data.is_network_user === true;
-                }
-            },
 
-            getIsWorkflowUser: function () {
-                if (data.is_workflow_user) {
-                    return data.is_workflow_user;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.is_workflow_user = $cookieStore.get('cdesk_session').is_workflow_user;
-                    return data.is_workflow_user === 'true' || data.is_workflow_user === true;
-                }
-            },
 
             getExpirySecs: function () {
                 if (data.expiry_secs) {

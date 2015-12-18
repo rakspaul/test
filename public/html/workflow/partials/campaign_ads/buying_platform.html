@@ -41,48 +41,34 @@
                                 <span class="descrip">{{trackingIntegration.summary}}</span>
                             </div>
                             <div class="col-md-12 select-btn">
-                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="selectTrackingIntegrations(trackingIntegration)">Selected</span>
-                                <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active  ?true:false" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="selectTrackingIntegrations(trackingIntegration)">
-                                <!--<input ng-if="!selectedPlatform[trackingIntegration.id]" ng-disabled="!editTrackerAd" type="button" value="Select" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="selectTrackingIntegrations(trackingIntegration)">-->
+                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="showTrackingSetupInfoPopUp($event, trackingIntegration);">Selected</span>
+                                <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active  ?true:false" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="showTrackingSetupInfoPopUp($event, trackingIntegration);">
                             </div>
-                            <div class="popUpCue">
-                                <span class="col-md-12 zeroPadding">
-                                    You can setup a tracking URL for {{trackingIntegration.displayName}}. You will be taken directly to the Creative section.
-                                </span>
-                                <a href="#creative" data-toggle="tab" class="leftNavLink creative-tab-link pull-right btn btn-primary">Continue</a>
-                                <a class="pull-right btn btn-link">Cancel</a>
-                            </div>
+
                         </div>
                         <input type="hidden" name="platformId" value="{{adData.platformId}}">
                         <div class="sliderSpacing"></div>
                     </div>
-
-                    <!--<div class="item">-->
-                        <!--<div class="offeringWrap">-->
-                            <!--<div class="col-md-3 zeroPadding">-->
-                                <!--<img src="/assets/images/workflow/platform_icons/Adaptv-logo.png" alt="Adap.tv" width="50">-->
-                            <!--</div>-->
-                            <!--<div class="col-md-9">-->
-                                <!--<span class="title">Adap.tv</span>-->
-                                <!--<span class="descrip">All-in-one customer support application</span>-->
-                            <!--</div>-->
-                            <!--<div class="col-md-12 select-btn">-->
-                                <!--<input type="button" value="Select" class="btn btn-default" >-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="sliderSpacing"></div>-->
-                    <!--</div>-->
+                    <!--- start pop up -->
+                    <!-- end pop up -->
+                </div>
+                <div class="popUpCue" ng-show="showtrackingSetupInfoPopUp">
+                        <span class="col-md-12 zeroPadding">
+                            You can setup a tracking URL for {{trackingIntegration.displayName}}. You will be taken directly to the Creative section.
+                        </span>
+                    <a href="#creative" data-toggle="tab" class="leftNavLink creative-tab-link pull-right btn btn-primary" ng-click="selectTrackingIntegrations()">{{textConstants.CONTINUE}}</a>
+                    <a class="pull-right btn btn-link" ng-click="hideTrackingSetupInfoPopUp();">{{textConstants.CANCEL}}</a>
                 </div>
                 <!-- Left and right controls -->
                 <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                     <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
                     <span class="leftCtrl"></span>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{textConstants.PREVIOUS}}</span>
                 </a>
                 <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
                     <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
                     <span class="rightCtrl"></span>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{textConstants.NEXT}}</span>
                 </a>
             </div>
         </div>
@@ -90,12 +76,12 @@
 </div>
 <!-- buying platform holder ends -->
 <!--=== Next Step Panel ===-->
-<a ng-if="!TrackingIntegrationsSelected" href="#targetting" data-toggle="tab" class="nextWrapper leftNavLink targetting-tab-link">
-    <span class="btn btn-default">Save & Continue</span>
-</a>
-<a ng-if="TrackingIntegrationsSelected" href="#creative" data-toggle="tab" class="nextWrapper leftNavLink">
-    <span class="btn btn-default">Save & Continue</span>
-</a>
+<span ng-if="!TrackingIntegrationsSelected" class="nextWrapper leftNavLink targetting-tab-link">
+    <a href="#targetting" data-toggle="tab" class="btn btn-default">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+</span>
+<span ng-if="TrackingIntegrationsSelected" class="nextWrapper leftNavLink">
+    <a href="#creative" data-toggle="tab" class="btn btn-default">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+</span>
 <!-- Modal Start -->
 <div class="common-popup-container" ng-show="changePlatformPopup">
     <div class="popup">
@@ -114,3 +100,4 @@
         </div>
     </div>
 </div>
+

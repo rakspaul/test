@@ -136,7 +136,6 @@ var angObj = angObj || {};
                         $scope.select_schedule_option(responseData.schedule.frequency);
 
                         angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
-                            console.log('each flter',eachObj);
                             var dimensionObj = $scope.customeDimensionData[0].dimensions;
                             _.each(dimensionObj,function(item) {
                                 var value1 = eachObj.dimension;
@@ -235,7 +234,6 @@ var angObj = angObj || {};
                                 videoQltyMetricsObj["selected"] = true;
                                 $scope.selectedMetricsList.push({'key':videoQltyMetricsObj.key,'value':videoQltyMetricsObj.value});
                             })
-                            console.log("responseData.reportDefinition.metrics['Quality Video']",responseData.reportDefinition.metrics['Quality Video']);
                             if(responseData.reportDefinition.metrics['Quality Video'].length == $scope.videoQltyMetrics.length) {
                                 $scope.videoQltyMetrics.isAllSelected = true;
                             } else {
@@ -442,7 +440,10 @@ var angObj = angObj || {};
             var params='';
             var dropdownElem = $(".each_section_custom_report");
             var reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
-            var str = $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
+            var str = $scope.reports.reportDefinition.dimensions.primary.dimension;
+            if($scope.reports.reportDefinition.dimensions.primary.value) {
+                str+=':'+$scope.reports.reportDefinition.dimensions.primary.value;
+            }
 
             if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
                 $scope.isReportForMultiDimension = true;
@@ -484,8 +485,7 @@ var angObj = angObj || {};
 
         _customctrl.fetchReportData = function(selectedMetricsList, params, idx, sucessCallbackHandler, errorCallbackHandler)  {
             $scope.generateBtnDisabled = true;
-            console.log('fetch reports...');
-            dataService.getCustomReportData($scope.campaign, params).then(function(result) { console.log('generate report success');
+            dataService.getCustomReportData($scope.campaign, params).then(function(result) {
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
                 if(result && result.data.data) {
                     sucessCallbackHandler(result.data.data.report_data, idx)
@@ -573,7 +573,6 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
-            console.log('$scope.requestData.reportDefinition.metrics',$scope.reports.reportDefinition.metrics);
 
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
             $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,"type":"Primary","values":$scope.reports.reportDefinition.dimensions.primary.value});
@@ -631,7 +630,7 @@ var angObj = angObj || {};
 
                }
 
-             console.log('create schedule report', JSON.stringify($scope.requestData));
+
 
               dataService.createScheduleReport($scope.createData()).then(function (result) {
                   if (result.data.status_code == 200) {
