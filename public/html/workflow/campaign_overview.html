@@ -27,8 +27,7 @@
                                 <span class="pull-left">{{workflowData.campaignData.brandName}}</span>
                             </div>
                         </div>
-                        workflowData.campaignData --> {{workflowData.campaignData.status}}
-                        <div class="campTitleWrap adStatus_{{workflowData.campaignData.status|lowercase}}" >
+                        <div ng-if="workflowData.campaignData.status" class="campTitleWrap adStatus_{{workflowData.campaignData.status|lowercase}}" >
                             <span class="statuslabel pull-left {{'activeLabel'}}"></span>
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}

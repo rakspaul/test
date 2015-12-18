@@ -233,16 +233,16 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .inActiveLabel {
   background-color: #939eae;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_scheduled {
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel.scheduled {
   background-color: #2c9aec ;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_draft {
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel.draft {
   background-color: #6abdfa ;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_in_flight {
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel.in_flight {
   background-color: #70d43d ;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel_ended {
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .statuslabel.ended {
   background-color: #707AEB ;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .overview-camp-name {
