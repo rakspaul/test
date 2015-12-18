@@ -183,11 +183,14 @@
     this.SELECT_ALL = "Select All";
     this.DRAFT = "Draft";
     this.READY = "Ready";
+    this.SCHEDULED = "Scheduled";
+    this.INFLIGHT_LABEL = "In Flight";
     this.ACTIVE_LABEL = "Active";
     this.KPI_ON_TRACK = "KPI On Track";
     this.UNDERPERFORMING = "Underperforming";
     this.PAUSED = "Paused";
     this.COMPLETED = "Completed";
+    this.ENDED = "Ended";
 
     this.CREATE_ACTIVITY = "Create Activity";
     this.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG = "Activity created successfully. Please see activity log below!";

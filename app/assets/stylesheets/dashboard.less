@@ -425,22 +425,50 @@
           .status_legend {
             padding-left: 25px ;
             margin-top: 8px ;
-            background: url("/assets/images/statusWidget/active_icon.png") no-repeat left center ;
+            position: relative;
+            &:after {
+              content: "";
+              height: 15px;
+              width: 15px;
+              position: absolute;
+              border-radius: 50%;
+              -moz-border-radius: 50%;
+              -webkit-border-radius: 50%;
+              top: 0;
+              left: 0;
+            }
           }
           .status_legend.completed_status {
-            background-image : url("/assets/images/statusWidget/completed_icon.png") ;
+            &:after {
+              background : #707AEB ;
+            }
           }
           .status_legend.draft_status {
-            background-image : url("/assets/images/statusWidget/draft_icon.png") ;
+            &:after {
+              
+              background : #6ABDFA ; 
+              /* background : #2c9aec ; */
+            }
           }
           .status_legend.active_status {
-            background-image : url("/assets/images/statusWidget/active_icon.png") ;
+            &:after { 
+              background : #70D43D ;
+            }
+          }
+          .status_legend.scheduled_status {
+            &:after { 
+              background : #2C9AEC ;
+            }
           }
           .status_legend.paused_status {
-            background-image : url("/assets/images/statusWidget/paused_icon.png") ;
+            &:after {
+              background : #98B5C8 ;
+            }
           }
           .status_legend.ready_status {
-            background-image : url("/assets/images/statusWidget/ready_icon.png") ;
+            &:after {
+              background : #6ABDFA ;
+            }
           }
           .calendar_legend_holder {
             margin-top: 12px ;
@@ -790,3 +818,7 @@
     }
   }
 }
+
+
+
+
