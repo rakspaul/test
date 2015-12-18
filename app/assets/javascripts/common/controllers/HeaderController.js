@@ -28,22 +28,25 @@
                             $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name})
                         })
                     })
+
+
+                    if(loginModel.getSelectedClient().name) {
+                        $scope.defaultAccountsName = loginModel.getSelectedClient().name;
+                    } else {
+                        $scope.defaultAccountsName = $scope.accountsData[0].name;
+                    }
+
+                    if (Number($scope.selectedCampaign) === -1) {
+                        campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                            if(response.length >0) {
+                                $scope.selectedCampaign = response[0].campaign_id;
+                            }
+                        });
+                    }
                 }
             });
 
-            if(loginModel.getSelectedClient().name) {
-                $scope.defaultAccountsName = loginModel.getSelectedClient().name;
-            } else {
-                $scope.defaultAccountsName = $scope.accountsData[0].name;
-            }
 
-            if (Number($scope.selectedCampaign) === -1) {
-                campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                    if(response.length >0) {
-                        $scope.selectedCampaign = response[0].campaign_id;
-                    }
-                });
-            }
         }
 
         $scope.set_account_name = function(event,id,name) {

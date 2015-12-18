@@ -546,13 +546,10 @@ var angObj = angObj || {};
             },
 
             fetchUnitTypes: function () {
-                if (loginModel.getIsNetworkUser())
-                    $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}, {id: 2, name: 'CPC'}, {
-                        id: 3,
-                        name: 'CPA'
-                    }];
-                else
-                    $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}];
+                $scope.workflowData['unitTypes'] = [{id: 1, name: 'CPM'}, {id: 2, name: 'CPC'}, {
+                    id: 3,
+                    name: 'CPA'
+                }];
             },
 
             fetchPlatforms: function () {

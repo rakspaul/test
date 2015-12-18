@@ -471,7 +471,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
         element.on('keypress keyup blur', function (evt) {
-          var charCode = (evt.which) ? evt.which : event.keyCode
+          var charCode = (evt.which) ? evt.which : window.event.keyCode
           if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
           } else if(([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
@@ -488,7 +488,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       restrict: 'A',
       link: function (scope, element, attrs, modelCtrl) {
         element.on('keypress keyup blur', function (evt) {
-           var charCode = (evt.which) ? evt.which : event.keyCode;
+           var charCode = (evt.which) ? evt.which : window.event.keyCode;
            if (charCode > 31 && (charCode != 46 || this.value.indexOf('.') != -1) && (charCode < 48 || charCode > 57)) {
                return false;
            } else if(([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {

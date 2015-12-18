@@ -8,6 +8,8 @@ var angObj = angObj || {};
         daytimeArr: []
     };
 
+    $scope.timeSelected = 'All days and times';
+
     $scope.$on('UpdateDayPart',function(){
         var fetchedObj =  workflowService.getAdsDetails();
     if(fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets)>0) {
@@ -314,6 +316,21 @@ var angObj = angObj || {};
 
                     break;
 
+            }
+        }
+
+        $scope.selectTime = function(time) {
+            var daytimeArr = $scope.Schedule.daytimeArr;
+            var dayTimeSelected = $scope.dayTimeSelected;
+            $scope.tmpDayTimeSelected = dayTimeSelected;
+
+            var timeMatched = _.filter($scope.Schedule.daytimeArr, function(obj) { return obj.startTime === time});
+            if(timeMatched.length == 0) {
+                $scope.dayTimeSelected = '';
+                $scope.timeSelected = "Custom schedule";
+            } else {
+                console.log("tmpDayTimeSelected", $scope.tmpDayTimeSelected);
+                $scope.dayTimeSelected = $scope.tmpDayTimeSelected;
             }
         }
 
