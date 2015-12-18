@@ -460,6 +460,7 @@
     this.WF_ARCHIVE="Archive"
     this.WF_NOT_SET = "Not Set"
     this.WF_AD_SAVE_CLOSE = "Save & Close";
+    this.WF_AD_SAVE_CONTINUE = "Save & Continue";
     this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
     this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
     this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
