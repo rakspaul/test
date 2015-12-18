@@ -101,7 +101,7 @@ var angObj = angObj || {};
             function processAudienceEdit(){
 
                 // partial done
-                var fetchedObj =  workflowService.getAdsDetails();
+                var fetchedObj =  angular.copy(workflowService.getAdsDetails());
                 var previouslySelectedAudience = fetchedObj.targets.segmentTargets;
                 for(var i = 0; i < previouslySelectedAudience.length; i++){
                     //find  array index in audienc list
