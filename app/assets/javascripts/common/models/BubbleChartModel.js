@@ -16,8 +16,8 @@
             var brandId = brandsModel.getSelectedBrand().id;
             var campaignStatus = dashboardModel.campaignStatusToSend();
             var url = urlService.APISpendWidgetForAllBrands(clientId,advertiserId,brandId,timePeriodModel.timeData.selectedTimePeriod.key,campaignStatus);
-            var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
-            return dataService.fetchCancelable(url, canceller, function(response) {
+            //var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
+            return dataService.fetch(url).then(function(response) {
              var total_brands = response.data.data.length ;
              var data =   _.chain(response.data.data).
                                 sortBy(function(d){ return d.budget ;}).

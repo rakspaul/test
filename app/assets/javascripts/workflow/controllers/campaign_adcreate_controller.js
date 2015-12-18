@@ -664,6 +664,9 @@ var angObj = angObj || {};
 
 
             errorHandler: function (errData) {
+                if(errData.data.status === 404) {
+                    $location.url('/mediaplans');
+                }
                 console.log(errData);
             }
         }

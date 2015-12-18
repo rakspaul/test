@@ -18,7 +18,7 @@
                   <div class="clearfix">
                       <filters-header reports="true" strategies="false"></filters-header>
                   </div>
-                <div ng-show="is_network_user">
+                <div ng-show="isWorkFlowUser">
                     <!-- action filter -->
                     <form  ng-controller="ActionsController" id="crActivityForm" >
                         <div class="action_filter_holder">
@@ -299,16 +299,15 @@
                             </span>
                           </span>
                       </div>
-                      <div class="clearfix common_graph_legend"  ng-show="is_network_user" >
+                      <div class="clearfix common_graph_legend"  ng-show="isWorkFlowUser" >
                         <div class="clearfix graph_legends">
                          <span class="legend"></span>
                          <span class="legend_text">{{ textConstants.EXTERNAL }}</span>
                        </div>
-                       <div class="clearfix graph_legends internal_legend">
+                       <!--<div class="clearfix graph_legends internal_legend">
                          <span class="legend"></span>
                          <span class="legend_text">{{ textConstants.INTERNAL }}</span>
-                       </div>
-
+                       </div>-->
                      </div>
                   </div>
                   <div class="pull-right activity_log_list_container">

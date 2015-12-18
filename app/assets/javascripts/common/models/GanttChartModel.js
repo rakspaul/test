@@ -19,8 +19,8 @@
                 url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, clientId,advertiserId, this.filter,  dashboardModel.getData().selectedStatus);
             }
 
-            var canceller = requestCanceller.initCanceller(constants.GANTT_CHART_BRAND_CANCELLER);
-            return dataService.fetchCancelable(url, canceller, function(response) {
+            //var canceller = requestCanceller.initCanceller(constants.GANTT_CHART_BRAND_CANCELLER);
+            return dataService.fetch(url).then(function(response) {
                 var data = response.data.data;
                 return data;
             })

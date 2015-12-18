@@ -46,7 +46,6 @@ var angObj = angObj || {};
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
         $scope.selected_filters.kpi_type =  kpiSelectModel.getSelectedKpi();;
 
-        $scope.is_network_user = loginModel.getIsNetworkUser();
         $scope.download_urls = { optimization: null  };
         $scope.seeDate = { value : '', className: ''};
 
@@ -355,7 +354,8 @@ var angObj = angObj || {};
         $scope.getCampaignDetails = function (callback) {
             if ($scope.selectedCampaign) {
                 //API call for campaign details
-                var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $scope.selectedCampaign.id;
+                var clientId =  loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl + '/clients/' + clientId + "/campaigns/" + $scope.selectedCampaign.id;
                 dataService.getSingleCampaign(url).then(function (result) {
                     if (result.data.data !== undefined) {
                         var res = result.data.data;

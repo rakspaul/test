@@ -25,7 +25,7 @@
                     var user = response.data.data;
                     user.login_name = $scope.username;
                     loginService.setCredentials(user);
-                    RoleBasedService.setUserRole(response);//set the type of user here in RoleBasedService.js
+                    RoleBasedService.setUserData(response);
                     document.location = '/';
                 } else {
                     $scope.error = response.data.message;

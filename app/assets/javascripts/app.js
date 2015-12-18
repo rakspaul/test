@@ -78,15 +78,14 @@ var angObj = '';
                 title: 'Reports - Cost',
                 controller: 'CostController',
                 resolve: {
-                    "check": function ($location, loginModel) {
+                    "check": function ($location, RoleBasedService) {
                         /* if  cost modal is opaque and some one trying to access cost direclty from the url */
-                        var isWorkflowUser, isNetworkUser, locationPath, isAgencyCostModelTransparent;
-                        isWorkflowUser = loginModel.getIsWorkflowUser();
-                        isNetworkUser = loginModel.getIsNetworkUser();
+                        var isWorkflowUser, locationPath, isAgencyCostModelTransparent;
+                        isWorkflowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
                         locationPath = $location.path();
                         if (!isAgencyCostModelTransparent && locationPath === '/cost') {
-                            $location.url((isNetworkUser || isWorkflowUser) ? 'campaigns' : 'dashboard');
+                            $location.url('/');
                         }
                     }
                 }
@@ -139,8 +138,8 @@ var angObj = '';
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel, workflowService) {
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check": function ($location, RoleBasedService, workflowService) {
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
                         if (!isWorkflowUser) {
                             $location.path('/');
@@ -164,8 +163,8 @@ var angObj = '';
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, loginModel,workflowService){
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check":function($location, RoleBasedService, workflowService){
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('edit');
                         if(!isWorkflowUser){
                             $location.path('/');
@@ -179,8 +178,8 @@ var angObj = '';
                 controller: 'CampaignOverViewController',
                 //     css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel) {
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check": function ($location, RoleBasedService) {
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -193,8 +192,8 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel,workflowService) {
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check": function ($location, RoleBasedService, workflowService) {
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
                         if (!isWorkflowUser) {
                             $location.path('/');
@@ -208,8 +207,8 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel,workflowService) {
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check": function ($location, RoleBasedService,workflowService) {
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
                         if (!isWorkflowUser) {
                             $location.path('/');
@@ -223,8 +222,8 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, loginModel, workflowService){
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check":function($location, RoleBasedService, workflowService){
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('edit');
                         if(!isWorkflowUser){
                             $location.path('/');
@@ -239,8 +238,8 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, loginModel, workflowService){
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check":function($location, RoleBasedService, workflowService){
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('edit');
                         if(!isWorkflowUser){
                             $location.path('/');
@@ -253,8 +252,8 @@ var angObj = '';
                 title: 'Add Creative',
                 // css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel) {
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check": function ($location, RoleBasedService) {
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -267,8 +266,8 @@ var angObj = '';
                 controller: 'CreativeListController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, loginModel) {
-                        var isWorkflowUser = loginModel.getIsWorkflowUser();
+                    "check": function ($location, RoleBasedService) {
+                        var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -299,7 +298,7 @@ var angObj = '';
         $rootScope.version = version;
 
 
-        var handleLoginRedirection = function (isNetworkUser, isWorkflowUser) {
+        var handleLoginRedirection = function () {
             var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null;
 
             if ($cookieStore.get(constants.COOKIE_SESSION)) {
@@ -307,7 +306,7 @@ var angObj = '';
                 if (cookieRedirect) {
                     cookieRedirect = cookieRedirect.replace("/", '');
                 }
-                if ((isNetworkUser || isWorkflowUser) && cookieRedirect && cookieRedirect !== 'dashboard') {
+                if (cookieRedirect && cookieRedirect !== 'dashboard') {
                     $location.url(cookieRedirect);
                     $cookieStore.remove(constants.COOKIE_REDIRECT);
                 } else {
@@ -318,37 +317,33 @@ var angObj = '';
         }
 
         var loginCheckFunc = function () {
-            if (RoleBasedService.getUserRole()) {
-                //if (!RoleBasedService.getUserRole().i18n) { //if i18n is not there in json.forcing to logout.
-                //    loginModel.unauthorized();
-                //}
-                var isWorkflowUser = loginModel.getIsWorkflowUser();
-                var isNetworkUser = loginModel.getIsNetworkUser();
-                var authorizationKey = RoleBasedService.getUserRole().authorizationKey;
-                var locale = RoleBasedService.getUserRole().locale || 'en-us';
+            if (RoleBasedService.getUserData()) {
+                var authorizationKey = RoleBasedService.getUserData().authorizationKey;
+                var locale = RoleBasedService.getUserData().locale || 'en-us';
                 tmhDynamicLocale.set(locale)
                 $rootScope.$locale = 'locale';
             }
-            $rootScope.productType = isWorkflowUser ? 'workflow' : 'reporting';
 
             var locationPath = $location.path();
             if (locationPath !== '/login') {
                 brandsModel.enable();
             }
+
             dataService.updateRequestHeader();
+
             if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
                 workflowService.getClients().then(function (result) {
                     if(result && result.data.data.length >0) {
                         loginModel.setSelectedClient({'id': result.data.data[0].children[0].id, 'name': result.data.data[0].children[0].name});
                         if (locationPath === '/login' || locationPath === '/') {
-                            handleLoginRedirection(isNetworkUser, isWorkflowUser);
+                            handleLoginRedirection();
                         }
                     }
                 });
             } else {
                 if(loginModel.getSelectedClient) {
                     if (locationPath === '/login' || locationPath === '/') {
-                        handleLoginRedirection(isNetworkUser, isWorkflowUser);
+                        handleLoginRedirection();
                     }
                 }
             }

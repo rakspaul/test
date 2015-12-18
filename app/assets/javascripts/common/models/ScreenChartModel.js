@@ -22,7 +22,7 @@
             'desktop' : 'display_graph'
         }
 
-        var usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
+        var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         if(usrRole && usrRole.ui_modules) {
             screenWidgetData.formatDropDown =  _.filter(screenWidgetData.formatDropDown, function(obj, idx) {
                 obj = obj.slice(0, obj.length-1);
@@ -99,6 +99,7 @@
         };
 
         this.getScreenChartData = function() {
+            console.log("please not")
             var modifiedData = [];
             var selectedFormat = this.getScreenWidgetFormat();
             var queryId = 1; //dashboard_hardware_categories

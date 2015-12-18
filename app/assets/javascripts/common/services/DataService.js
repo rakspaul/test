@@ -119,7 +119,7 @@
 
             getActions: function () {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/actionTypes';
+                var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actionTypes';
                 return this.fetch(url);
             },
 

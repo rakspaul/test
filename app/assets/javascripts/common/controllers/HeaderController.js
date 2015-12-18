@@ -6,17 +6,13 @@
         $scope.version = version;
         $scope.filters = domainReports.getReportsTabs();
         $scope.customFilters = domainReports.getCustomReportsTabs();
-        $scope.isNetworkUser = loginModel.getIsNetworkUser();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-
-        if(RoleBasedService.getUserRole()) {
-            $scope.isWorkFlowUser = RoleBasedService.getUserRole().workFlowUser;
-        }
 
         if($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
-                    if(!loginModel.getSelectedClient().name) {
+                    if(!loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
+                        console.log("hello");
                         loginModel.setSelectedClient({
                             'id': result.data.data[0].children[0].id,
                             'name': result.data.data[0].children[0].name
@@ -30,7 +26,7 @@
                     })
 
 
-                    if(loginModel.getSelectedClient().name) {
+                    if(loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
                         $scope.defaultAccountsName = loginModel.getSelectedClient().name;
                     } else {
                         $scope.defaultAccountsName = $scope.accountsData[0].name;
@@ -43,22 +39,30 @@
                             }
                         });
                     }
+                    $scope.getClientData($scope.accountsData[0].id);
+                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, $scope.accountsData[0].id);
                 }
             });
+        }
 
-
+        $scope.getClientData = function(clientId) {
+            workflowService.getClientData(clientId).then(function (response) {
+                RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+            });
         }
 
         $scope.set_account_name = function(event,id,name) {
+            loginModel.setSelectedClient({'id':id,'name':name});
             var elem = $(event.target);
             $(".accountsList").find(".selected-li").removeClass("selected-li") ;
             elem.addClass("selected-li") ;
-            loginModel.setSelectedClient({'id':id,'name':name});
             $(".accountsList").find(".dd_txt").text(name) ;
             $(".main_nav").find(".account-name-nav").text(name) ;
             $(".main_nav_dropdown").hide() ;
             $("#user-menu").show();
-            $rootScope.$broadcast(constants.ACCOUNT_CHANGED,id);
+            $scope.getClientData(id);
+            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
+
         };
 
         $scope.showProfileMenu = function() {
@@ -117,8 +121,8 @@
         var callSetDefaultReport = $rootScope.$on("callSetDefaultReport",function(event,args){
             $scope.setDefaultReport(args);
         });
-        $rootScope.dashboard = {};
-        $rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
+        //$rootScope.dashboard = {};
+        //$rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
 
         $(function() {
             var closeMenuPopUs = function(event) {
