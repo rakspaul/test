@@ -60,7 +60,7 @@
         };
 
         $scope.cleanScreenWidget = function(){
-            d3.select(".chart").remove();
+            d3.select(".barChart").remove();
             $(".DashBoradScreenWidget").hide();
         };
 
