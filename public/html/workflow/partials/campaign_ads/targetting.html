@@ -44,7 +44,7 @@
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Selected</span>
-                <div class="badge">{{getSelectedAudience()}}</div>
+                <div class="badge">{{selectedAudience.length}}</div>
             </div>
             <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name}}</span>
             <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name}}</span>

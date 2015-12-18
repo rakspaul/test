@@ -312,7 +312,9 @@ var angObj = angObj || {};
             if (responseData.adPlatformCustomInputs) {
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
             }
-            workflowService.setAdsDetails(responseData);
+            workflowService.setAdsDetails(angular.copy(responseData));
+            console.log("set ad details process edit mode == ",responseData);
+
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
             // $scope.editTrackerAd=responseData.is_Tracker;
@@ -438,10 +440,18 @@ var angObj = angObj || {};
                     $scope.$broadcast("updateGeoTagName");
                 }, 2000)
             }
-
+            //day part edit
             if (responseData.targets && responseData.targets.adDaypartTargets && _.size(responseData.targets.adDaypartTargets) > 0) {
                 $timeout(function () {
                     $scope.$broadcast("UpdateDayPart");
+                }, 2000)
+
+            }
+
+            //audience targetting load
+            if (responseData.targets && responseData.targets.segmentTargets && _.size(responseData.targets.segmentTargets) > 0) {
+                $timeout(function () {
+                    $scope.$broadcast("triggerAudienceLoading");
                 }, 2000)
 
             }

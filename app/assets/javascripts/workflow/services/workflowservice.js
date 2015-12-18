@@ -205,6 +205,7 @@
                 return mode;
             },
             setAdsDetails :  function(ad) {
+                console.log('hello == ',ad);
                 adDetails = ad;
             },
             getAdsDetails: function(){
