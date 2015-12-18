@@ -99,7 +99,7 @@
                           </div>
                       </span>
                   <ul class="dropdown-menu">
-                    <li ng-click="downloadSchdReport(srlist.reportId,$parent.$parent.$index,$index)">Download</li>
+                    <li ng-click="downloadSchdReport(srlist.instances[$index].instanceId)">Download</li>
                     <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">Delete</li>
                     <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">Archive</li>
                   </ul>

@@ -192,9 +192,9 @@
             return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/listReports';
         }
 
-        this.downloadSchdRpt = function () {
+        this.downloadSchdRpt = function (instanceId) {
             var clientId =  loginModel.getSelectedClient().id;
-            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '';
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/downloadReport/'+instanceId;
         }
 
         this.scheduledReport = function (reportId) {
