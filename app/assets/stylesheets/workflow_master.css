@@ -1615,3 +1615,6 @@ input.cmn-toggle-round:checked + label:after {
   /* support: IE8 */
   border-radius: 8px;
 }
+.form-horizontal .control-label {
+  text-align: left;
+}
