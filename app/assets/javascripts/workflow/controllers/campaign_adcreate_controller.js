@@ -1049,8 +1049,6 @@ var angObj = angObj || {};
         //ad targets summary
         $scope.getSelectedAudience = function(){
             $scope.selectedAudience = audienceService.getSelectedAudience();
-            console.log("selected aud == ",$scope.selectedAudience);
-
             return ($scope.selectedAudience)?$scope.selectedAudience.length:0;
         }
 
