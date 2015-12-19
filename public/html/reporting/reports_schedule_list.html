@@ -30,7 +30,9 @@
       {{textConstants.WF_ARCHIVE}}
     </div>
   </div>
-
+  <div style="text-align:center;">
+    <span class="download-report-load-icon" style="margin:5px 0px;" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}} </span>
+  </div>
   <div class="scheduled_list_table">
     <div class="table-header">
       <div class="row">
@@ -99,7 +101,7 @@
                           </div>
                       </span>
                   <ul class="dropdown-menu">
-                    <li ng-click="downloadSchdReport(srlist.reportId,$parent.$parent.$index,$index)">Download</li>
+                    <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">Download</li>
                     <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">Delete</li>
                     <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">Archive</li>
                   </ul>

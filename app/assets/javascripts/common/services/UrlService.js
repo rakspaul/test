@@ -115,7 +115,7 @@
         };
 
         this.APICampaignCountsSummary = function (timePeriod, clientId, advertiserId, brandId, status) {
-            var url = apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/campaigns/summary/counts?advertiser_id=' + advertiserId + ((brandId > -1) ? ('&brands=' + brandId) : '') + '&date_filter=' + timePeriod + '&campaignState=' + (status == undefined ? undefined : status.toLowerCase());
+            var url = apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/campaigns/summary/counts?advertiser_id=' + advertiserId + ((brandId > -1) ? ('&brands=' + brandId) : '') + '&date_filter=' + timePeriod + (status ? ('&campaignState=' + status.toLowerCase()) : '');
             return url;
         };
 
@@ -190,11 +190,12 @@
         this.scheduleReportsList = function () {
             var clientId =  loginModel.getSelectedClient().id;
             return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/listReports';
+           // return "http://ampqaapp001.ewr004.collective-media.net/api/reporting/v3/clients/2/scheduledreports/listReports";
         }
 
-        this.downloadSchdRpt = function () {
+        this.downloadSchdRpt = function (instanceId) {
             var clientId =  loginModel.getSelectedClient().id;
-            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '';
+            return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/downloadReport/'+instanceId;
         }
 
         this.scheduledReport = function (reportId) {
