@@ -348,7 +348,6 @@
     this.WF_GOAL = "Goal";
     this.SELECT_GOAL = "Select Goal";
     this.BUDGET = "Budget";
-    this.DOLLAR = "$";
     this.START_DATE = "Start Date";
     this.END_DATE = "End Date";
     this.SELECT_TIME = "Select Time";

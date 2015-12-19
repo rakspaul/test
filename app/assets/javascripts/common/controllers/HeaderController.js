@@ -29,6 +29,7 @@
                         }
                     })
 
+                    $scope.accountsData = _.sortBy($scope.accountsData, 'name');
 
                     if(loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
                         $scope.defaultAccountsName = loginModel.getSelectedClient().name;
