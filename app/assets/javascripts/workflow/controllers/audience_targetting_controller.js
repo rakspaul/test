@@ -76,7 +76,9 @@ var angObj = angObj || {};
 
                         if(loadMoreFlag){
                             var tempAudience = $scope.audienceList;
-                            $scope.audienceList.concat(result.data.data); // lazy loading fetch
+                            _.each(result.data.data , function(obj){
+                                $scope.audienceList.push(obj);
+                            })
                         }
                         else{
                             $scope.audienceList = result.data.data; // first time fetch/filter fetch
@@ -85,7 +87,6 @@ var angObj = angObj || {};
 
                         //edit mode
                         if($scope.mode == 'edit'){
-                            console.log("fetch audience function1 == ");
                             processAudienceEdit()
                         }
 
