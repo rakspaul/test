@@ -201,6 +201,7 @@
           word-wrap: break-word;
           float: left;
           font-family: "Avenir";
+          padding-bottom: 5px ;
         }
         .campTitleWrap {
           padding: 5px 0 0 0px !important;
@@ -208,8 +209,8 @@
           clear: both;
           .statuslabel {
             float: left;
-            width: 15px;
-            height: 15px;
+            width: 16px;
+            height: 16px;
             border-radius: 10px;
             font-size: 0 !important;
             margin-top: 6px;
@@ -219,18 +220,6 @@
           }
           .inActiveLabel {
             background-color: #939eae;
-          }
-          .statuslabel.scheduled {
-              background-color : #2c9aec ;
-          }
-          .statuslabel.draft {
-              background-color: #6abdfa ;
-          }
-          .statuslabel.in_flight {
-              background-color: #70d43d ;
-          }
-          .statuslabel.ended {
-              background-color: #707AEB ;
           }
           .overview-camp-name {
             white-space: nowrap;
@@ -255,26 +244,6 @@
             margin: 0 10px;
           }
         }
-        .campTitleWrap.adStatus_scheduled {
-            .activeLabel {
-              background-color : #2c9aec ;
-            }
-          }
-          .campTitleWrap.adStatus_draft {
-            .activeLabel {
-              background-color: #6abdfa ;
-            }
-          }
-          .campTitleWrap.adStatus_in_flight {
-            .activeLabel {
-              background-color: #70d43d ;
-            }
-          }
-          .campTitleWrap.adStatus_ended {
-            .activeLabel {
-              background-color: #707AEB ;
-            }
-          }
         .campTitleWrap:hover {
           .overview-camp-name, .campaign-name-edit  {
             color: #0978C9;
@@ -2030,18 +1999,6 @@
     }
     .inActiveLabel {
       background-color: #939eae;
-    }
-    .statuslabel_scheduled {
-        background-color : #2c9aec ;
-    }
-    .statuslabel_draft {
-        background-color: #6abdfa ;
-    }
-    .statuslabel_in_flight {
-        background-color: #70d43d ;
-    }
-    .statuslabel_ended {
-        background-color: #707AEB ;
     }
   }
   .page_header_container {

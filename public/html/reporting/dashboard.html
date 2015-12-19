@@ -70,17 +70,21 @@
                     <span class="clearfix common_tooltip">
                       <div class="pull-left">
                         <div class="tooltip_heading">{{textConstants.CAMPAIGN_STATUS}}</div>
-                        <div class="status_legend draft_status">
-                            {{textConstants.DRAFT}}
+                        <div class="clearfix status_legend">
+                          <div class="status_legend_bulb draft_bulb"></div>
+                          <div class="pull-left">{{textConstants.DRAFT}}</div>
                         </div>
-                        <div class="status_legend scheduled_status">
-                            {{textConstants.SCHEDULED}}
+                        <div class="clearfix status_legend">
+                          <div class="status_legend_bulb scheduled_bulb"></div>
+                          <div class="pull-left">{{textConstants.SCHEDULED}}</div>
                         </div>
-                        <div class="status_legend active_status">
-                            {{textConstants.INFLIGHT_LABEL}}
+                        <div class="clearfix status_legend">
+                          <div class="status_legend_bulb in_flight_bulb"></div>
+                          <div class="pull-left">{{textConstants.INFLIGHT_LABEL}}</div>
                         </div>
-                        <div class="status_legend completed_status">
-                            {{textConstants.ENDED}}
+                        <div class="clearfix status_legend">
+                          <div class="status_legend_bulb ended_bulb"></div>
+                          <div class="pull-left">{{textConstants.ENDED}}</div>
                         </div>
                       </div>
                       <div class="pull-right legend_container">
