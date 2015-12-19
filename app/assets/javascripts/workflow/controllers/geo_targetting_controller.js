@@ -471,6 +471,8 @@ var angObj = angObj || {};
             if(type ==='zip') {
                 if($scope.zipCodesObj)  $scope.zipCodesObj = [];
             }
+            //create preview data
+            createPreviewData();
         };
 
         $scope.showRemoveConfirmBox = function(event, type, subtype) {
@@ -531,6 +533,9 @@ var angObj = angObj || {};
             if($scope.selectedTab === 'dmas') {
                 $scope.listDmas();
             }
+
+            //create preview data
+            createPreviewData();
         };
 
         $scope.listDmas = function(defaults,flag) {
@@ -868,6 +873,13 @@ var angObj = angObj || {};
                     })
                 }
             });
+
+            if(angular.equals({},obj['include'])){
+                obj['include'] = null;
+            }
+            if(angular.equals({},obj['exclude'])){
+                obj['exclude'] = null;
+            }
             $scope.geoTargetingData.selected['previewData'] = obj;
         }
 
