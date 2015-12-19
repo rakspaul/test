@@ -68,6 +68,10 @@
                 params += '&brand_id=' + qryObj.brandId;
             }
 
+            if(qryObj.adGroupId) {
+                params += '&ad_group_id=' + qryObj.adGroupId;
+            }
+
             if(qryObj.dateFilter) {
                 params += '&date_filter=' + qryObj.dateFilter;
             }
@@ -93,7 +97,8 @@
 
         this.APIVistoCustomQuery = function (qryObj) {
             var params = this.buildParams(qryObj);
-            var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
+            var qryUrl = qryObj.url ? qryObj.url : '/reportBuilder/customQuery'
+            var url = apiPaths.apiSerivicesUrl_NEW + qryUrl + '?' + params;
             return url;
         };
 

@@ -171,7 +171,7 @@
         };
     });
 
-    angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
+    angObj.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel, dataService, urlService, apiPaths, constants, analytics) {
         return {
             controller: function($scope, $cookieStore, $location){
 
@@ -188,13 +188,27 @@
                         }
                     }
                 });
-                $scope.downloadPerformanceReport = function(report_url, report_name, time_filter) {
+                $scope.downloadPerformanceReport = function(report) {
                     if(loginModel.getIsAgencyCostModelTransparent()) {
-                        if (!$scope.isCostModelTransparent && report_url.indexOf(/cost/) > 0) {
+                        if (!$scope.isCostModelTransparent && report.report_cat === 'cost') {
                             return false;
                         }
                     }
-                    report_url = report_url + '?date_filter=' + time_filter;
+                    var queryObj = {
+                        url : '/reportBuilder/reportDownload',
+                        queryId: report.query_id,
+                        clientId: loginModel.getSelectedClient().id,
+                        campaignId: $scope.selectedCampaign.id,
+                        advertiserId : advertiserModel.getSelectedAdvertiser().id,
+                        brandId : brandsModel.getSelectedBrand().id,
+                        dateFilter: $scope.selected_filters.time_filter,
+                        adGroupId : $scope.selectedStrategy.id
+                    }
+                    console.log("queryObj", queryObj);
+                    var report_url = urlService.APIVistoCustomQuery(queryObj);
+                    report_url += "&report_cat="+report.report_cat + "&report_type="+ report.report_type;
+                    console.log("url", report_url);
+
 
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
@@ -212,7 +226,7 @@
                         }, function() {
                             $scope.reportDownloadBusy = false;
                         });
-                        analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report_name + '_report', loginModel.getLoginName());
+                        analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report.report_type + '_report', loginModel.getLoginName());
                     }
                 }
             }

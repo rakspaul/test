@@ -269,17 +269,17 @@ var angObj = angObj || {};
 
       //creating download report url
       $scope.createDownloadReportUrl = function () {
-          var clientId =  loginModel.getSelectedClient().id;
-          var urlPath = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
           $scope.download_report = [
               {
-                  'report_url': urlPath + 'categories/download',
-                  'report_name' : 'transparency_by_site_category',
+                  'query_id': 29,
+                  'report_type' : 'site_category',
+                  'report_cat' : 'inventory',
                   'label' : 'Inventory Transparency by Site Category'
               },
               {
-                  'report_url' : urlPath + 'domains/download',
-                  'report_name' : 'transparency_by_domain',
+                  'query_id': 29,
+                  'report_type' : 'domain',
+                  'report_cat' : 'inventory',
                   'label' : 'Inventory Transparency by Domain'
               }
           ];

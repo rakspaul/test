@@ -78,7 +78,7 @@ var angObj = '';
                 title: 'Reports - Cost',
                 controller: 'CostController',
                 resolve: {
-                    "check": function ($location, RoleBasedService) {
+                    "check": function ($location, RoleBasedService, loginModel) {
                         /* if  cost modal is opaque and some one trying to access cost direclty from the url */
                         var isWorkflowUser, locationPath, isAgencyCostModelTransparent;
                         isWorkflowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
