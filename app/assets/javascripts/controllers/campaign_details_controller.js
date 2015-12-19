@@ -306,6 +306,17 @@
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
             updateActionItems(callbackFunctionName,args.loadingFlag,args.showExternal);
         });
+
+        function getCustomQueryParams(queryId) {
+            return {
+                queryId:queryId,
+                campaignId: $scope.campaign.orderId,
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
+        }
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
             $scope.activityLogFlag = false;
             var actionUrl = urlService.APIActionData($routeParams.campaignId);
@@ -432,13 +443,13 @@
 
         $scope.getCostBreakdownData  = function(campaign){ //get cost break down data
             var costData, other = 0, sum,cBreakdownChart = [];
-            var costQueryObj = {
+            var params = {
                 queryId: 14, //cost_report_for_one_or_more_campaign_ids
                 clientId: loginModel.getSelectedClient().id,
                 campaignIds: campaign.orderId,
                 dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             }
-            var url = urlService.APIVistoCustomQuery(costQueryObj);
+            var url = urlService.APIVistoCustomQuery(params);
             dataService.fetch(url).then(function(result) {
                 $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -499,7 +510,8 @@
         };
 
         $scope.getInventoryGraphData  = function(campaign){
-            dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES);
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingInventoryFlag = false;
                 var kpIType = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 kpIType = kpIType.toLowerCase();
@@ -507,11 +519,9 @@
                 if (result.status == "success" && !angular.isString(result.data)) {
                     var inventoryData;
                     $scope.chartDataInventory = [];
-                    if ((result.data.data[0] !== undefined) && ((result.data.data[0].perf_metrics !== null || result.data.data[0].perf_metrics !== undefined) && result.data.data[0].perf_metrics.length > 0 ) )
-                        inventoryData = result.data.data[0].perf_metrics;
-
+                    if ((result.data.data[0] !== undefined) && (result.data.data[0] !== null) && (result.data.data.length > 0 ))
+                        inventoryData = result.data.data;
                     if (inventoryData && inventoryData.length > 0) {
-
                         var sortedData = _.sortBy(inventoryData, kpIType); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpIType.toLowerCase() === 'cpa' || kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpIType] == 0 });
@@ -520,7 +530,7 @@
                         _.each(sortedData, function(data, idx) {
                             var kpiData;
                             if(kpIType === 'vtc')
-                                kpiData=data.video_metrics.vtc_rate;
+                                kpiData=data.vtc_100;
                             else {
                                 kpiData=data[kpIType]
                             }
@@ -614,7 +624,8 @@
 
         // Screen Widget Start
         $scope.getScreenGraphData  = function(campaign){
-            dataService.getScreenData($scope.campaign).then(function(result) {
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_SCREENS);
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingScreenFlag = false;
                 var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -622,9 +633,9 @@
                     $scope.chartDataScreen = [];
                     var screenResponseData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
-                    var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
-                    if (screenResponseData && screenResponseData.length > 0 && !hasVideoAds && screenResponseData[0].perf_metrics) {
-                        screensData = _.filter(screenResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
+                    var hasVideoAds = adFormats && kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
+                    if (screenResponseData && screenResponseData.length > 0 && !hasVideoAds) {
+                        screensData = _.filter(screenResponseData, function(obj) { return obj.dimension.toLowerCase() != 'unknown'});
                         var sortedData = _.sortBy(screensData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
@@ -658,7 +669,8 @@
 
         // Screen Widget Start
         $scope.getAdSizeGraphData  = function(campaign){
-            dataService.getAdSizeData($scope.campaign).then(function(result) {
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_AD_SIZES);
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingAdSizeFlag = false;
                 var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -667,8 +679,8 @@
                     var adSizeResponseData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds; //for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
-                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds && adSizeResponseData[0].perf_metrics) {
-                        adSizeData = adSizeResponseData[0].perf_metrics;
+                    if (adSizeResponseData && adSizeResponseData.length > 0 && !hasVideoAds) {
+                        adSizeData = adSizeResponseData;
                         var sortedData = _.sortBy(adSizeData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
@@ -697,14 +709,7 @@
 
         // Platform Widget Starts
         $scope.getPlatformData =  function() {
-            var params = {
-                queryId: 22, // platform_report_by_campaign_id
-                clientId: loginModel.getSelectedClient().id,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                campaignId: $scope.campaign.orderId,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
-            }
+            var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_PLATFORMS);
             // Set default api return code 200
             $scope.api_return_code = 200;
             var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
@@ -743,7 +748,8 @@
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
-            dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingFormatFlag = false;
                 var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -752,8 +758,8 @@
                     var formatResponseData = result.data.data;
                     var adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     var hasVideoAds = kpiModel.toLowerCase() === 'vtc' && !adFormats.videoAds;//for a vedio campaign, if set(default) kPI is vtc and dosen’t have video data. we are showing data not found.
-                    if (formatResponseData && formatResponseData.length > 0 && !hasVideoAds && formatResponseData[0].perf_metrics) {
-                        formatData = _.filter(formatResponseData[0].perf_metrics, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
+                    if (formatResponseData && formatResponseData.length > 0 && !hasVideoAds) {
+                        formatData = _.filter(formatResponseData, function(obj) { return obj.dimension.toLowerCase() != 'unknown' });
                         var sortedData = _.sortBy(formatData, kpiModel); // This Sorts the Data order by CTR or CPA
                         sortedData = (kpiModel.toLowerCase() === 'cpa' || kpiModel.toLowerCase() === 'cpm' || kpiModel.toLowerCase() === 'cpc') ? sortedData : sortedData.reverse();
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
@@ -780,7 +786,15 @@
             var viewabilityData, viewData;
              //get cost break down data
              $scope.getCostViewabilityFlag = 0;
-            dataService.getCostViewability(campaign,'life_time').then(function(result) {
+            var params = {
+                queryId: 12, //viewability_report_for_a_campaign
+                clientId: loginModel.getSelectedClient().id,
+                campaignId: campaign.orderId,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
+            var url = urlService.APIVistoCustomQuery(params);
+            url+='&id='+campaign.orderId+'&field_name=campaign_id';
+            dataService.fetch(url).then(function (result) {
                  $scope.getCostViewabilityFlag = 1;
                  $scope.loadingViewabilityFlag = false;
                 if (result.status == "success" && !angular.isString(result.data.data)) {

@@ -75,24 +75,6 @@
                 return this.fetch(url);
             },
 
-            getCostInventoryData: function(campaign, timePeriod) {
-                var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +  '/campaigns/' + campaign.orderId + '/inventory/categories/perf?kpi_type=' + campaign.kpiType;
-                return this.fetch(url);
-            },
-
-            getCostFormatsData: function(campaign,  timePeriod) {
-                var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/byformats/perf?date_filter=' + timePeriod;
-                return this.fetch(url);
-            },
-
-            getScreenData: function(campaign) {
-                var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/byscreens/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
-                return this.fetch(url);
-            },
-
             getCustomReportMetrics :  function(campaign) {
                 var clientId = loginModel.getSelectedClient().id;
                 var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/custom/meta';
@@ -102,12 +84,6 @@
             getCustomReportData: function(campaign, queryString) {
                 var clientId = loginModel.getSelectedClient().id;
                 var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
-                return this.fetch(url);
-            },
-
-            getAdSizeData: function(campaign) {
-                var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/byadsizes/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
                 return this.fetch(url);
             },
 
