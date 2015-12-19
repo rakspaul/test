@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('ViewabilityController', function ($scope, $window, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('ViewabilityController', function ($scope, $window, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, urlService, analytics) {
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports

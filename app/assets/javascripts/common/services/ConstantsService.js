@@ -477,7 +477,13 @@
     this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
 
     this.ACCOUNT_CHANGED = "accountChanged";
-
+      this.QUERY_ID_CAMPAIGN_SCREENS=7;
+      this.QUERY_ID_CAMPAIGN_FORMATS=8;
+      this.QUERY_ID_CAMPAIGN_AD_SIZES=9;
+      this.QUERY_ID_CAMPAIGN_COST=14;
+      this.QUERY_ID_CAMPAIGN_PLATFORMS=22;
+      this.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES=25;
+      this.QUERY_ID_CAMPAIGN_QUALITY=12;
   };
 
   commonModule.service("constants", constants);
