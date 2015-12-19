@@ -12,7 +12,6 @@
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
                     if(!loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
-                        console.log("hello");
                         loginModel.setSelectedClient({
                             'id': result.data.data[0].children[0].id,
                             'name': result.data.data[0].children[0].name
@@ -20,9 +19,14 @@
                     }
                     $scope.accountsData = [];
                     _.each(result.data.data, function (org) {
-                        _.each(org.children, function (eachObj) {
-                            $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name})
-                        })
+                        if(org.children.length > 1) {
+                            $scope.multipleClient = true;
+                            _.each(org.children, function (eachObj) {
+                                $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name})
+                            })
+                        } else {
+                            $scope.multipleClient = false;
+                        }
                     })
 
 
@@ -39,8 +43,15 @@
                             }
                         });
                     }
-                    $scope.getClientData($scope.accountsData[0].id);
-                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, $scope.accountsData[0].id);
+
+                    var clientId;
+                    if(loginModel.getSelectedClient() && loginModel.getSelectedClient().id ) {
+                        clientId = loginModel.getSelectedClient().id;
+                    } else {
+                        clientId = $scope.accountsData[0].id;
+                    }
+                    $scope.getClientData(clientId);
+                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                 }
             });
         }
