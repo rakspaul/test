@@ -1,7 +1,7 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore,dataService) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
@@ -60,7 +60,7 @@
             $scope.sort.descending = !$scope.sort.descending;
         }
 
-        $scope.downloadSchdReport = function(instanceId) {
+        $scope.downloadSchdReport = function(instanceId) { console.log(instanceId);
             dataService.downloadFile(urlService.APIDownloadReport(instanceId)).then(function (response) {
                 if (response.status === "success") {
                     $scope.schdReportList[schRptListIndx].instances[instancesIndx].viewedOn = momentService.reportDateFormat();
