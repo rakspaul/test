@@ -1014,6 +1014,8 @@ var angObj = angObj || {};
 
             //trigger targeting tab link
             $('.targetting-tab-link').trigger('click');
+            $scope.switchPlatform()
+
         };
 
 
