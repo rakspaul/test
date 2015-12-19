@@ -33,7 +33,7 @@
 <div class="col-md-12 zeroPadding">
     <!--Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
-        <span ng-if="selectedAudience" class="icon-inline-edit"></span>
+        <span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-inline-edit" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-audience"></div>
         <p>Audience Segments audience</p>
         <div ng-if="!selectedAudience || selectedAudience.length == 0">
@@ -44,7 +44,7 @@
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Selected</span>
-                <div class="badge">{{getSelectedAudience()}}</div>
+                <div class="badge">{{selectedAudience.length}}</div>
             </div>
             <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name}}</span>
             <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name}}</span>
@@ -56,7 +56,7 @@
     </div>
     <!--Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
-        <span ng-if="adData.geoTargetingData" class="icon-inline-edit"></span>
+        <span ng-if="adData.geoTargetingData" class="icon-inline-edit" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-location"></div>
         <p>Geography <span>(US Only)</span></p>
         <div ng-if="!adData.geoTargetingData || adData.geoTargetingData.length == 0">
@@ -87,7 +87,7 @@
     </div>
     <!--Daypart Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['daily']]">
-        <span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit"></span>
+        <span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-activity"></div>
         <p>Daypart </p>
         <div ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0">

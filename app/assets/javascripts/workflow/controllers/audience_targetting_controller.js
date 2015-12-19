@@ -85,6 +85,7 @@ var angObj = angObj || {};
 
                         //edit mode
                         if($scope.mode == 'edit'){
+                            console.log("fetch audience function1 == ");
                             processAudienceEdit()
                         }
 
