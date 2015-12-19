@@ -46,7 +46,7 @@
 
 
                     <div class="column" ng-if="campaign.hasOwnProperty('bookedRevenue')">
-                        <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
+                        <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.currencySymbol }}</span>
                         <span id="budgetAmount"  class="">{{campaign.bookedRevenue | number}}</span>
                     </div>
                     <div class="column" ng-if="!campaign.hasOwnProperty('bookedRevenue')"> - </div>

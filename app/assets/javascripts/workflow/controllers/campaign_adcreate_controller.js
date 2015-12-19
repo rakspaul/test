@@ -566,7 +566,6 @@ var angObj = angObj || {};
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
-                        //console.log(responseData);
                         if ($scope.mode == 'edit') {
                             if ($scope.TrackingIntegrationsSelected) {
                                 for (var i in responseData.fullIntegrationsPlatforms) {
@@ -582,7 +581,6 @@ var angObj = angObj || {};
                                     responseData.trackingPlatforms[i].active = false;
                                 }
                                 campaignOverView.trackingPlatformCarouselData(responseData);
-                                //$scope.workflowData['tracking_integrations']=responseData.trackingPlatforms;
                             }
                         } else {
                             $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;

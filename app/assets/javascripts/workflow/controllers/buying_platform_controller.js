@@ -159,7 +159,6 @@ var angObj = angObj || {};
             $scope.setPlatform(null, tempPlatform);
             $scope.changePlatformPopup = false;
             storedResponse.targets.geoTargets = {};
-            //workflowService.setAdsDetails(angular.copy(storedResponse));
             console.log("set ad details== ",storedResponse);
             $scope.$broadcast('resetGeoTags');
             $scope.platformCustomInputs()
