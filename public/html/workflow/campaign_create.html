@@ -84,7 +84,7 @@
                                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
                                       <span class="icon-more-options"></span>
                                  </button>
-                                 <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                 <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;" data-toggle="dropdown">
                                     <li class="disabled"><a>Pause</a></li>
                                     <li class="disabled"><a>Resume</a></li>
                                     <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">Archive</a></li>
@@ -128,7 +128,7 @@
                                             <span class="text">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>
                                             <span class="icon-arrow-down"></span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
+                                        <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'" data-toggle="dropdown">
                                             <li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
                                         </ul>
                                         <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
@@ -144,7 +144,7 @@
                                             <span class="text">{{mode == 'edit' ? editCampaignData.brandName : 'Select Brand' }}</span>
                                             <span class="icon-arrow-down"></span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
+                                        <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL" data-toggle="dropdown">
                                             <li ng-repeat="brand in workflowData.brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
                                         </ul>
                                         <input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
@@ -183,7 +183,7 @@
                                                 <span class="text">{{mode == 'edit' ? editCampaignData.kpiType : 'Select Type' }}</span>
                                                 <span class="icon-arrow-down"></span>
                                             </button>
-                                            <ul class="dropdown-menu" aria-labelledby="kpiType" id="kpiType">
+                                            <ul class="dropdown-menu" aria-labelledby="kpiType" id="kpiType" data-toggle="dropdown">
                                                 <li ng-repeat="kpi in workflowData.Kpi" class="available">
                                                     <a ng-click="kpiSelected(kpi)">{{kpi.name}}</a>
                                                 </li>

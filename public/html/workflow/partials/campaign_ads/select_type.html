@@ -57,7 +57,7 @@
                     <input type="hidden" name ="goal" value="{{adData.primaryKpi}}" />
                     <span class="icon-arrow-down"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI">
+                <ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI" data-toggle="dropdown">
                     <li class="headerDDL" ng-repeat="kpiObj in workflowData.primaryKpi">
                         <span class="greyTxt">{{kpiObj.kpi_category}}</span>
                         <ul><li ng-repeat="kpi in kpiObj.kpi_values" ng-model="adData.primaryKpi" ng-click="adData.primaryKpi = kpi.name" ><a>{{kpi.name}}</a></li></ul>

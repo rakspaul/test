@@ -40,7 +40,7 @@
                            <span class="text">CPM</span>
                            <span class="icon-arrow-down"></span>
                       </button>
-                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                            <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
                             <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
                            </li>
@@ -125,7 +125,7 @@
                          <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
                          <span class="icon-arrow-down"></span>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">
+                    <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
                           <li><a data-value="Daily" ng-click="frequencySelected('Daily')">Daily</a></li>
                          <li><a data-value="Lifetime"ng-click="frequencySelected('Lifetime')">Lifetime</a></li>
                     </ul>
