@@ -56,7 +56,7 @@
                     <!-- <div class="statusLabel" ng-if="(adData.unitCost !==''  &&  adData.unitType.name)"> -->
                     <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
-                            <span style="margin-right: 5px;">{{textConstants.currencySymbol}}</span>
+                            <span style="margin-right: 5px;">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                             <span>{{adData.unitCost | number }} {{adData.unitType.name ?adData.unitType.name : 'CPM'}}</span>
                             <span>(Unit Cost)</span>
                         </div>

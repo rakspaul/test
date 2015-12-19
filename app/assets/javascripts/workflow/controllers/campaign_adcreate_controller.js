@@ -2,12 +2,13 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, $locale, constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background', '#fff');
         var winHeaderHeight = $(window).height() - 50;
         $(".workflowPreloader").css('height', winHeaderHeight + 'px');
+
 
         // This sets dynamic width to line to take 100% height
         function colResize() {
@@ -48,6 +49,9 @@ var angObj = angObj || {};
         });
 
         $scope.mode = workflowService.getMode();
+        //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+        $scope.locale = $locale;
+        console.log()
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {};

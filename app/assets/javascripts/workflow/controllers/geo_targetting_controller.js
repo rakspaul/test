@@ -795,6 +795,7 @@ var angObj = angObj || {};
         $scope.showGeographyTabsBox = function(event, tabType, showPopup) {
             $('.searchBox').val('');
             if(tabType === 'zip' && showPopup) {
+                $scope.enableZipCode = true;
                 return false;
             }
             $scope.enableZipCode = false;

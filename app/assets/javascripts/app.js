@@ -294,7 +294,7 @@ var angObj = '';
         tmhDynamicLocaleProvider.localeLocationPattern('/assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
     });
 
-    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, $locale, tmhDynamicLocale,workflowService) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants, RoleBasedService, workflowService) {
         $rootScope.version = version;
 
 
@@ -319,9 +319,6 @@ var angObj = '';
         var loginCheckFunc = function () {
             if (RoleBasedService.getUserData()) {
                 var authorizationKey = RoleBasedService.getUserData().authorizationKey;
-                var locale = RoleBasedService.getUserData().locale || 'en-us';
-                tmhDynamicLocale.set(locale)
-                $rootScope.$locale = 'locale';
             }
 
             var locationPath = $location.path();

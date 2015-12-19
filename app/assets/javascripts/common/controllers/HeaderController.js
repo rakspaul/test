@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -60,6 +60,9 @@
         $scope.getClientData = function(clientId) {
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                var locale = RoleBasedService.getClientRole().locale || 'en-us';
+                tmhDynamicLocale.set(locale);
+
             });
         }
 
