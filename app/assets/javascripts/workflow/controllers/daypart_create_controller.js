@@ -7,7 +7,7 @@ var angObj = angObj || {};
         dayPart: [],
         daytimeArr: []
     };
-
+    $scope.customFlag = false;
     $scope.timeSelected = 'All days and times';
 
     $scope.$on('UpdateDayPart',function(){
@@ -165,7 +165,7 @@ var angObj = angObj || {};
             console.log(adDaypartTargets);
             audienceService.setDayPartData(adDaypartTargets);
             $scope.getSelectedDays();
-
+            $scope.resetDayTargetingVariables();
 
         }
         $scope.generateDayArr=function(day){
@@ -198,6 +198,7 @@ var angObj = angObj || {};
 
         $scope.Schedule.dayTimeSelected=function(value) {
             $(" .dropdown-toggle").parents('.dropdown').removeClass('open');
+            $scope.customFlag = false;
             event.preventDefault();
             event.stopImmediatePropagation();
             switch (value) {
@@ -308,6 +309,7 @@ var angObj = angObj || {};
 
                 case 7:
                     $scope.dayTimeSelected = "Custom schedule";
+                    $scope.customFlag = true;
 //                    var daytimeObj = [
 //                        {day: 'Sunday', startTime: 'All Day'}
 //                    ];

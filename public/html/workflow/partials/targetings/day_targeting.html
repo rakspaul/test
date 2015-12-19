@@ -82,10 +82,10 @@
 	</div>
 	
 	<div class="col-md-2 zeroPadding pull-left" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">
-		<a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()">Add Row</a>
+		<a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()">Add Daypart</a>
 	</div>
 	
-	<div class="col-md-2 zeroPadding pull-right">
+	<div class="col-md-2 zeroPadding pull-right" ng-if="customFlag">
 		<a class="pull-right" style="padding: 0;" clearall>Clear All</a>
 	</div>
 	<!--<div class="col-md-2 zeroPadding" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">-->
