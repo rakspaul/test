@@ -1337,6 +1337,9 @@ input[type="submit"] {
 .draft_campaign_status_icon {
   background: #6ABDFA ;
 }
+.incomplete_campaign_status_icon {
+  background: #939eae ;
+}
 .ready_campaign_status_icon {
   background: #6abdfa ;
 }
