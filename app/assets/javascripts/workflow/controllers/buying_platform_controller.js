@@ -22,7 +22,7 @@ var angObj = angObj || {};
             var settings = "";
 
             //inactive platform
-            if (platform.active == false) {
+            if (platform.active == false || storedResponse.pushStatus == "PUSHED") {
                 return true;
             }
             if ($scope.mode === 'edit') {

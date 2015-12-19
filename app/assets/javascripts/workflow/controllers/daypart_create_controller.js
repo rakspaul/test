@@ -249,7 +249,7 @@ var angObj = angObj || {};
                     break;
 
                 case 2:
-                    $scope.dayTimeSelected = "Weekend (S/S)";
+                    $scope.dayTimeSelected = "Weekend (S,S)";
                     var daytimeObj = [
                         {day: 'Saturday', startTime: 'All Day'},
                         {day: 'Sunday', startTime: 'All Day'}
@@ -259,7 +259,7 @@ var angObj = angObj || {};
                     break;
 
                 case 3:
-                    $scope.dayTimeSelected = "Business hour (M-F, 9:00AM - 5:00PM)";
+                    $scope.dayTimeSelected = "Business hour (M-F, 9:00AM-5:00PM)";
                     var daytimeObj = [
                         {day: 'Monday', startTime: '9:00AM', endTime: '5:00PM'},
                         {day: 'Tuesday', startTime: '9:00AM', endTime: '5:00PM'},
