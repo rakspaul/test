@@ -44,6 +44,7 @@ var angObj = angObj || {};
 
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
+                console.log(result);
                 if (result.status === "OK" || result.status === "success") {
                     $scope.editCampaignData = result.data.data;
                     $scope.selectedCampaign.clientId = $scope.editCampaignData.clientId;
@@ -194,11 +195,21 @@ var angObj = angObj || {};
             $location.url(url);
         }
 
-        $scope.selectCampaignGoal = function (event, goal) {
-            $scope.selectedCampaign.goal = goal;
-            var currTarget = $(event.currentTarget);
-            currTarget.parents('.goalBtnGroup').find('label').removeClass('active')
-            currTarget.addClass("active")
+        $scope.selectCampaignGoal = function (goal) {
+
+            console.log("goal", goal);
+            var goalData = $scope.workflowData['goals'];
+            _.each(goalData, function (obj) {
+                if(obj.name === goal) {
+                    $scope.selectedCampaign.goal = obj;
+                    obj.active = true
+                } else {
+                    obj.active = false;
+                }
+            })
+
+
+
         };
 
         createCampaign.getBrandId = function (brandId, postDataObj) {
@@ -364,7 +375,7 @@ var angObj = angObj || {};
             if($scope.client.name) {
                 $scope.isClientDropDownDisable = true;
                 $scope.clientName = $scope.client.name;
-                $scope.selectHandler('client', $scope.client, null);
+                ($scope.mode == 'create')  && $scope.selectHandler('client', $scope.client, null);
             }
 
             $('.input-daterange').datepicker({
