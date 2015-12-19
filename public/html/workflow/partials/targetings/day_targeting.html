@@ -4,7 +4,7 @@
 			<h5 ng-click="resetDayTargetingVariables();">Targeting</h5>
 			<span class="icon-arrow-down"></span>
 			<h5 style="cursor: default;">Daypart</h5>
-			<span class="pull-left" style="clear: left; font-size: 12px;">By default, Ads will be delivered all day everytday when no specific daypart rules applied</span>
+			<span class="pull-left" style="clear: left; font-size: 12px;">By default, Ads will be delivered all day every day when no specific daypart rules applied.</span>
 		</div>
 		
 		<div class="pull-right">
@@ -26,8 +26,8 @@
 					<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection" data-toggle="dropdown">
 						<li class="available" ng-init="Schedule.dayTimeSelected(0)" ng-click="Schedule.dayTimeSelected(0)"><a value="0" >All days and times</a></li>
 						<li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1">Weekday (M-F)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2">Weekend (S/S)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3">Business hours (M-F, 9:00AM - 5:00PM)</a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2">Weekend (S,S)</a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3">Business hours (M-F, 9:00AM-5:00PM)</a></li>
 						<li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4">TV Primetime (8:00PM-11:00PM)</a></li>
 						<li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5">Early Morning (5:00AM-7:00AM)</a></li>
 						<li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6">Late Night (11:00PM-1:00AM)</a></li>
