@@ -136,7 +136,6 @@ var angObj = angObj || {};
             }
 
             function checkSelectedAudience(){
-                console.log("selected audience check");
                 for(var i = 0; i < $scope.selectedAudience.length; i++){
                     //find  array index in audienc list
                     var index = _.findIndex($scope.audienceList, function(item) {
@@ -364,7 +363,6 @@ var angObj = angObj || {};
 
             //audience
             $scope.selectAudience = function(audience){
-                console.log("edit aud == ",audience);
                 var audienceIndex = _.findIndex( $scope.selectedAudience, function(item) {
                     return item.id == audience.id});
 

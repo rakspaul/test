@@ -35,7 +35,7 @@
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
         <span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-inline-edit" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-audience"></div>
-        <p>Audience Segments audience</p>
+        <p>Audience Segments</p>
         <div ng-if="!selectedAudience || selectedAudience.length == 0">
             <span>Reach the right audience by selecting focus segments</span>
             <p style="margin: 0px;"><span>All Audience (default)</span></p>
@@ -46,9 +46,9 @@
                 <span>Selected</span>
                 <div class="badge">{{selectedAudience.length}}</div>
             </div>
-            <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name}}</span>
-            <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name}}</span>
-            <span class="targetListItem" ng-if="selectedAudience.length >= 3">{{selectedAudience[2].name}}</span>
+            <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name | limitTo: 30}}{{selectedAudience[0].name.length > 30 ? '...' : ''}}</span>
+            <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name | limitTo: 30}}{{selectedAudience[1].name.length > 30 ? '...' : ''}}</span>
+            <span class="targetListItem" ng-if="selectedAudience.length >= 3">{{selectedAudience[2].name | limitTo: 30}}{{selectedAudience[2].name.length > 30 ? '...' : ''}}</span>
             <span class="targetListItemMore" ng-if="selectedAudience.length > 3">+{{selectedAudience.length - 3}} more</span>
         </div>
         <span  ng-if="$parent.isPlatformSelected" class="onSelectBtn btn btn-default active" ng-click="selectAudTarget()"></span>
