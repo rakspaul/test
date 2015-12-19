@@ -2,11 +2,11 @@
     campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$location', 'dataService', 'campaignListService', 'apiPaths',
         'modelTransformer', 'campaignCDBData', 'campaignCost',
         'dataStore', 'requestCanceller', 'constants',
-        'brandsModel', 'loginModel', 'analytics','RoleBasedService','advertiserModel',
+        'brandsModel', 'loginModel', 'analytics','RoleBasedService','advertiserModel','urlService','dashboardModel',
         function($rootScope, $http, $location, dataService, campaignListService, apiPaths,
             modelTransformer, campaignCDBData, campaignCost,
             dataStore, requestCanceller, constants,
-            brandsModel, loginModel, analytics, RoleBasedService,advertiserModel) {
+            brandsModel, loginModel, analytics, RoleBasedService,advertiserModel,urlService,dashboardModel) {
             //var scrollFlag = 1;
             var Campaigns = function() {
                 this.timePeriodList = buildTimePeriodList();
@@ -290,13 +290,16 @@
                     fetchDashboardData = function(forceLoadFilter) {
                         this.dashboard.busy = true;
                         var selectedClientId = loginModel.getSelectedClient().id;
-                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + selectedClientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
+                        var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+                        var brandId = brandsModel.getSelectedBrand().id;
+                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + selectedClientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&advertiser_filter=' +advertiserId,
                             self = this;
                         //applying brand filter if active
                         if (this.brandId > 0) {
-                            url += '&advertiser_filter=' + this.brandId;
+                            url += '&brand_id=' + brandId;
                         }
-                       // console.log('dashboard url: ',url);
+                        //timePeriod, clientId, advertiserId, brandId, status
+                       //var url = urlService.APICampaignCountsSummary(this.timePeriod,selectedClientId,advertiserId,brandId);
                         var request_start = new Date();
                         campaignListService.getDashboardData(url, function(result) {
                             var diff = new Date() - request_start;

@@ -60,14 +60,16 @@
             $scope.sort.descending = !$scope.sort.descending;
         }
 
-        $scope.downloadSchdReport = function(instanceId) { console.log(instanceId);
-            dataService.downloadFile(urlService.APIDownloadReport(instanceId)).then(function (response) {
+        $scope.downloadSchdReport = function(parentIndex,instanceIndex,instanceId) {
+            $scope.reportDownloadBusy = true;
+            dataService.downloadFile(urlService.downloadSchdRpt(instanceId)).then(function (response) {
                 if (response.status === "success") {
-                    $scope.schdReportList[schRptListIndx].instances[instancesIndx].viewedOn = momentService.reportDateFormat();
-                    $scope.flashMessage = {'message':'Downloaded Successfully','isErrorMsg':''};
-                    $scope.timeoutReset();
+                    saveAs(response.file, response.fileName);
+                    $scope.reportDownloadBusy = false;
+                    $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
                 } else {
-
+                    $scope.flashMessage = {'message':"File couldn't be downloaded",'isErrorMsg':''};
+                    $scope.timeoutReset();
                 }
             })
 
