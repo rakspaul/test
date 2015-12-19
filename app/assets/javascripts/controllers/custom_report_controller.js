@@ -425,7 +425,9 @@ var angObj = angObj || {};
         };
 
         _customctrl.enableGenerateButton =  function() {
-            $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+            if(!$scope.scheduleReportActive) {
+                $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+            }
             return $(".dimension_block").find(".dd_txt").text() !=='Choose Breakdown';
         };
 
@@ -573,6 +575,7 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
+            $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance?$scope.reports.schedule.occurance:'';
 
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
             $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,"type":"Primary","values":$scope.reports.reportDefinition.dimensions.primary.value});
@@ -593,52 +596,58 @@ var angObj = angObj || {};
             return $scope.requestData;
         }
 
-        $scope.scheduleReport = function() {
 
-           // console.log('$scope.reports.reportDefinition.schedule',$scope.reports.reportDefinition.schedule);
-           if(!$scope.generateBtnDisabled) {
-               var str = $scope.reports.name;
-               if(/^[A-Za-z][A-Za-z0-9]*$/.test(str) === false) {
-                   $scope.flashMessage.message = 'Please use only alphanumeric characters for report names. Report name should start with alphabetic character';
-                   $scope.flashMessage.isErrorMsg = 1;
-                   $scope.flashMessage.isMsg = 0;
-                   $scope.msgtimeoutReset();
-                   return false;
-               }
-              if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
+        $scope.verifyReportInputs = function() {
+            var str = $scope.reports.name;
+            if($scope.generateBtnDisabled) {
+                return false;
+            }
+            if(/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false) {
+                $scope.flashMessage.message = 'Please use only alphanumeric characters for report names. Report name should start with alphabetic character';
+                $scope.flashMessage.isErrorMsg = 1;
+                $scope.flashMessage.isMsg = 0;
+                $scope.msgtimeoutReset();
+                return false;
+            }
+            if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
                 $scope.flashMessage.message = 'Please provide report name and frequency';
                 $scope.flashMessage.isErrorMsg = 1 ;
                 $scope.flashMessage.isMsg = 0;
                 $scope.msgtimeoutReset();
                 return false;
-              }
+            }
 
-               if($scope.notInRange == true){
-                   $scope.flashMessage.message = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
-                   $scope.flashMessage.isErrorMsg = 1 ;
-                   $scope.flashMessage.isMsg = 0;
-                   $scope.msgtimeoutReset();
-                   return false;
+            if($scope.notInRange == true){
+                $scope.flashMessage.message = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.flashMessage.isMsg = 0;
+                $scope.msgtimeoutReset();
+                return false;
 
+            }
+            if($scope.notInRangeMonthly == true){
+                $scope.flashMessage.message = 'You have chosen monthly Scheduling, please choose a date range that is at least one month';
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.flashMessage.isMsg = 0;
+                $scope.msgtimeoutReset();
+                return false;
+
+            }
+            return true;
+        }
+
+        $scope.scheduleReport = function() {
+               if($scope.verifyReportInputs()) {
+                   dataService.createScheduleReport($scope.createData()).then(function (result) {
+                       if (result.data.status_code == 200) {
+                           $rootScope.flashMessage = {
+                               'message': 'Success: The scheduled Report is listed.',
+                               'isErrorMsg': ''
+                           };
+                           $location.url('/reports/schedules');
+                       }
+                   });
                }
-               if($scope.notInRangeMonthly == true){
-                   $scope.flashMessage.message = 'You have chosen monthly Scheduling, please choose a date range that is at least one month';
-                   $scope.flashMessage.isErrorMsg = 1 ;
-                   $scope.flashMessage.isMsg = 0;
-                   $scope.msgtimeoutReset();
-                   return false;
-
-               }
-
-
-
-              dataService.createScheduleReport($scope.createData()).then(function (result) {
-                  if (result.data.status_code == 200) {
-                      $rootScope.flashMessage = {'message':'Success: The scheduled Report is listed.','isErrorMsg':''};
-                      $location.url('/reports/schedules');
-                  }
-              });
-          }
         };
 
 
@@ -1331,12 +1340,17 @@ var angObj = angObj || {};
             }
 
             $scope.updateSchdReport = function() {
-                dataService.updateScheduleReport($routeParams.reportId,$scope.createData()).then(function (result) {
-                    if (result.data.status_code == 200) {
-                        $rootScope.flashMessage = {'message':'Scheduled report updated successfully','isErrorMsg':''};
-                        $location.url('/reports/schedules');
-                    }
-                });
+                if($scope.verifyReportInputs()) {
+                    dataService.updateScheduleReport($routeParams.reportId, $scope.createData()).then(function (result) {
+                        if (result.data.status_code == 200) {
+                            $rootScope.flashMessage = {
+                                'message': 'Scheduled report updated successfully',
+                                'isErrorMsg': ''
+                            };
+                            $location.url('/reports/schedules');
+                        }
+                    });
+                }
             }
 
             $scope.scheduleReportAction = function() {
