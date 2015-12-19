@@ -17,7 +17,7 @@
                               <span class="text">{{adData.inventory ? adData.inventory.name :  'Select Domain List'}}</span>
                               <span class="icon-arrow-down"></span>
                          </button>
-                         <ul class="dropdown-menu" name="inventory">
+                         <ul class="dropdown-menu" name="inventory" data-toggle="dropdown">
                               <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id"><a ng-click="dropBoxItemSelected(inventory, 'inventory')">{{inventory.name}}</a></li>
                          </ul>
                         <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
