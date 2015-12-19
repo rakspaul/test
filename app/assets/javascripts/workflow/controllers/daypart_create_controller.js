@@ -12,31 +12,44 @@ var angObj = angObj || {};
 
     $scope.$on('UpdateDayPart',function(){
         var fetchedObj =  workflowService.getAdsDetails();
-    if(fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets)>0) {
-       // console.log(fetchedObj.targets.adDaypartTargets.schedule);
+        console.log('fetched ads = ',fetchedObj);
+        if(fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets)>0) {
+           // console.log(fetchedObj.targets.adDaypartTargets.schedule);
 
-        if(fetchedObj.targets.adDaypartTargets.dayTime=="Custom Schedule"){
-            var scheduleObj=fetchedObj.targets.adDaypartTargets.schedule;
-            //console.log(scheduleObj);
-            _.each(scheduleObj, function(obj) { for(var i in obj) { if(obj[i].length>0)$scope.recreateCustomObj(i,obj[i]); //console.log(i, obj[i])
-             }});
-                /*for number of objects in $scope.Schedule.daytimeArr, increment the Schedule.customLength,*/
-                //$scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                //$scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
-        }else{
-            $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;
-            $scope.Schedule.dayTimeSelected(value);
+            if(angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) == angular.lowercase("Custom Schedule")){
 
+                var scheduleObj=fetchedObj.targets.adDaypartTargets.schedule;
+                console.log('custom daypart = ',scheduleObj);
+
+                //console.log(scheduleObj);
+                _.each(scheduleObj, function(obj) {
+                    for(var i in obj) {
+                        if(obj[i].length > 0){
+                            console.log('i = ',i,'obj[i] = ',obj[i]);
+                            $scope.recreateCustomObj(i,obj[i]); //console.log(i, obj[i])
+                        }
+                    }
+                });
+                    /*for number of objects in $scope.Schedule.daytimeArr, increment the Schedule.customLength,*/
+                    //$scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                    //$scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
+            }else{
+                $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;
+                $scope.Schedule.dayTimeSelected(value);
+
+            }
         }
-    }
+        //$scope.saveDayPart();
     });
         $scope.recreateCustomObj=function(day,dayArr){
             switch(day){
                 case "Monday":
                     var obj=$scope.convertToScheduleObj('Monday',dayArr);
+
                     for(var i in obj){
                         $scope.Schedule.daytimeArr.push(obj[i]);
                     }
+
                 case "Tuesday":
                     var obj=$scope.convertToScheduleObj('Tuesday',dayArr);
                     for(var i in obj){
@@ -55,6 +68,8 @@ var angObj = angObj || {};
 
 
             }
+
+            console.log("case ==",$scope.Schedule.daytimeArr)
         }
         $scope.convertToScheduleObj=function(day,dayArr){
             var a = dayArr;
@@ -74,11 +89,13 @@ var angObj = angObj || {};
                 b.splice(0, c[i] + 1)
             }
             /*handle for the last object*/
+            console.log('keys1 = ',keys1);
+
             var lastKey = Object.keys(keys1).slice(Object.keys(keys1).length - 1)[0];
             keys1[lastKey]['stTime'] = a[a.length-1];
             keys1[lastKey]['endTime'] = a[a.length-1] + 1;
+            console.log('keys = ',keys1);
             return keys1;
-            console.log(keys1);
 
 
         }
@@ -136,7 +153,6 @@ var angObj = angObj || {};
             }
             else{
                 audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
-                console.log($scope.Schedule.dayPart);
                 var sunday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Sunday" });
                 $scope.Sunday=$scope.generateDayArr(sunday);
                 var monday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Monday" });

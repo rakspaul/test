@@ -76,7 +76,9 @@ var angObj = angObj || {};
 
                         if(loadMoreFlag){
                             var tempAudience = $scope.audienceList;
-                            $scope.audienceList.concat(result.data.data); // lazy loading fetch
+                            _.each(result.data.data , function(obj){
+                                $scope.audienceList.push(obj);
+                            })
                         }
                         else{
                             $scope.audienceList = result.data.data; // first time fetch/filter fetch
@@ -85,7 +87,6 @@ var angObj = angObj || {};
 
                         //edit mode
                         if($scope.mode == 'edit'){
-                            console.log("fetch audience function1 == ");
                             processAudienceEdit()
                         }
 
@@ -136,7 +137,6 @@ var angObj = angObj || {};
             }
 
             function checkSelectedAudience(){
-                console.log("selected audience check");
                 for(var i = 0; i < $scope.selectedAudience.length; i++){
                     //find  array index in audienc list
                     var index = _.findIndex($scope.audienceList, function(item) {
@@ -364,7 +364,6 @@ var angObj = angObj || {};
 
             //audience
             $scope.selectAudience = function(audience){
-                console.log("edit aud == ",audience);
                 var audienceIndex = _.findIndex( $scope.selectedAudience, function(item) {
                     return item.id == audience.id});
 

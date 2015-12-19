@@ -43,7 +43,6 @@ var angObj = angObj || {};
             /*Function to get creatives sizes*/
             getCreativeSizes: function () {
                 workflowService.getCreativeSizes().then(function (result) {
-                    console.log("data returned");
                     if (result.status === "OK" || result.status === "success") {
                        // console.log(result.data.data);
                         var responseData = result.data.data;

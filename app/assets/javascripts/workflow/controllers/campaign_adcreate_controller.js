@@ -313,7 +313,6 @@ var angObj = angObj || {};
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
             }
             workflowService.setAdsDetails(angular.copy(responseData));
-            console.log("set ad details process edit mode == ",responseData);
 
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -602,7 +601,6 @@ var angObj = angObj || {};
                 for (var i = 0; i < slides; i++) {
                     $scope.workflowData['tracking_integrations'][i] = tempData.splice(0, 3);
                 }
-                console.log("data", $scope.workflowData['tracking_integrations']);
             },
 
             saveAds: function (postDataObj, isDownloadTrackerClicked) {
