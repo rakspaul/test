@@ -214,28 +214,30 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var clientId =  loginModel.getSelectedClient().id;
-            var urlPath = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'screensandformats/reportDownload',
-                    'report_name' : 'by_screens_and_formats',
-                    'label' : 'Performance by Screens & Formats'
+                    'query_id': 29,
+                    'report_type' : 'screen_format',
+                    'report_cat' : 'performance',
+                    'label' : 'Performance by Screens & Formats',
                 },
                 {
-                    'report_url' : urlPath + 'daysofweek/reportDownload',
-                    'report_name' : 'by_days_of_week',
-                    'label' : 'Performance by Days Of Week'
+                    'query_id': 21,
+                    'report_type' : 'days_of_week',
+                    'report_cat' : 'performance',
+                    'label' : 'Performance by Days Of Week',
                 },
                 {
-                    'report_url' : urlPath + 'creatives/reportDownload',
-                    'report_name' : 'by_creatives',
-                    'label' : 'Performance by Creatives'
+                    'query_id': 20,
+                    'report_type' : 'creatives',
+                    'report_cat' : 'performance',
+                    'label' : 'Performance by Creatives',
                 },
                 {
-                    'report_url' : urlPath + 'adsizes/reportDownload',
-                    'report_name' : 'by_adsizes',
-                    'label' : 'Performance by Ad Sizes'
+                    'query_id': 19,
+                    'report_type' : 'ad_size',
+                    'report_cat' : 'performance',
+                    'label' : 'Performance by Ad Sizes',
                 }
             ];
         };

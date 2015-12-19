@@ -168,24 +168,26 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var clientId =  loginModel.getSelectedClient().id;
-            var urlPath = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/platforms/';
             var download_report = [
                 {
-                    'report_url': urlPath + 'performance/reportDownload',
-                    'report_name': 'by_performance',
-                    'label': 'Platform by Performance'
+                    'query_id': 29,
+                    'report_type' : 'performance',
+                    'report_cat' : 'platform',
+                    'label' : 'Platform by Performance'
                 },
                 {
-                    'report_url': urlPath + 'cost/reportDownload',
-                    'report_name': 'by_cost',
-                    'label': 'Platform by Cost',
+                    'query_id': 29,
+                    'report_type' : 'cost',
+                    'report_cat' : 'platform',
+                    'label' : 'Platform by Cost',
                     'className': 'report_cost'
+
                 },
                 {
-                    'report_url': urlPath + 'viewability/reportDownload',
-                    'report_name': 'by_viewability',
-                    'label': 'Platform By Quality'
+                    'query_id': 29,
+                    'report_type' : 'viewability',
+                    'report_cat' : 'platform',
+                    'label' : 'Platform by Quality'
                 }
             ];
 

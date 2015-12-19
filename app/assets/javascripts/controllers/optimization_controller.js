@@ -379,11 +379,11 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'download',
-                    'report_name' : '',
+                    'query_id': 29,
+                    'report_type' : 'all',
+                    'report_cat' : 'optimization',
                     'label' : 'Optimization Report'
                 }
             ];

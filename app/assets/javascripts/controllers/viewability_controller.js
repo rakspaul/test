@@ -136,22 +136,23 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var clientId =  loginModel.getSelectedClient().id;
-            var urlPath = apiPaths.apiSerivicesUrl + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'tactics/download',
-                    'report_name' : 'by_tactic',
-                    'label' : 'Quality by Tactic'
+                    'query_id': 30,
+                    'report_type' : 'ad',
+                    'report_cat' : 'quality',
+                    'label' : 'Quality by Ad'
                 },
                 {
-                    'report_url' : urlPath + 'domains/download',
-                    'report_name' : 'by_domain',
+                    'query_id': 31,
+                    'report_type' : 'domain',
+                    'report_cat' : 'quality',
                     'label' : 'Quality by Domain'
                 },
                 {
-                    'report_url' : urlPath + 'publishers/download',
-                    'report_name' : 'by_publisher',
+                    'query_id': 31,
+                    'report_type' : 'publisher',
+                    'report_cat' : 'quality',
                     'label' : 'Quality by Publisher'
                 }
             ];
