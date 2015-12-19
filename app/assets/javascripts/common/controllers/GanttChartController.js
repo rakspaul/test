@@ -5,6 +5,7 @@
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
+        $scope.ganttChartBusy = false;
         $scope.calendar = function(filter) {
 
             $('.chart').remove();
@@ -203,11 +204,13 @@
 
         //Listener for brand changes
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
+            console.log("EVENT_STATUS_FILTER_CHANGED");
             $scope.refresh();
 
         });
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            console.log("EVENT_BRAND_CHANGED");
             $scope.refresh();
 
         });

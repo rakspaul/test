@@ -50,7 +50,7 @@
 				     <span class="icon-arrow-down"></span>
 			    </button>
 			    <ul class="dropdown-menu" aria-labelledby="formatType">
-				   <li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="dropBoxItemSelected(adformat, 'creativeFormat')">{{adformat.name}}</a></li>
+				   <li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="adformat.active ? dropBoxItemSelected(adformat, 'creativeFormat') : '' ">{{adformat.name}}</a></li>
 			    </ul>
 			</div>
                         <input type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>
