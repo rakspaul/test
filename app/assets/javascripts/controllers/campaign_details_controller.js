@@ -314,8 +314,7 @@
                 clientId:  loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
-                domain: $scope.selected_filters_tab
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             };
         }
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
