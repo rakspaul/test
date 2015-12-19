@@ -1,17 +1,5 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container" >
-       <!--  <div class="clearfix inventory_header">
-            <div class="pull-left dropdown dropdown_type1" id="inventory_camp_list_dd">
-                <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
-            </div>
-
-            <div class="pull-right download_report">
-                <download-report></download-report>
-            </div>
-        </div>
-        <div id="inventory_strategies_dd" ng-show="isStrategyDropDownShow">
-            <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
-        </div> -->
          <div class="clearfix page_top_header">
             <div class="pull-left page_name">
                 Inventory Report
@@ -36,16 +24,10 @@
                         <span><a href="javascript:void(0);" _key="domains" id="inventory_domains_tab">{{textConstants.DOMAINS}}</a></span>
                     </div>
                     <div class="chart_details_cols_row inventory_chart_details_list clearfix">
-                        <!-- <div class="pull-left performance_selection clearfix"
-                             data-ng-click="showPerformance(strategyTable.show)">
-                            <span class="performance_symbol {{strategyTable.cssClass}}"></span>
-                            <span class="performance_text">{{strategyTable.show}} {{textConstants.PERFORMANCE}}</span>
-                        </div> -->
 
                         <div class="pull-right cpa_dropdown cpa_col">
                             <div class="dropdown">
                                 <kpi-drop-down> </kpi-drop-down>
-                                <!--<report-filters  selected-filter="selected_filters" list-object="filters.kpiTypes" flag="kpitypes"></report-filters>-->
                             </div>
                         </div>
                         <div class="pull-right imps_del_col">
@@ -84,7 +66,7 @@
                                       ng-if="(selected_filters_tab == 'domains' )">
                                     <a href="http://{{ stable.dimension}}" target='_blank' id="inventory_url_val">{{ stable.dimension | formatUrl :15 }}</a>
                                  </span>
-                                <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (stable.video_metrics['vtc_rate'] | number:2): (stable[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}
+                                <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (stable['vtc_100'] | number:2): (stable[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}
 
                                 </span>
                                 <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | nrFormat}}</span>
@@ -95,10 +77,7 @@
                 <div class="inventory_strategy_chart no_data_found" ng-if="!strategyFound  && !strategyBusy "  ng-bind-html="getMessageForDataNotAvailable('inventory')">
                 </div>
             </div>
-            <!--tacticBusy : {{tacticBusy}}-->
-            <span class="no-chart load-more" ng-if="tacticBusy">&nbsp;</span>
-
-            <div ng-if="strategyFound && !tacticBusy" class="each_chart_accordion_holder"
+            <div ng-if="strategyFound" class="each_chart_accordion_holder"
                  ng-repeat="tactic in tacticList[tacticList.show] track by $index" ng-if="tactic.data">
 
                 <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
@@ -135,7 +114,7 @@
                                       ng-if="(selected_filters_tab == 'domains' )">
                                     <a href="http://{{ tableData.dimension}}" target='_blank' id="inventory_domain" > {{ tableData.dimension | formatUrl:15}}</a>
                                  </span>
-                                <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (stable.video_metrics['vtc_rate'] | number:2): (tableData[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}</span>
+                                <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (tableData['vtc_100'] | number:2): (tableData[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}</span>
                                 <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | nrFormat}}</span>
                             </div>
                         </div>
