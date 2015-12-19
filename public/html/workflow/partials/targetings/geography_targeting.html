@@ -19,8 +19,8 @@
 
         <ul class="nav nav-tabs">
           <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="#" >REGION & CITY</a></li>
-          <li><a ng-href="#" ng-click="showGeographyTabsBox($event, 'dmas')" >METRO</a></li>
-          <li><a  id="zipCodeTab" ng-href="#" ng-click="showGeographyTabsBox($event, 'zip', true); enableZipCode = true;">ZIP / POSTAL CODE</a></li>
+          <li><a ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'dmas')" >METRO</a></li>
+          <li><a  id="zipCodeTab" ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'zip', true); ">ZIP / POSTAL CODE</a></li>
         </ul>
 
         <div class="tab-content">

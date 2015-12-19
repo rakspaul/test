@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, $timeout, $location, constants, workflowService, utils, loginModel) {
+    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel) {
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -337,6 +337,7 @@ var angObj = angObj || {};
         $(function () {
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
             $("html").css('background','#fff');
+            $scope.locale = $locale;
             // This sets dynamic width to line to take 100% height
             function colResize() {
                 var winHeight = $(window).height() - 50;
