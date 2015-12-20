@@ -51,7 +51,6 @@ var angObj = angObj || {};
         $scope.mode = workflowService.getMode();
         //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         $scope.locale = $locale;
-        console.log()
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {};
@@ -131,7 +130,7 @@ var angObj = angObj || {};
 
         }
 
-        $scope.pauseAd = function () {//console.log($scope.getAd_result);
+        $scope.pauseAd = function () {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_PAUSE_FAILURE;
@@ -155,7 +154,7 @@ var angObj = angObj || {};
             }, errorAchiveAdHandler);
 
         }
-        $scope.resumeAd = function () {//console.log($scope.getAd_result);
+        $scope.resumeAd = function () {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_RESUME_FAILURE;
@@ -522,11 +521,12 @@ var angObj = angObj || {};
                     kpi_values: [{id: 1, name: 'Impressions'}, {id: 2, name: 'Clicks'}, {id: 3, name: 'Actions'}]
                 }, {
                     kpi_category: 'PERFORMANCE',
-                    kpi_values: [{id: 1, name: 'Clickthrough Rate'}, {id: 2, name: 'View to Completion'}, {
-                        id: 3,
+                    kpi_values: [{id: 1, name: 'Clickthrough Rate'},{
+                        id: 2,
                         name: 'Cost Per Click'
-                    }, {id: 4, name: 'Viewabilty Rate'}]
+                    }, {id: 3, name: 'Viewabilty Rate'}]
                 }];
+
             },
 
             fetchAdFormats: function () {
@@ -608,7 +608,6 @@ var angObj = angObj || {};
             },
 
             saveAds: function (postDataObj, isDownloadTrackerClicked) {
-                //console.log(window.location.href);
                 if (window.location.href.indexOf("adGroup") > -1) {
                     postDataObj.adGroupId = $scope.adGroupId;
                 }//save adGroup Ad
@@ -716,6 +715,16 @@ var angObj = angObj || {};
             _.each(adFormatsData, function (obj) {
                 obj.name === adformatName ? obj.active = true : obj.active = false;
             })
+            var vedioKpiObj = {id: 4, name: 'View to Completion'};
+            $scope.adData.primaryKpi = '';
+            if($scope.adData.adFormat === 'Video') {
+                $scope.workflowData['primaryKpi'][1]['kpi_values'].push(vedioKpiObj);
+            } else {
+                var index = _.findIndex($scope.workflowData['primaryKpi'][1]['kpi_values'], function(item) { return item.id === vedioKpiObj.id });
+                if(index > 0) {
+                    $scope.workflowData['primaryKpi'][1]['kpi_values'] = $scope.workflowData['primaryKpi'][1]['kpi_values'].slice(0, index);
+                }
+            }
         };
 
         $scope.goalSelection = function (goal) {
@@ -1398,10 +1407,6 @@ var angObj = angObj || {};
                 startDate = adsDate.adStartDate;
                 endDate = adsDate.adEndDate;
             }
-//            console.log("campaignStartTime", campaignStartTime);
-//            console.log("startDate", startDate);
-//            console.log("endDate", endDate);
-//            console.log("campaignEndTime", campaignEndTime);
             if (campaignStartTime > startDate) {// ads start Date in Past
                 startDateElem.datepicker("setStartDate", campaignStartTime);
             }
