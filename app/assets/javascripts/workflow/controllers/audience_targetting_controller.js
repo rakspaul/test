@@ -35,7 +35,6 @@ var angObj = angObj || {};
             //})
 
             $rootScope.$on('triggerAudienceLoading',function(){
-                $scope.setTargeting('Audience');
                 $scope.resetSelectedFields();
                 $scope.initAudienceTargetting();
                 $scope.fetchAllAudience();
@@ -102,39 +101,41 @@ var angObj = angObj || {};
             }
 
             function processAudienceEdit(){
-
                 // partial done
                 var fetchedObj =  angular.copy(workflowService.getAdsDetails());
-                var previouslySelectedAudience = fetchedObj.targets.segmentTargets;
-                for(var i = 0; i < previouslySelectedAudience.length; i++){
-                    //find  array index in audienc list
-                    var index = _.findIndex($scope.audienceList, function(item) {
-                        return item.id == previouslySelectedAudience[i].segment.id});
+                var previouslySelectedAudience = fetchedObj.targets.segmentTargets.segmentList;
+                console.log('here',fetchedObj.targets.segmentTargets);
+                if(previouslySelectedAudience || previouslySelectedAudience.length > 0){
+                    for(var i = 0; i < previouslySelectedAudience.length; i++){
+                        //find  array index in audienc list
+                        var index = _.findIndex($scope.audienceList, function(item) {
+                            return item.id == previouslySelectedAudience[i].segment.id});
 
 
 
-                    //cant call $scope.selectAudience($scope.audienceList[index]) because this will toggle selection when filter is clicked
-                    if(index != -1){
-                        var selectedIndex = _.findIndex($scope.selectedAudience, function(item) {
-                            return item.id == $scope.audienceList[index].id});
+                        //cant call $scope.selectAudience($scope.audienceList[index]) because this will toggle selection when filter is clicked
+                        if(index != -1){
+                            var selectedIndex = _.findIndex($scope.selectedAudience, function(item) {
+                                return item.id == $scope.audienceList[index].id});
 
-                        if(selectedIndex == -1)
-                            $scope.selectedAudience.push($scope.audienceList[index]);
+                            if(selectedIndex == -1)
+                                $scope.selectedAudience.push($scope.audienceList[index]);
 
-                        $scope.audienceList[index].isChecked = true;
-                        $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
+                            $scope.audienceList[index].isChecked = true;
+                            $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
+                        }
                     }
+                    //and or details after getting it from api
+                    $scope.andOr = fetchedObj.targets.segmentTargets.operation;
+                    audienceService.setAndOr($scope.andOr);
+                    audienceService.setSelectedAudience($scope.selectedAudience);
+                    //reset selected array in service after initial load to avoid populating same data when platform is changed
+                    fetchedObj.targets.segmentTargets = [];
+                    workflowService.getAdsDetails(fetchedObj);
+                    //update target summary
+                    $scope.getSelectedAudience();
+                    $scope.setTargeting('Audience');
                 }
-                //and or details after getting it from api
-                //$scope.andOr =
-                audienceService.setAndOr($scope.andOr);
-                audienceService.setSelectedAudience($scope.selectedAudience);
-                //reset selected array in service after initial load to avoid populating same data when platform is changed
-                fetchedObj.targets.segmentTargets = [];
-                workflowService.getAdsDetails(fetchedObj);
-                //update target summary
-                $scope.getSelectedAudience();
-
             }
 
             function checkSelectedAudience(){

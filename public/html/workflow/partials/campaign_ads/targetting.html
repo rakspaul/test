@@ -94,16 +94,17 @@
             <span>Select when to show your Ad by restricting day and time</span>
             <p style="margin: 0px;"><span>All Days & Times (default)</span></p>
         </div>
-        <div class="targetDataSaved" ng-if="selectedDayParts['data']">
+        <div class="targetDataSaved" ng-if="selectedDayParts['data'] && selectedDayParts['data'].length  > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Included</span>
                 <div class="badge">{{getSelectedDays()}}</div>
             </div>
-            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 1">{{selectedDayParts['data'][0].day}} {{(selectedDayParts['data'][0].startTime)?selectedDayParts['data'][0].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
-            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 2">{{selectedDayParts['data'][1].day}} {{(selectedDayParts['data'][1].startTime)?selectedDayParts['data'][1].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
-            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 3">{{selectedDayParts['data'][2].day}} {{(selectedDayParts['data'][2].startTime)?selectedDayParts['data'][2].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
-            <span class="targetListItemMore" ng-if="selectedDayParts['data'].length > 3">+{{selectedDayParts['data'].length - 3}} more</span>
+            <span class="targetListItem" ng-if="selectedDayParts['selected'] != 'Custom schedule'">{{selectedDayParts['selected']}}</span>
+            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] == 'Custom schedule'">{{selectedDayParts['data'][0].day}} {{(selectedDayParts['data'][0].startTime)?selectedDayParts['data'][0].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
+            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 2 && selectedDayParts['selected'] == 'Custom schedule'" >{{selectedDayParts['data'][1].day}} {{(selectedDayParts['data'][1].startTime)?selectedDayParts['data'][1].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
+            <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 3 && selectedDayParts['selected'] == 'Custom schedule'">{{selectedDayParts['data'][2].day}} {{(selectedDayParts['data'][2].startTime)?selectedDayParts['data'][2].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
+            <span class="targetListItemMore" ng-if="selectedDayParts['data'].length > 3 && selectedDayParts['selected'] == 'Custom schedule'">+{{selectedDayParts['data'].length - 3}} more</span>
         </div>
         <span ng-if="$parent.isPlatformSelected" class="onSelectBtn btn btn-default active" ng-click="selectDayTarget()"></span>
         <input ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">

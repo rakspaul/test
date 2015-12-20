@@ -142,7 +142,6 @@ var angObj = angObj || {};
         }
 
         $scope.setTargeting = function(name) {
-            console.log("name == ",name)
             $scope.selectedTargeting = {};
             $scope.adData.targetName = name;
 
@@ -153,7 +152,6 @@ var angObj = angObj || {};
             if(name == 'Daypart')
                 $scope.adData.isDaypartSelected = true;
 
-            console.log('ad dats d == ',$scope.adData);
             $scope.selectedTargeting[name.toLowerCase()] = true;
         };
 
