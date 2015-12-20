@@ -224,12 +224,21 @@
 .icon-bulb:before {
   content: "\39";
 }
-.icon-list:before {
-  content: "\21";
-}
 .icon-usd:before {
   content: "\23";
 }
 .icon-tracking:before {
   content: "\22";
+}
+.icon-statusarchive:before {
+  content: "\24";
+}
+.icon-list:before {
+  content: "\21";
+}
+.icon-statusdraft:before {
+  content: "\25";
+}
+.icon-library:before {
+  content: "\26";
 }
