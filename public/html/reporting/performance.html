@@ -82,18 +82,19 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByScreen.tactics | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="showPerfMetrix == true" >
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
-                                            {{tactic.name}}
+                                            {{tactic.type}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -117,11 +118,11 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW.perf_metrics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByDOW.tactics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
@@ -152,11 +153,11 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat.perf_metrics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByFormat.tactics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
@@ -190,11 +191,11 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="creativeBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives.perf_metrics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByCreatives.tactics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col" style="width:100%">
@@ -230,11 +231,11 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="adSizesBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes.perf_metrics | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategyPerfDataByAdsizes.tactics | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-if="tactic.perf_metrics">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col" style="width:100%">
@@ -273,8 +274,8 @@
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_25 >0 ? (screenData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_50 >0 ? (screenData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_25 >0 ? (screenData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_50 >0 ? (screenData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
                 <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 >0 ? (screenData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
                 <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 >0 ? (screenData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
             </div>
