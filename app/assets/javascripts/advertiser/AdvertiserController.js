@@ -8,16 +8,19 @@
         function fetchAdvertisers(searchCriteria,search) {
             advertiserModel.getAdvertisers(function (advertisersData) {
                 $scope.advertisers = advertisersData;
+                console.log("fetchAdvertisers", $scope.advertisers);
             }, searchCriteria, search);
         }
 
         function init() {
-            if (loginModel.getUserId() != undefined) {
+            if (loginModel.getLoginName() != undefined) {
                 searchCriteria.clientId = loginModel.getSelectedClient().id;
                 fetchAdvertisers(searchCriteria, search);
             }
         }
+
         init();
+        $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $scope.selectAdvertiser = function (advertiser) {
             $("#advertiser_name_selected").text(advertiser.name);
@@ -52,11 +55,8 @@
             var advertiser = advertiserModel.getAllAdvertiser();
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser);
-
         });
 
-        advertiserModel.getSelectedAdvertiser()
-        $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $(function () {
             $("header").on('click', '#brandsDropdownDiv', function () {
