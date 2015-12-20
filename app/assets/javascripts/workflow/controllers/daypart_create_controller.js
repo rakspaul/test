@@ -69,7 +69,6 @@ var angObj = angObj || {};
 
             }
 
-            console.log("case ==",$scope.Schedule.daytimeArr)
         }
         $scope.convertToScheduleObj=function(day,dayArr){
             var a = dayArr;
