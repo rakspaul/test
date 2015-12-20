@@ -97,6 +97,10 @@ var angObj = angObj || {};
             })
         }
 
+        $scope.setMetrixText = function() {
+            $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
+        }
+
             dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
             var jsonModifier =  function(data) {
                 var arr= [];
@@ -110,7 +114,13 @@ var angObj = angObj || {};
             _.each(metricKey, function(k) {
                 result.data.data[0][k] = jsonModifier(result.data.data[0][k]);
             });
+            //initialize metrics - by default all metrics will be selected
             $scope.initializeMetrics(result.data.data[0]);
+            $scope.allMetrics = true;
+            $scope.OnSelectUnselectAllMetrics();
+            $scope.saveMetrics();
+           // $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
+
             $scope.customeDimensionData = result.data.data;
             var modifiedDimesionArr = result.data.data[0];
             $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
@@ -166,97 +176,96 @@ var angObj = angObj || {};
 
 
                         //metrics
+                        $scope.selectedMetricsList = [];
                         if(responseData.reportDefinition.metrics.Delivery){
-                            _.each(responseData.reportDefinition.metrics.Delivery,function(each){
-                               var deliveryMetricsObj =  _.findWhere($scope.deliveryMetrics, {key: each});
-                                deliveryMetricsObj["selected"] = true;
-                                $scope.selectedMetricsList.push({'key':deliveryMetricsObj.key,'value':deliveryMetricsObj.value});
-                            })
-                            if(responseData.reportDefinition.metrics.Delivery.length == $scope.deliveryMetrics.length) {
-                                $scope.deliveryMetrics.isAllSelected = true;
-                            } else {
-                                $scope.deliveryMetrics.minOneSelected = true;
-                            }
+                            _.each($scope.deliveryMetrics,function(each){
+                                var deliveryMetricsObj =_.find(responseData.reportDefinition.metrics.Delivery,function(num) { return num == each.key;});
+                                if(deliveryMetricsObj == undefined) {
+                                    each.selected = false;
+                                    $scope.deliveryMetrics.isAllSelected = false;
+                                    $scope.allMetrics = false;
+                                } else {
+                                    $scope.selectedMetricsList.push({'key':each.key,'value':each.value});
+                                    $scope.deliveryMetrics.minOneSelected = true;
+                                }
+                            });
                         }
                         if(responseData.reportDefinition.metrics.Engagement){
-                            _.each(responseData.reportDefinition.metrics.Engagement,function(each){
-                                var engMetricsObj =  _.findWhere($scope.engagementMetrics, {key: each});
-                                engMetricsObj["selected"] = true;
-                                $scope.selectedMetricsList.push({'key':engMetricsObj.key,'value':engMetricsObj.value});
-                            })
-                            if(responseData.reportDefinition.metrics.Engagement.length == $scope.engagementMetrics.length) {
-                                $scope.engagementMetrics.isAllSelected = true;
-                            } else {
-                                $scope.engagementMetrics.minOneSelected = true;
-                            }
+                            _.each($scope.engagementMetrics,function(each){
+                                var engMetricsObj =_.find(responseData.reportDefinition.metrics.Engagement,function(num) { return num == each.key;});
+                                if(engMetricsObj == undefined) {
+                                    each.selected = false;
+                                    $scope.engagementMetrics.isAllSelected = false;
+                                    $scope.allMetrics = false;
+                                } else {
+                                    $scope.selectedMetricsList.push({'key':each.key,'value':each.value});
+                                    $scope.engagementMetrics.minOneSelected = true;
+                                }
+                            });
                         }
                         if(responseData.reportDefinition.metrics.Cost){
-                            _.each(responseData.reportDefinition.metrics.Cost,function(each){
-                                var costMetricsObj =  _.findWhere($scope.costMetrics, {key: each});
-                                costMetricsObj["selected"] = true;
-                                $scope.selectedMetricsList.push({'key':costMetricsObj.key,'value':costMetricsObj.value});
-                            })
-                            if(responseData.reportDefinition.metrics.Cost.length == $scope.costMetrics.length) {
-                                $scope.costMetrics.isAllSelected = true;
-                            } else {
-                                $scope.costMetrics.minOneSelected = true;
-                            }
+                            _.each($scope.costMetrics,function(each){
+                                var costMetricsObj =_.find(responseData.reportDefinition.metrics.Cost,function(num) { return num == each.key;});
+                                if(costMetricsObj == undefined) {
+                                    each.selected = false;
+                                    $scope.costMetrics.isAllSelected = false;
+                                    $scope.allMetrics = false;
+                                } else {
+                                    $scope.selectedMetricsList.push({'key':each.key,'value':each.value});
+                                    $scope.costMetrics.minOneSelected = true;
+                                }
+                            });
                         }
                         if(responseData.reportDefinition.metrics.Video){
-                            _.each(responseData.reportDefinition.metrics.Video,function(each){
-                                var videoMetricsObj =  _.findWhere($scope.videoMetrics, {key: each});
-                                videoMetricsObj["selected"] = true;
-                                $scope.selectedMetricsList.push({'key':videoMetricsObj.key,'value':videoMetricsObj.value});
-                            })
-                            if(responseData.reportDefinition.metrics.Video.length == $scope.videoMetrics.length) {
-                                $scope.videoMetrics.isAllSelected = true;
-                            } else {
-                                $scope.videoMetrics.minOneSelected = true;
-                            }
+                            _.each($scope.videoMetrics,function(each){
+                                var videoMetricsObj =_.find(responseData.reportDefinition.metrics.Video,function(num) { return num == each.key;});
+                                if(videoMetricsObj == undefined) {
+                                    each.selected = false;
+                                    $scope.videoMetrics.isAllSelected = false;
+                                    $scope.allMetrics = false;
+                                } else {
+                                    $scope.selectedMetricsList.push({'key':each.key,'value':each.value});
+                                    $scope.videoMetrics.minOneSelected = true;
+                                }
+                            });
                         }
 
                         if(responseData.reportDefinition.metrics['Quality Display']){
-                            _.each(responseData.reportDefinition.metrics['Quality Display'],function(each){
-                                var qualityDisplayObj =  _.findWhere($scope.displayQltyMetrics, {key: each});
-                                qualityDisplayObj["selected"] = true;
-                                $scope.selectedMetricsList.push({'key':qualityDisplayObj.key,'value':qualityDisplayObj.value});
-                            })
-                            if(responseData.reportDefinition.metrics['Quality Display'].length == $scope.displayQltyMetrics.length) {
-                                $scope.displayQltyMetrics.isAllSelected = true;
-                            } else {
-                                $scope.displayQltyMetrics.minOneSelected = true;
-                            }
+                            _.each($scope.displayQltyMetrics,function(each){
+                                var qualityDisplayObj =_.find(responseData.reportDefinition.metrics['Quality Display'],function(num) { return num == each.key;});
+                                if(qualityDisplayObj == undefined) {
+                                    each.selected = false;
+                                    $scope.displayQltyMetrics.isAllSelected = false;
+                                    $scope.allMetrics = false;
+                                } else {
+                                    $scope.selectedMetricsList.push({'key':each.key,'value':each.value});
+                                    $scope.displayQltyMetrics.minOneSelected = true;
+                                }
+                            });
                         }
 
                         if(responseData.reportDefinition.metrics['Quality Video']){
-                            _.each(responseData.reportDefinition.metrics['Quality Video'],function(each){
-                                var videoQltyMetricsObj =  _.findWhere($scope.videoQltyMetrics, {key: each});
-                                videoQltyMetricsObj["selected"] = true;
-                                $scope.selectedMetricsList.push({'key':videoQltyMetricsObj.key,'value':videoQltyMetricsObj.value});
-                            })
-                            if(responseData.reportDefinition.metrics['Quality Video'].length == $scope.videoQltyMetrics.length) {
-                                $scope.videoQltyMetrics.isAllSelected = true;
-                            } else {
-                                $scope.videoQltyMetrics.minOneSelected = true;
-                            }
+                            _.each($scope.videoQltyMetrics,function(each){
+                                var videoQltyMetricsObj =_.find(responseData.reportDefinition.metrics['Quality Video'],function(num) { return num == each.key;});
+                                if(videoQltyMetricsObj == undefined) {
+                                    each.selected = false;
+                                    $scope.videoQltyMetrics.isAllSelected = false;
+                                    $scope.allMetrics = false;
+                                } else {
+                                    $scope.selectedMetricsList.push({'key':each.key,'value':each.value});
+                                    $scope.videoQltyMetrics.minOneSelected = true;
+                                }
+                            });
                         }
-
-                         //Quality Display
-                        //Quality Video
 
                         if($scope.deliveryMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected){
                             $scope.allMetrics = true;
                         }
-                       // $scope.metrics_text
-                        if($scope.metrics_text) {
-                            $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
-                        }
+
+                        $scope.setMetrixText();
                     }
                 })
-
-
             }
-
         });
 
 
@@ -596,6 +605,13 @@ var angObj = angObj || {};
             return $scope.requestData;
         }
 
+        var setFlashMessage = function(message,isErrorMsg,isMsg) {
+            $scope.flashMessage.message = message;
+            $scope.flashMessage.isErrorMsg = isErrorMsg;
+            $scope.flashMessage.isMsg = isMsg;
+            $scope.msgtimeoutReset();
+            return false;
+        }
 
         $scope.verifyReportInputs = function() {
             var str = $scope.reports.name;
@@ -603,35 +619,20 @@ var angObj = angObj || {};
                 return false;
             }
             if(/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false) {
-                $scope.flashMessage.message = 'Please use only alphanumeric characters for report names. Report name should start with alphabetic character';
-                $scope.flashMessage.isErrorMsg = 1;
-                $scope.flashMessage.isMsg = 0;
-                $scope.msgtimeoutReset();
-                return false;
+                return setFlashMessage('Please use only alphanumeric characters for report names. Report name should start with alphabetic character',1,0);
             }
             if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
-                $scope.flashMessage.message = 'Please provide report name and frequency';
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.flashMessage.isMsg = 0;
-                $scope.msgtimeoutReset();
-                return false;
+                return setFlashMessage('Please provide report name and frequency',1,0);
             }
 
             if($scope.notInRange == true){
-                $scope.flashMessage.message = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.flashMessage.isMsg = 0;
-                $scope.msgtimeoutReset();
-                return false;
-
+                return setFlashMessage('You have chosen weekly Scheduling, please choose a date range that is at least one week',1,0);
             }
             if($scope.notInRangeMonthly == true){
-                $scope.flashMessage.message = 'You have chosen monthly Scheduling, please choose a date range that is at least one month';
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.flashMessage.isMsg = 0;
-                $scope.msgtimeoutReset();
-                return false;
-
+                return setFlashMessage('You have chosen monthly Scheduling, please choose a date range that is at least one month',1,0);
+            }
+            if($scope.selectedMetricsList.length <= 0 ) {
+                return setFlashMessage('Atleast one metrics should be selected',1,0);
             }
             return true;
         }
@@ -649,7 +650,6 @@ var angObj = angObj || {};
                    });
                }
         };
-
 
         $scope.enable_generate_btn = function() {
             if(_customctrl.enableGenerateButton()) {
@@ -1062,6 +1062,14 @@ var angObj = angObj || {};
             }
 
 
+            $scope.setAllMetrics = function() {
+                if($scope.deliveryMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected ) {
+                    $scope.allMetrics = true;
+                } else {
+                    $scope.allMetrics = false;
+                }
+            }
+
 
             $scope.allMetrics = false;
             $scope.OnSelectUnselectAllMetrics = function() {
@@ -1122,9 +1130,13 @@ var angObj = angObj || {};
                     $scope.deliveryMetrics.minOneSelected = true;
                     if(totalMetricSelected == $scope.totalDelMetrics) {
                         $scope.deliveryMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
                     }else {
                         $scope.deliveryMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
                     }
+                } else {
+                    $scope.allMetrics = false;
                 }
             }
 
@@ -1148,9 +1160,13 @@ var angObj = angObj || {};
                     $scope.costMetrics.minOneSelected = true;
                     if(totalMetricSelected == $scope.totalCostMetrics) {
                         $scope.costMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
                     }else {
                         $scope.costMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
                     }
+                } else {
+                    $scope.allMetrics = false;
                 }
             }
 
@@ -1174,9 +1190,13 @@ var angObj = angObj || {};
                     $scope.engagementMetrics.minOneSelected = true;
                     if(totalMetricSelected == $scope.totalEngmtMetrics) {
                         $scope.engagementMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
                     }else {
                         $scope.engagementMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
                     }
+                } else {
+                    $scope.allMetrics = false;
                 }
             }
 
@@ -1200,9 +1220,13 @@ var angObj = angObj || {};
                     $scope.videoMetrics.minOneSelected = true;
                     if(totalMetricSelected == $scope.totalVideoMetrics) {
                         $scope.videoMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
                     }else {
                         $scope.videoMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
                     }
+                } else {
+                    $scope.allMetrics = false;
                 }
             }
 
@@ -1226,9 +1250,13 @@ var angObj = angObj || {};
                     $scope.displayQltyMetrics.minOneSelected = true;
                     if(totalMetricSelected == $scope.totaldisplayQltyMetrics) {
                         $scope.displayQltyMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
                     }else {
                         $scope.displayQltyMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
                     }
+                } else {
+                    $scope.allMetrics = false;
                 }
             }
 
@@ -1252,9 +1280,13 @@ var angObj = angObj || {};
                     $scope.videoQltyMetrics.minOneSelected = true;
                     if(totalMetricSelected == $scope.totalVideoQltyMetrics) {
                         $scope.videoQltyMetrics.isAllSelected = true;
+                        $scope.setAllMetrics();
                     }else {
                         $scope.videoQltyMetrics.isAllSelected = false;
+                        $scope.allMetrics = false;
                     }
+                } else {
+                    $scope.allMetrics = false;
                 }
             }
 
@@ -1268,6 +1300,7 @@ var angObj = angObj || {};
                         $scope.selectedMetricsList.push({'key':eachObj.key,'value':eachObj.value});
                     }
                 });
+                $scope.reports.reportDefinition.metrics['Delivery'] = [];
                 if(selectedDeliveryMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Delivery'] = selectedDeliveryMetrics;
                 }
@@ -1280,6 +1313,7 @@ var angObj = angObj || {};
                         $scope.selectedMetricsList.push({'key':eachObj.key,'value':eachObj.value});
                     }
                 });
+                $scope.reports.reportDefinition.metrics['Cost'] = [];
                 if(selectedCostMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Cost'] = selectedCostMetrics;
                 }
@@ -1292,6 +1326,7 @@ var angObj = angObj || {};
                         $scope.selectedMetricsList.push({'key':eachObj.key,'value':eachObj.value});
                     }
                 });
+                $scope.reports.reportDefinition.metrics['Engagement'] = [];
                 if(selectedEngMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Engagement'] = selectedEngMetrics;
                 }
@@ -1304,6 +1339,7 @@ var angObj = angObj || {};
                         $scope.selectedMetricsList.push({'key':eachObj.key,'value':eachObj.value});
                     }
                 });
+                $scope.reports.reportDefinition.metrics['Video'] = [];
                 if(selectedVideoMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Video'] = selectedVideoMetrics;
                 }
@@ -1316,6 +1352,7 @@ var angObj = angObj || {};
                         $scope.selectedMetricsList.push({'key':eachObj.key,'value':eachObj.value});
                     }
                 });
+                $scope.reports.reportDefinition.metrics['Quality Display'] = [];
                 if(selectedDsplyQltyMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Quality Display'] = selectedDsplyQltyMetrics;
                 }
@@ -1328,11 +1365,11 @@ var angObj = angObj || {};
                         $scope.selectedMetricsList.push({'key':eachObj.key,'value':eachObj.value});
                     }
                 });
+                $scope.reports.reportDefinition.metrics['Quality Video'] = [];
                 if(selectedVideoQltyMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Quality Video'] = selectedVideoQltyMetrics;
                 }
 
-              //  $scope.selectedMetricsList = _.union(selectedDeliveryMetrics,selectedCostMetrics,selectedEngMetrics,selectedVideoMetrics,selectedDsplyQltyMetrics,selectedVideoQltyMetrics);
                 $(".metric_popup").modal('hide');
                 if($scope.metrics_text) {
                     $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
