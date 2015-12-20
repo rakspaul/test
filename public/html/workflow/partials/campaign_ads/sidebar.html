@@ -98,13 +98,22 @@
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <span style="color: #000;">Not Set</span>
+                            <span style="color: #000;" ng-if="!adData.isGeographySelected && adData.isAudienceSelected && adData.isDaypartSelected">Not Set</span>
                         </div>
                     </div>
 
                     <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span>{{adData.targetName}}</span>
+                        <div class="col-md-12" ng-if="adData.isGeographySelected">
+                            <div class="icon-audience" style="float: left"></div>
+                            <span>Geography</span>
+                        </div>
+                        <div class="col-md-12" ng-if="adData.isAudienceSelected">
+                            <div class="icon-location" style="float: left"></div>
+                            <span>Audience</span>
+                        </div>
+                        <div class="col-md-12" ng-if="adData.isDaypartSelected">
+                            <div class="icon-activity" style="float: left"></div>
+                            <span>Daypart</span>
                         </div>
                     </div>
                 </div>

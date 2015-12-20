@@ -35,6 +35,7 @@ var angObj = angObj || {};
             //})
 
             $rootScope.$on('triggerAudienceLoading',function(){
+                $scope.setTargeting('Audience');
                 $scope.resetSelectedFields();
                 $scope.initAudienceTargetting();
                 $scope.fetchAllAudience();
