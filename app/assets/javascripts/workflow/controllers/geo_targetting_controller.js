@@ -199,6 +199,9 @@ var angObj = angObj || {};
 
             getRegionsList : function(parmas, callback,flag) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
+                if($scope.locale.id === 'en-gb') {
+                    qryStr += '&countries=GB';
+                }
                 if(flag == 'cancellable') {
                     workflowService.getRegionsList(parmas.platformId, qryStr, function (result) {
                         var responseData = result.data.data;
@@ -218,6 +221,9 @@ var angObj = angObj || {};
 
             getCitiesList : function(parmas, callback, flag) {
                 var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
+                if($scope.locale.id === 'en-gb') {
+                    qryStr += '&countries=GB';
+                }
                 if(flag == 'cancellable') {
                     workflowService.getCitiesList(parmas.platformId, qryStr, function (result) {
                         var responseData = result.data.data;
