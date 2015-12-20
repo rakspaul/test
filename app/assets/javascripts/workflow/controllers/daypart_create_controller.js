@@ -15,6 +15,7 @@ var angObj = angObj || {};
         console.log('fetched ads = ',fetchedObj);
         if(fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets)>0) {
            // console.log(fetchedObj.targets.adDaypartTargets.schedule);
+            $scope.setTargeting('Daypart');
 
             if(angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) == angular.lowercase("Custom Schedule")){
 

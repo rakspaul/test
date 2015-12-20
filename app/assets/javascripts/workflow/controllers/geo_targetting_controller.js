@@ -19,6 +19,9 @@ var angObj = angObj || {};
         $scope.citiesIncluded = true;
         $scope.dmasIncluded = true;
         $scope.selectedTab = 'regions';
+        $scope.adData.isGeographySelected = false;
+        $scope.adData.isAudienceSelected = false;
+        $scope.adData.isDaypartSelected = false;
 
         $scope.regionEdit = function(flatArr){
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
@@ -139,8 +142,18 @@ var angObj = angObj || {};
         }
 
         $scope.setTargeting = function(name) {
+            console.log("name == ",name)
             $scope.selectedTargeting = {};
             $scope.adData.targetName = name;
+
+            if(name == 'Geography')
+                $scope.adData.isGeographySelected = true;
+            if(name == 'Audience')
+                $scope.adData.isAudienceSelected = true;
+            if(name == 'Daypart')
+                $scope.adData.isDaypartSelected = true;
+
+            console.log('ad dats d == ',$scope.adData);
             $scope.selectedTargeting[name.toLowerCase()] = true;
         };
 
