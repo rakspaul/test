@@ -516,17 +516,23 @@ var angObj = angObj || {};
             },
 
             fetchPrimaryKpis: function () {
-                $scope.workflowData['primaryKpi'] = [{
-                    kpi_category: 'DELIVERY',
-                    kpi_values: [{id: 1, name: 'Impressions'}, {id: 2, name: 'Clicks'}, {id: 3, name: 'Actions'}]
+                $scope.workflowData['primaryKpi'] = [{ kpi_category: 'DELIVERY',
+                    kpi_values: [{id: 1, name: 'Impressions', disabled:false},
+                                 {id: 4, name: 'Impressions within demographic', disabled:true},
+                                 {id: 5, name: 'Viewable Impressions', disabled:true},
+                                 {id: 2, name: 'Clicks', disabled:false},
+                                 {id: 3, name: 'Actions', disabled:false}
+
+                                ]
                 }, {
                     kpi_category: 'PERFORMANCE',
-                    kpi_values: [{id: 1, name: 'Clickthrough Rate'},{
-                        id: 2,
-                        name: 'Cost Per Click'
-                    }, {id: 3, name: 'Viewabilty Rate'}]
+                    kpi_values: [{id: 1, name: 'Clickthrough Rate', disabled:false},
+                                 { id: 2, name: 'Cost Per Click', disabled:false},
+                                 { id: 4, name: 'Cost Per Action', disabled:true},
+                                 {id: 3, name: 'Viewabilty Rate', disabled:false},
+                                 {id: 5, name: 'In-Demo Rate', disabled:true}
+                                ]
                 }];
-
             },
 
             fetchAdFormats: function () {
