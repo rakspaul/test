@@ -397,11 +397,23 @@ var angObj = angObj || {};
                 $('.cap_yes input').attr("checked", "checked");
 
                 angular.forEach(responseData.frequencyCaps, function(frequencyCap) {
-                if(frequencyCap[""]){
-
+                if(frequencyCap["targetType"] = "ALL"){
+                    //$scope.adData.budgetAmount = frequencyCap['quantity'];
+                    var pacingType = frequencyCap['pacingType'];
+                    if (pacingType != "EVENLY") {
+                        $('.spend_asap').addClass('active');
+                        $('.spend_asap input').attr("checked", "checked");
+                        $('.spend_evenly').removeClass('active');
+                    }
                 }
-                if(frequencyCap[""]){
-
+                if(frequencyCap["targetType"] == "PER_USER"){
+                    $scope.adData.quantity = frequencyCap['quantity'];
+                    $scope.capsPeriod = frequencyCap['frequencyType'];
+                    var freqType = frequencyCap['frequencyType'];
+                    if (freqType == "LIFETIME")
+                        $scope.selectedFreq = 'Lifetime';
+                    else if (freqType == "DAILY")
+                        $scope.selectedFreq = 'Daily';
                 }
                 });
                 /*
