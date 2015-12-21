@@ -395,6 +395,28 @@ var angObj = angObj || {};
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
                 $('.cap_yes input').attr("checked", "checked");
+
+                angular.forEach(responseData.frequencyCaps, function(frequencyCap) {
+                if(frequencyCap["targetType"] = "ALL"){
+                    //$scope.adData.budgetAmount = frequencyCap['quantity'];
+                    var pacingType = frequencyCap['pacingType'];
+                    if (pacingType != "EVENLY") {
+                        $('.spend_asap').addClass('active');
+                        $('.spend_asap input').attr("checked", "checked");
+                        $('.spend_evenly').removeClass('active');
+                    }
+                }
+                if(frequencyCap["targetType"] == "PER_USER"){
+                    $scope.adData.quantity = frequencyCap['quantity'];
+                    $scope.capsPeriod = frequencyCap['frequencyType'];
+                    var freqType = frequencyCap['frequencyType'];
+                    if (freqType == "LIFETIME")
+                        $scope.selectedFreq = 'Lifetime';
+                    else if (freqType == "DAILY")
+                        $scope.selectedFreq = 'Daily';
+                }
+                });
+                /*
                 $scope.adData.budgetAmount = responseData.frequencyCaps[0]['quantity'];
                 $scope.adData.quantity = responseData.frequencyCaps[responseData.frequencyCaps.length - 1]['quantity'];
                 $scope.capsPeriod = responseData.frequencyCaps[responseData.frequencyCaps.length - 1]['frequencyType'];
@@ -410,6 +432,7 @@ var angObj = angObj || {};
                     $('.spend_asap input').attr("checked", "checked");
                     $('.spend_evenly').removeClass('active');
                 }
+                */
             }
 
             //platform tab
@@ -737,16 +760,18 @@ var angObj = angObj || {};
                 marginLeft: "-325px"
             }, 'slow');
             $("#creative").delay(300).animate({minHeight: "950px"}, 'slow');
-        }
+        };
 
         // Buying Platform Slide Page
         $scope.showBuyingPlatformWindow = function () {
             $(".platform-custom").show().delay(300).animate({left: "50%", marginLeft: "-323px"}, 'slow');
             $(".offeringsWrap").hide();
-        }
+        };
+
         $scope.frequencySelected = function (freqSelected) {
             $scope.selectedFreq = freqSelected;
-        }
+        };
+
         function getfreqCapParams(formData) {
             var freq_cap = [];
             var budgetType = formData.budgetType.toLowerCase() === 'cost' ? 'Budget' : 'impressions';

@@ -73,7 +73,7 @@
         <label class="col-sm-12 control-label greyTxt miniLabels">Frequency Cap</label>
         <div class="btn-group miniToggle" ng-init="adData.setCap=false">
             <label class="btn btn-default cap_yes" style="width: auto;"><span>Yes</span>
-                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true;">
+                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">
             </label>
             <label class="btn btn-default active cap_no" style="width: auto;"><span>No</span>
                 <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
@@ -127,7 +127,7 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
                           <li><a data-value="Daily" ng-click="frequencySelected('Daily')">Daily</a></li>
-                         <li><a data-value="Lifetime"ng-click="frequencySelected('Lifetime')">Lifetime</a></li>
+                         <li><a data-value="Lifetime" ng-click="frequencySelected('Lifetime')">Lifetime</a></li>
                     </ul>
                    <input type="hidden" name="frequencyType" value="{{selectedFreq}}" ng-model="capsPeriod" ng-update-hidden/>
                </div>
