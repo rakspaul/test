@@ -305,37 +305,43 @@
   float: right;
   position: relative;
   margin: 0 0 0 30px;
+  /* span {
+                  position: absolute;
+                  top: -7px;
+                  right: -8px;
+                  z-index: 10;
+                  color: #0978c9;
+                  font-size: 9px;
+                  background: #fff;
+                  border: 2px solid #0978c9;
+                  padding: 0px 3px;
+                  font-family: "Arial";
+                  font-weight: bold;
+                  line-height: 10px;
+              }  */
+  /* a {
+              float: right;
+              color: #787878;
+              font-size: 23px;
+              cursor: pointer;
+              margin-bottom: 20px;
+              height: 23px;
+              width: 23px;
+            } 
+            a:active, a:focus, a:hover {
+              text-decoration: none;
+            } */
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets span {
-  position: absolute;
-  top: -7px;
-  right: -8px;
-  z-index: 10;
-  color: #0978c9;
-  font-size: 9px;
-  background: #fff;
-  border: 2px solid #0978c9;
-  padding: 0px 3px;
-  font-family: "Arial";
-  font-weight: bold;
-  line-height: 10px;
-}
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets img {
-  float: left;
-}
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a {
   float: right;
   color: #787878;
   font-size: 23px;
-  cursor: pointer;
   margin-bottom: 20px;
   height: 23px;
   width: 23px;
 }
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:active,
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:focus,
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets a:hover {
-  text-decoration: none;
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets img {
+  float: left;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap {
   background: #fff;
