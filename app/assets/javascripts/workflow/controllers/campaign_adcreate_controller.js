@@ -249,8 +249,8 @@ var angObj = angObj || {};
 
         $scope.getPlatformIconName = function (platform) {
             var platformMapper = {
-                'collective bidder': 'logo_C_bidder',
-                "collective bidder - test": 'logo_C_bidder',
+                'visto bidder': 'Visto_fav_icon',
+                "visto bidder - test": 'Visto_fav_icon',
                 'appnexus': 'logo_C_appnexus',
                 'appnexus - test': 'logo_C_appnexus',
                 'facebook': 'facebook-FBexchange',
@@ -272,7 +272,7 @@ var angObj = angObj || {};
                 'doubleclick': 'doubleclick-DFP',
                 'facebook-tracking': 'facebook-FBexchange',
                 'appnexus-tracking': 'logo_C_appnexus',
-                'dorado-tracking': 'logo_C_bidder',
+                'dorado-tracking': 'Visto_fav_icon',
                 'dbm-tracking': 'doubleclick-DFP'
             };
             if (platform)
