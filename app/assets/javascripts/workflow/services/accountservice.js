@@ -37,7 +37,7 @@
                 return dataService.fetch(url, {cache:false});
             },
             getClients: function (advertiserId) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/clients';
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients?access_level=admin';
                 return dataService.fetch(url, {cache:false});
             },
             getClientsAdvertisers: function(clientId) {

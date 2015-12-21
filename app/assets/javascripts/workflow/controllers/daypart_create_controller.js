@@ -353,7 +353,7 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.returnTime = function(time){console.log('here');
+        $scope.returnTime = function(time){
             var index = _.findIndex($scope.getTimes, function(item) {
                 return item.time == time});
             if($scope.twelve)
