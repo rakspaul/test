@@ -90,7 +90,7 @@
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
-                                            {{tactic.type}}
+                                            {{tactic.name}}
                                         </div>
                                         <div class="row_list_holder">
                                             <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'">
@@ -269,19 +269,19 @@
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
-            {{screenData.video_metrics.ad_starts >0 ? (screenData.video_metrics.ad_starts | nrFormat) : '-'}}
+            {{screenData.ad_starts >0 ? (screenData.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
                 <div class="vid_quartile_data">{{screenData.vtc_25 >0 ? (screenData.vtc_25 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{screenData.vtc_50 >0 ? (screenData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_75 >0 ? (screenData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{screenData.video_metrics.vtc_100 >0 ? (screenData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_50 >0 ? (screenData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_75 >0 ? (screenData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_100 >0 ? (screenData.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
-            <span>{{screenData.video_metrics.vtc_rate | number:2}}%</span>
+            <span>{{screenData.vtc_rate | number:2}}%</span>
         </div>
     </div>
     <div class="each_col forth_col">
@@ -326,19 +326,19 @@
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
-            {{daysofweekData.video_metrics.ad_starts >0 ? (daysofweekData.video_metrics.ad_starts | nrFormat) : '-'}}
+            {{daysofweekData.ad_starts >0 ? (daysofweekData.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_25 >0 ? (daysofweekData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_50 >0 ? (daysofweekData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_75 >0 ? (daysofweekData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{daysofweekData.video_metrics.vtc_100 >0 ? (daysofweekData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_25 >0 ? (daysofweekData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_50 >0 ? (daysofweekData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_75 >0 ? (daysofweekData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_100 >0 ? (daysofweekData.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
-            <span>{{daysofweekData.video_metrics.vtc_rate | number:2}}%</span>
+            <span>{{daysofweekData.vtc_rate | number:2}}%</span>
         </div>
     </div>
     <div class="each_col forth_col">
@@ -373,19 +373,19 @@
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
-            {{formatData.video_metrics.ad_starts > 0 ? (formatData.video_metrics.ad_starts | nrFormat) : '-'}}
+            {{formatData.ad_starts > 0 ? (formatData.ad_starts | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_25 > 0 ? (formatData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_50 > 0 ? (formatData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_75 > 0 ? (formatData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-                <div class="vid_quartile_data">{{formatData.video_metrics.vtc_100 > 0 ? (formatData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_25 > 0 ? (formatData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_50 > 0 ? (formatData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_75 > 0 ? (formatData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_100 > 0 ? (formatData.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
         <div class="each_col third_col">
-            <span>{{formatData.video_metrics.vtc_rate | number:2}}%</span>
+            <span>{{formatData.vtc_rate | number:2}}%</span>
         </div>
     </div>
     <div class="each_col forth_col">
@@ -424,18 +424,18 @@
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{creativesData.video_metrics.ad_starts > 0 ? (creativesData.video_metrics.ad_starts | nrFormat) : '-'}}
+        {{creativesData.ad_starts > 0 ? (creativesData.ad_starts | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
         <div>
-            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_25 > 0 ? (creativesData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_50 > 0 ? (creativesData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_75 > 0 ? (creativesData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{creativesData.video_metrics.vtc_100 > 0 ? (creativesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_25 > 0 ? (creativesData.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_50 > 0 ? (creativesData.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_75 > 0 ? (creativesData.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_100 > 0 ? (creativesData.vtc_100 | nrFormat) : '-'}}</div>
         </div>
     </div>
     <div class="each_col third_col">
-        {{creativesData.video_metrics.vtc_rate | number:2}}%
+        {{creativesData.vtc_rate | number:2}}%
     </div>
 
     </span>
@@ -478,19 +478,19 @@
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{adsizesData.video_metrics.ad_starts > 0 ? (adsizesData.video_metrics.ad_starts | nrFormat) : '-'}}
+        {{adsizesData.ad_starts > 0 ? (adsizesData.ad_starts | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
         <div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_25 > 0 ? (adsizesData.video_metrics.vtc_25 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_50 > 0 ? (adsizesData.video_metrics.vtc_50 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_75 > 0 ? (adsizesData.video_metrics.vtc_75 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{adsizesData.video_metrics.vtc_100 > 0 ? (adsizesData.video_metrics.vtc_100 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_25 > 0 ? (adsizesData.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_50 > 0 ? (adsizesData.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_75 > 0 ? (adsizesData.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_100 > 0 ? (adsizesData.vtc_100 | nrFormat) : '-'}}</div>
         </div>
     </div>
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{adsizesData.video_metrics.vtc_rate | number:2}}%
+        {{adsizesData.vtc_rate | number:2}}%
     </div>
     </span>
     <div class="each_col forth_col">

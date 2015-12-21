@@ -168,6 +168,8 @@ var angObj = angObj || {};
             } else {
                 queryObj['queryId'] =  performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
             }
+
+
             var url;
 
              if (Number($scope.selectedStrategy.id) >= 0) {
@@ -180,10 +182,13 @@ var angObj = angObj || {};
              }
 
 
+
+
+
             dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
-                    //$scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
+                    $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
                     if($scope.hidePerformanceReportTab) {
                         errorHandlerForPerformanceTab();
                     } else {
@@ -201,7 +206,7 @@ var angObj = angObj || {};
                                 .groupBy('name')
                                 .map(function(value, key) {
                                     return {
-                                        type: key,
+                                        name: key,
                                         perf_metrics: value
                                     }
                                 })
@@ -210,7 +215,6 @@ var angObj = angObj || {};
                         else{
                             $scope.showPerfMetrix = false;
                             $scope['strategyPerfDataBy'+tab]  = result.data.data;
-                            $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
                         }
                         $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     }
@@ -236,7 +240,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Ad-Group total' : 'Media Plan total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();

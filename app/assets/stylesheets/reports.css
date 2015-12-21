@@ -2263,10 +2263,21 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container .strategy_total_container_header div.each_col.first_col {
   width: 100% ;
 }
+.reports_tabs_content_container .link {
+  text-transform: lowercase;
+}
+.reports_tabs_content_container .link:first-letter {
+  text-transform: uppercase;
+}
 .reports_tabs_content_container #reports_byscreens_block .sec_col,
 .reports_tabs_content_container #reports_byformats_block .sec_col {
   width: 132px ;
   text-align: left;
+  text-transform: lowercase;
+}
+.reports_tabs_content_container #reports_byscreens_block .sec_col:first-letter,
+.reports_tabs_content_container #reports_byformats_block .sec_col:first-letter {
+  text-transform: uppercase;
 }
 .reports_tabs_content_container #reports_byscreens_block .first_col,
 .reports_tabs_content_container #reports_byformats_block .first_col {
@@ -2280,6 +2291,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_bydaysofweek_block .sec_col {
   text-align: left;
   width: 125px;
+  text-transform: lowercase;
+}
+.reports_tabs_content_container #reports_bydaysofweek_block .sec_col:first-letter {
+  text-transform: uppercase;
 }
 .reports_tabs_content_container #reports_bydaysofweek_block .first_col {
   width: 100% !important ;
