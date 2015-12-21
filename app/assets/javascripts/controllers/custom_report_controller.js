@@ -621,6 +621,9 @@ var angObj = angObj || {};
             if(/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false) {
                 return setFlashMessage('Please use only alphanumeric characters for report names. Report name should start with alphabetic character',1,0);
             }
+            if(($scope.reports.reportDefinition.timeframe.start_date == undefined) || ($scope.reports.reportDefinition.timeframe.end_date == undefined)) {
+                return setFlashMessage('Please provide timeframe dates',1,0);
+            }
             if(!$scope.reports.name || !$scope.reports.schedule.frequency) {
                 return setFlashMessage('Please provide report name and frequency',1,0);
             }
