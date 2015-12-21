@@ -10,6 +10,7 @@ var angObj = angObj || {};
         $(".workflowPreloader").css('height', winHeaderHeight + 'px');
 
 
+
         // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 110;
@@ -93,6 +94,7 @@ var angObj = angObj || {};
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
+
         $scope.editCampaign = function (workflowcampaignData) {
             window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';
 
@@ -586,6 +588,8 @@ var angObj = angObj || {};
                     id: 3,
                     name: 'CPA'
                 }];
+
+                $scope.adData.unitType = $scope.workflowData['unitTypes'][0];
             },
 
             saveAds: function (postDataObj, isDownloadTrackerClicked) {
@@ -821,7 +825,11 @@ var angObj = angObj || {};
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
-            if (formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) {
+            if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator)) {
+                $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
+                $scope.partialSaveAlertMessage.isErrorMsg = 1;
+                $scope.partialSaveAlertMessage.isMsg = 1;
+                $scope.msgtimeoutReset();
                 return false;
             }
 
@@ -1069,6 +1077,59 @@ var angObj = angObj || {};
             $scope.selectedDayParts['data'] = audienceService.getDaytimeObj();
             return ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
         }
+
+        $scope.budgetErrorObj = {};
+
+        $scope.adBudgetValidator = function() {
+            if(!$scope.workflowData.campaignData) return false;
+            $scope.budgetErrorObj.mediaCostValidator = false;
+            $scope.budgetErrorObj.availableRevenueValidator = false;
+
+            var campaignData = $scope.workflowData.campaignData;
+            var campaignBuget = campaignData.bookedRevenue || 0;
+            var adAvailableRevenue;
+
+            if($scope.workflowData.adsData) {
+                var adsData = $scope.workflowData.adsData;
+                adAvailableRevenue = adsData.availableRevenue;
+            } else {
+                adAvailableRevenue = campaignData.minimumBudget;
+            }
+
+            var budgetAmount = $scope.adData.budgetAmount;
+            if(budgetAmount >0) {
+                if ($scope.adData.budgetType.toLowerCase() == 'cost') {
+                    if (budgetAmount >= adAvailableRevenue) {
+                        $scope.budgetErrorObj.availableRevenueValidator = true;
+                        $scope.budgetErrorObj.mediaCostValidator = false;
+                    } else if (budgetAmount >= campaignBuget) {
+                        $scope.budgetErrorObj.availableRevenueValidator = false;
+                        $scope.budgetErrorObj.mediaCostValidator = true;
+                    }
+                } else {
+                    var unitType = $scope.adData.unitType;
+                    var unitCost = Number($scope.adData.unitCost);
+                    var totalBudget;
+                    if (unitType.name === 'CPM') {
+                        totalBudget = unitCost * (budgetAmount / 1000);
+                    } else if (unitType.name === 'CPC' || unitType.name === 'CPA') {
+                        totalBudget = unitCost * budgetAmount;
+                    }
+
+                    if (totalBudget >= adAvailableRevenue) {
+                        $scope.budgetErrorObj.availableRevenueValidator = true;
+                    }
+                }
+            }
+        }
+
+        $scope.$watch('adData.budgetType', function(newValue, oldValue) {
+            if(newValue !== oldValue) {
+                $scope.budgetErrorObj.availableRevenueValidator = false;
+                $scope.budgetErrorObj.mediaCostValidator = false;
+            }
+            $scope.adBudgetValidator();
+        })
 
     });
 
@@ -1560,6 +1621,8 @@ var angObj = angObj || {};
         $scope.closeDomainListPop = function () {
             $scope.showDomainListPopup = false;
         }
+
+
 
     });
 

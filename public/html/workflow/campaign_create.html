@@ -324,16 +324,16 @@
                             <div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
                                 <span class="currency">{{ locale.NUMBER_FORMATS.CURRENCY_SYM }}</span>
-                                <input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
-                                <!--<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
+                                <input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" total-budget-check ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>
-                                <!--<label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>-->
+                                <label ng-if="createCampaignForm.budget.$error.totalBudgetCheckValidator" class="col-sm-12 control-label  customErrorLabel">You must enter total budget value greater or equal to the budget value specified for the campaign.</label>
                             </div>
                             <div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
                                 <label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
                                 <span class="currency">{{ locale.NUMBER_FORMATS.CURRENCY_SYM }}</span>
-                                <input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
+                                <input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12"  ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
                                 <label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
+
                             </div>
                         </div>
                 </div>
