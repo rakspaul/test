@@ -250,24 +250,28 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 29,
                     'report_type' : 'screen_format',
                     'report_cat' : 'performance',
                     'label' : 'Performance by Screens & Formats',
                 },
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 21,
                     'report_type' : 'days_of_week',
                     'report_cat' : 'performance',
                     'label' : 'Performance by Days Of Week',
                 },
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 20,
                     'report_type' : 'creatives',
                     'report_cat' : 'performance',
                     'label' : 'Performance by Creatives',
                 },
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 19,
                     'report_type' : 'ad_size',
                     'report_cat' : 'performance',

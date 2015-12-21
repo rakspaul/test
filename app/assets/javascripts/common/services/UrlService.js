@@ -92,6 +92,10 @@
                 params += '&ad_group_id=0';
             }
 
+            if(qryObj.download_config_id) {
+                params += '&download_config_id='+ qryObj.download_config_id;
+            }
+
             // when strategyId = 0 qryObj.strategyId become false.
             if(_.has(qryObj, 'strategyId') && qryObj.strategyId >= 0) {
                 params += '&ad_group_id=' + qryObj.strategyId;

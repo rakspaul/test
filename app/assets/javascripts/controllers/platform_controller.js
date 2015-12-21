@@ -170,24 +170,24 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             var download_report = [
                 {
-                    'query_id': 29,
-                    'report_type' : 'performance',
-                    'report_cat' : 'platform',
-                    'label' : 'Platform by Performance'
+                    'url' : '/reportBuilder/customQueryDownload',
+                    'query_id': 24,
+                    'label' : 'Platform by Performance',
+                    'download_config_id' : 1
                 },
                 {
-                    'query_id': 29,
-                    'report_type' : 'cost',
-                    'report_cat' : 'platform',
+                    'url' : '/reportBuilder/customQueryDownload',
+                    'query_id': 24,
                     'label' : 'Platform by Cost',
-                    'className': 'report_cost'
+                    'className': 'report_cost',
+                    'download_config_id' : 2
 
                 },
                 {
-                    'query_id': 29,
-                    'report_type' : 'viewability',
-                    'report_cat' : 'platform',
-                    'label' : 'Platform by Quality'
+                    'url' : '/reportBuilder/customQueryDownload',
+                    'query_id': 24,
+                    'label' : 'Platform by Quality',
+                    'download_config_id':3
                 }
             ];
 

@@ -235,6 +235,7 @@ var angObj = angObj || {};
 
             $scope.download_report = [
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 16,
                     'report_type' : 'all',
                     'report_cat' : 'cost',
