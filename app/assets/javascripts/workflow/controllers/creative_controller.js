@@ -191,7 +191,7 @@ var angObj = angObj || {};
                 }, 'slow', function () {
                     $(this).hide();
                 });
-                $("#creative").delay(300).animate({height: "530px"}, 'slow');
+                $("#creative").delay(300).animate({height: "auto"}, 'slow');
             }
         })
 
