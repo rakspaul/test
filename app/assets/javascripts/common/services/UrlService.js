@@ -128,13 +128,22 @@
         };
 
         //API for dashbaord Bubble Chart
-        this.APISpendWidgetForAllBrands = function (clientId, advertiserId, brandId, timePeriod, status) {
-            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status;
+        this.APISpendWidgetForAllBrands = function (qryObj) {
+            qryObj.queryId = 6;
+           /* var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status;
+            return url;*/
+            var params = this.buildParams(qryObj);
+            var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
             return url;
         };
 
-        this.APISpendWidgetForCampaigns = function (clientId, advertiserId, brandId, timePeriod, status) {
-            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/' + (brandId?brandId:-1) + '/campaigns/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status.toLowerCase();
+        //this.APISpendWidgetForCampaigns = function (clientId, advertiserId, brandId, timePeriod, status) {
+        this.APISpendWidgetForCampaigns = function (qryObj) {
+            qryObj.queryId = 5;
+            /*var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/' + (brandId?brandId:-1) + '/campaigns/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status.toLowerCase();
+            return url;*/
+            var params = this.buildParams(qryObj);
+            var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params +"&kpi_period=ALL&top_count=5";
             return url;
         };
 

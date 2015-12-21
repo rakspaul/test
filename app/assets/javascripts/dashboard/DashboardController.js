@@ -15,8 +15,8 @@
       $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, brand);
     };
 
-    var selectAdvertiser = function(brand) {
-      $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, brand);
+    var selectAdvertiser = function(advertiser) {
+      $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, advertiser);
     };
 
     $scope.clickOnBrandButton = function (e) {
@@ -43,6 +43,7 @@
 
     var bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
       var brand = {id: args.brandId, name: args.className};
+      selectAdvertiser({"id":args.advertiserId,"name":args.advertiserName});
       selectBrand(brand);
     });
 
