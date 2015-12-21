@@ -12,20 +12,76 @@ var angObj = angObj || {};
         var storedResponse;
         var oldPlatformName;
 
+        $scope.fetchPlatforms =  function (platform) {
+            var errorHandler =  function (errData) {
+                console.log(errData);
+            }
+
+            workflowService.getPlatforms({cache: false}).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    var responseData = result.data.data;
+                    if ($scope.mode == 'edit' && platform) {
+                        var platformStatus = !$scope.isAdsPushed;
+                        if($scope.TrackingIntegrationsSelected) {
+                            for (var i in responseData.fullIntegrationsPlatforms) {
+                                responseData.fullIntegrationsPlatforms[i].active = false;
+                            }
+                            $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
+
+                            for (var i in responseData.trackingPlatforms) {
+                                responseData.trackingPlatforms[i].active = platformStatus;
+                            }
+                            $scope.trackingPlatformCarouselData(responseData);
+                        } else {
+                            for (var i in responseData.fullIntegrationsPlatforms) {
+                                responseData.fullIntegrationsPlatforms[i].active = responseData.fullIntegrationsPlatforms[i].active ? platformStatus :  false;
+                            }
+                            $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
+
+                            for (var i in responseData.trackingPlatforms) {
+                                responseData.trackingPlatforms[i].active = false;
+                            }
+                            $scope.trackingPlatformCarouselData(responseData);
+                        }
+
+                    } else {
+                        $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
+                        $scope.trackingPlatformCarouselData(responseData);
+                    }
+                }
+                else {
+                    errorHandler(result);
+                }
+            }, errorHandler);
+
+        };
+
+        $scope.trackingPlatformCarouselData = function (responseData) {
+            $scope.workflowData['tracking_integrations'] = {};
+            var tempData = responseData.trackingPlatforms;
+            var slides = Math.ceil((responseData.trackingPlatforms.length) / 3);
+            for (var i = 0; i < slides; i++) {
+                $scope.workflowData['tracking_integrations'][i] = tempData.splice(0, 3);
+            }
+        };
+
+        if($scope.mode === 'create') {
+            $scope.fetchPlatforms();
+        }
+
         $scope.$on('updatePlatform', function (event, platform) {
-            $scope.defaultPlatform = platform[0];
-            $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
-            $scope.saveCustomeFieldForPlatform()
+            $scope.fetchPlatforms(platform[0]);
+            if(platform[0]) {
+                $scope.defaultPlatform = platform[0];
+                $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
+                $scope.saveCustomeFieldForPlatform();
+            }
         })
 
         $scope.selectPlatform = function (event, platform) {
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
-            //inactive platform
-            if (platform.active == false || (storedResponse && storedResponse.pushStatus == "PUSHED")) {
-                return true;
-            }
             if ($scope.mode === 'edit') {
                 if (storedResponse.targets.geoTargets)
                     settings = "Geography";
@@ -87,9 +143,9 @@ var angObj = angObj || {};
                 $scope.$parent.TrackingIntegrationsSelected = true;
             }
             $scope.selectedPlatform = {};
-            $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.name;
+            $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
             /*To populate the newly selected Platform in sideBar*/
-            $scope.adData.platform = trackingIntegration.name;
+            $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
 
 

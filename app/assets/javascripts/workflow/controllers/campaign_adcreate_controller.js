@@ -323,10 +323,7 @@ var angObj = angObj || {};
             if (responseData.sourceId) {
                 $scope.editedAdSourceId = responseData.sourceId;
             }
-            if (responseData.isTracking) {
-                $scope.TrackingIntegrationsSelected = true;
-                campaignOverView.fetchPlatforms();
-            }
+
             if (responseData.name)
                 $scope.adData.adName = responseData.name;
 
@@ -336,12 +333,6 @@ var angObj = angObj || {};
                 $scope.adFormatSelection(format);
                 $scope.adData.adFormat = format;
             }
-
-            //if(responseData.goal){
-            //    var goal = $filter('toTitleCase')(responseData.goal);
-            //    $scope.goalSelection(goal);
-            //    $scope.adData.goal = goal;
-            //}
 
             if (responseData.goal) {
                 $scope.adData.primaryKpi = responseData.goal;
@@ -423,11 +414,14 @@ var angObj = angObj || {};
 
             //platform tab
             if (responseData.platform) {
-                $scope.$broadcast('updatePlatform', [responseData.platform]);
-                if (responseData.pushStatus == "PUSHED")
+                if (responseData.sourceId) {
                     $scope.isAdsPushed = true;
+                }
+                if (responseData.isTracking) {
+                    $scope.TrackingIntegrationsSelected = true;
+                }
             }
-
+            $scope.$broadcast('updatePlatform', [responseData.platform]);
 
             //creative tags
             if (responseData.creatives)
@@ -571,48 +565,6 @@ var angObj = angObj || {};
                 }];
             },
 
-            fetchPlatforms: function () {
-                workflowService.getPlatforms({cache: false}).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
-                        if ($scope.mode == 'edit') {
-                            if ($scope.TrackingIntegrationsSelected) {
-                                for (var i in responseData.fullIntegrationsPlatforms) {
-                                    responseData.fullIntegrationsPlatforms[i].active = false;
-                                }
-                                $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
-
-                                campaignOverView.trackingPlatformCarouselData(responseData);
-                            } else {
-
-                                $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
-                                for (var i in responseData.trackingPlatforms) {
-                                    responseData.trackingPlatforms[i].active = false;
-                                }
-                                campaignOverView.trackingPlatformCarouselData(responseData);
-                            }
-                        } else {
-                            $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
-                            campaignOverView.trackingPlatformCarouselData(responseData);
-                        }
-
-                    }
-                    else {
-                        campaignOverView.errorHandler(result);
-                    }
-                }, campaignOverView.errorHandler);
-
-            },
-
-            trackingPlatformCarouselData: function (responseData) {
-                $scope.workflowData['tracking_integrations'] = {};
-                var tempData = responseData.trackingPlatforms;
-                var slides = Math.ceil((responseData.trackingPlatforms.length) / 3);
-                for (var i = 0; i < slides; i++) {
-                    $scope.workflowData['tracking_integrations'][i] = tempData.splice(0, 3);
-                }
-            },
-
             saveAds: function (postDataObj, isDownloadTrackerClicked) {
                 if (window.location.href.indexOf("adGroup") > -1) {
                     postDataObj.adGroupId = $scope.adGroupId;
@@ -677,7 +629,6 @@ var angObj = angObj || {};
 
             },
 
-
             errorHandler: function (errData) {
                 if(errData.data.status === 404) {
                     $location.url('/mediaplans');
@@ -696,9 +647,6 @@ var angObj = angObj || {};
         campaignOverView.fetchPrimaryKpis();
         campaignOverView.fetchScreenType();
         campaignOverView.fetchUnitTypes();
-//        campaignOverView.fetchSelfServicePlatforms();
-//        campaignOverView.fetchManagedServicePlatforms();
-        campaignOverView.fetchPlatforms();
 
         $scope.screenTypeSelection = function (screenTypeObj) {
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
