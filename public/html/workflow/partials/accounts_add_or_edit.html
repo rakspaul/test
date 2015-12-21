@@ -47,11 +47,14 @@
         <div class="form-group col-md-12 zeroPadding">
             <label >Timezone:</label>
             <!--<input type="text" class="form-control" ng-model="timezone">-->
-            <select name='timezone' class="form-control" ng-model="timezone">
+            <!--<select name='timezone' class="form-control" ng-model="timezone">
                 <option value='EST' >EST (Eastern Standard Time) </option>
                 <option value='CST' >CST (Central Standard Time) </option>
                 <option value='PST' >PST (Pacific Standard Time)  </option>
                 <option value='BST' >BST (British Standard Time)  </option>
+            </select>-->
+            <select name='timezone' class="form-control" ng-model="timezone">
+                <option value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}" >{{value}}</option>
             </select>
         </div>
 
