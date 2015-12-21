@@ -92,61 +92,63 @@
         <!--<a class="pull-right" style="padding: 0;" ng-click="addMoreCustom()">Add Row</a>-->
 	<!--</div>-->
 	<!--Sample 1-->
-	<div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in Schedule.daytimeArr track by $index" ng-if="dayTimeSelected !== 'Custom schedule'">
-		<div class="col-md-2 zeroPadding dailyRow">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						<span class="text">{{dayObj.day ? dayObj.day: Sunday}}</span>
-						<span class="icon-arrow-down"></span>
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay" data-toggle="dropdown">
-						<li class="available"><a>Sunday</a></li>
-						<li class="available"><a>Monday</a></li>
-						<li class="available"><a>Tuesday</a></li>
-						<li class="available"><a>Wednesday</a></li>
-						<li class="available"><a>Thursday</a></li>
-						<li class="available"><a>Friday</a></li>
-						<li class="available"><a>Saturday</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-2 zeroPadding hourRow">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">{{dayObj.startTime ? dayObj.startTime : 'All Day'}}</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">
-						   <li class="available" ng-click="selectTime(twelve ? time.twelveHrFormat: time.twentyfourHrFormat)" ng-value="{{time.time}}" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-		
-		<div class="midTo" ng-if="dayObj.endTime.length>0">to</div>
-		<!--<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>-->
 
-		<div class="col-md-2 zeroPadding hourRow" ng-if="dayObj.endTime.length>0">
-			<div class="col-md-12 zeroPadding dropdown-workflow">
-				 <div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						   <span class="text">{{dayObj.endTime ? dayObj.endTime: '9:00PM'}}</span>
-						   <span class="icon-arrow-down"></span>
-					  </button>
-					  <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">
-                          <li class="available" ng-click="selectTime(twelve ? time.twelveHrFormat: time.twentyfourHrFormat)" ng-value="{{time.time}}" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
-					  </ul>
-				 </div>
-			</div>
-		</div>
-		
-		<span class="icon-clear removeDay" clearrow></span>
-	</div>
+	<!--<div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in Schedule.daytimeArr track by $index" ng-if="dayTimeSelected !== 'Custom schedule'">-->
+		<!--<div class="col-md-2 zeroPadding dailyRow">-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+				<!--<div class="dropdown">-->
+					<!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+						<!--<span class="text">{{dayObj.day ? dayObj.day: Sunday}}</span>-->
+						<!--<span class="icon-arrow-down"></span>-->
+					<!--</button>-->
+					<!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay" data-toggle="dropdown">-->
+						<!--<li class="available"><a>Sunday</a></li>-->
+						<!--<li class="available"><a>Monday</a></li>-->
+						<!--<li class="available"><a>Tuesday</a></li>-->
+						<!--<li class="available"><a>Wednesday</a></li>-->
+						<!--<li class="available"><a>Thursday</a></li>-->
+						<!--<li class="available"><a>Friday</a></li>-->
+						<!--<li class="available"><a>Saturday</a></li>-->
+					<!--</ul>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--<div class="col-md-2 zeroPadding hourRow">-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+				 <!--<div class="dropdown">-->
+					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+						   <!--<span class="text">{{dayObj.startTime ? dayObj.startTime : 'All Day'}}</span>-->
+						   <!--<span class="icon-arrow-down"></span>-->
+					  <!--</button>-->
+					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">-->
+						   <!--<li class="available" ng-click="selectTime(twelve ? time.twelveHrFormat: time.twentyfourHrFormat)" ng-value="{{time.time}}" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>-->
+					  <!--</ul>-->
+				 <!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!---->
+		<!--<div class="midTo" ng-if="dayObj.endTime.length>0">to</div>-->
+		<!--&lt;!&ndash;<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>&ndash;&gt;-->
+
+		<!--<div class="col-md-2 zeroPadding hourRow" ng-if="dayObj.endTime.length>0">-->
+			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+				 <!--<div class="dropdown">-->
+					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+						   <!--<span class="text">{{dayObj.endTime ? dayObj.endTime: '9:00PM'}}</span>-->
+						   <!--<span class="icon-arrow-down"></span>-->
+					  <!--</button>-->
+					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">-->
+                          <!--<li class="available" ng-click="selectTime(twelve ? time.twelveHrFormat: time.twentyfourHrFormat)" ng-value="{{time.time}}" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>-->
+					  <!--</ul>-->
+				 <!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!---->
+		<!--<span class="icon-clear removeDay" clearrow></span>-->
+	<!--</div>-->
 <!--Custom Day Part-->
-    <div ng-if="dayTimeSelected == 'Custom schedule' || Schedule.customLength" ng-init="Schedule.dayPart =[]">
+    <div>
+    <!--<div ng-if="dayTimeSelected == 'Custom schedule' || Schedule.customLength" ng-init="Schedule.dayPart =[]">-->
 
     <div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in Schedule.daytimeArr track by $index" >
         <div class="col-md-2 zeroPadding dailyRow">
@@ -180,7 +182,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">
-                        <li class="available" ng-click="Schedule.dayPart[$parent.$index]['stTime'] = time.time" ng-value="time.time" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="Schedule.dayPart[$parent.$index]['stTime'] = time.time" ng-value="time.time" ng-repeat="time in getStartTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-init="Schedule.dayPart[$index]['stTime']='24'" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
                 </div>
@@ -198,7 +200,8 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">
-                        <li class="available" ng-click="Schedule.dayPart[$parent.$parent.$index]['edTime'] = time.time" ng-value="time.time" ng-repeat="time in getTimes" ng-if="Schedule.dayPart[$parent.$index]['stTime'] < time.time"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="Schedule.dayPart[$parent.$parent.$index]['edTime'] = time.time" ng-repeat="time in getEndTimes|limitTo:1" ng-value="time.time" ng-if="Schedule.dayPart[$parent.$index]['stTime'] == 23"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="Schedule.dayPart[$parent.$parent.$index]['edTime'] = time.time" ng-value="time.time" ng-repeat="time in getEndTimes" ng-if="Schedule.dayPart[$parent.$index]['stTime'] < time.time"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input type="hidden" name="edTime" class=""  ng-model="Schedule.dayPart[$index]['edTime']" ng-init="Schedule.dayPart[$index]['edTime']='23'" ng-value="{{time.time}}" field="edTime" index="{{$index}}" ng-Update-Hidden-Days/>
                 </div>
