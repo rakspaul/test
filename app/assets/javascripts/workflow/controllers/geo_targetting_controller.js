@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode) {
+    angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode,audienceService) {
         $scope.showTargettingForm = false;
         $scope.geoTargetArr = [{'name' : 'Geography', 'enable' : true}, {'name' : 'Behavior', 'enable' : false}, {'name' : 'Demographics', 'enable' : false}, {'name' : 'Interests', 'enable' : false}, {'name' : 'Technology', 'enable' : false}, {'name' : 'Content', 'enable' : false}, {'name' : 'Other', 'enable' : false}]
         $scope.geoTargetingData = {};
@@ -356,16 +356,26 @@ var angObj = angObj || {};
 
         // Closes Audience Targeting View
         $scope.resetAudienceTargetingVariables = function() {
-          $("#audienceTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0.0"}, function() {
-            $(this).hide();
-          });
+            var selectedAudience = audienceService.getSelectedAudience();
+            if(!selectedAudience || selectedAudience.length == 0){
+                $scope.adData.isAudienceSelected = false;
+                $scope.adData.targetName = null;
+            }
+            $("#audienceTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0.0"}, function() {
+                $(this).hide();
+            });
         }
         
         // Closes Daypart Targeting View
         $scope.resetDayTargetingVariables = function() {
-          $("#dayTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0.0"}, function() {
-            $(this).hide();
-          });
+            var dayParting = audienceService.getDaytimeObj();
+            if(!dayParting || dayParting.length == 0){
+                $scope.adData.isDaypartSelected = false;
+                $scope.adData.targetName = null;
+            }
+            $("#dayTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0.0"}, function() {
+                $(this).hide();
+            });
         }
         
         // Daypart Save Trigger
@@ -1024,6 +1034,10 @@ var angObj = angObj || {};
 
         //this is temp redirect to targetting screen
         $scope.redirectTargettingMain = function(){
+            if(!$scope.geoTargetingData.selected['previewData'] || (!$scope.geoTargetingData.selected['previewData'].include && !$scope.geoTargetingData.selected['previewData'].exclude)){
+                $scope.adData.isGeographySelected = false;
+                $scope.adData.targetName = null;
+            }
             $("#geographyTargeting").delay( 300 ).animate({left: "100%" , marginLeft: "0px", opacity: "0"}, function() {
                 $(this).hide();
             });

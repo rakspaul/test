@@ -98,7 +98,7 @@
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <span style="color: #000;" ng-if="!adData.isGeographySelected && adData.isAudienceSelected && adData.isDaypartSelected">Not Set</span>
+                            <span style="color: #000;" ng-if="adData.isGeographySelected == false && adData.isAudienceSelected == false && adData.isDaypartSelected == false">Not Set</span>
                         </div>
                     </div>
 
