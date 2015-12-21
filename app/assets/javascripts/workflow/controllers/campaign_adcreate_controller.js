@@ -802,7 +802,8 @@ var angObj = angObj || {};
             $scope.$watch('adId', function () {
                 $scope.downloadingTracker = true;
                 if ($scope.adId) {
-                    var url = apiPaths.WORKFLOW_APIUrl + '/campaigns/' + $scope.campaignId + '/ads/' + $scope.adId + '/creatives?format=csv';
+                    var clientId =  loginModel.getSelectedClient().id;
+                    var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId + '/campaigns/' + $scope.campaignId + '/ads/' + $scope.adId + '/creatives?format=csv';
                     dataService.downloadFile(url).then(function (response) {
                         if (response.status == "success") {
                             $scope.downloadingTracker = false;
