@@ -6,13 +6,13 @@
 
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
-        <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms" ng-click="selectPlatform($event, platform)">
+        <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms" ng-click="!platform.active ? '' : selectPlatform($event, platform)">
             <span ng-if="selectedPlatform[platform.id]" class="icon-inline-edit"></span>
             <img ng-src="{{platform.iconUrl}}"/>
             <p>{{platform.displayName}}</p>
             <span ng-bind-html="platform.summary"></span>
-            <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active" ng-click="selectPlatform($event, platform)">Selected</span>
-            <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active ?true:false" class="btn btn-default {{!platform.active || (mode == 'edit' && isAdsPushed) ? 'disabled' : ''}}" ng-click="selectPlatform($event, platform)"> 
+            <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active">Selected</span>
+            <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active" class="btn btn-default " ng-click="!platform.active ? '' : selectPlatform($event, platform)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
         <div class="col-md-6 platformHolder">
@@ -41,8 +41,8 @@
                                 <span class="descrip">{{trackingIntegration.summary}}</span>
                             </div>
                             <div class="col-md-12 select-btn">
-                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="showTrackingSetupInfoPopUp($event, trackingIntegration);">Selected</span>
-                                <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active  ?true:false" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="showTrackingSetupInfoPopUp($event, trackingIntegration);">
+                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="!trackingIntegration.active ? '' : showTrackingSetupInfoPopUp($event, trackingIntegration);">Selected</span>
+                                <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="!trackingIntegration.active ? '' : showTrackingSetupInfoPopUp($event, trackingIntegration);">
                             </div>
 
                         </div>
