@@ -97,8 +97,8 @@ var angObj = angObj || {};
             })
         }
 
-        $scope.setMetrixText = function() {
-            $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
+        $scope.setMetrixText = function(text) {
+            $scope.metrics_text = text+'(' + $scope.selectedMetricsList.length + ')';
         }
 
             dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
@@ -119,7 +119,7 @@ var angObj = angObj || {};
             $scope.allMetrics = true;
             $scope.OnSelectUnselectAllMetrics();
             $scope.saveMetrics();
-           // $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
+            $scope.setMetrixText('Default');
 
             $scope.customeDimensionData = result.data.data;
             var modifiedDimesionArr = result.data.data[0];
@@ -262,7 +262,7 @@ var angObj = angObj || {};
                             $scope.allMetrics = true;
                         }
 
-                        $scope.setMetrixText();
+                        $scope.setMetrixText('Custom');
                     }
                 })
             }
@@ -1371,9 +1371,7 @@ var angObj = angObj || {};
                 }
 
                 $(".metric_popup").modal('hide');
-                if($scope.metrics_text) {
-                    $scope.metrics_text = 'Custom(' + $scope.selectedMetricsList.length + ')';
-                }
+                $scope.setMetrixText('Custom');
             }
 
             $scope.updateSchdReport = function() {
