@@ -21,3 +21,12 @@
 *.sqlite
 
 target/
+tmp
+
+# IDEA
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+project/.idea
+.idea
