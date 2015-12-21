@@ -59,7 +59,8 @@ var angObj = angObj || {};
 
         $scope.fetchAllClients = function(){
             accountsService.getClients().then(function(res) {
-                $scope.clientsDetails = res.data.data;
+                $scope.clientsDetails = res.data.data[0].children;
+                //$scope.clientsDetails = res.data.data;
             })
         }
         $scope.fetchAllClients();
