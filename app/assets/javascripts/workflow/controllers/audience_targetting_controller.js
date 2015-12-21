@@ -104,8 +104,7 @@ var angObj = angObj || {};
                 // partial done
                 var fetchedObj =  angular.copy(workflowService.getAdsDetails());
                 var previouslySelectedAudience = fetchedObj.targets.segmentTargets.segmentList;
-                console.log('here',fetchedObj.targets.segmentTargets);
-                if(previouslySelectedAudience || previouslySelectedAudience.length > 0){
+                if(previouslySelectedAudience && previouslySelectedAudience.length > 0){
                     for(var i = 0; i < previouslySelectedAudience.length; i++){
                         //find  array index in audienc list
                         var index = _.findIndex($scope.audienceList, function(item) {
