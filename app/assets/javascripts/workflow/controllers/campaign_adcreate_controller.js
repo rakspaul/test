@@ -247,6 +247,38 @@ var angObj = angObj || {};
             return goalMapper[goal.toLowerCase()];
         }
 
+        $scope.getPlatformIconName = function (platform) {
+            var platformMapper = {
+                'visto bidder': 'Visto_fav_icon',
+                "visto bidder - test": 'Visto_fav_icon',
+                'appnexus': 'logo_C_appnexus',
+                'appnexus - test': 'logo_C_appnexus',
+                'facebook': 'facebook-FBexchange',
+                'dbm': 'doubleclick-DFP',
+                'dfp': 'doubleclick-DFP',
+                'place media': 'placemedia',
+                'telemetry': 'telemetry',
+                'xad': 'xad',
+                'twitter': 'twitter',
+                'ad theorent': 'ad_theorent',
+                'dstillery': 'dstillery',
+                'adap.tv': 'adaptv',
+                'youtube': 'youtube',
+                'brightroll': 'brightroll',
+                'doubleClick': 'doubleclick-DFP',
+                'yahoo': 'yahoo',
+                'fb exchange': 'facebook-FBexchange',
+                'dfp-tracking': 'doubleclick-DFP',
+                'doubleclick': 'doubleclick-DFP',
+                'facebook-tracking': 'facebook-FBexchange',
+                'appnexus-tracking': 'logo_C_appnexus',
+                'dorado-tracking': 'Visto_fav_icon',
+                'dbm-tracking': 'doubleclick-DFP'
+            };
+            if (platform)
+                return platformMapper[platform.toLowerCase()];
+        }
+
         $scope.getPlatformDesc = function (platform) {
             var platformMapper = {
                 'collective bidder': 'The programmactic solution for all screens and formats.',
