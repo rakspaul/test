@@ -1026,10 +1026,28 @@ var angObj = angObj || {};
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.postPlatformDataObj));
 
             //trigger targeting tab link
-            $('.targetting-tab-link').trigger('click');
+            $scope.triggerTargetting();
             $scope.switchPlatform()
 
         };
+        $scope.triggerbudgetTab = function(){
+            angular.element('.budget-tab-link').trigger('click');
+        }
+
+        $scope.triggerPlatformTab = function(){
+            angular.element('.buying-platform-tab-link').trigger('click');
+        }
+
+        $scope.triggerTargetting = function(){
+            //$('.targetting-tab-link').trigger('click');
+            angular.element('.targetting-tab-link').trigger('click');
+        }
+        $scope.triggerInventory = function(){
+            angular.element('.inventory-tab-link').trigger('click');
+        }
+        $scope.trigerCreativeTag = function(){
+            angular.element('.creative-tab-link').trigger('click');
+        }
 
 
         $scope.isPlatformSelected = false;
