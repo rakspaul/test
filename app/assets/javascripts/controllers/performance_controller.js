@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('PerformanceController', function ($rootScope, $scope, $window, $timeout, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics, urlService) {
+    angObj.controller('PerformanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel,brandsModel, loginModel, analytics,urlService,advertiserModel, $timeout) {
 
         $scope.textConstants = constants;
 
@@ -153,25 +153,42 @@ var angObj = angObj || {};
             }
 
             $scope.api_return_code=200;
-            var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creative' :10, 'dow' :11}
-            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creative' :20, 'dow' :21}
+            var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creatives' :10, 'dow' :11};
+            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21};
             var queryObj = {
                 campaignId : $scope.selectedCampaign.id,
-                strategyId: Number($scope.selectedStrategy.id),
-                dateFilter: $scope.selected_filters.time_filter
+                clientId: loginModel.getSelectedClient().id,
+                dateFilter: $scope.selected_filters.time_filter,
+                advertiserId : advertiserModel.getAdvertiser().selectedAdvertiser.id,
+                brandId :  brandsModel.getSelectedBrand().id
             }
 
             if(param.strategyId) {
-                queryObj['queryId'] =  performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
-            } else {
                 queryObj['queryId'] =  performanceQueryIdMapperWithAllAdsGroup[tab.toLowerCase()];
+            } else {
+                queryObj['queryId'] =  performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
             }
 
-            var url = urlService.APIVistoCustomQuery(queryObj);
-            dataService.APIVistoCustomQuery(url).then(function (result) {
+
+            var url;
+
+             if (Number($scope.selectedStrategy.id) >= 0) {
+                 queryObj.ad_group_id = 0;
+                 // here we use the extra parameter
+                 url = urlService.APIVistoCustomQuery(queryObj);
+             } else {
+                 // here we use the default
+                 url = urlService.APIVistoCustomQuery(queryObj);
+             }
+
+
+
+
+
+            dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data[0].perf_metrics, tab);
+                    $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
                     if($scope.hidePerformanceReportTab) {
                         errorHandlerForPerformanceTab();
                     } else {
@@ -181,7 +198,24 @@ var angObj = angObj || {};
                         $scope.creativeBusy = false;
                         $scope.adSizesBusy = false;
 
-                        $scope['strategyPerfDataBy'+tab]  = result.data.data[0];
+                        if (Number($scope.selectedStrategy.id) >= 0) {
+                            $scope.showPerfMetrix = true;
+                            $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
+                            $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
+                            $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
+                                .groupBy('name')
+                                .map(function(value, key) {
+                                    return {
+                                        name: key,
+                                        perf_metrics: value
+                                    }
+                                })
+                                .value();
+                        }
+                        else{
+                            $scope.showPerfMetrix = false;
+                            $scope['strategyPerfDataBy'+tab]  = result.data.data;
+                        }
                         $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     }
                 } else {
@@ -206,7 +240,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? 'Ad-Group total' : 'Media Plan total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();
@@ -245,7 +279,7 @@ var angObj = angObj || {};
         //Function is called from startegylist directive
         $scope.strategyChangeHandler = function () {
             $scope.reportDownloadBusy = false;
-            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+            if($scope.selectedStrategy.id == -99  ){
                 $scope.strategyFound = false ;
             } else {
                 $scope.strategyFound = true;
