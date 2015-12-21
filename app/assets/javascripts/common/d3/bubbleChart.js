@@ -206,10 +206,9 @@
                 }
                 var computedRadius = (radius == 0) ? 30 : (positions[i][2] < radius ? positions[i][2] : radius ) ;
                 var pathData =  dataGenerator(positions[i][0], positions[i][1], computedRadius, percFill );
-
                 var object = {
                     id:  i ,
-                    brandId: node.id,
+                    brandId: node.brand_id,
                     className: node.name,
                     value : node.budget,
                     budget :node.budget,
@@ -223,7 +222,9 @@
                     pathData : pathData['lineData'],
                     toolTipX : pathData['curveEndX'],
                     toolTipY : pathData['curveEndY'],
-                    objectType : (spanId == 'brands')? 'brands' : 'campaigns'
+                    objectType : (spanId == 'brands')? 'brands' : 'campaigns',
+                    advertiserId: node.advertiser_id,
+                    advertiserName: node.advertiser_name
                 };
                 formattedData.push(object);
             }
@@ -550,7 +551,6 @@
             });
 
             node.on("click", function(obj) {
-
                 analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (obj.objectType === 'brands' ? 'brand_bubble_clicked' : 'campaign_bubble_clicked_' + obj.status), loginModel.getLoginName());
                 if(obj.objectType == 'brands'){
                     tooltip.style("display", "none");

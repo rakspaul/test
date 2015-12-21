@@ -11,11 +11,8 @@
         };
 
         this.getBubbleChartData = function () {
-            var clientId = loginModel.getSelectedClient().id;
-            var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-            var brandId = brandsModel.getSelectedBrand().id;
-            var campaignStatus = dashboardModel.campaignStatusToSend();
-            var url = urlService.APISpendWidgetForAllBrands(clientId,advertiserId,brandId,timePeriodModel.timeData.selectedTimePeriod.key,campaignStatus);
+            var queryObj = {"clientId":loginModel.getSelectedClient().id,"advertiserId":advertiserModel.getSelectedAdvertiser().id,"brandId":brandsModel.getSelectedBrand().id,"dateFilter":timePeriodModel.timeData.selectedTimePeriod.key,"campaignStatus":dashboardModel.campaignStatusToSend()};
+            var url = urlService.APISpendWidgetForAllBrands(queryObj);
             //var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetch(url).then(function(response) {
              var total_brands = response.data.data.length ;
@@ -29,7 +26,6 @@
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['brandData'] = data ;
                     bubbleWidgetData['budget_top_title'] =  (total_brands >5) ? "(Top 5 brands)" : "(All Brands)";
-
                 } else {
                     bubbleWidgetData['dataNotAvailable'] = true ;
                 }
@@ -41,7 +37,9 @@
         this.getBubbleChartDataForCampaign = function (selectedBrand) {
             var clientId =  loginModel.getSelectedClient().id;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-            var url = urlService.APISpendWidgetForCampaigns(clientId, advertiserId, selectedBrand, timePeriodModel.timeData.selectedTimePeriod.key, dashboardModel.getData().selectedStatus);
+            var queryObj = {"clientId":loginModel.getSelectedClient().id,"advertiserId":advertiserModel.getSelectedAdvertiser().id,"brandId":((selectedBrand == undefined)?-1:selectedBrand),"dateFilter":timePeriodModel.timeData.selectedTimePeriod.key,"campaignStatus":dashboardModel.campaignStatusToSend()};
+          //  var url = urlService.APISpendWidgetForCampaigns(clientId, advertiserId, selectedBrand, timePeriodModel.timeData.selectedTimePeriod.key, dashboardModel.getData().selectedStatus);
+            var url = urlService.APISpendWidgetForCampaigns(queryObj);
             var canceller = requestCanceller.initCanceller(constants.BUBBLE_CHART_CAMPAIGN_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 
@@ -69,9 +67,8 @@
 
         // So that user can fire paraller request to fetch campaigns of a brands.
         this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
-            var clientId =  loginModel.getSelectedClient().id;
-            var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-            var url = urlService.APISpendWidgetForCampaigns(clientId, advertiserId, selectedBrand, timePeriodModel.timeData.selectedTimePeriod.key, dashboardModel.getData().selectedStatus);
+            var queryObj = {"clientId":loginModel.getSelectedClient().id,"advertiserId":advertiserModel.getSelectedAdvertiser().id,"brandId":((selectedBrand == undefined)?-1:selectedBrand),"dateFilter":timePeriodModel.timeData.selectedTimePeriod.key,"campaignStatus":dashboardModel.campaignStatusToSend()};
+            var url = urlService.APISpendWidgetForCampaigns(queryObj);
             return dataService.fetch(url).then(function(response) {
 
                 var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
