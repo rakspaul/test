@@ -5,10 +5,6 @@
     angObj.controller('AccountsAddOrEdit', function($scope, $modalInstance,accountsService) {
         //$scope.clientType = 'AGENCY';
 
-
-
-
-
         $scope.currencySelected = '';
         $scope.referenceId;
         getCountries();
@@ -33,10 +29,6 @@
                 $scope.allAdvertiser = result.data.data;
             })
         };
-
-
-
-
 
         $scope.selectClientAdvertiser = function(advertiser){
             $scope.dropdownCss.display = 'none';
