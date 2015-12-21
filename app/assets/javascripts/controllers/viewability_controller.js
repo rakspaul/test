@@ -94,8 +94,9 @@ var angObj = angObj || {};
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             };
-            if(param.strategyId) {
+            if(_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj['queryId'] =  13;
+                queryObj['strategyId'] = param.strategyId;
             } else {
                 queryObj['queryId'] =  12;
             }
@@ -115,7 +116,7 @@ var angObj = angObj || {};
                         }
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
                         } else {
                             errorHandler();
                         }
