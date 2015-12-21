@@ -13,7 +13,7 @@
         }
 
         function init() {
-            if (loginModel.getLoginName() != undefined) {
+            if (loginModel.getUserId() != undefined) {
                 searchCriteria.clientId = loginModel.getSelectedClient().id;
                 fetchAdvertisers(searchCriteria, search);
             }
