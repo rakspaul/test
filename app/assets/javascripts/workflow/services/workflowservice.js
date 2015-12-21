@@ -47,7 +47,7 @@
             },
             getPlatforms:function(cacheObj){
                 var clientId =  loginModel.getSelectedClient().id;
-                var url = apiPaths.WORKFLOW_APIUrl +  '/platforms?sortBy=displayName';
+                var url = apiPaths.WORKFLOW_APIUrl +  '/clients/' + clientId + '/platforms?sortBy=displayName';
                 return dataService.fetch(url,cacheObj);
             },
             getAdsForCampaign : function(campaignId) {
@@ -199,7 +199,6 @@
             },
 
             getPlatformCustomInputs : function(platformId) {
-                var clientId =  loginModel.getSelectedClient().id;
                 var url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId;
                 return dataService.fetch(url);
             },
