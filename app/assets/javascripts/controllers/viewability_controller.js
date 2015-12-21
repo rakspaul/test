@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('ViewabilityController', function ($scope, $window, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, urlService, analytics) {
+    angObj.controller('ViewabilityController', function ($scope, $window, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, urlService, analytics, advertiserModel, brandsModel) {
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -86,12 +86,14 @@ var angObj = angObj || {};
                 $scope.strategyBusy = false;
             }
             $scope.api_return_code = 200;
-            var queryObj = {
-                campaignId : param.campaign_id,
-                strategyId: Number(param.strategyId),
-                dateFilter: param.time_filter
-            }
 
+            var queryObj = {
+                campaignId: $scope.selectedCampaign.id,
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
             if(param.strategyId) {
                 queryObj['queryId'] =  13;
             } else {
@@ -99,7 +101,7 @@ var angObj = angObj || {};
             }
 
             var url = urlService.APIVistoCustomQuery(queryObj);
-            dataService.APIVistoCustomQuery(url).then(function (result) {
+            dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success" || result.status == 204) {
                     if(result.data != '' ){ // if data not empty
@@ -173,6 +175,7 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+            console.log("EVENT_STRATEGY_CHANGED");
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
@@ -181,6 +184,7 @@ var angObj = angObj || {};
 
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            console.log("EVENT_TIMEPERIOD_CHANGED");
             $scope.selected_filters.time_filter = strategy;
             $scope.callBackStrategyChange();
             $scope.createDownloadReportUrl();
@@ -189,7 +193,7 @@ var angObj = angObj || {};
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
-            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+            if($scope.selectedStrategy.id == -99){
                 $scope.strategyFound = false ;
             } else {
                 $scope.strategyFound = true;
