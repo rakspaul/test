@@ -15,6 +15,7 @@ var angObj = angObj || {};
         $scope.$on('updatePlatform', function (event, platform) {
             $scope.defaultPlatform = platform[0];
             $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
+            $scope.saveCustomeFieldForPlatform()
         })
 
         $scope.selectPlatform = function (event, platform) {
