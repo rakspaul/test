@@ -14,7 +14,7 @@
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCode">
             <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
             <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false); enableZipCode = false;" role="button">Continue</a>
-            <a href="#" ng-click="enableZipCode = false;" class="btn btn-link pull-right"  role="button">Cancel</a>
+            <a href="#" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button">Cancel</a>
         </div>
 
         <ul class="nav nav-tabs">

@@ -809,6 +809,10 @@ var angObj = angObj || {};
             $scope.showConfirmBox = false;
         };
 
+        $scope.hidezipCodeTooltip = function() {
+            $scope.enableZipCode = false;
+        };
+
         $scope.showGeographyTabsBox = function(event, tabType, showPopup) {
             $('.searchBox').val('');
             if(tabType === 'zip' && showPopup) {
