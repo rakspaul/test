@@ -37,7 +37,7 @@
                 </div>
             </li>
             <li id="setting-tab">
-                <a href="#setting" role="tab" class="leftNavLink" data-toggle="tab">2 Budget & Delivery</a>
+                <a href="#setting" role="tab" class="leftNavLink budget-tab-link" data-toggle="tab">2 Budget & Delivery</a>
 
                 <div>
                     <div class="statusLabel disabled"
@@ -71,7 +71,7 @@
                 </div>
             </li>
             <li id="buying-tab">
-                <a href="#buying" role="tab" class="leftNavLink" data-toggle="tab">3 Buying Platform</a>
+                <a href="#buying" role="tab" class="leftNavLink buying-platform-tab-link" data-toggle="tab">3 Buying Platform</a>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.platform">
                         <div class="col-md-12">
@@ -93,7 +93,7 @@
                     <a role="tab" class="leftNavLink">4 Targeting</a>
                 </span>
                 <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab">4 Targeting</a>
+                    <a href="#targetting" role="tab" class="leftNavLink targetting-tab-link" data-toggle="tab">4 Targeting</a>
                 </span>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
@@ -121,10 +121,10 @@
 
             <li id="inventoryView-tab">
                  <span ng-if="TrackingIntegrationsSelected">
-                    <a role="tab" class="leftNavLink">5 Inventory Filters</a>
+                    <a role="tab" class="leftNavLink inventory-tab-link">5 Inventory Filters</a>
                  </span>
                 <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#inventoryView" role="tab" class="leftNavLink" data-toggle="tab">5 Inventory Filters</a>
+                    <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab">5 Inventory Filters</a>
                 </span>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.inventory.domainAction || TrackingIntegrationsSelected">
@@ -140,7 +140,7 @@
                 </div>
             </li>
             <li id="creative-tab">
-                <a href="#creative" role="tab" class="leftNavLink" data-toggle="tab">6 Creative </a>
+                <a href="#creative" role="tab" class="leftNavLink creative-tab-link" data-toggle="tab">6 Creative </a>
                 <div>
                     <div class="statusLabel disabled" ng-if="adData.setSizes">
                         <div class="col-md-12">

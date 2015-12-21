@@ -76,11 +76,11 @@
 </div>
 <!-- buying platform holder ends -->
 <!--=== Next Step Panel ===-->
-<span ng-if="!TrackingIntegrationsSelected" class="nextWrapper leftNavLink targetting-tab-link">
-    <a href="#targetting" data-toggle="tab" class="btn btn-default targetting-tab-link">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+<span ng-if="!TrackingIntegrationsSelected" class="nextWrapper leftNavLink ">
+    <a href data-toggle="tab" class="btn btn-default " ng-click="triggerTargetting()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
 </span>
 <span ng-if="TrackingIntegrationsSelected" class="nextWrapper leftNavLink">
-    <a href="#creative" data-toggle="tab" class="btn btn-default">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+    <a href data-toggle="tab" class="btn btn-default" ng-click="trigerCreativeTag()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
 </span>
 <!-- Modal Start -->
 <div class="common-popup-container" ng-show="changePlatformPopup">
