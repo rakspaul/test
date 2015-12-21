@@ -240,7 +240,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Ad-Group total' : 'Media Plan total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? 'Ad-Group total' : 'Media Plan total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();
