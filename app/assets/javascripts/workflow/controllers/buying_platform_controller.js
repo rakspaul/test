@@ -12,7 +12,7 @@ var angObj = angObj || {};
         var storedResponse;
         var oldPlatformName;
 
-        $scope.fetchPlatforms =  function () {
+        $scope.fetchPlatforms =  function (platform) {
             var errorHandler =  function (errData) {
                 console.log(errData);
             }
@@ -20,7 +20,7 @@ var angObj = angObj || {};
             workflowService.getPlatforms({cache: false}).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     var responseData = result.data.data;
-                    if ($scope.mode == 'edit') {
+                    if ($scope.mode == 'edit' && platform) {
                         console.log("responseData", responseData);
                         console.log("$scope.TrackingIntegrationsSelected", $scope.TrackingIntegrationsSelected);
                         console.log("isAdsPushed", $scope.isAdsPushed);
@@ -73,11 +73,12 @@ var angObj = angObj || {};
         }
 
         $scope.$on('updatePlatform', function (event, platform) {
-            console.log("platform", platform);
-            $scope.fetchPlatforms();
-            $scope.defaultPlatform = platform[0];
-            $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
-            $scope.saveCustomeFieldForPlatform();
+            $scope.fetchPlatforms(platform[0]);
+            if(platform[0]) {
+                $scope.defaultPlatform = platform[0];
+                $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
+                $scope.saveCustomeFieldForPlatform();
+            }
         })
 
         $scope.selectPlatform = function (event, platform) {
@@ -148,9 +149,9 @@ var angObj = angObj || {};
                 $scope.$parent.TrackingIntegrationsSelected = true;
             }
             $scope.selectedPlatform = {};
-            $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.name;
+            $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
             /*To populate the newly selected Platform in sideBar*/
-            $scope.adData.platform = trackingIntegration.name;
+            $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
 
 

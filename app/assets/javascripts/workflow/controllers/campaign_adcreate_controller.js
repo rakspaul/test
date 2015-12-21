@@ -389,9 +389,8 @@ var angObj = angObj || {};
                 if (responseData.isTracking) {
                     $scope.TrackingIntegrationsSelected = true;
                 }
-                console.log("responseData.platform", responseData.platform);
-                $scope.$broadcast('updatePlatform', [responseData.platform]);
             }
+            $scope.$broadcast('updatePlatform', [responseData.platform]);
 
             //creative tags
             if (responseData.creatives)
