@@ -201,22 +201,7 @@ var angObj = angObj || {};
                                 .groupBy('name')
                                 .map(function(value, key) {
                                     return {
-
                                         type: key,
-                                        /* name:        _.pluck(value, 'name'),*/
-                                        impressions: _.pluck(value, 'impressions'),
-                                        cpc:         _.pluck(value, 'cpc'),
-                                        ad_group_id: _.pluck(value, 'ad_group_id'),
-                                        cpm:         _.pluck(value, 'cpm'),
-                                        vtc_75:      _.pluck(value, 'vtc_75'),
-                                        vtc_100:     _.pluck(value, 'vtc_100'),
-                                        action_rate: _.pluck(value, 'action_rate'),
-                                        ad_id:       _.pluck(value, 'ad_id'),
-                                        ctr:         _.pluck(value, 'ctr'),
-                                        vtc_25:      _.pluck(value, 'vtc_25'),
-                                        dimension:   _.pluck(value, 'dimension'),
-                                        vtc_50:      _.pluck(value, 'vtc_50'),
-                                        cpa:         _.pluck(value, 'cpa'),
                                         perf_metrics: value
                                     }
                                 })
