@@ -239,16 +239,16 @@ var angObj = angObj || {};
       $scope.createDownloadReportUrl = function () {
           $scope.download_report = [
               {
-                  'query_id': 29,
-                  'report_type' : 'site_category',
-                  'report_cat' : 'inventory',
-                  'label' : 'Inventory Transparency by Site Category'
+                  'url' : '/reportBuilder/customQueryDownload',
+                  'query_id': 26,
+                  'label' : 'Inventory Transparency by Site Category',
+                  'download_config_id' : 1
               },
               {
-                  'query_id': 29,
-                  'report_type' : 'domain',
-                  'report_cat' : 'inventory',
-                  'label' : 'Inventory Transparency by Domain'
+                  'url' : '/reportBuilder/customQueryDownload',
+                  'query_id': 28,
+                  'label' : 'Inventory Transparency by Domain',
+                  'download_config_id' : 1
               }
           ];
       };

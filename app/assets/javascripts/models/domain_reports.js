@@ -195,19 +195,22 @@
                         }
                     }
                     var queryObj = {
-                        url : '/reportBuilder/reportDownload',
+                        'url' : report.url,
                         queryId: report.query_id,
                         clientId: loginModel.getSelectedClient().id,
                         campaignId: $scope.selectedCampaign.id,
                         advertiserId : advertiserModel.getSelectedAdvertiser().id,
                         brandId : brandsModel.getSelectedBrand().id,
                         dateFilter: $scope.selected_filters.time_filter,
-                        adGroupId : $scope.selectedStrategy.id
+                        adGroupId : $scope.selectedStrategy.id,
+                        download_config_id : report.download_config_id
                     }
                     console.log("queryObj", queryObj);
                     var report_url = urlService.APIVistoCustomQuery(queryObj);
-                    report_url += "&report_cat="+report.report_cat + "&report_type="+ report.report_type;
-                    console.log("url", report_url);
+                    if(report.report_cat && report.report_type) {
+                        report_url += "&report_cat=" + report.report_cat + "&report_type=" + report.report_type;
+                        console.log("url", report_url);
+                    }
 
 
                     if (!loginModel.cookieExists())

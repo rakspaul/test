@@ -138,18 +138,21 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 30,
                     'report_type' : 'ad',
                     'report_cat' : 'quality',
                     'label' : 'Quality by Ad'
                 },
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 31,
                     'report_type' : 'domain',
                     'report_cat' : 'quality',
                     'label' : 'Quality by Domain'
                 },
                 {
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 31,
                     'report_type' : 'publisher',
                     'report_cat' : 'quality',
