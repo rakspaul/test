@@ -21,9 +21,6 @@ var angObj = angObj || {};
                 if (result.status === "OK" || result.status === "success") {
                     var responseData = result.data.data;
                     if ($scope.mode == 'edit' && platform) {
-                        console.log("responseData", responseData);
-                        console.log("$scope.TrackingIntegrationsSelected", $scope.TrackingIntegrationsSelected);
-                        console.log("isAdsPushed", $scope.isAdsPushed);
                         var platformStatus = !$scope.isAdsPushed;
                         if($scope.TrackingIntegrationsSelected) {
                             for (var i in responseData.fullIntegrationsPlatforms) {
@@ -82,7 +79,6 @@ var angObj = angObj || {};
         })
 
         $scope.selectPlatform = function (event, platform) {
-            console.log("selectPlatform");
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
 
@@ -90,8 +86,6 @@ var angObj = angObj || {};
                 if (storedResponse.targets.geoTargets)
                     settings = "Geography";
 
-                console.log("storedResponse.platform", storedResponse.platform);
-                console.log("platform", platform);
                 if (storedResponse.platform) {
                     if (storedResponse.platform.name === platform.name) {
                         //directly set  the platform if it is the same

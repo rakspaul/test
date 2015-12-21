@@ -381,7 +381,6 @@ var angObj = angObj || {};
             }
 
             //platform tab
-            console.log("responseData", responseData);
             if (responseData.platform) {
                 if (responseData.sourceId) {
                     $scope.isAdsPushed = true;
