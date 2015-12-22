@@ -2,7 +2,8 @@
     var urlFactory = function (apiPaths, constants, loginModel) {
         //Convention is to start all api urls with API.
         this.APIlastViewedAction = function (campaignId) {
-            var url = apiPaths.workflow_apiServicesUrl + '/campaigns/' + campaignId + '/viewedActions';
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/campaigns/' + campaignId + '/viewedActions';
             return url;
         };
         this.APIeditAction = function (actionId) {
