@@ -3346,8 +3346,3 @@ input[type="submit"] {
 .paused_bulb {
   background: #98B5C8 ;
 }
-/*remove this once draft icon for calendar is given */
-.status_legend_bulb.draft_bulb {
-  border: solid 3px #939eae;
-  background: #939eae ;
-}
