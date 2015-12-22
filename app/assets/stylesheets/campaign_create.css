@@ -665,10 +665,10 @@
   color: #fff;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.incomplete {
-  background: #939ead ;
+  background: #939eae ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.ready {
-  background: #6abdfa ;
+  background: #004478 ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.scheduled {
   background: #2c9aec ;
