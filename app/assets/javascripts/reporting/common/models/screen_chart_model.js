@@ -16,10 +16,14 @@
         }
 
         var screenTypeMap = {
-            'smartphone' : 'mobile_graph',
-            'tv' : 'display_graph',
-            'tablet' : 'tablet_graph',
-            'desktop' : 'display_graph'
+            'desktop' : 'icon-desktop',
+            'unknown' : 'icon-help',
+            'smartphone' : 'icon-mobile',
+            'mobile' : 'icon-mobile',
+            'tv' : 'icon-desktop',
+            'set-top box' : 'icon-desktop',
+            'tablet' : 'icon-tablet',
+            'other' : 'icon-image',
         }
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
