@@ -14,6 +14,7 @@ var angObj = angObj || {};
         var regionInitialLoad = false;
         var cityInitialLoad = false;
         var dmasInitialLoad = false;
+        var zipInitialLoad = false;
         $scope.storedResponse = {};
         $scope.isRegionSelected = true;
         $scope.citiesIncluded = true;
@@ -44,6 +45,7 @@ var angObj = angObj || {};
 
                 $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
                 $scope.listCities();
+
 
             }
             regionInitialLoad = true;
@@ -95,6 +97,21 @@ var angObj = angObj || {};
 
             }
             dmasInitialLoad = true;
+
+        }
+
+        $scope.zipEdit = function(flatArr){
+            //edit mode
+            if($scope.storedResponse.targets.geoTargets && _.size($scope.storedResponse.targets.geoTargets) > 0 && $scope.storedResponse.targets.geoTargets.ZIP_CODE) {
+                var zipEditableObj = angular.copy($scope.storedResponse.targets.geoTargets.ZIP_CODE.geoTargetList);
+                var zipEditable = [];
+                for(var i = 0; i < zipEditableObj.length;i++){
+                    zipEditable[i] = zipEditableObj[i].code;
+                }
+                $scope.adData.zipCodes = zipEditable.toString();
+                $scope.addZipCode();
+            }
+            zipInitialLoad = true;
             createPreviewData();
 
         }
@@ -105,6 +122,7 @@ var angObj = angObj || {};
             $scope.showRegionsTab = true;
             $scope.selectedTab = 'regions';
             $scope.listRegions();
+            $scope.zipEdit();
         });
 
         $scope.updateGeoTargets =  function() {
@@ -403,6 +421,7 @@ var angObj = angObj || {};
             var values = $scope.adData.zipCodes;
             var zipCodeList = $scope.geoTargetingData['selected']['zip'];
             var addedZipCodes = getAllAddedZipCode(zipCodeList);
+
 
             var zipCodesObj = zipCode.checkZipCodes(values, addedZipCodes);
             _.each(zipCodesObj.removed, function(removeval) {
