@@ -66,6 +66,7 @@
         <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "adBudgetValidator();">
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>
         <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the minimum budget value specified for the ad.</label>
+        <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label  customErrorLabel">You must enter budget less than the available budget.</label>
     </div>
 </div>
 
