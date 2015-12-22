@@ -925,6 +925,7 @@ body {
 .campaign_details_page .graphValues span {
   margin-right: 5px ;
   display: inline-block;
+  text-transform: capitalize;
 }
 .campaign_details_page .campaigns_details_holder .flight_dates_holder {
   padding: 20px 0px 10px 0;
