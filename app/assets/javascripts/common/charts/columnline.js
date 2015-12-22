@@ -126,7 +126,7 @@
                             enabled: true,
                             distance :10,
                             style :{
-                                color : '#FEFFFE',
+                                color : '#21252B',
                                 fontWeight:'bold'
                             },
                             y : -10,
