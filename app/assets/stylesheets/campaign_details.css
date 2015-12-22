@@ -671,9 +671,12 @@ body {
   top: 57px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder {
-  padding-left: 24px ;
   margin-top: 16px;
   height: 17px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder [class^="icon-"],
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder [class*=" icon-"] {
+  margin-right: 10px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder:first-child {
   margin-top: 11px;
