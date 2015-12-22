@@ -43,7 +43,7 @@
 
     var bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
       var brand = {id: args.brandId, name: args.className};
-      selectAdvertiser({"id":args.advertiserId,"name":args.advertiserName});
+      selectAdvertiser({"id":args.advertiserId,"name":args.advertiserName, "referedFrom" : 'dashboard'});
       selectBrand(brand);
     });
 

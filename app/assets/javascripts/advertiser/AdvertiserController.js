@@ -27,7 +27,8 @@
             $('#advertisersDropdownNew').attr('placeholder', advertiser.name).val('');
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
-            advertiserModel.callAdvertiserBroadcast(advertiser);
+            if(!advertiser.referedFrom)
+                advertiserModel.callAdvertiserBroadcast(advertiser);
         };
 
         $scope.showAdvertisersDropDown = function () {

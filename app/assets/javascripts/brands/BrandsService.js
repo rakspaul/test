@@ -16,7 +16,7 @@ brandsModule.service("brandsService", function ($rootScope, $http, dataService, 
         return workflowService.getBrands(clientId, advertiserId);
     };
 
-    service.preForBrandBroadcast = function(brand) {
+    service.preForBrandBroadcast = function(brand, advertiser) {
         this.brand = brand;
         this.broadcastItem();
     };
