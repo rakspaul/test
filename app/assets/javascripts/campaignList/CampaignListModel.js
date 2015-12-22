@@ -501,7 +501,7 @@
                       var type = "";
                       switch(filterToApply) {
                         case constants.ACTIVE_CONDITION:
-                          this.appliedQuickFilterText = constants.DASHBOARD_STATUS_ACTIVE;
+                          this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                           this.dashboard.status.active.bothItem= constants.ACTIVE;
                           type = constants.ACTIVE;
@@ -534,7 +534,7 @@
                             type = constants.DRAFT.toLowerCase();
                             break;
                         case constants.READY_CONDITION:
-                            this.appliedQuickFilterText = constants.READY;
+                            this.appliedQuickFilterText = constants.SCHEDULED;
                             this.dashboard.quickFilterSelectedCount = this.dashboard[constants.READY.toLowerCase()];
                             this.dashboard.status.ready= constants.ACTIVE;
                             type = constants.READY.toLowerCase();
@@ -546,7 +546,7 @@
                             type = constants.PAUSED.toLowerCase();
                             break;
                         case constants.COMPLETED_CONDITION:
-                          this.appliedQuickFilterText = constants.COMPLETED;
+                          this.appliedQuickFilterText = constants.ENDED;
                           this.dashboard.quickFilterSelectedCount = this.dashboard[constants.COMPLETED.toLowerCase()];
                           this.dashboard.status.completed = constants.ACTIVE;
                           type = constants.COMPLETED.toLowerCase();
