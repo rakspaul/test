@@ -2004,6 +2004,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-weight: normal;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .sec_col {
+  text-transform: capitalize;
   margin-left: 5px ;
   width: 147px ;
 }
@@ -2204,6 +2205,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.sec_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.sec_col {
   width: 100px ;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .vid_data_hdr,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .vid_data_hdr {
@@ -2259,6 +2261,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_byplatforms_block .reports_performance_header .sec_col {
   width: 235px ;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container .strategy_total_container_header div.each_col.first_col {
   width: 100% ;
@@ -2287,6 +2290,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_byformats_block .reports_performance_header .sec_col {
   width: 136px ;
   margin-left: 14px;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bydaysofweek_block .sec_col {
   text-align: left;
@@ -2302,6 +2306,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_bydaysofweek_block .reports_performance_header .sec_col {
   width: 135px ;
   margin-left: 14px;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container .vid_data_hdr {
   width: 306px;
