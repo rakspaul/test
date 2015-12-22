@@ -95,6 +95,7 @@ var angObj = angObj || {};
             _.each($scope.videoQltyMetrics,function(eachObj){
                 eachObj.selected = false;
             })
+            $scope.totalMetrics = $scope.totalDelMetrics+$scope.totalCostMetrics+ $scope.totalEngmtMetrics+$scope.totalVideoMetrics+$scope.totaldisplayQltyMetrics+$scope.totalVideoQltyMetrics;
         }
 
         $scope.setMetrixText = function(text) {
@@ -314,7 +315,8 @@ var angObj = angObj || {};
 
         _customctrl.getDimensionList =  function(data, selectedMetrics) {
             $scope.selectedDimension  = elem.text();
-            if(selectedMetrics && selectedMetrics.length >0) {
+            //if(selectedMetrics && selectedMetrics.length >0) {
+            if($scope.selectedMetricsList.length < $scope.totalMetrics) {
                 $scope.metricKeyArr = {'delivery_metrics' : selectedMetrics};
             } else {
                 $scope.metricKeyArr = data;
@@ -395,7 +397,7 @@ var angObj = angObj || {};
 
         _customctrl.getMetricValues =  function(newData, selectedMetrics, typeofDimension, currIdx) {
             var tmpArr = [];
-            if(selectedMetrics && selectedMetrics.length >0) {
+            if($scope.selectedMetricsList.length < $scope.totalMetrics) {
                 _customctrl.getDataBasedOnMetricSelected(newData, selectedMetrics, typeofDimension, currIdx)
             } else {
                 if(!$scope.reportMetaData.hasOwnProperty(typeofDimension)) $scope.reportMetaData[typeofDimension] =[];
@@ -538,7 +540,7 @@ var angObj = angObj || {};
             $scope.metricValues = [];
             $scope.reportMetaData={};
             $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
-            $scope.hideReportsTabs = false;
+            $scope.hideReportsTabs = true;
             $scope.reportDataNotFound = false;
             $scope.showhasBreakdown = '';
             $scope.reportDataLoading = true;
@@ -547,8 +549,9 @@ var angObj = angObj || {};
             $(".custom_report_response_page").show();
             $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen") ;
             $("html, body").animate({ scrollTop: 0 });
-            if($scope.selectedMetricsList && $scope.selectedMetricsList.length >0) {
-                $scope.hideReportsTabs = true;
+
+            if($scope.totalMetrics == $scope.selectedMetricsList.length) {
+                $scope.hideReportsTabs = false;
             }
             _customctrl.reset();
             _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
@@ -587,15 +590,28 @@ var angObj = angObj || {};
             $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance?$scope.reports.schedule.occurance:'';
 
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
-            $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,"type":"Primary","values":$scope.reports.reportDefinition.dimensions.primary.value});
+
+            if($scope.reports.reportDefinition.dimensions.primary.value) {
+                $scope.requestData.reportDefinition.filters.push({
+                    "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
+                    "type": "Primary",
+                    "values": $scope.reports.reportDefinition.dimensions.primary.value
+                });
+            }
+
+            if($scope.reports.reportDefinition.dimensions.secondary.name) {
+                $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,'type':"Secondary"});
+            }
 
             if($scope.reports.reportDefinition.dimensions.secondary.value) {
-                $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,'type':"Secondary"});
                 $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,"type":"Secondary","values":$scope.reports.reportDefinition.dimensions.secondary.value});
             }
             _.each($scope.additionalFilters,function(eachObj) {
                // $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
-                $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
+                if(eachObj.value) {
+                    $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
+                }
+
             })
 
             if (!$scope.reports.schedule.customOccuranceDate) {
@@ -1402,7 +1418,9 @@ var angObj = angObj || {};
                 }
             }
 
-
+            $scope.addSearch = function(event) {
+                var target = $(event.target);
+            }
 
         });
 
