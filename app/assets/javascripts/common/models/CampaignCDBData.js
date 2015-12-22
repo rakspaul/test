@@ -25,11 +25,11 @@
       return this.roundOff(this.action_rate, 2)
     }
     this.getCTR = function () {
-      return this.roundOff(this.ctr * 100, 2);
+      return this.roundOff(this.ctr, 2);
     }
     this.map = function (value) {
       if(value == 'ctr') {
-          return this[value] * 100;
+          return this[value];
       }
       return this[value];
     }

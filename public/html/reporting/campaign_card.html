@@ -91,7 +91,7 @@
             </div>
             <!-- <div class="each_metric_graph_details metric_graph_details_action" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">   -->
             <div class="each_metric_graph_details metric_graph_details_action" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].action_rate*100 | number:2}}%</span>
+                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].action_rate | number:2}}%</span>
                 <span>{{ textConstants.ACTION_RATE_R_CAPS }}</span>
             </div>
 <!-- <div class="each_metric_graph_details metric_graph_details_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0"> -->

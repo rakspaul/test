@@ -533,9 +533,9 @@
                                 kpiData=data[kpIType]
                             }
                             if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate'){
-                                kpiData = parseFloat((kpiData*100).toFixed(4));
+                                kpiData = parseFloat(kpiData.toFixed(4));
                             } else if(kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc' || kpIType.toLowerCase() === 'vtc'){
-                                kpiData = parseFloat((kpiData*1).toFixed(2));
+                                kpiData = parseFloat(kpiData.toFixed(2));
                             }
                             $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });

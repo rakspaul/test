@@ -281,11 +281,11 @@
             </div>
         </div>
         <div class="each_col third_col">
-            <span>{{screenData.vtc_rate | number:2}}%</span>
+            <span>{{screenData.vtc_100 | number:2}}%</span>
         </div>
     </div>
     <div class="each_col forth_col">
-        {{screenData.ctr*100 | number:2}}%
+        {{screenData.ctr | number:2}}%
     </div>
     <div class="each_col fifth_col">
         {{screenData.action_rate*1 | number:2}}%
@@ -338,7 +338,7 @@
             </div>
         </div>
         <div class="each_col third_col">
-            <span>{{daysofweekData.vtc_rate | number:2}}%</span>
+            <span>{{daysofweekData.vtc_100 | number:2}}%</span>
         </div>
     </div>
     <div class="each_col forth_col">
@@ -385,7 +385,7 @@
             </div>
         </div>
         <div class="each_col third_col">
-            <span>{{formatData.vtc_rate | number:2}}%</span>
+            <span>{{formatData.vtc_100 | number:2}}%</span>
         </div>
     </div>
     <div class="each_col forth_col">
@@ -435,7 +435,7 @@
         </div>
     </div>
     <div class="each_col third_col">
-        {{creativesData.vtc_rate | number:2}}%
+        {{creativesData.vtc_100 | number:2}}%
     </div>
 
     </span>
@@ -444,7 +444,7 @@
     </div>
 
     <div class="each_col fifth_col">
-        {{creativesData.action_rate*100 | number:2}}%
+        {{creativesData.action_rate| number:2}}%
     </div>
     <span  ng-if="!adFormats.videoAds">
     <div class="each_col sixth_col">
@@ -490,7 +490,7 @@
     </div>
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{adsizesData.vtc_rate | number:2}}%
+        {{adsizesData.vtc_100 | number:2}}%
     </div>
     </span>
     <div class="each_col forth_col">
