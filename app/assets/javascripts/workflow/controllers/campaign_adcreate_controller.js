@@ -537,19 +537,19 @@ var angObj = angObj || {};
             fetchPrimaryKpis: function () {
                 $scope.workflowData['primaryKpi'] = [{ kpi_category: 'DELIVERY',
                     kpi_values: [{id: 1, name: 'Impressions', disabled:false},
-                                 {id: 4, name: 'Impressions within demographic', disabled:true},
-                                 {id: 5, name: 'Viewable Impressions', disabled:true},
-                                 {id: 2, name: 'Clicks', disabled:false},
-                                 {id: 3, name: 'Actions', disabled:false}
+                                 {id: 2, name: 'Impressions within demographic', disabled:true},
+                                 {id: 3, name: 'Viewable Impressions', disabled:true},
+                                 {id: 4, name: 'Clicks', disabled:false},
+                                 {id: 5, name: 'Actions', disabled:false}
 
                                 ]
                 }, {
                     kpi_category: 'PERFORMANCE',
                     kpi_values: [{id: 1, name: 'Clickthrough Rate', disabled:false},
-                                 { id: 2, name: 'Cost Per Click', disabled:false},
-                                 { id: 4, name: 'Cost Per Action', disabled:true},
-                                 {id: 3, name: 'Viewabilty Rate', disabled:false},
-                                 {id: 5, name: 'In-Demo Rate', disabled:true}
+                                 {id: 2, name: 'Cost Per Click', disabled:false},
+                                 {id: 3, name: 'Cost Per Action', disabled:true},
+                                 {id: 5, name: 'Viewabilty Rate', disabled:false}, // id 4 is not working due to some problem please debug if you can
+                                 {id: 6, name: 'In-Demo Rate', disabled:true}
                                 ]
                 }];
             },
