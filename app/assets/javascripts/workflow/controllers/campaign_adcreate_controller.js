@@ -1084,27 +1084,34 @@ var angObj = angObj || {};
             if(!$scope.workflowData.campaignData) return false;
             $scope.budgetErrorObj.mediaCostValidator = false;
             $scope.budgetErrorObj.availableRevenueValidator = false;
+            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
 
             var campaignData = $scope.workflowData.campaignData;
             var campaignBuget = campaignData.bookedRevenue || 0;
             var adAvailableRevenue;
+            var adsData;
+            var adMaximumRevenue = campaignData.bookedRevenue - campaignData.bookedSpend;
+            var budgetAmount = $scope.adData.budgetAmount;
 
-            if($scope.workflowData.adsData) {
-                var adsData = $scope.workflowData.adsData;
+            if($scope.workflowData.adsData && $scope.mode =='edit') {
+                adsData = $scope.workflowData.adsData;
                 adAvailableRevenue = adsData.availableRevenue;
-            } else {
-                adAvailableRevenue = campaignData.minimumBudget;
             }
 
-            var budgetAmount = $scope.adData.budgetAmount;
             if(budgetAmount >0) {
                 if ($scope.adData.budgetType.toLowerCase() == 'cost') {
-                    if (budgetAmount >= adAvailableRevenue) {
-                        $scope.budgetErrorObj.availableRevenueValidator = true;
-                        $scope.budgetErrorObj.mediaCostValidator = false;
-                    } else if (budgetAmount >= campaignBuget) {
-                        $scope.budgetErrorObj.availableRevenueValidator = false;
-                        $scope.budgetErrorObj.mediaCostValidator = true;
+                    if(adAvailableRevenue) {
+                        if (budgetAmount > adAvailableRevenue) {
+                            $scope.budgetErrorObj.availableRevenueValidator = true;
+                            $scope.budgetErrorObj.mediaCostValidator = false;
+                        } else if (budgetAmount >= campaignBuget) {
+                            $scope.budgetErrorObj.availableRevenueValidator = false;
+                            $scope.budgetErrorObj.mediaCostValidator = true;
+                        }
+                    } else { // create ad case
+                        if(budgetAmount >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
+                        }
                     }
                 } else {
                     var unitType = $scope.adData.unitType;
@@ -1115,10 +1122,16 @@ var angObj = angObj || {};
                     } else if (unitType.name === 'CPC' || unitType.name === 'CPA') {
                         totalBudget = unitCost * budgetAmount;
                     }
-
-                    if (totalBudget >= adAvailableRevenue) {
+                    if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
                         $scope.budgetErrorObj.availableRevenueValidator = true;
                     }
+
+                    if($scope.mode === 'create' && totalBudget >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
+                    }
+
+
+
                 }
             }
         }
