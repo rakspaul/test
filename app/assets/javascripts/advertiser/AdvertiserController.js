@@ -53,6 +53,7 @@
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event,clientId) {
             fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
             var advertiser = advertiserModel.getAllAdvertiser();
+            $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser);
         });
