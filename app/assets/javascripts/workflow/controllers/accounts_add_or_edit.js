@@ -61,12 +61,25 @@
                       }
                   })
                 };
-                accountsService[$scope.clientType == 'MARKETER' ? 'createAdvertiser' : 'createAgencies'](billableBody).then(function(result){
-                  if (result.status === "OK" || result.status === "success") {
-                    $scope.referenceId = result.data.data.id;
+
+                if($scope.clientType == 'MARKETER'){
+                    accountsService['createAdvertiser'](billableBody).then(function(result){
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.referenceId = result.data.data.id;
+                            createBillableAccount();
+                        }
+                    });
+                } else if($scope.clientType == 'AGENCY'){
+                    accountsService['createAgencies'](billableBody).then(function(result){
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.referenceId = result.data.data.id;
+                            createBillableAccount();
+                        }
+                    });
+                } else {
                     createBillableAccount();
-                  }
-                });
+                }
+
             }
         };
 

@@ -33,7 +33,7 @@
         <div class="form-group col-md-12 zeroPadding">
 		    <label >Account Name:</label>
 		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
-            <ul ng-if="allAdvertiser.length>0" class="dropdown-menu account_name_list" role="menu" id="advertiserList"  >
+            <!--<ul ng-if="allAdvertiser.length>0" class="dropdown-menu account_name_list" role="menu" id="advertiserList"  >
                     <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
                         <a>
                             <span class="tick"></span>
@@ -41,7 +41,7 @@
                         </a>
                     </li>
 
-            </ul>
+            </ul>-->
         </div>
 
         <div class="form-group col-md-12 zeroPadding">
