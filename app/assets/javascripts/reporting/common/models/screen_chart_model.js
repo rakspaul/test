@@ -23,7 +23,7 @@
             'tv' : 'icon-desktop',
             'set-top box' : 'icon-desktop',
             'tablet' : 'icon-tablet',
-            'other' : 'icon-image',
+            'other' : 'icon-image'
         }
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
