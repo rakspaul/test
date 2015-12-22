@@ -9,7 +9,7 @@
 
 <div class="col-md-12 zeroPadding targettingFormWrap">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
-        <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} only)</span></h2>
 
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCode">
             <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
@@ -251,7 +251,7 @@
 <!--=== Selected Targeting ===-->
 <div class="col-md-12 targettingSelected" style="display:none;">
     <div class="col-md-12 tsHeader">
-        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}})</span></h2>
         <a ng-href="#" ng-click="deleteGeography()"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>
         <a ng-href="#" ng-click="editGeography()"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
         <div class="col-md-6 zeroPadding" style="clear: left;">

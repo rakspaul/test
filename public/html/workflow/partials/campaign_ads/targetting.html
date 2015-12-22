@@ -58,10 +58,10 @@
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span ng-if="adData.geoTargetingData" class="icon-inline-edit" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-location"></div>
-        <p>Geography <span>(US Only)</span></p>
+        <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
         <div ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude ">
             <span>Target your audience by location</span>
-            <p style="margin: 0px;"><span>All US (default)</span></p>
+            <p style="margin: 0px;"><span>All {{locale.id === 'en-gb' ? 'UK' : 'US'}} (default)</span></p>
         </div>
         <div class="targetDataSaved" ng-if="geoTargetingData.selected.previewData.include || geoTargetingData.selected.previewData.exclude ">
             <div class="targetDataSavedTop">
