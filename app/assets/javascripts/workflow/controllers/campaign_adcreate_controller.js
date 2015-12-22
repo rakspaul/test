@@ -397,13 +397,14 @@ var angObj = angObj || {};
                 $('.cap_yes input').attr("checked", "checked");
 
                 angular.forEach(responseData.frequencyCaps, function(frequencyCap) {
-                if(frequencyCap["targetType"] = "ALL"){
+                if(frequencyCap["targetType"] == "ALL"){
                     //$scope.adData.budgetAmount = frequencyCap['quantity'];
                     var pacingType = frequencyCap['pacingType'];
                     if (pacingType != "EVENLY") {
                         $('.spend_asap').addClass('active');
                         $('.spend_asap input').attr("checked", "checked");
                         $('.spend_evenly').removeClass('active');
+
                     }
                 }
                 if(frequencyCap["targetType"] == "PER_USER"){
