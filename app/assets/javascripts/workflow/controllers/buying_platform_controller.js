@@ -20,6 +20,7 @@ var angObj = angObj || {};
             workflowService.getPlatforms({cache: false}).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     var responseData = result.data.data;
+                    var adsDetails = workflowService.getAdsDetails();
                     if ($scope.mode == 'edit' && platform) {
                         var platformStatus = !$scope.isAdsPushed;
                         if($scope.TrackingIntegrationsSelected) {
@@ -34,7 +35,11 @@ var angObj = angObj || {};
                             $scope.trackingPlatformCarouselData(responseData);
                         } else {
                             for (var i in responseData.fullIntegrationsPlatforms) {
-                                responseData.fullIntegrationsPlatforms[i].active = responseData.fullIntegrationsPlatforms[i].active ? platformStatus :  false;
+                                if(adsDetails.platform.id == responseData.fullIntegrationsPlatforms[i].id) {
+                                    responseData.fullIntegrationsPlatforms[i].active = true;
+                                } else {
+                                    responseData.fullIntegrationsPlatforms[i].active = responseData.fullIntegrationsPlatforms[i].active ? platformStatus : false;
+                                }
                             }
                             $scope.workflowData['platforms'] = responseData.fullIntegrationsPlatforms;
 
