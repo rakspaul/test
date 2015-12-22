@@ -423,24 +423,17 @@
             font-size: 14px ;
           }
           .status_legend {
-            padding-left: 25px ;
-            margin-top: 8px ;
-            background: url("/assets/images/statusWidget/active_icon.png") no-repeat left center ;
-          }
-          .status_legend.completed_status {
-            background-image : url("/assets/images/statusWidget/completed_icon.png") ;
-          }
-          .status_legend.draft_status {
-            background-image : url("/assets/images/statusWidget/draft_icon.png") ;
-          }
-          .status_legend.active_status {
-            background-image : url("/assets/images/statusWidget/active_icon.png") ;
-          }
-          .status_legend.paused_status {
-            background-image : url("/assets/images/statusWidget/paused_icon.png") ;
-          }
-          .status_legend.ready_status {
-            background-image : url("/assets/images/statusWidget/ready_icon.png") ;
+            margin-top: 12px ;
+            line-height: 12px ;
+            .status_legend_bulb {
+              float: left;
+              height: 12px;
+              width: 12px;
+              border-radius: 50%;
+              -webkit-border-radius: 50%;
+              -moz-border-radius: 50%;
+              margin-right: 10px;
+            }
           }
           .calendar_legend_holder {
             margin-top: 12px ;
@@ -790,3 +783,7 @@
     }
   }
 }
+
+
+
+

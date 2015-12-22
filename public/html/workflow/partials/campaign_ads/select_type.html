@@ -32,11 +32,10 @@
 
 <!--=== AD Goal ===-->
 <div class="col-md-12 zeroPadding adGoalChkBox">
-    <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL}}</div>
+    <!--<div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL}}</div>
     <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_GOAL }}</div>
 
     <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id">
-        <!--Abi toggle active class for label below on click-->
         <label class="btn btn-primary {{goal.active ? 'active' : '' }}">
             <input type="radio" name="goal" value="{{goal.name}}" class="btn_rad" ng-model="adData.goal" ng-click="goalSelection(goal.name)" ng-checked="goal.active">
                 <div class="hideRadioBtn">
@@ -45,10 +44,32 @@
                 </div>
         </label>
     </div>
+    
+    <div class="col-md-12"></div>-->
+    
+    <div class="form-group col-sm-4" style="padding-left: 0;">
+        <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_AD_OBJECTIVE}}</div>
+        <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.WF_PRIMARY_KPI}}</label>
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text">{{adData.primaryKpi ? adData.primaryKpi : textConstants.SELECT_LABEL}}</span>
+                    <input type="hidden" name ="goal" value="{{adData.primaryKpi}}" />
+                    <span class="icon-arrow-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI" data-toggle="dropdown">
+                    <li class="headerDDL" ng-repeat="kpiObj in workflowData.primaryKpi">
+                        <span class="greyTxt">{{kpiObj.kpi_category}}</span>
+                        <ul><li ng-repeat="kpi in kpiObj.kpi_values" ng-model="adData.primaryKpi" ng-class="{disabled:kpi.disabled}"  ng-click="kpi.disabled ? '': adData.primaryKpi = kpi.name" ><a>{{kpi.name}}</a></li></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!--=== Screen Type ===-->
-<div class="col-md-12 zeroPadding screenChkSelection">
+<div class="col-md-12 zeroPadding screenChkSelection" style="margin-bottom:150px">
     <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}
     </div>
     <div class="col-md-12 greyTxt">{{ textConstants.WF_SCREEN_TYPE }}
@@ -67,6 +88,6 @@
 </div>
 
 <!--=== Next Step Panel ===-->
-<a href="#setting" data-toggle="tab" role="tab" class="leftNavLink nextWrapper">
-    <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
-</a>
+<span class="leftNavLink nextWrapper">
+    <a href data-toggle="tab" role="tab" class="btn btn-default" ng-click="triggerbudgetTab()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+</span>

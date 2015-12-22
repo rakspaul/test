@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('ViewabilityController', function ($scope, $window, viewablityService, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('ViewabilityController', function ($scope, $window, campaignSelectModel,kpiSelectModel, strategySelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel, loginModel, urlService, analytics, advertiserModel, brandsModel) {
         $scope.textConstants = constants;
 
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -86,7 +86,23 @@ var angObj = angObj || {};
                 $scope.strategyBusy = false;
             }
             $scope.api_return_code = 200;
-            viewablityService.getStrategyViewData(param).then(function (result) {
+
+            var queryObj = {
+                campaignId: $scope.selectedCampaign.id,
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
+            if(_.has(param, 'strategyId') && param.strategyId >= 0) {
+                queryObj['queryId'] =  13;
+                queryObj['strategyId'] = param.strategyId;
+            } else {
+                queryObj['queryId'] =  12;
+            }
+
+            var url = urlService.APIVistoCustomQuery(queryObj);
+            dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success" || result.status == 204) {
                     if(result.data != '' ){ // if data not empty
@@ -100,14 +116,13 @@ var angObj = angObj || {};
                         }
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
                         } else {
                             errorHandler();
                         }
                     }else{ // if data is empty set as data not found
                         errorHandler();
                     }
-
                 } // Means no strategy data found
                 else {
 
@@ -124,21 +139,26 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'tactics/download',
-                    'report_name' : 'by_tactic',
-                    'label' : 'Quality by Tactic'
+                    'url' : '/reportBuilder/reportDownload',
+                    'query_id': 30,
+                    'report_type' : 'ad',
+                    'report_cat' : 'quality',
+                    'label' : 'Quality by Ad'
                 },
                 {
-                    'report_url' : urlPath + 'domains/download',
-                    'report_name' : 'by_domain',
+                    'url' : '/reportBuilder/reportDownload',
+                    'query_id': 31,
+                    'report_type' : 'domain',
+                    'report_cat' : 'quality',
                     'label' : 'Quality by Domain'
                 },
                 {
-                    'report_url' : urlPath + 'publishers/download',
-                    'report_name' : 'by_publisher',
+                    'url' : '/reportBuilder/reportDownload',
+                    'query_id': 31,
+                    'report_type' : 'publisher',
+                    'report_cat' : 'quality',
                     'label' : 'Quality by Publisher'
                 }
             ];
@@ -156,6 +176,7 @@ var angObj = angObj || {};
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
+            console.log("EVENT_STRATEGY_CHANGED");
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
@@ -164,6 +185,7 @@ var angObj = angObj || {};
 
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+            console.log("EVENT_TIMEPERIOD_CHANGED");
             $scope.selected_filters.time_filter = strategy;
             $scope.callBackStrategyChange();
             $scope.createDownloadReportUrl();
@@ -172,7 +194,7 @@ var angObj = angObj || {};
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             $scope.viewData = {};
-            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+            if($scope.selectedStrategy.id == -99){
                 $scope.strategyFound = false ;
             } else {
                 $scope.strategyFound = true;

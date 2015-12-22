@@ -18,8 +18,8 @@
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
                         <div class="accountTitleTag" ng-if="workflowData.campaignData.clientName">
-                            <span class="tagTitle">Account</span>
-                            <span>{{workflowData.campaignData.clientName}}</span>
+                            <!--<span class="tagTitle">Account</span>
+                            <span>{{workflowData.campaignData.clientName}}</span>-->
                             <span class="tagTitle">Advertiser</span>
                             <span>{{workflowData.campaignData.advertiserName}}</span>
                             <div class="pull-left" style="margin: 0 0 0 50px;" ng-if="workflowData.campaignData.brandName">
@@ -27,21 +27,11 @@
                                 <span class="pull-left">{{workflowData.campaignData.brandName}}</span>
                             </div>
                         </div>
-
-                        <div class="campTitleWrap adStatus_{{workflowData.campaignData.status|lowercase}}" >
-                            <!-- Abi this will show either active or inactive state only
-                            thing you have to do is add either class for color
-                            "inActiveLabel" or "activeLabel" -->
-                            <!--<span class="label pull-left {{disablePushBtn ? 'inActiveLabel' : 'activeLabel'}}">-->
-
-                            <span class="label pull-left {{'activeLabel'}}">
-                                <!--{{workflowData.campaignData.status}}-->
-                            </span>
-
+                        <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
+                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
                             </h1>
-                            <span class="campaign-name-edit icon-settings" tooltip="Edit Campaign" ng-click="editCampaign(workflowData.campaignData)" style="margin-top: 6px;"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
                             <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}} by {{workflowData.campaignData.updatedByUser}}</span>
@@ -51,66 +41,82 @@
                         <div class="campWidgets">
                             <!--<span class="badge">2</span>-->
                             <!--<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>-->
-                            <a class="icon-message"></a>
+                            <span class="icon-message"></span>
                         </div>
                         <div class="campWidgets">
                             <!--<span class="badge">2</span>-->
                             <!--<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>-->
-                            <a class="icon-activity"></a>
+                            <span class="icon-activity"></span>
                         </div>
                         <div class="campWidgets">
                             <!--<span class="badge">2</span>-->
                             <!--<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>-->
-                            <a class="icon-attach"></a>
+                            <span class="icon-attach"></span>
                         </div>
                         <div class="campWidgets">
                             <!--<span class="badge">2</span>-->
                             <!--<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>-->
-                            <a class="icon-task"></a>
+                            <span class="icon-task"></span>
                         </div>
+			<div class="col-md-12 zeroPadding">
+			    <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
+				<div class="dropdown">
+				     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span class="icon-more-options"></span>
+				     </button>
+				     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+					<li><a ng-click="editCampaign(workflowData.campaignData)">Edit</a></li>
+					<li class="disabled" ng-click="cancelAdPause()"><a>{{textConstants.WF_PAUSE}}</a></li>
+					<li class="disabled" ng-click="cancelAdResume()"><a>{{textConstants.WF_RESUME}}</a></li>
+					<!--<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">{{textConstants.WF_ARCHIVE}}</a></li>-->
+					<li><a class="available" id="archiveAdbtn" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
+				     </ul>
+				</div>
+			   </div>
+			    
+			    <div class="pull-right">
+				    <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
+			    </div>
+			</div>
                     </div>
                 </div>
 
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
-                        <label>Goal</label>
+                        <span class="greyTxt" style="width: 100%;">Goal</span>
                         <div style="padding: 0; margin-right: 5px;" class="pull-left icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}"></div>
                         <span style="clear: none;">{{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
                     </div>
                     <div class="pull-left">
-                        <label>Total Budget</label>
+                        <span class="greyTxt">Total Budget</span>
                         <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
-                        <label>Flight Dates</label>
+                        <span class="greyTxt">Flight Dates</span>
                         <span ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
                             <span style="float: left; clear: none;">{{convertEST(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} - {{convertEST(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}</span>
-                            <!--<span style="float: left; clear: none;">{{utc(workflowData.campaignData.startTime) | date : 'EEE dd MMM  yyyy'}} - {{utc(workflowData.campaignData.endTime) | date : 'EEE dd MMM yyyy'}}</span>-->
                             <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
                         </span>
                     </div>
                     <div class="pull-left">
-                        <label>Pricing Model</label>
+                        <span class="greyTxt">Pricing Model</span>
                         <span class="disabledTxt">Cost Per Viewable Impression</span>
                     </div>
                     <div class="pull-left">
                         <div class="pull-left counterCol">
-                            <label>Ad Groups</label>
+                            <span class="greyTxt" style="text-align: center;">Ad Groups</span>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
                             <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
                         </div>
                         <div class="pull-left counterCol">
-                            <label>Ads</label>
+                            <span class="greyTxt" style="text-align: center;">Ads</span>
                             <span class="col-md-12 zeroPadding">{{workflowData.campaignData.adsCount || 0}}</span>
                         </div>
                         <div class="pull-left counterCol">
-                            <label>Creatives</label>
+                            <span class="greyTxt" style="text-align: center;">Creatives</span>
                             <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
                         </div>
-                    </div>
-                    <div class="pull-right">
-                        <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
                     </div>
                 </div>
             </div>
@@ -242,7 +248,7 @@
 
                                     <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">
                                         <span class="pull-left">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span> 
-                                        <span class="pull-right icon-impression" ng-if="adsData.isTracking"></span>
+                                        
                                     </span>
                                     <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
                                 </div>
@@ -252,19 +258,18 @@
                                 </div>
                                 <div class="cardMidLayer">
                                     <div class="col-md-4 zeroPadding text-center">
-                                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
-                                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined:0) : textConstants.WF_NOT_SET}}</span>
+                                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.WF_IMPS}}</span>
+                                         <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
                                     </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                      <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.IMPRESSIONS}}</span>
-                                      <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
-                                    </div>
+                                          <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
+                                          <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? (adsData.rateValue | currency:undefined) : textConstants.WF_NOT_SET}}</span>
+                                     </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                      <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
-                                      <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? adsData.rateValue : textConstants.WF_NOT_SET}}</span>
+                                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
+                                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined) : textConstants.WF_NOT_SET}}</span>
                                     </div>
                                 </div>
-
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
                                 </div>
@@ -282,9 +287,10 @@
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
                             <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
-				{{adsData.state}}
-				<span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
-			    </span>
+                                {{adsData.state}}
+                                <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
+				<span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
+                            </span>
                         </div>
                     </div>
                     <!--End of independant ads block-->
@@ -771,6 +777,26 @@
 
 </div>
 </div>
+
+<div class="common-popup-container" ng-show="campaignArchive">
+    <div class="popup">
+        <div class="popup-header-body">
+            <div class="clearfix">
+                <h1 class="pull-left">Media Plan Update</h1>
+                <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
+            </div>
+            <div class="popup-content">
+                {{archiveMessage}}
+            </div>
+        </div>
+        <div class="clearfix popup-footer" >
+            <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Okay</button>
+            <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+        </div>
+
+    </div>
+</div>
+
 <script>
     $(function() {
         $('.input-daterange').datepicker({

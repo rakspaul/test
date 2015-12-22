@@ -91,7 +91,6 @@
                 .tickFormat(function(d) {
 
                     count++;
-                    console.log(d);
                     if (count == 1) {
                         return formatMonth(d);
                     } else {
@@ -714,7 +713,7 @@
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
                                         .attr("xlink:href", function(d){
-                                            return '/campaigns/' + d.id;
+                                            return '/mediaplans/' + d.id;
                                         })
                                         .style("text-decoration", "none")
                                         .on("click", function(d){
@@ -729,10 +728,10 @@
                             //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
                             if (d3.event.ctrlKey || d3.event.metaKey) {
                                 //on supported key combination and click open in new tab
-                                $window.open('/campaigns/' + d.id);
+                                $window.open('/mediaplans/' + d.id);
                             } else {    
                                 //on normal click open link in current tab
-                                $location.url('/campaigns/' + d.id);  
+                                $location.url('/mediaplans/' + d.id);
                             }
 
                             $rootScope.$apply(); //TODO we need to remove this, added because of removing the hashtag
@@ -1010,16 +1009,17 @@
                     .attr("xlink:href", function(d) {
                         switch (d.state) {
                             case "Active":
-                                return window.assets.active;
+                                return window.assets.statusbulb_active;
                             case "Paused":
-                                return window.assets.paused;
+                                return window.assets.statusbulb_paused;
                             case "Draft":
-                                return window.assets.draft;
+                                return window.assets.statusbulb_draft;
                             case "Ready":
-                                return window.assets.ready;
-                            case "Completed":
-                                return window.assets.completed;
-
+                                return window.assets.statusbulb_ready;
+                            case "Ended":
+                                return window.assets.statusbulb_completed;
+                            case "In_flight":
+                                return window.assets.statusbulb_inflight;
                         }
                     })
                     .on('mouseover', function(d) {
@@ -1053,6 +1053,9 @@
                         } else if($(".calendar_tooltip_left")[0]) {
                             $(".calendar_tooltip").removeClass("calendar_tooltip_left");
                         }
+                        if( d.state == "In_flight" ) {
+                            d.state = "In Flight" ;
+                        } 
 
                         d3.select(classTooltip)
                             .style("display", "block")
@@ -1702,7 +1705,7 @@
             };//END OF DRAW
 
             gantt.redraw = function(tasks, timeDomainString) {
-                //console.log('redraw');
+                
                 initTimeDomain(tasks);
                 initAxis(timeDomainString);
                 gantt.draw(tasks, timeDomainString);

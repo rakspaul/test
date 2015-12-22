@@ -8,6 +8,7 @@
         function fetchAdvertisers(searchCriteria,search) {
             advertiserModel.getAdvertisers(function (advertisersData) {
                 $scope.advertisers = advertisersData;
+               // console.log("fetchAdvertisers", $scope.advertisers);
             }, searchCriteria, search);
         }
 
@@ -17,14 +18,17 @@
                 fetchAdvertisers(searchCriteria, search);
             }
         }
+
         init();
+        $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $scope.selectAdvertiser = function (advertiser) {
             $("#advertiser_name_selected").text(advertiser.name);
             $('#advertisersDropdownNew').attr('placeholder', advertiser.name).val('');
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
-            advertiserModel.callAdvertiserBroadcast(advertiser);
+            if(!advertiser.referedFrom)
+                advertiserModel.callAdvertiserBroadcast(advertiser);
         };
 
         $scope.showAdvertisersDropDown = function () {
@@ -50,13 +54,11 @@
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event,clientId) {
             fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
             var advertiser = advertiserModel.getAllAdvertiser();
+            $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser);
-
         });
 
-        advertiserModel.getSelectedAdvertiser()
-        $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $(function () {
             $("header").on('click', '#brandsDropdownDiv', function () {

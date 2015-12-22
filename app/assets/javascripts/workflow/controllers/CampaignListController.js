@@ -44,7 +44,7 @@
 
         $scope.editCampaign=function(event, campaign){  //console.log(campaign);
           event.preventDefault();
-          $location.url('/campaign/'+campaign.id+'/edit')
+          $location.url('/mediaplan/'+campaign.id+'/edit')
         }
 
         fetchAllCampaigns();

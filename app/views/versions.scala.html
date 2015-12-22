@@ -5,11 +5,19 @@
     window.assets.platform_icon     = "assets/images/tag_icon.png";
     window.assets.ontrack           = "assets/images/statusWidget/on_track_icon.png";
     window.assets.underperforming   = "assets/images/statusWidget/underperforming_icon.png";
+
     window.assets.paused            = "assets/images/statusWidget/paused_icon.png";
     window.assets.ready             = "assets/images/statusWidget/ready_icon.png";
     window.assets.completed         = "assets/images/statusWidget/completed_icon.png";
     window.assets.draft             = "assets/images/statusWidget/draft_icon.png";
     window.assets.active            = "assets/images/statusWidget/active_icon.png";
+
+
+    window.assets.statusbulb_completed  = "assets/images/statusBulbs/ended.png";
+    window.assets.statusbulb_draft      = "assets/images/statusBulbs/incomplete.png";
+    window.assets.statusbulb_inflight     = "assets/images/statusBulbs/inflight.png";
+    window.assets.statusbulb_scheduled  = "assets/images/statusBulbs/scheduled.png";
+
     window.assets.display           = "assets/images/cdesk/desktop_screen_icon.png" ;
     window.assets.video             = "assets/images/cdesk/video_screen_icon.png" ;
     window.assets.social            = "assets/images/cdesk/social_screen_icon.png" ;
@@ -35,84 +43,79 @@
     window.assets.css_reports_schedule_list = "../assets/stylesheets/reports_schedule_list.css";
     window.assets.css_visto_application = "../assets/stylesheets/visto_application.css";
 
-    window.assets.html_campaign_details = '@routes.Assets.versioned("html/campaign_details.html")';
-    window.assets.html_optimization = '@routes.Assets.versioned("html/optimization.html")';
-    window.assets.html_inventory = '@routes.Assets.versioned("html/inventory.html")';
-    window.assets.html_viewability = '@routes.Assets.versioned("html/viewability.html")';
-    window.assets.html_cost = '@routes.Assets.versioned("html/cost.html")';
-    window.assets.html_performance = '@routes.Assets.versioned("html/performance.html")';
-    window.assets.html_platform = '@routes.Assets.versioned("html/platform.html")';
-    window.assets.html_custom_report = '@routes.Assets.versioned("html/custom_report.html")';
+    window.assets.html_campaign_details = '@routes.Assets.versioned("html/reporting/campaign_details.html")';
+    window.assets.html_optimization = '@routes.Assets.versioned("html/reporting/optimization.html")';
+    window.assets.html_inventory = '@routes.Assets.versioned("html/reporting/inventory.html")';
+    window.assets.html_viewability = '@routes.Assets.versioned("html/reporting/viewability.html")';
+    window.assets.html_cost = '@routes.Assets.versioned("html/reporting/cost.html")';
+    window.assets.html_performance = '@routes.Assets.versioned("html/reporting/performance.html")';
+    window.assets.html_platform = '@routes.Assets.versioned("html/reporting/platform.html")';
+    window.assets.html_custom_report = '@routes.Assets.versioned("html/reporting/custom_report.html")';
 
-    window.assets.html_custom_report_upload = '@routes.Assets.versioned("html/custom_report_upload.html")';
+    window.assets.html_custom_report_upload = '@routes.Assets.versioned("html/reporting/custom_report_upload.html")';
 
-    window.assets.html_brands_drop_down = '@routes.Assets.versioned("html/brands_drop_down.html")';
-    window.assets.html_advertiser_drop_down = '@routes.Assets.versioned("html/advertiser_drop_down.html")';
-    window.assets.html_campaign_list = '@routes.Assets.versioned("html/campaign_list.html")';
-    window.assets.html_campaign_drop_down = '@routes.Assets.versioned("html/campaign_drop_down.html")';
-    window.assets.html_gauge = '@routes.Assets.versioned("html/gauge.html")';
-    window.assets.html_header = '@routes.Assets.versioned("html/header.html")';
-    window.assets.html_dashboard = '@routes.Assets.versioned("html/dashboard.html")';
-    window.assets.html_bubble_chart = '@routes.Assets.versioned("html/bubble_chart.html")';
-    window.assets.html_gantt_chart = '@routes.Assets.versioned("html/gantt_chart.html")';
-    window.assets.html_screen_chart = '@routes.Assets.versioned("html/screen_chart.html")';
-    window.assets.html_campaign_card = '@routes.Assets.versioned("html/campaign_card.html")';
-    window.assets.html_campaign_cost_card = '@routes.Assets.versioned("html/campaign_cost_card.html")';
-    window.assets.html_campaign_cost_filters = '@routes.Assets.versioned("html/campaign_cost_filters.html")';
-    window.assets.html_campaign_dashboard = '@routes.Assets.versioned("html/campaign_dashboard.html")';
-    window.assets.html_campaign_list_filters = '@routes.Assets.versioned("html/campaign_list_filters.html")';
-    window.assets.html_campaign_filters = '@routes.Assets.versioned("html/campaign_filters.html")';
-    window.assets.html_campaign_strategy_card = '@routes.Assets.versioned("html/campaign_strategy_card.html")';
-    window.assets.html_campaign_tactics_card = '@routes.Assets.versioned("html/campaign_tactics_card.html")';
-    window.assets.html_kpi_drop_down = '@routes.Assets.versioned("html/kpi_drop_down.html")';
-    window.assets.html_reports_login = '@routes.Assets.versioned("html/reports_login.html")';
-    window.assets.html_multi_select = '@routes.Assets.versioned("html/multi_select.html")';
-    window.assets.html_strategy_drop_down = '@routes.Assets.versioned("html/strategy_drop_down.html")';
-    window.assets.html_timeperiod_drop_down = '@routes.Assets.versioned("html/timeperiod_drop_down.html")';
-    window.assets.html_bar_chart = '@routes.Assets.versioned("html/partials/bar_chart.html")';
-    window.assets.html_report_header_tab = '@routes.Assets.versioned("html/partials/reports_header_tab.html")';
-    window.assets.html_add_report_filter = '@routes.Assets.versioned("html/partials/add_report_filter.html")';
-    window.assets.html_add_filter_users = '@routes.Assets.versioned("html/partials/add_filter_users.html")';
-    window.assets.html_add_report_dimension = '@routes.Assets.versioned("html/partials/add_report_dimension.html")';
-    window.assets.html_screen_header = '@routes.Assets.versioned("html/partials/screen_header.html")';
-    window.assets.html_daysofweek_header = '@routes.Assets.versioned("html/partials/daysofweek_header.html")';
-    window.assets.html_format_header = '@routes.Assets.versioned("html/partials/format_header.html")';
-    window.assets.html_performance_header = '@routes.Assets.versioned("html/partials/performance_header.html")';
-    window.assets.html_cost_header = '@routes.Assets.versioned("html/partials/cost_header.html")';
-    window.assets.html_viewablity_header = '@routes.Assets.versioned("html/partials/viewablity_header.html")';
-    window.assets.html_creatives_header = '@routes.Assets.versioned("html/partials/creatives_header.html")';
-    window.assets.html_adsizes_header = '@routes.Assets.versioned("html/partials/adsizes_header.html")';
-    window.assets.html_download_report = '@routes.Assets.versioned("html/partials/download_report.html")';
+    window.assets.html_brands_drop_down = '@routes.Assets.versioned("html/reporting/brands_drop_down.html")';
+    window.assets.html_advertiser_drop_down = '@routes.Assets.versioned("html/reporting/advertiser_drop_down.html")';
+    window.assets.html_campaign_list = '@routes.Assets.versioned("html/reporting/campaign_list.html")';
+    window.assets.html_campaign_drop_down = '@routes.Assets.versioned("html/reporting/campaign_drop_down.html")';
+    window.assets.html_gauge = '@routes.Assets.versioned("html/reporting/gauge.html")';
+    window.assets.html_header = '@routes.Assets.versioned("html/reporting/header.html")';
+    window.assets.html_dashboard = '@routes.Assets.versioned("html/reporting/dashboard.html")';
+    window.assets.html_bubble_chart = '@routes.Assets.versioned("html/reporting/bubble_chart.html")';
+    window.assets.html_gantt_chart = '@routes.Assets.versioned("html/reporting/gantt_chart.html")';
+    window.assets.html_screen_chart = '@routes.Assets.versioned("html/reporting/screen_chart.html")';
+    window.assets.html_campaign_card = '@routes.Assets.versioned("html/reporting/campaign_card.html")';
+    window.assets.html_campaign_cost_card = '@routes.Assets.versioned("html/reporting/campaign_cost_card.html")';
+    window.assets.html_campaign_cost_filters = '@routes.Assets.versioned("html/reporting/campaign_cost_filters.html")';
+    window.assets.html_campaign_dashboard = '@routes.Assets.versioned("html/reporting/campaign_dashboard.html")';
+    window.assets.html_campaign_list_filters = '@routes.Assets.versioned("html/reporting/campaign_list_filters.html")';
+    window.assets.html_campaign_filters = '@routes.Assets.versioned("html/reporting/campaign_filters.html")';
+    window.assets.html_campaign_strategy_card = '@routes.Assets.versioned("html/reporting/campaign_strategy_card.html")';
+    window.assets.html_campaign_tactics_card = '@routes.Assets.versioned("html/reporting/campaign_tactics_card.html")';
+    window.assets.html_kpi_drop_down = '@routes.Assets.versioned("html/reporting/kpi_drop_down.html")';
+    window.assets.html_reports_login = '@routes.Assets.versioned("html/reporting/reports_login.html")';
+    window.assets.html_multi_select = '@routes.Assets.versioned("html/reporting/multi_select.html")';
+    window.assets.html_strategy_drop_down = '@routes.Assets.versioned("html/reporting/strategy_drop_down.html")';
+    window.assets.html_timeperiod_drop_down = '@routes.Assets.versioned("html/reporting/timeperiod_drop_down.html")';
+    window.assets.html_bar_chart = '@routes.Assets.versioned("html/reporting/partials/bar_chart.html")';
+    window.assets.html_report_header_tab = '@routes.Assets.versioned("html/reporting/partials/reports_header_tab.html")';
+    window.assets.html_add_report_filter = '@routes.Assets.versioned("html/reporting/partials/add_report_filter.html")';
+    window.assets.html_add_filter_users = '@routes.Assets.versioned("html/reporting/partials/add_filter_users.html")';
+    window.assets.html_add_report_dimension = '@routes.Assets.versioned("html/reporting/partials/add_report_dimension.html")';
+    window.assets.html_screen_header = '@routes.Assets.versioned("html/reporting/partials/screen_header.html")';
+    window.assets.html_daysofweek_header = '@routes.Assets.versioned("html/reporting/partials/daysofweek_header.html")';
+    window.assets.html_format_header = '@routes.Assets.versioned("html/reporting/partials/format_header.html")';
+    window.assets.html_performance_header = '@routes.Assets.versioned("html/reporting/partials/performance_header.html")';
+    window.assets.html_cost_header = '@routes.Assets.versioned("html/reporting/partials/cost_header.html")';
+    window.assets.html_viewablity_header = '@routes.Assets.versioned("html/reporting/partials/viewablity_header.html")';
+    window.assets.html_creatives_header = '@routes.Assets.versioned("html/reporting/partials/creatives_header.html")';
+    window.assets.html_adsizes_header = '@routes.Assets.versioned("html/reporting/partials/adsizes_header.html")';
+    window.assets.html_download_report = '@routes.Assets.versioned("html/reporting/partials/download_report.html")';
+    window.assets.html_collective_report_listing = '@routes.Assets.versioned("html/reporting/collective_report_listing.html")';
+    window.assets.html_reports_schedule_list = '@routes.Assets.versioned("html/reporting/reports_schedule_list.html")';
+    window.assets.html_edit_collective_report = '@routes.Assets.versioned("html/reporting/edit_collective_report.html")';
+    window.assets.html_delete_collective_report = '@routes.Assets.versioned("html/reporting/delete_collective_report.html")';
+    window.assets.html_campaign_lst_filter = '@routes.Assets.versioned("html/reporting/campaign_lst_filter.html")';
+    window.assets.html_header_filters = '@routes.Assets.versioned("html/reporting/partials/header_filters.html")';
+    window.assets.html_users = '@routes.Assets.versioned("html/reporting/users.html")';
+    window.assets.html_help = '@routes.Assets.versioned("html/reporting/help.html")';
+    window.assets.html_users_add_or_edit = '@routes.Assets.versioned("html/reporting/partials/users_add_or_edit.html")';
+    window.assets.html_confirmation_modal = '@routes.Assets.versioned("html/reporting/confirmation_modal.html")';
+    window.assets.html_filters_header = '@routes.Assets.versioned("html/reporting/partials/filters_header.html")';
 
     window.assets.html_campaign_create = '@routes.Assets.versioned("html/workflow/campaign_create.html")';
     window.assets.html_campaign_create_ad = '@routes.Assets.versioned("html/workflow/campaign_overview.html")';
     window.assets.html_campaign_create_adBuild = '@routes.Assets.versioned("html/workflow/campaign_ad_create.html")';
-    window.assets.html_help = '@routes.Assets.versioned("html/help.html")';
-    
     window.assets.html_creative = '@routes.Assets.versioned("html/workflow/creative.html")';
     window.assets.html_creative_list = '@routes.Assets.versioned("html/workflow/creative_list.html")';
     window.assets.html_workflow_campaign_list = '@routes.Assets.versioned("html/workflow/campaign_list.html")';
     window.assets.html_accounts = '@routes.Assets.versioned("html/workflow/accounts.html")';
-
-    window.assets.html_users = '@routes.Assets.versioned("html/users.html")';
-
     window.assets.html_creative_drop_down = '@routes.Assets.versioned("html/workflow/partials/creative_drop_down.html")';
-
-    window.assets.html_collective_report_listing = '@routes.Assets.versioned("html/collective_report_listing.html")';
-    window.assets.html_reports_schedule_list = '@routes.Assets.versioned("html/reports_schedule_list.html")';
-    window.assets.html_edit_collective_report = '@routes.Assets.versioned("html/edit_collective_report.html")';
-    window.assets.html_delete_collective_report = '@routes.Assets.versioned("html/delete_collective_report.html")';
-
-    window.assets.html_campaign_lst_filter = '@routes.Assets.versioned("html/campaign_lst_filter.html")';
-    window.assets.html_header_filters = '@routes.Assets.versioned("html/partials/header_filters.html")';
-
     window.assets.html_platform_collective_bidder = '@routes.Assets.versioned("html/workflow/partials/platforms/plat-collective-bidder.html")';
     window.assets.html_platform_app_nexus = '@routes.Assets.versioned("html/workflow/partials/platforms/plat-app-nexus.html")';
     window.assets.html_accounts_add_or_edit_advertiser = '@routes.Assets.versioned("html/workflow/partials/accounts_add_or_edit_advertiser.html")';
     window.assets.html_accounts_add_or_edit_brand = '@routes.Assets.versioned("html/workflow/partials/accounts_add_or_edit_brand.html")';
     window.assets.html_accounts_add_or_edit = '@routes.Assets.versioned("html/workflow/partials/accounts_add_or_edit.html")';
-    window.assets.html_users_add_or_edit = '@routes.Assets.versioned("html/partials/users_add_or_edit.html")';
 
-    window.assets.html_confirmation_modal = '@routes.Assets.versioned("html/confirmation_modal.html")';
 
 </script>

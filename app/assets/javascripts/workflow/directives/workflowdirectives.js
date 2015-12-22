@@ -97,21 +97,30 @@
             require: 'ngModel',
             link: function (scope, element, attr, ctrl) {
                 ctrl.$setValidity('mediaCostValidator', true);
-                function customValidator(ngModelValue) {
+                ctrl.$setValidity('availableRevenueValidator', true);
+                function customValidator() {
                     var campaignData = scope.workflowData.campaignData;
                     var campaignBuget = campaignData.bookedRevenue || 0;
-
+                    var adsData = scope.workflowData.adsData;
+                    var budgetAmount = scope.adData.budgetAmount;
+                    var adAvailableRevenue = adsData.availableRevenue;
                     if(scope.adData.budgetType.toLowerCase() === 'cost') {
-                        var mediaCoat = Number(ngModelValue);
-                        if(campaignBuget >=  mediaCoat) {
+                        console.log("cost");
+                        var mediaCost = Number(budgetAmount);
+                        console.log("mediaCost", mediaCost);
+                        if(mediaCost <= adAvailableRevenue) {
+                            ctrl.$setValidity('availableRevenueValidator', false);
                             ctrl.$setValidity('mediaCostValidator', true);
-                        } else {
+                        } else if(campaignBuget <=  mediaCost) {
                             ctrl.$setValidity('mediaCostValidator', false);
+                            ctrl.$setValidity('availableRevenueValidator', true);
                         }
-                    } else {
+
+                    }  else {
                         ctrl.$setValidity('mediaCostValidator', true);
+                        ctrl.$setValidity('availableRevenueValidator', true);
                     }
-                    return ngModelValue;
+                    return budgetAmount;
                 }
 
                 ctrl.$parsers.push(customValidator);
@@ -119,11 +128,45 @@
         };
     });
 
+    angObj.directive('totalBudgetCheck', function() {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, element, attr, ctrl) {
+                ctrl.$setValidity('totalBudgetCheckValidator', true);
+                function customValidator(ngModelValue) {
+                    var miniBudget =  scope.editCampaignData.minimumBudget;
+                    if(miniBudget && miniBudget >0) {
+                        var totalBudget = Number(ngModelValue);
+                        if (totalBudget >= miniBudget) {
+                            ctrl.$setValidity('totalBudgetCheckValidator', true);
+                        } else {
+                            ctrl.$setValidity('totalBudgetCheckValidator', false);
+                        }
+                    }
+                    return ngModelValue;
+                }
+                ctrl.$parsers.push(customValidator);
+            }
+        }
+    });
+
     angObj.directive('ngUpdateHidden',function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
             scope.$watch(model, function(nv) {
                 el.val(nv);
+            });
+
+        };
+    })
+
+    angObj.directive('ngUpdateHiddenDropdown',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.allPermissions.push(nv);
             });
 
         };

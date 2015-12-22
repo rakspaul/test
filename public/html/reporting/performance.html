@@ -1,0 +1,523 @@
+<div class="reports_main_page_holder">
+    <div class="common_reports_container" >
+        <!-- <div class="clearfix inventory_header">
+            <div class="pull-left dropdown dropdown_type1"  id="performance_camp_list_dd" >
+                <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
+            </div>
+            <div class="pull-right download_report">
+                <download-report></download-report>
+            </div>
+        </div> -->
+        <!-- <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
+            <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+        </div> -->
+         <div class="clearfix page_top_header">
+            <div class="pull-left page_name">
+                Performance Report
+            </div>
+            <div class="pull-right download_report">
+                <download-report></download-report>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <filters-header reports="true"></filters-header>
+        </div>
+
+        <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
+
+        <div class="performance_container" ng-hide="strategyLoading">
+            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')"></div>
+            <div class="reports_tabs_content_container" ng-show="strategyFound" >
+                <!-- -------START :  Performance Tabs ------------------------ -->
+                <div class="clearfix">
+                    <div class="clearfix reports_tabs_holder">
+                        <div class="each_tab cost_tab {{activeScreenClass}}" id="byscreens">
+                            <div class="each_tab_text">
+                                {{textConstants.SCREENS}}
+                            </div>
+                        </div>
+
+                        <div class="each_tab cost_tab {{activeFormatClass}}" id="byformats">
+                            <div class="each_tab_text">
+                                {{textConstants.FORMATS}}
+                            </div>
+                        </div>
+
+                        <div class="each_tab cost_tab {{activeAdSizeClass}}" id="byadsizes">
+                            <div class="each_tab_text">
+                                {{textConstants.AD_SIZES}}
+                            </div>
+                        </div>
+
+                        <div class="each_tab cost_tab " id="bycreatives">
+                            <div class="each_tab_text">
+                                {{textConstants.CREATIVES}}
+                            </div>
+                        </div>
+
+
+                        <div class="each_tab " id="bydaysofweek">
+                            <div class="each_tab_text">
+                                {{textConstants.DAYS_OF_WEEK}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- -------END :  Performance Tabs ------------------------ -->
+
+                <!-- -------START :  Screen Block ----------------------------- -->
+
+                <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="{{defaultDisplayScreen}}">
+                    <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
+                    <div class="reports_details_outer_container"  ng-if="!dataNotFoundForScreen">
+                        <div class="clearfix reports_performance_header" ng-hide="screenBusy">
+                            <screen-header></screen-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col" ng-hide="screenBusy">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder clearfix">
+                                    <div class="common-load-icon" ng-show="screenBusy"></div>
+                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="showPerfMetrix == true" >
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Screen Block ----------------------------- -->
+
+                <!-- -------START :  Days of week Block ----------------------------- -->
+                <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_bydaysofweek_block" style="display:none;" >
+                    <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable('daysofweek')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
+                        <div class="clearfix reports_performance_header" ng-hide="dowBusy">
+                            <daysofweek-header></daysofweek-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col" ng-hide="dowBusy">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder clearfix">
+                                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="showPerfMetrix == true">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Days of week Block ----------------------------- -->
+
+                <!-- -------START :  Format Block ----------------------------- -->
+                <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
+                    <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable('formats')"></div>
+                    <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
+                        <div class="clearfix reports_performance_header" ng-hide="formatBusy">
+                            <format-header></format-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col" ng-hide="formatBusy">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder clearfix">
+                                    <div class="common-load-icon" ng-show="formatBusy"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="showPerfMetrix == true">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Format Block ----------------------------- -->
+
+                <!-- -------START :  Creative Block ----------------------------- -->
+                <div  id="reports_bycreatives_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
+
+
+                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" ng-class="{strategy_video_disabled:adFormats.videoAds == false}" >
+                        <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
+                            <creatives-header></creatives-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col" ng-hide="creativeBusy">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder clearfix">
+                                    <div class="common-load-icon" ng-show="creativeBusy"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="showPerfMetrix == true">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col" style="width:100%">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Days of week Block ----------------------------- -->
+
+
+
+
+                <!-- -------START :  Add sizes Block ----------------------------- -->
+                <div  id="reports_byadsizes_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
+
+
+                    <div class="no_data_found" ng-if="dataNotFoundForAdSizes" ng-bind-html="getMessageForDataNotAvailable('adSizes')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdSizes" >
+                        <div class="clearfix reports_performance_header" ng-hide="adSizesBusy">
+                            <adsizes-header></adsizes-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col" ng-hide="adSizesBusy">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder clearfix">
+                                    <div class="common-load-icon" ng-show="adSizesBusy"></div>
+                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                </div>
+                            </div>
+                            <div class="all_strategies_holder">
+                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-if="showPerfMetrix == true">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col" style="width:100%">
+                                            {{tactic.name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div class="clearfix each_row_list" ng-repeat="adsizesData in tactic.perf_metrics | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------END :  Days of week Block ----------------------------- -->
+
+
+            </div>
+        </div>
+        <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="screenTpl">
+    <div class="each_col sec_col" >
+        {{screenData.dimension}}
+    </div>
+    <div class="each_col third_col">
+        {{screenData.impressions >0 ? (screenData.impressions | nrFormat) : '-'}}
+    </div>
+    <div class="vid_col" ng-show="adFormats.videoAds == true">
+        <div class="each_col third_col">
+            {{screenData.ad_starts >0 ? (screenData.ad_starts | nrFormat) : '-'}}
+        </div>
+
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{screenData.vtc_25 >0 ? (screenData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_50 >0 ? (screenData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_75 >0 ? (screenData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{screenData.vtc_100 >0 ? (screenData.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <span>{{screenData.vtc_100 | number:2}}%</span>
+        </div>
+    </div>
+    <div class="each_col forth_col">
+        {{screenData.ctr | number:2}}%
+    </div>
+    <div class="each_col fifth_col">
+        {{screenData.action_rate*1 | number:2}}%
+    </div>
+    <span  ng-if="!adFormats.videoAds">
+    <div class="each_col sixth_col">
+        {{screenData.cpa | currency:undefined:2}}
+    </div>
+
+    <div class="each_col seventh_col">
+        {{screenData.cpc | currency:undefined:2}}
+    </div>
+
+    <div class="each_col eight_col">
+        {{screenData.cpm | currency:undefined:2}}
+    </div>
+        </span>
+    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+
+        <!--<span >{{selected_filters.kpi_type == 'cpa'? "cpm" : "cpm"}}</span>-->
+        <span ng-if="selected_filters.kpi_type == 'vtc' " style="visibility: hidden">
+        {{selected_filters.kpi_type = "cpm"}}
+        </span>
+
+
+        {{screenData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters.kpi_type}}
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="daysofweekTpl">
+    <div class="each_col sec_col">
+        {{daysofweekData.dimension}}
+    </div>
+    <div class="each_col third_col">
+        {{daysofweekData.impressions >0 ? (daysofweekData.impressions | nrFormat) : '-'}}
+    </div>
+    <div class="vid_col" ng-show="adFormats.videoAds == true">
+        <div class="each_col third_col">
+            {{daysofweekData.ad_starts >0 ? (daysofweekData.ad_starts | nrFormat) : '-'}}
+        </div>
+
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_25 >0 ? (daysofweekData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_50 >0 ? (daysofweekData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_75 >0 ? (daysofweekData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{daysofweekData.vtc_100 >0 ? (daysofweekData.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <span>{{daysofweekData.vtc_100 | number:2}}%</span>
+        </div>
+    </div>
+    <div class="each_col forth_col">
+        {{daysofweekData.ctr*100 | number:2}}%
+    </div>
+    <div class="each_col fifth_col">
+        {{daysofweekData.action_rate*1 | number:2}}%
+    </div>
+    <span  ng-if="!adFormats.videoAds">
+    <div class="each_col sixth_col">
+        {{daysofweekData.cpa | currency:undefined:2}}
+    </div>
+    <div class="each_col seventh_col">
+        {{daysofweekData.cpc | currency:undefined:2}}
+    </div>
+    <div class="each_col eight_col">
+        {{daysofweekData.cpm | currency:undefined:2}}
+    </div>
+    </span>
+    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{daysofweekData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
+    </div>
+</script>
+
+<script type="text/ng-template" id="formatTpl">
+    <div class="each_col sec_col">
+        {{formatData.dimension}}
+    </div>
+    <div class="each_col third_col">
+        {{formatData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}
+    </div>
+    <div class="vid_col" ng-show="adFormats.videoAds == true">
+        <div class="each_col third_col">
+            {{formatData.ad_starts > 0 ? (formatData.ad_starts | nrFormat) : '-'}}
+        </div>
+
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{formatData.vtc_25 > 0 ? (formatData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_50 > 0 ? (formatData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_75 > 0 ? (formatData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{formatData.vtc_100 > 0 ? (formatData.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col">
+            <span>{{formatData.vtc_100 | number:2}}%</span>
+        </div>
+    </div>
+    <div class="each_col forth_col">
+        {{formatData.ctr*100 | number:2}}%
+    </div>
+    <div class="each_col fifth_col">
+        {{formatData.action_rate*100 | number:2}}%
+    </div>
+    <span  ng-if="!adFormats.videoAds">
+    <div class="each_col sixth_col">
+        {{formatData.cpa | currency:undefined:2}}
+    </div>
+    <div class="each_col seventh_col">
+        {{formatData.cpc | currency:undefined:2}}
+    </div>
+    <div class="each_col eight_col">
+        {{formatData.cpm | currency:undefined:2}}
+    </div>
+        </span>
+    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{formatData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
+    </div>
+</script>
+
+<script type="text/ng-template" id="CreativesTpl">
+
+    <div class="each_col sec_col" title="{{creativesData.dimension}}">
+        <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
+        {{ creativesData.dimension | formatUrl :15 }}
+    </div>
+    <div class="each_col third_col">
+        {{creativesData.impressions  | nrFormat}}
+        <!--{{creativesData.ctr*100 | number:2}}%-->
+    </div>
+    <span  ng-if="adFormats.videoAds">
+    <div class="each_col third_col">
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        {{creativesData.ad_starts > 0 ? (creativesData.ad_starts | nrFormat) : '-'}}
+    </div>
+    <div class="vid_data_hdr">
+        <div>
+            <div class="vid_quartile_data">{{creativesData.vtc_25 > 0 ? (creativesData.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_50 > 0 ? (creativesData.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_75 > 0 ? (creativesData.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{creativesData.vtc_100 > 0 ? (creativesData.vtc_100 | nrFormat) : '-'}}</div>
+        </div>
+    </div>
+    <div class="each_col third_col">
+        {{creativesData.vtc_100 | number:2}}%
+    </div>
+
+    </span>
+    <div class="each_col forth_col">
+        {{creativesData.ctr*100 | number:2}}%
+    </div>
+
+    <div class="each_col fifth_col">
+        {{creativesData.action_rate| number:2}}%
+    </div>
+    <span  ng-if="!adFormats.videoAds">
+    <div class="each_col sixth_col">
+        {{creativesData.cpa | currency:undefined:2}}
+    </div>
+
+    <div class="each_col seventh_col">
+        {{creativesData.cpc | currency:undefined:2}}
+    </div>
+    <div class="each_col eight_col">
+        {{creativesData.cpm | currency:undefined:2}}
+    </div>
+        </span>
+
+    <div ng-if="adFormats.videoAds" class="each_col seventh_col last_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{creativesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="AdsizesTpl">
+    <div class="each_col sec_col">
+        <!-- {{adsizesData.dimension | limitTo: characterLimit}}{{adsizesData.dimension.length > characterLimit ? '...' : ''}}-->
+        {{ adsizesData.dimension | formatUrl :15 }}
+    </div>
+    <div class="each_col third_col">
+        {{adsizesData.impressions  | nrFormat}}
+        <!--{{creativesData.ctr*100 | number:2}}%-->
+    </div>
+    <span  ng-if="adFormats.videoAds">
+    <div class="each_col third_col">
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        {{adsizesData.ad_starts > 0 ? (adsizesData.ad_starts | nrFormat) : '-'}}
+    </div>
+    <div class="vid_data_hdr">
+        <div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_25 > 0 ? (adsizesData.vtc_25 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_50 > 0 ? (adsizesData.vtc_50 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_75 > 0 ? (adsizesData.vtc_75 | nrFormat) : '-'}}</div>
+            <div class="vid_quartile_data">{{adsizesData.vtc_100 > 0 ? (adsizesData.vtc_100 | nrFormat) : '-'}}</div>
+        </div>
+    </div>
+    <div class="each_col third_col">
+        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+        {{adsizesData.vtc_100 | number:2}}%
+    </div>
+    </span>
+    <div class="each_col forth_col">
+        {{adsizesData.ctr*100 | number:2}}%
+    </div>
+    <div class="each_col forth_col">
+        {{adsizesData.action_rate*100 | number:2}}%
+    </div>
+
+    <span  ng-if="!adFormats.videoAds">
+            <div class="each_col seventh_col">
+                {{adsizesData.cpa | currency:undefined:2}}
+            </div>
+
+            <div class="each_col sixth_col">
+                {{adsizesData.cpc | currency:undefined:2}}
+            </div>
+
+            <div class="each_col fifth_col">
+                {{adsizesData.cpm | currency:undefined:2}}
+            </div>
+    </span>
+
+    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        {{adsizesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+        selected_filters2.kpi_type}}
+    </div>
+
+
+</script>

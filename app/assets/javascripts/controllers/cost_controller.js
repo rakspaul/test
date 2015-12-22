@@ -1,7 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel, strategySelectModel, brandsModel, costService, dataService, utils, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
+                                                  strategySelectModel, brandsModel, dataService, utils,
+                                                  domainReports, apiPaths,constants, timePeriodModel,
+                                                  loginModel, analytics, urlService) {
 
         $scope.textConstants = constants;
 
@@ -111,7 +114,23 @@ var angObj = angObj || {};
                 $scope.tacticCostBusy = false;
             }
             $scope.api_return_code=200;
-            costService.getStrategyCostData(param).then(function (result) {
+
+            var queryObj = {
+                clientId: loginModel.getSelectedClient().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+            };
+            if (_.has(param, 'strategyId') && param.strategyId >= 0) {
+                queryObj.queryId = 15; // cost_report_for_given_ad_group_id
+                queryObj.campaignId = param.campaignId,
+                queryObj.strategyId = param.strategyId;
+
+            } else {
+                queryObj.queryId = 14; // cost_report_for_one_or_more_campaign_ids
+                queryObj.campaignIds = param.campaignId;
+            }
+
+            var url = urlService.APIVistoCustomQuery(queryObj);
+            dataService.fetch(url).then(function(result) {
                     $scope.strategyLoading =  false;
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data ;
@@ -125,7 +144,7 @@ var angObj = angObj || {};
                             $scope.strategyMarginValue =  $scope.strategyCostData[0].margin ;
                             if ($scope.strategyCostData[0].pricing_method && $scope.strategyCostData[0].pricing_method === constants.PRICING_METHOD_CPM)
                                 $scope.strategyMarginUnit = constants.SYMBOL_DOLLAR;
-                            if(param.strategyId >0 ) {
+                            if(param.strategyId >= 0 ) {
                                 $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
 
                                 /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
@@ -188,7 +207,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
             $scope.selected_filters.time_filter = strategy;
             $scope.createDownloadReportUrl();
             $scope.callBackStrategyChange();
@@ -197,7 +216,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
 
 
             /* COMMENTING THIS LINE BELOW AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
@@ -209,14 +228,17 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+            //var clientId =  loginModel.getSelectedClient().id;
+            //var urlPath = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
             $scope.strategyMarginValue = -1 ;
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'reportDownload',
-                    'report_name' : '',
+                    'url' : '/reportBuilder/reportDownload',
+                    'query_id': 16,
+                    'report_type' : 'all',
+                    'report_cat' : 'cost',
                     'label' : 'Cost Report',
                     'className' : 'report_cost'
                 }
@@ -232,7 +254,7 @@ var angObj = angObj || {};
             $scope.strategyMarginValue = -1 ; // resetting strategy margin before each strategy call
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 
-            if($scope.selectedStrategy.id == -99 ||$scope.selectedStrategy.id == -1  ){
+            if($scope.selectedStrategy.id == -99) {
                 $scope.strategyFound = false ;
             } else {
                 $scope.strategyFound = true;

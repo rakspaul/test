@@ -1,0 +1,35 @@
+<!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
+<div class="clearfix reports_sub_menu_dd_holder">
+	<div class="pull-left">
+		<a href="/customreport" class="clearfix new_report_generate_btn" >
+			<span class="icon-report-builder"></span>
+			<span class="icon_txt">Build Report</span>
+		</a>
+	</div>
+	<div class="reports_sub_menu_dd canned_container">
+		<div class="header_tab_dd_subheading">Media Plan Reports</div>
+		<div class="header_tab_dropdown" id="reports_overview_tab">
+			<a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'reportOverview')" >Reports Overview</a>
+		</div>
+		
+		<div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown" ng-class="{'active_tab': tab.href == filters.activeTab}" id={{tab.href}}>
+		    <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}"> {{tab.title}}</a>
+		</div>
+	</div>
+	<div class="reports_sub_menu_dd custom_container">
+		<div class="header_tab_dd_subheading">Custom Reports</div>
+		 <!-- <div class="header_tab_dropdown">
+			<a href="javascript:void(0);">Scheduled</a>
+			<span class="circle_with_number">2</span>
+		</div> -->
+		<div ng-repeat="tab in customFilters.tabs track by $index" class="clearfix header_tab_dropdown" ng-class="{'active_tab': tab.href == customFilters.activeTab}">
+				
+				<a href="javascript:void(0);" class="pull-left reports_list_link" ng-click="NavigateToTab('/'+ tab.href, $event)">{{tab.title}}</a>
+				<div class="upload_icon" ng-click="NavigateToTab('/reports/upload', $event)" ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS"></div>
+			
+			<!-- <span class="circle_with_number">5</span> -->
+		</div>
+		
+	</div>
+</div>
+

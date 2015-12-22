@@ -1,7 +1,7 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore,dataService) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
@@ -60,18 +60,18 @@
             $scope.sort.descending = !$scope.sort.descending;
         }
 
-        $scope.downloadSchdReport = function(reportId,schRptListIndx,instancesIndx) {
-           // console.log(reportId,schRptListIndx,instancesIndx);
-            $scope.flashMessage = {'message':'Downloaded Successfully','isErrorMsg':''};
-            $scope.timeoutReset();
-            $scope.schdReportList[schRptListIndx].instances[instancesIndx].viewedOn = momentService.reportDateFormat();
-            /*dataService.downloadFile(urlService.APIDownloadReport(reportId)).then(function (response) {
+        $scope.downloadSchdReport = function(parentIndex,instanceIndex,instanceId) {
+            $scope.reportDownloadBusy = true;
+            dataService.downloadFile(urlService.downloadSchdRpt(instanceId)).then(function (response) {
                 if (response.status === "success") {
-
+                    saveAs(response.file, response.fileName);
+                    $scope.reportDownloadBusy = false;
+                    $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
                 } else {
-
+                    $scope.flashMessage = {'message':"File couldn't be downloaded",'isErrorMsg':''};
+                    $scope.timeoutReset();
                 }
-            })*/
+            })
 
 
         }
@@ -88,7 +88,7 @@
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to delete Scheduled Report"
+                        return "Are you sure you want to delete Scheduled Report?"
                     },
                     deleteAction: function() {
                         return function() {
@@ -164,10 +164,10 @@
                 windowClass: 'delete-dialog',
                 resolve: {
                     headerMsg: function() {
-                        return "Copy Schedule Report";
+                        return "Copy Scheduled Report?";
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to copy Scheduled Report"
+                        return "Are you sure you want to copy Scheduled Report?"
                     },
                     buttonName: function() {
                         return "Copy"

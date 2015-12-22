@@ -1,61 +1,83 @@
 (function () {
   'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.filters = domainReports.getReportsTabs();
         $scope.customFilters = domainReports.getCustomReportsTabs();
-        $scope.isNetworkUser = loginModel.getIsNetworkUser();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
 
-        if(RoleBasedService.getUserRole()) {
-            $scope.isWorkFlowUser = RoleBasedService.getUserRole().workFlowUser;
-        }
-
         if($cookieStore.get('cdesk_session')) {
-            $scope.defaultAccountsName = loginModel.getSelectedClient()?loginModel.getSelectedClient().name:undefined;
             workflowService.getClients().then(function (result) {
-                $scope.accountsData = [];
-                _.each(result.data.data,function(eachObj) {
-                    $scope.accountsData.push({'id':eachObj.id,'name':eachObj.name})
-                })
-                $scope.defaultAccountsName = loginModel.getSelectedClient().name?loginModel.getSelectedClient().name:$scope.accountsData[0].name;
-                if(Number($scope.selectedCampaign) === -1) {
-                    campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                        $scope.selectedCampaign = response[0].campaign_id;
-                    });
+                if (result && result.data.data.length > 0) {
+                    if(!loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
+                        loginModel.setSelectedClient({
+                            'id': result.data.data[0].children[0].id,
+                            'name': result.data.data[0].children[0].name
+                        });
+                    }
+                    $scope.accountsData = [];
+                    _.each(result.data.data, function (org) {
+                        if(org.children.length > 1) {
+                            $scope.multipleClient = true;
+                            _.each(org.children, function (eachObj) {
+                                $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name})
+                            })
+                        } else {
+                            $scope.multipleClient = false;
+                        }
+                    })
+
+                    $scope.accountsData = _.sortBy($scope.accountsData, 'name');
+
+                    if(loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
+                        $scope.defaultAccountsName = loginModel.getSelectedClient().name;
+                    } else {
+                        $scope.defaultAccountsName = $scope.accountsData[0].name;
+                    }
+
+                    if (Number($scope.selectedCampaign) === -1) {
+                        campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                            if(response.length >0) {
+                                $scope.selectedCampaign = response[0].campaign_id;
+                            }
+                        });
+                    }
+
+                    var clientId;
+                    if(loginModel.getSelectedClient() && loginModel.getSelectedClient().id ) {
+                        clientId = loginModel.getSelectedClient().id;
+                    } else {
+                        clientId = $scope.accountsData[0].id;
+                    }
+                    $scope.getClientData(clientId);
+                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                 }
             });
         }
 
-        /*if($cookieStore.get('cdesk_session') && Number($scope.selectedCampaign) === -1) {
-            campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                $scope.selectedCampaign = response[0].campaign_id;
-            });
-        }*/
+        $scope.getClientData = function(clientId) {
+            workflowService.getClientData(clientId).then(function (response) {
+                RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
+                var locale = RoleBasedService.getClientRole().locale || 'en-us';
+                tmhDynamicLocale.set(locale);
 
-      /*  if($cookieStore.get('cdesk_session')) {
-            loginModel.setClientId(2);
-            var defaultClientId;
-            workflowService.getClients().then(function (result) {
-                defaultClientId = result.data.data[0].id;
-                $scope.defaultAccountsName = result.data.data[0].name;
-                $scope.accountsData = result.data.data;
-                loginModel.setClientId(defaultClientId);
             });
         }
-*/
+
         $scope.set_account_name = function(event,id,name) {
+            loginModel.setSelectedClient({'id':id,'name':name});
             var elem = $(event.target);
             $(".accountsList").find(".selected-li").removeClass("selected-li") ;
             elem.addClass("selected-li") ;
-            loginModel.setSelectedClient({'id':id,'name':name});
             $(".accountsList").find(".dd_txt").text(name) ;
             $(".main_nav").find(".account-name-nav").text(name) ;
             $(".main_nav_dropdown").hide() ;
             $("#user-menu").show();
-            $rootScope.$broadcast(constants.ACCOUNT_CHANGED,id);
+            $scope.getClientData(id);
+            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
+
         };
 
         $scope.showProfileMenu = function() {
@@ -69,7 +91,7 @@
             $(".header_tab_dropdown").removeClass('active_tab');
             if(page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
-                url = '/campaigns/'+ $scope.selectedCampaign ;
+                url = '/mediaplans/'+ $scope.selectedCampaign ;
                 $("#reports_overview_tab").addClass("active_tab") ;
             }
             if(event) {
@@ -91,6 +113,17 @@
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;
           }   
         } ;
+
+        $scope.hide_navigation_dropdown = function(event) {
+           var elem = $(event.target);
+           setTimeout(function(){
+              if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) { 
+                   $(".main_nav_dropdown").fadeOut() ;
+                   $(".main_navigation_holder").find(".selected").removeClass("selected") ; 
+               } 
+          }, 1000);
+        } ;
+
         $scope.logout = function() {
             loginModel.logout();
         };
@@ -103,8 +136,8 @@
         var callSetDefaultReport = $rootScope.$on("callSetDefaultReport",function(event,args){
             $scope.setDefaultReport(args);
         });
-        $rootScope.dashboard = {};
-        $rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
+        //$rootScope.dashboard = {};
+        //$rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
 
         $(function() {
             var closeMenuPopUs = function(event) {

@@ -34,25 +34,23 @@
                 kpiColumn = [];
 
             for (var i = 0; i < chartData.length; i++) {
-            var kpi_value=0;
-            kpIType = kpIType.toLowerCase();
+                var kpi_value=0;
+                kpIType = kpIType.toLowerCase();
+
                 if(kpIType === 'vtc') {
-                         kpi_value=chartData[i].video_metrics.vtc_rate;
-                    } else {
-                            kpi_value=chartData[i][kpIType]
+                    kpi_value=chartData[i]['vtc_100'];
+                } else {
+                    kpi_value=chartData[i][kpIType]
                 }
-
-                if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate'){
-                    kpi_value = parseFloat((kpi_value*100).toFixed(4));
+                if(kpIType === 'ctr' || kpIType === 'action_rate' || kpIType === 'action rate'){
+                    kpi_value = parseFloat(kpi_value.toFixed(4));
                 }
-                if(kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc' || kpIType.toLowerCase() === 'vtc'){
-                    kpi_value = parseFloat((kpi_value*1).toFixed(2));
+                if(kpIType === 'cpm' || kpIType === 'cpc' || kpIType === 'vtc'){
+                    kpi_value = parseFloat(kpi_value.toFixed(2));
                 }
-
                 xData.push({custom: i, y: chartData[i].dimension });
                 impLine.push(chartData[i].impressions);
                 kpiColumn.push(kpi_value);
-               // kpiColumn.push(chartData[i].kpi_value);
             }
 
 
@@ -128,7 +126,7 @@
                             enabled: true,
                             distance :10,
                             style :{
-                                color : '#FEFFFE',
+                                color : '#21252B',
                                 fontWeight:'bold'
                             },
                             y : -10,

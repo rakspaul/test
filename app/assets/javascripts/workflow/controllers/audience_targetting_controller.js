@@ -76,7 +76,9 @@ var angObj = angObj || {};
 
                         if(loadMoreFlag){
                             var tempAudience = $scope.audienceList;
-                            $scope.audienceList.concat(result.data.data); // lazy loading fetch
+                            _.each(result.data.data , function(obj){
+                                $scope.audienceList.push(obj);
+                            })
                         }
                         else{
                             $scope.audienceList = result.data.data; // first time fetch/filter fetch
@@ -99,40 +101,43 @@ var angObj = angObj || {};
             }
 
             function processAudienceEdit(){
-
                 // partial done
-                var fetchedObj =  workflowService.getAdsDetails();
-                var previouslySelectedAudience = fetchedObj.targets.segmentTargets;
-                for(var i = 0; i < previouslySelectedAudience.length; i++){
-                    //find  array index in audienc list
-                    var index = _.findIndex($scope.audienceList, function(item) {
-                        return item.id == previouslySelectedAudience[i].segment.id});
+                var fetchedObj =  angular.copy(workflowService.getAdsDetails());
+                var previouslySelectedAudience = fetchedObj.targets.segmentTargets.segmentList;
+                if(previouslySelectedAudience && previouslySelectedAudience.length > 0){
+                    for(var i = 0; i < previouslySelectedAudience.length; i++){
+                        //find  array index in audienc list
+                        var index = _.findIndex($scope.audienceList, function(item) {
+                            return item.id == previouslySelectedAudience[i].segment.id});
 
 
 
-                    //cant call $scope.selectAudience($scope.audienceList[index]) because this will toggle selection when filter is clicked
-                    if(index != -1){
-                        var selectedIndex = _.findIndex($scope.selectedAudience, function(item) {
-                            return item.id == $scope.audienceList[index].id});
+                        //cant call $scope.selectAudience($scope.audienceList[index]) because this will toggle selection when filter is clicked
+                        if(index != -1){
+                            var selectedIndex = _.findIndex($scope.selectedAudience, function(item) {
+                                return item.id == $scope.audienceList[index].id});
 
-                        if(selectedIndex == -1)
-                            $scope.selectedAudience.push($scope.audienceList[index]);
+                            if(selectedIndex == -1)
+                                $scope.selectedAudience.push($scope.audienceList[index]);
 
-                        $scope.audienceList[index].isChecked = true;
-                        $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
+                            $scope.audienceList[index].isChecked = true;
+                            $scope.audienceList[index].isIncluded = previouslySelectedAudience[i].isIncluded; // need to change
+                        }
                     }
+                    //and or details after getting it from api
+                    $scope.andOr = fetchedObj.targets.segmentTargets.operation;
+                    audienceService.setAndOr($scope.andOr);
+                    audienceService.setSelectedAudience($scope.selectedAudience);
+                    //reset selected array in service after initial load to avoid populating same data when platform is changed
+                    fetchedObj.targets.segmentTargets = [];
+                    workflowService.getAdsDetails(fetchedObj);
+                    //update target summary
+                    $scope.getSelectedAudience();
+                    $scope.setTargeting('Audience');
                 }
-                console.log('edited ads -- ', $scope.audienceList)
-                //$scope.andOr =
-
-                //reset selected array in service after initial load to avoid populating same data when platform is changed
-                fetchedObj.targets.segmentTargets = [];
-                workflowService.getAdsDetails(fetchedObj);
-
             }
 
             function checkSelectedAudience(){
-                console.log("selected audience check");
                 for(var i = 0; i < $scope.selectedAudience.length; i++){
                     //find  array index in audienc list
                     var index = _.findIndex($scope.audienceList, function(item) {
@@ -360,7 +365,6 @@ var angObj = angObj || {};
 
             //audience
             $scope.selectAudience = function(audience){
-                console.log("edit aud == ",audience);
                 var audienceIndex = _.findIndex( $scope.selectedAudience, function(item) {
                     return item.id == audience.id});
 
@@ -400,6 +404,9 @@ var angObj = angObj || {};
             $scope.clearAllSelectedAudience = function(){
                 resetAudience();
                 $scope.selectedAudience = [];
+                //this is to save selected audience in service to show in summary
+                audienceService.setSelectedAudience($scope.selectedAudience);
+                $scope.getSelectedAudience();
             }
 
             function resetAudience(){
@@ -431,6 +438,7 @@ var angObj = angObj || {};
                 audienceService.setSelectedAudience($scope.selectedAudience);
                 audienceService.setAndOr($scope.andOr);
                 $scope.resetAudienceTargetingVariables();
+                $scope.getSelectedAudience();
                 //$scope.CampaignADsave(false);
             }
                 // end of final save

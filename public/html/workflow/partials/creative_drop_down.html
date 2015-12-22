@@ -16,7 +16,6 @@
             </ul>
         </div>
     </div>
-
     <div class="each_filter brands_filter">
         <div class="greyTxt">Advertiser</div>
         <div class="dropdown">
@@ -24,6 +23,7 @@
                 <p>{{defaultAdvertiserName ?  defaultAdvertiserName : 'Select Advertiser'}}</p>
                 <img src="/assets/images/cdesk/common_down_arrow.png" alt="" width="12" class="common_down_arrow"/>
             </div>
+
             <ul class="dropdown-menu" role="menu" id="advertisersList">
                 <div class="advertisersList_ul" id="advertisersList_ul">
                     <li ng-repeat="advertiser in creativeFilterData.advertisers track by advertiser.id">

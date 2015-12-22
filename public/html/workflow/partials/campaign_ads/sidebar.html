@@ -18,12 +18,12 @@
                             <span>(Format)</span>
                         </div>
                     </div>
-                    <div class="statusLabel" ng-if="adData.goal">
+                    <div class="statusLabel" ng-if="adData.primaryKpi">
                         <div class="col-md-12">
                             <!--<img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg" alt="" width="12" class="statusIcon"/>-->
-                            <div class="statusIcon icon-{{getGoalIconName(adData.goal)}}"></div>
-                            <span>{{adData.goal}}</span>
-                            <span>(Goal)</span>
+                            <!--<div class="statusIcon icon-{{getGoalIconName(adData.goal)}}"></div>-->
+                            <span>{{adData.primaryKpi}}</span>
+                            <span>(Primary KPI)</span>
                         </div>
                     </div>
                     <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
@@ -37,7 +37,7 @@
                 </div>
             </li>
             <li id="setting-tab">
-                <a href="#setting" role="tab" class="leftNavLink" data-toggle="tab">2 Budget & Delivery</a>
+                <a href="#setting" role="tab" class="leftNavLink budget-tab-link" data-toggle="tab">2 Budget & Delivery</a>
 
                 <div>
                     <div class="statusLabel disabled"
@@ -56,7 +56,7 @@
                     <!-- <div class="statusLabel" ng-if="(adData.unitCost !==''  &&  adData.unitType.name)"> -->
                     <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
-                            <span style="margin-right: 5px;">$</span>
+                            <span style="margin-right: 5px;">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                             <span>{{adData.unitCost | number }} {{adData.unitType.name ?adData.unitType.name : 'CPM'}}</span>
                             <span>(Unit Cost)</span>
                         </div>
@@ -71,7 +71,7 @@
                 </div>
             </li>
             <li id="buying-tab">
-                <a href="#buying" role="tab" class="leftNavLink" data-toggle="tab">3 Buying Platform</a>
+                <a href="#buying" role="tab" class="leftNavLink buying-platform-tab-link" data-toggle="tab">3 Buying Platform</a>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.platform">
                         <div class="col-md-12">
@@ -93,18 +93,27 @@
                     <a role="tab" class="leftNavLink">4 Targeting</a>
                 </span>
                 <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#targetting" role="tab" class="leftNavLink" data-toggle="tab">4 Targeting</a>
+                    <a href="#targetting" role="tab" class="leftNavLink targetting-tab-link" data-toggle="tab">4 Targeting</a>
                 </span>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <span style="color: #000;">Not Set</span>
+                            <span style="color: #000;" ng-if="adData.isGeographySelected == false && adData.isAudienceSelected == false && adData.isDaypartSelected == false">Not Set</span>
                         </div>
                     </div>
 
                     <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span>{{adData.targetName}}</span>
+                        <div class="col-md-12" ng-if="adData.isGeographySelected">
+                            <div class="icon-audience" style="float: left"></div>
+                            <span>Geography</span>
+                        </div>
+                        <div class="col-md-12" ng-if="adData.isAudienceSelected">
+                            <div class="icon-location" style="float: left"></div>
+                            <span>Audience</span>
+                        </div>
+                        <div class="col-md-12" ng-if="adData.isDaypartSelected">
+                            <div class="icon-activity" style="float: left"></div>
+                            <span>Daypart</span>
                         </div>
                     </div>
                 </div>
@@ -112,10 +121,10 @@
 
             <li id="inventoryView-tab">
                  <span ng-if="TrackingIntegrationsSelected">
-                    <a role="tab" class="leftNavLink">5 Inventory Filters</a>
+                    <a role="tab" class="leftNavLink inventory-tab-link">5 Inventory Filters</a>
                  </span>
                 <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#inventoryView" role="tab" class="leftNavLink" data-toggle="tab">5 Inventory Filters</a>
+                    <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab">5 Inventory Filters</a>
                 </span>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.inventory.domainAction || TrackingIntegrationsSelected">
@@ -131,7 +140,7 @@
                 </div>
             </li>
             <li id="creative-tab">
-                <a href="#creative" role="tab" class="leftNavLink" data-toggle="tab">6 Creative </a>
+                <a href="#creative" role="tab" class="leftNavLink creative-tab-link" data-toggle="tab">6 Creative </a>
                 <div>
                     <div class="statusLabel disabled" ng-if="adData.setSizes">
                         <div class="col-md-12">

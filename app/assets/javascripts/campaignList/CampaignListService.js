@@ -4,10 +4,12 @@
     //originally in models/campaign.js
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-        'constants', 'momentService','domainReports',
+        'constants', 'momentService','domainReports', 'loginModel',
+        'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, momentInNetworkTZ, domainReports) {
+                  constants, momentInNetworkTZ, domainReports, loginModel,
+                  advertiserModel, brandsModel, timePeriodModel, urlService) {
 
             var listCampaign = "";
 
@@ -123,7 +125,7 @@
 
             var getTacticList = function(strategy, timePeriod, campaign,callBackFunction) {
                 var loadingFlag = 1, tacticDataService;
-                if (strategy.id === -1) {
+                if (strategy.id === 0) {
                     tacticDataService = dataService.getUnassignedTacticList(campaign.id)
                 } else {
                     tacticDataService = dataService.getStrategyTacticList(strategy.id)
@@ -356,13 +358,13 @@
                 });
             };
 
-            var getStrategyListData = function(campaign, timePeriod) {
+            var getStrategyListData = function(clientId, campaign, timePeriod) {
 
                 var kpiType = campaign.kpiType,
                     kpiValue = campaign.kpiValue,
                     pageSize = 3;
 
-                var url = '/campaigns/' + campaign.orderId + '/ad_groups' ;
+                var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/ad_groups' ;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
@@ -567,23 +569,27 @@
                             campaign.kpiValue = 0;
                         }
                         campaignList.push(campaign);
-                        //console.log(campaignList);
-                        //getCdbLineChart(obj, campaignList, timePeriod, callback);
                     }
                     return campaignList;
                 },
 
                 //should be moved to costservice inside cost module later
                 getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success, failure) {
-                    var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+                    var queryObj = {
+                        queryId: 14, //14 : cost_report_for_one_or_more_campaign_ids
+                        clientId: loginModel.getSelectedClient().id,
+                        campaignIds: campaignIds,
+                        dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                    }
+                    var url = urlService.APIVistoCustomQuery(queryObj);
                     var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
                 //should be moved to campaign details service
-                getStrategiesData: function(campaign, timePeriod) {
+                getStrategiesData: function(clientId, campaign, timePeriod) {
                     //request list
-                    return getStrategyListData(campaign, timePeriod)
+                    return getStrategyListData(clientId, campaign, timePeriod)
                 },
 
                 requestStrategiesData: function(campaign, timePeriod, data) {

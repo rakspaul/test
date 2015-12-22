@@ -9,18 +9,18 @@
 
 <div class="col-md-12 zeroPadding targettingFormWrap">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
-        <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} only)</span></h2>
 
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCode">
             <span>Including zip / postal codes is going to limit your geographic targeting significantly.</span>
             <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false); enableZipCode = false;" role="button">Continue</a>
-            <a href="#" ng-click="enableZipCode = false;" class="btn btn-link pull-right"  role="button">Cancel</a>
+            <a href="#" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button">Cancel</a>
         </div>
 
         <ul class="nav nav-tabs">
           <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="#" >REGION & CITY</a></li>
-          <li><a ng-href="#" ng-click="showGeographyTabsBox($event, 'dmas')" >METRO</a></li>
-          <li><a  id="zipCodeTab" ng-href="#" ng-click="showGeographyTabsBox($event, 'zip', true); enableZipCode = true;">ZIP / POSTAL CODE</a></li>
+          <li><a ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'dmas')" >METRO</a></li>
+          <li><a  id="zipCodeTab" ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'zip', true); ">ZIP / POSTAL CODE</a></li>
         </ul>
 
         <div class="tab-content">
@@ -251,7 +251,7 @@
 <!--=== Selected Targeting ===-->
 <div class="col-md-12 targettingSelected" style="display:none;">
     <div class="col-md-12 tsHeader">
-        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>(US only)</span></h2>
+        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}})</span></h2>
         <a ng-href="#" ng-click="deleteGeography()"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>
         <a ng-href="#" ng-click="editGeography()"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
         <div class="col-md-6 zeroPadding" style="clear: left;">

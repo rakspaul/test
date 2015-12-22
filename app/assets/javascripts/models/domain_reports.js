@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
+    angObj.factory("domainReports", ['loginModel', 'RoleBasedService','accountsService', function (loginModel, RoleBasedService,accountsService) {
 
         return {
             getReportsTabs : function() {
@@ -37,7 +37,7 @@
                     tabs =  _.filter(tabs, function(obj, idx) {  return obj.href !== 'cost'});
                 }
 
-                var usrRole  = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().ui_exclusions;
+                var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
                 if(usrRole && usrRole.ui_modules) {
                     tabs =  _.filter(tabs, function(obj, idx) {  return _.indexOf(usrRole.ui_modules, obj.href) == -1 });
                 }
@@ -171,7 +171,7 @@
         };
     });
 
-    angObj.directive('downloadReport', function ($http, $location, loginModel, dataService, apiPaths, constants, analytics) {
+    angObj.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel, dataService, urlService, apiPaths, constants, analytics) {
         return {
             controller: function($scope, $cookieStore, $location){
 
@@ -188,13 +188,30 @@
                         }
                     }
                 });
-                $scope.downloadPerformanceReport = function(report_url, report_name, time_filter) {
+                $scope.downloadPerformanceReport = function(report) {
                     if(loginModel.getIsAgencyCostModelTransparent()) {
-                        if (!$scope.isCostModelTransparent && report_url.indexOf(/cost/) > 0) {
+                        if (!$scope.isCostModelTransparent && report.report_cat === 'cost') {
                             return false;
                         }
                     }
-                    report_url = report_url + '?date_filter=' + time_filter;
+                    var queryObj = {
+                        'url' : report.url,
+                        queryId: report.query_id,
+                        clientId: loginModel.getSelectedClient().id,
+                        campaignId: $scope.selectedCampaign.id,
+                        advertiserId : advertiserModel.getSelectedAdvertiser().id,
+                        brandId : brandsModel.getSelectedBrand().id,
+                        dateFilter: $scope.selected_filters.time_filter,
+                        adGroupId : $scope.selectedStrategy.id,
+                        download_config_id : report.download_config_id
+                    }
+                    console.log("queryObj", queryObj);
+                    var report_url = urlService.APIVistoCustomQuery(queryObj);
+                    if(report.report_cat && report.report_type) {
+                        report_url += "&report_cat=" + report.report_cat + "&report_type=" + report.report_type;
+                        console.log("url", report_url);
+                    }
+
 
                     if (!loginModel.cookieExists())
                         loginModel.checkCookieExpiry();
@@ -212,7 +229,7 @@
                         }, function() {
                             $scope.reportDownloadBusy = false;
                         });
-                        analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report_name + '_report', loginModel.getLoginName());
+                        analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report.report_type + '_report', loginModel.getLoginName());
                     }
                 }
             }
@@ -296,17 +313,83 @@
             controller: function($scope, $cookieStore, $location){
             },
             restrict:'EAC',
-            templateUrl: '/assets/html/partials/filters_header.html',
+            templateUrl: assets.html_filters_header,
             link: function(scope, element, attrs) {
                 scope.reportFilter = attrs.reports ;
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
                 if(scope.allCampaign == "true") {
-                    scope.selectedCampaign = { id: 0, name: 'All Campaigns', kpi: 'ctr', startDate: '-1', endDate: '-1'};
+                    scope.selectedCampaign = { id: 0, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'};
                 }
             }
         };
     }]);
+    angObj.directive('ngUpdateHiddenDropdown',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.permissions.push(nv);
+            });
+
+        };
+    });
+
+    angObj.directive('ngUpdateHiddenDays',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+               if(nv) {
+
+
+                   el.val(nv);
+//                   scope.Schedule.dayPart[parseInt(attr.index)] = scope.Schedule.dayPart[parseInt(attr.index)] || {};
+                   scope.selectedDays[attr.index] = el.val();
+                   scope.Schedule.dayPart[parseInt(attr.index)][attr.field] = el.val();
+               }
+            });
+
+        };
+    });
+
+
+    angObj.directive('clearrow',function() {
+        return function(scope, el, attr) {
+            $(el).click(function(){
+                scope.Schedule.dayPart.splice(attr.index, 1);
+                scope.Schedule.daytimeArr.splice(attr.index, 1);
+                scope.Schedule.customLength -= 1;
+                scope.$apply();
+            })
+
+        };
+    });
+
+    angObj.directive('clearall',function(){
+        return function(scope,el,attr){
+            $(el).click(function(){
+                scope.Schedule.dayPart=[];
+                scope.Schedule.daytimeArr=[];
+                scope.Schedule.customLength = 0;
+                scope.$apply();
+            })
+        }
+
+    });
+
+
+    angObj.directive('ngUpdateHiddenDropdwn',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                el.val(nv);
+                scope.allPermissions.push(nv);
+            });
+
+        };
+    });
+
+
 
 
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {

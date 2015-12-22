@@ -13,7 +13,7 @@
                 endDate : '-1'
             }
         };
-        $scope.campAll = [{id:0,name:'All Campaigns',kpi : 'ctr',startDate : '-1',endDate : '-1'}];
+        $scope.campAll = [{id:0,name:'All Media Plans',kpi : 'ctr',startDate : '-1',endDate : '-1'}];
 
         //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
         $scope.exhausted = false;
@@ -54,7 +54,7 @@
             } else if(selectedCampaign.id == 0) {
                 selectedCampaign = {
                     id: 0,
-                    name: 'All Campaigns',
+                    name: 'All Media Plans',
                     kpi: 'ctr',
                     startDate: '-1',
                     endDate: '-1'
@@ -120,6 +120,21 @@
         };
 
         $scope.init = function(){
+            var pathArray = window.location.pathname.split( '/' );
+            var firstLevelLocation = pathArray[1];
+            var secondLevelLocation = pathArray[2];
+
+            if(firstLevelLocation ==="mediaplans" && secondLevelLocation !==  undefined){
+                var selectedCampaignNew = {
+                    id : secondLevelLocation,
+                    name: 'All Media Plans',
+                    kpi: 'ctr',
+                    startDate: '-1',
+                    endDate: '-1'
+                };
+                campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
+            }
+
             if($scope.allCampaign == "true") {
                 $scope.fetchCampaigns(true,true);
             } else if((campaignSelectModel.getSelectedCampaign().id == -1) ){

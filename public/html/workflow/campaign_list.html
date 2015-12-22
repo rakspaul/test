@@ -18,7 +18,7 @@
         </div>
         <div class="pull-right">
             <div class="pull-left create_btn_holder">
-                <a href="/campaign/create" class="submit_btn btn btn-primary"  ng-show="isWorkFlowUser">Create Campaign</a>
+                <a href="/mediaplan/create" class="submit_btn btn btn-primary"  ng-show="isWorkFlowUser">Create Campaign</a>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
             <div class="common-load-more" ng-show="campaignData == undefined">
             </div>
             <div class="clearfix each-row" ng-repeat="campaign in campaignData " ng-show="campaignData != ''">
-                <a ng-href="/campaign/{{campaign.id}}/overview">
+                <a ng-href="/mediaplan/{{campaign.id}}/overview">
                     <div class="column">{{campaign.id}}</div>
                     <div class="column" style="word-wrap: break-word;" style="word-wrap: break-word;lines-to-show: 2" tooltip="{{campaign.name}}">{{campaign.name | textEllipsis: 16}}</div>
                     <div class="column" style="word-wrap: break-word;" style="word-wrap: break-word; lines-to-show: 2" tooltip="{{campaign.advertiserName}}">{{campaign.advertiserName | textEllipsis: 16}}</div>
@@ -46,7 +46,7 @@
 
 
                     <div class="column" ng-if="campaign.hasOwnProperty('bookedRevenue')">
-                        <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ textConstants.DOLLAR }}</span>
+                        <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM }}</span>
                         <span id="budgetAmount"  class="">{{campaign.bookedRevenue | number}}</span>
                     </div>
                     <div class="column" ng-if="!campaign.hasOwnProperty('bookedRevenue')"> - </div>

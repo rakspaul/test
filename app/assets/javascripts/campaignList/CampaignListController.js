@@ -12,7 +12,7 @@
 
     $scope.textConstants = constants;
 
-    $scope.isWorkFlowUser = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
+    $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
     
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
@@ -29,9 +29,6 @@
       $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED,function(){
           $scope.campaigns.fetchData();
       })
-
-
-
 
       //Based on gauge click, load the filter and reset data set after gauge click.
     var forceLoadCampaignsFilter;

@@ -2,11 +2,11 @@
     campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$location', 'dataService', 'campaignListService', 'apiPaths',
         'modelTransformer', 'campaignCDBData', 'campaignCost',
         'dataStore', 'requestCanceller', 'constants',
-        'brandsModel', 'loginModel', 'analytics','RoleBasedService','advertiserModel',
+        'brandsModel', 'loginModel', 'analytics','RoleBasedService','advertiserModel','urlService','dashboardModel',
         function($rootScope, $http, $location, dataService, campaignListService, apiPaths,
             modelTransformer, campaignCDBData, campaignCost,
             dataStore, requestCanceller, constants,
-            brandsModel, loginModel, analytics, RoleBasedService,advertiserModel) {
+            brandsModel, loginModel, analytics, RoleBasedService,advertiserModel,urlService,dashboardModel) {
             //var scrollFlag = 1;
             var Campaigns = function() {
                 this.timePeriodList = buildTimePeriodList();
@@ -290,13 +290,16 @@
                     fetchDashboardData = function(forceLoadFilter) {
                         this.dashboard.busy = true;
                         var selectedClientId = loginModel.getSelectedClient().id;
-                        var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&client_id='+selectedClientId,
+                        var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+                        var brandId = brandsModel.getSelectedBrand().id;
+                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + selectedClientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&advertiser_filter=' +advertiserId,
                             self = this;
                         //applying brand filter if active
                         if (this.brandId > 0) {
-                            url += '&advertiser_filter=' + this.brandId;
+                            url += '&brand_id=' + brandId;
                         }
-                       // console.log('dashboard url: ',url);
+                        //timePeriod, clientId, advertiserId, brandId, status
+                       //var url = urlService.APICampaignCountsSummary(this.timePeriod,selectedClientId,advertiserId,brandId);
                         var request_start = new Date();
                         campaignListService.getDashboardData(url, function(result) {
                             var diff = new Date() - request_start;
@@ -467,7 +470,7 @@
                          */
                         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
                         if (status == false) {
-                            $location.path("/campaigns/" + campaign.orderId);
+                            $location.path("/mediaplans/" + campaign.orderId);
                         }
                     },
 
@@ -498,7 +501,7 @@
                       var type = "";
                       switch(filterToApply) {
                         case constants.ACTIVE_CONDITION:
-                          this.appliedQuickFilterText = constants.DASHBOARD_STATUS_ACTIVE;
+                          this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                           this.dashboard.status.active.bothItem= constants.ACTIVE;
                           type = constants.ACTIVE;
@@ -531,7 +534,7 @@
                             type = constants.DRAFT.toLowerCase();
                             break;
                         case constants.READY_CONDITION:
-                            this.appliedQuickFilterText = constants.READY;
+                            this.appliedQuickFilterText = constants.SCHEDULED;
                             this.dashboard.quickFilterSelectedCount = this.dashboard[constants.READY.toLowerCase()];
                             this.dashboard.status.ready= constants.ACTIVE;
                             type = constants.READY.toLowerCase();
@@ -543,7 +546,7 @@
                             type = constants.PAUSED.toLowerCase();
                             break;
                         case constants.COMPLETED_CONDITION:
-                          this.appliedQuickFilterText = constants.COMPLETED;
+                          this.appliedQuickFilterText = constants.ENDED;
                           this.dashboard.quickFilterSelectedCount = this.dashboard[constants.COMPLETED.toLowerCase()];
                           this.dashboard.status.completed = constants.ACTIVE;
                           type = constants.COMPLETED.toLowerCase();
@@ -564,30 +567,24 @@
                 }
 
                     _campaignServiceUrl = function(from) {
-                     //var isWorkFlow = RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser;
-                     // console.log(RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser);
-                        //if(RoleBasedService.getUserRole() && RoleBasedService.getUserRole().workFlowUser){
-                          //  return apiPaths.WORKFLOW_APIUrl + '/campaigns';
-                        //}else{
-                            var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
-                            var params = [
-                                'date_filter=' + this.timePeriod,
-                                'page=' + nextPageNumber,
-                                'callback=JSON_CALLBACK'
-                            ];
-                            params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
-                            this.sortParam && params.push('sort_column=' + this.sortParam);
-                            this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                            this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
-                            this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
-                            if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
-                                params.push('conditions=' + constants.ACTIVE_CONDITION);
-                            } else {
-                                params.push('conditions=' + this.appliedQuickFilter);
-                            }
-                            return apiPaths.apiSerivicesUrl_NEW + '/campaigns/bystate?' + params.join('&');
-                         //}
-
+                        var clientId = loginModel.getSelectedClient().id;
+                        var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
+                        var params = [
+                            'date_filter=' + this.timePeriod,
+                            'page=' + nextPageNumber,
+                            'callback=JSON_CALLBACK'
+                        ];
+                        params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
+                        this.sortParam && params.push('sort_column=' + this.sortParam);
+                        this.sortDirection && params.push('sort_direction=' + this.sortDirection);
+                        this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
+                        this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
+                        if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
+                            params.push('conditions=' + constants.ACTIVE_CONDITION);
+                        } else {
+                            params.push('conditions=' + this.appliedQuickFilter);
+                        }
+                        return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/bystate?' + params.join('&');
                     },
                     toggleSortDirection = function(dir) {
                         if (dir == 'asc') {
@@ -597,7 +594,7 @@
                     },
                     buildSortFieldList = function() {
                         return [{
-                            display: 'Campaign',
+                            display: 'Media Plan',
                             key: 'order_name'
                         }, {
                             display: 'Advertiser',

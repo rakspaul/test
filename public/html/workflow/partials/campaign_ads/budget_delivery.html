@@ -40,7 +40,7 @@
                            <span class="text">CPM</span>
                            <span class="icon-arrow-down"></span>
                       </button>
-                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType">
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                            <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
                             <a ng-click="dropBoxItemSelected(unitType, 'unitType')">{{unitType.name}}</a>
                            </li>
@@ -50,21 +50,23 @@
             </div>
         </div>
         <div class="form-group col-md-3 zeroPadding">
-            <span>$</span>
-            <input style="width:130px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost">
+            <span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+            <input style="width:130px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "adBudgetValidator();">
         </div>
     </div>
 
     <label class="col-sm-12 control-label greyTxt miniLabels">Budget Calculation</label>
     <div class="btn-group miniToggle">
         <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} active"><span>{{adData.budgetTypeLabel}}</span>
-            <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event);">
+            <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event); ">
         </label>
         <label class="btn btn-default budget_cost"><span>Media Cost</span>
             <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
         </label>
-        <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" media-cost-check class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value">
-        <label ng-if="formAdCreate.budgetAmount.$error.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>
+        <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "adBudgetValidator();">
+        <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>
+        <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the minimum budget value specified for the ad.</label>
+        <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label  customErrorLabel">You must enter budget less than the available budget.</label>
     </div>
 </div>
 
@@ -73,7 +75,7 @@
         <label class="col-sm-12 control-label greyTxt miniLabels">Frequency Cap</label>
         <div class="btn-group miniToggle" ng-init="adData.setCap=false">
             <label class="btn btn-default cap_yes" style="width: auto;"><span>Yes</span>
-                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true;">
+                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; mode == 'create'  && frequencySelected('Daily')">
             </label>
             <label class="btn btn-default active cap_no" style="width: auto;"><span>No</span>
                 <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
@@ -125,9 +127,9 @@
                          <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
                          <span class="icon-arrow-down"></span>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">
+                    <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
                           <li><a data-value="Daily" ng-click="frequencySelected('Daily')">Daily</a></li>
-                         <li><a data-value="Lifetime"ng-click="frequencySelected('Lifetime')">Lifetime</a></li>
+                         <li><a data-value="Lifetime" ng-click="frequencySelected('Lifetime')">Lifetime</a></li>
                     </ul>
                    <input type="hidden" name="frequencyType" value="{{selectedFreq}}" ng-model="capsPeriod" ng-update-hidden/>
                </div>
@@ -167,8 +169,6 @@
 </div>
 
 <!--=== Next Step Panel ===-->
-<div class="row">
-    <a data-target="#buying" data-toggle="tab" class="nextWrapper leftNavLink">
-        <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
-    </a>
-</div>
+<span class="nextWrapper leftNavLink">
+    <a href data-toggle="tab" role="tab" class="btn btn-default" ng-click="triggerPlatformTab()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+</span>

@@ -1,54 +1,47 @@
 <div class="col-md-12 zeroPadding campSettingOverView">
     <div class="campBodyWrap">
         <div class="col-md-4 zeroPadding campTitleWrap">
-            <!-- Abi this will show either active or inactive state only
-            thing you have to do is add either class for color
-            "inActiveLabel" or "activeLabel" -->
-            <span class="label activeLabel">
-            <!--<span class="label inActiveLabel">-->
-                <!--{{workflowData.campaignData.status}}-->
+            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb">
             </span>
     
             <h4 tooltip="{{workflowData.campaignData.name}}">
                 {{workflowData.campaignData.name | textEllipsis: 60}}
             </h4>
-            <!--<span class="campaign-ad-name-edit blue-edit-icon icon-settings" tooltip="Edit Campaign" ng-click="editCampaign(workflowData.campaignData)"></span>-->
         </div>
         <div class="col-md-1" style="padding-left: 40px; border-left: 1px solid #ddd;">
-            <label style="padding-bottom: 2px;">Goal</label>
+            <span class="greyTxt" style="padding-bottom: 2px;">Goal</span>
             <div class="icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}" style="width: 27px; text-align: center;"></div>
-            <!--<span> {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>-->
         </div>
         <div class="col-md-1 borderZero">
-            <label>Total Budget</label>
+            <span class="greyTxt">Total Budget</span>
             <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
         </div>
         <div class="col-md-2 borderZero">
-            <label>Flight Dates</label>
+            <span class="greyTxt">Flight Dates</span>
             <span ng-if="workflowData.campaignData.startTime">
-                {{convertEST(workflowData.campaignData.startTime, 'MMM DD, YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'MMM DD, YYYY')}}
+                {{convertEST(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
             </span>
         </div>
         <div class="col-md-2">
-            <label>Pricing Model</label>
+            <span class="greyTxt">Pricing Model</span>
             <span style="opacity: .3;">Cost Per Viewable Impression</span>
         </div>
         <div class="col-md-2 borderZero">
             <div class="col-md-3 zeroPadding" style="display: none;">
-                <label class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</label>
+                <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</span>
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <label class="col-md-12 zeroPadding text-center">Ad Groups</label>
+                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;">Ad Groups</span>
                 <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adGroupCount}}</span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <label class="col-md-12 zeroPadding text-center">Ads</label>
+                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;">Ads</span>
                 <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount}}</span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <label class="col-md-12 zeroPadding text-center">Creatives</label>
+                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;">Creatives</span>
                 <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.creativeCount}}</span>
             </div>
         </div>

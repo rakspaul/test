@@ -7,13 +7,17 @@
 
         $scope.dataFound = true;
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
+        $scope.screenBusy = false;
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            $scope.refresh();
+            if(!$scope.screenBusy) {
+                $scope.refresh();
+            }
+
         });
 
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
@@ -56,37 +60,25 @@
 
         $scope.updateScreenChartData = function() {
             $(".DashBoradScreenWidget").show();
-            //  $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
-            $scope.screenData = screenChartModel.modifyScreenData(screenChartModel.getScreenWidgetData()['responseData']);
+            $scope.screenData = screenChartModel.dataModifyForScreenChart(screenChartModel.getScreenWidgetData()['responseData']);
         };
 
         $scope.cleanScreenWidget = function(){
-            d3.select(".chart").remove();
+            d3.select(".barChart").remove();
             $(".DashBoradScreenWidget").hide();
         };
 
         $scope.getScreenAndFormatData = function() {
             $scope.screenBusy = true ;
-            /*screenChartModel.getScreenChartData().then(function(result) {
-             $scope.screenBusy = false ;
-             $scope.dataFound = true;
-             $(".DashBoradScreenWidget").show();
-             $scope.updateScreenChartData();
-             });*/
-            screenChartModel.getScreenData().then(function(result) {
+            screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
                 $scope.dataFound = true;
                 $(".DashBoradScreenWidget").show();
                 $scope.updateScreenChartData();
             });
-
-
-
-
         };
 
         $scope.init = function(){
-            $scope.screenBusy = true;
             $scope.getScreenAndFormatData();
         };
 

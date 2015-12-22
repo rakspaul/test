@@ -4,6 +4,7 @@
     commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics,_) {
         $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         var errorObject = {status:"error", data: {message:"Error"}};
+
         return {
 
             updateRequestHeader: function() {
@@ -19,93 +20,64 @@
             },
 
             getCampaignStrategies: function (urlPath, type) {
-//        var apiUrl = api + urlPath;
-//        if (type == 'metrics') {
-//          apiUrl = api + urlPath;
-//        } else if (type == 'list') {
-//          apiUrl = urlPath;
-//        }
                 return this.fetch(apiPaths.apiSerivicesUrl_NEW + urlPath)
             },
 
             getCdbChartData: function (campaign, timePeriod, type, strategyId) {
                 var urlPath;
+                var clientId = loginModel.getSelectedClient().id;
                 var campaignId= campaign.orderId ;// dataTransferService.getClickedCampaignId();
-                /* this will not work untill API is set up to accomodate it*/
                 var  durationQuery= 'date_filter=' + timePeriod;
-                //var  durationQuery= 'period=' + timePeriod;
                 if(timePeriod === 'life_time') {
                     if(campaign.startDate != undefined && campaign.endDate != undefined) {
                         durationQuery = 'start_date=' + campaign.startDate + '&end_date=' + campaign.endDate
                     } else {
                         var sd =  campaign.startDate;
                         var ed =  campaign.endDate;
-
-                        // var sd = dataTransferService.getClickedCampaignStartDate() ? dataTransferService.getClickedCampaignStartDate() : campaign.startDate;
-                        //var ed = dataTransferService.getClickedCampaignEndDate() ? dataTransferService.getClickedCampaignEndDate() : campaign.endDate;
                         durationQuery = 'start_date=' +sd  + '&end_date=' + ed;
                     }
                 }
                 if (type == 'campaigns') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
                 } else if (type == 'strategies') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaignId + (strategyId ? ('/strategies/' + strategyId) : '') + '/bydays/perf?'+durationQuery;
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + (strategyId ? ('/strategies/' + strategyId) : '') + '/bydays/perf?'+durationQuery;
                 }
                 return this.fetch(urlPath);
             },
 
             getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
                 return this.fetch(url);
             },
 
             getCdbTacticsChartData: function(campaignId, strategyId, tacticsId, timePeriod, filterStartDate, filterEndDate) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays/perf?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays/perf?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
                 return this.fetch(url);
             },
 
             getStrategyTacticList: function(adGroupId) {
-                var url = apiPaths.apiSerivicesUrl_NEW + '/ad_groups/' + adGroupId + '/ads';
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/ad_groups/' + adGroupId + '/ads';
                 return this.fetch(url);
             },
 
             getUnassignedTacticList: function(campaignId) {
-                var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + campaignId + '/no_ad_group/ads';
-                return this.fetch(url);
-            },
-
-            getCostBreakdown: function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaign.orderId + '&start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/no_ad_group/ads';
                 return this.fetch(url);
             },
 
             getCostViewability: function(campaign, timePeriod) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/viewReport?date_filter=' + timePeriod;
-                return this.fetch(url);
-            },
-
-            getCostInventoryData: function(campaign, timePeriod) {
-                // for testing
-                //var url = apiPaths.apiSerivicesUrl + '/campaigns/405617/inventory/categories?kpi_type=CPC';
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/inventory/categories/perf?kpi_type=' + campaign.kpiType;
-                return this.fetch(url);
-            },
-
-            getCostFormatsData: function(campaign,  timePeriod) {
-                // for testing
-                //var url = apiPaths.apiSerivicesUrl + '/campaigns/401652/byformats/perf?date_filter=life_time'
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byformats/perf?date_filter=' + timePeriod;
-                return this.fetch(url);
-            },
-            getScreenData: function(campaign) {
-                // for testing
-                //var url = apiPaths.apiSerivicesUrl + '/campaigns/401652/byformats/perf?date_filter=life_time'
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byscreens/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/viewReport?date_filter=' + timePeriod;
                 return this.fetch(url);
             },
 
             getCustomReportMetrics :  function(campaign) {
-                var url = apiPaths.apiSerivicesUrl_NEW + '/reports/custom/meta';
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/custom/meta';
                 return this.fetch(url);
             },
 
@@ -115,24 +87,21 @@
                 return this.fetch(url);
             },
 
-            getAdSizeData: function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byadsizes/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
-                return this.fetch(url);
-            },
-
             getVideoViewabilityData: function(campaign) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/viewReport';
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/viewReport';
                 return this.fetch(url);
             },
 
             getActions: function () {
-                var url = apiPaths.workflow_apiServicesUrl + '/actionTypes';
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actionTypes';
                 return this.fetch(url);
             },
 
             getTactics: function (orderId) {
-                //var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
-                var url = apiPaths.apiSerivicesUrl_NEW + '/campaigns/' + orderId + '/ads/meta';
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + orderId + '/ads/meta';
                 return this.fetch(url)
             },
 
@@ -153,7 +122,8 @@
             },
 
             createAction: function (data) {
-                var url = apiPaths.workflow_apiServicesUrl + '/actions';
+                var clientId = loginModel.getSelectedClient().id;
+                var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actions';
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_action_subtypes_selected', loginModel.getLoginName(), data.action_sub_type_ids.length);
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_tactics_selected', loginModel.getLoginName(), data.action_tactic_ids.length);
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, (data.make_external ? 'external' : 'internal'), loginModel.getLoginName());
@@ -170,7 +140,12 @@
             },
 
             createScheduleReport :  function(data) {
-              return this.post(apiPaths.apiSerivicesUrl +'/scheduledreports/createReport', data, {'Content-Type': 'application/json'})
+                return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'})
+            },
+
+            updateScheduleReport: function(reportId,data) {
+                var url = urlService.updateScheduledRpt(reportId);
+                return this.put(url,data);
             },
 
             append: function(url,paramsObj){
@@ -431,10 +406,6 @@
                     }
                 );
             }
-
-
-
-
         };
     });
 }());

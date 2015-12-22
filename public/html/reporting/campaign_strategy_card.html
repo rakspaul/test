@@ -1,0 +1,152 @@
+<div ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder" id="strategy_{{strategy.id}}">
+
+    <div class="clearfix each_campaign_list_container only_strategy_container">
+        <div class="strategy_title">
+            Ad Group
+        </div>
+        <div class="clearfix">
+           <!--  <div class="each_campaign_section">
+                <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_bulb" tooltip-placement="left" tooltip="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
+            </div> -->
+            <div class="each_campaign_section" style="margin-left:20px;">
+                <div class="main_heading">
+                    <truncate-text-with-hover txt="{{strategy.name}}" txtlength="75"></truncate-text-with-hover>
+                    <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement" txt="{{strategy.name}}" txtLength="75"></span>-->
+                </div>
+            </div>
+        </div>
+        <div class="clearfix heading">
+            {{campaign.brandName}}
+        </div>
+        <div class="each_campaign_section campaign_list_details">
+            <!-- <div class="strategy_heading">Strategy</div> -->
+
+
+            <div class="days_left_holder">
+                <div class="total_days_holder">
+
+                    <div class="clearfix days_end_points">
+                        <span class="start_end">{{strategy.startDate | date :'d MMM y' }}</span>
+                        <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}</span>
+                    </div>
+                    <div ng-init="duration_s = strategy.durationLeft()"></div>
+                    <div class="days_over" ng-style="{'width':strategy.durationCompletion() +'%'};">
+                        <span ng-if="duration_s == 'Yet to start'"  class="days_over_text start_text">{{textConstants.YET_TO_START}}</span>
+                        <span ng-if="duration_s == 'Ended'" class="days_over_text ended_text" >{{textConstants.ENDED}}</span>
+                        <span ng-if="duration_s > 0"   class="days_over_text">{{duration_s}} {{textConstants.DAYS_LEFT}}</span>
+                    </div>
+                    <div ng-if="duration_s == 'Started today'" class="days_not_over_text start_text">{{textConstants.STARTED_TODAY}}</div>
+                    <div ng-if="duration_s == 'Ending today'" class="days_not_over_text ended_text" >{{textConstants.ENDING_TODAY}}</div>
+                </div>
+            </div>
+            <div class="clearfix campaigns_list_buttons_holder">
+                <div class="pull-left clearfix tactics_open_btn" ng-click="showTactics(strategy)">
+                    <div class="pull-left open_icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="pull-left">{{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Ads" : "Ad" }}</div>
+                </div>
+                <a ><!--  href="/#/performance" -->
+                    <div class="campaign_btn reports_btn" ng-click="$parent.$parent.viewReports(campaign, strategy)">
+                        {{textConstants.VIEW_REPORT}}
+                    </div>
+                </a>
+                <!-- <a  ng-click="$parent.$parent.setActivityButtonData(campaign, strategy)">
+                    <div class="campaign_btn actions_btn" >
+                        <span>{{textConstants.ACTIVITY}}</span>
+                    </div>
+                </a> -->
+            </div>
+        </div>
+        <div class="each_campaign_section metric_campaign_section">
+            <div class="clearfix metric_graph_header">
+                <span class="metric_title">{{textConstants.SPEND}}</span>
+                <span class="metric_val">{{strategy.grossRev | currency:undefined: 2}}</span>
+            </div>
+            <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
+                <div class="full_metric_graph">
+                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}} " ng-style="{'width':getSpendWidthForStrategy(strategy) +'%'};"> <!-- put completely_filled when 100% -->
+                    </div>
+                    <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 88) ? 'start_end_point' : ''}}" ng-style="{'left':getSpendTickWidthForStrategy(strategy) +'%'};"><!-- put start_beginning when at start -->
+                        <div class="end_point_val">
+                            <span class="icon_KPI"> {{strategy.expectedMediaCost |  nrFormatWithCurrency }}</span>
+                            <div class="end_point_line"></div>
+                        </div>
+                    </div>
+                    <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="strategy.expectedMediaCost == strategy.totalMediaCost">
+                        <!-- put completed_end_point when at end -->
+                        <div class="end_point_val">
+                            <div class="end_point_line"></div>
+                            <span>{{textConstants.BUDGET}}: {{strategy.totalMediaCost | currency:undefined:2}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix metric_graph_details">
+                <div class="each_metric_graph_details">
+                    <span class="detail_val">{{strategy.totalImpressions | nrFormat}}</span>
+                    <span>{{textConstants.IMP_WITH_DOT}}</span>
+                </div>
+                <div class="each_metric_graph_details metric_graph_details_ctr">
+                    <span class="detail_val">{{strategy.ctr | roundThisOff : 2}}% </span>
+                    <span>{{textConstants.CTR}}</span>
+                </div>
+                <!-- when action rate is present -->
+                <!-- <div class="each_metric_graph_details metric_graph_details_action" ng-if="!strategy.adFormats.videoAds || strategy.vtc_rate === 0"> -->
+                <div class="each_metric_graph_details metric_graph_details_action" ng-if="strategy.vtc_rate === 0">
+                    <span class="detail_val">{{strategy.actionRate | number : 2}}%</span>
+                    <span>{{textConstants.ACTION_RATE}}</span>
+                </div>
+                <!-- <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.adFormats.videoAds && strategy.vtc_rate > 0"> -->
+                <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate > 0">
+                    <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event,1)" ng-mouseout="VTCpopup($event,0)">
+                            <span class="detail_val">{{strategy.vtc_rate | number : 2}}%</span>
+                        <span>{{textConstants.VTC}}</span>
+                    </div>
+                    <div class="quartile_details_VTC">
+                        <div class="quartile_details_title">{{textConstants.QUARTILE_DETAILS}}</div>
+                        <div class="quartile_details_graph" width='328' height='158' quartiles-graph chart-data="{{strategy.vtcData}}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="each_campaign_section campaign_section_KPI">
+            <div class="graph_details_KPI">
+                <div class="clearfix details_KPI_row1">
+                    <span class="details_KPI_title">{{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}</span>
+
+                    <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
+                        <span>{{campaign.kpiType.toLowerCase()=="delivery"?( strategy.targetKPIImpressions | nrFormat ): ( campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
+                        <span class="icon_KPI"></span>
+                    </span>
+                    <span class="pull-right cumulative_val">
+                        {{textConstants.CUMULATIVE_VALUE}} <span>{{ (campaign.kpiType.toLowerCase()=="delivery")?(strategy.totalImpressions|  kpiFormatter:campaign.kpiType:1): (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)}}</span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="graph_KPI_outer_holder">
+              <span ng-switch="strategy.chart">
+                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(strategy)"></span>
+                <span ng-switch-default>
+                    <div ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
+                        <div class="campaign_details_graph" width='355' height='111' campaign-chart chart-data="{{strategy.lineChart}}" chart-location="strategy" chart-tag="{{strategy.id}}"></div>
+                        <!-- <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart> -->
+                    </div>
+                    <div ng-if="!(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" ng-bind-html="getMessageForDataNotAvailable(strategy)">
+                    </div>
+                </span>
+              </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- tactics section started  -reusing the campaign and tactics partial view -->
+    <div campaign-tactics-card campaign="campaign" campaigns="campaigns" strategy="strategy"></div>
+    <!-- end of tactics -->
+
+</div>
+<span ng-if='campaign.campaignStrategiesLoadMore.length' class="load-more-strategies"><a ng-click="loadMoreStrategies(campaign.orderId)"> {{textConstants.LOAD_MORE_STRATEGIES}}</a></span>

@@ -1,115 +1,84 @@
-.workflow {
-  /*don’t remove with out informing abhimanyu*/
-  /* .squared Check Box */
-  /* end .squared Check Box */
-  /*! jQuery UI - v1.11.4 - 2015-11-05 For Slider
-  * http://jqueryui.com
-  * Includes: core.css, slider.css, theme.css
-  * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=cccccc&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=e6e6e6&bgTextureDefault=glass&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=dadada&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=glass&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
-  * Copyright jQuery Foundation and other contributors; Licensed MIT */
-  /* Layout helpers
-  ----------------------------------*/
-  /* Interaction Cues
-  ----------------------------------*/
-  /* Icons
-  ----------------------------------*/
-  /* states and images */
-  /* Misc visuals
-  ----------------------------------*/
-  /* Overlays */
-  /* support: IE8 - See #6727 */
-  /* Component containers
-  ----------------------------------*/
-  /* Interaction states
-  ----------------------------------*/
-  /* Interaction Cues
-  ----------------------------------*/
-  /* Misc visuals
-  ----------------------------------*/
-  /* Corner radius */
-  /* Overlays */
-}
-.workflow .zeroPadding {
+.zeroPadding {
   padding: 0px !important;
 }
-.workflow .zeroMargin {
+.zeroMargin {
   margin: 0px !important;
 }
-.workflow .borderZero {
+.borderZero {
   border-width: 0px !important;
 }
-.workflow .disabledTxt {
+.disabledTxt {
   color: #BBBBBB !important;
 }
-.workflow .clearLeft {
+.clearLeft {
   clear: left;
 }
-.workflow .clearBoth {
+.clearBoth {
   clear: both;
 }
-.workflow .bottomBorder {
+.bottomBorder {
   border-bottom: 1px solid #bfc9d7;
 }
 .workflow ::-webkit-scrollbar {
   display: none;
 }
-.workflow h1 {
+h1 {
   color: #21252b;
   font-size: 24px;
   font-family: "Avenir";
 }
-.workflow h2 {
+h2 {
   color: #21252b;
   font-size: 20px;
   font-family: "Avenir";
 }
-.workflow h3 {
+h3 {
   color: #21252b;
   font-size: 18px;
   font-family: "Avenir";
 }
-.workflow h4 {
+h4 {
   color: #21252b;
   font-size: 16px;
   font-family: "Avenir-bold";
 }
-.workflow h5 {
+h5 {
   color: #21252b;
   font-size: 14px;
   font-family: "Avenir-bold";
 }
-.workflow a {
+a {
   text-decoration: none;
   cursor: pointer;
   font-weight: normal;
 }
-.workflow a:hover {
+a:hover {
   text-decoration: none;
 }
-.workflow .breadcrumbFlow {
+.breadcrumbFlow {
   color: #333;
   text-decoration: none;
 }
-.workflow .breadcrumbs {
+.breadcrumbs {
   margin: 0 0 30px 0;
 }
-.workflow .breadcrumbs h5 {
+.breadcrumbs h5 {
   float: left;
   font-size: 16px;
   font-family: 'Avenir';
   cursor: pointer;
 }
-.workflow .breadcrumbs h5:first-child:hover {
+.breadcrumbs h5:first-child:hover {
   color: #0978C9;
 }
-.workflow .breadcrumbs .icon-arrow-down {
+.breadcrumbs .icon-arrow-down {
   float: left;
   -ms-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
   margin: 11px 10px 0px 10px;
 }
-.workflow .labelQuestTxt {
+.labelQuestTxt {
   color: #21252b;
   font-size: 16px;
   font-weight: normal;
@@ -117,20 +86,20 @@
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
 }
-.workflow .greyTxt {
+.greyTxt {
   color: #939eae !important;
   padding: 10px 0 5px 0 !important;
   text-align: left;
-  font-size: 12px;
+  font-size: 12px !important;
   font-weight: normal;
   margin: 0;
 }
-.workflow .helpLink {
+.helpLink {
   opacity: .3;
   text-decoration: none !important;
 }
-.workflow [class^="icon-"],
-.workflow [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   height: 16px;
   width: 16px;
   font-size: 16px;
@@ -138,11 +107,11 @@
   fill: currentColor;
   color: #57606D;
 }
-.workflow .form-group {
+.form-group {
   padding-right: 10px;
 }
-.workflow input[type='text'],
-.workflow input[type='number'] {
+input[type='text'],
+input[type='number'] {
   border: 1px solid #BFC9D7;
   border-radius: 2px !important;
   line-height: normal;
@@ -150,32 +119,32 @@
   height: auto;
   box-shadow: none;
 }
-.workflow input[type='text']:focus,
-.workflow input[type='number']:focus {
+input[type='text']:focus,
+input[type='number']:focus {
   border: 1px solid #0978c9;
   box-shadow: none;
 }
-.workflow textarea {
+textarea {
   resize: none;
   border: 1px solid #dbe8ef;
   border-radius: 0 !important;
 }
-.workflow select {
+select {
   border-radius: 1px;
   border: 1px solid #ccd2da;
 }
-.workflow .dropdown-toggle,
-.workflow .dropdown-toggle-search {
+.dropdown-toggle,
+.dropdown-toggle-search {
   border-radius: 1px;
   text-align: left;
   background: #fff;
 }
-.workflow .dropdown-toggle .caret,
-.workflow .dropdown-toggle-search .caret {
+.dropdown-toggle .caret,
+.dropdown-toggle-search .caret {
   float: right !important;
   margin-top: 5px;
 }
-.workflow .dropdown-workflow .btn {
+.dropdown-workflow .btn {
   padding: 10px 15px 10px 15px;
   box-shadow: none !important;
   text-align: left;
@@ -185,13 +154,13 @@
   width: 100%;
   overflow: hidden;
 }
-.workflow .dropdown-workflow .btn:focus,
-.workflow .dropdown-workflow .btn:active:focus,
-.workflow .dropdown-workflow .btn.active:focus {
+.dropdown-workflow .btn:focus,
+.dropdown-workflow .btn:active:focus,
+.dropdown-workflow .btn.active:focus {
   outline: 0 none;
   background-color: #DCE6F1 !important;
 }
-.workflow .dropdown-workflow .btn-default {
+.dropdown-workflow .btn-default {
   color: #363D49;
   background-color: #ffffff;
   font-family: Avenir;
@@ -199,20 +168,20 @@
   border: 1px solid #BFC9D7 !important;
   position: relative;
 }
-.workflow .dropdown-workflow .btn-default .text {
+.dropdown-workflow .btn-default .text {
   float: left;
 }
-.workflow .dropdown-workflow .btn-default:hover {
+.dropdown-workflow .btn-default:hover {
   background-color: #E1EDF9 !important;
   border: 1px solid #BFC9D7 !important;
 }
-.workflow .dropdown-workflow .btn-default:active {
+.dropdown-workflow .btn-default:active {
   background-color: #DCEDF1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
 }
-.workflow .dropdown-workflow .icon-arrow-down,
-.workflow .dropdown-workflow .icon-search {
+.dropdown-workflow .icon-arrow-down,
+.dropdown-workflow .icon-search {
   font-size: 10px;
   color: #000;
   height: 4px;
@@ -223,21 +192,25 @@
   top: 11px;
   right: 20px;
 }
-.workflow .dropdown-workflow .dropdown-menu > li > a,
-.workflow .dropdown-workflow .dropdown-menu-search > li > a {
+.dropdown-workflow .dropdown-menu > li > a,
+.dropdown-workflow .dropdown-menu-search > li > a {
   color: #21252b;
   font-family: Avenir;
   font-size: 14px;
   overflow: hidden;
   cursor: pointer;
   width: 100%;
+  padding: 3px 15px;
 }
-.workflow .dropdown-workflow .disabled a {
+.dropdown-workflow .disabled a {
   color: #21252b;
   opacity: .4;
 }
-.workflow .dropdown-workflow .dropdown-menu,
-.workflow .dropdown-workflow .dropdown-menu-search {
+.dropdown-workflow .dropdown-menu li.disabled > a {
+  cursor: not-allowed;
+}
+.dropdown-workflow .dropdown-menu,
+.dropdown-workflow .dropdown-menu-search {
   box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
   width: auto;
@@ -246,19 +219,23 @@
   max-height: 255px;
   overflow: auto;
 }
-.workflow .dropdown-workflow .dropdown-menu li,
-.workflow .dropdown-workflow .dropdown-menu-search li {
+.dropdown-workflow .dropdown-menu li,
+.dropdown-workflow .dropdown-menu-search li {
   float: left;
   width: 100%;
 }
-.workflow .dropdown-workflow .dropdown-menu li span,
-.workflow .dropdown-workflow .dropdown-menu-search li span {
+.dropdown-workflow .dropdown-menu li span,
+.dropdown-workflow .dropdown-menu-search li span {
   float: left;
   width: 100%;
-  padding: 8px 10px;
+  padding: 5px 10px 1px;
 }
-.workflow .dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick,
-.workflow .dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick {
+.dropdown-workflow .dropdown-menu li span input[type="checkbox"],
+.dropdown-workflow .dropdown-menu-search li span input[type="checkbox"] {
+  margin: 4px 10px 0 0;
+}
+.dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick,
+.dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick {
   font-size: 9px;
   width: 9px;
   height: 9px;
@@ -276,45 +253,98 @@
   -o-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
 }
-.workflow .dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick.active,
-.workflow .dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick.active {
+.dropdown-workflow .dropdown-menu li span .icon-arrow-down-thick.active,
+.dropdown-workflow .dropdown-menu-search li span .icon-arrow-down-thick.active {
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
-.workflow .dropdown-workflow .dropdown-menu li ul li span input,
-.workflow .dropdown-workflow .dropdown-menu-search li ul li span input {
+.dropdown-workflow .dropdown-menu li ul,
+.dropdown-workflow .dropdown-menu-search li ul {
+  float: left;
+  width: 100%;
+  list-style: none;
+  padding: 0 0 5px 0;
+}
+.dropdown-workflow .dropdown-menu li ul li,
+.dropdown-workflow .dropdown-menu-search li ul li {
+  float: left;
+  width: 100%;
+}
+.dropdown-workflow .dropdown-menu li ul li a,
+.dropdown-workflow .dropdown-menu-search li ul li a {
+  color: #21252b;
+  font-family: Avenir;
+  font-size: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  padding: 3px 15px;
+  float: left;
+}
+.dropdown-workflow .dropdown-menu li ul li a:hover,
+.dropdown-workflow .dropdown-menu-search li ul li a:hover {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
+.dropdown-workflow .dropdown-menu li ul li span input,
+.dropdown-workflow .dropdown-menu-search li ul li span input {
   margin-right: 8px;
 }
-.workflow .dropdown-workflow .dropdown-menu .active a,
-.workflow .dropdown-workflow .dropdown-menu-search .active a {
+.dropdown-workflow .dropdown-menu .headerDDL,
+.dropdown-workflow .dropdown-menu-search .headerDDL {
+  border-top: 1px solid #ccd2da;
+  margin: 0;
+}
+.dropdown-workflow .dropdown-menu .headerDDL [class^="icon-"],
+.dropdown-workflow .dropdown-menu-search .headerDDL [class^="icon-"],
+.dropdown-workflow .dropdown-menu .headerDDL [class*=" icon-"],
+.dropdown-workflow .dropdown-menu-search .headerDDL [class*=" icon-"] {
+  float: left;
+  width: auto;
+  padding: 0;
+  margin: 12px 0 0 10px;
+}
+.dropdown-workflow .dropdown-menu .headerDDL .greyTxt,
+.dropdown-workflow .dropdown-menu-search .headerDDL .greyTxt {
+  float: left;
+  width: auto;
+  padding: 12px 0 0 15px!important;
+}
+.dropdown-workflow .dropdown-menu .headerDDL:first-child,
+.dropdown-workflow .dropdown-menu-search .headerDDL:first-child {
+  border-width: 0px;
+}
+.dropdown-workflow .dropdown-menu .active a,
+.dropdown-workflow .dropdown-menu-search .active a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
 }
-.workflow .dropdown-workflow .dropdown-menu-search {
+.dropdown-workflow .dropdown-menu-search {
   overflow: scroll;
 }
-.workflow .dropdown-workflow .dropdown-menu > li > a:hover,
-.workflow .dropdown-workflow .dropdown-menu > li > a:focus,
-.workflow .dropdown-workflow .dropdown-menu > li > .active > a,
-.workflow .dropdown-workflow .dropdown-menu-search > li > a:hover,
-.workflow .dropdown-workflow .dropdown-menu-search > li > a:focus,
-.workflow .dropdown-workflow .dropdown-menu-search > li > .active > a {
+.dropdown-workflow .dropdown-menu > li > a:hover,
+.dropdown-workflow .dropdown-menu > li > a:focus,
+.dropdown-workflow .dropdown-menu > li > .active > a,
+.dropdown-workflow .dropdown-menu-search > li > a:hover,
+.dropdown-workflow .dropdown-menu-search > li > a:focus,
+.dropdown-workflow .dropdown-menu-search > li > .active > a {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
 }
-.workflow .dropdown-workflow .dropdown {
+.dropdown-workflow .dropdown {
   display: inline-block;
   width: 100%;
 }
-.workflow .dropdown-workflow .searchBar {
+.dropdown-workflow .searchBar {
   position: relative;
 }
-.workflow .dropdown-workflow .searchBar .icon-search {
+.dropdown-workflow .searchBar .icon-search {
   position: absolute;
   z-index: 10;
   top: 10px;
@@ -325,39 +355,39 @@
   width: 16px;
   color: #939eae;
 }
-.workflow .dropdown-workflow .category_dropdown {
+.dropdown-workflow .category_dropdown {
   padding: 5px 5px 0 0;
   border-top: solid 1px #bfc9d7;
   float: left;
   width: 100%;
 }
-.workflow .dropdown-workflow .category_dropdown .btn {
+.dropdown-workflow .category_dropdown .btn {
   width: auto;
 }
-.workflow .dropdown-menu,
-.workflow .dropdown-menu-search {
+.dropdown-menu,
+.dropdown-menu-search {
   width: 280px;
   margin-top: 3px;
   margin-left: 0;
   border: 1px solid #ccd2da;
   border-radius: 1px;
 }
-.workflow .dropdown-search {
+.dropdown-search {
   padding-top: 0;
 }
-.workflow .dropdown-search input[type="text"] {
+.dropdown-search input[type="text"] {
   border-radius: 0 !important;
   border-left: 0;
   border-right: 0;
   border-top: 0;
 }
-.workflow .dropdown-search li a {
+.dropdown-search li a {
   padding: 5px 10px;
 }
-.workflow .dropdown-search li a input[type="checkbox"] {
+.dropdown-search li a input[type="checkbox"] {
   margin: 0px;
 }
-.workflow .dropdown-search li a .icon-arrow-down-thick {
+.dropdown-search li a .icon-arrow-down-thick {
   font-size: 10px;
   color: #000;
   height: 10px;
@@ -370,25 +400,25 @@
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.workflow .dropdown-search li a .icon-arrow-down-thick.active {
+.dropdown-search li a .icon-arrow-down-thick.active {
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
-.workflow .dropdown-search li ul {
+.dropdown-search li ul {
   padding: 0 0 0 0;
   list-style: none;
   float: left;
   width: 100%;
 }
-.workflow .dropdown-search li ul li {
+.dropdown-search li ul li {
   float: left;
   width: 100%;
   padding: 0 0 0 26px;
 }
-.workflow .dropdown-search li ul li a {
+.dropdown-search li ul li a {
   width: 100%;
   padding: 5px 0;
   color: #21252b;
@@ -397,48 +427,48 @@
   cursor: pointer;
   float: left;
 }
-.workflow .dropdown-search li ul li a input[type="checkbox"] {
+.dropdown-search li ul li a input[type="checkbox"] {
   margin: 0 6px 0 0;
 }
-.workflow .dropdown-search li ul li:hover {
+.dropdown-search li ul li:hover {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
 }
-.workflow .datepicker-dropdown {
+.datepicker-dropdown {
   width: auto;
 }
-.workflow .date {
+.date {
   padding: 0;
 }
-.workflow .date .dateWrapper {
+.date .dateWrapper {
   position: absolute;
   z-index: 10;
   top: 0;
   left: 0;
   padding: 0;
 }
-.workflow .date .dateWrapper .dateContainer {
+.date .dateWrapper .dateContainer {
   float: left;
   width: 150px;
 }
-.workflow .date .dateWrapper .dateContainer label {
+.date .dateWrapper .dateContainer label {
   text-align: left;
 }
-.workflow .date .dateWrapper .dateContainer input {
+.date .dateWrapper .dateContainer input {
   font-size: 12px;
   text-indent: 2px;
   width: 150px;
   background: transparent;
 }
-.workflow .date .dateWrapper .dateContainer #endDateInput,
-.workflow .date .dateWrapper .dateContainer #individualAdsEndDateInput {
+.date .dateWrapper .dateContainer #endDateInput,
+.date .dateWrapper .dateContainer #individualAdsEndDateInput {
   background: rgba(0, 0, 0, 0.07);
 }
-.workflow .date .dateWrapper .dateContainer:last-child {
+.date .dateWrapper .dateContainer:last-child {
   padding-left: 10px;
 }
-.workflow .date .input-group-addon {
+.date .input-group-addon {
   background: transparent;
   border-width: 0;
   width: 100%;
@@ -446,21 +476,21 @@
   cursor: pointer;
   margin: 12px 0 0 0;
 }
-.workflow .date .input-group-addon .calenderIcon {
+.date .input-group-addon .calenderIcon {
   float: left;
   border-left: 1px solid #dbe8ef;
   margin: 21px 10px 0 111px;
 }
-.workflow .date .input-group-addon .calenderIcon .icon-calendar {
+.date .input-group-addon .calenderIcon .icon-calendar {
   margin: 8px 11px;
   float: left;
 }
-.workflow .form-control {
+.form-control {
   border-radius: 1px !important;
   border: 1px solid #ccd2da;
   -webkit-appearance: none;
 }
-.workflow .successMessage {
+.successMessage {
   width: 400px;
   text-align: center;
   position: absolute;
@@ -470,31 +500,32 @@
   margin-left: -200px;
   opacity: 0;
 }
-.workflow .errorLabel {
+.errorLabel {
   color: #F24444 !important;
   padding: 2px 0 0 0;
   font-size: 12px;
   font-family: 'Avenir';
   display: none;
 }
-.workflow .customFieldErrorMsg {
+/*don’t remove with out informing abhimanyu*/
+.customFieldErrorMsg {
   color: #F24444 ;
   padding: 2px 0 0 0;
   font-size: 12px;
   float: left;
   line-height: 16px;
 }
-.workflow .has-error .errorLabel {
+.has-error .errorLabel {
   display: block;
 }
-.workflow .firstWrapper .has-error .form-control {
+.firstWrapper .has-error .form-control {
   border-color: #f24444 !important ;
   box-shadow: 0px 0px 0px transparent !important ;
 }
-.workflow .has-error .form-control:focus {
+.has-error .form-control:focus {
   box-shadow: 0px 0px 0px transparent !important ;
 }
-.workflow .customErrorLabel {
+.customErrorLabel {
   color: #E83B05 !important;
   padding: 2px 0 0 4px !important;
   margin-top: 0 !important;
@@ -503,11 +534,11 @@
   font-weight: lighter;
   display: block;
 }
-.workflow .bodyWrap {
+.bodyWrap {
   width: 1200px;
   margin: 0 auto ;
 }
-.workflow .preloader {
+.preloader {
   position: absolute;
   top: 48%;
   left: 50%;
@@ -516,19 +547,19 @@
   height: 31px;
   margin-left: -15px;
 }
-.workflow .firstWrapper select.form-control {
+.firstWrapper select.form-control {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
   background: url('/assets/images/cdesk/common-down-arrow-space.png') no-repeat right 10px;
   border: 1px solid #dbe8ef !important;
 }
-.workflow .firstWrapper .nav_filters {
+.firstWrapper .nav_filters {
   width: 100%;
   margin: 20px 0;
 }
-.workflow .btn,
-.workflow select {
+.btn,
+select {
   border-radius: 2px;
   text-decoration: none;
   font-family: "Avenir";
@@ -542,81 +573,81 @@
     font-size: 14px;
     width: auto;*/
 }
-.workflow .btn:hover,
-.workflow .btn:focus,
-.workflow .btn:active {
+.btn:hover,
+.btn:focus,
+.btn:active {
   text-decoration: none;
 }
-.workflow .btn-primary {
+.btn-primary {
   background: #0978C9;
 }
-.workflow .btn-primary:hover {
+.btn-primary:hover {
   background: #0564A9;
 }
-.workflow .btn-primary:active,
-.workflow .btn-primary.active {
+.btn-primary:active,
+.btn-primary.active {
   background: #004D86;
 }
-.workflow .btn-default {
+.btn-default {
   color: #57606d;
   font-size: 14px;
   border: 1px solid #dde6eb;
 }
-.workflow .btn-default:hover {
+.btn-default:hover {
   background: #e1edf9;
 }
-.workflow .btn-default:active,
-.workflow .btn-default.active {
+.btn-default:active,
+.btn-default.active {
   background: #E1EDF9;
 }
-.workflow .radioBtnToggle .miniToggle label {
+.radioBtnToggle .miniToggle label {
   position: relative;
   padding: 10px 15px;
   border: 1px solid #ccd2da;
 }
-.workflow .radioBtnToggle .miniToggle label span {
+.radioBtnToggle .miniToggle label span {
   width: 100%;
   text-align: center;
 }
-.workflow .radioBtnToggle .miniToggle input[type="text"] {
+.radioBtnToggle .miniToggle input[type="text"] {
   margin: 0px 10px;
   float: left;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default {
+.radioBtnToggle .miniToggle .btn-default {
   border-radius: 2px !important;
   box-shadow: none;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default span {
+.radioBtnToggle .miniToggle .btn-default span {
   color: #363D49;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default:hover {
+.radioBtnToggle .miniToggle .btn-default:hover {
   background-color: #E1EDF9;
   color: #363D49;
   border: 1px solid #BFC9D7;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default:hover span {
+.radioBtnToggle .miniToggle .btn-default:hover span {
   color: #363D49;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default.active,
-.workflow .radioBtnToggle .miniToggle .btn-default.active:hover {
+.radioBtnToggle .miniToggle .btn-default.active,
+.radioBtnToggle .miniToggle .btn-default.active:hover {
   background-color: #0978C9;
   border: 1px solid #0978C9;
   color: #ffffff;
   box-shadow: none;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default.active span,
-.workflow .radioBtnToggle .miniToggle .btn-default.active:hover span {
+.radioBtnToggle .miniToggle .btn-default.active span,
+.radioBtnToggle .miniToggle .btn-default.active:hover span {
   color: #fff;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default:first-child {
+.radioBtnToggle .miniToggle .btn-default:first-child {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
-.workflow .radioBtnToggle .miniToggle .btn-default:last-child {
+.radioBtnToggle .miniToggle .btn-default:last-child {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
-.workflow .goalBtnGroup .btn-primary {
+.goalBtnGroup .btn-primary {
   border-radius: 0px;
   width: auto;
   height: 36px;
@@ -631,38 +662,38 @@
   position: relative;
   padding: 10px 15px;
 }
-.workflow .goalBtnGroup .btn-primary span {
+.goalBtnGroup .btn-primary span {
   float: left;
   color: #21252b;
   font-size: 14px;
   margin: 2px 0 0 10px;
 }
-.workflow .goalBtnGroup .btn-primary input {
+.goalBtnGroup .btn-primary input {
   opacity: 0;
 }
-.workflow .goalBtnGroup .btn-primary:hover {
+.goalBtnGroup .btn-primary:hover {
   background-color: #E1EDF9;
   color: #363D49;
 }
-.workflow .goalBtnGroup .btn-primary.active {
+.goalBtnGroup .btn-primary.active {
   background-color: #0978C9;
   border: 1px solid #0978C9 !important;
   color: #ffffff;
   box-shadow: none;
 }
-.workflow .goalBtnGroup .btn-primary.active span {
+.goalBtnGroup .btn-primary.active span {
   color: #fff;
 }
-.workflow .goalBtnGroup .btn-primary.active .hideRadioBtn:hover {
+.goalBtnGroup .btn-primary.active .hideRadioBtn:hover {
   background-color: #0978C9 !important;
   color: #363D49 !important;
 }
-.workflow .goalBtnGroup label {
+.goalBtnGroup label {
   position: relative;
   height: 60px;
   margin-top: 10px;
 }
-.workflow .goalBtnGroup label .hideRadioBtn {
+.goalBtnGroup label .hideRadioBtn {
   top: 0;
   left: 0;
   width: auto ;
@@ -670,54 +701,54 @@
   margin-top: -15px;
   margin-bottom: 0;
 }
-.workflow .goalBtnGroup label .hideRadioBtn img,
-.workflow .goalBtnGroup label .hideRadioBtn [class^="icon-"],
-.workflow .goalBtnGroup label .hideRadioBtn [class*=" icon-"] {
+.goalBtnGroup label .hideRadioBtn img,
+.goalBtnGroup label .hideRadioBtn [class^="icon-"],
+.goalBtnGroup label .hideRadioBtn [class*=" icon-"] {
   float: left;
 }
-.workflow .goalBtnGroup label .hideRadioBtn:hover {
+.goalBtnGroup label .hideRadioBtn:hover {
   background-color: #E1EDF9;
 }
-.workflow .goalBtnGroup label.active .hideRadioBtn:hover {
+.goalBtnGroup label.active .hideRadioBtn:hover {
   background-color: #E1EDF9;
   color: #363D49;
 }
-.workflow .goalBtnGroup label.active .hideRadioBtn {
+.goalBtnGroup label.active .hideRadioBtn {
   background-color: #0978C9;
   color: #ffffff;
   box-shadow: none;
 }
-.workflow .goalBtnGroup label.active .hideRadioBtn [class^="icon-"],
-.workflow .goalBtnGroup label.active .hideRadioBtn [class*=" icon-"] {
+.goalBtnGroup label.active .hideRadioBtn [class^="icon-"],
+.goalBtnGroup label.active .hideRadioBtn [class*=" icon-"] {
   color: #fff;
 }
-.workflow .firstBtnGroup .btn-primary {
+.firstBtnGroup .btn-primary {
   border-top-left-radius: 2px !important;
   border-bottom-left-radius: 2px !important;
   border: 1px solid #BFC9D7;
 }
-.workflow .firstCreateBtnGroup {
+.firstCreateBtnGroup {
   border-top-left-radius: 2px !important;
   border-bottom-left-radius: 2px !important;
   border: 1px solid #BFC9D7 !important;
 }
-.workflow .lastBtnGroup .btn-primary {
+.lastBtnGroup .btn-primary {
   border: 1px solid #BFC9D7;
   border-left: 0;
   border-top-right-radius: 2px !important;
   border-bottom-right-radius: 2px !important;
 }
-.workflow .lastCreateBtnGroup {
+.lastCreateBtnGroup {
   border: 1px solid #BFC9D7 !important;
   border-left: 0 !important;
   border-top-right-radius: 2px !important;
   border-bottom-right-radius: 2px !important;
 }
-.workflow .btn-ani-toggle {
+.btn-ani-toggle {
   position: relative;
   cursor: pointer;
 }
-.workflow .btn-ani-toggle .togBtnBg {
+.btn-ani-toggle .togBtnBg {
   background: #0978c9;
   border-radius: 40px;
   width: 45px;
@@ -725,7 +756,7 @@
   float: left;
   margin-top: 4px;
 }
-.workflow .btn-ani-toggle .btn {
+.btn-ani-toggle .btn {
   height: 25px;
   width: 25px;
   border-radius: 25px !important;
@@ -737,87 +768,87 @@
   margin: 0 !important;
   padding: 0;
 }
-.workflow .btn-ani-toggle .btn.active {
+.btn-ani-toggle .btn.active {
   left: 22px;
 }
-.workflow .calenderIcon {
+.calenderIcon {
   border-left: 1px solid #dbe8ef !important;
 }
-.workflow .left_column_nav {
+.left_column_nav {
   padding: 30px 0 0 0;
   width: 23%;
   float: left;
   height: 100%;
 }
-.workflow .left_column_nav .campaign_name {
+.left_column_nav .campaign_name {
   font-family: "Avenir";
   display: inline-block;
   float: left;
   margin-top: 0;
   margin-bottom: 20px;
 }
-.workflow .left_column_nav .stepCompLabel {
+.left_column_nav .stepCompLabel {
   border-width: 0;
 }
-.workflow .left_column_nav .stepCompLabel p {
+.left_column_nav .stepCompLabel p {
   margin: 15px 0 0 0;
   float: left;
 }
-.workflow .left_column_nav .stepCompLabel .titleLabel {
+.left_column_nav .stepCompLabel .titleLabel {
   font-size: 14px;
   color: #939ead;
   cursor: default;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel {
+.left_column_nav .stepCompLabel .statusLabel {
   float: left;
   width: 100%;
   clear: left;
   margin: 8px 0 0 0;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel .errorTxt {
+.left_column_nav .stepCompLabel .statusLabel .errorTxt {
   color: #e83b05;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel .glyphicon {
+.left_column_nav .stepCompLabel .statusLabel .glyphicon {
   width: 16px;
   text-align: left;
   padding: 0;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel .col-md-5 {
+.left_column_nav .stepCompLabel .statusLabel .col-md-5 {
   font-size: 11px;
   color: #939ead;
   padding-right: 5px ;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel .col-md-12 {
+.left_column_nav .stepCompLabel .statusLabel .col-md-12 {
   padding-left: 16px;
   text-align: left;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel .col-md-12 .statusIcon {
+.left_column_nav .stepCompLabel .statusLabel .col-md-12 .statusIcon {
   margin: -1px 5px 0 0;
   float: left;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel .col-md-12 .txtLabel {
+.left_column_nav .stepCompLabel .statusLabel .col-md-12 .txtLabel {
   margin: 8px 0 0 0;
   float: left;
   clear: left;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel:first-child {
+.left_column_nav .stepCompLabel .statusLabel:first-child {
   margin: 0;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
-.workflow .left_column_nav .stepCompLabel .statusLabel.disabled span {
+.left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
+.left_column_nav .stepCompLabel .statusLabel.disabled span {
   color: #939ead;
   padding-left: 3px;
 }
-.workflow .left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
+.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
   padding-left: 0px ;
 }
-.workflow .left_column_nav .stepCompLabel li {
+.left_column_nav .stepCompLabel li {
   width: 100%;
   margin-bottom: 2px;
   margin-top: 20px;
   float: left;
 }
-.workflow .left_column_nav .stepCompLabel li a {
+.left_column_nav .stepCompLabel li a {
   font-size: 14px;
   width: 100%;
   float: left;
@@ -826,103 +857,103 @@
   padding: 4px ;
   border-width: 0;
 }
-.workflow .left_column_nav .stepCompLabel li a:hover {
+.left_column_nav .stepCompLabel li a:hover {
   background: transparent;
   text-decoration: none;
 }
-.workflow .left_column_nav .stepCompLabel li:first-child {
+.left_column_nav .stepCompLabel li:first-child {
   margin-top: 0;
 }
-.workflow .left_column_nav .stepCompLabel span {
+.left_column_nav .stepCompLabel span {
   font-size: 12px;
   float: left;
 }
-.workflow .left_column_nav .stepCompLabel span:first-child {
+.left_column_nav .stepCompLabel span:first-child {
   clear: left;
   text-align: right;
 }
-.workflow .left_column_nav .stepCompLabel .active {
+.left_column_nav .stepCompLabel .active {
   background-image: url("../../assets/images/workflow/blueSelector.png");
   background-position: top right;
   background-repeat: no-repeat;
 }
-.workflow .left_column_nav .stepCompLabel .active a {
+.left_column_nav .stepCompLabel .active a {
   font-family: "Avenir-bold";
   color: #0978c9;
   border-radius: 0;
   background: transparent;
 }
-.workflow .left_column_nav .stepCompLabel .active span {
+.left_column_nav .stepCompLabel .active span {
   font-family: "Avenir";
 }
-.workflow .left_column_nav .stepCompLabel .glyphicon {
+.left_column_nav .stepCompLabel .glyphicon {
   padding: 0 5px 0 0;
   text-align: center;
   width: 20px;
 }
-.workflow .left_column_nav .nav-tabs > li.active > a,
-.workflow .left_column_nav .nav-tabs > li.active > a:hover,
-.workflow .left_column_nav .nav-tabs > li.active > a:focus {
+.left_column_nav .nav-tabs > li.active > a,
+.left_column_nav .nav-tabs > li.active > a:hover,
+.left_column_nav .nav-tabs > li.active > a:focus {
   border-width: 0px;
   color: #0978c9;
   background: transparent;
 }
-.workflow .left_column_nav .creative_tab_sizes {
+.left_column_nav .creative_tab_sizes {
   word-wrap: break-word;
   word-break: break-word;
   text-align: left !important;
 }
-.workflow .campaign-create-left-nav .campaign_name {
+.campaign-create-left-nav .campaign_name {
   float: none;
 }
-.workflow .campaign-create-left-nav .active .titleLabel {
+.campaign-create-left-nav .active .titleLabel {
   font-family: "Avenir-bold";
   color: #0978c9 ;
 }
-.workflow .campaign-create-left-nav .eachStepCompLabel {
+.campaign-create-left-nav .eachStepCompLabel {
   margin-bottom: 20px ;
 }
-.workflow .campaign-create-left-nav .eachStepCompLabel p {
+.campaign-create-left-nav .eachStepCompLabel p {
   margin: 0 ;
   float: none;
 }
-.workflow .table thead {
+.table thead {
   border: 1px solid #d2dee7;
   border-bottom: 2px solid #d2dee7;
 }
-.workflow .table thead tr th {
+.table thead tr th {
   border-width: 0;
   font-weight: normal;
 }
-.workflow .table tbody tr td {
+.table tbody tr td {
   background: #F5FAFD;
   padding: 20px;
 }
-.workflow .table tbody tr:nth-child(odd) td {
+.table tbody tr:nth-child(odd) td {
   background: #fff;
 }
-.workflow .searchInput .input-group {
+.searchInput .input-group {
   width: 100%;
 }
-.workflow .searchInput .input-group input[type="text"] {
+.searchInput .input-group input[type="text"] {
   margin: 0;
 }
-.workflow .searchInput .input-group span {
+.searchInput .input-group span {
   position: absolute;
   z-index: 10;
   top: 1px;
   right: 1px;
 }
-.workflow .searchInput .input-group span button {
+.searchInput .input-group span button {
   float: right;
   margin: 0 !important;
   border-width: 0;
   cursor: pointer;
 }
-.workflow .searchInput .input-group span button .glyphicon {
+.searchInput .input-group span button .glyphicon {
   position: inherit;
 }
-.workflow .tooltipWrap {
+.tooltipWrap {
   position: absolute;
   z-index: 10;
   background: #fff;
@@ -932,12 +963,12 @@
   -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.49);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.49);
 }
-.workflow .tooltipWrap span {
+.tooltipWrap span {
   color: #21252b;
   font-size: 14px;
   float: left;
 }
-.workflow .tooltipWrap .btn {
+.tooltipWrap .btn {
   border: 1px solid #0978c9;
   border-radius: 2px;
   text-align: center;
@@ -946,13 +977,13 @@
   background: #fff;
   float: left;
 }
-.workflow .tooltipWrap .btn:last-child {
+.tooltipWrap .btn:last-child {
   background: #0978c9;
   color: #fff;
   margin-left: 5px;
 }
-.workflow .tooltipWrap:after,
-.workflow .tooltipWrap:before {
+.tooltipWrap:after,
+.tooltipWrap:before {
   top: 100%;
   left: 50%;
   border: solid transparent;
@@ -962,24 +993,24 @@
   position: absolute;
   pointer-events: none;
 }
-.workflow .tooltipWrap:after {
+.tooltipWrap:after {
   border-color: rgba(255, 255, 255, 0);
   border-top-color: #ffffff;
   border-width: 10px;
   margin-left: -10px;
 }
-.workflow .tooltipWrap:before {
+.tooltipWrap:before {
   border-color: rgba(230, 230, 230, 0);
   border-top-color: #E6E6E6;
   border-width: 11px;
   margin-left: -11px;
 }
-.workflow .cmn-toggle {
+.cmn-toggle {
   position: absolute;
   margin-left: -9999px;
   visibility: hidden;
 }
-.workflow .cmn-toggle + label {
+.cmn-toggle + label {
   display: block;
   position: relative;
   cursor: pointer;
@@ -987,15 +1018,15 @@
   user-select: none;
   float: left;
 }
-.workflow input.cmn-toggle-round + label {
+input.cmn-toggle-round + label {
   padding: 2px;
   width: 72px;
   height: 36px;
   background-color: #BFC9D7;
   border-radius: 2px;
 }
-.workflow input.cmn-toggle-round + label:before,
-.workflow input.cmn-toggle-round + label:after {
+input.cmn-toggle-round + label:before,
+input.cmn-toggle-round + label:after {
   display: block;
   position: absolute;
   top: 1px;
@@ -1003,12 +1034,12 @@
   bottom: 1px;
   content: "";
 }
-.workflow input.cmn-toggle-round + label:before {
+input.cmn-toggle-round + label:before {
   right: 1px;
   background-color: #fdfdfd;
   border-radius: 2px;
 }
-.workflow input.cmn-toggle-round + label:after {
+input.cmn-toggle-round + label:after {
   width: 20px;
   background-color: #DCE6F1;
   border-radius: 2px;
@@ -1016,22 +1047,23 @@
   height: 32px;
   margin: 1px 0 0 1px;
 }
-.workflow input.cmn-toggle-round:checked + label:before {
+input.cmn-toggle-round:checked + label:before {
   background-color: #0978C9;
   background-image: url("../../assets/images/workflow/checkMark.svg");
   background-repeat: no-repeat;
   background-position-x: 15px;
   background-position-y: 11px;
 }
-.workflow input.cmn-toggle-round:checked + label:after {
+input.cmn-toggle-round:checked + label:after {
   margin-left: 49px;
 }
-.workflow .squaredChk {
+/* .squared Check Box */
+.squaredChk {
   width: 20px;
   position: relative;
   margin: 20px auto;
 }
-.workflow .squaredChk label {
+.squaredChk label {
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -1043,7 +1075,7 @@
   border-radius: 4px;
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
-.workflow .squaredChk label:after {
+.squaredChk label:after {
   content: '';
   width: 9px;
   height: 5px;
@@ -1057,21 +1089,22 @@
   opacity: 0;
   transform: rotate(-45deg);
 }
-.workflow .squaredChk label:hover::after {
+.squaredChk label:hover::after {
   opacity: 0.5;
 }
-.workflow .squaredChk input[type=checkbox] {
+.squaredChk input[type=checkbox] {
   visibility: hidden;
 }
-.workflow .squaredChk input[type=checkbox]:checked + label:after {
+.squaredChk input[type=checkbox]:checked + label:after {
   opacity: 1;
 }
-.workflow .atlwdg-trigger {
+/* end .squared Check Box */
+.atlwdg-trigger {
   border-radius: 0 !important;
   background: #007ac9 !important;
   font-family: "Avenir" !important;
 }
-.workflow .icon-close {
+.icon-close {
   font-size: 8px;
   width: 8px;
   height: 8px;
@@ -1079,7 +1112,7 @@
   margin: 6px;
   cursor: pointer;
 }
-.workflow .cardSelectHolder {
+.cardSelectHolder {
   border-radius: 1px;
   border: 1px solid #bfc9d7;
   padding: 30px 20px;
@@ -1090,33 +1123,33 @@
   float: left;
   position: relative;
 }
-.workflow .cardSelectHolder span {
+.cardSelectHolder span {
   float: left;
   width: 100%;
   text-align: center;
   min-height: 50px;
 }
-.workflow .cardSelectHolder p {
+.cardSelectHolder p {
   color: #21252b;
-  font-family: "Avenir-black";
+  font-family: "Avenir-bold";
   font-size: 14px;
   width: 100%;
   text-align: center;
   margin: 20px 0;
   float: left;
 }
-.workflow .cardSelectHolder p span {
+.cardSelectHolder p span {
   font-family: "Avenir";
   color: #939eae;
   width: auto;
   float: none;
 }
-.workflow .cardSelectHolder img {
+.cardSelectHolder img {
   margin: 30px auto 10px;
   display: table;
   max-height: 30px;
 }
-.workflow .cardSelectHolder .btn {
+.cardSelectHolder .btn {
   float: left;
   position: relative;
   left: 50%;
@@ -1124,22 +1157,22 @@
   margin-top: 20px;
   cursor: pointer;
 }
-.workflow .cardSelectHolder .btn.active {
+.cardSelectHolder .btn.active {
   background: #E1EDF9;
   box-shadow: none;
   width: auto;
   margin-left: -43px;
   min-height: auto;
 }
-.workflow .cardSelectHolder a {
+.cardSelectHolder a {
   color: #2c9aec;
   font-size: 12px;
   float: left;
   width: 100%;
   text-align: center;
 }
-.workflow .cardSelectHolder [class^="icon-"],
-.workflow .cardSelectHolder [class*=" icon-"] {
+.cardSelectHolder [class^="icon-"],
+.cardSelectHolder [class*=" icon-"] {
   float: left;
   width: 100%;
   text-align: center;
@@ -1148,7 +1181,7 @@
   color: #363d49;
   min-height: initial;
 }
-.workflow .cardSelectHolder .icon-inline-edit {
+.cardSelectHolder .icon-inline-edit {
   position: absolute;
   z-index: 10;
   top: 10px;
@@ -1159,49 +1192,49 @@
   height: 12.5px;
   display: none;
 }
-.workflow .cardSelectHolder .targetDataSaved {
+.cardSelectHolder .targetDataSaved {
   float: left;
   width: 100%;
   text-align: center;
 }
-.workflow .cardSelectHolder .targetDataSaved .targetDataSavedTop {
+.cardSelectHolder .targetDataSaved .targetDataSavedTop {
   display: table;
-  margin: 0 auto;
+  margin: 0 auto 10px ;
 }
-.workflow .cardSelectHolder .targetDataSaved .icon-target,
-.workflow .cardSelectHolder .targetDataSaved .icon-exclude {
+.cardSelectHolder .targetDataSaved .icon-target,
+.cardSelectHolder .targetDataSaved .icon-exclude {
   font-size: 16px;
   width: 16px;
   height: 16px;
   float: left;
 }
-.workflow .cardSelectHolder .targetDataSaved span {
+.cardSelectHolder .targetDataSaved span {
   width: auto;
   min-height: initial;
   padding: 0 5px;
 }
-.workflow .cardSelectHolder .targetDataSaved .badge {
+.cardSelectHolder .targetDataSaved .badge {
   color: #21252b;
   font-weight: normal;
   background: #fff;
   border: 1px solid #bfc9d7;
   float: left;
 }
-.workflow .cardSelectHolder .targetDataSaved .targetListItem {
+.cardSelectHolder .targetDataSaved .targetListItem {
   text-align: center;
   width: 100%;
   color: #939eae;
   font-size: 14px;
   float: left;
 }
-.workflow .cardSelectHolder .targetDataSaved .targetListItemMore {
+.cardSelectHolder .targetDataSaved .targetListItemMore {
   text-align: center;
   width: 100%;
   color: #0978c9;
   font-size: 14px;
   float: left;
 }
-.workflow .cardSelectHolder .onSelectBtn {
+.cardSelectHolder .onSelectBtn {
   position: absolute;
   z-index: 10;
   top: 0;
@@ -1213,24 +1246,69 @@
   background: transparent !important;
   border-width: 0;
 }
-.workflow .cardSelectHolder:nth-child(3n+3) {
+.cardSelectHolder:nth-child(3n+3) {
   margin-right: 0;
 }
-.workflow .cardSelectHolder:hover {
+.cardSelectHolder:hover {
   border: 1px solid #0978c9;
 }
-.workflow .cardSelectHolder.active .icon-inline-edit {
+.cardSelectHolder.active .icon-inline-edit {
   display: initial;
   color: #363d49;
 }
-.workflow .cardSelectHolder.active:hover .icon-inline-edit {
+.cardSelectHolder.active:hover .icon-inline-edit {
   display: initial;
   color: #0978c9;
 }
-.workflow .ui-helper-hidden {
+.popUpCue {
+  position: absolute;
+  z-index: 2;
+  left: 9px;
+  top: 70px;
+  background: #fff;
+  border: 1px solid rgba(154, 154, 154, 0.38);
+  width: 240px;
+  padding: 15px;
+  border-radius: 5px;
+}
+.popUpCue span {
+  height: 80px;
+  margin-bottom: 10px;
+}
+.popUpCue:after,
+.popUpCue:before {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.popUpCue:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-top-color: #fff;
+  border-width: 7px;
+  margin-left: -7px;
+}
+.popUpCue:before {
+  border-color: rgba(107, 107, 107, 0);
+  border-top-color: rgba(154, 154, 154, 0.38);
+  border-width: 8px;
+  margin-left: -8px;
+}
+/*! jQuery UI - v1.11.4 - 2015-11-05 For Slider
+  * http://jqueryui.com
+  * Includes: core.css, slider.css, theme.css
+  * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=cccccc&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=e6e6e6&bgTextureDefault=glass&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=dadada&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=glass&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+  * Copyright jQuery Foundation and other contributors; Licensed MIT */
+/* Layout helpers
+  ----------------------------------*/
+.ui-helper-hidden {
   display: none;
 }
-.workflow .ui-helper-hidden-accessible {
+.ui-helper-hidden-accessible {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -1240,7 +1318,7 @@
   position: absolute;
   width: 1px;
 }
-.workflow .ui-helper-reset {
+.ui-helper-reset {
   margin: 0;
   padding: 0;
   border: 0;
@@ -1250,20 +1328,20 @@
   font-size: 100%;
   list-style: none;
 }
-.workflow .ui-helper-clearfix:before,
-.workflow .ui-helper-clearfix:after {
+.ui-helper-clearfix:before,
+.ui-helper-clearfix:after {
   content: "";
   display: table;
   border-collapse: collapse;
 }
-.workflow .ui-helper-clearfix:after {
+.ui-helper-clearfix:after {
   clear: both;
 }
-.workflow .ui-helper-clearfix {
+.ui-helper-clearfix {
   min-height: 0;
   /* support: IE7 */
 }
-.workflow .ui-helper-zfix {
+.ui-helper-zfix {
   width: 100%;
   height: 100%;
   top: 0;
@@ -1273,30 +1351,38 @@
   filter: alpha(opacity=0);
   /* support: IE8 */
 }
-.workflow .ui-front {
+.ui-front {
   z-index: 100;
 }
-.workflow .ui-state-disabled {
+/* Interaction Cues
+  ----------------------------------*/
+.ui-state-disabled {
   cursor: default !important;
 }
-.workflow .ui-icon {
+/* Icons
+  ----------------------------------*/
+/* states and images */
+.ui-icon {
   display: block;
   text-indent: -99999px;
   overflow: hidden;
   background-repeat: no-repeat;
 }
-.workflow .ui-widget-overlay {
+/* Misc visuals
+  ----------------------------------*/
+/* Overlays */
+.ui-widget-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.workflow .ui-slider {
+.ui-slider {
   position: relative;
   text-align: left;
 }
-.workflow .ui-slider .ui-slider-handle {
+.ui-slider .ui-slider-handle {
   position: absolute;
   z-index: 2;
   width: 1.2em;
@@ -1305,7 +1391,7 @@
   -ms-touch-action: none;
   touch-action: none;
 }
-.workflow .ui-slider .ui-slider-range {
+.ui-slider .ui-slider-range {
   position: absolute;
   z-index: 1;
   font-size: .7em;
@@ -1313,206 +1399,217 @@
   border: 0;
   background-position: 0 0;
 }
-.workflow .ui-slider.ui-state-disabled .ui-slider-handle,
-.workflow .ui-slider.ui-state-disabled .ui-slider-range {
+/* support: IE8 - See #6727 */
+.ui-slider.ui-state-disabled .ui-slider-handle,
+.ui-slider.ui-state-disabled .ui-slider-range {
   filter: inherit;
 }
-.workflow .ui-slider-horizontal {
+.ui-slider-horizontal {
   height: .8em;
 }
-.workflow .ui-slider-horizontal .ui-slider-handle {
+.ui-slider-horizontal .ui-slider-handle {
   top: -0.3em;
   margin-left: -0.6em;
 }
-.workflow .ui-slider-horizontal .ui-slider-range {
+.ui-slider-horizontal .ui-slider-range {
   top: 0;
   height: 100%;
 }
-.workflow .ui-slider-horizontal .ui-slider-range-min {
+.ui-slider-horizontal .ui-slider-range-min {
   left: 0;
 }
-.workflow .ui-slider-horizontal .ui-slider-range-max {
+.ui-slider-horizontal .ui-slider-range-max {
   right: 0;
 }
-.workflow .ui-slider-vertical {
+.ui-slider-vertical {
   width: .8em;
   height: 100px;
 }
-.workflow .ui-slider-vertical .ui-slider-handle {
+.ui-slider-vertical .ui-slider-handle {
   left: -0.3em;
   margin-left: 0;
   margin-bottom: -0.6em;
 }
-.workflow .ui-slider-vertical .ui-slider-range {
+.ui-slider-vertical .ui-slider-range {
   left: 0;
   width: 100%;
 }
-.workflow .ui-slider-vertical .ui-slider-range-min {
+.ui-slider-vertical .ui-slider-range-min {
   bottom: 0;
 }
-.workflow .ui-slider-vertical .ui-slider-range-max {
+.ui-slider-vertical .ui-slider-range-max {
   top: 0;
 }
-.workflow .ui-widget {
+/* Component containers
+  ----------------------------------*/
+.ui-widget {
   font-family: Verdana, Arial, sans-serif;
   font-size: 1.1em;
 }
-.workflow .ui-widget .ui-widget {
+.ui-widget .ui-widget {
   font-size: 1em;
 }
-.workflow .ui-widget input,
-.workflow .ui-widget select,
-.workflow .ui-widget textarea,
-.workflow .ui-widget button {
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
   font-family: Verdana, Arial, sans-serif;
   font-size: 1em;
 }
-.workflow .ui-widget-content {
+.ui-widget-content {
   border: 1px solid #aaaaaa;
   background: #ffffff;
   color: #222222;
 }
-.workflow .ui-widget-content a {
+.ui-widget-content a {
   color: #222222;
 }
-.workflow .ui-widget-header {
+.ui-widget-header {
   border: 1px solid #aaaaaa;
   color: #222222;
   font-weight: bold;
 }
-.workflow .ui-widget-header a {
+.ui-widget-header a {
   color: #222222;
 }
-.workflow .ui-state-default,
-.workflow .ui-widget-content .ui-state-default,
-.workflow .ui-widget-header .ui-state-default {
+/* Interaction states
+  ----------------------------------*/
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
   border: 1px solid #d3d3d3;
   font-weight: normal;
   color: #555555;
 }
-.workflow .ui-state-default a,
-.workflow .ui-state-default a:link,
-.workflow .ui-state-default a:visited {
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited {
   color: #555555;
   text-decoration: none;
 }
-.workflow .ui-state-hover,
-.workflow .ui-widget-content .ui-state-hover,
-.workflow .ui-widget-header .ui-state-hover,
-.workflow .ui-state-focus,
-.workflow .ui-widget-content .ui-state-focus,
-.workflow .ui-widget-header .ui-state-focus {
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
   border: 1px solid #999999;
   font-weight: normal;
   color: #212121;
 }
-.workflow .ui-state-hover a,
-.workflow .ui-state-hover a:hover,
-.workflow .ui-state-hover a:link,
-.workflow .ui-state-hover a:visited,
-.workflow .ui-state-focus a,
-.workflow .ui-state-focus a:hover,
-.workflow .ui-state-focus a:link,
-.workflow .ui-state-focus a:visited {
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited,
+.ui-state-focus a,
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited {
   color: #212121;
   text-decoration: none;
 }
-.workflow .ui-state-active,
-.workflow .ui-widget-content .ui-state-active,
-.workflow .ui-widget-header .ui-state-active {
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
   border: 1px solid #aaaaaa;
   font-weight: normal;
   color: #212121;
 }
-.workflow .ui-state-active a,
-.workflow .ui-state-active a:link,
-.workflow .ui-state-active a:visited {
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
   color: #212121;
   text-decoration: none;
 }
-.workflow .ui-state-highlight,
-.workflow .ui-widget-content .ui-state-highlight,
-.workflow .ui-widget-header .ui-state-highlight {
+/* Interaction Cues
+  ----------------------------------*/
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
   border: 1px solid #fcefa1;
   color: #363636;
 }
-.workflow .ui-state-highlight a,
-.workflow .ui-widget-content .ui-state-highlight a,
-.workflow .ui-widget-header .ui-state-highlight a {
+.ui-state-highlight a,
+.ui-widget-content .ui-state-highlight a,
+.ui-widget-header .ui-state-highlight a {
   color: #363636;
 }
-.workflow .ui-state-error,
-.workflow .ui-widget-content .ui-state-error,
-.workflow .ui-widget-header .ui-state-error {
+.ui-state-error,
+.ui-widget-content .ui-state-error,
+.ui-widget-header .ui-state-error {
   border: 1px solid #cd0a0a;
   color: #cd0a0a;
 }
-.workflow .ui-state-error a,
-.workflow .ui-widget-content .ui-state-error a,
-.workflow .ui-widget-header .ui-state-error a {
+.ui-state-error a,
+.ui-widget-content .ui-state-error a,
+.ui-widget-header .ui-state-error a {
   color: #cd0a0a;
 }
-.workflow .ui-state-error-text,
-.workflow .ui-widget-content .ui-state-error-text,
-.workflow .ui-widget-header .ui-state-error-text {
+.ui-state-error-text,
+.ui-widget-content .ui-state-error-text,
+.ui-widget-header .ui-state-error-text {
   color: #cd0a0a;
 }
-.workflow .ui-priority-primary,
-.workflow .ui-widget-content .ui-priority-primary,
-.workflow .ui-widget-header .ui-priority-primary {
+.ui-priority-primary,
+.ui-widget-content .ui-priority-primary,
+.ui-widget-header .ui-priority-primary {
   font-weight: bold;
 }
-.workflow .ui-priority-secondary,
-.workflow .ui-widget-content .ui-priority-secondary,
-.workflow .ui-widget-header .ui-priority-secondary {
+.ui-priority-secondary,
+.ui-widget-content .ui-priority-secondary,
+.ui-widget-header .ui-priority-secondary {
   opacity: .7;
   filter: alpha(opacity=70);
   /* support: IE8 */
   font-weight: normal;
 }
-.workflow .ui-state-disabled,
-.workflow .ui-widget-content .ui-state-disabled,
-.workflow .ui-widget-header .ui-state-disabled {
+.ui-state-disabled,
+.ui-widget-content .ui-state-disabled,
+.ui-widget-header .ui-state-disabled {
   opacity: .35;
   filter: alpha(opacity=35);
   /* support: IE8 */
   background-image: none;
 }
-.workflow .ui-state-disabled .ui-icon {
+.ui-state-disabled .ui-icon {
   filter: alpha(opacity=35);
   /* support: IE8 - See #6059 */
 }
-.workflow .ui-corner-all,
-.workflow .ui-corner-top,
-.workflow .ui-corner-left,
-.workflow .ui-corner-tl {
+/* Misc visuals
+  ----------------------------------*/
+/* Corner radius */
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
   border-top-left-radius: 4px;
 }
-.workflow .ui-corner-all,
-.workflow .ui-corner-top,
-.workflow .ui-corner-right,
-.workflow .ui-corner-tr {
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-right,
+.ui-corner-tr {
   border-top-right-radius: 4px;
 }
-.workflow .ui-corner-all,
-.workflow .ui-corner-bottom,
-.workflow .ui-corner-left,
-.workflow .ui-corner-bl {
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
   border-bottom-left-radius: 4px;
 }
-.workflow .ui-corner-all,
-.workflow .ui-corner-bottom,
-.workflow .ui-corner-right,
-.workflow .ui-corner-br {
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
   border-bottom-right-radius: 4px;
 }
-.workflow .ui-widget-overlay {
+/* Overlays */
+.ui-widget-overlay {
   background: #aaaaaa;
   opacity: .3;
   filter: alpha(opacity=30);
   /* support: IE8 */
 }
-.workflow .ui-widget-shadow {
+.ui-widget-shadow {
   margin: -8px 0 0 -8px;
   padding: 8px;
   background: #aaaaaa;
@@ -1520,4 +1617,7 @@
   filter: alpha(opacity=30);
   /* support: IE8 */
   border-radius: 8px;
+}
+.form-horizontal .control-label {
+  text-align: left;
 }

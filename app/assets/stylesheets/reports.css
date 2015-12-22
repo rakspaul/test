@@ -2004,6 +2004,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-weight: normal;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .sec_col {
+  text-transform: capitalize;
   margin-left: 5px ;
   width: 147px ;
 }
@@ -2204,6 +2205,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.sec_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.sec_col {
   width: 100px ;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .vid_data_hdr,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container .vid_data_hdr {
@@ -2259,14 +2261,26 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_byplatforms_block .reports_performance_header .sec_col {
   width: 235px ;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container .strategy_total_container_header div.each_col.first_col {
   width: 100% ;
+}
+.reports_tabs_content_container .link {
+  text-transform: lowercase;
+}
+.reports_tabs_content_container .link:first-letter {
+  text-transform: uppercase;
 }
 .reports_tabs_content_container #reports_byscreens_block .sec_col,
 .reports_tabs_content_container #reports_byformats_block .sec_col {
   width: 132px ;
   text-align: left;
+  text-transform: lowercase;
+}
+.reports_tabs_content_container #reports_byscreens_block .sec_col:first-letter,
+.reports_tabs_content_container #reports_byformats_block .sec_col:first-letter {
+  text-transform: uppercase;
 }
 .reports_tabs_content_container #reports_byscreens_block .first_col,
 .reports_tabs_content_container #reports_byformats_block .first_col {
@@ -2276,10 +2290,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_byformats_block .reports_performance_header .sec_col {
   width: 136px ;
   margin-left: 14px;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bydaysofweek_block .sec_col {
   text-align: left;
   width: 125px;
+  text-transform: lowercase;
+}
+.reports_tabs_content_container #reports_bydaysofweek_block .sec_col:first-letter {
+  text-transform: uppercase;
 }
 .reports_tabs_content_container #reports_bydaysofweek_block .first_col {
   width: 100% !important ;
@@ -2287,6 +2306,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_bydaysofweek_block .reports_performance_header .sec_col {
   width: 135px ;
   margin-left: 14px;
+  text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container .vid_data_hdr {
   width: 306px;
@@ -2918,6 +2938,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   box-shadow: 0px 0px 0px transparent;
   -webkit-box-shadow: 0px 0px 0px transparent;
   -moz-box-shadow: 0px 0px 0px transparent;
+}
+.reports_login_outer_container .reports_login_box .login_txtbox input:focus {
+  border: 0px solid transparent;
+  border-left: solid 1px #d2dee7 ;
 }
 .reports_login_outer_container .reports_login_box .validation_error {
   border: solid 2px #C32A2A ;
@@ -3635,7 +3659,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
   height: 11px;
   width: 12px;
   min-width: 12px;
@@ -3814,6 +3838,17 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 102px;
   min-width: 102px;
   max-width: 102px;
+  word-wrap: break-word;
+  padding-right: 20px;
+  /*
+      padding-bottom: 15px;*/
+  text-align: right;
+}
+.custom_report_response_page .custom_report_response_table .each_col_cost {
+  display: table-cell;
+  width: 133px;
+  min-width: 133px;
+  max-width: 133px;
   word-wrap: break-word;
   padding-right: 20px;
   /*

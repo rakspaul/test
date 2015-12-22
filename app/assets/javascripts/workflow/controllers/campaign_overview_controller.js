@@ -22,10 +22,8 @@ var angObj = angObj || {};
         $scope.alertMessage  = localStorage.getItem('topAlertMessage');
 
         $scope.editCampaign=function(workflowcampaignData){
-                    window.location.href = '/campaign/'+workflowcampaignData.id+'/edit';
-//                    localStorage.setItem('campaignData',JSON.stringify(workflowcampaignData));
-//                    console.log(localStorage.getItem('campaignData'));
-                }
+            window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
+        }
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -49,6 +47,34 @@ var angObj = angObj || {};
            $scope.alertMessage = "" ;
         }
 
+        //Archive save func more
+        $scope.archiveCampaign=function(event){
+            event.preventDefault();
+            var campaignArchiveErrorHandler=function(){
+                $scope.campaignArchive=false;
+                $scope.flashMessage.message = $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE ;
+                $scope.flashMessage.isErrorMsg = 1 ;
+                $scope.flashMessage.isMsg = 0;
+            }
+            workflowService.deleteCampaign($scope.campaignId).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.campaignArchive=false;
+                    var url = '/campaigns';
+                        if($scope.editCampaignData.adsCount >0 ) {
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
+                        } else {
+                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
+                        }
+                        $location.url(url);
+                }else{
+                    campaignArchiveErrorHandler();
+                }
+            },campaignArchiveErrorHandler);
+        }
+        $scope.cancelArchiveCampaign=function(){
+            $scope.campaignArchive=!$scope.campaignArchive;
+        }
+        
         var campaignOverView = {
 
             modifyCampaignData: function () {
@@ -207,6 +233,9 @@ var angObj = angObj || {};
 
             errorHandler: function (errData) {
                 console.log(errData);
+                if(errData.data.status === 404) {
+                    $location.url('/mediaplans');
+                }
             }
         }
 
@@ -230,7 +259,7 @@ var angObj = angObj || {};
         })
 
         $scope.navigateToAdCreatePage = function () {
-            var redirectUrl ='/campaign/' + $scope.workflowData.campaignData.id + '/ads/create';
+            var redirectUrl ='/mediaplan/' + $scope.workflowData.campaignData.id + '/ads/create';
             $location.url(redirectUrl);
         }
 
@@ -427,9 +456,9 @@ var angObj = angObj || {};
                 localStorage.setItem("stTime", stTime);//convert this to EST in ads page
                 localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
             }
-            var path = path = "/campaign/"+campaignId+"/ads/"+adsId+"/edit";
+            var path = path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
             if(groupId && adsId) {
-              var path = "/campaign/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
+              var path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
             }
             $location.path( path );
         }
@@ -461,7 +490,7 @@ var angObj = angObj || {};
                 localStorage.setItem("stTime", stTime);//convert this to EST in ads page
                 localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
             }
-            var navigateUrl = "/campaign/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
+            var navigateUrl = "/mediaplan/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
             $location.url(navigateUrl)
         }
 
@@ -528,9 +557,7 @@ var angObj = angObj || {};
                 });
 
 
+            }
         }
-        }
-
-
     });
 })();

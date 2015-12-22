@@ -122,8 +122,8 @@
     this.REPORT_ADD_FILTERS = "Add Filters";
     this.REPORT_BUILDER_TIMEFRAME_LIST = ['Yesterday', 'Week to date', 'Last 7 days', 'Last week', 'Month to date', 'Last month', 'Quarter to date', 'Last quarter', 'Year to date', 'Custom dates'];
     this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
-    this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Campaign has been successfully created';
-    this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Campaign has been successfully updated';
+    this.CAMPAIGN_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Media Plan has been successfully created';
+    this.CAMPAIGN_UPDATED_SUCCESS ='<span class="bold-font">Success. </span> Media Plan has been successfully updated';
     this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
     this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
     this.AD_GROUP_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad Group has been successfully created';
@@ -138,32 +138,32 @@
     this.MSG_UNKNOWN_ERROR_OCCURED="<div class='no-data-common'>Data not available <div>Please retry later</div><span class='reload-img'></span></div>";
     this.MSG_DATA_NOT_AVAILABLE= "<span class='no-data-common'>Data not available</span>";
     this.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD= "<span class='data_not_found'>Data not available</span>";
-    this.MSG_CAMPAIGN_YET_TO_START= "<span class='no-data-common'>Campaign yet to start</span>";
+    this.MSG_CAMPAIGN_YET_TO_START= "<span class='no-data-common'>Media Plan yet to start</span>";
     this.MSG_STRATEGY_YET_TO_START= "<span class='no-data-common'>Ad Group yet to start</span>";
     this.MSG_TACTIC_YET_TO_START= "<span class='no-data-common'>Ad yet to start</span>";
-    this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Campaign is active, data not yet available</span>";
+    this.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Media Plan is active, data not yet available</span>";
     this.MSG_STRATEGY_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Ad Group is active, data not yet available</span>";
     this.MSG_TACTIC_ACTIVE_BUT_NO_DATA = "<span class='no-data-common'>Ad is active, data not yet available</span>";
-    this.MSG_CAMPAIGN_VERY_OLD = "<span class='no-data-common'>Campaign ended 3+ years ago, data not available</span>";
+    this.MSG_CAMPAIGN_VERY_OLD = "<span class='no-data-common'>Media Plan ended 3+ years ago, data not available</span>";
     this.MSG_STRATEGY_VERY_OLD = "<span class='no-data-common'>Ad Group ended 3+ years ago, data not available</span>";
     this.MSG_TACTIC_VERY_OLD = "<span class='no-data-common'>Ad ended 3+ years ago, data not available</span>";
-    this.MSG_CAMPAIGN_KPI_NOT_SET = "<span class='no-data-common'>Campaign KPI is not set</span>";
+    this.MSG_CAMPAIGN_KPI_NOT_SET = "<span class='no-data-common'>Media Plan KPI is not set</span>";
     this.MSG_STRATEGY_KPI_NOT_SET = "<span class='no-data-common'>Ad Group KPI is not set</span>";
     this.MSG_TACTIC_KPI_NOT_SET = "<span class='no-data-common'>Ad KPI is not set</span>";
     this.MSG_CAMPAIGN_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_CAMPAIGN_NOT_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
     this.MSG_STRATEGY_YET_TO_BE_OPTIMIZED = "<span class='no-data-common'>Optimization activity not recorded</span>";
-    this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Campaigns with set KPI value</span>";
+    this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Media Plan with set KPI value</span>";
     this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
-    this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : 0, type : 'all'};
+    this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : -1, type : 'all'};
 
-    this.NO_RELEVANT_CAMPAIGNS = "No Relevant Campaigns";
+    this.NO_RELEVANT_CAMPAIGNS = "No Relevant Media Plans";
     this.COST_BREAKDOWN = "Cost Breakdown";
     this.PERFORMANCE = "Performance";
     this.BUDGET = "Budget";
     this.BRAND = "Brand";
-    this.CAMPAIGN_ON_TRACK = "Campaign On Track";
-    this.UNDERPERFORMING_CAMPAIGN = "Underperforming Campaign";
+    this.CAMPAIGN_ON_TRACK = "Media Plan On Track";
+    this.UNDERPERFORMING_CAMPAIGN = "Underperforming Media Plan";
     this.NEUTRAL = "Neutral (no status)";
     this.IMP_WITH_DOT = "Imps.";
     this.VTC = "VTC";
@@ -183,11 +183,14 @@
     this.SELECT_ALL = "Select All";
     this.DRAFT = "Draft";
     this.READY = "Ready";
+    this.SCHEDULED = "Scheduled";
+    this.INFLIGHT_LABEL = "In Flight";
     this.ACTIVE_LABEL = "Active";
     this.KPI_ON_TRACK = "KPI On Track";
     this.UNDERPERFORMING = "Underperforming";
     this.PAUSED = "Paused";
     this.COMPLETED = "Completed";
+    this.ENDED = "Ended";
 
     this.CREATE_ACTIVITY = "Create Activity";
     this.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG = "Activity created successfully. Please see activity log below!";
@@ -197,7 +200,7 @@
     this.EDIT_ACTIVITY = "Edit Activity";
     this.IMPACTS = "Impacts";
     this.CANCEL = "Cancel";
-    this.CAMPAIGN_PERFORMANCE = "Campaign Performance";
+    this.CAMPAIGN_PERFORMANCE = "Media Plan Performance";
     this.INTERNAL = "Internal";
     this.ACTIVITY_LOG = "Activity Log";
     this.CLICK_FOR_DETAILED_REPORTS = "Click for detailed reports";
@@ -215,7 +218,7 @@
     this.ONE_S= "1s";
     this.FIVE_S= "5s";
     this.FIFTEEN_S= "15s";
-    this.CAMPAIGN_OVERVIEW = "Campaign Overview";
+    this.CAMPAIGN_OVERVIEW = "Media Plan Overview";
     this.KPI = "KPI";
     this.DATA = "Data";
     this.AD_SERVING = "Ad Serving";
@@ -227,7 +230,7 @@
     this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
     this.TOTAL_SPEND = "Total Spend";
 
-    this.CAMPAIGN ="Campaign";
+    this.CAMPAIGN ="Media Plan";
 
     this.FLIGHT_DATES = "Flight Dates";
     this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
@@ -237,8 +240,8 @@
 
     this.STATUS = "Status";
     this.CALENDAR = "Calendar";
-    this.MOST_RELEVANT_CAMPAIGN = "Most Relevant Campaigns";
-    this.CAMPAIGN_STATUS = "Campaign Status";
+    this.MOST_RELEVANT_CAMPAIGN = "Most Relevant Media Plans";
+    this.CAMPAIGN_STATUS = "Media Plan Status";
     this.PERFORMANCE_STATUS = "Performance Status";
     this.ON_TRACK = "On Track";
     this.END_DATES = "End Dates";
@@ -249,8 +252,8 @@
     this.YEAR = "Year";
 
     this.DASHBOARD = "Dashboard";
-    this.CAMPAIGNS = "Campaigns";
-    this.MEDIA_PLAN = "Media Plans";
+    this.CAMPAIGNS = this.MEDIA_PLAN = "Media Plans";
+    this.CREATE_CAMPAIGN =  "Create Media Plan";
     this.REPORTS = "Reports";
     this.HELLO = "Hello";
     this.ABOUT = "About";
@@ -309,7 +312,7 @@
     this.ABOUT_US = "About Us";
     this.USERNAME_OR_PASSWORD_INCORRECT = "The Username/Password is incorrect";
 
-    this.CAPAIGN_DETAILS = "Campaign Details";
+    this.CAPAIGN_DETAILS = "Media Plan Details";
     this.FORMAT = "Format";
     this.DOWNLOAD_REPORT = "Download Report";
     this.DOWNLOADING = "Downloading";
@@ -322,7 +325,7 @@
     this.TARGET_ZONE = "Target Zone";
     this.KPI_ON_TARGET = "KPI on target";
     this.KPI_UNDERPERFORMANCE = "KPI Underperformance";
-    this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "Graph represents campaigns which have set KPI values only";
+    this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY = "% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.";
     this.VIDEO = "Video";
     this.PLAYS = "plays";
     this.PRICING_METHOD_CPM = "cpm";
@@ -333,7 +336,8 @@
     this.QUARTILE_DATA = "Quartile Data";
 
     //workflow related variables
-    this.WF_CREATE_CAMPAIGN = "Campaign Setup";
+    this.WF_CREATE_CAMPAIGN = "Media Plan Setup";
+
     this.UPLOAD_TEMPLATE = "Upload Template";
     this.CREATE = "Create";
     this.WF_SETTINGS = "Settings";
@@ -344,14 +348,13 @@
     this.WF_GOAL = "Goal";
     this.SELECT_GOAL = "Select Goal";
     this.BUDGET = "Budget";
-    this.DOLLAR = "$";
     this.START_DATE = "Start Date";
     this.END_DATE = "End Date";
     this.SELECT_TIME = "Select Time";
     this.ADS = "Ads";
-    this.UNTITLED_CAMPAIGN = "Untitled Campaign";
-    this.SAVE_CAMPAIGN = "Save Campaign";
-    this.PUSH_CAMPAIGN = "Push Campaign";
+    this.UNTITLED_CAMPAIGN = "Untitled Media Plan";
+    this.SAVE_CAMPAIGN = "Save Media Plan";
+    this.PUSH_CAMPAIGN = "Push Media Plan";
     this.CANCEL = "Cancel";
     this.GROUP_TITLE = "Group Title";
     this.EDIT = "Edit";
@@ -362,6 +365,9 @@
     this.IMPRESSIONS = "Impressions";
     this.CREATIVES = "Creatives";
     this.TARGETING = "Targeting";
+    this.CONTINUE = "Continue";
+    this.PREVIOUS = "Previous";
+    this.NEXT = "Next";
 
     this.WF_GUIDED_COPY ="Guided Copy Here - What should i choose?";
     this.WF_HEADER_CREATIVES ="What type of creatives are you using?";
@@ -374,6 +380,10 @@
     this.WF_AD_GOAL = "Ad Goal";
     this.WF_PERFORMANCE = "Performance";
     this.WF_BRAND = "Brand";
+    this.WF_HEADER_AD_OBJECTIVE = "What is your Ad objective?";
+    this.WF_PRIMARY_KPI = "Primary KPI";
+    this.SELECT_LABEL = "Select One";
+
     this.WF_HEADER_SCREENS = "What device screens are you targeting?";
     this.WF_SCREEN_TYPE = "Screen Type";
     this.WF_DESKTOP = "Desktop";
@@ -385,10 +395,11 @@
     this.WF_AD_SIZE = "Ad Size";
     this.WF_FLIGHT_DATE = "Flight Date";
     this.WF_IMPRESSIONS = "Impressions";
+    this.WF_IMPS = "Imps.";   
     this.WF_MEDIA_COST = "Media Cost";
     this.WF_BUDGET = "Budget";
     this.WF_UNIT_COST = "Unit Cost";
-    this.WF_PUSH_CAMPAIGN = "Push Campaign";
+    this.WF_PUSH_CAMPAIGN = "Push Media Plan";
 
     this.WF_HEADER_BUYING_PLATFORM ="Here are the available buying platform based on your goals & ad settings";
     this.WF_HEADER_BUYING_PLATFORM_SUB ="Guided Copy Here - Which platform should i choose?";
@@ -431,8 +442,8 @@
     this.WF_MANDATORY_CREATIVE_NAME = "Please enter a name for the creative."
     this.WF_AD_ARCHIVE_SUCCESS="Ad Archived Successfully"
     this.WF_AD_ARCHIVE_FAILURE="Ad Archive Unsuccessful"
-    this.WF_CAMPAIGN_ARCHIVE_SUCCESS="Campaign Archived Successfully"
-    this.WF_CAMPAIGN_ARCHIVE_FAILURE="Campaign Archive Unsuccessful"
+    this.WF_CAMPAIGN_ARCHIVE_SUCCESS="Media Plan Archived Successfully"
+    this.WF_CAMPAIGN_ARCHIVE_FAILURE="Media Plan Archive Unsuccessful"
     this.WF_AD_PAUSE_FAILURE="Ad Pause Failed"
     this.WF_AD_PAUSE_SUCCESS="Ad Paused Successfully"
     this.WF_AD_RESUME_FAILURE="Ad Resume Failed"
@@ -447,6 +458,12 @@
     this.WF_COPY_TO="Copy to"
     this.WF_ARCHIVE="Archive"
     this.WF_NOT_SET = "Not Set"
+    this.WF_AD_SAVE_CLOSE = "Save & Close";
+    this.WF_AD_SAVE_CONTINUE = "Save & Continue";
+    this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
+    this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
+    this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
+    this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
 
     this.reportDownloadSuccess = "Report Downloaded Successfully";
     this.reportDownloadFailed = "Report Download Failed";
@@ -457,9 +474,16 @@
     this.reportDeleteSuccess = "Deleted Report Successfully";
     this.reportDeleteFailed = "Deleting Report Failed";
     this.deleteReportHeader = "Delete Report";
+    this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
 
     this.ACCOUNT_CHANGED = "accountChanged";
-
+      this.QUERY_ID_CAMPAIGN_SCREENS=7;
+      this.QUERY_ID_CAMPAIGN_FORMATS=8;
+      this.QUERY_ID_CAMPAIGN_AD_SIZES=9;
+      this.QUERY_ID_CAMPAIGN_COST=14;
+      this.QUERY_ID_CAMPAIGN_PLATFORMS=22;
+      this.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES=25;
+      this.QUERY_ID_CAMPAIGN_QUALITY=12;
   };
 
   commonModule.service("constants", constants);

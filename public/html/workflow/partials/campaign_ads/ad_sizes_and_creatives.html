@@ -68,9 +68,9 @@
 
 <!--=== Next Step Panel ===-->
 <div class="row">
-    <a href="#adType" data-toggle="tab" class="nextWrapper leftNavLink">
-        <img src="/assets/images/cdesk/arrow_down.png" alt=""/>
-    </a>
+    <span class="nextWrapper leftNavLink">
+         <button ng-disabled="!adData.adName" ng-click="CampaignADsave(false)" class="btn btn-primary">{{textConstants.WF_AD_SAVE_CLOSE}}</button>
+    </span>
 </div>
 
 <div class="popContainerHolder" ng-show="IsVisible">

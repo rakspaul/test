@@ -46,7 +46,6 @@ var angObj = angObj || {};
         $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
         $scope.selected_filters.kpi_type =  kpiSelectModel.getSelectedKpi();;
 
-        $scope.is_network_user = loginModel.getIsNetworkUser();
         $scope.download_urls = { optimization: null  };
         $scope.seeDate = { value : '', className: ''};
 
@@ -95,9 +94,9 @@ var angObj = angObj || {};
 
         $scope.loadTableData = function () {
             var tacticList = [],  actionItems;
-            if( $scope.selectedStrategy.id == 0){
+            if( $scope.selectedStrategy.id == -1){
                 actionItems = $scope.actionItems ; // for all strategies
-            } else if( $scope.selectedStrategy.id == -1 ||  $scope.selectedStrategy.id == -99 ){
+            } else if( $scope.selectedStrategy.id == -99 ){
                 console.log("Selected strategy id is -1 or -99");
             } else {
                 actionItems = $scope.selectedStrategy.action ; //$scope.clicked.strategy.action;
@@ -197,6 +196,8 @@ var angObj = angObj || {};
             };
 
             var strategyId = Number($scope.selectedStrategy.id);
+            strategyId = strategyId === -1 ? 0 : strategyId;
+
             $scope.api_return_code=200;
             dataService.getCdbChartData(param, $scope.selected_filters.time_filter, 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
@@ -212,7 +213,6 @@ var angObj = angObj || {};
                                 if ($scope.selectedCampaign.id == param.orderId && $scope.selectedStrategy.id == strategyId) {
                                     var maxDays = result.data.data.measures_by_days;
                                     for (var i = 0; i < maxDays.length; i++) {
-                                        maxDays[i]['ctr'] *= 100;
                                         var kpiTypeLower = angular.lowercase(kpiType);
                                         kpiTypeLower = (kpiTypeLower === 'delivery' ? 'impressions' : kpiTypeLower);
                                         kpiTypeLower =  ((kpiTypeLower == 'null' || kpiTypeLower == undefined)? 'ctr' : kpiTypeLower );
@@ -282,7 +282,7 @@ var angObj = angObj || {};
             var counter = 0;
             var actionItems = $scope.campaignActionList;
             var actionItemsArray = [];
-            if (actionItems.length > 0 && $scope.selectedStrategy.id != -1) {
+            if (actionItems.length > 0 && $scope.selectedStrategy.id == -1) {
                 for (var i = 0; i < actionItems.length; i++) {
                     if (actionItems[i].lineitemId == $scope.selectedStrategy.id) {
                         for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
@@ -325,7 +325,7 @@ var angObj = angObj || {};
 
         $scope.actionDataForSelectedStrategy = function () {
             $scope.actionDataForTactic();
-            if ($scope.selectedStrategy.id != -1) { // It is possible that the selected strategy has no action still it can have cdb data
+            if ($scope.selectedStrategy.id != -99) { // It is possible that the selected strategy has no action still it can have cdb data
                 $scope.loadCdbDataForStrategy();
             } else {
                 $scope.chartForStrategy = false;
@@ -355,7 +355,8 @@ var angObj = angObj || {};
         $scope.getCampaignDetails = function (callback) {
             if ($scope.selectedCampaign) {
                 //API call for campaign details
-                var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $scope.selectedCampaign.id;
+                var clientId =  loginModel.getSelectedClient().id;
+                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + "/campaigns/" + $scope.selectedCampaign.id;
                 dataService.getSingleCampaign(url).then(function (result) {
                     if (result.data.data !== undefined) {
                         var res = result.data.data;
@@ -379,12 +380,12 @@ var angObj = angObj || {};
 
         //creating download report url
         $scope.createDownloadReportUrl = function () {
-            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
             $scope.download_report = [
                 {
-                    'report_url': urlPath + 'download',
-                    'report_name' : '',
-                    'label' : 'Optimization Report'
+                    'url' : '/reportBuilder/customQueryDownload',
+                    'query_id': 24,
+                    'label' : 'Platform by Performance',
+                    'download_config_id' : 1
                 }
             ];
         };
@@ -393,7 +394,7 @@ var angObj = angObj || {};
             $scope.tacticList = [];
             $scope.actionItems= {}; // action item for selected Strategy.
             $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
-            if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
+            if ($scope.selectedStrategy.id !== -99) { // Means selected campaing has valid strategy
                     $scope.chartForStrategy = true;
                     $scope.actionDataForSelectedStrategy();
                     analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());

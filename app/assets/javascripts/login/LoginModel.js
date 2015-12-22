@@ -1,200 +1,179 @@
-(function() {
-  "use strict";
-  var loginModel = function($cookieStore, $location, constants, $http) {
-    var data = {};
-      data.user_id = undefined;
-      data.user_name ='';
-      data.is_network_user = false;
-      data.is_workflow_user = false;
-      data.auth_token = undefined;
-      data.expiry_secs = undefined;
-      data.login_name = undefined;
-      data.agency_id = undefined;
+(function () {
+    "use strict";
+    var loginModel = function ($cookieStore, $location, constants, $http) {
+        var data = {};
+        data.user_id = undefined;
+        data.user_name = '';
+        data.is_workflow_user = true;//set the cookie value -->hardcoded
+        data.auth_token = undefined;
+        data.expiry_secs = undefined;
+        data.login_name = undefined;
+        data.agency_id = undefined;
 
-    var updateRedirectUrl = function(value) {
-      $cookieStore.put(constants.COOKIE_REDIRECT, value);
-    };
+        var updateRedirectUrl = function (value) {
+            $cookieStore.put(constants.COOKIE_REDIRECT, value);
+        };
 
-    return {
+        return {
 
-    deleteData : function () {
-      data = {};
-      data.is_network_user = false;
-      data.is_workflow_user = false;
-    },
+            deleteData: function () {
+                data = {};
+                data.is_workflow_user = false;
+            },
 
-    getUserRole : function() {
-      if(data.is_network_user === true) {
-        return constants.ROLE_NETWORK
-      }
-      return constants.ROLE_MARKETER;
-    },
+            getUserRole: function () {
+                return constants.ROLE_MARKETER;
+            },
 
-    setSelectedClient: function(data) {
-            localStorage.setItem('selectedClient', JSON.stringify(data));
-        },
+            setSelectedClient: function (data) {
+                localStorage.setItem('selectedClient', JSON.stringify(data));
+            },
 
-    getSelectedClient: function() {
-            return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
-        },
+            getSelectedClient: function () {
+                return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
+            },
 
-    setClientData : function(data) {
-        localStorage.setItem('clientData', JSON.stringify(data));
-    },
+            setClientData: function (data) {
+                localStorage.setItem('clientData', JSON.stringify(data));
+            },
 
-    getClientData : function() {
-        localStorage.getItem('clientData');
-    },
+            getClientData: function () {
+                localStorage.getItem('clientData');
+            },
 
 
-    setUser : function(user) {
-        data = user;
+            setUser: function (user) {
+                data = user;
 
-        var time = moment().add(user.expiry_secs, 'seconds'),
-            expiryTime = new Date(time);
-        document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires=' + expiryTime.toGMTString() + ';path=/';
+                var time = moment().add(user.expiry_secs, 'seconds'),
+                    expiryTime = new Date(time);
+                document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires=' + expiryTime.toGMTString() + ';path=/';
 
-        // campaignDetails object is required for reports tab.
-        localStorage.setItem( 'selectedCampaign', JSON.stringify({
-            id : '-1',
-            name :'Loading ...',
-            startDate  : '-1',
-            endDate : '-1',
-            kpi : 'ctr'
-        })
-        );
-        localStorage.setItem( 'selectedKpi', 'ctr');
-        localStorage.setItem('isNavigationFromCampaigns','false');
-    },
+                // campaignDetails object is required for reports tab.
+                localStorage.setItem('selectedCampaign', JSON.stringify({
+                        id: '-1',
+                        name: 'Loading ...',
+                        startDate: '-1',
+                        endDate: '-1',
+                        kpi: 'ctr'
+                    })
+                );
+                localStorage.setItem('selectedKpi', 'ctr');
+                localStorage.setItem('isNavigationFromCampaigns', 'false');
+            },
 
-    getIsAgencyCostModelTransparent :  function() {
-        if(data.is_network_user) {
-            data.cost_transparency = true;
-        }
-        if(data.cost_transparency) {
-            return data.cost_transparency;
-        } else if($cookieStore.get('cdesk_session')) {
-            data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
-            return $cookieStore.get('cdesk_session').cost_transparency;
-        }
-    },
+            getIsAgencyCostModelTransparent: function () {
+                if (data.is_network_user) {
+                    data.cost_transparency = true;
+                }
+                if (data.cost_transparency) {
+                    return data.cost_transparency;
+                } else if ($cookieStore.get('cdesk_session')) {
+                    data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
+                    return $cookieStore.get('cdesk_session').cost_transparency;
+                }
+            },
 
-    getLoginName : function() {
-        if(data.login_name) {
-            return data.login_name;
-        } else if($cookieStore.get('cdesk_session')) {
-            data.login_name = $cookieStore.get('cdesk_session').login_name;
-            return $cookieStore.get('cdesk_session').login_name;
-        }
-    },
+            getLoginName: function () {
+                if (data.login_name) {
+                    return data.login_name;
+                } else if ($cookieStore.get('cdesk_session')) {
+                    data.login_name = $cookieStore.get('cdesk_session').login_name;
+                    return $cookieStore.get('cdesk_session').login_name;
+                }
+            },
 
-    getUserId : function() {
-      if(data.user_id) {
-        return data.user_id;
-       } else if($cookieStore.get('cdesk_session')) {
-        data.user_id = $cookieStore.get('cdesk_session').user_id;
-        return $cookieStore.get('cdesk_session').user_id;
-      }
-    },
+            getUserId: function () {
+                if (data.user_id) {
+                    return data.user_id;
+                } else if ($cookieStore.get('cdesk_session')) {
+                    data.user_id = $cookieStore.get('cdesk_session').user_id;
+                    return $cookieStore.get('cdesk_session').user_id;
+                }
+            },
 
-    getAgencyId : function() {
-        if(data.agency_id) {
-            return data.agency_id;
-        } else if($cookieStore.get('cdesk_session')) {
-            data.agency_id = $cookieStore.get('cdesk_session').agency_id;
-            return $cookieStore.get('cdesk_session').agency_id;
-        }
-    },
+            getAgencyId: function () {
+                if (data.agency_id) {
+                    return data.agency_id;
+                } else if ($cookieStore.get('cdesk_session')) {
+                    data.agency_id = $cookieStore.get('cdesk_session').agency_id;
+                    return $cookieStore.get('cdesk_session').agency_id;
+                }
+            },
 
-    getUserName : function() {
-      if(data.user_name) {
-        return data.user_name;
-       } else if($cookieStore.get('cdesk_session')) {
-        data.user_name = $cookieStore.get('cdesk_session').user_name;
-        return $cookieStore.get('cdesk_session').user_name;
-      }
-    },
+            getUserName: function () {
+                if (data.user_name) {
+                    return data.user_name;
+                } else if ($cookieStore.get('cdesk_session')) {
+                    data.user_name = $cookieStore.get('cdesk_session').user_name;
+                    return $cookieStore.get('cdesk_session').user_name;
+                }
+            },
 
-    getIsNetworkUser : function() {
-      if(data.is_network_user) {
-        return data.is_network_user;
-       } else if($cookieStore.get('cdesk_session')) {
-        data.is_network_user = $cookieStore.get('cdesk_session').is_network_user;
-        return data.is_network_user === 'true' || data.is_network_user === true;
-      }
-    },
 
-    getIsWorkflowUser : function() {
-        if(data.is_workflow_user) {
-            return data.is_workflow_user;
-        } else if($cookieStore.get('cdesk_session')) {
-            data.is_workflow_user = $cookieStore.get('cdesk_session').is_workflow_user;
-            return data.is_workflow_user === 'true' || data.is_workflow_user === true;
-        }
-    },
 
-    getExpirySecs : function() {
-      if(data.expiry_secs) {
-        return data.expiry_secs;
-      } else if($cookieStore.get('cdesk_session')) {
-        data.expiry_secs = $cookieStore.get('cdesk_session').expiry_secs;
-        return $cookieStore.get('cdesk_session').expiry_secs;
-      }
-    },
+            getExpirySecs: function () {
+                if (data.expiry_secs) {
+                    return data.expiry_secs;
+                } else if ($cookieStore.get('cdesk_session')) {
+                    data.expiry_secs = $cookieStore.get('cdesk_session').expiry_secs;
+                    return $cookieStore.get('cdesk_session').expiry_secs;
+                }
+            },
 
-    getAuthToken : function() {
-      if($cookieStore.get('cdesk_session')) {
-        data.auth_token = $cookieStore.get('cdesk_session').auth_token;
-        return $cookieStore.get('cdesk_session').auth_token;
-      }
-    },
+            getAuthToken: function () {
+                if ($cookieStore.get('cdesk_session')) {
+                    data.auth_token = $cookieStore.get('cdesk_session').auth_token;
+                    return $cookieStore.get('cdesk_session').auth_token;
+                }
+            },
 
-    cookieExists : function() {
-        return ($cookieStore.get('cdesk_session'))?true:false;
-    },
+            cookieExists: function () {
+                return ($cookieStore.get('cdesk_session')) ? true : false;
+            },
 
-    networkTimezone : function() {
-      if($cookieStore.get('cdesk_session')) {
-        data.network_tz = $cookieStore.get('cdesk_session').network_tz;
-        return $cookieStore.get('cdesk_session').network_tz
-      }
-      return "America/New_York";
-    },
+            networkTimezone: function () {
+                if ($cookieStore.get('cdesk_session')) {
+                    data.network_tz = $cookieStore.get('cdesk_session').network_tz;
+                    return $cookieStore.get('cdesk_session').network_tz
+                }
+                return "America/New_York";
+            },
 
-    checkCookieExpiry : function(){
-      if(!$cookieStore.get('cdesk_session')){
-        localStorage.clear();
-        if($location.$$path !== '/login') {
-          updateRedirectUrl($location.$$path);
-        }
-        $location.url('/login');
-      }
-    },
+            checkCookieExpiry: function () {
+                if (!$cookieStore.get('cdesk_session')) {
+                    localStorage.clear();
+                    if ($location.$$path !== '/login') {
+                        updateRedirectUrl($location.$$path);
+                    }
+                    $location.url('/login');
+                }
+            },
 
-    logout : function() {
-        $cookieStore.remove('cdesk_session');
-        $http.defaults.headers.common.Authorization = '';
-        localStorage.clear();
-        this.deleteData();
-        $location.url('/login');
-    },
+            logout: function () {
+                $cookieStore.remove('cdesk_session');
+                $http.defaults.headers.common.Authorization = '';
+                localStorage.clear();
+                this.deleteData();
+                $location.url('/login');
+            },
 
-    unauthorized : function() {
-      $cookieStore.remove('cdesk_session');
-      localStorage.clear();
-      if($location.$$path !== '/login') {
-        updateRedirectUrl($location.$$path);
-      }
-      $location.url('/login');
-    },
+            unauthorized: function () {
+                $cookieStore.remove('cdesk_session');
+                localStorage.clear();
+                if ($location.$$path !== '/login') {
+                    updateRedirectUrl($location.$$path);
+                }
+                $location.url('/login');
+            },
 
-    forbidden : function() {
-      //$location.url('/campaigns');
-    }
+            forbidden: function () {
+                //$location.url('/campaigns');
+            }
 
-    } //return
+        } //return
 
-  }; //loginModel
-  angObj.service('loginModel', ['$cookieStore', '$location', 'constants', '$http', loginModel]);
+    }; //loginModel
+    angObj.service('loginModel', ['$cookieStore', '$location', 'constants', '$http', loginModel]);
 
 }());

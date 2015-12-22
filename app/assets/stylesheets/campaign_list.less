@@ -1275,29 +1275,13 @@ button, i, input[type="submit"] {
   word-wrap: break-word;
 }
 .campaign_status_icon {  
-  height: 14px;
-  width: 14px;
   margin-top: 5px;
-  background-repeat: no-repeat;
-  background-position: top left;
-  background-size: contain ;
   margin-right: 8px ;
-}
-.completed_campaign_status_icon {
-  background-image : url("/assets/images/statusWidget/completed_icon.png") ;
-}
-.draft_campaign_status_icon {
-  background-image : url("/assets/images/statusWidget/draft_icon.png")  ;
-}
-.ready_campaign_status_icon {
-  background-image : url("/assets/images/statusWidget/ready_icon.png")  ;
-}
-.active_campaign_status_icon {
-  background-image : url("/assets/images/statusWidget/active_icon.png")  ;
-}
-.paused_campaign_status_icon {
-  background-image : url("/assets/images/statusWidget/paused_icon.png")  ;
-  width: 10px ;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
 }
 .cost_cols_holder {
   .first_col , .second_col {
@@ -1390,8 +1374,8 @@ button, i, input[type="submit"] {
     .common_primary_btn {
       text-transform: none;
       border-radius: 2px;
-      height: 35px;
-      line-height: 34px;
+      height: 36px;
+      line-height: 36px;
       font-size: 14px;
       width : auto ;
       a {
@@ -2536,9 +2520,9 @@ button, i, input[type="submit"] {
     color: #fff ;
     .main_logo {
       display: block;
-      background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat left top  ;
-      width: 91px;
-      height: 40px;
+      //background: url("/assets/images/visto_logos/visto-new-header.png") no-repeat left top;
+      //width: 91px;
+      //height: 40px;
       margin: 8px 20px 0 0 ;
     }
     .profile_menu {
@@ -3027,6 +3011,9 @@ button, i, input[type="submit"] {
     text-transform: capitalize;
   }
   .brand_name_selected {
+    &.no_pointer{
+      cursor:default;
+    }
       cursor: pointer;
       padding-right: 20px ;
       max-width: 140px;
@@ -3275,6 +3262,5 @@ button, i, input[type="submit"] {
     }
   }
 }
-
 
 

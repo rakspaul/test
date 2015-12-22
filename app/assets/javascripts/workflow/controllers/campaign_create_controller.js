@@ -1,42 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, $location,utils) {
-        $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
-        $("html").css('background','#fff');
-        // This sets dynamic width to line to take 100% height
-        function colResize() {
-            var winHeight = $(window).height() - 66;
-            $("#campaignCreate .settingWrap").css('height', winHeight + 'px');
-        }
-
-        colResize();
-        $(window).resize(function () {
-            colResize();
-        });
-        // This is for the drop down list. Perhaps adding this to a more general controller
-        $(document).on('click', '.dropdown-menu li a', function () {
-            $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
-            $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-        });
-        $('.dropdown-workflow a').each(function () {
-            var text = $(this).text()
-            if (text.length > 14)
-                $(this).val(text).text(text.substr(0, 20) + '…')
-        });
-        $scope.textConstants = constants;
-        $scope.workflowData = {};
-        $scope.selectedCampaign = {};
-        $scope.repushCampaignEdit = false;
-        $scope.campaignId = $routeParams.campaignId;
-        $scope.flashMessage = {'message':'','isErrorMsg':0};
-        $scope.mode = workflowService.getMode();
-        $scope.campaignArchive=false;
-        $scope.deleteCampaignFailed=false;
-        $scope.numberOnlyPattern = /[^0-9]/g;
-        $scope.archiveMessage="Do you want to delete/ Archive Campaign?";
-        //$scope.UserObj=JSON.parse(localStorage.getItem("userRoleObj"));//$locale.NUMBER_FORMATS.CURRENCY_SYM;
-        $scope.hideKpiValue=false;
+    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel) {
 
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -79,6 +44,7 @@ var angObj = angObj || {};
 
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
+                console.log(result);
                 if (result.status === "OK" || result.status === "success") {
                     $scope.editCampaignData = result.data.data;
                     $scope.selectedCampaign.clientId = $scope.editCampaignData.clientId;
@@ -225,15 +191,25 @@ var angObj = angObj || {};
         }
 
         $scope.sucessHandler = function (result) {
-            var url = '/campaign/' + result.data.data.id + '/overview';
+            var url = '/mediaplan/' + result.data.data.id + '/overview';
             $location.url(url);
         }
 
-        $scope.selectCampaignGoal = function (event, goal) {
-            $scope.selectedCampaign.goal = goal;
-            var currTarget = $(event.currentTarget);
-            currTarget.parents('.goalBtnGroup').find('label').removeClass('active')
-            currTarget.addClass("active")
+        $scope.selectCampaignGoal = function (goal) {
+
+            console.log("goal", goal);
+            var goalData = $scope.workflowData['goals'];
+            _.each(goalData, function (obj) {
+                if(obj.name === goal) {
+                    $scope.selectedCampaign.goal = obj;
+                    obj.active = true
+                } else {
+                    obj.active = false;
+                }
+            })
+
+
+
         };
 
         createCampaign.getBrandId = function (brandId, postDataObj) {
@@ -252,7 +228,7 @@ var angObj = angObj || {};
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 var postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
-                postDataObj.goal = formData.goal.toUpperCase();
+                postDataObj.goal = formData.goal
                 postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
                 if(formData.kpiType!="None"){
@@ -260,6 +236,7 @@ var angObj = angObj || {};
                     postDataObj.kpiValue = formData.kpiValue;
                 }
 
+                postDataObj.clientId =  loginModel.getSelectedClient().id;
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
                         postDataObj.startTime = $scope.editCampaignData.startTime;
@@ -270,7 +247,7 @@ var angObj = angObj || {};
                     else
                         postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
 
-                    postDataObj.clientId = $scope.editCampaignData.clientId;
+
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
                     postDataObj.campaignId = $routeParams.campaignId;
@@ -279,7 +256,6 @@ var angObj = angObj || {};
                 } else {
                     postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//console.log(postDataObj.startTime)
                     postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');//console.log(postDataObj.endTime)
-                    postDataObj.clientId = Number(formData.clientId);
                     postDataObj.advertiserId = Number(formData.advertiserId);console.log(postDataObj);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
@@ -329,40 +305,80 @@ var angObj = angObj || {};
             return Math.floor((Math.random() * 6) + 1);
         },
 
-            $scope.initiateDatePicker = function () {
-                if ($scope.mode == 'edit') {
-                    var startDateElem = $('#startDateInput');
-                    var endDateElem = $('#endDateInput');
-                    var today = new Date();
-                    //console.log(utils.convertToEST('','MM/DD/YYYY'));
-                    var campaignStartTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
-                    var campaignEndTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
-                    var currentDateTime = utils.convertToEST('','MM/DD/YYYY');
-                    //console.log("currentDateTime", currentDateTime);
-                    //console.log("campaignStartTime", campaignStartTime);
-                    //console.log("campaignEndTime", campaignEndTime);
-                    if(moment(campaignStartTime).isAfter(currentDateTime)) {
-                      startDateElem.datepicker("setStartDate", currentDateTime);
-                      startDateElem.datepicker("update", campaignStartTime);
-                      startDateElem.datepicker("setEndDate", campaignStartTime);
-                    } else {
-                      startDateElem.datepicker("setStartDate", campaignStartTime);
-                      startDateElem.datepicker("update", campaignStartTime);
-                      startDateElem.datepicker("setEndDate", campaignStartTime);
-                    }
+        $scope.initiateDatePicker = function () {
+            if ($scope.mode == 'edit') {
+                var startDateElem = $('#startDateInput');
+                var endDateElem = $('#endDateInput');
+                var today = new Date();
+                var campaignStartTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
+                var campaignEndTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
+                var currentDateTime = utils.convertToEST('','MM/DD/YYYY');
+                if(moment(campaignStartTime).isAfter(currentDateTime)) {
+                  startDateElem.datepicker("setStartDate", currentDateTime);
+                  startDateElem.datepicker("update", campaignStartTime);
+                  startDateElem.datepicker("setEndDate", campaignStartTime);
                 } else {
-                    var startDateElem = $('#startDateInput');
-                    var endDateElem = $('#endDateInput');
-                    var today=utils.convertToEST('','MM/DD/YYYY');
-                    startDateElem.datepicker("setStartDate", today);
-                    endDateElem.datepicker("setStartDate", today);
-                    startDateElem.datepicker("update", today);
-                    $scope.selectedCampaign.startTime = today;
-                    $scope.selectedCampaign.endTime = today;
+                  startDateElem.datepicker("setStartDate", campaignStartTime);
+                  startDateElem.datepicker("update", campaignStartTime);
+                  startDateElem.datepicker("setEndDate", campaignStartTime);
                 }
+            } else {
+                var startDateElem = $('#startDateInput');
+                var endDateElem = $('#endDateInput');
+                var today=utils.convertToEST('','MM/DD/YYYY');
+                startDateElem.datepicker("setStartDate", today);
+                endDateElem.datepicker("setStartDate", today);
+                startDateElem.datepicker("update", today);
+                $scope.selectedCampaign.startTime = today;
+                $scope.selectedCampaign.endTime = today;
+            }
         }
 
         $(function () {
+            $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
+            $("html").css('background','#fff');
+            $scope.locale = $locale;
+            // This sets dynamic width to line to take 100% height
+            function colResize() {
+                var winHeight = $(window).height() - 50;
+                $("#campaignCreate .settingWrap").css('height', winHeight + 'px');
+            }
+
+            colResize();
+            $(window).resize(function () {
+                colResize();
+            });
+
+            // This is for the drop down list. Perhaps adding this to a more general controller
+            $(document).on('click', '.dropdown-menu li.available a', function () {
+                $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
+                $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+            });
+            $('.dropdown-workflow a').each(function () {
+                var text = $(this).text()
+                if (text.length > 14)
+                    $(this).val(text).text(text.substr(0, 20) + '…')
+            });
+            $scope.textConstants = constants;
+            $scope.workflowData = {};
+            $scope.selectedCampaign = {};
+            $scope.repushCampaignEdit = false;
+            $scope.campaignId = $routeParams.campaignId;
+            $scope.flashMessage = {'message':'','isErrorMsg':0};
+            $scope.mode = workflowService.getMode();
+            $scope.campaignArchive=false;
+            $scope.deleteCampaignFailed=false;
+            $scope.numberOnlyPattern = /[^0-9]/g;
+            $scope.archiveMessage= $scope.textConstants.CAMPAIGN_ARCHIVE_MESSAGES;
+            $scope.hideKpiValue=false;
+            $scope.client =  loginModel.getSelectedClient();
+            $scope.isClientDropDownDisable = false;
+            if($scope.client.name) {
+                $scope.isClientDropDownDisable = true;
+                $scope.clientName = $scope.client.name;
+                ($scope.mode == 'create')  && $scope.selectHandler('client', $scope.client, null);
+            }
+
             $('.input-daterange').datepicker({
                 //format: "mm/dd/yyyy",
                 format: "mm/dd/yyyy",
@@ -370,9 +386,6 @@ var angObj = angObj || {};
                 autoclose: true,
                 todayHighlight: true
             });
-
-
-            createCampaign.clients();
             createCampaign.Kpi();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();

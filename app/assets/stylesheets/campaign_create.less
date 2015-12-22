@@ -13,7 +13,6 @@
     left: 50%;
     margin-left: -32px;
     margin-top: -32px;
-
     -webkit-filter: hue-rotate(22deg);
     filter: hue-rotate(22deg);
   }
@@ -182,12 +181,12 @@
           margin-bottom: 20px;
           span {
             float: left;
-            font-size: 16px;
+            font-size: 14px;
             color: #21252b;
           }
           span.tagTitle {
             margin-left: 50px;
-            margin-right: 10px;
+            margin-right: 5px;
             color: #949ead;
           }
           .tagTitle:first-child {
@@ -202,15 +201,16 @@
           word-wrap: break-word;
           float: left;
           font-family: "Avenir";
+          padding-bottom: 5px ;
         }
         .campTitleWrap {
           padding: 5px 0 0 0px !important;
           float: left;
           clear: both;
-          .label {
+          .statuslabel {
             float: left;
-            width: 15px;
-            height: 15px;
+            width: 16px;
+            height: 16px;
             border-radius: 10px;
             font-size: 0 !important;
             margin-top: 6px;
@@ -244,26 +244,6 @@
             margin: 0 10px;
           }
         }
-        .campTitleWrap.adStatus_scheduled {
-            .activeLabel {
-              background-color : #2c9aec ;
-            }
-          }
-          .campTitleWrap.adStatus_draft {
-            .activeLabel {
-              background-color: #6abdfa ;
-            }
-          }
-          .campTitleWrap.adStatus_in_flight {
-            .activeLabel {
-              background-color: #70d43d ;
-            }
-          }
-          .campTitleWrap.adStatus_ended {
-            .activeLabel {
-              background-color: #707AEB ;
-            }
-          }
         .campTitleWrap:hover {
           .overview-camp-name, .campaign-name-edit  {
             color: #0978C9;
@@ -288,12 +268,10 @@
                 padding: 0 0 0 5px;
                 height: 45px;
             }
-            label {
-              font-size: 12px;
-              color: #939ead;
+            .greyTxt {
               float: left;
               width: 100%;
-              padding: 0;
+              padding: 0 !important;
               margin: 0;
             }
             span {
@@ -313,8 +291,16 @@
           .campWidgets {
             float: right;
             position: relative;
-            margin: 0 0 0 30px;
+            margin: 0 0 0 30px;         
             span {
+              float: right;
+              color: #787878;
+              font-size: 23px;
+              margin-bottom: 20px;
+              height: 23px;
+              width: 23px;  
+            }
+            /* span {
                   position: absolute;
                   top: -7px;
                   right: -8px;
@@ -327,19 +313,23 @@
                   font-family: "Arial";
                   font-weight: bold;
                   line-height: 10px;
-              }
+              }  */
+              
             img {
               float: left;
             }
-            a {
+            /* a {
               float: right;
               color: #787878;
               font-size: 23px;
               cursor: pointer;
-            }
+              margin-bottom: 20px;
+              height: 23px;
+              width: 23px;
+            } 
             a:active, a:focus, a:hover {
               text-decoration: none;
-            }
+            } */
           }
         }
       }
@@ -558,7 +548,7 @@
           }
           .adCreateBtn:hover {
             .glyphicon, h2 {
-              color: #2c9aec;
+              color: #0978C9;
             }
           }
           .adModule {
@@ -568,7 +558,7 @@
             margin-right: .75%;
             margin-top: 1%;
             min-height: 371px;
-            background: #F7FAFF;
+            background: rgba(255,255,255,0.50);
             position: relative;
             max-width: 1200px ;
             cursor: pointer;
@@ -657,12 +647,15 @@
               .icon-warning:before {
                 float: right;
               }
+              .icon-tracking {
+                color: #fff;
+              }
             }
             .adStatus.incomplete {
-              background : #939ead ;
+              background : #939eae ;
             }
             .adStatus.ready {
-              background : #6abdfa ;
+              background : #004478 ;
             }
             .adStatus.scheduled {
               background : #2c9aec ;
@@ -673,12 +666,16 @@
             .adStatus.deploying {
               background : #6abdfa;
             }
+            .adStatus.in_progress {
+              background : #6abdfa ;
+            }
             .adStatus.failed {
               background : #FF8000 ;
             }
             .adStatus.ended {
               background : #707AEB ;
-            }.adStatus.paused {
+            }
+            .adStatus.paused {
               background : #98B5C8 ;
             }
             .adStatus.paused {
@@ -759,7 +756,7 @@
               z-index: 10;
               left: 50%;
               top: -17px;
-              background: #F7FAFF;
+              background: #F7FAFE;
               border: 1px dashed #939EAE;
               text-align: center;
               padding: 5px 0;
@@ -942,7 +939,7 @@
         }
       }
       .adWrap {
-        background: #eef5fc;
+        background: #EDF2F8;
         margin: 0px;
         border-top: 1px solid #BFC9D7;
         .adContainer {
@@ -1007,6 +1004,11 @@
     width: 77%;
     height: 100%;
     border-left: 1px solid #ccd2da;
+    .nextWrapper.leftNavLink {
+      .btn {
+        margin-top: -24px ;
+      }
+    }
     .adMainWrapper {
       width: 100%;
       min-height: 500px;
@@ -1287,7 +1289,7 @@
         }
         p {
           color: #21252b;
-          font-family: "Avenir-black";
+          font-family: "Avenir-bold";
           font-size: 14px;
           width: 100%;
           text-align: center;
@@ -1319,6 +1321,24 @@
           float: left;
           width: 100%;
           text-align: center;
+        }
+        .icon-inline-edit {
+          position: absolute;
+          z-index: 10;
+          top: 10px;
+          right: 10px;
+          color: #0978c9;
+          font-size: 12.5px;
+          width: 12.5px;
+          height: 12.5px;
+          margin: 0;
+          display: none;
+        }
+      }
+      .platformHolder:hover {
+        border: 1px solid #0978c9;
+        .icon-inline-edit {
+          display: inline-block;
         }
       }
       .platformHolder:nth-child(3n+3) {
@@ -1366,7 +1386,7 @@
           width: 100%;
           #myCarousel {
             padding: 0 40px;
-            height: 420px;
+            height: 340px;
           }
           .carousel-indicators {
             display: none;
@@ -1387,14 +1407,14 @@
               height: 45px;
               width: 38px;
               float: left;
-              margin-top: 170px;
+              margin-top: 140px;
             }
             .rightCtrl {
               background: url("/assets/images/cdesk/calendar_arrow_right.png") no-repeat center center;
               height: 45px;
               width: 38px;
               float: right;
-              margin-top: 170px;
+              margin-top: 140px;
             }
             .glyphicon {
               color: #000;
@@ -1408,22 +1428,39 @@
             width: 31.68%;
             background: #fff;
             border: 1px solid #ddd;
-            padding: 25px;
+            padding: 30px;
             float: left;
+            height: 280px;
+            margin-right: 2.48%;
             .select-btn {
               text-align: center;
-              margin-top: 20px ;
+              margin-top: 40px;
             }
             .title {
               float: left;
               width: 100%;
               font-family: "Avenir-bold";
-              font-size: 12px;
+              margin: 15px 0 25px 0;
             }
             .descrip {
               float: left;
               width: 100%;
-              font-size: 12px;
+            }
+            img {
+              max-height: 50px;
+              max-width: 196px;
+              display: inline-block;
+            }
+          }
+          .offeringWrap:nth-child(3n+2) {
+            .popUpCue {
+              left: 287px;
+            }
+          }
+          .offeringWrap:nth-child(3n+3) {
+            margin-right: 0;
+            .popUpCue {
+              left: 566px;
             }
           }
         }
@@ -1739,7 +1776,7 @@
       left: 100%;
       width: 930px;
       height: 100%;
-      min-height: 600px;
+      min-height: 970px;
       top: 123px;
       display:none;
       //-webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
@@ -1943,7 +1980,7 @@
   }
   // Campaign Create Ad POP Ends Here
 }
-.workflow .bodyWrapOverview {
+.bodyWrapOverview {
   width: 100%;
   padding: 0px;
   //position: relative;
@@ -2031,7 +2068,6 @@
       border-top: 1px solid #D0D0D0;
       height: 30px;
       width: 100%;
-      cursor: pointer;
       text-align: center;
       img {
         width: 35px;
@@ -2099,6 +2135,7 @@
           a {
             color: #0978c9;
             padding: 6px 0;
+            width: 100%;
           }
         }
         li:hover {
@@ -3009,6 +3046,7 @@
           width: 16px;
           height: 16px;
           color: #363d49;
+          cursor: pointer;
         }
         .hourRow, .dailyRow {
           margin: 0 10px 0 0;
@@ -3078,14 +3116,10 @@
   #creative {
     .creativeTableTag {
       margin-top: 30px;
-
-      
-
       .table {
         margin-bottom: 0;
         tbody {
           display:block;
-          height:200px;
           overflow:auto;
         }
         thead, tbody tr {
@@ -3450,14 +3484,3 @@
     margin : 10px 0px 10px 20px ;
    }
 }
-
-
-
-
-
-
-
-
-
-
-
