@@ -213,7 +213,6 @@ var angObj = angObj || {};
                                 if ($scope.selectedCampaign.id == param.orderId && $scope.selectedStrategy.id == strategyId) {
                                     var maxDays = result.data.data.measures_by_days;
                                     for (var i = 0; i < maxDays.length; i++) {
-                                        maxDays[i]['ctr'] *= 100;
                                         var kpiTypeLower = angular.lowercase(kpiType);
                                         kpiTypeLower = (kpiTypeLower === 'delivery' ? 'impressions' : kpiTypeLower);
                                         kpiTypeLower =  ((kpiTypeLower == 'null' || kpiTypeLower == undefined)? 'ctr' : kpiTypeLower );

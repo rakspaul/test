@@ -43,10 +43,10 @@
                     kpi_value=chartData[i][kpIType]
                 }
                 if(kpIType === 'ctr' || kpIType === 'action_rate' || kpIType === 'action rate'){
-                    kpi_value = parseFloat((kpi_value*100).toFixed(4));
+                    kpi_value = parseFloat(kpi_value.toFixed(4));
                 }
                 if(kpIType === 'cpm' || kpIType === 'cpc' || kpIType === 'vtc'){
-                    kpi_value = parseFloat((kpi_value*1).toFixed(2));
+                    kpi_value = parseFloat(kpi_value.toFixed(2));
                 }
                 xData.push({custom: i, y: chartData[i].dimension });
                 impLine.push(chartData[i].impressions);

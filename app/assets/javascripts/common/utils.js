@@ -755,7 +755,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
         else if (type.toLowerCase() === "delivery (impressions)")
             return (val.toFixed(2)).toLocaleString();
         else {
-            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : constants.currencySymbol + val.toFixed(2);
+            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? val.toFixed(2) + '%' : constants.currencySymbol + val.toFixed(2);
         }
     }
   });
@@ -770,7 +770,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
             else if (type.toLowerCase() === "delivery (impressions)")
                 return val.toLocaleString();
             else {
-                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat((val*100).toFixed(6)) + '%' : constants.currencySymbol + parseFloat((val).toFixed(6)) ;
+                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat(val.toFixed(6)) + '%' : constants.currencySymbol + parseFloat(val.toFixed(6)) ;
             }
         }
     });
