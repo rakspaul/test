@@ -74,7 +74,7 @@
         <label class="col-sm-12 control-label greyTxt miniLabels">Frequency Cap</label>
         <div class="btn-group miniToggle" ng-init="adData.setCap=false">
             <label class="btn btn-default cap_yes" style="width: auto;"><span>Yes</span>
-                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">
+                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; mode == 'create'  && frequencySelected('Daily')">
             </label>
             <label class="btn btn-default active cap_no" style="width: auto;"><span>No</span>
                 <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
