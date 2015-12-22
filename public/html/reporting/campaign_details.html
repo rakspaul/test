@@ -37,7 +37,7 @@
                                       <div ng-show="action.selectedSubTypeError" id="error_subtype"  class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
                                </div>
                                 <div class="filter_dropdown select_all_filter_dropdown">
-                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()" maxcharacter="20"></multiselect>
+                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Ad -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()" maxcharacter="20"></multiselect>
                                     <div ng-show="action.selectedTacticError" id="error_tactic" class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
                                 </div>
                                 <div class="filter_dropdown metric_selected_filter_dropdown">
