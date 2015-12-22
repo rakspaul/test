@@ -74,7 +74,7 @@ var angObj = angObj || {};
             if(platform[0]) {
                 $scope.defaultPlatform = platform[0];
                 $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
-                $scope.saveCustomeFieldForPlatform();
+                $scope.saveCustomeFieldForPlatform(true);
             }
         })
 

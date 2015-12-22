@@ -996,7 +996,7 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.saveCustomeFieldForPlatform = function () {
+        $scope.saveCustomeFieldForPlatform = function (editModeFlag) {
             var customFieldErrorElem = $(".customFieldErrorMsg");
             var customPlatformFormData = $("#customPlatformForm").serializeArray();
             $scope.postPlatformDataObj = [];
@@ -1014,8 +1014,10 @@ var angObj = angObj || {};
             if ($scope.mode == 'edit')
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.postPlatformDataObj));
 
-            //trigger targeting tab link
-            $scope.triggerTargetting();
+            //trigger targeting tab link only when intentionally clicked not on edit mode by default
+            if(!editModeFlag)
+                 $scope.triggerTargetting();
+
             $scope.switchPlatform()
 
         };
