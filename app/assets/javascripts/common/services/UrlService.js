@@ -139,7 +139,7 @@
 
         //this.APISpendWidgetForCampaigns = function (clientId, advertiserId, brandId, timePeriod, status) {
         this.APISpendWidgetForCampaigns = function (qryObj) {
-            var url = apiPaths.apiSerivicesUrl_NEW + '/clients'+qryObj.clientId+'/brands/'+qryObj.brandId+'/campaigns/spend/perf?advertiser_id='+qryObj.advertiserId+'&date_filter=life_time&campaign_status='+qryObj.campaignStatus+'&top_count=5';
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/'+qryObj.clientId+'/brands/'+qryObj.brandId+'/campaigns/spend/perf?advertiser_id='+qryObj.advertiserId+'&date_filter=life_time&campaign_status='+qryObj.campaignStatus+'&top_count=5';
             return url;
            // qryObj.queryId = 5;
              //var params = this.buildParams(qryObj);
