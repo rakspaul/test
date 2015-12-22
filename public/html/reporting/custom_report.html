@@ -145,7 +145,7 @@
 													<span class="arrow_img"></span>
 													 </span>
 													<ul class="dropdown-menu">
-														<div class="dropdown_autoselect_box"><input type="text" ng-model="dimensionQuery" placeHolder="Search"></div>
+														<div class="dropdown_autoselect_box"><input ng-click="addSearch($event)" type="text" ng-model="dimensionQuery" placeHolder="Search"></div>
 														<li ng-repeat="dimension in customeDimensionData[0].dimensions | filter:dimensionQuery" id="{{dimension.key}}" ng-click="onChoosingAditFlts($parent.$index,dimension.key,dimension.value);" ng-model="addFilts.key">{{dimension.value}}</li>
 													</ul>
 												</div>
