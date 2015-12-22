@@ -194,8 +194,6 @@
                 $scope.getFormatsGraphData($scope.campaign);
                 $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
-                $scope.getVideoViewabilityGraphData($scope.campaign);
-
             } else {
                 if(result.status == 204 && result.data == "" ){
                      //if data not found
@@ -555,74 +553,7 @@
             });
         };
 
-        //Video viewability widget
-        $scope.getVideoViewabilityGraphData = function(campaign) {
-            dataService.getVideoViewabilityData(campaign).then(function(result) {
-                if (result.status == "success" && !angular.isString(result.data)) {
-                    var videoViewabilityDataToPlot = [];
-                    var responseData = result.data.data;
-                    var vvData = responseData.view_metrics.video_viewability_metrics;
-                    if(vvData) {
-                        var videoMapper = [{
-                            'videos_played' : 0,
-                            'videos_1q_completed': 25,
-                            'videos_2q_completed': 50,
-                            'videos_3q_completed': 75,
-                            'videos_4q_completed': 100
-                        }, {'videos_viewable_imps': 0, 'videos_1q_view': 25, 'videos_2q_view': 50, 'videos_3q_view': 75, 'videos_4q_view': 100}];
-
-
-                        var _videoViewabilityMapperFunc = function (data, mapper, videoViewabilityDataToPlot) {
-                            var mappedData = [];
-                            _.each(data, function (value, key) {
-                                if (mapper.hasOwnProperty(key)) {
-                                    mappedData.push({'video': mapper[key], 'values': value})
-                                }
-                            });
-                            videoViewabilityDataToPlot.push(_.sortBy(mappedData, 'video'));
-                        }
-                        for (var i in videoMapper) {
-                            _videoViewabilityMapperFunc(vvData, videoMapper[i], videoViewabilityDataToPlot);
-                        }
-
-                        $scope.loadingVideoViewabilityFlag = false;
-                        var baseConfiguration = {
-                            data: {
-                                json: videoViewabilityDataToPlot,
-                                keys: {
-                                    xAxis: {
-                                        val: 'video',
-                                        tickValues: [0, 50, 100]
-                                    },
-                                    yAxis: {
-                                        val: 'values',
-                                        tickValues: []
-                                    }
-                                },
-                                margin: {
-                                    top: 20,
-                                    right: 20,
-                                    left: 20,
-                                    bottom: 20
-                                },
-                                showPathLabel: false,
-                                showAxisLabel: true,
-                                axisLabel: ['Plays', 'Views'],
-                                graphTooltip :true
-                            }
-                        }
-
-                        $scope.videoViewData = {
-                            graphData: baseConfiguration,
-                            totalImps: responseData.view_metrics.video_viewability_metrics.videos_viewable_imps,
-                            adFormats: $scope.adFormats
-                        }
-                    }
-                }
-            });
-        };
-
-        // Screen Widget Start
+            // Screen Widget Start
         $scope.getScreenGraphData  = function(campaign){
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_SCREENS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
@@ -786,15 +717,8 @@
             var viewabilityData, viewData;
              //get cost break down data
              $scope.getCostViewabilityFlag = 0;
-            var params = {
-                queryId: 12, //viewability_report_for_a_campaign
-                clientId: loginModel.getSelectedClient().id,
-                campaignId: campaign.orderId,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
-            };
-            var url = urlService.APIVistoCustomQuery(params);
-            url+='&id='+campaign.orderId+'&field_name=campaign_id';
-            dataService.fetch(url).then(function (result) {
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_QUALITY);
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                  $scope.getCostViewabilityFlag = 1;
                  $scope.loadingViewabilityFlag = false;
                 if (result.status == "success" && !angular.isString(result.data.data)) {
