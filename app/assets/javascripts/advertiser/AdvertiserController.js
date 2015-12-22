@@ -8,7 +8,7 @@
         function fetchAdvertisers(searchCriteria,search) {
             advertiserModel.getAdvertisers(function (advertisersData) {
                 $scope.advertisers = advertisersData;
-                console.log("fetchAdvertisers", $scope.advertisers);
+               // console.log("fetchAdvertisers", $scope.advertisers);
             }, searchCriteria, search);
         }
 

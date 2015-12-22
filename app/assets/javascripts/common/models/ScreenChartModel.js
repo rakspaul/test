@@ -99,7 +99,6 @@
         };
 
         this.getScreenChartData = function() {
-            console.log("please not")
             var modifiedData = [];
             var selectedFormat = this.getScreenWidgetFormat();
             var queryId = 1; //dashboard_hardware_categories

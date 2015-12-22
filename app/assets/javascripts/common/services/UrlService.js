@@ -139,12 +139,12 @@
 
         //this.APISpendWidgetForCampaigns = function (clientId, advertiserId, brandId, timePeriod, status) {
         this.APISpendWidgetForCampaigns = function (qryObj) {
-            qryObj.queryId = 5;
-            /*var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/' + (brandId?brandId:-1) + '/campaigns/spend/perf?advertiser_id='+advertiserId+'&date_filter=' + timePeriod + '&campaignState=' + status.toLowerCase();
-            return url;*/
-            var params = this.buildParams(qryObj);
-            var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params +"&kpi_period=ALL&top_count=5";
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients'+qryObj.clientId+'/brands/'+qryObj.brandId+'/campaigns/spend/perf?advertiser_id='+qryObj.advertiserId+'&date_filter=life_time&campaign_status='+qryObj.campaignStatus+'&top_count=5';
             return url;
+           // qryObj.queryId = 5;
+             //var params = this.buildParams(qryObj);
+            //var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params +"&kpi_period=ALL&top_count=5";
+            //return url;
         };
 
         this.APICalendarWidgetForBrand = function (timePeriod, clientId, advertiserId, brandId, sortColumn, status) {
