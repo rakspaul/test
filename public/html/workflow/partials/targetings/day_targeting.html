@@ -177,7 +177,7 @@
         <div class="col-md-2 zeroPadding hourRow">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle icon-arrow-down" type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['stTime'])" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle down-arrow-icon" type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['stTime'])" aria-expanded="true">
                         <!--<span class="text " ng-bind-html="returnTime(Schedule.dayPart[$index]['stTime'])">returnTime(Schedule.dayPart[$index]['stTime'])</span>-->
                         <!--<span class="text">{{dayObj.startTime ? dayObj.startTime : 'All Day'}}</span>-->
                         <!--<span class="icon-arrow-down"></span>-->
@@ -196,7 +196,7 @@
         <div class="col-md-2 zeroPadding hourRow" ng-if="Schedule.dayPart[$index]['stTime'] < 24">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle icon-arrow-down" type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['edTime'])" aria-expanded="true" >
+                    <button class="btn btn-default dropdown-toggle down-arrow-icon" type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['edTime'])" aria-expanded="true" >
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">
                         <li class="available" ng-click="selectEndTime($parent.$parent.$index,time.time)" ng-repeat="time in getEndTimes|limitTo:1" ng-value="time.time" ng-if="Schedule.dayPart[$parent.$index]['stTime'] == 23"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
