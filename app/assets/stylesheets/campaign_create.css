@@ -2991,6 +2991,16 @@
   padding: 8px 0;
   margin-right: 10px;
 }
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before {
+  float: right;
+  font-size: 10px;
+  margin-top: 2px;
+  margin-right: -3px;
+}
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before .icon-arrow-down,
+.adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before span.icon-arrow-down:before {
+  display: none !important ;
+}
 .adCreateMaster #targetting #dayTargeting {
   padding: 0;
 }

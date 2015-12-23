@@ -180,7 +180,7 @@ select {
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
 }
-.dropdown-workflow .icon-arrow-down,
+.dropdown-workflow span.icon-arrow-down,
 .dropdown-workflow .icon-search {
   font-size: 10px;
   color: #000;
