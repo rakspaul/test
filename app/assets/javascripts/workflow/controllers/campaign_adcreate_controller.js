@@ -352,8 +352,15 @@ var angObj = angObj || {};
             }
 
             //budget tab
-            if (responseData.budgetType) {
-                $scope.adData.budgetType = $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                if (responseData.budgetType) {
+                // $scope.adData.budgetType = $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                
+               if(responseData.budgetType.toLowerCase() === 'cost') {
+                    $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
+                } else {
+                    $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                }
+                
                 if ($scope.adData.budgetType) {
                     var budgetElem = $(".budget_" + $scope.adData.budgetType.toLowerCase());
                 }

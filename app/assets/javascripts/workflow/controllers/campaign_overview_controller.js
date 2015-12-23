@@ -119,6 +119,10 @@ var angObj = angObj || {};
                 _.each(adsData, function(data) {
                   var budgetType = data.budgetType && data.budgetType.toLowerCase();
                   var rateType = data.rateType && data.rateType.toLowerCase();
+           
+                  if(budgetType === "impressions") {
+                        data.budgetType = "Imps.";
+                       }         
                   if(budgetType === "impressions" || budgetType === "clicks" || budgetType === "actions") {
                     data['impression_clicks_actions'] = data.budgetValue;
                     if(rateType === 'cpm') {
