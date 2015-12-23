@@ -4,7 +4,7 @@
     $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
     $scope.data = dashboardModel.getData();
     $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
-
+    $scope.brandSelectedFromBubble = false;
     $scope.textConstants = constants;
 
     var updateTitle = function() {
@@ -21,7 +21,13 @@
 
     $scope.clickOnBrandButton = function (e) {
       analytics.track(loginModel.getUserRole(), 'dashboard_bubble_widget', 'close_campaign_view', loginModel.getLoginName());
-      selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject);
+      // if brand selected from bubble then on close reset advertiser and brand to all else retain advertiser
+      if($scope.brandSelectedFromBubble){
+        selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject);
+      } else {
+        selectBrand(brandsModel.getAllBrand());
+      }
+      $scope.brandSelectedFromBubble = false;
     };
 
     $scope.statusDropdown = function(status) {
@@ -42,6 +48,7 @@
 
 
     var bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
+      $scope.brandSelectedFromBubble = true;
       var brand = {id: args.brandId, name: args.className};
       selectAdvertiser({"id":args.advertiserId,"name":args.advertiserName, "referedFrom" : 'dashboard'});
       selectBrand(brand);
