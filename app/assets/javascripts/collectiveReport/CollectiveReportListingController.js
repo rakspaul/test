@@ -15,7 +15,6 @@
         $scope.sort = {column:'updatedAt',descending:true};
         $scope.screenBusy = false;
         $scope.flashMessage = {'message':'','isErrorMsg':''};
-        $scope.isNetworkUser = loginModel.getIsNetworkUser();
         var browserInfo = utils.detectBrowserInfo();
 
         //close messages in 3 seconds

@@ -24,9 +24,9 @@
             <filters-header reports="true"></filters-header>
         </div>
 
-        <div class="common-load-icon_viewability"  ng-show="strategyLoading"></div>
+        <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
 
-        <div class="performance_container" ng-hide="strategyLoading">
+        <div class="performance_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
             <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('strategy')"></div>
             <div class="reports_tabs_content_container" ng-show="strategyFound" >
                 <!-- -------START :  Performance Tabs ------------------------ -->
