@@ -94,7 +94,7 @@
                 place_circle_x = 7.0,
                 display_activityCount = getActivityCountLabel(activityCount),
                 displayFontSize = (activityCount > 99 ) ? '8px' : '12px',
-                getMessage = loginModel.getIsNetworkUser() ? ' External ': '',
+                getMessage = ' External ',
                 numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> '+getMessage+' Activities' : '<b>'+activityCount +'</b> Internal Activities',
                 circleObj = null,
                 overlapBubbleAdjust = overlapFlag == 1 ? -5 : 0,
