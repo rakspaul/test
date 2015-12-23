@@ -1352,7 +1352,7 @@
                     var html_comment,
                         //info = ""+formatX+"<br>"+d.kpiType+": <b>"+formatY+"</b><br>",
                         info = ""+d.kpiType+": <b>"+formatY+"</b><br>",
-                        getMessage = loginModel.getIsNetworkUser() ? ' External ': '',
+                        getMessage = ' External ',
                         numberOfActivityHeader = d.make_external == true ? '<b>'+d.activityCount+'</b> '+getMessage+' Activities' : '<b>'+d.activityCount +'</b> Internal Activities';
 
                     var symbol = kpiPrefix(d.kpiType);
