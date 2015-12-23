@@ -43,28 +43,6 @@ var angObj = angObj || {};
         $scope.sortByColumn = 'name';
         $scope.strategyLoading =  true;
 
-        /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
-        /*
-         $scope.sort_field = [{
-            display: 'Tactic Name',
-            key: 'name',
-            'class': '',
-            sortDirection: ''
-        }, {
-            display: 'Imps',
-            key: 'impressions',
-            'class': '',
-            sortDirection: ''
-        }, {
-            display: 'Total Spend',
-            key: 'total',
-            'class': '',
-            sortDirection: ''
-        }] ;
-        */
-
-
-
         $scope.download_urls = {
             cost: null
         };
