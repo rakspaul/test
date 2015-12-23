@@ -839,18 +839,24 @@ var angObj = angObj || {};
         };
 
         $scope.hidezipCodeTooltip = function() {
-            $scope.enableZipCode = false;
+            $scope.enableZipCodePopUp = false;
         };
+
+        $scope.zipCodeTabSelected =  false;
 
         $scope.showGeographyTabsBox = function(event, tabType, showPopup) {
             $('.searchBox').val('');
-            if(tabType === 'zip' && showPopup) {
-                $scope.enableZipCode = true;
-                return false;
+            if(tabType === 'zip') {
+                if(showPopup && !$scope.zipCodeTabSelected) {
+                    $scope.enableZipCodePopUp = true;
+                    return false;
+                } else {
+                    $scope.zipCodeTabSelected = false;
+                }
             }
-            $scope.enableZipCode = false;
-            $scope.selectedTab  = tabType;
+            $scope.enableZipCodePopUp = false;
 
+            $scope.selectedTab = tabType;
             var target = event ? $(event.target) : $("#zipCodeTab");
             var tabElems = target.parents('.nav-tabs');
             tabElems.find("li").removeClass("active");

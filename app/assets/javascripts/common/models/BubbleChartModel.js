@@ -15,21 +15,25 @@
             var url = urlService.APISpendWidgetForAllBrands(queryObj);
             //var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetch(url).then(function(response) {
-             var total_brands = response.data.data.length ;
-             var data =   _.chain(response.data.data).
-                                sortBy(function(d){ return d.budget ;}).
-                                reverse().
-                                slice(0,5).
-                                value();
+                if(response.data && response.data.data.length >0) {
+                    var total_brands = response.data.data.length;
+                    var data = _.chain(response.data.data).
+                        sortBy(function (d) {
+                            return d.budget;
+                        }).
+                        reverse().
+                        slice(0, 5).
+                        value();
 
-                if(data.length > 0){
-                    bubbleWidgetData['dataNotAvailable'] = false ;
-                    bubbleWidgetData['brandData'] = data ;
-                    bubbleWidgetData['budget_top_title'] =  (total_brands >5) ? "(Top 5 brands)" : "(All Brands)";
-                } else {
-                    bubbleWidgetData['dataNotAvailable'] = true ;
+                    if (data.length > 0) {
+                        bubbleWidgetData['dataNotAvailable'] = false;
+                        bubbleWidgetData['brandData'] = data;
+                        bubbleWidgetData['budget_top_title'] = (total_brands > 5) ? "(Top 5 brands)" : "(All Brands)";
+                    } else {
+                        bubbleWidgetData['dataNotAvailable'] = true;
+                    }
+                    return bubbleWidgetData['brandData'];
                 }
-                return bubbleWidgetData['brandData'];
             })
         };
 
