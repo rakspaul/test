@@ -32,8 +32,10 @@
                     } else {
                         bubbleWidgetData['dataNotAvailable'] = true;
                     }
-                    return bubbleWidgetData['brandData'];
+                } else {
+                    bubbleWidgetData['dataNotAvailable'] = true;
                 }
+                return bubbleWidgetData['brandData'];
             })
         };
 
