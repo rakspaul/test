@@ -3162,7 +3162,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
     background-size: 310px 48px !important;
   }
   .main_navigation_holder .main_nav .main_logo {
-    background: url("/assets/images/visto_logos/visto-new-header@2x.png") no-repeat top center !important;
+    /* background: url("/assets/images/visto_logos/visto-new-header@2x.png") no-repeat top center  !important; */
     -webkit-background-size: 80px 30px !important;
     -moz-background-size: 80px 30px !important;
     background-size: 80px 30px !important;
