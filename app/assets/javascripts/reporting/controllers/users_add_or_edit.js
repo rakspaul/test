@@ -6,11 +6,18 @@
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
-        $scope.userConsoleFormDetails={};
-        $scope.userConsoleFormDetails.role="Super Admin";
         $scope.User = {
             data: []
         }
+        $scope.roleId = {
+            "Super_Admin": 0,
+            "Account_Admin": 1,
+            "Advertiser_Admin": 2,
+            "Generic_User": 4
+
+        }
+        $scope.userConsoleFormDetails.role_template_id = $scope.roleId.Super_Admin;
+
 
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
@@ -24,8 +31,10 @@
             $modalInstance.dismiss();
         };
         $scope.selectedRole=function(roleType){
-            if(roleType=="Super Admin")
+            if(roleType=="Super Admin"){
                 $scope.isSuperAdmin=true;
+                $scope.permissions = [];
+            }
             else
                 $scope.isSuperAdmin=false;
         };
@@ -41,10 +50,12 @@
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
                     postDataObj.permissions=$scope.User.data;
-                    //console.log(postDataObj);
+                    postDataObj.role_template_id = $scope.roleId[postDataObj.role_template_id];
+                    console.log("postDataObj ==",JSON.stringify(postDataObj));
                 }
+            $scope.resetFields();
            // console.log($scope.permissions);
-            console.log($scope.User.data);
+           // console.log($scope.User.data);
         },
         $scope.selectedClientHandler=function(clientObj, ev){
 
@@ -61,8 +72,9 @@
 
         var userModalPopup = {
             getUserClients:function(){
-                // accountsService.getUserClients().then(function(res) {
-                $scope.userModalData['Clients']=[
+                 accountsService.getClients().then(function(res) {
+                     console.log('res=== ',res);
+                    $scope.userModalData['Clients']=[
                     {
                         "id": 1,
                         "name": "Collective",
@@ -795,7 +807,7 @@
                         ]
                     }
                     ];
-                // });
+                 });
             },
             getUserBrands:function(){
                 $scope.userModalData['Brands']=[{id:0,name:"All Brands"},{id:22,name:"brand1"},{id:23,name:"brand2"},{id:24,name:"brand3"}]
@@ -814,6 +826,16 @@
         userModalPopup.getUserBrands();
         userModalPopup.getUserPermission();
 
+        $scope.resetFields = function(){
+            $scope.userConsoleFormDetails.email = '';
+            $scope.userConsoleFormDetails.firstName = '';
+            $scope.permissions = [];
+            $scope.userConsoleFormDetails.lastName = '';
+            $scope.userConsoleFormDetails.password = '';
+            $scope.userConsoleFormDetails.role_template_id = ''
+            $scope.close();
+
+        }
     });
 
 }());
