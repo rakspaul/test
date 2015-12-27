@@ -17,6 +17,19 @@ var angObj = angObj || {};
         if(fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets)>0) {
            // console.log(fetchedObj.targets.adDaypartTargets.schedule);
             $scope.setTargeting('Daypart');
+            if(angular.lowercase(fetchedObj.targets.adDaypartTargets.timeZone)==='end user'){
+                $('.advertiserClass').parent().removeClass('active');
+                $('.endUserClass').parent().addClass('active');
+                $('.endUserClass').attr("checked", "checked");
+                $scope.timezoneFormat=angular.lowercase(fetchedObj.targets.adDaypartTargets.timeZone);
+            }
+            else{
+                $('.endUserClass').parent().removeClass('active');
+                $('.advertiserClass').parent().addClass('active');
+                $('.advertiserClass').attr("checked", "checked");
+                $scope.timezoneFormat=angular.lowercase(fetchedObj.targets.adDaypartTargets.timeZone);
+
+            }
 
             if(angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) == angular.lowercase("Custom Schedule")){
 
@@ -38,7 +51,7 @@ var angObj = angObj || {};
                     //$scope.Schedule.customLength = $scope.Schedule.customLength + 1;
                     //$scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
             }else{
-                $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;console.log($scope.dayTimeSelected);
+                $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;//console.log($scope.dayTimeSelected);
                 switch($scope.dayTimeSelected){
                     case "All days and times":
                         $scope.Schedule.dayTimeSelected(0);
@@ -303,7 +316,7 @@ var angObj = angObj || {};
 
             //}
 
-            audienceService.setDayPartData(adDaypartTargets);console.log(adDaypartTargets);
+            audienceService.setDayPartData(adDaypartTargets);//console.log(adDaypartTargets);
             $scope.getSelectedDays();
             $scope.resetDayTargetingVariables();
 
@@ -568,7 +581,7 @@ var angObj = angObj || {};
                 $scope.dayTimeSelected = '';
                 $scope.timeSelected = "Custom schedule";
             } else {
-                console.log("tmpDayTimeSelected", $scope.tmpDayTimeSelected);
+               // console.log("tmpDayTimeSelected", $scope.tmpDayTimeSelected);
                 $scope.dayTimeSelected = $scope.tmpDayTimeSelected;
             }
         }
