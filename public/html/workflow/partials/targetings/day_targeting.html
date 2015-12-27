@@ -45,24 +45,24 @@
                         <div class="form-group btn-group miniToggle">
                             <label class="btn btn-default active timeAdvertiser" style="width: auto;">
                                 <span>Advertiser</span>
-                                <input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad" id="timeAdvertiser"  ng-click="timeZoneType($event,'Advertiser');">
+                                <input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad advertiserClass" id="timeAdvertiser"  ng-click="timeZoneType($event,'Advertiser');">
                             </label>
 
                             <label class="btn btn-default timeEndUser" style="width: auto;">
                                 <span>End User</span>
-                                <input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad" id="timeEndUser" ng-click="timeZoneType($event,'End User');">
+                                <input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad endUserClass" id="timeEndUser" ng-click="timeZoneType($event,'End User');">
                             </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-6 zeroPadding">
-                    <div class="col-md-12 zeroPadding radioBtnToggle">
+                    <div class="col-md-12 zeroPadding radioBtnToggle timeZone">
                         <label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 107px !important;">Clock</label>
                         <div class="form-group btn-group miniToggle pull-right">
                             <label class="btn btn-default active 12hr" style="width: auto;">
                                 <span>12 hr</span>
-                                <input type="radio" nAMe="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="timeFormat($event,12);">
+                                <input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="timeFormat($event,12);">
                             </label>
 
                             <label class="btn btn-default 24hr" style="width: auto;">
@@ -174,7 +174,7 @@
                         <!--<li class="available"><a ng-click="Schedule.dayPart[$index]['day'] = 'Friday'" ng-init="Schedule.dayPart[$index]['day']= selectedDays[$index]">Friday</a></li>-->
                         <!--<li class="available"><a ng-click="Schedule.dayPart[$index]['day'] = 'Saturday'" ng-init="Schedule.dayPart[$index]['day']= selectedDays[$index]">Saturday</a></li>-->
                     </ul>
-                    <!--<input type="hidden" name="day" class="" ng-model="Schedule.dayPart[$index]['day']" ng-init="Schedule.dayPart[$index]['day']" value="{{Schedule.dayPart[$index]['day']}}"  field="day" index="{{$index}}" ng-Update-Hidden-Days  />-->
+                    <input ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit')" type="hidden" name="day" class="" ng-model="Schedule.dayPart[$index]['day']" ng-init="Schedule.dayPart[$index]['day']='Sunday'" value="{{Schedule.dayPart[$index]['day']}}"  field="day" index="{{$index}}" ng-Update-Hidden-Days  />
                     <input type="hidden" name="day" class="" ng-model="Schedule.dayPart[$index]['day']" value="{{Schedule.dayPart[$index]['day']}}"  field="day" index="{{$index}}" ng-Update-Hidden-Days  />
 
                 </div>
