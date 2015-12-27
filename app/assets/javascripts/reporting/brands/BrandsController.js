@@ -5,6 +5,7 @@
         var search = false;
         var searchCriteria = utils.typeaheadParams;
         $scope.textConstants = constants;
+        $scope.advertiser =  advertiserModel.getSelectedAdvertiser();
 
         function resetSearch() {
             searchCriteria.limit = constants.DEFAULT_LIMIT_COUNT;
