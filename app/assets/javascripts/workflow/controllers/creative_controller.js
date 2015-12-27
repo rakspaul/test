@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreativeController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('CreativeController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
 
         if ($location.path() === '/creative/add') {
             $scope.isAddCreativePopup = true;
@@ -18,27 +18,10 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
-        $scope.createAlertMessage = {'message':'','isErrorMsg':0};
         $scope.creativePopularSizes = [{id:16, size:'300x250'}, {id:7,size:'160x600'}, {id:34,size:'728x90'}, {id:18,size:'300x600'}, {id:20,size:'320x50' }];
-
-        
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetAlertMessage() ;
-            }, 3000);
-        }
-        $scope.msgtimeoutReset() ;
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ;
-        };
-
         $scope.resetAlertMessage = function(){
-           $scope.createAlertMessage.message = '' ;
+            $rootScope.setErrAlertMessage('',0);
         }
-
         var creatives = {
             /*Function to get creatives sizes*/
             getCreativeSizes: function () {
@@ -157,10 +140,8 @@ var angObj = angObj || {};
                     $scope.Message = "Creative Added Successfully";
                     workflowService.setNewCreative(result.data.data);
                     $scope.cancelBtn();// redirect user after successful saving
-                    $scope.createAlertMessage.message = $scope.textConstants.CREATIVE_SAVE_SUCCESS ;
-                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS );
-
-                    $scope.msgtimeoutReset() ;
+                    $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
+                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
                 } else if (result.data.data.message = "Creative with this tag already exists. If you still want to save, use force save") {
                     $(".popup-holder").css("display", "block");
                     $scope.addedSuccessfully = false;

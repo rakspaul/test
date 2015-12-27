@@ -1,7 +1,9 @@
+
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,$location, utils) {
+
+    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, $timeout,$location, utils) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         if( $('.adGroupSelectionWrap').length ) { $("html").css({'background-color':'#eef5fc'}); };
@@ -18,43 +20,24 @@ var angObj = angObj || {};
         $scope.createGroupMessage=false;
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
-
-        $scope.alertMessage  = localStorage.getItem('topAlertMessage');
-
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
         }
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetAlertMessage() ;
-            }, 3000);
-        }
-
-        $scope.msgtimeoutReset() ;
-
         $scope.convertEST=function(date,format){
             return utils.convertToEST(date,format);
         }
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ;
-        };
-
         $scope.resetAlertMessage = function(){
            localStorage.removeItem('topAlertMessage');
-           $scope.alertMessage = "" ;
+           $rootScope.setErrAlertMessage("",0);
         }
 
         //Archive save func more
         $scope.archiveCampaign=function(event){
+            console.log("In the archiveCampaign");
             event.preventDefault();
             var campaignArchiveErrorHandler=function(){
                 $scope.campaignArchive=false;
-                $scope.flashMessage.message = $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE ;
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.flashMessage.isMsg = 0;
+                $rootScope.setErrAlertMessage();
             }
             workflowService.deleteCampaign($scope.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
@@ -430,15 +413,14 @@ var angObj = angObj || {};
                     $scope.showIndividualAds = !$scope.showIndividualAds;
                     $scope.independantMessage=!$scope.independantMessage;
                     $scope.independantGroupMessage="Successfully grouped Ads";
-                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
+                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                     location.reload();
-                    $scope.msgtimeoutReset() ;
-
                 } else {
                      console.log("ERROR! adgroup not created");
                      console.log(result);
                      $scope.independantMessage=!$scope.independantMessage;
                      $scope.independantGroupMessage="unable to  group Ads";
+                     $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
                 }
               });
             }
@@ -547,7 +529,6 @@ var angObj = angObj || {};
                         //$scope.getAdgroups($routeParams.campaignId);
                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                         location.reload();
-                        $scope.msgtimeoutReset() ;
                     } else {
                         $scope.createGroupMessage=!$scope.createGroupMessage;
                         $scope.createAdGroupMessage="Ad Group not Created ";

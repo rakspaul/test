@@ -1,30 +1,13 @@
 (function() {
     'use strict';
 
-    campaignListModule.controller('WorkFlowCampaignListController', function($scope, $location, workflowService, utils, $timeout) {
+    campaignListModule.controller('WorkFlowCampaignListController', function($scope,$rootScope, $location, workflowService, utils, $timeout) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $("html").css('background','#fff');
         localStorage.setItem('campaignData','');
-
-
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetAlertMessage() ;
-            }, 3000);
-        }
-
-        $scope.msgtimeoutReset() ;
-
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ;
-        };
-
         $scope.resetAlertMessage = function(){
            localStorage.removeItem('topAlertMessage');
-           $scope.alertMessage = "" ;
+           $rootScope.setErrAlertMessage('',0);
         }
 
         $scope.utc = function (date) {
@@ -32,7 +15,7 @@
         }
 
         var fetchAllCampaigns =  function() {
-          $scope.alertMessage  = localStorage.getItem('topAlertMessage');
+            $rootScope.setErrAlertMessage(localStorage.getItem('topAlertMessage'));
             workflowService.fetchCampaigns().then(function (result) {
                 $scope.campaignData = result.data.data;
             });

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode,audienceService) {
+    angObj.controller('GeoTargettingController', function ($scope, $rootScope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode,audienceService) {
         $scope.showTargettingForm = false;
         $scope.geoTargetArr = [{'name' : 'Geography', 'enable' : true}, {'name' : 'Behavior', 'enable' : false}, {'name' : 'Demographics', 'enable' : false}, {'name' : 'Interests', 'enable' : false}, {'name' : 'Technology', 'enable' : false}, {'name' : 'Content', 'enable' : false}, {'name' : 'Other', 'enable' : false}]
         $scope.geoTargetingData = {};

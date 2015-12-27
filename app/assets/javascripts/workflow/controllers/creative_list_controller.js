@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreativeListController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $("html").css('background','#fff');
         $scope.textConstants = constants;
@@ -16,27 +16,9 @@ var angObj = angObj || {};
         $scope.showDuplicateTagPopup = false;
 
         //$scope.popUpData.tag="";
-
-        $scope.alertMessage  = localStorage.getItem('topAlertMessage');
-
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetAlertMessage() ;
-            }, 3000);
-        }
-
-        $scope.msgtimeoutReset() ;
-
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ;
-        };
-
         $scope.resetAlertMessage = function(){
            localStorage.removeItem('topAlertMessage');
-           $scope.alertMessage = "" ;
+           $rootScope.setErrAlertMessage('',0);
         }
 
         $scope.getAdFormatIconName = function (adFormat) {

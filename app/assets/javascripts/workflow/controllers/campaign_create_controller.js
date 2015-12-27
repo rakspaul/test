@@ -1,21 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel) {
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetFlashMessage() ;
-            }, 3000);
-        }
-
+    angObj.controller('CreateCampaignController', function ($scope,$rootScope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel) {
         $scope.archiveCampaign=function(event){
-            event.preventDefault();
             var campaignArchiveErrorHandler=function(){
-                $scope.campaignArchive=false;
-                $scope.flashMessage.message = $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE ;
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.flashMessage.isMsg = 0;
+               $rootScope.setErrAlertMessage();
             }
             workflowService.deleteCampaign($scope.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
@@ -220,6 +209,7 @@ var angObj = angObj || {};
         };
 
         $scope.saveCampaign = function () {
+            console.log("campaign create saveCampaign...");
             $scope.$broadcast('show-errors-check-validity');
             console.log($scope.createCampaignForm)
             if ($scope.createCampaignForm.$valid) {
@@ -289,16 +279,8 @@ var angObj = angObj || {};
             $scope.selectedCampaign = {};
         };
 
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetFlashMessage() ;
-        };
-
         $scope.resetFlashMessage = function(){
-            $scope.flashMessage.message = '' ;
-            $scope.flashMessage.isErrorMsg = 0 ;
-            $scope.flashMessage.isMsg = 0 ;
+            $rootScope.setErrAlertMessage('',0);
         }
 
         $scope.getRandom = function () {
@@ -364,7 +346,6 @@ var angObj = angObj || {};
             $scope.selectedCampaign = {};
             $scope.repushCampaignEdit = false;
             $scope.campaignId = $routeParams.campaignId;
-            $scope.flashMessage = {'message':'','isErrorMsg':0};
             $scope.mode = workflowService.getMode();
             $scope.campaignArchive=false;
             $scope.deleteCampaignFailed=false;
