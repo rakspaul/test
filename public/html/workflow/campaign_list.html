@@ -1,16 +1,8 @@
 
 
 <div id="campaignListContainer" class="campaignListContainer" ng-controller="WorkFlowCampaignListController">
-    <div class="top_message_box" ng-show="alertMessage">
-        <span class="msg_box">
-            <span class="msg_icon">x</span>
-            <span class="msg_txt" ng-bind-html="alertMessage"></span>
-            <span class="close_msg_box_holder">
-              <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
-            </span>
-        </span>
-    </div>
-
+    <popup-msg ng-show="alertMessage" ng-controller="popUpMsgCtr"
+               ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
     <div class="clearfix page_header_container campaign_list_header">
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name">Campaigns</span>

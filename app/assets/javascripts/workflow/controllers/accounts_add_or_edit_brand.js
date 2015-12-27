@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('AccountsAddOrEditBrand', function($scope, $modalInstance,accountsService) {
+    angObj.controller('AccountsAddOrEditBrand', function($scope,$rootScope, $modalInstance,accountsService) {
 
         $scope.close=function(){
             $modalInstance.dismiss();
@@ -18,15 +18,12 @@
                         $scope.fetchBrands($scope.client.id, $scope.advertiser.id);
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
-                        $scope.flashMessage.message = 'Brands updated successfully' ;
-                        $scope.msgtimeoutReset();
+                        $rootScope.setErrAlertMessage('Brands updated successfully',0);
                     }
 
                 }, function(err){
                     $scope.close();
-                    $scope.flashMessage.message = 'Error in creating brand.' ;
-                    $scope.flashMessage.isErrorMsg = 1 ;
-                    $scope.msgtimeoutReset();
+                    $rootScope.setErrAlertMessage('Error in creating brand.');
                     console.log('error')
                 });
             }
@@ -49,14 +46,11 @@
                     $scope.fetchBrands($scope.client.id,$scope.advertiser.id);
                     $scope.resetBrandAdvertiserAfterEdit();
                     $scope.close();
-                    $scope.flashMessage.message = 'Brands created successfully' ;
-                    $scope.msgtimeoutReset();
+                    $rootScope.setErrAlertMessage('Brands created successfully',0);
                 }
             },function(err){
                 $scope.close();
-                $scope.flashMessage.message = 'Error in creating brand under advertiser.' ;
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.msgtimeoutReset();
+                $rootScope.setErrAlertMessage('Error in creating brand under advertiser.');
                 console.log('error')
             });
         }
