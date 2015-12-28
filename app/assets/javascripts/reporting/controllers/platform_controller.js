@@ -115,7 +115,8 @@ var angObj = angObj || {};
             platformService.getStrategyPlatformData(param).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.isCostModelTransparent = result.data.data.cost_transparency;
+                 //   $scope.isCostModelTransparent = result.data.data.cost_transparency;
+                    $scope.isCostModelTransparent = true;
                     $scope.performanceBusy = false;
                     $scope.videoMode = true;
                     $scope.costBusy = false;

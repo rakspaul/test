@@ -64,10 +64,10 @@
         <div class="each_cost_col three_col">{{campaigns.costList[campaign.orderId].getInventoryCost() | currency:undefined:0}}</div>
         <div class="each_cost_col four_col">{{campaigns.costList[campaign.orderId].getDataCost() | currency:undefined:0}}</div>
         <div class="each_cost_col five_col">{{campaigns.costList[campaign.orderId].getAdServingCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col six_col">{{campaigns.costList[campaign.orderId].getRichMediaCost() | currency:undefined:0}}</div>
+        <div class="each_cost_col six_col">{{campaigns.costList[campaign.orderId].getCreativeCost() | currency:undefined:0}}</div>
         <div class="each_cost_col sev_col">{{campaigns.costList[campaign.orderId].getResearchCost() | currency:undefined:0}}</div>
         <div class="each_cost_col eight_col">{{campaigns.costList[campaign.orderId].getAdVerificationCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col ninth_col">{{campaigns.costList[campaign.orderId].getPlatformCost() | currency:undefined:0}}</div>
+        <div class="each_cost_col ninth_col">{{campaigns.costList[campaign.orderId].getCollectiveCost() | currency:undefined:0}}</div>
         <div class="each_cost_col tenth_col total_cost">{{campaigns.costList[campaign.orderId].getTotal() | currency:undefined:0}}</div>
     </div>
     <div ng-switch-when=false>

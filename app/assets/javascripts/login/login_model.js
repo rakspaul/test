@@ -63,6 +63,7 @@
             },
 
             getIsAgencyCostModelTransparent: function () {
+                return true;//for now until we define cost transparencies.  Sriram. Dec 28th.
                 if (data.is_network_user) {
                     data.cost_transparency = true;
                 }
