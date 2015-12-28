@@ -147,56 +147,58 @@
 	
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 	
-							<!--==== Row 3 ====-->
-							<div class=" col-md-12 zeroPadding">
-								<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">{{textConstants.MP_WHATIS}}</label>
-								<label class="col-sm-12 greyTxt miniLabels">{{textConstants.MP_PRIGOAL}}</label>
-								<div class="form-group col-sm-5 zeroPadding">
-									<!-- TOGGLE BTN FOR GOAL SELECTION STARTS HERE -->
-									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-										<label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">
-										  <input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>
-											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<div class="icon-{{goal.name | lowercase}}"></div>
-												<span>{{goal.name}}</span>
-											</div>
-										</label>
-									</div>
-									<label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.MP_SELGOAL}}</label>
-								</div>
-							</div>
-							 <div class="col-md-12 zeroPadding unitCost symbolAbs">
-								<div class="form-group col-md-2 " show-errors='{showSuccess: true}' style="padding-left: 0;">
-									<label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.WF_PRIMARY_KPI}}</label>
-									<div>
-										<div class="col-md-12 zeroPadding dropdown-workflow">
-											<div class="dropdown">
-												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-													<span class="text">{{mode == 'edit' ? editCampaignData.kpiType : 'Select Type' }}</span>
-													<span class="icon-arrow-down"></span>
-												</button>
-												<ul class="dropdown-menu" aria-labelledby="kpiType" id="kpiType">
-													<li ng-repeat="kpi in workflowData.Kpi" class="available">
-														<a ng-click="kpiSelected(kpi)">{{kpi.name}}</a>
-													</li>
-												</ul>
-												<input type="hidden" name="kpiType" ng-model="selectedCampaign.kpi" ng-update-hidden required/>
-											</div>
-											<label ng-if="createCampaignForm.kpiType.$error.required" class="col-sm-12 greyTxt errorLabel">{{textConstants.MP_PLEASEKPITYPE}}</label>
-										</div>
-									</div>
-								</div>
-								<div ng-hide="hideKpiValue" class="form-group col-md-3 zeroPadding unitCostElement" ng-class=" percentageVal" show-errors='{showSuccess: true}'>
-									<label class="col-sm-12 control-label greyTxt miniLabels">KPI Value</label>
-									<div class="col-sm-12 zeroPadding">
-										<!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
-										<!--<span class="currency">£</span>-->
-										<input type="text" class="form-control" ng-model="selectedCampaign.kpiValue" fraction-numbers="fraction-numbers" name="kpiValue" ng-value="" ng-readonly="selectedCampaign.kpi=='Delivery' ? true:false" id="kpiValue" required>
-									</div>
-									<label ng-if="createCampaignForm.kpiValue.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter a value for KPI Type.</label>
-								</div>
-								
-							</div>
+							<!--==== Primary Goal ====-->
+							<!--<div class=" col-md-12 zeroPadding">-->
+								<!--<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">{{textConstants.MP_WHATIS}}</label>-->
+								<!--<label class="col-sm-12 greyTxt miniLabels">{{textConstants.MP_PRIGOAL}}</label>-->
+								<!--<div class="form-group col-sm-5 zeroPadding">-->
+									<!--&lt;!&ndash; TOGGLE BTN FOR GOAL SELECTION STARTS HERE &ndash;&gt;-->
+									<!--<div class="col-md-12 btn-group goalBtnGroup zeroPadding">-->
+										<!--<label class="btn btn-primary {{goal.active ? 'active' : ''}}" ng-class="{lastCreateBtnGroup: $last, firstCreateBtnGroup: $first}" ng-repeat="goal in workflowData.goals track by goal.id" ng-click="selectCampaignGoal($event, goal)">-->
+										  <!--<input type="radio" name="goal" autocomplete="off" value="{{goal.name}}" ng-model="selectedCampaign.goal.name" required>-->
+											<!--<div class="hideRadioBtn" style="margin-top: -18px;">-->
+												<!--<div class="icon-{{goal.name | lowercase}}"></div>-->
+												<!--<span>{{goal.name}}</span>-->
+											<!--</div>-->
+										<!--</label>-->
+									<!--</div>-->
+									<!--<label ng-if="saveCreateCampaign.goal.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.MP_SELGOAL}}</label>-->
+								<!--</div>-->
+							<!--</div>-->
+
+                            <!-- primary KPI-->
+							 <!--<div class="col-md-12 zeroPadding unitCost symbolAbs">-->
+								<!--<div class="form-group col-md-2 " show-errors='{showSuccess: true}' style="padding-left: 0;">-->
+									<!--<label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.WF_PRIMARY_KPI}}</label>-->
+									<!--<div>-->
+										<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+											<!--<div class="dropdown">-->
+												<!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+													<!--<span class="text">{{mode == 'edit' ? editCampaignData.kpiType : 'Select Type' }}</span>-->
+													<!--<span class="icon-arrow-down"></span>-->
+												<!--</button>-->
+												<!--<ul class="dropdown-menu" aria-labelledby="kpiType" id="kpiType">-->
+													<!--<li ng-repeat="kpi in workflowData.Kpi" class="available">-->
+														<!--<a ng-click="kpiSelected(kpi)">{{kpi.name}}</a>-->
+													<!--</li>-->
+												<!--</ul>-->
+												<!--<input type="hidden" name="kpiType" ng-model="selectedCampaign.kpi" ng-update-hidden required/>-->
+											<!--</div>-->
+											<!--<label ng-if="createCampaignForm.kpiType.$error.required" class="col-sm-12 greyTxt errorLabel">{{textConstants.MP_PLEASEKPITYPE}}</label>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div ng-hide="hideKpiValue" class="form-group col-md-3 zeroPadding unitCostElement" ng-class=" percentageVal" show-errors='{showSuccess: true}'>-->
+									<!--<label class="col-sm-12 control-label greyTxt miniLabels">KPI Value</label>-->
+									<!--<div class="col-sm-12 zeroPadding">-->
+										<!--<!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+										<!--<!--<span class="currency">£</span>-->
+										<!--<input type="text" class="form-control" ng-model="selectedCampaign.kpiValue" fraction-numbers="fraction-numbers" name="kpiValue" ng-value="" ng-readonly="selectedCampaign.kpi=='Delivery' ? true:false" id="kpiValue" required>-->
+									<!--</div>-->
+									<!--<label ng-if="createCampaignForm.kpiValue.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter a value for KPI Type.</label>-->
+								<!--</div>-->
+								<!---->
+							<!--</div>-->
 							
 							<div class="col-md-12 zeroPadding">
 								<div class="form-group col-sm-3" style="padding-left: 0;">
@@ -209,74 +211,74 @@
 											</button>
 											<ul class="dropdown-menu " aria-labelledby="campObj"  id="campObj">
 												<li class="headerDDL"><span class="icon-brand"></span><span class="greyTxt" style="padding-left: 7px !important;">BRANDING</span></li>
-													<li><span><input type="checkbox" name="checkbox">Awareness</span></li>
-													<li><span><input type="checkbox" name="checkbox">Recall</span></li>
-													<li><span><input type="checkbox" name="checkbox">Purchase Intent</span></li>
-													<li><span><input type="checkbox" name="checkbox">Incremental Reach</span></li>
-													<li><span><input type="checkbox" name="checkbox">Tune-In</span></li>
-													<li><span><input type="checkbox" name="checkbox">Consideration</span></li>
-													<li><span><input type="checkbox" name="checkbox">Favorability</span></li>
-													<li><span><input type="checkbox" name="checkbox">In-Store Impact</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Awareness</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Recall</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Purchase Intent</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Incremental Reach</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Tune-In</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Consideration</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Favorability</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">In-Store Impact</span></li>
 												<li class="headerDDL"><span class="icon-performance"></span><span class="greyTxt" style="padding-left: 7px !important;">PERFORMANCE</span></li>
-													<li><span><input type="checkbox" name="checkbox">Clicks</span></li>
-													<li><span><input type="checkbox" name="checkbox">Video Completion</span></li>
-													<li><span><input type="checkbox" name="checkbox">Lead Generation</span></li>
-													<li><span><input type="checkbox" name="checkbox">Conversions</span></li>
-													<li><span><input type="checkbox" name="checkbox">Site Traffic</span></li>
-													<li><span><input type="checkbox" name="checkbox">Audience Verification</span></li>
-													<li><span><input type="checkbox" name="checkbox">Viewability</span></li>
-													<li><span><input type="checkbox" name="checkbox">In-Store Impact</span></li>
-													<li><span><input type="checkbox" name="checkbox">Sign Ups</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Clicks</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Video Completion</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Lead Generation</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Conversions</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Site Traffic</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Audience Verification</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Viewability</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">In-Store Impact</span></li>
+													<li><span><input type="checkbox" name="checkbox" value="">Sign Ups</span></li>
 											</ul>
 										</div>
 									</div>
 								</div>
-								
-								<div class="form-group col-sm-3" style="padding-left: 0;">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Primary KPI</label>
-									<div class="col-md-12 zeroPadding dropdown-workflow">
-										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<span class="text">Select One</span>
-												<span class="icon-arrow-down"></span>
-											</button>
-											<ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI">
-												<li class="headerDDL"><span class="greyTxt">DELIVERY</span></li>
-														<li class="available"><a>Impressions</a></li>
-														<li class="available"><a>Impressions within demographic</a></li>
-														<li class="available"><a>Viewable Impressions</a></li>
-														<li class="available"><a>Clicks</a></li>
-														<li class="available"><a>Actions</a></li>
-												<li class="headerDDL"><span class="greyTxt">PERFORMANCE</span></li>
-														<li class="available"><a>Clickthrough Rate</a></li>
-														<li class="available"><a>View to Completion</a></li>
-														<li class="available"><a>Cost Per Click</a></li>
-														<li class="available"><a>Cost Per Action</a></li>
-														<li class="available"><a>Viewabilty Rate</a></li>
-														<li class="available"><a>In-Demo Rate</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								
-								<div class="form-group col-sm-5 zeroPadding">
-									<!-- TOGGLE BTN FOR Demographic Type -->
-									<label for="demoType" class="col-sm-12 greyTxt miniLabels">Demographic Type</label>
-									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
-											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Gender</span>
-											</div>
-										</label>
-										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
-											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Age</span>
-											</div>
-										</label>
-									</div>
-								</div>
+								<!--primary kpi-manny-->
+								<!--<div class="form-group col-sm-3" style="padding-left: 0;">-->
+									<!--<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Primary KPI</label>-->
+									<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+										<!--<div class="dropdown">-->
+											<!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+												<!--<span class="text">Select One</span>-->
+												<!--<span class="icon-arrow-down"></span>-->
+											<!--</button>-->
+											<!--<ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI">-->
+												<!--<li class="headerDDL"><span class="greyTxt">DELIVERY</span></li>-->
+														<!--<li class="available"><a>Impressions</a></li>-->
+														<!--<li class="available"><a>Impressions within demographic</a></li>-->
+														<!--<li class="available"><a>Viewable Impressions</a></li>-->
+														<!--<li class="available"><a>Clicks</a></li>-->
+														<!--<li class="available"><a>Actions</a></li>-->
+												<!--<li class="headerDDL"><span class="greyTxt">PERFORMANCE</span></li>-->
+														<!--<li class="available"><a>Clickthrough Rate</a></li>-->
+														<!--<li class="available"><a>View to Completion</a></li>-->
+														<!--<li class="available"><a>Cost Per Click</a></li>-->
+														<!--<li class="available"><a>Cost Per Action</a></li>-->
+														<!--<li class="available"><a>Viewabilty Rate</a></li>-->
+														<!--<li class="available"><a>In-Demo Rate</a></li>-->
+											<!--</ul>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--Gender/Age-->
+								<!--<div class="form-group col-sm-5 zeroPadding">-->
+									<!--<!-- TOGGLE BTN FOR Demographic Type -->
+									<!--<label for="demoType" class="col-sm-12 greyTxt miniLabels">Demographic Type</label>-->
+									<!--<div class="col-md-12 btn-group goalBtnGroup zeroPadding">-->
+										<!--<label class="btn btn-primary first active">-->
+										  <!--<input type="radio" name="demoType" autocomplete="off" value="Gender" required>-->
+											<!--<div class="hideRadioBtn" style="margin-top: -18px;">-->
+												<!--<span style="margin: 0;">Gender</span>-->
+											<!--</div>-->
+										<!--</label>-->
+										<!--<label class="btn btn-primary last">-->
+										  <!--<input type="radio" name="demoType" autocomplete="off" value="Age" required>-->
+											<!--<div class="hideRadioBtn" style="margin-top: -18px;">-->
+												<!--<span style="margin: 0;">Age</span>-->
+											<!--</div>-->
+										<!--</label>-->
+									<!--</div>-->
+								<!--</div>-->
 							</div>
 	
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
@@ -289,37 +291,37 @@
 									<label for="demoType" class="col-sm-12 greyTxt miniLabels">Select one Channel</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="channelSelected($event,'DISPLAY')" value="DISPLAY" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Display</span>
 											</div>
 										</label>
 										<label class="btn btn-primary">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="channelSelected($event,'VIDEO')" value="VIDEO" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Video</span>
 											</div>
 										</label>
 										<label class="btn btn-primary">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="channelSelected($event,'MOBILE')" value="MOBILE" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Mobile</span>
 											</div>
 										</label>
-										<label class="btn btn-primary">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										<label class="btn btn-primary disabled" aria-disabled="true">
+										  <input type="radio" name="demoType" autocomplete="off" value="SOCIAL" disabled>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Social</span>
 											</div>
 										</label>
-										<label class="btn btn-primary">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										<label class="btn btn-primary disabled" aria-disabled="true">
+										  <input type="radio" name="demoType" autocomplete="off" value="SEARCH" disabled>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Search</span>
 											</div>
 										</label>
-										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
+										<label class="btn btn-primary last disabled" aria-disabled="true">
+										  <input type="radio" name="demoType" autocomplete="off" value="TV" disabled>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">TV</span>
 											</div>
@@ -359,30 +361,30 @@
 	
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 	
-							<!--==== Row 5 ====-->
-							<div class="col-md-12 zeroPadding">
-								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
-								<div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-									<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
-									<span class="currency">{{ textConstants.DOLLAR }}</span>
-									<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
-									<!--<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
-									<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>
-									<!--<label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>-->
-								</div>
-								<div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-									<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
-									<span class="currency">{{ textConstants.DOLLAR }}</span>
-									<input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
-									<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
-								</div>
-							</div>
+							<!--==== Row 5 total Budget====-->
+							<!--<div class="col-md-12 zeroPadding">-->
+								<!--<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>-->
+								<!--<div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>-->
+									<!--<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>-->
+									<!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+									<!--<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
+									<!--&lt;!&ndash;<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required ng-change="numbersOnly('budgetAmount')"/>&ndash;&gt;-->
+									<!--<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>-->
+									<!--&lt;!&ndash;<label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>&ndash;&gt;-->
+								<!--</div>-->
+								<!--<div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>-->
+									<!--<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>-->
+									<!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+									<!--<input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
+									<!--<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>-->
+								<!--</div>-->
+							<!--</div>-->
 							<!--=== Next Step Panel ===-->
 							<a href="#budget" data-toggle="tab" role="tab" class="nextWrapper leftNavLink">
 								<span class="btn btn-default">Save & Continue</span>
 							</a>
 					</div>
-					
+<!--PAGE2-->
 					<div class="tab-pane fade" id="budget">
 						<!--==== Row 1 ====-->
 						<div class="col-md-12 zeroPadding">
@@ -418,7 +420,7 @@
 						<!--==== Row 2 ====-->
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Select KPIs</label>
-							<div class="col-md-12 zeroPadding">
+							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index">
 								<div class="col-md-3 zeroPadding kpiTable">
 									<h3>KPI</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
@@ -443,13 +445,13 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										  <input type="radio" name="demoType" autocomplete="off" value="YES" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Yes</span>
 											</div>
 										</label>
 										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
+										  <input type="radio" name="demoType" autocomplete="off" value="NO" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">No</span>
 											</div>
@@ -487,29 +489,30 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+										  <input type="radio" name="demoType" autocomplete="off" value="YES" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Yes</span>
 											</div>
 										</label>
 										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
+										  <input type="radio" name="demoType" autocomplete="off" value="NO" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">No</span>
 											</div>
 										</label>
 									</div>
 								</div>
+                                <span class="icon-clear removeDay" clearkpirow index="{{$index}}"></span>
 							</div>
 							<div class="col-md-12 zeroPadding">
-								<a class="btn btn-link pull-left addRowMedia"><span class="icon-plus"></span><span>Add another KPI</span></a>
+								<a class="btn btn-link pull-left addRowMedia" ng-click="addMoreKpi()"><span class="icon-plus"></span><span>Add another KPI</span></a>
 							</div>
 						</div>
 						
 						<!--==== Row 3 ====-->
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Would you like to add Costs?</label>
-							<div class="col-md-12 zeroPadding">
+							<div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
 								<div class="col-md-3 zeroPadding kpiTable" style="width: 180px;">
 									<h3>Cost Category</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
@@ -601,9 +604,11 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value appears in reporting</label>
 									<input type="text" class="col-md-12"/>
 								</div>
-							</div>
+                                <span class="icon-clear removeDay" clearcostrow index="{{$index}}"></span>
+
+                            </div>
 							<div class="col-md-12 zeroPadding">
-								<a class="btn btn-link pull-left addRowMedia"><span class="icon-plus"></span><span>Add another Cost</span></a>
+								<a class="btn btn-link pull-left addRowMedia" ng-click="addMoreCost();"><span class="icon-plus"></span><span>Add another Cost</span></a>
 							</div>
 						</div>
 						
@@ -613,7 +618,16 @@
 							<div class="col-md-12 zeroPadding kpiTable">
 								<h3>Integrated Platforms</h3>
 								<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-								<input type="text" class="col-md-12"/>
+								<input type="text" class="col-md-12 keyword-txt" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+                                <label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+                                <ul ng-if="platformKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
+                                    <li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
+                                        <a>
+                                            <span class="tick"></span>
+                                            <span class="menuItemText ng-binding" >{{keyword.name}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
 							</div>
 						</div>
 						
