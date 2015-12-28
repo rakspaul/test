@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   commonModule.controller('GaugeController', function ($scope, $rootScope, gauge, gaugeModel, constants, $window, loginModel, analytics, $location) {
-    var campaigns = '/campaigns';
+    var campaigns = '/mediaplans';
     gauge.setLeftArcClickHandler(function() {
       gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
       analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_on_track_clicked', loginModel.getLoginName());
