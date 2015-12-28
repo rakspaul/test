@@ -20,9 +20,13 @@ var angObj = angObj || {};
             if(mode == 'edit'){
                 $scope.userConsoleFormDetails.email = clientObj.email;
                 $scope.userConsoleFormDetails.firstName = clientObj.firstName;
-                $scope.userConsoleFormDetails.firstName = clientObj.firstName;
-                $scope.userConsoleFormDetails.firstName = clientObj.firstName;
-                $scope.userConsoleFormDetails.firstName = clientObj.firstName;
+                $scope.userConsoleFormDetails.lastName = clientObj.lastName;
+                $scope.userConsoleFormDetails.role_template_id = accountsService.getRoleName(clientObj.role_template_id);
+                //$scope.userConsoleFormDetails.role_template_id = "Account_Admin";
+
+                //$scope.userConsoleFormDetails.firstName = clientObj.firstName;
+                console.log("$scope.userConsoleFormDetails.role_template_id = ",$scope.userConsoleFormDetails.role_template_id)
+                $scope.userConsoleFormDetails.password = clientObj.password;
 
             }
 
@@ -30,12 +34,12 @@ var angObj = angObj || {};
 
         var usersList = {
             getUsers:function(){
-               // accountsService.getUsers().then(function(res) {
+                //accountsService.getUsers().then(function(res) {
                     $scope.UsersData['users']=[ {"role_template_id":0,"lastName":"shetty","password":"shrujan","email":"sdf@f.f","firstName":"sdf","permissions":[]},
-                        {"role_template_id":0,"lastName":"shetty","password":"sajan","email":"sdf@f.f","firstName":"sajan","permissions":[]},
-                        {"role_template_id":0,"lastName":"shetty","password":"akshay","email":"sdf@f.f","firstName":"akahsy","permissions":[]}];
+                        {"role_template_id":1,"lastName":"shetty","password":"sajan","email":"sdf@f.f","firstName":"sajan","permissions":[]},
+                        {"role_template_id":2,"lastName":"shetty","password":"akshay","email":"sdf@f.f","firstName":"akahsy","permissions":[]}];
 
-               // });
+                //});
             }
 
         }
