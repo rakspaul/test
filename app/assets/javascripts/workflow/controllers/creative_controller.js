@@ -41,7 +41,7 @@ var angObj = angObj || {};
             },
 
             fetchAdFormats: function () {
-                $scope.creativeSizeData['adFormats'] = [{id: 1, name: 'Display', active: true}, {id: 2,name: 'Video',active: false}, {id: 3, name: 'Rich Media', active: false}, {id: 4, name: 'Social', active: false}]
+                $scope.creativeSizeData['adFormats'] = [{id: 1, name: 'Display', active: true}, {id: 2,name: 'Video',active: false}, {id: 3, name: 'Rich Media', active: true}, {id: 4, name: 'Social', active: false}]
                 $scope.adData.adFormat = 'Display'; //default value
             },
 
