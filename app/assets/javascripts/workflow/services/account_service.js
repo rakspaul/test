@@ -132,6 +132,9 @@
             getRoleName: function(roleId){
                 var index = (_.invert(role_template_id))[roleId];
                 return index;
+            },
+            createUser: function(userObj){
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/user', userObj,{'Content-Type': 'application/json'})
             }
 
 

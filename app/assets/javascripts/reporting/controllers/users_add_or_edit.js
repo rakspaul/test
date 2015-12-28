@@ -47,18 +47,20 @@
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
-                    console.log("formData",formData);
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
                     postDataObj.permissions=$scope.User.data;
                     postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
                 }
             console.log("postDataObj==",JSON.stringify(postDataObj));
+            //create user call goes here
+
             $scope.resetFields();
            // console.log($scope.permissions);
            // console.log($scope.User.data);
         },
         $scope.selectedClientHandler=function(clientObj,index){
+
 
             var counter=accountsService.getCounter();
             $scope.selectedClient={};
@@ -67,9 +69,18 @@
 
             //initialize advertiser,brand
             if(!$scope.userModalData[index]){
+
                 $scope.userModalData[index] = [];
                 $scope.userModalData[index]['Advertisers'] = [];
             }
+
+            //hard reset advertiser and brand and permission before populating
+            $scope.advertiserName[index] = "Select Advertiser";
+            $scope.User.data[index].advertiserId = '';
+            $scope.userModalData[index].Advertisers = [];
+            $scope.brandName[index] = "Select Brand";
+            $scope.User.data[index].brandId = "";
+            $scope.userModalData[index].Brands = [];
 
             //populate advertiser based on selected client
             userModalPopup.getUserAdvertiser(clientObj.id,index);
@@ -79,12 +90,16 @@
         $scope.selectAdvertiser=function(advertiserObj,index){
             $scope.advertiserName[index] = advertiserObj.name;
             $scope.User.data[index].advertiserId = advertiserObj.id;
-            console.log("advertiserObj == ",advertiserObj)
             //initialize brand
             if(!$scope.userModalData[index]){
                 //$scope.userModalData[index] = [];
                 $scope.userModalData[index]['Brands'] = [];
             }
+
+            //hard reset advertiser and brand and permission before populating
+            $scope.brandName[index] = "Select Brand";
+            $scope.User.data[index].brandId = "";
+            $scope.userModalData[index].Brands = [];
 
             // load brands based on advertiser and client
             userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index)
@@ -94,7 +109,6 @@
         $scope.selectBrand=function(brandObj,index){
             $scope.brandName[index] = brandObj.name;
             $scope.User.data[index].brandId = brandObj.id;
-            console.log("brandObj == ",brandObj);
 
             //initialize permission
             if(!$scope.userModalData[index]){
@@ -105,7 +119,7 @@
 
         $scope.incrementCounter=function(index){
             accountsService.setCounter();
-            $scope.permissions.push({uniqueId: accountsService.getCounter()});
+            $scope.permissions.push({});
         }
 
         var userModalPopup = {
@@ -153,7 +167,14 @@
             $scope.permissions = [];
             $scope.userConsoleFormDetails.lastName = '';
             $scope.userConsoleFormDetails.password = '';
-            $scope.userConsoleFormDetails.role_template_id = ''
+            $scope.userConsoleFormDetails.role_template_id = '';
+            $scope.clientName=[];
+            $scope.userModalData = [];
+            $scope.advertiserName=[];
+            $scope.brandName=[];
+            $scope.User = {
+                data: []
+            }
             $scope.close();
 
         }
