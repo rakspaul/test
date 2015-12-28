@@ -27,10 +27,8 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
 
            dashboardData.totalCampaigns = totalCampaigns ;
 
-           dashboardData.totalBrands = response.data.data.brands.total;
-
-           if(brandsModel.getSelectedBrand().id == -1 ){
-               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' Media Plans across '+ dashboardData.totalBrands + ' brands';
+           if(advertiserId > 0 && brandId == -1 ){
+               dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' Media Plans across '+ brandsModel.totalBrands() + ' brands';
            } else //"Displaying data for 15 campaigns"
                dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' Media Plans' ;
 

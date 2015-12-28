@@ -124,6 +124,13 @@
         };
 
         this.APICampaignCountsSummary = function (timePeriod, clientId, advertiserId, brandId, status) {
+            if(status == 'Active') {
+              status = "IN_FLIGHT";
+            } else if(status == 'Completed') {
+              status = 'ENDED';
+            } else if(status == 'All') {
+              status = 'ALL';
+            }
             var url = apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/campaigns/summary/counts?advertiser_id=' + advertiserId + ((brandId > -1) ? ('&brands=' + brandId) : '') + '&date_filter=' + timePeriod + (status ? ('&campaignState=' + status.toLowerCase()) : '');
             return url;
         };

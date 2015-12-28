@@ -9,7 +9,9 @@
       var clientId = loginModel.getSelectedClient().id;
       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
       var brandId = brandsModel.getSelectedBrand().id;
-      var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardModel.getData().selectedStatus );
+      var campaignStatus = dashboardModel.getData().selectedStatus;
+
+      var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, campaignStatus);
       //var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
       return dataService.fetch(url).then(function(response) {
         var active = response.data.data.active;

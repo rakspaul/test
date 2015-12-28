@@ -53,6 +53,10 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
 
         callBrandBroadcast :  function(brand) {
             brandsService.preForBrandBroadcast(brand);
+        },
+
+        totalBrands: function() {
+          return brands.length - 1;
         }
 
     };

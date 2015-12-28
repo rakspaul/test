@@ -289,33 +289,29 @@
                 */
                     fetchDashboardData = function(forceLoadFilter) {
                         this.dashboard.busy = true;
-                        var selectedClientId = loginModel.getSelectedClient().id;
+                        var clientId = loginModel.getSelectedClient().id;
                         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
                         var brandId = brandsModel.getSelectedBrand().id;
-                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + selectedClientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod+'&advertiser_filter=' +advertiserId,
+                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod + '&advertiser_id=' + advertiserId,
                             self = this;
                         //applying brand filter if active
-                        if (this.brandId > 0) {
+                        if (brandId > 0) {
                             url += '&brand_id=' + brandId;
                         }
                         //timePeriod, clientId, advertiserId, brandId, status
                        //var url = urlService.APICampaignCountsSummary(this.timePeriod,selectedClientId,advertiserId,brandId);
-                        var request_start = new Date();
                         campaignListService.getDashboardData(url, function(result) {
-                            var diff = new Date() - request_start;
                             self.dashboard.busy = false;
                             requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
                             if (result.status == "success" && !angular.isString(result.data)) {
-                                self.dashboard.active = {
-                                    total: result.data.data.active.total,
-                                    ontrack: result.data.data.active.ontrack,
-                                    underperforming: result.data.data.active.underperforming
-                                };
+                                // active is an object with total, ontrack and underperforming
+                                self.dashboard.active = result.data.data.active;
                                 self.dashboard.draft = result.data.data.draft;
                                 self.dashboard.ready = result.data.data.ready;
                                 self.dashboard.completed = result.data.data.completed.total;
-                                self.dashboard.paused = result.data.data.paused;
-                                self.dashboard.allOtherTotal = result.data.data.na.total != undefined ? result.data.data.na.total : 0;
+                                self.dashboard.archived = result.data.data.archived;
+//                                self.dashboard.paused = result.data.data.paused;
+//                                self.dashboard.allOtherTotal = result.data.data.na.total != undefined ? result.data.data.na.total : 0;
                                 self.dashboard.total = result.data.data.total;
                                 //forceLoadFilter - is used to identify whether the user has come from dashboard by clicking campaign performance widget's ontrack or performance section.
                                 if (forceLoadFilter !== undefined) {
@@ -491,39 +487,39 @@
                         this.dashboard.status.ready = "";
                         this.dashboard.status.paused = "";
                         this.dashboard.status.completed = "";
+                        this.dashboard.status.archived = "";
                 }
 
                 setQuickFilter = function(filterToApply) {
                       this.unSelectQuickFilter();
                       this.resetFilters();
                       this.appliedQuickFilter = filterToApply;
-                      var state = "";
+                      var kpiStatus = "";
                       var type = "";
                       switch(filterToApply) {
                         case constants.ACTIVE_CONDITION:
                           this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                          this.dashboard.status.active.bothItem= constants.ACTIVE;
+                          this.dashboard.status.active.bothItem = constants.ACTIVE;
                           type = constants.ACTIVE;
                           break;
                         case constants.ACTIVE_ONTRACK:
                           this.appliedQuickFilterText = getCapitalizeString(constants.ONTRACK);
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active[constants.ONTRACK];
                           this.dashboard.status.active.ontrack = constants.ACTIVE;
-                          state = constants.ontrack;
+                          kpiStatus = constants.ontrack;
                           break;
                         case constants.ACTIVE_UNDERPERFORMING:
                           this.appliedQuickFilterText = getCapitalizeString(constants.UNDERPERFORMING);
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active[constants.UNDERPERFORMING.toLowerCase()];
                           this.dashboard.status.active.underperforming  = constants.ACTIVE;
-                          state = constants.UNDERPERFORMING;
+                          kpiStatus = constants.UNDERPERFORMING;
                           break;
                         case constants.ENDING_SOON_CONDITION:
                           this.appliedQuickFilterText = constants.ENDING_SOON;
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                           this.dashboard.status.active.endingSoon = constants.ACTIVE;
                           this.appliedQuickFilter = constants.ENDING_SOON_CONDITION;
-                          state = constants.ENDING_SOON.toLowerCase();
                           this.sortParam = 'end_date';
                           this.sortDirection = 'asc';
                           break;
@@ -539,22 +535,28 @@
                             this.dashboard.status.ready= constants.ACTIVE;
                             type = constants.READY.toLowerCase();
                             break;
-                        case constants.PAUSED_CONDITION:
-                            this.appliedQuickFilterText = constants.PAUSED;
-                            this.dashboard.quickFilterSelectedCount = this.dashboard[constants.PAUSED.toLowerCase()];
-                            this.dashboard.status.paused= constants.ACTIVE;
-                            type = constants.PAUSED.toLowerCase();
-                            break;
+//                        case constants.PAUSED_CONDITION:
+//                            this.appliedQuickFilterText = constants.PAUSED;
+//                            this.dashboard.quickFilterSelectedCount = this.dashboard[constants.PAUSED.toLowerCase()];
+//                            this.dashboard.status.paused= constants.ACTIVE;
+//                            type = constants.PAUSED.toLowerCase();
+//                            break;
                         case constants.COMPLETED_CONDITION:
                           this.appliedQuickFilterText = constants.ENDED;
                           this.dashboard.quickFilterSelectedCount = this.dashboard[constants.COMPLETED.toLowerCase()];
                           this.dashboard.status.completed = constants.ACTIVE;
                           type = constants.COMPLETED.toLowerCase();
                           break;
+                        case constants.ARCHIVED_CONDITION:
+                          this.appliedQuickFilterText = constants.ARCHIVED;
+                          this.dashboard.quickFilterSelectedCount = this.dashboard[constants.ARCHIVED.toLowerCase()];
+                          this.dashboard.status.archived = constants.ACTIVE;
+                          type = constants.ARCHIVED.toLowerCase();
+                          break;
                         default :
                           this.appliedQuickFilterText = constants.DASHBOARD_STATUS_ACTIVE;
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                          this.dashboard.status.active.bothItem= constants.ACTIVE;
+                          this.dashboard.status.active.bothItem = constants.ACTIVE;
                           type = constants.ACTIVE;
                       }
                     this.dashboard.filterTotal = this.dashboard.quickFilterSelectedCount;
@@ -563,7 +565,7 @@
                     resetCostBreakdown.call(this);
                     this.scrollFlag = 1;
                     fetchData.call(this);
-                    analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (state ? state : type), loginModel.getLoginName());
+                    analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
                 }
 
                     _campaignServiceUrl = function(from) {
@@ -572,13 +574,11 @@
                         var params = [
                             'date_filter=' + this.timePeriod,
                             'page=' + nextPageNumber,
-                            'callback=JSON_CALLBACK'
+                            'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id
                         ];
-                        params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
                         this.sortParam && params.push('sort_column=' + this.sortParam);
                         this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                        this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
-                        this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
+                        this.brandId > 0 && params.push('brand_id=' + brandsModel.getSelectedBrand().id);
                         if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
                             params.push('conditions=' + constants.ACTIVE_CONDITION);
                         } else {
