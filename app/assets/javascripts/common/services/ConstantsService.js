@@ -27,7 +27,7 @@
     this.ACTIVE_CONDITION = 'in_flight';
     this.COMPLETED_CONDITION = 'ended';
     this.PAUSED_CONDITION = 'paused';
-    this.ENDING_SOON_CONDITION = 'in_flight';
+    this.ENDING_SOON_CONDITION = 'endingSoon';
     this.ARCHIVED_CONDITION = 'archived';
 
     this.ONTRACK = 'ontrack';

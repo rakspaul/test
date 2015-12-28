@@ -487,6 +487,7 @@
                         this.dashboard.status.ready = "";
                         this.dashboard.status.paused = "";
                         this.dashboard.status.completed = "";
+                        this.dashboard.status.archived = "";
                 }
 
                 setQuickFilter = function(filterToApply) {
@@ -549,7 +550,7 @@
                         case constants.ARCHIVED_CONDITION:
                           this.appliedQuickFilterText = constants.ARCHIVED;
                           this.dashboard.quickFilterSelectedCount = this.dashboard[constants.ARCHIVED.toLowerCase()];
-                          this.dashboard.status.archived = constants.ARCHIVED;
+                          this.dashboard.status.archived = constants.ACTIVE;
                           type = constants.ARCHIVED.toLowerCase();
                           break;
                         default :
@@ -573,13 +574,11 @@
                         var params = [
                             'date_filter=' + this.timePeriod,
                             'page=' + nextPageNumber,
-                            'callback=JSON_CALLBACK'
+                            'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id
                         ];
-                        params.push('advertiser_filter=' + advertiserModel.getSelectedAdvertiser().id);
                         this.sortParam && params.push('sort_column=' + this.sortParam);
                         this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                        this.client_id && params.push('client_id='+loginModel.getSelectedClient().id);
-                        this.brandId >0 &&params.push('brand_id='+brandsModel.getSelectedBrand().id);
+                        this.brandId > 0 && params.push('brand_id=' + brandsModel.getSelectedBrand().id);
                         if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
                             params.push('conditions=' + constants.ACTIVE_CONDITION);
                         } else {
