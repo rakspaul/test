@@ -204,13 +204,11 @@
 
         //Listener for brand changes
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
-            console.log("EVENT_STATUS_FILTER_CHANGED");
             $scope.refresh();
 
         });
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            console.log("EVENT_BRAND_CHANGED");
             $scope.refresh();
 
         });

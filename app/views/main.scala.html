@@ -21,9 +21,8 @@
       window.i18nlanguage             = '@Play.current.configuration.getString("application.language")';
       window.help_domain_url          = '@Play.current.configuration.getString("application.help_domain_url")';
     </script>
-
 </head>
-<body class="{{bodyclass}} {{productType}} {{customReport}}">
+<body ng-cloak class="{{bodyclass}} {{productType}} {{customReport}}">
 <header></header>
 @content
 @versions()
