@@ -2,6 +2,27 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('CreateCampaignController', function ($scope,$rootScope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel) {
+        $scope.selectedKeywords = [];
+        $scope.platformKeywords=[];
+        $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
+            left: '0px'};
+        $scope.keywordText = "";
+        $scope.Campaign = {
+            kpiArr: [],
+            costArr: []
+        };
+        $scope.addMoreKpi=function(){
+            $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',Target:'', billing:''});
+        }
+        $scope.addMoreCost=function(){
+            $scope.Campaign.costArr.push({costCat: '', type: '',calculation:'',Vendor:'', rate:'', target:'', description:''});
+        }
+        $scope.msgtimeoutReset = function(){
+            $timeout(function(){
+                $scope.resetFlashMessage() ;
+            }, 3000);
+        }
+
         $scope.archiveCampaign=function(event){
             var campaignArchiveErrorHandler=function(){
                $rootScope.setErrAlertMessage();
@@ -29,6 +50,15 @@ var angObj = angObj || {};
           if(scopeVar === 'budgetAmount' && $scope.mode != "edit" && $scope.selectedCampaign.budget != undefined)
                 $scope.selectedCampaign.budget = $scope.selectedCampaign.budget.replace($scope.numberOnlyPattern, '');
 
+        }
+        $scope.channelSelected=function(event,channel){
+            var target = $(event.target);
+            target.parent().siblings().removeClass('active');
+//            var parentElem = target.parents('.miniToggle')
+//            parentElem..C;
+            target.parent().addClass('active');
+//            target.attr("checked", "checked");
+            $scope.selectedChannel=channel;
         }
 
         $scope.processEditCampaignData = function () {
@@ -75,7 +105,15 @@ var angObj = angObj || {};
             Kpi:function(){
                 $scope.workflowData['Kpi']=[{id:1, name: 'None'},{id:1, name: 'CPA'},{id:2, name: 'CPC'},{id:3, name: 'CPM'},{id:4, name: 'CTR'},{id:5, name: 'Delivery'},{id:6, name: 'VTC'}];
             },
+            platforms:function(){
+                workflowService.getPlatforms({cache: false}).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        var responseData = result.data.data;
+                        $scope.platformKeywords=responseData.trackingPlatforms;
+                    }
+                })
 
+            },
 
             fetchAdvertisers: function (clientId) {
                 workflowService.getAdvertisers(clientId).then(function (result) {
@@ -221,10 +259,10 @@ var angObj = angObj || {};
                 postDataObj.goal = formData.goal
                 postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
-                if(formData.kpiType!="None"){
-                    postDataObj.kpiType = (formData.kpiType).toUpperCase();
-                    postDataObj.kpiValue = formData.kpiValue;
-                }
+//                if(formData.kpiType!="None"){
+//                    postDataObj.kpiType = (formData.kpiType).toUpperCase();
+//                    postDataObj.kpiValue = formData.kpiValue;
+//                }
 
                 postDataObj.clientId =  loginModel.getSelectedClient().id;
                 if ($scope.mode == 'edit') {
@@ -315,6 +353,29 @@ var angObj = angObj || {};
                 $scope.selectedCampaign.endTime = today;
             }
         }
+        $scope.showKeywords = function(keyword){
+            if(keyword.length > 0)
+                $scope.dropdownCss.display = 'block';
+            else
+                $scope.dropdownCss.display = 'none';
+
+        }
+        $scope.selectKeyword = function(keyword){
+            $scope.dropdownCss.display = 'none';
+            $scope.selectedKeywords.push(keyword);
+            var index = _.findIndex($scope.platformKeywords, function(item) {
+                return item.id == keyword.id});
+            $scope.platformKeywords.splice(index,1);
+            $('.keyword-txt').val('');
+        }
+
+        $scope.removeKeyword = function(keyword){
+            $scope.platformKeywords.push(keyword);
+            var index = _.findIndex($scope.selectedKeywords, function(item) {
+                return item.id == keyword.id});
+            $scope.selectedKeywords.splice(index,1);
+            $('.keyword-txt').val('');
+        }
 
         $(function () {
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
@@ -367,7 +428,8 @@ var angObj = angObj || {};
                 autoclose: true,
                 todayHighlight: true
             });
-            createCampaign.Kpi();
+            //createCampaign.Kpi();
+            createCampaign.platforms();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {
