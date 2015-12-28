@@ -1,7 +1,7 @@
 
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,constants,urlService,dataStore,dataService) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope,$scope,$timeout,$filter,collectiveReportModel,momentService,$location,$modal,loginModel,constants,urlService,dataStore,dataService) {
 
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
@@ -153,6 +153,7 @@
                         return function() {
                             var copySuccess = function(data) {
                                 data.name = 'copy: '+data.name;
+                                data.client_id = loginModel.getSelectedClient().id;
                                 collectiveReportModel.createSchdReport(function(){
                                     $scope.refreshReportList();
                                     $rootScope.setErrAlertMessage('Schedule Report Copied Successfully',0);
