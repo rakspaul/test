@@ -114,7 +114,7 @@
             if(campaignStatus == 'Active') {
                 campaignStatus = "IN_FLIGHT";
             } else if(campaignStatus == 'Completed') {
-                campaignStatus = 'COMPLETED';
+                campaignStatus = 'ENDED';
             }else if(campaignStatus == 'All') {
                 campaignStatus = 'ALL';
             }
