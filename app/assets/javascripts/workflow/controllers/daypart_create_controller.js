@@ -587,7 +587,7 @@ var angObj = angObj || {};
         }
 
         $scope.returnTime = function(time) {
-            if (time) {
+            if (time!="undefined") {
                 var index = _.findIndex($scope.getStartTimes, function (item) {
                     return item.time == time
                 });
