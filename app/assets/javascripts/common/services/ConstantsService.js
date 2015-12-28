@@ -20,14 +20,15 @@
     this.PERIOD_LAST_7_DAYS = 'last_7_days';
     this.PERIOD_LAST_30_DAYS = 'last_30_days';
     this.SORT_DESC = 'desc';
-    this.ACTIVE_UNDERPERFORMING = '(in_flight,underperforming)';
-    this.ACTIVE_ONTRACK = '(active,ontrack)';
-    this.ACTIVE_CONDITION = '(in_flight)';
-    this.DRAFT_CONDITION = '(draft)';
-    this.READY_CONDITION = '(scheduled)';
-    this.COMPLETED_CONDITION = '(ended)';
-    this.PAUSED_CONDITION = '(paused)';
-    this.ENDING_SOON_CONDITION = '(in_flight,endingSoon)';
+    this.ACTIVE_UNDERPERFORMING = 'underperforming';
+    this.ACTIVE_ONTRACK = 'ontrack';
+    this.DRAFT_CONDITION = 'draft';
+    this.READY_CONDITION = 'scheduled';
+    this.ACTIVE_CONDITION = 'in_flight';
+    this.COMPLETED_CONDITION = 'ended';
+    this.PAUSED_CONDITION = 'paused';
+    this.ENDING_SOON_CONDITION = 'in_flight';
+    this.ARCHIVED_CONDITION = 'archived';
 
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
@@ -171,6 +172,7 @@
     this.QUARTILE_DETAILS = "Quartile Details";
     this.YET_TO_START = "Yet to start";
     this.ENDED = "Ended";
+    this.ARCHIVED = "Archived";
     this.DAYS_LEFT = "Days Left";
     this.STARTED_TODAY = "Started today";
     this.ENDING_TODAY = "Ending today";
