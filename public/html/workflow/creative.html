@@ -2,15 +2,8 @@
 
 <div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">
 <div id="creative" >
-    <div class="top_message_box" ng-show="createAlertMessage.message">
-        <span class="msg_box">
-            <span class="msg_icon">x</span>
-            <span class="msg_txt" ng-bind-html="createAlertMessage.message"></span>
-            <span class="close_msg_box_holder">
-              <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
-            </span>
-        </span>
-    </div>
+    <popup-msg ng-show="createAlertMessage" ng-controller="popUpMsgCtr"
+               ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
     <!-- Header Starts -->
     <div class="page_header_container">
 	<div class="col-md-2 zeroPadding hideRightPanel"></div>

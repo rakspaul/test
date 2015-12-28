@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('AccountsAddOrEdit', function($scope, $modalInstance,accountsService) {
+    angObj.controller('AccountsAddOrEdit', function($scope,$rootScope, $modalInstance,accountsService) {
         //$scope.clientType = 'AGENCY';
 
         $scope.currencySelected = '';
@@ -44,8 +44,7 @@
                     if (result.status === "OK" || result.status === "success") {
                         $scope.close();
                         $scope.fetchAllClients();
-                        $scope.flashMessage.message = 'Account updated successfully' ;
-                        $scope.msgtimeoutReset();
+                        $rootScope.setErrAlertMessage("Account updated successfully",0);
                         $scope.resetBrandAdvertiserAfterEdit();
                     }
                 });
@@ -88,8 +87,7 @@
                 if (adv.status === "OK" || adv.status === "success") {
                     $scope.fetchAllClients();
                     $scope.close();
-                    $scope.flashMessage.message = 'Account created successfully' ;
-                    $scope.msgtimeoutReset();
+                    $rootScope.setErrAlertMessage('Account created successfully',0);
                 }
             });
         }

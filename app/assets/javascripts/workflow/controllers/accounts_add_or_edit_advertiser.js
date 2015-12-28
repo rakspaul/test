@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('AccountsAddOrEditAdvertiser', function($scope, $modalInstance,accountsService) {
+    angObj.controller('AccountsAddOrEditAdvertiser', function($scope,$rootScope, $modalInstance,accountsService) {
         $scope.close=function(){
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
@@ -16,15 +16,12 @@
                     if (result.status === "OK" || result.status === "success") {
                         $scope.fetchAllAdvertisers($scope.client.id);
                         $scope.close();
-                        $scope.flashMessage.message = 'Advertiser updated successfully' ;
-                        $scope.msgtimeoutReset();
+                        $rootScope.setErrAlertMessage('Advertiser updated successfully',0);
                         $scope.resetBrandAdvertiserAfterEdit();
                     }
                 }, function(err) {
                     $scope.close();
-                    $scope.flashMessage.message = 'Error in creating advertiser' ;
-                    $scope.flashMessage.isErrorMsg = 1 ;
-                    $scope.msgtimeoutReset();
+                    $rootScope.setErrAlertMessage('Error in creating advertiser');
                     console.log('error')
                 });
             }
@@ -47,14 +44,11 @@
                     $scope.fetchAllAdvertisers($scope.client.id);
                     $scope.resetBrandAdvertiserAfterEdit();
                     $scope.close();
-                    $scope.flashMessage.message = 'Advertiser created successfully' ;
-                    $scope.msgtimeoutReset();
+                    $rootScope.setErrAlertMessage('Advertiser created successfully',0);
                 }
             },function(err){
                 $scope.close();
-                $scope.flashMessage.message = 'Error in creating advertiser under client.' ;
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.msgtimeoutReset();
+                $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
                 console.log('error')
             });
         }

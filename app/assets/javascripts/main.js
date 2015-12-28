@@ -67,6 +67,7 @@
       'common-controllers-ConfirmationModalController':{deps:['CommonModule']},
       'common-directives-CommonDirectives':{deps: ['common-controllers-HeaderController']},
       'common-utils':{deps: ['common-directives-CommonDirectives']},
+      'common-pop_up_msg':{deps:['CommonModule']},
       'common-services-AnalyticsService':{deps: ['common-utils']},
       'common-d3-gauge':{deps: ['common-services-AnalyticsService']},
       'common-d3-quartilesGraph':{deps: ['common-services-AnalyticsService']},
@@ -209,12 +210,12 @@
       'common-directive-DataNotFound':{deps:['CommonModule']},
       'common-services-zipCode' : {deps:['CommonModule']},
       'collectiveReport-CollectiveReportModule':{deps: ['angular']},
-      'collectiveReport-CollectiveReportListingController':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-collective_report_listing_controller':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-reports_schedule_list_controller':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-ReportScheduleDeleteController':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveReportModel':{deps: ['collectiveReport-CollectiveReportModule']},
       //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
-      'collectiveReport-CollectiveEditReportController':{deps: ['collectiveReport-CollectiveReportModule']},
+      'collectiveReport-collective_edit_report_controller':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
 
 
@@ -277,6 +278,7 @@
       'common-controllers-ConfirmationModalController':'reporting/common/controllers/ConfirmationModalController',
       'common-directives-CommonDirectives':'common/directives/CommonDirectives',
       'common-utils':'common/utils',
+      'common-pop_up_msg':'common/popup_msg',
       'common-services-AnalyticsService':'common/services/AnalyticsService',
       'common-d3-gauge':'reporting/common/d3/gauge',
       'common-d3-quartilesGraph':'reporting/common/d3/quartilesGraph',
@@ -354,12 +356,12 @@
       'login-LoginController':'login/LoginController',
 
       'collectiveReport-CollectiveReportModule':'reporting/collectiveReport/CollectiveReportModule',
-      'collectiveReport-CollectiveReportListingController':'reporting/collectiveReport/CollectiveReportListingController',
+      'collectiveReport-collective_report_listing_controller':'reporting/collectiveReport/collective_report_listing_controller',
       'collectiveReport-reports_schedule_list_controller':'reporting/collectiveReport/reports_schedule_list_controller',
       'collectiveReport-ReportScheduleDeleteController':'reporting/collectiveReport/ReportScheduleDeleteController',
       'collectiveReport-CollectiveReportModel':'reporting/collectiveReport/CollectiveReportModel',
       //'collectiveReport-CollectiveReportDirective':'collectiveReport/CollectiveReportDirective',
-      'collectiveReport-CollectiveEditReportController':'reporting/collectiveReport/CollectiveEditReportController',
+      'collectiveReport-collective_edit_report_controller':'reporting/collectiveReport/collective_edit_report_controller',
       'collectiveReport-CollectiveDeleteReportController':'reporting/collectiveReport/CollectiveDeleteReportController',
 
 
@@ -485,6 +487,7 @@
            'common-controllers-ConfirmationModalController',
            'common-directives-CommonDirectives',
            'common-utils',
+           'common-pop_up_msg',
            'common-services-AnalyticsService',
            'common-d3-gauge',
            'common-d3-quartilesGraph',
@@ -626,11 +629,11 @@
           'services-momentService',
           'common-directive-DataNotFound',
           'collectiveReport-CollectiveReportModule',
-          'collectiveReport-CollectiveReportListingController',
+          'collectiveReport-collective_report_listing_controller',
           'collectiveReport-reports_schedule_list_controller',
           'collectiveReport-ReportScheduleDeleteController',
           'collectiveReport-CollectiveReportModel',
-          'collectiveReport-CollectiveEditReportController',
+          'collectiveReport-collective_edit_report_controller',
           'collectiveReport-CollectiveDeleteReportController',
           'common-services-zipCode',
           'common-services-RoleBasedService'//roleBased
