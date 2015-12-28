@@ -37,7 +37,6 @@ var angObj = angObj || {};
         $scope.scheduleReportActive= false;
         $scope.notInRange = false;
         $scope.notInRangeMonthly = false;
-        $scope.flashMessage = {'message':'','isErrorMsg':0};
         $scope.showPrimaryTxtBox = false;
         $scope.showSecondaryTxtBox = false;
         $scope.showSecondDimensionBlock = false;
@@ -292,25 +291,8 @@ var angObj = angObj || {};
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetFlashMessage() ;
-            }, 3000);
-        }
-
-        $scope.msgtimeoutReset();
-
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetFlashMessage() ;
-        };
-
         $scope.resetFlashMessage = function(){
-            $scope.flashMessage.message = '' ;
-            $scope.flashMessage.isErrorMsg = 0 ;
-            $scope.flashMessage.isMsg = 0 ;
+            $rootScope.setErrAlertMessage('',0);
         }
 
         _customctrl.getDimensionList =  function(data, selectedMetrics) {
@@ -622,10 +604,7 @@ var angObj = angObj || {};
         }
 
         var setFlashMessage = function(message,isErrorMsg,isMsg) {
-            $scope.flashMessage.message = message;
-            $scope.flashMessage.isErrorMsg = isErrorMsg;
-            $scope.flashMessage.isMsg = isMsg;
-            $scope.msgtimeoutReset();
+            $rootScope.setErrAlertMessage(message,isErrorMsg,isMsg);
             return false;
         }
 
@@ -660,11 +639,8 @@ var angObj = angObj || {};
                if($scope.verifyReportInputs()) {
                    dataService.createScheduleReport($scope.createData()).then(function (result) {
                        if (result.data.status_code == 200) {
-                           $rootScope.flashMessage = {
-                               'message': 'Success: The scheduled Report is listed.',
-                               'isErrorMsg': ''
-                           };
-                           $location.url('/reports/schedules');
+                           $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.',0);
+                             $location.url('/reports/schedules');
                        }
                    });
                }
@@ -1397,10 +1373,7 @@ var angObj = angObj || {};
                 if($scope.verifyReportInputs()) {
                     dataService.updateScheduleReport($routeParams.reportId, $scope.createData()).then(function (result) {
                         if (result.data.status_code == 200) {
-                            $rootScope.flashMessage = {
-                                'message': 'Scheduled report updated successfully',
-                                'isErrorMsg': ''
-                            };
+                            $rootScope.setErrAlertMessage('Scheduled report updated successfully',0);
                             $location.url('/reports/schedules');
                         }
                     });

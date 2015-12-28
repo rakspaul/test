@@ -39,8 +39,8 @@
             $scope.isErrorMsg = (typeof isErrorMsg != "undefined") ? isErrorMsg : 1;
             $scope.isMsg = (typeof isMsg != "undefined") ? isMsg : 0;
             $scope[$scope.msg].message = $scope.errMsg;
-            $scope[$scope.msg].isErrorMsg = 1 ;
-            $scope[$scope.msg].isMsg = 0;
+            $scope[$scope.msg].isErrorMsg = $scope.isErrorMsg ;
+            $scope[$scope.msg].isMsg = $scope.isMsg;
             $scope.msgtimeoutReset();
         }
     });
