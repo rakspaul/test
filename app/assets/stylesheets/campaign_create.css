@@ -247,7 +247,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-2.kpiTable {
   width: auto;
-  min-width: 115px;
+  min-width: 130px;
   max-width: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable {
@@ -3501,5 +3501,5 @@
   margin: 4px 0 0 5px;
 }
 .remove-row .icon-clear {
-  margin: 76px 0 0 5px ;
+  margin: 42px 0 0 5px ;
 }

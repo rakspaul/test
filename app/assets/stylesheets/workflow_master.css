@@ -675,6 +675,9 @@ select {
   background-color: #E1EDF9;
   color: #363D49;
 }
+.goalBtnGroup .btn-primary.first:not(.active) {
+  border-left: 1px solid #BFC9D7;
+}
 .goalBtnGroup .btn-primary.active {
   background-color: #0978C9;
   border: 1px solid #0978C9 !important;
