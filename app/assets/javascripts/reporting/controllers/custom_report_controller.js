@@ -1380,8 +1380,31 @@ var angObj = angObj || {};
                     });
                 }
             }
-
+            $scope.validateScheduleDate = function(){
+                if($scope.buttonLabel == "Update"){
+                    var currDate = (function () {
+                        var d = new Date(), m = d.getUTCMonth() + 1;
+                        return(Number('' + d.getUTCFullYear() + m + d.getDate()));
+                    }());
+                    if($scope.reports.schedule.frequency=="Once"){
+                        var deliveryDate = Number($("#deliverOn").val().replace(/-/g, ''));
+                        if (deliveryDate < currDate) {
+                            $rootScope.setErrAlertMessage("Please enter valid date");
+                            return false;
+                        }
+                    }else{
+                        var startDate = Number($("#startOn").val().replace(/-/g, '')),
+                            endDate = Number($("#endOn").val().replace(/-/g, ''));
+                        if(startDate < currDate || endDate < currDate || startDate >= endDate){
+                            $rootScope.setErrAlertMessage("Please enter valid date");
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
             $scope.scheduleReportAction = function() {
+                if(!$scope.validateScheduleDate()) return;
                 if($scope.buttonLabel == "Update") {
                     $scope.updateSchdReport();
                 }else if($scope.buttonLabel == "Generate") {
