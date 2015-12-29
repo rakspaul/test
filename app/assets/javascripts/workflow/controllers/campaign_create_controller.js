@@ -11,6 +11,7 @@ var angObj = angObj || {};
             kpiArr: [],
             costArr: []
         };
+        $scope.checkedObjectiveList=[];
         $scope.addMoreKpi=function(){
             $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',Target:'', billing:''});
         }
@@ -54,11 +55,21 @@ var angObj = angObj || {};
         $scope.channelSelected=function(event,channel){
             var target = $(event.target);
             target.parent().siblings().removeClass('active');
-//            var parentElem = target.parents('.miniToggle')
-//            parentElem..C;
             target.parent().addClass('active');
-//            target.attr("checked", "checked");
             $scope.selectedChannel=channel;
+        }
+        $scope.selectedObjective=function(objectiveObj){
+            console.log(objectiveObj);
+            var index = _.findIndex($scope.checkedObjectiveList, function(item) {
+                return item.id == objectiveObj.id});console.log(index);
+            if(index>=0){
+                $scope.checkedObjectiveList.splice(index,1);
+            }
+            else{
+                objectiveObj.isChecked=true;
+                $scope.checkedObjectiveList.push(objectiveObj);
+            }
+            console.log($scope.checkedObjectiveList);
         }
 
         $scope.processEditCampaignData = function () {
@@ -106,6 +117,8 @@ var angObj = angObj || {};
                 $scope.workflowData['Kpi']=[{id:1, name: 'None'},{id:1, name: 'CPA'},{id:2, name: 'CPC'},{id:3, name: 'CPM'},{id:4, name: 'CTR'},{id:5, name: 'Delivery'},{id:6, name: 'VTC'}];
             },
             platforms:function(){
+                $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',Target:'', billing:''});
+                $scope.Campaign.costArr.push({costCat: '', type: '',calculation:'',Vendor:'', rate:'', target:'', description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -115,6 +128,15 @@ var angObj = angObj || {};
 
             },
 
+            objectives:function(){
+                //workflowService.getObjectives({cache: false}).then(function (result) {
+                 //   if (result.status === "OK" || result.status === "success") {
+                   //     var responseData = result.data.data;
+                        $scope.workflowData['branding']=[{id:1,name:'Awareness',isChecked:false},{id:2,name:'Recall',isChecked:false},{id:3,name:'Purchase Intent',isChecked:false},{id:4,name:'Incremental Reach',isChecked:false},{id:5,name:'Tune-In',isChecked:false},{id:6,name:'Consideration',isChecked:false},{id:7,name:'Favorability',isChecked:false}]
+                        $scope.workflowData['performance']=[{id:8,name:'Clicks',isChecked:false},{id:9,name:'Video Completion',isChecked:false},{id:10,name:'Lead Generation',isChecked:false},{id:11,name:'Conversions',isChecked:false},{id:5,name:'Site Traffic',isChecked:false},{id:12,name:'Audience Verification',isChecked:false},{id:13,name:'Viewability',isChecked:false}]
+                   // }
+                //})
+            },
             fetchAdvertisers: function (clientId) {
                 workflowService.getAdvertisers(clientId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -430,6 +452,7 @@ var angObj = angObj || {};
             });
             //createCampaign.Kpi();
             createCampaign.platforms();
+            createCampaign.objectives();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {
