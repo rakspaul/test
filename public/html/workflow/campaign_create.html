@@ -211,24 +211,26 @@
 											</button>
 											<ul class="dropdown-menu " aria-labelledby="campObj"  id="campObj">
 												<li class="headerDDL"><span class="icon-brand"></span><span class="greyTxt" style="padding-left: 7px !important;">BRANDING</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Awareness</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Recall</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Purchase Intent</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Incremental Reach</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Tune-In</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Consideration</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Favorability</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">In-Store Impact</span></li>
+													<li ng-repeat="brand in workflowData.branding"><span><input type="checkbox" name="checkbox" value="brand.id" ng-click="selectedObjective(brand)" ng-checked="brand.isChecked">{{brand.name}}</span></li>
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Awareness</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Recall</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Purchase Intent</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Incremental Reach</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Tune-In</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Consideration</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Favorability</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">In-Store Impact</span></li>-->
 												<li class="headerDDL"><span class="icon-performance"></span><span class="greyTxt" style="padding-left: 7px !important;">PERFORMANCE</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Clicks</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Video Completion</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Lead Generation</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Conversions</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Site Traffic</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Audience Verification</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Viewability</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">In-Store Impact</span></li>
-													<li><span><input type="checkbox" name="checkbox" value="">Sign Ups</span></li>
+													<li ng-repeat="performance in workflowData.performance"><span><input type="checkbox" name="checkbox" value="performance.id" ng-click="selectedObjective(performance)" ng-checked="performance.isChecked">{{performance.name}}</span></li>
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Clicks</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Video Completion</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Lead Generation</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Conversions</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Site Traffic</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Audience Verification</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Viewability</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">In-Store Impact</span></li>-->
+													<!--<li><span><input type="checkbox" name="checkbox" value="">Sign Ups</span></li>-->
 											</ul>
 										</div>
 									</div>
