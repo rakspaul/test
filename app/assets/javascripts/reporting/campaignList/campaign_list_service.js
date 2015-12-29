@@ -102,7 +102,6 @@
                     tactic_1.daysSinceEnded = campaign.daysSinceEnded.bind(tactic_1);
 
                     tacticObj.push(tactic_1);
-                    console.log("tactic == ",tacticObj)
                     //based on time period use period dates or flight dates
                     switch(timePeriod) {
                         case 'last_7_days':
