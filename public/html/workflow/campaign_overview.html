@@ -327,13 +327,13 @@
                                 <div class="cardMidLayer">
                                     <div class="col-md-4 zeroPadding text-center">
                                          <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                             {{adsData.budgetType ?
-                                             (adsData.budgetType | toPascalCase) :
+                                             {{adsData.label ?
+                                             (adsData.label | toPascalCase) :
                                              textConstants.WF_IMPS}}
                                          </span>
                                          <span class="col-md-12 text-center zeroPadding">
-                                             {{adsData.impression_clicks_actions ?
-                                             (adsData.impression_clicks_actions | nrFormat) :
+                                             {{adsData.calculatedValue ?
+                                             (adsData.calculatedValue | nrFormat) :
                                              textConstants.WF_NOT_SET}}
                                          </span>
                                     </div>

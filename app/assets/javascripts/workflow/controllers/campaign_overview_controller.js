@@ -99,36 +99,42 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
+                console.log("adsData", adsData);
+                var budgetType, rateType;
+                var labelObj = {
+                    'cpm' : 'Imps.',
+                    'cpc' : 'Clicks',
+                    'cpa' : 'Actions'
+                }
+
+                //calculatedValue =  impression , clicks and actions value
+
                 _.each(adsData, function(data) {
-                  var budgetType = data.budgetType && data.budgetType.toLowerCase();
-                  var rateType = data.rateType && data.rateType.toLowerCase();
-           
-                  if(budgetType === "impressions") {
-                        data.budgetType = "Imps.";
-                       }         
-                  if(budgetType === "impressions" || budgetType === "clicks" || budgetType === "actions") {
-                    data['impression_clicks_actions'] = data.budgetValue;
-                    if(rateType === 'cpm') {
-                      data['cost'] = (data.budgetValue/1000)* (data.rateValue);
+
+                    budgetType = data.budgetType && data.budgetType.toLowerCase();
+                    rateType = data.rateType && data.rateType.toLowerCase();
+
+                    data.label = labelObj[rateType];
+
+                    if(budgetType === "cost" && rateType) {
+                        data['cost'] = data.budgetValue;
+                        if(rateType === 'cpm') {
+                          data['calculatedValue'] = (data.budgetValue/data.rateValue)*1000;
+                        }
+
+                        if(rateType === 'cpc' || rateType === 'cpa') {
+                            data['calculatedValue'] = data.budgetValue/data.rateValue;
+                        }
+                    } else {
+                        data['calculatedValue'] = data.budgetValue;
+                        if(rateType === 'cpm') {
+                            data['cost'] = (data.budgetValue/1000)* (data.rateValue);
+                        }
+                        if(rateType === 'cpc' || rateType === 'cpa') {
+                            data['cost'] = data.budgetValue * data.rateValue;
+
+                        }
                     }
-                    if(rateType === 'cpc') {
-                      data['cost'] = data.budgetValue * data.rateValue;
-
-                    }
-                  }
-
-                  if(budgetType === "cost") {
-                    data['cost'] = data.budgetValue;
-                    if(rateType === 'cpm') {
-                      data['impression_clicks_actions'] = (data.budgetValue/data.rateValue)*1000;
-                    }
-
-                    if(rateType === 'cpc') {
-
-                    }
-                  }
-
-
                 });
                 return adsData;
             },
