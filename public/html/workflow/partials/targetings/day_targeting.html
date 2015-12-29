@@ -203,12 +203,12 @@
         <!--<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>-->
         <div class="col-md-2 zeroPadding hourRow" ng-if="Schedule.dayPart[$index]['stTime'] < 24">
             <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
+                <div class="dropdown">Schedule.dayPart[$index]['edTime']--{{returnTime(Schedule.dayPart[$index]['edTime'])}}
                     <button class="btn btn-default dropdown-toggle " type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['edTime'])" aria-expanded="true" >
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">
-                        <li class="available" ng-click="selectEndTime($parent.$parent.$index,time.time)" ng-repeat="time in getEndTimes|limitTo:1" ng-value="time.time" ng-if="Schedule.dayPart[$parent.$index]['stTime'] == 23"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
-                        <li class="available" ng-click="selectEndTime($parent.$parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getEndTimes" ng-if="Schedule.dayPart[$parent.$index]['stTime'] < time.time"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="selectEndTime($parent.$parent.$index,time.time)" ng-repeat="time in getStartTimes|limitTo:1" ng-value="time.time" ng-if="Schedule.dayPart[$parent.$index]['stTime'] == 23"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="selectEndTime($parent.$parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes" ng-if="Schedule.dayPart[$parent.$index]['stTime'] < time.time"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="edTime" class=""  ng-model="Schedule.dayPart[$index]['edTime']" ng-value="{{time.time}}" field="edTime" index="{{$index}}" ng-Update-Hidden-Days/>
                     <input ng-if="dayTimeSelected == 'Custom schedule'" type="hidden" name="edTime" class=""  ng-model="Schedule.dayPart[$index]['edTime']" ng-init="Schedule.dayPart[$index]['edTime']='23'" ng-value="{{time.time}}" field="edTime" index="{{$index}}" ng-Update-Hidden-Days/>
