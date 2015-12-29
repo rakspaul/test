@@ -194,7 +194,7 @@
                         <li class="available" ng-click="selectStartTime($parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
-                    <input ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit')" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-init="Schedule.dayPart[$index]['stTime']='24'" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
+                    <input ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-init="Schedule.dayPart[$index]['stTime']='24'" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
                 </div>
             </div>
         </div>
@@ -211,7 +211,7 @@
                         <li class="available" ng-click="selectEndTime($parent.$parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes" ng-if="Schedule.dayPart[$parent.$index]['stTime'] < time.time"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="edTime" class=""  ng-model="Schedule.dayPart[$index]['edTime']" ng-value="{{time.time}}" field="edTime" index="{{$index}}" ng-Update-Hidden-Days/>
-                    <input ng-if="dayTimeSelected == 'Custom schedule'" type="hidden" name="edTime" class=""  ng-model="Schedule.dayPart[$index]['edTime']" ng-init="Schedule.dayPart[$index]['edTime']='23'" ng-value="{{time.time}}" field="edTime" index="{{$index}}" ng-Update-Hidden-Days/>
+                    <input ng-if="dayTimeSelected == 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="edTime" class=""  ng-model="Schedule.dayPart[$index]['edTime']" ng-init="Schedule.dayPart[$index]['edTime']='23'" ng-value="{{time.time}}" field="edTime" index="{{$index}}" ng-Update-Hidden-Days/>
                 </div>
             </div>
         </div>
