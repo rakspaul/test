@@ -1,5 +1,5 @@
  <popup-msg ng-show="alertMessage" ng-controller="popUpMsgCtr"
-            ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+            ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
 
 <div id="campaignCreate">
     <div class="firstWrapper">
@@ -20,12 +20,17 @@
                         </div>
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
                             <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
-                            <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
+                            <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}"
+                                class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
                             </h1>
                         </div>
                         <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime" ng-if="workflowData.campaignData.id">VID {{workflowData.campaignData.id}}  |  Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}} by {{workflowData.campaignData.updatedByUser}}</span>
+                            <span class="campIdTime" ng-if="workflowData.campaignData.id">
+                                VID {{workflowData.campaignData.id}}  |
+                                Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}}
+                                by {{workflowData.campaignData.updatedByUser}}
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
@@ -49,34 +54,50 @@
                             <!--<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>-->
                             <span class="icon-task"></span>
                         </div>
-			<div class="col-md-12 zeroPadding">
-			    <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
-				<div class="dropdown">
-				     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					<span class="icon-more-options"></span>
-				     </button>
-				     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-					<li><a ng-click="editCampaign(workflowData.campaignData)">Edit</a></li>
-					<li class="disabled" ng-click="cancelAdPause()"><a>{{textConstants.WF_PAUSE}}</a></li>
-					<li class="disabled" ng-click="cancelAdResume()"><a>{{textConstants.WF_RESUME}}</a></li>
-					<!--<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">{{textConstants.WF_ARCHIVE}}</a></li>-->
-					<li><a class="available" id="archiveAdbtn" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
-				     </ul>
-				</div>
-			   </div>
-			    
-			    <div class="pull-right">
-				    <button type="button" class="btn btn-primary pull-right" id="pushCampaignBtn" ng-disabled="disablePushBtn">{{textConstants.WF_PUSH_CAMPAIGN}}</button>
-			    </div>
-			</div>
+			            <div class="col-md-12 zeroPadding">
+			                <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
+				                <div class="dropdown">
+				                    <button class="btn btn-default dropdown-toggle"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
+					                    <span class="icon-more-options"></span>
+				                    </button>
+				                    <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                        <li><a ng-click="editCampaign(workflowData.campaignData)">Edit</a></li>
+                                        <li class="disabled" ng-click="cancelAdPause()">
+                                            <a>{{textConstants.WF_PAUSE}}</a></li>
+                                        <li class="disabled" ng-click="cancelAdResume()">
+                                            <a>{{textConstants.WF_RESUME}}</a></li>
+                                        <!--<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">
+                                        {{textConstants.WF_ARCHIVE}}</a></li>-->
+                                        <li><a class="available" id="archiveAdbtn" ng-click="cancelArchiveCampaign()">
+                                            {{textConstants.WF_ARCHIVE}}</a></li>
+                                     </ul>
+				                </div>
+			                </div>
+			                <div class="pull-right">
+				                <button type="button"
+                                        class="btn btn-primary pull-right"
+                                        id="pushCampaignBtn"
+                                        ng-disabled="disablePushBtn">
+                                    {{textConstants.WF_PUSH_CAMPAIGN}}
+                                </button>
+			                </div>
+			            </div>
                     </div>
                 </div>
-
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
                         <span class="greyTxt" style="width: 100%;">Goal</span>
-                        <div style="padding: 0; margin-right: 5px;" class="pull-left icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}"></div>
-                        <span style="clear: none;">{{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}</span>
+                        <div style="padding: 0; margin-right: 5px;"
+                             class="pull-left icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ?
+                              'brand' : 'performance'}}">
+                        </div>
+                        <span style="clear: none;">
+                            {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}
+                        </span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">Total Budget</span>
@@ -86,8 +107,13 @@
                         <span class="greyTxt">Flight Dates</span>
                         <span ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
-                            <span style="float: left; clear: none;">{{convertEST(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} - {{convertEST(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}</span>
-                            <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
+                            <span style="float: left; clear: none;">
+                                {{convertEST(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} -
+                                {{convertEST(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}
+                            </span>
+                            <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">
+                                ({{workflowData.campaignData.numOfDays}} Days)
+                            </span>
                         </span>
                     </div>
                     <div class="pull-left">
@@ -98,7 +124,9 @@
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;">Ad Groups</span>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
-                            <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.adGroupCount || 0}}</span>
+                            <span class="col-md-12 zeroPadding emptyValueTxt">
+                                {{workflowData.campaignData.adGroupCount || 0}}
+                            </span>
                         </div>
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;">Ads</span>
@@ -106,7 +134,9 @@
                         </div>
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;">Creatives</span>
-                            <span class="col-md-12 zeroPadding emptyValueTxt">{{workflowData.campaignData.creativeCount || 0}}</span>
+                            <span class="col-md-12 zeroPadding emptyValueTxt">
+                                {{workflowData.campaignData.creativeCount || 0}}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -124,7 +154,6 @@
                             </button>
                         </span>
                     </div>
-
                     <div class="form-group col-md-2 zeroPadding">
                         <div class="col-md-12">
                             <span>Sort</span>
@@ -135,17 +164,23 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-12 adContainer">
                     <!--===Start get ad groups ===-->
-                    <div id="getAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'" ng-controller = "GetAdgroupsController"></div>
+                    <div id="getAdgroups"
+                         ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'"
+                         ng-controller = "GetAdgroupsController">
+                    </div>
                     <!--===END get ad groups ===-->
-
                     <!--Start of create groups / create independant ad box-->
                     <div class="adGroupSelectionWrap" ng-show="noIndependantAds">
-                        <div class="btnCreateGroup" ng-click="createAdGrp()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
+                        <div class="btnCreateGroup" ng-click="createAdGrp()">
+                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group
+                        </div>
                         <!--ng-include of create Ad groups-->
-                        <div id="createAdgroups" ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'" ng-controller="CreateAdGroupsController"></div>
+                        <div id="createAdgroups"
+                             ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
+                             ng-controller="CreateAdGroupsController">
+                        </div>
                         <div class="col-md-3 adModule adCreateBtn">
                             <div class="col-md-12">
                                 <a ng-href="#" ng-click="navigateToAdCreatePage()" class="col-md-12 text-center addMaster">
@@ -156,30 +191,53 @@
                         </div>
                     </div>
                     <!--End of create groups / create independant ad box-->
-
                     <!--START of independant ads block-->
                     <div class="adGroupSelectionWrap" ng-hide="noIndependantAds">
-                        <div class="btnCreateGroup" ng-click="groupIndividualAds()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group</div>
+                        <div class="btnCreateGroup" ng-click="groupIndividualAds()">
+                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group
+                        </div>
                         <!--Start of group individual ads into groups-->
                         <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
                         <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
                             <div class="adGroupCreateForm">
                                 <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
                                 <div class="col-md-6 zeroPadding">
-                                    <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What is your Ad Group name?</label>
+                                    <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">
+                                        What is your Ad Group name?
+                                    </label>
                                     <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
                                     <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                        <input type="text" class="form-control" id="nameIndividualAdGroup" remove-special-character ='remove-special-character' name="adIGroupName" ng-model="adIGroupName" maxlength="250" placeholder="Enter Ad Group Name in this field up to 250 Characters" required/>
-                                        <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please enter a name for the ad group.</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="nameIndividualAdGroup"
+                                               remove-special-character='remove-special-character'
+                                               name="adIGroupName"
+                                               ng-model="adIGroupName"
+                                               maxlength="250"
+                                               placeholder="Enter Ad Group Name in this field up to 250 Characters"
+                                               required/>
+                                        <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
+                                               class="col-sm-12 control-label greyTxt errorLabel">
+                                            Please enter a name for the ad group.
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 zeroPadding">
-                                    <label for="dateIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
-                                    <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerIndividual">
+                                    <label for="dateIndividualAdGroup"
+                                           class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
+                                    <div class="span4 col-md-12 input-daterange input-group date pull-left"
+                                         id="datepickerIndividual">
                                         <div class="col-md-12 dateWrapper zeroPadding">
                                             <div class="dateContainer">
-                                                <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                                                <input type="text" id="individualAdsStartDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="lowestStartTime"  required/>
+                                                <label class="col-sm-12 control-label greyTxt miniLabels">
+                                                    {{ textConstants.START_DATE }}
+                                                </label>
+                                                <input type="text"
+                                                       id="individualAdsStartDateInput"
+                                                       placeholder="MM/DD/YYYY"
+                                                       class="form-control"
+                                                       readonly name="lowestStartTime"
+                                                       required/>
                                             </div>
                                             <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
                                                 <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
@@ -198,9 +256,13 @@
                                         </span>
                                     </div>
                                 </div>
-
                                 <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
-                                    <button type="submit" class="btn btn-primary pull-right" id="groupIndividual" ng-disabled="createIndependantAdsGrp.$invalid" ng-click="createIndependantAdsGroup()">Save</button>
+                                    <button type="submit"
+                                            class="btn btn-primary pull-right"
+                                            id="groupIndividual"
+                                            ng-disabled="createIndependantAdsGrp.$invalid"
+                                            ng-click="createIndependantAdsGroup()">Save
+                                    </button>
                                     <span class="pull-right secondary_txt" ng-click="groupIndividualAds()">Cancel</span>
                                 </div>
                                 <div id="independantMessage">{{independantGroupMessage}}</div>
@@ -208,7 +270,6 @@
                         </form>
                         </div>
                         <!--END of group individual ads into groups-->
-
                         <!--=== Create BTN Ad ===-->
                         <div class="col-md-3 adModule adCreateBtn">
                             <div class="col-md-12">
@@ -219,85 +280,134 @@
                                 </a>
                             </div>
                         </div>
-
+                        <!--=== End of Create BTN Ad ===-->
                         <!--=== Single Ad Ready ===-->
-                        <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
-                          <span class="icon-settings"></span>
+                        <div class="col-md-3 adModule"
+                             ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id"
+                             ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
+                            <span class="icon-settings"></span>
                             <div class="col-md-12 adTitle">
-                                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="{{(adsData.platform)}}" title="{{adsData.platform.displayName | uppercase}}"/>
+                                <img ng-src="{{adsData.platform.iconUrl}}"
+                                     height="16" class="adIconWidget"
+                                     ng-show="{{(adsData.platform)}}"
+                                     title="{{adsData.platform.displayName | uppercase}}"/>
                                 <span class="greyTxt adDisplay">{{adsData.platform.displayName}}</span>
                                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                                <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}">Platform Not Set</span>
-                                <span class="greyTxt adDisplay" ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
+                                <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}">
+                                    Platform Not Set
+                                </span>
+                                <span class="greyTxt adDisplay"
+                                      ng-show="{{!(adsData.sourceId) && !(adsData.isTracking)}}">
+                                    (NOT PUSHED)
+                                </span>
                             </div>
                             <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                                 <div class="cardTopLayer">
                                     <h4 class="col-md-10 adCamp" style="word-wrap: break-word;" tooltip="{{adsData.name}}">
                                         {{adsData.name | textEllipsis: 60}}
                                     </h4>
-                                    <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
-
-                                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">
-                                        <span class="pull-left">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span> 
-                                        
+                                    <span ng-if="adsData.adFormat"
+                                          class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
+                                          aria-hidden="true">
+                                    </span>
+                                    <span class="pull-left adTxtGray dateAd"
+                                          ng-if="adsData.startTime && adsData.endTime">
+                                        <span class="pull-left">
+                                            {{convertEST(adsData.startTime, 'DD MMM YYYY')}} -
+                                            {{convertEST(adsData.endTime, 'DD MMM YYYY')}}
+                                        </span>
                                     </span>
                                     <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
                                 </div>
-
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
                                 </div>
                                 <div class="cardMidLayer">
                                     <div class="col-md-4 zeroPadding text-center">
-                                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.WF_IMPS}}</span>
-                                         <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
+                                         <span class="col-md-12 text-center adTxtGray zeroPadding">
+                                             {{adsData.budgetType ?
+                                             (adsData.budgetType | toPascalCase) :
+                                             textConstants.WF_IMPS}}
+                                         </span>
+                                         <span class="col-md-12 text-center zeroPadding">
+                                             {{adsData.impression_clicks_actions ?
+                                             (adsData.impression_clicks_actions | nrFormat) :
+                                             textConstants.WF_NOT_SET}}
+                                         </span>
                                     </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                          <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
-                                          <span class="col-md-12 text-center zeroPadding">{{adsData.rateValue ? (adsData.rateValue | currency:undefined) : textConstants.WF_NOT_SET}}</span>
+                                          <span class="col-md-12 text-center adTxtGray zeroPadding">
+                                              {{adsData.rateType ? adsData.rateType : textConstants.CPM}}
+                                          </span>
+                                          <span class="col-md-12 text-center zeroPadding">
+                                              {{adsData.rateValue ?
+                                              (adsData.rateValue | currency:undefined) :
+                                              textConstants.WF_NOT_SET}}
+                                          </span>
                                      </div>
                                     <div class="col-md-4 zeroPadding text-center">
-                                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{textConstants.BUDGET}}</span>
-                                        <span class="col-md-12 text-center zeroPadding">{{adsData.cost ? (adsData.cost | currency:undefined) : textConstants.WF_NOT_SET}}</span>
+                                         <span class="col-md-12 text-center adTxtGray zeroPadding">
+                                             {{textConstants.BUDGET}}
+                                         </span>
+                                        <span class="col-md-12 text-center zeroPadding">
+                                            {{adsData.cost ?
+                                            (adsData.cost | currency:undefined) :
+                                            textConstants.WF_NOT_SET}}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="spacer">
                                     <div class="col-md-12"></div>
                                 </div>
-
                                 <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
-                                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Tags ({{adsData.creatives.length || 0}})</span>
-
-                                    <p style="margin: 0;" title="{{appendSizes(adsData.creatives)}}">{{appendSizes(adsData.creatives)}}</p>
+                                    <span class="col-md-12 text-left adTxtGray zeroPadding">
+                                        Creative Tags ({{adsData.creatives.length || 0}})
+                                    </span>
+                                    <p style="margin: 0;" title="{{appendSizes(adsData.creatives)}}">
+                                        {{appendSizes(adsData.creatives)}}
+                                    </p>
                                 </div>
                                 <div class="col-md-12 zeroPadding">
-                                    <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
-
-                                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 || adsData.targets.geoTargets.DMA.geoTargetList.length > 0 || adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ? 'Geo': textConstants.WF_NOT_SET}}</span>
+                                    <span class="col-md-12 text-left adTxtGray zeroPadding">
+                                        {{ textConstants.TARGETING }}
+                                    </span>
+                                    <span>
+                                        {{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 ||
+                                        adsData.targets.geoTargets.DMA.geoTargetList.length > 0 ||
+                                        adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ?
+                                        'Geo' :
+                                        textConstants.WF_NOT_SET}}
+                                    </span>
                                 </div>
                             </div>
                             <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
                             <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                                 {{adsData.state}}
-                                <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
-				<span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
+                                <span ng-if="adsData.pushStatus=='FAILED'"
+                                      class="pull-right icon-warning"
+                                      aria-hidden="true"
+                                      title="{{adsData.pushFeedback}}">
+                                </span>
+				                <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                             </span>
                         </div>
+                        <!--=== End of Single Ad Ready ===-->
                     </div>
                     <!--End of independant ads block-->
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
-<!--=== POP Up Light Box ===-->
+<!--=== compaignAdcreate starts ===-->
 <div class="campaignAdCreate" style="display: none;">
+    <!--=== adMainWrapper starts Here===-->
     <div class="adMainWrapper">
-        <div class="pull-right addClose"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></div>
+        <div class="pull-right addClose">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+        </div>
         <br/>
-
         <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" novalidate>
             <div class="adCreateConsole">
                 <!--###=== Ad Create Header Starts ===###-->
@@ -305,26 +415,26 @@
                     <div class="col-md-1 hdr_ad">AD</div>
                     <div class="col-md-10 zeroPadding"><input type="text" size="75" class="form-control"></div>
                     <div class="col-md-1 hdr_paused">Paused</div>
-
                     <div class="col-md-12 zeroPadding subHeaderSteps">
                         <div class="col-md-1"></div>
                         <div class="col-md-3 headerFormatSelect">
-                                    <span>{{ textConstants.WF_AD_FORMAT }}<strong>
-                                        <span class="glyphicon" aria-hidden="true"></span>
-                                        {{adData.adFormat}}</strong></span>
+                            <span>{{ textConstants.WF_AD_FORMAT }}
+                                <strong><span class="glyphicon" aria-hidden="true"></span>{{adData.adFormat}}</strong>
+                            </span>
                         </div>
                         <div class="col-md-3 headerAdGoalSelect">
-                                    <span>{{ textConstants.WF_AD_GOAL }}<strong>
-                                        <span class="glyphicon" aria-hidden="true"></span>
-                                        {{adData.adGoal}}</strong></span>
+                            <span>{{ textConstants.WF_AD_GOAL }}
+                                <strong><span class="glyphicon" aria-hidden="true"></span>{{adData.adGoal}}</strong>
+                            </span>
                         </div>
                         <div class="col-md-3 headerScreenSelect">
-                                    <span>{{ textConstants.WF_SCREEN_TYPE }}<strong>
-                                        <span class="glyphicon" aria-hidden="true"></span>
-                                        {{dataScreenAd}}</strong></span>
+                            <span>{{ textConstants.WF_SCREEN_TYPE }}
+                                <strong><span class="glyphicon" aria-hidden="true"></span>{{dataScreenAd}}</strong>
+                            </span>
                         </div>
-                        <div class="col-md-1"><a href=""><span class="glyphicon glyphicon-cog editStepOne"
-                                                               aria-hidden="true"></span></a></div>
+                        <div class="col-md-1">
+                            <a href=""><span class="glyphicon glyphicon-cog editStepOne" aria-hidden="true"></span></a>
+                        </div>
                         <div class="col-md-1"></div>
                     </div>
                 </div>
@@ -333,107 +443,130 @@
                 <!--###=== STEP 1 Starts ===###-->
                 <div class="col-md-12 zeroPadding adStepOne">
                     <a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_GUIDED_COPY }}</a>
-
                     <!--=== AD Format ===-->
                     <div class="col-md-12 zeroPadding adFormatChkBox">
                         <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES }}</div>
                         <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_FORMAT }}</div>
-
                         <div class="form-group col-md-3 btn_border">
                             <label>
-                                <input type="radio" id="radioDisplay" name="group1" value="Display" class="btn_rad"
+                                <input type="radio"
+                                       id="radioDisplay"
+                                       name="group1"
+                                       value="Display" c
+                                       lass="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_DISPLAY }}</div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border adDisableRadio">
                             <div class="adDisableRadioWrap"></div>
                             <label>
-                                <input type="radio" id="radioVideo" name="group1" value="Video" class="btn_rad"
+                                <input type="radio"
+                                       id="radioVideo"
+                                       name="group1"
+                                       value="Video"
+                                       class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_VIDEO }}</div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border adDisableRadio">
                             <div class="adDisableRadioWrap"></div>
                             <label>
-                                <input type="radio" id="radioRichMedia" name="group1" value="Rich Media" class="btn_rad"
+                                <input type="radio"
+                                       id="radioRichMedia"
+                                       name="group1"
+                                       value="Rich Media"
+                                       class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_RICH_MEDIA }}</div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border adDisableRadio">
                             <div class="adDisableRadioWrap"></div>
                             <label>
-                                <input type="radio" id="radioSocial" name="group1" value="Social" class="btn_rad"
+                                <input type="radio"
+                                       id="radioSocial"
+                                       name="group1"
+                                       value="Social"
+                                       class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_SOCIAL }}</div>
                             </label>
                         </div>
                     </div>
-
+                    <!--=== End of AD Format ===-->
                     <!--=== AD Goal ===-->
                     <div class="col-md-12 zeroPadding adGoalChkBox">
                         <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL }}</div>
                         <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
-
                         <div class="form-group col-md-3 btn_border">
                             <label>
-                                <input type="radio" id="radioPerformance" name="group2" value="Performance"
-                                       class="btn_rad" ng-model="adData.adGoal">
+                                <input type="radio"
+                                       id="radioPerformance"
+                                       name="group2"
+                                       value="Performance"
+                                       class="btn_rad"
+                                       ng-model="adData.adGoal">
                                 <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_PERFORMANCE }}</div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border">
                             <label>
-                                <input type="radio" id="radioBrand" name="group2" value="Brand" class="btn_rad"
+                                <input type="radio"
+                                       id="radioBrand"
+                                       name="group2"
+                                       value="Brand"
+                                       class="btn_rad"
                                        ng-model="adData.adGoal">
                                 <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_BRAND }}</div>
                             </label>
                         </div>
                     </div>
-
+                    <!--=== End of AD Goal ===-->
                     <!--=== Screen Type ===-->
                     <div class="col-md-12 zeroPadding screenChkSelection">
                         <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}</div>
                         <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
-
                         <div class="form-group col-md-3 btn_border">
                             <label>
-                                <input type="checkbox" id="chkDesktop" name="group3" value="Desktop"
-                                       class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Desktop">
+                                <input type="checkbox"
+                                       id="chkDesktop"
+                                       name="group3"
+                                       value="Desktop"
+                                       class="btn_rad chkScreenFocus"
+                                       ng-model="adData.adScreen.Desktop">
                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_DESKTOP }}</div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border">
                             <label>
-                                <input type="checkbox" id="chkMobile" name="group3" value="Mobile"
-                                       class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Mobile">
+                                <input type="checkbox"
+                                       id="chkMobile"
+                                       name="group3"
+                                       value="Mobile"
+                                       class="btn_rad chkScreenFocus"
+                                       ng-model="adData.adScreen.Mobile">
                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_MOBILE }}</div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border">
                             <label>
-                                <input type="checkbox" id="chkTablet" name="group3" value="Tablet"
-                                       class="btn_rad chkScreenFocus" ng-model="adData.adScreen.Tablet">
+                                <input type="checkbox"
+                                       id="chkTablet"
+                                       name="group3"
+                                       value="Tablet"
+                                       class="btn_rad chkScreenFocus"
+                                       ng-model="adData.adScreen.Tablet">
                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-
                                 <div class="btnLabel">{{ textConstants.WF_TABLET }}</div>
                             </label>
                         </div>
@@ -445,7 +578,7 @@
                             <span>Apps</span>
                         </div>
                     </div>
-
+                    <!--=== End of Screen Type ===-->
                     <!--=== Next Step Panel ===-->
                     <div class="col-md-12 zeroPadding">
                         <div class="pull-left nextPanel">
@@ -454,13 +587,13 @@
                             <button type="button" class="btn btn-link addClose">Cancel</button>
                         </div>
                     </div>
+                    <!--=== End of Next Step Panel ===-->
                 </div>
                 <!--###=== STEP 1 Ends ===###-->
 
                 <!--###=== STEP 2 Creat Ad Starts ===###-->
                 <div class="col-md-12 zeroPadding adStepTwo">
-
-                    <!-- Tabs navigation -->
+                    <!-- Tabs navigation starts -->
                     <div class="col-md-2 zeroPadding"> <!-- required for floating -->
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs tabs-left" id="myTabs">
@@ -470,69 +603,74 @@
                             <li><a href="#creative" data-toggle="tab">4. Creatives</a></li>
                         </ul>
                     </div>
-
                     <div class="col-md-10 zeroPadding tabContent">
                         <!-- Tab panes -->
                         <div class="tab-content">
-
-                            <div class="tab-pane active" id="setting"> <!-- Tab1 Setting start-->
+                            <!-- Tab1 Setting start-->
+                            <div class="tab-pane active" id="setting">
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                 <a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_SETTINGS}}</a>
-
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                 <div class="col-md-12">
                                     <div class="col-md-2 zeroPadding bText">{{ textConstants.WF_AD_SIZE }}</div>
-                                    <div class="form-group col-md-10"><input type="text" class="form-control"
-                                                                             placeholder="Type or search ad size"></div>
+                                    <div class="form-group col-md-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Type or search ad size">
+                                    </div>
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                                 <div class="col-md-12">
                                     <div class="col-md-2 zeroPadding">{{ textConstants.WF_FLIGHT_DATE }}</div>
                                     <div id="sandbox-container" class="span5 col-md-5">
                                         <div class="input-daterange input-group datetwo" id="datepicker">
-                                            <input type="text" class="input-sm form-control" id="startFlight"
-                                                   name="startFlight" disabled="disabled" data-provide="datepicker"
-                                                   data-date-format="yyyy-mm-dd" data-date-orientation="top auto"
+                                            <input type="text"
+                                                   class="input-sm form-control"
+                                                   id="startFlight"
+                                                   name="startFlight"
+                                                   disabled="disabled"
+                                                   data-provide="datepicker"
+                                                   data-date-format="yyyy-mm-dd"
+                                                   data-date-orientation="top auto"
                                                    required/>
                                             <span class="input-group-addon">-</span>
-                                            <input type="text" class="input-sm form-control" id="endFlight"
-                                                   name="endFlight" disabled="disabled" data-provide="datepicker"
-                                                   data-date-format="yyyy-mm-dd" data-date-orientation="top auto"
+                                            <input type="text"
+                                                   class="input-sm form-control"
+                                                   id="endFlight"
+                                                   name="endFlight"
+                                                   disabled="disabled"
+                                                   data-provide="datepicker"
+                                                   data-date-format="yyyy-mm-dd"
+                                                   data-date-orientation="top auto"
                                                    required/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                                 <div class="col-md-12">
                                     <div class="col-md-2 zeroPadding">{{ textConstants.WF_BUDGET }}</div>
-
                                     <div class="col-md-8 zeroPadding">
-
-                                        <div class="col-sm-1"><input type="radio" name="group4" value="browser"
-                                                                     class="btn_rad"></div>
+                                        <div class="col-sm-1">
+                                            <input type="radio" name="group4" value="browser" class="btn_rad">
+                                        </div>
                                         <div class="col-sm-3">{{ textConstants.WF_IMPRESSIONS }}</div>
-                                        <div class="form-group col-sm-5"><input type="text" class="form-control"
-                                                                                placeholder="0"></div>
+                                        <div class="form-group col-sm-5">
+                                            <input type="text" class="form-control" placeholder="0">
+                                        </div>
                                         <div class="col-sm-3"></div>
-
                                         <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
-                                        <div class="col-sm-1"><input type="radio" name="group4" value="browser"
-                                                                     class="btn_rad"></div>
+                                        <div class="col-sm-1">
+                                            <input type="radio" name="group4" value="browser" class="btn_rad">
+                                        </div>
                                         <div class="col-sm-3">{{ textConstants.WF_MEDIA_COST }}</div>
-                                        <div class="form-group col-sm-5"><input type="text" class="form-control"
-                                                                                placeholder="0"></div>
+                                        <div class="form-group col-sm-5">
+                                            <input type="text" class="form-control" placeholder="0">
+                                        </div>
                                         <div class="col-sm-3"></div>
-
                                     </div>
-
                                     <div class="col-md-2 zeroPadding"></div>
-
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                                 <div class="col-md-12">
                                     <div class="col-md-2 zeroPadding">{{ textConstants.WF_UNIT_COST }}</div>
                                     <div class="form-group col-md-4"><input type="text" class="form-control"></div>
@@ -543,66 +681,56 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                                 <div class="col-md-12">
                                     <div class="pull-left">
                                         <!-- Standard button -->
                                         <button type="button" class="btn btn-primary createBuyingNext">Next</button>
                                     </div>
                                 </div>
-
                             </div>
                             <!-- Tab1 Setting Ends -->
-
                             <!-- Tabs Buying Platform -->
                             <div class="tab-pane" id="buying">
-
+                                <!-- buying platform holder starts -->
                                 <div class="buyingPlatformHolder">
                                     {{ textConstants.WF_HEADER_BUYING_PLATFORM }}
                                     <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-                                    <a href="" class="col-md-12 zeroPadding"> {{
-                                        textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}</a>
-
+                                    <a href="" class="col-md-12 zeroPadding">
+                                        {{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}
+                                    </a>
                                     <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-5 platformHolder">
-                                            <input type="radio" name="group5" value="collective"
-                                                   class="btn_rad clickCm"> <img src="/assets/images/cdesk/logo_C.png"/>
+                                            <input type="radio" name="group5" value="collective" class="btn_rad clickCm">
+                                            <img src="/assets/images/cdesk/logo_C.png"/>
                                             {{ textConstants.WF_COLLECTIVE_MEDIA }}
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="bidder" class="btn_rad clickCb">
-                                            <img src="/assets/images/cdesk/logo_C_bidder.png"/>{{
-                                            textConstants.WF_COLLECTIVE_BIDDER }}
+                                            <img src="/assets/images/cdesk/logo_C_bidder.png"/>
+                                            {{ textConstants.WF_COLLECTIVE_BIDDER }}
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
-
                                     <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-5 platformHolder">
-                                            <input type="radio" name="group5" value="collective" class="btn_rad"> <img
-                                                src="/assets/images/cdesk/logo_C_appnexus.png"/> {{
-                                            textConstants.WF_APPNEXUS }}
+                                            <input type="radio" name="group5" value="collective" class="btn_rad">
+                                            <img src="/assets/images/cdesk/logo_C_appnexus.png"/>
+                                            {{ textConstants.WF_APPNEXUS }}
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-5 platformHolder">
-                                            <input type="radio" name="group5" value="bidder" class="btn_rad"> {{
-                                            textConstants.WF_MORE_PLATFORM }}
+                                            <input type="radio" name="group5" value="bidder" class="btn_rad">
+                                            {{ textConstants.WF_MORE_PLATFORM }}
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
-
                                 </div>
                                 <!-- buying platform holder ends -->
-
-
                                 <!-- Collective media screen Holder -->
                                 <div class="collectMediaScreenHolder">
-
                                     <div class="col-md-12 platformHeading">
                                         <div class="col-md-9 zeroPadding">
                                             C {{ textConstants.WF_COLLECTIVE_MEDIA }}
@@ -613,10 +741,10 @@
                                     </div>
                                     <div class="col-md-12">
                                         <span class="">{{ textConstants.WF_DELIVERY_PACING }}</span>
-                                        <a class="col-md-12 zeroPadding" href="">{{
-                                            textConstants.WF_HEADER_DELIVERY_FREQUENCY }}</a>
+                                        <a class="col-md-12 zeroPadding" href="">
+                                            {{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}
+                                        </a>
                                     </div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPadding">{{ textConstants.WF_PRIORITY}}</div>
                                         <div class="form-group col-md-4">
@@ -639,7 +767,6 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPadding">{{ textConstants.WF_DELIVER_FREQUENCY }}</div>
                                         <div class="form-group col-md-1">
@@ -649,11 +776,10 @@
                                             {{ textConstants.WF_SET_FREQUENCY_CAP }}
                                         </div>
                                     </div>
-
                                     <div class="col-md-12 showImpressionCap">
                                         <div class="col-md-4 zeroPadding"><input type="text"></div>
-                                        <div class="form-group col-md-3 zeroPadding">{{ textConstants.WF_IMPRESSION_PER
-                                            }}
+                                        <div class="form-group col-md-3 zeroPadding">
+                                            {{ textConstants.WF_IMPRESSION_PER }}
                                         </div>
                                         <div class="form-group1 col-md-4">
                                             <select id="unitcost" class="form-control">
@@ -667,14 +793,10 @@
                                             <button type="button" class="btn btn-primary">Next</button>
                                         </div>
                                     </div>
-
                                 </div>
                                 <!-- collective media screen holder Ends -->
-
                                 <!-- Collective Bidder Holder -->
-
                                 <div class="collectBidderScreenHolder">
-
                                     <div class="col-md-12 platformHeading">
                                         <div class="col-md-9 zeroPadding">
                                             C Collective Bidder
@@ -683,13 +805,12 @@
                                             <a href="" class="editPlatform"> {{ textConstants.WF_CHANGE_PLATFORM }}</a>
                                         </div>
                                     </div>
-
                                     <div class="col-md-12">
                                         <span class="">Bidding Strategy</span>
-                                        <a class="col-md-12 zeroPadding" href="">{{
-                                            textConstants.WF_HEADER_DELIVERY_FREQUENCY }}</a>
+                                        <a class="col-md-12 zeroPadding" href="">
+                                            {{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}
+                                        </a>
                                     </div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPadding">Ad Type</div>
                                         <div class="form-group col-md-4">
@@ -699,21 +820,18 @@
                                             Show Preset
                                         </div>
                                     </div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPadding">Pe</div>
-                                        <div class="form-group col-md-4">
-                                            <input type="dropdown" value="set">
-                                        </div>
-                                        <div class="form-group col-md-6 zeroPadding">
-                                            Show Preset
-                                        </div>
+                                        <div class="form-group col-md-4"><input type="dropdown" value="set"></div>
+                                        <div class="form-group col-md-6 zeroPadding">Show Preset</div>
                                     </div>
-
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPading">
                                             <span class="">Strategy</span>
-                                            <input type="text" size="12" name="strageu" value="strategy"
+                                            <input type="text"
+                                                   size="12"
+                                                   name="strageu"
+                                                   value="strategy"
                                                    placeholder="standard"/>
                                         </div>
                                         <div class="col-md-2">Key Value</div>
@@ -723,28 +841,19 @@
                                         <div class="col-md-2">Max Cost</div>
                                     </div>
                                 </div>
-
                                 <!-- Collective Bidder Holder Ends -->
-
                             </div>
                             <!-- Tabs Buying Platform Ends -->
-
-
-                            <!-- Tabs Targeting -->
-                            <div class="tab-pane" id="targetting"> Targeting</div>
-                            <!-- Tabs Targetting Platform -->
-
-                            <!-- Tabs Creative -->
+                            <!-- Tabs Targeting starts -->
+                            <div class="tab-pane" id="targetting">Targeting</div>
+                            <!-- Tabs Targeting ends -->
+                            <!-- Tabs Creative starts -->
                             <div class="tab-pane" id="creative">Creatives</div>
-                            <!-- Tabs Creative -->
-
+                            <!-- Tabs Creative ends -->
                         </div>
                         <!-- Tab Panes Ends -->
-
                     </div>
-                    <!-- Tabs navigation -->
-
-
+                    <!-- Tabs navigation ends -->
                     <div class="zeroPadding">
                         <div class="adSave">
                             <!-- Standard button -->
@@ -752,23 +861,16 @@
                             <button type="button" class="btn btn-link addClose">Cancel</button>
                         </div>
                     </div>
-
                 </div>
                 <!--###=== STEP 2 Ends ===###-->
-
-
             </div>
         </form>
     </div>
     <!--=== adMainWrapper Ends Here===-->
-
-
-</div> <!-- compaignAdcreate -->
-
-
 </div>
-</div>
+<!--=== compaignAdcreate ends ===-->
 
+<!--=== POP Up Light Box starts ===-->
 <div class="common-popup-container" ng-show="campaignArchive">
     <div class="popup">
         <div class="popup-header-body">
@@ -781,12 +883,21 @@
             </div>
         </div>
         <div class="clearfix popup-footer" >
-            <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Okay</button>
-            <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+            <button type="button"
+                    ng-click="archiveCampaign($event)"
+                    class="common_primary_btn pull-right"
+                    ng-hide="deleteCampaignFailed">
+                Okay
+            </button>
+            <button type="button"
+                    ng-click="cancelArchiveCampaign()"
+                    class="secondary_txt pull-right">
+                Cancel
+            </button>
         </div>
-
     </div>
 </div>
+<!--=== POP Up Light Box ends ===-->
 
 <script>
     $(function() {
