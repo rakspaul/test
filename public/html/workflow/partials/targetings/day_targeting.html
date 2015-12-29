@@ -203,7 +203,7 @@
         <!--<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>-->
         <div class="col-md-2 zeroPadding hourRow" ng-if="Schedule.dayPart[$index]['stTime'] < 24">
             <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">Schedule.dayPart[$index]['edTime']--{{returnTime(Schedule.dayPart[$index]['edTime'])}}
+                <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle " type="button" data-toggle="dropdown" aria-haspopup="true" ng-bind="returnTime(Schedule.dayPart[$index]['edTime'])" aria-expanded="true" >
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">
