@@ -10,6 +10,7 @@ var angObj = angObj || {};
     $scope.customFlag = false;
     $scope.timeSelected = 'All days and times';
     $scope.modeSet=workflowService.getMode();
+        $scope.intermediateChange=false;
 
 
     $scope.$on('UpdateDayPart',function(){
@@ -322,6 +323,12 @@ var angObj = angObj || {};
 
         }
 
+        $scope.selectday=function(index,day){
+            $scope.Schedule.dayPart[index]['day'] = day;
+            $scope.dayTimeSelected="Custom schedule";
+            $scope.customFlag = true;
+
+        }
         $scope.selectStartTime=function(parentIndex,stTime){
             $scope.Schedule.dayPart[parentIndex]['stTime'] = stTime;
             $scope.dayTimeSelected="Custom schedule";
@@ -333,6 +340,10 @@ var angObj = angObj || {};
             $scope.dayTimeSelected="Custom schedule";
             $scope.customFlag = true;
 
+        }
+        $scope.changeDayTime=function(){
+            $scope.dayTimeSelected = "Custom schedule";
+            $scope.customFlag = true;
         }
         $scope.generateDayArr=function(day){
             $scope.arrName=[];
@@ -559,6 +570,7 @@ var angObj = angObj || {};
                     if($scope.modeSet!=='edit'){
                         $scope.Schedule.dayPart = [];
                         $scope.customFlag = true;
+                        $scope.intermediateChange=true;
     //                    var daytimeObj = [
     //                        {day: 'Sunday', startTime: 'All Day'}
     //                    ];
@@ -587,7 +599,7 @@ var angObj = angObj || {};
         }
 
         $scope.returnTime = function(time) {
-            if (time!="undefined") {
+            if (time>=0) {
                 var index = _.findIndex($scope.getStartTimes, function (item) {
                     return item.time == time
                 });

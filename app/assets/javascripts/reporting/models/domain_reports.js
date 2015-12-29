@@ -359,6 +359,7 @@
                 scope.Schedule.dayPart.splice(attr.index, 1);
                 scope.Schedule.daytimeArr.splice(attr.index, 1);
                 scope.Schedule.customLength -= 1;
+                scope.changeDayTime();
                 scope.$apply();
             })
 
