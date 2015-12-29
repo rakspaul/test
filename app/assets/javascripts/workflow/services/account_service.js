@@ -6,6 +6,14 @@
         var client = null;
         var advertiserMode;
         var counter=0;
+        var permission = '';
+        var role_template_id = {
+            "Super_Admin": 0,
+            "Account_Admin": 1,
+            "Advertiser_Admin": 2,
+            "Generic_User": 4
+
+            }
 
         return {
             getAllCurrency: function () {
@@ -115,6 +123,22 @@
             },
             getCounter:function(){
                 return counter;
+            },
+            decrementCounter:function(){
+                counter--;
+            },
+            getRoleId: function(role){
+                return role_template_id[role];
+            },
+            getRoleName: function(roleId){
+                var index = (_.invert(role_template_id))[roleId];
+                return index;
+            },
+            createUser: function(userObj){
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/user', userObj,{'Content-Type': 'application/json'})
+            },
+            setPermissions: function(permissionObj){
+                permission = permissionObj;
             }
 
 

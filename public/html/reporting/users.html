@@ -9,13 +9,13 @@
 		</div>
 		<div class="col-md-12 user-list" ng-repeat="user in UsersData.users">
 			<div class="clearfix each-user">
-				<div class="pull-left" >{{user.name}}</div>
-				<div class="pull-left edit" ng-click="AddOrEditUserModal()"></div>
+				<div class="pull-left" >{{user.firstName +' '+ user.lastName}}</div>
+				<div class="pull-left edit" ng-click="AddOrEditUserModal('edit',user)"></div>
 			</div>
 			<!--<div class="clearfix each-user">-->
 				<!--<div class="pull-left">User2</div>-->
 				<!--<div class="pull-left edit" ng-click="AddOrEditUserModal()"></div>-->
-			<!--</div>-->
+			<!--</div>--> 
 		</div>
 	</div>
 </div>
