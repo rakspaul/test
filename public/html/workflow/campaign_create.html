@@ -288,7 +288,7 @@
 							<!--==== Row 4 ====-->
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What type of Media Plan are you running?</label>
-								<div class="form-group col-sm-12 zeroPadding">
+								<div class="form-group col-sm-12 zeroPadding goalBtnGroupTabs">
 									<!-- TOGGLE BTN FOR Demographic Type -->
 									<label for="demoType" class="col-sm-12 greyTxt miniLabels">Select one Channel</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
@@ -402,15 +402,15 @@
 								</div>
 								<div class="calTable">
 									<h3>Est. Non-Inventory Cost</h3>
-									<input type="text" class="form-control col-sm-8"/>
+									<input type="text" class="form-control col-sm-8" disabled/>
 								</div>
 								<div class="calTable">
 									<h3>Delivery Budget</h3>
-									<input type="text" class="form-control col-sm-8"/>
+									<input type="text" class="form-control col-sm-8" disabled/>
 								</div>
 								<div class="calTable">
 									<h3>Effective CPM</h3>
-									<input type="text" class="form-control col-sm-8"/>
+									<input type="text" class="form-control col-sm-8" disabled/>
 								</div>
 								<div class="calTable" style="width: 100%; padding-left: 10px;">
 									<input type="checkbox" />
@@ -422,9 +422,26 @@
 						<!--==== Row 2 ====-->
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Select KPIs</label>
-							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index">
+							<div class="col-md-12 zeroPadding">
 								<div class="col-md-3 zeroPadding kpiTable">
 									<h3>KPI</h3>
+								</div>
+								<div class="col-md-2 zeroPadding kpiTable">
+									<h3>Primary KPI</h3>
+								</div>
+								<div class="col-md-3 zeroPadding kpiTable">
+									<h3>Vendor</h3>
+								</div>
+								<div class="col-md-2 zeroPadding kpiTable">
+									<h3>Target</h3>
+								</div>
+								<div class="col-md-2 zeroPadding kpiTable">
+									<h3>Use for Billing</h3>
+								</div>
+							</div>
+							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index">
+								<div class="col-md-3 zeroPadding kpiTable">
+									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
@@ -443,7 +460,7 @@
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable">
-									<h3>Primary KPI</h3>
+									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
@@ -462,7 +479,7 @@
 								</div>
 								
 								<div class="col-md-3 zeroPadding kpiTable">
-									<h3>Vendor</h3>
+									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
@@ -481,13 +498,13 @@
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable">
-									<h3>Target</h3>
+									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
 									<input type="text" class="col-md-12"/>
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable">
-									<h3>Use for Billing</h3>
+									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
@@ -517,45 +534,67 @@
 						<!--==== Row 3 ====-->
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Would you like to add Costs?</label>
-							<div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
-								<div class="col-md-3 zeroPadding kpiTable" style="width: 180px;">
+							<div class="col-md-12 zeroPadding" >
+								<div class="col-md-3 zeroPadding kpiTable" style="width: 340px;">
 									<h3>Cost Category</h3>
+								</div>
+								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
+									<h3>Calculation</h3>
+								</div>
+								<div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
+									<h3>Vendor</h3>
+								</div>
+								<div class="col-md-1 zeroPadding kpiTable">
+									<h3>Rate</h3>
+								</div>
+								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
+									<h3>% of Target</h3>
+								</div>
+								
+								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
+									<h3>Description</h3>
+								</div>
+                            </div>
+                            <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
+								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-									<div class="col-md-12 zeroPadding dropdown-workflow">
-										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<span class="text">None Selected</span>
-												<span class="icon-arrow-down"></span>
-											</button>
-											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-												<li class="available"><a>Option 1</a></li>
-												<li class="available"><a>Option 2</a></li>
-												<li class="available"><a>Option 3</a></li>
-												<li class="available"><a>Option 4</a></li>
-											</ul>
+									<div class="col-md-12 zeroPadding">
+										<div class="col-md-6 zeroPadding dropdown-workflow">
+											<div class="dropdown">
+												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+													<span class="text">None Selected</span>
+													<span class="icon-arrow-down"></span>
+												</button>
+												<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+													<li class="available"><a>Option 1</a></li>
+													<li class="available"><a>Option 2</a></li>
+													<li class="available"><a>Option 3</a></li>
+													<li class="available"><a>Option 4</a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
+											<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+												<label class="btn btn-primary first active">
+												  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+													<div class="hideRadioBtn" style="margin-top: -18px;">
+														<span style="margin: 0;">Fixed</span>
+													</div>
+												</label>
+												<label class="btn btn-primary last">
+												  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
+													<div class="hideRadioBtn" style="margin-top: -18px;">
+														<span style="margin: 0;">Variable</span>
+													</div>
+												</label>
+											</div>
 										</div>
 									</div>
 								</div>
 								
-								<div class="col-md-2 zeroPadding kpiTable" style="width: 160px; max-width: none; margin-top: 67px;">
-									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
-											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Fixed</span>
-											</div>
-										</label>
-										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
-											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Variable</span>
-											</div>
-										</label>
-									</div>
-								</div>
+								
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
-									<h3>Calculation</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
@@ -574,7 +613,6 @@
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
-									<h3>Vendor</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
@@ -593,19 +631,16 @@
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable">
-									<h3>Rate</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value</label>
 									<input type="text" class="col-md-12"/>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
-									<h3>% of Target</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
 									<input type="text" class="col-md-12"/>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
-									<h3>Description</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value appears in reporting</label>
 									<input type="text" class="col-md-12"/>
 								</div>
