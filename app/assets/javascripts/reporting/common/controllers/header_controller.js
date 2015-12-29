@@ -141,49 +141,60 @@
 
         $(function() {
             var closeMenuPopUs = function(event) {
-                    var cdbDropdownId = $("#cdbDropdown");
-                    var brandsListId = $("#brandsList");
-                    var advertisersDropDownList = $("#advertisersDropDownList");
-                    var profileDropdownId = $("#profileDropdown");
-                    var mainNavDropdown = $(".main_nav_dropdown");
-                    var reportTypeDropdownId = $("#reportTypeDropdown");
-                    var regionTooltip = $(".regionCityTab").find(".common_tooltip");
-                    var quickFilters = $(".sliding_dropdown_container") ;
+                var e = event.target || event.srcElement,
+                    cdbDropdownId = $("#cdbDropdown"),
+                    brandsListId = $("#brandsList"),
+                    advertisersDropDownList = $("#advertisersDropDownList"),
+                    profileDropdownId = $("#profileDropdown"),
+                    mainNavDropdown = $(".main_nav_dropdown"),
+                    reportTypeDropdownId = $("#reportTypeDropdown"),
+                    regionTooltip = $(".regionCityTab").find(".common_tooltip"),
+                    quickFilters = $(".sliding_dropdown_container");
+                if($(e).closest(".report_builder_container").length) {
+                    var dropdownMenu = $(".left_border .dropdown .dropdown-menu");
+                    dropdownMenu.css("display", "none");
+                    if ($(e).closest(".dropdown").length && $(e).closest(".left_border").length) {
+                        var attr = $(e).attr('ng-click'),
+                            attr = (typeof attr == "undefined" || attr == null) ? false : attr;
+                        if ((attr && attr.search("addSearch") != -1) || $(e).attr("class") == "arrow_img" || $(e).attr("class") == "dd_txt ng-binding") {
+                            dropdownMenu.css("display", "block");
+                        }
+                    }
+                }
+                if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
+                    cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
+                    cdbDropdownId.hide();
+                }
+                if(brandsListId.is(':visible') && event.target.id != "brand_name_selected" && event.target.id != "brandsDropdown"  ) {
+                    brandsListId.closest(".each_filter").removeClass("filter_dropdown_open");
+                    brandsListId.hide();
+                }
+                if(advertisersDropDownList.is(':visible') && event.target.id != "advertiser_name_selected" && event.target.id != "advertisersDropdown"  ) {
+                    advertisersDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
+                    advertisersDropDownList.hide();
+                }
 
-                  if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
-                      cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
-                      cdbDropdownId.hide();
-                  }
-                  if(brandsListId.is(':visible') && event.target.id != "brand_name_selected" && event.target.id != "brandsDropdown"  ) {
-                      brandsListId.closest(".each_filter").removeClass("filter_dropdown_open");
-                      brandsListId.hide();
-                  }
-                  if(advertisersDropDownList.is(':visible') && event.target.id != "advertiser_name_selected" && event.target.id != "advertisersDropdown"  ) {
-                      advertisersDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
-                      advertisersDropDownList.hide();
-                  }
+                if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
+                    profileDropdownId.hide();
+                }
 
-                  if(profileDropdownId.is(':visible') && event.target.id != "profileItem") {
-                      profileDropdownId.hide();
-                  }
+                if(mainNavDropdown.is(':visible') && ( $(event.target).closest("#user-menu").length == 0) && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 ) && ( $(event.target).closest(".header_tab_dd_subheading").length == 0 )  ) {
+                    mainNavDropdown.hide();
+                    $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                }
 
-                  if(mainNavDropdown.is(':visible') && ( $(event.target).closest("#user-menu").length == 0) && ( $(event.target).closest("#reports_nav_link").length == 0 ) && ( $(event.target).closest("#user_nav_link").length == 0 ) && ( $(event.target).closest(".header_tab_dd_subheading").length == 0 )  ) {
-                      mainNavDropdown.hide();
-                      $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-                  }
-
-                  if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
-                      reportTypeDropdownId.hide();
-                  }
-                  var regionTooltipId = $(event.target).closest('li').attr("id") ;
-                  if(regionTooltip.is(':visible') && regionTooltipId != "cityTab"  && event.target.id != "tab_region" ) {
+                if(reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
+                    reportTypeDropdownId.hide();
+                }
+                var regionTooltipId = $(event.target).closest('li').attr("id") ;
+                if(regionTooltip.is(':visible') && regionTooltipId != "cityTab"  && event.target.id != "tab_region" ) {
                     regionTooltip.hide();
-                  }
+                }
 
-                  var quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr("id");
-                  if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
-                     $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
-                  }
+                var quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr("id");
+                if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
+                    $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
+                }
                   
               }
 
