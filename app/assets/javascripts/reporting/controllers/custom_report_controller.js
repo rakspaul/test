@@ -2,7 +2,6 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService,dataStore) {
-
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -43,7 +42,6 @@ var angObj = angObj || {};
         $scope.showAddBreakdownButton = true;
         $scope.updateScheduleReport = false;
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
-
 
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
@@ -446,6 +444,9 @@ var angObj = angObj || {};
                 str+="&filter="+$scope.reports.reportDefinition.dimensions.secondary.dimension
                 if($scope.reports.reportDefinition.dimensions.secondary.value) {
                     str+=':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                }
+                if(typeof filterText != "undefined" && filterText != null){
+                    str+=':'+filterText;
                 }
             }
             if($scope.additionalFilters.length > 0) {
