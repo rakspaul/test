@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,utils) {
+    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope) {
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
@@ -162,6 +162,7 @@
         userModalPopup.getUserPermission();
 
         $scope.resetFields = function(){
+            console.log("hellp shrujan === ");
             $scope.userConsoleFormDetails.email = '';
             $scope.userConsoleFormDetails.firstName = '';
             $scope.permissions = [];
@@ -178,6 +179,11 @@
             $scope.close();
 
         }
+
+        //set permissions in edit mode
+        $rootScope.$on('setPermissions',function(){
+            console.log("val edit ####== ");
+        })
     });
 
 }());

@@ -94,13 +94,15 @@
                         vtc: 0,
                         actionRate: 0,
                         chart: true,
-                        momentInNetworkTZ: momentInNetworkTZ
+                        momentInNetworkTZ: momentInNetworkTZ,
+                        is_tracking: tactic.is_tracking
                     };
                     tactic_1.durationCompletion = campaign.durationCompletion.bind(tactic_1);
                     tactic_1.durationLeft = campaign.durationLeft.bind(tactic_1);
                     tactic_1.daysSinceEnded = campaign.daysSinceEnded.bind(tactic_1);
 
                     tacticObj.push(tactic_1);
+                    console.log("tactic == ",tacticObj)
                     //based on time period use period dates or flight dates
                     switch(timePeriod) {
                         case 'last_7_days':

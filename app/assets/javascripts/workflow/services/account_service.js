@@ -6,6 +6,7 @@
         var client = null;
         var advertiserMode;
         var counter=0;
+        var permission = '';
         var role_template_id = {
             "Super_Admin": 0,
             "Account_Admin": 1,
@@ -135,6 +136,9 @@
             },
             createUser: function(userObj){
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/user', userObj,{'Content-Type': 'application/json'})
+            },
+            setPermissions: function(permissionObj){
+                permission = permissionObj;
             }
 
 
