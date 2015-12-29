@@ -500,6 +500,11 @@
     this.MP_SELGOAL = "Please Select Goal";
     this.MP_PLEASEKPITYPE = "Please select the KPI type.";
 
+    this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =  "You must enter media cost value less than the budget value specified for the campaign.";
+    this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD= "You must enter media cost value less than or equal to the minimum budget value specified for the ad.";
+    this.BUDGET_LESS_THAN_AVAILABLE_BUDGET = "You must enter budget less than the available budget";
+
+
   };
 
   commonModule.service("constants", constants);

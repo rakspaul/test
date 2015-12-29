@@ -64,9 +64,9 @@
             <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
         </label>
         <input style="width:130px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "adBudgetValidator();">
-        <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the budget value specified for the campaign.</label>
-        <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel">You must enter media cost value less than or equal to the minimum budget value specified for the ad.</label>
-        <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label  customErrorLabel">You must enter budget less than the available budget.</label>
+        <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">{{textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET}}</label>
+        <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel">{{textConstants.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD}}</label>
+        <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label  customErrorLabel">{{textConstants.BUDGET_LESS_THAN_AVAILABLE_BUDGET}} {{adMaximumRevenue}}.</label>
     </div>
 </div>
 
