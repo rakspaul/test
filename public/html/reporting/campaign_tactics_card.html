@@ -38,6 +38,9 @@
                                 <!-- <span>{{(tactic.ad_size ? (tactic.ad_size | truncateString : 50) :'[...]')}}</span> -->
                                 <targeting-icon-with-hover class-name="device-icon {{tactic.media_type_icon}}" txt="{{tactic.ad_size.join()}}" ></targeting-icon-with-hover>
                             </div>
+                            <div class="tracking"  ng-if="tactic.is_tracking">
+                                <span class="icon-tracking" ></span>
+                            </div>
                         </div>
                     </div>
                 </div>
