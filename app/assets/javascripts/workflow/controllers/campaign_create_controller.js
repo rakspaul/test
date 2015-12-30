@@ -27,8 +27,15 @@ var angObj = angObj || {};
             var target = $(event.target);
             target.parent().siblings().removeClass('active');
             target.parent().addClass('active');
+            if(isSet){
+                for(var i in $scope.Campaign.kpiArr){
+                    console.log($scope.Campaign.kpiArr[i].primaryKpi);
+                    if($scope.Campaign.kpiArr[i].primaryKpi){
+                        $scope.Campaign.kpiArr[i].primaryKpi=false;
+                    }
+                }
+            }
             $scope.Campaign.kpiArr[index]['primaryKpi']=isSet;
-            console.log(index);
         }
         $scope.kpiBilling=function(event,index,isSet){
             var target = $(event.target);
@@ -43,6 +50,13 @@ var angObj = angObj || {};
             //make a call to vendorRate API with the ID
             createCampaign.vendorRate(costObj.id,index);
         }
+        $scope.costTypeSelected=function(event,index,isSet){
+            var target = $(event.target);
+            target.parent().siblings().removeClass('active');
+            target.parent().addClass('active');
+            $scope.Campaign.costArr[index]['type']=isSet;
+            console.log(index);
+        }
         $scope.selectedVendorRate=function(index,vendorObj){
             $scope.Campaign.costArr[index]['vendor']=vendorObj.id;
             $scope.Campaign.costArr[index]['vendorName']=vendorObj.name;
@@ -52,10 +66,10 @@ var angObj = angObj || {};
 //        }
         $scope.checkedObjectiveList=[];
         $scope.addMoreKpi=function(){
-            $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',target:'', billing:''});
+            $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: false ,vendor:'',target:'', billing:true});
         }
         $scope.addMoreCost=function(){
-            $scope.Campaign.costArr.push({costCategory: '', type: '',calculation:'',vendor:'', rate:'', target:'', description:''});
+            $scope.Campaign.costArr.push({costCategory: '', type: 'variable',calculation:'',vendor:'', rate:'', target:'', description:''});
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -168,8 +182,8 @@ var angObj = angObj || {};
                 $scope.workflowData['vendor']=[{id:1, name: 'None'},{id:1, name: 'A'},{id:2, name: 'B'},{id:3, name: 'C'},{id:4, name: 'D'},{id:5, name: 'E'},{id:6, name: 'F'}];
             },
             platforms:function(){
-                $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',target:'', billing:''});
-                $scope.Campaign.costArr.push({costCategory: '', type: '',calculation:'',vendor:'', rate:'', target:'', description:''});
+                $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: false ,vendor:'',target:'', billing:true});
+                $scope.Campaign.costArr.push({costCategory: '', type: 'variable',calculation:'',vendor:'', rate:'', target:'', description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
