@@ -127,7 +127,7 @@
 
         this.APICampaignCountsSummary = function (timePeriod, clientId, advertiserId, brandId, status) {
             var url = apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/campaigns/summary/counts?advertiser_id=' + advertiserId;
-            url += (brandId > -1 ? '&brands=' + brandId : '') + '&date_filter=' + timePeriod;
+            url += (brandId > -1 ? '&brand_id=' + brandId : '') + '&date_filter=' + timePeriod;
             url += (status ? '&campaignState=' + this.DASHBOARD_STATUS_MAPPING[status] : '');
             return url;
         };
