@@ -96,9 +96,7 @@ var angObj = angObj || {};
         }
 
         $scope.setMetrixText = function(text) {
-            if($scope.totalMetrics==$scope.selectedMetricsList.length){
-                text = "Default";
-            }
+            text = ($scope.totalMetrics==$scope.selectedMetricsList.length) ? "Default" : text;
             $scope.metrics_text = text+'(' + $scope.selectedMetricsList.length + ')';
         }
 
