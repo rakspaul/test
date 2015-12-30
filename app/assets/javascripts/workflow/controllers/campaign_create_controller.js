@@ -11,6 +11,8 @@ var angObj = angObj || {};
             kpiArr: [],
             costArr: []
         };
+        $scope.workflowData = {};
+        //$scope.workflowData['vendorRate']=[];
 
         $scope.selectedKpi = function(index,kpi) {
             $scope.Campaign.kpiArr[index]['kpi']=kpi.id;
@@ -38,6 +40,12 @@ var angObj = angObj || {};
         $scope.selectedCostCategory=function(index,costObj){
             $scope.Campaign.costArr[index]['costCategory']=costObj.id;
             $scope.Campaign.costArr[index]['costCategoryName']=costObj.name;
+            //make a call to vendorRate API with the ID
+            createCampaign.vendorRate(costObj.id,index);
+        }
+        $scope.selectedVendorRate=function(index,vendorObj){
+            $scope.Campaign.costArr[index]['vendor']=vendorObj.id;
+            $scope.Campaign.costArr[index]['vendorName']=vendorObj.name;
         }
 //        $scope.clearKpiRow=function(index){
 //            $scope.Campaign.kpiArr.splice(index, 1);
@@ -47,7 +55,7 @@ var angObj = angObj || {};
             $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',target:'', billing:''});
         }
         $scope.addMoreCost=function(){
-            $scope.Campaign.costArr.push({costCat: '', type: '',calculation:'',Vendor:'', rate:'', target:'', description:''});
+            $scope.Campaign.costArr.push({costCategory: '', type: '',calculation:'',vendor:'', rate:'', target:'', description:''});
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -161,7 +169,7 @@ var angObj = angObj || {};
             },
             platforms:function(){
                 $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',target:'', billing:''});
-                $scope.Campaign.costArr.push({costCat: '', type: '',calculation:'',Vendor:'', rate:'', target:'', description:''});
+                $scope.Campaign.costArr.push({costCategory: '', type: '',calculation:'',vendor:'', rate:'', target:'', description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -181,7 +189,7 @@ var angObj = angObj || {};
             calculation:function(){
                 $scope.workflowData['calculation']=[{id:1, name: 'CPC'},{id:1, name: 'CPM'},{id:2, name: 'CPA'}];
             },
-            vendorRate:function(categoryObj,index){
+            vendorRate:function(categoryObj,index){console.log(index);
                 //workflowService.getObjectives({cache: false}).then(function (result) {
                 //   if (result.status === "OK" || result.status === "success") {
                 //     var responseData = result.data.data;
