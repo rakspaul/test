@@ -3,7 +3,11 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel, $scope,$rootScope, $modal, domainReports, dataService, urlService,campaignSelectModel,constants, $filter,dataStore , $timeout,utils ) {
+    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel,
+                                                                                    $scope,$rootScope, $modal, domainReports,
+                                                                                    dataService, urlService, campaignSelectModel,
+                                                                                    constants, $filter, dataStore, $timeout, utils,
+                                                                                    advertiserModel, brandsModel) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Campaign Name";
@@ -86,8 +90,10 @@
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(index, 1);
                                     $rootScope.setErrAlertMessage(constants.reportDeleteSuccess,0)
-                                    var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
-                                    var url = urlService.APIReportList(selectedCampaginObj.id);
+                                    var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign'));
+                                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                                        brandId = brandsModel.getSelectedBrand().id,
+                                        url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
                                     if(url) {
                                         dataStore.deleteFromCache(url);
                                     }
@@ -111,12 +117,12 @@
                     $scope.screenBusy = false;
                     saveAs(response.file, response.fileName);
                     if(browserInfo.browserName != 'Firefox') {
-                        $rootScope.setErrAlertMessage(constants.reportDeleteSuccess,0);
+                        $rootScope.setErrAlertMessage(constants.reportDownloadSuccess,0);
                     }
                 } else {
                    // $scope.reportDownloadBusy = false;
                     $scope.screenBusy = false;
-                    $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
+                    $rootScope.setErrAlertMessage(constants.reportDownloadFailed);
                 }
             }, function () {
                // $scope.reportDownloadBusy = false;

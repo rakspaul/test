@@ -4,7 +4,11 @@
 (function() {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope,$rootScope, $modalInstance, report,reportIndex,campaignSelectModel,dataService,urlService,collectiveReportModel,utils,brandsModel,constants,$modal,dataStore, $timeout) {
+    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $rootScope, $modalInstance, report,
+                                                                                 reportIndex, campaignSelectModel, dataService,
+                                                                                 urlService, collectiveReportModel, utils,
+                                                                                 advertiserModel, brandsModel, constants, $modal,
+                                                                                 dataStore, $timeout) {
         $scope.report = report;
         $scope.ediScreenBusy = false;
         $scope.editedObj = angular.copy(report);
@@ -66,8 +70,10 @@
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(reportIndex, 1);
                                     //to avoid listing report getting encached, remove that url from cache.
-                                    var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
-                                    var url = urlService.APIReportList(selectedCampaginObj.id);
+                                    var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign'));
+                                        advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                                        brandId = brandsModel.getSelectedBrand().id,
+                                        url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
                                     if(url) {
                                         dataStore.deleteFromCache(url);
                                     }

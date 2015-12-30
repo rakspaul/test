@@ -33,9 +33,9 @@
                   <span class="each-col campaign-col ">{{rlist.campaignName}}</span>
                   <span class="each-col author-col">{{rlist.createdBy}}</span>
                   <span class="each-col options-button-col" >
-                      <a  ng-click="downloadCollectiveReport(rlist.id)" href="javascript:void(0);" title="{{ rlist.fileName }}" class="btn-icon download-icon"></a>
-                      <a ng-show="isNetworkUser" ng-click="editReportModal($index)" title="Edit" class="btn-icon edit-icon" href="javascript:void(0);"></a>
-                      <a  ng-show="isNetworkUser" ng-click="deleteReportModal($index,rlist.id)" href="javascript:void(0);" class="btn-icon delete-icon" title="Delete"></a><!-- ng-click="deleteReport($index, rlist.id)" -->
+                      <a ng-click="downloadCollectiveReport(rlist.id)" href="javascript:void(0);" title="{{ rlist.fileName }}" class="btn-icon download-icon"></a>
+                      <a ng-click="editReportModal($index)" title="Edit" class="btn-icon edit-icon" href="javascript:void(0);"></a>
+                      <a ng-click="deleteReportModal($index,rlist.id)" href="javascript:void(0);" class="btn-icon delete-icon" title="Delete"></a><!-- ng-click="deleteReport($index, rlist.id)" -->
                   </span>
                 </div>
                 <span class="description_row">{{rlist.notes}} </span>

@@ -118,7 +118,6 @@
 
             getReportListData: function (url) {
                 return this.fetch(url);
-
             },
 
             createAction: function (data) {
