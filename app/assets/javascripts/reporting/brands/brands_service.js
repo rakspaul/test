@@ -11,7 +11,7 @@ brandsModule.service("brandsService", function ($rootScope, $http, dataService, 
 
     service.preForBrandBroadcast = function (brand, advertiser, event_type) {
         var obj = {'brand': brand, 'advertiser': advertiser, 'event_type': event_type};
-        $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, [obj]);
+        $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, obj);
     };
 
     return service;

@@ -85,12 +85,12 @@
         });
 
         $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
-            var advertiser = args[0].advertiser;
+            var advertiser = args.advertiser;
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};
             $scope.brandData.selectedBrand.name= '';
             searchCriteria.clientId = loginModel.getSelectedClient().id;
-            $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args[0].event_type);
+            $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
             searchCriteria.advertiserId = advertiser.id;
             fetchBrands(searchCriteria, search);
         });

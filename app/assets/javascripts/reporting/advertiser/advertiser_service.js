@@ -9,7 +9,7 @@ advertiserModule.service("advertiserService", function ($rootScope, $http, workf
 
     service.preForAdvertiserBroadcast = function (advertiser, event_type) {
         var obj = {'advertiser': advertiser, 'event_type': event_type};
-        $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED, [obj]);
+        $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED, obj);
     };
 
     return service;
