@@ -96,10 +96,11 @@ var angObj = angObj || {};
         }
 
         $scope.setMetrixText = function(text) {
+            text = ($scope.totalMetrics==$scope.selectedMetricsList.length) ? "Default" : text;
             $scope.metrics_text = text+'(' + $scope.selectedMetricsList.length + ')';
         }
 
-            dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
+        dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
             var jsonModifier =  function(data) {
                 var arr= [];
                 _.each(data, function(obj) {
@@ -550,10 +551,10 @@ var angObj = angObj || {};
             }
 
             //timeframe
-           /* str+='&start_date='+$scope.reports.reportDefinition.timeframe.start_date +"&end_date="+$scope.reports.reportDefinition.timeframe.end_date;
+            /* str+='&start_date='+$scope.reports.reportDefinition.timeframe.start_date +"&end_date="+$scope.reports.reportDefinition.timeframe.end_date;
 
-            var params = 1+"?dimension="+str+"&offset="+123+"&limit="+$scope.limit;
-            console.log('query string'+params);*/
+             var params = 1+"?dimension="+str+"&offset="+123+"&limit="+$scope.limit;
+             console.log('query string'+params);*/
         };
 
         $scope.createData = function() {
@@ -590,7 +591,7 @@ var angObj = angObj || {};
                 $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,"type":"Secondary","values":$scope.reports.reportDefinition.dimensions.secondary.value});
             }
             _.each($scope.additionalFilters,function(eachObj) {
-               // $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
+                // $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
                 if(eachObj.value) {
                     $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
                 }
@@ -637,14 +638,14 @@ var angObj = angObj || {};
         }
 
         $scope.scheduleReport = function() {
-               if($scope.verifyReportInputs()) {
-                   dataService.createScheduleReport($scope.createData()).then(function (result) {
-                       if (result.data.status_code == 200) {
-                           $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.',0);
-                             $location.url('/reports/schedules');
-                       }
-                   });
-               }
+            if($scope.verifyReportInputs()) {
+                dataService.createScheduleReport($scope.createData()).then(function (result) {
+                    if (result.data.status_code == 200) {
+                        $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.',0);
+                        $location.url('/reports/schedules');
+                    }
+                });
+            }
         };
 
         $scope.enable_generate_btn = function() {
@@ -809,10 +810,10 @@ var angObj = angObj || {};
 
 
         $scope.select_dimension = function(event, dimension, type, pos) {
-          var elem = $(event.target);
-          elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
-          elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
-          elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+            elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
+            elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
         }
 
         $scope.selectPriSecDimension = function(dimension,type) {
@@ -831,10 +832,10 @@ var angObj = angObj || {};
 
 
         $scope.select_additional_filters = function(event, dimension, type) {
-          var elem = $(event.target);
-          elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
-          elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
-          elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
+            elem.closest(".dropdown").find(".dd_txt").attr('id', elem.attr("id")) ;
+            elem.closest(".breakdown_div").find(".filter_input_txtbox").show() ;
         }
 
         $scope.select_dropdown_option = function(event , arg ) {
@@ -941,7 +942,7 @@ var angObj = angObj || {};
         };
 
         $scope.toggleSchedule = function(that) {
-          $scope.scheduleReportActive = $(that).prop('checked');
+            $scope.scheduleReportActive = $(that).prop('checked');
             if($scope.scheduleReportActive){
                 $scope.buttonLabel = $scope.textConstants.SCHEDULE_LABEL;
                 if($routeParams.reportId) {
@@ -951,13 +952,13 @@ var angObj = angObj || {};
                 $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
             }
 
-          if( $(that).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
-              $(".default-schedule-col").show() ;
-          } else {
-              $(".each-col:not(#schedule-btn)").hide() ;
-              $(".default-schedule-col").find(".dd_txt").text("Select") ;
-          }
-          $scope.$apply();
+            if( $(that).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0 ) {
+                $(".default-schedule-col").show() ;
+            } else {
+                $(".each-col:not(#schedule-btn)").hide() ;
+                $(".default-schedule-col").find(".dd_txt").text("Select") ;
+            }
+            $scope.$apply();
         };
 
         $(document).ready( function() {
@@ -1005,7 +1006,7 @@ var angObj = angObj || {};
             });
             $('#toggle').bootstrapToggle('off');
             $('#toggle').change(function(event) {
-              $scope.toggleSchedule(this);
+                $scope.toggleSchedule(this);
             });
             var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD') ;
             $('#startDateInput').datepicker('update', yesterday) ;
@@ -1101,9 +1102,9 @@ var angObj = angObj || {};
 
                 //Quality video Metrics
                 $scope.videoQltyMetrics.isAllSelected = $scope.allMetrics;
-                    _.each($scope.videoQltyMetrics,function(eachObj){
-                        eachObj.selected =  $scope.allMetrics;
-                    })
+                _.each($scope.videoQltyMetrics,function(eachObj){
+                    eachObj.selected =  $scope.allMetrics;
+                })
 
             }
 
