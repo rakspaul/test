@@ -22,13 +22,13 @@
         init();
         $scope.advertiserData = advertiserModel.getAdvertiser();
 
-        $scope.selectAdvertiser = function (advertiser) {
+        $scope.selectAdvertiser = function (advertiser, event_type) {
             $("#advertiser_name_selected").text(advertiser.name);
             $('#advertisersDropdownNew').attr('placeholder', advertiser.name).val('');
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
             if(!advertiser.referedFrom)
-                advertiserModel.callAdvertiserBroadcast(advertiser);
+                advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
         };
 
         $scope.showAdvertisersDropDown = function () {

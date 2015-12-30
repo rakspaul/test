@@ -39,12 +39,12 @@
         };
 
 
-        $scope.selectBrand = function (brand) {
+        $scope.selectBrand = function (brand, advertiser, event_type) {
             $("#brand_name_selected").text(brand.name);
             $('#brandsDropdown').attr('placeholder', brand.name).val('');
             $scope.brandData.showAll = true;
             brandsModel.setSelectedBrand(brand);
-            brandsModel.callBrandBroadcast(brand);
+            brandsModel.callBrandBroadcast(brand, advertiser, event_type);
             analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
         };
 
@@ -84,18 +84,19 @@
             });
         });
 
-        $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, advertiser) {
+        $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
+            var advertiser = args[0].advertiser;
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};
             $scope.brandData.selectedBrand.name= '';
             searchCriteria.clientId = loginModel.getSelectedClient().id;
-            $scope.selectBrand(brandsModel.getBrand().allBrandObject);
+            $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args[0].event_type);
             searchCriteria.advertiserId = advertiser.id;
             fetchBrands(searchCriteria, search);
         });
 
-        var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function (event, brand) {
-            $scope.selectBrand(brand);
+        var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function (event, args) {
+            $scope.selectBrand(args.brand, args.advertiser, args.event_type);
         });
 
 

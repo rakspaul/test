@@ -11,7 +11,7 @@
             </div>
             <div  class="advertisersList_ul">
                 <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name track by advertiser.id" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" >
-                    <a data-ng-click="selectAdvertiser(advertiser,advertiser.id)">
+                    <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>
                         <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)">{{advertiser.name}}</span>
                     </a>

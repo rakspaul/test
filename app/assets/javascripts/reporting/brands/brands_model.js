@@ -51,8 +51,8 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
             brand.cssClass = "";
         },
 
-        callBrandBroadcast :  function(brand) {
-            brandsService.preForBrandBroadcast(brand);
+        callBrandBroadcast :  function(brand, advertiser, event_type) {
+            brandsService.preForBrandBroadcast(brand, advertiser, event_type);
         },
 
         totalBrands: function() {
