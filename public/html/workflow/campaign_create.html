@@ -552,37 +552,40 @@
                         </div>
 
                             <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
-								<div class="col-md-6 zeroPadding kpiTable" style="width: 200px;">
+								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-                                    <div class="col-md-12 zeroPadding dropdown-workflow">
-                                        <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
-                                                <span class="icon-arrow-down"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                                <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.name}}</a></li>
-                                            </ul>
-                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='cat1';Campaign.costArr[$index]['costCategory']=1;" ng-model="Campaign.costArr[$index]['costCategory']" ng-value="{{cost.id}}" field="costCategory" index="{{$index}}" hiddencost>
-                                        </div>
+									<div class="col-md-12 zeroPadding">
+	                                    <div class="col-md-6 zeroPadding dropdown-workflow">
+	                                        <div class="dropdown">
+	                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
+	                                                <span class="icon-arrow-down"></span>
+	                                            </button>
+	                                            <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+	                                                <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.name}}</a></li>
+	                                            </ul>
+	                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='cat1';Campaign.costArr[$index]['costCategory']=1;" ng-model="Campaign.costArr[$index]['costCategory']" ng-value="{{cost.id}}" field="costCategory" index="{{$index}}" hiddencost>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
+	                                        <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+	                                            <label class="btn btn-primary first active">
+	                                              <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+	                                                <div class="hideRadioBtn" style="margin-top: -18px;">
+	                                                    <span style="margin: 0;">Fixed</span>
+	                                                </div>
+	                                            </label>
+	                                            <label class="btn btn-primary last">
+	                                              <input type="radio" name="demoType" autocomplete="off" value="Age" required>
+	                                                <div class="hideRadioBtn" style="margin-top: -18px;">
+	                                                    <span style="margin: 0;">Variable</span>
+	                                                </div>
+	                                            </label>
+	                                        </div>
+	                                    </div>
                                     </div>
                                 </div>
 
-                                    <div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
-                                        <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-                                            <label class="btn btn-primary first active">
-                                              <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
-                                                <div class="hideRadioBtn" style="margin-top: -18px;">
-                                                    <span style="margin: 0;">Fixed</span>
-                                                </div>
-                                            </label>
-                                            <label class="btn btn-primary last">
-                                              <input type="radio" name="demoType" autocomplete="off" value="Age" required>
-                                                <div class="hideRadioBtn" style="margin-top: -18px;">
-                                                    <span style="margin: 0;">Variable</span>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
+                                    
 
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
