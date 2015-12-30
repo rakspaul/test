@@ -352,7 +352,6 @@
         };
     });
 
-
     angObj.directive('clearrow',function() {
         return function(scope, el, attr) {
             $(el).click(function(){

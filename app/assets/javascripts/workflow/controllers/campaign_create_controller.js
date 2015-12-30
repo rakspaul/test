@@ -11,9 +11,27 @@ var angObj = angObj || {};
             kpiArr: [],
             costArr: []
         };
+
+        $scope.selectedKpi = function(index,kpi) {
+            $scope.Campaign.kpiArr[index]['kpi']=kpi.id;
+           // $scope.Campaign.kpiArr[index]['kpi']=kpi.name;
+        }
+        $scope.selectedVendor=function(index,vendor){
+            $scope.Campaign.kpiArr[index]['vendor']=vendor.id;
+        }
+        $scope.primaryKpiSelected=function(event,index,isSet){
+            var target = $(event.target);
+            target.parent().siblings().removeClass('active');
+            target.parent().addClass('active');
+            $scope.Campaign.kpiArr[index]['primaryKpi']=isSet;
+            console.log(index);
+        }
+//        $scope.clearKpiRow=function(index){
+//            $scope.Campaign.kpiArr.splice(index, 1);
+//        }
         $scope.checkedObjectiveList=[];
         $scope.addMoreKpi=function(){
-            $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',Target:'', billing:''});
+            $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',target:'', billing:''});
         }
         $scope.addMoreCost=function(){
             $scope.Campaign.costArr.push({costCat: '', type: '',calculation:'',Vendor:'', rate:'', target:'', description:''});
@@ -116,8 +134,11 @@ var angObj = angObj || {};
             Kpi:function(){
                 $scope.workflowData['Kpi']=[{id:1, name: 'None'},{id:1, name: 'CPA'},{id:2, name: 'CPC'},{id:3, name: 'CPM'},{id:4, name: 'CTR'},{id:5, name: 'Delivery'},{id:6, name: 'VTC'}];
             },
+            vendor:function(){
+                $scope.workflowData['vendor']=[{id:1, name: 'None'},{id:1, name: 'A'},{id:2, name: 'B'},{id:3, name: 'C'},{id:4, name: 'D'},{id:5, name: 'E'},{id:6, name: 'F'}];
+            },
             platforms:function(){
-                $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',Target:'', billing:''});
+                $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: '',vendor:'',target:'', billing:''});
                 $scope.Campaign.costArr.push({costCat: '', type: '',calculation:'',Vendor:'', rate:'', target:'', description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -450,8 +471,9 @@ var angObj = angObj || {};
                 autoclose: true,
                 todayHighlight: true
             });
-            //createCampaign.Kpi();
+            createCampaign.Kpi();
             createCampaign.platforms();
+            createCampaign.vendor();
             createCampaign.objectives();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
