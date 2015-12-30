@@ -177,14 +177,9 @@ var angObj = angObj || {};
                     platformCustomeJson = JSON.parse(result.data.data.customInputJson);
                     if ($scope.mode === 'edit') {
                         $scope.showCustomeFieldBox();
-                        //if($scope.adData.platformId == $scope.workflowData['adsData'].platform.id) {
                         var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
                         adPlatformCustomInputs = (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue)) || platformCustomeJson;
                         platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
-                        //} else {
-                        //$scope.showCustomeFieldBox();
-                        //platformCustomeModule.init(platformCustomeJson, platformWrap);
-                        //}
                     } else {
                         $scope.showCustomeFieldBox();
 
