@@ -2,16 +2,16 @@
  * Created by collective on 07/08/15.
  */
 
-collectiveReportModule.factory("collectiveReportModel", ['urlService','dataService','brandsModel','dataStore', function (urlService,dataService,brandsModel,dataStore) {
+collectiveReportModule.factory("collectiveReportModel", ['urlService', 'dataService', 'advertiserModel', 'brandsModel',
+  'dataStore', function(urlService, dataService, advertiserModel, brandsModel,dataStore) {
 
     var reportList = {};
     var getReportList = function(callback) {
         var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaignAll'));
-        var brandId = brandsModel.getSelectedBrand().id;
-        if(brandId == -1) {
-            brandId = 0;
-        }
-        var url = urlService.APIReportList(brandId,selectedCampaginObj.id);
+        var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaignAll'));
+            advertiserId = advertiserModel.getSelectedAdvertiser().id,
+            brandId = brandsModel.getSelectedBrand().id,
+            url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
         return dataService.getReportListData(url).then(function(response) {
             callback(response.data);
             return response.data;

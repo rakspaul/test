@@ -1,7 +1,12 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CustomReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout, Upload, reportsUploadList, urlService, collectiveReportModel, brandsModel, $modal,dataStore ,$location) {
+    angObj.controller('CustomReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel,
+                                                                strategySelectModel, kpiSelectModel, platformService, utils,
+                                                                dataService,  apiPaths, requestCanceller, constants, domainReports,
+                                                                timePeriodModel, loginModel, analytics, $timeout, Upload,
+                                                                reportsUploadList, urlService, collectiveReportModel,
+                                                                advertiserModel, brandsModel, $modal,dataStore ,$location) {
 
       $scope.textConstants = constants;
       $scope.completed = false;
@@ -425,13 +430,15 @@ var angObj = angObj || {};
 
 
     $scope.goToReportList = function() {
-        var selectedCampaginObj = JSON.parse(localStorage.getItem('selectedCampaign'));
-        var url = urlService.APIReportList(0,0);
+        var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
+            advertiserId = advertiserModel.getSelectedAdvertiser().id,
+            brandId = brandsModel.getSelectedBrand().id,
+            url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
         if(url) {
             dataStore.deleteFromCache(url);
         }
         $location.path('/reports/list');
-      }
+    }
 
 
 

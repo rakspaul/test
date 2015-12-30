@@ -181,9 +181,10 @@
             return url;
         };
 
-        this.APIReportList = function (brandId, campaignId) {
+        this.APIReportList = function (advertiserId, brandId, campaignId) {
             var clientId =  loginModel.getSelectedClient().id;
-            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/listreports/' + campaignId + '/' + brandId;
+            var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/uploadedreports/listreports?advertiser_id=' + advertiserId + '&brand_id=' + brandId;
+            url += (campaignId > 0 ? '&campaign_id=' + campaignId : '')
             return url;
         }
 
