@@ -181,13 +181,13 @@
         $scope.refresh();
 
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function (event, args) {
-            if (args[0].event_type === 'clicked') {
+            if (args.event_type === 'clicked') {
                 $scope.refresh();
             }
         });
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
-            if (args[0].event_type === 'clicked') {
+            if (args.event_type === 'clicked') {
                 $scope.refresh();
             }
         });
