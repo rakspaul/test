@@ -14,10 +14,12 @@ var angObj = angObj || {};
 
         $scope.selectedKpi = function(index,kpi) {
             $scope.Campaign.kpiArr[index]['kpi']=kpi.id;
+            $scope.Campaign.kpiArr[index]['kpiName']=kpi.name;
            // $scope.Campaign.kpiArr[index]['kpi']=kpi.name;
         }
         $scope.selectedVendor=function(index,vendor){
             $scope.Campaign.kpiArr[index]['vendor']=vendor.id;
+            $scope.Campaign.kpiArr[index]['vendorName']=vendor.name;
         }
         $scope.primaryKpiSelected=function(event,index,isSet){
             var target = $(event.target);
@@ -25,6 +27,17 @@ var angObj = angObj || {};
             target.parent().addClass('active');
             $scope.Campaign.kpiArr[index]['primaryKpi']=isSet;
             console.log(index);
+        }
+        $scope.kpiBilling=function(event,index,isSet){
+            var target = $(event.target);
+            target.parent().siblings().removeClass('active');
+            target.parent().addClass('active');
+            $scope.Campaign.kpiArr[index]['billing']=isSet;
+            console.log(index);
+        }
+        $scope.selectedCostCategory=function(index,costObj){
+            $scope.Campaign.costArr[index]['costCategory']=costObj.id;
+            $scope.Campaign.costArr[index]['costCategoryName']=costObj.name;
         }
 //        $scope.clearKpiRow=function(index){
 //            $scope.Campaign.kpiArr.splice(index, 1);
@@ -131,6 +144,15 @@ var angObj = angObj || {};
                     }
                 }, createCampaign.errorHandler);
             },
+            objectives:function(){
+                //workflowService.getObjectives({cache: false}).then(function (result) {
+                //   if (result.status === "OK" || result.status === "success") {
+                //     var responseData = result.data.data;
+                $scope.workflowData['branding']=[{id:1,name:'Awareness',isChecked:false},{id:2,name:'Recall',isChecked:false},{id:3,name:'Purchase Intent',isChecked:false},{id:4,name:'Incremental Reach',isChecked:false},{id:5,name:'Tune-In',isChecked:false},{id:6,name:'Consideration',isChecked:false},{id:7,name:'Favorability',isChecked:false}]
+                $scope.workflowData['performance']=[{id:8,name:'Clicks',isChecked:false},{id:9,name:'Video Completion',isChecked:false},{id:10,name:'Lead Generation',isChecked:false},{id:11,name:'Conversions',isChecked:false},{id:5,name:'Site Traffic',isChecked:false},{id:12,name:'Audience Verification',isChecked:false},{id:13,name:'Viewability',isChecked:false}]
+                // }
+                //})
+            },
             Kpi:function(){
                 $scope.workflowData['Kpi']=[{id:1, name: 'None'},{id:1, name: 'CPA'},{id:2, name: 'CPC'},{id:3, name: 'CPM'},{id:4, name: 'CTR'},{id:5, name: 'Delivery'},{id:6, name: 'VTC'}];
             },
@@ -148,14 +170,23 @@ var angObj = angObj || {};
                 })
 
             },
-
-            objectives:function(){
+            costCategories:function(){
                 //workflowService.getObjectives({cache: false}).then(function (result) {
-                 //   if (result.status === "OK" || result.status === "success") {
-                   //     var responseData = result.data.data;
-                        $scope.workflowData['branding']=[{id:1,name:'Awareness',isChecked:false},{id:2,name:'Recall',isChecked:false},{id:3,name:'Purchase Intent',isChecked:false},{id:4,name:'Incremental Reach',isChecked:false},{id:5,name:'Tune-In',isChecked:false},{id:6,name:'Consideration',isChecked:false},{id:7,name:'Favorability',isChecked:false}]
-                        $scope.workflowData['performance']=[{id:8,name:'Clicks',isChecked:false},{id:9,name:'Video Completion',isChecked:false},{id:10,name:'Lead Generation',isChecked:false},{id:11,name:'Conversions',isChecked:false},{id:5,name:'Site Traffic',isChecked:false},{id:12,name:'Audience Verification',isChecked:false},{id:13,name:'Viewability',isChecked:false}]
-                   // }
+                //   if (result.status === "OK" || result.status === "success") {
+                //     var responseData = result.data.data;
+                $scope.workflowData['costCategory']=[{id:0, name: 'cat1'},{id:1, name: 'cat2'},{id:2, name: 'cat3'},{id:3, name: 'cat4'},{id:4, name: 'cat5'},{id:5, name: 'cat6'},{id:6, name: 'cat7'}];
+                // }
+                //})
+            },
+            calculation:function(){
+                $scope.workflowData['calculation']=[{id:1, name: 'CPC'},{id:1, name: 'CPM'},{id:2, name: 'CPA'}];
+            },
+            vendorRate:function(categoryObj,index){
+                //workflowService.getObjectives({cache: false}).then(function (result) {
+                //   if (result.status === "OK" || result.status === "success") {
+                //     var responseData = result.data.data;
+                $scope.workflowData['vendorRate']=[{id:1,name:'Awareness',rate:30},{id:2,name:'Recall',rate:31},{id:3,name:'Purchase Intent',rate:32},{id:4,name:'Incremental Reach',rate:34},{id:5,name:'Tune-In',rate:45}]
+                // }
                 //})
             },
             fetchAdvertisers: function (clientId) {
@@ -475,6 +506,8 @@ var angObj = angObj || {};
             createCampaign.platforms();
             createCampaign.vendor();
             createCampaign.objectives();
+            createCampaign.costCategories();
+            createCampaign.calculation();
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {

@@ -445,14 +445,13 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<span class="text">None Selected</span>
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['kpiName']">
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                                 <li ng-repeat="kpi in workflowData.Kpi" ng-click="selectedKpi($parent.$index,kpi)" class="available"><a>{{kpi.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="kpi" ng-model="Campaign.kpiArr[$index]['kpi']" ng-value="{{kpi.id}}" field="kpi" index="{{$index}}" hiddenkpi>
+                                            <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiName']='CPA';Campaign.kpiArr[$index]['kpi']=1;" ng-model="Campaign.kpiArr[$index]['kpi']" ng-value="{{kpi.id}}" field="kpi" index="{{$index}}" hiddenkpi>
 										</div>
 									</div>
 								</div>
@@ -462,13 +461,13 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" ng-init="Campaign.kpiArr[$index]['primaryKpi']=true" ng-click="primaryKpiSelected($event,$index,true);" ng-model="Campaign.kpiArr[$index]['primaryKpi']" ng-value="true" field="primaryKpi" index="{{$index}}" hiddenKpi>
+										  <input type="radio" name="demoType" autocomplete="off" ng-init="Campaign.kpiArr[$index]['primaryKpi']=true" ng-click="primaryKpiSelected($event,$index,true);" ng-model="Campaign.kpiArr[$index]['primaryKpi']" ng-value=true field="primaryKpi" index="{{$index}}" hiddenKpi>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Yes</span>
 											</div>
 										</label>
 										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,false);" ng-model="Campaign.kpiArr[$index]['primaryKpi']" ng-value="false" field="primaryKpi" index="{{$index}}" hiddenKpi>
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,false);" ng-model="Campaign.kpiArr[$index]['primaryKpi']" ng-value=false field="primaryKpi" index="{{$index}}" hiddenKpi>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">No</span>
 											</div>
@@ -481,18 +480,13 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<span class="text">Select from list</span>
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['vendorName']">
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 												<li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
-												<!--<li class="available"><a>Option 1</a></li>-->
-												<!--<li class="available"><a>Option 2</a></li>-->
-												<!--<li class="available"><a>Option 3</a></li>-->
-												<!--<li class="available"><a>Option 4</a></li>-->
 											</ul>
-                                            <input type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendor']" ng-value="{{vendor.id}}" field="vendor" index="{{$index}}" hiddenkpi>
+                                            <input type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='A';Campaign.kpiArr[$index]['vendor']=1" ng-model="Campaign.kpiArr[$index]['vendor']" ng-value="{{vendor.id}}" field="vendor" index="{{$index}}" hiddenkpi>
 										</div>
 									</div>
 								</div>
@@ -507,14 +501,14 @@
 									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" value="YES" required>
+										<label class="btn btn-primary first active" ng-class="Campaign.kpiArr[$index]['billing']==true ?'active':''">
+										  <input type="radio" name="demoType" autocomplete="off" ng-init="Campaign.kpiArr[$index]['billing']=true" ng-click="kpiBilling($event,$index,true);" ng-model="Campaign.kpiArr[$index]['billing']" ng-value=true field="billing" index="{{$index}}" hiddenKpi>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Yes</span>
 											</div>
 										</label>
-										<label class="btn btn-primary last">
-										  <input type="radio" name="demoType" autocomplete="off" value="NO" required>
+										<label class="btn btn-primary last" ng-class="Campaign.kpiArr[$index]['billing']==false ?'active':''">
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,false);" ng-model="Campaign.kpiArr[$index]['billing']" ng-value=false field="billing" index="{{$index}}" hiddenKpi >
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">No</span>
 											</div>
@@ -558,60 +552,50 @@
                         </div>
 
                             <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
-								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
+								<div class="col-md-6 zeroPadding kpiTable" style="width: 200px;">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
                                     <div class="col-md-12 zeroPadding dropdown-workflow">
                                         <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                <span class="text">None Selected</span>
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                                <li ng-repeat="kpi in workflowData.Kpi" ng-value="kpi.id" class="available"><a>{{kpi.name}}</a></li>
-                                                <!--<li class="available"><a>Option 1</a></li>-->
-                                                <!--<li class="available"><a>Option 2</a></li>-->
-                                                <!--<li class="available"><a>Option 3</a></li>-->
-                                                <!--<li class="available"><a>Option 4</a></li>-->
+                                                <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.name}}</a></li>
                                             </ul>
-                                            <!--<input type="hidden" name="kpi" ng-model="Campaign.kpiArr[$index]['kpi']" ng-value="{{kpi.id}}" field="kpi" index="{{$index}}" ng-Update-Hidden-Kpi>-->
+                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='cat1';Campaign.costArr[$index]['costCategory']=1;" ng-model="Campaign.costArr[$index]['costCategory']" ng-value="{{cost.id}}" field="costCategory" index="{{$index}}" hiddencost>
                                         </div>
                                     </div>
-										<div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
-											<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-												<label class="btn btn-primary first active">
-												  <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
-													<div class="hideRadioBtn" style="margin-top: -18px;">
-														<span style="margin: 0;">Fixed</span>
-													</div>
-												</label>
-												<label class="btn btn-primary last">
-												  <input type="radio" name="demoType" autocomplete="off" value="Age" required>
-													<div class="hideRadioBtn" style="margin-top: -18px;">
-														<span style="margin: 0;">Variable</span>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
+                                </div>
 
-								
-								
-								
+                                    <div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
+                                        <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+                                            <label class="btn btn-primary first active">
+                                              <input type="radio" name="demoType" autocomplete="off" value="Gender" required>
+                                                <div class="hideRadioBtn" style="margin-top: -18px;">
+                                                    <span style="margin: 0;">Fixed</span>
+                                                </div>
+                                            </label>
+                                            <label class="btn btn-primary last">
+                                              <input type="radio" name="demoType" autocomplete="off" value="Age" required>
+                                                <div class="hideRadioBtn" style="margin-top: -18px;">
+                                                    <span style="margin: 0;">Variable</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<span class="text">Select</span>
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['calculation']">
+												<!--<span class="text">Select</span>-->
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-												<li class="available"><a>Option 1</a></li>
-												<li class="available"><a>Option 2</a></li>
-												<li class="available"><a>Option 3</a></li>
-												<li class="available"><a>Option 4</a></li>
+												<li class="available" ng-repeat="calculation in workflowData.calculation" ng-click="selectedCostCategory($parent.$index,calculation)" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
 											</ul>
-                                            <input type="hidden">
+                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['calculation']='CPC'" ng-model="Campaign.costArr[$index]['calculation']" ng-value="{{calculation.name}}" field="calculation" index="{{$index}}" hiddencost>
 										</div>
 									</div>
 								</div>
