@@ -304,7 +304,7 @@ var angObj = angObj || {};
                     "Saturday":$scope.Saturday
                 };
 
-                for(var i = 0; i < $scope.Schedule.dayPart.length; i++){s
+                for(var i = 0; i < $scope.Schedule.dayPart.length; i++){
                     if($scope.Schedule.dayPart[i].stTime){
                         $scope.Schedule.dayPart[i].startTime =  $scope.returnTime($scope.Schedule.dayPart[i].stTime);
                     }

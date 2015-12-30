@@ -18,4 +18,20 @@
 
         };
     })
+    angObj.directive('hiddenkpi',function() {
+        return function(scope, el, attr) {
+            var model = attr['ngModel'];
+            scope.$watch(model, function(nv) {
+                if(nv) {
+                    el.val(nv);
+//                   scope.Schedule.dayPart[parseInt(attr.index)] = scope.Schedule.dayPart[parseInt(attr.index)] || {};
+                    //scope.selectedDays[attr.index] = el.val();
+
+                    scope.Campaign.kpiArr[parseInt(attr.index)][attr.field] = el.val();
+//                    scope.Campaign.kpiArr[parseInt(attr.index)][attr.field] = nv.id;
+                }
+            });
+
+        };
+    });
 }());
