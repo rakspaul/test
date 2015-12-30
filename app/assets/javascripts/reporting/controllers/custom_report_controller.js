@@ -141,7 +141,15 @@ var angObj = angObj || {};
                         if(responseData.isScheduled) {
                             $('#toggle').bootstrapToggle('on');
                         }
+
                         $scope.select_schedule_option(responseData.schedule.frequency);
+                        if(responseData.schedule.occurance){
+                            $scope.set_schedule_occurs_options(responseData.schedule.occurance);
+                            if(responseData.schedule.customOccuranceDate) {
+                                $(".schedule-occurs-custom .dd_txt").html(responseData.schedule.customOccuranceDate);
+                                $(".schedule-occurs-custom").show();
+                            }
+                        }
 
                         angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
                             var dimensionObj = $scope.customeDimensionData[0].dimensions;
@@ -914,22 +922,28 @@ var angObj = angObj || {};
 
                 }
             }
+            $scope.showCustomDate($scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,''));
         };
 
         $scope.select_schedule_occurs_option = function(event , arg ) {
             arg = arg.toLowerCase();
-            var elem = $(event.target),
-                frequency = $scope.reports.schedule.frequency.toLowerCase().trim();
-            $scope.reports.schedule.occurance = {};
+            var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text());
-            $scope.reports.schedule.occurance[frequency] = arg;
-            if( arg == "custom") {
-                $(".schedule-occurs-custom").show() ;
-            } else {
-                $(".schedule-occurs-custom").hide() ;
-            }
-
+            $scope.set_schedule_occurs_options(arg);
+            $scope.showCustomDate(arg);
         };
+        $scope.set_schedule_occurs_options = function(arg){
+            var frequency = $scope.reports.schedule.frequency.toLowerCase().trim();
+            $scope.reports.schedule.occurance = {};
+            $scope.reports.schedule.occurance[frequency] = arg;
+        }
+        $scope.showCustomDate = function(arg){
+            if(arg == "custom"){
+                $(".schedule-occurs-custom").show();
+            }else{
+                $(".schedule-occurs-custom").hide();
+            }
+        }
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide() ;
             $("#" +  id + "_table").show() ;
