@@ -6,6 +6,7 @@
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
         $scope.calendar = function (filter) {
+
             $scope.selected = "quarter";
             if (brandsModel.getSelectedBrand().id == -1) {
                 $scope.init(null, filter);
@@ -20,8 +21,9 @@
         };
 
         $scope.init = function (update, filter) {
-            console.log("init");
             $scope.brandNotSelected = true;
+            $('.chart').remove();
+            $('.header-chart').remove();
             $scope.calendarBusy = true;
             $scope.selected = "quarter";
             if (filter === undefined) {
@@ -119,10 +121,7 @@
                             campaigns.push(c);
                         });
                     });
-                    console.log("brandsModel.getSelectedBrand().id", brandsModel.getSelectedBrand().id);
-                    console.log("update", update);
-                    $('.chart').remove();
-                    $('.header-chart').remove();
+
                     if (brandsModel.getSelectedBrand().id == -1) {
                         ganttChart.newCalendar(campaigns, brands);
                     } else if (update || brandsModel.getSelectedBrand().id) {
