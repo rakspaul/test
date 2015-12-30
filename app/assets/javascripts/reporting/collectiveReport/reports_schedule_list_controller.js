@@ -78,7 +78,7 @@
                             var successFun = function(data) {
                                 if(data.status_code == 200) {
                                     $scope.refreshReportList();
-                                    $rootScope.setErrAlertMessage('Scheduler deleted Successfully',0);
+                                    $rootScope.setErrAlertMessage('The scheduled report is deleted successfully',0);
                                 } else {
                                     $rootScope.setErrAlertMessage(data.message,data.message);
                                  }
