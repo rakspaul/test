@@ -53,8 +53,8 @@ brandsModule.factory("advertiserModel", ['advertiserService', 'constants', 'work
             advertiser.cssClass = "";
         },
 
-        callAdvertiserBroadcast :  function(advertiser) {
-            advertiserService.preForAdvertiserBroadcast(advertiser);
+        callAdvertiserBroadcast :  function(advertiser, event_type) {
+            advertiserService.preForAdvertiserBroadcast(advertiser, event_type);
         }
 
     };

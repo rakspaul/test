@@ -1,48 +1,35 @@
-(function() {
+(function () {
     'use strict';
-    commonModule.controller('GanttChartController', function($scope, $location, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
+    commonModule.controller('GanttChartController', function ($scope, $location, $timeout, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
 
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
-        $scope.ganttChartBusy = false;
-        $scope.calendar = function(filter) {
-
-            $('.chart').remove();
-            $('.header-chart').remove();
+        $scope.calendar = function (filter) {
             $scope.selected = "quarter";
             if (brandsModel.getSelectedBrand().id == -1) {
                 $scope.init(null, filter);
             } else {
-                //single brand
                 $scope.init('single_brand', filter);
             }
-
         };
 
-        $scope.selectedFilter = function() {
-            var text;
-            switch(ganttChartModel.filter) {
-                case 'budget': 
-                        text = "Budget";
-                        break;
-                case 'end_date': 
-                default: 
-                        text = "End Dates";
-            }
-            return text;
+
+        $scope.selectedFilter = function () {
+            return ganttChartModel.filter === 'budegt' ? 'Budget' : 'End Dates';
         };
-        
-        $scope.init = function(update, filter) {
+
+        $scope.init = function (update, filter) {
+            console.log("init");
             $scope.brandNotSelected = true;
             $scope.calendarBusy = true;
             $scope.selected = "quarter";
-            if(filter === undefined) {
+            if (filter === undefined) {
                 ganttChartModel.filter = 'end_date';
             } else {
                 ganttChartModel.filter = filter;
             }
-            ganttChartModel.getGanttChartData().then(function(result) {
+            ganttChartModel.getGanttChartData().then(function (result) {
                 $scope.calendarBusy = false;
                 var brands = [],
                     campaigns = [],
@@ -54,33 +41,33 @@
                     $scope.dataFound = true;
 
                     //getting endpoint dates for calendar. 
-                    var startDate, endDate, loop=0 ;
-                    _.each(result.brands, function(datum) {
-                        _.each(datum.campaigns, function(tasks) {
-                            if(loop == 0) {
+                    var startDate, endDate, loop = 0;
+                    _.each(result.brands, function (datum) {
+                        _.each(datum.campaigns, function (tasks) {
+                            if (loop == 0) {
                                 startDate = moment(tasks.start_date).startOf('day');
                                 endDate = moment(tasks.end_date).endOf('day');
                             }
                             loop++;
 
-                            if(moment(startDate).toDate() > moment(tasks.start_date).toDate()) {
+                            if (moment(startDate).toDate() > moment(tasks.start_date).toDate()) {
                                 startDate = moment(tasks.start_date).startOf('month');
                             }
 
                             if (moment(endDate).toDate() < moment(tasks.end_date).toDate()) {
-                                endDate  = moment(tasks.end_date).endOf('month');
+                                endDate = moment(tasks.end_date).endOf('month');
                             }
 
                         });
                     });
-                    
 
-                    _.each(result.brands, function(datum) {
-                        var space = 0, 
+
+                    _.each(result.brands, function (datum) {
+                        var space = 0,
                             tab = 0;
 
-                        if(count==0){
-                            tab =2 //space before first brand
+                        if (count == 0) {
+                            tab = 2 //space before first brand
                         } else {
                             tab = 1; //space before each brand
                         }
@@ -93,7 +80,7 @@
                             c.type = "brand";
                             c.status = "";
                             c.taskName = count;
-                            c.startDate =  startDate;
+                            c.startDate = startDate;
                             c.endDate = endDate;
                             // c.startDate = moment().subtract(2, 'years').startOf('year');
                             // c.endDate = moment().add(2, 'years').endOf('year');
@@ -110,7 +97,7 @@
                         c.type = "brand";
                         c.status = "";
                         c.taskName = count;
-                        c.startDate =  startDate;
+                        c.startDate = startDate;
                         c.endDate = endDate;
                         // c.startDate = moment().subtract(2, 'years').startOf('year');
                         // c.endDate = moment().add(2, 'years').endOf('year');
@@ -118,7 +105,7 @@
                         campaigns.push(c);
                         brands.push(count);
 
-                        _.each(datum.campaigns, function(tasks) {
+                        _.each(datum.campaigns, function (tasks) {
                             count++;
                             var c = {};
                             c.id = tasks.id;
@@ -131,10 +118,11 @@
                             brands.push(count);
                             campaigns.push(c);
                         });
-
-
                     });
-
+                    console.log("brandsModel.getSelectedBrand().id", brandsModel.getSelectedBrand().id);
+                    console.log("update", update);
+                    $('.chart').remove();
+                    $('.header-chart').remove();
                     if (brandsModel.getSelectedBrand().id == -1) {
                         ganttChart.newCalendar(campaigns, brands);
                     } else if (update || brandsModel.getSelectedBrand().id) {
@@ -146,78 +134,66 @@
                     $scope.calendarBusy = false;
                     $scope.dataFound = false;
                 }
-
-
             });
         };
 
 
-        $scope.add = function() {
+        $scope.add = function () {
             ganttChart.addTask();
         }
-        $scope.prev = function() {
+        $scope.prev = function () {
             ganttChart.prev($scope.selected);
         }
 
-        $scope.next = function() {
+        $scope.next = function () {
             ganttChart.next($scope.selected);
         }
 
-        $scope.month = function() {
+        $scope.month = function () {
             $scope.selected = "month";
             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_month_selected', loginModel.getLoginName());
             ganttChart.month();
         }
 
-        $scope.today = function() {
+        $scope.today = function () {
             $scope.selected = "today";
             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_week_selected', loginModel.getLoginName());
             ganttChart.today();
         }
 
-        $scope.quarter = function() {
+        $scope.quarter = function () {
             $scope.selected = "quarter";
             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_quarter_selected', loginModel.getLoginName());
             ganttChart.quarter();
         }
 
-        $scope.year = function() {
+        $scope.year = function () {
             $scope.selected = "year";
             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_year_selected', loginModel.getLoginName());
             ganttChart.year();
         }
 
-        $scope.init();
-
         //removing chart to update and redraw
-        $scope.refresh = function(){
-            $('.chart').remove();
-            $('.header-chart').remove();
-            $scope.selected = "quarter";
-            if (brandsModel.getSelectedBrand().id == -1) {
-                $scope.init(null, ganttChartModel.filter);
-            } else {
-                //single brand
-                $scope.init('single_brand', ganttChartModel.filter);
-            }
+        $scope.refresh = function () {
+            $scope.calendar(ganttChartModel.filter);
         };
 
-        //Listener for brand changes
-        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function(event, args) {
-            $scope.refresh();
+        $scope.refresh();
 
+        $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function (event, args) {
+            if (args[0].event_type === 'clicked') {
+                $scope.refresh();
+            }
         });
 
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            $scope.refresh();
-
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
+            if (args[0].event_type === 'clicked') {
+                $scope.refresh();
+            }
         });
-
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
-
-
     });
 }());
