@@ -403,11 +403,13 @@
 									<div class="common_dropdown">
 										<div class="dropdown">
 											<span class="dropdown_ul_text" data-toggle="dropdown">
-												<span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance?reports.schedule.occurance:"Select"}}</span>
+												<span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance.weekly?reports.schedule.occurance.weekly:"Select"}}</span>
 												<span class="arrow_img"></span>
 											</span>
 											<ul class="dropdown-menu">
-												<li ng-repeat="week in textConstants.WEEKNAME" ng-model="reports.schedule.occurance" ng-click="reports.schedule.occurance = week; select_dropdown_option($event);">{{week}}</li>
+												<li ng-repeat="week in textConstants.WEEKNAME"
+                                                    ng-model="reports.schedule.occurance.weekly"
+                                                    ng-click="reports.schedule.occurance.weekly = week; select_dropdown_option($event);">{{week}}</li>
 											</ul>
 										</div>
 									</div>
@@ -421,11 +423,12 @@
 									<div class="common_dropdown">
 										<div class="dropdown">
 										  <span class="dropdown_ul_text" data-toggle="dropdown">
-											  <span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance?reports.schedule.occurance:"Select"}}</span>
+											  <span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance.monthly?reports.schedule.occurance.monthly:"Select"}}</span>
 											  <span class="arrow_img"></span>
 										  </span>
 											<ul class="dropdown-menu">
-												<li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance" ng-click="select_schedule_occurs_option($event, schedule_occur);">
+												<li
+                                                        ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance.monthly" ng-click="select_schedule_occurs_option($event, schedule_occur);">
 													{{schedule_occur}}
 												</li>
 											</ul>

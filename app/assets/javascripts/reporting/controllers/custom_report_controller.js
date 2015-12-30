@@ -42,7 +42,6 @@ var angObj = angObj || {};
         $scope.showAddBreakdownButton = true;
         $scope.updateScheduleReport = false;
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
-
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
             $scope.deliveryMetrics = dataObj.delivery_metrics;
@@ -571,10 +570,8 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
-            $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance?$scope.reports.schedule.occurance:'';
-
+            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,'');
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
-
             if($scope.reports.reportDefinition.dimensions.primary.value) {
                 $scope.requestData.reportDefinition.filters.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
@@ -609,7 +606,10 @@ var angObj = angObj || {};
             $rootScope.setErrAlertMessage(message,isErrorMsg,isMsg);
             return false;
         }
-
+        $scope.valueWithDefault = function(o, argArr, defaultVal){
+            var d = typeof defaultVal == undefined ? '' : defaultVal;
+            return (typeof o!="undefined" && typeof argArr != undefined) ? (function(a){a.forEach(function(e){e=e.toLowerCase().trim();o=typeof o[e]!="undefined"?o[e]:d;});return o;})(argArr.split(",")) : d;
+        }
         $scope.verifyReportInputs = function() {
             var str = $scope.reports.name;
             if($scope.generateBtnDisabled) {
@@ -918,9 +918,11 @@ var angObj = angObj || {};
 
         $scope.select_schedule_occurs_option = function(event , arg ) {
             arg = arg.toLowerCase();
-            var elem = $(event.target);
-            elem.closest(".dropdown").find(".dd_txt").text(elem.text()) ;
-            $scope.reports.schedule.occurance = arg;
+            var elem = $(event.target),
+                frequency = $scope.reports.schedule.frequency.toLowerCase().trim();
+            $scope.reports.schedule.occurance = {};
+            elem.closest(".dropdown").find(".dd_txt").text(elem.text());
+            $scope.reports.schedule.occurance[frequency] = arg;
             if( arg == "custom") {
                 $(".schedule-occurs-custom").show() ;
             } else {
@@ -1405,10 +1407,10 @@ var angObj = angObj || {};
                 return true;
             }
             $scope.scheduleReportAction = function() {
-                if(!$scope.validateScheduleDate()) return;
-                if($scope.buttonLabel == "Update") {
+                if (!$scope.validateScheduleDate()) return;
+                if ($scope.buttonLabel == "Update") {
                     $scope.updateSchdReport();
-                }else if($scope.buttonLabel == "Generate") {
+                } else if ($scope.buttonLabel == "Generate") {
                     $scope.generateBtnDisabled = true
                     $scope.generateReport();
                 } else {
