@@ -12,12 +12,29 @@ var angObj = angObj || {};
             costArr: []
         };
         $scope.workflowData = {};
-        //$scope.workflowData['vendorRate']=[];
 
         $scope.selectedKpi = function(index,kpi) {
             $scope.Campaign.kpiArr[index]['kpi']=kpi.id;
             $scope.Campaign.kpiArr[index]['kpiName']=kpi.name;
-           // $scope.Campaign.kpiArr[index]['kpi']=kpi.name;
+
+                    var impression=_.filter($scope.Campaign.kpiArr, function(obj) { return (obj.kpiName === "Impressions" ||obj.kpiName === "Viewable Impressions")});
+                    if(impression.length>0){
+                        $scope.workflowData['calculation'][0].active=true;
+                    }else{
+                        $scope.workflowData['calculation'][0].active=false;
+                    }
+                    var clicks=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiName === "Clicks"});
+                    if(clicks.length>0){
+                        $scope.workflowData['calculation'][1].active=true;
+                    }else{
+                        $scope.workflowData['calculation'][1].active=false;
+                    }
+                    var actions=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiName === "Actions"});
+                    if(actions.length>0){
+                        $scope.workflowData['calculation'][2].active=true;
+                    }else{
+                        $scope.workflowData['calculation'][2].active=false;
+                    }
         }
         $scope.selectedVendor=function(index,vendor){
             $scope.Campaign.kpiArr[index]['vendor']=vendor.id;
@@ -49,17 +66,30 @@ var angObj = angObj || {};
             $scope.Campaign.costArr[index]['costCategoryName']=costObj.name;
             //make a call to vendorRate API with the ID
             createCampaign.vendorRate(costObj.id,index);
+           // if(costObj.name=='Impression'||costObj.name=='Viewable Impressions'){
+
         }
-        $scope.costTypeSelected=function(event,index,isSet){
+        $scope.selectedCalculation=function(index,calObj){
+            $scope.Campaign.costArr[index]['calculationId']=calObj.id;
+            $scope.Campaign.costArr[index]['calculation']=calObj.name;
+        }
+        $scope.rateTypeSelected=function(event,index,isSet){
             var target = $(event.target);
             target.parent().siblings().removeClass('active');
             target.parent().addClass('active');
             $scope.Campaign.costArr[index]['type']=isSet;
+            if(isSet=='fixed'){
+                $scope.Campaign.costArr[index]['calculation']="Select";
+                $scope.Campaign.costArr[index]['calculationId']="";
+            }
             console.log(index);
         }
         $scope.selectedVendorRate=function(index,vendorObj){
             $scope.Campaign.costArr[index]['vendor']=vendorObj.id;
             $scope.Campaign.costArr[index]['vendorName']=vendorObj.name;
+        }
+        $scope.ComputeCost=function(){
+
         }
 //        $scope.clearKpiRow=function(index){
 //            $scope.Campaign.kpiArr.splice(index, 1);
@@ -176,10 +206,10 @@ var angObj = angObj || {};
                 //})
             },
             Kpi:function(){
-                $scope.workflowData['Kpi']=[{id:1, name: 'None'},{id:1, name: 'CPA'},{id:2, name: 'CPC'},{id:3, name: 'CPM'},{id:4, name: 'CTR'},{id:5, name: 'Delivery'},{id:6, name: 'VTC'}];
+                $scope.workflowData['Kpi']=[{id:1, name: 'Impressions',active:true},{id:1, name: 'Clicks',active:true},{id:2, name: 'Viewable Impressions',active:true},{id:3, name: 'Actions',active:false}];
             },
             vendor:function(){
-                $scope.workflowData['vendor']=[{id:1, name: 'None'},{id:1, name: 'A'},{id:2, name: 'B'},{id:3, name: 'C'},{id:4, name: 'D'},{id:5, name: 'E'},{id:6, name: 'F'}];
+                $scope.workflowData['vendor']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
             },
             platforms:function(){
                 $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: false ,vendor:'',target:'', billing:true});
@@ -187,7 +217,7 @@ var angObj = angObj || {};
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
-                        $scope.platformKeywords=responseData.trackingPlatforms;
+                        $scope.platformKeywords=responseData.fullIntegrationsPlatforms;
                     }
                 })
 
@@ -196,18 +226,18 @@ var angObj = angObj || {};
                 //workflowService.getObjectives({cache: false}).then(function (result) {
                 //   if (result.status === "OK" || result.status === "success") {
                 //     var responseData = result.data.data;
-                $scope.workflowData['costCategory']=[{id:0, name: 'cat1'},{id:1, name: 'cat2'},{id:2, name: 'cat3'},{id:3, name: 'cat4'},{id:4, name: 'cat5'},{id:5, name: 'cat6'},{id:6, name: 'cat7'}];
+                $scope.workflowData['costCategory']=[{id:0, name: 'Attribution'},{id:1, name: 'Ad Serving'},{id:2, name: 'Research'},{id:3, name: 'Verification'}];
                 // }
                 //})
             },
             calculation:function(){
-                $scope.workflowData['calculation']=[{id:1, name: 'CPC'},{id:1, name: 'CPM'},{id:2, name: 'CPA'}];
+                $scope.workflowData['calculation']=[{id:1, name: 'CPM',type:'Impressions',active:false},{id:2, name: 'CPC', type:"Clicks", active:false},{id:3, name: 'CPA',type:'Actions',active:false}];
             },
             vendorRate:function(categoryObj,index){console.log(index);
                 //workflowService.getObjectives({cache: false}).then(function (result) {
                 //   if (result.status === "OK" || result.status === "success") {
                 //     var responseData = result.data.data;
-                $scope.workflowData['vendorRate']=[{id:1,name:'Awareness',rate:30},{id:2,name:'Recall',rate:31},{id:3,name:'Purchase Intent',rate:32},{id:4,name:'Incremental Reach',rate:34},{id:5,name:'Tune-In',rate:45}]
+                $scope.workflowData['vendorRate']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
                 // }
                 //})
             },
