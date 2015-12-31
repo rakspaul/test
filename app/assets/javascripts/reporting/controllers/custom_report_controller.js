@@ -587,7 +587,9 @@ var angObj = angObj || {};
                     "values": $scope.reports.reportDefinition.dimensions.primary.value
                 });
             }
-
+            if($scope.valueWithDefault($scope.reports.schedule,'frequency') == 'Once'){
+                $scope.reports.schedule.endDate = $scope.reports.schedule.startDate;
+            }
             if($scope.reports.reportDefinition.dimensions.secondary.name) {
                 $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,'type':"Secondary"});
             }
