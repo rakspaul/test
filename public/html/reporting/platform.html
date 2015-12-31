@@ -176,7 +176,7 @@
     <div class="platform_row">
         <div class="each_col sec_col platform_logo" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
             <span class="platform_logo_img">
-                <img ng-src="{{platform.platform_icon_url==='Unknown'?'assets/images/platform_favicons/platform_logo.png':platform.platform_icon_url}}" />
+                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}" />
             </span>
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
@@ -265,7 +265,7 @@
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
-                <img ng-src="{{platform.platform_icon_url==='Unknown'?'assets/images/platform_favicons/platform_logo.png':platform.platform_icon_url}}" />
+                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}" />
             </span>
             <span class="plat_name" title="{{platform.platform_name}}" >{{platform.platform_name}}</span>
         </div>
@@ -299,7 +299,7 @@
     <div class="clearfix platform_row">
         <div class="each_cost_col first_col platform_logo" >
             <span class="platform_logo_img">
-                <img ng-src="{{platform.platform_icon_url==='Unknown'? '/assets/images/platform_favicons/platform_logo.png': platform.platform_icon_url}}" />
+                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}" />
             </span>
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
@@ -319,7 +319,7 @@
     <div class="clearfix platform_row">
         <div class="each_col platform_name_col platform_logo" >
             <span class="platform_logo_img">
-                <img ng-src="{{platform.platform_icon_url==='Unknown'?'assets/images/platform_favicons/platform_logo.png':platform.platform_icon_url}}" />
+                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}" />
             </span>
             <span class="plat_name" title="{{platform.platform_name}}" >{{platform.platform_name}}</span>
         </div>
