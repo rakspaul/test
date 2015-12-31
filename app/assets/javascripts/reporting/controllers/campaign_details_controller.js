@@ -667,7 +667,10 @@
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
-                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': data.platform_icon_url, 'type': data.platform_name, 'value': kpiData});
+                            var type = data.platform_name;
+                            var icon_url = data.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
+                            icon_url = '/assets/images/platform_favicons/' + icon_url;
+                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': icon_url, 'type': type, 'value': kpiData});
                         });
                     }
                 }
