@@ -487,7 +487,7 @@
     this.QUERY_ID_CAMPAIGN_PLATFORMS=22;
     this.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES=25;
     this.QUERY_ID_CAMPAIGN_QUALITY=12;
-    
+    this.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT = 33
     //Create Media Plan
     this.MP_TITLE = "Media Plan Setup";
     this.MP_BUDGET = "Budget";

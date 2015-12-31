@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics, momentService) {
+    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
 
         $scope.textConstants = constants;
 
@@ -282,7 +282,7 @@ var angObj = angObj || {};
             var counter = 0;
             var actionItems = $scope.campaignActionList;
             var actionItemsArray = [];
-            if (actionItems.length > 0 && $scope.selectedStrategy.id == -1) {
+            if (actionItems.length > 0) {
                 for (var i = 0; i < actionItems.length; i++) {
                     if (actionItems[i].lineitemId == $scope.selectedStrategy.id) {
                         for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
@@ -293,7 +293,7 @@ var angObj = angObj || {};
                             actionItemsArray.push(actionItems[i].action[j]);
                             counter++;
                         }
-                    } else if ($scope.selectedStrategy.id == 0) {
+                    } else if ($scope.selectedStrategy.id == -1) {
                         for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
                             actionItems[i].action[j].action_color = actionColors[counter % 9];
                             $scope.selectedStrategy.action = actionItems[i].action;
@@ -332,23 +332,34 @@ var angObj = angObj || {};
             }
         };
 
+        function getCustomQueryParams(queryId) {
+            return {
+                queryId:queryId,
+                campaignId: $scope.selectedCampaign.id,
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                make_external : false
+
+            };
+        }
+
         $scope.actionDataForSelectedCampaign = function (callback) {
-            var param = { campaignId: $scope.selectedCampaign.id, time_filter: $scope.selected_filters.time_filter};
-            //if (typeof $scope.campaignActionList === 'undefined' || $scope.campaignActionList.length === 0) {
-                optimizationService.getActionsForSelectedCampaign(param).then(function (result) { // get action data for the selected campaign.
-                    if (result.status === "OK" || result.status === "success") {
-                            $scope.tacticNotFound = false;
-                            $scope.tacticLoading = false;
-                            $scope.campaignActionList = result.data.data;
-                    }
-                    else {
-                        $scope.actionDataError();
-                    }
-                    callback && callback();
-                })
-            //} else {
-              //  callback && callback();
-            ///}
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
+            var actionUrl = urlService.APIVistoCustomQuery(params);
+            dataService.getActionItems(actionUrl).then(function(result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.tacticNotFound = false;
+                    $scope.tacticLoading = false;
+                    $scope.campaignActionList = result.data.data;
+                }
+                else {
+                    $scope.actionDataError();
+                }
+                callback && callback();
+            })
+
         };
 
 
@@ -383,9 +394,8 @@ var angObj = angObj || {};
             $scope.download_report = [
                 {
                     'url' : '/reportBuilder/customQueryDownload',
-                    'query_id': 24,
-                    'label' : 'Platform by Performance',
-                    'download_config_id' : 1
+                    'query_id': 32,
+                    'label' : 'Optimization Report'
                 }
             ];
         };
