@@ -1,8 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("inventoryService", function ($http,$location, api, apiPaths, common, campaign_api, dataService,urlService) {
-        //$http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
-
+    angObj.factory("inventoryService", function (dataService,urlService) {
         return {
             getStrategyDomainData: function (param) {
                 var url = urlService.APIVistoCustomQuery(param);
@@ -11,4 +9,3 @@
         };
     });
 }());
-

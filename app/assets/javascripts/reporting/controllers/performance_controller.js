@@ -126,13 +126,23 @@ var angObj = angObj || {};
         };
 
         $scope.getPerformanceData =  function() {
+            var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creatives' :10, 'dow' :11};
+            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21};
             var param = {
                 campaignId: $scope.selectedCampaign.id,
-                strategyId: Number($scope.selectedStrategy.id),
-                strategyStartDate: $scope.selectedCampaign.startDate,
-                strategyEndDate: $scope.selectedCampaign.endDate,
-                tab: $scope.selected_tab,
-                timeFilter: $scope.selected_filters.time_filter
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                tab: $scope.selected_tab
+            };
+            var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
+
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                param.queryId = performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
+                param.strategyId = Number($scope.selectedStrategy.id);
+            } else {
+                param.queryId = performanceQueryIdMapperWithAllAdsGroup[tab.toLowerCase()];
             }
 
             $scope.screenBusy = true;
@@ -140,8 +150,8 @@ var angObj = angObj || {};
             $scope.dowBusy = true;
             $scope.creativeBusy = true;
             $scope.adSizesBusy = true;
+            $scope.showPerfMetrix = false;
 
-            var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
 
             var errorHandlerForPerformanceTab = function() {
                 $scope.dataNotFoundForScreen = true;
@@ -149,43 +159,12 @@ var angObj = angObj || {};
                 $scope.dataNotFoundForDOW = true;
                 $scope.dataNotFoundForCreative = true;
                 $scope.dataNotFoundForAdSizes = true;
-
+                $scope.showPerfMetrix = false;
             }
 
             $scope.api_return_code=200;
-            var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creatives' :10, 'dow' :11};
-            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21};
-            var queryObj = {
-                campaignId : $scope.selectedCampaign.id,
-                clientId: loginModel.getSelectedClient().id,
-                dateFilter: $scope.selected_filters.time_filter,
-                advertiserId : advertiserModel.getAdvertiser().selectedAdvertiser.id,
-                brandId :  brandsModel.getSelectedBrand().id
-            }
 
-            if(param.strategyId) {
-                queryObj['queryId'] =  performanceQueryIdMapperWithAllAdsGroup[tab.toLowerCase()];
-            } else {
-                queryObj['queryId'] =  performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
-            }
-
-
-            var url;
-
-             if (Number($scope.selectedStrategy.id) >= 0) {
-                 queryObj.ad_group_id = 0;
-                 // here we use the extra parameter
-                 url = urlService.APIVistoCustomQuery(queryObj);
-             } else {
-                 // here we use the default
-                 url = urlService.APIVistoCustomQuery(queryObj);
-             }
-
-
-
-
-
-            dataService.fetch(url).then(function (result) {
+            return performanceService.getStrategyPerfData(param).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
