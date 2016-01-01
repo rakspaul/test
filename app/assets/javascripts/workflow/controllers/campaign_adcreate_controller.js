@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale, constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,  constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background', '#fff');
@@ -102,6 +102,14 @@ var angObj = angObj || {};
         $scope.convertEST = function (date, format) {
             return utils.convertToEST(date, format);
         }
+
+
+
+        //$scope.$on(constants.ACCOUNT_CHANGED, function() {
+        //    console.log("account changed");
+        //})
+
+
 
         $scope.archiveAd = function (event) {
             var errorAchiveAdHandler = function () {

@@ -5,6 +5,7 @@
         var adDetails;
         var newCreative;
         var platform;
+        var vistoModule;
 
         return {
             fetchCampaigns : function() {
@@ -203,6 +204,16 @@
                 return dataService.fetch(url);
             },
 
+            setModuleInfo : function(module) {
+                vistoModule = module
+            },
+
+            getModuleInfo : function(module) {
+                return vistoModule;
+            },
+            clearModuleInfo :  function() {
+                vistoModule = null;
+            },
             setMode :  function(m) {
                 mode = m;
             },
