@@ -555,7 +555,7 @@
   color: #a2acba ;
 }
 .secondary_txt {
-  color: #939ead ;
+  color: #428bca ;
   cursor: pointer;
   margin: 10px 24px 0 0;
   border: 0;
@@ -563,7 +563,7 @@
   padding: 0px ;
 }
 .secondary_txt:hover {
-  color: #939ead ;
+  color: #428bca ;
   text-decoration: none;
 }
 /*primary button changing to loading */

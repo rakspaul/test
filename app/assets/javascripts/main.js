@@ -149,6 +149,7 @@
       'login-LoginService':{deps: ['login-LoginModel']},
       'login-LoginController':{deps: ['login-LoginService']},
       'common-services-RoleBasedService' :  {deps: ['login-LoginService']},//roleBased
+      'common-AccountChangeController' :  {deps: ['login-LoginService']},
       'controllers-campaign_details_controller':{deps: ['login-LoginController']},
       'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
       'controllers-help_controller':{deps: ['controllers-campaign_details_controller']},
@@ -432,7 +433,8 @@
       'common-directive-DataNotFound':'common/directives/data_not_found',
       'common-services-zipCode' : 'common/services/zip_code',
       'jsRoutes': '/jsroutes',
-      'common-services-RoleBasedService':'common/services/role_based_service' //roleBased
+      'common-services-RoleBasedService':'common/services/role_based_service',
+      'common-AccountChangeController':'common/account_change_controller',
     }
 
   });
@@ -644,7 +646,8 @@
           'collectiveReport-collective_edit_report_controller',
           'collectiveReport-CollectiveDeleteReportController',
           'common-services-zipCode',
-          'common-services-RoleBasedService'//roleBased
+          'common-services-RoleBasedService',
+          'common-AccountChangeController'
            ],
 
     function ($,jqueryUI,  bootstrap, angular) {

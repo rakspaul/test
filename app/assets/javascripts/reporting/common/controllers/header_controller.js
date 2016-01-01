@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -67,17 +67,53 @@
             });
         }
 
-        $scope.set_account_name = function(event,id,name) {
-            loginModel.setSelectedClient({'id':id,'name':name});
-            var elem = $(event.target);
+        var showSelectedClient = function(evt, clientName) {
+            var elem = $(evt.target);
             $(".accountsList").find(".selected-li").removeClass("selected-li") ;
             elem.addClass("selected-li") ;
-            $(".accountsList").find(".dd_txt").text(name) ;
-            $(".main_nav").find(".account-name-nav").text(name) ;
+            $(".accountsList").find(".dd_txt").text(clientName) ;
+            $(".main_nav").find(".account-name-nav").text(clientName) ;
             $(".main_nav_dropdown").hide() ;
             $("#user-menu").show();
-            $scope.getClientData(id);
-            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
+        }
+
+        $scope.set_account_name = function(event,id,name) {
+            var moduleObj = workflowService.getModuleInfo();
+            if(moduleObj && moduleObj.moduleName === 'WORKFLOW') {
+                if(loginModel.getSelectedClient().id !== id) {
+                    var $modalInstance = $modal.open({
+                        templateUrl: assets.html_change_account_warning,
+                        controller: "AccountChangeController",
+                        scope: $scope,
+                        windowClass: 'delete-dialog',
+                        resolve: {
+                            headerMsg: function () {
+                                return constants.accountChangeHeader;
+                            },
+                            mainMsg: function () {
+                                return moduleObj.warningMsg;
+                            },
+                            accountChangeAction: function () {
+                                return function () {
+                                    loginModel.setSelectedClient({'id': id, 'name': name});
+                                    showSelectedClient(event, name);
+                                    $rootScope.clientName = name;
+                                    if(moduleObj.redirect) {
+                                        $location.url('/mediaplans');
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                loginModel.setSelectedClient({'id': id, 'name': name});
+                showSelectedClient(event, name);
+                $scope.getClientData(id);
+                $rootScope.clientName = name;
+                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
+            }
+
 
         };
 

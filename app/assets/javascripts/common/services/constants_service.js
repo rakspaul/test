@@ -477,6 +477,11 @@
     this.reportDeleteSuccess = "Deleted Report Successfully";
     this.reportDeleteFailed = "Deleting Report Failed";
     this.deleteReportHeader = "Delete Report";
+    this.accountChangeHeader = "Account Change";
+    this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE = "If you switch accounts, your unsaved ad will be discarded.";
+    this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE = "If you switch accounts, your unsaved campaign will be discarded.";
+    this.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE = "Are you sure you want to switch to a different account?";
+
     this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
 
     this.ACCOUNT_CHANGED = "accountChanged";

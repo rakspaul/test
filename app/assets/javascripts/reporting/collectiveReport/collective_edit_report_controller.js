@@ -70,7 +70,7 @@
                                 if (response.status_code == 200) {
                                     $scope.reportList.splice(reportIndex, 1);
                                     //to avoid listing report getting encached, remove that url from cache.
-                                    var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign'));
+                                    var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
                                         advertiserId = advertiserModel.getSelectedAdvertiser().id,
                                         brandId = brandsModel.getSelectedBrand().id,
                                         url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
