@@ -822,7 +822,7 @@ var angObj = angObj || {};
                 //postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
                 if (formData.adFormat)
-                    postAdDataObj.adFormat = formData.adFormat.toUpperCase();
+                    postAdDataObj.adFormat = formData.adFormat.replace(/\s+/g, '').toUpperCase();
 
                 if ($scope.editedAdSourceId)
                     postAdDataObj.sourceId = $scope.editedAdSourceId;
