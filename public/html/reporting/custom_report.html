@@ -858,3 +858,23 @@
 		<div class="each_col" ng-if="customeReportData.video_suspicious_imps >=0">{{customeReportData.video_suspicious_imps |  nrFormat}}</div>
 		<div class="each_col" ng-if="customeReportData.video_suspicious_act_perc >=0">{{customeReportData.video_suspicious_act_perc | number:2}}</div>
 	</script>
+    <div class="common-popup-container" ng-show="updateSchedule">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left">{{textConstants.SCHEDULER_UPDATE}}</h1>
+                    <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false" >x</span>
+                </div>
+                <div class="popup-content">
+                    {{archiveMessage}}
+                </div>
+            </div>
+            <div class="clearfix popup-footer">
+                <div type="button" ng-click="updateReportAndRedirect('Yes')"
+                     class="common_primary_btn pull-right">Yes</div>
+                <button type="button"
+                        ng-click="updateReportAndRedirect('No')"class="secondary_txt pull-right">No</button>
+            </div>
+
+        </div>
+    </div>

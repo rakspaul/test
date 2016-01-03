@@ -42,6 +42,7 @@ var angObj = angObj || {};
         $scope.showAddBreakdownButton = true;
         $scope.updateScheduleReport = false;
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+        $scope.stopRedirectingPage = true;
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
             $scope.deliveryMetrics = dataObj.delivery_metrics;
@@ -267,14 +268,12 @@ var angObj = angObj || {};
                         if($scope.deliveryMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected){
                             $scope.allMetrics = true;
                         }
-
+                        $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));;
                         $scope.setMetrixText('Custom');
                     }
                 })
             }
         });
-
-
         $scope.reports.client_id = loginModel.getSelectedClient().id;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
@@ -355,8 +354,6 @@ var angObj = angObj || {};
             } else {
                 $scope.reportMetaData[typeofDimension]['delivery_metrics'] = [];
             }
-
-
             var modifiedMetricsList = selectedMetrics.slice();
             modifiedMetricsList.unshift({key:'value', value:''});
             var metrics;
@@ -1394,6 +1391,7 @@ var angObj = angObj || {};
                     dataService.updateScheduleReport($routeParams.reportId, $scope.createData()).then(function (result) {
                         if (result.data.status_code == 200) {
                             $rootScope.setErrAlertMessage('Scheduled report updated successfully',0);
+                            $scope.stopRedirectingPage = false;
                             $location.url('/reports/schedules');
                         }
                     });
@@ -1438,6 +1436,21 @@ var angObj = angObj || {};
                 var target = $(event.target);
             }
 
+            $scope.$on('$locationChangeStart', function( event,next ) {
+                if($scope.updateScheduleReport && $scope.stopRedirectingPage && ($scope.reports.name != $scope.scheduleResponseData.name || !angular.equals($scope.reports.schedule,$scope.scheduleResponseData.schedule))){
+                    event.preventDefault();
+                    $scope.updateSchedule = true;
+                    $scope.nextURL = next;
+                }
+            });
+            $scope.updateReportAndRedirect = function(arg){
+                $scope.stopRedirectingPage = false;
+                $scope.updateSchedule = false;
+                if(arg == 'Yes'){
+                    $scope.scheduleReportAction();
+                }
+                $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
+            }
         });
 
     });
