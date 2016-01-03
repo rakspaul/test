@@ -13,6 +13,7 @@
         return function(scope, el, attr) {
             $(el).click(function(){
                 scope.Campaign.costArr.splice(attr.index, 1);
+                scope.vendorRateData.splice(attr.index, 1);
                 scope.$apply();
             })
 

@@ -394,23 +394,23 @@
 							<div class="col-md-12 zeroPadding marginCal">
 								<div class="calTable">
 									<h3>Total Budget</h3>
-									<input type="text" class="form-control col-sm-8"/>
+									<input type="number" ng-model="Campaign.totalBudget" class="form-control col-sm-8"/>
 								</div>
 								<div class="calTable">
 									<h3>Margin</h3>
-									<input type="text" class="form-control col-sm-8"/>
+									<input type="number" ng-model="Campaign.marginPercent" class="form-control col-sm-8"/>
 								</div>
 								<div class="calTable">
 									<h3>Est. Non-Inventory Cost</h3>
-									<input type="text" class="form-control col-sm-8" disabled/>
+									<input type="text" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
 								</div>
 								<div class="calTable">
 									<h3>Delivery Budget</h3>
-									<input type="text" class="form-control col-sm-8" disabled/>
+									<input type="text" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
 								</div>
 								<div class="calTable">
 									<h3>Effective CPM</h3>
-									<input type="text" class="form-control col-sm-8" disabled/>
+									<input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
 								</div>
 								<div class="calTable" style="width: 100%; padding-right: 10px;">
 									<!--<input type="checkbox" />-->
@@ -446,13 +446,13 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['kpiName']">
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['kpiType']">
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                                 <li ng-class="{disabled : !kpi.active, available : kpi.active}" ng-repeat="kpi in workflowData.Kpi" ng-click="kpi.active ? selectedKpi($parent.$index,kpi): ''" class="available"><a>{{kpi.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiName']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpi']" ng-value="{{kpi.id}}" field="kpi" index="{{$index}}" hiddenkpi>
+                                            <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" hiddenkpi>
 										</div>
 									</div>
 								</div>
@@ -461,14 +461,14 @@
 									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-										<label class="btn btn-primary first " ng-class="Campaign.kpiArr[$index]['primaryKpi']=='true' ?'active':''">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,true);" ng-model="Campaign.kpiArr[$index]['primaryKpi']" ng-value=true field="primaryKpi" index="{{$index}}" hiddenKpi>
+										<label class="btn btn-primary first " ng-class="Campaign.kpiArr[$index]['isPrimary']=='true' ?'active':''">
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,true);" ng-model="Campaign.kpiArr[$index]['isPrimary']" ng-value=true field="isPrimary" index="{{$index}}" hiddenKpi>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Yes</span>
 											</div>
 										</label>
-										<label class="btn btn-primary last" ng-class="Campaign.kpiArr[$index]['primaryKpi']==false ?'active':''">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,false);" ng-model="Campaign.kpiArr[$index]['primaryKpi']" ng-value=false field="primaryKpi" index="{{$index}}" hiddenKpi>
+										<label class="btn btn-primary last" ng-class="Campaign.kpiArr[$index]['isPrimary']==false ?'active':''">
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,false);" ng-model="Campaign.kpiArr[$index]['isPrimary']" ng-value=false field="isPrimary" index="{{$index}}" hiddenKpi>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">No</span>
 											</div>
@@ -486,7 +486,7 @@
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 												<li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';" ng-model="Campaign.kpiArr[$index]['vendor']" ng-value="{{vendor.id}}" field="vendor" index="{{$index}}" hiddenkpi>
+                                            <input type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';" ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
 										</div>
 									</div>
 								</div>
@@ -494,21 +494,21 @@
 								<div class="col-md-2 zeroPadding kpiTable">
 									
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
-									<input type="number" class="col-md-12" ng-model="Campaign.kpiArr[$index]['target']" field="target" index="{{$index}}"/>
+									<input type="number" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" field="kpiValue" index="{{$index}}"/>
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable">
 
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
-										<label class="btn btn-primary first" ng-class="Campaign.kpiArr[$index]['billing']=='true' ?'active':''">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,true);" ng-model="Campaign.kpiArr[$index]['billing']" ng-value=true field="billing" index="{{$index}}" hiddenKpi>
+										<label class="btn btn-primary first" ng-class="Campaign.kpiArr[$index]['isBillable']=='true' ?'active':''">
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,true);" ng-model="Campaign.kpiArr[$index]['isBillable']" ng-value=true field="isBillable" index="{{$index}}" hiddenKpi>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Yes</span>
 											</div>
 										</label>
-										<label class="btn btn-primary last" ng-class="(Campaign.kpiArr[$index]['billing']==false && Campaign.kpiArr[$index]['billing'] !== '' ) ?'active':''">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,false);" ng-model="Campaign.kpiArr[$index]['billing']" ng-value=false field="billing" index="{{$index}}" hiddenKpi >
+										<label class="btn btn-primary last" ng-class="(Campaign.kpiArr[$index]['isBillable']==false && Campaign.kpiArr[$index]['isBillable'] !== '' ) ?'active':''">
+										  <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,false);" ng-model="Campaign.kpiArr[$index]['isBillable']" ng-value=false field="isBillable" index="{{$index}}" hiddenKpi >
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">No</span>
 											</div>
@@ -563,7 +563,7 @@
 	                                            <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 	                                                <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.name}}</a></li>
 	                                            </ul>
-	                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategory']" ng-value="{{cost.id}}" field="costCategory" index="{{$index}}" hiddencost>
+	                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}" hiddencost>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
@@ -589,14 +589,14 @@
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['calculation']">
+											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['rateTypeName']">
 												<!--<span class="text">Select</span>-->
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 												<li class="available" ng-class="{disabled : !calculation.active, available : calculation.active}" ng-repeat="calculation in workflowData.calculation" ng-click="calculation.active?selectedCalculation($parent.$index,calculation):''" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['calculation']='Select'" ng-model="Campaign.costArr[$index]['calculation']" ng-value="{{calculation.name}}" field="calculation" index="{{$index}}" hiddencost>
+                                            <input type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="{{calculation.id}}" field="rateTypeId" index="{{$index}}" hiddencost>
 										</div>
 									</div>
 								</div>
@@ -609,21 +609,21 @@
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-												<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in workflowData.vendorRate"><a>{{vendorItem.name}}</a></li>
+												<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]['vendors']"><a>{{vendorItem.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendor']" ng-value="{{vendorItem.id}}" field="vendor" index="{{$index}}" hiddencost>
+                                            <input type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="{{vendorItem.id}}" field="vendorId" index="{{$index}}" hiddencost>
 										</div>
 									</div>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value</label>
-                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['rate']" field="rate" index="{{$index}}"/>
+                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" field="rateValue" index="{{$index}}"/>
                                 </div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
-                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['target']" field="target" index="{{$index}}"/>
+                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['targetPercentage']" field="targetPercentage" index="{{$index}}"/>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">

@@ -10,26 +10,29 @@ var angObj = angObj || {};
         $scope.Campaign = {
             kpiArr: [],
             costArr: []
+
         };
+        $scope.costRowSum=0;
         $scope.workflowData = {};
+        $scope.vendorRateData = [];
 
         $scope.selectedKpi = function(index,kpi) {
-            $scope.Campaign.kpiArr[index]['kpi']=kpi.id;
-            $scope.Campaign.kpiArr[index]['kpiName']=kpi.name;
+            $scope.Campaign.kpiArr[index]['kpiId']=kpi.id;
+            $scope.Campaign.kpiArr[index]['kpiType']=kpi.name;
 
-                    var impression=_.filter($scope.Campaign.kpiArr, function(obj) { return (obj.kpiName === "Impressions" ||obj.kpiName === "Viewable Impressions")});
+                    var impression=_.filter($scope.Campaign.kpiArr, function(obj) { return (obj.kpiType === "Impressions" ||obj.kpiType === "Viewable Impressions")});
                     if(impression.length>0){
                         $scope.workflowData['calculation'][0].active=true;
                     }else{
                         $scope.workflowData['calculation'][0].active=false;
                     }
-                    var clicks=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiName === "Clicks"});
+                    var clicks=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiType === "Clicks"});
                     if(clicks.length>0){
                         $scope.workflowData['calculation'][1].active=true;
                     }else{
                         $scope.workflowData['calculation'][1].active=false;
                     }
-                    var actions=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiName === "Actions"});
+                    var actions=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiType === "Actions"});
                     if(actions.length>0){
                         $scope.workflowData['calculation'][2].active=true;
                     }else{
@@ -37,7 +40,7 @@ var angObj = angObj || {};
                     }
         }
         $scope.selectedVendor=function(index,vendor){
-            $scope.Campaign.kpiArr[index]['vendor']=vendor.id;
+            $scope.Campaign.kpiArr[index]['vendorId']=vendor.id;
             $scope.Campaign.kpiArr[index]['vendorName']=vendor.name;
         }
         $scope.primaryKpiSelected=function(event,index,isSet){
@@ -46,23 +49,23 @@ var angObj = angObj || {};
             target.parent().addClass('active');
             if(isSet){
                 for(var i in $scope.Campaign.kpiArr){
-                    console.log($scope.Campaign.kpiArr[i].primaryKpi);
-                    if($scope.Campaign.kpiArr[i].primaryKpi){
-                        $scope.Campaign.kpiArr[i].primaryKpi=false;
+                    console.log($scope.Campaign.kpiArr[i].isPrimary);
+                    if($scope.Campaign.kpiArr[i].isPrimary){
+                        $scope.Campaign.kpiArr[i].isPrimary=false;
                     }
                 }
             }
-            $scope.Campaign.kpiArr[index]['primaryKpi']=isSet;
+            $scope.Campaign.kpiArr[index]['isPrimary']=isSet;
         }
         $scope.kpiBilling=function(event,index,isSet){
             var target = $(event.target);
             target.parent().siblings().removeClass('active');
             target.parent().addClass('active');
-            $scope.Campaign.kpiArr[index]['billing']=isSet;
+            $scope.Campaign.kpiArr[index]['isBillable']=isSet;
             console.log(index);
         }
         $scope.selectedCostCategory=function(index,costObj){
-            $scope.Campaign.costArr[index]['costCategory']=costObj.id;
+            $scope.Campaign.costArr[index]['costCategoryId']=costObj.id;
             $scope.Campaign.costArr[index]['costCategoryName']=costObj.name;
             //make a call to vendorRate API with the ID
             createCampaign.vendorRate(costObj.id,index);
@@ -70,8 +73,23 @@ var angObj = angObj || {};
 
         }
         $scope.selectedCalculation=function(index,calObj){
-            $scope.Campaign.costArr[index]['calculationId']=calObj.id;
-            $scope.Campaign.costArr[index]['calculation']=calObj.name;
+            $scope.Campaign.costArr[index]['rateTypeId']=calObj.id;
+            $scope.Campaign.costArr[index]['rateTypeName']=calObj.name;
+            /*set model for rateValue*/
+//            console.log($scope.vendorRateData[index]['vendors']);
+//            if($scope.vendorRateData[index] && ($scope.Campaign.costArr[index]['vendorId'])){
+//                    console.log("vendorID:",$scope.Campaign.costArr[index]['vendorId']);
+//                for(var i=0;i<$scope.vendorRateData[index]['vendors'].length;i++){
+//                    if($scope.vendorRateData[index]['vendors'][i].id===$scope.Campaign.costArr[index]['vendorId']){
+//                        console.log("selectedVendor",$scope.vendorRateData[index]['vendors'][i]);
+//                    }
+//                }
+//                    //var selectedVendorIndex=_.filter($scope.vendorRateData[index]['vendors'], function(obj) { return obj.id === $scope.Campaign.costArr[index]['vendorId']});
+//                    //console.log(selectedVendorIndex);
+//                   // $scope.Campaign.costArr[index]['rate']=$scope.vendorRateData[index]['vendors']
+////                if(calObj.name==="CPM"){
+////                }
+//            }
         }
         $scope.rateTypeSelected=function(event,index,isSet){
             var target = $(event.target);
@@ -79,27 +97,83 @@ var angObj = angObj || {};
             target.parent().addClass('active');
             $scope.Campaign.costArr[index]['type']=isSet;
             if(isSet=='fixed'){
-                $scope.Campaign.costArr[index]['calculation']="Select";
-                $scope.Campaign.costArr[index]['calculationId']="";
+                $scope.Campaign.costArr[index]['rateTypeName']="Select";
+                $scope.Campaign.costArr[index]['rateTypeId']="";
             }
             console.log(index);
         }
         $scope.selectedVendorRate=function(index,vendorObj){
-            $scope.Campaign.costArr[index]['vendor']=vendorObj.id;
+            $scope.Campaign.costArr[index]['vendorId']=vendorObj.id;
             $scope.Campaign.costArr[index]['vendorName']=vendorObj.name;
+            if($scope.Campaign.costArr[index]['type']==="fixed"){
+                var rateObj=_.filter(vendorObj.rates, function(obj) { return obj.rate_type === "fixed"});
+                $scope.Campaign.costArr[index]['rateValue']=rateObj[0].rate_val;
+            }else if($scope.Campaign.costArr[index]['rateTypeName']==="CPM"){
+                var rateObj=_.filter(vendorObj.rates, function(obj) { return obj.rate_type === "CPM"});
+                $scope.Campaign.costArr[index]['rateValue']=rateObj[0].rate_val;
+            }else if($scope.Campaign.costArr[index]['rateTypeName']==="CPC"){
+                var rateObj=_.filter(vendorObj.rates, function(obj) { return obj.rate_type === "CPC"});
+                $scope.Campaign.costArr[index]['rateValue']=rateObj[0].rate_val;
+            }else if($scope.Campaign.costArr[index]['rateTypeName']==="CPA"){
+                var rateObj=_.filter(vendorObj.rates, function(obj) { return obj.rate_type === "CPA"});
+                $scope.Campaign.costArr[index]['rateValue']=rateObj[0].rate_val;
+            }
         }
         $scope.ComputeCost=function(){
+            $scope.Campaign.nonInventoryCost=parseInt($scope.Campaign.totalBudget)*((100-parseInt($scope.Campaign.marginPercent))/100);
+            if($scope.Campaign.costArr.length>0 && $scope.Campaign.kpiArr.length>0){
+                    for(var i=0;i<$scope.Campaign.costArr.length;i++){
+                        if($scope.Campaign.costArr[i].rateTypeId){
+                            var targetValue=[];
+                            if($scope.Campaign.costArr[i].rateTypeId==1) {
+                                targetValue = _.filter($scope.Campaign.kpiArr, function (obj) {
+                                    return (obj.kpiType === "Impressions") || (obj.kpiType === "Viewable Impressions")
+                                });
+                                $scope.calculateRowSum(i, targetValue,'CPM');
+                            }
+                            else if($scope.Campaign.costArr[i].rateTypeId==2){
+                                targetValue=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiType === "Clicks"});
+                                $scope.calculateRowSum(i,targetValue,'CPC');
+                            }
+                            else if($scope.Campaign.costArr[i].rateTypeId==3){
+                                targetValue=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiType === "actions"});
+                                $scope.calculateRowSum(i,targetValue,'CPA');
+                            }
+                        }
 
+                    }
+                $scope.Campaign.deliveryBudget=parseInt($scope.Campaign.nonInventoryCost)-parseInt($scope.costRowSum);
+                $scope.Campaign.effectiveCPM=$scope.calculateEffective();
+
+            }
         }
-//        $scope.clearKpiRow=function(index){
-//            $scope.Campaign.kpiArr.splice(index, 1);
-//        }
+        $scope.calculateRowSum=function(index,kpiTargetArr,type){
+            if($scope.Campaign.costArr[index].rateValue && $scope.Campaign.costArr[index].targetPercentage){
+                var rowsummation= parseInt($scope.Campaign.costArr[index].rateValue)*(parseInt($scope.Campaign.costArr[index].targetPercentage)/100)*parseInt(kpiTargetArr[0].kpiValue);
+                if(type==="CPM"){
+                    $scope.Campaign.costArr[index].rowSum=parseInt(rowsummation)/1000;
+                }else{
+                    $scope.Campaign.costArr[index].rowSum=rowsummation;
+                }
+                $scope.costRowSum +=parseInt($scope.Campaign.costArr[index].rowSum);
+            }
+        }
+        $scope.calculateEffective=function(){
+            for(var ind=0;ind<$scope.Campaign.kpiArr.length;ind++){
+                if($scope.Campaign.kpiArr[ind].isPrimary || $scope.Campaign.kpiArr[ind].isPrimary=="true"){
+                    if($scope.Campaign.kpiArr[ind].kpiType=="Impressions" || $scope.Campaign.kpiArr[ind].kpiType=="Viewable Impressions")
+                        return parseInt($scope.Campaign.kpiArr[ind].kpiValue)*parseInt($scope.Campaign.deliveryBudget)*1000;
+                    else
+                        return parseInt($scope.Campaign.kpiArr[ind].kpiValue)*parseInt($scope.Campaign.deliveryBudget);
+                }
+            }
+        }
         $scope.checkedObjectiveList=[];
         $scope.addMoreKpi=function(){
-            $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: false ,vendor:'',target:'', billing:true});
+            $scope.Campaign.kpiArr.push({kpiType: '', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:'', isBillable:true});
         }
         $scope.addMoreCost=function(){
-            $scope.Campaign.costArr.push({costCategory: '', type: 'variable',calculation:'',vendor:'', rate:'', target:'', description:''});
+            $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',rateTypeName:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:'', description:''});
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -212,8 +286,8 @@ var angObj = angObj || {};
                 $scope.workflowData['vendor']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
             },
             platforms:function(){
-                $scope.Campaign.kpiArr.push({kpi: '', primaryKpi: false ,vendor:'',target:'', billing:true});
-                $scope.Campaign.costArr.push({costCategory: '', type: 'variable',calculation:'',vendor:'', rate:'', target:'', description:''});
+                $scope.Campaign.kpiArr.push({kpiType: '', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:'', isBillable:true});
+                $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:'', description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -234,10 +308,63 @@ var angObj = angObj || {};
                 $scope.workflowData['calculation']=[{id:1, name: 'CPM',type:'Impressions',active:false},{id:2, name: 'CPC', type:"Clicks", active:false},{id:3, name: 'CPA',type:'Actions',active:false}];
             },
             vendorRate:function(categoryObj,index){console.log(index);
+
                 //workflowService.getObjectives({cache: false}).then(function (result) {
                 //   if (result.status === "OK" || result.status === "success") {
                 //     var responseData = result.data.data;
-                $scope.workflowData['vendorRate']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
+//                $scope.workflowData['vendorRate']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
+                //$scope.$parent.workflowData['vendorRate'][index]={
+                $scope.vendorRateData[index] = {
+                    "vendors": [
+                        {
+                            "id": 1,
+                            "name": "Vendor1",
+                            "cost_category_id": "1",
+                            "rates": [
+                                {
+                                    "rate_type": "CPC",
+                                    "rate_val": 5
+                                },
+                                {
+                                    "rate_type": "CPM",
+                                    "rate_val": 10
+                                },
+                                {
+                                    "rate_type": "CPA",
+                                    "rate_val": 15
+                                },
+                                {
+                                    "rate_type": "fixed",
+                                    "rate_val": 100
+                                }
+
+                            ]
+                        },
+                        {
+                            "id": 2,
+                            "name": "Vendor2",
+                            "cost_category_id": "1",
+                            "rates": [
+                                {
+                                    "rate_type": "CPC",
+                                    "rate_val": 6
+                                },
+                                {
+                                    "rate_type": "CPM",
+                                    "rate_val": 11
+                                },
+                                {
+                                    "rate_type": "CPA",
+                                    "rate_val": 16
+                                },
+                                {
+                                    "rate_type": "fixed",
+                                    "rate_val": 101
+                                }
+                            ]
+                        }
+                    ]
+                };
                 // }
                 //})
             },
