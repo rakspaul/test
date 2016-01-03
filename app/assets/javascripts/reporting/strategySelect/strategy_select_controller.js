@@ -51,7 +51,6 @@
             if(campaignSelectModel.getSelectedCampaign().id != -1){
                 strategySelectModel.getStrategies(campaignSelectModel.getSelectedCampaign().id).then(function(result){
                     var strategyObj = strategySelectModel.getStrategyObj();
-                    //$scope.$parent.isFetchStrategiesCalled =  true;
                     $scope.strategyData.strategies = (strategyObj.strategies == undefined)? {} : strategyObj.strategies ;
                     $scope.setStrategy(strategyObj.selectedStrategy);
                 });

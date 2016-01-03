@@ -8,7 +8,6 @@
         function fetchAdvertisers(searchCriteria,search) {
             advertiserModel.getAdvertisers(function (advertisersData) {
                 $scope.advertisers = advertisersData;
-               // console.log("fetchAdvertisers", $scope.advertisers);
             }, searchCriteria, search);
         }
 
@@ -53,7 +52,7 @@
 
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event,clientId) {
             fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
-            var advertiser = advertiserModel.getAllAdvertiser();
+            var advertiser = advertiserModel.getSelectedAdvertiser();
             $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser);
