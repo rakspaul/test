@@ -90,7 +90,14 @@
             $scope.brandData.selectedBrand = {};
             $scope.brandData.selectedBrand.name= '';
             searchCriteria.clientId = loginModel.getSelectedClient().id;
-            $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
+           if(args.event_type === 'clicked') {
+               $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
+            } else {
+               var brand = brandsModel.getSelectedBrand();
+               $scope.selectBrand(brand, advertiser, args.event_type);
+
+           }
+
             searchCriteria.advertiserId = advertiser.id;
             fetchBrands(searchCriteria, search);
         });

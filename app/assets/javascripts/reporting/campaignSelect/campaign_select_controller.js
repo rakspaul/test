@@ -31,12 +31,12 @@
             searchCriteria.key = '';
         };
 
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, brand) {
-            //Get Campaign for the selected brand
-            resetSearchCriteria();
-            $scope.exhausted = false;
-            // $scope.$parent.isFetchStrategiesCalled = false;
-            $scope.fetchCampaigns(true, true);
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
+            if(args.event_type === 'clicked') {
+                resetSearchCriteria(); //Get Campaign for the selected brand
+                $scope.exhausted = false;
+                $scope.fetchCampaigns(true, true);
+            }
 
         });
 
@@ -88,6 +88,7 @@
                     $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
                 }
                 _.uniq($scope.campaignData.campaigns);
+
                 if (set_campaign) {
                     $scope.setCampaign(campObj.campaigns[0]);
                 }
@@ -140,7 +141,7 @@
             } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
                 $scope.fetchCampaigns(true, true);
             } else {
-                // $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
+                $scope.setCampaign(campaignSelectModel.getCampaignObj().selectedCampaign);
                 $scope.fetchCampaigns(true, false);
                 $scope.campaignData.campaigns = [campaignSelectModel.getCampaignObj().selectedCampaign];
             }
