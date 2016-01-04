@@ -4,11 +4,11 @@
     //originally in models/campaign.js
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-        'constants', 'momentService','domainReports', 'loginModel',
+        'constants', 'vistoconfig' , 'momentService','domainReports', 'loginModel',
         'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, momentInNetworkTZ, domainReports, loginModel,
+                  constants, vistoconfig , momentInNetworkTZ, domainReports, loginModel,
                   advertiserModel, brandsModel, timePeriodModel, urlService) {
 
             var listCampaign = "";

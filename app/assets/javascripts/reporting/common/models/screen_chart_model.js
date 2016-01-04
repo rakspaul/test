@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel) {
+    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel , vistoconfig ) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
@@ -16,20 +16,20 @@
         }
 
         var screenTypeMap = {
-            'desktop' : 'icon-desktop',
-            'unknown' : 'icon-help',
-            'smartphone' : 'icon-mobile',
-            'mobile' : 'icon-mobile',
-            'tv' : 'icon-desktop',
-            'set-top box' : 'icon-desktop',
-            'tablet' : 'icon-tablet',
-            'other' : 'icon-image'
+            'desktop'     : vistoconfig.ICON_DESKTOP ,
+            'unknown'     : vistoconfig.ICON_HELP    ,
+            'smartphone'  : vistoconfig.ICON_MOBILE  ,
+            'mobile'      : vistoconfig.ICON_MOBILE  ,
+            'tv'          : vistoconfig.ICON_DESKTOP ,
+            'set-top box' : vistoconfig.ICON_DESKTOP ,
+            'tablet'      : vistoconfig.ICON_TABLET  ,
+            'other'       : vistoconfig.ICON_IMAGE 
         }
 
         var formatTypeMap = {
-            'display' : 'icon-desktop',
-            'mobile' : 'icon-mobile',
-            'tablet' : 'icon-tablet'
+            'display' : vistoconfig.ICON_DESKTOP ,
+            'mobile'  : vistoconfig.ICON_MOBILE  ,
+            'tablet'  : vistoconfig.ICON_TABLET
         }
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
@@ -171,5 +171,5 @@
             return screenWidgetData['selectedFormat'];
         };
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel', screenChartData]);
+    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel' , 'vistoconfig' , screenChartData ]);
 }());

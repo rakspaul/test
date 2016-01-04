@@ -10,7 +10,7 @@
                                                             $location, utils, $timeout, pieChart, solidGaugeChart,
                                                             $filter, constants, editAction, activityList, loginModel,
                                                             loginService, brandsModel, analytics, dataStore, urlService,
-                                                            momentService, RoleBasedService, advertiserModel) {
+                                                            momentService, RoleBasedService, advertiserModel , vistoconfig ) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -572,17 +572,18 @@
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         sortedData  = sortedData.slice(0, 3);
 
+
                         var screenTypeMap = {
-                            'desktop' : 'icon-desktop',
-                            'unknown' : 'icon-help',
-                            'smartphone' : 'icon-mobile',
-                            'mobile' : 'icon-mobile',
-                            'tv' : 'icon-desktop',
-                            'set-top box' : 'icon-desktop',
-                            'tablet' : 'icon-tablet',
-                            'other' : 'icon-image',
-                            'display' : 'icon-desktop',
-                            'DISPLAY' : 'icon-desktop'
+                            'desktop'     : vistoconfig.ICON_DESKTOP ,
+                            'unknown'     : vistoconfig.ICON_HELP    ,
+                            'smartphone'  : vistoconfig.ICON_MOBILE  ,
+                            'mobile'      : vistoconfig.ICON_MOBILE  ,
+                            'tv'          : vistoconfig.ICON_DESKTOP ,
+                            'set-top box' : vistoconfig.ICON_DESKTOP ,
+                            'tablet'      : vistoconfig.ICON_TABLET  ,
+                            'other'       : vistoconfig.ICON_IMAGE   ,
+                            'display'     : vistoconfig.ICON_DESKTOP ,
+                            'DISPLAY'     : vistoconfig.ICON_DESKTOP
                         }
 
                         _.each(sortedData, function(data, idx) {
@@ -690,17 +691,18 @@
             var formats;
             
             var formatTypeMap = {
-                'desktop' : 'icon-desktop',
-                'unknown' : 'icon-help',
-                'smartphone' : 'icon-mobile',
-                'mobile' : 'icon-mobile',
-                'tv' : 'icon-desktop',
-                'set-top box' : 'icon-desktop',
-                'tablet' : 'icon-tablet',
-                'other' : 'icon-image',
-                'display' : 'icon-desktop',
-                'DISPLAY' : 'icon-desktop'
+                'desktop'     : vistoconfig.ICON_DESKTOP ,
+                'unknown'     : vistoconfig.ICON_HELP    ,
+                'smartphone'  : vistoconfig.ICON_MOBILE  ,
+                'mobile'      : vistoconfig.ICON_MOBILE  ,
+                'tv'          : vistoconfig.ICON_DESKTOP ,
+                'set-top box' : vistoconfig.ICON_DESKTOP ,
+                'tablet'      : vistoconfig.ICON_TABLET  ,
+                'other'       : vistoconfig.ICON_IMAGE   ,
+                'display'     : vistoconfig.ICON_DESKTOP ,
+                'DISPLAY'     : vistoconfig.ICON_DESKTOP
             }
+            
             
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
