@@ -692,6 +692,10 @@
   padding: 0 20px;
   margin-bottom: 10px;
 }
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .each_bar_section_holder [class^="icon-"],
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .each_bar_section_holder [class*=" icon-"] {
+  margin-top: 2px;
+}
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .display_graph {
   background: url("/assets/images/cdesk/desktop_screen_icon.png") no-repeat 20px 10px;
 }
@@ -713,8 +717,11 @@
 .dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .imgContainer {
   position: absolute;
   top: 6px;
-  left: 35px;
+  left: 22px;
   height: 20px;
   width: 20px;
   text-align: center;
+}
+.dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .graphValues_title {
+  margin: 7px 0 0 30px;
 }

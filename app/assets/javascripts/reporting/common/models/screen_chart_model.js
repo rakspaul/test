@@ -26,6 +26,12 @@
             'other' : 'icon-image'
         }
 
+        var formatTypeMap = {
+            'display' : 'icon-desktop',
+            'mobile' : 'icon-mobile',
+            'tablet' : 'icon-tablet'
+        }
+
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         if(usrRole && usrRole.ui_modules) {
             screenWidgetData.formatDropDown =  _.filter(screenWidgetData.formatDropDown, function(obj, idx) {
@@ -91,7 +97,8 @@
                     cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                     type = eachObj.screen_type;
                 } else if (selectedFormat.toLowerCase() === 'formats') {
-                    cls = eachObj.ad_format.toLowerCase() + "_graph";
+                    cls = formatTypeMap[eachObj.ad_format.toLowerCase()];
+                   // cls = eachObj.ad_format.toLowerCase() + "_graph" ;
                     type = eachObj.ad_format;
                 } else {
                     type = eachObj.platform_name;

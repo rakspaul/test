@@ -752,6 +752,9 @@
         height: 60px;
         padding: 0 20px;
         margin-bottom: 10px;
+        [class^="icon-"], [class*=" icon-"] {
+          margin-top: 2px;
+        }
       }
       .display_graph {
         background: url("/assets/images/cdesk/desktop_screen_icon.png") no-repeat 20px  10px ;
@@ -777,10 +780,13 @@
     .imgContainer {
       position: absolute;
       top: 6px;
-      left: 35px;
+      left: 22px;
       height: 20px;
       width: 20px;
       text-align: center;
+    }
+    .graphValues_title {
+      margin: 7px 0 0 30px;
     }
   }
 }
