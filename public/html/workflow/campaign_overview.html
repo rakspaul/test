@@ -21,7 +21,8 @@
                             </div>
                         </div>
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
-                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
+                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb" tooltip-placement="top" tooltip="{{workflowData.campaignData.status.toLowerCase() == 'in_flight'?'In Flight':workflowData.campaignData.status.toLowerCase()  | toCamelCase }}" ></span>
+                            
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}"
                                 class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
