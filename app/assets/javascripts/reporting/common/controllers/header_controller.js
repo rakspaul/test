@@ -100,6 +100,8 @@
                                     $rootScope.clientName = name;
                                     if(moduleObj.redirect) {
                                         $location.url('/mediaplans');
+                                    } else {
+                                        $route.reload();
                                     }
                                 }
                             }
