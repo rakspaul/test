@@ -81,6 +81,9 @@ var angObj = angObj || {};
 
             }
         }
+        $scope.saveDayPart();
+        $scope.getSelectedDays();
+
     });
         $scope.recreateCustomObj=function(day,dayArr){
 

@@ -98,7 +98,7 @@
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span>Included</span>
-                <div class="badge">{{getSelectedDays()}}</div>
+                <div class="badge">{{dayPartTotal}}</div>
             </div>
             <span class="targetListItem" ng-if="selectedDayParts['selected'] != 'Custom schedule'">{{selectedDayParts['selected']}}</span>
             <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] == 'Custom schedule'">{{selectedDayParts['data'][0].day}} {{(selectedDayParts['data'][0].startTime)?selectedDayParts['data'][0].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
