@@ -669,27 +669,26 @@
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_title {
   float: left;
-  margin: 0 0 0 10px;
+  margin-top: 7px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_number {
   float: right;
   font-weight: 900;
   color: #333333;
   font-size: 20px;
-  line-height: 100%;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .barChartWidget {
-  margin: 75px 0 0 47px ;
+  margin: 75px 0 0 70px ;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText {
   position: absolute;
   top: 80px ;
   left: 0px ;
-  width: 100%;
+  width: 95%;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .each_bar_section_holder {
   height: 60px;
-  padding: 0 20px;
+  padding-left: 70px;
   margin-bottom: 10px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .display_graph {
