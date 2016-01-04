@@ -386,8 +386,12 @@ var angObj = angObj || {};
             else {
                 return isActive + " " + sortDirection;
             }
-
         };
+
+        $scope.platformIconUrl = function(name, iconUrl) {
+            return '/assets/images/platform_favicons/' + (iconUrl == 'Unknown' ? 'platform_logo.png' : name.toLowerCase().replace(/ /g, '_') + '.png');
+        };
+
         // hot fix for the enabling the active link in the reports dropdown
         $(function () {
             $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
