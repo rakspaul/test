@@ -393,9 +393,11 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
-                    'url' : '/reportBuilder/customQueryDownload',
+                    'url' : '/reportBuilder/reportDownload',
                     'query_id': 32,
-                    'label' : 'Optimization Report'
+                    'label' : 'Optimization Report',
+                    'report_type' : 'all',
+                    'report_cat' : 'optimize'
                 }
             ];
         };
