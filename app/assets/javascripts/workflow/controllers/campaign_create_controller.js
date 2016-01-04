@@ -208,13 +208,13 @@ var angObj = angObj || {};
             workflowService.deleteCampaign($scope.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.campaignArchive=false;
-                    var url = '/campaigns';
+                    var url = '/mediaplans';
                         if($scope.editCampaignData.adsCount >0 ) {
                             localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
                         } else {
                             localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
                         }
-                        $location.url(url);
+                        window.location.href = url;
                 }else{
                     campaignArchiveErrorHandler();
                 }
@@ -708,7 +708,6 @@ var angObj = angObj || {};
             $scope.campaignArchive=false;
             $scope.deleteCampaignFailed=false;
             $scope.numberOnlyPattern = /[^0-9]/g;
-            $scope.archiveMessage= $scope.textConstants.CAMPAIGN_ARCHIVE_MESSAGES;
             $scope.hideKpiValue=false;
             $scope.client =  loginModel.getSelectedClient();
             $scope.isClientDropDownDisable = false;

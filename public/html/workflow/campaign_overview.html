@@ -874,7 +874,7 @@
 <!--=== compaignAdcreate ends ===-->
 
 <!--=== POP Up Light Box starts ===-->
-<div class="common-popup-container" ng-show="campaignArchive">
+<div class="common-popup-container" ng-if="campaignArchive">
     <div class="popup">
         <div class="popup-header-body">
             <div class="clearfix">
@@ -882,7 +882,7 @@
                 <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
             </div>
             <div class="popup-content">
-                {{archiveMessage}}
+                {{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}
             </div>
         </div>
         <div class="clearfix popup-footer" >
