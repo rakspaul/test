@@ -80,7 +80,15 @@ var angObj = angObj || {};
 
 
             }
+            // trigger 24/12 hrs
+            if(fetchedObj.targets.adDaypartTargets.clock == "24 HR"){
+                angular.element('#24hr').trigger('click');
+            }
+            else{
+                angular.element('#12hr').trigger('click');
+            }
         }
+
         $scope.saveDayPart();
         $scope.getSelectedDays();
 
