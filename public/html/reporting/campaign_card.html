@@ -6,7 +6,7 @@
         <div class="each_campaign_section">
             <div class="main_heading">
                 <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
-                <a ng-if="$parent.isWorkFlowUser" ng-href="/mediaplan/{{campaign.orderId}}/overview">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
+                <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
                 </div>
             </a> -->
            <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
-                <div class="campaign_btn actions_btn" ng-show="$parent.isWorkFlowUser">
+                <div class="campaign_btn actions_btn" ng-show="$parent.isWorkFlowUser && campaigns.dashboard.appliedFilterType !== 'archived' ">
                     <span>{{ textConstants.MANAGE }}</span>
                 </div>
             </a>
