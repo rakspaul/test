@@ -335,7 +335,7 @@ var angObj = '';
 
             dataService.updateRequestHeader();
 
-            if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
+            if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
                 workflowService.getClients().then(function (result) {
                     if(result && result.data.data.length >0) {
                         loginModel.setSelectedClient({'id': result.data.data[0].children[0].id, 'name': result.data.data[0].children[0].name});
