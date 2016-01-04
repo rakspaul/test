@@ -293,19 +293,19 @@
 									<label for="demoType" class="col-sm-12 greyTxt miniLabels">Select one Channel</label>
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first active">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="channelSelected($event,'DISPLAY')" value="DISPLAY" required>
+										  <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'DISPLAY')" value="DISPLAY" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Display</span>
 											</div>
 										</label>
 										<label class="btn btn-primary">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="channelSelected($event,'VIDEO')" value="VIDEO" required>
+										  <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'VIDEO')" value="VIDEO" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Video</span>
 											</div>
 										</label>
 										<label class="btn btn-primary">
-										  <input type="radio" name="demoType" autocomplete="off" ng-click="channelSelected($event,'MOBILE')" value="MOBILE" required>
+										  <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'MOBILE')" value="MOBILE" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
 												<span style="margin: 0;">Mobile</span>
 											</div>
@@ -386,15 +386,22 @@
 								<span class="btn btn-default">Save & Continue</span>
 							</a>
 					</div>
+                    <!--<div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>-->
+                        <!--<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>-->
+                        <!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+                        <!--<input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
+                        <!--<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>-->
+                    <!--</div>-->
 <!--PAGE2-->
 					<div class="tab-pane fade" id="budget">
 						<!--==== Row 1 ====-->
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
 							<div class="col-md-12 zeroPadding marginCal">
-								<div class="calTable">
+								<div class="calTable form-group" show-errors='{showSuccess: true}'>
 									<h3>Total Budget</h3>
-									<input type="number" ng-model="Campaign.totalBudget" class="form-control col-sm-8"/>
+									<input type="number" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" required/>
+                                    <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">You must enter Total Budget.</label>
 								</div>
 								<div class="calTable">
 									<h3>Margin</h3>
@@ -412,7 +419,7 @@
 									<h3>Effective CPM</h3>
 									<input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
 								</div>
-								<div class="calTable" style="width: 100%; padding-right: 10px;">
+								<div class="calTable" style="width: 100%; padding-right: 65px;margin-bottom:20px">
 									<!--<input type="checkbox" />-->
 									<!--<span>Calculate Budget for me</span>-->
                                 <a class="btn btn-primary pull-right" role="button" ng-click="ComputeCost()">Compute Cost</a>
@@ -422,28 +429,33 @@
 						
 						<!--==== Row 2 ====-->
 						<div class="col-md-12 zeroPadding">
-							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Select KPIs</label>
-							<div class="col-md-12 zeroPadding">
+							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">Select KPIs </span><span class="pull-left errorLabel" ng-show="isPrimarySelected" style="margin-left: 115px;">You must select primary KPI.</span></label>
+                            <div class="col-md-12 zeroPadding">
 								<div class="col-md-3 zeroPadding kpiTable">
 									<h3>KPI</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
 								</div>
 								<div class="col-md-2 zeroPadding kpiTable">
 									<h3>Primary KPI</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
 								</div>
 								<div class="col-md-3 zeroPadding kpiTable">
 									<h3>Vendor</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 								</div>
 								<div class="col-md-2 zeroPadding kpiTable">
 									<h3>Target</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
 								</div>
 								<div class="col-md-2 zeroPadding kpiTable">
 									<h3>Use for Billing</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
 								</div>
 							</div>
 							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index">
 
 								<div class="col-md-3 zeroPadding kpiTable">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
+
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
 											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['kpiType']">
@@ -459,7 +471,7 @@
 								
 								<div class="col-md-2 zeroPadding kpiTable">
 									
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
+
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first " ng-class="Campaign.kpiArr[$index]['isPrimary']=='true' ?'active':''">
 										  <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,true);" ng-model="Campaign.kpiArr[$index]['isPrimary']" ng-value=true field="isPrimary" index="{{$index}}" hiddenKpi>
@@ -477,7 +489,7 @@
 								</div>
 								
 								<div class="col-md-3 zeroPadding kpiTable">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
+
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
 											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['vendorName']">
@@ -493,13 +505,13 @@
 
 								<div class="col-md-2 zeroPadding kpiTable">
 									
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
+
 									<input type="number" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" field="kpiValue" index="{{$index}}"/>
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable">
 
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
+
 									<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 										<label class="btn btn-primary first" ng-class="Campaign.kpiArr[$index]['isBillable']=='true' ?'active':''">
 										  <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,true);" ng-model="Campaign.kpiArr[$index]['isBillable']" ng-value=true field="isBillable" index="{{$index}}" hiddenKpi>
@@ -531,29 +543,35 @@
 							<div class="col-md-12 zeroPadding" >
 								<div class="col-md-3 zeroPadding kpiTable" style="width: 340px;">
 									<h3>Cost Category</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
 								</div>
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
 									<h3>Calculation</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 								</div>
 								<div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
 									<h3>Vendor</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
 								</div>
 								<div class="col-md-1 zeroPadding kpiTable">
 									<h3>Rate</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value</label>
 								</div>
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
 									<h3>% of Target</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
 									<h3>Description</h3>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value appears in reporting</label>
 								</div>
                             </div>
                         </div>
 
                             <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
 								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
+
 									<div class="col-md-12 zeroPadding">
 	                                    <div class="col-md-6 zeroPadding dropdown-workflow">
 	                                        <div class="dropdown">
@@ -586,7 +604,7 @@
                                 </div>
 
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
+
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
 											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['rateTypeName']">
@@ -602,7 +620,7 @@
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
+
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
 											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['vendorName']">
@@ -617,17 +635,17 @@
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value</label>
+
                                     <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" field="rateValue" index="{{$index}}"/>
                                 </div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
+
                                     <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['targetPercentage']" field="targetPercentage" index="{{$index}}"/>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
-									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value appears in reporting</label>
+
                                     <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
 								<span class="remove-row">
@@ -639,7 +657,7 @@
 							<div class="col-md-12 zeroPadding">
 								<a class="btn btn-link pull-left addRowMedia" ng-click="addMoreCost();"><span class="icon-plus"></span><span>Add another Cost</span></a>
 							</div>
-						</div>
+
 						
 						<!--==== Row 4 ====-->
 						<div class="col-md-12 zeroPadding">
@@ -648,18 +666,18 @@
 								<h3>Integrated Platforms</h3>
 								<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
 								<input type="text" class="col-md-12 keyword-txt" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
-                                <label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+                                <label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.displayName}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
                                 <ul ng-if="platformKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
                                     <li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
                                         <a>
                                             <span class="tick"></span>
-                                            <span class="menuItemText ng-binding" >{{keyword.name}}</span>
+                                            <span class="menuItemText ng-binding" >{{keyword.displayName}}</span>
                                         </a>
                                     </li>
                                 </ul>
 							</div>
 						</div>
-						
+                    </div>
 						<!--=== Next Step Panel ===-->
 						<a href="#contacts" data-toggle="tab" role="tab" class="nextWrapper leftNavLink">
 							<span class="btn btn-default">Save & Continue</span>
