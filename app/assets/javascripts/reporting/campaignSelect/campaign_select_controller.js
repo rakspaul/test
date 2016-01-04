@@ -135,7 +135,6 @@
                 };
                 campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
             }
-
             if ($scope.allCampaign == "true") {
                 $scope.fetchCampaigns(true, true);
             } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
@@ -152,6 +151,9 @@
 
         $scope.init();
 
+        $rootScope.$on('CAMPAIGN_CHANGE', function() {
+            $scope.fetchCampaigns(true, true);
+        })
 
         //Function called when the user clicks on the campaign dropdown
         $('.campaigns_list').on('click', 'li', function (e) {
@@ -168,18 +170,10 @@
             $scope.setCampaign(selectedCampaign);
 
             $('.campaigns_list').hide();
-            //$scope.$apply();
             analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
             e.preventDefault();
             e.stopImmediatePropagation();
 
         });
-        // $(function() {
-        //   $("#campaignsDropdownDiv").on('click',  function(){
-        //         $('#campaigns_list').scrollTop(0)
-        //     });
-        // });
-
-
     });
 }());
