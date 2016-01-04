@@ -97,7 +97,7 @@ var angObj = angObj || {};
 
             }
             dmasInitialLoad = true;
-
+            $scope.saveGeography();
         }
 
         $scope.zipEdit = function(flatArr){
