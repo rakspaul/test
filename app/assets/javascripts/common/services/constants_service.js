@@ -117,6 +117,7 @@
     this.SELECT_DATE_LABEL = 'Select a date';
     this.SCHEDULE_START_DATE_LABEL ='Starts on';
     this.SCHEDULE_END_DATE_LABEL ='Ends on';
+    this.SCHEDULER_UPDATE = 'Do you want to update the Schedule report ?';
     this.REPORT_BUILDER_TIMEFRAME ='Timeframe';
     this.REPORT_CHOOSE_BREAKDOWN = "Choose Breakdown";
     this.REPORT_ADDITIONAL_FILTERS = "Additional Filters";
