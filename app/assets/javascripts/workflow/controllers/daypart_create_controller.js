@@ -187,6 +187,8 @@ var angObj = angObj || {};
           //  console.log($scope.Schedule.daytimeArr);
 
         }
+
+
         $scope.convertToScheduleObj=function(day,dayArr){
             var a = dayArr;
             var b = dayArr;
@@ -203,6 +205,9 @@ var angObj = angObj || {};
                 keys1[0]['stTime'] = a[0];
                 keys1[0]['edTime'] = a[a.length-1] + 1;
                 keys1[0]['day']=day;
+                if(keys1[0]['edTime'] == 24 && keys1[0]['stTime'] == 23 )
+                    keys1[0]['edTime'] = 0;
+
             } else {
                 for(var i = 0; i <= c.length; i++) {
                     keys1[i] = {}
@@ -210,16 +215,56 @@ var angObj = angObj || {};
                     keys1[i]['edTime'] = a[c[i]]+1
                     keys1[i]['day']=day;
                     b.splice(0, c[i] + 1)
+                    if(keys1[i]['edTime'] == 24 && keys1[i]['stTime'] == 23)
+                        keys1[i]['edTime'] = 0;
                 }
 
                 var lastKey = Object.keys(keys1).slice(Object.keys(keys1).length - 1)[0];
                 keys1[lastKey]['stTime'] = a[a.length-1];
                 keys1[lastKey]['edTime'] = a[a.length-1] + 1;
                 keys1[lastKey]['day']=day;
+                if(keys1[lastKey]['edTime'] == 24 && keys1[lastKey]['stTime'] ==23)
+                    keys1[lastKey]['edTime'] = 0;
             }
-          //  console.log(keys1);
+            //  console.log(keys1);
             return keys1;
         }
+
+        // working code
+
+        //$scope.convertToScheduleObj=function(day,dayArr){
+        //    var a = dayArr;
+        //    var b = dayArr;
+        //    var c = [];
+        //    var keys1 = {};
+        //    a.map(function(value, key) {
+        //        return a[key] - a[key-1]
+        //    }).forEach(function(value, key) {
+        //        if(value > 1)
+        //            c.push(key - 1)
+        //    })
+        //    if(c.length == 0) {
+        //        keys1[0] = {}
+        //        keys1[0]['stTime'] = a[0];
+        //        keys1[0]['edTime'] = a[a.length-1] + 1;
+        //        keys1[0]['day']=day;
+        //    } else {
+        //        for(var i = 0; i <= c.length; i++) {
+        //            keys1[i] = {}
+        //            keys1[i]['stTime'] = b[0]
+        //            keys1[i]['edTime'] = a[c[i]]+1
+        //            keys1[i]['day']=day;
+        //            b.splice(0, c[i] + 1)
+        //        }
+        //
+        //        var lastKey = Object.keys(keys1).slice(Object.keys(keys1).length - 1)[0];
+        //        keys1[lastKey]['stTime'] = a[a.length-1];
+        //        keys1[lastKey]['edTime'] = a[a.length-1] + 1;
+        //        keys1[lastKey]['day']=day;
+        //    }
+        //    //  console.log(keys1);
+        //    return keys1;
+        //}
 
     $scope.selectedDays = [];
     $scope.getStartTimes=[{time:0, twelveHrFormat:'12:00AM', twentyfourHrFormat:'00:00'},{time:1, twelveHrFormat:'1:00AM', twentyfourHrFormat:'01:00'},{time:2, twelveHrFormat:'2:00AM', twentyfourHrFormat:'02:00'},{time:3, twelveHrFormat:'3:00AM', twentyfourHrFormat:'03:00'},
@@ -308,19 +353,18 @@ var angObj = angObj || {};
                 };
 
                 for(var i = 0; i < $scope.Schedule.dayPart.length; i++){
-                    if($scope.Schedule.dayPart[i].stTime){
+                    if($scope.Schedule.dayPart[i].stTime>=0){
                         $scope.Schedule.dayPart[i].startTime =  $scope.returnTime($scope.Schedule.dayPart[i].stTime);
                     }
 
-                    if($scope.Schedule.dayPart[i].edTime){
+                    if($scope.Schedule.dayPart[i].edTime>=0){
                         $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
                     }
                 }
                 audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
 
             //}
-
-            audienceService.setDayPartData(adDaypartTargets);//console.log(adDaypartTargets);
+            audienceService.setDayPartData(adDaypartTargets);
             $scope.getSelectedDays();
             $scope.resetDayTargetingVariables();
 
