@@ -559,6 +559,7 @@
                           this.dashboard.status.active.bothItem = constants.ACTIVE;
                           type = constants.ACTIVE;
                       }
+                    this.dashboard.appliedFilterType = type;
                     this.dashboard.filterTotal = this.dashboard.quickFilterSelectedCount;
                     this.campaignList = [];
                     this.costBreakdownList = [];
