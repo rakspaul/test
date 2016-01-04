@@ -99,7 +99,7 @@
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
                                     if(moduleObj.redirect) {
-                                        $location.url('/mediaplans');
+                                        window.location.href='/mediaplans'
                                     } else {
                                         $route.reload();
                                     }

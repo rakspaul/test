@@ -55,22 +55,22 @@
                         status = tactic.status;
                     }
                     var media_type = tactic.media_type.toLowerCase();
-                    var media_type_icon ='display_graph';
+                    var media_type_icon ='icon-desktop';
                     if(media_type.length > 0 ){
                         switch(media_type){
-                            case 'display': media_type_icon = "display_graph";
+                            case 'display': media_type_icon = "icon-desktop";
                                 break;
-                            case 'video':   media_type_icon = "video_graph";
+                            case 'video':   media_type_icon = "icon-video";
                                 break;
-                            case 'mobile':   media_type_icon = "mobile_graph";
+                            case 'mobile':   media_type_icon = "icon-mobile";
                                 break;
-                            case 'facebook':   media_type_icon = "social_graph";
+                            case 'facebook':   media_type_icon = "icon-social";
                                 break;
-                            case 'mobilevideo':   media_type_icon = "video_graph";
+                            case 'mobilevideo':   media_type_icon = "icon-video";
                                 break;
                             case 'passback':   media_type_icon = "passback_graph";
                                 break;
-                            default: media_type_icon = "display_graph";
+                            default: media_type_icon = "icon-desktop";
                         }
                     }
                     var tactic_1 = {
