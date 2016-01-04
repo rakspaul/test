@@ -431,31 +431,33 @@ var angObj = angObj || {};
 
 
 
-        _customctrl.createRequestParams = function(filterText, offset) {
-            //sapna
-            $scope.reportTitle = $scope.reports.reportDefinition.dimensions.primary.name;
+        _customctrl.createRequestParams = function(filterText, offset, isPrimary) {
+            var params='',
+                dropdownElem = $(".each_section_custom_report"),
+                reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
+                dimensionDataKey = isPrimary ? "primary" : "secondary",
+                filterDataKey = isPrimary ? "secondary" : "primary",
+                str = $scope.reports.reportDefinition.dimensions[dimensionDataKey].dimension;
+            $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
             $scope.isReportForMultiDimension = false;
-            var params='';
-            var dropdownElem = $(".each_section_custom_report");
-            var reportId = dropdownElem.find('.dd_txt').attr('data-template_id');
-            var str = $scope.reports.reportDefinition.dimensions.primary.dimension;
-            if($scope.reports.reportDefinition.dimensions.primary.value) {
-                str+=':'+$scope.reports.reportDefinition.dimensions.primary.value;
+
+            if($scope.reports.reportDefinition.dimensions[dimensionDataKey].value) {
+                str+=':'+$scope.reports.reportDefinition.dimensions[dimensionDataKey].value;
             }
 
-            if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
+            if($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
                 $scope.isReportForMultiDimension = true;
-                $scope.reportTitle += ' by '+ $scope.reports.reportDefinition.dimensions.secondary.name;
-                str+="&filter="+$scope.reports.reportDefinition.dimensions.secondary.dimension
-                if($scope.reports.reportDefinition.dimensions.secondary.value) {
-                    str+=':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                $scope.reportTitle += ' by '+ $scope.reports.reportDefinition.dimensions[filterDataKey].name;
+                str+="&filter="+$scope.reports.reportDefinition.dimensions[filterDataKey].dimension
+                if($scope.reports.reportDefinition.dimensions[filterDataKey].value) {
+                    str+=':'+$scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
-                if(typeof filterText != "undefined" && filterText != null){
+                if(typeof filterText != "undefined" && filterText != null && filterText != "" && str.search(filterText.trim()) == -1){
                     str+=':'+filterText;
                 }
             }
             if($scope.additionalFilters.length > 0) {
-                if(!$scope.reports.reportDefinition.dimensions.secondary.dimension  ) {
+                if(!$scope.reports.reportDefinition.dimensions[filterDataKey].dimension  ) {
                     str+="&filter="
                 } else {
                     str+='~';
@@ -499,7 +501,7 @@ var angObj = angObj || {};
         };
 
         _customctrl.getReportData = function() {
-            _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(null, $scope.firstDimensionoffset), null, function(respData) {
+            _customctrl.fetchReportData($scope.selectedMetricsList, _customctrl.createRequestParams(null, $scope.firstDimensionoffset,1), null, function(respData) {
                 $scope.fetching = false;
                 $scope.generateBtnDisabled = false;
                 if(respData && respData.length >0) {
@@ -700,8 +702,7 @@ var angObj = angObj || {};
 
                 $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
                 $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
-
-                var paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset);
+                var paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset,0);
                 _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function(respData, currentRowIndex) {
                     currFirtDimensionElem.addClass('active');
                     if(respData) {
