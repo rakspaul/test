@@ -573,16 +573,10 @@
                         sortedData  = sortedData.slice(0, 3);
 
                         var screenTypeMap = {
-                            'desktop' : 'icon-desktop',
-                            'unknown' : 'icon-help',
-                            'smartphone' : 'icon-mobile',
-                            'mobile' : 'icon-mobile',
-                            'tv' : 'icon-desktop',
-                            'set-top box' : 'icon-desktop',
-                            'tablet' : 'icon-tablet',
-                            'other' : 'icon-image',
-                            'display' : 'icon-desktop',
-                            'DISPLAY' : 'icon-desktop'
+                            'smartphone' : 'mobile_graph',
+                            'tv' : 'display_graph',
+                            'tablet' : 'tablet_graph',
+                            'desktop' : 'display_graph'
                         }
 
                         _.each(sortedData, function(data, idx) {
@@ -625,7 +619,7 @@
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData});
+                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
 
 
@@ -667,10 +661,7 @@
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
-                            var type = data.platform_name;
-                            var icon_url = data.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
-                            icon_url = '/assets/images/platform_favicons/' + icon_url;
-                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': icon_url, 'type': type, 'value': kpiData});
+                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': data.platform_icon_url, 'type': data.platform_name, 'value': kpiData});
                         });
                     }
                 }
@@ -688,20 +679,6 @@
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
-            
-            var formatTypeMap = {
-                'desktop' : 'icon-desktop',
-                'unknown' : 'icon-help',
-                'smartphone' : 'icon-mobile',
-                'mobile' : 'icon-mobile',
-                'tv' : 'icon-desktop',
-                'set-top box' : 'icon-desktop',
-                'tablet' : 'icon-tablet',
-                'other' : 'icon-image',
-                'display' : 'icon-desktop',
-                'DISPLAY' : 'icon-desktop'
-            }
-            
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingFormatFlag = false;
@@ -721,7 +698,7 @@
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : formatTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData});
+                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : data.dimension.toLowerCase() + "_graph", 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
                         });
                     }
                 }

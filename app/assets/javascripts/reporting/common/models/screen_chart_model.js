@@ -16,14 +16,10 @@
         }
 
         var screenTypeMap = {
-            'desktop' : 'icon-desktop',
-            'unknown' : 'icon-help',
-            'smartphone' : 'icon-mobile',
-            'mobile' : 'icon-mobile',
-            'tv' : 'icon-desktop',
-            'set-top box' : 'icon-desktop',
-            'tablet' : 'icon-tablet',
-            'other' : 'icon-image'
+            'smartphone' : 'mobile_graph',
+            'tv' : 'display_graph',
+            'tablet' : 'tablet_graph',
+            'desktop' : 'display_graph'
         }
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
@@ -86,7 +82,6 @@
             _.each(dataToDisplayOnWidget, function(eachObj) {
                 var cls = '';
                 var type = '';
-                var icon_url;
                 if (selectedFormat.toLowerCase() === 'screens') {
                     cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                     type = eachObj.screen_type;
@@ -95,11 +90,9 @@
                     type = eachObj.ad_format;
                 } else {
                     type = eachObj.platform_name;
-                    icon_url = eachObj.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
-                    icon_url = '/assets/images/platform_favicons/' + icon_url;
                 }
                 var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
-                screenDataArr.push({"className":cls,"type":type,"value":value, 'icon_url': icon_url});
+                screenDataArr.push({"className":cls,"type":type,"value":value});
             })
             screenBarChartConfig.data = screenDataArr;
             return screenBarChartConfig;
