@@ -93,6 +93,7 @@ var angObj = angObj || {};
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
+        $scope.dayPartTotal = 0;
 
         $scope.editCampaign = function (workflowcampaignData) {
             window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';
@@ -1055,7 +1056,7 @@ var angObj = angObj || {};
         $scope.getSelectedDays = function(){
             $scope.selectedDayParts['selected'] = audienceService.getDayTimeSelectedObj();
             $scope.selectedDayParts['data'] = audienceService.getDaytimeObj();
-            return ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
+            $scope.dayPartTotal =  ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
         }
 
         $scope.budgetErrorObj = {};
