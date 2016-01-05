@@ -1044,7 +1044,7 @@ var angObj = angObj || {};
                 var documentScrollLeft = $(this).scrollLeft();
                 if (lastScrollLeft != documentScrollLeft) {
                     lastScrollLeft = documentScrollLeft;
-                    $(".custom_report_scroll").removeClass("vertical_scroll");
+                    $(".custom_report_scroll").addClass("vertical_scroll");
                 }
 
                 var documentScrollTop = $(this).scrollTop();
