@@ -160,17 +160,44 @@
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
                 var value = field.val();
+
+                var maxValue = Number(field.attr("max"));
+                var minValue = Number(field.attr("min"));
+                //console.log("value", value);
+                //console.log("field", field);
+                //console.log("maxValue", maxValue);
+                //console.log("minValue", minValue);
                 field.next(".customFieldErrorMsg").remove();
-                /*if(parseFloat(value) > options.min ||  parseFloat(value) > options.max ) {
-                 field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is invalid.</div>');
-                 } else {*/
+                //console.log("inputList.displayName", inputList.displayName);
+
                 if(value.length === 0){
                     field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is required</div>');
-                } else {
-                    field.next(".customFieldErrorMsg").remove();
-                    return true;
+                    return false;
                 }
-                //}
+
+                var blackoutPeriodElem;
+                if(inputList.displayName == 'Blackout Period' || inputList.displayName == 'Ramp Duration' ) {
+                    blackoutPeriodElem = field.parents('.form-group').find('.form-group-section')[1];
+                    var blackPeriodsValue = $(blackoutPeriodElem).find('select').val();
+                    //console.log("blackPeriodsValue", blackPeriodsValue);
+                    if (blackPeriodsValue === 'Days') {
+                        maxValue = maxValue / 24;
+                        //console.log("maxValue", maxValue);
+                    }
+                } else if(inputList.displayName === 'NA') {
+                    blackoutPeriodElem = field.parents('.form-group').find('.form-group-section')[0];
+                    $(blackoutPeriodElem).find("input").trigger('blur');
+
+                }
+
+
+                if(inputList.displayName !== 'NA') {
+                    if (value < minValue) {
+                        field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be greater than '+minValue+'</div>');
+                    } else if (value > maxValue) {
+                        field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be less than or equal to '+maxValue+'</div>');
+                    }
+                }
             })
             return inputWrapper;
         };
