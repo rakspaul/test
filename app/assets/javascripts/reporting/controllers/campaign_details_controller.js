@@ -572,6 +572,7 @@
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         sortedData  = sortedData.slice(0, 3);
 
+
                         var screenTypeMap = vistoconfig.screenTypeMap ;
 
                         _.each(sortedData, function(data, idx) {
@@ -678,8 +679,8 @@
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             
-            var formatTypeMap = vistoconfig.formatTypeMap  ;
-            
+            var formatTypeMap = vistoconfig.formatTypeMap ;
+
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingFormatFlag = false;

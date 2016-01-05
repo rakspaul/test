@@ -48,6 +48,7 @@
       'jquer_table_sorter_scroller' : {deps: ['ui-bootstrap-tpls']},
       'app': {deps: ['lrInfiniteScroll']},
       'CommonModule': {deps: ['app']},
+      'common-services-VistoConfigService':{deps: ['CommonModule']},
       'common-charts-line':{deps: ['CommonModule']},
       'common-charts-actions':{deps: ['common-charts-line']},
       'common-charts-columnline':{deps: ['common-charts-actions']},
@@ -57,7 +58,7 @@
       'common-services-DataService':{deps: ['common-charts-solidgauge']},
       'common-services-TransformerService':{deps: ['common-services-DataService']},
       'common-services-ConstantsService':{deps: ['common-services-TransformerService']},
-      'common-services-VistoConfigService':{deps: ['common-services-TransformerService']},
+      
       'common-services-RequestCancelService':{deps: ['common-services-ConstantsService']},
       'common-services-UrlService':{deps: ['common-services-RequestCancelService']},
       'common-models-CampaignCDBData':{deps: ['common-services-UrlService']},
