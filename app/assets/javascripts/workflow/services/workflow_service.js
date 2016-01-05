@@ -238,7 +238,25 @@
             },
             getPlatform: function(){
                 return platform;
+            },
+            getObjectives : function(){
+                var url= apiPaths.WORKFLOW_APIUrl + '/objectiveTypes';
+                return dataService.fetch(url);
+            },
+            getVendors:function(){
+                var url= apiPaths.WORKFLOW_APIUrl + '/vendors';
+                return dataService.fetch(url);
+            },
+            getCostCategories:function(){
+                var url= apiPaths.WORKFLOW_APIUrl + '/costCategories';
+                return dataService.fetch(url);
+
+            },
+            getVendorForSelectedCostCategory:function(clientId,categoryId){
+                var url= apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/costCategories/'+categoryId+'/vendors';
+                return dataService.fetch(url);
             }
+
         };
 
     });
