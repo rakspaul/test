@@ -242,3 +242,12 @@
 .icon-library:before {
   content: "\26";
 }
+.icon-unknown:before {
+  content: "\27";
+}
+.icon-tv:before {
+  content: "\28";
+}
+.icon-settopbox:before {
+  content: "\29";
+}
