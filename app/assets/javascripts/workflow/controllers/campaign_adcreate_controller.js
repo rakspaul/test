@@ -358,27 +358,17 @@ var angObj = angObj || {};
             }
             var dateObj = {};
             if (responseData.startTime) {
-                dateObj['adStartDate'] = $scope.adData.startTime = utils.convertToEST(responseData.startTime, "MM/DD/YYYY");
+                //dateObj['adStartDate'] = $scope.adData.startTime = utils.convertToEST(responseData.startTime, "MM/DD/YYYY");
                 console.log(momentService.getTimezoneName());
-                /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                    dateObj['adStartDate'] = $scope.adData.startTime =
-                        momentService.getTimezoneMoment(responseData.startTime).format(constants.DATE_UK_FORMAT);
-                } else {
-                    dateObj['adStartDate'] = $scope.adData.startTime =
-                        momentService.getTimezoneMoment(responseData.startTime).format(constants.DATE_US_FORMAT);
-                }*/
+                dateObj['adStartDate'] = $scope.adData.startTime =
+                    momentService.getTimezoneMoment(responseData.startTime).format(constants.DATE_US_FORMAT);
                 console.log('start time: ', $scope.adData.startTime);
             }
 
             if (responseData.endTime) {
-                dateObj['adEndDate'] = $scope.adData.endTime = utils.convertToEST(responseData.endTime, "MM/DD/YYYY");
-                /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                    dateObj['adEndDate'] = $scope.adData.endTime =
-                        momentService.getTimezoneMoment(responseData.endTime).format(constants.DATE_UK_FORMAT);
-                } else {
-                    dateObj['adEndDate'] = $scope.adData.endTime =
-                        momentService.getTimezoneMoment(responseData.endTime).format(constants.DATE_US_FORMAT);
-                }*/
+                //dateObj['adEndDate'] = $scope.adData.endTime = utils.convertToEST(responseData.endTime, "MM/DD/YYYY");
+                dateObj['adEndDate'] = $scope.adData.endTime =
+                    momentService.getTimezoneMoment(responseData.endTime).format(constants.DATE_US_FORMAT);
                 console.log('end time: ', $scope.adData.endTime);
             }
             localStorage.setItem('adsDates', JSON.stringify(dateObj));
@@ -670,8 +660,9 @@ var angObj = angObj || {};
         }
 
         $scope.utc = function (date) {
-            return moment(date).utc().valueOf()
-        }
+            //return moment(date).utc().valueOf();
+            return momentService.getTimezoneMoment(date).utc().valueOf();
+        };
 
         campaignOverView.getCampaignData($routeParams.campaignId);
         campaignOverView.fetchAdFormats();
@@ -1403,13 +1394,10 @@ var angObj = angObj || {};
 
     angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter, momentService) {
         $scope.checkForPastDate = function (startDate, endDate) {
-            var endDate = moment(endDate).format("MM/DD/YYYY");
-            /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                endDate = momentService.getTimezoneMoment(endDate).format(constants.DATE_UK_FORMAT);
-            } else {
-                endDate = momentService.getTimezoneMoment(endDate).format(constants.DATE_US_FORMAT);
-            }*/
-            return moment().isAfter(endDate, 'day')
+            var endDate;// = moment(endDate).format("MM/DD/YYYY");
+            endDate = momentService.getTimezoneMoment(endDate).format(constants.DATE_US_FORMAT);
+            return momentService.getTimezoneMoment().isAfter(endDate, 'day');
+            //return moment().isAfter(endDate, 'day')
         };
 
         $scope.handleEndFlightDate = function (data) {
@@ -1422,15 +1410,11 @@ var angObj = angObj || {};
             if (!endDate && adsDate) { // if End Date is in Past
                 var changeDate = endDate = adsDate.adEndDate;
                 $scope.adData.endTime = changeDate;
-                if (moment().isAfter(endDate)) {
-                    /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                        startDate = momentService.getTimezoneMoment().format(constants.DATE_UK_FORMAT);
-                    } else {
-                        startDate = momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT);
-                    }
+                //if (moment().isAfter(endDate)) {
+                if (momentService.getTimezoneMoment().isAfter(endDate)) {
+                    startDate = momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker("setStartDate", startDate);
-                    */
-                    endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
+                    //endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
                 }
             }
         };
@@ -1441,71 +1425,48 @@ var angObj = angObj || {};
 
             var startDate = data.startTime;
             var endDate = data.endTime;
-            console.log('data.start date = ', data.startTime)
-            console.log('data.end date = ', data.endTime)
-            var campaignEndTime = utils.convertToEST($scope.workflowData['campaignData'].endTime, "MM/DD/YYYY");
+            console.log('data.start date = ', data.startTime);
+            console.log('data.end date = ', data.endTime);
+            var campaignEndTime;// = utils.convertToEST($scope.workflowData['campaignData'].endTime, "MM/DD/YYYY");
             var changeDate;
-            /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                campaignEndTime = momentService.getTimezoneMoment($scope.workflowData['campaignData'].endTime)
-                    .format(constants.DATE_UK_FORMAT);
-            } else {
-                campaignEndTime = momentService.getTimezoneMoment($scope.workflowData['campaignData'].endTime)
-                    .format(constants.DATE_US_FORMAT);
-            }*/
+            campaignEndTime = momentService.getTimezoneMoment($scope.workflowData['campaignData'].endTime)
+                .format(constants.DATE_US_FORMAT);
             if ($scope.mode !== 'edit') {
                 endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
                 if (startDate) {
                     endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                    changeDate = moment(startDate).format('MM/DD/YYYY')
-                    /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                        changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_UK_FORMAT);
-                    } else {
-                        changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_US_FORMAT);
-                    }*/
+                    changeDate;// = moment(startDate).format('MM/DD/YYYY')
+                    changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker("setStartDate", changeDate);
                     console.log('Start date gets assigned here ===>', startDate)
                     console.log('Start date gets assigned here, this is the changedate ===>', changeDate)
 
                     if (window.location.href.indexOf("adGroup") > -1) {
-                        endDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"), 'MM/DD/YYYY'));
-                        /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                            endDateElem.datepicker("setEndDate",
-                                momentService.getTimezoneMoment(localStorage.getItem("edTime")).format(constants.DATE_UK_FORMAT));
-                        } else {
-                            endDateElem.datepicker("setEndDate",
-                                momentService.getTimezoneMoment(localStorage.getItem("edTime")).format(constants.DATE_US_FORMAT));
-                        }*/
+                        //endDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"), 'MM/DD/YYYY'));
+                        endDateElem.datepicker("setEndDate",
+                            momentService.getTimezoneMoment(localStorage.getItem("edTime")).format(constants.DATE_US_FORMAT));
                     } else {
                         endDateElem.datepicker("setEndDate", campaignEndTime);
                     }
                     endDateElem.datepicker("update", changeDate);
                 }
-            } else { /////////////////
-                changeDate = moment(startDate).format('MM/DD/YYYY');
-                /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                    changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_UK_FORMAT);
-                } else {
-                    changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_US_FORMAT);
-                }*/
+            } else {
+                //changeDate = moment(startDate).format('MM/DD/YYYY');
+                changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_US_FORMAT);
                 var adsDate = JSON.parse(localStorage.getItem('adsDates'));
                 if (!startDate && adsDate) { // if start Date is in Past
                     changeDate = startDate = adsDate.adStartDate;
                     $scope.adData.startTime = changeDate;
-                    if (moment().isAfter(endDate, 'day')) {
-                        endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
-                        /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                            endDateElem.datepicker("setStartDate",
-                                momentService.getTimezoneMoment().format(constants.DATE_UK_FORMAT));
-                        } else {
-                            endDateElem.datepicker("setStartDate",
-                                momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT));
-                        }*/
+                    if (momentService.getTimezoneMoment().isAfter(endDate, 'day')) {
+                        //endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
+                        endDateElem.datepicker("setStartDate",
+                            momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT));
                     }
                 } else {
                     endDateElem.datepicker("setStartDate", changeDate);
                 }
 
-                if (moment(startDate).isAfter(endDate, 'day')) {
+                if (momentService.getTimezoneMoment(startDate).isAfter(endDate, 'day')) {
                     endDateElem.datepicker("update", changeDate);
                 }
             }
@@ -1530,7 +1491,7 @@ var angObj = angObj || {};
             if (campaignEndTime >= endDate) {
                 startDateElem.datepicker("setEndDate", campaignEndTime);
             }
-            if (moment(endDate).isAfter(campaignEndTime, 'day')) {// ads start Date in Past
+            if (momentService.getTimezoneMoment(endDate).isAfter(campaignEndTime, 'day')) {// ads start Date in Past
                 endDateElem.datepicker("setEndDate", endDate);
                 endDateElem.datepicker("setStartDate", endDate);
                 endDateElem.datepicker("update", endDate);
@@ -1542,50 +1503,29 @@ var angObj = angObj || {};
         };
 
         $scope.$parent.initiateDatePicker = function () {
-            var endDateElem = $('#endDateInput');
-            var startDateElem = $('#startDateInput');
-
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
             var campaignData = $scope.workflowData['campaignData'];
-            var campaignStartTime = utils.convertToEST(campaignData.startTime, "MM/DD/YYYY");
-            var campaignEndTime = utils.convertToEST(campaignData.endTime, "MM/DD/YYYY");
-            /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                campaignStartTime = momentService.getTimezoneMoment(campaignData.startTime)
-                    .format(constants.DATE_UK_FORMAT);
-                campaignEndTime = momentService.getTimezoneMoment(campaignData.endTime)
-                    .format(constants.DATE_UK_FORMAT);
-            } else {
-                campaignStartTime = momentService.getTimezoneMoment(campaignData.startTime)
-                    .format(constants.DATE_US_FORMAT);
-                campaignEndTime = momentService.getTimezoneMoment(campaignData.endTime)
-                    .format(constants.DATE_US_FORMAT);
-            }*/
+            var campaignStartTime;// = utils.convertToEST(campaignData.startTime, "MM/DD/YYYY");
+            var campaignEndTime;// = utils.convertToEST(campaignData.endTime, "MM/DD/YYYY");
+            campaignStartTime = momentService.getTimezoneMoment(campaignData.startTime)
+                .format(constants.DATE_US_FORMAT);
+            campaignEndTime = momentService.getTimezoneMoment(campaignData.endTime)
+                .format(constants.DATE_US_FORMAT);
             console.log(campaignStartTime, ' Campaign start time');
             console.log(campaignEndTime, ' Campaign end time');
-            if (moment().isAfter(campaignStartTime, 'day')) {
-                campaignStartTime = moment().format('MM/DD/YYYY');
-                /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                    campaignStartTime = momentService.getTimezoneMoment().format(constants.DATE_UK_FORMAT);
-                } else {
-                    campaignStartTime = momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT);
-                }*/
+            if (momentService.getTimezoneMoment().isAfter(campaignStartTime, 'day')) {
+                //campaignStartTime = moment().format('MM/DD/YYYY');
+                campaignStartTime = momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT);
             }
             $scope.mode == 'edit' && endDateElem.removeAttr("disabled").css({'background': 'transparent'});
             if (window.location.href.indexOf("adGroup") > -1) {
-                var adGroupStartDate = utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY');
-                var adGroupEndDate = utils.convertToEST(localStorage.getItem("edTime"), 'MM/DD/YYYY');
-                /*if (momentService.getTimezoneName() === constants.TIMEZONE_UK) {
-                    adGroupStartDate = momentService.getTimezoneMoment(localStorage.getItem("stTime"))
-                        .format(constants.DATE_UK_FORMAT);
-                    adGroupEndDate = momentService.getTimezoneMoment(localStorage.getItem("edTime"))
-                        .format(constants.DATE_UK_FORMAT);
-                } else {
-                    adGroupStartDate = momentService.getTimezoneMoment(localStorage.getItem("stTime"))
-                        .format(constants.DATE_US_FORMAT);
-                    adGroupEndDate = momentService.getTimezoneMoment(localStorage.getItem("edTime"))
-                        .format(constants.DATE_US_FORMAT);
-                }*/
+                var adGroupStartDate;// = utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY');
+                var adGroupEndDate;// = utils.convertToEST(localStorage.getItem("edTime"), 'MM/DD/YYYY');
+                adGroupStartDate = momentService.getTimezoneMoment(localStorage.getItem("stTime"))
+                    .format(constants.DATE_US_FORMAT);
+                adGroupEndDate = momentService.getTimezoneMoment(localStorage.getItem("edTime"))
+                    .format(constants.DATE_US_FORMAT);
                 startDateElem.datepicker("setStartDate", adGroupStartDate);
                 startDateElem.datepicker("setEndDate", adGroupEndDate);
                 if ($scope.mode == 'edit') {
