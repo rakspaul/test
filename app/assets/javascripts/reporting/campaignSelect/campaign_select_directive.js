@@ -44,9 +44,9 @@
                          if(inputValue) {
                             $('#campaignDropdown').attr('placeholder', inputValue);
                             $('#campaignDropdown').val('');
+                            $scope.selectedObj.name = inputValue;
                             if($scope.allCampaign == "true") {
                                 $('#campaign_name_selected').val(inputValue);
-                                $scope.selectedObj.name = inputValue;
                              }
                          }
                     } else {
