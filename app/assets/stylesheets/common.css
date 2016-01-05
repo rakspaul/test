@@ -1433,3 +1433,15 @@ multiselect .dropdown-menu > li > a {
 .disabled a {
   cursor: default;
 }
+.symbol-input {
+  position: relative;
+}
+.symbol-input .symbol {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+.symbol-input .symbol ~ input {
+  padding-left: 20px ;
+}

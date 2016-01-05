@@ -356,7 +356,10 @@
 							<div class="col-md-12 zeroPadding marginCal">
 								<div class="calTable form-group" show-errors='{showSuccess: true}'>
 									<h3>Total Budget</h3>
-									<input type="text" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
+                                    <div class="symbol-input">
+                                        <span class="symbol">$</span>
+									   <input type="text" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
+                                    </div>
                                     <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">You must enter Total Budget.</label>
 								</div>
 								<div class="calTable">
@@ -365,15 +368,24 @@
 								</div>
 								<div class="calTable">
 									<h3>Est. Non-Inventory Cost</h3>
-									<input type="text" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
+                                    <div class="symbol-input">
+                                       <span class="symbol">$</span>
+									   <input type="text" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
+                                    </div>
 								</div>
 								<div class="calTable">
 									<h3>Delivery Budget</h3>
-									<input type="text" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
+                                    <div class="symbol-input">
+                                       <span class="symbol">$</span>
+									   <input type="text" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
+                                    </div>
 								</div>
 								<div class="calTable">
 									<h3>Effective CPM</h3>
-									<input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
+                                    <div class="symbol-input">
+                                       <span class="symbol">$</span>
+									   <input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
+                                    </div>
 								</div>
 								<div class="calTable" style="width: 100%; padding-right: 65px;margin-bottom:20px">
 									<!--<input type="checkbox" />-->
@@ -459,9 +471,9 @@
 									</div>
 								</div>
 
-								<div class="col-md-2 zeroPadding kpiTable">
+								<div class="col-md-2 zeroPadding kpiTable symbol-input">
 									
-
+                                    <span class="symbol">#</span>
 									<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}"/>
 								</div>
 								
@@ -591,8 +603,8 @@
 									</div>
 								</div>
 								
-								<div class="col-md-1 zeroPadding kpiTable">
-
+								<div class="col-md-1 zeroPadding kpiTable symbol-input">
+                                    <span class="symbol">$</span>
                                     <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" whole-number-only="whole-number-only" field="rateValue" index="{{$index}}"/>
                                 </div>
 								
