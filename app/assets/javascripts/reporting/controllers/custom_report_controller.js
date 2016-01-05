@@ -357,12 +357,21 @@ var angObj = angObj || {};
             var modifiedMetricsList = selectedMetrics.slice();
             modifiedMetricsList.unshift({key:'value', value:''});
             var metrics;
-            var metricObj
+            var metricObj;
             _.each(newData, function(obj, index) {
                 metricObj = {};
                 _.each(metricKey1, function(mkey) {
-                    if(obj.hasOwnProperty(mkey)) {
-                        metrics = _.pick(obj[mkey], _.pluck(modifiedMetricsList, 'key'))
+                    var hasProperty = mkey;
+                    var objWithKey = obj[mkey];
+                    if(mkey == 'display_quality_metrics') {
+                        hasProperty = 'quality_data';
+                        objWithKey = obj['quality_data']['display_data'];
+                    } else if(mkey == 'video_quality_metrics') {
+                        hasProperty = 'quality_data';
+                        objWithKey = obj['quality_data']['video_data'];
+                    }
+                    if(obj.hasOwnProperty(hasProperty)) {
+                        metrics = _.pick(objWithKey, _.pluck(modifiedMetricsList, 'key'))
                         if(!$.isEmptyObject(metrics)) {
                             _.extend(metricObj, metrics);
                         }
@@ -376,7 +385,6 @@ var angObj = angObj || {};
                     $scope.reportMetaData[typeofDimension]['delivery_metrics'].push(metricObj);
                 }
             });
-
             $scope.metricValues = $scope.reportMetaData;
         };
 
@@ -1453,6 +1461,5 @@ var angObj = angObj || {};
                 $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
             }
         });
-
     });
 }());
