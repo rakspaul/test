@@ -1203,7 +1203,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 .cardSelectHolder .targetDataSaved .targetDataSavedTop {
   display: table;
-  margin: 0 auto 10px ;
+  margin: 0 auto 2px ;
 }
 .cardSelectHolder .targetDataSaved .icon-target,
 .cardSelectHolder .targetDataSaved .icon-exclude {
