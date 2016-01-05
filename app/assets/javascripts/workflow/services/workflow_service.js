@@ -244,8 +244,8 @@
                 return dataService.fetch(url);
             },
             getVendors:function(categoryId){
-                var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/'+categoryId+'/vendors';
-               // var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/1/vendors';
+             //   var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/'+categoryId+'/vendors';
+                var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/5/vendors';// for system of records.
                 return dataService.fetch(url);
             },
             getCostCategories:function(){
