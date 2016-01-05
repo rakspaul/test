@@ -44,10 +44,11 @@ var angObj = angObj || {};
                     $scope.excludeSelectedItems();
 
                 $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
-                $scope.listCities();
+
 
 
             }
+            $scope.listCities();
             regionInitialLoad = true;
         }
 
@@ -77,6 +78,7 @@ var angObj = angObj || {};
             $scope.selectedTab = 'regions';
             $scope.showSwitch = true;
             cityInitialLoad = true;
+            $scope.listDmas();
 
 
         }
@@ -89,8 +91,8 @@ var angObj = angObj || {};
                 $scope.dmasIncluded = $scope.storedResponse.targets.geoTargets.DMA.isIncluded;
 
                 _.each(dmasEditable, function (item) {
-                    var index = _.findIndex(flatArr, function(region) {
-                        return item.id ==  region.id});
+                    var index = _.findIndex(flatArr, function(dmas) {
+                        return item.id ==  dmas.id});
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
